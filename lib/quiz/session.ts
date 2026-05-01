@@ -460,6 +460,7 @@ function buildWorkedExamplePrompt(input: {
 function buildWorkedExampleGivens(input: {
   resolution: QuizWorkedExampleResolution;
   targetVariableId?: string;
+  answerSource: "result" | "variable";
 }) {
   const concreteVariables = input.resolution.example.variables.filter(
     (variable) => (input.resolution.variableValues[variable.id] ?? "—") !== "—",
@@ -474,9 +475,32 @@ function buildWorkedExampleGivens(input: {
     ...primaryVariables,
     ...concreteVariables.filter((variable) => !primaryVariables.includes(variable)),
   ];
-
-  return (sourceVariables.length ? sourceVariables : input.resolution.example.variables)
+  const resultTemplate = input.resolution.example.resultTemplate ?? "";
+  const variables = (sourceVariables.length ? sourceVariables : input.resolution.example.variables)
     .filter((variable) => variable.id !== input.targetVariableId)
+    .filter((variable) => {
+      if (input.answerSource !== "result") {
+        return true;
+      }
+
+      if (
+        Boolean(variable.variableId) ||
+        variable.id === "time" ||
+        /time/i.test(variable.label)
+      ) {
+        return true;
+      }
+
+      if (!variable.valueKey) {
+        return true;
+      }
+
+      return !resultTemplate.includes(`{{${variable.valueKey}}}`);
+    });
+  const fallbackVariables = (sourceVariables.length ? sourceVariables : input.resolution.example.variables)
+    .filter((variable) => variable.id !== input.targetVariableId);
+
+  return (variables.length > 0 ? variables : fallbackVariables)
     .map((variable) => {
       const value = input.resolution.variableValues[variable.id] ?? "—";
 
@@ -600,6 +624,7 @@ function buildWorkedExampleQuestionInstance(input: {
   const givens = buildWorkedExampleGivens({
     resolution: baseResolution,
     targetVariableId: answerCandidate.variableId,
+    answerSource: answerCandidate.answerSource,
   });
 
   return {

@@ -175,8 +175,7 @@
         "showMeAction": {
           "label": "顯示不等值串聯負載",
           "observationHint": "留意藍色的電壓標籤明顯更大，但兩個負載的電流標籤仍然相同。"
-        },
-        "correctChoiceId": "`"
+        }
       },
       {
         "id": "spc-qt-parallel-current",
@@ -203,8 +202,7 @@
         "showMeAction": {
           "label": "顯示不等值並聯支路",
           "observationHint": "兩條支路都顯示 12 V，但琥珀色支路的電流較大，因為 4 ohm 比 12 ohm 小。"
-        },
-        "correctChoiceId": "`"
+        }
       },
       {
         "id": "spc-qt-equivalent-resistance",
@@ -231,8 +229,7 @@
         "showMeAction": {
           "label": "比較相同負載的兩種拓樸",
           "observationHint": "切換相同燈泡的串聯與並聯預設，讀取 R_eq 標籤的變化。"
-        },
-        "correctChoiceId": "`"
+        }
       },
       {
         "id": "spc-qt-charge-counter",
@@ -259,8 +256,7 @@
         "showMeAction": {
           "label": "顯示電荷計數比較",
           "observationHint": "把時間暫停在稍後一點，再比較 Q_A 與 Q_B。藍色計數器增加得較慢，因為該支路的電流較小。"
-        },
-        "correctChoiceId": "`"
+        }
       }
     ]
   },

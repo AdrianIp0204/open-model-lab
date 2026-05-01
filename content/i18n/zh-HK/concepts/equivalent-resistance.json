@@ -190,8 +190,7 @@
         "showMeAction": {
           "label": "顯示平衡的並聯分組",
           "observationHint": "分組等效晶片在總電流徽章跳躍之前突然下降。"
-        },
-        "correctChoiceId": "`"
+        }
       },
       {
         "id": "eqr-qt-parallel-branch-current",
@@ -218,8 +217,7 @@
         "showMeAction": {
           "label": "顯示不等的並聯分組",
           "observationHint": "琥珀色支路電流位於藍色支路電流之上，但兩個支路仍共享相同的分組電壓。"
-        },
-        "correctChoiceId": "`"
+        }
       },
       {
         "id": "eqr-qt-series-charge",
@@ -246,8 +244,7 @@
         "showMeAction": {
           "label": "顯示不等的串聯分組",
           "observationHint": "雖然藍色電壓標籤更大，但Q2和Q3計數器仍然一起上升。"
-        },
-        "correctChoiceId": "`"
+        }
       },
       {
         "id": "eqr-qt-total-equivalent",
@@ -274,8 +271,7 @@
         "showMeAction": {
           "label": "顯示簡化掃描",
           "observationHint": "跟蹤組等效和總等效曲線。他們之間的差距保持固定，因為 R1 是固定的。"
-        },
-        "correctChoiceId": "`"
+        }
       }
     ]
   },

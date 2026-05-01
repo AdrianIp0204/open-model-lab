@@ -50,6 +50,20 @@
           "id": "current-total-momentum",
           "title": "目前系統總動量",
           "prompt": "在$t = {{timeValue}}\\,\\mathrm{s}$時，系統的總動量是多少？",
+          "variables": [
+            {
+              "id": "time",
+              "label": "時間"
+            },
+            {
+              "id": "momentumA",
+              "label": "車 A 動量"
+            },
+            {
+              "id": "momentumB",
+              "label": "車 B 動量"
+            }
+          ],
           "steps": [
             {
               "id": "relation",
@@ -68,26 +82,30 @@
           "applyAction": {
             "label": "顯示移動中的系統",
             "observationHint": "留意保持平坦的總動量線，並觀察質心標記如何與整體漂移保持一致，同時車廂向兩邊分開。"
-          },
-          "variables": [
-            {
-              "id": "time",
-              "label": "時間"
-            },
-            {
-              "id": "momentumA",
-              "label": "車 A 動量"
-            },
-            {
-              "id": "momentumB",
-              "label": "車 B 動量"
-            }
-          ]
+          }
         },
         {
           "id": "final-momentum-split",
           "title": "最終動量分割",
           "prompt": "對於目前這次內部互動，車 A 和車 B 最終應該各自帶有甚麼動量？",
+          "variables": [
+            {
+              "id": "initialMomentumA",
+              "label": "車 A 初始動量"
+            },
+            {
+              "id": "initialMomentumB",
+              "label": "車 B 初始動量"
+            },
+            {
+              "id": "interactionForce",
+              "label": "內力"
+            },
+            {
+              "id": "interactionDuration",
+              "label": "互動時間"
+            }
+          ],
           "steps": [
             {
               "id": "relation",
@@ -106,25 +124,7 @@
           "applyAction": {
             "label": "顯示較長而柔和的互動",
             "observationHint": "比較較低、較寬的力對，並確認它仍會導向相同的最終動量分配。"
-          },
-          "variables": [
-            {
-              "id": "initialMomentumA",
-              "label": "車 A 初始動量"
-            },
-            {
-              "id": "initialMomentumB",
-              "label": "車 B 初始動量"
-            },
-            {
-              "id": "interactionForce",
-              "label": "內力"
-            },
-            {
-              "id": "interactionDuration",
-              "label": "互動時間"
-            }
-          ]
+          }
         }
       ]
     },

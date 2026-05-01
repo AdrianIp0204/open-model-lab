@@ -181,8 +181,7 @@
         "showMeAction": {
           "label": "顯示電流線",
           "observationHint": "懸停在電流圖上的較低和較高電壓上，觀察電流標籤如何線性地變化。"
-        },
-        "correctChoiceId": "`"
+        }
       },
       {
         "id": "pec-qt-power-quadratic",
@@ -209,8 +208,7 @@
         "showMeAction": {
           "label": "顯示升壓源端子",
           "observationHint": "電流上升了，但功率的增長更加顯著，因為 V 和 I 都變大了。"
-        },
-        "correctChoiceId": "`"
+        }
       },
       {
         "id": "pec-qt-resistance-power",
@@ -237,8 +235,7 @@
         "showMeAction": {
           "label": "顯示高阻抗負載",
           "observationHint": "與低阻抗設定相比，電流標籤和功率條都更小。"
-        },
-        "correctChoiceId": "`"
+        }
       },
       {
         "id": "pec-qt-more-time-more-energy",
@@ -265,8 +262,7 @@
         "showMeAction": {
           "label": "顯示能量圖表",
           "observationHint": "這條線保持相同的斜率，隨著時間推移，更長的執行只是覆蓋了相同速率的不同部分。"
-        },
-        "correctChoiceId": "`"
+        }
       }
     ]
   },

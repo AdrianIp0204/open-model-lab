@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-01T13:03:47.695Z",
+  "generatedAt": "2026-05-01T13:48:10.856Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -4302,7 +4302,7 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/basic-circuits.json",
-          "outputHash": "3be229276ef94fcb8ad9b5b35a2595bea830bccec6b8f68ceca58dc81dd8cdff",
+          "outputHash": "40dbdece5ef3a5c5080ab88852fbc8235baf13d4ca40ca144908404e438c8493",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
@@ -4312,7 +4312,6 @@
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
           "notes": [
-            "Ignored protected overlay fields: quickTest.questions.id:bc-qt-parallel-branch-current.correctChoiceId, quickTest.questions.id:bc-qt-series-voltage-share.correctChoiceId, quickTest.questions.id:bc-qt-current-used-up.correctChoiceId, quickTest.questions.id:bc-qt-ohms-law-graph.correctChoiceId.",
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
           "issues": [
@@ -4423,7 +4422,7 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/series-parallel-circuits.json",
-          "outputHash": "7653dd4abc02818808ca2a820ce6d93d921db93d8d3931c027239a8e46545bea",
+          "outputHash": "e681394d4479b47c57a322209ad6b0ad4f851b29b5fc50ce8f43273f233f8871",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
@@ -4433,7 +4432,6 @@
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
           "notes": [
-            "Ignored protected overlay fields: quickTest.questions.id:spc-qt-series-voltage-share.correctChoiceId, quickTest.questions.id:spc-qt-parallel-current.correctChoiceId, quickTest.questions.id:spc-qt-equivalent-resistance.correctChoiceId, quickTest.questions.id:spc-qt-charge-counter.correctChoiceId.",
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
           "issues": [
@@ -4657,7 +4655,7 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/equivalent-resistance.json",
-          "outputHash": "60a4640ff8b66253f9dc1ab7fb295c96c55ae61c38d012c8f693531a8082d2e6",
+          "outputHash": "7af13b9aa6e9f257823b2b916af3b725630f1da2c808a6483dc0e7de936a40af",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
@@ -4667,7 +4665,6 @@
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
           "notes": [
-            "Ignored protected overlay fields: quickTest.questions.id:eqr-qt-switch-to-parallel.correctChoiceId, quickTest.questions.id:eqr-qt-parallel-branch-current.correctChoiceId, quickTest.questions.id:eqr-qt-series-charge.correctChoiceId, quickTest.questions.id:eqr-qt-total-equivalent.correctChoiceId.",
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
           "issues": [
@@ -4779,7 +4776,7 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/power-energy-circuits.json",
-          "outputHash": "81b16d0ebaa2fdf09ce91754e74cfd0cab0807ce84fd9d97d2faa09e04a14fc9",
+          "outputHash": "2880f5f52d9813be7dd029d3ac549d6a8937ad3cfa518bfd473c7484b50f9cd0",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
@@ -4789,7 +4786,6 @@
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
           "notes": [
-            "Ignored protected overlay fields: quickTest.questions.id:pec-qt-double-voltage.correctChoiceId, quickTest.questions.id:pec-qt-power-quadratic.correctChoiceId, quickTest.questions.id:pec-qt-resistance-power.correctChoiceId, quickTest.questions.id:pec-qt-more-time-more-energy.correctChoiceId.",
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
           "issues": [
@@ -4898,7 +4894,7 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/electric-fields.json",
-          "outputHash": "cbfbb75ec0a26a666e23b6df226df874b15c3c2b963c52bc12a311debb0b363a",
+          "outputHash": "c84b44d126be3ffc8671c65928deb50299ad346b0ae0277abcfd52bd8b3067f8",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
@@ -4908,10 +4904,11 @@
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
           "notes": [
-            "Ignored protected overlay fields: quickTest.questions.id:ef-qt-midpoint-cancel.selectedWrongExplanations.b, quickTest.questions.id:ef-qt-dipole-above-midpoint.selectedWrongExplanations.c, quickTest.questions.id:ef-qt-test-charge-sign.selectedWrongExplanations.b.",
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [],
+          "issues": [
+            "Recorded outputHash does not match the current overlay file."
+          ],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 11,
@@ -5001,7 +4998,7 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/electric-potential.json",
-          "outputHash": "1d79e06d88a291663a529e9a488a72fb2786e29ebd95ce68ced83cdf1739b344",
+          "outputHash": "9d3146b9d18bae1bd9bba042a037908baddf535a91f82c686890d8a64b1ceaf6",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
@@ -5011,7 +5008,6 @@
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
           "notes": [
-            "Ignored protected overlay fields: quickTest.questions.id:ep-qt-midpoint-like-charges.correctChoiceId, quickTest.questions.id:ep-qt-zero-potential-not-zero-field.correctChoiceId, quickTest.questions.id:ep-qt-slope-to-field.correctChoiceId, quickTest.questions.id:ep-qt-test-charge-energy.correctChoiceId.",
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
           "issues": [
@@ -5467,7 +5463,7 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/magnetic-fields.json",
-          "outputHash": "7131fbfdd597ee85038ce9b99f06bd7dece948a7fa8d8b2c5cee0c7424a9890d",
+          "outputHash": "f1ea1bff7bc884b6a7dbb146ea57130ea23fcc5922fa020c68cf8256ede1ecd6",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
@@ -5477,10 +5473,11 @@
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
           "notes": [
-            "Ignored protected overlay fields: quickTest.questions.id:mf-qt-midpoint-cancel.selectedWrongExplanations.b, quickTest.questions.id:mf-qt-opposite-above-midpoint.selectedWrongExplanations.c, quickTest.questions.id:mf-qt-current-strength.selectedWrongExplanations.b.",
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [],
+          "issues": [
+            "Recorded outputHash does not match the current overlay file."
+          ],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 123,
@@ -5706,7 +5703,7 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/maxwells-equations-synthesis.json",
-          "outputHash": "4a639b6c1991d5e2fa3ac070390697fd309a18c8551adb97c54e46af042b6ce9",
+          "outputHash": "3c8a72b15fa5eebe9039f9f9a4f97129a1b33764713fb74b0870aea158b5169c",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
@@ -5716,10 +5713,11 @@
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
           "notes": [
-            "Ignored protected overlay fields: quickTest.questions.id:maxwell-qt-gauss-magnetic.selectedWrongExplanations.b, quickTest.questions.id:maxwell-qt-displacement.selectedWrongExplanations.c, quickTest.questions.id:maxwell-qt-light-bridge.selectedWrongExplanations.b.",
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [],
+          "issues": [
+            "Recorded outputHash does not match the current overlay file."
+          ],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 105,
@@ -8178,7 +8176,7 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/derivative-as-slope-local-rate-of-change.json",
-          "outputHash": "68217aa02a4980faf92768d25f92a1929b578022e2f975c01c51eb6dd3f7956f",
+          "outputHash": "f09572da26d593b659a551de5a8f7df059712ddd36c2dfb12bd4f2b501ae38b2",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
@@ -8188,10 +8186,11 @@
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
           "notes": [
-            "Ignored protected overlay fields: quickTest.questions.id:ds-qt-2.selectedWrongExplanations.b, quickTest.questions.id:ds-qt-3.selectedWrongExplanations.c.",
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [],
+          "issues": [
+            "Recorded outputHash does not match the current overlay file."
+          ],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 78,
@@ -8293,7 +8292,7 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/limits-and-continuity-approaching-a-value.json",
-          "outputHash": "5a14df20d6a550a51147d8617e985c5bf1e6a14f08d86c8fd34819e5a4e4ae46",
+          "outputHash": "5c0f2ff45b4528a6a9b64f0330cafdaa67bd915a8d44cb42d31ed6337a407d00",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
@@ -8303,10 +8302,11 @@
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
           "notes": [
-            "Ignored protected overlay fields: quickTest.questions.id:lc-qt-continuity.selectedWrongExplanations.b, quickTest.questions.id:lc-qt-blow-up.selectedWrongExplanations.c.",
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [],
+          "issues": [
+            "Recorded outputHash does not match the current overlay file."
+          ],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 74,
@@ -8409,7 +8409,7 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/optimization-maxima-minima-and-constraints.json",
-          "outputHash": "a7de5db999791ee46d9ad25cdfc4a52ca0c4e48dbca0527de2ac03a815913ebb",
+          "outputHash": "4c155d3ceab52f5cc22c0bd47fdc5063ba7db125135366b5b6cb171171f5b3f1",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
@@ -8419,10 +8419,11 @@
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
           "notes": [
-            "Ignored protected overlay fields: quickTest.questions.id:oc-qt-narrow-direction.selectedWrongExplanations.b, quickTest.questions.id:oc-qt-why-not-widest.selectedWrongExplanations.c.",
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [],
+          "issues": [
+            "Recorded outputHash does not match the current overlay file."
+          ],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 71,
@@ -8525,7 +8526,7 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/integral-as-accumulation-area.json",
-          "outputHash": "cd17dd723351d90c114c1829b38e1d908ac069edba4deab5bbfb461a63fccf98",
+          "outputHash": "9353f3a992de7c87f414146d1693e417aa8110434cda57ef0004f0830d2ea4d8",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
@@ -8535,10 +8536,11 @@
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
           "notes": [
-            "Ignored protected overlay fields: quickTest.questions.id:ia-qt-height-vs-total.selectedWrongExplanations.b, quickTest.questions.id:ia-qt-signed-area.selectedWrongExplanations.c.",
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [],
+          "issues": [
+            "Recorded outputHash does not match the current overlay file."
+          ],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 71,
@@ -8640,7 +8642,7 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/vectors-in-2d.json",
-          "outputHash": "aa109493a11995892b421e0cf8f522ad636c2066453514b4a05b110994dbfe6b",
+          "outputHash": "8ae0268f21f413e52f6bf0277e556c161e26225c3e5fcc4d883ea9c1e8a9fbe0",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
@@ -8650,10 +8652,11 @@
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
           "notes": [
-            "Ignored protected overlay fields: quickTest.questions.id:v2d-qt-subtraction.selectedWrongExplanations.b, quickTest.questions.id:v2d-qt-scalar.selectedWrongExplanations.c.",
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [],
+          "issues": [
+            "Recorded outputHash does not match the current overlay file."
+          ],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 88,
@@ -8871,7 +8874,7 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/dot-product-angle-and-projection.json",
-          "outputHash": "0329838eea0f2f5485499ff9ad16222dcc32c2468ec00f54728bf17343eb7b93",
+          "outputHash": "da651a3740a99184f8a20d080f5f07fa50664c56b823f9333f3c171d4777699e",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
@@ -8881,10 +8884,11 @@
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
           "notes": [
-            "Ignored protected overlay fields: quickTest.questions.id:dpp-qt-orthogonal.selectedWrongExplanations.b, quickTest.questions.id:dpp-qt-negative.selectedWrongExplanations.c.",
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [],
+          "issues": [
+            "Recorded outputHash does not match the current overlay file."
+          ],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 75,
@@ -9686,7 +9690,7 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/reaction-rate-collision-theory.json",
-          "outputHash": "2b21726fdcd547c6bc8d461c2bcf57504d6e92198b9b43817aa8f55dff4f22ea",
+          "outputHash": "aa3df346af21a08106ebefddfc122fa51d31625713cc9f1d3f31276ff9e58353",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
@@ -9696,10 +9700,11 @@
           "provider": "manual",
           "translatedAt": "2026-04-16T05:14:42.888331Z",
           "notes": [
-            "Ignored protected overlay fields: quickTest.questions.id:rr-qt-heating.selectedWrongExplanations.b, quickTest.questions.id:rr-qt-catalyst.selectedWrongExplanations.c.",
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [],
+          "issues": [
+            "Recorded outputHash does not match the current overlay file."
+          ],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 8,
@@ -9784,7 +9789,7 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/dynamic-equilibrium-le-chateliers-principle.json",
-          "outputHash": "1c864766d0288b617c0cb65738c57bbffc0df9d6f9319a50816411f731d219a9",
+          "outputHash": "e46e805590bd9ef31d23b0630d06f3f2f25dd12c91b25bad6c3c54711bb108ec",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
@@ -9794,10 +9799,11 @@
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
           "notes": [
-            "Ignored protected overlay fields: quickTest.questions.id:de-qt-disturbance.selectedWrongExplanations.b, quickTest.questions.id:de-qt-forward-reverse.selectedWrongExplanations.c.",
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [],
+          "issues": [
+            "Recorded outputHash does not match the current overlay file."
+          ],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 84,
@@ -10340,7 +10346,7 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/stoichiometric-ratios-and-recipe-batches.json",
-          "outputHash": "a1164e38d888067f87e92ff0c1eb07fcd62aebf1e0c55370f7261738090a45aa",
+          "outputHash": "2df784a76ae02f9c7b65937d034e0a7fdd80641ce1d6c28c08e492791d469c28",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
@@ -10350,10 +10356,11 @@
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
           "notes": [
-            "Ignored protected overlay fields: quickTest.questions.id:srb-qt-recipe-change.selectedWrongExplanations.b.",
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [],
+          "issues": [
+            "Recorded outputHash does not match the current overlay file."
+          ],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 14,
@@ -10445,7 +10452,7 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/limiting-reagent-and-leftover-reactants.json",
-          "outputHash": "9de8f2b4f486c69eb0157af54086e4e684c028f25aabb01669a9d6c076603bb4",
+          "outputHash": "4b6022e0ebc59cf6d328e96088d8b814caabfa94636a1561a278bc10fe402073",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
@@ -10455,10 +10462,11 @@
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
           "notes": [
-            "Ignored protected overlay fields: quickTest.questions.id:lr-qt-leftover-belongs-to-excess.selectedWrongExplanations.b.",
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [],
+          "issues": [
+            "Recorded outputHash does not match the current overlay file."
+          ],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 15,
@@ -10551,7 +10559,7 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/percent-yield-and-reaction-extent.json",
-          "outputHash": "28e542bb0ad6f1c459d9fb20fe83ff21ef84cf80166f34d58640ad2044123e48",
+          "outputHash": "c284494614b7e5a7a5d984119f121777c5dcc407c8a162610a5b767acee4a675",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
@@ -10561,10 +10569,11 @@
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
           "notes": [
-            "Ignored protected overlay fields: quickTest.questions.id:pyre-qt-yield-keeps-recipe.selectedWrongExplanations.b.",
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [],
+          "issues": [
+            "Recorded outputHash does not match the current overlay file."
+          ],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 7,

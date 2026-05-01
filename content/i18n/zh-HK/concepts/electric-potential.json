@@ -182,8 +182,7 @@
         "showMeAction": {
           "label": "顯示同號電荷中點",
           "observationHint": "箭頭消失，而地圖和 V 讀數仍然為正值。"
-        },
-        "correctChoiceId": "`"
+        }
       },
       {
         "id": "ep-qt-zero-potential-not-zero-field",
@@ -210,8 +209,7 @@
         "showMeAction": {
           "label": "顯示零電位中點",
           "observationHint": "讀取器顯示 V 接近於零，而箭頭仍然指向從正來源到負來源的方向。"
-        },
-        "correctChoiceId": "`"
+        }
       },
       {
         "id": "ep-qt-slope-to-field",
@@ -238,8 +236,7 @@
         "showMeAction": {
           "label": "顯示坡度-場的連結",
           "observationHint": "懸停圖表並比較電位斜率與 E_x 曲線的符號。"
-        },
-        "correctChoiceId": "`"
+        }
       },
       {
         "id": "ep-qt-test-charge-energy",
@@ -266,8 +263,7 @@
         "showMeAction": {
           "label": "顯示負試驗電荷能量",
           "observationHint": "地圖和影像保持固定，而電勢能讀數會立即變號。"
-        },
-        "correctChoiceId": "`"
+        }
       }
     ]
   },

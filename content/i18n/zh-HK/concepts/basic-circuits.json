@@ -191,8 +191,7 @@
         "showMeAction": {
           "label": "顯示支路分岔",
           "observationHint": "兩條支路都顯示12V，但琥珀色支路的電流更大，因為4歐姆比12歐姆小。"
-        },
-        "correctChoiceId": "`"
+        }
       },
       {
         "id": "bc-qt-series-voltage-share",
@@ -219,8 +218,7 @@
         "showMeAction": {
           "label": "顯示不均勻的串聯分割器",
           "observationHint": "藍色電壓標籤遠大於琥珀色的一個，而電流標籤則保持匹配。"
-        },
-        "correctChoiceId": "`"
+        }
       },
       {
         "id": "bc-qt-current-used-up",
@@ -247,8 +245,7 @@
         "showMeAction": {
           "label": "顯示匹配的串聯電流",
           "observationHint": "整個迴圈中的電流箭頭保持一致，而電壓標籤則講述了每個電阻上發生了什麼變化的故事。"
-        },
-        "correctChoiceId": "`"
+        }
       },
       {
         "id": "bc-qt-ohms-law-graph",
@@ -275,8 +272,7 @@
         "showMeAction": {
           "label": "顯示低電壓檢查",
           "observationHint": "從較低的電壓點開始，然後在心中與雙倍電壓下的匹配系列點進行比較。"
-        },
-        "correctChoiceId": "`"
+        }
       }
     ]
   },
