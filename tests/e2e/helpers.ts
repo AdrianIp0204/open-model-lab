@@ -242,6 +242,24 @@ export async function closeOpenDisclosurePanels(page: Page) {
   });
 }
 
+export async function openConceptProgressDisclosure(page: Page) {
+  const trigger = page.getByTestId("concept-progress-disclosure-trigger");
+  const disclosure = page.locator("details").filter({ has: trigger }).first();
+
+  await trigger.scrollIntoViewIfNeeded();
+  await expect(trigger).toBeVisible();
+
+  const isOpen = await disclosure.evaluate((element) =>
+    (element as HTMLDetailsElement).open,
+  );
+
+  if (!isOpen) {
+    await trigger.click();
+  }
+
+  await expect(disclosure).toHaveJSProperty("open", true);
+}
+
 export async function expandFullTestCatalogIfAvailable(page: Page) {
   const button = page.getByTestId("test-hub-show-full-catalog").first();
 
