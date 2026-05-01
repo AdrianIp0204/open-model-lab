@@ -78,7 +78,7 @@ pnpm validate:content
 pnpm content:doctor
 ```
 
-Public PR validation does not require deployment secrets. The assessment browser workflow runs the same assessment coverage in smaller CI lanes so each status check stays suitable for future branch protection.
+Public PR validation does not require deployment secrets. The `Public Validation` workflow runs public-release hygiene, label-plan, lint, typecheck, and unit/component tests. The assessment browser workflow runs the same assessment coverage in smaller `journeys`, `resume-sync`, and `entry-recommendations` lanes so each status check stays suitable for branch protection.
 
 `pnpm build` is not a substitute for type checking in this repo. Use `pnpm typecheck` for TypeScript validation.
 

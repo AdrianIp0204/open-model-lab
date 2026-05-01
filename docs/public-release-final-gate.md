@@ -55,9 +55,10 @@ Add targeted Playwright or manual browser checks for any route-visible change ma
 - [ ] Confirm issue templates render correctly.
 - [ ] Confirm `SECURITY.md` renders and public issue templates redirect vulnerabilities privately.
 - [ ] Review existing GitHub Actions and disable, restrict, or keep them intentionally.
-- [ ] Configure branch protection if desired.
-- [ ] Require pull request reviews if desired.
-- [ ] Require only stable status checks once the owner chooses the CI signal to enforce. The public assessment browser workflow currently runs as split `journeys`, `resume-sync`, and `entry-recommendations` lanes.
+- [x] Configure branch protection for the public `main` branch.
+- [x] Require pull request reviews.
+- [x] Require stable Assessment E2E status checks for `journeys`, `resume-sync`, and `entry-recommendations`.
+- [ ] After the `Public Validation` workflow passes on `main`, require its stable hygiene/static and test jobs as branch-protection checks.
 - [ ] Enable Dependabot and security alerts if the owner wants those signals.
 - [ ] Confirm repository description, topics, and public README presentation are accurate.
 
