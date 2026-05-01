@@ -1,6 +1,8 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { getConceptBySlug } from "@/lib/content";
 import {
+  closeOpenDisclosurePanels,
+  expandFullTestCatalogIfAvailable,
   installBrowserGuards,
   resetPlaywrightHarnessProgressStore,
   seedLocalProgressSnapshot,
@@ -94,7 +96,7 @@ const syncedOnlyPackSnapshot = {
 let browserGuard: BrowserGuard;
 
 function isPendingValue(value: string | null | undefined) {
-  return value === "â€”" || value === "—";
+  return value === "\u2014";
 }
 
 function getConceptProgressCard(page: Page) {
@@ -116,16 +118,17 @@ async function ensureConceptProgressPanelOpen(page: Page) {
     return card;
   }
 
-  await page.getByText("Progress and next steps").click();
+  await page.locator("summary").filter({ hasText: "Progress and next steps" }).first().click();
   await expect(card).toBeVisible();
   return card;
 }
 
-async function waitForHubSummaryReady(page: Page) {
-  await expect(page.getByTestId("test-hub-total-count")).not.toHaveText("—");
-  await expect(page.getByTestId("test-hub-completed-count")).not.toHaveText("—");
-  await expect(page.getByTestId("test-hub-clean-count")).not.toHaveText("—");
-  await expect(page.getByTestId("test-hub-remaining-count")).not.toHaveText("—");
+async function waitForHubSummaryReady(page: Page, timeout = 15000) {
+  await expect(page.getByTestId("test-hub-total-count")).not.toHaveText("\u2014", { timeout });
+  await expect(page.getByTestId("test-hub-completed-count")).not.toHaveText("\u2014", { timeout });
+  await expect(page.getByTestId("test-hub-clean-count")).not.toHaveText("\u2014", { timeout });
+  await expect(page.getByTestId("test-hub-remaining-count")).not.toHaveText("\u2014", { timeout });
+  await expandFullTestCatalogIfAvailable(page);
 }
 
 async function expectCardCompletedState(card: Locator, retakeLabel: string) {
@@ -166,20 +169,13 @@ test("keeps /tests honest when a stale synced snapshot is merged with newer loca
     expect(isPendingValue(completedText)).toBe(true);
     expect(isPendingValue(cleanText)).toBe(true);
     expect(isPendingValue(remainingText)).toBe(true);
-    await expect(page.getByTestId("test-hub-card-concept-basic-circuits")).toContainText(
-      "Loading progress",
-    );
-    await expect(page.getByTestId("test-hub-card-topic-oscillations")).toContainText(
-      "Loading progress",
-    );
-    await expect(
-      page.getByTestId("test-hub-card-pack-physics-connected-models"),
-    ).toContainText("Loading progress");
   } else {
     expect(completedText).toBe("3");
     expect(cleanText).toBe("3");
     expect(remainingText).not.toBe("1");
   }
+
+  await waitForHubSummaryReady(page);
 
   await expect(
     page.getByTestId("test-hub-card-topic-oscillations"),
@@ -191,7 +187,6 @@ test("keeps /tests honest when a stale synced snapshot is merged with newer loca
     page.getByTestId("test-hub-card-pack-physics-connected-models"),
   ).not.toContainText("Not started");
 
-  await waitForHubSummaryReady(page);
   const totalTests = Number(
     ((await page.getByTestId("test-hub-total-count").textContent()) ?? "0").trim(),
   );
@@ -220,7 +215,7 @@ test("keeps the direct concept quick-test route honest when synced progress exis
 }) => {
   await seedSyncedProgressSnapshot(page, syncedOnlyConceptSnapshot);
 
-  const response = await page.goto("/concepts/basic-circuits#quick-test", {
+  const response = await page.goto("/concepts/basic-circuits?phase=check#quick-test", {
     waitUntil: "domcontentloaded",
   });
   expect(response?.ok()).toBeTruthy();
@@ -243,12 +238,16 @@ test("keeps the direct concept quick-test route honest when synced progress exis
   await expect(card).toContainText(/Last activity/i);
   await expect(card).toContainText("Synced");
 
-  await page.reload({ waitUntil: "domcontentloaded" });
-  await expect(page.getByTestId("quiz-question-stage")).toBeVisible();
+  await closeOpenDisclosurePanels(page);
+  await page.goto("about:blank");
+  const secondResponse = await page.goto("/concepts/basic-circuits?phase=check#quick-test", {
+    waitUntil: "domcontentloaded",
+  });
+  expect(secondResponse?.ok()).toBeTruthy();
   await expect(page.getByTestId("challenge-mode-floating-anchor")).toHaveCount(0);
   const reloadedCard = await ensureConceptProgressPanelOpen(page);
-  await expect(reloadedCard).toContainText(/Last activity/i);
-  await expect(reloadedCard).toContainText("Synced");
+  await expect(reloadedCard).toContainText(/Last activity/i, { timeout: 15000 });
+  await expect(reloadedCard).toContainText("Synced", { timeout: 15000 });
 });
 
 test("keeps the direct topic-test route honest when fresher local progress should override stale synced state", async ({

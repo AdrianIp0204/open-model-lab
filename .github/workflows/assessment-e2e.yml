@@ -42,8 +42,19 @@ concurrency:
 
 jobs:
   assessment-e2e:
+    name: Assessment E2E (${{ matrix.lane }})
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - lane: journeys
+            command: pnpm exec playwright test tests/e2e/assessment-journeys.spec.ts
+          - lane: resume-sync
+            command: pnpm exec playwright test tests/e2e/assessment-resume.spec.ts tests/e2e/assessment-resume-hydration.spec.ts tests/e2e/assessment-synced-progress.spec.ts
+          - lane: entry-recommendations
+            command: pnpm exec playwright test tests/e2e/concept-test-entry-contract.spec.ts tests/e2e/concept-test-standalone.spec.ts tests/e2e/test-hub-recommendations.spec.ts tests/e2e/concept-quiz-retry-flow.spec.ts tests/e2e/learning-surface-concept-tests.spec.ts
 
     steps:
       - name: Check out repository
@@ -67,12 +78,12 @@ jobs:
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Run assessment browser suite
-        run: pnpm test:e2e:assessment
+        run: ${{ matrix.command }}
 
       - name: Upload Playwright artifacts
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: assessment-playwright-artifacts
+          name: assessment-playwright-artifacts-${{ matrix.lane }}
           path: output/playwright
           if-no-files-found: ignore

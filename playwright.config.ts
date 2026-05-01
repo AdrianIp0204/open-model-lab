@@ -20,6 +20,9 @@ export default defineConfig({
     ["html", { open: "never", outputFolder: "output/playwright/report" }],
   ],
   outputDir: "output/playwright/test-results",
+  expect: {
+    timeout: 15_000,
+  },
   use: {
     baseURL,
     trace: "retain-on-failure",

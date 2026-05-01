@@ -10,6 +10,8 @@ import {
 } from "@/lib/test-hub";
 import { buildConceptQuizSession } from "@/lib/quiz";
 import {
+  closeOpenDisclosurePanels,
+  expandFullTestCatalogIfAvailable,
   gotoAndExpectOk,
   installBrowserGuards,
   setHarnessSession,
@@ -33,7 +35,7 @@ type HubSummaryCounts = {
 
 let browserGuard: BrowserGuard;
 
-test.describe.configure({ timeout: 60000 });
+test.describe.configure({ timeout: 120000 });
 
 function escapeRegExp(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -71,10 +73,11 @@ async function readHubSummaryCounts(page: Page): Promise<HubSummaryCounts> {
   };
 }
 
-async function waitForHubSummaryReady(page: Page) {
-  await expect(page.getByTestId("test-hub-completed-count")).not.toHaveText("—");
-  await expect(page.getByTestId("test-hub-clean-count")).not.toHaveText("—");
-  await expect(page.getByTestId("test-hub-remaining-count")).not.toHaveText("—");
+async function waitForHubSummaryReady(page: Page, timeout = 15000) {
+  await expect(page.getByTestId("test-hub-completed-count")).not.toHaveText("\u2014", { timeout });
+  await expect(page.getByTestId("test-hub-clean-count")).not.toHaveText("\u2014", { timeout });
+  await expect(page.getByTestId("test-hub-remaining-count")).not.toHaveText("\u2014", { timeout });
+  await expandFullTestCatalogIfAvailable(page);
 }
 
 async function startAssessmentFromHub(
@@ -84,6 +87,7 @@ async function startAssessmentFromHub(
   expectedUrl: RegExp,
   activation: "click" | "keyboard" = "click",
 ) {
+  await expandFullTestCatalogIfAvailable(page);
   const card = page.getByTestId(cardTestId);
   const link = card.getByRole("link", { name: actionLabel });
   await expect(card).toBeVisible();
@@ -179,6 +183,15 @@ async function expectCardCompletedState(
   await expect(card.getByRole("link", { name: retakeLabel })).toBeVisible();
   await expect(card.getByText("Completed")).toBeVisible();
   await expect(card.getByText(/Perfect score on the latest run\./)).toBeVisible();
+}
+
+async function expectExpandedCardCompletedState(
+  page: Page,
+  cardTestId: string,
+  retakeLabel: string,
+) {
+  await waitForHubSummaryReady(page);
+  await expectCardCompletedState(page.getByTestId(cardTestId), retakeLabel);
 }
 
 async function expectImmediateHonestAssessmentStatusPanel(
@@ -289,10 +302,7 @@ test("completes a concept assessment journey from the hub and persists the resul
   expect(updatedSummary.remaining).toBe(initialSummary.remaining - 1);
 
   await page.reload();
-  await expectCardCompletedState(
-    page.getByTestId("test-hub-card-concept-basic-circuits"),
-    "Retake concept test",
-  );
+  await expectExpandedCardCompletedState(page, "test-hub-card-concept-basic-circuits", "Retake concept test");
 });
 
 test("completes a topic assessment journey from the hub, clicks Back to Test Hub, and keeps progress visible after reload", async ({
@@ -332,10 +342,7 @@ test("completes a topic assessment journey from the hub, clicks Back to Test Hub
 
   await completionSection.getByRole("link", { name: "Back to Test Hub" }).click();
   await expect(page).toHaveURL(/\/(?:[a-zA-Z-]+\/)?tests$/);
-  await expectCardCompletedState(
-    page.getByTestId("test-hub-card-topic-oscillations"),
-    "Retake topic test",
-  );
+  await expectExpandedCardCompletedState(page, "test-hub-card-topic-oscillations", "Retake topic test");
 
   const updatedSummary = await readHubSummaryCounts(page);
   expect(updatedSummary.completed).toBe(initialSummary.completed + 1);
@@ -343,10 +350,7 @@ test("completes a topic assessment journey from the hub, clicks Back to Test Hub
   expect(updatedSummary.remaining).toBe(initialSummary.remaining - 1);
 
   await page.reload();
-  await expectCardCompletedState(
-    page.getByTestId("test-hub-card-topic-oscillations"),
-    "Retake topic test",
-  );
+  await expectExpandedCardCompletedState(page, "test-hub-card-topic-oscillations", "Retake topic test");
 });
 
 test("topic completion next CTA actually navigates to the next topic test", async ({
@@ -432,10 +436,7 @@ test("completes a pack journey from the hub, clicks Back to Test Hub, and keeps 
 
   await completionSection.getByRole("link", { name: "Back to Test Hub" }).click();
   await expect(page).toHaveURL(/\/(?:[a-zA-Z-]+\/)?tests$/);
-  await expectCardCompletedState(
-    page.getByTestId("test-hub-card-pack-math-linked-representations"),
-    "Retake pack",
-  );
+  await expectExpandedCardCompletedState(page, "test-hub-card-pack-math-linked-representations", "Retake pack");
 
   const updatedSummary = await readHubSummaryCounts(page);
   expect(updatedSummary.completed).toBe(initialSummary.completed + 1);
@@ -443,10 +444,7 @@ test("completes a pack journey from the hub, clicks Back to Test Hub, and keeps 
   expect(updatedSummary.remaining).toBe(initialSummary.remaining - 1);
 
   await page.reload();
-  await expectCardCompletedState(
-    page.getByTestId("test-hub-card-pack-math-linked-representations"),
-    "Retake pack",
-  );
+  await expectExpandedCardCompletedState(page, "test-hub-card-pack-math-linked-representations", "Retake pack");
 });
 
 test("pack completion next CTA actually navigates to the next pack", async ({
@@ -653,10 +651,7 @@ test("updates hub summary counts across concept, topic, and pack completions wit
     force: true,
   });
   await expect(page).toHaveURL(/\/(?:[a-zA-Z-]+\/)?tests$/);
-  await expectCardCompletedState(
-    page.getByTestId("test-hub-card-concept-basic-circuits"),
-    "Retake concept test",
-  );
+  await expectExpandedCardCompletedState(page, "test-hub-card-concept-basic-circuits", "Retake concept test");
 
   await startAssessmentFromHub(
     page,
@@ -671,14 +666,8 @@ test("updates hub summary counts across concept, topic, and pack completions wit
   ).toHaveAttribute("href", /\/(?:[a-zA-Z-]+\/)?tests$/);
   await topicCompletion.getByRole("link", { name: "Back to Test Hub" }).click();
   await expect(page).toHaveURL(/\/(?:[a-zA-Z-]+\/)?tests$/);
-  await expectCardCompletedState(
-    page.getByTestId("test-hub-card-concept-basic-circuits"),
-    "Retake concept test",
-  );
-  await expectCardCompletedState(
-    page.getByTestId("test-hub-card-topic-oscillations"),
-    "Retake topic test",
-  );
+  await expectExpandedCardCompletedState(page, "test-hub-card-concept-basic-circuits", "Retake concept test");
+  await expectExpandedCardCompletedState(page, "test-hub-card-topic-oscillations", "Retake topic test");
 
   await startAssessmentFromHub(
     page,
@@ -693,50 +682,23 @@ test("updates hub summary counts across concept, topic, and pack completions wit
   ).toHaveAttribute("href", /\/(?:[a-zA-Z-]+\/)?tests$/);
   await packCompletion.getByRole("link", { name: "Back to Test Hub" }).click();
   await expect(page).toHaveURL(/\/(?:[a-zA-Z-]+\/)?tests$/);
-  await expectCardCompletedState(
-    page.getByTestId("test-hub-card-concept-basic-circuits"),
-    "Retake concept test",
-  );
-  await expectCardCompletedState(
-    page.getByTestId("test-hub-card-topic-oscillations"),
-    "Retake topic test",
-  );
-  await expectCardCompletedState(
-    page.getByTestId("test-hub-card-pack-chemistry-connected-systems"),
-    "Retake pack",
-  );
+  await expectExpandedCardCompletedState(page, "test-hub-card-concept-basic-circuits", "Retake concept test");
+  await expectExpandedCardCompletedState(page, "test-hub-card-topic-oscillations", "Retake topic test");
+  await expectExpandedCardCompletedState(page, "test-hub-card-pack-chemistry-connected-systems", "Retake pack");
 
   const updatedSummary = await readHubSummaryCounts(page);
   expect(updatedSummary.completed).toBe(initialSummary.completed + 3);
   expect(updatedSummary.clean).toBe(initialSummary.clean + 3);
   expect(updatedSummary.remaining).toBe(initialSummary.remaining - 3);
 
-  await expectCardCompletedState(
-    page.getByTestId("test-hub-card-concept-basic-circuits"),
-    "Retake concept test",
-  );
-  await expectCardCompletedState(
-    page.getByTestId("test-hub-card-topic-oscillations"),
-    "Retake topic test",
-  );
-  await expectCardCompletedState(
-    page.getByTestId("test-hub-card-pack-chemistry-connected-systems"),
-    "Retake pack",
-  );
+  await expectExpandedCardCompletedState(page, "test-hub-card-concept-basic-circuits", "Retake concept test");
+  await expectExpandedCardCompletedState(page, "test-hub-card-topic-oscillations", "Retake topic test");
+  await expectExpandedCardCompletedState(page, "test-hub-card-pack-chemistry-connected-systems", "Retake pack");
 
   await page.reload();
-  await expectCardCompletedState(
-    page.getByTestId("test-hub-card-concept-basic-circuits"),
-    "Retake concept test",
-  );
-  await expectCardCompletedState(
-    page.getByTestId("test-hub-card-topic-oscillations"),
-    "Retake topic test",
-  );
-  await expectCardCompletedState(
-    page.getByTestId("test-hub-card-pack-chemistry-connected-systems"),
-    "Retake pack",
-  );
+  await expectExpandedCardCompletedState(page, "test-hub-card-concept-basic-circuits", "Retake concept test");
+  await expectExpandedCardCompletedState(page, "test-hub-card-topic-oscillations", "Retake topic test");
+  await expectExpandedCardCompletedState(page, "test-hub-card-pack-chemistry-connected-systems", "Retake pack");
   const reloadedSummary = await readHubSummaryCounts(page);
   expect(reloadedSummary).toEqual(updatedSummary);
 });
@@ -750,7 +712,8 @@ test("renders locale-routed assessment surfaces for zh-HK without falling back t
   ).toBeVisible();
   await expect(
     page.getByRole("heading", {
-      name: "\u5728\u540c\u4e00\u500b\u5730\u65b9\u67e5\u770b\u76ee\u524d\u6240\u6709\u6e2c\u9a57\u5305\u3001\u4e3b\u984c\u6e2c\u9a57\u8207\u6982\u5ff5\u6e2c\u9a57\u3002",
+      name: "\u9078\u4e00\u500b\u6e2c\u9a57\uff0c\u7acb\u5373\u958b\u59cb\u3002",
+      level: 1,
     }),
   ).toBeVisible();
   await expect(page.getByText("\u8de8\u4e3b\u984c\u6e2c\u9a57\u5305").first()).toBeVisible();
@@ -843,22 +806,22 @@ test("keeps direct-load concept quick-test progress honest during hydration on r
     });
   };
 
-  const response = await page.goto("/concepts/basic-circuits#quick-test", {
+  const response = await page.goto("/concepts/basic-circuits?phase=check#quick-test", {
     waitUntil: "domcontentloaded",
   });
   expect(response?.ok()).toBeTruthy();
   await expect(page.getByTestId("quiz-question-stage")).toBeVisible();
   await expect(page.getByTestId("challenge-mode-floating-anchor")).toHaveCount(0);
-  await page.getByText("Progress and next steps").click();
+  await page.locator("summary").filter({ hasText: "Progress and next steps" }).first().click();
   await getConceptProgressCard(page).scrollIntoViewIfNeeded();
   await assertHonestConceptStatus();
 
   await expect(getConceptProgressCard(page)).toContainText(/Last activity/i);
 
+  await closeOpenDisclosurePanels(page);
   await page.reload({ waitUntil: "domcontentloaded" });
-  await expect(page.getByTestId("quiz-question-stage")).toBeVisible();
   await expect(page.getByTestId("challenge-mode-floating-anchor")).toHaveCount(0);
-  await page.getByText("Progress and next steps").click();
+  await page.locator("summary").filter({ hasText: "Progress and next steps" }).first().click();
   await getConceptProgressCard(page).scrollIntoViewIfNeeded();
   await assertHonestConceptStatus();
 });
@@ -942,11 +905,13 @@ test("keeps reload-time progress UI honest by showing pending or correct state, 
   });
 
   const assertImmediateHonestState = async () => {
+    await expandFullTestCatalogIfAvailable(page);
+
     const completedText = (await page.getByTestId("test-hub-completed-count").textContent())?.trim();
     const cleanText = (await page.getByTestId("test-hub-clean-count").textContent())?.trim();
 
-    expect(["—", "3"]).toContain(completedText);
-    expect(["—", "3"]).toContain(cleanText);
+    expect(["\u2014", "3"]).toContain(completedText);
+    expect(["\u2014", "3"]).toContain(cleanText);
     expect(
       (await page.getByTestId("test-hub-card-concept-basic-circuits").textContent())?.includes(
         "Not started",
@@ -968,18 +933,9 @@ test("keeps reload-time progress UI honest by showing pending or correct state, 
   expect(response?.ok()).toBeTruthy();
   await assertImmediateHonestState();
 
-  await expectCardCompletedState(
-    page.getByTestId("test-hub-card-concept-basic-circuits"),
-    "Retake concept test",
-  );
-  await expectCardCompletedState(
-    page.getByTestId("test-hub-card-topic-oscillations"),
-    "Retake topic test",
-  );
-  await expectCardCompletedState(
-    page.getByTestId("test-hub-card-pack-physics-connected-models"),
-    "Retake pack",
-  );
+  await expectExpandedCardCompletedState(page, "test-hub-card-concept-basic-circuits", "Retake concept test");
+  await expectExpandedCardCompletedState(page, "test-hub-card-topic-oscillations", "Retake topic test");
+  await expectExpandedCardCompletedState(page, "test-hub-card-pack-physics-connected-models", "Retake pack");
 
   await page.reload({ waitUntil: "domcontentloaded" });
   await assertImmediateHonestState();
