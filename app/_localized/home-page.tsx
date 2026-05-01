@@ -174,6 +174,34 @@ function HomeRouteChoiceCard({
   );
 }
 
+type HomeEntryCardProps = {
+  href: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  testId: string;
+};
+
+function HomeEntryCard({
+  href,
+  eyebrow,
+  title,
+  description,
+  testId,
+}: HomeEntryCardProps) {
+  return (
+    <Link
+      href={href}
+      data-testid={testId}
+      className="motion-button-outline group grid min-h-[6.25rem] gap-1.5 rounded-[20px] border border-line bg-paper-strong/92 px-4 py-3 text-left transition hover:border-ink-950/24 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+    >
+      <span className="lab-label text-[0.68rem] tracking-[0.14em]">{eyebrow}</span>
+      <span className="text-sm font-semibold leading-5 text-ink-950">{title}</span>
+      <span className="text-xs leading-5 text-ink-600">{description}</span>
+    </Link>
+  );
+}
+
 export async function generateMetadata() {
   return buildHomeMetadata(await resolveServerLocaleFallback());
 }
@@ -290,6 +318,36 @@ export default async function HomePage({
       ],
     },
   ];
+  const heroEntryCards = [
+    {
+      href: "/concepts",
+      eyebrow: tHome("hero.entryCards.simulations.eyebrow"),
+      title: tHome("hero.entryCards.simulations.title"),
+      description: tHome("hero.entryCards.simulations.description"),
+      testId: "home-entry-card-simulations",
+    },
+    {
+      href: "/guided",
+      eyebrow: tHome("hero.entryCards.guided.eyebrow"),
+      title: tHome("hero.entryCards.guided.title"),
+      description: tHome("hero.entryCards.guided.description"),
+      testId: "home-entry-card-guided",
+    },
+    {
+      href: "/tests",
+      eyebrow: tHome("hero.entryCards.tests.eyebrow"),
+      title: tHome("hero.entryCards.tests.title"),
+      description: tHome("hero.entryCards.tests.description"),
+      testId: "home-entry-card-tests",
+    },
+    {
+      href: "/tools",
+      eyebrow: tHome("hero.entryCards.tools.eyebrow"),
+      title: tHome("hero.entryCards.tools.title"),
+      description: tHome("hero.entryCards.tools.description"),
+      testId: "home-entry-card-tools",
+    },
+  ];
   const websiteJsonLd = serializeJsonLd([
     buildWebsiteJsonLd({
       locale,
@@ -374,7 +432,7 @@ export default async function HomePage({
           <div className="space-y-4">
             <div className="space-y-3">
               <p className="lab-label">{tHome("hero.eyebrow")}</p>
-              <h1 className="max-w-3xl text-[2.9rem] font-semibold leading-[0.98] text-ink-950 sm:text-[4rem]">
+              <h1 className="max-w-3xl text-[2.55rem] font-semibold leading-[1.02] text-ink-950 sm:text-[4rem] sm:leading-[0.98]">
                 {tHome("hero.title")}
               </h1>
               <p className="max-w-2xl text-lg leading-8 text-ink-700">
@@ -393,17 +451,14 @@ export default async function HomePage({
               <Link href="/concepts" className="cta-secondary">
                 {tHome("hero.browseAction")}
               </Link>
-              <Link href="/search" className="cta-secondary">
-                {tCommon("search")}
+              <Link href="/tests" className="cta-secondary">
+                {tHome("hero.practiceAction")}
               </Link>
             </nav>
 
-            <p className="max-w-2xl text-base leading-7 text-ink-600">
-              {tHome("hero.supportingNote")}
-            </p>
           </div>
 
-          <div className="motion-enter motion-card page-hero-surface p-4">
+          <div className="motion-enter motion-card page-hero-surface p-4 xl:row-span-2">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(30,166,162,0.14),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(241,102,89,0.12),transparent_28%)]" />
             <div className="relative space-y-3">
               <p className="lab-label">{tHome("liveBench.eyebrow")}</p>
@@ -417,6 +472,22 @@ export default async function HomePage({
               </p>
             </div>
           </div>
+
+          <nav
+            aria-label={tHome("hero.entryCardsAriaLabel")}
+            className="grid gap-2.5 sm:grid-cols-2 xl:col-start-1 xl:row-start-2"
+          >
+            {heroEntryCards.map((entry) => (
+              <HomeEntryCard
+                key={entry.href}
+                href={entry.href}
+                eyebrow={entry.eyebrow}
+                title={entry.title}
+                description={entry.description}
+                testId={entry.testId}
+              />
+            ))}
+          </nav>
         </div>
       </PageSection>
 

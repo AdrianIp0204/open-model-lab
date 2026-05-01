@@ -184,6 +184,10 @@ export function ConceptPageV2Shell({
       deeperReferenceNote: t("v2.deeperReferenceNote"),
       keyTakeawayLabel: t("v2.keyTakeawayLabel"),
       wrapUpTitle: t("v2.wrapUpTitle"),
+      lessonPreviewDisclosureLabel: t("v2.lessonPreviewDisclosureLabel"),
+      lessonPreviewDisclosureDescription: t("v2.lessonPreviewDisclosureDescription"),
+      contextDisclosureLabel: t("v2.contextDisclosureLabel"),
+      contextDisclosureDescription: t("v2.contextDisclosureDescription"),
       revealKinds: {
         control: t("v2.revealKinds.control"),
         graph: t("v2.revealKinds.graph"),
@@ -416,7 +420,7 @@ export function ConceptPageV2Shell({
         <div className="page-band p-2.5 sm:p-4 lg:p-5">
           <div
             data-testid="concept-v2-hero-grid"
-            className="grid gap-3 xl:grid-cols-[minmax(0,1fr)_minmax(18rem,22rem)] xl:items-start"
+            className="grid gap-3"
           >
             <div data-testid="concept-v2-hero-main" className="min-w-0 space-y-2">
               {titleContextContent ? (
@@ -452,25 +456,12 @@ export function ConceptPageV2Shell({
                   />
                 </div>
               ) : null}
+              {statusContent ? (
+                <div data-testid="concept-v2-hero-status" className="min-w-0">
+                  <Fragment>{statusContent}</Fragment>
+                </div>
+              ) : null}
             </div>
-            {statusContent || (!hideStartHere && model.equationSnapshot.length) ? (
-              <div data-testid="concept-v2-hero-rail" className="min-w-0 space-y-3">
-                {statusContent ? (
-                  <div data-testid="concept-v2-hero-status" className="min-w-0">
-                    <Fragment>{statusContent}</Fragment>
-                  </div>
-                ) : null}
-                {!hideStartHere && model.equationSnapshot.length ? (
-                  <ConceptPageV2EquationSnapshotCard
-                    key="equation-snapshot"
-                    equations={model.equationSnapshot}
-                    note={model.equationSnapshotNote}
-                    copy={copy}
-                    compact
-                  />
-                ) : null}
-              </div>
-            ) : null}
           </div>
         </div>
       ) : null}
@@ -504,7 +495,7 @@ export function ConceptPageV2Shell({
         ) : null}
       </ConceptPageV2WrapUp>
 
-      {model.referenceSections.length ? (
+      {model.referenceSections.length || model.equationSnapshot.length ? (
         <ConceptPageV2SecondarySection
           testId="concept-v2-reference"
           eyebrow={copy.referenceLabel}
@@ -513,12 +504,25 @@ export function ConceptPageV2Shell({
           note={copy.deeperReferenceNote}
           actionLabel={copy.referenceDisclosureLabel}
         >
-          <ConceptPageSections
-            concept={concept}
-            readNext={readNext}
-            sections={model.referenceSections}
-            workedExampleMode={workedExampleMode}
-          />
+          <div className="space-y-4">
+            {model.equationSnapshot.length ? (
+              <ConceptPageV2EquationSnapshotCard
+                key="reference-equation-snapshot"
+                equations={model.equationSnapshot}
+                note={model.equationSnapshotNote}
+                copy={copy}
+                compact
+              />
+            ) : null}
+            {model.referenceSections.length ? (
+              <ConceptPageSections
+                concept={concept}
+                readNext={readNext}
+                sections={model.referenceSections}
+                workedExampleMode={workedExampleMode}
+              />
+            ) : null}
+          </div>
         </ConceptPageV2SecondarySection>
       ) : null}
 
