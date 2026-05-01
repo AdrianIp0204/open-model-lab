@@ -258,7 +258,7 @@ export function SiteHeader() {
       <div
         id="mobile-primary-nav"
         hidden={!mobileOpen}
-        className="max-h-[calc(100dvh-4.25rem)] overflow-y-auto overscroll-contain border-t border-line bg-paper/96 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur [scrollbar-gutter:stable] [-webkit-overflow-scrolling:touch] lg:hidden"
+        className="max-h-[calc(100dvh-4.25rem)] overflow-y-auto overscroll-contain border-t border-line bg-paper/96 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur [scrollbar-gutter:stable] [-webkit-overflow-scrolling:touch] xl:hidden"
       >
         <div className="page-band space-y-3 p-3">
           <LocaleSwitcher className="flex" />

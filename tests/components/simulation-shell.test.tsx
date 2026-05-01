@@ -36,7 +36,7 @@ describe("SimulationShell", () => {
     );
   });
 
-  it("keeps the lower guide area to one column when only one guide panel exists", () => {
+  it("docks the first action with controls when only the interaction rail exists", () => {
     const { container } = render(
       <SimulationShell
         accessibilityDescription="Interactive lab status"
@@ -50,12 +50,17 @@ describe("SimulationShell", () => {
       />,
     );
 
+    const controlsSlot = container.querySelector('[data-testid="simulation-shell-controls"]');
+    const firstAction = container.querySelector('[data-testid="simulation-shell-first-action"]');
     const guides = container.querySelector('[data-testid="simulation-shell-guides"]');
-    expect(guides).not.toBeNull();
-    expect(guides?.className).not.toContain("lg:grid-cols-2");
+    expect(firstAction).not.toBeNull();
+    expect(firstAction?.textContent).toContain("Interaction rail");
+    expect(controlsSlot).not.toBeNull();
+    expect(controlsSlot).toContainElement(firstAction as HTMLElement);
+    expect(guides).toBeNull();
   });
 
-  it("uses the two-column guide layout only when both a primary and secondary guide panel exist", () => {
+  it("keeps notice prompts below the bench while the first action stays by controls", () => {
     const { container } = render(
       <SimulationShell
         accessibilityDescription="Interactive lab status"
@@ -71,7 +76,11 @@ describe("SimulationShell", () => {
     );
 
     const guides = container.querySelector('[data-testid="simulation-shell-guides"]');
+    const firstAction = container.querySelector('[data-testid="simulation-shell-first-action"]');
     expect(guides).not.toBeNull();
-    expect(guides?.className).toContain("lg:grid-cols-2");
+    expect(guides?.className).not.toContain("lg:grid-cols-2");
+    expect(guides?.textContent).toContain("Notice");
+    expect(firstAction).not.toBeNull();
+    expect(firstAction?.textContent).toContain("Interaction rail");
   });
 });

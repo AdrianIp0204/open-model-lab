@@ -1,7 +1,25 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import { gotoAndExpectOk, installBrowserGuards, setHarnessSession, type BrowserGuard } from "./helpers";
 
 let browserGuard: BrowserGuard;
+const onboardingStorageKey = "open-model-lab.onboarding.v1";
+
+async function openCompactMenu(page: Page) {
+  const menuButton = page.getByRole("button", { name: /open navigation menu/i });
+  await expect(menuButton).toBeVisible();
+  await expect(menuButton).toBeEnabled();
+
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    await menuButton.click();
+    if (await page.getByRole("navigation", { name: /mobile primary/i }).count()) {
+      break;
+    }
+    await page.waitForTimeout(250);
+  }
+
+  await expect(page.getByRole("navigation", { name: /mobile primary/i })).toBeVisible();
+  await expect(page.getByRole("button", { name: /close navigation menu/i })).toBeVisible();
+}
 
 test.beforeEach(async ({ page }) => {
   await page.context().clearCookies();
@@ -13,9 +31,22 @@ test.afterEach(() => {
   browserGuard.assertNoActionableIssues();
 });
 
-test("keeps the menu toggle off wide desktop and working on smaller breakpoints while preserving footer grouping", async ({
+test("keeps wide desktop navigation visible and the compact menu working on smaller breakpoints while preserving footer grouping", async ({
   page,
 }) => {
+  await page.addInitScript((key) => {
+    window.localStorage.setItem(
+      key,
+      JSON.stringify({
+        promptDismissed: true,
+        disabled: false,
+        completed: true,
+        lastStep: 0,
+        updatedAt: "2026-05-02T00:00:00.000Z",
+      }),
+    );
+  }, onboardingStorageKey);
+
   await page.setViewportSize({ width: 1440, height: 900 });
   await gotoAndExpectOk(page, "/");
 
@@ -31,21 +62,14 @@ test("keeps the menu toggle off wide desktop and working on smaller breakpoints 
 
   await page.setViewportSize({ width: 1024, height: 768 });
   await gotoAndExpectOk(page, "/");
-  await expect(page.getByRole("button", { name: /open navigation menu/i })).toHaveCount(0);
+  const laptopMenuButton = page.getByRole("button", { name: /open navigation menu/i });
+  await expect(laptopMenuButton).toBeVisible();
 
   await page.setViewportSize({ width: 768, height: 1024 });
   await gotoAndExpectOk(page, "/");
-  const tabletMenuButton = page.getByRole("button", { name: /open navigation menu/i });
-  await expect(tabletMenuButton).toBeVisible();
-  await tabletMenuButton.click();
-  await expect(page.getByRole("navigation", { name: /mobile primary/i })).toBeVisible();
-  await expect(page.getByRole("button", { name: /close navigation menu/i })).toBeVisible();
+  await openCompactMenu(page);
 
   await page.setViewportSize({ width: 390, height: 844 });
   await gotoAndExpectOk(page, "/start");
-  const mobileMenuButton = page.getByRole("button", { name: /open navigation menu/i });
-  await expect(mobileMenuButton).toBeVisible();
-  await mobileMenuButton.click();
-  await expect(page.getByRole("navigation", { name: /mobile primary/i })).toBeVisible();
-  await expect(page.getByRole("button", { name: /close navigation menu/i })).toBeVisible();
+  await openCompactMenu(page);
 });

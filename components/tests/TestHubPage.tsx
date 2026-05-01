@@ -38,6 +38,7 @@ import {
 import { formatProgressMonthDay } from "@/components/progress/dateFormatting";
 import { DiscoveryFilterSelect } from "@/components/layout/DiscoveryFilterSelect";
 import { PageSection } from "@/components/layout/PageSection";
+import { LearningVisual } from "@/components/visuals/LearningVisual";
 import {
   buildTestHubSummary,
   getConceptTestProgressState,
@@ -591,6 +592,8 @@ function ConceptTestCard({
         </span>
       </div>
 
+      <LearningVisual kind="test" tone="teal" compact className="h-24" />
+
       <div className="space-y-2">
         <p className="lab-label">{entry.displaySubject}</p>
         <h3 id={titleId} className="text-lg font-semibold text-ink-950">{entry.displayTitle}</h3>
@@ -697,6 +700,8 @@ function TopicTestCard({
         </span>
       </div>
 
+      <LearningVisual kind="test" tone="sky" compact className="h-24" />
+
       <div className="space-y-2">
         <p className="lab-label">{entry.displaySubject}</p>
         <h3 id={titleId} className="text-lg font-semibold text-ink-950">{entry.displayTitle}</h3>
@@ -800,6 +805,8 @@ function PackTestCard({
         </span>
       </div>
 
+      <LearningVisual kind="test" tone="amber" compact className="h-24" />
+
       <div className="space-y-2">
         <p className="lab-label">{entry.displaySubject}</p>
         <h3 id={titleId} className="text-lg font-semibold text-ink-950">{entry.displayTitle}</h3>
@@ -900,6 +907,8 @@ function SuggestedTestCard({
         </span>
       </div>
 
+      <LearningVisual kind="test" tone="coral" compact className="h-24" />
+
       <div className="space-y-2">
         <p className="lab-label">{displaySubject}</p>
         <h3 id={titleId} className="text-lg font-semibold text-ink-950">{displayTitle}</h3>
@@ -979,7 +988,8 @@ function QuickStartPanel({
         className="rounded-[22px] border border-teal-500/20 bg-teal-500/8 p-3.5 shadow-sm sm:p-4"
         aria-labelledby="test-hub-quick-start-title"
       >
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="grid gap-3 sm:grid-cols-[7rem_minmax(0,1fr)_auto] sm:items-center">
+          <LearningVisual kind="test" tone="teal" compact className="h-24" />
           <div className="space-y-1.5">
             <p className="lab-label">{t("quickStart.eyebrow")}</p>
             <h2 id="test-hub-quick-start-title" className="text-xl font-semibold text-ink-950 sm:text-2xl">
@@ -1042,7 +1052,8 @@ function QuickStartPanel({
       className="rounded-[22px] border border-teal-500/20 bg-teal-500/8 p-3.5 shadow-sm sm:p-4"
       aria-labelledby="test-hub-quick-start-title"
     >
-      <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+      <div className="grid gap-3 lg:grid-cols-[7rem_minmax(0,1fr)_auto] lg:items-center">
+        <LearningVisual kind="test" tone="teal" compact className="h-24" />
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2">
             <span className="lab-label">{t("quickStart.eyebrow")}</span>
@@ -1171,6 +1182,8 @@ function GuidedTrackCard({
             : t("progress.loading")}
         </span>
       </div>
+
+      <LearningVisual kind="guided" tone="sky" compact className="h-24" />
 
       <div className="space-y-2">
         <p className="lab-label">{getSubjectDisplayTitleFromValue(track.subject, locale)}</p>
@@ -1704,7 +1717,8 @@ export function TestHubPage({
           />
         ) : fallbackStartEntry ? (
           <section className="rounded-[22px] border border-teal-500/20 bg-teal-500/8 p-3.5 shadow-sm sm:p-4">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="grid gap-3 sm:grid-cols-[7rem_minmax(0,1fr)_auto] sm:items-center">
+              <LearningVisual kind="test" tone="teal" compact className="h-24" />
               <div className="space-y-1.5">
                 <p className="lab-label">{t("quickStart.eyebrow")}</p>
                 <h2 className="text-xl font-semibold text-ink-950 sm:text-2xl">

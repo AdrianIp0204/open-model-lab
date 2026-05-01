@@ -17,6 +17,7 @@ import {
 } from "@/lib/progress";
 import { localizeRecommendedGoalPath } from "@/lib/i18n/content";
 import { DisclosurePanel } from "@/components/layout/DisclosurePanel";
+import { LearningVisual } from "@/components/visuals/LearningVisual";
 import { GuidedCollectionCard } from "./GuidedCollectionCard";
 import { RecommendedGoalPathList } from "./RecommendedGoalPathList";
 
@@ -256,7 +257,8 @@ export function GuidedCollectionsHub({
           </div>
         </article>
 
-        <aside className="page-band p-5">
+        <aside className="page-band grid gap-4 p-5 sm:grid-cols-[8rem_minmax(0,1fr)] xl:grid-cols-1">
+          <LearningVisual kind="guided" tone="sky" compact />
           <div className="space-y-4">
             <div className="space-y-2">
               <p className="lab-label">

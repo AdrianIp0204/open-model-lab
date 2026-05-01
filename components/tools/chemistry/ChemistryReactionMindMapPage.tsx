@@ -19,6 +19,7 @@ import { ChemistryNodeDetails } from "./ChemistryNodeDetails";
 import { ChemistryEdgeDetails } from "./ChemistryEdgeDetails";
 import { ChemistryComparisonDetails } from "./ChemistryComparisonDetails";
 import { ChemistryRouteExplorerDetails } from "./ChemistryRouteExplorerDetails";
+import { LearningVisual } from "@/components/visuals/LearningVisual";
 
 type ChemistrySelection =
   | { kind: "node"; id: ChemistryNode["id"] }
@@ -197,7 +198,7 @@ export function ChemistryReactionMindMapPage() {
 
   return (
     <section className="space-y-6 sm:space-y-7">
-      <article className="page-band space-y-5 p-5 sm:p-6">
+      <article className="page-band grid gap-5 p-5 sm:p-6 lg:grid-cols-[minmax(0,1fr)_16rem] lg:items-center">
         <div className="space-y-3">
           <div className="flex flex-wrap items-center gap-2">
             <span className="lab-label">{t("hero.eyebrow")}</span>
@@ -215,6 +216,7 @@ export function ChemistryReactionMindMapPage() {
             {t("hero.description")}
           </p>
         </div>
+        <LearningVisual kind="chemistry" tone="teal" />
       </article>
 
       <div

@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { learningToolDefinitions } from "@/lib/tools/learning-tools";
+import { LearningVisual } from "@/components/visuals/LearningVisual";
 import { ToolDirectoryCard } from "./ToolDirectoryCard";
 
 export function ToolsDirectoryPage() {
@@ -26,10 +27,13 @@ export function ToolsDirectoryPage() {
           </div>
         </div>
 
-        <aside className="lab-panel space-y-3 p-5">
-          <p className="lab-label">{t("notes.eyebrow")}</p>
-          <h2 className="text-xl font-semibold text-ink-950">{t("notes.title")}</h2>
-          <p className="text-sm leading-7 text-ink-700">{t("notes.description")}</p>
+        <aside className="lab-panel grid gap-4 p-5 sm:grid-cols-[8rem_minmax(0,1fr)] xl:grid-cols-1">
+          <LearningVisual kind="tool" tone="teal" compact />
+          <div className="space-y-3">
+            <p className="lab-label">{t("notes.eyebrow")}</p>
+            <h2 className="text-xl font-semibold text-ink-950">{t("notes.title")}</h2>
+            <p className="text-sm leading-7 text-ink-700">{t("notes.description")}</p>
+          </div>
         </aside>
       </article>
 
@@ -55,6 +59,7 @@ export function ToolsDirectoryPage() {
               ctaLabel={t(`tools.${tool.messageKey}.cta`)}
               badge={t(`tools.${tool.messageKey}.badge`)}
               accent={tool.accent}
+              visualKind={tool.id === "circuit-builder" ? "circuit" : "chemistry"}
             />
           ))}
         </div>

@@ -18,6 +18,7 @@ import {
 } from "@/lib/progress";
 import { ProgressStatusBadge } from "@/components/progress/ProgressStatusBadge";
 import { formatProgressMonthDay } from "@/components/progress/dateFormatting";
+import { LearningVisual } from "@/components/visuals/LearningVisual";
 
 type ConceptTrackMembership = {
   trackSlug: string;
@@ -47,14 +48,6 @@ const accentClasses: Record<ConceptSummary["accent"], string> = {
   coral: "from-coral-500/20 via-coral-500/8 to-transparent border-coral-500/20",
   sky: "from-sky-500/20 via-sky-500/8 to-transparent border-sky-500/20",
   ink: "from-ink-950/18 via-ink-950/8 to-transparent border-ink-950/20",
-};
-
-const accentDotClasses: Record<ConceptSummary["accent"], string> = {
-  teal: "bg-teal-500",
-  amber: "bg-amber-500",
-  coral: "bg-coral-500",
-  sky: "bg-sky-500",
-  ink: "bg-ink-950",
 };
 
 export function ConceptTile({
@@ -128,9 +121,12 @@ export function ConceptTile({
         <div
           className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${accentClasses[concept.accent]}`}
         />
-        <div className="flex items-start gap-3.5">
-          <span
-            className={`mt-1 h-3.5 w-3.5 rounded-full ${accentDotClasses[concept.accent]}`}
+        <div className={isFeature ? "grid gap-4" : "grid gap-3 sm:grid-cols-[6.5rem_minmax(0,1fr)] sm:items-start"}>
+          <LearningVisual
+            kind="concept"
+            tone={concept.accent}
+            compact
+            className={isFeature ? "h-28" : "h-24 sm:h-full sm:min-h-28"}
           />
           <div className={`min-w-0 flex-1 ${isFeature ? "space-y-3.5" : "space-y-3"}`}>
             <div className="space-y-2">

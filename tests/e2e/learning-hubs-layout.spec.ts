@@ -39,7 +39,7 @@ const viewportCases: ViewportCase[] = [
 const routeCases = [
   {
     pathname: "/guided",
-    heading: "Use compact lesson sets when topic routes, tracks, and challenge entry points should stay in one authored order.",
+    heading: "Follow a short path when you want the order chosen for you.",
     primaryCtaTestId: "guided-primary-cta",
     forbiddenNavName: /guided collection sections/i,
   },

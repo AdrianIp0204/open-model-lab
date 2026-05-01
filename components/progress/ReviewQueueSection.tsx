@@ -12,6 +12,7 @@ import {
   getProgressReasonKey,
   shouldUseGenericProgressCopy,
 } from "@/lib/i18n/progress";
+import { LearningVisual } from "@/components/visuals/LearningVisual";
 import type { GuidedCollectionSummary, StarterTrackSummary } from "@/lib/content";
 import {
   resolveAccountProgressSnapshot,
@@ -315,6 +316,12 @@ export function ReviewQueueSection({
                     </span>
                   ) : null}
                 </div>
+                <LearningVisual
+                  kind="progress"
+                  tone={index === 0 ? "coral" : "amber"}
+                  compact
+                  className="mt-4 h-24"
+                />
 
                 <h3 className="mt-4 text-xl font-semibold text-ink-950">{displayTitle}</h3>
                 <p className="mt-2 text-sm leading-6 text-ink-700">{displayReason}</p>
@@ -393,13 +400,15 @@ export function ReviewQueueSection({
           })}
         </div>
       ) : hasRecordedProgress ? (
-        <div className="lab-panel p-5 sm:p-6">
+        <div className="lab-panel grid gap-4 p-5 sm:grid-cols-[8rem_minmax(0,1fr)] sm:items-center sm:p-6">
+          <LearningVisual kind="progress" tone="teal" compact className="h-24" />
           <p className="text-sm leading-6 text-ink-700">
             {t("empty.withProgress")}
           </p>
         </div>
       ) : (
-        <div className="lab-panel p-5 sm:p-6">
+        <div className="lab-panel grid gap-4 p-5 sm:grid-cols-[8rem_minmax(0,1fr)] sm:items-center sm:p-6">
+          <LearningVisual kind="progress" tone="sky" compact className="h-24" />
           <p className="text-sm leading-6 text-ink-700">
             {t("empty.withoutProgress")}
           </p>

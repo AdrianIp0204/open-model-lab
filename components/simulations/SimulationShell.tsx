@@ -41,7 +41,7 @@ export function SimulationShell({
   className,
 }: SimulationShellProps) {
   const t = useTranslations("SimulationShell");
-  const guideStack = [interactionRail, notice].filter(Boolean);
+  const guideStack = [notice].filter(Boolean);
   const hasLowerDock = Boolean(equations || supportDock);
 
   return (
@@ -109,7 +109,14 @@ export function SimulationShell({
                 benchHeader ? "order-3 xl:order-3" : "order-2",
               ].join(" ")}
             >
-              <div className="xl:sticky xl:top-5">{controls}</div>
+              <div className="space-y-3 xl:sticky xl:top-5">
+                {controls}
+                {interactionRail ? (
+                  <div data-testid="simulation-shell-first-action">
+                    {interactionRail}
+                  </div>
+                ) : null}
+              </div>
             </div>
           </div>
           {afterBench ? (

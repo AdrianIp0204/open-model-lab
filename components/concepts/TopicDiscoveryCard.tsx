@@ -11,6 +11,7 @@ import {
   getTopicDisplaySubtopics,
   getTopicDisplayTitle,
 } from "@/lib/i18n/content";
+import { LearningVisual } from "@/components/visuals/LearningVisual";
 
 type TopicDiscoveryCardProps = {
   topic: TopicDiscoverySummary;
@@ -52,7 +53,9 @@ export function TopicDiscoveryCard({
         <div
           className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${accentTopClasses[topic.accent]}`}
         />
-        <div className="space-y-3">
+        <div className="grid gap-3 sm:grid-cols-[6.5rem_minmax(0,1fr)] sm:items-start">
+          <LearningVisual kind="topic" tone={topic.accent} compact className="h-24 sm:h-full" />
+          <div className="space-y-3">
           <div className="flex flex-wrap items-center gap-2">
             <span className="lab-label">{t("labels.topic")}</span>
             {compactMeta.map((item) => (
@@ -86,6 +89,7 @@ export function TopicDiscoveryCard({
               {t("actions.openTopic")}
             </Link>
           </div>
+          </div>
         </div>
       </article>
     );
@@ -97,6 +101,7 @@ export function TopicDiscoveryCard({
         className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${accentTopClasses[topic.accent]}`}
       />
       <div className="space-y-3.5">
+        <LearningVisual kind="topic" tone={topic.accent} compact />
         <div className="flex flex-wrap items-center gap-2">
           <span className="lab-label">{t("labels.topic")}</span>
           <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">

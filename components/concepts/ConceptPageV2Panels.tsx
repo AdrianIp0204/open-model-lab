@@ -959,7 +959,7 @@ export function ConceptPageV2StartHere({
   const compactLessonPreview = lessonSteps.length ? (
     <ConceptPageV2Disclosure
       testId="concept-v2-start-lesson-disclosure"
-      className="group rounded-[20px] border border-line/80 bg-white/86 px-3.5 py-3 shadow-sm"
+      className="group rounded-[18px] border border-line/80 bg-white/86 px-3 py-2.5 shadow-sm"
       summaryClassName="min-w-0 cursor-pointer list-none rounded-[14px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [&::-webkit-details-marker]:hidden"
       summaryAriaLabel={copy.lessonPreviewDisclosureLabel}
       contentClassName="mt-3 min-w-0"
@@ -972,13 +972,13 @@ export function ConceptPageV2StartHere({
             <span className="mt-1 block min-w-0 break-words text-sm font-semibold leading-5 text-ink-950">
               {copy.lessonPreviewDisclosureLabel}
             </span>
-            <span className="mt-0.5 block min-w-0 break-words text-xs leading-5 text-ink-600">
+            <span className="sr-only">
               {copy.lessonPreviewDisclosureDescription}
             </span>
           </span>
           <span
             aria-hidden="true"
-            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line bg-paper-strong text-sm font-semibold text-ink-500 transition-transform group-open:rotate-180 motion-reduce:transition-none"
+            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-line bg-paper-strong text-sm font-semibold text-ink-500 transition-transform group-open:rotate-180 motion-reduce:transition-none"
           >
             {"\u2193"}
           </span>
@@ -1001,7 +1001,7 @@ export function ConceptPageV2StartHere({
   const compactContext = supportBlocks ? (
     <ConceptPageV2Disclosure
       testId="concept-v2-start-context-disclosure"
-      className="group rounded-[20px] border border-line/80 bg-white/78 px-3.5 py-3 shadow-sm"
+      className="group rounded-[18px] border border-line/80 bg-white/78 px-3 py-2.5 shadow-sm"
       summaryClassName="min-w-0 cursor-pointer list-none rounded-[14px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [&::-webkit-details-marker]:hidden"
       summaryAriaLabel={copy.contextDisclosureLabel}
       contentClassName="mt-3 min-w-0"
@@ -1014,13 +1014,13 @@ export function ConceptPageV2StartHere({
             <span className="mt-1 block min-w-0 break-words text-sm font-semibold leading-5 text-ink-950">
               {copy.contextDisclosureLabel}
             </span>
-            <span className="mt-0.5 block min-w-0 break-words text-xs leading-5 text-ink-600">
+            <span className="sr-only">
               {copy.contextDisclosureDescription}
             </span>
           </span>
           <span
             aria-hidden="true"
-            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line bg-paper-strong text-sm font-semibold text-ink-500 transition-transform group-open:rotate-180 motion-reduce:transition-none"
+            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-line bg-paper-strong text-sm font-semibold text-ink-500 transition-transform group-open:rotate-180 motion-reduce:transition-none"
           >
             {"\u2193"}
           </span>
@@ -1037,7 +1037,7 @@ export function ConceptPageV2StartHere({
         data-testid="concept-v2-start-here"
         aria-labelledby={startHereHeadingId}
         aria-describedby={startHereDescriptionId}
-        className="rounded-[28px] border border-teal-500/18 bg-[linear-gradient(135deg,rgba(20,184,166,0.1)_0%,rgba(255,255,255,0.97)_48%,rgba(255,255,255,0.99)_100%)] px-4 py-4 shadow-sm ring-1 ring-white/70 sm:px-5"
+        className="rounded-[28px] border border-teal-500/18 bg-[linear-gradient(135deg,rgba(20,184,166,0.1)_0%,rgba(255,255,255,0.97)_48%,rgba(255,255,255,0.99)_100%)] px-4 py-3.5 shadow-sm ring-1 ring-white/70 sm:px-5"
       >
         <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(15rem,19rem)] lg:items-start">
           <div className="min-w-0 space-y-2">
@@ -1062,7 +1062,7 @@ export function ConceptPageV2StartHere({
           </div>
         </div>
 
-        <div className="mt-3 grid gap-3 lg:grid-cols-2">
+        <div className="mt-2.5 grid gap-2.5 lg:grid-cols-2">
           {simulationPreviewBlock ? (
             <div className="min-w-0 lg:col-span-2">{simulationPreviewBlock}</div>
           ) : null}

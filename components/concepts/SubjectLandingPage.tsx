@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { DisplayAd, MultiplexAd } from "@/components/ads/AdSlot";
 import { PageSection } from "@/components/layout/PageSection";
+import { LearningVisual } from "@/components/visuals/LearningVisual";
 import { Link } from "@/i18n/navigation";
 import type { AppLocale } from "@/i18n/routing";
 import { routing } from "@/i18n/routing";
@@ -90,6 +91,7 @@ export async function SubjectLandingPage({
                   {subjectIntroduction}
                 </p>
               </div>
+              <LearningVisual kind="subject" tone={subject.accent} compact className="h-28" />
 
               <div className="flex flex-wrap gap-3">
                 {firstTrack ? (

@@ -51,6 +51,7 @@ import {
 } from "@/lib/i18n/progress";
 import { StarterTrackRecommendationList } from "@/components/tracks/StarterTrackRecommendationList";
 import { ConceptLearningSurfaceTestCta } from "@/components/tests/ConceptLearningSurfaceTestCta";
+import { LearningVisual } from "@/components/visuals/LearningVisual";
 import { MasteryStateBadge } from "./MasteryStateBadge";
 import { ProgressStatusBadge } from "./ProgressStatusBadge";
 import { AccountAwareReviewRemediationList } from "./AccountAwareReviewRemediationList";
@@ -701,7 +702,9 @@ export function HomeContinueLearningSurface({
       ) : null}
 
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1.14fr)_minmax(20rem,0.86fr)] xl:items-start">
-        <article className="lab-panel p-4 sm:p-5">
+        <article className="lab-panel grid gap-4 p-4 sm:p-5 md:grid-cols-[8rem_minmax(0,1fr)] md:items-start">
+          <LearningVisual kind="progress" tone="teal" compact className="h-28 md:h-full" />
+          <div className="min-w-0">
           {displayPrimaryConcept ? (
             <>
               <div className="flex flex-wrap items-center gap-2">
@@ -830,6 +833,7 @@ export function HomeContinueLearningSurface({
               </div>
             </>
           )}
+          </div>
         </article>
 
         <div className="grid gap-4 xl:self-start">
