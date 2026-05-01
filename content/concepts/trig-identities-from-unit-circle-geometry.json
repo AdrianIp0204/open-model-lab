@@ -525,6 +525,10 @@
             "projectionGuides",
             "rotationTrail"
           ]
+        },
+        "selectedWrongExplanations": {
+          "b": "The identity holds for every point on the unit circle, not only special angles.",
+          "c": "The squared-sum identity comes from circle geometry, not graph averaging."
         }
       },
       {
@@ -534,19 +538,23 @@
         "choices": [
           {
             "id": "a",
-            "label": "The raw cosine sign flips while the squared-sum line stays at 1."
+            "label": "The squared-sum line drops below 1 because cosine becomes negative."
           },
           {
             "id": "b",
-            "label": "The squared-sum line drops below 1 because cosine becomes negative."
+            "label": "The raw cosine sign flips while the squared-sum line stays at 1."
           },
           {
             "id": "c",
             "label": "The raw sine sign flips first while cosine stays positive."
           }
         ],
-        "correctChoiceId": "a",
-        "explanation": "Crossing the y-axis flips the horizontal projection sign first, but squaring keeps the identity balanced."
+        "correctChoiceId": "b",
+        "explanation": "Crossing the y-axis flips the horizontal projection sign first, but squaring keeps the identity balanced.",
+        "selectedWrongExplanations": {
+          "a": "The squared-sum stays 1 even when one coordinate becomes negative.",
+          "c": "Sine stays positive when moving from Quadrant I to Quadrant II."
+        }
       }
     ]
   },

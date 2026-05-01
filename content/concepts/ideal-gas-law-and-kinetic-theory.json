@@ -1200,21 +1200,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The particles move faster, so they hit the walls harder and more often."
+            "label": "Heating automatically creates more particles in the box."
           },
           {
             "id": "b",
-            "label": "Heating automatically creates more particles in the box."
+            "label": "The particles move faster, so they hit the walls harder and more often."
           },
           {
             "id": "c",
             "label": "Heating lowers pressure unless the box also gets smaller."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Hotter gas means a larger average particle speed. That raises both the collision rate and the momentum change per collision, so pressure rises.",
         "selectedWrongExplanations": {
-          "b": "Temperature changes particle speed, not particle count, in this model.",
+          "a": "Temperature changes particle speed, not particle count, in this model.",
           "c": "At fixed volume, heating raises pressure rather than lowering it."
         },
         "showMeAction": {
@@ -1241,22 +1241,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "Box B has higher pressure even if the average particle speed stays about the same."
-          },
-          {
-            "id": "b",
             "label": "Both boxes must have the same pressure because temperature determines everything."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Box B has lower pressure because crowded particles cannot hit the walls effectively."
+          },
+          {
+            "id": "c",
+            "label": "Box B has higher pressure even if the average particle speed stays about the same."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "At fixed $T$ and $V$, more particles mean more wall hits, so pressure rises even if the speed cue barely changes.",
         "selectedWrongExplanations": {
-          "b": "Temperature sets the speed scale, but particle number still matters.",
-          "c": "Crowding in this ideal-gas model increases wall-hit frequency rather than preventing it."
+          "a": "Temperature sets the speed scale, but particle number still matters.",
+          "b": "Crowding in this ideal-gas model increases wall-hit frequency rather than preventing it."
         },
         "showMeAction": {
           "label": "Show more particles",
@@ -1281,21 +1281,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Nothing forces them to have the same temperature or particle count; equal pressure can come from different microscopic stories."
+            "label": "They must have the same temperature because pressure determines particle speed uniquely."
           },
           {
             "id": "b",
-            "label": "They must have the same temperature because pressure determines particle speed uniquely."
+            "label": "Nothing forces them to have the same temperature or particle count; equal pressure can come from different microscopic stories."
           },
           {
             "id": "c",
             "label": "They must have the same particle count because pressure only depends on crowding."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Pressure is one macroscopic outcome. Different combinations of speed, density, and box size can still produce the same pressure.",
         "selectedWrongExplanations": {
-          "b": "Equal pressure does not lock temperature by itself because particle number and volume can also change.",
+          "a": "Equal pressure does not lock temperature by itself because particle number and volume can also change.",
           "c": "Particle number is only one part of the state law."
         },
         "showMeAction": {

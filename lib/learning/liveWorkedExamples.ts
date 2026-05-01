@@ -452,7 +452,8 @@ function resolveProjectileTokens(state: LiveWorkedExampleState, locale?: AppLoca
   } satisfies WorkedExampleTokenMap;
 }
 
-function resolveMomentumImpulseTokens(state: LiveWorkedExampleState) {
+function resolveMomentumImpulseTokens(state: LiveWorkedExampleState, locale?: AppLocale) {
+  const zhHk = locale === "zh-HK";
   const params = resolveMomentumImpulseParams({
     mass: toNumber(state.params.mass, 1.5),
     initialVelocity: toNumber(state.params.initialVelocity, 0.5),
@@ -477,19 +478,125 @@ function resolveMomentumImpulseTokens(state: LiveWorkedExampleState) {
     finalVelocityValue: formatNumber(snapshot.finalVelocity),
     momentumInterpretation:
       snapshot.forceActive
-        ? "The pulse is active right now, so the momentum is still changing linearly while the force stays on."
+        ? zhHk
+          ? "力脈衝正在作用，所以只要力保持開啟，動量仍會線性改變。"
+          : "The pulse is active right now, so the momentum is still changing linearly while the force stays on."
         : snapshot.pulseElapsed <= 0
-          ? "Before the pulse starts, the cart keeps its initial velocity, so the current momentum still matches the starting value."
-          : "After the pulse ends, the cart keeps the new momentum because the net force has returned to zero.",
+          ? zhHk
+            ? "在脈衝開始前，小車保持初始速度，所以目前動量仍等於起始值。"
+            : "Before the pulse starts, the cart keeps its initial velocity, so the current momentum still matches the starting value."
+          : zhHk
+            ? "脈衝結束後，合力回到零，小車會保持新的動量。"
+            : "After the pulse ends, the cart keeps the new momentum because the net force has returned to zero.",
     impulseInterpretation:
       Math.abs(totalImpulse) < 0.05
-        ? "A nearly zero impulse means the pulse window does almost no work on the cart's momentum."
+        ? zhHk
+          ? "衝量幾乎為零，表示這段脈衝窗口對小車動量幾乎沒有影響。"
+          : "A nearly zero impulse means the pulse window does almost no work on the cart's momentum."
         : Math.abs(params.force) >= 2.4 && params.pulseDuration <= 0.45
-          ? "This is a short, strong push: the force spike is large, but the narrow pulse width keeps the total impulse bounded."
+          ? zhHk
+            ? "這是短而有力的推動：力峰值很大，但脈衝寬度較窄，總衝量仍有限。"
+            : "This is a short, strong push: the force spike is large, but the narrow pulse width keeps the total impulse bounded."
           : Math.abs(params.force) <= 1.8 && params.pulseDuration >= 0.75
-            ? "This is a gentler, longer push: the lower force can still deliver a similar impulse because the pulse lasts longer."
-            : "The total impulse is the signed force-time area, and that same signed value becomes the momentum change.",
+            ? zhHk
+              ? "這是較溫和但作用較久的推動：力較小，仍可因作用時間較長而傳遞相近衝量。"
+              : "This is a gentler, longer push: the lower force can still deliver a similar impulse because the pulse lasts longer."
+            : zhHk
+              ? "總衝量就是帶符號的力-時間面積，而同一個帶符號數值會成為動量改變。"
+              : "The total impulse is the signed force-time area, and that same signed value becomes the momentum change.",
   } satisfies WorkedExampleTokenMap;
+}
+
+function localizeResolvedMomentumImpulseExample(input: {
+  example: ConceptWorkedExample;
+  locale: AppLocale;
+  resolved: ResolvedWorkedExample;
+  tokens: WorkedExampleTokenMap;
+}) {
+  if (input.locale !== "zh-HK") {
+    return input.resolved;
+  }
+
+  const { example, resolved, tokens } = input;
+
+  if (example.id === "current-momentum") {
+    return {
+      ...resolved,
+      steps: resolved.steps.map((step) => {
+        if (step.id === "relation") {
+          return {
+            ...step,
+            content: "在目前檢查的時刻，用 $p = mv$ 求小車動量。",
+          };
+        }
+
+        if (step.id === "substitute") {
+          return {
+            ...step,
+            content: String.raw`$p = ${tokens.massValue ?? "—"} \times ${
+              tokens.velocityValue ?? "—"
+            }$。`,
+          };
+        }
+
+        if (step.id === "compute") {
+          return {
+            ...step,
+            content: String.raw`所以 $p = ${
+              tokens.momentumValue ?? "—"
+            }\,\mathrm{kg\,m/s}$。`,
+          };
+        }
+
+        return step;
+      }),
+      interpretation: tokens.momentumInterpretation,
+    } satisfies ResolvedWorkedExample;
+  }
+
+  if (example.id === "pulse-impulse") {
+    return {
+      ...resolved,
+      steps: resolved.steps.map((step) => {
+        if (step.id === "relation") {
+          return {
+            ...step,
+            content:
+              String.raw`對這個恆定力脈衝，先用 $J = F\Delta t$，再用 ` +
+              String.raw`$p_f = p_i + J$ 預測最終動量。`,
+          };
+        }
+
+        if (step.id === "substitute") {
+          return {
+            ...step,
+            content:
+              String.raw`$J = ${tokens.forceValue ?? "—"} \times ${
+                tokens.pulseDurationValue ?? "—"
+              }$，` + String.raw`且 $p_f = ${tokens.initialMomentumValue ?? "—"} + J$。`,
+          };
+        }
+
+        if (step.id === "compute") {
+          return {
+            ...step,
+            content:
+              String.raw`所以 $J = ${
+                tokens.impulseValue ?? "—"
+              }\,\mathrm{N\,s}$，` +
+              String.raw`預測最終動量為 $p_f = ${
+                tokens.finalMomentumValue ?? "—"
+              }\,\mathrm{kg\,m/s}$。`,
+          };
+        }
+
+        return step;
+      }),
+      interpretation: tokens.impulseInterpretation,
+    } satisfies ResolvedWorkedExample;
+  }
+
+  return resolved;
 }
 
 function resolveTorqueTokens(state: LiveWorkedExampleState) {
@@ -704,7 +811,105 @@ function resolveAngularMomentumTokens(state: LiveWorkedExampleState) {
   } satisfies WorkedExampleTokenMap;
 }
 
-function resolveConservationMomentumTokens(state: LiveWorkedExampleState) {
+function localizeResolvedAngularMomentumExample(input: {
+  example: ConceptWorkedExample;
+  locale: AppLocale;
+  resolved: ResolvedWorkedExample;
+  tokens: WorkedExampleTokenMap;
+}) {
+  if (input.locale !== "zh-HK") {
+    return input.resolved;
+  }
+
+  const { example, resolved, tokens } = input;
+
+  if (example.id === "current-angular-momentum") {
+    return {
+      ...resolved,
+      steps: resolved.steps.map((step) => {
+        if (step.id === "relation") {
+          return {
+            ...step,
+            content:
+              "這個有限轉子使用 $I = I_{\\mathrm{hub}} + Mr^2$。" +
+              `其中 $I_{\\mathrm{hub}} = ${tokens.hubInertiaValue ?? "—"}` +
+              `\\,\\mathrm{kg\\,m^2}$，移動質量為 $M = ${tokens.totalMassValue ?? "—"}` +
+              "\\,\\mathrm{kg}$。",
+          };
+        }
+
+        if (step.id === "substitute") {
+          return {
+            ...step,
+            content:
+              `當 $r = ${tokens.massRadiusValue ?? "—"}\\,\\mathrm{m}$ 時，` +
+              `環形質量的貢獻為 $Mr^2 = ${tokens.ringContributionValue ?? "—"}` +
+              `\\,\\mathrm{kg\\,m^2}$，所以總轉動慣量是 $I = ` +
+              `${tokens.momentOfInertiaValue ?? "—"}\\,\\mathrm{kg\\,m^2}$。`,
+          };
+        }
+
+        if (step.id === "compute") {
+          return {
+            ...step,
+            content:
+              `$L = I\\omega = ${tokens.momentOfInertiaValue ?? "—"} \\times ` +
+              `${tokens.angularSpeedValue ?? "—"}$，因此角動量是 ` +
+              `$${tokens.angularMomentumValue ?? "—"}\\,\\mathrm{kg\\,m^2/s}$。`,
+          };
+        }
+
+        return step;
+      }),
+      interpretation:
+        "轉動慣量會隨質量半徑改變；在同一轉速下，較大的轉動慣量會儲存更多角動量。",
+    } satisfies ResolvedWorkedExample;
+  }
+
+  if (example.id === "compact-reference-spin") {
+    return {
+      ...resolved,
+      steps: resolved.steps.map((step) => {
+        if (step.id === "relation") {
+          return {
+            ...step,
+            content:
+              `使用目前的即時讀數 $L = ${tokens.angularMomentumValue ?? "—"}` +
+              "\\,\\mathrm{kg\\,m^2/s}$，想像把同一個 $L$ 帶到緊湊參考佈局。",
+          };
+        }
+
+        if (step.id === "substitute") {
+          return {
+            ...step,
+            content:
+              `在 $r_{\\mathrm{ref}} = ${tokens.compactReferenceRadiusValue ?? "—"}` +
+              `\\,\\mathrm{m}$ 時，參考轉動慣量是 $I_{\\mathrm{ref}} = ` +
+              `${tokens.compactReferenceInertiaValue ?? "—"}\\,\\mathrm{kg\\,m^2}$。`,
+          };
+        }
+
+        if (step.id === "compute") {
+          return {
+            ...step,
+            content:
+              "由 $\\omega_{\\mathrm{same\\,L}} = L / I_{\\mathrm{ref}}$ 可知，" +
+              `緊湊佈局需要 $${tokens.referenceAngularSpeedValue ?? "—"}\\,\\mathrm{rad/s}$。`,
+          };
+        }
+
+        return step;
+      }),
+      interpretation:
+        "若同一個角動量改由較小轉動慣量的緊湊參考佈局承擔，所需角速度會相應提高。",
+    } satisfies ResolvedWorkedExample;
+  }
+
+  return resolved;
+}
+
+function resolveConservationMomentumTokens(state: LiveWorkedExampleState, locale?: AppLocale) {
+  const zhHk = isZhHkLocale(locale);
   const params = resolveConservationMomentumParams({
     massA: toNumber(state.params.massA, 1.2),
     massB: toNumber(state.params.massB, 1.8),
@@ -735,18 +940,32 @@ function resolveConservationMomentumTokens(state: LiveWorkedExampleState) {
     centerOfMassVelocityValue: formatNumber(snapshot.centerOfMassVelocity),
     totalMomentumInterpretation:
       snapshot.interactionActive
-        ? "The carts are exchanging internal forces right now, but the total momentum still stays fixed because the system has no external impulse."
+        ? zhHk
+          ? "兩部車此刻正在交換內力，但因為系統沒有外部衝量，總動量仍然保持不變。"
+          : "The carts are exchanging internal forces right now, but the total momentum still stays fixed because the system has no external impulse."
         : Math.abs(snapshot.totalMomentum) < 0.05
-          ? "The total momentum is essentially zero here, so the center of mass stays at rest even while the carts separate."
-          : "The total momentum stays nonzero here, so the center of mass keeps drifting even while the carts trade momentum internally.",
+          ? zhHk
+            ? "這裡的總動量幾乎為零，所以即使兩部車分開，質心仍大致保持靜止。"
+            : "The total momentum is essentially zero here, so the center of mass stays at rest even while the carts separate."
+          : zhHk
+            ? "這裡的總動量並非零，所以即使兩部車在內部交換動量，質心仍會繼續漂移。"
+            : "The total momentum stays nonzero here, so the center of mass keeps drifting even while the carts trade momentum internally.",
     redistributionInterpretation:
       Math.abs(snapshot.finalMomentumA - snapshot.initialMomentumA) < 0.05
-        ? "A nearly zero internal impulse means the final momentum split stays close to the starting split."
+        ? zhHk
+          ? "內部衝量幾乎為零，表示最終動量分佈會接近起始分佈。"
+          : "A nearly zero internal impulse means the final momentum split stays close to the starting split."
         : params.massA < params.massB
-          ? "Cart A is lighter, so the same equal-and-opposite momentum change produces the larger speed change for A."
+          ? zhHk
+            ? "車 A 較輕，所以同一份等量反向的動量變化會令 A 產生較大的速度變化。"
+            : "Cart A is lighter, so the same equal-and-opposite momentum change produces the larger speed change for A."
           : params.massB < params.massA
-            ? "Cart B is lighter, so the same equal-and-opposite momentum change produces the larger speed change for B."
-            : "With equal masses, equal-and-opposite momentum changes also produce equal-and-opposite speed changes.",
+            ? zhHk
+              ? "車 B 較輕，所以同一份等量反向的動量變化會令 B 產生較大的速度變化。"
+              : "Cart B is lighter, so the same equal-and-opposite momentum change produces the larger speed change for B."
+            : zhHk
+              ? "兩車質量相同時，等量反向的動量變化也會成為等量反向的速度變化。"
+              : "With equal masses, equal-and-opposite momentum changes also produce equal-and-opposite speed changes.",
   } satisfies WorkedExampleTokenMap;
 }
 
@@ -5088,6 +5307,87 @@ function localizeResolvedStandingWavesExample(input: {
   return resolved;
 }
 
+function localizeResolvedConservationMomentumExample(input: {
+  example: ConceptWorkedExample;
+  locale: AppLocale;
+  resolved: ResolvedWorkedExample;
+  tokens: WorkedExampleTokenMap;
+}) {
+  if (input.locale !== "zh-HK") {
+    return input.resolved;
+  }
+
+  const { example, resolved, tokens } = input;
+
+  if (example.id === "current-total-momentum") {
+    return {
+      ...resolved,
+      steps: resolved.steps.map((step) => {
+        if (step.id === "relation") {
+          return {
+            ...step,
+            content: "在同一個時刻，把兩部車的動量相加：$p_{\\mathrm{tot}} = p_A + p_B$。",
+          };
+        }
+
+        if (step.id === "substitute") {
+          return {
+            ...step,
+            content: `$p_{\\mathrm{tot}} = ${tokens.momentumAValue ?? "—"} + ${tokens.momentumBValue ?? "—"}$。`,
+          };
+        }
+
+        if (step.id === "compute") {
+          return {
+            ...step,
+            content: `所以 $p_{\\mathrm{tot}} = ${tokens.totalMomentumValue ?? "—"}\\,\\mathrm{kg\\,m/s}$。`,
+          };
+        }
+
+        return step;
+      }),
+    } satisfies ResolvedWorkedExample;
+  }
+
+  if (example.id === "final-momentum-split") {
+    return {
+      ...resolved,
+      steps: resolved.steps.map((step) => {
+        if (step.id === "relation") {
+          return {
+            ...step,
+            content:
+              "對一次孤立的內部互動，$\\Delta p_A = -F_{\\mathrm{int}}\\Delta t$，" +
+              "$\\Delta p_B = +F_{\\mathrm{int}}\\Delta t$。",
+          };
+        }
+
+        if (step.id === "substitute") {
+          return {
+            ...step,
+            content:
+              `$p_{A,f} = ${tokens.initialMomentumAValue ?? "—"} + (${tokens.deltaMomentumAValue ?? "—"})$，` +
+              `$p_{B,f} = ${tokens.initialMomentumBValue ?? "—"} + (${tokens.deltaMomentumBValue ?? "—"})$。`,
+          };
+        }
+
+        if (step.id === "compute") {
+          return {
+            ...step,
+            content:
+              `所以 $p_{A,f} = ${tokens.finalMomentumAValue ?? "—"}\\,\\mathrm{kg\\,m/s}$，` +
+              `$p_{B,f} = ${tokens.finalMomentumBValue ?? "—"}\\,\\mathrm{kg\\,m/s}$。`,
+          };
+        }
+
+        return step;
+      }),
+    } satisfies ResolvedWorkedExample;
+  }
+
+  return resolved;
+}
+
 function localizeResolvedWorkedExample(input: {
   slug: ConceptSlug;
   example: ConceptWorkedExample;
@@ -5095,6 +5395,18 @@ function localizeResolvedWorkedExample(input: {
   resolved: ResolvedWorkedExample;
   tokens: WorkedExampleTokenMap;
 }) {
+  if (input.slug === "momentum-impulse") {
+    return localizeResolvedMomentumImpulseExample(input);
+  }
+
+  if (input.slug === "angular-momentum") {
+    return localizeResolvedAngularMomentumExample(input);
+  }
+
+  if (input.slug === "conservation-of-momentum") {
+    return localizeResolvedConservationMomentumExample(input);
+  }
+
   if (input.slug === "uniform-circular-motion") {
     return localizeResolvedUcmExample(input);
   }

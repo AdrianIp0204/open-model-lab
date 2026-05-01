@@ -1050,21 +1050,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The net field is zero there because the two horizontal contributions are equal in size and opposite in direction."
+            "label": "The net field points upward because both positive charges push away from themselves."
           },
           {
             "id": "b",
-            "label": "The net field points upward because both positive charges push away from themselves."
+            "label": "The net field is zero there because the two horizontal contributions are equal in size and opposite in direction."
           },
           {
             "id": "c",
             "label": "The stronger cancellation happens only if the test charge is negative."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "At the midpoint on the source axis, the geometry is perfectly symmetric. Each source contributes an equal horizontal field in the opposite direction, so the vector sum vanishes there.",
         "selectedWrongExplanations": {
-          "b": "There is no vertical offset at that midpoint point, so neither source contributes an upward component there.",
+          "a": "There is no vertical offset at that midpoint point, so neither source contributes an upward component there.",
           "c": "Test-charge sign affects force, not the source-generated field. The cancellation is already present before any test charge is chosen."
         },
         "showMeAction": {
@@ -1093,22 +1093,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "It points mostly to the right because the left positive source pushes away and the right negative source pulls toward itself."
-          },
-          {
-            "id": "b",
             "label": "It must point straight up because the probe is above both sources."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "It must be zero because the source charges have equal magnitude."
+          },
+          {
+            "id": "c",
+            "label": "It points mostly to the right because the left positive source pushes away and the right negative source pulls toward itself."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Above the midpoint of an equal dipole, both source contributions share a rightward component. Their vertical parts oppose, but the horizontal parts reinforce, so the net field points mostly right.",
         "selectedWrongExplanations": {
-          "b": "That straight-up result belongs to two equal like charges above the midpoint, not to opposite-sign charges.",
-          "c": "Equal magnitude does not guarantee cancellation. Direction matters, and here the contributions do not oppose in the same way."
+          "a": "That straight-up result belongs to two equal like charges above the midpoint, not to opposite-sign charges.",
+          "b": "Equal magnitude does not guarantee cancellation. Direction matters, and here the contributions do not oppose in the same way."
         },
         "showMeAction": {
           "label": "Show dipole reference",
@@ -1136,21 +1136,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The field is unchanged by the test charge; only the force reverses because F = q_test E."
+            "label": "The field reverses only when the test charge is stronger than the source charges."
           },
           {
             "id": "b",
-            "label": "The field reverses only when the test charge is stronger than the source charges."
+            "label": "The field is unchanged by the test charge; only the force reverses because F = q_test E."
           },
           {
             "id": "c",
             "label": "Both field and force disappear because negative charges cannot be used as probes."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Electric field is defined by the source charges and the location. A negative test charge experiences a force opposite the field, but it does not redefine the field itself.",
         "selectedWrongExplanations": {
-          "b": "Probe strength only scales the force in this model. The field direction is not negotiated with the test charge.",
+          "a": "Probe strength only scales the force in this model. The field direction is not negotiated with the test charge.",
           "c": "Negative charges are valid probes. They are useful precisely because they reveal that force can oppose the field direction."
         },
         "showMeAction": {

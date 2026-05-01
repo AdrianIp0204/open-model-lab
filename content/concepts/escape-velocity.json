@@ -964,21 +964,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The threshold speed rises with the deeper well, but the launch can stay at threshold because the actual speed scales with the escape-speed target."
+            "label": "Nothing changes because escape speed depends only on launch radius."
           },
           {
             "id": "b",
-            "label": "Nothing changes because escape speed depends only on launch radius."
+            "label": "The threshold speed rises with the deeper well, but the launch can stay at threshold because the actual speed scales with the escape-speed target."
           },
           {
             "id": "c",
             "label": "The launch becomes bound automatically because a heavier source always makes the same speed factor too small."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Escape speed depends on both source mass and launch radius. With speed factor fixed at 1.00, the actual speed updates with the new threshold.",
         "selectedWrongExplanations": {
-          "b": "Source mass sets the depth of the gravity well, so it changes the threshold directly.",
+          "a": "Source mass sets the depth of the gravity well, so it changes the threshold directly.",
           "c": "That would be true only if the actual launch speed stayed fixed while the threshold changed."
         },
         "showMeAction": {
@@ -1005,7 +1005,7 @@
         "choices": [
           {
             "id": "a",
-            "label": "Setup B has the lower threshold speed because it starts in a shallower part of the gravity well."
+            "label": "Both setups must have the same threshold speed because the source mass matches."
           },
           {
             "id": "b",
@@ -1013,14 +1013,14 @@
           },
           {
             "id": "c",
-            "label": "Both setups must have the same threshold speed because the source mass matches."
+            "label": "Setup B has the lower threshold speed because it starts in a shallower part of the gravity well."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Escape speed falls as the launch radius increases because the starting potential is less negative.",
         "selectedWrongExplanations": {
-          "b": "Escape threshold is about how much well depth remains to climb out of, not about a generic outward-motion rule.",
-          "c": "Source mass matters, but launch radius matters too."
+          "a": "Source mass matters, but launch radius matters too.",
+          "b": "Escape threshold is about how much well depth remains to climb out of, not about a generic outward-motion rule."
         },
         "showMeAction": {
           "label": "Show the wider-launch threshold",
@@ -1047,21 +1047,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Gravity keeps acting, but the total specific energy is zero, so the speed can fade toward zero only very far away without needing a finite turnaround."
+            "label": "Escape velocity means the object instantly keeps a constant speed because gravity has switched off."
           },
           {
             "id": "b",
-            "label": "Escape velocity means the object instantly keeps a constant speed because gravity has switched off."
+            "label": "Gravity keeps acting, but the total specific energy is zero, so the speed can fade toward zero only very far away without needing a finite turnaround."
           },
           {
             "id": "c",
             "label": "Escape velocity means the object enters a circular orbit where gravity and speed balance perfectly."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Escape velocity is about the energy threshold, not about gravity disappearing. Gravity keeps pulling inward and reducing the speed.",
         "selectedWrongExplanations": {
-          "b": "The speed does not stay constant. Gravity still removes kinetic energy as the object moves outward.",
+          "a": "The speed does not stay constant. Gravity still removes kinetic energy as the object moves outward.",
           "c": "Circular orbit is a separate sideways-balance story."
         },
         "showMeAction": {

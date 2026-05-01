@@ -1047,21 +1047,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Stored charge doubles, but stored energy becomes four times as large."
+            "label": "Stored charge and stored energy both just double."
           },
           {
             "id": "b",
-            "label": "Stored charge and stored energy both just double."
+            "label": "Stored charge doubles, but stored energy becomes four times as large."
           },
           {
             "id": "c",
             "label": "Stored energy stays fixed because capacitance is unchanged."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "At fixed geometry, Q = CV is linear in V while U = 1/2 C V^2 is quadratic in V.",
         "selectedWrongExplanations": {
-          "b": "Energy is not linear in voltage here.",
+          "a": "Energy is not linear in voltage here.",
           "c": "Capacitance staying fixed does not freeze the energy. Voltage still enters squared."
         },
         "showMeAction": {
@@ -1087,22 +1087,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "No. Geometry still decides capacitance, so the same battery can store different charge on different capacitors."
-          },
-          {
-            "id": "b",
             "label": "Yes. Battery voltage is the only thing that matters."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "No. Capacitors connected to batteries cannot store charge at all."
+          },
+          {
+            "id": "c",
+            "label": "No. Geometry still decides capacitance, so the same battery can store different charge on different capacitors."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "The same battery voltage does not erase the geometric role of capacitance. Different C values mean different Q = CV values.",
         "selectedWrongExplanations": {
-          "b": "Voltage matters, but it works through the capacitance of the geometry already on the bench.",
-          "c": "The whole point of the capacitor is to store opposite charge on the plates."
+          "a": "Voltage matters, but it works through the capacitance of the geometry already on the bench.",
+          "b": "The whole point of the capacitor is to store opposite charge on the plates."
         },
         "showMeAction": {
           "label": "Show the compact starter",

@@ -307,10 +307,6 @@
 }
 ],
 "explanation": "The limiting reagent is used up by the last complete batch, so leftovers remain on the excess side.",
-"selectedWrongExplanations": {
-"b": "The limiting side is the one that runs out first, so it cannot also be the side that keeps the largest leftover.",
-"c": "A limiting reagent can exist while the excess side still has packets left after the reaction stops."
-},
 "showMeAction": {
 "label": "Apply the B-limiting run",
 "observationHint": "B runs out first, and A is the tray that still has packets left after the run."

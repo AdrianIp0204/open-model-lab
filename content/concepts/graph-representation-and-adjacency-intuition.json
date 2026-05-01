@@ -657,7 +657,11 @@
           }
         ],
         "correctChoiceId": "a",
-        "explanation": "Adjacency is a direct edge relationship, not a visual guess about the whole map."
+        "explanation": "Adjacency is a direct edge relationship, not a visual guess about the whole map.",
+        "selectedWrongExplanations": {
+          "b": "Visual placement is not adjacency; the edge connection is what matters.",
+          "c": "Visited state is traversal bookkeeping, not the definition of adjacency."
+        }
       },
       {
         "id": "grai-qt-first-frontier",
@@ -666,19 +670,23 @@
         "choices": [
           {
             "id": "a",
-            "label": "The neighbors of the chosen start node."
+            "label": "The total number of nodes in the graph."
           },
           {
             "id": "b",
-            "label": "The total number of nodes in the graph."
+            "label": "The neighbors of the chosen start node."
           },
           {
             "id": "c",
             "label": "Whether the target is on the right side of the drawing."
           }
         ],
-        "correctChoiceId": "a",
-        "explanation": "The frontier begins with the current node's adjacent neighbors, so the start node matters immediately."
+        "correctChoiceId": "b",
+        "explanation": "The frontier begins with the current node's adjacent neighbors, so the start node matters immediately.",
+        "selectedWrongExplanations": {
+          "a": "Total graph size does not determine which nodes are first reachable from the chosen start.",
+          "c": "Screen position does not define the first frontier."
+        }
       },
       {
         "id": "grai-qt-neighborhood",
@@ -687,22 +695,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "List the nodes connected to it by one edge right now."
-          },
-          {
-            "id": "b",
             "label": "Count every node anywhere in the graph drawing."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Only look at nodes that were already visited earlier."
+          },
+          {
+            "id": "c",
+            "label": "List the nodes connected to it by one edge right now."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "A node's neighborhood is a one-edge local picture, not the whole graph or only the visited subset.",
         "selectedWrongExplanations": {
-          "b": "That would describe the whole graph size, not the current neighborhood.",
-          "c": "Visited state is separate from which nodes are adjacent."
+          "a": "That would describe the whole graph size, not the current neighborhood.",
+          "b": "Visited state is separate from which nodes are adjacent."
         }
       },
       {
@@ -712,21 +720,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Because traversal decisions are built from the next-step options that adjacency exposes."
+            "label": "Because adjacency only matters after the traversal is already complete."
           },
           {
             "id": "b",
-            "label": "Because adjacency only matters after the traversal is already complete."
+            "label": "Because traversal decisions are built from the next-step options that adjacency exposes."
           },
           {
             "id": "c",
             "label": "Because traversal strategy replaces the graph's edge structure."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "The frontier can only be built from the local neighbor options that adjacency makes visible.",
         "selectedWrongExplanations": {
-          "b": "Adjacency is the first useful local fact, not a post-completion detail.",
+          "a": "Adjacency is the first useful local fact, not a post-completion detail.",
           "c": "Traversal organizes edges; it does not erase them."
         }
       },
@@ -737,22 +745,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "It keeps track of the nodes that are discovered and ready for the next expansion step."
-          },
-          {
-            "id": "b",
             "label": "It marks nodes that the graph can never visit."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "It is just another name for the finished visited set."
+          },
+          {
+            "id": "c",
+            "label": "It keeps track of the nodes that are discovered and ready for the next expansion step."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "The frontier is the active waiting work, not the unreachable nodes or the already-finished set.",
         "selectedWrongExplanations": {
-          "b": "Frontier nodes are the ones still available to process next.",
-          "c": "Visited and frontier are different bookkeeping roles."
+          "a": "Frontier nodes are the ones still available to process next.",
+          "b": "Visited and frontier are different bookkeeping roles."
         }
       }
     ]

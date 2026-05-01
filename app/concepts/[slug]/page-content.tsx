@@ -176,7 +176,16 @@ export async function renderConceptPage({
       cookieHeader,
       routePath: "/concepts/[slug]",
     }),
-    getAccountSessionForCookieHeader(cookieHeader),
+    getAccountSessionForCookieHeader(cookieHeader).catch((error) => {
+      console.warn("[concept-route] optional account session unavailable during render", {
+        routePath: "/concepts/[slug]",
+        message: error instanceof Error ? error.message : null,
+        name: error instanceof Error ? error.name : null,
+        fallback: "anonymous_worked_examples",
+      });
+
+      return null;
+    }),
   ]);
   const { requestedSlug, concept } = await getPageConcept(params);
   const localizedConcept = localizeConceptContent(concept, locale);

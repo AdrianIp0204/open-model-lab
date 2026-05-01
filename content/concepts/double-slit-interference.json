@@ -1137,21 +1137,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The fringes tighten because \\(\\Delta y \\approx \\lambda L / d\\) gets smaller."
+            "label": "The fringes widen because the slits are farther apart."
           },
           {
             "id": "b",
-            "label": "The fringes widen because the slits are farther apart."
+            "label": "The fringes tighten because \\(\\Delta y \\approx \\lambda L / d\\) gets smaller."
           },
           {
             "id": "c",
             "label": "Nothing changes because only wavelength matters."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "With wavelength and screen distance fixed, increasing d makes the spacing smaller, so more bright and dark bands fit into the same screen height.",
         "selectedWrongExplanations": {
-          "b": "The larger slit separation changes the path-difference gradient, and that makes the visible spacing smaller rather than larger.",
+          "a": "The larger slit separation changes the path-difference gradient, and that makes the visible spacing smaller rather than larger.",
           "c": "Wavelength matters, but d is in the same spacing rule and changes the pattern too."
         },
         "showMeAction": {
@@ -1177,22 +1177,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "Case B, because both longer wavelength and larger screen distance increase fringe spacing."
-          },
-          {
-            "id": "b",
             "label": "Case A, because shorter wavelength travels more sharply."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Neither case. Only probe position changes the spacing you see."
+          },
+          {
+            "id": "c",
+            "label": "Case B, because both longer wavelength and larger screen distance increase fringe spacing."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "The spacing rule \\(\\Delta y \\approx \\lambda L / d\\) grows with both wavelength and screen distance, so Case B should show wider spacing.",
         "selectedWrongExplanations": {
-          "b": "The pattern spacing here follows the shared geometry rule rather than a vague sharper-wave intuition.",
-          "c": "Probe position samples the pattern. It does not set the spacing between fringes."
+          "a": "The pattern spacing here follows the shared geometry rule rather than a vague sharper-wave intuition.",
+          "b": "Probe position samples the pattern. It does not set the spacing between fringes."
         },
         "showMeAction": {
           "label": "Show wide fringes",

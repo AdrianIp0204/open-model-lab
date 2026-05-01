@@ -263,10 +263,10 @@
 },
 {
 "id": "mfmc-qt-stronger-field",
-"explanation": "A stronger field increases qvB and also makes the charge turn more quickly, because the radius becomes smaller in the same speed range.",
+"explanation": "A stronger field increases qvB and shrinks the orbit radius, because B sits in the denominator of r = mv/(|q|B).",
 "showMeAction": {
 "label": "Increase the field",
-"observationHint": "Use the force graph and orbit guide together. The force grows and the charge turns through the preview window more quickly."
+"observationHint": "Use the force graph and orbit guide together. The force grows while the orbit radius shrinks in the preview."
 }
 }
 ]

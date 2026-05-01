@@ -1027,21 +1027,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Negative phi means the point is below the zero-at-infinity reference, while the field still points inward as the downhill direction of the well."
+            "label": "Negative phi means the source mass is actually repelling the probe."
           },
           {
             "id": "b",
-            "label": "Negative phi means the source mass is actually repelling the probe."
+            "label": "Negative phi means the point is below the zero-at-infinity reference, while the field still points inward as the downhill direction of the well."
           },
           {
             "id": "c",
             "label": "Negative phi means both the field and the force are zero there."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "The sign of potential comes from the reference choice, not from a flipped force. Gravity still points inward because the field follows the downhill direction on the potential landscape.",
         "selectedWrongExplanations": {
-          "b": "That would reverse the meaning of gravity in this model. The source mass still attracts the probe.",
+          "a": "That would reverse the meaning of gravity in this model. The source mass still attracts the probe.",
           "c": "A negative potential does not erase the field. Near the source, the field is usually stronger, not zero."
         },
         "showMeAction": {
@@ -1068,7 +1068,7 @@
         "choices": [
           {
             "id": "a",
-            "label": "The potential and field stay the same, but the potential energy doubles in magnitude."
+            "label": "The field direction reverses because the probe is heavier."
           },
           {
             "id": "b",
@@ -1076,14 +1076,14 @@
           },
           {
             "id": "c",
-            "label": "The field direction reverses because the probe is heavier."
+            "label": "The potential and field stay the same, but the potential energy doubles in magnitude."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "The source mass and the geometry set phi and g. Changing only the probe mass rescales U = m_test phi and the probe force without changing the source-generated well.",
         "selectedWrongExplanations": {
-          "b": "In this bounded lab, the source mass creates the well. The probe mass responds to it but does not redefine it.",
-          "c": "Changing probe mass changes size of the response, not the direction of the source-generated field."
+          "a": "Changing probe mass changes size of the response, not the direction of the source-generated field.",
+          "b": "In this bounded lab, the source mass creates the well. The probe mass responds to it but does not redefine it."
         },
         "showMeAction": {
           "label": "Show the heavier probe",
@@ -1149,21 +1149,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Setup B has twice the magnitude of phi and twice the field magnitude, while both still keep the same sign and direction meanings."
+            "label": "Only the field magnitude changes because potential ignores source mass."
           },
           {
             "id": "b",
-            "label": "Only the field magnitude changes because potential ignores source mass."
+            "label": "Setup B has twice the magnitude of phi and twice the field magnitude, while both still keep the same sign and direction meanings."
           },
           {
             "id": "c",
             "label": "The heavier source makes phi positive because the well is deeper."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "For one source mass at a fixed point, both phi and |g| scale directly with M. Doubling the source mass deepens the negative potential well and strengthens the inward field by the same factor.",
         "selectedWrongExplanations": {
-          "b": "Potential is still source-set, so changing M changes phi as well as |g|.",
+          "a": "Potential is still source-set, so changing M changes phi as well as |g|.",
           "c": "A deeper well means phi becomes more negative, not positive, when zero is defined at infinity."
         },
         "showMeAction": {

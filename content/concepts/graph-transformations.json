@@ -807,21 +807,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "A negative $a$ also reflects the graph across the x-axis."
+            "label": "A negative $a$ automatically reflects the graph across the y-axis."
           },
           {
             "id": "b",
-            "label": "A negative $a$ automatically reflects the graph across the y-axis."
+            "label": "A negative $a$ also reflects the graph across the x-axis."
           },
           {
             "id": "c",
             "label": "A negative $a$ forces the vertex to stay at the origin."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "The sign of $a$ controls whether the outputs stay upright or reflect across the x-axis. The magnitude controls stretch or compression.",
         "selectedWrongExplanations": {
-          "b": "The y-axis reflection is controlled by the inside input, not by the sign of $a$.",
+          "a": "The y-axis reflection is controlled by the inside input, not by the sign of $a$.",
           "c": "The vertex position still depends on the inside landmark and the vertical shift."
         },
         "showMeAction": {
@@ -847,7 +847,7 @@
         "choices": [
           {
             "id": "a",
-            "label": "Their left-right orientation should differ."
+            "label": "Their vertical shift should differ."
           },
           {
             "id": "b",
@@ -855,14 +855,14 @@
           },
           {
             "id": "c",
-            "label": "Their vertical shift should differ."
+            "label": "Their left-right orientation should differ."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Turning on the y-axis reflection changes the inside input only, so the first difference is the left-right orientation of the graph.",
         "selectedWrongExplanations": {
           "b": "The vertical scale is still controlled by $a$ and has not changed.",
-          "c": "The vertical shift is still controlled by $k$ and has not changed."
+          "a": "The vertical shift is still controlled by $k$ and has not changed."
         },
         "showMeAction": {
           "label": "Turn on the y-axis reflection",

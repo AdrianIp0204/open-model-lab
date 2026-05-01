@@ -963,21 +963,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "+V - V_1 - V_3 = 0"
+            "label": "+V + V_1 + V_3 = 0"
           },
           {
             "id": "b",
-            "label": "+V + V_1 + V_3 = 0"
+            "label": "+V - V_1 - V_3 = 0"
           },
           {
             "id": "c",
             "label": "V = V_1 - V_3"
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Treat the battery as a rise and the resistor drops as negative while you keep the same direction all the way around the loop.",
         "selectedWrongExplanations": {
-          "b": "That mixes the sign convention by treating the resistor drops like rises.",
+          "a": "That mixes the sign convention by treating the resistor drops like rises.",
           "c": "That does not represent the full loop balance around the closed path."
         },
         "showMeAction": {
@@ -1003,22 +1003,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The junction split disappears, so the same current crosses every resistor while the full loop still balances in voltage."
-          },
-          {
-            "id": "b",
             "label": "The loop rule disappears because there is no longer a branch."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Current conservation stops mattering once the circuit becomes series."
+          },
+          {
+            "id": "c",
+            "label": "The junction split disappears, so the same current crosses every resistor while the full loop still balances in voltage."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Removing the split node changes the current rule to the one-current series case, but the same loop-balance idea still applies around the whole circuit.",
         "selectedWrongExplanations": {
-          "b": "Loop balance is still valid in a single-loop circuit.",
-          "c": "Current conservation is still true. It just appears as the same current everywhere in the loop."
+          "a": "Loop balance is still valid in a single-loop circuit.",
+          "b": "Current conservation is still true. It just appears as the same current everywhere in the loop."
         },
         "showMeAction": {
           "label": "Show the clean series loop",
@@ -1044,21 +1044,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "I_3 falls, I_total falls, and the junction rule still balances the split."
+            "label": "I_3 rises because the larger resistance forces more current into that branch."
           },
           {
             "id": "b",
-            "label": "I_3 rises because the larger resistance forces more current into that branch."
+            "label": "I_3 falls, I_total falls, and the junction rule still balances the split."
           },
           {
             "id": "c",
             "label": "The loop rule stops applying because the branch currents no longer match."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "The larger resistance weakens the R3 branch current. The total current then falls too, but the same current-conservation equation still holds at the split node.",
         "selectedWrongExplanations": {
-          "b": "At the same branch voltage, a larger resistor draws less current, not more.",
+          "a": "At the same branch voltage, a larger resistor draws less current, not more.",
           "c": "Loop balance still applies around each branch loop even when the branch currents differ."
         },
         "showMeAction": {

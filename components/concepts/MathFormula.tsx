@@ -158,6 +158,34 @@ function renderMath(expression: string, displayMode: boolean) {
   });
 }
 
+export function formatMathExpressionForAccessibleText(expression: string) {
+  return expression
+    .replace(/\\text\{([^{}]+)\}/g, "$1")
+    .replace(/\\mathrm\{([^{}]+)\}/g, "$1")
+    .replace(/\\dfrac\{([^{}]+)\}\{([^{}]+)\}/g, "$1 over $2")
+    .replace(/\\tfrac\{([^{}]+)\}\{([^{}]+)\}/g, "$1 over $2")
+    .replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g, "$1 over $2")
+    .replace(/\\sqrt\{([^{}]+)\}/g, "square root of $1")
+    .replace(/\\left|\\right/g, "")
+    .replace(/\\approx/g, " approximately ")
+    .replace(/\\lambda/g, "lambda")
+    .replace(/\\Delta/g, "Delta")
+    .replace(/\\theta/g, "theta")
+    .replace(/\\omega/g, "omega")
+    .replace(/\\phi/g, "phi")
+    .replace(/\\[,;:!]/g, " ")
+    .replace(/\^\{?2\}?/g, " squared")
+    .replace(/\^\{([^{}]+)\}/g, " to the power of $1")
+    .replace(/\^([^\s,.;]+)/g, " to the power of $1")
+    .replace(/_\{([^{}]+)\}/g, " sub $1")
+    .replace(/_([^\s,.;]+)/g, " sub $1")
+    .replace(/\//g, " divided by ")
+    .replace(/[{}]/g, " ")
+    .replace(/\\/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function joinClasses(...classes: Array<string | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
@@ -233,6 +261,8 @@ export function InlineFormula({ expression, className }: Omit<MathFormulaProps, 
   return (
     <span
       className={joinClasses("math-inline", className)}
+      role="math"
+      aria-label={formatMathExpressionForAccessibleText(expression)}
       dangerouslySetInnerHTML={{ __html: renderMath(expression, false) }}
     />
   );
@@ -242,6 +272,8 @@ export function BlockFormula({ expression, className }: Omit<MathFormulaProps, "
   return (
     <div
       className={joinClasses("math-block", className)}
+      role="math"
+      aria-label={formatMathExpressionForAccessibleText(expression)}
       dangerouslySetInnerHTML={{ __html: renderMath(expression, true) }}
     />
   );

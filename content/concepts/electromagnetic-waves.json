@@ -962,21 +962,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The magnetic amplitude grows, the frequency drops, and the probe delay increases."
+            "label": "Only the probe delay changes because wave speed does not affect the field pair."
           },
           {
             "id": "b",
-            "label": "Only the probe delay changes because wave speed does not affect the field pair."
+            "label": "The magnetic amplitude grows, the frequency drops, and the probe delay increases."
           },
           {
             "id": "c",
             "label": "The frequency stays fixed while the wavelength automatically shrinks."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "At fixed wavelength, lowering wave speed lowers frequency through v = f lambda. The travel delay x_p / v gets larger, and the local rule B = E / v makes the magnetic amplitude larger.",
         "selectedWrongExplanations": {
-          "b": "Wave speed affects both propagation timing and the local electric-to-magnetic scaling in this model.",
+          "a": "Wave speed affects both propagation timing and the local electric-to-magnetic scaling in this model.",
           "c": "If wavelength is fixed by the scenario, the frequency must adjust instead."
         },
         "showMeAction": {
@@ -1002,22 +1002,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The probe trace matches the source phase, but one full period later."
-          },
-          {
-            "id": "b",
             "label": "The probe trace must be opposite in sign because it is farther away."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "The probe trace should have a larger amplitude because the wave has traveled longer."
+          },
+          {
+            "id": "c",
+            "label": "The probe trace matches the source phase, but one full period later."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "One full wavelength of distance adds one full cycle of lag. The phase relation repeats after a full cycle, but the downstream trace still arrives later in time.",
         "selectedWrongExplanations": {
-          "b": "Opposite phase belongs to a half-wavelength offset, not a full wavelength.",
-          "c": "Distance here changes timing, not amplitude growth."
+          "a": "Opposite phase belongs to a half-wavelength offset, not a full wavelength.",
+          "b": "Distance here changes timing, not amplitude growth."
         },
         "showMeAction": {
           "label": "Show one-cycle lag",

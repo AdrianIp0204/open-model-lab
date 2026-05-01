@@ -947,21 +947,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "An inelastic collision"
+            "label": "An elastic collision"
           },
           {
             "id": "b",
-            "label": "An elastic collision"
+            "label": "An inelastic collision"
           },
           {
             "id": "c",
             "label": "A collision that breaks momentum conservation"
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "A drop in total kinetic energy with no change in total momentum is the signature of an inelastic collision.",
         "selectedWrongExplanations": {
-          "b": "Elastic collisions keep the total kinetic energy the same, so the energy line should stay flat through contact.",
+          "a": "Elastic collisions keep the total kinetic energy the same, so the energy line should stay flat through contact.",
           "c": "Momentum conservation is still working here because the total-momentum line never drifts."
         },
         "showMeAction": {
@@ -987,22 +987,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "Cart B's speed changes less, while cart A's speed changes more strongly."
-          },
-          {
-            "id": "b",
             "label": "The total momentum must become zero because the heavier cart dominates."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Elasticity stops mattering once one cart is heavier."
+          },
+          {
+            "id": "c",
+            "label": "Cart B's speed changes less, while cart A's speed changes more strongly."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Mass changes how much a given momentum transfer alters speed. The heavier cart usually changes speed less, not more.",
         "selectedWrongExplanations": {
-          "b": "Heavier mass changes the split of velocity, not whether the system total momentum vanishes.",
-          "c": "Elasticity still controls the relative rebound speed even when the masses are different."
+          "a": "Heavier mass changes the split of velocity, not whether the system total momentum vanishes.",
+          "b": "Elasticity still controls the relative rebound speed even when the masses are different."
         },
         "showMeAction": {
           "label": "Show light into heavy",
@@ -1028,21 +1028,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The system's total momentum"
+            "label": "The carts' final relative speed"
           },
           {
             "id": "b",
-            "label": "The carts' final relative speed"
+            "label": "The system's total momentum"
           },
           {
             "id": "c",
             "label": "The system's total kinetic energy"
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Changing elasticity changes the rebound and the energy retention, but it does not change the total momentum of the isolated system.",
         "selectedWrongExplanations": {
-          "b": "Elasticity directly changes the post-collision relative speed, so these two setups cannot keep the same rebound speed.",
+          "a": "Elasticity directly changes the post-collision relative speed, so these two setups cannot keep the same rebound speed.",
           "c": "Total kinetic energy stays the same only in the elastic case, not in the perfectly inelastic one."
         },
         "showMeAction": {

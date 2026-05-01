@@ -584,21 +584,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "A secant slope averages over an interval, while a tangent slope is local to one point."
+            "label": "A secant slope uses the derivative graph, while a tangent slope does not use the original curve."
           },
           {
             "id": "b",
-            "label": "A secant slope uses the derivative graph, while a tangent slope does not use the original curve."
+            "label": "A secant slope averages over an interval, while a tangent slope is local to one point."
           },
           {
             "id": "c",
             "label": "They are always identical as long as the curve is smooth."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "The secant uses two points and an interval, while the tangent captures the local slope at one point.",
         "selectedWrongExplanations": {
-          "b": "Both slopes come from the original curve. The derivative graph is built from tangent slopes after the fact.",
+          "a": "Both slopes come from the original curve. The derivative graph is built from tangent slopes after the fact.",
           "c": "They only match closely when delta x is very small."
         },
         "showMeAction": {
@@ -628,22 +628,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The original curve is falling from left to right there."
-          },
-          {
-            "id": "b",
             "label": "The original curve must be below the x-axis there."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "The secant line has been turned off."
+          },
+          {
+            "id": "c",
+            "label": "The original curve is falling from left to right there."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "A negative derivative means the tangent slope is negative, so the original curve falls locally from left to right.",
         "selectedWrongExplanations": {
-          "b": "The derivative sign tells you about slope, not the original y-value.",
-          "c": "The derivative sign is unrelated to whether the secant overlay is visible."
+          "a": "The derivative sign tells you about slope, not the original y-value.",
+          "b": "The derivative sign is unrelated to whether the secant overlay is visible."
         },
         "showMeAction": {
           "label": "Show a negative slope",

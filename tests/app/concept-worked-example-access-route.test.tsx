@@ -131,4 +131,38 @@ describe("concept worked example access on the concept route", () => {
       screen.queryByText(/Live worked examples are available on Premium/i),
     ).not.toBeInTheDocument();
   });
+
+  it("falls back to anonymous worked examples when the optional account session is unavailable", async () => {
+    mocks.cookiesMock.mockResolvedValue({
+      toString: () => "",
+    });
+    mocks.getOptionalStoredProgressForCookieHeaderMock.mockResolvedValue({
+      storedProgress: null,
+      unavailable: true,
+    });
+    mocks.getAccountSessionForCookieHeaderMock.mockRejectedValue(
+      new Error("NEXT_PUBLIC_SUPABASE_URL is not set."),
+    );
+    mocks.useAccountSessionMock.mockReturnValue({
+      initialized: true,
+      status: "signed-out",
+      user: null,
+      entitlement: resolveAccountEntitlement({
+        tier: "free",
+        source: "anonymous-default",
+        updatedAt: "2026-04-04T00:00:00.000Z",
+      }),
+    });
+
+    render(
+      await ConceptPage({
+        params: Promise.resolve({ slug: "projectile-motion" }),
+        searchParams: Promise.resolve({}),
+      }),
+    );
+
+    expect(mocks.getAccountSessionForCookieHeaderMock).toHaveBeenCalledWith("");
+    expect(screen.getAllByText(/^Frozen walkthrough$/i).length).toBeGreaterThan(0);
+    expect(screen.queryByRole("button", { name: /^Live$/i })).not.toBeInTheDocument();
+  });
 });

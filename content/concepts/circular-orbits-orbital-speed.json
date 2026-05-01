@@ -1247,21 +1247,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Gravity is stronger than the turning requirement, so the path bends inside the reference circle."
+            "label": "The path stays circular because the source mass and radius did not change."
           },
           {
             "id": "b",
-            "label": "The path stays circular because the source mass and radius did not change."
+            "label": "Gravity is stronger than the turning requirement, so the path bends inside the reference circle."
           },
           {
             "id": "c",
             "label": "Gravity disappears because the object is now in free fall."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "At that same radius, lowering the speed lowers v^2/r. Gravity is then larger than the inward acceleration needed for a circular turn, so the path bends inward.",
         "selectedWrongExplanations": {
-          "b": "A circular orbit needs the correct speed as well as the correct radius and source mass. The balance is not automatic once the speed changes.",
+          "a": "A circular orbit needs the correct speed as well as the correct radius and source mass. The balance is not automatic once the speed changes.",
           "c": "Orbit does not require gravity to vanish. Gravity is what keeps turning the path."
         },
         "showMeAction": {
@@ -1289,22 +1289,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The circular speed increases and the circular period shortens, while the path can stay circular because the actual speed rises with the circular target."
-          },
-          {
-            "id": "b",
             "label": "The circular speed stays the same because only radius matters for circular orbits."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "The path must immediately fall inward because heavier source mass always means the speed is too low."
+          },
+          {
+            "id": "c",
+            "label": "The circular speed increases and the circular period shortens, while the path can stay circular because the actual speed rises with the circular target."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "At fixed radius, stronger gravity raises the circular speed and shortens the circular period. Keeping speed factor at 1 means the actual speed stays matched to that new circular value.",
         "selectedWrongExplanations": {
-          "b": "Radius matters, but source mass matters too. In this one-source model the circular speed is sqrt(M/r).",
-          "c": "That would be true only if the actual speed stayed fixed while the circular target changed. Here speed factor 1 keeps the actual speed matched to the new circular value."
+          "a": "Radius matters, but source mass matters too. In this one-source model the circular speed is sqrt(M/r).",
+          "b": "That would be true only if the actual speed stayed fixed while the circular target changed. Here speed factor 1 keeps the actual speed matched to the new circular value."
         },
         "showMeAction": {
           "label": "Show the heavier source",
@@ -1371,21 +1371,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Gravity is the inward acceleration source, so a circular orbit happens when gravity matches the required v^2/r at that radius."
+            "label": "Gravity mostly cancels out in orbit, so circular motion continues because the object is already moving sideways."
           },
           {
             "id": "b",
-            "label": "Gravity mostly cancels out in orbit, so circular motion continues because the object is already moving sideways."
+            "label": "Gravity is the inward acceleration source, so a circular orbit happens when gravity matches the required v^2/r at that radius."
           },
           {
             "id": "c",
             "label": "Gravity only sets the radius; a separate centripetal effect provides the turning."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "This page keeps the orbit balance explicit: gravity supplies the inward acceleration. A circular orbit is the case where that gravity matches the turning requirement of the chosen speed and radius.",
         "selectedWrongExplanations": {
-          "b": "Orbit does not require gravity to vanish. Gravity is what keeps turning the path.",
+          "a": "Orbit does not require gravity to vanish. Gravity is what keeps turning the path.",
           "c": "There is no second hidden turning effect in this bounded model. Gravity itself is the centripetal acceleration source."
         },
         "showMeAction": {

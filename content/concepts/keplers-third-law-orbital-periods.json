@@ -1022,7 +1022,7 @@
         "choices": [
           {
             "id": "a",
-            "label": "The circular year gets shorter because the allowed circular speed rises."
+            "label": "The circular year stays the same because only radius matters."
           },
           {
             "id": "b",
@@ -1030,14 +1030,14 @@
           },
           {
             "id": "c",
-            "label": "The circular year stays the same because only radius matters."
+            "label": "The circular year gets shorter because the allowed circular speed rises."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "For circular orbits in this one-source model, $T_c = 2\\pi\\sqrt{r^3/M}$, so increasing $M$ at fixed $r$ shortens the period.",
         "selectedWrongExplanations": {
-          "b": "Stronger gravity supports a faster circular speed at the same radius, so the period becomes shorter, not longer.",
-          "c": "Radius matters, but source mass matters too. It changes the constant in Kepler's law."
+          "a": "Radius matters, but source mass matters too. It changes the constant in Kepler's law.",
+          "b": "Stronger gravity supports a faster circular speed at the same radius, so the period becomes shorter, not longer."
         },
         "showMeAction": {
           "label": "Show the heavier source case",
@@ -1063,21 +1063,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "It has farther to travel and the allowed circular speed is lower, so both effects lengthen the period."
+            "label": "Only the distance around changes; the speed is basically unchanged."
           },
           {
             "id": "b",
-            "label": "Only the distance around changes; the speed is basically unchanged."
+            "label": "It has farther to travel and the allowed circular speed is lower, so both effects lengthen the period."
           },
           {
             "id": "c",
             "label": "Gravity is weaker, so the object gets pulled around faster."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Kepler's third law is the timing summary of two linked effects: the circumference grows with radius and the circular speed falls with radius.",
         "selectedWrongExplanations": {
-          "b": "The circular speed does not stay fixed. It falls with radius, which is why the period grows more strongly than circumference alone.",
+          "a": "The circular speed does not stay fixed. It falls with radius, which is why the period grows more strongly than circumference alone.",
           "c": "Weaker gravity means gentler turning and lower circular speed, so the period gets longer, not shorter."
         },
         "showMeAction": {
@@ -1103,22 +1103,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The path bends inward, so this is no longer the circular-orbit case whose period Kepler's law describes."
-          },
-          {
-            "id": "b",
             "label": "The orbit stays circular, just with a slightly longer period from the same law."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Kepler's law works even better because gravity is more important than speed."
+          },
+          {
+            "id": "c",
+            "label": "The path bends inward, so this is no longer the circular-orbit case whose period Kepler's law describes."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Lowering the speed below the circular value makes gravity larger than the turning requirement, so the trail bends inward instead of tracing a stable circular orbit.",
         "selectedWrongExplanations": {
-          "b": "A different period would still require a different circular balance. Here the path is no longer circular at all.",
-          "c": "The law here is the circular-case timing rule, so leaving the circular case does not make the law more applicable."
+          "a": "A different period would still require a different circular balance. Here the path is no longer circular at all.",
+          "b": "The law here is the circular-case timing rule, so leaving the circular case does not make the law more applicable."
         },
         "showMeAction": {
           "label": "Show the off-circle case",

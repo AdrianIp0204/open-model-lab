@@ -667,7 +667,11 @@
           }
         ],
         "correctChoiceId": "a",
-        "explanation": "Without order, the midpoint gives you no honest reason to remove half the remaining positions while preserving the target-still-inside promise."
+        "explanation": "Without order, the midpoint gives you no honest reason to remove half the remaining positions while preserving the target-still-inside promise.",
+        "selectedWrongExplanations": {
+          "b": "A midpoint is only sometimes the target; ordering is what makes safe discards possible.",
+          "c": "Ordering changes arrangement, not the number of items."
+        }
       },
       {
         "id": "bsh-qt-halving",
@@ -676,19 +680,23 @@
         "choices": [
           {
             "id": "a",
-            "label": "The active interval keeps shrinking by halves."
+            "label": "It secretly checks every item at once."
           },
           {
             "id": "b",
-            "label": "It secretly checks every item at once."
+            "label": "The active interval keeps shrinking by halves."
           },
           {
             "id": "c",
             "label": "It works even better on unsorted data."
           }
         ],
-        "correctChoiceId": "a",
-        "explanation": "The speed comes from reducing the search space aggressively after each midpoint check."
+        "correctChoiceId": "b",
+        "explanation": "The speed comes from reducing the search space aggressively after each midpoint check.",
+        "selectedWrongExplanations": {
+          "a": "Binary search checks one midpoint at a time, not every item at once.",
+          "c": "Without ordering, the half-discard invariant breaks."
+        }
       }
     ]
   },

@@ -701,21 +701,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The dot product is zero because B has no along-A component."
+            "label": "The dot product stays positive because both lengths are positive."
           },
           {
             "id": "b",
-            "label": "The dot product stays positive because both lengths are positive."
+            "label": "The dot product is zero because B has no along-A component."
           },
           {
             "id": "c",
             "label": "The projection becomes larger because the angle is larger."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Orthogonality removes the along-A piece. That is why zero dot product does not require a zero vector.",
         "selectedWrongExplanations": {
-          "b": "Positive lengths do not guarantee positive alignment.",
+          "a": "Positive lengths do not guarantee positive alignment.",
           "c": "At ninety degrees, the along-A part has collapsed rather than grown."
         },
         "showMeAction": {
@@ -742,22 +742,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The projection of B onto A points against A."
-          },
-          {
-            "id": "b",
             "label": "One of the vectors now has negative length."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "The perpendicular leftover has disappeared."
+          },
+          {
+            "id": "c",
+            "label": "The projection of B onto A points against A."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Negative sign means the along-A part points opposite A. Length still stays nonnegative, and the perpendicular leftover can still be present.",
         "selectedWrongExplanations": {
-          "b": "Vector length never changes sign here. Direction creates the negative projection.",
-          "c": "The leftover perpendicular piece can still be visible even when the dot product is negative."
+          "a": "Vector length never changes sign here. Direction creates the negative projection.",
+          "b": "The leftover perpendicular piece can still be visible even when the dot product is negative."
         },
         "showMeAction": {
           "label": "Show a negative projection",

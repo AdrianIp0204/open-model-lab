@@ -1032,6 +1032,13 @@
   "quickTest": {
     "title": "Quick test",
     "intro": "Reason from the threshold, not from a slogan. Use the index contrast, the critical angle, and the branch that still exists on the live boundary.",
+    "templates": [
+      {
+        "id": "tir-boundary-state-generated",
+        "kind": "worked-example-result",
+        "exampleId": "classify-boundary-state"
+      }
+    ],
     "questions": [
       {
         "id": "tir-qt-condition",
@@ -1179,17 +1186,25 @@
           "c": "A denser second medium bends the ray toward the normal, but it does not create TIR for light that started in the lower-index side."
         },
         "showMeAction": {
-          "label": "Show the weaker-contrast refraction case",
-          "presetId": "glass-to-water",
-          "observationHint": "At 50 degrees the boundary is back in ordinary refraction because the threshold moved upward.",
+          "label": "Show lower-to-higher refraction",
+          "patch": {
+            "incidentAngle": 70,
+            "n1": 1,
+            "n2": 1.52
+          },
+          "observationHint": "With light starting in the lower-index medium, no critical-angle cutoff appears; the transmitted ray remains real even at a steep angle.",
           "highlightedControlIds": [
+            "incidentAngle",
+            "n1",
             "n2"
           ],
           "highlightedGraphIds": [
+            "refraction-map",
             "transition-map"
           ],
           "highlightedOverlayIds": [
-            "criticalGuide"
+            "normalGuide",
+            "speedGuide"
           ]
         }
       }

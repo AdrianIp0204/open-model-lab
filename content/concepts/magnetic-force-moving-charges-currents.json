@@ -1150,15 +1150,15 @@
       {
         "id": "mfmc-qt-stronger-field",
         "type": "misconception-check",
-        "prompt": "A student says, \"Doubling the magnetic field only doubles the force. It should not change the timing of the turn.\" What is the best correction?",
+        "prompt": "A student says, \"Doubling the magnetic field only doubles the force. The path radius should stay the same.\" What is the best correction?",
         "choices": [
           {
             "id": "a",
-            "label": "A stronger field makes the force larger and also shortens the turning period, so the path bends more quickly."
+            "label": "A stronger field makes the force larger and shrinks the orbit radius, so the path curves more tightly."
           },
           {
             "id": "b",
-            "label": "The period stays the same because the speed did not change."
+            "label": "The radius stays the same because the speed did not change."
           },
           {
             "id": "c",
@@ -1166,9 +1166,9 @@
           }
         ],
         "correctChoiceId": "a",
-        "explanation": "A stronger field raises qvB and lowers the magnetic radius and period in this model, so the charge turns more quickly.",
+        "explanation": "A stronger field raises qvB and lowers r = mv/(|q|B), so the same-speed charge follows a smaller-radius path in this model.",
         "selectedWrongExplanations": {
-          "b": "Keeping speed fixed does not freeze the turning rate. The field still changes how quickly the heading rotates.",
+          "b": "Keeping speed fixed does not freeze the curvature. A larger B appears in the denominator of r = mv/(|q|B), so the orbit radius shrinks.",
           "c": "The moving charge and the current segment both use the field vector, so both respond when B changes."
         },
         "showMeAction": {
@@ -1180,7 +1180,7 @@
             "negativeCharge": false,
             "current": 2
           },
-          "observationHint": "Use the force graph and orbit guide together. The force grows and the charge turns through the preview window more quickly.",
+          "observationHint": "Use the force graph and orbit guide together. The force grows while the orbit radius shrinks in the preview.",
           "highlightedControlIds": [
             "fieldStrength"
           ],

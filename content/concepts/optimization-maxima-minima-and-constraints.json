@@ -604,21 +604,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Increase the width a little."
+            "label": "Decrease the width a little."
           },
           {
             "id": "b",
-            "label": "Decrease the width a little."
+            "label": "Increase the width a little."
           },
           {
             "id": "c",
             "label": "The width does not matter as long as the perimeter stays fixed."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "On the narrow side of the peak, the area slope is positive, so moving right increases the objective.",
         "selectedWrongExplanations": {
-          "b": "Making an already narrow rectangle narrower moves farther away from the square.",
+          "a": "Making an already narrow rectangle narrower moves farther away from the square.",
           "c": "Different widths under the same perimeter can have very different areas."
         },
         "showMeAction": {
@@ -645,22 +645,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "Because the fixed perimeter forces the height to collapse as width grows."
-          },
-          {
-            "id": "b",
             "label": "Because area only depends on width in a constrained problem."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Because the perimeter equation stops working near the peak."
+          },
+          {
+            "id": "c",
+            "label": "Because the fixed perimeter forces the height to collapse as width grows."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "The whole optimization problem is the tradeoff: more width means less height, so the product eventually turns downward.",
         "selectedWrongExplanations": {
-          "b": "Area depends on both width and height. The constraint only lets us rewrite height in terms of width.",
-          "c": "The perimeter relation works everywhere on this bench. It is the reason the tradeoff exists."
+          "a": "Area depends on both width and height. The constraint only lets us rewrite height in terms of width.",
+          "b": "The perimeter relation works everywhere on this bench. It is the reason the tradeoff exists."
         },
         "showMeAction": {
           "label": "Show the wide side",

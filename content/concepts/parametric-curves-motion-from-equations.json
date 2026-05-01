@@ -745,7 +745,11 @@
           }
         ],
         "correctChoiceId": "a",
-        "explanation": "The same path idea can be traversed with different timing."
+        "explanation": "The same path idea can be traversed with different timing.",
+        "selectedWrongExplanations": {
+          "b": "The same curve can be traced with different timing, so path and motion are related but distinct.",
+          "c": "The path is the geometric trace that the motion follows."
+        }
       },
       {
         "id": "pcm-qt-amplitude",
@@ -754,19 +758,23 @@
         "choices": [
           {
             "id": "a",
-            "label": "The path stretches farther left and right."
+            "label": "The path must move faster everywhere."
           },
           {
             "id": "b",
-            "label": "The path must move faster everywhere."
+            "label": "The path stretches farther left and right."
           },
           {
             "id": "c",
             "label": "The y span doubles automatically."
           }
         ],
-        "correctChoiceId": "a",
-        "explanation": "x amplitude controls horizontal span first."
+        "correctChoiceId": "b",
+        "explanation": "x amplitude controls horizontal span first.",
+        "selectedWrongExplanations": {
+          "a": "Amplitude changes horizontal span; speed depends on how the parameter changes.",
+          "c": "Changing x amplitude does not directly set the y span."
+        }
       }
     ]
   },

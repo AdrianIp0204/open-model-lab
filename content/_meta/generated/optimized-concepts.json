@@ -6707,7 +6707,7 @@
       "questions": [
         {
           "id": "bp-qt-narrower-throat",
-          "explanation": "Continuity makes the smaller throat faster for the same $Q$. Bernoulli then leaves less of the same total as static pressure there.",
+          "explanation": "Continuity makes the smaller throat faster for the same $Q$. Bernoulli then leaves less of the same budget as static pressure there.",
           "showMeAction": {
             "label": "Load Baseline venturi",
             "observationHint": "The throat speed arrow is longer and the throat pressure gauge sits lower than at section A."
@@ -6715,7 +6715,7 @@
         },
         {
           "id": "bp-qt-height-term",
-          "explanation": "With the same speeds, the extra drop comes from the $\rho g y$ term. A higher throat leaves less of the total as static pressure at B.",
+          "explanation": "With the same speeds, the extra drop comes from the height term. A higher throat leaves less static pressure at B.",
           "showMeAction": {
             "label": "Load Raised throat",
             "observationHint": "The energy bars show a larger height share while the throat pressure gauge drops."
@@ -7582,7 +7582,7 @@
           "prompt": "Two samples have the same temperature, but one contains three times as many particles. Which statement is best supported by this model?",
           "explanation": "Temperature follows the average per-particle motion. Total internal energy still depends on how many particles and internal stores the whole sample contains.",
           "selectedWrongExplanations": {
-            "b": "That confuses temperature with total internal energy. Here, temperature is an average-scale measure, not the full total.",
+            "a": "That confuses temperature with total internal energy. Here, temperature is an average-scale measure, not the full total.",
             "c": "Crowding is not the key idea in this model. The relevant pieces are amount and per-particle energy."
           },
           "showMeAction": {
@@ -7615,8 +7615,8 @@
           "prompt": "A student says, 'If the heater adds energy, temperature must rise immediately every time.' What is the best correction in this model?",
           "explanation": "The shelf is the reminder that energy input can feed other microscopic changes, so temperature is not forced to jump every instant.",
           "selectedWrongExplanations": {
-            "b": "That ignores shelf behavior. In this model, temperature is not the only way added energy can appear.",
-            "c": "Particle count is a separate control. Added energy changes internal energy directly and can also change temperature when it goes into average motion."
+            "a": "That ignores shelf behavior. In this model, temperature is not the only way added energy can appear.",
+            "b": "Particle count is a separate control. Added energy changes internal energy directly and can also change temperature when it goes into average motion."
           },
           "showMeAction": {
             "label": "Inspect shelf heating",
@@ -7855,7 +7855,7 @@
       }
     },
     "quickTest": {
-      "intro": "Answer from the stage and graphs, not from a memorized slogan. Each question checks whether you can explain pressure causally.",
+      "intro": "Answer from the particle box and graphs, not from a memorized slogan. Each question checks whether you can explain pressure causally.",
       "questions": [
         {
           "id": "igkt-qt-compress",
@@ -7895,7 +7895,7 @@
       "simulationDescription": {
         "paragraphs": [
           "The simulation shows a single gas box with moving particles. Motion streaks show the speed scale, density shading shows how crowded the gas is, wall flashes show collision frequency, and a pressure gauge shows the resulting pressure.",
-          "The graphs below each vary one control while holding the other two fixed. They let you connect what changes on the stage to a clean pressure-volume, pressure-temperature, pressure-particle-count, or collision-temperature trend.",
+          "The graphs below each vary one control while holding the other two fixed. They let you connect what changes in the particle box to a clean pressure-volume, pressure-temperature, pressure-particle-count, or collision-temperature trend.",
           "This is a simplified 2D model rather than a full 3D molecular simulation. It is designed to make the ideal-gas patterns and the wall-collision explanation easy to see."
         ]
       },
@@ -10469,10 +10469,6 @@
         {
           "id": "ef-qt-midpoint-cancel",
           "explanation": "At the midpoint on the source axis, the geometry is perfectly symmetric. Each source contributes an equal horizontal field in the opposite direction, so the net field is zero there.",
-          "selectedWrongExplanations": {
-            "b": "At that midpoint there is no vertical offset, so neither source contributes an upward component.",
-            "c": "Test-charge sign affects force, not the source-generated field. The cancellation is already present before any test charge is chosen."
-          },
           "showMeAction": {
             "observationHint": "At the midpoint on the axis, the two equal positive-source contributions are equal and opposite, so the net field collapses to zero."
           }
@@ -10487,10 +10483,6 @@
         {
           "id": "ef-qt-test-charge-sign",
           "explanation": "The electric field is set by the source charges and the location. A negative test charge feels a force opposite to the field, but it does not redefine the field.",
-          "selectedWrongExplanations": {
-            "b": "Probe strength only scales the force in this model. The field direction is not negotiated with the test charge.",
-            "c": "Negative charges are valid probes. They are useful because they show that force can point opposite to the field."
-          },
           "showMeAction": {
             "label": "Show force flip without field flip",
             "observationHint": "Change only the test charge and watch the force reverse while the field arrows and graphs stay fixed."
@@ -10852,11 +10844,7 @@
         },
         {
           "id": "ep-qt-slope-to-field",
-          "explanation": "A downward slope means dV/dx is negative, so the minus sign in E_x = -dV/dx makes E_x positive.",
-          "selectedWrongExplanations": {
-            "b": "Smooth change does not mean zero slope. Only a flat graph would make E_x vanish along that slice.",
-            "c": "The field is the negative slope, not the slope itself."
-          }
+          "explanation": "A downward slope means dV/dx is negative, so the minus sign in E_x = -dV/dx makes E_x positive."
         },
         {
           "id": "ep-qt-test-charge-energy",
@@ -13117,10 +13105,10 @@
         },
         {
           "id": "mfmc-qt-stronger-field",
-          "explanation": "A stronger field increases qvB and also makes the charge turn more quickly, because the radius becomes smaller in the same speed range.",
+          "explanation": "A stronger field increases qvB and shrinks the orbit radius, because B sits in the denominator of r = mv/(|q|B).",
           "showMeAction": {
             "label": "Increase the field",
-            "observationHint": "Use the force graph and orbit guide together. The force grows and the charge turns through the preview window more quickly."
+            "observationHint": "Use the force graph and orbit guide together. The force grows while the orbit radius shrinks in the preview."
           }
         }
       ]
@@ -17698,10 +17686,6 @@
           "id": "v2d-qt-subtraction",
           "prompt": "What is the most accurate way to think about vector subtraction on this bench?",
           "explanation": "Subtraction is addition with the opposite vector, which is why the tip-to-tail construction still works after B is reversed.",
-          "selectedWrongExplanations": {
-            "b": "The plane picture does not need a new rule. You still use tip-to-tail after replacing B with its opposite.",
-            "c": "Turning on subtraction changes the geometry directly because the second arrow flips direction."
-          },
           "showMeAction": {
             "label": "Show subtraction as adding the opposite",
             "observationHint": "B flips first, then the same tip-to-tail construction builds the resultant."
@@ -17711,10 +17695,6 @@
           "id": "v2d-qt-scalar",
           "prompt": "If the scalar becomes negative while A is not the zero vector, what must happen to the scaled version of A?",
           "explanation": "A negative scalar reverses the direction of A, and the absolute value of the scalar sets the size of the scaled arrow. Magnitude does not become negative.",
-          "selectedWrongExplanations": {
-            "b": "Magnitude graphs track size, so they stay at or above zero.",
-            "c": "The scalar acts only on A in this bench."
-          },
           "showMeAction": {
             "label": "Show the flipped scale",
             "observationHint": "The scaled copy of A flips through the origin before the sum is taken."
@@ -19910,10 +19890,6 @@
           "id": "rr-qt-heating",
           "prompt": "If you heat the same mixture without changing concentration or barrier, what is the best expectation?",
           "explanation": "Heating does not remove the barrier, but it does let a larger fraction of collisions clear it.",
-          "selectedWrongExplanations": {
-            "b": "Concentration is not the only factor. Temperature changes both particle motion and the barrier-clearing fraction.",
-            "c": "Heating helps more collisions cross the barrier, but it does not make the barrier disappear."
-          },
           "showMeAction": {
             "label": "Load the hotter case",
             "observationHint": "The particles are more energetic, and a larger fraction of collisions becomes successful."
@@ -20307,10 +20283,6 @@
           "id": "de-qt-forward-reverse",
           "prompt": "Which graph cue most honestly tells you the system is near equilibrium?",
           "explanation": "The best equilibrium cue is that the forward and reverse rates are nearly equal, not that the amounts look equal or that both species are present.",
-          "selectedWrongExplanations": {
-            "b": "Having both species present does not tell you whether the forward and reverse rates are balanced.",
-            "c": "Products can be above reactants even when the system is still shifting."
-          },
           "showMeAction": {
             "label": "Show a near-equilibrium moment",
             "observationHint": "Near the end of the run, the two rate curves nearly meet even though both are still non-zero."
@@ -21646,10 +21618,6 @@
             }
           ],
           "explanation": "Changing the recipe changes what one full batch uses, so the maximum batch count can change even before you move the supplies.",
-          "selectedWrongExplanations": {
-            "b": "The supply bins matter together with the recipe card, not by themselves.",
-            "c": "Percent yield is a separate idea. The batch recipe changes first."
-          },
           "showMeAction": {
             "label": "Apply the 3:2 recipe",
             "observationHint": "The new recipe changes the batch cap story even before the supply bins change much."
@@ -21956,10 +21924,6 @@
             }
           ],
           "explanation": "The limiting reagent is used up by the last complete batch, so leftovers remain on the excess side.",
-          "selectedWrongExplanations": {
-            "b": "The limiting side is the one that runs out first, so it cannot also be the side that keeps the largest leftover.",
-            "c": "A limiting reagent can exist while the excess side still has packets left after the reaction stops."
-          },
           "showMeAction": {
             "label": "Apply the B-limiting run",
             "observationHint": "B runs out first, and A is the tray that still has packets left after the run."
@@ -22259,10 +22223,6 @@
           "id": "pyre-qt-yield-keeps-recipe",
           "prompt": "Which statement best describes what percent yield changes in this model?",
           "explanation": "Percent yield scales the actual output against the same theoretical batch cap.",
-          "selectedWrongExplanations": {
-            "b": "The recipe card stays the same. Yield changes the finished output, not the stoichiometric ratio.",
-            "c": "Lower yield often leaves more reactant unused because fewer batches actually finish."
-          },
           "showMeAction": {
             "label": "Compare 75% with 100%",
             "observationHint": "The theoretical marker stays the same while the actual tray moves when you change the yield slider."

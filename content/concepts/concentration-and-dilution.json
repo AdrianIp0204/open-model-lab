@@ -581,7 +581,11 @@
           }
         ],
         "correctChoiceId": "a",
-        "explanation": "Dilution is specifically about changing the amount of liquid around the same solute."
+        "explanation": "Dilution is specifically about changing the amount of liquid around the same solute.",
+        "selectedWrongExplanations": {
+          "b": "Removing solute changes the solute amount; dilution keeps solute amount fixed and increases solvent.",
+          "c": "Looking fuller is not enough. Dilution is about concentration changing because volume increases while solute stays fixed."
+        }
       },
       {
         "id": "cd-qt-solute-vs-solvent",
@@ -590,19 +594,23 @@
         "choices": [
           {
             "id": "a",
-            "label": "Adding more solute while keeping the same liquid volume."
+            "label": "Adding more solvent while keeping solute fixed."
           },
           {
             "id": "b",
-            "label": "Adding more solvent while keeping solute fixed."
+            "label": "Adding more solute while keeping the same liquid volume."
           },
           {
             "id": "c",
             "label": "Keeping both values the same."
           }
         ],
-        "correctChoiceId": "a",
-        "explanation": "Adding solute changes how much dissolved material is present rather than how much liquid it is spread through."
+        "correctChoiceId": "b",
+        "explanation": "Adding solute changes how much dissolved material is present rather than how much liquid it is spread through.",
+        "selectedWrongExplanations": {
+          "a": "Adding solvent lowers concentration when solute stays fixed; it is the dilution mechanism.",
+          "c": "Keeping both values fixed does not change concentration."
+        }
       }
     ]
   },
