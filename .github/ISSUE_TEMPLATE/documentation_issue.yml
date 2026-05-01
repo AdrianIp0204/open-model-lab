@@ -1,0 +1,34 @@
+name: Documentation issue
+description: Report README, docs, setup, or contributor guidance problems.
+title: "[Docs]: "
+labels:
+  - "type: docs"
+body:
+  - type: input
+    id: doc-path
+    attributes:
+      label: Document path
+      placeholder: README.md, docs/launch-readiness.md, CONTRIBUTING.md
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: Issue
+      description: What is missing, stale, confusing, or incorrect?
+    validations:
+      required: true
+  - type: textarea
+    id: suggested-fix
+    attributes:
+      label: Suggested fix
+      description: Optional wording or structure suggestion.
+    validations:
+      required: false
+  - type: textarea
+    id: setup-environment
+    attributes:
+      label: Setup environment
+      description: If this is a setup problem, include OS, Node/pnpm versions, and relevant command output. Redact secrets.
+    validations:
+      required: false

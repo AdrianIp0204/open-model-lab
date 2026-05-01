@@ -1,0 +1,204 @@
+{
+  "title": "濃度和稀釋",
+  "shortTitle": "濃度",
+  "summary": "使用一個燒杯來區分新增溶劑如何改變濃度，以及新增更多溶質如何改變濃度。",
+  "highlights": [
+    "體積中的量",
+    "無損稀釋",
+    "密集與稀疏的粒子檢視"
+  ],
+  "topic": "溶液和pH值",
+  "subtopic": "溶液的粒子擁擠程度",
+  "recommendedNext": [
+    {
+      "slug": "solubility-and-saturation",
+      "reasonLabel": "將燒杯故事延伸到溶解極限和可見飽和度"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "當溶質和液體的量都保持在視野中時，濃度會變得更容易理解。這個實驗台把單一容器、濃度讀數和粒子檢視保留在同一個框架內，因此粒子擁擠與稀釋不會淪為口號。",
+        "關鍵區別是新增溶劑會改變濃度而不增加溶質，而新增溶質則以不同的方式改變濃度。"
+      ]
+    },
+    "keyIdeas": [
+      "濃度是指在多少液體中存在多少溶質。",
+      "稀釋透過增加液體的量來降低濃度，同時保持溶質的量不變。",
+      "新增溶質和新增溶劑都可以改變濃度，但原因不同。"
+    ],
+    "commonMisconception": {
+      "myth": "如果燒杯看起來更滿，那一定意味著其中含有更多的溶質。",
+      "correction": [
+        "一個更滿的燒杯可以簡單地意味著其中含有更多的溶劑。",
+        "稀釋會改變濃度，即使溶質的量沒有變化。"
+      ]
+    },
+    "workedExamples": {
+      "title": "示例",
+      "intro": "根據當前燒杯狀態而不是分離的比例問題來做。",
+      "items": [
+        {
+          "id": "read-the-current-concentration",
+          "title": "讀取當前濃度",
+          "prompt": "對於當前混合物，燒杯有多濃？",
+          "variables": [
+            {
+              "id": "solute-amount",
+              "label": "溶質量"
+            },
+            {
+              "id": "solvent-volume",
+              "label": "溶劑體積"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-amount",
+              "label": "1. 閱讀溶質的量"
+            },
+            {
+              "id": "read-volume",
+              "label": "2. 閱讀液體的量"
+            },
+            {
+              "id": "read-concentration",
+              "label": "3. 一起讀取濃度和密度提示"
+            }
+          ],
+          "resultLabel": "當前濃度",
+          "applyAction": {
+            "label": "應用稀釋情況",
+            "observationHint": "溶質的量保持固定，而粒子檢視在更大的體積中擴散。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "使燒杯顯然變得不那麼濃而不移除任何溶質。",
+      "prediction": "決定是否要改變溶質的量、溶劑的量或兩者之前再嘗試",
+      "answer": "您需要加入溶劑以保持溶質的量固定。",
+      "explanation": "這是模擬稀釋的最佳方式，而不是簡單地製備不同的混合物。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "請根據實時燒杯故事回答，而非背誦口號。",
+    "questions": [
+      {
+        "id": "cd-qt-dilution",
+        "prompt": "在這個工作台上，最乾淨的稀釋描述是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "透過加入更多液體來降低濃度，同時保持溶質量固定。"
+          },
+          {
+            "id": "b",
+            "label": "先移除溶質再降低濃度。"
+          },
+          {
+            "id": "c",
+            "label": "任何使燒杯看起來更滿的變化。"
+          }
+        ],
+        "explanation": "稀釋是關於改變相同溶質周圍液體量的特定過程。"
+      },
+      {
+        "id": "cd-qt-solute-vs-solvent",
+        "prompt": "哪種變化透過不同的機制提高了濃度，而不屬於稀釋？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "保持相同的液體體積同時加入更多溶質。"
+          },
+          {
+            "id": "b",
+            "label": "保持溶質固定同時加入更多溶劑。"
+          },
+          {
+            "id": "c",
+            "label": "保持兩個值相同。"
+          }
+        ],
+        "explanation": "加入溶質改變了溶解物質的量，而不是它被擴散到的液體量。"
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一個含有溶解粒子、濃度讀數以及控制溶質量和溶劑體積的燒杯。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "一張圖表顯示了隨著溶劑體積增加濃度如何變化，另一張則顯示了隨著溶質量增加濃度如何變化。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "crowded-small-beaker",
+        "label": "擁擠的燒杯",
+        "description": "開啟一個密度提示明顯的濃縮混合物。"
+      },
+      {
+        "id": "diluted-same-solute",
+        "label": "不失去溶質進行稀釋",
+        "description": "在同一種溶質量中加入更多液體並比較新的濃度。"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "concentration-rule",
+      "label": "濃度規則",
+      "meaning": "透過將溶質的量與液體的量相關聯來保持燒杯的真實性。"
+    },
+    {
+      "id": "dilution-story",
+      "label": "稀釋故事",
+      "meaning": "顯示了稀釋保持溶質量固定而液體量變化的過程。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "solute-amount",
+      "label": "溶質量",
+      "description": "改變燒杯中溶解物質的量。"
+    },
+    {
+      "id": "solvent-volume",
+      "label": "溶劑體積",
+      "description": "改變相同溶質被擴散到的液體量。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "solute-amount",
+        "label": "溶質量"
+      },
+      {
+        "id": "solvent-volume",
+        "label": "溶劑體積"
+      }
+    ],
+    "presets": [
+      {
+        "id": "crowded-beaker",
+        "label": "擁擠的燒杯"
+      }
+    ]
+  },
+  "challengeMode": {
+    "items": [
+      {
+        "id": "cd-ch-dilute-without-losing-solute",
+        "title": "不失去溶質進行稀釋"
+      }
+    ]
+  }
+}

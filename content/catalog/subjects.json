@@ -1,0 +1,117 @@
+[
+  {
+    "id": "subject-physics",
+    "slug": "physics",
+    "title": "Physics",
+    "description": "Enter the current physics catalog through motion, gravity, waves, sound, fields, circuits, light, and modern-physics benches that still share one compact simulation-first product language.",
+    "introduction": "Physics is still the broadest branch in Open Model Lab, but it no longer needs to hide important topic boundaries. Use this subject page when you want the main physics topics, starter tracks, and best-first concepts framed together before you commit to one branch.",
+    "sequence": 10,
+    "accent": "sky",
+    "featuredTopicSlugs": [
+      "mechanics",
+      "waves",
+      "circuits"
+    ],
+    "featuredStarterTrackSlugs": [
+      "motion-and-circular-motion",
+      "gravity-and-orbits",
+      "electricity"
+    ],
+    "bridgeStarterTrackSlugs": [
+      "vectors-and-motion-bridge"
+    ],
+    "featuredConceptSlugs": [
+      "vectors-components",
+      "simple-harmonic-motion",
+      "basic-circuits"
+    ]
+  },
+  {
+    "id": "subject-math",
+    "slug": "math",
+    "title": "Math",
+    "description": "Enter the current math slice through graph transformations, rational-function asymptotes, exponential change, vectors, complex-plane geometry, trig identities, inverse-angle reasoning, polar coordinates, and parametric motion without leaving the same live-bench product language used elsewhere on the site.",
+    "introduction": "Math is still intentionally compact, but it now has more than one durable branch. Start here when you want the graph-first launch path through transformations, rational asymptote behavior, and exponential change, then widen into plane-based complex numbers, unit-circle and polar geometry, trig identities, inverse-angle recovery from ratios, parametric motion from equations, or the vectors bridge back into mechanics.",
+    "sequence": 20,
+    "accent": "coral",
+    "featuredTopicSlugs": [
+      "functions",
+      "calculus",
+      "complex-numbers-and-parametric-motion",
+      "vectors"
+    ],
+    "featuredStarterTrackSlugs": [
+      "functions-and-change",
+      "complex-and-parametric-motion"
+    ],
+    "bridgeStarterTrackSlugs": [
+      "vectors-and-motion-bridge"
+    ],
+    "featuredConceptSlugs": [
+      "graph-transformations",
+      "rational-functions-asymptotes-and-behavior",
+      "exponential-change-growth-decay-logarithms",
+      "complex-numbers-on-the-plane",
+      "unit-circle-sine-cosine-from-rotation",
+      "polar-coordinates-radius-and-angle",
+      "trig-identities-from-unit-circle-geometry",
+      "inverse-trig-angle-from-ratio",
+      "parametric-curves-motion-from-equations",
+      "derivative-as-slope-local-rate-of-change",
+      "vectors-in-2d",
+      "matrix-transformations",
+      "dot-product-angle-and-projection"
+    ]
+  },
+  {
+    "id": "subject-chemistry",
+    "slug": "chemistry",
+    "title": "Chemistry",
+    "description": "Enter the current chemistry slice through reaction-rate ideas, a stoichiometry-and-yield recipe branch, and a broader solutions-and-pH branch without leaving the same simulation-first product architecture.",
+    "introduction": "Chemistry is still compact, but it is no longer just a pair of isolated branches. This subject now frames a rates-and-equilibrium branch, a stoichiometry-and-yield branch built around one shared recipe bench, and a solutions-and-pH branch that carries amount, solubility, pH, and buffers on the same bounded chemistry shelf.",
+    "sequence": 30,
+    "accent": "teal",
+    "featuredTopicSlugs": [
+      "rates-and-equilibrium",
+      "stoichiometry-and-yield",
+      "solutions-and-ph"
+    ],
+    "featuredStarterTrackSlugs": [
+      "rates-and-equilibrium",
+      "stoichiometry-and-yield",
+      "solutions-and-ph"
+    ],
+    "featuredConceptSlugs": [
+      "reaction-rate-collision-theory",
+      "dynamic-equilibrium-le-chateliers-principle",
+      "stoichiometric-ratios-and-recipe-batches",
+      "limiting-reagent-and-leftover-reactants",
+      "percent-yield-and-reaction-extent",
+      "concentration-and-dilution",
+      "solubility-and-saturation",
+      "acid-base-ph-intuition",
+      "buffers-and-neutralization"
+    ]
+  },
+  {
+    "id": "subject-computer-science",
+    "slug": "computer-science",
+    "title": "Computer Science",
+    "description": "Enter the current computer-science slice through one bounded algorithms-and-search branch where visible list work now widens into one shared graph-traversal bench without leaving the product's simulation-first architecture.",
+    "introduction": "Computer Science is still intentionally compact, but it now has more than a two-concept pilot. This subject frames one coherent algorithms-and-search branch so sorting, binary search, graph adjacency, BFS, DFS, and visited-state bookkeeping feel native to the same topic, track, guided, and search seams already used elsewhere on the site.",
+    "sequence": 40,
+    "accent": "ink",
+    "featuredTopicSlugs": [
+      "algorithms-and-search"
+    ],
+    "featuredStarterTrackSlugs": [
+      "algorithms-and-search-foundations"
+    ],
+    "featuredConceptSlugs": [
+      "sorting-and-algorithmic-trade-offs",
+      "binary-search-halving-the-search-space",
+      "graph-representation-and-adjacency-intuition",
+      "breadth-first-search-and-layered-frontiers"
+    ]
+  }
+]

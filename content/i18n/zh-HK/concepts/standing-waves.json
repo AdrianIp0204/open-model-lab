@@ -1,0 +1,370 @@
+{
+  "title": "駐波",
+  "shortTitle": "駐波",
+  "summary": "在一條即時弦上追蹤固定節點、擺動的反節點和諧波模式形狀，同時用同一個探針讀數顯示底層振動如何隨時間變化。",
+  "highlights": [
+    "節點",
+    "反節點",
+    "諧波"
+  ],
+  "topic": "波動",
+  "subtopic": "駐波模式",
+  "recommendedNext": [
+    {
+      "slug": "resonance-air-columns-open-closed-pipes",
+      "reasonLabel": "開管與閉管"
+    },
+    {
+      "slug": "damping-resonance",
+      "reasonLabel": "共振響應"
+    },
+    {
+      "slug": "oscillation-energy",
+      "reasonLabel": "探針振動"
+    },
+    {
+      "slug": "simple-harmonic-motion",
+      "reasonLabel": "檢視局部運動"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "駐波由兩個等幅波沿相反方向傳播，並在同一個有邊界的系統上持續干涉而成。某些位置一直互相抵消，因此成為節點；其他位置增強最明顯，成為反節點。",
+        "這個實驗只保留一條弦、一個即時探針和一個一致的振動狀態。模式形狀圖、正在運動的弦和探針讀數都來自同一個諧波，所以模式數、節點、反節點、干涉和局部振動會連在一起。"
+      ]
+    },
+    "keyIdeas": [
+      "節點是由持續的破壞性干涉形成的固定位置，不代表整條弦上的波消失。",
+      "反節點是振幅最大的位置，所以那裡的局部時間跡線會達到駐波的最大振幅。",
+      "較高階的諧波會在同一條弦上放入更多半波長段，因此節點增加，振動頻率也升高。"
+    ],
+    "commonMisconception": {
+      "myth": "駐波看起來固定在原位，所以模式出現後就沒有東西真的在振動。",
+      "correction": [
+        "空間模式是固定的，但幾乎每個節點之間的位置仍會隨時間上下振動。",
+        "固定的是節點位置和整體模式形狀，不是弦的瞬時位移。"
+      ]
+    },
+    "workedExamples": {
+      "title": "即時例題",
+      "intro": "這些例題直接從即時狀態讀取目前諧波、弦長、探針位置和檢查時間，讓代數保持連在你正在觀看的同一條弦上。",
+      "items": [
+        {
+          "id": "allowed-wavelength",
+          "title": "允許波長和頻率",
+          "prompt": "根據目前模式數和弦長，這個駐波需要哪個波長和振動頻率？",
+          "variables": [
+            {
+              "id": "mode-number",
+              "label": "模式數"
+            },
+            {
+              "id": "length",
+              "label": "弦長"
+            },
+            {
+              "id": "wave-speed",
+              "label": "波速"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 從允許模式關係開始"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 代入目前諧波"
+            },
+            {
+              "id": "compute",
+              "label": "3. 計算允許的振動"
+            }
+          ],
+          "resultLabel": "目前諧波要求",
+          "applyAction": {
+            "label": "顯示第三諧波",
+            "observationHint": "更多半波長段可以放進同一條弦內，因此節點會排列得更緊密，模式振動也更快。"
+          }
+        },
+        {
+          "id": "probe-displacement",
+          "title": "目前探針位移",
+          "prompt": "在目前探針位置 $x_p = {{probeXValue}}\\,\\mathrm{m}$ 和時間 $t = {{timeValue}}\\,\\mathrm{s}$，該點的位移是多少？",
+          "variables": [
+            {
+              "id": "amplitude",
+              "label": "反節點振幅"
+            },
+            {
+              "id": "mode-number",
+              "label": "模式數"
+            },
+            {
+              "id": "length",
+              "label": "弦長"
+            },
+            {
+              "id": "probe",
+              "label": "探針位置"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 使用駐波關係式"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 代入即時位置因子"
+            },
+            {
+              "id": "compute",
+              "label": "3. 計算目前位移"
+            }
+          ],
+          "resultLabel": "目前探針位移",
+          "applyAction": {
+            "label": "移動到節點",
+            "observationHint": "模式形狀在節點處為零，所以即使弦的其他部分仍在運動，局部時間跡線也會收斂到接近零。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "你想多出一個內部節點，但不改變固定端邊界條件。最直接的改變是什麼？",
+      "prediction": "判斷應該移動探針、提高模式數，還是只等待更長時間。",
+      "answer": "把模式數提高到下一階諧波。",
+      "explanation": "移動探針只會改變你檢查弦的位置；等待只會改變同一次振動中的時間。內部節點數由諧波模式本身決定，所以必須改變模式數。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "把舞台、圖像和干涉概念一起使用。這些題目問的是弦上必然發生什麼，而不是單看某條公式。",
+    "questions": [
+      {
+        "id": "standing-qt-1",
+        "prompt": "一位學生說：「節點只是整個波消失的地方，所以那裡沒有什麼有趣的事情在發生。」最好的糾正是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "節點是持續的干涉抵消點，而附近位置仍然可以強烈振動。"
+          },
+          {
+            "id": "b",
+            "label": "節點表示整條弦在那一瞬間停止了運動。"
+          },
+          {
+            "id": "c",
+            "label": "節點是在錯誤時間觀看到的反節點。"
+          }
+        ],
+        "explanation": "節點是固定位置，反向行波會在那裡持續抵消；但弦的其他部分仍可有很大的振動，所以駐波仍然存在。",
+        "selectedWrongExplanations": {
+          "b": "整條弦並沒有停止。只有節點保持在零位，鄰近段落仍會上下運動。",
+          "c": "節點和反節點是模式形狀中的不同位置，不是同一位置在不同時間的樣子。"
+        },
+        "showMeAction": {
+          "label": "顯示節點探針",
+          "observationHint": "探針位於內部節點處，而鄰近的波腹仍然振動。"
+        }
+      },
+      {
+        "id": "standing-qt-2",
+        "prompt": "在模式形狀圖上，曲線穿過零位代表什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "節點，因為那裡的局部駐波振幅為零。"
+          },
+          {
+            "id": "b",
+            "label": "反節點，因為圖像在那裡改變方向。"
+          },
+          {
+            "id": "c",
+            "label": "弦改變諧波階數的位置。"
+          }
+        ],
+        "explanation": "模式形狀圖上的零位代表局部空間因子為零，因此該點在駐波中保持固定。",
+        "selectedWrongExplanations": {
+          "b": "反節點是模式形狀的峰和谷，不是零交叉。",
+          "c": "諧波階數由整個模式決定；單一 x 座標不會自行改變模式數。"
+        },
+        "showMeAction": {
+          "label": "顯示第三諧波",
+          "observationHint": "模式形狀圖上的每個零交叉對應於弦上的一個固定節點。"
+        }
+      },
+      {
+        "id": "standing-qt-3",
+        "prompt": "為甚麼駐波可以同時被描述為干涉和振動？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "兩個等幅反向行波互相干涉，形成固定的空間模式；每個非節點位置仍會在該模式內隨時間振動。"
+          },
+          {
+            "id": "b",
+            "label": "一旦形成駐波，干涉就停止了，只剩下振動。"
+          },
+          {
+            "id": "c",
+            "label": "駐波其實只是被固定住的行波，所以圖上的振動只是時間上的錯覺。"
+          }
+        ],
+        "explanation": "兩種描述都不可少。干涉解釋節點和反節點為何形成；振動解釋節點之間的非節點位置為何仍會隨時間上下移動。",
+        "selectedWrongExplanations": {
+          "b": "固定的模式存在於兩個行波成分不斷相互干涉之處。",
+          "c": "弦的確會隨時間振動。駐波只是把空間模式固定下來，並不是把位移凝固。"
+        },
+        "showMeAction": {
+          "label": "顯示組成波",
+          "observationHint": "開啟反向行波疊加，並與即時駐波形狀一起比較。"
+        }
+      },
+      {
+        "id": "standing-qt-4",
+        "prompt": "兩條弦的長度和波速都相同。設定 B 的模式數比設定 A 高。那麼一定會發生什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "設定 B 有更多節點、更短的允許波長和更高的頻率。"
+          },
+          {
+            "id": "b",
+            "label": "設定 B 的節點間距與設定 A 相同，因為弦長相同。"
+          },
+          {
+            "id": "c",
+            "label": "設定 B 必須有更大的振幅，才能容納額外的波腹。"
+          }
+        ],
+        "explanation": "較高諧波會在相同長度內放入更多半波長段，使節點間距縮短並提高頻率；振幅可以保持不變。",
+        "selectedWrongExplanations": {
+          "b": "節點間距取決於弦長和模式數。提高 n 在相同長度下使間距更小。",
+          "c": "振幅改變的是運動大小，不是弦上可以放入多少個波腹。"
+        },
+        "showMeAction": {
+          "label": "顯示第四諧波",
+          "observationHint": "在同一段尺距內，弦可以多放入波腹，不需要更大的振幅。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一條水平拉緊的固定弦，配有可移動探針標記和下方的尺標。弦會以選定的諧波振動，而可選疊加則會標出節點、反節點，以及組成駐波的兩個行波成分。",
+        "改變振幅、弦長、模式數或探針位置，都會立即更新同一舞台、模式形狀圖和探針運動圖，使駐波狀態保持同步。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "模式形狀圖會沿弦的位置繪出帶正負號的駐波振幅，因此零交叉對應節點，峰值對應反節點。",
+        "探針運動圖則沿時間繪製所選位置的位移與局部包絡，讓你看見節點幾乎不動，而反節點達到駐波的最大振幅。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "即時諧波檢查"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "節點檢查點"
+      },
+      {
+        "id": "readNext",
+        "title": "繼續波的故事"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "standing-displacement",
+      "label": "駐波位移",
+      "meaning": "空間模式形狀和共用的時間振動相乘，得到局部位移。",
+      "notes": [
+        "正弦因子固定了節點模式在空間中的位置。",
+        "餘弦因子幾乎讓每個允許的點隨著時間振動。"
+      ]
+    },
+    {
+      "id": "standing-wavelength",
+      "label": "允許波長",
+      "meaning": "第 n 個諧波會把 n 個半波長段放進固定長度的弦上。"
+    },
+    {
+      "id": "standing-frequency",
+      "label": "允許頻率",
+      "meaning": "一旦設定波速和弦長，每個諧波都有對應的振動頻率。"
+    },
+    {
+      "id": "standing-nodes",
+      "label": "節點位置",
+      "meaning": "節點位於弦上的固定分數位置，破壞性干涉會令那裡的位移保持為零。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "amplitude",
+      "label": "反節點振幅",
+      "description": "設定了最大的可能駐波位移，因此反節點擺動得更遠而節點仍然固定。"
+    },
+    {
+      "id": "modeNumber",
+      "label": "模式數",
+      "description": "選擇哪個諧波能在弦上成立，所以它會同時改變節點數、反節點數、波長和頻率。"
+    },
+    {
+      "id": "length",
+      "label": "弦長",
+      "description": "改變固定端留給諧波的空間大小，這會移動節點間距、波長和頻率。"
+    },
+    {
+      "id": "probeX",
+      "label": "探針位置",
+      "description": "沿弦移動即時測量點，以比較節點、反節點和中間位置的運動，而不建立第二個狀態。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "amplitude",
+        "label": "反節點振幅",
+        "description": "控制反節點可達到的最大擺幅，讓節點保持固定而反節點擺動更大或更小。"
+      },
+      {
+        "id": "length",
+        "label": "弦長",
+        "description": "改變固定端之間的距離，因而改變可容納的諧波間距。"
+      },
+      {
+        "id": "modeNumber",
+        "label": "模式數",
+        "description": "改變可容納在弦上的半波長段數量，從而改變節點數目與振動頻率。"
+      },
+      {
+        "id": "probeX",
+        "label": "探針位置",
+        "description": "移動探針可比較節點、反節點和中間位置的即時位移。"
+      }
+    ]
+  },
+  "predictionMode": {
+    "items": [
+      {
+        "id": "standing-predict-mode",
+        "changeLabel": "模式數"
+      },
+      {
+        "id": "standing-predict-node",
+        "changeLabel": "探針位置"
+      }
+    ]
+  }
+}

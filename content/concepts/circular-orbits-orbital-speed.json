@@ -1,0 +1,1437 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live orbit checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Orbit-balance checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Carry the orbit bridge forward"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "See why a circular orbit needs the right sideways speed, how gravity supplies the centripetal acceleration, and how source mass and radius together set orbital speed and period on one bounded live model.",
+    "keyTakeaway": "For a circular orbit in this G = 1 model, gravity matches the turning requirement: M/r^2 = v^2/r, so v_c = sqrt(M/r). Around the same source mass, doubling the radius cuts speed by 1/sqrt(2), not by half."
+  },
+  "v2": {
+    "intuition": "A circular orbit is a speed-matching problem: the sideways motion has to be exactly right for gravity to keep turning the path without letting the radius drift.",
+    "whyItMatters": "This is the clean bridge from uniform circular motion to real orbital motion, where gravity itself supplies the inward turn instead of a hidden extra force.",
+    "estimatedMinutes": 16,
+    "equationSnapshot": {
+      "equationIds": [
+        "centripetal-requirement",
+        "circular-speed"
+      ],
+      "note": "Use these together: gravity has to match the turning requirement, and the circular-speed formula is what drops out."
+    },
+    "startSetup": {
+      "presetId": "reference-orbit",
+      "graphId": "radius-history",
+      "overlayIds": [
+        "referenceOrbit",
+        "trail"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "match-the-circle",
+        "title": "Match the circle",
+        "goal": "See what a correctly matched circular orbit looks like before you explain it.",
+        "doThis": "Start from Reference orbit, keep Radius over time open, and nudge the speed factor below 1 and above 1.",
+        "notice": "Only the matched case rides the dashed reference circle. Too slow bends inward and too fast opens outward.",
+        "explain": "At one chosen radius, the path stays circular only when gravity and the turning requirement v^2/r match.",
+        "reveal": {
+          "controlIds": [
+            "speedFactor"
+          ],
+          "graphIds": [
+            "radius-history"
+          ],
+          "overlayIds": [
+            "referenceOrbit",
+            "trail"
+          ]
+        },
+        "setup": {
+          "presetId": "reference-orbit",
+          "graphId": "radius-history",
+          "overlayIds": [
+            "referenceOrbit",
+            "trail"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "co-pred-too-slow"
+          ]
+        }
+      },
+      {
+        "id": "change-mass-or-radius",
+        "title": "Change mass or radius",
+        "goal": "See that circular speed depends on both the source mass and the chosen radius.",
+        "doThis": "Switch between Heavier source and Outer slower circle while the speed history stays open.",
+        "notice": "A heavier source raises the required circular speed at the same radius. A wider circle lowers the speed by a square-root factor and lengthens the period much more strongly.",
+        "explain": "The same balance gives both results: v_c = sqrt(M/r) and T_c = 2pi sqrt(r^3/M). With the source mass held fixed, doubling radius makes the circular speed 1/sqrt(2) as large and the period 2sqrt(2) times longer.",
+        "reveal": {
+          "controlIds": [
+            "sourceMass",
+            "orbitRadius"
+          ],
+          "graphIds": [
+            "speed-history"
+          ],
+          "overlayIds": [
+            "referenceOrbit",
+            "gravityVector"
+          ]
+        },
+        "setup": {
+          "presetId": "heavy-source-circle",
+          "graphId": "speed-history",
+          "overlayIds": [
+            "referenceOrbit",
+            "gravityVector"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "co-pred-heavier-source",
+            "co-pred-wider-orbit"
+          ]
+        }
+      },
+      {
+        "id": "read-the-live-balance",
+        "title": "Read the live balance",
+        "goal": "Use the live orbit to compare gravity with the turning requirement at the current instant.",
+        "doThis": "Open Too slow, move through the orbit, and read the current radius, speed, and acceleration balance together.",
+        "notice": "When the gravity curve sits above the v^2/r curve, the trail falls inside the dashed circle because the motion is being bent too strongly inward.",
+        "explain": "The sign of g - v^2/r tells you whether the motion has enough sideways speed to hold the current radius.",
+        "reveal": {
+          "controlIds": [
+            "speedFactor"
+          ],
+          "graphIds": [
+            "acceleration-balance",
+            "radius-history"
+          ],
+          "overlayIds": [
+            "gravityVector",
+            "trail",
+            "referenceOrbit"
+          ]
+        },
+        "setup": {
+          "presetId": "too-slow-fall-in",
+          "graphId": "acceleration-balance",
+          "overlayIds": [
+            "gravityVector",
+            "trail",
+            "referenceOrbit"
+          ]
+        },
+        "inlineCheck": {
+          "includeMiniChallenge": true
+        }
+      },
+      {
+        "id": "check-the-orbit-story",
+        "title": "Check the orbit story",
+        "goal": "Pressure-test the rule before you move on to the full concept test or free play.",
+        "doThis": "Answer two short checks from the same orbit picture, then reuse the bench to make your own too-slow, just-right, and too-fast cases.",
+        "notice": "The strongest answer keeps repeating the same story: gravity is the inward turn source, and the correct speed depends on mass and radius together.",
+        "explain": "If you can predict how mass, radius, and speed factor change the path, you are ready for the concept test and for more open-ended orbit cases.",
+        "reveal": {
+          "controlIds": [
+            "sourceMass",
+            "orbitRadius",
+            "speedFactor"
+          ],
+          "graphIds": [
+            "speed-history",
+            "acceleration-balance"
+          ],
+          "overlayIds": [
+            "gravityVector",
+            "velocityVector"
+          ]
+        },
+        "setup": {
+          "presetId": "reference-orbit",
+          "graphId": "acceleration-balance",
+          "overlayIds": [
+            "gravityVector",
+            "velocityVector"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "co-qt-gravity-role",
+            "co-qt-wider-radius"
+          ]
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "A circular orbit is the special case where gravity already matches the turning requirement v^2/r.",
+        "At the same radius, a heavier source needs a larger circular speed and gives a shorter period.",
+        "At the same source mass, a wider circular orbit moves more slowly by a square-root factor, travels farther, and therefore takes much longer to go around."
+      ],
+      "misconception": "A satellite is not floating because gravity vanished. Orbit is the case where gravity is still present and is exactly what keeps the path turning inward.",
+      "workedExampleRefs": [
+        "required-circular-speed"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "escape-velocity",
+          "title": "Escape Velocity",
+          "reasonLabel": "What if the speed is high enough to leave instead of circle?"
+        },
+        {
+          "slug": "uniform-circular-motion",
+          "title": "Uniform Circular Motion",
+          "reasonLabel": "Review the turning-motion foundation without gravity."
+        }
+      ],
+      "freePlayPrompt": "Stay on the bench and build your own too-slow, just-right, and too-fast cases at several radii."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "accessibility"
+    ]
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "A circular orbit is not a place where gravity turns off. It is a special free-fall case where gravity already points inward and the sideways speed is exactly the value that keeps the radius from shrinking or growing.",
+        "This bounded lab keeps one source mass, one chosen reference radius, one speed factor, one live path, and the linked radius, speed, and acceleration-balance graphs on the same state. The assumptions stay visible: one central source, circular-orbit targets, displayed G = 1 units, and no atmosphere or other forces. That makes the orbit condition honest: gravity supplies the centripetal acceleration, and the circular speed changes whenever you change source mass or radius."
+      ]
+    },
+    "keyIdeas": [
+      "For a circular orbit at radius r, gravity itself is the centripetal acceleration: M/r^2 = v^2/r in the displayed units with G = 1.",
+      "At one chosen radius, a speed below the circular value lets gravity bend the path inward, while a speed above the circular value lets the path open outward.",
+      "The circular-orbit speed grows with source mass and falls with larger radius by a square-root factor, while the circular period grows strongly with radius and shortens for heavier source mass."
+    ],
+    "commonMisconception": {
+      "myth": "A satellite in orbit is floating because gravity is basically absent there.",
+      "correction": [
+        "Orbit still needs gravity. The gravitational pull is the inward acceleration that keeps the path curved instead of straight.",
+        "What changes is not whether gravity exists, but whether the sideways speed matches the circular-orbit requirement at that radius."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Use the same source mass, reference radius, speed factor, and current orbit state already on screen. The examples stay tied to the live bench instead of swapping to a detached answer key, and they make the non-linear radius scaling visible: doubling radius does not halve the circular speed.",
+      "items": [
+        {
+          "id": "required-circular-speed",
+          "title": "Required circular speed",
+          "prompt": "For the current source mass and chosen reference orbit radius, what circular speed keeps the orbit circular?",
+          "variables": [
+            {
+              "id": "sourceMass",
+              "variableId": "sourceMass",
+              "symbol": "M",
+              "label": "Source mass",
+              "valueKey": "sourceMassValue",
+              "unit": "kg"
+            },
+            {
+              "id": "orbitRadius",
+              "variableId": "orbitRadius",
+              "symbol": "r",
+              "label": "Reference orbit radius",
+              "valueKey": "orbitRadiusValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Start from the circular-orbit balance",
+              "template": "Set gravity equal to the needed centripetal acceleration: $M/r^2 = v_c^2/r$."
+            },
+            {
+              "id": "solve",
+              "label": "2. Solve for the circular speed",
+              "template": "That gives $v_c = \\sqrt{M/r} = \\sqrt{{{sourceMassValue}}/{{orbitRadiusValue}}}$ in the displayed $G = 1$ units."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compute the live circular speed",
+              "template": "So the circular-orbit speed is $v_c = {{circularSpeedValue}}\\,\\mathrm{m/s}$, with $\\omega_c = {{angularSpeedValue}}\\,\\mathrm{rad/s}$ and $T_c = {{periodValue}}\\,\\mathrm{s}$ for that same reference circle."
+            }
+          ],
+          "resultLabel": "Required circular speed",
+          "resultTemplate": "$v_c = {{circularSpeedValue}}\\,\\mathrm{m/s}$",
+          "interpretationTemplate": "{{circularSpeedInterpretation}}",
+          "applyAction": {
+            "label": "Show the heavier source case",
+            "presetId": "heavy-source-circle",
+            "observationHint": "Keep the same radius and watch the required circular speed and gravity level rise together when the source mass grows.",
+            "highlightedControlIds": [
+              "sourceMass",
+              "orbitRadius"
+            ],
+            "highlightedGraphIds": [
+              "speed-history"
+            ],
+            "highlightedOverlayIds": [
+              "referenceOrbit",
+              "gravityVector"
+            ]
+          }
+        },
+        {
+          "id": "current-orbit-balance",
+          "title": "Current gravity-versus-turning check",
+          "prompt": "At the current live time, how does the inward gravity compare with the turning requirement of the actual motion?",
+          "dependsOnTime": true,
+          "variables": [
+            {
+              "id": "time",
+              "symbol": "t",
+              "label": "Time",
+              "valueKey": "timeValue",
+              "unit": "s"
+            },
+            {
+              "id": "currentRadius",
+              "symbol": "r(t)",
+              "label": "Current radius",
+              "valueKey": "currentRadiusValue",
+              "unit": "m"
+            },
+            {
+              "id": "actualSpeed",
+              "symbol": "v(t)",
+              "label": "Current speed",
+              "valueKey": "actualSpeedValue",
+              "unit": "m/s"
+            }
+          ],
+          "steps": [
+            {
+              "id": "measure",
+              "label": "1. Read the current radius and speed",
+              "template": "At $t = {{timeValue}}\\,\\mathrm{s}$, the live path gives $r = {{currentRadiusValue}}\\,\\mathrm{m}$ and $v = {{actualSpeedValue}}\\,\\mathrm{m/s}$."
+            },
+            {
+              "id": "gravity",
+              "label": "2. Compute the inward gravity there",
+              "template": "Gravity supplies $g = M/r^2 = {{gravityAccelerationValue}}\\,\\mathrm{m/s^2}$."
+            },
+            {
+              "id": "turning",
+              "label": "3. Compute the turning requirement of the motion",
+              "template": "The current path would need $v^2/r = {{requiredCentripetalValue}}\\,\\mathrm{m/s^2}$, so the balance gap is $\\Delta = g - v^2/r = {{balanceGapValue}}\\,\\mathrm{m/s^2}$."
+            }
+          ],
+          "resultLabel": "Current orbit balance",
+          "resultTemplate": "$g = {{gravityAccelerationValue}},\\; v^2/r = {{requiredCentripetalValue}},\\; \\Delta = {{balanceGapValue}}$",
+          "interpretationTemplate": "{{balanceInterpretation}}",
+          "applyAction": {
+            "label": "Show the too-slow case",
+            "presetId": "too-slow-fall-in",
+            "observationHint": "When the speed factor drops below 1, the gravity curve sits above the turning-requirement curve and the trail falls inside the dashed reference orbit.",
+            "highlightedControlIds": [
+              "speedFactor"
+            ],
+            "highlightedGraphIds": [
+              "acceleration-balance",
+              "radius-history"
+            ],
+            "highlightedOverlayIds": [
+              "gravityVector",
+              "trail",
+              "referenceOrbit"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Start from the right side of the dashed reference circle. If the speed factor is set below 1, should the next part of the path stay on the circle, drift outside it, or bend inside it?",
+      "prediction": "Answer before you press the too-slow preset: is gravity now too weak, too strong, or just right for the turning requirement?",
+      "answer": "It bends inside the dashed circle because the chosen speed is too small for a circular orbit at that radius.",
+      "explanation": "At fixed radius, lowering the speed lowers $v^2/r$. Gravity is then stronger than the inward acceleration needed for a circular turn, so the path curves inward."
+    }
+  },
+  "equations": [
+    {
+      "id": "gravity-acceleration",
+      "latex": "g = \\dfrac{M}{r^2}",
+      "label": "Gravity from one source mass",
+      "meaning": "In this bounded lab with displayed units using $G = 1$, the inward gravitational acceleration is set by source mass and radius."
+    },
+    {
+      "id": "centripetal-requirement",
+      "latex": "a_c = \\dfrac{v^2}{r}",
+      "label": "Turning requirement",
+      "meaning": "Any path with speed v and radius r needs this inward acceleration to keep turning."
+    },
+    {
+      "id": "circular-speed",
+      "latex": "v_c = \\sqrt{\\dfrac{M}{r}}",
+      "label": "Circular-orbit speed",
+      "meaning": "Matching gravity to the turning requirement gives the speed for a stable circular orbit at the chosen radius."
+    },
+    {
+      "id": "circular-angular-speed",
+      "latex": "\\omega_c = \\sqrt{\\dfrac{M}{r^3}}",
+      "label": "Circular angular speed",
+      "meaning": "The angular speed follows from $\\omega = v/r$ once the circular speed is fixed."
+    },
+    {
+      "id": "circular-period",
+      "latex": "T_c = 2\\pi\\sqrt{\\dfrac{r^3}{M}}",
+      "label": "Circular period",
+      "meaning": "At larger radius the period grows strongly, while heavier source mass shortens the period."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "sourceMass",
+      "symbol": "M",
+      "label": "Source mass",
+      "param": "sourceMass",
+      "tone": "ink",
+      "description": "Strengthens the inward gravity everywhere, so the circular speed and circular angular speed both rise at the same reference radius.",
+      "equationIds": [
+        "gravity-acceleration",
+        "circular-speed",
+        "circular-angular-speed",
+        "circular-period"
+      ],
+      "graphIds": [
+        "speed-history",
+        "acceleration-balance"
+      ],
+      "overlayIds": [
+        "gravityVector",
+        "referenceOrbit"
+      ]
+    },
+    {
+      "id": "orbitRadius",
+      "symbol": "r",
+      "label": "Reference orbit radius",
+      "param": "orbitRadius",
+      "tone": "amber",
+      "description": "Sets the dashed reference circle. A larger circular orbit lowers the circular speed but lengthens the circular period.",
+      "equationIds": [
+        "gravity-acceleration",
+        "centripetal-requirement",
+        "circular-speed",
+        "circular-angular-speed",
+        "circular-period"
+      ],
+      "graphIds": [
+        "radius-history",
+        "speed-history",
+        "acceleration-balance"
+      ],
+      "overlayIds": [
+        "referenceOrbit",
+        "radiusLine",
+        "trail"
+      ]
+    },
+    {
+      "id": "speedFactor",
+      "symbol": "\\dfrac{v}{v_c}",
+      "label": "Speed factor",
+      "param": "speedFactor",
+      "tone": "sky",
+      "description": "Sets the actual launch speed relative to the circular value. At 1.00 the orbit stays circular, below 1 the path bends inward, and above 1 it opens outward.",
+      "equationIds": [
+        "centripetal-requirement",
+        "circular-speed"
+      ],
+      "graphIds": [
+        "radius-history",
+        "speed-history",
+        "acceleration-balance"
+      ],
+      "overlayIds": [
+        "velocityVector",
+        "gravityVector",
+        "trail"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "sourceMass": 4,
+      "orbitRadius": 1.6,
+      "speedFactor": 1,
+      "referenceOrbit": true,
+      "radiusLine": true,
+      "velocityVector": true,
+      "gravityVector": true,
+      "trail": true
+    },
+    "ui": {
+      "initialGraphId": "radius-history",
+      "primaryGraphIds": [
+        "radius-history"
+      ],
+      "primaryControlIds": [
+        "speedFactor"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "sourceMass",
+        "kind": "slider",
+        "label": "Source mass",
+        "param": "sourceMass",
+        "min": 2,
+        "max": 6,
+        "step": 0.05,
+        "unit": "kg",
+        "description": "Changes the mass creating the inward gravity."
+      },
+      {
+        "id": "orbitRadius",
+        "kind": "slider",
+        "label": "Reference orbit radius",
+        "param": "orbitRadius",
+        "min": 0.9,
+        "max": 2.2,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Sets the dashed reference circle used for the circular-orbit target."
+      },
+      {
+        "id": "speedFactor",
+        "kind": "slider",
+        "label": "Speed factor",
+        "param": "speedFactor",
+        "min": 0.8,
+        "max": 1.1,
+        "step": 0.01,
+        "unit": "x circular",
+        "description": "1.00 means the actual speed equals the circular-orbit speed for the chosen mass and radius."
+      }
+    ],
+    "presets": [
+      {
+        "id": "reference-orbit",
+        "label": "Reference orbit",
+        "description": "A balanced circular-orbit case with the speed factor set exactly to 1.",
+        "values": {
+          "sourceMass": 4,
+          "orbitRadius": 1.6,
+          "speedFactor": 1
+        }
+      },
+      {
+        "id": "inner-faster-circle",
+        "label": "Inner faster circle",
+        "description": "A smaller circular orbit around the same source mass needs a larger circular speed.",
+        "values": {
+          "sourceMass": 4,
+          "orbitRadius": 1.1,
+          "speedFactor": 1
+        }
+      },
+      {
+        "id": "outer-slower-circle",
+        "label": "Outer slower circle",
+        "description": "A wider circular orbit lowers the circular speed and lengthens the circular period.",
+        "values": {
+          "sourceMass": 4,
+          "orbitRadius": 2.1,
+          "speedFactor": 1
+        }
+      },
+      {
+        "id": "too-slow-fall-in",
+        "label": "Too slow",
+        "description": "Dropping below the circular speed makes gravity stronger than the turning requirement, so the path bends inward.",
+        "values": {
+          "sourceMass": 4,
+          "orbitRadius": 1.6,
+          "speedFactor": 0.85
+        }
+      },
+      {
+        "id": "too-fast-climb",
+        "label": "Too fast",
+        "description": "A speed above the circular value makes the path open outward because gravity cannot bend it tightly enough.",
+        "values": {
+          "sourceMass": 4,
+          "orbitRadius": 1.6,
+          "speedFactor": 1.08
+        }
+      },
+      {
+        "id": "heavy-source-circle",
+        "label": "Heavier source",
+        "description": "At the same radius, a heavier source mass demands a larger circular speed and a shorter circular period.",
+        "values": {
+          "sourceMass": 5.2,
+          "orbitRadius": 1.6,
+          "speedFactor": 1
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "referenceOrbit",
+        "label": "Reference orbit",
+        "shortDescription": "Shows the dashed circle for the chosen circular-orbit target.",
+        "whatToNotice": [
+          "Only the right speed keeps the live path riding on this dashed circle."
+        ],
+        "whyItMatters": "It separates the chosen circular target from the actual path taken when the speed factor is too low or too high.",
+        "relatedControls": [
+          "orbitRadius",
+          "speedFactor"
+        ],
+        "relatedGraphTabs": [
+          "radius-history"
+        ],
+        "relatedEquationVariables": [
+          "orbitRadius",
+          "speedFactor"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "radiusLine",
+        "label": "Radius line",
+        "shortDescription": "Shows the current source-to-satellite radius.",
+        "whatToNotice": [
+          "The same current radius appears in the live readout and in the linked balance relations."
+        ],
+        "whyItMatters": "It keeps the geometric meaning of r visible while the orbit drifts away from the reference circle.",
+        "relatedControls": [
+          "orbitRadius"
+        ],
+        "relatedGraphTabs": [
+          "radius-history",
+          "acceleration-balance"
+        ],
+        "relatedEquationVariables": [
+          "orbitRadius"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "velocityVector",
+        "label": "Velocity vector",
+        "shortDescription": "Shows the current tangent direction and speed of the orbiting body.",
+        "whatToNotice": [
+          "At the circular condition, the speed matches the needed turn. Away from that condition, the same tangent direction leads to inward or outward drift."
+        ],
+        "whyItMatters": "It makes the sideways-motion part of orbital balance visible instead of treating speed as a hidden number.",
+        "relatedControls": [
+          "speedFactor"
+        ],
+        "relatedGraphTabs": [
+          "speed-history"
+        ],
+        "relatedEquationVariables": [
+          "speedFactor"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "gravityVector",
+        "label": "Gravity vector",
+        "shortDescription": "Shows the inward gravitational acceleration that bends the path.",
+        "whatToNotice": [
+          "This is the centripetal acceleration source in the orbit problem, not an extra force added on top."
+        ],
+        "whyItMatters": "It keeps the link between gravity and centripetal acceleration explicit.",
+        "relatedControls": [
+          "sourceMass",
+          "orbitRadius",
+          "speedFactor"
+        ],
+        "relatedGraphTabs": [
+          "acceleration-balance"
+        ],
+        "relatedEquationVariables": [
+          "sourceMass",
+          "orbitRadius",
+          "speedFactor"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "trail",
+        "label": "Trajectory trail",
+        "shortDescription": "Leaves the actual path behind the moving body over the current time window.",
+        "whatToNotice": [
+          "A correct circular speed keeps the trail on the dashed circle, while too little or too much speed makes the trail peel away."
+        ],
+        "whyItMatters": "It makes the orbit consequence visible over time instead of hiding it in one instant.",
+        "relatedControls": [
+          "speedFactor"
+        ],
+        "relatedGraphTabs": [
+          "radius-history"
+        ],
+        "relatedEquationVariables": [
+          "speedFactor"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "radius-history",
+      "label": "Radius over time",
+      "xLabel": "time (s)",
+      "yLabel": "radius (m)",
+      "series": [
+        "radius",
+        "reference-radius"
+      ],
+      "description": "Compares the live radius with the chosen reference circular-orbit radius over the same time window."
+    },
+    {
+      "id": "speed-history",
+      "label": "Actual speed and circular speed",
+      "xLabel": "time (s)",
+      "yLabel": "speed (m/s)",
+      "series": [
+        "actual-speed",
+        "circular-speed"
+      ],
+      "description": "Compares the live speed with the circular speed that would be required at the current radius."
+    },
+    {
+      "id": "acceleration-balance",
+      "label": "Gravity and turning requirement",
+      "xLabel": "time (s)",
+      "yLabel": "inward acceleration (m/s^2)",
+      "series": [
+        "gravity-available",
+        "centripetal-required"
+      ],
+      "description": "Shows whether gravity is matching the turning requirement v^2/r or sitting above or below it."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use one prompt at a time. The clearest thing to watch changes depending on whether the orbit is close to circular, too slow, too fast, or being compared against another setup.",
+    "items": [
+      {
+        "id": "co-notice-circular-match",
+        "text": "Notice that the trail stays on the dashed reference circle only when the speed factor is very close to 1.00.",
+        "type": "observation",
+        "priority": 6,
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "speedFactor",
+              "min": 0.99,
+              "max": 1.01
+            }
+          ],
+          "overlayIds": [
+            "referenceOrbit",
+            "trail"
+          ]
+        },
+        "tryThis": "Leave the speed factor at 1.00, then scrub the radius graph. The live radius keeps returning to the same value because gravity and the turning requirement stay matched.",
+        "whyItMatters": "This is the stable circular-orbit case the later formulas are describing.",
+        "relatedControls": [
+          "speedFactor"
+        ],
+        "relatedGraphTabs": [
+          "radius-history"
+        ],
+        "relatedOverlays": [
+          "referenceOrbit",
+          "trail"
+        ],
+        "relatedEquationVariables": [
+          "speedFactor"
+        ]
+      },
+      {
+        "id": "co-notice-too-slow",
+        "text": "Notice that lowering the speed factor below 1 makes gravity stronger than the turning requirement, so the path bends inside the dashed circle.",
+        "type": "try-this",
+        "priority": 8,
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "speedFactor",
+              "max": 0.95
+            }
+          ]
+        },
+        "tryThis": "Apply Too slow, then compare the trail with the acceleration-balance graph. The teal gravity curve sits above the coral v^2/r curve.",
+        "whyItMatters": "It shows exactly why a circular orbit needs the right sideways speed instead of just any fast motion.",
+        "relatedControls": [
+          "speedFactor"
+        ],
+        "relatedGraphTabs": [
+          "acceleration-balance",
+          "radius-history"
+        ],
+        "relatedOverlays": [
+          "gravityVector",
+          "trail"
+        ],
+        "relatedEquationVariables": [
+          "speedFactor"
+        ]
+      },
+      {
+        "id": "co-notice-too-fast",
+        "text": "Notice that raising the speed factor above 1 makes the turning requirement exceed gravity, so the path opens outward from the dashed circle.",
+        "type": "misconception",
+        "priority": 8,
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "speedFactor",
+              "min": 1.03
+            }
+          ]
+        },
+        "tryThis": "Apply Too fast and compare the live speed curve with the circular-speed curve. The actual speed starts above the circular value, so the path cannot stay on the same radius.",
+        "whyItMatters": "A faster orbit is not automatically more stable. It must still match the radius and the gravity at that location.",
+        "relatedControls": [
+          "speedFactor"
+        ],
+        "relatedGraphTabs": [
+          "speed-history",
+          "radius-history"
+        ],
+        "relatedOverlays": [
+          "velocityVector",
+          "trail"
+        ],
+        "relatedEquationVariables": [
+          "speedFactor"
+        ]
+      },
+      {
+        "id": "co-notice-radius-scaling",
+        "text": "Changing the reference radius changes the needed circular speed and period together: wider circles move more slowly but take longer to complete.",
+        "type": "observation",
+        "priority": 5,
+        "conditions": {
+          "lastChangedControls": [
+            "orbitRadius"
+          ]
+        },
+        "tryThis": "Switch between Inner faster circle and Outer slower circle while keeping the speed factor at 1. The dashed circle widens, the speed graph drops, and the circular period grows.",
+        "whyItMatters": "This keeps the radius dependence from collapsing into a memorized formula.",
+        "relatedControls": [
+          "orbitRadius"
+        ],
+        "relatedGraphTabs": [
+          "speed-history",
+          "radius-history"
+        ],
+        "relatedOverlays": [
+          "referenceOrbit",
+          "trail"
+        ],
+        "relatedEquationVariables": [
+          "orbitRadius"
+        ]
+      },
+      {
+        "id": "co-notice-acceleration-balance",
+        "text": "The acceleration-balance graph is the core orbit check: a circular orbit happens when the gravity curve and the v^2/r curve sit on top of each other.",
+        "type": "graph-reading",
+        "priority": 7,
+        "conditions": {
+          "graphTabs": [
+            "acceleration-balance"
+          ]
+        },
+        "tryThis": "Stay on Reference orbit first, then move the speed factor away from 1. The separation between the curves predicts whether the trail moves inward or outward.",
+        "whyItMatters": "It makes the phrase \"gravity supplies the centripetal acceleration\" visible and testable.",
+        "relatedGraphTabs": [
+          "acceleration-balance"
+        ],
+        "relatedOverlays": [
+          "gravityVector",
+          "velocityVector"
+        ],
+        "relatedEquationVariables": [
+          "sourceMass",
+          "orbitRadius",
+          "speedFactor"
+        ]
+      },
+      {
+        "id": "co-notice-compare",
+        "text": "Compare mode is strongest when both setups keep speed factor near 1 while only source mass or reference radius changes. Then the speed and period differences are honest consequences of the same orbit rule.",
+        "type": "compare",
+        "priority": 9,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Keep both setups circular, then make Setup B the smaller-radius orbit. The same source mass now produces the shorter-period, faster orbit in B.",
+        "whyItMatters": "It isolates the mass and radius dependence without mixing in a separate \"too slow\" or \"too fast\" mistake.",
+        "relatedControls": [
+          "sourceMass",
+          "orbitRadius",
+          "speedFactor"
+        ],
+        "relatedGraphTabs": [
+          "speed-history",
+          "radius-history"
+        ],
+        "relatedOverlays": [
+          "referenceOrbit",
+          "trail"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the orbit consequence before you apply the preset. Each scenario changes one cause at a time so the orbit balance stays readable.",
+    "items": [
+      {
+        "id": "co-pred-heavier-source",
+        "prompt": "At the same reference radius, what must happen when the source mass increases while the speed factor stays at 1.00?",
+        "scenarioLabel": "Heavier source, same radius",
+        "changeLabel": "Source mass",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The circular speed increases, the circular period shortens, and the trail can still stay on the dashed circle because the speed factor stayed at 1."
+          },
+          {
+            "id": "b",
+            "label": "The circular speed stays the same because only radius matters for circular orbits."
+          },
+          {
+            "id": "c",
+            "label": "The orbit must bend inward immediately because heavier source mass always means the speed is now too low."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At fixed radius, stronger gravity raises the circular speed and shortens the circular period. Because the control here keeps the speed factor at 1, the actual speed rises with the new circular value and the path can remain circular.",
+        "observationHint": "The dashed circle stays the same size, but the live speed and gravity values both rise while the circular period drops.",
+        "apply": {
+          "presetId": "heavy-source-circle"
+        },
+        "highlightedControls": [
+          "sourceMass"
+        ],
+        "highlightedGraphs": [
+          "speed-history",
+          "acceleration-balance"
+        ],
+        "highlightedOverlays": [
+          "gravityVector",
+          "referenceOrbit"
+        ]
+      },
+      {
+        "id": "co-pred-wider-orbit",
+        "prompt": "At the same source mass, what changes most clearly when the chosen circular orbit radius increases while the speed factor stays at 1.00?",
+        "scenarioLabel": "Wider circular orbit",
+        "changeLabel": "Reference orbit radius",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The circular speed decreases while the circular period increases, so the path stays circular but takes longer to go around."
+          },
+          {
+            "id": "b",
+            "label": "The circular speed increases because larger circles always need more speed."
+          },
+          {
+            "id": "c",
+            "label": "The period stays fixed because the speed factor did not change."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "For circular orbits, v_c = sqrt(M/r) drops as radius grows, while T_c = 2pi sqrt(r^3/M) grows strongly with radius. Doubling radius gives 1/sqrt(2) of the speed but 2sqrt(2) times the period. Keeping the speed factor at 1 preserves the circular match.",
+        "observationHint": "The dashed circle gets wider, the speed graph shifts downward, and the circular period readout rises.",
+        "apply": {
+          "presetId": "outer-slower-circle"
+        },
+        "highlightedControls": [
+          "orbitRadius"
+        ],
+        "highlightedGraphs": [
+          "speed-history",
+          "radius-history"
+        ],
+        "highlightedOverlays": [
+          "referenceOrbit",
+          "trail"
+        ]
+      },
+      {
+        "id": "co-pred-too-slow",
+        "prompt": "If the speed factor drops below 1.00 at one chosen reference radius, what should happen first?",
+        "scenarioLabel": "Too little orbital speed",
+        "changeLabel": "Speed factor",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Gravity becomes stronger than the turning requirement, so the trail bends inside the dashed circle."
+          },
+          {
+            "id": "b",
+            "label": "Gravity disappears because the object is now in free fall."
+          },
+          {
+            "id": "c",
+            "label": "The path stays perfectly circular because only mass and radius matter."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Lowering the speed lowers v^2/r at that radius. Gravity is then larger than the inward acceleration needed for a circular turn, so the path bends inward.",
+        "observationHint": "The teal gravity curve sits above the coral v^2/r curve, and the trail falls inside the dashed reference circle.",
+        "apply": {
+          "presetId": "too-slow-fall-in"
+        },
+        "highlightedControls": [
+          "speedFactor"
+        ],
+        "highlightedGraphs": [
+          "acceleration-balance",
+          "radius-history"
+        ],
+        "highlightedOverlays": [
+          "gravityVector",
+          "trail",
+          "referenceOrbit"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Tune one bounded gravity source into orbit-balance targets. The checks read the same live orbit state, overlays, and graphs instead of a detached answer sheet.",
+    "items": [
+      {
+        "id": "co-ch-heavier-source-balance",
+        "title": "Keep the heavier source circular",
+        "style": "target-setting",
+        "prompt": "Starting from Reference orbit, make the source heavier while keeping the chosen radius near 1.6 m and the orbit circular.",
+        "successMessage": "You kept the heavier-source case on a circular orbit by matching the new circular speed to the stronger gravity at the same radius.",
+        "setup": {
+          "presetId": "reference-orbit",
+          "graphId": "speed-history",
+          "overlayIds": [
+            "referenceOrbit",
+            "gravityVector"
+          ],
+          "note": "Raise the source mass, then keep the speed factor near 1 so the trail stays on the dashed circle."
+        },
+        "requirements": {
+          "graphId": "speed-history",
+          "overlayIds": [
+            "referenceOrbit",
+            "gravityVector"
+          ]
+        },
+        "hints": [
+          "At the same radius, a heavier source raises the circular speed rather than lowering it.",
+          "A circular orbit still needs the actual speed curve to match the circular-speed curve."
+        ],
+        "targets": [
+          {
+            "param": "sourceMass",
+            "min": 5.1,
+            "max": 5.3,
+            "displayUnit": "kg"
+          },
+          {
+            "param": "orbitRadius",
+            "min": 1.55,
+            "max": 1.65,
+            "displayUnit": "m"
+          },
+          {
+            "metric": "speedFactor",
+            "min": 0.99,
+            "max": 1.01
+          },
+          {
+            "metric": "actualSpeed",
+            "min": 1.76,
+            "max": 1.84,
+            "displayUnit": "m/s"
+          },
+          {
+            "metric": "period",
+            "min": 5.45,
+            "max": 5.7,
+            "displayUnit": "s"
+          }
+        ]
+      },
+      {
+        "id": "co-ch-inner-orbit-faster-compare",
+        "title": "Inner orbit, faster compare",
+        "style": "visible-condition",
+        "prompt": "Open compare mode and keep both setups circular with the same source mass, but make Setup B the smaller-radius orbit so it moves faster and finishes sooner.",
+        "successMessage": "You isolated the radius dependence honestly: the smaller circular orbit kept the same source mass but needed the faster speed and shorter period.",
+        "setup": {
+          "presetId": "reference-orbit",
+          "interactionMode": "compare",
+          "graphId": "speed-history",
+          "overlayIds": [
+            "referenceOrbit",
+            "trail"
+          ],
+          "note": "Keep both setups near speed factor 1. The comparison should be about radius, not about being too slow or too fast."
+        },
+        "requirements": {
+          "graphId": "speed-history",
+          "overlayIds": [
+            "referenceOrbit",
+            "trail"
+          ],
+          "compareActive": true,
+          "compareTarget": "b"
+        },
+        "hints": [
+          "Leave the source mass matched in both setups so the comparison stays about radius alone.",
+          "The smaller-radius circular orbit should have the larger speed and the shorter period."
+        ],
+        "targets": [
+          {
+            "setup": "a",
+            "param": "sourceMass",
+            "min": 3.95,
+            "max": 4.05,
+            "displayUnit": "kg"
+          },
+          {
+            "setup": "b",
+            "param": "sourceMass",
+            "min": 3.95,
+            "max": 4.05,
+            "displayUnit": "kg"
+          },
+          {
+            "setup": "a",
+            "param": "orbitRadius",
+            "min": 1.95,
+            "max": 2.05,
+            "displayUnit": "m"
+          },
+          {
+            "setup": "b",
+            "param": "orbitRadius",
+            "min": 1.05,
+            "max": 1.15,
+            "displayUnit": "m"
+          },
+          {
+            "setup": "a",
+            "metric": "speedFactor",
+            "min": 0.99,
+            "max": 1.01
+          },
+          {
+            "setup": "b",
+            "metric": "speedFactor",
+            "min": 0.99,
+            "max": 1.01
+          },
+          {
+            "setup": "b",
+            "metric": "actualSpeed",
+            "min": 1.85,
+            "max": 1.97,
+            "displayUnit": "m/s"
+          },
+          {
+            "setup": "b",
+            "metric": "period",
+            "min": 3.5,
+            "max": 3.75,
+            "displayUnit": "s"
+          }
+        ]
+      },
+      {
+        "id": "co-ch-too-slow-falls-in",
+        "title": "Too slow falls inward",
+        "style": "target-setting",
+        "prompt": "Starting from Reference orbit, lower the speed just enough that gravity is clearly stronger than the turning requirement and the path bends inside the dashed circle.",
+        "successMessage": "You built the honest too-slow case: the gravity curve sits above the turning-requirement curve, so the trail falls inside the reference orbit.",
+        "setup": {
+          "presetId": "reference-orbit",
+          "graphId": "acceleration-balance",
+          "overlayIds": [
+            "gravityVector",
+            "trail",
+            "referenceOrbit"
+          ],
+          "note": "Keep the same source and radius first, then lower only the speed factor."
+        },
+        "requirements": {
+          "graphId": "acceleration-balance",
+          "overlayIds": [
+            "gravityVector",
+            "trail",
+            "referenceOrbit"
+          ]
+        },
+        "hints": [
+          "A smaller speed lowers v^2/r at the same radius.",
+          "This target is about making gravity larger than the turning requirement, not about changing the source mass."
+        ],
+        "targets": [
+          {
+            "param": "orbitRadius",
+            "min": 1.55,
+            "max": 1.65,
+            "displayUnit": "m"
+          },
+          {
+            "metric": "speedFactor",
+            "min": 0.84,
+            "max": 0.86
+          },
+          {
+            "metric": "actualSpeed",
+            "min": 1.32,
+            "max": 1.37,
+            "displayUnit": "m/s"
+          },
+          {
+            "metric": "gravityAcceleration",
+            "min": 1.52,
+            "max": 1.6,
+            "displayUnit": "m/s^2"
+          },
+          {
+            "metric": "requiredCentripetalAcceleration",
+            "min": 1.1,
+            "max": 1.17,
+            "displayUnit": "m/s^2"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the linked orbit state, not from detached formulas. Each question checks whether you can read circular-orbit balance honestly from the bench.",
+    "questions": [
+      {
+        "id": "co-qt-too-slow",
+        "type": "reasoning",
+        "prompt": "At one chosen circular-orbit radius, the actual speed is lower than the circular value. What should happen first?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Gravity is stronger than the turning requirement, so the path bends inside the reference circle."
+          },
+          {
+            "id": "b",
+            "label": "The path stays circular because the source mass and radius did not change."
+          },
+          {
+            "id": "c",
+            "label": "Gravity disappears because the object is now in free fall."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At that same radius, lowering the speed lowers v^2/r. Gravity is then larger than the inward acceleration needed for a circular turn, so the path bends inward.",
+        "selectedWrongExplanations": {
+          "b": "A circular orbit needs the correct speed as well as the correct radius and source mass. The balance is not automatic once the speed changes.",
+          "c": "Orbit does not require gravity to vanish. Gravity is what keeps turning the path."
+        },
+        "showMeAction": {
+          "label": "Show the too-slow case",
+          "presetId": "too-slow-fall-in",
+          "observationHint": "The gravity curve sits above the v^2/r curve and the trail drops inside the dashed reference orbit.",
+          "highlightedControlIds": [
+            "speedFactor"
+          ],
+          "highlightedGraphIds": [
+            "acceleration-balance",
+            "radius-history"
+          ],
+          "highlightedOverlayIds": [
+            "gravityVector",
+            "trail",
+            "referenceOrbit"
+          ]
+        }
+      },
+      {
+        "id": "co-qt-heavier-source",
+        "type": "variable-effect",
+        "prompt": "At the same chosen orbit radius, the source mass becomes larger while the speed factor stays at 1.00. Which claim is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The circular speed increases and the circular period shortens, while the path can stay circular because the actual speed rises with the circular target."
+          },
+          {
+            "id": "b",
+            "label": "The circular speed stays the same because only radius matters for circular orbits."
+          },
+          {
+            "id": "c",
+            "label": "The path must immediately fall inward because heavier source mass always means the speed is too low."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At fixed radius, stronger gravity raises the circular speed and shortens the circular period. Keeping speed factor at 1 means the actual speed stays matched to that new circular value.",
+        "selectedWrongExplanations": {
+          "b": "Radius matters, but source mass matters too. In this one-source model the circular speed is sqrt(M/r).",
+          "c": "That would be true only if the actual speed stayed fixed while the circular target changed. Here speed factor 1 keeps the actual speed matched to the new circular value."
+        },
+        "showMeAction": {
+          "label": "Show the heavier source",
+          "presetId": "heavy-source-circle",
+          "observationHint": "The dashed circle stays the same size, but the speed and gravity readouts both rise while the circular period drops.",
+          "highlightedControlIds": [
+            "sourceMass"
+          ],
+          "highlightedGraphIds": [
+            "speed-history",
+            "acceleration-balance"
+          ],
+          "highlightedOverlayIds": [
+            "gravityVector",
+            "referenceOrbit"
+          ]
+        }
+      },
+      {
+        "id": "co-qt-wider-radius",
+        "type": "compare-two-cases",
+        "prompt": "Two setups use the same source mass and both keep speed factor at 1. Setup B uses the larger circular-orbit radius. What must be true?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Setup B has the lower circular speed and the longer circular period."
+          },
+          {
+            "id": "b",
+            "label": "Setup B has the higher circular speed because larger circles always need more speed."
+          },
+          {
+            "id": "c",
+            "label": "Both setups must have the same period because both are circular."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "For circular orbits around one source, v_c = sqrt(M/r) decreases by a square-root factor as radius grows, while T_c = 2pi sqrt(r^3/M) grows strongly. A doubled radius is slower, but not half-speed.",
+        "selectedWrongExplanations": {
+          "b": "A wider circular orbit needs gentler turning, so the circular speed is lower for the same source mass.",
+          "c": "Being circular does not fix the period by itself. Radius and source mass still matter."
+        },
+        "showMeAction": {
+          "label": "Show the outer slower circle",
+          "presetId": "outer-slower-circle",
+          "observationHint": "The wider dashed circle comes with a lower speed curve and a longer circular period.",
+          "highlightedControlIds": [
+            "orbitRadius"
+          ],
+          "highlightedGraphIds": [
+            "speed-history",
+            "radius-history"
+          ],
+          "highlightedOverlayIds": [
+            "referenceOrbit",
+            "trail"
+          ]
+        }
+      },
+      {
+        "id": "co-qt-gravity-role",
+        "type": "misconception-check",
+        "prompt": "Which statement best explains the role of gravity in a stable circular orbit in this lab?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Gravity is the inward acceleration source, so a circular orbit happens when gravity matches the required v^2/r at that radius."
+          },
+          {
+            "id": "b",
+            "label": "Gravity mostly cancels out in orbit, so circular motion continues because the object is already moving sideways."
+          },
+          {
+            "id": "c",
+            "label": "Gravity only sets the radius; a separate centripetal effect provides the turning."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "This page keeps the orbit balance explicit: gravity supplies the inward acceleration. A circular orbit is the case where that gravity matches the turning requirement of the chosen speed and radius.",
+        "selectedWrongExplanations": {
+          "b": "Orbit does not require gravity to vanish. Gravity is what keeps turning the path.",
+          "c": "There is no second hidden turning effect in this bounded model. Gravity itself is the centripetal acceleration source."
+        },
+        "showMeAction": {
+          "label": "Show the acceleration balance",
+          "presetId": "reference-orbit",
+          "observationHint": "On the circular case, the gravity and v^2/r curves sit on top of each other.",
+          "highlightedControlIds": [
+            "sourceMass",
+            "orbitRadius",
+            "speedFactor"
+          ],
+          "highlightedGraphIds": [
+            "acceleration-balance"
+          ],
+          "highlightedOverlayIds": [
+            "gravityVector",
+            "velocityVector"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one fixed source mass at the center of the stage, a moving satellite launched from the right side of a chosen reference radius, and optional overlays for the dashed reference orbit, the live radius line, the tangent velocity vector, the inward gravity vector, and the trajectory trail.",
+        "Changing source mass, reference orbit radius, or speed factor updates the same orbit path, live readouts, and linked graphs together. Compare mode overlays a second setup without switching to a separate orbit model.",
+        "The displayed units use a bounded one-source gravity model with G = 1. A minimum sample radius keeps the stage and graphs finite and readable while preserving the correct inward and inverse-square trends."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The radius-history graph compares the live radius with the chosen circular reference radius over time. Hovering or scrubbing the graph previews the same instant on the orbit stage.",
+        "The speed-history graph compares the live speed with the circular speed required at the current radius, and the acceleration-balance graph compares gravity with the turning requirement v squared over r on that same live path."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Circular Orbits and Orbital Speed | Open Model Lab",
+    "description": "Learn why circular orbits need the right speed with a compact one-source gravity lab that links orbital radius, source mass, gravity as centripetal acceleration, readouts, guided overlays, worked examples, and conceptual quick tests.",
+    "keywords": [
+      "circular orbits",
+      "orbital speed",
+      "centripetal acceleration",
+      "gravity",
+      "physics simulation"
+    ]
+  }
+}

@@ -1,0 +1,1163 @@
+{
+  "pageIntro": {
+    "definition": "Use three principal rays and the signed thin-lens equation to predict where a lens image forms, whether it is real or virtual, and whether it is upright or inverted.",
+    "whyItMatters": "The same sign rules decide whether a camera sensor, eye, magnifier, or projector can catch a sharp image or only trace where rays appear to meet.",
+    "keyTakeaway": "A converging lens makes a real inverted image only while the object is outside the focal length; crossing inside F flips the image to virtual and upright."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Thin-lens imaging works when many rays from one object point leave the lens in a pattern that either meets at one image point or appears to meet there when you extend the rays backward. The ray diagram and the thin-lens equation are two views of that same geometry.",
+        "This module keeps the setup compact on purpose. You change lens type, focal length, object distance, and object height, then the signed image distance, image orientation, and magnification update together on the stage and in the response graphs."
+      ]
+    },
+    "keyIdeas": [
+      "A converging lens can make a real inverted image when the object is outside the focal length, but it flips to a virtual upright image when the object moves inside the focal length.",
+      "A diverging lens always makes a virtual upright reduced image for a real object on the left.",
+      "The thin-lens equation gives the signed image distance, and magnification tells both the image size ratio and whether the image is upright or inverted."
+    ],
+    "commonMisconception": {
+      "myth": "A diverging lens spreads light out, so it does not make an image at all.",
+      "correction": [
+        "A diverging lens still makes an image. The refracted rays separate, but their backward extensions meet at a virtual image on the object side.",
+        "That is why the image is upright, reduced, and cannot be projected onto a screen even though it is still a legitimate image point in the geometry."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked examples",
+      "intro": "Solve the current lens setup, not a detached worksheet. The substitutions follow the live controls, and the same signed values appear in the ray diagram and the graphs.",
+      "items": [
+        {
+          "id": "solve-image-distance",
+          "title": "Solve the image distance",
+          "prompt": "For the current {{lensFamilyValue}} lens, what signed image distance follows from the thin-lens equation?",
+          "variables": [
+            {
+              "id": "focal-length",
+              "variableId": "focal-length",
+              "symbol": "f",
+              "label": "Signed focal length",
+              "valueKey": "signedFocalLengthValue",
+              "unit": "m"
+            },
+            {
+              "id": "object-distance",
+              "variableId": "object-distance",
+              "symbol": "d_o",
+              "label": "Object distance",
+              "valueKey": "objectDistanceValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Start from the thin-lens relation",
+              "template": "Use $\\dfrac{1}{f} = \\dfrac{1}{d_o} + \\dfrac{1}{d_i}$."
+            },
+            {
+              "id": "rearrange",
+              "label": "2. Rearrange for the signed image distance",
+              "template": "$\\dfrac{1}{d_i} = \\dfrac{1}{f} - \\dfrac{1}{d_o} = {{reciprocalFValue}} - {{reciprocalObjectValue}} = {{reciprocalImageValue}}$."
+            },
+            {
+              "id": "result",
+              "label": "3. Invert the result",
+              "template": "So $d_i = {{imageDistanceValue}}\\,\\mathrm{m}$."
+            }
+          ],
+          "resultLabel": "Signed image distance",
+          "resultTemplate": "$d_i = {{imageDistanceValue}}\\,\\mathrm{m}$",
+          "interpretationTemplate": "{{imageDistanceInterpretation}}",
+          "applyAction": {
+            "label": "Apply inside-focus case",
+            "presetId": "converging-inside-focus",
+            "observationHint": "Watch the dashed backward extensions. The negative image distance matches the virtual image on the object side.",
+            "highlightedControlIds": [
+              "converging",
+              "focalLength",
+              "objectDistance"
+            ],
+            "highlightedGraphIds": [
+              "image-map"
+            ],
+            "highlightedOverlayIds": [
+              "principalRays"
+            ]
+          }
+        },
+        {
+          "id": "solve-image-height",
+          "title": "Solve the image height",
+          "prompt": "For the current setup, what does magnification predict for the image height?",
+          "variables": [
+            {
+              "id": "object-distance",
+              "variableId": "object-distance",
+              "symbol": "d_o",
+              "label": "Object distance",
+              "valueKey": "objectDistanceValue",
+              "unit": "m"
+            },
+            {
+              "id": "object-height",
+              "variableId": "object-height",
+              "symbol": "h_o",
+              "label": "Object height",
+              "valueKey": "objectHeightValue",
+              "unit": "m"
+            },
+            {
+              "id": "image-distance",
+              "symbol": "d_i",
+              "label": "Image distance",
+              "valueKey": "imageDistanceValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Use the magnification relation",
+              "template": "Start from $m = -\\dfrac{d_i}{d_o} = \\dfrac{h_i}{h_o}$."
+            },
+            {
+              "id": "compute-m",
+              "label": "2. Compute the signed magnification",
+              "template": "$m = -\\dfrac{{{imageDistanceValue}}}{{{objectDistanceValue}}} = {{magnificationValue}}$."
+            },
+            {
+              "id": "compute-hi",
+              "label": "3. Solve for image height",
+              "template": "$h_i = m h_o = {{magnificationValue}}\\cdot {{objectHeightValue}} = {{imageHeightValue}}\\,\\mathrm{m}$."
+            }
+          ],
+          "resultLabel": "Image height",
+          "resultTemplate": "$h_i = {{imageHeightValue}}\\,\\mathrm{m}$",
+          "interpretationTemplate": "{{imageHeightInterpretation}}",
+          "applyAction": {
+            "label": "Apply diverging lens",
+            "presetId": "diverging-reference",
+            "observationHint": "The positive magnification keeps the image upright, but the magnitude below one keeps it reduced.",
+            "highlightedControlIds": [
+              "converging",
+              "objectHeight"
+            ],
+            "highlightedGraphIds": [
+              "magnification"
+            ],
+            "highlightedOverlayIds": [
+              "magnificationGuide"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "If you move a converging-lens object inward toward the focal point, what does the ray diagram predict before the object crosses inside the focus?",
+      "prediction": "Decide what happens to image distance and image size.",
+      "answer": "The real image moves farther away and grows in magnitude.",
+      "explanation": "As the object approaches the focal point from outside, the refracted rays need more distance to meet. The signed image distance shoots outward and the magnitude of the magnification grows."
+    }
+  },
+  "equations": [
+    {
+      "id": "thin-lens",
+      "latex": "\\frac{1}{f} = \\frac{1}{d_o} + \\frac{1}{d_i}",
+      "label": "Thin-lens equation",
+      "meaning": "Relates signed focal length, object distance, and image distance for a thin lens."
+    },
+    {
+      "id": "magnification",
+      "latex": "m = \\frac{h_i}{h_o} = -\\frac{d_i}{d_o}",
+      "label": "Magnification",
+      "meaning": "Gives the size ratio and the orientation sign of the image."
+    },
+    {
+      "id": "screen-rule",
+      "latex": "d_i > 0 \\Rightarrow \\text{real image on the far side}",
+      "label": "Sign rule",
+      "meaning": "Positive image distance means the refracted rays actually meet and the image can land on a screen.",
+      "notes": [
+        "Negative image distance means the rays only appear to meet by backward extension."
+      ]
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "focal-length",
+      "symbol": "f",
+      "label": "Focal length",
+      "param": "focalLength",
+      "tone": "sky",
+      "description": "Sets how strongly the lens bends the rays. The sign comes from the lens-type toggle: converging uses positive f, diverging uses negative f.",
+      "equationIds": [
+        "thin-lens",
+        "screen-rule"
+      ],
+      "graphIds": [
+        "image-map",
+        "magnification"
+      ],
+      "overlayIds": [
+        "focusMarkers",
+        "principalRays"
+      ]
+    },
+    {
+      "id": "object-distance",
+      "symbol": "d_o",
+      "label": "Object distance",
+      "param": "objectDistance",
+      "tone": "amber",
+      "description": "Moves the object toward or away from the lens, which shifts both the signed image distance and the magnification.",
+      "equationIds": [
+        "thin-lens",
+        "magnification"
+      ],
+      "graphIds": [
+        "image-map",
+        "magnification"
+      ],
+      "overlayIds": [
+        "principalRays",
+        "magnificationGuide"
+      ]
+    },
+    {
+      "id": "object-height",
+      "symbol": "h_o",
+      "label": "Object height",
+      "param": "objectHeight",
+      "tone": "teal",
+      "description": "Scales the object arrow directly, so the image height changes by the same magnification factor without changing the image distance.",
+      "equationIds": [
+        "magnification"
+      ],
+      "graphIds": [
+        "magnification"
+      ],
+      "overlayIds": [
+        "magnificationGuide"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "converging": true,
+      "focalLength": 0.8,
+      "objectDistance": 2.4,
+      "objectHeight": 1,
+      "focusMarkers": true,
+      "principalRays": true,
+      "magnificationGuide": false
+    },
+    "ui": {
+      "initialGraphId": "image-map",
+      "primaryGraphIds": [
+        "image-map"
+      ],
+      "primaryControlIds": [
+        "converging",
+        "objectDistance"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "converging",
+        "kind": "toggle",
+        "label": "Converging lens",
+        "param": "converging",
+        "description": "Turn this off to switch to a diverging lens with the same focal-length magnitude."
+      },
+      {
+        "id": "focalLength",
+        "kind": "slider",
+        "label": "Focal-length magnitude",
+        "param": "focalLength",
+        "min": 0.4,
+        "max": 1.8,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Controls the focal points and how sharply the rays bend."
+      },
+      {
+        "id": "objectDistance",
+        "kind": "slider",
+        "label": "Object distance",
+        "param": "objectDistance",
+        "min": 0.45,
+        "max": 4,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Moves the object along the principal axis."
+      },
+      {
+        "id": "objectHeight",
+        "kind": "slider",
+        "label": "Object height",
+        "param": "objectHeight",
+        "min": 0.6,
+        "max": 1.8,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Changes the object size so the magnified image height can be compared directly."
+      }
+    ],
+    "presets": [
+      {
+        "id": "converging-reference",
+        "label": "Converging reference",
+        "description": "A real inverted image beyond the lens.",
+        "values": {
+          "converging": true,
+          "focalLength": 0.8,
+          "objectDistance": 2.4,
+          "objectHeight": 1
+        }
+      },
+      {
+        "id": "converging-inside-focus",
+        "label": "Inside focus",
+        "description": "A converging lens with the object inside the focal length.",
+        "values": {
+          "converging": true,
+          "focalLength": 0.8,
+          "objectDistance": 0.55,
+          "objectHeight": 1
+        }
+      },
+      {
+        "id": "diverging-reference",
+        "label": "Diverging reference",
+        "description": "A virtual upright reduced image from a diverging lens.",
+        "values": {
+          "converging": false,
+          "focalLength": 0.8,
+          "objectDistance": 1.8,
+          "objectHeight": 1
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "focusMarkers",
+        "label": "F and 2F markers",
+        "shortDescription": "Shows the focal points and twice-focal points on both sides of the lens.",
+        "whatToNotice": [
+          "Crossing the focal mark changes the image from real to virtual for a converging lens."
+        ],
+        "whyItMatters": "The focus markers anchor the standard lens-regime language directly on the stage.",
+        "relatedControls": [
+          "converging",
+          "focalLength",
+          "objectDistance"
+        ],
+        "relatedGraphTabs": [
+          "image-map"
+        ],
+        "relatedEquationVariables": [
+          "focal-length",
+          "object-distance"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "principalRays",
+        "label": "Principal rays",
+        "shortDescription": "Shows the construction rays that locate the image point.",
+        "whatToNotice": [
+          "Real images come from actual ray intersections, while virtual images come from backward extensions."
+        ],
+        "whyItMatters": "It keeps the sign of image distance tied to visible ray behavior instead of to a memorized sign convention.",
+        "relatedControls": [
+          "converging",
+          "focalLength",
+          "objectDistance"
+        ],
+        "relatedGraphTabs": [
+          "image-map"
+        ],
+        "relatedEquationVariables": [
+          "focal-length",
+          "object-distance"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "magnificationGuide",
+        "label": "Distance and height guide",
+        "shortDescription": "Shows the signed distances and the object/image height comparison used in magnification.",
+        "whatToNotice": [
+          "The sign of m tells you orientation, while |m| tells you how much the image size has scaled."
+        ],
+        "whyItMatters": "It links the stage directly to the ratio form of magnification instead of treating image size as a separate fact.",
+        "relatedControls": [
+          "objectDistance",
+          "objectHeight"
+        ],
+        "relatedGraphTabs": [
+          "magnification"
+        ],
+        "relatedEquationVariables": [
+          "object-distance",
+          "object-height"
+        ],
+        "defaultOn": false
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "image-map",
+      "label": "Object to image map",
+      "xLabel": "object distance d_o (m)",
+      "yLabel": "signed image distance d_i (m)",
+      "series": [
+        "virtual-branch",
+        "real-branch"
+      ],
+      "description": "Shows how the signed image distance responds when you move the object while keeping the same lens."
+    },
+    {
+      "id": "magnification",
+      "label": "Magnification",
+      "xLabel": "object distance d_o (m)",
+      "yLabel": "magnification m",
+      "series": [
+        "upright-branch",
+        "inverted-branch"
+      ],
+      "description": "Shows the sign and magnitude of magnification for the current lens, so upright versus inverted behavior is easy to compare."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the live prompt to connect the signed equation, the rays, and the graph branch that the current setup lives on.",
+    "items": [
+      {
+        "id": "li-notice-real-vs-virtual",
+        "text": "Notice that a real image comes from actual ray intersections, while a virtual image comes from backward extensions.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Switch between the converging reference and the inside-focus preset, then compare whether the rays really meet on the far side of the lens.",
+        "whyItMatters": "That one difference explains why only real images can land on a screen.",
+        "relatedControls": [
+          "converging",
+          "objectDistance"
+        ],
+        "relatedGraphTabs": [
+          "image-map"
+        ],
+        "relatedOverlays": [
+          "principalRays"
+        ],
+        "relatedEquationVariables": [
+          "focal-length",
+          "object-distance"
+        ]
+      },
+      {
+        "id": "li-notice-object-map",
+        "text": "Notice that the object-image graph is object-distance based, not time based: hovering the graph previews a different geometric setup, not a later moment.",
+        "type": "graph-reading",
+        "priority": 4,
+        "conditions": {
+          "graphTabs": [
+            "image-map"
+          ]
+        },
+        "tryThis": "Hover the image-distance graph and watch the ray diagram jump to the matching object position immediately.",
+        "whyItMatters": "It keeps the graph honest: you are comparing families of setups, not stepping through time.",
+        "relatedGraphTabs": [
+          "image-map"
+        ],
+        "relatedOverlays": [
+          "focusMarkers"
+        ]
+      },
+      {
+        "id": "li-notice-near-focus",
+        "text": "Notice how the image distance runs away as the object approaches the focal point from outside.",
+        "type": "try-this",
+        "priority": 5,
+        "conditions": {
+          "lastChangedControls": [
+            "objectDistance"
+          ]
+        },
+        "tryThis": "Slide the object inward on a converging lens until it is just outside F, then compare the graph and the stage edge label.",
+        "whyItMatters": "The focal point is not just another location. It is where the real-image distance blows up before the image flips virtual.",
+        "relatedControls": [
+          "objectDistance",
+          "focalLength"
+        ],
+        "relatedGraphTabs": [
+          "image-map",
+          "magnification"
+        ],
+        "relatedOverlays": [
+          "focusMarkers",
+          "principalRays"
+        ]
+      },
+      {
+        "id": "li-notice-sign-of-m",
+        "text": "Notice that the sign of m carries orientation information: negative means inverted, positive means upright.",
+        "type": "graph-reading",
+        "priority": 4,
+        "conditions": {
+          "graphTabs": [
+            "magnification"
+          ]
+        },
+        "tryThis": "Open Magnification, then compare the image arrow direction with whether the graph point sits above or below zero.",
+        "whyItMatters": "It turns the magnification graph into a direct orientation guide instead of just a size plot.",
+        "relatedGraphTabs": [
+          "magnification"
+        ],
+        "relatedOverlays": [
+          "magnificationGuide"
+        ],
+        "relatedEquationVariables": [
+          "object-distance",
+          "object-height"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the branch change or orientation change first, then apply the setup and check the ray diagram and graph together.",
+    "items": [
+      {
+        "id": "li-predict-near-focus",
+        "prompt": "Starting from the converging reference, what happens if the object moves closer to the lens but stays outside the focal point?",
+        "scenarioLabel": "Move the object inward",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The real image moves farther away and the magnitude of the magnification grows."
+          },
+          {
+            "id": "b",
+            "label": "The image flips upright immediately and moves onto the object side."
+          },
+          {
+            "id": "c",
+            "label": "Nothing important changes because the focal length stayed fixed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "For a converging lens with the object still outside F, moving inward increases the real image distance and the magnitude of m. The image is still real and inverted until the object crosses inside the focal point.",
+        "observationHint": "Watch the image-map point climb the real branch and compare the larger inverted image arrow.",
+        "apply": {
+          "patch": {
+            "converging": true,
+            "focalLength": 0.8,
+            "objectDistance": 1.15,
+            "objectHeight": 1
+          }
+        },
+        "highlightedControls": [
+          "objectDistance",
+          "focalLength"
+        ],
+        "highlightedGraphs": [
+          "image-map",
+          "magnification"
+        ],
+        "highlightedOverlays": [
+          "focusMarkers",
+          "principalRays"
+        ]
+      },
+      {
+        "id": "li-predict-inside-focus",
+        "prompt": "What changes if the converging-lens object crosses inside the focal length?",
+        "scenarioLabel": "Cross inside F",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The image becomes virtual, upright, and enlarged on the object side."
+          },
+          {
+            "id": "b",
+            "label": "The image stays real, inverted, and closer to the lens on the far side."
+          },
+          {
+            "id": "c",
+            "label": "The lens stops producing any image point."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Inside F, the refracted rays diverge after the lens. Their backward extensions meet on the object side, so the image is virtual, upright, and typically enlarged.",
+        "observationHint": "The dashed backward extensions now locate the image on the left branch of the graph.",
+        "apply": {
+          "presetId": "converging-inside-focus"
+        },
+        "highlightedControls": [
+          "objectDistance",
+          "converging"
+        ],
+        "highlightedGraphs": [
+          "image-map",
+          "magnification"
+        ],
+        "highlightedOverlays": [
+          "principalRays"
+        ]
+      },
+      {
+        "id": "li-predict-diverging",
+        "prompt": "If you switch from the converging reference to a diverging lens with the same |f| and a similar object distance, what should happen?",
+        "scenarioLabel": "Switch lens family",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The image stays virtual, upright, and reduced on the object side."
+          },
+          {
+            "id": "b",
+            "label": "The image becomes real and easier to project because the lens spreads the rays more."
+          },
+          {
+            "id": "c",
+            "label": "The image keeps the same branch and orientation because only the sign of f changed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Changing the sign of the focal length changes the branch structure. A diverging lens sends the image to the virtual side for a real object and keeps the image upright with |m| below one.",
+        "observationHint": "Compare the ray extensions and the fact that the graph point stays on the virtual/upright side.",
+        "apply": {
+          "presetId": "diverging-reference"
+        },
+        "highlightedControls": [
+          "converging",
+          "focalLength"
+        ],
+        "highlightedGraphs": [
+          "image-map",
+          "magnification"
+        ],
+        "highlightedOverlays": [
+          "principalRays",
+          "magnificationGuide"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the real lens controls and graphs to hit image targets. The checks read the live signed distances and magnification instead of a separate puzzle state.",
+    "items": [
+      {
+        "id": "li-ch-real-image-target",
+        "title": "Real-image target",
+        "style": "target-setting",
+        "prompt": "Starting from the converging reference, tune the setup until the image distance lands between 1.0 and 1.2 m and the magnification lands between -1.4 and -1.1.",
+        "successMessage": "You matched a real inverted image by steering the object to the correct branch instead of guessing by eye.",
+        "setup": {
+          "presetId": "converging-reference",
+          "graphId": "image-map",
+          "overlayIds": [
+            "principalRays"
+          ],
+          "note": "Use the image-map graph and the ray intersection together."
+        },
+        "hints": [
+          "Move the object inward from the reference setup, but keep it outside the focal point.",
+          "The magnification should stay negative because the image is still inverted."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Open the object-image map.",
+            "graphId": "image-map"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the principal rays visible.",
+            "overlayId": "principalRays"
+          },
+          {
+            "type": "metric-range",
+            "label": "Make d_i land between 1.0 and 1.2 m.",
+            "metric": "imageDistance",
+            "min": 1,
+            "max": 1.2,
+            "displayUnit": "m"
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep magnification between -1.4 and -1.1.",
+            "metric": "magnification",
+            "min": -1.4,
+            "max": -1.1
+          }
+        ]
+      },
+      {
+        "id": "li-ch-virtual-image-target",
+        "title": "Virtual-image target",
+        "style": "target-setting",
+        "prompt": "Starting from the diverging reference, make a virtual image with d_i between -0.65 and -0.45 m and magnification between 0.3 and 0.5.",
+        "successMessage": "You used the signed graph honestly: the image stayed virtual and upright while the reduced magnification set the final size.",
+        "setup": {
+          "presetId": "diverging-reference",
+          "graphId": "magnification",
+          "overlayIds": [
+            "magnificationGuide"
+          ],
+          "note": "Use the magnification graph and the height guide together."
+        },
+        "hints": [
+          "A diverging lens will keep the image on the virtual side, so do not try to force d_i positive.",
+          "You can adjust object distance and focal length magnitude to move both d_i and m."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Open the magnification graph.",
+            "graphId": "magnification"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the distance and height guide visible.",
+            "overlayId": "magnificationGuide"
+          },
+          {
+            "type": "metric-range",
+            "label": "Make d_i land between -0.65 and -0.45 m.",
+            "metric": "imageDistance",
+            "min": -0.65,
+            "max": -0.45,
+            "displayUnit": "m"
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep magnification between 0.3 and 0.5.",
+            "metric": "magnification",
+            "min": 0.3,
+            "max": 0.5
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Use the sign of d_i, the sign of m, and the ray behavior together. The goal is to reason from the live lens model, not to recite a slogan.",
+    "questions": [
+      {
+        "id": "li-qt-screen",
+        "type": "reasoning",
+        "prompt": "Which setup can place the image on a screen to the right of the lens?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "A converging lens with the object outside the focal length."
+          },
+          {
+            "id": "b",
+            "label": "A diverging lens with any real object on the left."
+          },
+          {
+            "id": "c",
+            "label": "A converging lens with the object inside the focal length."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Only a real image can land on a screen, and that requires actual ray intersections on the far side. For a converging lens, that happens when the object is outside F. The other two cases stay virtual.",
+        "selectedWrongExplanations": {
+          "b": "A diverging lens still makes an image, but it stays virtual on the object side because the rays spread apart after refraction.",
+          "c": "Inside the focal length, the converging-lens image becomes virtual and upright, so it cannot be projected onto a screen."
+        },
+        "showMeAction": {
+          "label": "Show the screen-ready case",
+          "presetId": "converging-reference",
+          "observationHint": "The rays really meet on the far side, and the image-map point sits on the positive d_i branch.",
+          "highlightedControlIds": [
+            "converging",
+            "objectDistance"
+          ],
+          "highlightedGraphIds": [
+            "image-map"
+          ],
+          "highlightedOverlayIds": [
+            "principalRays"
+          ]
+        }
+      },
+      {
+        "id": "li-qt-inside-focus",
+        "type": "compare-two-cases",
+        "prompt": "For a converging lens, what changes when the object crosses from just outside F to just inside F?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The image changes from real inverted to virtual upright."
+          },
+          {
+            "id": "b",
+            "label": "The image stays real but becomes smaller."
+          },
+          {
+            "id": "c",
+            "label": "The image disappears because the rays no longer form any image point."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Crossing inside F changes the ray geometry. The rays after the lens no longer meet on the right, and the backward extensions meet on the left instead, so the image becomes virtual and upright.",
+        "selectedWrongExplanations": {
+          "b": "Crossing inside F is not a gentle size change on the same branch. It changes the sign of d_i and the sign of m.",
+          "c": "The image point still exists. It just becomes virtual and must be found by extending the rays backward."
+        },
+        "showMeAction": {
+          "label": "Show the inside-focus case",
+          "presetId": "converging-inside-focus",
+          "observationHint": "The image arrow moves to the object side and the dashed extensions replace the real ray intersection.",
+          "highlightedControlIds": [
+            "objectDistance"
+          ],
+          "highlightedGraphIds": [
+            "image-map",
+            "magnification"
+          ],
+          "highlightedOverlayIds": [
+            "principalRays"
+          ]
+        }
+      },
+      {
+        "id": "li-qt-sign-of-m",
+        "type": "graph-reading",
+        "prompt": "What does a negative magnification tell you immediately?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The image is inverted relative to the object."
+          },
+          {
+            "id": "b",
+            "label": "The image must be virtual."
+          },
+          {
+            "id": "c",
+            "label": "The image height equals the object height."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The sign of m is the orientation signal. Negative magnification means the image is inverted. Whether the image is larger or smaller comes from |m|, and virtual images in this module have positive m.",
+        "selectedWrongExplanations": {
+          "b": "Virtual images here are upright, so their magnification is positive rather than negative.",
+          "c": "Equal size would need |m| close to 1. The sign only tells you orientation."
+        },
+        "showMeAction": {
+          "label": "Show the inverted branch",
+          "patch": {
+            "converging": true,
+            "focalLength": 0.8,
+            "objectDistance": 2.4,
+            "objectHeight": 1
+          },
+          "observationHint": "The magnification graph is below zero and the image arrow points downward.",
+          "highlightedControlIds": [
+            "objectDistance"
+          ],
+          "highlightedGraphIds": [
+            "magnification"
+          ],
+          "highlightedOverlayIds": [
+            "magnificationGuide"
+          ]
+        }
+      },
+      {
+        "id": "li-qt-diverging",
+        "type": "misconception-check",
+        "prompt": "Which statement best describes a diverging lens for a real object on the left?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It makes a virtual upright reduced image on the object side."
+          },
+          {
+            "id": "b",
+            "label": "It makes a real inverted image if the object is far enough away."
+          },
+          {
+            "id": "c",
+            "label": "It cannot make any image because the rays spread out."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The diverging lens always leaves the real object on the virtual-image branch in this setup. The rays separate after the lens, but their backward extensions still meet at an upright reduced image on the left.",
+        "selectedWrongExplanations": {
+          "b": "Changing the object distance does not move a real object on the left onto a real-image branch for a diverging lens.",
+          "c": "The image is still well defined. You find it by extending the refracted rays backward rather than by catching them on a screen."
+        },
+        "showMeAction": {
+          "label": "Show the diverging branch",
+          "presetId": "diverging-reference",
+          "observationHint": "The image stays on the virtual side, and the magnification stays positive but below one.",
+          "highlightedControlIds": [
+            "converging",
+            "focalLength"
+          ],
+          "highlightedGraphIds": [
+            "image-map",
+            "magnification"
+          ],
+          "highlightedOverlayIds": [
+            "principalRays",
+            "magnificationGuide"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a thin lens at the center of the principal axis, an object arrow to the left, and an image arrow that moves according to the signed thin-lens equation. Depending on the setup, the image arrow appears on the far side as a real inverted image or on the object side as a virtual upright image.",
+        "Optional overlays show the focal markers, the principal rays, and the distance-and-height guide used in magnification."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The object-image graph plots signed image distance against object distance for the current lens family and focal length.",
+        "The magnification graph plots m against object distance, so the sign and magnitude of the image scaling are visible without leaving the ray diagram."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Lens Imaging",
+    "description": "Interactive thin-lens ray diagrams with converging and diverging lenses, signed image distance, magnification, and graph-linked previews.",
+    "keywords": [
+      "lens imaging",
+      "thin lens",
+      "ray diagram",
+      "magnification",
+      "optics"
+    ]
+  },
+  "v2": {
+    "intuition": "Start with one object arrow and ask a practical question: do the refracted rays really meet on the far side, or do they only appear to meet when extended backward?",
+    "whyItMatters": "That one real-versus-virtual distinction explains when a lens can project onto a screen, why magnifiers make upright virtual images, and how the sign of magnification encodes orientation.",
+    "estimatedMinutes": 25,
+    "equationSnapshot": {
+      "title": "Signed lens story",
+      "note": "Keep the image-distance sign and the magnification sign visible while you compare the ray diagram.",
+      "equationIds": [
+        "thin-lens",
+        "magnification",
+        "screen-rule"
+      ]
+    },
+    "startSetup": {
+      "presetId": "converging-reference",
+      "graphId": "image-map",
+      "overlayIds": [
+        "focusMarkers",
+        "principalRays"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "separate-real-and-virtual-images",
+        "title": "Separate real and virtual images",
+        "goal": "Build the first ray picture by deciding whether rays actually meet or only meet by backward extension.",
+        "doThis": "Load the converging reference, keep Principal rays visible, then compare it with the inside-focus preset.",
+        "notice": "The real image sits on the far side where the drawn rays cross; the virtual image sits on the object side where dashed extensions meet.",
+        "explain": "The sign of d_i is a geometry label, not a memorized trick: positive means real rays meet after the lens, while negative means only backward extensions locate the image.",
+        "reveal": {
+          "controlIds": [
+            "converging",
+            "objectDistance"
+          ],
+          "graphIds": [
+            "image-map"
+          ],
+          "overlayIds": [
+            "focusMarkers",
+            "principalRays"
+          ]
+        },
+        "setup": {
+          "presetId": "converging-reference",
+          "graphId": "image-map",
+          "overlayIds": [
+            "focusMarkers",
+            "principalRays"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Which image can land on a screen?",
+          "questionIds": [
+            "li-qt-screen"
+          ]
+        }
+      },
+      {
+        "id": "move-toward-the-focal-point",
+        "title": "Move toward the focal point",
+        "goal": "See why a real image runs farther away and grows before the object crosses inside F.",
+        "doThis": "Starting from the converging reference, slide Object distance inward but keep the object outside the focal marker.",
+        "notice": "The image-map point climbs the real branch, d_i increases, and the inverted image grows as the object approaches F.",
+        "explain": "In the thin-lens equation, 1/d_i shrinks toward zero as 1/d_o approaches 1/f, so the real image distance and |m| both become large near focus.",
+        "reveal": {
+          "controlIds": [
+            "objectDistance",
+            "focalLength"
+          ],
+          "graphIds": [
+            "image-map",
+            "magnification"
+          ],
+          "overlayIds": [
+            "focusMarkers",
+            "principalRays"
+          ]
+        },
+        "setup": {
+          "patch": {
+            "converging": true,
+            "focalLength": 0.8,
+            "objectDistance": 1.15,
+            "objectHeight": 1
+          },
+          "graphId": "image-map",
+          "overlayIds": [
+            "focusMarkers",
+            "principalRays"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Predict the near-focus change",
+          "predictionIds": [
+            "li-predict-near-focus"
+          ]
+        }
+      },
+      {
+        "id": "read-magnification-orientation",
+        "title": "Read magnification as orientation",
+        "goal": "Use the sign and size of m to say both orientation and scale from one readout.",
+        "doThis": "Switch to the diverging reference, open the Magnification graph, and turn on the distance-and-height guide.",
+        "notice": "For the diverging lens, m stays positive and below 1, so the image is upright and reduced on the virtual side.",
+        "explain": "The sign of m tells orientation, while |m| tells the size ratio. A positive m does not mean real; the image-distance sign decides real versus virtual.",
+        "reveal": {
+          "controlIds": [
+            "converging",
+            "focalLength",
+            "objectHeight"
+          ],
+          "graphIds": [
+            "magnification"
+          ],
+          "overlayIds": [
+            "principalRays",
+            "magnificationGuide"
+          ]
+        },
+        "setup": {
+          "presetId": "diverging-reference",
+          "graphId": "magnification",
+          "overlayIds": [
+            "principalRays",
+            "magnificationGuide"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Use m without over-reading it",
+          "predictionIds": [
+            "li-predict-diverging"
+          ],
+          "questionIds": [
+            "li-qt-sign-of-m",
+            "li-qt-diverging"
+          ]
+        }
+      },
+      {
+        "id": "check-the-branch-change",
+        "title": "Check the branch change",
+        "goal": "Connect crossing inside F with the simultaneous flip in d_i, m, and image orientation.",
+        "doThis": "Apply the inside-focus preset, compare the ray extensions with the image-map and magnification graphs, then answer the quick check.",
+        "notice": "The image moves to the object side, d_i becomes negative, and m becomes positive because the virtual image is upright.",
+        "explain": "Crossing F changes the branch, not just the image size. The rays no longer meet on the far side, so the diagram, d_i sign, and orientation all change together.",
+        "reveal": {
+          "controlIds": [
+            "objectDistance",
+            "converging"
+          ],
+          "graphIds": [
+            "image-map",
+            "magnification"
+          ],
+          "overlayIds": [
+            "focusMarkers",
+            "principalRays",
+            "magnificationGuide"
+          ]
+        },
+        "setup": {
+          "presetId": "converging-inside-focus",
+          "graphId": "image-map",
+          "overlayIds": [
+            "focusMarkers",
+            "principalRays",
+            "magnificationGuide"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Name the branch after crossing F",
+          "questionIds": [
+            "li-qt-inside-focus"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Positive d_i means the refracted rays really meet on the far side, so the image is real and screen-ready.",
+        "Negative d_i means only backward extensions meet on the object side, so the image is virtual.",
+        "The sign of m tells upright versus inverted, while |m| tells how large the image is compared with the object."
+      ],
+      "misconception": "A diverging lens still forms an image; it is virtual, upright, and reduced because the refracted rays only appear to meet when extended backward.",
+      "workedExampleRefs": [
+        "solve-image-distance",
+        "solve-image-height"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "mirrors",
+          "title": "Mirrors",
+          "reasonLabel": "Compare signed image rules"
+        },
+        {
+          "slug": "optical-resolution-imaging-limits",
+          "title": "Optical Resolution / Imaging Limits",
+          "reasonLabel": "Ask how sharp the image can be"
+        },
+        {
+          "slug": "refraction-snells-law",
+          "title": "Refraction / Snell's Law",
+          "reasonLabel": "Trace the bending law behind lenses"
+        }
+      ],
+      "freePlayPrompt": "Build one setup that could project onto a screen and one magnifier-like setup that stays virtual, then explain the two signs that prove it."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "quickTest",
+      "accessibility"
+    ]
+  }
+}

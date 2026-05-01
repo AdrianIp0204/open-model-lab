@@ -1,0 +1,987 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "readNext",
+        "title": "See how a stack frontier turns adjacency into a deep branch"
+      }
+    ],
+    "featuredSetups": [
+      {
+        "id": "layered-campus-dfs",
+        "label": "Layered campus DFS",
+        "description": "Use the same graph as BFS, but let the newest branch stay on top.",
+        "setup": {
+          "presetId": "layered-campus-dfs",
+          "graphId": "depth-history",
+          "overlayIds": [
+            "frontierCue",
+            "visitedCue"
+          ]
+        }
+      },
+      {
+        "id": "bridge-cycle-dfs",
+        "label": "Bridge cycle DFS",
+        "description": "Watch depth-first search dive into one side of a looped graph before it backtracks.",
+        "setup": {
+          "presetId": "bridge-cycle-dfs",
+          "graphId": "neighbor-check-history",
+          "overlayIds": [
+            "adjacencyCue",
+            "visitedCue"
+          ]
+        }
+      }
+    ]
+  },
+  "pageIntro": {
+    "whyItMatters": "It makes branch-first search and backtracking visible so depth-first search stops looking like a random walk through the graph.",
+    "keyTakeaway": "The newest unfinished branch stays on top of the frontier, so depth-first search dives deep first and backs up when a branch runs out.",
+    "definition": "Keep the stack frontier, current depth, and branch order visible together so depth-first search feels like disciplined backtracking instead of random wandering."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Depth-first search keeps the frontier organized like a stack. The newest claimed node is the next one to expand, so the search dives down one branch as far as it can before it has to return.",
+        "That stack behavior is easiest to trust when the graph, the frontier chips, and the depth graph all stay visible. The bench shows that DFS is not random wandering. It is a disciplined branch-first rule on the same graph that BFS uses."
+      ]
+    },
+    "keyIdeas": [
+      "Depth-first search expands the newest waiting node first.",
+      "DFS often raises the current depth quickly because it stays with one branch until it cannot continue.",
+      "Backtracking happens when the top branch is exhausted and the frontier falls back to an older waiting node."
+    ],
+    "commonMisconception": {
+      "myth": "Depth-first search reaches the target fastest because it goes straight down one branch.",
+      "correction": [
+        "A deep branch is not the same thing as a short path. DFS can commit to a long detour before it notices a shallower alternative.",
+        "The point of DFS is the branch-first frontier rule, not guaranteed shortest routes."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Read the stack frontier directly from the layered-campus bench.",
+      "items": [
+        {
+          "id": "read-the-first-dfs-branch",
+          "title": "Read the first DFS branch",
+          "prompt": "On the layered campus graph, what changes when DFS starts from A?",
+          "variables": [
+            {
+              "id": "graph-layout",
+              "variableId": "graph-layout",
+              "symbol": "G",
+              "label": "Graph layout",
+              "valueKey": "Layered campus"
+            },
+            {
+              "id": "start-node",
+              "variableId": "start-node",
+              "symbol": "s",
+              "label": "Start node",
+              "valueKey": "A"
+            },
+            {
+              "id": "frontier-order",
+              "variableId": "traversal-mode",
+              "symbol": "S",
+              "label": "Stack frontier",
+              "valueKey": "B below C"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-the-frontier-order",
+              "label": "1. Read the first stack order",
+              "template": "After A claims B and C, both nodes sit on the frontier, but the newest claim C is now on top."
+            },
+            {
+              "id": "predict-the-next-node",
+              "label": "2. Read the next branch move",
+              "template": "Because DFS uses a stack frontier, C leaves next even though B was discovered first."
+            },
+            {
+              "id": "connect-to-backtracking",
+              "label": "3. Name the branch-first consequence",
+              "template": "DFS keeps following that newest branch until it runs out of new neighbors, then it backtracks to older waiting nodes like B."
+            }
+          ],
+          "resultLabel": "DFS branch read",
+          "resultTemplate": "From A, DFS puts C on top of the stack frontier and dives there next.",
+          "interpretationTemplate": "The stack frontier is what makes DFS feel deep and path-like on the same graph that BFS explores layer by layer.",
+          "applyAction": {
+            "label": "Show layered-campus DFS",
+            "presetId": "layered-campus-dfs",
+            "observationHint": "Keep the frontier cue and the depth graph visible together so the branch-first jump is easy to read.",
+            "highlightedControlIds": [
+              "graphIndex",
+              "startNodeIndex",
+              "traversalMode"
+            ],
+            "highlightedGraphIds": [
+              "depth-history",
+              "visited-frontier-history"
+            ],
+            "highlightedOverlayIds": [
+              "frontierCue",
+              "visitedCue"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Build a DFS case where the current depth rises quickly before the target is reached.",
+      "prediction": "Decide whether you need a layered graph or a hub-like graph before you switch presets.",
+      "answer": "Use a graph with a clear branch so DFS can keep the newest path on top for several steps.",
+      "explanation": "Depth-first search dives fastest when one branch keeps discovering one new neighbor at a time."
+    }
+  },
+  "equations": [
+    {
+      "id": "dfs-depth",
+      "latex": "d(u) = d(v) + 1",
+      "label": "Branch depth rule",
+      "meaning": "A newly discovered neighbor sits one edge deeper than the node that found it."
+    },
+    {
+      "id": "dfs-last-in-first-out",
+      "latex": "S_{next} = S \\setminus \\{v_{top}\\} \\cup N_{new}(v_{top})",
+      "label": "Stack frontier update",
+      "meaning": "Depth-first search removes the newest frontier node, then places new discoveries on top of the frontier."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "graph-layout",
+      "symbol": "G",
+      "label": "Graph layout",
+      "param": "graphIndex",
+      "tone": "sky",
+      "description": "Switches among the bounded graph scenes on the same traversal bench.",
+      "equationIds": [
+        "dfs-depth"
+      ],
+      "graphIds": [
+        "depth-history",
+        "neighbor-check-history"
+      ],
+      "overlayIds": [
+        "adjacencyCue",
+        "visitedCue"
+      ]
+    },
+    {
+      "id": "start-node",
+      "symbol": "s",
+      "label": "Start node",
+      "param": "startNodeIndex",
+      "tone": "teal",
+      "description": "Moves the launch point so the first DFS branch can change without replacing the graph.",
+      "equationIds": [
+        "dfs-depth",
+        "dfs-last-in-first-out"
+      ],
+      "graphIds": [
+        "depth-history",
+        "visited-frontier-history"
+      ],
+      "overlayIds": [
+        "frontierCue",
+        "adjacencyCue"
+      ]
+    },
+    {
+      "id": "target-node",
+      "symbol": "t",
+      "label": "Target node",
+      "param": "targetNodeIndex",
+      "tone": "coral",
+      "description": "Marks which node the branch-first search is trying to reach.",
+      "equationIds": [
+        "dfs-depth"
+      ],
+      "graphIds": [
+        "depth-history"
+      ],
+      "overlayIds": [
+        "visitedCue"
+      ]
+    },
+    {
+      "id": "traversal-mode",
+      "symbol": "S",
+      "label": "Traversal mode",
+      "param": "traversalMode",
+      "tone": "amber",
+      "description": "Keeps the stack-based DFS mode pinned to the same graph bench used for BFS comparisons.",
+      "equationIds": [
+        "dfs-last-in-first-out"
+      ],
+      "graphIds": [
+        "depth-history",
+        "visited-frontier-history"
+      ],
+      "overlayIds": [
+        "frontierCue"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "graphIndex": 0,
+      "startNodeIndex": 0,
+      "targetNodeIndex": 7,
+      "traversalMode": 1,
+      "adjacencyCue": false,
+      "frontierCue": true,
+      "visitedCue": true
+    },
+    "ui": {
+      "initialGraphId": "visited-frontier-history",
+      "primaryGraphIds": [
+        "visited-frontier-history"
+      ],
+      "primaryControlIds": [
+        "traversal-mode"
+      ],
+      "primaryPresetIds": [],
+      "starterExploreTasks": [
+        "Run the default DFS case and watch which frontier node sits on top next.",
+        "Keep the frontier history graph visible so the branch-first rule stays easy to read.",
+        "Switch the same graph from DFS to BFS and compare how the frontier grows and waits."
+      ]
+    },
+    "controls": [
+      {
+        "id": "graph-index",
+        "kind": "slider",
+        "label": "Graph",
+        "param": "graphIndex",
+        "min": 0,
+        "max": 2,
+        "step": 1,
+        "displayValueLabels": [
+          {
+            "value": 0,
+            "label": "Layered campus"
+          },
+          {
+            "value": 1,
+            "label": "Bridge cycle"
+          },
+          {
+            "value": 2,
+            "label": "Hub and detours"
+          }
+        ],
+        "description": "Swap among a few bounded graph scenes without leaving the shared bench."
+      },
+      {
+        "id": "start-node",
+        "kind": "slider",
+        "label": "Start node",
+        "param": "startNodeIndex",
+        "min": 0,
+        "max": 7,
+        "step": 1,
+        "displayValueLabels": [
+          {
+            "value": 0,
+            "label": "A"
+          },
+          {
+            "value": 1,
+            "label": "B"
+          },
+          {
+            "value": 2,
+            "label": "C"
+          },
+          {
+            "value": 3,
+            "label": "D"
+          },
+          {
+            "value": 4,
+            "label": "E"
+          },
+          {
+            "value": 5,
+            "label": "F"
+          },
+          {
+            "value": 6,
+            "label": "G"
+          },
+          {
+            "value": 7,
+            "label": "H"
+          }
+        ],
+        "description": "Choose where the traversal begins."
+      },
+      {
+        "id": "target-node",
+        "kind": "slider",
+        "label": "Target node",
+        "param": "targetNodeIndex",
+        "min": 0,
+        "max": 7,
+        "step": 1,
+        "displayValueLabels": [
+          {
+            "value": 0,
+            "label": "A"
+          },
+          {
+            "value": 1,
+            "label": "B"
+          },
+          {
+            "value": 2,
+            "label": "C"
+          },
+          {
+            "value": 3,
+            "label": "D"
+          },
+          {
+            "value": 4,
+            "label": "E"
+          },
+          {
+            "value": 5,
+            "label": "F"
+          },
+          {
+            "value": 6,
+            "label": "G"
+          },
+          {
+            "value": 7,
+            "label": "H"
+          }
+        ],
+        "description": "Mark the node the search is trying to reach."
+      },
+      {
+        "id": "traversal-mode",
+        "kind": "slider",
+        "label": "Traversal mode",
+        "param": "traversalMode",
+        "min": 0,
+        "max": 1,
+        "step": 1,
+        "displayValueLabels": [
+          {
+            "value": 0,
+            "label": "BFS"
+          },
+          {
+            "value": 1,
+            "label": "DFS"
+          }
+        ],
+        "description": "Compare queue-like breadth-first expansion with stack-like depth-first branching."
+      }
+    ],
+    "presets": [
+      {
+        "id": "layered-campus-dfs",
+        "label": "Layered campus DFS",
+        "description": "A clear graph where DFS keeps the newest branch on top.",
+        "values": {
+          "graphIndex": 0,
+          "startNodeIndex": 0,
+          "targetNodeIndex": 7,
+          "traversalMode": 1
+        }
+      },
+      {
+        "id": "bridge-cycle-dfs",
+        "label": "Bridge cycle DFS",
+        "description": "A looped graph where DFS has to backtrack after repeat edges appear.",
+        "values": {
+          "graphIndex": 1,
+          "startNodeIndex": 0,
+          "targetNodeIndex": 7,
+          "traversalMode": 1
+        }
+      },
+      {
+        "id": "hub-detours-dfs",
+        "label": "Hub and detours DFS",
+        "description": "A centered start that still turns into one stack-led branch next.",
+        "values": {
+          "graphIndex": 2,
+          "startNodeIndex": 2,
+          "targetNodeIndex": 7,
+          "traversalMode": 1
+        }
+      },
+      {
+        "id": "layered-campus-bfs",
+        "label": "Layered campus BFS",
+        "description": "Use the same graph for a layer-by-layer contrast.",
+        "values": {
+          "graphIndex": 0,
+          "startNodeIndex": 0,
+          "targetNodeIndex": 7,
+          "traversalMode": 0
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "adjacencyCue",
+        "label": "Adjacency cue",
+        "shortDescription": "Keep the current node's neighbor list visible.",
+        "whatToNotice": [
+          "DFS still depends on local adjacency even when it feels like one long path."
+        ],
+        "whyItMatters": "It keeps the branch-first behavior grounded in actual neighbors instead of in path-drawing intuition.",
+        "relatedControls": [
+          "graphIndex",
+          "startNodeIndex"
+        ],
+        "relatedGraphTabs": [
+          "neighbor-check-history"
+        ],
+        "relatedEquationVariables": [
+          "graph-layout",
+          "start-node"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "frontierCue",
+        "label": "Frontier cue",
+        "shortDescription": "Show which claimed nodes are waiting next.",
+        "whatToNotice": [
+          "The newest frontier node sits on top, so DFS dives into that branch first."
+        ],
+        "whyItMatters": "It turns a stack rule into something visible on the graph bench.",
+        "relatedControls": [
+          "traversalMode",
+          "startNodeIndex"
+        ],
+        "relatedGraphTabs": [
+          "depth-history",
+          "visited-frontier-history"
+        ],
+        "relatedEquationVariables": [
+          "start-node",
+          "traversal-mode"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "visitedCue",
+        "label": "Visited cue",
+        "shortDescription": "Mark which nodes have already been fully expanded.",
+        "whatToNotice": [
+          "Visited state is what lets DFS backtrack cleanly instead of looping in circles."
+        ],
+        "whyItMatters": "It makes repeat avoidance visible while the search commits to deep branches.",
+        "relatedControls": [
+          "graphIndex",
+          "targetNodeIndex"
+        ],
+        "relatedGraphTabs": [
+          "neighbor-check-history",
+          "depth-history"
+        ],
+        "relatedEquationVariables": [
+          "graph-layout",
+          "target-node"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "visited-frontier-history",
+      "label": "Visited nodes versus frontier size",
+      "xLabel": "step",
+      "yLabel": "nodes",
+      "series": [
+        "visited-count",
+        "frontier-size"
+      ],
+      "description": "Watch the stack frontier hold older alternatives while DFS keeps one newer branch active."
+    },
+    {
+      "id": "depth-history",
+      "label": "Current depth versus deepest claimed depth",
+      "xLabel": "step",
+      "yLabel": "depth",
+      "series": [
+        "current-depth",
+        "max-depth"
+      ],
+      "description": "Track how DFS raises the current depth quickly while it follows one branch before backtracking."
+    },
+    {
+      "id": "neighbor-check-history",
+      "label": "New discoveries versus repeat skips",
+      "xLabel": "step",
+      "yLabel": "checks",
+      "series": [
+        "new-discoveries",
+        "repeat-skips"
+      ],
+      "description": "Compare fresh DFS discoveries with the repeat edges that visited state prevents from reopening."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Keep the graph and one traversal graph visible together.",
+    "items": [
+      {
+        "id": "dfs-notice-depth-rises-fast",
+        "text": "Depth-first search often raises the current depth quickly because the newest branch stays on top of the frontier.",
+        "type": "observation",
+        "relatedControls": [
+          "traversalMode",
+          "startNodeIndex"
+        ],
+        "relatedGraphTabs": [
+          "depth-history",
+          "visited-frontier-history"
+        ],
+        "relatedOverlays": [
+          "frontierCue",
+          "visitedCue"
+        ],
+        "relatedEquationVariables": [
+          "start-node",
+          "traversal-mode"
+        ]
+      },
+      {
+        "id": "dfs-notice-backtracking-needs-visited-state",
+        "text": "Backtracking works because old frontier nodes are still waiting and repeat edges do not reopen already settled branches.",
+        "type": "graph-reading",
+        "relatedControls": [
+          "graphIndex"
+        ],
+        "relatedGraphTabs": [
+          "neighbor-check-history",
+          "visited-frontier-history"
+        ],
+        "relatedOverlays": [
+          "frontierCue",
+          "visitedCue"
+        ],
+        "relatedEquationVariables": [
+          "graph-layout"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Predict",
+    "intro": "Predict the next stack step before you advance the scene.",
+    "items": [
+      {
+        "id": "dfs-predict-newest-goes-next",
+        "prompt": "On the layered-campus DFS run from A, which node should leave the frontier next after A discovers both B and C?",
+        "scenarioLabel": "Stack order after A",
+        "choices": [
+          {
+            "id": "a",
+            "label": "C, because DFS keeps the newest claimed node on top of the stack."
+          },
+          {
+            "id": "b",
+            "label": "B, because the oldest discovery always leaves first."
+          },
+          {
+            "id": "c",
+            "label": "H, because the target always jumps to the front."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Depth-first search is stack-based, so the newest claim C is the next branch to expand.",
+        "observationHint": "Run layered-campus DFS and watch which frontier chip is marked next after A expands.",
+        "apply": {
+          "presetId": "layered-campus-dfs"
+        },
+        "highlightedControls": [
+          "startNodeIndex",
+          "traversalMode"
+        ],
+        "highlightedGraphs": [
+          "depth-history",
+          "visited-frontier-history"
+        ],
+        "highlightedOverlays": [
+          "frontierCue",
+          "visitedCue"
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the visible stack and branch behavior, not from memorized acronyms.",
+    "questions": [
+      {
+        "id": "dfs-qt-branch-first",
+        "type": "reasoning",
+        "prompt": "Why does DFS usually feel deeper before it feels wider on this bench?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because the newest frontier node leaves first, so one branch keeps getting priority."
+          },
+          {
+            "id": "b",
+            "label": "Because DFS deletes all the other frontier nodes immediately."
+          },
+          {
+            "id": "c",
+            "label": "Because DFS ignores the graph's edge structure."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The stack frontier is what gives one branch temporary priority and pushes the current depth upward."
+      },
+      {
+        "id": "dfs-qt-shortest-path-misread",
+        "type": "misconception-check",
+        "prompt": "Which statement is most accurate about DFS on this graph bench?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "DFS is branch-first, but it does not guarantee the shallowest route to the target."
+          },
+          {
+            "id": "b",
+            "label": "DFS always finds the shortest route because it moves fast."
+          },
+          {
+            "id": "c",
+            "label": "DFS removes the need for visited state."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "DFS chooses one branch first. That can be useful, but it is different from a shortest-path guarantee."
+      },
+      {
+        "id": "dfs-qt-stack-frontier",
+        "type": "graph-reading",
+        "prompt": "What keeps DFS pushing into the most recent branch on this bench?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The frontier behaves like a stack, so the newest discovery is expanded next."
+          },
+          {
+            "id": "b",
+            "label": "DFS always expands the oldest discovery first."
+          },
+          {
+            "id": "c",
+            "label": "DFS deletes all but one edge from the graph."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "That last-in-first-out behavior is the visible reason one branch keeps priority.",
+        "selectedWrongExplanations": {
+          "b": "Oldest-first is the queue story, not the stack story.",
+          "c": "The graph structure stays intact; only the frontier policy changes."
+        }
+      },
+      {
+        "id": "dfs-qt-backtrack",
+        "type": "reasoning",
+        "prompt": "When does DFS backtrack on this bench?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "When the current branch runs out of new neighbors to push deeper into."
+          },
+          {
+            "id": "b",
+            "label": "Only when the target has already been removed from the graph."
+          },
+          {
+            "id": "c",
+            "label": "Whenever the graph contains more than one connected component."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Backtracking is the moment the active branch no longer offers a new next step.",
+        "selectedWrongExplanations": {
+          "b": "The target is not removed from the graph. DFS backtracks when the branch is exhausted.",
+          "c": "Multiple components are a separate graph property, not the trigger for ordinary DFS backtracking."
+        }
+      },
+      {
+        "id": "dfs-qt-visited-needed",
+        "type": "compare-two-cases",
+        "prompt": "Why is visited state still necessary in DFS?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "So a branch-first search does not keep circling back through the same looped nodes."
+          },
+          {
+            "id": "b",
+            "label": "So DFS can stop using the frontier altogether."
+          },
+          {
+            "id": "c",
+            "label": "So DFS can guarantee the shallowest route to every node."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Visited bookkeeping prevents cycle loops even when the stack keeps pushing down one branch.",
+        "selectedWrongExplanations": {
+          "b": "DFS still needs a frontier; visited just keeps it bounded.",
+          "c": "Visited state does not turn DFS into a shortest-path method."
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one labeled graph with the current node, the stack frontier, and the visited nodes colored differently so the active branch stays readable.",
+        "A readout card reports the traversal mode, current node, frontier size, visited count, and target, while a cue panel shows the frontier order and the current neighbor list."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "One graph tracks visited nodes against frontier size, a second tracks current depth against the deepest claimed depth, and a third compares new discoveries with repeat skips.",
+        "Together they show how depth-first search dives into a branch and then backtracks when that branch runs out."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Depth-First Search and Backtracking Paths",
+    "description": "See depth-first search on one live graph where the stack frontier, branch depth, and backtracking behavior stay visible together.",
+    "keywords": [
+      "depth-first search",
+      "DFS",
+      "graph traversal",
+      "backtracking",
+      "computer science"
+    ]
+  },
+  "v2": {
+    "intuition": "Keep the stack frontier, current depth, and branch order visible together so DFS feels like disciplined backtracking instead of random wandering.",
+    "whyItMatters": "DFS is the branch-first counterpart to BFS, so students should see the stack rule and the backtracking behavior in the same graph rather than memorizing a traversal recipe.",
+    "estimatedMinutes": 10,
+    "equationSnapshot": {
+      "equationIds": [
+        "dfs-depth",
+        "dfs-last-in-first-out"
+      ]
+    },
+    "startSetup": {
+      "presetId": "layered-campus-dfs",
+      "graphId": "depth-history",
+      "overlayIds": [
+        "frontierCue",
+        "visitedCue"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-first-branch",
+        "title": "Read the first branch",
+        "goal": "Use the stack frontier to see why DFS dives into the newest branch first.",
+        "doThis": "Start with the layered-campus-dfs preset and watch which frontier node sits on top after A discovers B and C.",
+        "notice": "C leaves next even though B was discovered first because C was added later and now sits on top of the stack.",
+        "explain": "A stack is last-in, first-out, so DFS follows the newest unfinished branch before it returns to older waiting nodes.",
+        "reveal": {
+          "controlIds": [
+            "traversal-mode"
+          ],
+          "graphIds": [
+            "depth-history",
+            "visited-frontier-history"
+          ],
+          "overlayIds": [
+            "frontierCue",
+            "visitedCue"
+          ]
+        },
+        "setup": {
+          "presetId": "layered-campus-dfs",
+          "graphId": "depth-history",
+          "overlayIds": [
+            "frontierCue",
+            "visitedCue"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "dfs-qt-branch-first"
+          ]
+        }
+      },
+      {
+        "id": "watch-backtracking-on-a-cycle",
+        "title": "Watch backtracking on a cycle",
+        "goal": "See what DFS does when the current branch runs out of new neighbors.",
+        "doThis": "Apply the bridge-cycle-dfs preset and watch the frontier fall back when the top branch is exhausted.",
+        "notice": "The current depth rises quickly, then the search backs up to an older waiting node when the active branch can no longer continue.",
+        "explain": "Backtracking is not a separate trick. It is what naturally happens when the newest branch is exhausted and the stack exposes an older unfinished node underneath.",
+        "reveal": {
+          "controlIds": [
+            "graph-index",
+            "start-node"
+          ],
+          "graphIds": [
+            "neighbor-check-history",
+            "depth-history"
+          ],
+          "overlayIds": [
+            "adjacencyCue",
+            "frontierCue",
+            "visitedCue"
+          ]
+        },
+        "setup": {
+          "presetId": "bridge-cycle-dfs",
+          "graphId": "neighbor-check-history",
+          "overlayIds": [
+            "adjacencyCue",
+            "visitedCue"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "dfs-qt-backtrack"
+          ]
+        }
+      },
+      {
+        "id": "contrast-stack-order-with-bfs",
+        "title": "Contrast stack order with BFS",
+        "goal": "Use the same graph to separate branch-first search from shortest-layer search.",
+        "doThis": "Switch the traversal mode on the same graph and compare how DFS and BFS handle the exact same frontier options.",
+        "notice": "The graph structure stays fixed, but DFS keeps diving while BFS clears shallow layers first.",
+        "explain": "The difference is not in the graph itself. It is in whether the frontier is treated like a stack or a queue.",
+        "reveal": {
+          "controlIds": [
+            "traversal-mode",
+            "target-node"
+          ],
+          "graphIds": [
+            "visited-frontier-history",
+            "depth-history"
+          ],
+          "overlayIds": [
+            "frontierCue",
+            "visitedCue"
+          ]
+        },
+        "setup": {
+          "presetId": "layered-campus-dfs",
+          "graphId": "visited-frontier-history",
+          "overlayIds": [
+            "frontierCue",
+            "visitedCue"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "dfs-qt-shortest-path-misread"
+          ]
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "DFS expands the newest waiting node first because the frontier behaves like a stack.",
+        "The current depth can rise quickly because DFS stays with one branch until it cannot continue.",
+        "Backtracking happens naturally when the top branch runs out and the stack exposes an older unfinished node."
+      ],
+      "misconception": "Depth-first search reaches the target fastest because it goes straight down one branch.",
+      "workedExampleRefs": [
+        "read-the-first-dfs-branch"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "frontier-and-visited-state-on-graphs",
+          "title": "Frontier and Visited State on Graphs",
+          "reasonLabel": "See why branch-first search still needs clean cycle bookkeeping"
+        },
+        {
+          "slug": "breadth-first-search-and-layered-frontiers",
+          "title": "Breadth-First Search and Layered Frontiers",
+          "reasonLabel": "Return to the queue-based contrast on the same graph"
+        }
+      ],
+      "freePlayPrompt": "Pick one graph where DFS dives deep quickly and another where it backtracks early, then explain why."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "quickTest"
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the graph bench to prove that DFS depth comes from stack order and still needs visited-state bookkeeping when branches reconnect.",
+    "items": [
+      {
+        "id": "dfs-ch-build-deep-backtracking-branch",
+        "title": "Build a deep backtracking branch",
+        "style": "visible-condition",
+        "prompt": "Switch to the bridge-cycle DFS scene, keep DFS mode on, and explain why the current depth can rise before the search backs up instead of looping through the cycle.",
+        "successMessage": "You built the right DFS scene: stack order keeps the newest branch active, and visited state lets the search backtrack instead of reopening the cycle.",
+        "setup": {
+          "presetId": "bridge-cycle-dfs",
+          "graphId": "neighbor-check-history",
+          "overlayIds": [
+            "adjacencyCue",
+            "frontierCue",
+            "visitedCue"
+          ]
+        },
+        "requirements": {
+          "graphId": "neighbor-check-history",
+          "overlayIds": [
+            "adjacencyCue",
+            "frontierCue",
+            "visitedCue"
+          ]
+        },
+        "targets": [
+          {
+            "param": "graphIndex",
+            "min": 1,
+            "max": 1,
+            "label": "Use the bridge-cycle graph."
+          },
+          {
+            "param": "traversalMode",
+            "min": 1,
+            "max": 1,
+            "label": "Keep traversal mode set to DFS."
+          },
+          {
+            "param": "startNodeIndex",
+            "min": 0,
+            "max": 0,
+            "label": "Start from node A so the branch and later backtracking are easy to compare."
+          }
+        ],
+        "hints": [
+          "Apply the Bridge cycle DFS preset, then watch the depth graph and neighbor-check graph together.",
+          "If a repeat edge appears, use the visited cue to explain why DFS backs up instead of adding that node again."
+        ]
+      }
+    ]
+  }
+}

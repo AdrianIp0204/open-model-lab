@@ -1,0 +1,765 @@
+{
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "acidic-mix",
+        "label": "Acidic mix",
+        "description": "Open a clearly acidic case, then move base amount while the pH strip and character bars show the mixture moving back toward neutral.",
+        "setup": {
+          "presetId": "acidic-mix",
+          "graphId": "ph-vs-base",
+          "overlayIds": [
+            "phScale",
+            "characterMix"
+          ]
+        }
+      },
+      {
+        "id": "near-neutral",
+        "label": "Near neutral",
+        "description": "Open a near-neutral case and compare acid, base, and water changes without losing the pH strip.",
+        "setup": {
+          "presetId": "near-neutral",
+          "graphId": "ph-vs-acid",
+          "overlayIds": [
+            "phScale",
+            "characterMix"
+          ]
+        }
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Read pH as a live balance: acid amount, base amount, and water volume all move the same strip and character bars.",
+    "keyTakeaway": "pH summarizes which side of the current mixture is stronger, while water controls how intense that imbalance feels.",
+    "whyItMatters": "That makes neutralization and buffers feel like visible mixture changes instead of memorized pH labels."
+  },
+  "v2": {
+    "intuition": "pH stops feeling like a label when the strip, character bars, acid amount, base amount, and water volume stay on one live bench.",
+    "whyItMatters": "This makes acid-base balance readable before you move into neutralization, buffers, or more formal chemistry language.",
+    "estimatedMinutes": 13,
+    "equationSnapshot": {
+      "equationIds": [
+        "ph-balance",
+        "water-softening"
+      ],
+      "note": "Keep the story qualitative: the scale is showing which side is stronger, and water softens both sides together."
+    },
+    "startSetup": {
+      "presetId": "acidic-mix",
+      "graphId": "ph-vs-base",
+      "overlayIds": [
+        "phScale",
+        "characterMix"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-live-mixture",
+        "title": "Read the live mixture",
+        "goal": "Get comfortable reading the pH strip and the mixture bars as one picture.",
+        "doThis": "Start from Acidic mix, keep the pH strip and character bars visible, and move only the base amount for a first pass.",
+        "notice": "When acid character is clearly stronger, the pH marker sits below the neutral middle. The strip and the bars should agree.",
+        "explain": "The pH reading is not a detached label. It summarizes which side of the current mixture is stronger right now.",
+        "reveal": {
+          "controlIds": [
+            "base-amount"
+          ],
+          "graphIds": [
+            "ph-vs-base"
+          ],
+          "overlayIds": [
+            "phScale",
+            "characterMix"
+          ]
+        },
+        "setup": {
+          "presetId": "acidic-mix",
+          "graphId": "ph-vs-base",
+          "overlayIds": [
+            "phScale",
+            "characterMix"
+          ]
+        }
+      },
+      {
+        "id": "push-the-mixture-toward-neutral",
+        "title": "Push the mixture toward neutral",
+        "goal": "See how balancing the opposite side moves the scale back toward the middle.",
+        "doThis": "Apply Near neutral, then move acid amount and base amount in opposite directions while the pH graph stays open.",
+        "notice": "When the two characters get closer together, the pH marker and the character bars both move back toward the middle.",
+        "explain": "Neutral is not a memorized label first. It is the live case where neither side is dominating very strongly.",
+        "reveal": {
+          "controlIds": [
+            "acid-amount",
+            "base-amount"
+          ],
+          "graphIds": [
+            "ph-vs-acid",
+            "ph-vs-base"
+          ],
+          "overlayIds": [
+            "phScale",
+            "characterMix"
+          ]
+        },
+        "setup": {
+          "presetId": "near-neutral",
+          "graphId": "ph-vs-acid",
+          "overlayIds": [
+            "phScale",
+            "characterMix"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "abph-predict-more-base"
+          ]
+        }
+      },
+      {
+        "id": "see-what-water-changes",
+        "title": "See what water changes",
+        "goal": "Separate balancing the mixture from simply diluting it.",
+        "doThis": "Keep the same acid and base amounts for a moment, then change only the water volume and read the strip together with the bars.",
+        "notice": "Adding water softens both sides. The pH can drift toward the middle even though you did not directly add more acid or more base.",
+        "explain": "Water changes how strongly the existing mixture shows up; it does not magically create a new acid-base balance by itself.",
+        "reveal": {
+          "controlIds": [
+            "water-volume"
+          ],
+          "graphIds": [
+            "ph-vs-acid",
+            "ph-vs-base"
+          ],
+          "overlayIds": [
+            "phScale",
+            "characterMix"
+          ]
+        },
+        "setup": {
+          "presetId": "near-neutral",
+          "graphId": "ph-vs-acid",
+          "overlayIds": [
+            "phScale",
+            "characterMix"
+          ]
+        },
+        "inlineCheck": {
+          "includeMiniChallenge": true
+        }
+      },
+      {
+        "id": "check-your-ph-story",
+        "title": "Check your pH story",
+        "goal": "Confirm that you can explain what the pH number is summarizing before you move on.",
+        "doThis": "Use the quick checks, then build one of your own acidic, basic, and near-neutral cases on the same bench.",
+        "notice": "The strongest explanation keeps the strip tied to the mixture story instead of treating pH as a detached vocabulary label.",
+        "explain": "If you can say what acid amount, base amount, and water each do to the strip, you are ready for the full concept test and the buffer follow-up.",
+        "reveal": {
+          "controlIds": [
+            "acid-amount",
+            "base-amount",
+            "water-volume"
+          ],
+          "graphIds": [
+            "ph-vs-acid",
+            "ph-vs-base"
+          ],
+          "overlayIds": [
+            "phScale",
+            "characterMix"
+          ]
+        },
+        "setup": {
+          "presetId": "near-neutral",
+          "graphId": "ph-vs-acid",
+          "overlayIds": [
+            "phScale",
+            "characterMix"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "abph-qt-ph-meaning",
+            "abph-qt-water"
+          ]
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "The pH strip is summarizing whether acid character or base character is stronger right now.",
+        "Changing acid and base pushes the same live mixture in opposite directions on one scale.",
+        "Adding water softens both sides and can move the same mixture back toward neutral."
+      ],
+      "misconception": "pH is not just a memorized label. The number matters because it is summarizing the live acid-base balance in the mixture.",
+      "workedExampleRefs": [
+        "read-the-current-ph-balance"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "buffers-and-neutralization",
+          "title": "Buffers and Neutralization",
+          "reasonLabel": "Keep the same pH bench and see why buffer reserve resists change."
+        },
+        {
+          "slug": "dynamic-equilibrium-le-chateliers-principle",
+          "title": "Dynamic Equilibrium / Le Chatelier's Principle",
+          "reasonLabel": "Connect acid-base balance to the broader idea of systems settling after a disturbance."
+        }
+      ],
+      "freePlayPrompt": "Stay on the bench and make one acidic case, one basic case, and one near-neutral case until you can predict how the strip will move before you touch the controls."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "accessibility"
+    ]
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Acid-base intuition becomes easier to trust when the pH scale and the mixture character stay visible together. This bench keeps acid amount, base amount, water volume, and the current pH in one bounded scene.",
+        "The point is not fake precision. The goal is to see why more acid pushes the mixture one way, more base pushes it the other way, and extra water softens both influences toward the middle."
+      ]
+    },
+    "keyIdeas": [
+      "pH is a scale that tracks whether acid character or base character is currently stronger.",
+      "Adding acid and adding base push the mixture in opposite directions on the same pH strip.",
+      "Adding more water softens the strength of both sides and can move the mixture back toward neutral."
+    ],
+    "commonMisconception": {
+      "myth": "A pH number is just a memorized label, so the particle picture does not add much.",
+      "correction": [
+        "The pH number summarizes which character is stronger in the mixture right now.",
+        "The particle and bar cues help show why the scale moves instead of treating pH like an isolated fact."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Use the current acid-base bench instead of a detached number-line exercise.",
+      "items": [
+        {
+          "id": "read-the-current-ph-balance",
+          "title": "Read the current pH balance",
+          "prompt": "For the current mixture, what does the pH say about acid and base character?",
+          "variables": [
+            {
+              "id": "acid-amount",
+              "variableId": "acid-amount",
+              "symbol": "A",
+              "label": "Acid amount",
+              "valueKey": "acidAmountValue"
+            },
+            {
+              "id": "base-amount",
+              "variableId": "base-amount",
+              "symbol": "B",
+              "label": "Base amount",
+              "valueKey": "baseAmountValue"
+            },
+            {
+              "id": "water-volume",
+              "variableId": "water-volume",
+              "symbol": "V",
+              "label": "Water volume",
+              "valueKey": "waterVolumeValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-mixture",
+              "label": "1. Read the current mixture amounts",
+              "template": "The bench currently has acid amount {{acidAmountValue}}, base amount {{baseAmountValue}}, and water volume {{waterVolumeValue}}."
+            },
+            {
+              "id": "read-character",
+              "label": "2. Compare the two mixture characters",
+              "template": "That gives acid character {{acidCharacterValue}} and base character {{baseCharacterValue}}."
+            },
+            {
+              "id": "read-ph",
+              "label": "3. Read the pH scale together with the mixture bars",
+              "template": "The resulting pH is about {{pHValue}}, with acid share {{acidShareValue}}% and base share {{baseShareValue}}%."
+            }
+          ],
+          "resultLabel": "Current pH reading",
+          "resultTemplate": "$\\mathrm{pH} \\approx {{pHValue}}$",
+          "interpretationTemplate": "{{acidityInterpretation}}",
+          "applyAction": {
+            "label": "Apply the near-neutral case",
+            "presetId": "near-neutral",
+            "observationHint": "The pH strip and the character bars should stay close to the middle together.",
+            "highlightedControlIds": [
+              "acidAmount",
+              "baseAmount"
+            ],
+            "highlightedGraphIds": [
+              "ph-vs-acid",
+              "ph-vs-base"
+            ],
+            "highlightedOverlayIds": [
+              "phScale",
+              "characterMix"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Move the mixture toward neutral without simply removing the stronger side completely.",
+      "prediction": "Decide whether a balancing addition or extra water is the cleaner move before you try it.",
+      "answer": "You can move toward neutral by adding the opposite character or by diluting the mixture with more water.",
+      "explanation": "Both actions soften the imbalance, but for different reasons."
+    }
+  },
+  "equations": [
+    {
+      "id": "ph-balance",
+      "latex": "\\text{pH shifts lower when acid character exceeds base character, and higher when base character exceeds acid character}",
+      "label": "pH balance story",
+      "meaning": "Keeps the pH number attached to the current acid-base balance."
+    },
+    {
+      "id": "water-softening",
+      "latex": "more\\ water \\rightarrow weaker\\ acid\\ and\\ base\\ character",
+      "label": "Water softening story",
+      "meaning": "Shows why dilution can pull the mixture back toward the middle of the scale."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "acid-amount",
+      "symbol": "A",
+      "label": "Acid amount",
+      "param": "acidAmount",
+      "tone": "coral",
+      "description": "Increases the acid-side influence in the mixture.",
+      "equationIds": [
+        "ph-balance"
+      ],
+      "graphIds": [
+        "ph-vs-acid"
+      ],
+      "overlayIds": [
+        "phScale",
+        "characterMix"
+      ]
+    },
+    {
+      "id": "base-amount",
+      "symbol": "B",
+      "label": "Base amount",
+      "param": "baseAmount",
+      "tone": "sky",
+      "description": "Increases the base-side influence in the mixture.",
+      "equationIds": [
+        "ph-balance"
+      ],
+      "graphIds": [
+        "ph-vs-base"
+      ],
+      "overlayIds": [
+        "phScale",
+        "characterMix"
+      ]
+    },
+    {
+      "id": "water-volume",
+      "symbol": "V",
+      "label": "Water volume",
+      "param": "waterVolume",
+      "tone": "teal",
+      "description": "Softens both sides by spreading the mixture through more water.",
+      "equationIds": [
+        "water-softening"
+      ],
+      "graphIds": [
+        "ph-vs-acid",
+        "ph-vs-base"
+      ],
+      "overlayIds": [
+        "phScale",
+        "characterMix"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "acidAmount": 4.2,
+      "baseAmount": 3.1,
+      "waterVolume": 1.4,
+      "characterMix": true,
+      "phScale": true,
+      "particleMotion": true
+    },
+    "ui": {
+      "initialGraphId": "ph-vs-base",
+      "primaryGraphIds": [
+        "ph-vs-base",
+        "ph-vs-acid"
+      ],
+      "primaryControlIds": [
+        "base-amount",
+        "acid-amount",
+        "water-volume"
+      ],
+      "primaryPresetIds": [
+        "acidic-mix",
+        "near-neutral",
+        "basic-mix"
+      ]
+    },
+    "controls": [
+      {
+        "id": "acid-amount",
+        "kind": "slider",
+        "label": "Acid amount",
+        "param": "acidAmount",
+        "min": 0,
+        "max": 10,
+        "step": 0.1
+      },
+      {
+        "id": "base-amount",
+        "kind": "slider",
+        "label": "Base amount",
+        "param": "baseAmount",
+        "min": 0,
+        "max": 10,
+        "step": 0.1
+      },
+      {
+        "id": "water-volume",
+        "kind": "slider",
+        "label": "Water volume",
+        "param": "waterVolume",
+        "min": 0.8,
+        "max": 2.4,
+        "step": 0.1
+      }
+    ],
+    "presets": [
+      {
+        "id": "acidic-mix",
+        "label": "Acidic mix",
+        "description": "A clearly acidic mixture.",
+        "values": {
+          "acidAmount": 6.6,
+          "baseAmount": 1.8,
+          "waterVolume": 1.2
+        }
+      },
+      {
+        "id": "near-neutral",
+        "label": "Near neutral",
+        "description": "A mixture where the two sides are close together.",
+        "values": {
+          "acidAmount": 4.1,
+          "baseAmount": 4,
+          "waterVolume": 1.6
+        }
+      },
+      {
+        "id": "basic-mix",
+        "label": "Basic mix",
+        "description": "A clearly basic mixture.",
+        "values": {
+          "acidAmount": 1.8,
+          "baseAmount": 6.8,
+          "waterVolume": 1.2
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "characterMix",
+        "label": "Character bars",
+        "shortDescription": "Show the acid and base character bars together.",
+        "whatToNotice": [
+          "The pH strip and the mixture bars should agree about which side is stronger."
+        ],
+        "whyItMatters": "It keeps the pH number attached to a visible mixture story.",
+        "relatedControls": [
+          "acidAmount",
+          "baseAmount",
+          "waterVolume"
+        ],
+        "relatedGraphTabs": [
+          "ph-vs-acid",
+          "ph-vs-base"
+        ],
+        "relatedEquationVariables": [
+          "acid-amount",
+          "base-amount",
+          "water-volume"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "phScale",
+        "label": "pH strip",
+        "shortDescription": "Keep the current pH marker visible on the scale.",
+        "whatToNotice": [
+          "The marker moves continuously rather than jumping between memorized labels."
+        ],
+        "whyItMatters": "It makes pH a live scale instead of a detached number list.",
+        "relatedControls": [
+          "acidAmount",
+          "baseAmount"
+        ],
+        "relatedGraphTabs": [
+          "ph-vs-acid",
+          "ph-vs-base"
+        ],
+        "relatedEquationVariables": [
+          "acid-amount",
+          "base-amount"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "particleMotion",
+        "label": "Particle motion",
+        "shortDescription": "Keep the mixture animated inside the vessel.",
+        "whatToNotice": [
+          "The mixture is still live even when the pH readout is steady."
+        ],
+        "whyItMatters": "It keeps the chemistry bench from turning into a static number line.",
+        "relatedControls": [
+          "waterVolume"
+        ],
+        "relatedGraphTabs": [
+          "ph-vs-acid",
+          "ph-vs-base"
+        ],
+        "relatedEquationVariables": [
+          "water-volume"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "ph-vs-acid",
+      "label": "pH vs acid amount",
+      "xLabel": "acid amount",
+      "yLabel": "pH",
+      "series": [
+        "ph-vs-acid"
+      ]
+    },
+    {
+      "id": "ph-vs-base",
+      "label": "pH vs base amount",
+      "xLabel": "base amount",
+      "yLabel": "pH",
+      "series": [
+        "ph-vs-base"
+      ]
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Keep the pH strip and the mixture character bars visible together.",
+    "items": [
+      {
+        "id": "abph-notice-acid",
+        "text": "When acid character is stronger than base character, the pH strip should move below the neutral middle rather than feeling like a separate fact.",
+        "type": "observation",
+        "relatedControls": [
+          "acidAmount"
+        ],
+        "relatedGraphTabs": [
+          "ph-vs-acid"
+        ],
+        "relatedOverlays": [
+          "phScale",
+          "characterMix"
+        ],
+        "relatedEquationVariables": [
+          "acid-amount"
+        ]
+      },
+      {
+        "id": "abph-notice-water",
+        "text": "Adding more water softens both sides, so the pH can drift back toward the middle even if neither acid nor base amount changes.",
+        "type": "graph-reading",
+        "relatedControls": [
+          "waterVolume"
+        ],
+        "relatedGraphTabs": [
+          "ph-vs-acid",
+          "ph-vs-base"
+        ],
+        "relatedOverlays": [
+          "phScale",
+          "characterMix"
+        ],
+        "relatedEquationVariables": [
+          "water-volume"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Predict",
+    "intro": "Predict how the scale will move before you apply the new case.",
+    "items": [
+      {
+        "id": "abph-predict-more-base",
+        "prompt": "If you add more base while keeping the acid and water the same, what should happen to the pH?",
+        "scenarioLabel": "Add more base",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The pH should move upward because base character becomes stronger."
+          },
+          {
+            "id": "b",
+            "label": "The pH should always move downward."
+          },
+          {
+            "id": "c",
+            "label": "Nothing should change."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "More base pushes the mixture toward the basic side of the scale.",
+        "observationHint": "Watch the pH strip and the base-character bar together.",
+        "apply": {
+          "presetId": "basic-mix"
+        },
+        "highlightedControls": [
+          "baseAmount"
+        ],
+        "highlightedGraphs": [
+          "ph-vs-base"
+        ],
+        "highlightedOverlays": [
+          "phScale",
+          "characterMix"
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live pH and mixture cues.",
+    "questions": [
+      {
+        "id": "abph-qt-ph-meaning",
+        "type": "reasoning",
+        "prompt": "What does the current pH most directly summarize on this bench?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Which side of the mixture currently has stronger acid-base character."
+          },
+          {
+            "id": "b",
+            "label": "Only the color of the pH strip."
+          },
+          {
+            "id": "c",
+            "label": "The total amount of liquid alone."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The pH reading summarizes the current acid-base balance."
+      },
+      {
+        "id": "abph-qt-water",
+        "type": "variable-effect",
+        "prompt": "What is the most direct effect of adding more water to the same acid-base mixture?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It softens both sides and can move the pH back toward neutral."
+          },
+          {
+            "id": "b",
+            "label": "It always makes the mixture more acidic."
+          },
+          {
+            "id": "c",
+            "label": "It always makes the mixture more basic."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "More water spreads the same acid and base influence through a larger volume."
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the pH strip and the mixture bars together instead of chasing the number alone.",
+    "items": [
+      {
+        "id": "abph-ch-land-near-neutral",
+        "title": "Land near neutral",
+        "style": "target-setting",
+        "prompt": "Adjust the mixture until the pH sits near neutral while acid and base character stay visibly close together.",
+        "successMessage": "You balanced the mixture into the near-neutral region without hiding the chemistry behind a memorized label.",
+        "setup": {
+          "presetId": "acidic-mix",
+          "graphId": "ph-vs-acid",
+          "overlayIds": [
+            "phScale",
+            "characterMix"
+          ]
+        },
+        "requirements": {
+          "graphId": "ph-vs-acid",
+          "overlayIds": [
+            "phScale",
+            "characterMix"
+          ]
+        },
+        "targets": [
+          {
+            "metric": "pH",
+            "min": 6.6,
+            "max": 7.4
+          },
+          {
+            "metric": "acidShare",
+            "min": 0.45,
+            "max": 0.55
+          },
+          {
+            "metric": "baseShare",
+            "min": 0.45,
+            "max": 0.55
+          }
+        ]
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one acid-base vessel, a pH strip, and controls for acid amount, base amount, and water volume."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "One graph shows pH against acid amount, and a second shows pH against base amount."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Acid-Base / pH Intuition",
+    "description": "Explore acid-base character, pH as a live scale, and how acid, base, and water shift a bounded chemistry system.",
+    "keywords": [
+      "acid base",
+      "pH",
+      "chemistry",
+      "neutralization"
+    ]
+  }
+}

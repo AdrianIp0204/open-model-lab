@@ -1,0 +1,262 @@
+{
+"pageFramework": {
+"sections": [
+{
+"id": "workedExamples",
+"title": "Solve the live rotor"
+},
+{
+"id": "miniChallenge",
+"title": "Test the mass-distribution idea"
+},
+{
+"id": "readNext",
+"title": "Carry rotational inertia forward"
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Rotational inertia, or moment of inertia, measures how hard it is to change an object's spin about an axis. Two rotors can have the same total mass and still respond very differently if one keeps more of that mass far from the axis.",
+"This bench keeps the comparison clean. The same six equal masses and the same motor-style torque stay in play while you slide the masses inward or outward. That means the main thing changing is mass distribution, so you can see directly how layout changes spin-up."
+]
+},
+"keyIdeas": [
+"Moment of inertia depends on where the mass is, not just how much mass there is. Mass farther from the axis counts much more strongly because each contribution is weighted by $r^2$.",
+"For the same applied torque, angular acceleration follows $\\alpha = \\tau/I$. Larger moment of inertia means slower spin-up, a shallower angular-speed graph, and less rotation at the same time.",
+"Rotational inertia is the rotational analogue of mass in linear motion. The same total mass can behave like an easy-to-spin compact rotor or a hard-to-spin spread-out rotor."
+],
+"commonMisconception": {
+"myth": "If two rotors have the same total mass, the same torque should make them spin up the same way.",
+"correction": [
+"Equal total mass does not guarantee equal rotational response. A spread-out rotor can have a much larger moment of inertia than a compact one.",
+"What matters is both how much mass there is and how far that mass sits from the axis, because the resistance to spin-up is weighted by $r^2$."
+]
+},
+"workedExamples": {
+"title": "Worked example from the live layout",
+"intro": "Use the current mass radius and torque as evidence. First calculate the moment of inertia from the live layout, then use that same setup to predict angular acceleration, angular speed, and rotation angle.",
+"items": [
+{
+"id": "current-inertia-response",
+"title": "Moment of inertia of this layout",
+"prompt": "For the current layout, what moment of inertia does this equal-mass rotor have, and what angular acceleration should the current torque produce?",
+"variables": [
+{
+"id": "massRadius",
+"label": "Radius of each mass"
+},
+{
+"id": "torque",
+"label": "Applied torque"
+},
+{
+"id": "totalMass",
+"label": "Total moving mass"
+}
+],
+"steps": [
+{
+"id": "relation",
+"label": "1. Write the inertia model"
+},
+{
+"id": "substitute",
+"label": "2. Insert the current radius"
+},
+{
+"id": "compute",
+"label": "3. Use $\\tau/I$ to find the spin-up"
+}
+],
+"resultLabel": "Moment of inertia and angular acceleration",
+"applyAction": {
+"label": "Try wide rim",
+"observationHint": "Keep the radius guide and compact-reference overlays visible. The total mass and torque stay fixed, but spreading the same masses outward makes the spin-up much slower."
+}
+},
+{
+"id": "current-spin-up-state",
+"title": "Angular speed and angle at this time",
+"prompt": "At $t = {{timeValue}}\\, \\mathrm{s}$, what angular speed and rotation angle has the current layout reached?",
+"steps": [
+{
+"id": "relation",
+"label": "1. Use the constant-torque motion rules"
+},
+{
+"id": "substitute",
+"label": "2. Insert the current time and angular acceleration"
+},
+{
+"id": "compute",
+"label": "3. Read the spin-up state"
+}
+],
+"resultLabel": "Angular speed and rotation angle",
+"applyAction": {
+"label": "Try compact core",
+"observationHint": "Pause near the end of the clip and compare this faster spin-up with the mid-radius and wide-rim cases."
+}
+}
+]
+},
+"miniChallenge": {
+"prediction": "Push the same masses outward while keeping the motor torque fixed, then predict whether the same spin-up can survive when the distance from the axis gets much larger.",
+"answer": "Not with the same torque. Moving the same mass farther from the axis raises the moment of inertia, so keeping the same angular acceleration would require a larger torque.",
+"explanation": "Moment of inertia is really about mass distribution. If the same mass sits farther from the axis, the rotor becomes harder to spin. With torque fixed, the angular acceleration must drop."
+}
+},
+"equations": [
+{
+"id": "moment-of-inertia-sum",
+"meaning": "Each piece of mass counts more when it sits farther from the axis because the weighting grows like $r^2$."
+},
+{
+"id": "equal-mass-rotor",
+"meaning": "On this bench the same moving mass sits on one ring, so sliding that ring outward makes the rotational inertia rise quickly."
+},
+{
+"id": "angular-acceleration",
+"meaning": "For the same torque, a larger moment of inertia gives a smaller angular acceleration."
+},
+{
+"id": "constant-angular-motion",
+"meaning": "For each fixed setup, the rotor starts from rest under one constant torque, so angular speed grows linearly while rotation angle curves upward."
+}
+],
+"variableLinks": [
+{
+"id": "massRadius",
+"description": "Sliding the same masses outward raises the rotational inertia sharply because each mass contribution is weighted by $r^2$."
+},
+{
+"id": "appliedTorque",
+"description": "Increasing the motor torque raises angular acceleration, but it does not change the rotor's moment of inertia."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "appliedTorque",
+"description": "Change the motor torque without changing the total mass or its layout."
+},
+{
+"id": "massRadius",
+"description": "Slide the same six equal masses inward or outward while keeping the total moving mass fixed."
+}
+],
+"overlays": [
+{
+"id": "radiusGuides",
+"shortDescription": "Shows the current distance of the equal masses from the axis.",
+"whatToNotice": [
+"The same masses can move far from the axis without adding any extra mass.",
+"Distance from the axis is the key geometry that moment of inertia depends on."
+],
+"whyItMatters": "It makes mass distribution visible instead of leaving it as an abstract formula."
+},
+{
+"id": "equalMassMarkers",
+"shortDescription": "Marks that each puck has the same mass, so only the distribution is changing.",
+"whatToNotice": [
+"The rotor is not gaining extra mass when the pucks move outward.",
+"What changes is where the same mass is placed, not how much mass there is."
+],
+"whyItMatters": "It helps separate total mass from mass distribution."
+},
+{
+"id": "referenceCore",
+"whatToNotice": [
+"The ghost reference keeps the same number of masses but packs them closer to the axis.",
+"As the live masses move away from that reference, the inertia and spin-up responses separate quickly."
+],
+"whyItMatters": "It gives an immediate compact-versus-spread comparison without changing total mass or torque."
+}
+]
+},
+"graphs": [
+{
+"id": "angular-speed",
+"description": "For each fixed layout, angular speed rises linearly because one constant torque produces one constant angular acceleration."
+},
+{
+"id": "rotation-angle",
+"description": "Rotation angle curves upward because the rotor keeps gaining angular speed while it turns."
+},
+{
+"id": "inertia-map",
+"description": "For this equal-mass rotor, moment of inertia rises quickly as the same mass is pushed farther from the axis."
+},
+{
+"id": "spin-up-map",
+"description": "With torque held fixed, moving the same masses outward lowers the angular acceleration because the moment of inertia increases."
+}
+],
+"noticePrompts": {
+"title": "What to notice while it spins up",
+"intro": "Keep one comparison in view at a time: the same total mass, the same torque, and a changing distance from the axis.",
+"items": [
+{
+"id": "rotational-inertia-notice-same-torque",
+"text": "The torque can stay the same while the rotor spins up much more slowly when the same masses move outward.",
+"tryThis": "Switch between the compact-core and wide-rim presets. The motor torque stays at $4\\, \\mathrm{N\\,m}$, but the angular-speed graph becomes much shallower when the same masses sit farther out.",
+"whyItMatters": "This isolates moment of inertia from torque. The cause stays the same while the rotational resistance changes."
+},
+{
+"id": "rotational-inertia-notice-r-squared",
+"text": "On the inertia map, spreading the masses outward raises $I$ faster than the radius itself because each contribution is weighted by $r^2$.",
+"tryThis": "Move along the inertia map from about $r = 0.3\\, \\mathrm{m}$ toward $r = 1.0\\, \\mathrm{m}$ and watch how quickly the curve rises.",
+"whyItMatters": "The square dependence is why even modest outward shifts can matter a lot."
+},
+{
+"id": "rotational-inertia-notice-compare-branch",
+"text": "In compare mode, a compact rotor and a wide-rim rotor can start under the same torque yet separate immediately in angular speed.",
+"tryThis": "Clone the compact-core setup, then move only Setup B outward while keeping the torque matched.",
+"whyItMatters": "The difference comes from moment of inertia, not from a weaker motor."
+},
+{
+"id": "rotational-inertia-notice-torque-compensation",
+"text": "Increasing torque can partly recover the spin-up, but it does not change the moment of inertia of the layout.",
+"tryThis": "Start from the wide-rim setup, then raise the torque. The spin-up map shifts upward, but the inertia map stays exactly where it was.",
+"whyItMatters": "Moment of inertia is a property of the mass layout, not of the motor."
+}
+]
+},
+"predictionMode": {
+"title": "Predict the spin-up",
+"intro": "Predict the response before you move the masses or change the motor torque. Then compare the live rotor with the readout and graphs.",
+"items": [
+{
+"id": "rotational-inertia-predict-wide-rim",
+"explanation": "Moving the same masses outward raises the moment of inertia. With the same torque, the angular acceleration becomes smaller, so the rotor builds angular speed and rotation more slowly.",
+"observationHint": "Watch the inertia map rise while the angular-speed graph becomes shallower."
+},
+{
+"id": "rotational-inertia-predict-stronger-motor",
+"prompt": "If you keep the masses on the wide rim but give the rotor a stronger torque, what should change?",
+"explanation": "A stronger motor changes the response through $\\alpha = \\tau/I$, but the mass layout and therefore the moment of inertia stay the same.",
+"observationHint": "The inertia map should stay fixed while the spin-up map shifts upward."
+}
+]
+},
+"quickTest": {
+"title": "Quick check",
+"intro": "These checks ask whether you can reason with mass distribution and spin-up, not just repeat the phrase moment of inertia."
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows a rotor viewed from the front, with six equal masses attached to spokes around a central hub. A curved torque arrow near the hub indicates a steady motor-style twist, and the masses can slide inward or outward while the total mass stays fixed.",
+"Optional overlays can show the current mass radius, mark the equal masses, and add a ghost compact reference layout. The linked readout and graphs report moment of inertia, angular acceleration, angular speed, and rotation angle for the same live layout."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The angular-speed graph is linear and the rotation-angle graph curves upward because each fixed layout experiences one constant angular acceleration under the current torque. Compact layouts rise faster, while spread-out layouts rise more slowly.",
+"The moment-of-inertia map rises strongly with mass radius, while the angular-acceleration map falls when the torque is fixed. Together they show that spreading the same mass outward increases rotational resistance and slows spin-up."
+]
+}
+}
+}

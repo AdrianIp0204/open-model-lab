@@ -1,0 +1,228 @@
+{
+  "title": "緩衝液和中和",
+  "shortTitle": "緩衝液",
+  "summary": "保持中和、緩衝儲備和pH試紙一起可見，以便穩定的pH不會看起來像是未變化的化學反應。",
+  "highlights": [
+    "中和與稀釋之別",
+    "緩衝儲備",
+    "穩定的pH仍然在變化"
+  ],
+  "topic": "溶液和pH值",
+  "subtopic": "緩衝儲備和中和",
+  "recommendedNext": [
+    {
+      "slug": "dynamic-equilibrium-le-chateliers-principle",
+      "reasonLabel": "將抵抗改變的概念帶入一個可逆系統，該系統會轉向新的平衡"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "緩衝液和中和更容易讓人信賴時，pH試紙和緩衝儲備可以一起保持可見。這個實驗台保留了酸量、堿量、緩衝劑量和水的數量，讓你可以看到哪些推力被吸收，哪些則突破了限制。",
+        "重點不在於虛假的精確度。重點是區分三個不同的動作：酸和鹼可以直接中和彼此，額外的水可以減輕不平衡而不改變化學性質，緩衝液可以耗費儲備來保持pH穩定一段時間。"
+      ]
+    },
+    "keyIdeas": [
+      "中和與稀釋不是同一種動作：中和抵消了對立面的作用，而稀釋則透過更多的水擴散相同的不平衡。",
+      "緩衝液可以讓pH值在中間附近保持一段時間，但這種穩定性來自於耗費儲備而不是凍結化學反應。",
+      "一旦緩衝儲備用完，額外的酸或堿會使pH值更快地移離中性點。"
+    ],
+    "commonMisconception": {
+      "myth": "如果pH幾乎沒有變化，則混合物中的重要成分並未發生改變。",
+      "correction": [
+        "緩衝液可以掩蓋大範圍的pH變化，同時悄悄耗費儲備來吸收推力。",
+        "儲備條的存在因為穩定的pH和未變化的化學反應是兩回事。"
+      ]
+    },
+    "workedExamples": {
+      "title": "示例",
+      "intro": "閱讀當前緩衝液場景，而不是分離的pH工作表。",
+      "items": [
+        {
+          "id": "read-buffer-response",
+          "title": "閱讀當前緩衝液回應",
+          "prompt": "對於當前混合物，有多少化學反應被直接中和了，又有多少緩衝儲備仍然保持pH接近中性？",
+          "variables": [
+            {
+              "id": "acid-amount",
+              "label": "酸量"
+            },
+            {
+              "id": "base-amount",
+              "label": "鹼量"
+            },
+            {
+              "id": "buffer-amount",
+              "label": "緩衝儲備"
+            },
+            {
+              "id": "water-volume",
+              "label": "水量"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-mixture",
+              "label": "1. 閱讀當前成分"
+            },
+            {
+              "id": "read-neutralization",
+              "label": "2. 分離直接中和與剩餘推力"
+            },
+            {
+              "id": "read-reserve",
+              "label": "3. 閱讀儲備和pH一起"
+            }
+          ],
+          "resultLabel": "當前緩衝液回應",
+          "applyAction": {
+            "label": "應用緩衝脈衝",
+            "observationHint": "觀察儲備條下降，同時pH試紙的移動遠不及相同未緩衝酸脈衝。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "在酸推力後保持pH接近中性，而不虛假地認為混合物保持不變。",
+      "prediction": "決定是否使用緩衝液、額外堿或更多水之前，先判斷哪個動作更乾淨。",
+      "answer": "緩衝液是在想要保持pH穩定，同時化學反應仍然可以使用儲備物時的更佳選擇。",
+      "explanation": "額外的鹼性物質會直接中和，而額外的水則僅減輕不匹配。緩衝液透過消耗儲備物來抵抗移動。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "根據實時pH值和儲備物指標作答。",
+    "questions": [
+      {
+        "id": "bn-qt-buffer-meaning",
+        "prompt": "當pH值穩定而儲備物條形圖縮小時，這意味著什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "緩衝液正在吸收推力，所以即使pH值保持穩定，化學反應也在變化。"
+          },
+          {
+            "id": "b",
+            "label": "混合物中的任何東西都沒有改變。"
+          },
+          {
+            "id": "c",
+            "label": "pH試紙不再正確測量。"
+          }
+        ],
+        "explanation": "儲備物條形圖使隱藏的化學反應變得清晰：緩衝液正在被使用以抵抗更大的pH移動。"
+      },
+      {
+        "id": "bn-qt-dilution-vs-neutralization",
+        "prompt": "哪種行動是最乾淨的例子，而不是稀釋？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "新增更多對立面的物質，讓酸和鹼直接相互抵消。"
+          },
+          {
+            "id": "b",
+            "label": "加入更多的水，同時保持相同的酸和鹼的數量不變。"
+          },
+          {
+            "id": "c",
+            "label": "開啟儲備覆蓋層而不改變混合物。"
+          }
+        ],
+        "explanation": "中和來自酸和鹼直接相互抵消，而不是透過擴散相同混合物到更多水中。"
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一個化學反應容器，具有H+和OH-特性，pH試紙，緩衝儲備計量表，以及酸量、鹼量、緩衝儲備和水量的控制。",
+        "讀卡器報告當前的酸量、鹼量、緩衝儲備、中和量和pH值，以便學習者將視覺工作台與數字摘要聯絡起來。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "一個圖表顯示pH值對新增酸的變化，另一個圖表則顯示剩餘緩衝儲備對新增酸的變化。",
+        "圖表懸停和比較模式附著在同一個化學工作台上而不是開啟一個獨立的化學檢視。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "buffered-acid-pulse",
+        "label": "帶有緩衝液的酸脈衝",
+        "description": "以儲備仍然可用的方式開啟相同的酸新增。"
+      },
+      {
+        "id": "neutralized-with-reserve",
+        "label": "透過緩衝液中和",
+        "description": "開啟一個接近中性的混合物，仍具有緩衝空間。"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "neutralization-story",
+      "label": "中和故事",
+      "meaning": "直接酸鹼中和受限於較小的一方。"
+    },
+    {
+      "id": "buffer-story",
+      "label": "緩衝液故事",
+      "meaning": "緩衝液可以吸收部分剩餘的不匹配，然後pH值才會大幅移動。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "acid-amount",
+      "label": "酸量",
+      "description": "使混合物向更強烈的H+特性傾斜。"
+    },
+    {
+      "id": "base-amount",
+      "label": "鹼量",
+      "description": "直接抵消酸性並可推動混合物向更強烈的OH-特性。"
+    },
+    {
+      "id": "buffer-amount",
+      "label": "緩衝儲備",
+      "description": "設定緩衝液可以吸收多少不匹配而不使pH值大幅移動。"
+    },
+    {
+      "id": "water-volume",
+      "label": "水量",
+      "description": "透過擴散相同的化學物質到更多水中來減輕移動。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "acid-amount",
+        "label": "酸量"
+      },
+      {
+        "id": "base-amount",
+        "label": "鹼量"
+      },
+      {
+        "id": "buffer-amount",
+        "label": "緩衝儲備"
+      },
+      {
+        "id": "water-volume",
+        "label": "水量"
+      }
+    ],
+    "presets": [
+      {
+        "id": "buffered-acid-pulse",
+        "label": "帶有緩衝液的酸脈衝"
+      },
+      {
+        "id": "neutralized-with-reserve",
+        "label": "透過緩衝液中和"
+      }
+    ]
+  }
+}

@@ -1,0 +1,1083 @@
+{
+  "pageIntro": {
+    "whyItMatters": "It turns repeated motion into one reusable pattern you can apply to springs, vibrations, and later wave ideas.",
+    "keyTakeaway": "In a spring-like cycle, the farther you move the mass from the center, the stronger the restoring pull. That is why position, speed, and acceleration reach their largest values at different moments.",
+    "definition": "See one repeating system from displacement to acceleration and back again, with the math tied directly to the motion on screen."
+  },
+  "v2": {
+    "intuition": "Push the mass away from equilibrium once, then use the stage and graphs to watch how the same restoring pull keeps the motion repeating.",
+    "whyItMatters": "This is the reusable pattern behind springs, vibrations, and later wave ideas, so it is worth seeing as one coherent loop instead of four separate formulas.",
+    "estimatedMinutes": 25,
+    "equationSnapshot": {
+      "title": "Restoring pattern",
+      "note": "Keep one displacement equation and one acceleration equation in sight while you read the cycle.",
+      "equationIds": ["shm-displacement", "shm-acceleration"]
+    },
+    "guidedSteps": [
+      {
+        "id": "see-one-full-cycle",
+        "title": "See one full cycle",
+        "goal": "Build the first picture on the live bench before you analyse the graphs.",
+        "doThis": "Press play, keep the displacement graph visible, and increase Amplitude once.",
+        "notice": "The mass swings farther from equilibrium and the displacement peaks move with those wider turning points.",
+        "explain": "Amplitude changes how far the motion stretches, but the restoring pull still points back toward the center every time.",
+        "reveal": {
+          "controlIds": ["amplitude", "omega"],
+          "graphIds": ["displacement"],
+          "overlayIds": ["motionTrail", "equilibriumLine"],
+          "toolHints": ["playback"]
+        },
+        "inlineCheck": {
+          "title": "Predict the next wider swing",
+          "predictionIds": ["shm-predict-1"]
+        }
+      },
+      {
+        "id": "link-stage-and-graphs",
+        "title": "Link the stage and graphs",
+        "goal": "Match one paused instant across the block, displacement graph, velocity graph, and acceleration graph.",
+        "doThis": "Pause once at a turning point and once at an equilibrium crossing, then compare the block position with the velocity and acceleration graphs.",
+        "notice": "Turning points line up with zero velocity and large restoring acceleration; equilibrium crossings show zero displacement, peak speed, and zero acceleration.",
+        "explain": "Velocity depends on how fast the mass is moving through the center, but acceleration depends on how far the mass is displaced from the center.",
+        "reveal": {
+          "controlIds": ["omega", "phase"],
+          "graphIds": ["velocity", "acceleration"],
+          "overlayIds": ["velocityVector", "accelerationVector"]
+        },
+        "inlineCheck": {
+          "title": "Read the graph before you answer",
+          "questionIds": ["shm-qt-1", "shm-qt-2"]
+        }
+      },
+      {
+        "id": "explain-the-restoring-rule",
+        "title": "Explain the restoring rule",
+        "goal": "Say out loud what always determines the direction of the acceleration.",
+        "doThis": "Use Angular frequency to tighten the cycle, then answer the quick check without hiding the live bench.",
+        "notice": "Changing timing does not change the rule: acceleration still points toward equilibrium, not in the current direction of travel.",
+        "explain": "Simple harmonic motion is governed by displacement from equilibrium, so position tells you the restoring pull even when the object is still moving the other way.",
+        "reveal": {
+          "controlIds": ["omega", "phase"],
+          "graphIds": ["acceleration", "energy"],
+          "overlayIds": ["accelerationVector"]
+        },
+        "inlineCheck": {
+          "title": "Use one more short check",
+          "questionIds": ["shm-qt-3"],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Turning points mean maximum displacement, zero velocity, and the strongest restoring acceleration at the same instant.",
+        "Equilibrium crossings mean zero displacement, zero acceleration, and the largest speed.",
+        "Amplitude changes the size of the motion, while Angular frequency changes only the timing."
+      ],
+      "misconception": "Acceleration in SHM follows displacement, not the direction the mass is currently moving.",
+      "workedExampleRefs": ["Current displacement", "Period from angular frequency"],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "oscillation-energy",
+          "title": "Oscillation Energy",
+          "reasonLabel": "Energy view"
+        },
+        {
+          "slug": "wave-interference",
+          "title": "Wave Interference",
+          "reasonLabel": "Superposition link"
+        }
+      ],
+      "freePlayPrompt": "Leave the bench running and invent your own pair of turning-point and equilibrium-crossing comparisons."
+    },
+    "referenceSections": ["explanation", "keyIdeas", "accessibility"]
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Start with the equilibrium line and watch one full swing. Whenever the mass is displaced to one side, the acceleration vector points back toward the center, so the motion is always being pulled toward equilibrium. The mass does not stop at the center because it already has speed there, so the same restoring rule produces an overshoot and a repeat instead of a one-way return.",
+        "The stage and graphs are three views of the same instant. On the displacement graph, the turning points are the highest and lowest peaks. At those same moments the velocity graph is at zero because the mass is pausing before reversing, while the acceleration graph is largest in magnitude because the restoring pull is strongest when the displacement is largest.",
+        "Crossing equilibrium is the opposite situation: displacement is zero, the velocity vector is longest, and acceleration is momentarily zero because there is no displacement to restore. That is the pattern to keep checking as you scrub time: large displacement means small speed and strong restoring acceleration, while zero displacement means maximum speed.",
+        "Now use the controls as separate ideas instead of one blur. Amplitude sets the turning points and the energy scale, Angular frequency squeezes or stretches the time axis without moving those turning points, and Phase slides the whole cycle to a different starting instant. This is the same logic behind springs, small-angle pendulum motion, and the local oscillation that later sits inside standing-wave patterns. Next, keep Amplitude fixed and raise Angular frequency, then pause once at a turning point and once at an equilibrium crossing to lock in the x, v, and a relationship."
+      ]
+    },
+    "keyIdeas": [
+      "A turning point means maximum displacement, zero velocity, and maximum restoring acceleration at the same instant.",
+      "An equilibrium crossing means zero displacement, zero acceleration, and maximum speed, so the displacement and velocity graphs do not peak together.",
+      "Amplitude changes the size of the motion, Angular frequency changes the timing, and Phase changes only where the cycle starts."
+    ],
+    "commonMisconception": {
+      "myth": "If the mass is moving to the right, the acceleration must point to the right too.",
+      "correction": [
+        "In simple harmonic motion, acceleration is set by displacement, not by the current direction of motion.",
+        "The mass can still be moving away from equilibrium while the acceleration vector already points back toward the center and slows it down."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Solve the exact state currently on screen. The steps update from the real controls and the current inspected time unless you freeze them.",
+      "items": [
+        {
+          "id": "current-displacement",
+          "title": "Current displacement",
+          "prompt": "Using the current state, what is the displacement of the oscillator at $t = {{timeValue}}\\,\\mathrm{s}$?",
+          "dependsOnTime": true,
+          "variables": [
+            {
+              "id": "time",
+              "symbol": "t",
+              "label": "Time",
+              "valueKey": "timeValue",
+              "unit": "s"
+            },
+            {
+              "id": "amplitude",
+              "variableId": "amplitude",
+              "symbol": "A",
+              "label": "Amplitude",
+              "valueKey": "amplitudeValue",
+              "unit": "m"
+            },
+            {
+              "id": "omega",
+              "variableId": "omega",
+              "symbol": "\\omega",
+              "label": "Angular frequency",
+              "valueKey": "omegaValue",
+              "unit": "rad/s"
+            },
+            {
+              "id": "phase",
+              "variableId": "phase",
+              "symbol": "\\phi",
+              "label": "Phase",
+              "valueKey": "phaseValue",
+              "unit": "rad"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Identify the relation",
+              "template": "Use the live displacement relation $x(t) = A\\cos(\\omega t + \\phi)$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the current values",
+              "template": "$x({{timeValue}}) = {{amplitudeValue}}\\cos({{omegaValue}}\\cdot {{timeValue}} + {{phaseValue}})$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compute the phase angle",
+              "template": "The current phase angle is $\\omega t + \\phi = {{phaseAngleValue}}$, so the displacement becomes $x = {{displacementValue}}\\,\\mathrm{m}$."
+            }
+          ],
+          "resultLabel": "Current displacement",
+          "resultTemplate": "$x({{timeValue}}) = {{displacementValue}}\\,\\mathrm{m}$",
+          "interpretationTemplate": "{{displacementInterpretation}}",
+          "applyAction": {
+            "label": "Apply calm start",
+            "presetId": "calm-start",
+            "observationHint": "The oscillator starts from a clean reference state, so the displacement calculation is easier to compare against the stage and graph.",
+            "highlightedControlIds": [
+              "amplitude",
+              "omega",
+              "phase"
+            ],
+            "highlightedGraphIds": [
+              "displacement"
+            ],
+            "highlightedOverlayIds": [
+              "motionTrail"
+            ]
+          }
+        },
+        {
+          "id": "current-period",
+          "title": "Period from angular frequency",
+          "prompt": "For the current angular frequency, how long does one full cycle take?",
+          "variables": [
+            {
+              "id": "omega",
+              "variableId": "omega",
+              "symbol": "\\omega",
+              "label": "Angular frequency",
+              "valueKey": "omegaValue",
+              "unit": "rad/s"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Identify the relation",
+              "template": "For simple harmonic motion, the period is $T = \\dfrac{2\\pi}{\\omega}$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the current frequency",
+              "template": "$T = \\dfrac{2\\pi}{ {{omegaValue}} }$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compute the cycle time",
+              "template": "That gives $T = {{periodValue}}\\,\\mathrm{s}$ for one full oscillation."
+            }
+          ],
+          "resultLabel": "Current period",
+          "resultTemplate": "$T = {{periodValue}}\\,\\mathrm{s}$",
+          "interpretationTemplate": "{{periodInterpretation}}",
+          "applyAction": {
+            "label": "Apply fast cycle",
+            "presetId": "fast-cycle",
+            "observationHint": "The graph peaks bunch together because the period shrinks when angular frequency rises.",
+            "highlightedControlIds": [
+              "omega"
+            ],
+            "highlightedGraphIds": [
+              "displacement",
+              "velocity"
+            ],
+            "highlightedOverlayIds": [
+              "velocityVector"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "If you keep Amplitude the same but double Angular frequency, what changes most clearly on the stage and displacement graph?",
+      "prediction": "Predict whether the turning points move, the center crossings happen sooner, or both.",
+      "answer": "The center crossings and graph peaks happen sooner, but the turning points stay at the same displacement.",
+      "explanation": "Angular frequency changes the repeat rate, so the period shrinks and the time-axis spacing compresses. Amplitude still fixes how far the mass moves from the equilibrium line."
+    }
+  },
+  "equations": [
+    {
+      "id": "shm-displacement",
+      "latex": "x(t) = A\\cos(\\omega t + \\phi)",
+      "label": "Displacement",
+      "meaning": "The position of the oscillator as a function of time.",
+      "notes": [
+        "A sets the size of the motion.",
+        "\\omega sets how quickly the cycle repeats.",
+        "\\phi shifts the starting point."
+      ],
+      "readAloud": "position at time t equals amplitude times cosine of omega times time plus phi"
+    },
+    {
+      "id": "shm-velocity",
+      "latex": "v(t) = -A\\omega\\sin(\\omega t + \\phi)",
+      "label": "Velocity",
+      "meaning": "The rate at which displacement changes.",
+      "notes": [
+        "Velocity leads displacement by a quarter cycle."
+      ]
+    },
+    {
+      "id": "shm-acceleration",
+      "latex": "a(t) = -\\omega^2 x(t)",
+      "label": "Acceleration",
+      "meaning": "The restoring acceleration that pulls the system back toward equilibrium.",
+      "notes": [
+        "Acceleration always points opposite the displacement."
+      ],
+      "readAloud": "acceleration at time t equals minus omega squared times x of t"
+    },
+    {
+      "id": "shm-energy",
+      "latex": "E = \\tfrac{1}{2}kA^2",
+      "label": "Energy scale",
+      "meaning": "In the idealized case, the total energy remains constant and shifts between kinetic and potential forms."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "amplitude",
+      "symbol": "A",
+      "label": "Amplitude",
+      "param": "amplitude",
+      "tone": "amber",
+      "description": "Sets the maximum displacement from equilibrium, so it changes the height of the motion and the scale of the curves.",
+      "equationIds": [
+        "shm-displacement",
+        "shm-velocity",
+        "shm-energy"
+      ],
+      "graphIds": [
+        "displacement",
+        "velocity",
+        "energy"
+      ],
+      "overlayIds": [
+        "motionTrail"
+      ]
+    },
+    {
+      "id": "omega",
+      "symbol": "\\omega",
+      "label": "Angular frequency",
+      "param": "omega",
+      "tone": "teal",
+      "description": "Sets how quickly the oscillator cycles, so the graph spacing compresses or stretches as the motion speeds up or slows down.",
+      "equationIds": [
+        "shm-displacement",
+        "shm-velocity",
+        "shm-acceleration"
+      ],
+      "graphIds": [
+        "displacement",
+        "velocity",
+        "acceleration"
+      ],
+      "overlayIds": [
+        "velocityVector",
+        "accelerationVector"
+      ]
+    },
+    {
+      "id": "phase",
+      "symbol": "\\phi",
+      "label": "Phase",
+      "param": "phase",
+      "tone": "coral",
+      "description": "Shifts the starting point of the cycle without changing the overall shape, so the simulation and graphs start at a different moment.",
+      "equationIds": [
+        "shm-displacement",
+        "shm-velocity"
+      ],
+      "graphIds": [
+        "displacement",
+        "velocity",
+        "acceleration"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "amplitude": 1.4,
+      "omega": 1.8,
+      "phase": 0,
+      "equilibriumLine": true,
+      "motionTrail": false,
+      "velocityVector": false,
+      "accelerationVector": false
+    },
+    "ui": {
+      "initialGraphId": "displacement",
+      "primaryGraphIds": [
+        "displacement"
+      ],
+      "primaryControlIds": [
+        "amplitude",
+        "omega"
+      ],
+      "primaryPresetIds": [],
+      "starterExploreTasks": [
+        "Change the amplitude and watch how much farther the mass swings from equilibrium.",
+        "Keep the displacement graph visible and compare the live turning points with the graph peaks.",
+        "Increase angular frequency and notice that the cycle tightens while the peak displacement stays the same."
+      ]
+    },
+    "controls": [
+      {
+        "id": "amplitude",
+        "kind": "slider",
+        "label": "Amplitude",
+        "param": "amplitude",
+        "min": 0.5,
+        "max": 3,
+        "step": 0.1,
+        "unit": "m",
+        "description": "Controls how far the oscillator moves from equilibrium."
+      },
+      {
+        "id": "omega",
+        "kind": "slider",
+        "label": "Angular frequency",
+        "param": "omega",
+        "min": 0.5,
+        "max": 4,
+        "step": 0.05,
+        "unit": "rad/s",
+        "description": "Controls how quickly the motion repeats."
+      },
+      {
+        "id": "phase",
+        "kind": "slider",
+        "label": "Phase",
+        "param": "phase",
+        "min": 0,
+        "max": 6.283185307179586,
+        "step": 0.01,
+        "unit": "rad",
+        "description": "Sets the starting point in the oscillation cycle."
+      }
+    ],
+    "presets": [
+      {
+        "id": "calm-start",
+        "label": "Calm start",
+        "description": "Starts at equilibrium with a medium swing.",
+        "values": {
+          "amplitude": 1.2,
+          "omega": 1.5,
+          "phase": 0
+        }
+      },
+      {
+        "id": "fast-cycle",
+        "label": "Fast cycle",
+        "description": "Keeps the swing small but noticeably quicker.",
+        "values": {
+          "amplitude": 1,
+          "omega": 2.8,
+          "phase": 0.4
+        }
+      },
+      {
+        "id": "phase-shifted",
+        "label": "Phase shifted",
+        "description": "Starts from a different point in the cycle.",
+        "values": {
+          "amplitude": 1.4,
+          "omega": 1.8,
+          "phase": 1.2
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "equilibriumLine",
+        "label": "Equilibrium line",
+        "shortDescription": "Marks the zero-displacement reference line.",
+        "whatToNotice": [
+          "The oscillator crosses this line as it moves through the center."
+        ],
+        "whyItMatters": "It anchors the motion so the sign of displacement stays obvious.",
+        "relatedGraphTabs": [
+          "displacement",
+          "velocity",
+          "acceleration"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "motionTrail",
+        "label": "Motion trail",
+        "shortDescription": "Leaves a short trail of recent positions.",
+        "whatToNotice": [
+          "The trail thickens near the turning points where the motion slows down."
+        ],
+        "whyItMatters": "It makes changes in speed easier to read from the stage.",
+        "relatedControls": [
+          "amplitude",
+          "omega",
+          "phase"
+        ],
+        "relatedGraphTabs": [
+          "displacement"
+        ],
+        "relatedEquationVariables": [
+          "amplitude",
+          "omega",
+          "phase"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "velocityVector",
+        "label": "Velocity vector",
+        "shortDescription": "Shows the direction and size of the velocity.",
+        "whatToNotice": [
+          "The vector flips direction as the oscillator passes through equilibrium."
+        ],
+        "whyItMatters": "It links the graph slope to the live motion.",
+        "relatedControls": [
+          "amplitude",
+          "omega",
+          "phase"
+        ],
+        "relatedGraphTabs": [
+          "velocity"
+        ],
+        "relatedEquationVariables": [
+          "amplitude",
+          "omega",
+          "phase"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "accelerationVector",
+        "label": "Acceleration vector",
+        "shortDescription": "Shows the restoring pull back toward equilibrium.",
+        "whatToNotice": [
+          "The arrow always points opposite the displacement."
+        ],
+        "whyItMatters": "It keeps the restoring-force idea visible in the stage.",
+        "relatedControls": [
+          "omega",
+          "amplitude",
+          "phase"
+        ],
+        "relatedGraphTabs": [
+          "acceleration"
+        ],
+        "relatedEquationVariables": [
+          "omega",
+          "amplitude",
+          "phase"
+        ],
+        "defaultOn": false
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "displacement",
+      "label": "Displacement over time",
+      "xLabel": "time (s)",
+      "yLabel": "displacement (m)",
+      "series": [
+        "displacement"
+      ],
+      "description": "Shows the position cycle repeating around equilibrium."
+    },
+    {
+      "id": "velocity",
+      "label": "Velocity over time",
+      "xLabel": "time (s)",
+      "yLabel": "velocity (m/s)",
+      "series": [
+        "velocity"
+      ],
+      "description": "Shows how the object speeds up near equilibrium and slows near the turning points."
+    },
+    {
+      "id": "acceleration",
+      "label": "Acceleration over time",
+      "xLabel": "time (s)",
+      "yLabel": "acceleration (m/s^2)",
+      "series": [
+        "acceleration"
+      ],
+      "description": "Shows the restoring pull always pointing back toward equilibrium."
+    },
+    {
+      "id": "energy",
+      "label": "Energy balance",
+      "xLabel": "time (s)",
+      "yLabel": "energy",
+      "series": [
+        "kinetic",
+        "potential",
+        "total"
+      ],
+      "description": "Shows how ideal oscillators trade energy back and forth while conserving the total."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use one live cue at a time while you manipulate the oscillator. The prompt changes when the graph, mode, or current state makes a different pattern more useful to watch.",
+    "items": [
+      {
+        "id": "shm-notice-equilibrium-speed",
+        "text": "Notice that the mass is fastest as it passes equilibrium and slowest near the turning points.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Watch the block cross the center, then compare that moment to the peak of the velocity graph.",
+        "whyItMatters": "It separates displacement from speed. The object is not fastest where it is farthest from equilibrium.",
+        "relatedControls": [
+          "amplitude",
+          "omega"
+        ],
+        "relatedGraphTabs": [
+          "displacement",
+          "velocity"
+        ],
+        "relatedOverlays": [
+          "motionTrail",
+          "velocityVector"
+        ]
+      },
+      {
+        "id": "shm-notice-velocity-graph",
+        "text": "Notice that the velocity graph peaks when the displacement is crossing equilibrium, not when the mass is at an extreme.",
+        "type": "graph-reading",
+        "priority": 4,
+        "conditions": {
+          "graphTabs": [
+            "velocity"
+          ]
+        },
+        "tryThis": "Scrub the velocity graph and compare the marker with the block's position on the track.",
+        "whyItMatters": "This is the clearest way to see the quarter-cycle offset between position and velocity.",
+        "relatedGraphTabs": [
+          "velocity",
+          "displacement"
+        ],
+        "relatedOverlays": [
+          "velocityVector"
+        ],
+        "relatedEquationVariables": [
+          "omega",
+          "phase"
+        ]
+      },
+      {
+        "id": "shm-notice-acceleration",
+        "text": "Notice that acceleration points back toward equilibrium even when the mass is still moving away from it.",
+        "type": "misconception",
+        "priority": 4,
+        "conditions": {
+          "graphTabs": [
+            "acceleration"
+          ]
+        },
+        "tryThis": "Turn on the acceleration vector and pause near a turning point so the restoring direction is easy to compare with the displacement.",
+        "whyItMatters": "That restoring acceleration is what makes the motion reverse instead of drifting away.",
+        "relatedGraphTabs": [
+          "acceleration"
+        ],
+        "relatedOverlays": [
+          "accelerationVector"
+        ],
+        "relatedEquationVariables": [
+          "omega",
+          "amplitude"
+        ]
+      },
+      {
+        "id": "shm-notice-omega-change",
+        "text": "Notice that increasing angular frequency changes how quickly the cycle repeats, not how far the block travels.",
+        "type": "try-this",
+        "priority": 5,
+        "conditions": {
+          "lastChangedControls": [
+            "omega"
+          ]
+        },
+        "tryThis": "Raise Angular frequency and compare the spacing between peaks on the displacement graph before you touch amplitude.",
+        "whyItMatters": "Frequency changes timing, while amplitude still sets the turning points.",
+        "relatedControls": [
+          "omega",
+          "amplitude"
+        ],
+        "relatedGraphTabs": [
+          "displacement",
+          "velocity"
+        ],
+        "relatedEquationVariables": [
+          "omega",
+          "amplitude"
+        ]
+      },
+      {
+        "id": "shm-notice-inspect",
+        "text": "Notice how the stage, graph marker, and current readout all describe the same instant once you pause and scrub.",
+        "type": "graph-reading",
+        "priority": 6,
+        "conditions": {
+          "inspectState": "inspect"
+        },
+        "tryThis": "Pause, step once, and watch displacement, velocity, and acceleration update together instead of as separate facts.",
+        "whyItMatters": "This is the clearest bridge between the motion, the graphs, and the equations.",
+        "relatedGraphTabs": [
+          "displacement",
+          "velocity",
+          "acceleration"
+        ],
+        "relatedControls": [
+          "phase",
+          "omega"
+        ]
+      },
+      {
+        "id": "shm-notice-compare",
+        "text": "Notice which setup reaches the same turning point sooner. That setup has the shorter period.",
+        "type": "compare",
+        "priority": 7,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Keep amplitude similar in A and B, then change only Angular frequency in one setup and watch the timing separate.",
+        "whyItMatters": "Compare mode makes timing differences obvious without moving the spatial frame.",
+        "relatedControls": [
+          "omega"
+        ],
+        "relatedGraphTabs": [
+          "displacement"
+        ],
+        "relatedOverlays": [
+          "motionTrail"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the motion before you move the controls, then test the change in the live simulation.",
+    "items": [
+      {
+        "id": "shm-predict-1",
+        "prompt": "If amplitude stays fixed and angular frequency increases, what happens to the cycle?",
+        "scenarioLabel": "Raise angular frequency",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The object cycles faster while the turning points stay at the same displacement."
+          },
+          {
+            "id": "b",
+            "label": "The turning points move farther from equilibrium."
+          },
+          {
+            "id": "c",
+            "label": "The oscillation stops at equilibrium."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Angular frequency changes how quickly the cycle repeats. It compresses the graph in time, but it does not change amplitude.",
+        "observationHint": "Watch the spacing between peaks and zero crossings shrink while the max displacement stays the same.",
+        "apply": {
+          "patch": {
+            "omega": 2.8
+          }
+        },
+        "highlightedControls": [
+          "omega"
+        ],
+        "highlightedGraphs": [
+          "displacement",
+          "velocity",
+          "acceleration"
+        ],
+        "highlightedOverlays": [
+          "velocityVector",
+          "accelerationVector"
+        ]
+      },
+      {
+        "id": "shm-predict-2",
+        "prompt": "If the phase shifts but amplitude and angular frequency stay fixed, what changes first?",
+        "scenarioLabel": "Shift the starting point",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The whole cycle starts from a different point, but the shape stays the same."
+          },
+          {
+            "id": "b",
+            "label": "The amplitude doubles immediately."
+          },
+          {
+            "id": "c",
+            "label": "The equilibrium point moves."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Phase shifts where the cycle begins. It changes the starting point, not the size or the spacing of the oscillation.",
+        "observationHint": "The graphs should look like the same wave shifted left or right in time.",
+        "apply": {
+          "presetId": "phase-shifted"
+        },
+        "highlightedControls": [
+          "phase"
+        ],
+        "highlightedGraphs": [
+          "displacement",
+          "velocity",
+          "acceleration"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Solve compact motion targets with the same live controls, compare state, and inspect-time tools that power the concept.",
+    "items": [
+      {
+        "id": "shm-ch-period-sprint",
+        "title": "Short-period match",
+        "style": "parameter-match",
+        "prompt": "Starting from Calm start, make the oscillator complete a shorter cycle without turning it into a wider swing. Keep the displacement graph open so the timing change stays visible.",
+        "successMessage": "You shortened the period by changing $\\omega$, not by pushing the turning points farther out. That is the core timing-versus-amplitude distinction in SHM.",
+        "setup": {
+          "presetId": "calm-start",
+          "note": "Begin from the calm reference, then adjust only what you need."
+        },
+        "requirements": {
+          "graphId": "displacement"
+        },
+        "hints": [
+          "The target period is about $2\\,\\mathrm{s}$, so $\\omega$ should end up close to $3\\,\\mathrm{rad/s}$.",
+          "If the turning points move a lot, you changed amplitude instead of timing."
+        ],
+        "targets": [
+          {
+            "metric": "period",
+            "label": "Make the period about $2\\,\\mathrm{s}$.",
+            "min": 1.9,
+            "max": 2.1,
+            "displayUnit": "s"
+          },
+          {
+            "param": "amplitude",
+            "label": "Keep amplitude between $1.1$ and $1.3\\,\\mathrm{m}$.",
+            "min": 1.1,
+            "max": 1.3,
+            "displayUnit": "m"
+          }
+        ]
+      },
+      {
+        "id": "shm-ch-compare-frequency",
+        "title": "Compare the timing",
+        "style": "visible-condition",
+        "prompt": "Use compare mode to keep a calm baseline in Setup A and make Setup B cycle faster while both setups keep about the same swing size.",
+        "successMessage": "You used compare mode honestly: Setup B changed period through angular frequency while the swing size stayed aligned with Setup A.",
+        "setup": {
+          "presetId": "calm-start",
+          "note": "Open compare mode from the calm start, then edit Setup B only."
+        },
+        "requirements": {
+          "graphId": "displacement",
+          "compareTarget": "b"
+        },
+        "hints": [
+          "Leave Setup A near the preset and raise only $\\omega$ in Setup B.",
+          "If one trace reaches farther from equilibrium, the amplitude drifted and the comparison is no longer clean."
+        ],
+        "targets": [
+          {
+            "setup": "a",
+            "param": "amplitude",
+            "label": "Keep Setup A amplitude near $1.2\\,\\mathrm{m}$.",
+            "min": 1.1,
+            "max": 1.3,
+            "displayUnit": "m"
+          },
+          {
+            "setup": "b",
+            "param": "amplitude",
+            "label": "Keep Setup B amplitude near $1.2\\,\\mathrm{m}$.",
+            "min": 1.1,
+            "max": 1.3,
+            "displayUnit": "m"
+          },
+          {
+            "setup": "b",
+            "param": "omega",
+            "label": "Raise Setup B angular frequency above $2.6\\,\\mathrm{rad/s}$.",
+            "min": 2.6,
+            "max": 3.3,
+            "displayUnit": "rad/s"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Use the motion, graph, and equation meaning together. Each question checks whether you can explain what the system must be doing.",
+    "questions": [
+      {
+        "id": "shm-qt-1",
+        "type": "variable-effect",
+        "prompt": "If amplitude stays fixed and angular frequency increases, what must change first in the stage and displacement graph?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The system cycles faster, but the turning points stay at the same displacement."
+          },
+          {
+            "id": "b",
+            "label": "The motion swings out to wider turning points while the timing stays the same."
+          },
+          {
+            "id": "c",
+            "label": "The equilibrium line shifts even though the cycle speed changes."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Angular frequency controls how quickly the oscillation repeats. The peaks arrive sooner, but the max displacement stays the same because amplitude did not change.",
+        "selectedWrongExplanations": {
+          "b": "Wider turning points would require a larger amplitude. Changing angular frequency changes timing, not how far the oscillator travels from equilibrium.",
+          "c": "Equilibrium is the center line of the motion. Angular frequency can speed the cycle up without moving that reference position."
+        },
+        "showMeAction": {
+          "label": "Show fast cycle",
+          "presetId": "fast-cycle",
+          "observationHint": "Watch the peaks arrive sooner while the turning points stay at the same displacement.",
+          "highlightedControlIds": [
+            "omega"
+          ],
+          "highlightedGraphIds": [
+            "displacement",
+            "velocity"
+          ],
+          "highlightedOverlayIds": [
+            "velocityVector"
+          ]
+        }
+      },
+      {
+        "id": "shm-qt-2",
+        "type": "graph-reading",
+        "prompt": "At a positive turning point, which combination must be true at the same instant?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Displacement is maximum positive, velocity is zero, and acceleration points back toward equilibrium."
+          },
+          {
+            "id": "b",
+            "label": "Displacement is zero, velocity is largest, and acceleration is zero."
+          },
+          {
+            "id": "c",
+            "label": "Displacement is maximum positive, velocity is also maximum positive, and acceleration is zero."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A turning point is where the oscillator reverses direction, so velocity must be zero there. Because the displacement is largest, the restoring acceleration is also largest and points back toward equilibrium.",
+        "selectedWrongExplanations": {
+          "b": "That description matches equilibrium, not a turning point. At equilibrium the oscillator is moving fastest, so it cannot also be at the instant where it reverses.",
+          "c": "Maximum displacement does not mean maximum velocity. At the edge of the motion the oscillator pauses before heading back."
+        },
+        "showMeAction": {
+          "label": "Show a turning point",
+          "patch": {
+            "amplitude": 1.8,
+            "omega": 1.8,
+            "phase": 1.5707963267948966
+          },
+          "observationHint": "The mass pauses at the edge, the velocity vector collapses, and the acceleration arrow points inward.",
+          "highlightedControlIds": [
+            "phase",
+            "amplitude"
+          ],
+          "highlightedGraphIds": [
+            "displacement",
+            "velocity",
+            "acceleration"
+          ],
+          "highlightedOverlayIds": [
+            "velocityVector",
+            "accelerationVector"
+          ]
+        }
+      },
+      {
+        "id": "shm-qt-3",
+        "type": "misconception-check",
+        "prompt": "A student says, \"Whenever the mass is moving to the right, the acceleration must point to the right too.\" What is the best correction?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Acceleration depends on displacement, so it can point left while the mass is still moving right."
+          },
+          {
+            "id": "b",
+            "label": "Acceleration always matches velocity in simple harmonic motion."
+          },
+          {
+            "id": "c",
+            "label": "Acceleration disappears except when the oscillator crosses equilibrium."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "In simple harmonic motion, acceleration points back toward equilibrium. That means the object can still be moving outward for a moment while the restoring acceleration already points inward.",
+        "selectedWrongExplanations": {
+          "b": "Velocity and acceleration only line up in some parts of the cycle. The restoring acceleration is set by displacement, not by the current direction of motion.",
+          "c": "Acceleration is present throughout the motion except exactly at equilibrium. It does not switch on only at the center."
+        },
+        "showMeAction": {
+          "label": "Show restoring acceleration",
+          "patch": {
+            "phase": 0.4
+          },
+          "observationHint": "Look for moments when the mass is still moving one way while the acceleration arrow already points back toward equilibrium.",
+          "highlightedControlIds": [
+            "phase"
+          ],
+          "highlightedGraphIds": [
+            "velocity",
+            "acceleration"
+          ],
+          "highlightedOverlayIds": [
+            "velocityVector",
+            "accelerationVector"
+          ]
+        }
+      },
+      {
+        "id": "shm-qt-4",
+        "type": "compare-two-cases",
+        "prompt": "Two oscillators have the same amplitude and angular frequency, but one starts with a different phase. What must be different?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Their starting point in the cycle changes, but their amplitude and period do not."
+          },
+          {
+            "id": "b",
+            "label": "The oscillator with larger phase must also have larger amplitude."
+          },
+          {
+            "id": "c",
+            "label": "The equilibrium position must shift to a new location."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Phase changes where the motion begins in the cycle. It slides the same pattern left or right in time without changing the size or repeat rate.",
+        "selectedWrongExplanations": {
+          "b": "Amplitude and phase do different jobs. Phase chooses the starting point, while amplitude sets how far the oscillator travels.",
+          "c": "Changing phase does not move equilibrium. It only changes the time offset of the same oscillation."
+        },
+        "showMeAction": {
+          "label": "Show phase shift",
+          "presetId": "phase-shifted",
+          "observationHint": "The wave keeps the same height and spacing, but the stage and graph begin at a different point in the cycle.",
+          "highlightedControlIds": [
+            "phase"
+          ],
+          "highlightedGraphIds": [
+            "displacement",
+            "velocity"
+          ],
+          "highlightedOverlayIds": [
+            "motionTrail"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a single oscillator moving back and forth across an equilibrium point. The object position, velocity direction, and acceleration direction are linked to the same motion so the relationship stays readable without needing to decode the graph alone.",
+        "When the user changes amplitude, angular frequency, or phase, the motion updates immediately and the graph follows the same cycle."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The graphs show displacement, velocity, acceleration, and energy as separate views of the same oscillation.",
+        "Each plot makes one part of the cycle obvious so the user can compare phase shifts, turning points, and equilibrium crossings."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Simple Harmonic Motion",
+    "description": "Interactive simple harmonic motion with live graphs, adjustable phase, and a clear link between displacement, velocity, and acceleration.",
+    "keywords": [
+      "simple harmonic motion",
+      "oscillations",
+      "SHM",
+      "physics simulation"
+    ]
+  }
+}

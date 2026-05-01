@@ -1,0 +1,1362 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live Bernoulli checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Bernoulli checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Carry this through the fluids branch"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Follow one steady ideal-flow pipe and see how pressure, speed, and height trade within the same Bernoulli budget while continuity keeps the flow-rate story honest.",
+    "keyTakeaway": "For one steady incompressible streamline in this ideal-flow bench, $P + \\tfrac{1}{2}\\rho v^2 + \\rho g y$ stays nearly constant from section A to throat B."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Bernoulli's principle is the bounded steady-flow energy story for one streamline in an ideal incompressible fluid. If viscosity and pumps are left out, the same flow keeps trading among static pressure, kinetic energy per volume, and height. That is why the shorthand is $P + \\tfrac{1}{2}\\rho v^2 + \\rho g y = \\text{constant}$.",
+        "This page keeps that idea compact and honest. The same pipe shows a section A entry and a raised throat B. Continuity still decides where the speed changes, because the same volume flow rate has to pass both sections. Bernoulli then tells you what happens to the static pressure when that same flow gets faster, climbs higher, or does both at once.",
+        "The point is not that fast always means low pressure in every fluid situation. The point is narrower and higher parts of this one bounded stream must spend more of the same Bernoulli budget on speed and height, so the static pressure left over there can be lower."
+      ]
+    },
+    "keyIdeas": [
+      "For one steady incompressible streamline in this ideal-flow bench, $P + \\tfrac{1}{2}\\rho v^2 + \\rho g y$ stays nearly constant from section A to throat B.",
+      "Continuity supplies the speed link first: if the throat area is smaller, the throat speed must be larger for the same $Q$.",
+      "If the throat is faster, some of the same Bernoulli budget shifts into the kinetic term, so the static pressure can drop there.",
+      "If the throat is also higher, the height term takes another share of the budget, so the throat static pressure drops further.",
+      "Bernoulli complements continuity. Continuity says where the speed change lives; Bernoulli says how pressure and height fit that same change."
+    ],
+    "commonMisconception": {
+      "myth": "Bernoulli means fast flow magically causes low pressure everywhere.",
+      "correction": [
+        "On this page the lower throat pressure comes from a specific bounded steady-flow model where the same streamline keeps one Bernoulli budget.",
+        "Continuity and the pipe geometry matter first. The speed changes because the same $Q$ passes through different areas, and Bernoulli explains the matching pressure trade inside that same ideal-flow setup."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live Bernoulli checks",
+      "intro": "Use the live bench. The current entry pressure, flow rate, throat width, and throat height drive both worked examples.",
+      "items": [
+        {
+          "id": "current-throat-state",
+          "title": "Current throat speed and pressure",
+          "prompt": "For the current bench with $P_A = {{entryPressureValue}}\\,\\mathrm{kPa}$, $Q = {{flowRateValue}}\\,\\mathrm{m^3/s}$, $A_A = {{entryAreaValue}}\\,\\mathrm{m^2}$, $A_B = {{throatAreaValue}}\\,\\mathrm{m^2}$, and $\\Delta y = {{throatHeightValue}}\\,\\mathrm{m}$, what throat speed and throat pressure does the bounded Bernoulli model predict?",
+          "variables": [
+            {
+              "id": "entryPressure",
+              "variableId": "entryPressure",
+              "symbol": "P_A",
+              "label": "Section A pressure",
+              "valueKey": "entryPressureValue",
+              "unit": "kPa"
+            },
+            {
+              "id": "flowRate",
+              "variableId": "flowRate",
+              "symbol": "Q",
+              "label": "Volume flow rate",
+              "valueKey": "flowRateValue",
+              "unit": "m^3/s"
+            },
+            {
+              "id": "entryArea",
+              "variableId": "entryArea",
+              "symbol": "A_A",
+              "label": "Section A area",
+              "valueKey": "entryAreaValue",
+              "unit": "m^2"
+            },
+            {
+              "id": "throatArea",
+              "variableId": "throatArea",
+              "symbol": "A_B",
+              "label": "Throat area",
+              "valueKey": "throatAreaValue",
+              "unit": "m^2"
+            },
+            {
+              "id": "throatHeight",
+              "variableId": "throatHeight",
+              "symbol": "\\Delta y",
+              "label": "Throat rise",
+              "valueKey": "throatHeightValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "continuity",
+              "label": "1. Use continuity to get the throat speed",
+              "template": "The current areas give $v_A = {{entrySpeedValue}}\\,\\mathrm{m/s}$ and $v_B = {{throatSpeedValue}}\\,\\mathrm{m/s}$, so the throat is {{speedRatioValue}} times as fast as section A."
+            },
+            {
+              "id": "dynamic",
+              "label": "2. Read the speed-driven pressure share",
+              "template": "Moving from section A to throat B shifts about {{dynamicPressureDropValue}}\\,\\mathrm{kPa}$ of static pressure into the kinetic term."
+            },
+            {
+              "id": "height",
+              "label": "3. Include the height term",
+              "template": "Lifting the throat by {{throatHeightValue}}\\,\\mathrm{m}$ costs another {{heightPressureDropValue}}\\,\\mathrm{kPa}$ in the height term."
+            },
+            {
+              "id": "result",
+              "label": "4. Read the static pressure left over",
+              "template": "So the throat pressure is $P_B = {{throatPressureValue}}\\,\\mathrm{kPa}$, with a total drop of {{pressureDropValue}}\\,\\mathrm{kPa}$. {{pressureInterpretationText}}"
+            }
+          ],
+          "resultLabel": "Current throat state",
+          "resultTemplate": "$v_B = {{throatSpeedValue}}\\,\\mathrm{m/s}, \\quad P_B = {{throatPressureValue}}\\,\\mathrm{kPa}$",
+          "interpretationTemplate": "{{pressureInterpretationText}}",
+          "applyAction": {
+            "label": "Show the baseline throat",
+            "presetId": "baseline-venturi",
+            "observationHint": "Keep the pressure gauges and speed arrows visible while the raised throat runs faster than section A.",
+            "highlightedControlIds": [
+              "throatArea",
+              "throatHeight"
+            ],
+            "highlightedGraphIds": [
+              "pressure-throat-area"
+            ],
+            "highlightedOverlayIds": [
+              "speedArrows",
+              "pressureGauges",
+              "energyBars"
+            ]
+          }
+        },
+        {
+          "id": "level-vs-raised-throat",
+          "title": "What the throat height alone changes",
+          "prompt": "Keep the current entry pressure, flow rate, and areas, but imagine lowering the throat back to the entry height. How much static pressure would section B recover?",
+          "variables": [
+            {
+              "id": "flowRate",
+              "variableId": "flowRate",
+              "symbol": "Q",
+              "label": "Volume flow rate",
+              "valueKey": "flowRateValue",
+              "unit": "m^3/s"
+            },
+            {
+              "id": "throatArea",
+              "variableId": "throatArea",
+              "symbol": "A_B",
+              "label": "Throat area",
+              "valueKey": "throatAreaValue",
+              "unit": "m^2"
+            },
+            {
+              "id": "throatHeight",
+              "variableId": "throatHeight",
+              "symbol": "\\Delta y",
+              "label": "Current throat rise",
+              "valueKey": "throatHeightValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "keep-speed",
+              "label": "1. Keep the same continuity state",
+              "template": "With the same $Q$, $A_A$, and $A_B$, the speed story stays the same: $v_B$ remains {{throatSpeedValue}}\\,\\mathrm{m/s}$."
+            },
+            {
+              "id": "remove-height",
+              "label": "2. Remove only the height term",
+              "template": "Lowering the throat removes the current height contribution of {{heightPressureDropValue}}\\,\\mathrm{kPa}$."
+            },
+            {
+              "id": "compare",
+              "label": "3. Read the recovered throat pressure",
+              "template": "So the same throat would rise from {{throatPressureValue}}\\,\\mathrm{kPa}$ to about {{levelThroatPressureValue}}\\,\\mathrm{kPa}$ if it were level with section A. {{heightInterpretationText}}"
+            }
+          ],
+          "resultLabel": "Leveled throat pressure",
+          "resultTemplate": "$P_B(\\text{level}) = {{levelThroatPressureValue}}\\,\\mathrm{kPa}$",
+          "interpretationTemplate": "{{heightInterpretationText}}",
+          "applyAction": {
+            "label": "Level the throat",
+            "presetId": "level-venturi",
+            "observationHint": "The speed cues stay similar, but the throat pressure gauge rises because the height term is gone.",
+            "highlightedControlIds": [
+              "throatHeight"
+            ],
+            "highlightedGraphIds": [
+              "pressure-throat-height"
+            ],
+            "highlightedOverlayIds": [
+              "pressureGauges",
+              "energyBars"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "A steady stream keeps the same entry pressure and flow rate, but the throat becomes narrower and also rises higher. What must happen to the throat's static pressure in this bounded Bernoulli model?",
+      "prediction": "Decide whether the throat pressure goes up, stays the same, or drops.",
+      "answer": "It drops.",
+      "explanation": "Continuity makes the narrower throat faster, so the kinetic term grows there. Raising the throat also adds a height term. Both of those leave less of the same Bernoulli budget available as static pressure."
+    }
+  },
+  "equations": [
+    {
+      "id": "continuity-equation",
+      "latex": "Q = A_A v_A = A_B v_B",
+      "label": "Continuity for the same stream",
+      "meaning": "The same steady incompressible flow rate passes section A and throat B."
+    },
+    {
+      "id": "bernoulli-equation",
+      "latex": "P + \\dfrac{1}{2}\\rho v^2 + \\rho g y = \\text{constant}",
+      "label": "Bernoulli's principle",
+      "meaning": "Along one ideal steady streamline, static pressure, kinetic term, and height term trade within one conserved budget."
+    },
+    {
+      "id": "throat-pressure-form",
+      "latex": "P_B = P_A + \\dfrac{1}{2}\\rho\\left(v_A^2 - v_B^2\\right) - \\rho g\\left(y_B - y_A\\right)",
+      "label": "Throat pressure from section A",
+      "meaning": "If the throat is faster or higher, the static pressure left at B can be lower."
+    },
+    {
+      "id": "speed-ratio",
+      "latex": "\\dfrac{v_B}{v_A} = \\dfrac{A_A}{A_B}",
+      "label": "Speed ratio from continuity",
+      "meaning": "The speed change still comes from the area change before Bernoulli translates it into a pressure change."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "entryPressure",
+      "symbol": "P_A",
+      "label": "Section A pressure",
+      "param": "entryPressure",
+      "tone": "sky",
+      "description": "Raises or lowers the whole Bernoulli budget at the entry. A larger starting pressure lifts the throat pressure too, but it does not erase the speed or height trade.",
+      "equationIds": [
+        "bernoulli-equation",
+        "throat-pressure-form"
+      ],
+      "graphIds": [
+        "pressure-throat-area",
+        "pressure-flow-rate",
+        "pressure-throat-height"
+      ],
+      "overlayIds": [
+        "pressureGauges",
+        "energyBars"
+      ]
+    },
+    {
+      "id": "flowRate",
+      "symbol": "Q",
+      "label": "Volume flow rate",
+      "param": "flowRate",
+      "tone": "teal",
+      "description": "Changes how much fluid volume the pipe carries each second. Raising $Q$ raises both speeds and usually lowers the throat pressure because the kinetic term grows faster there.",
+      "equationIds": [
+        "continuity-equation",
+        "bernoulli-equation",
+        "throat-pressure-form"
+      ],
+      "graphIds": [
+        "pressure-flow-rate"
+      ],
+      "overlayIds": [
+        "continuityBridge",
+        "speedArrows",
+        "flowSlices"
+      ]
+    },
+    {
+      "id": "entryArea",
+      "symbol": "A_A",
+      "label": "Section A area",
+      "param": "entryArea",
+      "tone": "sky",
+      "description": "Sets the wider entry cross section. It changes the entry speed that Bernoulli compares against the throat state.",
+      "equationIds": [
+        "continuity-equation",
+        "speed-ratio"
+      ],
+      "graphIds": [
+        "speed-throat-area"
+      ],
+      "overlayIds": [
+        "continuityBridge",
+        "speedArrows"
+      ]
+    },
+    {
+      "id": "throatArea",
+      "symbol": "A_B",
+      "label": "Throat area",
+      "param": "throatArea",
+      "tone": "coral",
+      "description": "Changes the throat width. Making it smaller speeds the fluid up there and usually leaves less static pressure at B, while widening it slows the throat and can recover pressure.",
+      "equationIds": [
+        "continuity-equation",
+        "throat-pressure-form",
+        "speed-ratio"
+      ],
+      "graphIds": [
+        "speed-throat-area",
+        "pressure-throat-area"
+      ],
+      "overlayIds": [
+        "continuityBridge",
+        "speedArrows",
+        "pressureGauges",
+        "flowSlices"
+      ]
+    },
+    {
+      "id": "throatHeight",
+      "symbol": "\\Delta y",
+      "label": "Throat rise",
+      "param": "throatHeight",
+      "tone": "amber",
+      "description": "Raises or lowers the throat relative to section A. A higher throat uses part of the same Bernoulli budget on height, so the throat pressure can drop further even when the speeds stay the same.",
+      "equationIds": [
+        "bernoulli-equation",
+        "throat-pressure-form"
+      ],
+      "graphIds": [
+        "pressure-throat-height"
+      ],
+      "overlayIds": [
+        "pressureGauges",
+        "energyBars"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "entryPressure": 32,
+      "flowRate": 0.18,
+      "entryArea": 0.1,
+      "throatArea": 0.05,
+      "throatHeight": 0.25
+    },
+    "ui": {
+      "initialGraphId": "speed-throat-area",
+      "primaryGraphIds": [
+        "speed-throat-area",
+        "pressure-throat-area"
+      ],
+      "primaryControlIds": [
+        "throatArea"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "entryPressure",
+        "kind": "slider",
+        "label": "Section A pressure",
+        "param": "entryPressure",
+        "min": 24,
+        "max": 40,
+        "step": 1,
+        "unit": "kPa",
+        "description": "Sets the static pressure at section A."
+      },
+      {
+        "id": "flowRate",
+        "kind": "slider",
+        "label": "Volume flow rate",
+        "param": "flowRate",
+        "min": 0.12,
+        "max": 0.22,
+        "step": 0.01,
+        "unit": "m^3/s",
+        "description": "Changes how much fluid volume moves through the pipe each second."
+      },
+      {
+        "id": "entryArea",
+        "kind": "slider",
+        "label": "Section A area",
+        "param": "entryArea",
+        "min": 0.08,
+        "max": 0.14,
+        "step": 0.01,
+        "unit": "m^2",
+        "description": "Adjusts the wider entry section."
+      },
+      {
+        "id": "throatArea",
+        "kind": "slider",
+        "label": "Throat area",
+        "param": "throatArea",
+        "min": 0.04,
+        "max": 0.12,
+        "step": 0.01,
+        "unit": "m^2",
+        "description": "Adjusts the throat width. The throat can narrow, match, or widen relative to the entry section."
+      },
+      {
+        "id": "throatHeight",
+        "kind": "slider",
+        "label": "Throat rise",
+        "param": "throatHeight",
+        "min": 0,
+        "max": 0.45,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Raises or lowers the throat relative to section A."
+      }
+    ],
+    "presets": [
+      {
+        "id": "baseline-venturi",
+        "label": "Baseline venturi",
+        "description": "A narrower raised throat makes both the speed and height terms visible.",
+        "values": {
+          "entryPressure": 32,
+          "flowRate": 0.18,
+          "entryArea": 0.1,
+          "throatArea": 0.05,
+          "throatHeight": 0.25
+        }
+      },
+      {
+        "id": "level-venturi",
+        "label": "Level venturi",
+        "description": "Keep the same narrowing but remove the height term.",
+        "values": {
+          "entryPressure": 32,
+          "flowRate": 0.18,
+          "entryArea": 0.1,
+          "throatArea": 0.05,
+          "throatHeight": 0
+        }
+      },
+      {
+        "id": "wide-throat",
+        "label": "Wide throat",
+        "description": "A less dramatic narrowing keeps the same entry state but recovers more throat pressure.",
+        "values": {
+          "entryPressure": 32,
+          "flowRate": 0.18,
+          "entryArea": 0.1,
+          "throatArea": 0.09,
+          "throatHeight": 0.25
+        }
+      },
+      {
+        "id": "uniform-pipe",
+        "label": "Uniform pipe",
+        "description": "Matching areas keep the continuity speed contrast small.",
+        "values": {
+          "entryPressure": 32,
+          "flowRate": 0.18,
+          "entryArea": 0.1,
+          "throatArea": 0.1,
+          "throatHeight": 0
+        }
+      },
+      {
+        "id": "raised-throat",
+        "label": "Raised throat",
+        "description": "Keep the narrow throat but lift it higher so the height term matters more.",
+        "values": {
+          "entryPressure": 32,
+          "flowRate": 0.18,
+          "entryArea": 0.1,
+          "throatArea": 0.05,
+          "throatHeight": 0.4
+        }
+      },
+      {
+        "id": "gentle-flow",
+        "label": "Gentle flow",
+        "description": "A slower stream softens the speed-driven pressure drop.",
+        "values": {
+          "entryPressure": 32,
+          "flowRate": 0.14,
+          "entryArea": 0.1,
+          "throatArea": 0.06,
+          "throatHeight": 0.15
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "continuityBridge",
+        "label": "Continuity bridge",
+        "shortDescription": "Marks sections A and B and keeps the same $Q$ attached to both.",
+        "whatToNotice": [
+          "The same flow rate label stays attached to both sections even when their speeds differ."
+        ],
+        "whyItMatters": "It keeps Bernoulli tied to the continuity bookkeeping rather than treating speed as arbitrary.",
+        "relatedControls": [
+          "flowRate",
+          "entryArea",
+          "throatArea"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "speedArrows",
+        "label": "Speed arrows",
+        "shortDescription": "Shows the section A and throat speeds directly on the pipe.",
+        "whatToNotice": [
+          "The narrower throat gets the longer speed arrow because the same $Q$ has to pass through less area."
+        ],
+        "whyItMatters": "It makes the continuity half of the Bernoulli story visible before you read the pressure change.",
+        "relatedControls": [
+          "flowRate",
+          "entryArea",
+          "throatArea"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "pressureGauges",
+        "label": "Pressure gauges",
+        "shortDescription": "Shows the entry and throat static pressures side by side.",
+        "whatToNotice": [
+          "The throat gauge can sit lower when the throat is faster or higher because static pressure is not the whole Bernoulli budget."
+        ],
+        "whyItMatters": "It turns the pressure trade into something visible on the same bench.",
+        "relatedControls": [
+          "entryPressure",
+          "throatArea",
+          "throatHeight",
+          "flowRate"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "energyBars",
+        "label": "Bernoulli budget bars",
+        "shortDescription": "Splits the entry and throat states into pressure, kinetic, and height shares of the same total.",
+        "whatToNotice": [
+          "The throat can gain kinetic and height share while losing static pressure share without changing the total much."
+        ],
+        "whyItMatters": "It keeps Bernoulli as a trade, not a slogan.",
+        "relatedControls": [
+          "entryPressure",
+          "flowRate",
+          "throatArea",
+          "throatHeight"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "flowSlices",
+        "label": "Same-time slices",
+        "shortDescription": "Shows equal-time fluid slices in section A and throat B.",
+        "whatToNotice": [
+          "The same short time slice stretches farther in the faster throat while still representing the same flow rate."
+        ],
+        "whyItMatters": "It reconnects the Bernoulli page to the earlier continuity picture.",
+        "relatedControls": [
+          "flowRate",
+          "throatArea"
+        ],
+        "defaultOn": false
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "speed-throat-area",
+      "label": "Section speed vs throat area",
+      "xLabel": "Throat area A_B (m^2)",
+      "yLabel": "Speed (m/s)",
+      "series": [
+        "entry-speed",
+        "throat-speed"
+      ],
+      "description": "Change the throat width while keeping the entry state fixed."
+    },
+    {
+      "id": "pressure-throat-area",
+      "label": "Pressure vs throat area",
+      "xLabel": "Throat area A_B (m^2)",
+      "yLabel": "Pressure (kPa)",
+      "series": [
+        "entry-pressure",
+        "throat-pressure"
+      ],
+      "description": "The throat pressure drops when the throat gets narrower because the speed term grows there."
+    },
+    {
+      "id": "pressure-flow-rate",
+      "label": "Pressure vs flow rate",
+      "xLabel": "Flow rate Q (m^3/s)",
+      "yLabel": "Pressure (kPa)",
+      "series": [
+        "throat-pressure",
+        "pressure-drop"
+      ],
+      "description": "Raising the same flow rate usually deepens the throat pressure drop because the kinetic term grows as speed grows."
+    },
+    {
+      "id": "pressure-throat-height",
+      "label": "Pressure vs throat height",
+      "xLabel": "Throat rise delta y (m)",
+      "yLabel": "Pressure (kPa)",
+      "series": [
+        "throat-pressure",
+        "height-drop"
+      ],
+      "description": "Lifting the throat spends more of the Bernoulli budget on height, so the throat pressure drops linearly with delta y."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Keep one trade in view at a time so speed, pressure, and height stay tied to the same flowing pipe.",
+    "items": [
+      {
+        "id": "narrow-throat-lower-pressure",
+        "text": "Pull the throat smaller. The same $Q$ stays in both sections, the throat speed arrow grows, and the throat pressure gauge drops because the kinetic term is taking a bigger share.",
+        "type": "observation",
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "throatArea",
+              "max": 0.055
+            }
+          ]
+        },
+        "relatedControls": [
+          "throatArea"
+        ],
+        "relatedGraphTabs": [
+          "speed-throat-area",
+          "pressure-throat-area"
+        ],
+        "relatedOverlays": [
+          "continuityBridge",
+          "speedArrows",
+          "pressureGauges"
+        ],
+        "relatedEquationVariables": [
+          "throatArea"
+        ]
+      },
+      {
+        "id": "raised-throat-extra-drop",
+        "text": "Lift the throat higher while keeping the same areas. The speed story barely changes, but the throat gauge drops further because the height term now takes a bigger share too.",
+        "type": "compare",
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "throatHeight",
+              "min": 0.35
+            }
+          ]
+        },
+        "relatedControls": [
+          "throatHeight"
+        ],
+        "relatedGraphTabs": [
+          "pressure-throat-height"
+        ],
+        "relatedOverlays": [
+          "pressureGauges",
+          "energyBars"
+        ],
+        "relatedEquationVariables": [
+          "throatHeight"
+        ]
+      },
+      {
+        "id": "flow-rate-pressure-drop",
+        "text": "Open the pressure-flow-rate graph. The throat-pressure line falls while the pressure-drop line rises because both section speeds increase, but the faster throat pays more of the kinetic price.",
+        "type": "graph-reading",
+        "conditions": {
+          "graphTabs": [
+            "pressure-flow-rate"
+          ]
+        },
+        "relatedControls": [
+          "flowRate"
+        ],
+        "relatedGraphTabs": [
+          "pressure-flow-rate"
+        ],
+        "relatedOverlays": [
+          "speedArrows",
+          "pressureGauges"
+        ],
+        "relatedEquationVariables": [
+          "flowRate"
+        ]
+      },
+      {
+        "id": "continuity-bernoulli-bridge",
+        "text": "Use compare mode to keep the same entry pressure and flow rate, then widen only setup B's throat. Continuity explains why the speed arrow shrinks in B, and Bernoulli explains why the throat pressure recovers there.",
+        "type": "try-this",
+        "tryThis": "Start from Baseline venturi, open compare mode, leave Setup A alone, and widen only Setup B's throat until the pressure contrast is obvious.",
+        "relatedControls": [
+          "throatArea",
+          "flowRate",
+          "entryPressure"
+        ],
+        "relatedGraphTabs": [
+          "pressure-throat-area",
+          "speed-throat-area"
+        ],
+        "relatedOverlays": [
+          "continuityBridge",
+          "speedArrows",
+          "pressureGauges",
+          "energyBars"
+        ],
+        "relatedEquationVariables": [
+          "throatArea",
+          "flowRate"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the pressure trade before you test it. The goal is to keep continuity and Bernoulli in the same story.",
+    "items": [
+      {
+        "id": "bp-predict-narrower-throat",
+        "prompt": "Starting from Baseline venturi, you make the throat smaller while keeping the same entry pressure, flow rate, and throat height. What should happen?",
+        "scenarioLabel": "Smaller throat area",
+        "changeLabel": "Throat area",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The throat speed rises and the throat static pressure drops."
+          },
+          {
+            "id": "b",
+            "label": "The throat speed stays the same because the same fluid is moving."
+          },
+          {
+            "id": "c",
+            "label": "The throat pressure rises because the fluid is squeezed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Continuity makes the smaller throat faster. Bernoulli then says the faster throat leaves less of the same total budget as static pressure.",
+        "observationHint": "Watch the throat speed arrow lengthen while the throat pressure gauge and pressure-area graph move downward.",
+        "apply": {
+          "presetId": "baseline-venturi"
+        },
+        "highlightedControls": [
+          "throatArea"
+        ],
+        "highlightedGraphs": [
+          "speed-throat-area",
+          "pressure-throat-area"
+        ],
+        "highlightedOverlays": [
+          "speedArrows",
+          "pressureGauges"
+        ]
+      },
+      {
+        "id": "bp-predict-raised-throat",
+        "prompt": "Starting from Level venturi, you raise the throat while keeping the same areas, entry pressure, and flow rate. What changes next?",
+        "scenarioLabel": "Higher throat",
+        "changeLabel": "Throat rise",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The throat pressure drops further even though the speed story barely changes."
+          },
+          {
+            "id": "b",
+            "label": "The throat pressure rises because the throat is now higher."
+          },
+          {
+            "id": "c",
+            "label": "Only the entry pressure changes."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "With the same $Q$ and areas, continuity leaves the speeds nearly unchanged. Bernoulli still subtracts a larger $\\rho g y$ term at the higher throat, so the throat pressure drops.",
+        "observationHint": "The pressure-height graph and the energy bars show the height term growing while the speed arrows stay similar.",
+        "apply": {
+          "presetId": "raised-throat"
+        },
+        "highlightedControls": [
+          "throatHeight"
+        ],
+        "highlightedGraphs": [
+          "pressure-throat-height"
+        ],
+        "highlightedOverlays": [
+          "pressureGauges",
+          "energyBars"
+        ]
+      },
+      {
+        "id": "bp-predict-wider-throat",
+        "prompt": "Starting from Baseline venturi, you widen the throat while keeping the same entry pressure, flow rate, and height. What should happen?",
+        "scenarioLabel": "Wider throat",
+        "changeLabel": "Throat area",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The throat speed falls and the throat pressure recovers upward."
+          },
+          {
+            "id": "b",
+            "label": "The throat speed rises because the pipe is larger."
+          },
+          {
+            "id": "c",
+            "label": "The Bernoulli budget disappears because the geometry changed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A wider throat reduces the throat speed for the same $Q$, so less of the budget sits in the kinetic term and more can remain as static pressure.",
+        "observationHint": "The throat pressure gauge climbs as the speed arrow shortens.",
+        "apply": {
+          "presetId": "wide-throat"
+        },
+        "highlightedControls": [
+          "throatArea"
+        ],
+        "highlightedGraphs": [
+          "pressure-throat-area",
+          "speed-throat-area"
+        ],
+        "highlightedOverlays": [
+          "speedArrows",
+          "pressureGauges"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the same pipe for direct Bernoulli targets and compare matches. The checks read the live speeds, throat pressure, and geometry from the same bounded model.",
+    "items": [
+      {
+        "id": "bp-ch-hit-low-throat-pressure",
+        "title": "Build the 27 kPa throat",
+        "style": "parameter-match",
+        "prompt": "Start from Level venturi and adjust only the throat width until the throat pressure is about 27.1 kPa while the entry state stays near baseline.",
+        "successMessage": "You hit the low-throat target. The narrower throat became faster and left only about 27 kPa of static pressure at B.",
+        "setup": {
+          "presetId": "level-venturi",
+          "graphId": "pressure-throat-area",
+          "overlayIds": [
+            "continuityBridge",
+            "pressureGauges"
+          ],
+          "note": "Keep the flow rate, entry pressure, and throat height near the level baseline while tuning only the throat area."
+        },
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Open the pressure-vs-throat-area graph.",
+            "graphId": "pressure-throat-area"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the pressure gauges visible.",
+            "overlayId": "pressureGauges"
+          },
+          {
+            "type": "param-range",
+            "label": "Keep the baseline entry pressure.",
+            "param": "entryPressure",
+            "min": 31.5,
+            "max": 32.5,
+            "displayUnit": "kPa"
+          },
+          {
+            "type": "param-range",
+            "label": "Keep the baseline flow rate.",
+            "param": "flowRate",
+            "min": 0.175,
+            "max": 0.185,
+            "displayUnit": "m^3/s"
+          },
+          {
+            "type": "param-range",
+            "label": "Keep the throat level.",
+            "param": "throatHeight",
+            "min": 0,
+            "max": 0.02,
+            "displayUnit": "m"
+          },
+          {
+            "type": "param-range",
+            "label": "Tune the throat near 0.05 m^2.",
+            "param": "throatArea",
+            "min": 0.049,
+            "max": 0.051,
+            "displayUnit": "m^2"
+          },
+          {
+            "type": "metric-range",
+            "label": "Bring the throat pressure close to 27.1 kPa.",
+            "metric": "throatPressure",
+            "min": 27,
+            "max": 27.3,
+            "displayUnit": "kPa"
+          }
+        ]
+      },
+      {
+        "id": "bp-ch-wider-b-recovers-pressure",
+        "title": "Same entry state, wider B recovers pressure",
+        "style": "parameter-match",
+        "prompt": "Start from Baseline venturi, switch to compare mode, leave Setup A alone, and tune Setup B until it keeps the same entry pressure and flow rate but recovers the throat pressure by widening only the throat.",
+        "successMessage": "You built the compare contrast. Setup B keeps the same entry state but recovers throat pressure because the throat is wider and slower.",
+        "setup": {
+          "presetId": "baseline-venturi",
+          "graphId": "pressure-throat-area",
+          "overlayIds": [
+            "pressureGauges",
+            "speedArrows"
+          ],
+          "interactionMode": "compare",
+          "note": "Setup A stays as the baseline narrow throat. Edit only Setup B."
+        },
+        "checks": [
+          {
+            "type": "compare-active",
+            "label": "Stay in compare mode while editing Setup B.",
+            "target": "b"
+          },
+          {
+            "type": "graph-active",
+            "label": "Open the pressure-vs-throat-area graph.",
+            "graphId": "pressure-throat-area"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the pressure gauges visible.",
+            "overlayId": "pressureGauges"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup B at the same entry pressure.",
+            "setup": "b",
+            "param": "entryPressure",
+            "min": 31.5,
+            "max": 32.5,
+            "displayUnit": "kPa"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup B at the same flow rate.",
+            "setup": "b",
+            "param": "flowRate",
+            "min": 0.175,
+            "max": 0.185,
+            "displayUnit": "m^3/s"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep the same raised throat height in Setup B.",
+            "setup": "b",
+            "param": "throatHeight",
+            "min": 0.24,
+            "max": 0.26,
+            "displayUnit": "m"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Widen Setup B's throat to about 0.09 m^2.",
+            "setup": "b",
+            "param": "throatArea",
+            "min": 0.089,
+            "max": 0.091,
+            "displayUnit": "m^2"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Recover the throat pressure to about 29.2 kPa.",
+            "setup": "b",
+            "metric": "throatPressure",
+            "min": 29.1,
+            "max": 29.3,
+            "displayUnit": "kPa"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Bring Setup B's throat speed down near 2 m/s.",
+            "setup": "b",
+            "metric": "throatSpeed",
+            "min": 1.95,
+            "max": 2.05,
+            "displayUnit": "m/s"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the same pipe, not from a slogan.",
+    "questions": [
+      {
+        "id": "bp-qt-narrower-throat",
+        "type": "variable-effect",
+        "prompt": "At the same entry pressure, flow rate, and height, what happens when the throat area gets smaller?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The throat speed rises and the throat static pressure can drop."
+          },
+          {
+            "id": "b",
+            "label": "The throat speed and pressure both stay fixed because the same fluid is moving."
+          },
+          {
+            "id": "c",
+            "label": "The throat speed falls because the opening is smaller."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Continuity makes the smaller throat faster for the same $Q$. Bernoulli then leaves less of the same budget as static pressure there.",
+        "showMeAction": {
+          "label": "Show the baseline venturi",
+          "presetId": "baseline-venturi",
+          "observationHint": "The throat speed arrow is longer and the throat pressure gauge is lower than section A.",
+          "highlightedControlIds": [
+            "throatArea"
+          ],
+          "highlightedGraphIds": [
+            "speed-throat-area",
+            "pressure-throat-area"
+          ],
+          "highlightedOverlayIds": [
+            "speedArrows",
+            "pressureGauges"
+          ]
+        }
+      },
+      {
+        "id": "bp-qt-height-term",
+        "type": "reasoning",
+        "prompt": "If the same throat is lifted higher without changing the areas or flow rate, what new reason makes the throat pressure lower?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "More of the same Bernoulli budget is now used by the height term."
+          },
+          {
+            "id": "b",
+            "label": "The entry pressure automatically doubles."
+          },
+          {
+            "id": "c",
+            "label": "Continuity no longer applies."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "With the same speeds, the extra drop comes from the $\\rho g y$ term. The higher throat leaves less static pressure at B.",
+        "showMeAction": {
+          "label": "Raise the throat",
+          "presetId": "raised-throat",
+          "observationHint": "The energy bars show a larger height share while the throat pressure gauge drops.",
+          "highlightedControlIds": [
+            "throatHeight"
+          ],
+          "highlightedGraphIds": [
+            "pressure-throat-height"
+          ],
+          "highlightedOverlayIds": [
+            "pressureGauges",
+            "energyBars"
+          ]
+        }
+      },
+      {
+        "id": "bp-qt-continuity-bridge",
+        "type": "graph-reading",
+        "prompt": "Which statement best connects continuity and Bernoulli on this page?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Continuity sets the speed change from the area change, and Bernoulli translates that speed and height change into a pressure change."
+          },
+          {
+            "id": "b",
+            "label": "Bernoulli replaces continuity, so area no longer matters once the fluid is moving."
+          },
+          {
+            "id": "c",
+            "label": "Continuity only matters when the pressure is the same everywhere."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The two ideas do different jobs in the same model. Continuity tells you where the speed rises or falls, and Bernoulli tells you how the pressure responds to that same state.",
+        "showMeAction": {
+          "label": "Compare narrow and wide throats",
+          "presetId": "baseline-venturi",
+          "observationHint": "Open compare mode next and widen only setup B's throat.",
+          "highlightedControlIds": [
+            "throatArea"
+          ],
+          "highlightedGraphIds": [
+            "speed-throat-area",
+            "pressure-throat-area"
+          ],
+          "highlightedOverlayIds": [
+            "continuityBridge",
+            "speedArrows",
+            "pressureGauges"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one steady pipe with a section A entry and a raised throat B. The pipe thickness represents cross-sectional area, animated tracer dots show the flow moving through the pipe, and the speed arrows show which section is faster.",
+        "Static pressure appears as compact gauges near section A and throat B. The Bernoulli budget bars split each state into pressure, kinetic, and height shares of the same total so the pressure trade stays visible.",
+        "Compare mode ghosts an alternate pipe state so two Bernoulli setups can be read on the same bench without creating a second disconnected model."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The speed-throat-area graph isolates the continuity speed change that Bernoulli builds on.",
+        "The pressure graphs isolate how throat width, flow rate, and throat height reshape the throat pressure while the same bounded Bernoulli model stays in force."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Bernoulli's Principle | Open Model Lab",
+    "description": "Learn Bernoulli's principle with a compact flowing-pipe simulation that keeps pressure, speed, and height on one bounded continuity-plus-Bernoulli bench.",
+    "keywords": [
+      "bernoulli principle",
+      "pressure speed height fluid flow",
+      "continuity and bernoulli",
+      "venturi pressure drop",
+      "open model lab bernoulli"
+    ]
+  },
+  "v2": {
+    "intuition": "Use one pipe as an energy budget: when the same stream speeds up or climbs, static pressure is the part that can give way.",
+    "whyItMatters": "That budget view keeps Bernoulli from becoming the vague slogan \"fast flow means low pressure\" and shows exactly when continuity, height, and pressure are linked.",
+    "estimatedMinutes": 18,
+    "equationSnapshot": {
+      "equationIds": [
+        "continuity-equation",
+        "bernoulli-equation",
+        "throat-pressure-form"
+      ],
+      "note": "Use continuity first to get the two speeds, then use Bernoulli to split the same budget among pressure, kinetic, and height terms."
+    },
+    "startSetup": {
+      "presetId": "baseline-venturi",
+      "graphId": "pressure-throat-area",
+      "overlayIds": [
+        "continuityBridge",
+        "speedArrows",
+        "pressureGauges",
+        "energyBars"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-bernoulli-budget",
+        "title": "Read one budget",
+        "goal": "Treat section A and throat B as two snapshots of the same steady-flow energy budget.",
+        "doThis": "Load Baseline venturi and keep the continuity bridge, speed arrows, pressure gauges, and energy bars visible.",
+        "notice": "The same flow rate passes both sections, but the narrower raised throat shows a longer speed arrow, a height share, and a lower pressure gauge.",
+        "explain": "Bernoulli compares one streamline state with another: pressure, kinetic, and height terms trade shares while the total stays nearly constant in this ideal model.",
+        "reveal": {
+          "controlIds": [
+            "entryPressure",
+            "flowRate",
+            "throatArea",
+            "throatHeight"
+          ],
+          "graphIds": [
+            "pressure-throat-area"
+          ],
+          "overlayIds": [
+            "continuityBridge",
+            "speedArrows",
+            "pressureGauges",
+            "energyBars"
+          ]
+        },
+        "setup": {
+          "presetId": "baseline-venturi",
+          "graphId": "pressure-throat-area",
+          "overlayIds": [
+            "continuityBridge",
+            "speedArrows",
+            "pressureGauges",
+            "energyBars"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "bp-qt-continuity-bridge"
+          ]
+        }
+      },
+      {
+        "id": "spend-pressure-on-speed",
+        "title": "Spend pressure on speed",
+        "goal": "Use continuity to predict what a smaller throat does before reading the pressure change.",
+        "doThis": "Drag Throat area smaller and watch the Section speed vs throat area and Pressure vs throat area graphs together.",
+        "notice": "As area at B shrinks, the throat speed rises for the same Q, and the throat pressure gauge falls.",
+        "explain": "The area change sets the speed change first. Bernoulli then accounts for the larger kinetic term by leaving less of the budget as static pressure at the throat.",
+        "reveal": {
+          "controlIds": [
+            "throatArea"
+          ],
+          "graphIds": [
+            "speed-throat-area",
+            "pressure-throat-area"
+          ],
+          "overlayIds": [
+            "continuityBridge",
+            "speedArrows",
+            "pressureGauges"
+          ]
+        },
+        "setup": {
+          "presetId": "baseline-venturi",
+          "graphId": "speed-throat-area",
+          "overlayIds": [
+            "continuityBridge",
+            "speedArrows",
+            "pressureGauges"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "bp-predict-narrower-throat"
+          ],
+          "questionIds": [
+            "bp-qt-narrower-throat"
+          ]
+        }
+      },
+      {
+        "id": "add-the-height-share",
+        "title": "Add height",
+        "goal": "Separate the height contribution from the speed contribution in the pressure drop.",
+        "doThis": "Compare Level venturi with Raised throat while keeping the areas and flow rate fixed.",
+        "notice": "The speed arrows stay similar, but the pressure-height graph and energy bars show the throat pressure falling as the height share grows.",
+        "explain": "Raising the throat does not need a new continuity story. It adds a larger rho g y term, so static pressure must drop further if the same Bernoulli total is conserved.",
+        "reveal": {
+          "controlIds": [
+            "throatHeight"
+          ],
+          "graphIds": [
+            "pressure-throat-height"
+          ],
+          "overlayIds": [
+            "pressureGauges",
+            "energyBars",
+            "speedArrows"
+          ]
+        },
+        "setup": {
+          "presetId": "raised-throat",
+          "graphId": "pressure-throat-height",
+          "overlayIds": [
+            "pressureGauges",
+            "energyBars",
+            "speedArrows"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "bp-predict-raised-throat"
+          ],
+          "questionIds": [
+            "bp-qt-height-term"
+          ]
+        }
+      },
+      {
+        "id": "recover-pressure-by-widening",
+        "title": "Recover pressure",
+        "goal": "Check the cause-and-effect chain by widening only the throat in a matching setup.",
+        "doThis": "Open compare mode from Baseline venturi, leave setup A alone, and widen only setup B's throat.",
+        "notice": "Setup B keeps the same entry pressure and flow rate, but its wider throat runs slower and recovers static pressure.",
+        "explain": "This is the clean Bernoulli story in reverse: continuity lowers the throat speed, the kinetic share shrinks, and more of the same budget can remain as static pressure.",
+        "reveal": {
+          "controlIds": [
+            "throatArea",
+            "flowRate",
+            "entryPressure"
+          ],
+          "graphIds": [
+            "pressure-throat-area",
+            "speed-throat-area"
+          ],
+          "overlayIds": [
+            "continuityBridge",
+            "speedArrows",
+            "pressureGauges",
+            "energyBars"
+          ]
+        },
+        "setup": {
+          "presetId": "baseline-venturi",
+          "graphId": "pressure-throat-area",
+          "overlayIds": [
+            "continuityBridge",
+            "speedArrows",
+            "pressureGauges",
+            "energyBars"
+          ],
+          "interactionMode": "compare"
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "bp-predict-wider-throat"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Continuity sets the throat speed from the entry and throat areas before Bernoulli explains the pressure change.",
+        "A faster throat spends more of the same budget on kinetic energy per volume, so throat static pressure can drop.",
+        "A raised throat spends an additional share on height, which can lower throat pressure even when the speed story is unchanged.",
+        "Widening the throat reverses the speed trade and can recover pressure in the same ideal-flow model."
+      ],
+      "misconception": "Bernoulli means any fast flow automatically has low pressure.",
+      "nextConcepts": [
+        {
+          "slug": "buoyancy-and-archimedes-principle",
+          "reasonLabel": "Pressure differences in fluids"
+        },
+        {
+          "slug": "pressure-and-hydrostatic-pressure",
+          "reasonLabel": "Review static pressure"
+        },
+        {
+          "slug": "continuity-equation",
+          "reasonLabel": "Revisit the speed link"
+        }
+      ]
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "quickTest",
+      "accessibility"
+    ]
+  }
+}

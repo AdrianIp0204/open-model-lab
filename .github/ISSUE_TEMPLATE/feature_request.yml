@@ -1,0 +1,63 @@
+name: Feature request
+description: Suggest a new feature or product improvement.
+title: "[Feature]: "
+labels:
+  - "type: feature"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Feature requests are inputs, not promises. Changes involving billing, entitlements, auth, security, licensing, brand, ads, or data models need maintainer discussion before implementation.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: What user problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposed-feature
+    attributes:
+      label: Proposed feature
+      description: Describe the feature, workflow, or tool.
+    validations:
+      required: true
+  - type: input
+    id: beneficiaries
+    attributes:
+      label: Who benefits?
+      placeholder: Learners, teachers, content authors, maintainers, etc.
+    validations:
+      required: false
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Existing workarounds or simpler approaches.
+    validations:
+      required: false
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope estimate
+      options:
+        - Small
+        - Medium
+        - Large
+        - Unknown
+    validations:
+      required: true
+  - type: checkboxes
+    id: sensitive-areas
+    attributes:
+      label: Sensitive areas affected
+      description: Check any area this feature may touch.
+      options:
+        - label: "Billing, Stripe, Supporter checkout, or subscriptions"
+        - label: "Entitlement gates or internal `free | premium` values"
+        - label: "Auth, sessions, account sync, or user data"
+        - label: "Ads, AdSense, or `ads.txt`"
+        - label: "Database migrations or data model changes"
+        - label: "Security, privacy, or abuse prevention"
+        - label: "License, content-license, or brand policy"
+        - label: "None of the above / not sure"

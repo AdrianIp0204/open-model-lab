@@ -1,0 +1,364 @@
+{
+  "title": "光作為電磁波",
+  "shortTitle": "光和譜線",
+  "summary": "將電磁波與可見光、顏色、頻率及更廣的譜線聯絡起來，同一個平台保持譜線軌道、場對偶草圖和介質相關的波長變化緊密結合。",
+  "highlights": [
+    "可見帶",
+    "顏色與頻率",
+    "n 改變波長"
+  ],
+  "topic": "光學",
+  "subtopic": "波動觀點下的光",
+  "recommendedNext": [
+    {
+      "slug": "polarization",
+      "reasonLabel": "測試橫向方向"
+    },
+    {
+      "slug": "diffraction",
+      "reasonLabel": "波的擴散"
+    },
+    {
+      "slug": "refraction-snells-law",
+      "reasonLabel": "邊界彎曲"
+    },
+    {
+      "slug": "photoelectric-effect",
+      "reasonLabel": "閾值頻率"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "此概念是網站電磁波影像與光學分支之間的橋樑。可見光僅為整個電磁譜的一小部分，其顏色與波長和頻率相關。",
+        "同一個平面上顯示完整的譜線軌道、可見視窗、配對的電磁波草圖以及探測器在選擇的介質波長下游。相同的波長、介質指數、探測器間距和場振幅驅動舞台、疊加層、示例計算、預測和快速測驗。"
+      ]
+    },
+    "keyIdeas": [
+      "可見光僅為電磁譜的一小部分。",
+      "波長越短意味著頻率越高，因為 f = c / λ₀。",
+      "在介質中，光減慢到 v = c / n，波長縮短到 lambda_m = lambda_0 / n 而頻率保持不變。",
+      "探測器延遲是一場穿越空間的旅行故事，而不是一點上 E 和 B 之間的滯後。"
+    ],
+    "commonMisconception": {
+      "myth": "如果光在玻璃中減慢，其頻率必須降低且顏色必須改變。",
+      "correction": [
+        "源仍然發射相同的振動速率，所以頻率保持不變。",
+        "介質一起改變速度和波長，這就是為什麼同一綠色鐳射在玻璃中仍然是綠色的原因。"
+      ]
+    },
+    "workedExamples": {
+      "title": "實時光譜檢查",
+      "intro": "直接從實時模型讀取當前的譜線標籤和介質狀態。",
+      "items": [
+        {
+          "id": "visible-band-frequency",
+          "title": "當前頻寬和源頻率",
+          "prompt": "根據當前的對數波長 {{logWavelengthValue}}，您在哪個頻寬以及這意味著什麼源頻率？",
+          "variables": [
+            {
+              "id": "log-wavelength",
+              "label": "對數波長"
+            },
+            {
+              "id": "frequency",
+              "label": "來源頻率"
+            }
+          ],
+          "steps": [
+            {
+              "id": "convert",
+              "label": "1. 轉換控制"
+            },
+            {
+              "id": "classify",
+              "label": "2. 閱讀譜線標籤"
+            },
+            {
+              "id": "frequency",
+              "label": "3. 將波長連線到時間"
+            }
+          ],
+          "resultLabel": "當前譜線狀態",
+          "applyAction": {
+            "label": "跳至紫光",
+            "observationHint": "指標在可見範圍內僅微移動，但頻率仍顯著上升。"
+          }
+        },
+        {
+          "id": "medium-wavelength-delay",
+          "title": "當前介質波長和延遲",
+          "prompt": "對於當前介質索引 $n = {{mediumIndexValue}}$ 和探針間距 $N_p = {{probeCyclesValue}}\\,\\lambda_m$，同一光波的波長和延遲是多少？",
+          "variables": [
+            {
+              "id": "medium-index",
+              "label": "介質折射率"
+            },
+            {
+              "id": "probe-cycles",
+              "label": "探測器間距"
+            }
+          ],
+          "steps": [
+            {
+              "id": "medium",
+              "label": "1. 縮短波長"
+            },
+            {
+              "id": "distance",
+              "label": "2. 將探針間距轉換為路徑長度"
+            },
+            {
+              "id": "delay",
+              "label": "3. 將路徑轉換為延遲"
+            }
+          ],
+          "resultLabel": "當前介質狀態",
+          "applyAction": {
+            "label": "顯示玻璃中的綠光",
+            "observationHint": "可見標籤仍為綠色，但介質中波長和速度都縮小。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "一束綠光從空氣穿越到玻璃。舞台表明波速降低且介質中波長變短。如果顏色身份仍然真實，哪個量必須保持固定？",
+      "prediction": "根據來源計時回答，而不是來自一個記憶的口號。",
+      "answer": "頻率必須保持固定。",
+      "explanation": "來源仍以相同的週期數每秒發射。介質改變速度和波長，而不改變來源振動速率。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "根據現場光譜和介質邏輯回答，而不是孤立的詞彙。",
+    "questions": [
+      {
+        "id": "light-qt-medium-frequency",
+        "prompt": "綠光進入玻璃。哪個陳述是正確的？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "其頻率保持不變，速度和介質中波長都減小。"
+          },
+          {
+            "id": "b",
+            "label": "其頻率下降，所以束流從綠色轉向紅色。"
+          },
+          {
+            "id": "c",
+            "label": "其波長保持不變，因為來源未改變。"
+          }
+        ],
+        "explanation": "來源計時固定了頻率。在介質中，速度降低且波長透過 lambda_m = lambda_0 / n 調整。",
+        "selectedWrongExplanations": {
+          "b": "介質中的較慢速度並不代表來源每秒振動次數減少。",
+          "c": "當速度改變時，波長必須變更但頻率不變。"
+        },
+        "showMeAction": {
+          "label": "顯示玻璃中的綠光",
+          "observationHint": "觀看計數器保持相同頻率的同時 lambda_m 和 v 一起移動。"
+        }
+      },
+      {
+        "id": "light-qt-violet-red",
+        "prompt": "哪個可見光比較是正確的？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "紫光具有較短的波長和較高的頻率。"
+          },
+          {
+            "id": "b",
+            "label": "紅光的波長較短，因為它位於溫暖的一端。"
+          },
+          {
+            "id": "c",
+            "label": "紅光和紫光在振幅上不同，而不是波長。"
+          }
+        ],
+        "explanation": "沿著可見光譜移動至紫光，意味著波長變短且頻率更高。",
+        "selectedWrongExplanations": {
+          "b": "溫暖或冷卻的語言不會決定物理現象。波長順序才是關鍵。",
+          "c": "這裡的顏色來自波長和頻率，而不是場強度。"
+        },
+        "showMeAction": {
+          "label": "跳至紫光",
+          "observationHint": "切換紅光和紫光並觀察波長和頻率反方向移動。"
+        }
+      },
+      {
+        "id": "light-qt-infrared",
+        "prompt": "一個位於可見紅外端之外的較長波長電磁波，沒有可見顏色提示。",
+        "choices": [
+          {
+            "id": "a",
+            "label": "一個有效的電磁波，具有更長的波長、更低的頻率且無可見顏色提示。"
+          },
+          {
+            "id": "b",
+            "label": "沒有電磁波，因為紅外線不是真正的光。"
+          },
+          {
+            "id": "c",
+            "label": "同一個紅色標籤，因為紅外線位於可見紅外端之外。"
+          }
+        ],
+        "explanation": "紅外線仍然是電磁譜的一部分。即使眼睛不能直接檢測到該波長，波的故事仍然保持完整。",
+        "selectedWrongExplanations": {
+          "b": "紅外線仍然屬於電磁譜。",
+          "c": "超出可見區域後，移除可見顏色標籤。"
+        },
+        "showMeAction": {
+          "label": "跳至紅外",
+          "observationHint": "指標離開了可見視窗，但場對應階段仍然有效。"
+        }
+      },
+      {
+        "id": "light-qt-amplitude",
+        "prompt": "學生説：「更大的場強應該改變顏色因為波更強。」最好的修正應該是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "場強變化隻影響波的高度，而不是波長、頻率或來源頻率。"
+          },
+          {
+            "id": "b",
+            "label": "更大的振幅總是將可見光推向紫光。"
+          },
+          {
+            "id": "c",
+            "label": "只有當探針超出一個波長範圍時，振幅才會改變顏色。"
+          }
+        ],
+        "explanation": "顏色和頻率身份來自於波長和頻率。場強變化隻影響顯示的波的高度。",
+        "selectedWrongExplanations": {
+          "b": "顏色不是場強效應。",
+          "c": "探針間距改變延遲，而不是來源譜的身份。"
+        },
+        "showMeAction": {
+          "label": "僅高亮顯示場的高度"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示帶有電磁譜軌道的區域，包括射電、微波、紅外、可見光、紫外線、X射線和伽馬射線。一個標記顯示當前波長位置，並用虛線框標出可見區間。",
+        "軌道下方，一對波草圖分別顯示電場和磁場。選項疊加可以突出顯示可見視窗、介質連結、探針延遲和區域性場三元組。讀卡器總結頻段、波長、頻率、介質指數、介質中波長、速度分數和探針間距。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "實時光與譜檢查"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "顏色與介質檢查點"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "帶入光學的色彩與介質檢查點"
+      },
+      {
+        "id": "readNext",
+        "title": "將此光引入光學"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "speed-index",
+      "label": "在介質中的速度",
+      "meaning": "更大的折射率意味著波傳播得更慢。"
+    },
+    {
+      "id": "frequency-vacuum-wavelength",
+      "label": "從真空波長計算頻率",
+      "meaning": "真空波長較短意味著來源頻率更高。"
+    },
+    {
+      "id": "medium-wavelength",
+      "label": "介質中的波長",
+      "meaning": "如果頻率固定但速度下降，波峯之間的間距會縮短。"
+    },
+    {
+      "id": "probe-delay",
+      "label": "探測延遲",
+      "meaning": "探測延遲取決於探測器與來源之間有多少介質中的波長。"
+    },
+    {
+      "id": "field-triad",
+      "label": "傳播方向",
+      "meaning": "電磁波的方向仍然由電場和磁場的方向定義。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "fieldAmplitude",
+      "label": "場強",
+      "description": "改變顯示的場強高度而不改變頻寬或來源頻率。"
+    },
+    {
+      "id": "logWavelength",
+      "label": "對數波長",
+      "description": "在對數波長軸上移動標記符，覆蓋整個光譜範圍。"
+    },
+    {
+      "id": "mediumIndex",
+      "label": "介質折射率",
+      "description": "改變相速度和介質中波長同時頻率固定。"
+    },
+    {
+      "id": "probeCycles",
+      "label": "探測器間距",
+      "description": "以當前介質中波長單位移動探測器下游位置。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "fieldAmplitude",
+        "label": "場強"
+      },
+      {
+        "id": "logWavelength",
+        "label": "對數波長"
+      },
+      {
+        "id": "mediumIndex",
+        "label": "介質折射率"
+      },
+      {
+        "id": "probeCycles",
+        "label": "探測器間距"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "probeDelay",
+        "label": "探測延遲"
+      }
+    ]
+  },
+  "predictionMode": {
+    "items": [
+      {
+        "id": "light-pred-violet",
+        "changeLabel": "對數波長"
+      },
+      {
+        "id": "light-pred-glass",
+        "changeLabel": "介質折射率"
+      },
+      {
+        "id": "light-pred-infrared",
+        "changeLabel": "對數波長"
+      }
+    ]
+  }
+}

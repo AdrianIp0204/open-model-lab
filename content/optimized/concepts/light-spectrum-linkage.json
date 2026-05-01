@@ -1,0 +1,248 @@
+{
+"sections": {
+"explanation": {
+"paragraphs": [
+"This page bridges the electromagnetic-spectrum view to later optics. Visible light is only a tiny slice of the full electromagnetic spectrum. Within that slice, moving toward violet means shorter vacuum wavelength and higher frequency, while moving toward red means longer vacuum wavelength and lower frequency.",
+"The same light can then enter a medium without changing its source frequency. In this bench, changing the medium index changes the wave speed and the in-medium wavelength, while the spectrum label and source timing stay tied to the same wave. The probe sits a chosen number of in-medium wavelengths downstream, so its delay is a travel-through-space effect, not a lag between E and B at one point."
+]
+},
+"keyIdeas": [
+"Visible light is only a small slice of the full electromagnetic spectrum.",
+"Color on this page is tied to vacuum wavelength and frequency: shorter vacuum wavelength means higher frequency.",
+"In a medium, the same light slows down and its in-medium wavelength shortens, but its frequency stays fixed.",
+"Probe delay is a propagation delay through space, not a delay between the electric and magnetic fields at one location."
+],
+"commonMisconception": {
+"correction": [
+"The source still launches the same oscillation rate, so the frequency stays fixed.",
+"The medium changes speed and wavelength together, which is why the same green laser is still green after it enters glass."
+]
+},
+"workedExamples": {
+"intro": "These checks read the current spectrum marker and medium state from the live model, so each number stays tied to the same wave you see on the rail and graphs.",
+"items": [
+{
+"id": "visible-band-frequency",
+"prompt": "With the current log-wavelength setting {{logWavelengthValue}}, what vacuum wavelength, spectrum band, and source frequency does the wave have?",
+"steps": [
+{
+"id": "convert",
+"label": "1. Convert the control into vacuum wavelength"
+},
+{
+"id": "classify",
+"label": "2. Read the spectrum band"
+},
+{
+"id": "frequency",
+"label": "3. Use vacuum wavelength to find the source frequency"
+}
+],
+"resultLabel": "Current spectrum reading",
+"applyAction": {
+"observationHint": "A small move inside the visible window still changes the source frequency noticeably."
+}
+},
+{
+"id": "medium-wavelength-delay",
+"title": "Current in-medium wavelength and probe delay",
+"prompt": "For the current medium index $n = {{mediumIndexValue}}$ and probe spacing $N_p = {{probeCyclesValue}}\\,\\lambda_m$, what are the in-medium wavelength, path length, and travel delay for this same light wave?",
+"steps": [
+{
+"id": "medium",
+"label": "1. Find the in-medium wavelength"
+},
+{
+"id": "distance",
+"label": "2. Convert probe spacing into distance"
+},
+{
+"id": "delay",
+"label": "3. Turn distance into travel delay"
+}
+],
+"resultLabel": "Current in-medium state",
+"applyAction": {
+"observationHint": "The visible label stays green because the frequency is unchanged, even though the wave slows down and the in-medium wavelength gets shorter."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "A green beam enters glass from air. The stage says the wave speed drops and the in-medium wavelength gets shorter. Which quantity must stay fixed for the beam to remain the same green light?",
+"prediction": "Answer from the source timing, not from a slogan about color.",
+"explanation": "The source still emits the same number of cycles each second. The medium changes speed and wavelength together, not the frequency."
+}
+},
+"equations": [
+{
+"id": "speed-index",
+"meaning": "A larger refractive index means a lower phase speed in that medium."
+},
+{
+"id": "frequency-vacuum-wavelength",
+"meaning": "Vacuum wavelength sets the source frequency and, inside the visible window, the color label on this page."
+},
+{
+"id": "medium-wavelength",
+"meaning": "When the same frequency enters a medium and the speed drops, the spacing between crests must get shorter."
+},
+{
+"id": "probe-delay",
+"meaning": "If the probe is placed a chosen number of in-medium wavelengths downstream, the delay is the travel time for that many cycles."
+},
+{
+"id": "field-triad",
+"meaning": "The electric field, magnetic field, and propagation direction stay linked even when you change band or medium."
+}
+],
+"variableLinks": [
+{
+"id": "fieldAmplitude",
+"description": "Changes the displayed field height only. It does not change band, color label, wavelength, or frequency."
+},
+{
+"id": "logWavelength",
+"description": "Moves the marker across the electromagnetic spectrum and sets the vacuum wavelength, source frequency, and visible color label when the marker lies inside the visible window."
+},
+{
+"id": "mediumIndex",
+"description": "Changes phase speed and in-medium wavelength while leaving the source frequency and visible identity fixed."
+},
+{
+"id": "probeCycles",
+"description": "Moves the probe farther downstream in units of the current in-medium wavelength, so it changes travel delay without changing band or color."
+}
+],
+"simulation": {
+"overlays": [
+{
+"id": "visibleWindow",
+"shortDescription": "Frames the tiny visible slice inside the full electromagnetic spectrum.",
+"whatToNotice": [
+"Most of the spectrum rail lies outside visible light."
+],
+"whyItMatters": "It keeps visible-color intuition connected to the full electromagnetic family."
+},
+{
+"id": "mediumCompression",
+"shortDescription": "Shows how the same light keeps its frequency but gets a shorter wavelength in a denser medium.",
+"whatToNotice": [
+"Changing n changes speed and in-medium wavelength together while the frequency and spectrum label stay fixed."
+],
+"whyItMatters": "This is the clean bridge from spectrum language to refractive-index optics."
+},
+{
+"id": "probeDelay",
+"shortDescription": "Marks the probe in units of the current in-medium wavelength and converts that spacing into travel delay.",
+"whatToNotice": [
+"The source and probe show the same wave at two positions, separated by travel time through the medium."
+],
+"whyItMatters": "It separates propagation delay from the false idea that E and B are out of step."
+},
+{
+"id": "fieldTriad",
+"shortDescription": "Shows the electric direction, magnetic direction, and propagation direction together.",
+"whatToNotice": [
+"Changing band or medium does not stop the wave from being electromagnetic."
+],
+"whyItMatters": "It keeps the field story visible while the page introduces color and optics."
+}
+]
+},
+"graphs": [
+{
+"id": "probe-fields",
+"description": "Shows electric and magnetic values at the same probe point so their synchronized oscillation stays visible."
+},
+{
+"id": "source-probe",
+"description": "Shows the source electric field and the downstream probe field on the same time axis, so the probe shift is read as travel delay through space."
+},
+{
+"id": "space-profile",
+"description": "Keeps one compact electromagnetic-wave sketch visible while the rail above carries the true spectrum ordering."
+}
+],
+"noticePrompts": {
+"intro": "Use one prompt at a time. Each one links the spectrum rail, the wave sketch, and the readout from the same live state.",
+"items": [
+{
+"id": "light-notice-visible",
+"text": "Visible light is only a narrow strip on the full spectrum rail. Moving a little within that strip changes wavelength and frequency, but most of the rail lies outside human vision.",
+"whyItMatters": "It places color inside the much larger electromagnetic spectrum."
+},
+{
+"id": "light-notice-medium",
+"text": "Raising the medium index shortens the in-medium wavelength and lowers the speed, but the source frequency and visible label stay the same.",
+"tryThis": "Keep the marker on green, then raise n and compare the medium link with the readout card.",
+"whyItMatters": "It is the key step that later makes refraction make sense."
+},
+{
+"id": "light-notice-nonvisible",
+"text": "Leaving the visible window removes the color cue, but the wavelength, frequency, electric field, and magnetic field still describe the same kind of electromagnetic wave.",
+"whyItMatters": "It prevents light from being treated as only what the eye can see."
+},
+{
+"id": "light-notice-compare",
+"text": "Compare mode works best when one setup changes source wavelength and the other changes only the medium. Then you can separate spectrum changes from medium changes.",
+"whyItMatters": "It stops color-linked differences and refractive-index differences from blending into one idea."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict the spectrum or medium consequence before you apply it. Change one cause at a time.",
+"items": [
+{
+"id": "light-pred-violet",
+"explanation": "Inside the visible window, moving toward violet means shorter vacuum wavelength and higher frequency.",
+"observationHint": "Watch the marker shift within the visible strip while the frequency label rises."
+},
+{
+"id": "light-pred-glass",
+"explanation": "A larger refractive index lowers the speed and shortens the in-medium wavelength, but the source still launches the same oscillation rate, so the visible label stays green.",
+"observationHint": "Compare the medium link with the unchanged frequency and color label."
+},
+{
+"id": "light-pred-infrared",
+"explanation": "Infrared lies beyond visible red at longer wavelength and lower frequency. The color cue disappears, but the electromagnetic-wave sketch remains valid.",
+"observationHint": "Watch the marker leave the visible window while the field sketch remains."
+}
+]
+},
+"quickTest": {
+"intro": "Answer from wavelength, frequency, and medium logic together.",
+"questions": [
+{
+"id": "light-qt-medium-frequency",
+"explanation": "The source fixes the frequency. Entering glass lowers the speed, so the wavelength in the medium must shorten."
+},
+{
+"id": "light-qt-violet-red",
+"explanation": "Across the visible band, violet corresponds to shorter vacuum wavelength and higher frequency than red."
+},
+{
+"id": "light-qt-infrared",
+"explanation": "Infrared is outside visible light but still inside the electromagnetic spectrum, so the wave sketch remains valid even though the visible-color cue is gone."
+},
+{
+"id": "light-qt-amplitude",
+"explanation": "Field amplitude changes the displayed wave height only. It does not set wavelength, frequency, band, or visible color."
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows a labeled electromagnetic-spectrum rail with radio, microwave, infrared, visible, ultraviolet, X-ray, and gamma regions. A marker shows the current wavelength position, and a dashed frame marks the visible strip.",
+"Below the rail, a paired wave sketch shows the electric field on one lane and the magnetic field on another. Optional overlays can call out the visible window, the medium effect, the probe delay, and the local field triad. The readout card summarizes band, vacuum wavelength, frequency, medium index, in-medium wavelength, speed fraction, and probe spacing."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The probe-field graph shows electric and magnetic values at one downstream point so their matched oscillation stays visible. The source-probe graph compares the same electric field at the source and at the downstream probe.",
+"The display-space graph keeps a compact electric-and-magnetic wave sketch visible while the spectrum rail above carries the true band ordering."
+]
+}
+}
+}

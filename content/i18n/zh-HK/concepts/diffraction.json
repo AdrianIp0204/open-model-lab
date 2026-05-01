@@ -1,0 +1,358 @@
+{
+  "title": "衍射",
+  "shortTitle": "衍射",
+  "summary": "觀看波浪透過狹窄開口後擴散的情景，瞭解為什麼當波長與縫寬相近時衍射會增加，並建立從單縫到雙縫干涉的波-optics橋梁。",
+  "highlights": [
+    "縫寬對比波長",
+    "中央峯寬度",
+    "螢幕圖案"
+  ],
+  "topic": "光學",
+  "subtopic": "波的擴散和開口",
+  "recommendedNext": [
+    {
+      "slug": "double-slit-interference",
+      "reasonLabel": "雙縫圖案"
+    },
+    {
+      "slug": "optical-resolution-imaging-limits",
+      "reasonLabel": "成像極限"
+    },
+    {
+      "slug": "wave-interference",
+      "reasonLabel": "相位總結"
+    },
+    {
+      "slug": "refraction-snells-law",
+      "reasonLabel": "邊界光學"
+    },
+    {
+      "slug": "total-internal-reflection",
+      "reasonLabel": "臨界角極限"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "衍射是指波透過狹窄開口或繞過邊緣後的擴散。寬開口使出射波保持相對直線，但當開口寬度與波長相近時，波不再緊密收斂。",
+        "此頁面故意限制幾何範圍：一個縫、一塊螢幕和一個移動探針。相同的縫寬、波長和探針高度驅動舞台、影像模式、示例和挑戰檢查，使圖案保持與單一波-optics故事的聯絡，而不是巨大的光學實驗室。"
+      ]
+    },
+    "keyIdeas": [
+      "當波長相對於縫寬較大時，衍射變得更明顯，因此中央峯展開而不是保持狹窄。",
+      "螢幕圖案並非隨機模糊。它遵循單縫封套，清晰的亮暗區域由開口邊緣到邊緣的路徑差決定。",
+      "雙縫圖案仍然依賴衍射，因為每個縫都有自己的散射封套，在兩縫相互幹擾之前。"
+    ],
+    "commonMisconception": {
+      "myth": "更窄的開口總是使出射束更窄，因為較少的波透過。",
+      "correction": [
+        "更窄的開口減小了源區域的寬度，但同時增加了出射波的散射。",
+        "這就是為什麼當開口相對於波長變小時中央衍射峯會加寬。"
+      ]
+    },
+    "workedExamples": {
+      "title": "實時衍射檢查",
+      "intro": "這些示例直接從實時狀態讀取當前縫的幾何形狀，因此代數與螢幕上看到的圖案保持一致。",
+      "items": [
+        {
+          "id": "first-minimum-angle",
+          "title": "第一最小值來自波長和縫寬",
+          "prompt": "對於當前縫寬 a = {{slitWidthValue}} 和波長 lambda = {{wavelengthValue}}，第一衍射最小值應該在哪裡出現？",
+          "variables": [
+            {
+              "id": "slit-width",
+              "label": "縫隙寬度"
+            },
+            {
+              "id": "wavelength",
+              "label": "波長"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 從第一最小值條件開始"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 代入活躍的開口和波長"
+            },
+            {
+              "id": "interpret",
+              "label": "3. 閱讀幾何結果"
+            }
+          ],
+          "resultLabel": "第一最小值結果",
+          "applyAction": {
+            "label": "顯示廣泛散射",
+            "observationHint": "開口不再比波長寬很多，因此中央峯向外延伸，第一個最小值移離中心更遠。"
+          }
+        },
+        {
+          "id": "probe-intensity",
+          "title": "探測器從邊緣路徑分光",
+          "prompt": "在當前探測器高度 y = {{probeYValue}} 下，螢幕應該有什麼相對強度？",
+          "variables": [
+            {
+              "id": "probe-height",
+              "label": "探針高度"
+            },
+            {
+              "id": "beta",
+              "label": "包封角"
+            }
+          ],
+          "steps": [
+            {
+              "id": "beta",
+              "label": "1. 建立封包角"
+            },
+            {
+              "id": "intensity",
+              "label": "2. 使用單縫強度法則"
+            },
+            {
+              "id": "meaning",
+              "label": "3. 將其連線到當前螢幕點"
+            }
+          ],
+          "resultLabel": "當前探測器強度",
+          "applyAction": {
+            "label": "移動到暗帶",
+            "observationHint": "探測器接近第一個最小值，因此邊緣路徑差約為一個波長，區域性強度幾乎消失。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "您希望中央衍射峯散開而不移動螢幕。哪個控制項是最可靠的移動？",
+      "prediction": "選擇應該改變波長、縫隙寬度還是探測器位置。",
+      "answer": "增加波長或減少縫隙寬度，使 λ / a 比例變大。",
+      "explanation": "探測器位置僅取樣現有模式的不同部分。當波長相對於開口變得更大時，實際散開會改變。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "根據實時散開邏輯回答，而不是孤立的術語。",
+    "questions": [
+      {
+        "id": "diffraction-qt-1",
+        "prompt": "哪個變化使得在相同的螢幕距離下衍射更明顯？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "增加波長或減少縫隙寬度，使 λ / a 比例變大。"
+          },
+          {
+            "id": "b",
+            "label": "增加縫隙寬度，讓更多波透過。"
+          },
+          {
+            "id": "c",
+            "label": "將探測器移離中心更遠，同時保持設定不變。"
+          }
+        ],
+        "explanation": "散開取決於波長和開口寬度之間的比例。探測器位置僅取樣現有模式。",
+        "selectedWrongExplanations": {
+          "b": "較大的開口通常會減少散開，因為出射波束保持更集中的狀態。",
+          "c": "移動探測器改變的是您讀取的模式部分，而不是模式本身。"
+        },
+        "showMeAction": {
+          "label": "顯示廣泛散射",
+          "observationHint": "較大的 λ / a 比例產生寬廣的中央峯。"
+        }
+      },
+      {
+        "id": "diffraction-qt-2",
+        "prompt": "一名學生説：「較窄的縫隙應該會使出射光束更窄，因為開口更小。」最好的修正應該是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "較窄的縫隙通常會增加散射，因此主要的衍射峯變寬。"
+          },
+          {
+            "id": "b",
+            "label": "較窄的縫隙保持相同的散射範圍，因為只有波長才重要。"
+          },
+          {
+            "id": "c",
+            "label": "較窄的縫隙完全阻止衍射，因為剩下的波很少。"
+          }
+        ],
+        "explanation": "減小開口會增加 lambda / a 的比值，使出射圖形變寬而不是收緊。",
+        "selectedWrongExplanations": {
+          "b": "波長很重要，但衍射是由 lambda / a 比值決定的，因此縫隙寬度也很重要。",
+          "c": "較小的開口可以傳輸更少的總能量，但透過的波仍然會衍射。"
+        },
+        "showMeAction": {
+          "label": "顯示匹配的開口",
+          "observationHint": "當波長約等於開口大小時，散射範圍變得非常寬。"
+        }
+      },
+      {
+        "id": "diffraction-qt-3",
+        "prompt": "情況 A 和情況 B 使用相同的縫隙寬度，但情況 B 的波長較長。真正會不同的是甚麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "情況 B 的中央主峰應更寬，因為相對於同一個開口，波長更大。"
+          },
+          {
+            "id": "b",
+            "label": "情況 B 的圖樣應完全相同，因為縫隙沒有改變。"
+          },
+          {
+            "id": "c",
+            "label": "情況 B 應該具有更窄的峯因為較長的波長彎曲較少。"
+          }
+        ],
+        "explanation": "在相同開口寬度下，增加波長會增大 lambda / a 的比值，因此繞射包絡會變寬。",
+        "selectedWrongExplanations": {
+          "b": "縫隙寬度保持固定，但波長仍然改變圖案。",
+          "c": "這種直覺與這裡單縫的實際結果相矛盾。較長的波長會產生更多的散射。"
+        },
+        "showMeAction": {
+          "label": "比較寬和緊的散射範圍",
+          "observationHint": "從緊的散射範圍切換到寬的散射範圍，直接比較中央峯的寬度。"
+        }
+      },
+      {
+        "id": "diffraction-qt-4",
+        "prompt": "為什麼圖形保持固定而探針場圖表在時間上步進？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "因為圖形是螢幕上的空間強度圖，而探針場圖表跟蹤的是時間的一個點。"
+          },
+          {
+            "id": "b",
+            "label": "因為衍射圖樣在波動模型中任何地方都不涉及時間。"
+          },
+          {
+            "id": "c",
+            "label": "因為只有隱藏探針時螢幕圖樣才會改變。"
+          }
+        ],
+        "explanation": "一個探針點的區域性場隨時間振蕩，但螢幕圖形是位置上的強度分佈。",
+        "selectedWrongExplanations": {
+          "b": "出射波仍然隨著時間振蕩。圖形保持固定因為它代表了一個不同的量。",
+          "c": "探針只是一個樣本點。隱藏或顯示它不會改變物理圖樣。"
+        },
+        "showMeAction": {
+          "label": "顯示一個暗帶",
+          "observationHint": "暫停探針場，然後比較未變化的位置圖表與區域性時間軸。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示入射平面波前到一個障礙物上的單縫。在右側，曲線的出射波前從開口散開至螢幕條帶，根據衍射強度而變亮或變暗。",
+        "可移動探針標記螢幕的一個點。選項重疊顯示縫隙寬度、到探針的頂部和底部邊緣路徑以及當前比值 lambda / a 給出有限第一最小值時的第一最小指引。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "探針場圖表顯示縫隙中心和當前探針點的振蕩，虛線包絡線標記區域性衍射振幅。",
+        "螢幕圖樣圖表顯示相對強度沿著螢幕高度，所以它始終是一個空間圖而時間軸檢查區域性探針場。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "實時衍射檢查"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "散射範圍檢查點"
+      },
+      {
+        "id": "readNext",
+        "title": "推進衍射光學"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "edge-path-difference",
+      "label": "邊緣到邊緣的路徑差",
+      "meaning": " slit 的頂部和底部以略有不同的路徑長度投射到同一螢幕點。",
+      "notes": [
+        "實時舞台保持邊緣路徑精確顯示，而方程式則提供遠端螢幕近似值。"
+      ]
+    },
+    {
+      "id": "beta-definition",
+      "label": "包封角",
+      "meaning": "將開口寬度和波長比較打包成一個量，用於衍射包封。"
+    },
+    {
+      "id": "single-slit-intensity",
+      "label": "單縫強度",
+      "meaning": "明亮的中央區域和較弱的側部區域來自衍射包封的平方。"
+    },
+    {
+      "id": "first-minimum",
+      "label": "第一暗點",
+      "meaning": "當邊緣到邊緣的路徑差增長至一個波長時，第一個暗點出現。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "wavelength",
+      "label": "波長",
+      "description": "較長的波長會在相同的開口寬度下增加衍射散開量。"
+    },
+    {
+      "id": "slitWidth",
+      "label": "縫隙寬度",
+      "description": "較小的開口會因為波從更緊密區域發出而增加衍射散開。"
+    },
+    {
+      "id": "probeY",
+      "label": "探針高度",
+      "description": "沿著螢幕上下移動樣品點，以便閱讀圖案是明亮、昏暗還是接近最小值的位置。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "wavelength",
+        "label": "波長"
+      },
+      {
+        "id": "slitWidth",
+        "label": "縫隙寬度"
+      },
+      {
+        "id": "probeY",
+        "label": "探針高度"
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "pattern",
+      "label": "螢幕圖案"
+    }
+  ],
+  "predictionMode": {
+    "items": [
+      {
+        "id": "diffraction-pred-narrower-slit",
+        "changeLabel": "縫隙寬度"
+      },
+      {
+        "id": "diffraction-pred-longer-wavelength",
+        "changeLabel": "波長"
+      },
+      {
+        "id": "diffraction-pred-move-probe",
+        "changeLabel": "探針高度"
+      }
+    ]
+  }
+}

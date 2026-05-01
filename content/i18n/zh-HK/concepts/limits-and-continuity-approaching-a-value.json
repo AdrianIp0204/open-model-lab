@@ -1,0 +1,312 @@
+{
+  "title": "極限與連續性 / 接近一個值",
+  "shortTitle": "極限與連續性",
+  "summary": "從左邊和右邊接近目標點，比較極限高度與實際函式值，並對照連續、可移除空洞、跳躍與發散行為在同一張誠實影像上的表現。",
+  "highlights": [
+    "從左邊和右邊接近",
+    "極限與實際點",
+    "空洞、跳躍和爆發"
+  ],
+  "topic": "微積分",
+  "subtopic": "極限與視覺連續性",
+  "recommendedNext": [
+    {
+      "slug": "integral-as-accumulation-area",
+      "reasonLabel": "將可視的接近行為帶入積累，而不離開影像為先的分支"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "一個極限更容易被信任時，它會保持視覺化。這個試驗台固定了一個目標 x 值，讓你從左邊和右邊接近它，並顯示影像是否朝向一個共享的高度、兩個不同的高度或類似漸近線的爆發。",
+        "連續性是第二個視覺檢查。即使雙邊都朝同一高度移動，當實際填補點落在同一值上時，影像才算是連續的。可移除的缺口、跳躍和爆發因不同的視覺原因而破壞了連續性。"
+      ]
+    },
+    "keyIdeas": [
+      "單側極限問的是 x 接近目標點時從左邊或右邊影像在做什麼。",
+      "只有當雙邊值都朝同一高度移動時，才存在有限的兩側極限。",
+      "在一點處的連續性意味著限制值和實際函式值在該點一致。"
+    ],
+    "commonMisconception": {
+      "myth": "如果影像在 x = a 處有一個填滿的點，那麼那裡的極限一定會自動等於那個點。",
+      "correction": [
+        "極限關注的是附近 x 值的接近情況，而不是填補該點本身。",
+        "一個可移除的缺口可以有一個清晰有限的限制值，而實際函式值位於其他地方。"
+      ]
+    },
+    "workedExamples": {
+      "title": "即時例題",
+      "intro": "使用當前案例和試驗台的接近距離，使單側接近、有限極限和連續性與你正在檢查的影像保持一致。",
+      "items": [
+        {
+          "id": "compare-the-one-sided-values",
+          "title": "比較左極限與右極限",
+          "prompt": "對於當前 {{caseLabelValue}} 案例中的 $h = {{hValue}}$，左手值和右手值對極限故事有何暗示？",
+          "variables": [
+            {
+              "id": "case",
+              "label": "行為案例"
+            },
+            {
+              "id": "distance",
+              "label": "接近距離"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-case",
+              "label": "1. 閱讀活躍案例和距離"
+            },
+            {
+              "id": "read-sides",
+              "label": "2. 閱讀兩個單側值"
+            },
+            {
+              "id": "decide-limit-story",
+              "label": "3. 再決定這對極限故事有何説法"
+            }
+          ],
+          "resultLabel": "單側接近讀數",
+          "applyAction": {
+            "label": "應用可移除空洞情況",
+            "observationHint": "即使填入點放在別處，兩邊仍然已經逼近同一個高度。"
+          }
+        },
+        {
+          "id": "limit-versus-the-actual-point",
+          "title": "比較極限值與實際點的值",
+          "prompt": "對於目前的 {{caseLabelValue}} 情況，極限值和目標點在 $x = 0$ 的實際函式值有何關係？",
+          "variables": [
+            {
+              "id": "case",
+              "label": "行為案例"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-limit",
+              "label": "1. 讀取極限值"
+            },
+            {
+              "id": "read-point",
+              "label": "2. 讀取目標點的實際函式值"
+            },
+            {
+              "id": "decide-continuity",
+              "label": "3. 判斷連續性"
+            }
+          ],
+          "resultLabel": "極限值與點的比較",
+          "applyAction": {
+            "label": "應用跳躍情況",
+            "observationHint": "左側和右側趨向不同高度，因此沒有單一的雙側極限可供填入點匹配。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "切換到一種左值和右值幾乎一致，但連續性仍然失敗的情況。",
+      "prediction": "在動手前先判斷你需要的是可移除空洞、跳躍還是發散情況。",
+      "answer": "你需要選用可移除空洞的情況：兩邊都趨向同一個高度，但實際點被放在別的位置。",
+      "explanation": "這是有限極限和連續性之間最清楚的視覺分界。即使圖上的實際點破壞了匹配，附近的接近行為仍然可以很規整。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "根據圖上的行為判斷，而不是靠死記口號。",
+    "questions": [
+      {
+        "id": "lc-qt-one-sided",
+        "prompt": "什麼是最乾淨的條件以確保 x = a 的有限雙邊極限?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "兩側值都趨向同一個有限高度。"
+          },
+          {
+            "id": "b",
+            "label": "在 x = a 處有一個填滿的點。"
+          },
+          {
+            "id": "c",
+            "label": "影像在接近 a 時始終保持在 x 軸上方。"
+          }
+        ],
+        "explanation": "這是最核心的視覺測試以確保有限雙邊極限。影像必須從兩側都趨向同一個數字。",
+        "selectedWrongExplanations": {
+          "b": "單獨一個填滿的點並不能強制附近的值趨向同一個數字。",
+          "c": "僅靠符號並不是問題所在。關鍵是兩側是否同意同一個有限高度。"
+        },
+        "showMeAction": {
+          "label": "顯示連續匹配",
+          "observationHint": "兩側都排在同一高度，同時該點也落在那裡。"
+        }
+      },
+      {
+        "id": "lc-qt-continuity",
+        "prompt": "哪一個陳述最準確地説明目標點的連續性？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "有限極限和實際函式值在該點匹配。"
+          },
+          {
+            "id": "b",
+            "label": "任何有限極限都意味著影像在那裡是連續的。"
+          },
+          {
+            "id": "c",
+            "label": "任何填滿的點都意味著影像是連續的。"
+          }
+        ],
+        "explanation": "連續性需要兩個條件：極限存在，而且實際函式值正好落在同一個值上。",
+        "selectedWrongExplanations": {
+          "b": "可移除的缺口説明瞭為什麼這不完整。極限可以存在而該點仍然錯過它。",
+          "c": "單獨一個填滿的點仍可能位於附近趨勢行為之外。"
+        },
+        "showMeAction": {
+          "label": "顯示可移除的孔",
+          "observationHint": "極限指南保持原位，而實際點則被移開。"
+        }
+      },
+      {
+        "id": "lc-qt-blow-up",
+        "prompt": "如果目標附近的值始終在增大而不是趨向一個有限高度，最好的結論是什麼?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "那裡沒有有限雙邊極限。"
+          },
+          {
+            "id": "b",
+            "label": "極限必須為零因為該點缺失。"
+          },
+          {
+            "id": "c",
+            "label": "影像仍然連續因為兩側都陡峭。"
+          }
+        ],
+        "explanation": "爆發情況不會趨向一個真實的有限高度，所以有限雙邊極限失敗。",
+        "selectedWrongExplanations": {
+          "b": "缺少的點不強制極限為零。附近的值是決定因素。",
+          "c": "陡峭性不是連續性的測試。匹配附近值和實際點才是。"
+        },
+        "showMeAction": {
+          "label": "顯示爆發情況",
+          "observationHint": "附近的值會以相反的符號跑開，而不是落在一個有限的高度。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一張坐標圖，裡面有位於 x = 0 的虛線目標線、函式曲線，以及兩個從左與右接近目標的可移動樣本點。視乎所選情況，圖形可以保持連續、出現帶有另外填點的可移除空洞、形成跳躍，或像垂直漸近線那樣向上或向下發散。",
+        "旁邊的讀數卡會報告目前左側值、右側值、極限讀數，以及 x = 0 時的實際函式值。可選引導標誌會標出樣本點、有限極限高度（如果存在），以及 x = 0 時的實際點或未定義狀態。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "單側接近圖以距離作為橫坐標，因此左側和右側軌跡會顯示兩邊是否收斂到同一個有限數值、分裂成跳躍，或是無界地發散。",
+        "可選的水平引導會把有限極限與實際函式值分開顯示，讓你更容易比較可移除空洞和真正的連續情況。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "readNext",
+        "title": "維持微積分分支的一致性"
+      }
+    ],
+    "featuredSetups": [
+      {
+        "id": "continuous-match",
+        "label": "一致的匹配",
+        "description": "開啟兩側和實際點落在同一高度的情況",
+        "setup": {
+          "note": "使用此功能來建立乾淨的連續性案例，然後比較缺口、跳躍和爆發行為。"
+        }
+      },
+      {
+        "id": "removable-hole",
+        "label": "可移除的孔",
+        "description": "開啟相同的有限限制，並將實際點移離它。",
+        "setup": {
+          "note": "用這個案例區分附近逼近的值與目標點上的實際函式值。"
+        }
+      },
+      {
+        "id": "jump-split",
+        "label": "跳躍分裂",
+        "description": "開啟兩側收斂到不同高度的情況",
+        "setup": {
+          "note": "使用此功能來保持一側限制的真實性，當圖形分裂成兩個不同的落點高度時。"
+        }
+      },
+      {
+        "id": "vertical-blow-up",
+        "label": "爆發",
+        "description": "開啟像漸近線一樣的情況，附近的值不會收斂到任何有限的高度。",
+        "setup": {
+          "note": "使用此功能來比較真正的無有限限制情況與可移除缺口和跳躍情況。"
+        }
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "one-sided-limits",
+      "label": "一側極限",
+      "meaning": "從目標的左側和右側閱讀圖形趨近何處。"
+    },
+    {
+      "id": "two-sided-limit",
+      "label": "雙側極限",
+      "meaning": "只有當兩側值都收斂到同一個數字 L 時，才存在有限的雙側極限。"
+    },
+    {
+      "id": "continuity-at-a",
+      "label": "點處的連續性",
+      "meaning": "函式在目標點處僅當限制值與實際函式值相匹配時才是連續的。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "case-mode",
+      "label": "行為案例",
+      "description": "在保持相同目標 x 值的情況下，切換到連續、可移除空洞、跳躍和類似漸近線的發散情況。"
+    },
+    {
+      "id": "approach-distance",
+      "label": "接近距離",
+      "description": "內收或外推左側和右側樣本點，以便觀察兩邊是否朝同一高度收斂。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "case-mode",
+        "label": "行為案例"
+      }
+    ],
+    "presets": [
+      {
+        "id": "continuous-match",
+        "label": "一致的匹配"
+      },
+      {
+        "id": "removable-hole",
+        "label": "可移除的孔"
+      },
+      {
+        "id": "jump-split",
+        "label": "跳躍分裂"
+      },
+      {
+        "id": "vertical-blow-up",
+        "label": "爆發"
+      }
+    ]
+  }
+}

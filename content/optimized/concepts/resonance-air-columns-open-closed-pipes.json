@@ -1,0 +1,262 @@
+{
+"pageFramework": {
+"sections": [
+{
+"id": "workedExamples",
+"title": "Live resonance checks"
+},
+{
+"id": "miniChallenge",
+"title": "Boundary-condition checkpoint"
+},
+{
+"id": "readNext",
+"title": "Carry air-column resonance forward"
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"An air column resonates only when the standing wave fits the tube and obeys the ends. An open end lets the air move most freely, while a closed wall forces the air there to stay still. Those boundary rules decide which wavelengths can survive, so the resonance frequencies are selected by the tube instead of chosen freely.",
+"This bench shows that same resonance state in several linked views. The tube picture shows where the air moves most and least, the displacement-shape graph shows the standing-wave pattern along the tube, the harmonic ladder shows which frequencies are allowed, and the probe trace shows one parcel in time. Use them together to see why open-open tubes allow every harmonic but closed-open tubes keep only the odd ones."
+]
+},
+"keyIdeas": [
+"At an open end, the air can move most freely, so parcel displacement is largest there. At a closed end, parcel displacement must be zero.",
+"Open-open tubes allow every integer harmonic, but closed-open tubes allow only the odd harmonics because one end must be a node and the other an antinode.",
+"Changing tube length or boundary type changes the allowed wavelengths, and the resonance frequencies follow from the same sound speed."
+],
+"commonMisconception": {
+"myth": "An open end should be a displacement node because the air can escape there.",
+"correction": [
+"For parcel displacement, an open end is where the air moves most freely, so it behaves like a displacement antinode.",
+"What becomes small at an open end is the pressure variation, which is why pressure nodes line up with displacement antinodes there."
+]
+},
+"workedExamples": {
+"title": "Live resonance checks",
+"intro": "These examples use the current tube length, boundary condition, resonance order, and probe position from the live bench, so the algebra stays attached to the same resonant pattern you are watching.",
+"items": [
+{
+"id": "allowed-frequency",
+"title": "Allowed wavelength and resonance frequency",
+"prompt": "For the current {{boundaryLabelValue}} with sound speed $v = {{waveSpeedValue}}\\,\\mathrm{m/s}$, what wavelength and resonance frequency are allowed for the selected mode?",
+"steps": [
+{
+"id": "relation",
+"label": "1. Start from the current boundary rule"
+},
+{
+"id": "substitute",
+"label": "2. Substitute the live tube and selected mode"
+},
+{
+"id": "compute",
+"label": "3. Compute the allowed resonance"
+}
+],
+"resultLabel": "Current allowed resonance",
+"applyAction": {
+"observationHint": "With one end closed, the next allowed pattern after the fundamental is the third harmonic, not the second, because the tube must keep a node at the wall and an antinode at the mouth."
+}
+},
+{
+"id": "probe-motion-vs-pressure",
+"title": "Probe motion and pressure cue",
+"prompt": "At the current probe position $x_p = {{probeXValue}}\\,\\mathrm{m}$ and time $t = {{timeValue}}\\,\\mathrm{s}$, what are the parcel displacement and the pressure cue there, and what does that say about the probe's role in the standing wave?",
+"steps": [
+{
+"id": "envelopes",
+"label": "1. Read the local motion and pressure envelopes"
+},
+{
+"id": "instant",
+"label": "2. Read the current time slice"
+},
+{
+"id": "classify",
+"label": "3. Classify the probe's place in the pattern"
+}
+],
+"resultLabel": "Current probe motion and pressure",
+"applyAction": {
+"label": "Move the probe to the closed wall",
+"observationHint": "At a closed wall, parcel motion collapses to nearly zero while the pressure cue becomes strongest."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "You want the same tube length but a lower fundamental resonance. What single change will do that most directly?",
+"prediction": "Choose between closing one end, raising the resonance order, and moving the probe.",
+"explanation": "Closing one end changes the boundary condition from an open-open half-wave fundamental to a closed-open quarter-wave fundamental. That makes the allowed wavelength longer and the fundamental frequency lower, while moving the probe only changes what you inspect and raising the resonance order moves to a higher mode."
+}
+},
+"equations": [
+{
+"id": "open-open-displacement",
+"meaning": "This standing-wave shape gives displacement antinodes at both open ends, so the air at each mouth can move most freely."
+},
+{
+"id": "closed-open-displacement",
+"meaning": "This shape forces a displacement node at the closed wall and a displacement antinode at the open end, so only odd quarter-wave patterns fit."
+},
+{
+"id": "open-open-resonance",
+"meaning": "Because both ends follow the same antinode rule, an open-open tube allows the full sequence of integer harmonics."
+},
+{
+"id": "closed-open-resonance",
+"meaning": "Because one end is closed and the other is open, the tube keeps only the odd harmonics."
+}
+],
+"variableLinks": [
+{
+"id": "length",
+"description": "Changes how much standing-wave pattern can fit inside the tube, so all allowed wavelengths and resonance frequencies shift together."
+},
+{
+"id": "boundary",
+"description": "Switches the left end between free-moving and fixed, which changes the whole harmonic family rather than just relabeling the same pattern."
+},
+{
+"id": "resonanceOrder",
+"description": "Chooses which allowed mode is shown. In a closed-open tube, stepping the order moves through the 1st, 3rd, 5th, and higher odd harmonic family."
+},
+{
+"id": "probeX",
+"description": "Moves the sampled air parcel so you can compare open-end breathing, interior nodes, and closed-wall stillness on the same resonance."
+},
+{
+"id": "amplitude",
+"description": "Scales how large the parcel motion and pressure cue can become without changing which resonances are allowed."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "length",
+"description": "Changes the resonating length of the air column and therefore the wavelengths that fit."
+},
+{
+"id": "closedEnd",
+"description": "Switch between open-open and closed-open boundary conditions on the same tube."
+},
+{
+"id": "resonanceOrder",
+"description": "Selects which allowed mode is shown. In a closed-open tube, the order steps through the odd harmonic family."
+},
+{
+"id": "probeX",
+"description": "Moves the live parcel probe along the tube so you can test nodes, antinodes, and boundary behavior."
+},
+{
+"id": "amplitude",
+"description": "Scales the size of the parcel-motion and pressure cues without changing the allowed resonance family."
+}
+],
+"overlays": [
+{
+"id": "boundaryRules",
+"whatToNotice": [
+"At an open end, parcel motion is large and pressure variation is small. At a closed wall, parcel motion is zero and the pressure swing is strongest."
+],
+"whyItMatters": "It keeps the allowed harmonic family tied to a physical end condition instead of a memorized formula."
+},
+{
+"id": "motionNodes",
+"whatToNotice": [
+"Nodes and antinodes stay at fixed positions in the standing-wave pattern, even though the actual parcel displacement changes through time."
+],
+"whyItMatters": "It separates the spatial resonance pattern from one frozen instant of motion."
+},
+{
+"id": "pressureGuides",
+"whatToNotice": [
+"Pressure and parcel motion swap roles: where one is smallest, the other is often strongest."
+],
+"whyItMatters": "It keeps displacement and pressure connected without pretending they peak at the same places."
+}
+]
+},
+"graphs": [
+{
+"id": "shape",
+"description": "Shows the standing-wave shape along the tube, so you can see where parcel motion must be zero or largest for the current boundary condition."
+},
+{
+"id": "displacement",
+"description": "Tracks one chosen parcel in time together with its local envelope, so a node gives a flat trace while an antinode gives the largest motion."
+},
+{
+"id": "ladder",
+"description": "Shows the allowed resonance frequencies for the current tube, making the missing even harmonics of a closed-open pipe easy to see."
+}
+],
+"noticePrompts": {
+"intro": "Use one cue at a time. Each one points to a real boundary-condition effect already visible on the tube or graph.",
+"items": [
+{
+"id": "air-column-notice-open-ends",
+"text": "Notice that an open end is where the air moves most freely, so it is a displacement antinode, not a stuck point.",
+"whyItMatters": "It ties the mouth of the tube to the correct displacement rule before you think about harmonics."
+},
+{
+"id": "air-column-notice-closed-toggle",
+"text": "Notice that closing one end changes the whole harmonic family, not just the label on the same pattern.",
+"whyItMatters": "Boundary conditions decide which wavelengths can fit in the first place."
+},
+{
+"id": "air-column-notice-shape-link",
+"text": "Notice that hovering the displacement-shape graph moves the live probe to that same position in the tube.",
+"whyItMatters": "The graph and the tube are two views of the same standing-wave pattern."
+},
+{
+"id": "air-column-notice-pressure",
+"text": "Notice that the pressure guides swap roles with the parcel-motion guides: pressure is strongest where parcel motion is smallest, and weakest where parcel motion is largest.",
+"whyItMatters": "The displacement picture and the pressure picture describe the same resonance from complementary angles."
+},
+{
+"id": "air-column-notice-ladder",
+"text": "Notice that the harmonic ladder skips the even harmonics in a closed-open tube.",
+"whyItMatters": "The missing even modes are a direct consequence of the end conditions."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict the boundary-condition consequence first, then test it on the same tube.",
+"items": [
+{
+"id": "air-column-predict-close-end",
+"explanation": "An open-open fundamental fits half a wavelength across the tube, but a closed-open fundamental fits only a quarter wavelength. That makes the allowed wavelength longer and the fundamental frequency lower for the same tube length.",
+"observationHint": "Watch the ladder drop to a lower fundamental while the closed wall becomes a motion node."
+},
+{
+"id": "air-column-predict-wall-probe",
+"explanation": "The closed wall is a displacement node and a pressure antinode. Parcels cannot move through the wall, but the compressions and rarefactions pile up there most strongly."
+},
+{
+"id": "air-column-predict-next-closed-mode",
+"explanation": "Closed-open tubes skip the even harmonics. After the fundamental, the next allowed pattern is the third harmonic, so the wavelength shortens and the frequency rises."
+}
+]
+},
+"quickTest": {
+"intro": "Use the tube, graph, and boundary rules together. These checks ask what the resonance pattern means physically, not which formula you memorized."
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows one horizontal air column with a movable probe parcel inside the tube, a colored pressure ribbon, and a ruler underneath. The left end can switch between open and closed, the right end stays open, and optional overlays mark boundary rules, parcel-motion nodes and antinodes, and the complementary pressure pattern.",
+"Changing tube length, boundary type, resonance order, probe position, or amplitude updates the same tube view, displacement-shape graph, harmonic ladder, and probe-motion graph together so the resonance state stays synchronized."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The displacement-shape graph plots parcel-motion scale against position in the tube, so zero crossings mark displacement nodes and the end behavior changes when the boundary condition changes.",
+"The probe-motion graph plots one selected parcel in time together with its local envelope, while the harmonic ladder shows the allowed resonance frequencies and makes the missing even harmonics of a closed-open pipe visible."
+]
+}
+}
+}

@@ -1,0 +1,1235 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live power checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Energy-over-time checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Keep the circuit story going"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Keep one source and one resistive load in view while current, power, and accumulated energy over time stay tied to the same honest circuit.",
+    "keyTakeaway": "Power is a rate, while energy is the total transferred after that rate acts for some time.",
+    "whyItMatters": "Bulbs, heaters, chargers, and fuses care about both the transfer rate now and the total energy after time passes; this page keeps those two readings attached to one visible circuit."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Electrical power tells you how quickly a circuit is transferring energy right now. In one bounded resistive circuit, that rate comes straight from the same voltage, current, and resistance you already use in Ohm's law.",
+        "This page keeps the model intentionally small: one source drives one resistive load. That is enough to show how current changes with voltage and resistance, why the load brightens or heats more when power rises, and how energy keeps accumulating over time while the power stays fixed for one chosen setup."
+      ]
+    },
+    "keyIdeas": [
+      "Power is a rate, while energy is the total transferred after that rate acts for some time.",
+      "At fixed resistance, current follows voltage linearly, but power rises faster because P = VI and I also changes with V.",
+      "At fixed source voltage, increasing the load resistance lowers current and power in this ohmic-load model."
+    ],
+    "commonMisconception": {
+      "myth": "A larger resistance means the component is working harder, so it must always use more power.",
+      "correction": [
+        "For one fixed source voltage and one ohmic load, larger resistance limits the current more strongly.",
+        "Because both current and power fall in that case, the higher-resistance load actually transfers energy more slowly even though the resistance number is larger."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Use the current source setting, load setting, and inspected time directly. The same circuit state drives the stage, readout card, overlays, and graphs.",
+      "items": [
+        {
+          "id": "current-and-power",
+          "title": "Current and power right now",
+          "prompt": "For the current source and load, what current flows and how much power is the load taking right now?",
+          "variables": [
+            {
+              "id": "voltage",
+              "variableId": "voltage",
+              "symbol": "V",
+              "label": "Source voltage",
+              "valueKey": "voltageValue",
+              "unit": "V"
+            },
+            {
+              "id": "loadResistance",
+              "variableId": "loadResistance",
+              "symbol": "R_{\\text{load}}",
+              "label": "Load resistance",
+              "valueKey": "loadResistanceValue",
+              "unit": "ohm"
+            }
+          ],
+          "steps": [
+            {
+              "id": "start-ohms-law",
+              "label": "1. Start with Ohm's law for the one-loop load",
+              "template": "$I = \\dfrac{V}{R_{\\text{load}}}$."
+            },
+            {
+              "id": "substitute-live-values",
+              "label": "2. Substitute the current source and load values",
+              "template": "$I = \\dfrac{{voltageValue}}{ {{loadResistanceValue}} }$."
+            },
+            {
+              "id": "solve-current",
+              "label": "3. Compute the live current",
+              "template": "That gives $I = {{currentValue}}$."
+            },
+            {
+              "id": "use-power-relation",
+              "label": "4. Use the power relation on the same live circuit",
+              "template": "$P = VI = {{voltageValue}} \\times {{currentValue}}$."
+            },
+            {
+              "id": "solve-power",
+              "label": "5. Compute the load power",
+              "template": "So $P = {{powerValue}}$."
+            }
+          ],
+          "resultLabel": "Current and power",
+          "resultTemplate": "$I = {{currentValue}}, \\quad P = {{powerValue}}$",
+          "interpretationTemplate": "{{powerInterpretation}}",
+          "applyAction": {
+            "label": "Show boosted source",
+            "presetId": "boosted-source",
+            "observationHint": "The same 8 ohm load pulls more current and much more power when only the source voltage rises.",
+            "highlightedControlIds": [
+              "voltage"
+            ],
+            "highlightedGraphIds": [
+              "current-voltage",
+              "power-voltage"
+            ],
+            "highlightedOverlayIds": [
+              "currentArrows",
+              "powerGlow"
+            ]
+          }
+        },
+        {
+          "id": "energy-over-time",
+          "title": "Energy delivered by the current time",
+          "dependsOnTime": true,
+          "prompt": "At the current inspected time, how much energy has the source delivered to the load?",
+          "variables": [
+            {
+              "id": "power",
+              "symbol": "P",
+              "label": "Load power",
+              "valueKey": "powerValue",
+              "unit": "W"
+            },
+            {
+              "id": "time",
+              "symbol": "t",
+              "label": "Elapsed time",
+              "valueKey": "timeValue",
+              "unit": "s"
+            }
+          ],
+          "steps": [
+            {
+              "id": "start-energy-relation",
+              "label": "1. Start from the energy relation",
+              "template": "$E = Pt$."
+            },
+            {
+              "id": "substitute-live-power-time",
+              "label": "2. Substitute the live power and current time",
+              "template": "$E = {{powerValue}} \\times {{timeValue}}$."
+            },
+            {
+              "id": "solve-energy",
+              "label": "3. Compute the accumulated energy",
+              "template": "That gives $E = {{energyValue}}$."
+            }
+          ],
+          "resultLabel": "Energy delivered",
+          "resultTemplate": "$E = {{energyValue}}$",
+          "interpretationTemplate": "{{energyInterpretation}}",
+          "applyAction": {
+            "label": "Show low-resistance heater",
+            "presetId": "low-resistance-heater",
+            "observationHint": "The energy line gets steeper because the lower-resistance load is taking more power each second.",
+            "highlightedControlIds": [
+              "loadResistance"
+            ],
+            "highlightedGraphIds": [
+              "energy-transfer",
+              "power-resistance"
+            ],
+            "highlightedOverlayIds": [
+              "powerGlow",
+              "energyMeter"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Two runs use the same 12 V source and the same 8 ohm load. One stays on for 3 s and the other stays on for 9 s. Which run transfers more energy, and what quantity does not change between the runs?",
+      "prediction": "Predict whether the power changes or whether only the accumulated energy changes before you answer.",
+      "answer": "The 9 s run transfers three times as much energy because the load power stays the same and energy is power multiplied by time.",
+      "explanation": "With voltage and resistance fixed, the current and power stay fixed too. Time does not change the rate itself here; it only gives that same rate more seconds to accumulate energy."
+    }
+  },
+  "equations": [
+    {
+      "id": "ohms-law",
+      "latex": "I = \\dfrac{V}{R_{\\text{load}}}",
+      "label": "Ohm's law for the load",
+      "meaning": "With one source and one ohmic load, current is set by the source voltage and the load resistance."
+    },
+    {
+      "id": "power-from-vi",
+      "latex": "P = VI",
+      "label": "Electrical power",
+      "meaning": "Power is the rate of electrical energy transfer right now."
+    },
+    {
+      "id": "power-from-voltage",
+      "latex": "P = \\dfrac{V^2}{R_{\\text{load}}}",
+      "label": "Power from source voltage",
+      "meaning": "At fixed resistance, power rises with the square of voltage."
+    },
+    {
+      "id": "power-from-current",
+      "latex": "P = I^2 R_{\\text{load}}",
+      "label": "Power from current",
+      "meaning": "At fixed resistance, larger current means much larger power."
+    },
+    {
+      "id": "energy-from-power",
+      "latex": "E = Pt",
+      "label": "Energy over time",
+      "meaning": "Energy accumulates as the current power rate continues for more time."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "voltage",
+      "symbol": "V",
+      "label": "Source voltage",
+      "param": "voltage",
+      "tone": "teal",
+      "description": "Raises the push from the source. At fixed load resistance it increases current and makes the power curve bend upward faster than the current line.",
+      "equationIds": [
+        "ohms-law",
+        "power-from-vi",
+        "power-from-voltage"
+      ],
+      "graphIds": [
+        "energy-transfer",
+        "current-voltage",
+        "power-voltage"
+      ],
+      "overlayIds": [
+        "currentArrows",
+        "voltageLabels",
+        "powerGlow",
+        "energyMeter"
+      ]
+    },
+    {
+      "id": "loadResistance",
+      "symbol": "R_{\\text{load}}",
+      "label": "Load resistance",
+      "param": "loadResistance",
+      "tone": "coral",
+      "description": "Changes how much current the same source can drive, which changes both the instantaneous power and the long-term energy slope.",
+      "equationIds": [
+        "ohms-law",
+        "power-from-voltage",
+        "power-from-current"
+      ],
+      "graphIds": [
+        "energy-transfer",
+        "current-voltage",
+        "power-voltage",
+        "power-resistance"
+      ],
+      "overlayIds": [
+        "currentArrows",
+        "powerGlow",
+        "energyMeter"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "voltage": 12,
+      "loadResistance": 8
+    },
+    "ui": {
+      "initialGraphId": "energy-transfer",
+      "primaryGraphIds": [
+        "energy-transfer",
+        "power-voltage",
+        "power-resistance"
+      ],
+      "primaryControlIds": [
+        "voltage",
+        "loadResistance"
+      ],
+      "primaryPresetIds": [
+        "steady-glow",
+        "gentle-glow",
+        "boosted-source",
+        "low-resistance-heater"
+      ]
+    },
+    "controls": [
+      {
+        "id": "voltage",
+        "kind": "slider",
+        "label": "Source voltage",
+        "param": "voltage",
+        "min": 4,
+        "max": 18,
+        "step": 0.5,
+        "unit": "V",
+        "description": "Raises or lowers the source push without changing the load itself."
+      },
+      {
+        "id": "loadResistance",
+        "kind": "slider",
+        "label": "Load resistance",
+        "param": "loadResistance",
+        "min": 3,
+        "max": 24,
+        "step": 0.5,
+        "unit": "ohm",
+        "description": "Changes how strongly the load limits current in this bounded ohmic-circuit model."
+      }
+    ],
+    "presets": [
+      {
+        "id": "steady-glow",
+        "label": "Steady glow",
+        "description": "A balanced reference run with a moderate source and load.",
+        "values": {
+          "voltage": 12,
+          "loadResistance": 8
+        }
+      },
+      {
+        "id": "gentle-glow",
+        "label": "Gentle glow",
+        "description": "The same 8 ohm load at a lower source voltage shows a smaller current and much lower power.",
+        "values": {
+          "voltage": 6,
+          "loadResistance": 8
+        }
+      },
+      {
+        "id": "boosted-source",
+        "label": "Boosted source",
+        "description": "Raising the source voltage while the load stays fixed shows the strong power increase clearly.",
+        "values": {
+          "voltage": 16,
+          "loadResistance": 8
+        }
+      },
+      {
+        "id": "high-resistance-load",
+        "label": "High-resistance load",
+        "description": "The same 12 V source now drives a much smaller current and lower power.",
+        "values": {
+          "voltage": 12,
+          "loadResistance": 16
+        }
+      },
+      {
+        "id": "low-resistance-heater",
+        "label": "Low-resistance heater",
+        "description": "A lower-resistance load takes more current, more power, and therefore more energy per second.",
+        "values": {
+          "voltage": 12,
+          "loadResistance": 4
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "currentArrows",
+        "label": "Current arrows",
+        "shortDescription": "Shows the one-loop current direction and the live current label on the wire.",
+        "whatToNotice": [
+          "For one fixed load, current changes immediately when voltage or resistance changes."
+        ],
+        "whyItMatters": "Power only makes sense once the current stays tied to the same visible circuit.",
+        "relatedControls": [
+          "voltage",
+          "loadResistance"
+        ],
+        "relatedGraphTabs": [
+          "current-voltage",
+          "power-voltage"
+        ],
+        "relatedEquationVariables": [
+          "voltage",
+          "loadResistance"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "voltageLabels",
+        "label": "Voltage labels",
+        "shortDescription": "Marks the source voltage and the matching load drop in this single-load loop.",
+        "whatToNotice": [
+          "The same source voltage appears across the one load in this bounded model."
+        ],
+        "whyItMatters": "It keeps the power formulas anchored to the actual voltage across the component.",
+        "relatedControls": [
+          "voltage"
+        ],
+        "relatedGraphTabs": [
+          "current-voltage",
+          "power-voltage"
+        ],
+        "relatedEquationVariables": [
+          "voltage"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "powerGlow",
+        "label": "Power glow",
+        "shortDescription": "Shows the load response and the instantaneous power-rate bar on the stage.",
+        "whatToNotice": [
+          "The power bar stays fixed for one setup even while the energy bar keeps growing with time."
+        ],
+        "whyItMatters": "This separates the rate right now from the accumulated total over time.",
+        "relatedControls": [
+          "voltage",
+          "loadResistance"
+        ],
+        "relatedGraphTabs": [
+          "power-voltage",
+          "power-resistance"
+        ],
+        "relatedEquationVariables": [
+          "voltage",
+          "loadResistance"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "energyMeter",
+        "label": "Energy meter",
+        "shortDescription": "Shows the cumulative energy bar and the current elapsed time on the stage.",
+        "whatToNotice": [
+          "At fixed power, the energy bar keeps growing with the same slope as time advances."
+        ],
+        "whyItMatters": "Energy is the total transferred so far, not a second copy of power.",
+        "relatedControls": [
+          "voltage",
+          "loadResistance"
+        ],
+        "relatedGraphTabs": [
+          "energy-transfer"
+        ],
+        "relatedEquationVariables": [
+          "voltage",
+          "loadResistance"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "energy-transfer",
+      "label": "Energy transferred over time",
+      "xLabel": "time (s)",
+      "yLabel": "energy transferred (J)",
+      "series": [
+        "delivered-energy"
+      ],
+      "description": "Follow one fixed setup through time. The slope of the line is the current power, so steeper lines mean the circuit is transferring energy more quickly."
+    },
+    {
+      "id": "current-voltage",
+      "label": "Current vs source voltage",
+      "xLabel": "source voltage (V)",
+      "yLabel": "current (A)",
+      "series": [
+        "load-current"
+      ],
+      "description": "Sweep the source voltage while the load resistance stays fixed. The straight line is the Ohm's-law current response for the current load."
+    },
+    {
+      "id": "power-voltage",
+      "label": "Power vs source voltage",
+      "xLabel": "source voltage (V)",
+      "yLabel": "power (W)",
+      "series": [
+        "load-power"
+      ],
+      "description": "Sweep only the source voltage while the load stays fixed. The curve bends upward because raising voltage also raises current in the same load."
+    },
+    {
+      "id": "power-resistance",
+      "label": "Power vs load resistance",
+      "xLabel": "load resistance (ohm)",
+      "yLabel": "power (W)",
+      "series": [
+        "load-power"
+      ],
+      "description": "Sweep only the load resistance while the source stays fixed. Larger resistance lowers current and therefore lowers power in this bounded ohmic-load model."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the current prompt as a compact investigation cue. Each one points at a pattern the stage and graphs already show in the live circuit.",
+    "items": [
+      {
+        "id": "pec-notice-energy-slope",
+        "text": "On the energy graph, the slope is the power. A steeper line means the circuit is transferring more energy each second, not just more total energy because more time passed.",
+        "type": "graph-reading",
+        "priority": 1,
+        "conditions": {
+          "graphTabs": [
+            "energy-transfer"
+          ]
+        },
+        "tryThis": "Pause the run, compare the line slope for the steady-glow and low-resistance-heater setups, then read the stage power bar.",
+        "whyItMatters": "This is the cleanest way to separate power from energy without leaving the same circuit.",
+        "relatedControls": [
+          "voltage",
+          "loadResistance"
+        ],
+        "relatedGraphTabs": [
+          "energy-transfer"
+        ],
+        "relatedOverlays": [
+          "powerGlow",
+          "energyMeter"
+        ]
+      },
+      {
+        "id": "pec-notice-current-line",
+        "text": "With one fixed load, the current-voltage graph stays linear because Ohm's law keeps the same resistance in the denominator.",
+        "type": "graph-reading",
+        "priority": 4,
+        "conditions": {
+          "graphTabs": [
+            "current-voltage"
+          ]
+        },
+        "tryThis": "Hover a lower and a higher source voltage and compare how the wire-current label scales on the stage.",
+        "whyItMatters": "Current is the bridge between the source setting and the power formulas.",
+        "relatedControls": [
+          "voltage"
+        ],
+        "relatedGraphTabs": [
+          "current-voltage"
+        ],
+        "relatedOverlays": [
+          "currentArrows"
+        ],
+        "relatedEquationVariables": [
+          "voltage",
+          "loadResistance"
+        ]
+      },
+      {
+        "id": "pec-notice-power-curve",
+        "text": "The power-voltage graph bends upward because raising voltage also raises current in the same load, so power grows faster than the current line does.",
+        "type": "graph-reading",
+        "priority": 5,
+        "conditions": {
+          "graphTabs": [
+            "power-voltage"
+          ]
+        },
+        "tryThis": "Compare the gentle-glow and boosted-source presets. The voltage increase is moderate, but the power increase is much more dramatic.",
+        "whyItMatters": "It keeps learners from treating power as if it were just another copy of current.",
+        "relatedControls": [
+          "voltage"
+        ],
+        "relatedGraphTabs": [
+          "power-voltage"
+        ],
+        "relatedOverlays": [
+          "powerGlow"
+        ],
+        "relatedEquationVariables": [
+          "voltage"
+        ]
+      },
+      {
+        "id": "pec-notice-resistance-limit",
+        "text": "At one fixed source voltage, increasing the load resistance limits the current and lowers the power in this model.",
+        "type": "observation",
+        "priority": 6,
+        "conditions": {
+          "lastChangedControls": [
+            "loadResistance"
+          ]
+        },
+        "tryThis": "Drag only the load resistance upward from the low-resistance-heater preset and watch the current label, power bar, and glow all fall together.",
+        "whyItMatters": "It corrects the beginner mistake that a larger resistance number must mean a component is automatically using more power.",
+        "relatedControls": [
+          "loadResistance"
+        ],
+        "relatedGraphTabs": [
+          "power-resistance"
+        ],
+        "relatedOverlays": [
+          "currentArrows",
+          "powerGlow"
+        ],
+        "relatedEquationVariables": [
+          "loadResistance"
+        ]
+      },
+      {
+        "id": "pec-notice-compare",
+        "text": "Compare mode is most useful here when both setups are inspected at the same time but use different voltage or resistance values.",
+        "type": "compare",
+        "priority": 7,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Clone the steady-glow setup into Setup B, then lower only Setup B's resistance and compare the dashed ghost circuit, the power badges, and the energy line slopes.",
+        "whyItMatters": "That isolates the causal parameter change instead of mixing time differences with circuit differences.",
+        "relatedControls": [
+          "voltage",
+          "loadResistance"
+        ],
+        "relatedGraphTabs": [
+          "energy-transfer",
+          "power-resistance"
+        ],
+        "relatedOverlays": [
+          "powerGlow",
+          "energyMeter"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the circuit response before you apply the change. Each scenario changes one causal idea at a time so current, power, and energy rate stay honest.",
+    "items": [
+      {
+        "id": "pec-pred-double-voltage",
+        "prompt": "From the gentle-glow setup, if the source rises from 6 V to 12 V while the 8 ohm load stays fixed, which statement is most defensible?",
+        "scenarioLabel": "Raise the source voltage",
+        "changeLabel": "Voltage",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Current doubles and power becomes four times larger because the same load now gets both more voltage and more current."
+          },
+          {
+            "id": "b",
+            "label": "Current doubles but power stays the same because resistance did not change."
+          },
+          {
+            "id": "c",
+            "label": "Power only doubles because voltage doubled once."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At fixed resistance, current is proportional to voltage. Power is P = VI, so if both V and I double, power becomes four times larger.",
+        "observationHint": "The current line doubles, but the power curve rises much more sharply.",
+        "apply": {
+          "presetId": "steady-glow"
+        },
+        "highlightedControls": [
+          "voltage"
+        ],
+        "highlightedGraphs": [
+          "current-voltage",
+          "power-voltage"
+        ],
+        "highlightedOverlays": [
+          "currentArrows",
+          "powerGlow"
+        ]
+      },
+      {
+        "id": "pec-pred-raise-resistance",
+        "prompt": "At 12 V, what happens if the load resistance rises from 4 ohm to 16 ohm?",
+        "scenarioLabel": "Increase the load resistance",
+        "changeLabel": "Resistance",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Current and power both fall, so the energy line becomes less steep."
+          },
+          {
+            "id": "b",
+            "label": "Current falls, but power rises because the resistance number is larger."
+          },
+          {
+            "id": "c",
+            "label": "Current stays the same because the source voltage did not change."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "With the source fixed, larger resistance limits current. Lower current means lower power too, so the circuit transfers energy more slowly each second.",
+        "observationHint": "Watch the current label, glow, and energy slope all shrink together.",
+        "apply": {
+          "presetId": "high-resistance-load"
+        },
+        "highlightedControls": [
+          "loadResistance"
+        ],
+        "highlightedGraphs": [
+          "power-resistance",
+          "energy-transfer"
+        ],
+        "highlightedOverlays": [
+          "currentArrows",
+          "powerGlow",
+          "energyMeter"
+        ]
+      },
+      {
+        "id": "pec-pred-low-resistance-energy-rate",
+        "prompt": "Two setups use the same 12 V source. One load is 16 ohm and the other is 4 ohm. Which setup transfers more energy each second?",
+        "scenarioLabel": "Swap to a lower-resistance load",
+        "changeLabel": "Resistance",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The 4 ohm load, because the same source can drive more current and therefore more power."
+          },
+          {
+            "id": "b",
+            "label": "The 16 ohm load, because larger resistance always means larger power."
+          },
+          {
+            "id": "c",
+            "label": "They transfer energy each second at the same rate because the source voltage is identical."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Energy each second is power. At one fixed source voltage, the lower-resistance load draws the larger current and therefore the larger power.",
+        "observationHint": "The lower-resistance setup has the steeper energy line because its power bar is higher.",
+        "apply": {
+          "presetId": "low-resistance-heater"
+        },
+        "highlightedControls": [
+          "loadResistance"
+        ],
+        "highlightedGraphs": [
+          "energy-transfer",
+          "power-resistance"
+        ],
+        "highlightedOverlays": [
+          "powerGlow",
+          "energyMeter"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the same single-load circuit for compact power targets. The checklist reads the live current and power, so rate and total stay tied to one honest setup.",
+    "items": [
+      {
+        "id": "pec-ch-steady-eighteen-watt-load",
+        "title": "Steady 18-watt load",
+        "style": "target-setting",
+        "prompt": "Starting from Gentle glow, keep the 8 ohm load and raise the source until the stage power bar settles near 18 W.",
+        "successMessage": "You hit the steady-load target without changing the load itself. The stronger source raised current and power together, which is exactly what the graph and stage should agree on.",
+        "setup": {
+          "presetId": "gentle-glow",
+          "note": "Use the power-voltage graph and the stage power bar together while you raise the source."
+        },
+        "requirements": {
+          "graphId": "power-voltage",
+          "overlayIds": [
+            "powerGlow",
+            "currentArrows"
+          ]
+        },
+        "hints": [
+          "Do not change the load. The target comes from raising voltage while the same 8 ohm resistor stays in place.",
+          "At the right target, the current should land near 1.5 A at the same time the power reaches about 18 W."
+        ],
+        "targets": [
+          {
+            "param": "voltage",
+            "min": 11.8,
+            "max": 12.2,
+            "displayUnit": "V"
+          },
+          {
+            "param": "loadResistance",
+            "min": 7.8,
+            "max": 8.2,
+            "displayUnit": "ohm"
+          },
+          {
+            "metric": "current",
+            "min": 1.45,
+            "max": 1.55,
+            "displayUnit": "A"
+          },
+          {
+            "metric": "power",
+            "min": 17.5,
+            "max": 18.5,
+            "displayUnit": "W"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live circuit logic, not from detached rules. Each question asks what the stage, meters, or linked graphs must mean.",
+    "questions": [
+      {
+        "id": "pec-qt-power-vs-energy",
+        "type": "reasoning",
+        "prompt": "Which statement best separates power from energy in this circuit?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Power is the rate right now, while energy is the total transferred after that rate acts for some time."
+          },
+          {
+            "id": "b",
+            "label": "Power and energy are the same number with different units, so either one can replace the other."
+          },
+          {
+            "id": "c",
+            "label": "Energy is the rate right now, while power is the total built up over time."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Power tells you the transfer rate now. Energy tells you how much total transfer has accumulated over a time interval.",
+        "selectedWrongExplanations": {
+          "b": "They are related, but not interchangeable. One is a rate and the other is an accumulated total.",
+          "c": "Those roles are reversed. E = Pt only makes sense because power is the rate and energy is the total."
+        },
+        "showMeAction": {
+          "label": "Show energy slope",
+          "presetId": "steady-glow",
+          "observationHint": "The power bar stays fixed while the energy bar keeps growing with time.",
+          "highlightedControlIds": [
+            "voltage",
+            "loadResistance"
+          ],
+          "highlightedGraphIds": [
+            "energy-transfer"
+          ],
+          "highlightedOverlayIds": [
+            "powerGlow",
+            "energyMeter"
+          ]
+        }
+      },
+      {
+        "id": "pec-qt-double-voltage",
+        "type": "variable-effect",
+        "prompt": "For one fixed 8 ohm load, the source voltage doubles. What must happen to the current?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It doubles because I = V/R and the resistance stayed fixed."
+          },
+          {
+            "id": "b",
+            "label": "It stays the same because the load resistance did not change."
+          },
+          {
+            "id": "c",
+            "label": "It is cut in half because the source is working harder."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "With resistance fixed, current is directly proportional to voltage.",
+        "selectedWrongExplanations": {
+          "b": "Resistance matters, but voltage is the other half of Ohm's law and it directly scales the current.",
+          "c": "Nothing in Ohm's law forces current downward when the source voltage rises for the same load."
+        },
+        "showMeAction": {
+          "label": "Show the current line",
+          "presetId": "steady-glow",
+          "observationHint": "Hover lower and higher voltages on the current graph and watch the current label scale linearly.",
+          "highlightedControlIds": [
+            "voltage"
+          ],
+          "highlightedGraphIds": [
+            "current-voltage"
+          ],
+          "highlightedOverlayIds": [
+            "currentArrows"
+          ]
+        }
+      },
+      {
+        "id": "pec-qt-power-quadratic",
+        "type": "graph-reading",
+        "prompt": "Why does the power-voltage graph bend upward instead of staying a straight line?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because raising voltage also raises current in the same load, so power grows faster than linearly."
+          },
+          {
+            "id": "b",
+            "label": "Because the graph is only decorative and does not use the circuit equations."
+          },
+          {
+            "id": "c",
+            "label": "Because resistance automatically increases when voltage increases in this model."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At fixed resistance, current rises with voltage, so P = VI grows faster than either one alone.",
+        "selectedWrongExplanations": {
+          "b": "The graph is built from the same live circuit state and equations as the stage.",
+          "c": "The resistance stays fixed unless you change that control yourself."
+        },
+        "showMeAction": {
+          "label": "Show boosted source",
+          "presetId": "boosted-source",
+          "observationHint": "The current rises, but the power rise is even more dramatic because both V and I changed.",
+          "highlightedControlIds": [
+            "voltage"
+          ],
+          "highlightedGraphIds": [
+            "power-voltage",
+            "current-voltage"
+          ],
+          "highlightedOverlayIds": [
+            "powerGlow"
+          ]
+        }
+      },
+      {
+        "id": "pec-qt-resistance-power",
+        "type": "misconception-check",
+        "prompt": "A student says, \"The 16 ohm load must use more power than the 4 ohm load because 16 is the bigger number.\" What is the best correction for one fixed source voltage?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The 16 ohm load takes less power because it limits current more strongly."
+          },
+          {
+            "id": "b",
+            "label": "The 16 ohm load takes more power because larger resistance always means more energy each second."
+          },
+          {
+            "id": "c",
+            "label": "Both loads take the same power because the source voltage is the same."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At one fixed source voltage, larger resistance lowers current, so power falls too in this ohmic-load model.",
+        "selectedWrongExplanations": {
+          "b": "That mixes up resistance with power. The source-load combination decides the current and power together.",
+          "c": "Equal source voltage does not force equal power when the load resistance changes."
+        },
+        "showMeAction": {
+          "label": "Show high-resistance load",
+          "presetId": "high-resistance-load",
+          "observationHint": "The current label and power bar are both smaller than in the low-resistance setup.",
+          "highlightedControlIds": [
+            "loadResistance"
+          ],
+          "highlightedGraphIds": [
+            "power-resistance"
+          ],
+          "highlightedOverlayIds": [
+            "currentArrows",
+            "powerGlow"
+          ]
+        }
+      },
+      {
+        "id": "pec-qt-more-time-more-energy",
+        "type": "compare-two-cases",
+        "prompt": "Two identical circuit setups run at the same fixed power. One runs for twice as long. Which statement is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The longer run transfers twice as much energy because the same power acts for twice the time."
+          },
+          {
+            "id": "b",
+            "label": "Both runs transfer the same energy because the power was the same."
+          },
+          {
+            "id": "c",
+            "label": "The longer run transfers less energy because power gets used up over time."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "If power stays fixed, energy grows directly with time through E = Pt.",
+        "selectedWrongExplanations": {
+          "b": "Equal power means equal rate, not equal total. Time still matters.",
+          "c": "Power is a rate here, not a substance that gets consumed by running longer."
+        },
+        "showMeAction": {
+          "label": "Show the energy graph",
+          "presetId": "steady-glow",
+          "observationHint": "The line keeps the same slope while time advances, so a longer run simply covers more of the same rate.",
+          "highlightedControlIds": [
+            "voltage",
+            "loadResistance"
+          ],
+          "highlightedGraphIds": [
+            "energy-transfer"
+          ],
+          "highlightedOverlayIds": [
+            "energyMeter"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one battery on the left, one resistive load on the top wire, and one return path on the bottom wire. A readout card on the right reports the live source voltage, load resistance, current, power, accumulated energy, and a short qualitative state label for the load response.",
+        "Moving charge markers circulate around the loop to keep the current direction visible over time. Optional overlays add current arrows, source and load voltage labels, a power-rate bar tied to the load response, and an energy meter that accumulates as the run continues or as you scrub the time rail.",
+        "The model is intentionally bounded to one ohmic source-load loop. There are no capacitors, inductors, or nonlinear devices, so every displayed change stays tied to the same beginner-level relations among voltage, current, resistance, power, and energy over time."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The energy-transfer graph plots delivered energy against time for the current circuit. Hovering or scrubbing lets you inspect the same moment on the stage and the same cumulative-energy value on the graph.",
+        "The current-voltage and power-voltage graphs sweep source voltage while the load stays fixed, so they show the different current and power responses clearly. The power-resistance graph sweeps only load resistance at one fixed source voltage to show why larger resistance lowers power in this bounded model."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Power and Energy in Circuits | Open Model Lab",
+    "description": "Learn electrical power and energy in one bounded source-load circuit with live current and power readouts, an energy-over-time graph, guided overlays, prediction prompts, and conceptual quick tests.",
+    "keywords": [
+      "power in circuits",
+      "energy in circuits",
+      "P equals IV",
+      "E equals Pt",
+      "ohm's law power"
+    ]
+  },
+  "v2": {
+    "intuition": "Power is the circuit's energy-transfer speedometer: voltage and current set how many joules per second the load receives, while energy is the running total after that rate keeps acting.",
+    "whyItMatters": "Once rate and total are separate, you can explain why a brighter load may drain a battery faster, why a longer run transfers more energy without changing power, and why a larger resistance does not automatically mean more power.",
+    "estimatedMinutes": 16,
+    "equationSnapshot": {
+      "equationIds": [
+        "ohms-law",
+        "power-from-vi",
+        "energy-from-power"
+      ],
+      "note": "Use Ohm's law to find the live current, use P = VI for the transfer rate right now, then let E = Pt turn that steady rate into accumulated energy."
+    },
+    "startSetup": {
+      "presetId": "steady-glow",
+      "graphId": "energy-transfer",
+      "overlayIds": [
+        "currentArrows",
+        "powerGlow",
+        "energyMeter"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-power-as-the-rate",
+        "title": "Read power as the rate",
+        "goal": "Connect voltage, resistance, current, and power before time enters the story.",
+        "doThis": "Start from Steady glow with current arrows and the power glow visible. Read the 12 V source, the 8 ohm load, the current label, and the power bar as one live circuit state.",
+        "notice": "The load power is not an extra setting. It comes from the same voltage and current already shown on the loop.",
+        "explain": "For one ohmic load, Ohm's law first fixes the current. Power then tells how quickly that load is receiving energy right now.",
+        "reveal": {
+          "controlIds": [
+            "voltage",
+            "loadResistance"
+          ],
+          "graphIds": [
+            "energy-transfer"
+          ],
+          "overlayIds": [
+            "currentArrows",
+            "voltageLabels",
+            "powerGlow"
+          ]
+        },
+        "setup": {
+          "presetId": "steady-glow",
+          "graphId": "energy-transfer",
+          "overlayIds": [
+            "currentArrows",
+            "voltageLabels",
+            "powerGlow"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "pec-qt-power-vs-energy"
+          ]
+        }
+      },
+      {
+        "id": "separate-rate-from-total",
+        "title": "Separate rate from total",
+        "goal": "See why power can stay fixed while energy keeps increasing with time.",
+        "doThis": "Keep the same steady circuit and follow the energy meter or energy-transfer graph as the inspected time advances.",
+        "notice": "The power bar stays at one rate, but the energy bar and graph keep climbing because the same rate acts for more seconds.",
+        "explain": "Energy is the accumulated total: E = Pt. Changing only the run time changes the total energy, not the circuit's power rate.",
+        "reveal": {
+          "controlIds": [
+            "voltage",
+            "loadResistance"
+          ],
+          "graphIds": [
+            "energy-transfer"
+          ],
+          "overlayIds": [
+            "powerGlow",
+            "energyMeter"
+          ]
+        },
+        "setup": {
+          "presetId": "steady-glow",
+          "graphId": "energy-transfer",
+          "overlayIds": [
+            "powerGlow",
+            "energyMeter"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "pec-qt-more-time-more-energy"
+          ]
+        }
+      },
+      {
+        "id": "boost-the-source",
+        "title": "Boost the source",
+        "goal": "Compare the linear current response with the faster-growing power response for one fixed load.",
+        "doThis": "Load Gentle glow, then raise only the source voltage toward Steady glow or Boosted source while the 8 ohm load stays fixed. Compare the current-voltage and power-voltage graphs.",
+        "notice": "Current scales with voltage, but power rises faster because voltage and current are both larger in P = VI.",
+        "explain": "At fixed resistance, doubling voltage doubles current, so power becomes four times larger rather than merely doubling.",
+        "reveal": {
+          "controlIds": [
+            "voltage"
+          ],
+          "graphIds": [
+            "current-voltage",
+            "power-voltage"
+          ],
+          "overlayIds": [
+            "currentArrows",
+            "powerGlow"
+          ]
+        },
+        "setup": {
+          "presetId": "gentle-glow",
+          "graphId": "power-voltage",
+          "overlayIds": [
+            "currentArrows",
+            "powerGlow"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "pec-pred-double-voltage"
+          ],
+          "questionIds": [
+            "pec-qt-double-voltage",
+            "pec-qt-power-quadratic"
+          ]
+        }
+      },
+      {
+        "id": "judge-a-power-target",
+        "title": "Judge a power target",
+        "goal": "Use voltage, resistance, current, power, and energy slope together before attempting the challenge.",
+        "doThis": "Compare High-resistance load with Low-resistance heater, then try the challenge: keep the 8 ohm load and tune the source until the load reaches about 18 W.",
+        "notice": "The lower-resistance load takes more current and has a steeper energy line at the same source voltage, while the challenge target is hit by changing source voltage without changing the load.",
+        "explain": "A strong circuit-power explanation names the circuit state first, then separates the instantaneous rate from the total energy built up over time.",
+        "reveal": {
+          "controlIds": [
+            "voltage",
+            "loadResistance"
+          ],
+          "graphIds": [
+            "power-resistance",
+            "power-voltage",
+            "energy-transfer"
+          ],
+          "overlayIds": [
+            "currentArrows",
+            "powerGlow",
+            "energyMeter"
+          ]
+        },
+        "setup": {
+          "presetId": "high-resistance-load",
+          "graphId": "power-resistance",
+          "overlayIds": [
+            "currentArrows",
+            "powerGlow",
+            "energyMeter"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "pec-pred-raise-resistance",
+            "pec-pred-low-resistance-energy-rate"
+          ],
+          "questionIds": [
+            "pec-qt-resistance-power"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Current comes from the source voltage and load resistance in the same one-loop circuit.",
+        "Power is the instantaneous energy-transfer rate, so a brighter or hotter load is taking more joules each second.",
+        "Energy is the accumulated total after that power rate acts for a chosen time.",
+        "At fixed source voltage, a larger ohmic load resistance can lower current and power rather than raising them."
+      ],
+      "misconception": "Do not use energy and power as interchangeable words. Equal power means equal rate, but the longer-running circuit still transfers more total energy.",
+      "workedExampleRefs": [
+        "current-and-power",
+        "energy-over-time"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "internal-resistance-and-terminal-voltage",
+          "title": "Internal Resistance and Terminal Voltage",
+          "reasonLabel": "Make the source non-ideal and track where power is wasted."
+        },
+        {
+          "slug": "series-parallel-circuits",
+          "title": "Series and Parallel Circuits",
+          "reasonLabel": "See how branch structure redistributes current, voltage, and power."
+        },
+        {
+          "slug": "equivalent-resistance",
+          "title": "Equivalent Resistance",
+          "reasonLabel": "Reduce a mixed load before judging current and power."
+        }
+      ],
+      "freePlayPrompt": "Before moving a control, predict whether you are changing the rate now, the accumulated total over time, or both."
+    },
+    "referenceSections": [
+      "workedExamples"
+    ]
+  }
+}

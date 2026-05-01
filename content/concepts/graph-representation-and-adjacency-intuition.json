@@ -1,0 +1,990 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "readNext",
+        "title": "Turn local neighborhoods into a live search frontier"
+      }
+    ],
+    "featuredSetups": [
+      {
+        "id": "layered-campus-neighborhood",
+        "label": "Layered campus from A",
+        "description": "Open a graph where the first neighborhood is small and easy to read.",
+        "setup": {
+          "presetId": "layered-campus-bfs",
+          "graphId": "neighbor-check-history",
+          "overlayIds": [
+            "adjacencyCue",
+            "frontierCue"
+          ]
+        }
+      },
+      {
+        "id": "hub-detours-center",
+        "label": "Hub and detours from C",
+        "description": "Start from the hub so one node fans out into two detours immediately.",
+        "setup": {
+          "presetId": "hub-detours-bfs",
+          "graphId": "neighbor-check-history",
+          "overlayIds": [
+            "adjacencyCue",
+            "visitedCue"
+          ]
+        }
+      }
+    ]
+  },
+  "pageIntro": {
+    "whyItMatters": "It turns graph reading into a local neighborhood skill that later powers traversal, frontier updates, and pathfinding ideas.",
+    "keyTakeaway": "Start by reading direct neighbors from the current node; the frontier grows from that local adjacency picture.",
+    "definition": "Keep one live graph, one local neighborhood, and one frontier cue visible together so graph structure feels readable before traversal rules get formal."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "A graph should feel like a live neighborhood map, not an abstract list of circles and lines. This bench keeps one labeled graph, one active frontier, and one adjacency readout together so local connections stay readable before the search language gets more formal.",
+        "Adjacency is the first honest question: which nodes can the current node touch directly right now? Once that local neighborhood is visible, breadth-first and depth-first search become different ways of organizing the same next-step options."
+      ]
+    },
+    "keyIdeas": [
+      "A graph is built from nodes and edges, but the useful reading is local adjacency.",
+      "The frontier is just the set of adjacent next candidates that have already been claimed but not fully explored.",
+      "Changing the start node changes the first neighborhood even when the graph itself stays the same."
+    ],
+    "commonMisconception": {
+      "myth": "Reading a graph means looking at the whole diagram at once and guessing a path globally.",
+      "correction": [
+        "The honest first move is local: read the neighbors of the current node.",
+        "Search grows from one neighborhood to the next, not from a magical full-map scan."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Read one neighborhood directly from the bench before you talk about algorithms.",
+      "items": [
+        {
+          "id": "read-the-first-neighborhood-from-a",
+          "title": "Read the first neighborhood from A",
+          "prompt": "On the layered campus graph, what does the start node A make visible immediately?",
+          "variables": [
+            {
+              "id": "graph-layout",
+              "variableId": "graph-layout",
+              "symbol": "G",
+              "label": "Graph layout",
+              "valueKey": "Layered campus"
+            },
+            {
+              "id": "start-node",
+              "variableId": "start-node",
+              "symbol": "s",
+              "label": "Start node",
+              "valueKey": "A"
+            },
+            {
+              "id": "first-frontier",
+              "variableId": "traversal-mode",
+              "symbol": "F_1",
+              "label": "First frontier",
+              "valueKey": "B, C"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-adjacent-neighbors",
+              "label": "1. Read only the direct neighbors first",
+              "template": "Node A touches B and C directly, so those two nodes are the first adjacent candidates."
+            },
+            {
+              "id": "name-the-frontier",
+              "label": "2. Turn that neighborhood into a frontier",
+              "template": "After the first expansion, the claimed next-step frontier is [B, C] rather than the whole graph."
+            },
+            {
+              "id": "connect-to-later-search",
+              "label": "3. Name what stays the same later",
+              "template": "Breadth-first and depth-first search will organize that frontier differently, but they still start from the same local adjacency picture."
+            }
+          ],
+          "resultLabel": "First neighborhood read",
+          "resultTemplate": "From A, the first frontier is B and C.",
+          "interpretationTemplate": "Adjacency is the local structure that every later search rule has to respect.",
+          "applyAction": {
+            "label": "Show the layered campus graph",
+            "presetId": "layered-campus-bfs",
+            "observationHint": "Keep the adjacency panel and the frontier cue visible together so the first neighborhood never turns into jargon.",
+            "highlightedControlIds": [
+              "graphIndex",
+              "startNodeIndex"
+            ],
+            "highlightedGraphIds": [
+              "visited-frontier-history"
+            ],
+            "highlightedOverlayIds": [
+              "adjacencyCue",
+              "frontierCue"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Move the start node until the first neighborhood clearly becomes wider, then list the direct neighbors you used to decide.",
+      "prediction": "Decide whether you need a hub node or an edge node before you move the slider.",
+      "answer": "Start from a hub node if you want the first frontier to widen immediately.",
+      "explanation": "A hub has more adjacent neighbors, so the frontier fans out sooner even though the graph is the same object."
+    }
+  },
+  "equations": [
+    {
+      "id": "neighbor-set",
+      "latex": "N(v) = \\{u : (v,u) \\in E\\}",
+      "label": "Neighbor set",
+      "meaning": "The adjacent nodes of v are the nodes joined to it by one edge."
+    },
+    {
+      "id": "degree-count",
+      "latex": "\\deg(v) = |N(v)|",
+      "label": "Degree",
+      "meaning": "The degree counts how many direct neighbors a node has."
+    },
+    {
+      "id": "first-frontier",
+      "latex": "F_1 = N(s)",
+      "label": "First frontier",
+      "meaning": "The first frontier is the neighborhood of the chosen start node."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "graph-layout",
+      "symbol": "G",
+      "label": "Graph layout",
+      "param": "graphIndex",
+      "tone": "sky",
+      "description": "Switches among the bounded graph scenes on the same traversal bench.",
+      "equationIds": [
+        "neighbor-set",
+        "degree-count"
+      ],
+      "graphIds": [
+        "visited-frontier-history",
+        "neighbor-check-history"
+      ],
+      "overlayIds": [
+        "adjacencyCue",
+        "visitedCue"
+      ]
+    },
+    {
+      "id": "start-node",
+      "symbol": "s",
+      "label": "Start node",
+      "param": "startNodeIndex",
+      "tone": "teal",
+      "description": "Moves the launch point so the first neighborhood can change without replacing the whole graph.",
+      "equationIds": [
+        "neighbor-set",
+        "first-frontier"
+      ],
+      "graphIds": [
+        "visited-frontier-history",
+        "depth-history"
+      ],
+      "overlayIds": [
+        "adjacencyCue",
+        "frontierCue"
+      ]
+    },
+    {
+      "id": "target-node",
+      "symbol": "t",
+      "label": "Target node",
+      "param": "targetNodeIndex",
+      "tone": "coral",
+      "description": "Marks which node the later searches will try to reach.",
+      "equationIds": [
+        "first-frontier"
+      ],
+      "graphIds": [
+        "depth-history"
+      ],
+      "overlayIds": [
+        "visitedCue"
+      ]
+    },
+    {
+      "id": "traversal-mode",
+      "symbol": "M",
+      "label": "Traversal mode",
+      "param": "traversalMode",
+      "tone": "amber",
+      "description": "Keeps breadth-first and depth-first available on the same graph once the neighborhood picture is stable.",
+      "equationIds": [
+        "first-frontier"
+      ],
+      "graphIds": [
+        "visited-frontier-history",
+        "depth-history"
+      ],
+      "overlayIds": [
+        "frontierCue"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "graphIndex": 0,
+      "startNodeIndex": 0,
+      "targetNodeIndex": 7,
+      "traversalMode": 0,
+      "adjacencyCue": true,
+      "frontierCue": true,
+      "visitedCue": true
+    },
+    "ui": {
+      "initialGraphId": "neighbor-check-history",
+      "primaryGraphIds": [
+        "neighbor-check-history",
+        "visited-frontier-history"
+      ],
+      "primaryControlIds": [
+        "graph-index",
+        "start-node"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "graph-index",
+        "kind": "slider",
+        "label": "Graph",
+        "param": "graphIndex",
+        "min": 0,
+        "max": 2,
+        "step": 1,
+        "displayValueLabels": [
+          {
+            "value": 0,
+            "label": "Layered campus"
+          },
+          {
+            "value": 1,
+            "label": "Bridge cycle"
+          },
+          {
+            "value": 2,
+            "label": "Hub and detours"
+          }
+        ],
+        "description": "Swap among a few bounded graph scenes without leaving the shared bench."
+      },
+      {
+        "id": "start-node",
+        "kind": "slider",
+        "label": "Start node",
+        "param": "startNodeIndex",
+        "min": 0,
+        "max": 7,
+        "step": 1,
+        "displayValueLabels": [
+          {
+            "value": 0,
+            "label": "A"
+          },
+          {
+            "value": 1,
+            "label": "B"
+          },
+          {
+            "value": 2,
+            "label": "C"
+          },
+          {
+            "value": 3,
+            "label": "D"
+          },
+          {
+            "value": 4,
+            "label": "E"
+          },
+          {
+            "value": 5,
+            "label": "F"
+          },
+          {
+            "value": 6,
+            "label": "G"
+          },
+          {
+            "value": 7,
+            "label": "H"
+          }
+        ],
+        "description": "Choose where the traversal begins."
+      },
+      {
+        "id": "target-node",
+        "kind": "slider",
+        "label": "Target node",
+        "param": "targetNodeIndex",
+        "min": 0,
+        "max": 7,
+        "step": 1,
+        "displayValueLabels": [
+          {
+            "value": 0,
+            "label": "A"
+          },
+          {
+            "value": 1,
+            "label": "B"
+          },
+          {
+            "value": 2,
+            "label": "C"
+          },
+          {
+            "value": 3,
+            "label": "D"
+          },
+          {
+            "value": 4,
+            "label": "E"
+          },
+          {
+            "value": 5,
+            "label": "F"
+          },
+          {
+            "value": 6,
+            "label": "G"
+          },
+          {
+            "value": 7,
+            "label": "H"
+          }
+        ],
+        "description": "Mark the node the search is trying to reach."
+      },
+      {
+        "id": "traversal-mode",
+        "kind": "slider",
+        "label": "Traversal mode",
+        "param": "traversalMode",
+        "min": 0,
+        "max": 1,
+        "step": 1,
+        "displayValueLabels": [
+          {
+            "value": 0,
+            "label": "BFS"
+          },
+          {
+            "value": 1,
+            "label": "DFS"
+          }
+        ],
+        "description": "Compare queue-like breadth-first expansion with stack-like depth-first branching."
+      }
+    ],
+    "presets": [
+      {
+        "id": "layered-campus-bfs",
+        "label": "Layered campus BFS",
+        "description": "A clean graph where the first frontier is easy to read.",
+        "values": {
+          "graphIndex": 0,
+          "startNodeIndex": 0,
+          "targetNodeIndex": 7,
+          "traversalMode": 0
+        }
+      },
+      {
+        "id": "layered-campus-dfs",
+        "label": "Layered campus DFS",
+        "description": "The same graph, but now the newest branch stays on top.",
+        "values": {
+          "graphIndex": 0,
+          "startNodeIndex": 0,
+          "targetNodeIndex": 7,
+          "traversalMode": 1
+        }
+      },
+      {
+        "id": "bridge-cycle-bfs",
+        "label": "Bridge cycle BFS",
+        "description": "A graph with loops where visited state has to prevent repeat work.",
+        "values": {
+          "graphIndex": 1,
+          "startNodeIndex": 0,
+          "targetNodeIndex": 7,
+          "traversalMode": 0
+        }
+      },
+      {
+        "id": "bridge-cycle-dfs",
+        "label": "Bridge cycle DFS",
+        "description": "A deeper branch-first pass through the looped graph.",
+        "values": {
+          "graphIndex": 1,
+          "startNodeIndex": 0,
+          "targetNodeIndex": 7,
+          "traversalMode": 1
+        }
+      },
+      {
+        "id": "hub-detours-bfs",
+        "label": "Hub and detours from C",
+        "description": "A centered start node that widens the frontier quickly.",
+        "values": {
+          "graphIndex": 2,
+          "startNodeIndex": 2,
+          "targetNodeIndex": 7,
+          "traversalMode": 0
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "adjacencyCue",
+        "label": "Adjacency cue",
+        "shortDescription": "Keep the current node's neighbor list visible.",
+        "whatToNotice": [
+          "The local neighborhood is the first honest input to every search step."
+        ],
+        "whyItMatters": "It keeps graph reading local and visual instead of turning the diagram into a vague picture.",
+        "relatedControls": [
+          "graphIndex",
+          "startNodeIndex"
+        ],
+        "relatedGraphTabs": [
+          "neighbor-check-history"
+        ],
+        "relatedEquationVariables": [
+          "graph-layout",
+          "start-node"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "frontierCue",
+        "label": "Frontier cue",
+        "shortDescription": "Show which claimed nodes are waiting next.",
+        "whatToNotice": [
+          "Breadth-first and depth-first differ mainly in how they organize this waiting set."
+        ],
+        "whyItMatters": "It turns an abstract queue or stack into a visible line of next candidates.",
+        "relatedControls": [
+          "traversalMode",
+          "startNodeIndex"
+        ],
+        "relatedGraphTabs": [
+          "visited-frontier-history"
+        ],
+        "relatedEquationVariables": [
+          "start-node",
+          "traversal-mode"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "visitedCue",
+        "label": "Visited cue",
+        "shortDescription": "Mark which nodes have already been fully expanded.",
+        "whatToNotice": [
+          "Visited state stops the search from wasting effort on already claimed cycles."
+        ],
+        "whyItMatters": "It makes repeat avoidance visible on the graph itself.",
+        "relatedControls": [
+          "graphIndex",
+          "targetNodeIndex"
+        ],
+        "relatedGraphTabs": [
+          "neighbor-check-history",
+          "depth-history"
+        ],
+        "relatedEquationVariables": [
+          "graph-layout",
+          "target-node"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "visited-frontier-history",
+      "label": "Visited nodes versus frontier size",
+      "xLabel": "step",
+      "yLabel": "nodes",
+      "series": [
+        "visited-count",
+        "frontier-size"
+      ],
+      "description": "Watch how many nodes have already been expanded while the waiting frontier grows or shrinks."
+    },
+    {
+      "id": "depth-history",
+      "label": "Current depth versus deepest claimed depth",
+      "xLabel": "step",
+      "yLabel": "depth",
+      "series": [
+        "current-depth",
+        "max-depth"
+      ],
+      "description": "Track whether the active node stays shallow or dives deeper into the graph."
+    },
+    {
+      "id": "neighbor-check-history",
+      "label": "New discoveries versus repeat skips",
+      "xLabel": "step",
+      "yLabel": "checks",
+      "series": [
+        "new-discoveries",
+        "repeat-skips"
+      ],
+      "description": "Compare fresh neighborhood discoveries with the repeat edges that visited state prevents from looping back."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Keep the graph and one traversal graph visible together.",
+    "items": [
+      {
+        "id": "grai-notice-local-neighbors",
+        "text": "The first honest reading is local: which nodes touch the current node directly right now.",
+        "type": "observation",
+        "relatedControls": [
+          "graphIndex",
+          "startNodeIndex"
+        ],
+        "relatedGraphTabs": [
+          "visited-frontier-history"
+        ],
+        "relatedOverlays": [
+          "adjacencyCue",
+          "frontierCue"
+        ],
+        "relatedEquationVariables": [
+          "graph-layout",
+          "start-node"
+        ]
+      },
+      {
+        "id": "grai-notice-hub-widens-frontier",
+        "text": "Starting from a hub node widens the frontier immediately because one node can claim several neighbors at once.",
+        "type": "graph-reading",
+        "relatedControls": [
+          "startNodeIndex"
+        ],
+        "relatedGraphTabs": [
+          "visited-frontier-history",
+          "neighbor-check-history"
+        ],
+        "relatedOverlays": [
+          "frontierCue"
+        ],
+        "relatedEquationVariables": [
+          "start-node"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Predict",
+    "intro": "Predict how the first neighborhood changes before you move the graph.",
+    "items": [
+      {
+        "id": "grai-predict-hub-frontier",
+        "prompt": "If you move the start node from the edge to the hub on the hub-and-detours graph, what should change first?",
+        "scenarioLabel": "Move to the hub",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The first frontier should widen because the hub touches more neighbors immediately."
+          },
+          {
+            "id": "b",
+            "label": "Nothing should change until the target node moves."
+          },
+          {
+            "id": "c",
+            "label": "The graph should stop having any repeat edges."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A hub node has a larger local neighborhood, so the first claimed frontier gets wider right away.",
+        "observationHint": "Open the hub preset and watch the first frontier fan out from C.",
+        "apply": {
+          "presetId": "hub-detours-bfs"
+        },
+        "highlightedControls": [
+          "graphIndex",
+          "startNodeIndex"
+        ],
+        "highlightedGraphs": [
+          "visited-frontier-history"
+        ],
+        "highlightedOverlays": [
+          "adjacencyCue",
+          "frontierCue"
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the visible neighborhood, not from memorized graph jargon.",
+    "questions": [
+      {
+        "id": "grai-qt-adjacency",
+        "type": "reasoning",
+        "prompt": "What does adjacency mean on this graph bench?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Two nodes are adjacent when one edge connects them directly."
+          },
+          {
+            "id": "b",
+            "label": "Two nodes are adjacent whenever they are drawn on the same side of the page."
+          },
+          {
+            "id": "c",
+            "label": "Adjacency means the node has already been visited."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Adjacency is a direct edge relationship, not a visual guess about the whole map."
+      },
+      {
+        "id": "grai-qt-first-frontier",
+        "type": "misconception-check",
+        "prompt": "What most directly sets the first frontier?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The neighbors of the chosen start node."
+          },
+          {
+            "id": "b",
+            "label": "The total number of nodes in the graph."
+          },
+          {
+            "id": "c",
+            "label": "Whether the target is on the right side of the drawing."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The frontier begins with the current node's adjacent neighbors, so the start node matters immediately."
+      },
+      {
+        "id": "grai-qt-neighborhood",
+        "type": "graph-reading",
+        "prompt": "What is the cleanest way to read the current neighborhood of one node?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "List the nodes connected to it by one edge right now."
+          },
+          {
+            "id": "b",
+            "label": "Count every node anywhere in the graph drawing."
+          },
+          {
+            "id": "c",
+            "label": "Only look at nodes that were already visited earlier."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A node's neighborhood is a one-edge local picture, not the whole graph or only the visited subset.",
+        "selectedWrongExplanations": {
+          "b": "That would describe the whole graph size, not the current neighborhood.",
+          "c": "Visited state is separate from which nodes are adjacent."
+        }
+      },
+      {
+        "id": "grai-qt-local-before-global",
+        "type": "reasoning",
+        "prompt": "Why start with adjacency before worrying about full traversal strategy?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because traversal decisions are built from the next-step options that adjacency exposes."
+          },
+          {
+            "id": "b",
+            "label": "Because adjacency only matters after the traversal is already complete."
+          },
+          {
+            "id": "c",
+            "label": "Because traversal strategy replaces the graph's edge structure."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The frontier can only be built from the local neighbor options that adjacency makes visible.",
+        "selectedWrongExplanations": {
+          "b": "Adjacency is the first useful local fact, not a post-completion detail.",
+          "c": "Traversal organizes edges; it does not erase them."
+        }
+      },
+      {
+        "id": "grai-qt-frontier-purpose",
+        "type": "compare-two-cases",
+        "prompt": "What is the frontier for on this graph bench?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It keeps track of the nodes that are discovered and ready for the next expansion step."
+          },
+          {
+            "id": "b",
+            "label": "It marks nodes that the graph can never visit."
+          },
+          {
+            "id": "c",
+            "label": "It is just another name for the finished visited set."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The frontier is the active waiting work, not the unreachable nodes or the already-finished set.",
+        "selectedWrongExplanations": {
+          "b": "Frontier nodes are the ones still available to process next.",
+          "c": "Visited and frontier are different bookkeeping roles."
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one labeled graph with the current node, the frontier nodes, and the visited nodes colored differently so local neighborhoods stay visible.",
+        "A readout card reports the traversal mode, the current node, the frontier size, and the target, while a cue panel shows the frontier order and the current neighbor list."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "One graph tracks visited nodes against frontier size, a second tracks the current depth against the deepest claimed depth, and a third compares new discoveries with repeat skips.",
+        "The graph hover and the step-through-time rail stay tied to the same live traversal bench."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Graph Representation and Adjacency Intuition",
+    "description": "Explore graph representation through one live bench where adjacency, the first frontier, and the current neighborhood stay visible together.",
+    "keywords": [
+      "graph representation",
+      "adjacency",
+      "graph traversal",
+      "computer science",
+      "frontier"
+    ]
+  },
+  "v2": {
+    "intuition": "Keep one graph, one local neighborhood, and one frontier cue visible together so graph structure feels readable before traversal rules get formal.",
+    "whyItMatters": "Adjacency is the local fact that every later graph algorithm relies on, so the frontier should grow out of the neighborhood picture instead of appearing like a magic list.",
+    "estimatedMinutes": 9,
+    "equationSnapshot": {
+      "equationIds": [
+        "neighbor-set",
+        "first-frontier"
+      ]
+    },
+    "startSetup": {
+      "presetId": "layered-campus-bfs",
+      "graphId": "neighbor-check-history",
+      "overlayIds": [
+        "adjacencyCue",
+        "frontierCue"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-neighborhood",
+        "title": "Read one neighborhood",
+        "goal": "Use the adjacency cue to see which nodes are immediately reachable from the current start node.",
+        "doThis": "Start with the layered-campus neighborhood view, keep the adjacency cue visible, and move the Start node once.",
+        "notice": "The first frontier changes directly with the neighbors attached to the current node.",
+        "explain": "Before any traversal rule matters, the graph only offers nodes that are adjacent along real edges. That local picture is the raw material for every later search step.",
+        "reveal": {
+          "controlIds": [
+            "graph-index",
+            "start-node"
+          ],
+          "graphIds": [
+            "neighbor-check-history"
+          ],
+          "overlayIds": [
+            "adjacencyCue",
+            "frontierCue"
+          ]
+        },
+        "setup": {
+          "presetId": "layered-campus-bfs",
+          "graphId": "neighbor-check-history",
+          "overlayIds": [
+            "adjacencyCue",
+            "frontierCue"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "grai-qt-adjacency"
+          ],
+          "note": "Choose from the local graph structure first: look for the nodes one edge away from the current node."
+        }
+      },
+      {
+        "id": "widen-the-first-frontier",
+        "title": "Widen the first frontier",
+        "goal": "Compare a narrow start with a hub start so the frontier width becomes a visible graph property.",
+        "doThis": "Open the Hub and detours from C setup and compare how many first neighbors appear from the new start node.",
+        "notice": "A hub start creates a wider first frontier than a corridor-style start because more adjacent nodes are available immediately.",
+        "explain": "The frontier width is not a traversal mystery. It begins with local degree and adjacency before any BFS or DFS ordering decides what leaves next.",
+        "reveal": {
+          "controlIds": [
+            "start-node"
+          ],
+          "graphIds": [
+            "visited-frontier-history",
+            "neighbor-check-history"
+          ],
+          "overlayIds": [
+            "adjacencyCue",
+            "frontierCue",
+            "visitedCue"
+          ]
+        },
+        "setup": {
+          "presetId": "hub-detours-bfs",
+          "graphId": "neighbor-check-history",
+          "overlayIds": [
+            "adjacencyCue",
+            "visitedCue"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "grai-predict-hub-frontier"
+          ],
+          "note": "Make a prediction before opening the hub preset, then compare the number of immediate neighbors."
+        }
+      },
+      {
+        "id": "separate-structure-from-traversal",
+        "title": "Separate structure from traversal",
+        "goal": "Use the same graph to distinguish adjacency information from the rule that explores it.",
+        "doThis": "Turn on the Traversal mode control and watch BFS or DFS reuse the same graph while changing only the frontier order.",
+        "notice": "The graph itself stays the same while the frontier history changes because the exploration rule has changed.",
+        "explain": "Adjacency tells you which nodes are available. Traversal mode tells you which available node gets explored next.",
+        "reveal": {
+          "controlIds": [
+            "traversal-mode",
+            "target-node"
+          ],
+          "graphIds": [
+            "visited-frontier-history",
+            "depth-history"
+          ],
+          "overlayIds": [
+            "frontierCue",
+            "visitedCue"
+          ]
+        },
+        "setup": {
+          "presetId": "layered-campus-bfs",
+          "graphId": "visited-frontier-history",
+          "overlayIds": [
+            "frontierCue",
+            "visitedCue"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "grai-qt-local-before-global"
+          ],
+          "note": "Decide which information belongs to the graph itself and which part belongs to the search rule."
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Adjacency is the local neighborhood information available from the current node.",
+        "The first frontier widens or narrows because different graph starts have different neighbor sets.",
+        "Traversal rules reuse the same graph structure but change the order in which the frontier is handled."
+      ],
+      "misconception": "A graph algorithm starts by applying a queue or stack rule before local structure matters.",
+      "workedExampleRefs": [
+        "read-the-first-neighborhood-from-a"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "breadth-first-search-and-layered-frontiers",
+          "title": "Breadth-First Search and Layered Frontiers",
+          "reasonLabel": "Use adjacency with a queue frontier"
+        },
+        {
+          "slug": "depth-first-search-and-backtracking-paths",
+          "title": "Depth-First Search and Backtracking Paths",
+          "reasonLabel": "Use adjacency with a stack frontier"
+        }
+      ],
+      "freePlayPrompt": "Pick a new start node, list its direct neighbors, and explain how that neighbor set changes the first frontier before you mention BFS or DFS."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "quickTest"
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the graph bench to prove that the first frontier comes from direct neighbors, not from a full-map guess.",
+    "items": [
+      {
+        "id": "grai-ch-build-a-wide-first-frontier",
+        "title": "Build a wider first frontier",
+        "style": "visible-condition",
+        "prompt": "Start from the hub-and-detours graph at C, keep the adjacency cue visible, and explain which direct neighbors make the first frontier wider than the edge start.",
+        "successMessage": "You used local adjacency to widen the first frontier. The hub start exposes several direct neighbors before any BFS or DFS ordering decision matters.",
+        "setup": {
+          "presetId": "hub-detours-bfs",
+          "graphId": "neighbor-check-history",
+          "overlayIds": [
+            "adjacencyCue",
+            "frontierCue"
+          ]
+        },
+        "requirements": {
+          "graphId": "neighbor-check-history",
+          "overlayIds": [
+            "adjacencyCue",
+            "frontierCue"
+          ]
+        },
+        "targets": [
+          {
+            "param": "graphIndex",
+            "min": 2,
+            "max": 2,
+            "label": "Use the hub-and-detours graph."
+          },
+          {
+            "param": "startNodeIndex",
+            "min": 2,
+            "max": 2,
+            "label": "Start from hub node C."
+          }
+        ],
+        "hints": [
+          "Use the Hub and detours from C preset, then read the adjacency cue before naming a traversal rule.",
+          "A wider first frontier comes from C's direct neighbors, not from where the target is drawn."
+        ]
+      }
+    ]
+  }
+}

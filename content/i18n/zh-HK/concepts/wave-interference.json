@@ -1,0 +1,365 @@
+{
+  "title": "波干涉",
+  "shortTitle": "干涉",
+  "summary": "將兩個相干波源疊加，追蹤其路徑差以獲得相位差，在同一即時螢幕上觀察明亮和暗淡區域的出現。",
+  "highlights": [
+    "建設性干涉",
+    "破壞性干涉",
+    "路徑差"
+  ],
+  "topic": "波動",
+  "subtopic": "波疊加",
+  "recommendedNext": [
+    {
+      "slug": "diffraction",
+      "reasonLabel": "單縫衍射"
+    },
+    {
+      "slug": "double-slit-interference",
+      "reasonLabel": "光學橋樑"
+    },
+    {
+      "slug": "standing-waves",
+      "reasonLabel": "駐波圖樣"
+    },
+    {
+      "slug": "damping-resonance",
+      "reasonLabel": "相位和反應"
+    },
+    {
+      "slug": "oscillation-energy",
+      "reasonLabel": "檢視振幅"
+    }
+  ],
+  "sections": {
+    "keyIdeas": [
+      "建設性干涉發生在總相位差接近整數倍的 2π 時，因此兩個到達波會互相增強。",
+      "破壞性干涉發生在總相位差接近奇數倍的 π 時，所以等振幅的到達波可以幾乎互相抵消。",
+      "改變波長或探針位置會改變路徑差相位項，而改變源相位則會在不改變幾何的情況下移動整個圖樣。"
+    ],
+    "commonMisconception": {
+      "myth": "如果路徑長度不同，干涉就一定是破壞性的。",
+      "correction": [
+        "不同的路徑長度只在相對於波長所造成的相位差上才重要。",
+        "即使路徑差不是零，只要它等於一個波長、兩個波長或其他整數倍，仍然可能發生建設性干涉。"
+      ]
+    },
+    "workedExamples": {
+      "title": "即時干涉檢查",
+      "intro": "這些例子直接讀取目前的探針幾何與源設定，所以每一步都保持連回你正在檢查的明亮或暗淡區域。",
+      "items": [
+        {
+          "id": "path-to-phase",
+          "title": "路徑差到相位差",
+          "prompt": "對於目前探針位置 y = {{probeYValue}}\\,\\mathrm{m}，到達螢幕點的總相位差是多少？",
+          "variables": [
+            {
+              "id": "probe-height",
+              "label": "探針高度"
+            },
+            {
+              "id": "path-difference",
+              "label": "路徑差"
+            },
+            {
+              "id": "wavelength",
+              "label": "波長"
+            },
+            {
+              "id": "phase-offset",
+              "label": "源相位偏移"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 識別關係"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 代入目前幾何"
+            },
+            {
+              "id": "compute",
+              "label": "3. 包裹到有用的比較角"
+            }
+          ],
+          "resultLabel": "目前相位差",
+          "applyAction": {
+            "label": "顯示暗紋",
+            "observationHint": "路徑差接近半個波長，因此探針位於螢幕上的暗區域附近。"
+          }
+        },
+        {
+          "id": "resultant-envelope",
+          "title": "探針點的結果振幅包絡",
+          "prompt": "對於目前源振幅和相位差，探針點可達到多大的結果振幅？",
+          "variables": [
+            {
+              "id": "amplitude-a",
+              "label": "波源 A 振幅"
+            },
+            {
+              "id": "amplitude-b",
+              "label": "波源 B 振幅"
+            },
+            {
+              "id": "phase-difference",
+              "label": "總相位差"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 識別疊加關係"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 代入目前振幅"
+            },
+            {
+              "id": "compute",
+              "label": "3. 解讀結果包絡"
+            }
+          ],
+          "resultLabel": "目前結果振幅",
+          "applyAction": {
+            "label": "顯示不完全抵消",
+            "observationHint": "相位差仍接近破壞性，但不相等的振幅會留下剩餘運動，而不是完美歸零。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "你位於一個明亮區域，而且不允許改變任何源的振幅。有沒有可靠方法令同一探針點變暗？",
+      "prediction": "判斷應該改變探針位置、波長還是源相位，並解釋原因。",
+      "answer": "把總相位差調到大約 π；可以透過移動探針令路徑差改變約 λ/2，或加入一個 π 的源相位偏移。",
+      "explanation": "破壞性干涉取決於總相位差，而不是單獨一個控制。幾何和源相位都會進入同一個相位總和。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "把幾何、相位和振幅放在一起判斷。每題都問螢幕上的探針點會怎樣，而不是只考孤立公式。",
+    "questions": [
+      {
+        "id": "wave-qt-1",
+        "prompt": "螢幕圖樣上的明亮峰值表示該高度最接近哪一種條件？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "總相位差接近 2π 的整數倍，所以結果振幅很大。"
+          },
+          {
+            "id": "b",
+            "label": "路徑差正好為零，因此不可能出現其他明亮峰值。"
+          },
+          {
+            "id": "c",
+            "label": "瞬時探針位移永遠固定在最大值。"
+          }
+        ],
+        "explanation": "明亮區域是兩個到達波在重複週期中互相增強的位置。這會在總相位差接近 0、2π、4π 等情況下發生，不只限於路徑差正好為零。",
+        "selectedWrongExplanations": {
+          "b": "零路徑差是一種建設性干涉，但任何整數倍波長的路徑差也可以造成增強。",
+          "c": "探針的瞬時位移仍會隨時間振盪；明亮圖樣來自較大的結果振幅，而不是位移被凍結。"
+        },
+        "showMeAction": {
+          "label": "顯示中心亮帶",
+          "observationHint": "中心點明亮，是因為相位差接近零，而不是因為時間停止。"
+        }
+      },
+      {
+        "id": "wave-qt-2",
+        "prompt": "一名學生説：「這個點是暗的，所以波必須在不同時間到達並且從不重疊。」最好的糾正應該是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "暗表示兩個到達波以幾乎相反相位重疊，所以相加時互相抵消。"
+          },
+          {
+            "id": "b",
+            "label": "暗表示只有一個波源到達該點。"
+          },
+          {
+            "id": "c",
+            "label": "暗表示那裡的頻率降為零。"
+          }
+        ],
+        "explanation": "干涉需要兩個到達波抵達同一點。暗紋是由幾乎相反相位的重疊波形成，而不是其中一個波錯過了該點。",
+        "selectedWrongExplanations": {
+          "b": "如果只有一個波源到達，仍會留下單一波的振盪，而不是干涉零點。",
+          "c": "頻率是由波源和波長關係決定的，而不是由一個螢幕點的亮度決定的。"
+        },
+        "showMeAction": {
+          "label": "顯示暗點重疊",
+          "observationHint": "兩條路徑仍到達同一探針點，但結果振幅因相位差接近 π 而收細。"
+        }
+      },
+      {
+        "id": "wave-qt-3",
+        "prompt": "如果相位差仍接近破壞性，但波源 B 的振幅比波源 A 小，暗點會怎樣變化？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "暗點會部分變亮，因為較強的波源留下剩餘的結果振幅。"
+          },
+          {
+            "id": "b",
+            "label": "暗點仍會完全黑暗，因為只要相位正確，振幅大小不重要。"
+          },
+          {
+            "id": "c",
+            "label": "暗點會變成比任何單一波源都更亮的峰值。"
+          }
+        ],
+        "explanation": "完美抵消需要相反相位和匹配振幅。一旦其中一個波源較小，較強的貢獻就不能被完全抵消。",
+        "selectedWrongExplanations": {
+          "b": "相位和振幅都會影響疊加。破壞性相位但振幅不平衡，只能降低結果振幅，不能強迫它歸零。",
+          "c": "只改變振幅平衡，不能把破壞性相位差變成比兩個波源各自更強的建設性峰值。"
+        },
+        "showMeAction": {
+          "label": "顯示不等振幅暗點",
+          "observationHint": "相位差仍接近破壞性，但圖樣不會達到完美零值，因為兩個振幅不同。"
+        }
+      },
+      {
+        "id": "wave-qt-4",
+        "prompt": "情況 A 和情況 B 的振幅與源相位偏移相同，但情況 B 使用較短波長。螢幕上應該有何不同？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "情況 B 的明暗間距會更緊密，因為相同路徑差會產生更多相位變化。"
+          },
+          {
+            "id": "b",
+            "label": "情況 B 的間距應該相同，因為只有幾何會設定圖樣。"
+          },
+          {
+            "id": "c",
+            "label": "情況 B 的條紋會完全消失，因為較短波長會把圖樣平均掉。"
+          }
+        ],
+        "explanation": "幾何建立路徑差，但波長決定該路徑差代表多少相位。較短波長表示每米有更多相位變化，因此條紋會排得更密。",
+        "selectedWrongExplanations": {
+          "b": "幾何只是故事的一半。波長會把幾何路徑差轉換成相位，所以改變 λ 會改變間距。",
+          "c": "較短波長不會把圖樣平均掉；它會讓相位更快改變，使明暗條紋更緊密。"
+        },
+        "showMeAction": {
+          "label": "顯示短波長",
+          "observationHint": "探針時間軸加快，螢幕圖樣的明暗區域也排得更緊密。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示左側兩個相干波源、右側共享的螢幕以及該螢幕上的一個可調探針點。從波源到探針的兩條波浪形路徑執行，以便使用者可以比較路徑長度、局部相位差和結果探針運動。",
+        "探針點也出現在一個垂直螢幕帶上，根據時間平均結果振幅變亮或變暗。可選的疊加標籤顯示路徑差、結果包絡以及相量圖。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "探針運動圖表將波源 A、波源 B 和該螢幕上一個選擇點的即時結果作為時間函式進行繪製。",
+        "螢幕模式圖表將相對強度與螢幕高度進行比較，因此即使時間軸繼續檢查瞬時探針運動，它也保持位置基準。"
+      ]
+    }
+  },
+  "equations": [
+    {
+      "id": "wave-path",
+      "label": "路徑差",
+      "meaning": "一個到達波相對另一個到達波多走的距離；兩者會在同一個螢幕點相遇。",
+      "notes": [
+        "一旦選定探針高度，幾何就會固定 r1 和 r2。"
+      ]
+    },
+    {
+      "id": "wave-phase",
+      "label": "總相位差",
+      "meaning": "螢幕點比較兩條幾何路徑的相位以及任何明確的源相位偏移。"
+    },
+    {
+      "id": "wave-resultant",
+      "label": "結果振幅",
+      "meaning": "兩個到達波疊加後，隨時間變化的探針運動會落在這個振幅包絡內。",
+      "notes": [
+        "只有在振幅相同且相位差接近 π 時，才會完全抵消。"
+      ]
+    },
+    {
+      "id": "wave-intensity",
+      "label": "螢幕強度",
+      "meaning": "明亮和暗淡區域遵循結果振幅的平方，而不是瞬時位移。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "amplitudeA",
+      "label": "波源 A 振幅",
+      "description": "設定波源 A 在每個螢幕點對最終疊加的貢獻程度。"
+    },
+    {
+      "id": "amplitudeB",
+      "label": "波源 B 振幅",
+      "description": "設定波源 B 的貢獻程度；不等的振幅會降低條紋對比，並阻止完全抵消。"
+    },
+    {
+      "id": "wavelength",
+      "label": "波長",
+      "description": "設定每米路徑差所對應的相位變化量，從而控制螢幕上的明亮和暗淡區域如何緊密排列。"
+    },
+    {
+      "id": "phaseOffset",
+      "label": "源相位偏移",
+      "description": "在不改變幾何的情況下，讓一個波源相對另一個波源偏移相位，使整個干涉圖樣在明暗之間滑動。"
+    },
+    {
+      "id": "probeY",
+      "label": "探針高度",
+      "description": "上下移動螢幕點，改變路徑長度，因而改變局部干涉條件。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "amplitudeA",
+        "label": "波源 A 振幅"
+      },
+      {
+        "id": "amplitudeB",
+        "label": "波源 B 振幅"
+      },
+      {
+        "id": "wavelength",
+        "label": "波長"
+      },
+      {
+        "id": "phaseOffset",
+        "label": "源相位偏移"
+      },
+      {
+        "id": "probeY",
+        "label": "探針高度"
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "pattern",
+      "label": "螢幕圖樣"
+    }
+  ],
+  "predictionMode": {
+    "items": [
+      {
+        "id": "wave-predict-phase-flip",
+        "changeLabel": "相位移"
+      },
+      {
+        "id": "wave-predict-shorter-wavelength",
+        "changeLabel": "波長"
+      }
+    ]
+  }
+}

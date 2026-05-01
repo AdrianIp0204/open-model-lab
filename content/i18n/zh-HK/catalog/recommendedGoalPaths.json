@@ -1,0 +1,343 @@
+{
+  "waves-intuition": {
+    "title": "由單一振盪器向外建立波動直覺",
+    "objective": "建立振盪與波動直覺",
+    "summary": "先走主題導覽，再用緊湊的波動教學集與作者編排的入門路徑，把整條波動故事穩定下來，之後才向外擴展。",
+    "highlights": [
+      "主題路線",
+      "波動課程集",
+      "入門路徑",
+      "干涉回看"
+    ],
+    "steps": [
+      {
+        "id": "waves-intuition-topic-route",
+        "title": "先用振盪與波動主題頁建立整體地圖",
+        "summary": "先從主題頁看清振盪器、行進波與駐波圖樣如何連起來，再收窄到較有順序的學習路徑。"
+      },
+      {
+        "id": "waves-intuition-guided-collection",
+        "title": "用「波動證據循環」保持整條路線緊湊",
+        "summary": "當你想把波動故事維持在一個清楚、有教學邊界的區塊內時，就沿用現有的引導式集合。"
+      },
+      {
+        "id": "waves-intuition-starter-track",
+        "title": "走完整條作者編排好的波動入門路徑",
+        "summary": "把簡諧運動、波速與波長、縱波聲音、音高與音量、拍頻、都卜勒效應、干涉、駐波與氣柱共鳴放在同一條既有順序裡。"
+      },
+      {
+        "id": "waves-intuition-interference-revisit",
+        "title": "回到波干涉作一次聚焦檢查",
+        "summary": "當你想用一個具體位置檢查波長與時序直覺是否穩固時，就重開干涉概念。"
+      }
+    ]
+  },
+  "teacher-electricity-bridge": {
+    "title": "用教師主導的方式走完電學橋接目標",
+    "objective": "跟隨教師編排好的電學目標",
+    "summary": "先用電學主題頁建立位置感，再走既有的橋接課程集與主電學入門路徑，讓電場到電勢再到電路的交接保持清楚。",
+    "highlights": [
+      "電學主題路線",
+      "橋接課程集",
+      "電勢檢查點",
+      "電學入門路徑"
+    ],
+    "steps": [
+      {
+        "id": "teacher-electricity-topic-route",
+        "title": "先打開電學主題導覽",
+        "summary": "在路線收窄之前，先用既有主題頁把電荷、電勢與電路之間的關係放在同一張地圖上。"
+      },
+      {
+        "id": "teacher-electricity-guided-collection",
+        "title": "使用「電學橋接課程集」",
+        "summary": "把這個目標交給現有的引導式集合，讓它帶你走完由電場進入電勢與電路的橋接。"
+      },
+      {
+        "id": "teacher-electricity-track",
+        "title": "再把橋接延伸到完整電學入門路徑",
+        "summary": "當橋接概念已穩定後，讓標準電學路徑把同一條故事擴展到功率、支路與等效化簡。"
+      },
+      {
+        "id": "teacher-electricity-voltage-revisit",
+        "title": "在路線擴闊前再回看一次電勢",
+        "summary": "當中點電壓的關鍵檢查仍然需要更聚焦的一次練習時，就打開電勢概念。"
+      }
+    ]
+  },
+  "prepare-for-electromagnetism": {
+    "title": "為電磁學分支作準備",
+    "objective": "為之後的電磁學分支建立基礎",
+    "summary": "先用電學主題頁與既有的電到磁橋接集合，再接上磁場入門路徑，讓過渡到電磁學時保持有邊界也看得清。",
+    "highlights": [
+      "電學回顧",
+      "橋接集合",
+      "磁場入門路徑",
+      "馬克士威綜合"
+    ],
+    "steps": [
+      {
+        "id": "electromagnetism-prep-topic-route",
+        "title": "先重開電學主題導覽",
+        "summary": "在電流產生磁場與感應接手之前，先重溫電學主分支的地圖。"
+      },
+      {
+        "id": "electromagnetism-prep-guided-collection",
+        "title": "使用電到磁的橋接集合",
+        "summary": "把回顧、感應檢查點與馬克士威綜合收在同一條現有橋接序列裡。"
+      },
+      {
+        "id": "electromagnetism-prep-track",
+        "title": "回顧穩定後走磁場入門路徑",
+        "summary": "用作者編排好的磁場順序處理場方向、感應與磁力。"
+      },
+      {
+        "id": "electromagnetism-prep-maxwell-revisit",
+        "title": "把馬克士威綜合當作這條分支的目標頁",
+        "summary": "用那個精簡的四定律概念頁，把磁學分支如何擴展到電磁波明確地放在眼前。"
+      }
+    ]
+  },
+  "functions-and-change": {
+    "title": "先由圖像建立函數與變化直覺",
+    "objective": "建立函數與入門微積分直覺",
+    "summary": "用函數主題頁、課程集、緊湊的數學入門路徑和微積分主題頁，把圖像變換、有理漸近線、指數變化、局部斜率與累積量放在同一條連貫支線上。",
+    "highlights": [
+      "函數主題路線",
+      "課程集",
+      "數學入門路徑",
+      "微積分橋接",
+      "累積與面積"
+    ],
+    "steps": [
+      {
+        "id": "functions-and-change-topic-route",
+        "title": "先從函數主題導覽開始",
+        "summary": "先在主題頁把母函數、平移、反射與垂直伸縮放到同一張圖像地圖上，再收窄路徑。"
+      },
+      {
+        "id": "functions-and-change-guided-collection",
+        "title": "用「函數與變化課程集」保持支線緊湊",
+        "summary": "當這條圖像優先的數學路線需要保持有教學邊界時，就沿用現有的引導式集合。"
+      },
+      {
+        "id": "functions-and-change-track",
+        "title": "把課程集延伸到完整的「函數與變化」入門路徑",
+        "summary": "當緊湊支線已經站穩，就用標準路徑把圖像變換帶進有理函數、指數變化、切線斜率，再走向累積量。"
+      },
+      {
+        "id": "functions-and-change-calculus-topic",
+        "title": "保持下一條分支在微積分主題頁上可見",
+        "summary": "當斜率與累積量已經落地後，打開微積分主題頁，讓下一條數學分支仍然有位置感。"
+      }
+    ]
+  },
+  "vectors-and-motion-bridge": {
+    "title": "把平面向量橋接到運動",
+    "objective": "為力學建立向量直覺",
+    "summary": "先用向量主題頁，再走橋接集合與短橋接路徑，最後在力學主題頁看到同一套語言如何自然過渡到運動問題。",
+    "highlights": [
+      "向量主題路線",
+      "橋接集合",
+      "橋接入門路徑",
+      "力學銜接"
+    ],
+    "steps": [
+      {
+        "id": "vectors-and-motion-topic-route",
+        "title": "先打開向量主題導覽",
+        "summary": "先把向量當作箭頭與有序對來看，再收窄到橋接路線。"
+      },
+      {
+        "id": "vectors-and-motion-guided-collection",
+        "title": "使用「向量到力學橋接」集合",
+        "summary": "把這個目標交給那條已經把向量主題頁、橋接路徑、終點檢查點與力學銜接包好的緊湊集合。"
+      },
+      {
+        "id": "vectors-and-motion-track",
+        "title": "再把橋接延伸到「向量與運動橋接」入門路徑",
+        "summary": "當緊湊集合已把交接框好之後，用作者編排好的短橋接路徑，讓二維向量組合直接帶進現有的運動向量實驗台。"
+      },
+      {
+        "id": "vectors-and-motion-mechanics-topic",
+        "title": "當向量語言站穩後再打開力學主題頁",
+        "summary": "用力學主題頁把同一套向量語言擴展到軌跡、轉動效應與動量。"
+      }
+    ]
+  },
+  "complex-and-parametric-motion": {
+    "title": "以複數和平面運動建立座標直覺",
+    "objective": "建立平面數學直覺",
+    "summary": "用複數與參數主題頁、課程集、緊湊入門路徑與向量主題頁，讓平面語言由複數點擴展到單位圓、極座標、三角恆等式、反三角，再走到參數運動。",
+    "highlights": [
+      "複平面主題路線",
+      "課程集",
+      "單位圓投影",
+      "極點與分量",
+      "恆等式與反角推理",
+      "入門路徑",
+      "路徑與軌跡",
+      "向量下一步"
+    ],
+    "steps": [
+      {
+        "id": "complex-parametric-topic-route",
+        "title": "先從複數與參數主題導覽開始",
+        "summary": "先看複平面、單位圓旋轉、極座標與方程式描述的運動如何連起來，再收窄路線。"
+      },
+      {
+        "id": "complex-parametric-guided-collection",
+        "title": "使用「複數與參數運動課程集」",
+        "summary": "當這條平面數學分支需要保持清楚又有邊界時，就沿用現有的引導式集合。"
+      },
+      {
+        "id": "complex-parametric-track",
+        "title": "把課程集延伸到完整的「複數與參數運動」入門路徑",
+        "summary": "當這條支線已被課程集框好之後，用作者編排好的路徑把複數點帶進單位圓投影、極座標、三角恆等式、反三角，再走到參數運動。"
+      },
+      {
+        "id": "complex-parametric-vectors-topic",
+        "title": "當平面語言穩定後再打開向量主題頁",
+        "summary": "用向量主題頁把同一套座標習慣擴展到向量加法、縮放與之後的運動語境。"
+      }
+    ]
+  },
+  "chemistry-rates-equilibrium": {
+    "title": "用反應速率與平衡建立化學直覺",
+    "objective": "建立入門化學直覺",
+    "summary": "用化學主題頁、速率與平衡課程集、緊湊入門路徑與熱力學主題頁，讓化學試點感覺像一條真正分支，而不是零散概念連結。",
+    "highlights": [
+      "化學主題路線",
+      "課程集",
+      "入門路徑",
+      "重平衡檢查點",
+      "熱力學下一步"
+    ],
+    "steps": [
+      {
+        "id": "chemistry-rates-equilibrium-topic-route",
+        "title": "先從速率與平衡主題導覽開始",
+        "summary": "先在化學主題頁把成功碰撞與可逆重平衡放到同一條故事線上，再收窄路線。"
+      },
+      {
+        "id": "chemistry-rates-equilibrium-guided-collection",
+        "title": "用「速率與平衡課程集」保持支線緊湊",
+        "summary": "當化學起步需要保持有教學邊界時，就沿用這條緊湊課程集。"
+      },
+      {
+        "id": "chemistry-rates-equilibrium-track",
+        "title": "走完整條「速率與平衡」入門路徑",
+        "summary": "當課程集已經把化學分支框好，就用緊湊路徑把碰撞理論直接帶進動態平衡與重平衡。"
+      },
+      {
+        "id": "chemistry-rates-equilibrium-thermo-topic",
+        "title": "當化學支線落地後再打開熱力學主題頁",
+        "summary": "用熱力學主題頁把同一套粒子與碰撞語言擴展到氣體壓力與熱能。"
+      }
+    ]
+  },
+  "chemistry-stoichiometry-and-yield": {
+    "title": "用化學計量與產率建立化學直覺",
+    "objective": "建立反應配方與產量上限直覺",
+    "summary": "用化學計量主題頁、課程集、緊湊入門路徑與溶液／pH 主題頁，讓化學數量觀保持視覺化，而不是變成脫離情境的工作紙代數。",
+    "highlights": [
+      "化學計量主題路線",
+      "課程集",
+      "入門路徑",
+      "產率檢查點",
+      "溶液下一步"
+    ],
+    "steps": [
+      {
+        "id": "chemistry-stoich-yield-topic-route",
+        "title": "先從化學計量與產率主題導覽開始",
+        "summary": "先在主題頁把配方批次、限制試劑與實際／理論產量放到同一條化學故事線上，再收窄路線。"
+      },
+      {
+        "id": "chemistry-stoich-yield-guided-collection",
+        "title": "用「化學計量與產率課程集」保持支線緊湊",
+        "summary": "當化學計量起步需要保持有邊界又易於教學時，就沿用現有課程集。"
+      },
+      {
+        "id": "chemistry-stoich-yield-track",
+        "title": "走完整條「化學計量與產率」入門路徑",
+        "summary": "當課程集已把這條支線框好，就用緊湊路徑把配方比例直接帶進限制試劑與百分產率。"
+      },
+      {
+        "id": "chemistry-stoich-yield-solutions-topic",
+        "title": "當產率故事站穩後再打開溶液與 pH 主題頁",
+        "summary": "用溶液與 pH 主題頁把同一套數量語言擴展到濃度、溶解度、pH 與緩衝液。"
+      }
+    ]
+  },
+  "solutions-and-ph": {
+    "title": "用溶液與 pH 建立化學直覺",
+    "objective": "建立溶液化學直覺",
+    "summary": "用溶液與 pH 主題頁、課程集、入門路徑與速率／平衡主題頁，讓化學分支變得更寬一些，但仍然保持有邊界。",
+    "highlights": [
+      "溶液主題路線",
+      "課程集",
+      "入門路徑",
+      "緩衝液檢查點",
+      "緩衝儲備",
+      "速率與平衡下一步"
+    ],
+    "steps": [
+      {
+        "id": "solutions-ph-topic-route",
+        "title": "先從溶液與 pH 主題導覽開始",
+        "summary": "先看稀釋、pH 與有限範圍的溶液化學如何連起來，再收窄路線。"
+      },
+      {
+        "id": "solutions-ph-guided-collection",
+        "title": "用「溶液與 pH 課程集」保持支線緊湊",
+        "summary": "當這條較寬的化學分支需要保持有邊界時，就沿用現有的緊湊課程集。"
+      },
+      {
+        "id": "solutions-ph-track",
+        "title": "走完整條「溶液與 pH」入門路徑",
+        "summary": "當課程集已把支線框好之後，用作者編排好的路徑把濃度與溶解度直接帶進酸鹼、pH、緩衝液與中和。"
+      },
+      {
+        "id": "solutions-ph-rates-topic",
+        "title": "當燒杯語言落地後再打開速率與平衡主題頁",
+        "summary": "用既有化學主題頁把同一套粒子與溶液直覺擴展到碰撞成功與可逆變化。"
+      }
+    ]
+  },
+  "algorithms-and-search": {
+    "title": "用演算法與搜尋建立電腦科學直覺",
+    "objective": "建立入門演算法直覺",
+    "summary": "用演算法與搜尋主題頁、緊湊播放清單、入門路徑與圖前線回看步驟，讓電腦科學分支保持有邊界，同時逐步擴展到圖遍歷。",
+    "highlights": [
+      "演算法主題路線",
+      "播放清單",
+      "入門路徑",
+      "串列直覺",
+      "圖前線",
+      "已訪問狀態記帳"
+    ],
+    "steps": [
+      {
+        "id": "algorithms-search-topic-route",
+        "title": "先從演算法與搜尋主題導覽開始",
+        "summary": "先在新主題頁把排序與有序搜尋放到同一條分支上，再收窄路線。"
+      },
+      {
+        "id": "algorithms-search-guided-collection",
+        "title": "用「演算法與搜尋播放清單」保持支線緊湊",
+        "summary": "當電腦科學試點需要保持有邊界又方便延伸時，就沿用這條緊湊播放清單。"
+      },
+      {
+        "id": "algorithms-search-track",
+        "title": "走完整條「演算法與搜尋基礎」入門路徑",
+        "summary": "當播放清單已把分支框好之後，用緊湊路徑把可見的排序工作帶進二分搜尋，再走到同一個圖遍歷實驗台。"
+      },
+      {
+        "id": "algorithms-search-frontier-revisit",
+        "title": "回到前線與已訪問狀態作一次聚焦檢查",
+        "summary": "當你想再次比較等待中的前線節點、已訪問記帳與跳過重複時，就重開那個圖遍歷概念。"
+      }
+    ]
+  }
+}

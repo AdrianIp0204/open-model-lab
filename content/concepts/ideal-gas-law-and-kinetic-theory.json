@@ -1,0 +1,1387 @@
+{
+  "pageIntro": {
+    "definition": "Connect pressure, volume, temperature, and particle number on one bounded particle box, then read the same pressure changes back as changes in particle speed and wall-collision rate.",
+    "keyTakeaway": "At fixed particle number and temperature, reducing volume raises pressure because the same particles hit the walls more often.",
+    "whyItMatters": "Gas pressure shows up in syringes, tyres, weather, and engines; this bench helps you explain whether a pressure change came from squeezing the gas, heating it, or adding particles."
+  },
+  "v2": {
+    "intuition": "Read pressure as the wall-collision story behind the symbols. Particle number decides how many hits can happen, temperature decides how fast and hard the particles hit, and volume decides how often the same particles reach a wall.",
+    "whyItMatters": "Once those three causes are separate, the ideal gas law stops being a formula to memorize and becomes a way to predict why syringes, tyres, and heated containers push back harder.",
+    "estimatedMinutes": 14,
+    "equationSnapshot": {
+      "title": "State variables to wall hits",
+      "note": "Use the equations in this order: N/V gives the crowding cue, temperature sets the speed cue, and both feed the pressure reading through wall collisions.",
+      "equationIds": [
+        "ideal-gas-state",
+        "number-density",
+        "speed-temperature"
+      ]
+    },
+    "startSetup": {
+      "presetId": "room-baseline",
+      "graphId": "pressure-volume",
+      "overlayIds": [
+        "densityCue",
+        "wallHitCue",
+        "pressureGauge"
+      ],
+      "note": "Begin from the room baseline so compression, heating, and adding particles each have a clear before/after comparison."
+    },
+    "guidedSteps": [
+      {
+        "id": "compress-the-box",
+        "title": "Compress the box",
+        "goal": "Explain a pressure rise caused by less volume, not by faster particles.",
+        "doThis": "Start from Room baseline, then switch to Compressed box while keeping particle count and temperature fixed.",
+        "notice": "The motion streaks stay about the same length, but the particles are packed into less space and the wall-hit flashes become more frequent.",
+        "explain": "Smaller volume raises N/V. The same particles reach the walls more often, so pressure rises even though the average particle speed did not need to change.",
+        "reveal": {
+          "controlIds": [
+            "volume"
+          ],
+          "graphIds": [
+            "pressure-volume"
+          ],
+          "overlayIds": [
+            "densityCue",
+            "wallHitCue",
+            "pressureGauge"
+          ]
+        },
+        "setup": {
+          "presetId": "compressed-box",
+          "graphId": "pressure-volume",
+          "overlayIds": [
+            "densityCue",
+            "wallHitCue",
+            "pressureGauge"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "igkt-predict-compress"
+          ],
+          "questionIds": [
+            "igkt-qt-compress"
+          ]
+        }
+      },
+      {
+        "id": "heat-the-same-box",
+        "title": "Heat the same box",
+        "goal": "Connect temperature to faster particles and stronger wall collisions at fixed N and V.",
+        "doThis": "Switch back to Room baseline, then apply Hotter same box and compare the pressure-temperature and collision-temperature graphs.",
+        "notice": "The speed cue lengthens, the wall collision rate rises, and pressure increases even though the box size and particle count stay fixed.",
+        "explain": "Temperature sets the speed scale. Hotter particles transfer more momentum per hit and make trips across the box more quickly, so pressure rises without adding particles.",
+        "reveal": {
+          "controlIds": [
+            "temperature"
+          ],
+          "graphIds": [
+            "pressure-temperature",
+            "collision-temperature"
+          ],
+          "overlayIds": [
+            "speedCue",
+            "wallHitCue",
+            "pressureGauge"
+          ]
+        },
+        "setup": {
+          "presetId": "hotter-same-box",
+          "graphId": "pressure-temperature",
+          "overlayIds": [
+            "speedCue",
+            "wallHitCue",
+            "pressureGauge"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "igkt-predict-heat"
+          ],
+          "questionIds": [
+            "igkt-qt-heating"
+          ]
+        }
+      },
+      {
+        "id": "add-particles-only",
+        "title": "Add particles only",
+        "goal": "Separate particle number from temperature as another way to raise pressure.",
+        "doThis": "Apply More particles same box and keep the temperature readout matched to the baseline.",
+        "notice": "The density cue and wall-hit rate increase, but the average-speed cue stays about the same because the gas was not heated.",
+        "explain": "More particles means more wall collisions each second. In the ideal-gas relation, N can raise pressure independently of T when volume stays fixed.",
+        "reveal": {
+          "controlIds": [
+            "particleCount"
+          ],
+          "graphIds": [
+            "pressure-particle-count"
+          ],
+          "overlayIds": [
+            "densityCue",
+            "wallHitCue",
+            "pressureGauge"
+          ]
+        },
+        "setup": {
+          "presetId": "more-particles-same-box",
+          "graphId": "pressure-particle-count",
+          "overlayIds": [
+            "densityCue",
+            "wallHitCue",
+            "pressureGauge"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "igkt-predict-more-particles"
+          ],
+          "questionIds": [
+            "igkt-qt-more-particles"
+          ]
+        }
+      },
+      {
+        "id": "same-pressure-different-story",
+        "title": "Same pressure, different story",
+        "goal": "Use the live cues to decide what pressure alone does and does not tell you.",
+        "doThis": "Use Compare mode or the presets to make one state hotter and another state more crowded, then look for similar pressure readings.",
+        "notice": "The pressure gauge can match while the speed cue, density cue, and wall-hit story do not match.",
+        "explain": "Pressure is an outcome of several causes. Equal pressure does not prove equal temperature, equal particle number, or equal volume; you need the microscopic cues to tell the story.",
+        "reveal": {
+          "controlIds": [
+            "particleCount",
+            "temperature",
+            "volume"
+          ],
+          "graphIds": [
+            "pressure-temperature",
+            "pressure-particle-count",
+            "pressure-volume"
+          ],
+          "overlayIds": [
+            "speedCue",
+            "densityCue",
+            "wallHitCue",
+            "pressureGauge"
+          ]
+        },
+        "setup": {
+          "presetId": "room-baseline",
+          "graphId": "pressure-temperature",
+          "overlayIds": [
+            "speedCue",
+            "densityCue",
+            "pressureGauge"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "igkt-qt-same-pressure",
+            "igkt-qt-law-reading"
+          ]
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Compression raises pressure by increasing wall-hit frequency at the same particle speed.",
+        "Heating raises pressure by making particles move faster and hit harder at fixed particle number and volume.",
+        "Adding particles raises pressure by increasing the number of wall collisions without changing the average speed cue.",
+        "The same pressure can come from different combinations of speed, crowding, and box size."
+      ],
+      "misconception": "Pressure is not only crowding and not only temperature; it is the combined wall-collision outcome of N, T, and V.",
+      "workedExampleRefs": [
+        "current-pressure-state",
+        "current-kinetic-link"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "heat-transfer",
+          "reasonLabel": "Boundary energy flow"
+        },
+        {
+          "slug": "specific-heat-and-phase-change",
+          "reasonLabel": "Heating response"
+        },
+        {
+          "slug": "temperature-and-internal-energy",
+          "reasonLabel": "Energy bookkeeping"
+        }
+      ],
+      "freePlayPrompt": "Pick a pressure target, reach it once by compression and once by heating or adding particles, then explain why the gauge can match while the microscopic story changes."
+    }
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "The ideal gas law is the compact pressure-volume-temperature-number summary for a dilute gas. On this bench, pressure is not treated as a mysterious extra quantity. It is the macroscopic result of many particle-wall collisions inside one bounded container.",
+        "Temperature sets the average particle-speed scale, particle number sets how many moving particles are available to strike the walls, and volume sets how much room those particles have. When the same particles move faster, or when the same particles are squeezed into less space, the wall-hit pattern changes and the pressure changes with it.",
+        "This page stays intentionally bounded. The stage is a 2D cross-section of a gas box, not a full statistical-mechanics simulator, but it keeps the core ideal-gas proportionalities honest: pressure rises with particle number and temperature, falls with volume, and can come from different microscopic stories even when the same macroscopic pressure is reached."
+      ]
+    },
+    "keyIdeas": [
+      "At fixed particle number and temperature, reducing volume raises pressure because the same particles hit the walls more often.",
+      "At fixed particle number and volume, raising temperature raises pressure because particles move faster and transfer more momentum on each wall hit.",
+      "At fixed temperature and volume, adding particles raises pressure even if the average speed of each particle does not change.",
+      "The same pressure can come from different microscopic combinations of speed and crowding, so pressure alone does not tell you temperature or particle number by itself."
+    ],
+    "commonMisconception": {
+      "myth": "Pressure is only about how crowded the gas is, so temperature matters only if the number of particles changes.",
+      "correction": [
+        "Crowding matters, but temperature matters too because hotter particles move faster and hit the walls harder.",
+        "That is why a hotter gas at the same particle number and volume can produce a larger pressure even without adding any particles."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live gas-state checks",
+      "intro": "Use the current box directly. The same particle motion, wall-hit cues, and response graphs drive both worked examples, so the algebra and the kinetic picture stay tied to one state.",
+      "items": [
+        {
+          "id": "current-pressure-state",
+          "title": "Current pressure from the state variables",
+          "prompt": "For the current gas state with $N = {{particleCountValue}}$, $T = {{temperatureValue}}$, and $V = {{volumeValue}}$, what pressure does the bounded ideal-gas model predict?",
+          "variables": [
+            {
+              "id": "particleCount",
+              "variableId": "particleCount",
+              "symbol": "N",
+              "label": "Particle count",
+              "valueKey": "particleCountValue"
+            },
+            {
+              "id": "temperature",
+              "variableId": "temperature",
+              "symbol": "T",
+              "label": "Temperature",
+              "valueKey": "temperatureValue",
+              "unit": "arb"
+            },
+            {
+              "id": "volume",
+              "variableId": "volume",
+              "symbol": "V",
+              "label": "Volume",
+              "valueKey": "volumeValue",
+              "unit": "arb"
+            },
+            {
+              "id": "density",
+              "symbol": "n",
+              "label": "Number density",
+              "valueKey": "densityValue",
+              "unit": "particles/arb"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-density",
+              "label": "1. Turn amount and volume into a density cue",
+              "template": "The current box has density $n = N/V = {{densityValue}}$, so the particles are {{densityLabelText}} rather than spread far apart."
+            },
+            {
+              "id": "apply-state-law",
+              "label": "2. Use the state-variable relation",
+              "template": "For this bounded model, $P = \\beta NT/V$, so the current state gives $P = {{pressureValue}}\\,\\mathrm{u}$."
+            },
+            {
+              "id": "connect-back-to-wall-hits",
+              "label": "3. Check the kinetic picture against the calculation",
+              "template": "The same state also shows $v_{\\mathrm{avg}} = {{averageSpeedValue}}\\,\\mathrm{u/s}$ and a wall collision rate of {{collisionRateValue}}\\,\\mathrm{hits/s}$, which is why the pressure gauge is reading a {{pressureLabelText}} value."
+            }
+          ],
+          "resultLabel": "Current gas pressure",
+          "resultTemplate": "$P = {{pressureValue}}\\,\\mathrm{u}, \\quad v_{\\mathrm{avg}} = {{averageSpeedValue}}\\,\\mathrm{u/s}, \\quad R_{\\mathrm{wall}} = {{collisionRateValue}}\\,\\mathrm{hits/s}$",
+          "interpretationTemplate": "{{pressureInterpretation}}",
+          "applyAction": {
+            "label": "Show the compressed box",
+            "presetId": "compressed-box",
+            "observationHint": "The container gets smaller, the wall-hit cue brightens, and the pressure-volume graph moves to a much higher pressure at the same temperature.",
+            "highlightedControlIds": [
+              "volume"
+            ],
+            "highlightedGraphIds": [
+              "pressure-volume"
+            ],
+            "highlightedOverlayIds": [
+              "wallHitCue",
+              "pressureGauge"
+            ]
+          }
+        },
+        {
+          "id": "current-kinetic-link",
+          "title": "Current kinetic explanation",
+          "prompt": "For the current state, what do average speed and wall collision rate say about why the pressure is what it is?",
+          "variables": [
+            {
+              "id": "temperature",
+              "variableId": "temperature",
+              "symbol": "T",
+              "label": "Temperature",
+              "valueKey": "temperatureValue",
+              "unit": "arb"
+            },
+            {
+              "id": "averageSpeed",
+              "symbol": "v_{\\mathrm{avg}}",
+              "label": "Average particle speed",
+              "valueKey": "averageSpeedValue",
+              "unit": "u/s"
+            },
+            {
+              "id": "collisionRate",
+              "symbol": "R_{\\mathrm{wall}}",
+              "label": "Wall collision rate",
+              "valueKey": "collisionRateValue",
+              "unit": "hits/s"
+            },
+            {
+              "id": "pressure",
+              "symbol": "P",
+              "label": "Pressure",
+              "valueKey": "pressureValue",
+              "unit": "u"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-speed",
+              "label": "1. Read the temperature-speed link",
+              "template": "The current temperature gives an average speed of $v_{\\mathrm{avg}} = {{averageSpeedValue}}\\,\\mathrm{u/s}$, so the particles are moving {{speedLabelText}} rather than lazily."
+            },
+            {
+              "id": "read-hit-rate",
+              "label": "2. Read how often the walls are being hit",
+              "template": "With the present density and box size, the wall collision rate is {{collisionRateValue}}\\,\\mathrm{hits/s}$."
+            },
+            {
+              "id": "connect-micro-to-macro",
+              "label": "3. Translate the microscopic story into pressure",
+              "template": "Fast particles and frequent wall hits together produce the current pressure $P = {{pressureValue}}\\,\\mathrm{u}$, so this state is best described as {{kineticStoryText}}."
+            }
+          ],
+          "resultLabel": "Kinetic explanation",
+          "resultTemplate": "$v_{\\mathrm{avg}} = {{averageSpeedValue}}\\,\\mathrm{u/s}, \\quad R_{\\mathrm{wall}} = {{collisionRateValue}}\\,\\mathrm{hits/s}, \\quad P = {{pressureValue}}\\,\\mathrm{u}$",
+          "interpretationTemplate": "{{kineticInterpretation}}",
+          "applyAction": {
+            "label": "Show the hotter box",
+            "presetId": "hotter-same-box",
+            "observationHint": "The speed cue lengthens and the collision-temperature graph rises even though the box size and particle count stay fixed.",
+            "highlightedControlIds": [
+              "temperature"
+            ],
+            "highlightedGraphIds": [
+              "pressure-temperature",
+              "collision-temperature"
+            ],
+            "highlightedOverlayIds": [
+              "speedCue",
+              "wallHitCue"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Two sealed boxes have the same particle number and the same volume, but Box A is hotter than Box B. Which box has the higher pressure, and why?",
+      "prediction": "Decide whether heating changes only particle speed or whether it also changes the wall-hit story.",
+      "answer": "Box A has the higher pressure.",
+      "explanation": "At fixed $N$ and $V$, a hotter gas has faster particles. Faster particles hit the walls harder and also complete more trips across the box per second, so the pressure rises."
+    }
+  },
+  "equations": [
+    {
+      "id": "ideal-gas-state",
+      "latex": "P = \\beta \\dfrac{N T}{V}",
+      "label": "Ideal-gas state relation",
+      "meaning": "Pressure rises with particle number and temperature, and falls with volume, in this bounded display model.",
+      "notes": [
+        "The constant beta only sets the display units on this bench."
+      ]
+    },
+    {
+      "id": "number-density",
+      "latex": "n = \\dfrac{N}{V}",
+      "label": "Number density",
+      "meaning": "Particle number and volume combine into a crowding measure that helps explain wall-hit frequency."
+    },
+    {
+      "id": "speed-temperature",
+      "latex": "v_{\\mathrm{avg}} = c\\sqrt{T}",
+      "label": "Speed from temperature",
+      "meaning": "Hotter gas means a higher average particle-speed scale in this model."
+    },
+    {
+      "id": "collision-rate",
+      "latex": "R_{\\mathrm{wall}} \\propto \\dfrac{N\\sqrt{T}}{\\sqrt{V}}",
+      "label": "Wall collision rate in this box model",
+      "meaning": "More particles, higher temperature, or less room all increase how often the walls are struck.",
+      "notes": [
+        "The stage is a 2D cross-section, so this relation is a bounded cue for the wall-hit trend rather than a full molecular-kinetics derivation."
+      ]
+    },
+    {
+      "id": "pressure-from-hits",
+      "latex": "P \\propto \\dfrac{R_{\\mathrm{wall}} v_{\\mathrm{avg}}}{\\sqrt{V}}",
+      "label": "Pressure from wall hits",
+      "meaning": "Pressure grows when wall hits become more frequent, when each hit carries more momentum, or when both happen together."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "particleCount",
+      "symbol": "N",
+      "label": "Particle count",
+      "param": "particleCount",
+      "tone": "amber",
+      "description": "Adds or removes particles while leaving the same box size and temperature scale available. More particles mean more wall hits and higher pressure at the same $T$ and $V$.",
+      "equationIds": [
+        "ideal-gas-state",
+        "number-density",
+        "collision-rate"
+      ],
+      "graphIds": [
+        "pressure-particle-count"
+      ],
+      "overlayIds": [
+        "densityCue",
+        "wallHitCue"
+      ]
+    },
+    {
+      "id": "temperature",
+      "symbol": "T",
+      "label": "Temperature",
+      "param": "temperature",
+      "tone": "teal",
+      "description": "Sets the average particle-speed scale. Hotter gas means faster particles, more momentum transfer per hit, and higher pressure if $N$ and $V$ stay fixed.",
+      "equationIds": [
+        "ideal-gas-state",
+        "speed-temperature",
+        "collision-rate"
+      ],
+      "graphIds": [
+        "pressure-temperature",
+        "collision-temperature"
+      ],
+      "overlayIds": [
+        "speedCue",
+        "wallHitCue",
+        "pressureGauge"
+      ]
+    },
+    {
+      "id": "volume",
+      "symbol": "V",
+      "label": "Volume",
+      "param": "volume",
+      "tone": "sky",
+      "description": "Changes how much room the same gas has. A smaller volume increases number density and shortens the distance to the walls, so pressure rises when $N$ and $T$ stay fixed.",
+      "equationIds": [
+        "ideal-gas-state",
+        "number-density",
+        "collision-rate",
+        "pressure-from-hits"
+      ],
+      "graphIds": [
+        "pressure-volume"
+      ],
+      "overlayIds": [
+        "densityCue",
+        "wallHitCue",
+        "pressureGauge"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "particleCount": 24,
+      "temperature": 3.2,
+      "volume": 1.6
+    },
+    "ui": {
+      "initialGraphId": "pressure-volume",
+      "primaryGraphIds": [
+        "pressure-volume"
+      ],
+      "primaryControlIds": [
+        "volume"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "particleCount",
+        "kind": "slider",
+        "label": "Particle count",
+        "param": "particleCount",
+        "min": 8,
+        "max": 48,
+        "step": 2,
+        "description": "Changes how many gas particles share the same box."
+      },
+      {
+        "id": "temperature",
+        "kind": "slider",
+        "label": "Temperature",
+        "param": "temperature",
+        "min": 1.2,
+        "max": 5.4,
+        "step": 0.1,
+        "unit": "arb",
+        "description": "Changes the average particle-speed scale."
+      },
+      {
+        "id": "volume",
+        "kind": "slider",
+        "label": "Volume",
+        "param": "volume",
+        "min": 0.8,
+        "max": 2.4,
+        "step": 0.05,
+        "unit": "arb",
+        "description": "Changes how much room the same gas has to move."
+      }
+    ],
+    "presets": [
+      {
+        "id": "room-baseline",
+        "label": "Room baseline",
+        "description": "A mid-temperature gas in a moderate box.",
+        "values": {
+          "particleCount": 24,
+          "temperature": 3.2,
+          "volume": 1.6
+        }
+      },
+      {
+        "id": "compressed-box",
+        "label": "Compressed box",
+        "description": "Same particle number and temperature, but less room.",
+        "values": {
+          "particleCount": 24,
+          "temperature": 3.2,
+          "volume": 0.8
+        }
+      },
+      {
+        "id": "hotter-same-box",
+        "label": "Hotter same box",
+        "description": "Same particle number and volume, but a hotter gas.",
+        "values": {
+          "particleCount": 24,
+          "temperature": 4.8,
+          "volume": 1.6
+        }
+      },
+      {
+        "id": "more-particles-same-box",
+        "label": "More particles same box",
+        "description": "Same volume and temperature, but more particles.",
+        "values": {
+          "particleCount": 36,
+          "temperature": 3.2,
+          "volume": 1.6
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "speedCue",
+        "label": "Speed cue",
+        "shortDescription": "Shows motion streaks and the average-speed chip.",
+        "whatToNotice": [
+          "Raising temperature lengthens the motion streaks even before you look at the graphs."
+        ],
+        "whyItMatters": "It keeps the temperature-pressure link tied to particle motion instead of treating temperature as a purely symbolic input.",
+        "relatedControls": [
+          "temperature"
+        ],
+        "relatedGraphTabs": [
+          "pressure-temperature",
+          "collision-temperature"
+        ],
+        "relatedEquationVariables": [
+          "temperature"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "densityCue",
+        "label": "Density cue",
+        "shortDescription": "Shows how packed the box is through density shading and a density chip.",
+        "whatToNotice": [
+          "Reducing volume or adding particles raises density, even if the average speed stays the same."
+        ],
+        "whyItMatters": "It makes the $N/V$ part of the ideal-gas law visible.",
+        "relatedControls": [
+          "particleCount",
+          "volume"
+        ],
+        "relatedGraphTabs": [
+          "pressure-volume",
+          "pressure-particle-count"
+        ],
+        "relatedEquationVariables": [
+          "particleCount",
+          "volume"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "wallHitCue",
+        "label": "Wall-hit cue",
+        "shortDescription": "Animates wall-hit flashes and shows the wall collision rate.",
+        "whatToNotice": [
+          "Pressure goes up when the wall-hit pattern gets denser, not just when the particles look faster."
+        ],
+        "whyItMatters": "It connects the macroscopic pressure gauge to the microscopic collision story.",
+        "relatedControls": [
+          "particleCount",
+          "temperature",
+          "volume"
+        ],
+        "relatedGraphTabs": [
+          "pressure-volume",
+          "collision-temperature"
+        ],
+        "relatedEquationVariables": [
+          "particleCount",
+          "temperature",
+          "volume"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "pressureGauge",
+        "label": "Pressure gauge",
+        "shortDescription": "Shows the current pressure together with the live wall-hit rate readout.",
+        "whatToNotice": [
+          "Equal pressure can still hide different microscopic stories, so compare the gauge with the speed and density cues."
+        ],
+        "whyItMatters": "It keeps the state-variable law and the kinetic explanation on the same stage.",
+        "relatedControls": [
+          "particleCount",
+          "temperature",
+          "volume"
+        ],
+        "relatedGraphTabs": [
+          "pressure-volume",
+          "pressure-temperature",
+          "pressure-particle-count"
+        ],
+        "relatedEquationVariables": [
+          "particleCount",
+          "temperature",
+          "volume"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "pressure-volume",
+      "label": "Pressure vs volume",
+      "xLabel": "volume",
+      "yLabel": "pressure (u)",
+      "series": [
+        "pressure"
+      ],
+      "description": "Sweep only the volume while the current particle count and temperature stay fixed. Compressing the gas pushes the curve upward quickly."
+    },
+    {
+      "id": "pressure-temperature",
+      "label": "Pressure vs temperature",
+      "xLabel": "temperature",
+      "yLabel": "pressure (u)",
+      "series": [
+        "pressure"
+      ],
+      "description": "Sweep only the temperature while the current particle count and volume stay fixed. This graph is the cleanest pressure-temperature proportionality check."
+    },
+    {
+      "id": "pressure-particle-count",
+      "label": "Pressure vs particle count",
+      "xLabel": "particle count",
+      "yLabel": "pressure (u)",
+      "series": [
+        "pressure"
+      ],
+      "description": "Sweep only the particle number while the same box and temperature stay fixed. More particles mean more wall hits and higher pressure."
+    },
+    {
+      "id": "collision-temperature",
+      "label": "Wall collision rate vs temperature",
+      "xLabel": "temperature",
+      "yLabel": "wall hits per second",
+      "series": [
+        "collision-rate"
+      ],
+      "description": "Sweep only the temperature while the box and particle count stay fixed. Hotter gas produces a larger wall collision rate because the particles cross the box faster."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use one prompt at a time. Each one keeps pressure reasoning tied to one particle-box change instead of turning the page into a formula shelf.",
+    "items": [
+      {
+        "id": "igkt-notice-compress",
+        "text": "Reducing only the volume raises pressure even though the speed cue does not change. The walls are simply being hit more often in the smaller box.",
+        "type": "observation",
+        "priority": 1,
+        "conditions": {
+          "lastChangedControls": [
+            "volume"
+          ]
+        },
+        "tryThis": "Switch between Room baseline and Compressed box, then compare the particle motion, wall-hit cue, and pressure-volume graph.",
+        "whyItMatters": "It separates the volume effect from the temperature effect.",
+        "relatedControls": [
+          "volume"
+        ],
+        "relatedGraphTabs": [
+          "pressure-volume"
+        ],
+        "relatedOverlays": [
+          "densityCue",
+          "wallHitCue",
+          "pressureGauge"
+        ],
+        "relatedEquationVariables": [
+          "volume"
+        ]
+      },
+      {
+        "id": "igkt-notice-heating",
+        "text": "Raising only the temperature lengthens the motion streaks and raises the wall collision rate, so pressure increases even though the box size and particle count stay fixed.",
+        "type": "graph-reading",
+        "priority": 2,
+        "conditions": {
+          "graphTabs": [
+            "collision-temperature"
+          ]
+        },
+        "tryThis": "Hover a cool and warm point on the collision-temperature graph, then watch the preview badge and stage update together.",
+        "whyItMatters": "It ties the pressure-temperature law directly to particle speed.",
+        "relatedControls": [
+          "temperature"
+        ],
+        "relatedGraphTabs": [
+          "collision-temperature",
+          "pressure-temperature"
+        ],
+        "relatedOverlays": [
+          "speedCue",
+          "wallHitCue"
+        ],
+        "relatedEquationVariables": [
+          "temperature"
+        ]
+      },
+      {
+        "id": "igkt-notice-more-particles",
+        "text": "Adding particles at fixed temperature raises pressure without changing the average-speed cue. Pressure can increase because of more hits even when the particles are not individually faster.",
+        "type": "try-this",
+        "priority": 3,
+        "conditions": {
+          "lastChangedControls": [
+            "particleCount"
+          ]
+        },
+        "tryThis": "Switch between Room baseline and More particles same box, then compare the density cue and the pressure-particle-count graph.",
+        "whyItMatters": "It prevents the shortcut that pressure changes must always come from temperature changes.",
+        "relatedControls": [
+          "particleCount"
+        ],
+        "relatedGraphTabs": [
+          "pressure-particle-count"
+        ],
+        "relatedOverlays": [
+          "densityCue",
+          "pressureGauge"
+        ],
+        "relatedEquationVariables": [
+          "particleCount"
+        ]
+      },
+      {
+        "id": "igkt-notice-same-pressure-different-story",
+        "text": "Hotter same box and More particles same box can land on nearly the same pressure. The gauge can match while the speed cue and density cue tell different microscopic stories.",
+        "type": "misconception",
+        "priority": 4,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "In compare mode, keep one setup hotter and the other more crowded until the two pressure badges are close.",
+        "whyItMatters": "It shows why pressure alone does not determine temperature or particle number.",
+        "relatedControls": [
+          "particleCount",
+          "temperature"
+        ],
+        "relatedGraphTabs": [
+          "pressure-temperature",
+          "pressure-particle-count"
+        ],
+        "relatedOverlays": [
+          "speedCue",
+          "densityCue",
+          "pressureGauge"
+        ],
+        "relatedEquationVariables": [
+          "particleCount",
+          "temperature"
+        ]
+      },
+      {
+        "id": "igkt-notice-state-law",
+        "text": "The cleanest way to read the ideal-gas law is not as four unrelated letters. It is one state-law summary of crowding and particle-speed changes.",
+        "type": "compare",
+        "priority": 5,
+        "conditions": {
+          "graphTabs": [
+            "pressure-volume",
+            "pressure-temperature",
+            "pressure-particle-count"
+          ]
+        },
+        "tryThis": "Leave two variables fixed, move only one slider, and watch the matching response graph explain the pressure shift.",
+        "whyItMatters": "It keeps the law causal instead of memorized.",
+        "relatedControls": [
+          "particleCount",
+          "temperature",
+          "volume"
+        ],
+        "relatedGraphTabs": [
+          "pressure-volume",
+          "pressure-temperature",
+          "pressure-particle-count"
+        ],
+        "relatedOverlays": [
+          "pressureGauge"
+        ],
+        "relatedEquationVariables": [
+          "particleCount",
+          "temperature",
+          "volume"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the pressure change before you move the slider. Each scenario asks which microscopic part of the story is really changing.",
+    "items": [
+      {
+        "id": "igkt-predict-compress",
+        "prompt": "Starting from Room baseline, you reduce only the volume while keeping the same particle count and temperature. Which statement is strongest?",
+        "scenarioLabel": "Compress the box",
+        "changeLabel": "Volume",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Pressure rises because the same particles strike the walls more often in the smaller box."
+          },
+          {
+            "id": "b",
+            "label": "Pressure stays the same because the particles are not individually faster."
+          },
+          {
+            "id": "c",
+            "label": "Pressure falls because the particles have less distance to travel."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At fixed particle number and temperature, compression increases density and shortens the distance to the walls, so wall hits become more frequent and pressure rises.",
+        "observationHint": "The speed cue stays similar, but the wall-hit cue brightens and the pressure gauge jumps.",
+        "apply": {
+          "presetId": "compressed-box"
+        },
+        "highlightedControls": [
+          "volume"
+        ],
+        "highlightedGraphs": [
+          "pressure-volume"
+        ],
+        "highlightedOverlays": [
+          "wallHitCue",
+          "pressureGauge"
+        ]
+      },
+      {
+        "id": "igkt-predict-heat",
+        "prompt": "Starting from Room baseline, you raise only the temperature. What should happen next?",
+        "scenarioLabel": "Heat the gas",
+        "changeLabel": "Temperature",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Pressure rises because particles move faster, hit the walls more often, and transfer more momentum on each hit."
+          },
+          {
+            "id": "b",
+            "label": "Pressure stays the same because the number of particles and the box size have not changed."
+          },
+          {
+            "id": "c",
+            "label": "Pressure falls because faster particles spend less time near the walls."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At fixed $N$ and $V$, hotter gas means faster particles. That raises both the collision rate and the momentum change per hit, so pressure rises.",
+        "observationHint": "The motion streaks lengthen and the collision-temperature graph rises with temperature.",
+        "apply": {
+          "presetId": "hotter-same-box"
+        },
+        "highlightedControls": [
+          "temperature"
+        ],
+        "highlightedGraphs": [
+          "pressure-temperature",
+          "collision-temperature"
+        ],
+        "highlightedOverlays": [
+          "speedCue",
+          "wallHitCue"
+        ]
+      },
+      {
+        "id": "igkt-predict-more-particles",
+        "prompt": "Starting from Room baseline, you increase only particle count. Which statement is best?",
+        "scenarioLabel": "Add particles",
+        "changeLabel": "Particle count",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Pressure rises even though the average particle speed stays about the same."
+          },
+          {
+            "id": "b",
+            "label": "Pressure stays the same because temperature sets particle speed and temperature did not change."
+          },
+          {
+            "id": "c",
+            "label": "Pressure falls because a crowded box leaves each particle less room to accelerate."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At fixed temperature and volume, average speed stays tied to temperature, but more particles mean more wall hits, so pressure still rises.",
+        "observationHint": "The speed cue changes little, but density and pressure both rise.",
+        "apply": {
+          "presetId": "more-particles-same-box"
+        },
+        "highlightedControls": [
+          "particleCount"
+        ],
+        "highlightedGraphs": [
+          "pressure-particle-count"
+        ],
+        "highlightedOverlays": [
+          "densityCue",
+          "pressureGauge"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the same gas box for pressure-building and compare targets. The checks read the live state variables and pressure metrics instead of using a separate challenge model.",
+    "items": [
+      {
+        "id": "igkt-ch-compress-doubles-pressure",
+        "title": "Compress to double the pressure",
+        "style": "parameter-match",
+        "prompt": "Start from Room baseline and lower only the volume until the pressure is about double while the temperature and particle count stay near the baseline values.",
+        "successMessage": "You doubled the pressure by compression alone. The particles were not individually faster; they were just hitting the walls more often in the smaller box.",
+        "setup": {
+          "presetId": "room-baseline",
+          "graphId": "pressure-volume",
+          "overlayIds": [
+            "wallHitCue",
+            "pressureGauge"
+          ],
+          "note": "Keep the gas near the same temperature and particle count while you compress it."
+        },
+        "hints": [
+          "Use the pressure-volume graph first. Halving the baseline volume is the cleanest route.",
+          "If temperature drifts away from the baseline, you are changing two causes at once."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Open the pressure-volume graph.",
+            "graphId": "pressure-volume"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the pressure gauge visible.",
+            "overlayId": "pressureGauge"
+          },
+          {
+            "type": "param-range",
+            "label": "Keep the particle count near the baseline.",
+            "param": "particleCount",
+            "min": 22,
+            "max": 26
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep the temperature near the baseline.",
+            "metric": "temperature",
+            "min": 3.1,
+            "max": 3.3,
+            "displayUnit": "arb"
+          },
+          {
+            "type": "param-range",
+            "label": "Compress the gas to about half the original volume.",
+            "param": "volume",
+            "min": 0.78,
+            "max": 0.82,
+            "displayUnit": "arb"
+          },
+          {
+            "type": "metric-range",
+            "label": "Reach about double the original pressure.",
+            "metric": "pressure",
+            "min": 20.5,
+            "max": 21.7,
+            "displayUnit": "u"
+          }
+        ]
+      },
+      {
+        "id": "igkt-ch-same-pressure-different-cause",
+        "title": "Match pressure with a different microscopic story",
+        "style": "parameter-match",
+        "prompt": "Start from Hotter same box, switch to compare mode, and edit only Setup B until it reaches about the same pressure while staying cooler and using more particles instead of more temperature.",
+        "successMessage": "You matched the pressure with a different cause. Setup A used faster particles, while Setup B used a denser gas in the same box.",
+        "setup": {
+          "presetId": "hotter-same-box",
+          "graphId": "pressure-particle-count",
+          "overlayIds": [
+            "densityCue",
+            "pressureGauge"
+          ],
+          "interactionMode": "compare",
+          "note": "Leave Setup A hot and edit only Setup B."
+        },
+        "hints": [
+          "Keep the box size close to the same in both setups, then let particle count do the compensating work in Setup B.",
+          "The pressure badges should match before the speed and density cues do."
+        ],
+        "checks": [
+          {
+            "type": "compare-active",
+            "label": "Stay in compare mode while editing Setup B.",
+            "target": "b"
+          },
+          {
+            "type": "graph-active",
+            "label": "Open the pressure-particle-count graph.",
+            "graphId": "pressure-particle-count"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the pressure gauge visible.",
+            "overlayId": "pressureGauge"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Keep Setup A hot.",
+            "setup": "a",
+            "metric": "temperature",
+            "min": 4.7,
+            "max": 4.9,
+            "displayUnit": "arb"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Keep Setup A near the target pressure.",
+            "setup": "a",
+            "metric": "pressure",
+            "min": 15.3,
+            "max": 16.2,
+            "displayUnit": "u"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup B at nearly the same box size.",
+            "setup": "b",
+            "param": "volume",
+            "min": 1.55,
+            "max": 1.65,
+            "displayUnit": "arb"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Keep Setup B cooler than Setup A.",
+            "setup": "b",
+            "metric": "temperature",
+            "min": 3.1,
+            "max": 3.3,
+            "displayUnit": "arb"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Raise Setup B's particle count instead.",
+            "setup": "b",
+            "param": "particleCount",
+            "min": 35,
+            "max": 37
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Match Setup B to about the same pressure.",
+            "setup": "b",
+            "metric": "pressure",
+            "min": 15.3,
+            "max": 16.2,
+            "displayUnit": "u"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the particle box and graphs, not from a memorized slogan. The goal is to make pressure reasoning causal.",
+    "questions": [
+      {
+        "id": "igkt-qt-compress",
+        "type": "variable-effect",
+        "prompt": "At fixed particle count and temperature, what happens if the gas volume is cut roughly in half?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Pressure rises because the same particles hit the walls more often."
+          },
+          {
+            "id": "b",
+            "label": "Pressure stays the same because particle speed did not change."
+          },
+          {
+            "id": "c",
+            "label": "Pressure falls because the particles have less room."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Compression increases density and shortens the travel distance to the walls, so wall hits become more frequent and pressure rises.",
+        "selectedWrongExplanations": {
+          "b": "Particle speed is not the only issue. Pressure also depends on how often the walls are hit.",
+          "c": "Less room increases pressure here rather than reducing it."
+        },
+        "showMeAction": {
+          "label": "Show compression",
+          "presetId": "compressed-box",
+          "observationHint": "The wall-hit cue strengthens even though the motion streak length stays close to the same.",
+          "highlightedControlIds": [
+            "volume"
+          ],
+          "highlightedGraphIds": [
+            "pressure-volume"
+          ],
+          "highlightedOverlayIds": [
+            "wallHitCue",
+            "pressureGauge"
+          ]
+        }
+      },
+      {
+        "id": "igkt-qt-heating",
+        "type": "reasoning",
+        "prompt": "At fixed particle count and volume, why does heating an ideal gas raise pressure?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The particles move faster, so they hit the walls harder and more often."
+          },
+          {
+            "id": "b",
+            "label": "Heating automatically creates more particles in the box."
+          },
+          {
+            "id": "c",
+            "label": "Heating lowers pressure unless the box also gets smaller."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Hotter gas means a larger average particle speed. That raises both the collision rate and the momentum change per collision, so pressure rises.",
+        "selectedWrongExplanations": {
+          "b": "Temperature changes particle speed, not particle count, in this model.",
+          "c": "At fixed volume, heating raises pressure rather than lowering it."
+        },
+        "showMeAction": {
+          "label": "Show heating",
+          "presetId": "hotter-same-box",
+          "observationHint": "Watch the motion streaks and the pressure-temperature graph rise together.",
+          "highlightedControlIds": [
+            "temperature"
+          ],
+          "highlightedGraphIds": [
+            "pressure-temperature",
+            "collision-temperature"
+          ],
+          "highlightedOverlayIds": [
+            "speedCue",
+            "wallHitCue"
+          ]
+        }
+      },
+      {
+        "id": "igkt-qt-more-particles",
+        "type": "compare-two-cases",
+        "prompt": "Two boxes have the same temperature and the same volume, but Box B has more particles. Which statement is best?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Box B has higher pressure even if the average particle speed stays about the same."
+          },
+          {
+            "id": "b",
+            "label": "Both boxes must have the same pressure because temperature determines everything."
+          },
+          {
+            "id": "c",
+            "label": "Box B has lower pressure because crowded particles cannot hit the walls effectively."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At fixed $T$ and $V$, more particles mean more wall hits, so pressure rises even if the speed cue barely changes.",
+        "selectedWrongExplanations": {
+          "b": "Temperature sets the speed scale, but particle number still matters.",
+          "c": "Crowding in this ideal-gas model increases wall-hit frequency rather than preventing it."
+        },
+        "showMeAction": {
+          "label": "Show more particles",
+          "presetId": "more-particles-same-box",
+          "observationHint": "The density cue and pressure gauge rise together while the speed cue stays similar.",
+          "highlightedControlIds": [
+            "particleCount"
+          ],
+          "highlightedGraphIds": [
+            "pressure-particle-count"
+          ],
+          "highlightedOverlayIds": [
+            "densityCue",
+            "pressureGauge"
+          ]
+        }
+      },
+      {
+        "id": "igkt-qt-same-pressure",
+        "type": "misconception-check",
+        "prompt": "Two gas states have the same pressure. What must be true?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Nothing forces them to have the same temperature or particle count; equal pressure can come from different microscopic stories."
+          },
+          {
+            "id": "b",
+            "label": "They must have the same temperature because pressure determines particle speed uniquely."
+          },
+          {
+            "id": "c",
+            "label": "They must have the same particle count because pressure only depends on crowding."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Pressure is one macroscopic outcome. Different combinations of speed, density, and box size can still produce the same pressure.",
+        "selectedWrongExplanations": {
+          "b": "Equal pressure does not lock temperature by itself because particle number and volume can also change.",
+          "c": "Particle number is only one part of the state law."
+        },
+        "showMeAction": {
+          "label": "Compare two pressure matches",
+          "presetId": "hotter-same-box",
+          "observationHint": "Try to match the pressure with a cooler but denser Setup B in compare mode.",
+          "highlightedControlIds": [
+            "particleCount",
+            "temperature"
+          ],
+          "highlightedGraphIds": [
+            "pressure-temperature",
+            "pressure-particle-count"
+          ],
+          "highlightedOverlayIds": [
+            "speedCue",
+            "densityCue",
+            "pressureGauge"
+          ]
+        }
+      },
+      {
+        "id": "igkt-qt-law-reading",
+        "type": "graph-reading",
+        "prompt": "Which graph is the cleanest check of how pressure changes with volume when particle number and temperature are held fixed?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Pressure vs volume"
+          },
+          {
+            "id": "b",
+            "label": "Collision rate vs temperature"
+          },
+          {
+            "id": "c",
+            "label": "Pressure vs particle count"
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "That graph isolates the volume change while the current particle count and temperature are held fixed.",
+        "selectedWrongExplanations": {
+          "b": "That graph isolates the temperature effect, not the volume effect.",
+          "c": "That graph isolates particle-number changes instead."
+        },
+        "showMeAction": {
+          "label": "Open the volume graph",
+          "presetId": "room-baseline",
+          "observationHint": "The pressure-volume graph is the direct compression graph for this concept.",
+          "highlightedControlIds": [
+            "volume"
+          ],
+          "highlightedGraphIds": [
+            "pressure-volume"
+          ],
+          "highlightedOverlayIds": [
+            "pressureGauge"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one bounded gas box on the left and a gas-state readout card on the right. Moving particles show a temperature-linked speed scale, density shading shows how packed the gas is, wall-hit marks show collision frequency, and a pressure gauge summarizes the resulting wall push.",
+        "The response graphs below the stage each hold two variables fixed and vary one control at a time. One graph shows pressure against volume, one shows pressure against temperature, one shows pressure against particle count, and one shows wall collision rate against temperature.",
+        "The stage is intentionally a 2D cross-section of a gas container rather than a full three-dimensional molecular simulation. It is designed to keep the ideal-gas proportionalities and the wall-collision story visually honest without expanding into a full statistical-mechanics treatment."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The pressure-volume graph is the cleanest compression graph: with particle number and temperature fixed, pressure rises as the box gets smaller. The pressure-temperature and pressure-particle-count graphs isolate the other two state-variable changes in the same way.",
+        "The collision-temperature graph is the kinetic-theory bridge. It does not show pressure directly. Instead, it shows how the wall-hit rate rises when the particles move faster at higher temperature."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Ideal Gas Law and Kinetic Theory | Open Model Lab",
+    "description": "Learn the ideal gas law with a bounded particle-box simulation that connects pressure, volume, temperature, and particle number to particle speed and wall collisions.",
+    "keywords": [
+      "ideal gas law kinetic theory",
+      "pressure volume temperature particle number",
+      "kinetic theory wall collisions",
+      "pressure from particle motion",
+      "open model lab ideal gas"
+    ]
+  }
+}

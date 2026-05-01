@@ -1,0 +1,95 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage/
+/test-results/
+/playwright-report/
+/tests/e2e/output/
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.data/
+.codex-*.out
+*.dmp
+*.har
+*.pid
+*.pyc
+*.trace.zip
+*.webm
+
+# env files (can opt-in for committing if needed)
+.env*
+.env.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# logs
+*.log
+*.err
+
+# playwright and local QA output
+.playwright-cli/
+.codex-tmp/
+/output/
+review-artifacts/
+tmp-chrome-profile/
+
+# private operator/control-plane output
+/automation/
+
+# agent
+automation/runs/
+
+supabase/
+
+tmp/
+
+__pycache__
+
+/*.png
+/*.pdf
+
+# OpenNext
+.open-next
+
+# wrangler files
+.wrangler
+/wrangler.jsonc
+.dev.vars*
+!.dev.vars.example
+!.env.example
+
+# Private deployment/vendor materialized files
+/public/ads.txt
+
+# Private translation workflow cache
+content/i18n/*/.translation-memory.json

@@ -1,0 +1,349 @@
+{
+  "title": "偏振",
+  "shortTitle": "偏振",
+  "summary": "使用一個緊湊的偏振器工作台來觀察偏振作為橫波方向的故事，角度不匹配如何設定傳輸光線，以及為什麼一個理想的偏振器可以使無序光以一個選擇的方向出現。",
+  "highlights": [
+    "橫波方向",
+    "馬奴斯定律",
+    "無序光的第一過濾"
+  ],
+  "topic": "光學",
+  "subtopic": "波的振動和濾鏡",
+  "recommendedNext": [
+    {
+      "slug": "diffraction",
+      "reasonLabel": "波的擴散"
+    },
+    {
+      "slug": "refraction-snells-law",
+      "reasonLabel": "邊界光學"
+    },
+    {
+      "slug": "photoelectric-effect",
+      "reasonLabel": "光線超越單純的波"
+    },
+    {
+      "slug": "sound-waves-longitudinal-motion",
+      "reasonLabel": "對比縱波"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "偏振是橫波的方向性屬性，而不是一種獨立的強度控制。",
+        "一個共享的工作台保持了輸入方向、偏振器軸、傳輸輸出和檢測器亮度之間的同一限定模型。這使得偏振成為一個投影故事而非一個需要記住的口號：軸保持與其對齊的部分，阻擋垂直部分，並使傳輸光沿著軸進行偏振。"
+      ]
+    },
+    "keyIdeas": [
+      "偏振是橫波的方向性屬性，而不是一種獨立的強度控制。",
+      "對於線性偏振入射，傳輸場是投影到偏振器軸上的結果，因此檢測器的比例遵循馬奴斯定律：I_out / I_0 = cos^2(Δθ)。",
+      "對於理想的無序第一偏振器，傳輸強度平均為一半，輸出沿著軸成為線性偏振。",
+      "這就是為什麼偏振可以清晰地區分橫波行為：縱向壓縮波不會帶來一個側向的振動方向供偏振器選擇。"
+    ],
+    "commonMisconception": {
+      "myth": "偏振器只是個調光器，所以如果來源足夠強，任何波都應該以同樣的方式透過它。",
+      "correction": [
+        "理想的偏振器不問波有多強。它問的是有多少橫向振動沿著其軸指向。",
+        "這就是為什麼偏振與縱波（如空氣中的聲波）形成對比：那裡沒有單一的側向振動方向供過濾器投影。"
+      ]
+    },
+    "workedExamples": {
+      "title": "實時偏振檢查",
+      "intro": "直接從同一個實時工作台上讀取當前輸入狀態、軸投影和檢測器比例。",
+      "items": [
+        {
+          "id": "current-output-state",
+          "title": "當前傳輸輸出",
+          "prompt": "對於當前的工作台狀態，什麼輸出離開偏振器，以及多少來源強度達到檢測器？",
+          "steps": [
+            {
+              "id": "read-state",
+              "label": "1. 閱讀實時狀態"
+            },
+            {
+              "id": "project-field",
+              "label": "2. 只保留軸對齊的部分"
+            },
+            {
+              "id": "detector",
+              "label": "3. 輸入檢測器和輸出軸"
+            }
+          ],
+          "resultLabel": "當前傳輸輸出",
+          "applyAction": {
+            "label": "顯示半功率投影",
+            "observationHint": "在45度的不匹配中，場只保留餘弦投影，檢測器接近半功率。"
+          }
+        },
+        {
+          "id": "current-blocked-share",
+          "title": "當前被阻塞的比例",
+          "prompt": "對於當前的工作台狀態，有多少波被阻塞了，這揭示了什麼關於偏振的資訊？",
+          "steps": [
+            {
+              "id": "separate-components",
+              "label": "1. 識別拒絕的部分"
+            },
+            {
+              "id": "compare-shares",
+              "label": "2. 比較傳輸和被阻塞的強度"
+            },
+            {
+              "id": "name-output",
+              "label": "3. 設定新的輸出狀態"
+            }
+          ],
+          "resultLabel": "當前被阻塞的比例",
+          "applyAction": {
+            "label": "顯示未偏振的輸入",
+            "observationHint": "即使軸角度改變，檢測器分數仍然接近一半，因為輸入不再開始具有一個預期的方向。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "學生説：「如果聲音也是波，一個理想的偏振片應該也能選擇正確的聲波方向。」這個論點中缺少什麼關鍵成分？",
+      "prediction": "從實驗台的照片回答偏振方向，而不是記憶定義。",
+      "answer": "空氣中的縱向聲波不會帶來側向的振動方向供偏振器投影。",
+      "explanation": "實驗台之所以有效，因為振動生活在橫截面上，可以分解為軸對齊和垂直分量。縱向壓縮波主要沿著傳播方向振動，因此這種定向濾波器在此型別中並不起同樣的作用。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "根據實時的偏振方向邏輯回答，而不是孤立的詞彙。",
+    "questions": [
+      {
+        "id": "polarization-qt-transverse",
+        "prompt": "為什麼偏振是橫向波行為的一個有用的標誌？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "因為偏振器選擇了一個側向的振動分量，這只在波具有橫向方向可以投影時才有意義。"
+          },
+          {
+            "id": "b",
+            "label": "因為偏振波總是比非偏振波傳播得更快。"
+          },
+          {
+            "id": "c",
+            "label": "因為任何足夠大的振幅的波都可以被分類到一個偏振方向。"
+          }
+        ],
+        "explanation": "濾波器透過選擇與其軸對齊的橫向分量來工作。這種幾何選取就是為什麼偏振是一種清晰的橫向波跡象的原因。",
+        "selectedWrongExplanations": {
+          "b": "偏振改變了定向記錄，而不是本頁上的傳播速度。",
+          "c": "單獨的振幅不會為濾波器選擇出一個側向的方向。"
+        },
+        "showMeAction": {
+          "label": "突出顯示橫向實驗台"
+        }
+      },
+      {
+        "id": "polarization-qt-crossed",
+        "prompt": "理想的偏振器哪個線性輸入比較正確？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "對齊的軸傳輸最多，而交叉的軸幾乎不傳輸。"
+          },
+          {
+            "id": "b",
+            "label": "交叉的軸傳輸最多，因為輸入必須旋轉最大的角度。"
+          },
+          {
+            "id": "c",
+            "label": "任何非零的不匹配都會傳輸恰好一半的強度。"
+          }
+        ],
+        "explanation": "傳輸取決於對軸的投影。對齊保持完整的分量，而90度的不匹配則消除了它。",
+        "selectedWrongExplanations": {
+          "b": "旋轉角度本身不會增加傳輸。對軸的投影設定了結果。",
+          "c": "一半強度是45度特殊情況，而不是每一個不匹配。"
+        },
+        "showMeAction": {
+          "label": "顯示交叉的軸",
+          "observationHint": "比較交叉的軸與對齊透過並觀看檢測器分裂。"
+        }
+      },
+      {
+        "id": "polarization-qt-unpolarized",
+        "prompt": "一束非偏振光透過一個理想的偏振器。下一步應該展示什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "約一半的強度被傳輸，並且輸出沿著軸線性偏振。"
+          },
+          {
+            "id": "b",
+            "label": "所有的強度都被傳輸，因為輸入包含了所有可能的角度。"
+          },
+          {
+            "id": "c",
+            "label": "輸出保持未偏振狀態，因為一個濾光片無法建立 Preferred 方向。"
+          }
+        ],
+        "explanation": "濾光片透過選擇混合輸入的軸對齊部分來建立 Preferred 的橫向方向，並且理想的第一次過濾平均值為一半強度。",
+        "selectedWrongExplanations": {
+          "b": "包含多個角度並不一定意味著每個分量會同時與軸對齊。",
+          "c": "一個理想的偏振器可以從未偏振的光束建立線性偏振的輸出。"
+        },
+        "showMeAction": {
+          "label": "顯示第一次過濾未偏振狀態",
+          "observationHint": "在切換輸入狀態後旋轉軸，並密切關注檢測器分數。"
+        }
+      },
+      {
+        "id": "polarization-qt-amplitude",
+        "prompt": "如果您提高輸入振幅同時保持相同的輸入角度和偏振器角度，此頁面中哪些內容不會變動？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "相對傳輸曲線和輸出軸保持不變。"
+          },
+          {
+            "id": "b",
+            "label": "相對強度分數上升因為更強的波更容易對齊。"
+          },
+          {
+            "id": "c",
+            "label": "輸出軸從偏振器軸轉離，因為場強增大。"
+          }
+        ],
+        "explanation": "振幅改變絕對場大小，但方向幾何仍然設定相同的傳輸分數和相同的輸出軸。",
+        "selectedWrongExplanations": {
+          "b": "投影幾何，而不是波的強度，這裡設定了相對分數 I_out / I_0。",
+          "c": "無論振幅如何，輸出始終與偏振器軸對齊。"
+        },
+        "showMeAction": {
+          "label": "突出顯示振幅"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬展示一個緊湊的橫截面工作台，包含三個圓形站點：輸入、偏振器和檢測器。一束方向指南指向右方水平，而圓內的方向線顯示來源偏振、偏振器軸和傳輸輸出。",
+        "可選的覆蓋層可以突出橫截面、軸投影以及傳輸與阻塞檢測器分隔。讀數卡總結了輸入狀態、輸入角度、偏振器角度、相對角度、傳輸場強度和相對檢測器強度。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "現場偏振檢查"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "橫波檢查點"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "深入光學中的波動方向"
+      },
+      {
+        "id": "readNext",
+        "title": "場投影到軸上"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "field-projection",
+      "label": "傳輸場是來源橫向振蕩沿偏振器軸的分量。",
+      "meaning": "馬奴斯定律"
+    },
+    {
+      "id": "malus-law",
+      "label": "檢測器亮度取決於投影的平方，因為強度跟隨場強的平方。",
+      "meaning": "檢測器亮度依賴於投影的平方，因為強度跟隨場強的平方。"
+    },
+    {
+      "id": "crossed-axes",
+      "label": "交叉偏振器",
+      "meaning": "如果入射的線性偏振光與軸垂直，理想的偏振器幾乎完全阻擋它。"
+    },
+    {
+      "id": "unpolarized-half",
+      "label": "未偏振第一過濾平均值",
+      "meaning": "理想的第一次偏振器將一個未偏振束流轉換為一個線性偏振輸出，其平均強度為原始強度的一半。"
+    },
+    {
+      "id": "output-axis",
+      "label": "輸出方向",
+      "meaning": "無論如何存活下來的光都與偏振器軸對齊。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "inputAmplitude",
+      "label": "入射場振幅",
+      "description": "改變入射和傳輸場的絕對大小，而不改變相對傳輸曲線。"
+    },
+    {
+      "id": "inputAngle",
+      "label": "入射方向",
+      "description": "旋轉入射的線性偏振光的方向，在同一橫截面上。"
+    },
+    {
+      "id": "polarizerAngle",
+      "label": "偏振器軸",
+      "description": "設定了定義哪個橫向分量存活於濾波器中的軸。"
+    }
+  ],
+  "simulation": {
+    "presets": [
+      {
+        "id": "unpolarized-half",
+        "label": "基準線偏振",
+        "description": "一個與偏振軸部分錯開的線偏振入射波，使通過與阻擋的分量都清晰可見。"
+      }
+    ]
+  },
+  "noticePrompts": {
+    "items": [
+      {
+        "id": "polarization-notice-aligned",
+        "tryThis": "由基準線偏振開始，然後旋轉偏振軸，直到它與入射角度對齊。"
+      },
+      {
+        "id": "polarization-notice-compare"
+      },
+      {
+        "id": "polarization-notice-compare"
+      },
+      {
+        "id": "polarization-notice-compare",
+        "text": "比較模式在其中一個設定只改變相對角度，而另一個設定把入射態由線偏振改成非偏振時最有力。",
+        "tryThis": "把設定 A 保持在「半功率」，先把設定 B 切換到「非偏振的第一輪通過」。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "items": [
+      {
+        "id": "pol-ch-half-power",
+        "title": "設出半功率情況",
+        "prompt": "由完全透過的設定開始，在保持線偏振入射的前提下調整實驗台，令探測器讀數接近入射強度的一半。",
+        "successMessage": "你找到了約 45 度投影的情況。探測器讀數現在由方向關係決定，而不是靠改變光束種類達成。",
+        "setup": {
+          "note": "利用功率分配圖，把探測器比例慢慢調到接近一半。"
+        },
+        "hints": [
+          "你需要的是清楚但未完全重合的方向差，而不是完全對齊或完全交叉。",
+          "半功率點通常出現在相對角度接近 45 度時。"
+        ],
+        "targets": [
+          {
+            "label": "把探測器比例設在 0.46 到 0.54 之間。"
+          },
+          {
+            "label": "把相對角度保持在 42° 到 48° 之間。"
+          }
+        ]
+      }
+    ]
+  }
+}

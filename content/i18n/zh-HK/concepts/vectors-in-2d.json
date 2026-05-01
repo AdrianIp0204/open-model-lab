@@ -1,0 +1,320 @@
+{
+  "title": "2D向量",
+  "shortTitle": "2D向量",
+  "summary": "在一個平面上合併、減去和縮放向量，使大小、方向和分量保持與同一活體物件的聯絡。",
+  "highlights": [
+    "箭頭相接法",
+    "平面上的分量",
+    "純量翻轉和拉伸"
+  ],
+  "topic": "向量",
+  "subtopic": "合併和縮放",
+  "recommendedNext": [
+    {
+      "slug": "matrix-transformations",
+      "reasonLabel": "將同一平面轉換為網格上的矩陣操作和基向量"
+    },
+    {
+      "slug": "dot-product-angle-and-projection",
+      "reasonLabel": "將合併轉化為對齊和投影"
+    },
+    {
+      "slug": "vectors-components",
+      "reasonLabel": "將相同的向量語言應用於運動"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "當 2D 向量的代數和幾何保持在同一平面上時，就更容易被真正理解。這個模組讓兩個向量、純量乘數和結果同時保持可見，所以加法、減法和縮放都能被讀成同一座標系裡的實際移動。",
+        "處理向量的重要習慣是將其視為整體箭頭和有序分量對。平面顯示方向和長度，而分量讀取和響應圖表則以代數形式展示同一物件。"
+      ]
+    },
+    "keyIdeas": [
+      "一個2D向量既有大小又有方向，其分量以坐標形式記錄同一物件。",
+      "向量加法和減法可以透過箭頭的箭頭相接法或透過組合分量來代數地讀取。",
+      "純量乘法改變向量的大小，負的純量則透過原點翻轉其方向。"
+    ],
+    "commonMisconception": {
+      "myth": "向量減法需要與向量加法不同的幾何規則。",
+      "correction": [
+        "減法仍然是加法，但使用相反的向量。",
+        "這就是為什麼在B被反轉為-B後，同一箭頭相接圖仍然適用。"
+      ]
+    },
+    "workedExamples": {
+      "title": "例項工作",
+      "intro": "使用平面上的當前向量和純量。相同的活體狀態驅動舞台、響應圖表以及這些替換。",
+      "items": [
+        {
+          "id": "current-resultant-components",
+          "title": "計算結果分量",
+          "prompt": "對於當前設定，結果向量有哪些分量？",
+          "variables": [
+            {
+              "id": "scalar",
+              "label": "標量"
+            },
+            {
+              "id": "ax",
+              "label": "A x-分量"
+            },
+            {
+              "id": "ay",
+              "label": "A y-分量"
+            },
+            {
+              "id": "bx",
+              "label": "B x-分量"
+            },
+            {
+              "id": "by",
+              "label": "B y-分量"
+            }
+          ],
+          "steps": [
+            {
+              "id": "scale-a",
+              "label": "1. 首先縮放向量A"
+            },
+            {
+              "id": "combine-b",
+              "label": "2. 然後與有效的第二個向量結合"
+            },
+            {
+              "id": "result-components",
+              "label": "3. 加上分量"
+            }
+          ],
+          "resultLabel": "當前結果",
+          "applyAction": {
+            "label": "應用減法情況",
+            "observationHint": "第二箭頭在翻轉前被平移至箭頭相接，所以減法仍然像平面上的向量加法一樣讀取。"
+          }
+        },
+        {
+          "id": "scaled-vector-before-combination",
+          "title": "閱讀標量乘法的影響",
+          "prompt": "在組合步驟之前，當前的標量對向量 A 做了什麼?",
+          "variables": [
+            {
+              "id": "scalar",
+              "label": "標量"
+            },
+            {
+              "id": "ax",
+              "label": "A x-分量"
+            },
+            {
+              "id": "ay",
+              "label": "A y-分量"
+            }
+          ],
+          "steps": [
+            {
+              "id": "start-a",
+              "label": "1. 開始於向量 A"
+            },
+            {
+              "id": "scale-components",
+              "label": "2. 將每個分量乘以標量"
+            },
+            {
+              "id": "read-size",
+              "label": "3. 比較新的大小和方向"
+            }
+          ],
+          "resultLabel": "當前縮放後的向量",
+          "applyAction": {
+            "label": "應用反轉縮放",
+            "observationHint": "一個負的標量會先透過原點翻轉 A，再改變其大小，從新的起始箭頭開始更新圖形。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "調整向量直到結果向量的大小很小，即使單獨看來兩個向量都不小。",
+      "prediction": "決定是否需要第二個向量更強烈的抵消、一個翻轉的標量或兩者兼有，然後再測試它。",
+      "answer": "你需要 x- 和 y-分量幾乎相互抵消，以便結果向量靠近原點落地。",
+      "explanation": "這是最乾淨的方式來看到向量加法既是分量簿記也是幾何學。即使箭頭看起來很大，其總和可以很小，只要它們的分量互相抵消即可。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "一起使用平面、分量讀出和響應圖形。這些檢查是關於使幾何檢視和代數檢視一致。",
+    "questions": [
+      {
+        "id": "v2d-qt-components",
+        "prompt": "哪個陳述是最乾淨的描述一個 2D 向量?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它可以被視為平面上的箭頭和一對有序分量。"
+          },
+          {
+            "id": "b",
+            "label": "它在平面上的方向很重要，但其分量只是近似值。"
+          },
+          {
+            "id": "c",
+            "label": "它需要為幾何學和代數分別制定規則，因為這兩者是不同的物件。"
+          }
+        ],
+        "explanation": "這是這個概念的核心思想：箭頭和有序對是同一個向量的兩個檢視。",
+        "selectedWrongExplanations": {
+          "b": "分量是精確的坐標描述，而不是近似值。",
+          "c": "這兩個檢視被有意地聯絡起來，而不是隔離開來。"
+        },
+        "showMeAction": {
+          "label": "以兩種方式展示同一個向量",
+          "observationHint": "平面和讀出描述的是相同的箭頭。"
+        }
+      },
+      {
+        "id": "v2d-qt-subtraction",
+        "prompt": "在這個工作台上，最誠實的思考向量減法的方式是什麼?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "這是與相反向量相加。"
+          },
+          {
+            "id": "b",
+            "label": "它使用了一種完全不同的圖形來表示向量加法。"
+          },
+          {
+            "id": "c",
+            "label": "它只改變了讀出，而不改變幾何。"
+          }
+        ],
+        "explanation": "這就是為什麼尾對尾的圖形仍然有效的原因：減法是透過首先反轉 B 來處理的。",
+        "selectedWrongExplanations": {
+          "b": "當第二個向量被其相反數取代時，同一平面的圖仍然適用。",
+          "c": "啟用減法會直接改變幾何形狀，因為第二個箭頭翻轉了。"
+        },
+        "showMeAction": {
+          "label": "顯示減法為加相反數",
+          "observationHint": "B 先反轉，然後相同的首尾相接構造建立結果向量。"
+        }
+      },
+      {
+        "id": "v2d-qt-scalar",
+        "prompt": "如果標量變為負值而 A 不是零向量，會發生什麼事？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "標量化的版本的 A 透過原點翻轉方向。"
+          },
+          {
+            "id": "b",
+            "label": "大小圖必須下降到零以下。"
+          },
+          {
+            "id": "c",
+            "label": "B 向量必須繼承相同的符號變換。"
+          }
+        ],
+        "explanation": "負標量會反轉 A 的方向，同時仍按比例放大其大小。大小始終非負。",
+        "selectedWrongExplanations": {
+          "b": "大小圖表繪製大小，因此始終在零以上或零。",
+          "c": "在此工作台中，僅對 A 作用標量。"
+        },
+        "showMeAction": {
+          "label": "顯示翻轉的尺度",
+          "observationHint": "琥珀色標量化的向量透過原點翻轉之前才進行求和。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一個坐標平面，其中兩個可拖動的向量從原點開始，一個標量化的第一個向量版本，以及一個結果向量。選項疊加層顯示首尾相接構造、結果分量引導和標量化的第一個向量。",
+        "任何組成部分、標量或減法模式的更改都會同時更新平面、代數讀出和響應圖表，以便學習者可以直接比較幾何檢視和代數檢視。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "一個圖表顯示結果向量的 x- 和 y- 分量隨著 A 的標量變化。另一個圖表則顯示結果向量的大小如何隨著相同的標量掃描而變化。",
+        "這些圖表與同一 LIVE 平面相關聯，因此當前的標量值和當前的結果箭頭匹配高亮的響應點。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "readNext",
+        "title": "將向量引入運動"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "component-form",
+      "label": "分量形式",
+      "meaning": "每個向量都記錄在同一 2D 平面上的有序對。"
+    },
+    {
+      "id": "resultant-rule",
+      "label": "結果向量規則",
+      "meaning": "顯示加法和減法都是按分量進行的，一旦選擇了有效的第二個向量。"
+    },
+    {
+      "id": "magnitude-rule",
+      "label": "結果大小",
+      "meaning": "從垂直分量重建向量長度。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "ax",
+      "label": "A x-分量",
+      "description": "在平面中保持相同的幾何箭頭的前提下移動向量 A 的水平分量。"
+    },
+    {
+      "id": "ay",
+      "label": "A y-分量",
+      "description": "在同一平面上移動向量 A 的垂直分量。"
+    },
+    {
+      "id": "bx",
+      "label": "B x-分量",
+      "description": "設定向量 B 在加法或減法之前的水平貢獻。"
+    },
+    {
+      "id": "by",
+      "label": "B y-分量",
+      "description": "設定向量 B 在加法或減法之前的垂直貢獻。"
+    },
+    {
+      "id": "scalar",
+      "label": "標量",
+      "description": "在與 B 合併之前按比例放大向量 A，負值會使 A 透過原點翻轉。"
+    },
+    {
+      "id": "subtract-mode",
+      "label": "減法模式",
+      "description": "用其相反數取代 B，以便可以使用與加法相同的首尾相接幾何形狀來讀取減法。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "ax",
+        "label": "A x-分量"
+      },
+      {
+        "id": "ay",
+        "label": "A y-分量"
+      },
+      {
+        "id": "bx",
+        "label": "B x-分量"
+      },
+      {
+        "id": "by",
+        "label": "B y-分量"
+      }
+    ]
+  }
+}

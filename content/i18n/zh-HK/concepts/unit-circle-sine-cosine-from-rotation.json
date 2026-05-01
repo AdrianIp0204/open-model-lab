@@ -1,0 +1,248 @@
+{
+  "title": "單位圓 / 由旋轉產生的正弦和餘弦",
+  "shortTitle": "單位圓旋轉",
+  "summary": "保持一個旋轉點、其在 x 軸和 y 軸上的投影以及正弦和餘弦軌跡連線在一起，使單位圓成為兩個函式的活生生來源。",
+  "highlights": [
+    "餘弦為 x",
+    "正弦為 y",
+    "象限符號變換",
+    "旋轉與軌跡連線"
+  ],
+  "topic": "複數和平面引數運動",
+  "subtopic": "旋轉和投影",
+  "recommendedNext": [
+    {
+      "slug": "polar-coordinates-radius-and-angle",
+      "reasonLabel": "保持相同的角語言，當半徑在平面上轉動時成為 x 和 y"
+    },
+    {
+      "slug": "trig-identities-from-unit-circle-geometry",
+      "reasonLabel": "使用相同的投影來解釋為什麼核心三角恆等式對於每個實際可見的角都成立"
+    },
+    {
+      "slug": "uniform-circular-motion",
+      "reasonLabel": "在同一個物理旋轉平台上看到相同的投影故事"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "當一個旋轉點、其水平和垂直投影以及正弦和餘弦軌跡同時保持可見時，單位圓是最容易信任的。這個平台將這些部件與同一個實際可見的角度連線起來，而不是將正弦和餘弦視為獨立的圖表規則。",
+        "餘弦是 x 坐標因為水平投影實際上就是點在 x 軸上的影子。正弦是 y 坐標同樣的原因在 y 軸上。隨著點透過象限移動，符號會變換因為投影會隨著點的移動而改變。"
+      ]
+    },
+    "keyIdeas": [
+      "在單位圓上，由角度 θ 選擇的點是有序對 (cos θ, sin θ)。",
+      "餘弦是同一旋轉點在同一單位圓上的水平投影，正弦是其垂直投影。",
+      "象限符號變換是幾何學先決條件：左側意味著負的餘弦，低於軸意味著負的正弦。"
+    ],
+    "commonMisconception": {
+      "myth": "正弦和餘弦是獨立的圖表技巧，所以單位圓影像可選。",
+      "correction": [
+        "這些圖形來自同一個旋轉點在單位圓上的同一位置。",
+        "當點向左或右移動時，餘弦變號；當它向上或向下移動到 x 軸時，正弦變號。"
+      ]
+    },
+    "workedExamples": {
+      "title": "示例",
+      "intro": "使用當前旋轉狀態而不是一個獨立的特殊角度表。",
+      "items": [
+        {
+          "id": "read-the-current-projections",
+          "title": "閱讀當前的餘弦和正弦對",
+          "prompt": "對於當前時間和旋轉狀態，運動正在選擇單位圓上的哪個點？",
+          "variables": [
+            {
+              "id": "omega",
+              "label": "角速度"
+            },
+            {
+              "id": "phase",
+              "label": "相位"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-angle",
+              "label": "1. 閱讀當前的角度"
+            },
+            {
+              "id": "read-projections",
+              "label": "2. 閱讀同一點的兩個投影"
+            },
+            {
+              "id": "build-point",
+              "label": "3. 輸入當前單位圓點"
+            }
+          ],
+          "resultLabel": "當前單位圓點",
+          "applyAction": {
+            "label": "應用投影連線",
+            "observationHint": "保持引導線不關閉，以免 x 和 y 的投射永遠與旋轉點分離。"
+          }
+        },
+        {
+          "id": "read-the-current-signs",
+          "title": "從當前所在的區域讀取符號",
+          "prompt": "根據當前在單位圓的位置，正弦和餘弦應該有什麼符號？",
+          "steps": [
+            {
+              "id": "name-region",
+              "label": "1. 設定當前的區域名稱"
+            },
+            {
+              "id": "map-signs",
+              "label": "2. 將區域轉換為投射符號"
+            },
+            {
+              "id": "confirm-values",
+              "label": "3. 確認實時值"
+            }
+          ],
+          "resultLabel": "當前符號模式",
+          "applyAction": {
+            "label": "應用第二象限起始點",
+            "observationHint": "符號圖表使你在記住任何特殊角表格之前就能看到象限邏輯。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "如果點從第一象限逆時針旋轉進入第二象限，哪個投射必須先改變符號？",
+      "prediction": "決定點穿越軸是 x 軸先變或 y 軸先變。",
+      "answer": "餘弦先改變符號因為點在回到 x 軸之前會穿越 y 軸。",
+      "explanation": "穿越 y 軸會使水平投射從正轉負，而垂直投射仍保持在 x 軸上方。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "根據單位圓和軌跡回答",
+    "questions": [
+      {
+        "id": "ucr-qt-horizontal-projection",
+        "prompt": "哪個陳述在單位圓上正確？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "餘弦是水平投射，正弦是垂直投射。"
+          },
+          {
+            "id": "b",
+            "label": "餘弦始終垂直，正弦始終水平。"
+          },
+          {
+            "id": "c",
+            "label": "坐標與投射無關。"
+          }
+        ],
+        "explanation": "x 坐標是水平投射，y 坐標是垂直投射。",
+        "showMeAction": {
+          "label": "顯示投射連結",
+          "observationHint": "軸上的引導點精確地展示了餘弦和正弦的位置。"
+        }
+      },
+      {
+        "id": "ucr-qt-quadrant-three-signs",
+        "prompt": "屬於第三象限的符號模式是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "餘弦和正弦都是負值。"
+          },
+          {
+            "id": "b",
+            "label": "餘弦為正，正弦為負。"
+          },
+          {
+            "id": "c",
+            "label": "餘弦為負，正弦為正。"
+          }
+        ],
+        "explanation": "第三象限位於 y 軸的左側和 x 軸的下方，所以兩個投射都是負值。"
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一個單位圓，帶有一個旋轉點、軸上的餘弦和正弦投射、角度標記以及四象限的符號圖表。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "一個圖表顯示餘弦和正弦隨著時間一起變動，另一個圖表則顯示同一角度隨時間增加。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "projection-link",
+        "label": "投影連結",
+        "description": "開啟一個逆時針旋轉的清潔版本，並使引導和符號地圖保持可見。",
+        "setup": {
+          "note": "當您希望圓圈、投影和正弦-餘弦軌跡保持鎖定在一起時使用此功能。"
+        }
+      },
+      {
+        "id": "axis-crossing-view",
+        "label": "軸交點",
+        "description": "從圓的頂部附近開始旋轉，並觀看一個投影在軸上降至零。",
+        "setup": {
+          "note": "這使得更容易注意到正弦或餘弦何時變號。"
+        }
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "unit-circle-point",
+      "label": "單位圓上的點",
+      "meaning": "由角度θ選定的活躍點，其x坐標為餘弦值，y坐標為正弦值。"
+    },
+    {
+      "id": "angle-in-time",
+      "label": "角度在時間中",
+      "meaning": "當旋轉速率保持恆定時，角度隨著時間穩定增長。",
+      "notes": [
+        "\\omega 控制點沿圓圈掃描的速度，使得角度圖表更陡峭且正弦-餘弦軌跡迴圈更快。",
+        "\\phi 設定起始角度。"
+      ]
+    },
+    {
+      "id": "quadrant-signs",
+      "label": "軸上的符號邏輯",
+      "meaning": "符號遵循投影落在每個軸的哪一側。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "angular-speed",
+      "label": "角速度",
+      "description": "控制點旋轉的速度，使得角度圖表更陡峭且正弦-餘弦軌跡迴圈更快。"
+    },
+    {
+      "id": "phase",
+      "label": "相位",
+      "description": "設定圓上的起始角度而不改變單位圓本身的大小。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "angular-speed",
+        "label": "角速度"
+      },
+      {
+        "id": "phase",
+        "label": "相位"
+      }
+    ],
+    "presets": [
+      {
+        "id": "axis-crossing",
+        "label": "軸交點"
+      }
+    ]
+  }
+}

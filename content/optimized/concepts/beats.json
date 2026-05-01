@@ -1,0 +1,96 @@
+{
+"sections": {
+"explanation": {
+"paragraphs": [
+"Beats happen when two sounds are almost, but not exactly, the same frequency. You do not hear the sources taking turns getting louder. You hear one rapid oscillation whose amplitude rises and falls because the two waves keep drifting between reinforcement and cancellation.",
+"This bench shows the two source traces, their resultant, and a bounded loudness cue from that same superposition. The slow envelope rate is set by $|f_2-f_1|$, while the faster carrier follows the average of the two frequencies. That is why you can change the beat rate without changing amplitude, or keep the same beat rate while shifting both source frequencies upward or downward together."
+]
+},
+"keyIdeas": [
+"Beat frequency is set by $|f_2-f_1|$, not by amplitude.",
+"The loud-soft pulse comes from changing phase alignment in the resultant, so neither source has to change its own amplitude.",
+"The average frequency sets the fast carrier, while the frequency difference sets the slow envelope."
+],
+"commonMisconception": {
+"myth": "If you hear beats, each source must be turning its own loudness up and down.",
+"correction": [
+"In this bench, each source keeps a steady amplitude the whole time.",
+"The pulsing appears only in the resultant because the two waves drift between in-phase reinforcement and near-opposite cancellation."
+]
+},
+"workedExamples": {
+"intro": "These checks use a selected source pair, source amplitude, and setup time from the same superposition model, so the algebra stays tied to the envelope and carrier cues.",
+"items": [
+{
+"id": "beat-rate-from-frequencies",
+"title": "Beat rate and carrier from the source pair",
+"resultLabel": "Beat and carrier result",
+"applyAction": {
+"label": "Show slow beats",
+"observationHint": "The rapid oscillation is still present, but the envelope graph makes the slower beat cycle easy to track."
+}
+},
+{
+"id": "current-envelope-strength",
+"title": "Envelope amplitude at a setup time",
+"resultLabel": "Envelope state result",
+"applyAction": {
+"label": "Inspect the envelope",
+"observationHint": "Step through time and watch the source traces stay steady while the resultant moves between strong reinforcement and near-cancellation."
+}
+}
+]
+},
+"miniChallenge": {
+"explanation": "Beat frequency is set by the difference $\\Delta f$. When $f_1$ and $f_2$ become equal, $\\Delta f$ goes to zero, so the separate envelope stops pulsing and the resultant becomes one steady-frequency oscillation."
+}
+},
+"graphs": [
+{
+"id": "displacement",
+"description": "Shows the two source traces and their sum so you can see the fast carrier inside the slower beat envelope."
+},
+{
+"id": "envelope",
+"description": "Shows the slow envelope ratio and the bounded loudness cue, so beat rate can be separated from the faster carrier."
+}
+],
+"noticePrompts": {
+"intro": "Use one cue at a time. The goal is to separate the fast carrier, the slow envelope, and the loudness cue on the same superposition bench.",
+"items": [
+{
+"id": "beats-notice-fast-inside-slow",
+"text": "Notice that the rapid oscillation never disappears. Beats are the slow growth and fade of the envelope wrapped around that faster carrier.",
+"tryThis": "Start from Near unison and watch the resultant trace before you look at the envelope graph.",
+"whyItMatters": "It prevents the loud-soft pulse from being mistaken for a separate low-frequency source."
+},
+{
+"id": "beats-notice-equal-frequencies",
+"text": "Notice that matching the two source frequencies removes the separate beat envelope. The resultant can still oscillate strongly, but it no longer swells and fades.",
+"whyItMatters": "Beat frequency comes from the difference, so making that difference zero removes the beat cycle."
+},
+{
+"id": "beats-notice-difference-graph",
+"text": "Notice that increasing $|f_2-f_1|$ speeds up the envelope directly. The carrier can stay in a similar range while the beat rate changes a lot.",
+"whyItMatters": "It keeps the pulse rate tied to the actual frequency difference."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict which part of the motion changes: the fast carrier, the slow envelope, or both.",
+"items": [
+{
+"id": "beats-predict-equalize",
+"explanation": "When $f_1=f_2$, the frequency difference is zero, so there is no separate beat envelope. The two sources reinforce as one steady-frequency resultant instead of pulsing in and out."
+},
+{
+"id": "beats-predict-wider-split",
+"explanation": "Beat frequency follows $|f_2-f_1|$, so widening the split speeds the envelope directly even when amplitude stays fixed."
+},
+{
+"id": "beats-predict-same-difference",
+"explanation": "Both cases keep the same $0.3\\,\\mathrm{Hz}$ difference, so the beat rate stays the same. Lowering both frequencies together lowers the average carrier without changing the envelope rate."
+}
+]
+}
+}

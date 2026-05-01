@@ -1,0 +1,946 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "readNext",
+        "title": "Continue through the calculus branch"
+      }
+    ],
+    "featuredSetups": [
+      {
+        "id": "narrow-rising-area",
+        "label": "Narrow and rising",
+        "description": "Open a narrow rectangle where the objective curve is still climbing.",
+        "setup": {
+          "presetId": "too-narrow",
+          "graphId": "area-vs-width",
+          "overlayIds": [
+            "constraintBand",
+            "areaGuides"
+          ],
+          "note": "Use this to see why giving up a little height can still buy more area."
+        }
+      },
+      {
+        "id": "square-at-the-peak",
+        "label": "Square at the peak",
+        "description": "Open the best-area square with the peak point and optimum overlay visible.",
+        "setup": {
+          "presetId": "best-square",
+          "graphId": "area-slope",
+          "overlayIds": [
+            "bestRectangle",
+            "areaGuides"
+          ],
+          "note": "Use this to connect the near-zero slope to the maximum-area square."
+        }
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Move one rectangle width under a fixed 24 meter perimeter and watch height, area, and local slope respond together so the square maximum emerges from the same bench.",
+    "keyTakeaway": "Under the fixed-perimeter constraint, width and height are linked by h = 12 - w, so every width choice already commits you to one height."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Optimization gets clearer when the rectangle, the constraint, and the objective graph all move together. This bench fixes the perimeter at 24 meters, lets you change only the width, and forces the height, area, and graph point to answer that one decision in real time.",
+        "That is why the square maximum is not a magic algebra trick. Every extra bit of width steals the same amount of height, so the best rectangle appears exactly where the tradeoff stops helping and the local area slope flattens to zero."
+      ]
+    },
+    "keyIdeas": [
+      "Under the fixed-perimeter constraint, width and height are linked by h = 12 - w, so every width choice already commits you to one height.",
+      "The objective graph A(w) = w(12 - w) is just the rectangle bench rewritten in one variable; its peak is the best achievable area under this constraint.",
+      "A'(w) tells you which way to move next: positive means wider still helps, negative means you have already passed the best shape, and zero marks the turning point."
+    ],
+    "commonMisconception": {
+      "myth": "The widest rectangle must have the largest area because the base is longest.",
+      "correction": [
+        "On this bench, a longer base always comes with a shorter height because the 24 meter perimeter is fixed.",
+        "Area is a product, so once the height is being lost too fast, the objective curve turns down even though width is still increasing."
+      ]
+    },
+    "workedExamples": {
+      "title": "Bench worked examples",
+      "intro": "Use the width slider, the height tradeoff graph, and the area / slope graphs together. These worked examples are supposed to read like the same 24 meter rectangle bench, not like disconnected optimization algebra.",
+      "items": [
+        {
+          "id": "current-height-and-area",
+          "title": "Read the current height and area",
+          "prompt": "At the current width of ${{widthValue}}$ meters, what height and area does the 24 meter perimeter force?",
+          "variables": [
+            {
+              "id": "width",
+              "variableId": "width",
+              "symbol": "w",
+              "label": "Rectangle width",
+              "valueKey": "widthValue",
+              "unit": "m"
+            },
+            {
+              "id": "height",
+              "symbol": "h",
+              "label": "Rectangle height",
+              "valueKey": "heightValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "split-the-constraint",
+              "label": "1. Rewrite the perimeter constraint",
+              "template": "With $2w + 2h = 24$, the fixed half-perimeter is $w + h = 12$."
+            },
+            {
+              "id": "solve-for-height",
+              "label": "2. Solve for the matching height",
+              "template": "At $w = {{widthValue}}$, the matching height is $h = 12 - {{widthValue}} = {{heightValue}}$."
+            },
+            {
+              "id": "compute-area",
+              "label": "3. Compute the constrained area",
+              "template": "So $A = wh = {{widthValue}}({{heightValue}}) = {{areaValue}}$."
+            }
+          ],
+          "resultLabel": "Current constrained area",
+          "resultTemplate": "$A = {{areaValue}} \\\\text{ m}^2$",
+          "interpretationTemplate": "{{areaInterpretation}}",
+          "applyAction": {
+            "label": "Show the narrow rectangle",
+            "presetId": "too-narrow",
+            "observationHint": "The objective curve is still rising on this side, so width is helping more than the lost height hurts.",
+            "highlightedControlIds": [
+              "width"
+            ],
+            "highlightedGraphIds": [
+              "area-vs-width",
+              "height-vs-width"
+            ],
+            "highlightedOverlayIds": [
+              "constraintBand",
+              "areaGuides"
+            ]
+          }
+        },
+        {
+          "id": "current-area-slope",
+          "title": "Read the current local area slope",
+          "prompt": "At the current width of ${{widthValue}}$ meters, what does the local area slope say about nudging the rectangle wider?",
+          "variables": [
+            {
+              "id": "width",
+              "variableId": "width",
+              "symbol": "w",
+              "label": "Rectangle width",
+              "valueKey": "widthValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-the-objective",
+              "label": "1. Start from the objective function",
+              "template": "For this fixed perimeter, the area rule is $A(w) = w(12 - w)$, so the derivative is $A'(w) = 12 - 2w$."
+            },
+            {
+              "id": "substitute-the-square",
+              "label": "2. Substitute the current width",
+              "template": "At $w = {{widthValue}}$, the local area slope is $A'({{widthValue}}) = {{areaSlopeValue}}$, so the derivative is {{slopeSignWord}}."
+            },
+            {
+              "id": "interpret-the-flat-point",
+              "label": "3. Interpret the zero slope",
+              "template": "That means making the rectangle a little wider would {{slopeDirectionText}} the area."
+            }
+          ],
+          "resultLabel": "Current local area slope",
+          "resultTemplate": "$A'({{widthValue}}) = {{areaSlopeValue}}$",
+          "interpretationTemplate": "{{slopeInterpretation}}",
+          "applyAction": {
+            "label": "Show the peak square",
+            "presetId": "best-square",
+            "observationHint": "The square sits at the top of the objective curve, and the slope graph crosses zero at the same width.",
+            "highlightedControlIds": [
+              "width"
+            ],
+            "highlightedGraphIds": [
+              "area-vs-width",
+              "area-slope"
+            ],
+            "highlightedOverlayIds": [
+              "bestRectangle",
+              "areaGuides"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Move the width to a rectangle that is close to the winner but still not a square, and make the objective graph almost flat there.",
+      "prediction": "Decide first whether you need to move toward the square from the narrow side or from the wide side.",
+      "answer": "You have to move toward the square, because only near w = 6 does the slope flatten while width and height nearly match.",
+      "explanation": "This challenge keeps the geometry and derivative story together: the square is not special by definition, it is special because the tradeoff stops improving the area there."
+    }
+  },
+  "equations": [
+    {
+      "id": "perimeter-constraint",
+      "latex": "2w + 2h = 24",
+      "label": "Perimeter constraint",
+      "meaning": "The perimeter stays fixed, so every width choice forces one matching height."
+    },
+    {
+      "id": "area-objective",
+      "latex": "A(w) = w(12 - w)",
+      "label": "Objective function",
+      "meaning": "Substitutes the fixed-perimeter constraint into the area formula so the whole tradeoff depends on one variable."
+    },
+    {
+      "id": "stationary-condition",
+      "latex": "A'(w) = 12 - 2w",
+      "label": "Local area slope",
+      "meaning": "Tells whether making the rectangle a little wider would increase area, decrease area, or land at the turning point."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "width",
+      "symbol": "w",
+      "label": "Rectangle width",
+      "param": "width",
+      "tone": "teal",
+      "description": "Moves the current rectangle width while the fixed perimeter forces the matching height, the objective point, and the local area slope to update together.",
+      "equationIds": [
+        "perimeter-constraint",
+        "area-objective",
+        "stationary-condition"
+      ],
+      "graphIds": [
+        "area-vs-width",
+        "area-slope",
+        "height-vs-width"
+      ],
+      "overlayIds": [
+        "constraintBand",
+        "bestRectangle",
+        "areaGuides"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "width": 3.4,
+      "constraintBand": true,
+      "bestRectangle": true,
+      "areaGuides": true
+    },
+    "ui": {
+      "initialGraphId": "area-vs-width",
+      "primaryGraphIds": [
+        "area-vs-width"
+      ],
+      "primaryControlIds": [
+        "width"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "width",
+        "kind": "slider",
+        "label": "Rectangle width",
+        "param": "width",
+        "min": 0.6,
+        "max": 11.4,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Move the width while the fixed 24 meter perimeter forces the matching height."
+      }
+    ],
+    "presets": [
+      {
+        "id": "too-narrow",
+        "label": "Too narrow",
+        "description": "A tall, narrow rectangle where making it wider still helps.",
+        "values": {
+          "width": 3.2
+        }
+      },
+      {
+        "id": "best-square",
+        "label": "Best square",
+        "description": "The square that reaches the peak area under the fixed perimeter.",
+        "values": {
+          "width": 6
+        }
+      },
+      {
+        "id": "too-wide",
+        "label": "Too wide",
+        "description": "A wide rectangle that has already passed the peak.",
+        "values": {
+          "width": 8.8
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "constraintBand",
+        "label": "Constraint band",
+        "shortDescription": "Keep the fixed perimeter visible on the current rectangle.",
+        "whatToNotice": [
+          "Every time width grows, height must shrink because the perimeter is staying fixed at 24 meters."
+        ],
+        "whyItMatters": "It keeps the optimization story honest by showing the tradeoff instead of hiding it behind symbols.",
+        "relatedControls": [
+          "width"
+        ],
+        "relatedGraphTabs": [
+          "height-vs-width"
+        ],
+        "relatedEquationVariables": [
+          "width"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "bestRectangle",
+        "label": "Best rectangle overlay",
+        "shortDescription": "Show the square that reaches the peak area for this fixed perimeter.",
+        "whatToNotice": [
+          "The best rectangle is the square, and the objective curve peaks at the same width where width and height match."
+        ],
+        "whyItMatters": "It ties the geometric picture directly to the maximum on the graph instead of making the best case feel magical.",
+        "relatedControls": [
+          "width"
+        ],
+        "relatedGraphTabs": [
+          "area-vs-width",
+          "area-slope"
+        ],
+        "relatedEquationVariables": [
+          "width"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "areaGuides",
+        "label": "Area guides",
+        "shortDescription": "Show the current point on the objective graph together with width and height guides on the rectangle.",
+        "whatToNotice": [
+          "The rectangle dimensions and the objective point are just two views of the same width choice."
+        ],
+        "whyItMatters": "It keeps the changing parameter, the candidate shape, and the area value on one compact bench.",
+        "relatedControls": [
+          "width"
+        ],
+        "relatedGraphTabs": [
+          "area-vs-width"
+        ],
+        "relatedEquationVariables": [
+          "width"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "area-vs-width",
+      "label": "Objective graph",
+      "xLabel": "width w (m)",
+      "yLabel": "area A (m^2)",
+      "series": [
+        "area-curve"
+      ],
+      "description": "The constrained area function. The peak marks the best possible rectangle under the fixed perimeter."
+    },
+    {
+      "id": "area-slope",
+      "label": "Local area slope",
+      "xLabel": "width w (m)",
+      "yLabel": "A'(w)",
+      "series": [
+        "area-slope-line"
+      ],
+      "description": "Positive values mean wider helps, negative values mean wider hurts, and zero marks the turning point."
+    },
+    {
+      "id": "height-vs-width",
+      "label": "Constraint tradeoff",
+      "xLabel": "width w (m)",
+      "yLabel": "height h (m)",
+      "series": [
+        "constraint-line"
+      ],
+      "description": "The fixed-perimeter tradeoff written as h = 12 - w. Every extra meter of width costs one meter of height."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the rectangle, the objective graph, and the slope graph as one bench.",
+    "items": [
+      {
+        "id": "oc-notice-rising-side",
+        "text": "Here the rectangle is still too narrow. The objective curve is rising, so giving up a little height still buys more area.",
+        "type": "observation",
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "width",
+              "max": 4.5
+            }
+          ]
+        },
+        "relatedControls": [
+          "width"
+        ],
+        "relatedGraphTabs": [
+          "area-vs-width",
+          "area-slope"
+        ],
+        "relatedOverlays": [
+          "constraintBand",
+          "areaGuides"
+        ]
+      },
+      {
+        "id": "oc-notice-near-peak",
+        "text": "Near the square, the objective curve flattens. That near-zero slope is the signal that the maximum sits here, not at one extreme.",
+        "type": "graph-reading",
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "width",
+              "min": 5.4,
+              "max": 6.6
+            }
+          ]
+        },
+        "relatedControls": [
+          "width"
+        ],
+        "relatedGraphTabs": [
+          "area-vs-width",
+          "area-slope"
+        ],
+        "relatedOverlays": [
+          "bestRectangle"
+        ]
+      },
+      {
+        "id": "oc-notice-wide-side",
+        "text": "Past the square, more width hurts. The rectangle is now losing height faster than the extra base can make up for.",
+        "type": "misconception",
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "width",
+              "min": 7.4
+            }
+          ]
+        },
+        "relatedControls": [
+          "width"
+        ],
+        "relatedGraphTabs": [
+          "area-vs-width",
+          "area-slope"
+        ],
+        "relatedOverlays": [
+          "bestRectangle",
+          "areaGuides"
+        ]
+      },
+      {
+        "id": "oc-notice-constraint-line",
+        "text": "The constraint graph falls one-for-one: every extra meter of width removes one meter of height, so the best area is about balancing the tradeoff, not ignoring it.",
+        "type": "compare",
+        "conditions": {
+          "graphTabs": [
+            "height-vs-width"
+          ]
+        },
+        "relatedControls": [
+          "width"
+        ],
+        "relatedGraphTabs": [
+          "height-vs-width"
+        ],
+        "relatedOverlays": [
+          "constraintBand"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Use the fixed-perimeter tradeoff first, then test what the objective curve should do.",
+    "items": [
+      {
+        "id": "oc-predict-wider-from-narrow",
+        "prompt": "From this narrow rectangle, what should happen if the width increases a little while the perimeter stays fixed?",
+        "scenarioLabel": "Start from a narrow rectangle",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The area should increase."
+          },
+          {
+            "id": "b",
+            "label": "The area should decrease immediately."
+          },
+          {
+            "id": "c",
+            "label": "The area should stay almost unchanged because the perimeter is fixed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "On the narrow side of the peak, the area slope is still positive, so a little more width increases the objective.",
+        "observationHint": "Watch the objective point and the local slope together as width grows from a narrow starting case.",
+        "apply": {
+          "presetId": "too-narrow"
+        },
+        "highlightedControls": [
+          "width"
+        ],
+        "highlightedGraphs": [
+          "area-vs-width",
+          "area-slope"
+        ],
+        "highlightedOverlays": [
+          "constraintBand",
+          "areaGuides"
+        ]
+      },
+      {
+        "id": "oc-predict-past-the-peak",
+        "prompt": "Once the width is already past the square, what should happen if the width increases even more?",
+        "scenarioLabel": "Start just past the peak",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The area should keep increasing because the base is getting longer."
+          },
+          {
+            "id": "b",
+            "label": "The area should turn downward because too much height is being lost."
+          },
+          {
+            "id": "c",
+            "label": "The area should lock at the same value because the perimeter is fixed."
+          }
+        ],
+        "correctChoiceId": "b",
+        "explanation": "Past the peak, the derivative is negative. Extra width now costs more height than it adds area.",
+        "observationHint": "The objective curve is already on its falling side, and the best-square overlay makes that turning point visible.",
+        "apply": {
+          "patch": {
+            "width": 7.4
+          }
+        },
+        "highlightedControls": [
+          "width"
+        ],
+        "highlightedGraphs": [
+          "area-vs-width",
+          "area-slope"
+        ],
+        "highlightedOverlays": [
+          "bestRectangle",
+          "areaGuides"
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Use the rectangle, the objective point, and the area-slope graph together. These checks ask why the maximum happens, not just what number it is.",
+    "questions": [
+      {
+        "id": "oc-qt-flat-peak",
+        "type": "graph-reading",
+        "prompt": "At the best-area rectangle on this bench, what must the local area slope be?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Zero or very close to zero."
+          },
+          {
+            "id": "b",
+            "label": "Positive because the area is still large."
+          },
+          {
+            "id": "c",
+            "label": "Equal to the perimeter."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The maximum sits at the turning point of the objective curve, so its local slope is zero there.",
+        "selectedWrongExplanations": {
+          "b": "A large area does not force a positive slope. At the maximum, the curve is flat even though the value is large.",
+          "c": "The derivative describes local change in the objective, not the fixed perimeter value."
+        },
+        "showMeAction": {
+          "label": "Show the peak square",
+          "presetId": "best-square",
+          "observationHint": "The square sits at the top of the objective curve, and the area-slope graph crosses through zero there.",
+          "highlightedControlIds": [
+            "width"
+          ],
+          "highlightedGraphIds": [
+            "area-vs-width",
+            "area-slope"
+          ],
+          "highlightedOverlayIds": [
+            "bestRectangle"
+          ]
+        }
+      },
+      {
+        "id": "oc-qt-narrow-direction",
+        "type": "reasoning",
+        "prompt": "If the rectangle is still narrower than the square, which move pushes it toward the maximum?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Increase the width a little."
+          },
+          {
+            "id": "b",
+            "label": "Decrease the width a little."
+          },
+          {
+            "id": "c",
+            "label": "The width does not matter as long as the perimeter stays fixed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "On the narrow side of the peak, the area slope is positive, so moving right increases the objective.",
+        "selectedWrongExplanations": {
+          "b": "Making an already narrow rectangle narrower moves farther away from the square.",
+          "c": "Different widths under the same perimeter can have very different areas."
+        },
+        "showMeAction": {
+          "label": "Show the narrow side",
+          "presetId": "too-narrow",
+          "observationHint": "The area curve is still rising, so wider means better from this side.",
+          "highlightedControlIds": [
+            "width"
+          ],
+          "highlightedGraphIds": [
+            "area-vs-width",
+            "area-slope"
+          ],
+          "highlightedOverlayIds": [
+            "constraintBand",
+            "areaGuides"
+          ]
+        }
+      },
+      {
+        "id": "oc-qt-why-not-widest",
+        "type": "misconception-check",
+        "prompt": "Why does the widest rectangle not win on a fixed 24 meter perimeter?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because the fixed perimeter forces the height to collapse as width grows."
+          },
+          {
+            "id": "b",
+            "label": "Because area only depends on width in a constrained problem."
+          },
+          {
+            "id": "c",
+            "label": "Because the perimeter equation stops working near the peak."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The whole optimization problem is the tradeoff: more width means less height, so the product eventually turns downward.",
+        "selectedWrongExplanations": {
+          "b": "Area depends on both width and height. The constraint only lets us rewrite height in terms of width.",
+          "c": "The perimeter relation works everywhere on this bench. It is the reason the tradeoff exists."
+        },
+        "showMeAction": {
+          "label": "Show the wide side",
+          "presetId": "too-wide",
+          "observationHint": "The rectangle is wider, but the lost height has already pushed the objective onto its falling side.",
+          "highlightedControlIds": [
+            "width"
+          ],
+          "highlightedGraphIds": [
+            "area-vs-width",
+            "height-vs-width"
+          ],
+          "highlightedOverlayIds": [
+            "constraintBand",
+            "bestRectangle"
+          ]
+        }
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the rectangle, the objective graph, and the slope readout together. The goal is to land the maximum for a reason, not just to hunt 36.",
+    "items": [
+      {
+        "id": "oc-ch-find-the-square-maximum",
+        "title": "Find the square maximum",
+        "style": "maximize",
+        "prompt": "Move the width until the fixed-perimeter rectangle reaches the maximum area and the local area slope is essentially zero.",
+        "successMessage": "You found the square that maximizes area under the fixed perimeter. The objective curve is flat there because the tradeoff has stopped helping in either direction.",
+        "setup": {
+          "presetId": "too-narrow",
+          "note": "Start from the narrow rectangle, then move toward the square while watching the height tradeoff and the objective turn flat."
+        },
+        "requirements": {
+          "graphId": "area-vs-width",
+          "overlayIds": [
+            "bestRectangle",
+            "constraintBand",
+            "areaGuides"
+          ]
+        },
+        "hints": [
+          "The best rectangle is the square under this fixed perimeter.",
+          "The local area slope should settle near zero at the same width where the objective reaches its peak."
+        ],
+        "targets": [
+          {
+            "param": "width",
+            "label": "Bring the width into the square band between $5.85$ and $6.15$ meters.",
+            "min": 5.85,
+            "max": 6.15,
+            "displayUnit": "m"
+          }
+        ]
+      }
+    ]
+  },
+  "v2": {
+    "intuition": "Change one rectangle width under a fixed 24 meter perimeter and watch the forced height, area point, and local slope move as one tradeoff.",
+    "whyItMatters": "Optimization becomes reusable when you can name the constraint, turn it into one objective variable, and use derivative sign to decide which direction improves the design.",
+    "estimatedMinutes": 12,
+    "equationSnapshot": {
+      "equationIds": [
+        "perimeter-constraint",
+        "area-objective",
+        "stationary-condition"
+      ]
+    },
+    "startSetup": {
+      "presetId": "too-narrow",
+      "graphId": "area-vs-width",
+      "overlayIds": [
+        "constraintBand",
+        "areaGuides"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-constraint-tradeoff",
+        "title": "Read the constraint",
+        "goal": "See that the fixed perimeter leaves only one free design choice.",
+        "doThis": "Start from the narrow rectangle, move the width once, and watch the height change in the opposite direction.",
+        "notice": "Every extra meter of width removes one meter of height because w + h must stay 12.",
+        "explain": "The constraint is not extra decoration; it is what turns a two-variable rectangle into one linked tradeoff.",
+        "reveal": {
+          "controlIds": [
+            "width"
+          ],
+          "graphIds": [
+            "height-vs-width"
+          ],
+          "overlayIds": [
+            "constraintBand"
+          ],
+          "toolHints": [
+            "graph-preview"
+          ]
+        },
+        "setup": {
+          "presetId": "too-narrow",
+          "graphId": "height-vs-width",
+          "overlayIds": [
+            "constraintBand",
+            "areaGuides"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "oc-qt-why-not-widest"
+          ]
+        }
+      },
+      {
+        "id": "connect-width-to-area",
+        "title": "Connect width to area",
+        "goal": "Treat the objective graph as the same rectangle bench rewritten as A(w).",
+        "doThis": "Keep the area guides visible and slide width from the narrow side toward the square.",
+        "notice": "The rectangle area and the point on A(w) rise together while width is still too small.",
+        "explain": "A(w) = w(12 - w) is not a new problem; it is the area formula after the perimeter constraint has chosen the height.",
+        "reveal": {
+          "controlIds": [
+            "width"
+          ],
+          "graphIds": [
+            "area-vs-width"
+          ],
+          "overlayIds": [
+            "areaGuides",
+            "constraintBand"
+          ]
+        },
+        "setup": {
+          "presetId": "too-narrow",
+          "graphId": "area-vs-width",
+          "overlayIds": [
+            "constraintBand",
+            "areaGuides"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "oc-predict-wider-from-narrow"
+          ],
+          "questionIds": [
+            "oc-qt-narrow-direction"
+          ]
+        }
+      },
+      {
+        "id": "use-slope-to-find-the-maximum",
+        "title": "Use the slope sign",
+        "goal": "Use A'(w) to decide whether making the rectangle wider helps or hurts.",
+        "doThis": "Open the local area slope graph, compare a narrow rectangle with a wide rectangle, then move to the square.",
+        "notice": "The derivative is positive before the square, negative after the square, and zero at the peak.",
+        "explain": "A zero derivative marks the turning point because tiny moves in either direction stop improving the constrained area.",
+        "reveal": {
+          "controlIds": [
+            "width"
+          ],
+          "graphIds": [
+            "area-slope",
+            "area-vs-width"
+          ],
+          "overlayIds": [
+            "bestRectangle",
+            "areaGuides"
+          ]
+        },
+        "setup": {
+          "presetId": "best-square",
+          "graphId": "area-slope",
+          "overlayIds": [
+            "bestRectangle",
+            "areaGuides"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "oc-predict-past-the-peak"
+          ],
+          "questionIds": [
+            "oc-qt-flat-peak"
+          ]
+        }
+      },
+      {
+        "id": "prove-the-square-is-best",
+        "title": "Prove the square wins",
+        "goal": "Pull the geometry and derivative evidence into one maximum-area claim.",
+        "doThis": "Use challenge mode to land near w = 6, then say why this point beats both narrower and wider rectangles.",
+        "notice": "At the square, width and height match, A(w) is at the top of the curve, and A'(w) is essentially zero.",
+        "explain": "The square wins for this constraint because the width-height tradeoff is balanced there, not because wider rectangles are automatically better.",
+        "reveal": {
+          "controlIds": [
+            "width"
+          ],
+          "graphIds": [
+            "area-vs-width",
+            "area-slope"
+          ],
+          "overlayIds": [
+            "bestRectangle",
+            "constraintBand",
+            "areaGuides"
+          ]
+        },
+        "setup": {
+          "presetId": "best-square",
+          "graphId": "area-vs-width",
+          "overlayIds": [
+            "bestRectangle",
+            "constraintBand",
+            "areaGuides"
+          ]
+        },
+        "inlineCheck": {
+          "includeMiniChallenge": true,
+          "title": "Can you balance the tradeoff?",
+          "note": "Find the width where the rectangle is square, the area peaks, and the local slope is almost zero."
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "A fixed 24 meter perimeter links width and height by h = 12 - w.",
+        "The objective A(w) = w(12 - w) is the rectangle area after the constraint has removed the extra variable.",
+        "The derivative sign tells which direction improves the area, and A'(w) = 0 marks the square maximum.",
+        "The widest rectangle does not win because extra width eventually costs too much height."
+      ],
+      "misconception": "The largest width is not the largest area; under a fixed perimeter, width and height trade off, so the product peaks at the balanced square.",
+      "workedExampleRefs": [
+        "current-height-and-area",
+        "current-area-slope"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "derivative-as-slope-local-rate-of-change",
+          "title": "Derivative as Slope / Local Rate of Change",
+          "reasonLabel": "Review the local-slope signal behind the maximum"
+        },
+        {
+          "slug": "integral-as-accumulation-area",
+          "title": "Integral as Accumulation / Area",
+          "reasonLabel": "Move from optimizing local change to tracking accumulated totals"
+        }
+      ],
+      "freePlayPrompt": "Find one width where widening helps, one where widening hurts, and the square where the derivative is almost zero."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "quickTest"
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one rectangle under a fixed 24 meter perimeter. Dragging the top-right corner changes the width and automatically adjusts the height. A smaller objective graph shows the matching point on the area curve, and an optional square overlay marks the best-area case.",
+        "Moving the width updates the rectangle dimensions, the area readout, and the local slope of the objective together so the learner can compare the constrained shape and the turning point on one compact bench."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The objective graph plots area against width for the fixed perimeter, so its peak marks the maximum-area rectangle. The local-slope graph plots A'(w), which crosses zero at the same width.",
+        "The constraint-tradeoff graph shows h = 12 - w, making the one-for-one exchange between width and height visible instead of hidden."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Optimization / Maxima, Minima, and Constraints",
+    "description": "Explore a fixed-perimeter rectangle, its area objective curve, and the local-slope test for maxima on a compact optimization bench.",
+    "keywords": [
+      "optimization",
+      "maxima",
+      "minima",
+      "constraints",
+      "calculus"
+    ]
+  }
+}

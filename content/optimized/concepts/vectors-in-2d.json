@@ -1,0 +1,216 @@
+{
+"sections": {
+"explanation": {
+"paragraphs": [
+"A 2D vector is easiest to understand when you can see both the arrow and its components at the same time. This module keeps A, B, the scaled vector sA, and the resultant on one plane so addition, subtraction, and scaling can all be read from one shared picture.",
+"The key habit is to switch between arrow language and component language without treating them as different objects. When a vector changes on the plane, its ordered pair and the graphs change with it, so the geometry and the algebra should always agree."
+]
+},
+"keyIdeas": [
+"A 2D vector is one object with two equivalent descriptions: an arrow on the plane and an ordered pair of components.",
+"Addition and subtraction both work component by component, and the same tip-to-tail picture still works if subtraction is treated as adding the opposite vector.",
+"A scalar changes the size of A, and a negative scalar also reverses its direction through the origin."
+],
+"commonMisconception": {
+"myth": "Vector subtraction needs a completely different picture from vector addition.",
+"correction": [
+"Subtraction is still vector addition, but with the opposite of the second vector.",
+"That is why the same tip-to-tail construction still works after B is reversed."
+]
+},
+"workedExamples": {
+"title": "Work from the live plane",
+"intro": "Use the current vectors and scalar from the plane. The same live state drives the arrows, the graphs, and these substitutions, so every step should match something you can see.",
+"items": [
+{
+"id": "current-resultant-components",
+"title": "Find the resultant components",
+"prompt": "For the current setup, what are the x- and y-components of the resultant vector?",
+"resultLabel": "Live resultant",
+"applyAction": {
+"label": "Try subtraction",
+"observationHint": "Watch B reverse before it is moved tip-to-tail. The resultant is still built by addition, but now you are adding the opposite vector."
+}
+},
+{
+"id": "scaled-vector-before-combination",
+"title": "Read the scaled version of A",
+"prompt": "Before combining with B, what vector does the current scalar make from A?",
+"resultLabel": "Live scaled vector",
+"applyAction": {
+"label": "Try a negative scalar",
+"observationHint": "When the scalar becomes negative, the scaled copy of A flips through the origin before any combination happens. Then the resultant is built from this flipped arrow."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Adjust the vectors until the resultant is small even though the visible vectors are still clearly nonzero.",
+"prediction": "Before testing, decide whether the cancellation needs to happen in x, in y, or in both.",
+"answer": "Both the x-components and the y-components must nearly cancel, so the resultant ends close to the origin.",
+"explanation": "A small resultant does not require small vectors. It happens when positive and negative component contributions nearly balance in each direction."
+}
+},
+"variableLinks": [
+{
+"id": "ax",
+"description": "Changes how far vector A points right or left on the plane."
+},
+{
+"id": "ay",
+"description": "Changes how far vector A points up or down on the plane."
+},
+{
+"id": "bx",
+"description": "Changes how much vector B contributes horizontally before addition or subtraction."
+},
+{
+"id": "by",
+"description": "Changes how much vector B contributes vertically before addition or subtraction."
+},
+{
+"id": "scalar",
+"description": "Scales A before it combines with B. A negative value flips A through the origin, and the absolute value sets its size."
+},
+{
+"id": "subtract-mode",
+"description": "Replaces B with its opposite, so subtraction uses the same tip-to-tail construction as addition."
+}
+],
+"simulation": {
+"overlays": [
+{
+"id": "componentGuides",
+"shortDescription": "Show the resultant's horizontal and vertical projections on the axes.",
+"whatToNotice": [
+"The same resultant can be read as one diagonal arrow or as two perpendicular components."
+],
+"whyItMatters": "It links the plane picture directly to the component rule."
+},
+{
+"id": "tipToTail",
+"shortDescription": "Move the effective second vector to the tip of the scaled first vector.",
+"whatToNotice": [
+"Addition and subtraction use the same construction once B is kept or reversed."
+],
+"whyItMatters": "It makes vector combination something you can see, not just a rule to memorize."
+},
+{
+"id": "scaledVector",
+"shortDescription": "Show the scaled copy of A before it combines with B.",
+"whatToNotice": [
+"A positive scalar keeps A's direction, while a negative scalar flips it through the origin."
+],
+"whyItMatters": "It separates scalar multiplication from the later addition or subtraction step."
+}
+]
+},
+"noticePrompts": {
+"intro": "Use these prompts to keep the plane picture, the component readout, and the graphs describing the same vector event.",
+"items": [
+{
+"id": "v2d-notice-components",
+"text": "Drag A or B and compare the arrow on the plane with the ordered pair. They change together because they are the same vector in two forms."
+},
+{
+"id": "v2d-notice-tip-to-tail",
+"text": "Turn subtraction on and watch B reverse before it is moved tip-to-tail. The construction is still addition, but now you are adding the opposite of B."
+},
+{
+"id": "v2d-notice-negative-scalar",
+"text": "Move the scalar through zero and watch sA flip through the origin. The magnitude graph never goes negative, because size and direction are different ideas."
+}
+]
+},
+"predictionMode": {
+"title": "Predict the change",
+"intro": "Predict what the plane and graphs should do before you change the operation or the scalar.",
+"items": [
+{
+"id": "v2d-predict-negative-scalar",
+"explanation": "A negative scalar reverses A through the origin. Because the scalar's magnitude is still above 1, the scaled copy is also longer than A.",
+"observationHint": "Watch the scaled copy of A first, then see how the resultant and the graphs respond."
+},
+{
+"id": "v2d-predict-subtract",
+"explanation": "Subtraction is addition with the opposite vector, so the same tip-to-tail rule still works after B is reversed.",
+"observationHint": "Watch B reverse, then watch the resultant rebuild from the same construction."
+}
+]
+},
+"quickTest": {
+"intro": "Use the plane, the component readout, and the graphs together. The right answer should fit what the bench shows, not just a memorized rule.",
+"questions": [
+{
+"id": "v2d-qt-components",
+"prompt": "Which statement best describes a 2D vector?",
+"explanation": "A 2D vector is one object with two equivalent descriptions: an arrow on the plane and an ordered pair of components.",
+"selectedWrongExplanations": {
+"b": "Components are exact coordinate descriptions, not rough estimates.",
+"c": "Geometry and algebra are two views of the same vector, not separate systems."
+},
+"showMeAction": {
+"label": "Show one vector in both forms",
+"observationHint": "The arrow, component guides, and live component values all describe the same vector state."
+}
+},
+{
+"id": "v2d-qt-subtraction",
+"prompt": "What is the most accurate way to think about vector subtraction on this bench?",
+"explanation": "Subtraction is addition with the opposite vector, which is why the tip-to-tail construction still works after B is reversed.",
+"selectedWrongExplanations": {
+"b": "The plane picture does not need a new rule. You still use tip-to-tail after replacing B with its opposite.",
+"c": "Turning on subtraction changes the geometry directly because the second arrow flips direction."
+},
+"showMeAction": {
+"label": "Show subtraction as adding the opposite",
+"observationHint": "B flips first, then the same tip-to-tail construction builds the resultant."
+}
+},
+{
+"id": "v2d-qt-scalar",
+"prompt": "If the scalar becomes negative while A is not the zero vector, what must happen to the scaled version of A?",
+"explanation": "A negative scalar reverses the direction of A, and the absolute value of the scalar sets the size of the scaled arrow. Magnitude does not become negative.",
+"selectedWrongExplanations": {
+"b": "Magnitude graphs track size, so they stay at or above zero.",
+"c": "The scalar acts only on A in this bench."
+},
+"showMeAction": {
+"label": "Show the flipped scale",
+"observationHint": "The scaled copy of A flips through the origin before the sum is taken."
+}
+}
+]
+},
+"challengeMode": {
+"intro": "Use the plane like a vector lab, not a static diagram. The goal is to make cancellation visible while the individual vectors are still clearly nonzero.",
+"items": [
+{
+"id": "v2d-ch-near-zero-result",
+"prompt": "Adjust the vectors until the resultant lands very close to the origin, but keep the scaled first vector clearly nontrivial so the near-zero result comes from cancellation rather than from shrinking everything.",
+"successMessage": "You created a near-zero resultant by cancellation, not by making the vectors trivial. The plane, the component readout, and the magnitude now agree.",
+"setup": {
+"note": "Use the tip-to-tail view and the component guides together. One shows geometric cancellation, while the other shows which x- and y-components are balancing."
+},
+"hints": [
+"A near-zero resultant needs both the x-components and y-components to nearly cancel.",
+"Keep the scalar away from zero so the first vector still matters."
+]
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows a coordinate plane with two vectors from the origin, a scaled copy of A, and a resultant vector. Optional overlays can show the tip-to-tail construction, the resultant's component guides, and the scaled copy of A before combination.",
+"Changing any component, the scalar, or subtract mode updates the plane, the algebraic readout, and the graphs together, so the geometric and component views stay synchronized."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"One graph shows how the resultant's x- and y-components change as the scalar on A changes. The other shows how the resultant magnitude changes over the same scalar scan.",
+"The highlighted point on each graph matches the current plane setup, so you can connect the current scalar setting to one exact resultant arrow."
+]
+}
+}
+}

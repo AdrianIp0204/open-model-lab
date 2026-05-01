@@ -1,0 +1,1085 @@
+{
+  "pageIntro": {
+    "definition": "Use one sound bench to hear the difference between a higher pitch, a louder tone, and the same sound arriving later at a probe.",
+    "whyItMatters": "Sound mixers, microphones, and hearing tests all depend on separating frequency from amplitude, so this page helps you say exactly what changed when a sound becomes higher, louder, or merely delayed.",
+    "keyTakeaway": "Pitch tracks frequency; loudness tracks amplitude and the intensity cue; probe position changes delay, not the source sound."
+  },
+  "v2": {
+    "intuition": "Treat pitch and loudness as two knobs on the same source. Frequency decides how fast the pattern repeats, while amplitude decides how strongly the medium is driven.",
+    "whyItMatters": "Once those knobs are separate, you can explain how a note can get louder without getting higher, why a higher note has tighter compression spacing at fixed sound speed, and why a farther microphone hears the same source later.",
+    "estimatedMinutes": 12,
+    "equationSnapshot": {
+      "title": "Timing versus strength snapshot",
+      "note": "Use the equations to keep three ideas apart: frequency sets period and wavelength at fixed sound speed, amplitude sets the bounded intensity cue, and probe position only shifts the timing of the sampled wave.",
+      "equationIds": [
+        "sound-period",
+        "sound-wavelength",
+        "sound-intensity-cue"
+      ]
+    },
+    "startSetup": {
+      "presetId": "conversation",
+      "graphId": "displacement",
+      "overlayIds": [
+        "motionDirections",
+        "compressionBands"
+      ],
+      "note": "Begin with a moderate conversation tone so frequency, amplitude, and probe delay are all readable before changing one knob at a time."
+    },
+    "guidedSteps": [
+      {
+        "id": "set-the-pitch-timing",
+        "title": "Set the pitch timing",
+        "goal": "Tie pitch to frequency, period, and compression spacing instead of to wave height.",
+        "doThis": "Start from Conversation tone, then apply Higher pitch while leaving amplitude fixed.",
+        "notice": "The traces cycle faster, the period gets shorter, and the compression spacing tightens while the wave height stays about the same.",
+        "explain": "Frequency is cycles per second. At fixed sound speed, more cycles each second also means a shorter wavelength, so the pitch rises without needing a larger amplitude.",
+        "reveal": {
+          "controlIds": [
+            "frequency"
+          ],
+          "graphIds": [
+            "displacement"
+          ],
+          "overlayIds": [
+            "compressionBands",
+            "motionDirections"
+          ]
+        },
+        "setup": {
+          "presetId": "higher-pitch",
+          "graphId": "displacement",
+          "overlayIds": [
+            "compressionBands",
+            "motionDirections"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "pfli-predict-higher-pitch"
+          ],
+          "questionIds": [
+            "pfli-qt-higher-pitch"
+          ]
+        }
+      },
+      {
+        "id": "raise-loudness-only",
+        "title": "Raise loudness only",
+        "goal": "Change amplitude and the intensity cue without changing pitch.",
+        "doThis": "Apply Louder and open the amplitude-to-intensity graph, but keep the frequency readout matched to Conversation tone.",
+        "notice": "The particle swing is larger and the intensity-response curve rises, yet the timing of each cycle stays the same.",
+        "explain": "Amplitude measures the size of the motion. This beginner bench uses an amplitude-squared cue for intensity, so louder comes from stronger driving, not from faster cycling.",
+        "reveal": {
+          "controlIds": [
+            "amplitude"
+          ],
+          "graphIds": [
+            "intensity-response",
+            "displacement"
+          ],
+          "overlayIds": [
+            "energyTransfer"
+          ]
+        },
+        "setup": {
+          "presetId": "louder",
+          "graphId": "intensity-response",
+          "overlayIds": [
+            "energyTransfer"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "pfli-predict-louder"
+          ],
+          "questionIds": [
+            "pfli-qt-louder",
+            "pfli-qt-intensity-graph"
+          ]
+        }
+      },
+      {
+        "id": "move-the-probe-delay",
+        "title": "Move the probe delay",
+        "goal": "Separate where you listen from what the source is producing.",
+        "doThis": "Apply Farther probe and compare the source trace with the probe trace.",
+        "notice": "The probe trace is delayed because it samples the wave farther downstream, but the source frequency and amplitude did not change.",
+        "explain": "Changing probe position changes phase and arrival time. It does not make the source higher in pitch or louder.",
+        "reveal": {
+          "controlIds": [
+            "probeX"
+          ],
+          "graphIds": [
+            "displacement",
+            "probe-pressure"
+          ],
+          "overlayIds": [
+            "motionDirections"
+          ]
+        },
+        "setup": {
+          "presetId": "far-probe",
+          "graphId": "probe-pressure",
+          "overlayIds": [
+            "motionDirections"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "pfli-predict-farther-probe"
+          ]
+        }
+      },
+      {
+        "id": "prove-the-split",
+        "title": "Prove the split",
+        "goal": "Use the challenge idea: make one setup louder while keeping pitch the same.",
+        "doThis": "Enter compare mode and edit Setup B so only amplitude rises while frequency stays matched.",
+        "notice": "Setup B has the bigger intensity cue, but both setups keep the same cycle timing.",
+        "explain": "A good sound-character explanation names which variable changed. Same frequency means same pitch; larger amplitude means a stronger loudness cue.",
+        "reveal": {
+          "controlIds": [
+            "frequency",
+            "amplitude"
+          ],
+          "graphIds": [
+            "intensity-response",
+            "displacement"
+          ],
+          "overlayIds": [
+            "energyTransfer",
+            "compressionBands"
+          ]
+        },
+        "setup": {
+          "presetId": "conversation",
+          "graphId": "intensity-response",
+          "overlayIds": [
+            "energyTransfer",
+            "compressionBands"
+          ]
+        },
+        "inlineCheck": {
+          "includeMiniChallenge": true,
+          "questionIds": [
+            "pfli-qt-higher-pitch",
+            "pfli-qt-louder"
+          ]
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Frequency sets pitch by controlling cycle timing, period, and compression spacing at fixed sound speed.",
+        "Amplitude sets the size of parcel motion and the bounded amplitude-squared loudness / intensity cue.",
+        "Moving the probe changes delay and phase at the listening point, not the source pitch or loudness."
+      ],
+      "misconception": "A taller sound wave must have a higher pitch because the graph looks bigger.",
+      "workedExampleRefs": [
+        "pitch-from-frequency",
+        "loudness-from-amplitude"
+      ],
+      "freePlayPrompt": "Make the sound higher without making it louder, then make it louder without making it higher. Say which readout proves each claim.",
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "beats",
+          "title": "Beats",
+          "reasonLabel": "Use pitch differences to hear interference envelopes"
+        },
+        {
+          "slug": "doppler-effect",
+          "title": "Doppler Effect",
+          "reasonLabel": "See how motion changes the pitch heard by an observer"
+        },
+        {
+          "slug": "wave-interference",
+          "title": "Wave Interference",
+          "reasonLabel": "Extend sound cues into superposition patterns"
+        }
+      ]
+    }
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Pitch and loudness should not be treated as the same sound property. In this bounded sound bench, pitch follows frequency: higher frequency means more cycles each second and a shorter period. Loudness follows amplitude and the strength of the energy-transfer cue, so a larger amplitude can sound louder without changing pitch.",
+        "The medium speed stays fixed so the page can separate the ideas cleanly. Raising frequency makes the compression pattern repeat faster and sit closer together, while raising amplitude makes the parcel motion larger and raises the amplitude-squared intensity cue."
+      ]
+    },
+    "keyIdeas": [
+      "Pitch tracks frequency, not amplitude.",
+      "Loudness or intensity tracks amplitude and a stronger energy-transfer cue.",
+      "A sound can be higher pitch without being louder, or louder without being higher pitch."
+    ],
+    "commonMisconception": {
+      "myth": "A taller sound wave must have a higher pitch because the wave looks bigger.",
+      "correction": [
+        "Amplitude changes how strong the motion is, not how many cycles happen each second.",
+        "Frequency changes pitch. Amplitude changes the bounded loudness / intensity cue."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked examples",
+      "intro": "These checks read the same sound bench the stage and graphs use, so the algebra stays tied to one live wave.",
+      "items": [
+        {
+          "id": "pitch-from-frequency",
+          "title": "Pitch from frequency",
+          "prompt": "For a generated sound setup with $v_{wave} = {{waveSpeedValue}}\\,\\mathrm{m/s}$ and $f = {{frequencyValue}}\\,\\mathrm{Hz}$, what wavelength and period go with that pitch?",
+          "variables": [
+            {
+              "id": "wave-speed",
+              "symbol": "v_{wave}",
+              "label": "Wave speed",
+              "valueKey": "waveSpeedValue",
+              "unit": "m/s"
+            },
+            {
+              "id": "frequency",
+              "variableId": "frequency",
+              "symbol": "f",
+              "label": "Frequency",
+              "valueKey": "frequencyValue",
+              "unit": "Hz"
+            },
+            {
+              "id": "wavelength",
+              "symbol": "\\lambda",
+              "label": "Wavelength",
+              "valueKey": "wavelengthValue",
+              "unit": "m"
+            },
+            {
+              "id": "period",
+              "symbol": "T",
+              "label": "Period",
+              "valueKey": "periodValue",
+              "unit": "s"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Use the sound timing relations",
+              "template": "Use $\\lambda = \\dfrac{v_{wave}}{f}$ and $T = \\dfrac{1}{f}$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the setup values",
+              "template": "$\\lambda = \\dfrac{{waveSpeedValue}}{{frequencyValue}} = {{wavelengthValue}}\\,\\mathrm{m}$ and $T = \\dfrac{1}{{frequencyValue}} = {{periodValue}}\\,\\mathrm{s}$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Interpret the pitch cue",
+              "template": "A frequency of {{frequencyValue}} Hz sets the source repetition rate, so pitch is set by timing while the spacing becomes {{wavelengthValue}} m."
+            }
+          ],
+          "resultLabel": "Generated pitch timing",
+          "resultTemplate": "$\\lambda = {{wavelengthValue}}\\,\\mathrm{m}, \\quad T = {{periodValue}}\\,\\mathrm{s}$",
+          "interpretationTemplate": "{{pitchInterpretation}}",
+          "applyAction": {
+            "label": "Show a higher pitch",
+            "presetId": "higher-pitch",
+            "observationHint": "The traces cycle faster and the compression spacing shrinks while amplitude stays fixed.",
+            "highlightedControlIds": [
+              "frequency"
+            ],
+            "highlightedGraphIds": [
+              "displacement"
+            ],
+            "highlightedOverlayIds": [
+              "compressionBands"
+            ]
+          }
+        },
+        {
+          "id": "loudness-from-amplitude",
+          "title": "Loudness cue from amplitude",
+          "prompt": "For a generated sound setup with amplitude $A = {{amplitudeValue}}\\,\\mathrm{m}$, what intensity cue does this bench use, and what does that mean for loudness if frequency stays fixed?",
+          "variables": [
+            {
+              "id": "amplitude",
+              "variableId": "amplitude",
+              "symbol": "A",
+              "label": "Amplitude",
+              "valueKey": "amplitudeValue",
+              "unit": "m"
+            },
+            {
+              "id": "intensity-cue",
+              "symbol": "I_{cue}",
+              "label": "Intensity cue",
+              "valueKey": "intensityCueValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Start from the bounded intensity relation",
+              "template": "This bench uses $I_{cue} \\propto A^2$, so larger amplitude means a stronger loudness cue."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the setup amplitude",
+              "template": "$I_{cue} \\approx A^2 = ({{amplitudeValue}})^2 = {{intensityCueValue}}$ in arbitrary amplitude-squared units."
+            },
+            {
+              "id": "compute",
+              "label": "3. Interpret the loudness idea",
+              "template": "If frequency stays fixed, that larger $A$ makes the sound louder in this bounded model without changing pitch."
+            }
+          ],
+          "resultLabel": "Generated loudness cue",
+          "resultTemplate": "$I_{cue} \\approx {{intensityCueValue}}$ (arb.)",
+          "interpretationTemplate": "{{loudnessInterpretation}}",
+          "applyAction": {
+            "label": "Show a louder tone",
+            "presetId": "louder",
+            "observationHint": "Amplitude and the intensity-response graph rise while the frequency readout stays matched.",
+            "highlightedControlIds": [
+              "amplitude"
+            ],
+            "highlightedGraphIds": [
+              "intensity-response"
+            ],
+            "highlightedOverlayIds": [
+              "energyTransfer"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "You want the same pitch but a louder sound. What single change should you make?",
+      "prediction": "Decide whether to raise amplitude, raise frequency, or move the probe farther downstream.",
+      "answer": "Raise amplitude.",
+      "explanation": "Keeping pitch the same means keeping frequency fixed. Raising amplitude increases the loudness / intensity cue without changing pitch."
+    }
+  },
+  "equations": [
+    {
+      "id": "sound-displacement",
+      "latex": "s(x,t) = A\\sin\\!\\left(2\\pi\\left(\\dfrac{x}{\\lambda} - ft\\right)\\right)",
+      "label": "Longitudinal sound displacement",
+      "meaning": "Amplitude sets the size of the parcel motion, while frequency sets how quickly the sound repeats."
+    },
+    {
+      "id": "sound-period",
+      "latex": "f = \\dfrac{1}{T}",
+      "label": "Frequency and period",
+      "meaning": "Higher frequency means a shorter period and a higher pitch."
+    },
+    {
+      "id": "sound-wavelength",
+      "latex": "\\lambda = \\dfrac{v_{wave}}{f}",
+      "label": "Spacing at fixed medium speed",
+      "meaning": "If the medium speed is fixed, a higher frequency packs the compression pattern more tightly."
+    },
+    {
+      "id": "sound-intensity-cue",
+      "latex": "I_{cue} \\propto A^2",
+      "label": "Bounded loudness / intensity cue",
+      "meaning": "This intro bench uses amplitude squared as an honest intensity cue, so larger amplitude means a stronger loudness cue without changing pitch by itself.",
+      "notes": [
+        "This is a bounded beginner-friendly cue, not a full acoustic power model."
+      ]
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "amplitude",
+      "symbol": "A",
+      "label": "Amplitude",
+      "param": "amplitude",
+      "tone": "coral",
+      "description": "Changes how strong the parcel motion and loudness cue are.",
+      "equationIds": [
+        "sound-displacement",
+        "sound-intensity-cue"
+      ],
+      "graphIds": [
+        "displacement",
+        "intensity-response"
+      ],
+      "overlayIds": [
+        "energyTransfer"
+      ]
+    },
+    {
+      "id": "frequency",
+      "symbol": "f",
+      "label": "Frequency",
+      "param": "frequency",
+      "tone": "teal",
+      "description": "Sets how many cycles happen each second, so it controls pitch.",
+      "equationIds": [
+        "sound-displacement",
+        "sound-period",
+        "sound-wavelength"
+      ],
+      "graphIds": [
+        "displacement"
+      ],
+      "overlayIds": [
+        "compressionBands"
+      ]
+    },
+    {
+      "id": "probeX",
+      "symbol": "x_p",
+      "label": "Probe position",
+      "param": "probeX",
+      "tone": "amber",
+      "description": "Moves the tracked parcel downstream without changing the source pitch or loudness.",
+      "equationIds": [
+        "sound-displacement"
+      ],
+      "graphIds": [
+        "displacement",
+        "probe-pressure"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "amplitude": 0.1,
+      "waveSpeed": 2.4,
+      "frequency": 1.1,
+      "probeX": 2.2,
+      "motionDirections": true,
+      "compressionBands": true,
+      "energyTransfer": false
+    },
+    "ui": {
+      "initialGraphId": "displacement",
+      "primaryGraphIds": [
+        "displacement",
+        "intensity-response"
+      ],
+      "primaryControlIds": [
+        "frequency",
+        "amplitude"
+      ],
+      "primaryPresetIds": [
+        "conversation",
+        "higher-pitch",
+        "louder"
+      ]
+    },
+    "controls": [
+      {
+        "id": "amplitude",
+        "kind": "slider",
+        "label": "Amplitude",
+        "param": "amplitude",
+        "min": 0.05,
+        "max": 0.24,
+        "step": 0.01,
+        "unit": "m",
+        "description": "Controls how strong the loudness / intensity cue is."
+      },
+      {
+        "id": "frequency",
+        "kind": "slider",
+        "label": "Frequency",
+        "param": "frequency",
+        "min": 0.7,
+        "max": 2,
+        "step": 0.05,
+        "unit": "Hz",
+        "description": "Controls pitch while the medium speed stays fixed."
+      },
+      {
+        "id": "probeX",
+        "kind": "slider",
+        "label": "Probe position",
+        "param": "probeX",
+        "min": 0,
+        "max": 8,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Moves the tracked parcel without changing the source sound."
+      }
+    ],
+    "presets": [
+      {
+        "id": "conversation",
+        "label": "Conversation tone",
+        "description": "A moderate pitch and moderate amplitude.",
+        "values": {
+          "amplitude": 0.1,
+          "waveSpeed": 2.4,
+          "frequency": 1.1,
+          "probeX": 2.2
+        }
+      },
+      {
+        "id": "higher-pitch",
+        "label": "Higher pitch",
+        "description": "Frequency rises while amplitude stays fixed.",
+        "values": {
+          "amplitude": 0.1,
+          "waveSpeed": 2.4,
+          "frequency": 1.65,
+          "probeX": 2.2
+        }
+      },
+      {
+        "id": "louder",
+        "label": "Louder",
+        "description": "Amplitude rises while frequency stays fixed.",
+        "values": {
+          "amplitude": 0.18,
+          "waveSpeed": 2.4,
+          "frequency": 1.1,
+          "probeX": 2.2
+        }
+      },
+      {
+        "id": "far-probe",
+        "label": "Farther probe",
+        "description": "The same sound is sampled farther downstream.",
+        "values": {
+          "amplitude": 0.1,
+          "waveSpeed": 2.4,
+          "frequency": 1.1,
+          "probeX": 4.4
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "motionDirections",
+        "label": "Motion directions",
+        "shortDescription": "Shows parcel motion and the right-moving disturbance at the same time.",
+        "whatToNotice": [
+          "Pitch and loudness are both being read from the same sound wave."
+        ],
+        "whyItMatters": "It keeps the sound model honest while you focus on pitch and loudness.",
+        "relatedControls": [
+          "frequency",
+          "probeX"
+        ],
+        "relatedGraphTabs": [
+          "displacement"
+        ],
+        "relatedEquationVariables": [
+          "frequency",
+          "probeX"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "compressionBands",
+        "label": "Compression spacing",
+        "shortDescription": "Highlights the repeating compression and rarefaction pattern.",
+        "whatToNotice": [
+          "Higher frequency packs the compression pattern closer together when the medium speed is fixed."
+        ],
+        "whyItMatters": "It ties pitch to the real spacing and timing of the sound wave.",
+        "relatedControls": [
+          "frequency"
+        ],
+        "relatedGraphTabs": [
+          "displacement",
+          "probe-pressure"
+        ],
+        "relatedEquationVariables": [
+          "frequency"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "energyTransfer",
+        "label": "Energy-transfer cue",
+        "shortDescription": "Marks the bounded loudness / intensity cue.",
+        "whatToNotice": [
+          "Larger amplitude increases the energy-transfer cue even when pitch stays fixed."
+        ],
+        "whyItMatters": "It keeps loudness tied to stronger driving rather than to faster cycling.",
+        "relatedControls": [
+          "amplitude"
+        ],
+        "relatedGraphTabs": [
+          "intensity-response"
+        ],
+        "relatedEquationVariables": [
+          "amplitude"
+        ],
+        "defaultOn": false
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "displacement",
+      "label": "Source and probe motion",
+      "xLabel": "time (s)",
+      "yLabel": "particle displacement (m)",
+      "series": [
+        "source",
+        "probe"
+      ],
+      "description": "Tracks how quickly the sound repeats, so pitch stays tied to frequency and period."
+    },
+    {
+      "id": "probe-pressure",
+      "label": "Probe shift and compression cue",
+      "xLabel": "time (s)",
+      "yLabel": "normalized cue",
+      "series": [
+        "probe-shift",
+        "compression"
+      ],
+      "description": "Separates one parcel's shift from the local medium state."
+    },
+    {
+      "id": "intensity-response",
+      "label": "Amplitude and intensity cue",
+      "xLabel": "particle amplitude (m)",
+      "yLabel": "intensity cue (arb.)",
+      "series": [
+        "intensity-cue"
+      ],
+      "description": "Shows the bounded amplitude-squared intensity cue so loudness can be separated from pitch."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use one cue at a time. Each prompt points to a pitch-versus-loudness distinction already visible on the bench.",
+    "items": [
+      {
+        "id": "pfli-notice-pitch",
+        "text": "Notice that raising frequency makes the traces cycle faster and packs the compression pattern closer together. That is the pitch change.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Start from Conversation tone, then move to Higher pitch without touching amplitude.",
+        "whyItMatters": "It keeps pitch tied to timing and spacing, not to wave height.",
+        "relatedControls": [
+          "frequency"
+        ],
+        "relatedGraphTabs": [
+          "displacement"
+        ],
+        "relatedOverlays": [
+          "compressionBands"
+        ],
+        "relatedEquationVariables": [
+          "frequency"
+        ]
+      },
+      {
+        "id": "pfli-notice-loudness",
+        "text": "Notice that raising amplitude makes the parcel motion larger and pushes the intensity-response graph upward, but the timing does not speed up. That is a loudness change, not a pitch change.",
+        "type": "misconception",
+        "priority": 2,
+        "conditions": {
+          "lastChangedControls": [
+            "amplitude"
+          ]
+        },
+        "tryThis": "Move from Conversation tone to Louder while watching the intensity-response graph.",
+        "whyItMatters": "It separates the amplitude story from the frequency story.",
+        "relatedControls": [
+          "amplitude"
+        ],
+        "relatedGraphTabs": [
+          "intensity-response"
+        ],
+        "relatedOverlays": [
+          "energyTransfer"
+        ],
+        "relatedEquationVariables": [
+          "amplitude"
+        ]
+      },
+      {
+        "id": "pfli-notice-probe",
+        "text": "Notice that moving the probe changes delay, not the source pitch or loudness.",
+        "type": "graph-reading",
+        "priority": 5,
+        "conditions": {
+          "lastChangedControls": [
+            "probeX"
+          ]
+        },
+        "tryThis": "Move the probe farther right and compare the delay before and after.",
+        "whyItMatters": "It prevents source properties from being confused with where the wave is sampled.",
+        "relatedControls": [
+          "probeX"
+        ],
+        "relatedGraphTabs": [
+          "displacement",
+          "probe-pressure"
+        ],
+        "relatedEquationVariables": [
+          "probeX"
+        ]
+      },
+      {
+        "id": "pfli-notice-compare",
+        "text": "Notice which setup cycles faster and which setup has the bigger intensity cue. One setup can win one comparison without winning the other.",
+        "type": "compare",
+        "priority": 6,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Use compare mode once for higher pitch with the same amplitude, then again for louder sound with the same frequency.",
+        "whyItMatters": "Compare mode makes the pitch-versus-loudness split explicit.",
+        "relatedControls": [
+          "frequency",
+          "amplitude"
+        ],
+        "relatedGraphTabs": [
+          "displacement",
+          "intensity-response"
+        ],
+        "relatedOverlays": [
+          "compressionBands",
+          "energyTransfer"
+        ],
+        "relatedEquationVariables": [
+          "frequency",
+          "amplitude"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Commit to the pitch-versus-loudness consequence before you test it.",
+    "items": [
+      {
+        "id": "pfli-predict-higher-pitch",
+        "prompt": "Keep amplitude fixed but raise frequency. What should happen?",
+        "scenarioLabel": "Raise frequency",
+        "changeLabel": "Frequency",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Pitch rises, the period gets shorter, and the loudness cue stays about the same."
+          },
+          {
+            "id": "b",
+            "label": "Pitch stays fixed because amplitude did not change."
+          },
+          {
+            "id": "c",
+            "label": "The sound gets louder because the wave repeats more often."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Frequency controls pitch and period. If amplitude stays fixed, the bounded loudness cue stays about the same.",
+        "observationHint": "Watch the displacement graph speed up while the amplitude stays matched.",
+        "apply": {
+          "presetId": "higher-pitch"
+        },
+        "highlightedControls": [
+          "frequency"
+        ],
+        "highlightedGraphs": [
+          "displacement"
+        ],
+        "highlightedOverlays": [
+          "compressionBands"
+        ]
+      },
+      {
+        "id": "pfli-predict-louder",
+        "prompt": "Keep frequency fixed but raise amplitude. What should happen?",
+        "scenarioLabel": "Raise amplitude",
+        "changeLabel": "Amplitude",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The loudness / intensity cue rises, but pitch stays about the same."
+          },
+          {
+            "id": "b",
+            "label": "The pitch rises because taller waves mean more cycles each second."
+          },
+          {
+            "id": "c",
+            "label": "The wavelength shortens because the graph is taller."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Amplitude changes the size of the motion and the intensity cue. It does not set pitch when frequency is fixed.",
+        "observationHint": "Compare the intensity-response graph and the unchanged timing after the amplitude change.",
+        "apply": {
+          "presetId": "louder"
+        },
+        "highlightedControls": [
+          "amplitude"
+        ],
+        "highlightedGraphs": [
+          "intensity-response"
+        ],
+        "highlightedOverlays": [
+          "energyTransfer"
+        ]
+      },
+      {
+        "id": "pfli-predict-farther-probe",
+        "prompt": "Keep the source the same but move the probe farther downstream. What should happen?",
+        "scenarioLabel": "Move the probe",
+        "changeLabel": "Probe position",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Delay increases, but the source pitch and loudness stay the same."
+          },
+          {
+            "id": "b",
+            "label": "Pitch drops because the sound had farther to travel."
+          },
+          {
+            "id": "c",
+            "label": "The sound becomes louder because the probe sees more of the wave."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Probe position changes where the wave is sampled, not what sound the source is producing.",
+        "observationHint": "Compare the probe delay before and after while the frequency and amplitude stay fixed.",
+        "apply": {
+          "presetId": "far-probe"
+        },
+        "highlightedControls": [
+          "probeX"
+        ],
+        "highlightedGraphs": [
+          "displacement"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use compare mode to separate faster cycling from stronger driving without switching models.",
+    "items": [
+      {
+        "id": "pfli-ch-louder-same-pitch",
+        "title": "Louder, same pitch",
+        "style": "parameter-match",
+        "prompt": "Enter compare mode and make Setup B louder than Setup A while keeping the pitch the same.",
+        "successMessage": "Setup B is louder because amplitude and the intensity cue are larger, but the pitch is unchanged because frequency stayed fixed.",
+        "setup": {
+          "presetId": "conversation",
+          "interactionMode": "compare",
+          "graphId": "intensity-response",
+          "note": "Clone Conversation tone into A and B, then edit only Setup B."
+        },
+        "hints": [
+          "Keeping pitch the same means frequency should stay matched.",
+          "Raise amplitude in Setup B and watch the intensity-response graph."
+        ],
+        "checks": [
+          {
+            "type": "compare-active",
+            "label": "Switch into compare mode and edit Setup B.",
+            "target": "b"
+          },
+          {
+            "type": "graph-active",
+            "label": "Keep the amplitude-to-intensity graph open.",
+            "graphId": "intensity-response"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup A near the conversation frequency.",
+            "setup": "a",
+            "param": "frequency",
+            "min": 1.05,
+            "max": 1.15
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup B on the same frequency.",
+            "setup": "b",
+            "param": "frequency",
+            "min": 1.05,
+            "max": 1.15
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup A on the baseline amplitude.",
+            "setup": "a",
+            "param": "amplitude",
+            "min": 0.095,
+            "max": 0.105
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Raise Setup B to a clearly louder amplitude.",
+            "setup": "b",
+            "param": "amplitude",
+            "min": 0.175,
+            "max": 0.185
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Keep Setup A on the baseline intensity cue.",
+            "setup": "a",
+            "metric": "intensityCue",
+            "min": 0.009,
+            "max": 0.011
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Raise Setup B to the louder intensity cue.",
+            "setup": "b",
+            "metric": "intensityCue",
+            "min": 0.031,
+            "max": 0.034
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Use the sound-bench cues from the lesson, not memory alone. These checks separate pitch, amplitude, and the bounded loudness cue.",
+    "questions": [
+      {
+        "id": "pfli-qt-higher-pitch",
+        "type": "misconception-check",
+        "prompt": "Which change raises pitch without changing the loudness cue?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Increase frequency while keeping amplitude fixed."
+          },
+          {
+            "id": "b",
+            "label": "Increase amplitude while keeping frequency fixed."
+          },
+          {
+            "id": "c",
+            "label": "Move the probe farther downstream."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Pitch follows frequency. If amplitude stays fixed, the loudness cue stays about the same.",
+        "selectedWrongExplanations": {
+          "b": "That changes loudness, not pitch.",
+          "c": "That changes delay, not the source sound."
+        },
+        "showMeAction": {
+          "label": "Show the higher-pitch setup",
+          "presetId": "higher-pitch",
+          "observationHint": "The traces cycle faster while amplitude stays matched.",
+          "highlightedControlIds": [
+            "frequency"
+          ],
+          "highlightedGraphIds": [
+            "displacement"
+          ]
+        }
+      },
+      {
+        "id": "pfli-qt-louder",
+        "type": "variable-effect",
+        "prompt": "Frequency stays fixed, but amplitude increases. What must happen?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The sound becomes louder in the bounded sense because the intensity cue rises, while pitch stays the same."
+          },
+          {
+            "id": "b",
+            "label": "The pitch rises because taller waves mean more cycles each second."
+          },
+          {
+            "id": "c",
+            "label": "The wavelength must shorten because the curve is taller."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Amplitude changes the size of the motion and the intensity cue. It does not set pitch when frequency is fixed.",
+        "selectedWrongExplanations": {
+          "b": "Pitch does not come from wave height.",
+          "c": "Wavelength is set by wave speed and frequency here, not by amplitude."
+        },
+        "showMeAction": {
+          "label": "Show the louder setup",
+          "presetId": "louder",
+          "observationHint": "The intensity-response graph rises while the timing stays matched to the conversation tone.",
+          "highlightedControlIds": [
+            "amplitude"
+          ],
+          "highlightedGraphIds": [
+            "intensity-response"
+          ],
+          "highlightedOverlayIds": [
+            "energyTransfer"
+          ]
+        }
+      },
+      {
+        "id": "pfli-qt-intensity-graph",
+        "type": "graph-reading",
+        "prompt": "Why does the intensity-response graph curve upward instead of staying straight?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because the bounded intensity cue scales like amplitude squared."
+          },
+          {
+            "id": "b",
+            "label": "Because pitch is increasing automatically as amplitude rises."
+          },
+          {
+            "id": "c",
+            "label": "Because the probe is farther away at larger amplitudes."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The graph is curved because the cue uses A squared. That is why loudness should not be confused with pitch.",
+        "selectedWrongExplanations": {
+          "b": "The graph is about amplitude versus intensity cue, not about frequency.",
+          "c": "Probe position is not what the response graph is sweeping."
+        },
+        "showMeAction": {
+          "label": "Open the intensity-response graph",
+          "presetId": "conversation",
+          "observationHint": "Trace the graph to larger amplitudes and watch the curvature.",
+          "highlightedControlIds": [
+            "amplitude"
+          ],
+          "highlightedGraphIds": [
+            "intensity-response"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a horizontal sound tube with a source piston, parcel markers, a movable probe, and a colored compression ribbon. Optional overlays mark motion direction, compression spacing, and a bounded energy-transfer cue.",
+        "Changing frequency changes how quickly the sound repeats and how closely the compression pattern is spaced. Changing amplitude changes the parcel swing size and the linked intensity cue."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The first graph compares source and probe displacement over time so pitch stays tied to frequency and period.",
+        "The second graph compares the probe shift with the local compression cue.",
+        "The third graph shows the bounded intensity cue as a function of amplitude."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Pitch, Frequency, and Loudness / Intensity | Open Model Lab",
+    "description": "Learn how pitch follows frequency, how loudness follows amplitude, and why those sound properties should not be confused on one compact live sound bench.",
+    "keywords": [
+      "pitch and frequency",
+      "loudness and intensity",
+      "sound waves",
+      "amplitude"
+    ]
+  }
+}

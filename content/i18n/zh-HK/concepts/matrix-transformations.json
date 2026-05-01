@@ -1,0 +1,478 @@
+{
+  "title": "矩陣變換 / 拉伸、錯切、反射",
+  "shortTitle": "矩陣變換",
+  "summary": "把 2×2 矩陣當作平面上的動作來看，直接觀察列向量、單位正方形和樣本圖形如何一起被拉伸、錯切或反射，而不是隻背數字規則。",
+  "highlights": [
+    "列為基底影像",
+    "網格和正方形一起移動",
+    "拉伸、錯切、反射"
+  ],
+  "topic": "向量",
+  "subtopic": "平面的線性作用",
+  "recommendedNext": [
+    {
+      "slug": "dot-product-angle-and-projection",
+      "reasonLabel": "保持向量分支對齊和投影"
+    },
+    {
+      "slug": "complex-numbers-on-the-plane",
+      "reasonLabel": "重用同一個平面進行複數的縮放和旋轉動作"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "當矩陣被視為平面上的可視操作而不是一個獨立的數字表格時，它變得更容易信任。這個試驗台保持變換後的網格、基底向量、單位正方形和一個樣本三角形在同一坐標系統中，因此拉伸、錯切、反射和組合動作保持幾何化。",
+        "最乾淨的閱讀方式是按列順序。第一列告訴你 $e_1$ 落在哪裡，第二列告訴你 $e_2$ 落在哪裡，其他每個點都遵循相同的組合規則。"
+      ]
+    },
+    "keyIdeas": [
+      "矩陣的列是基底向量的影像，所以它們已經告訴你單位正方形和網格將如何傾斜、拉伸或反射。",
+      "矩陣以相同的線性規則 $M\\langle x, y \\rangle = \\langle ax + by, cx + dy \\rangle$ 作用於每個點，因此直的網格線保持直。",
+      "拉伸、錯切和反射是同一個 2x2 行動的不同可視結果。"
+    ],
+    "commonMisconception": {
+      "myth": "每一個條目獨立地移動樣本形狀，所以網格和基底向量只是裝飾。",
+      "correction": [
+        "條目很重要，因為它們設定了兩個基底影像的列。",
+        "一旦這些列被固定，網格、單位正方形和每個樣本點都將從相同的線性組合規則中得出。"
+      ]
+    },
+    "workedExamples": {
+      "title": "即時例題",
+      "intro": "使用兩個固定的矩陣案例來保持列規則與清晰的平面影像相關聯。",
+      "items": [
+        {
+          "id": "read-the-current-basis-images",
+          "title": "閱讀錯切列",
+          "prompt": "對於錯切矩陣 $M = \\begin{bmatrix} 1 & 1 \\\\ 0 & 1 \\end{bmatrix}$，$e_1$ 和 $e_2$ 落在哪裡？",
+          "variables": [
+            {
+              "id": "m11",
+              "label": "第一列 x 元素"
+            },
+            {
+              "id": "m21",
+              "label": "第一列 y 元素"
+            },
+            {
+              "id": "m12",
+              "label": "第二列 x 元素"
+            },
+            {
+              "id": "m22",
+              "label": "第二列 y 元素"
+            }
+          ],
+          "steps": [
+            {
+              "id": "matrix-columns",
+              "label": "1. 直接讀取矩陣的列"
+            },
+            {
+              "id": "basis-1-image",
+              "label": "2. 將其應用於第一個基底向量"
+            },
+            {
+              "id": "basis-2-image",
+              "label": "3. 將其應用於第二基底向量"
+            }
+          ],
+          "resultLabel": "當前基底像點",
+          "applyAction": {
+            "label": "應用剪下情況",
+            "observationHint": "第一列靠近 x 軸，而第二列向右傾斜。"
+          }
+        },
+        {
+          "id": "send-the-tracked-point-through-the-matrix",
+          "title": "將追蹤點送入反射",
+          "prompt": "$p = \\langle 1.6, 1.1 \\rangle$ 在反射矩陣 $M = \\begin{bmatrix} -1 & 0 \\\\ 0 & 1 \\end{bmatrix}$ 下會落在哪裡？",
+          "variables": [
+            {
+              "id": "m11",
+              "label": "第一列 x 元素"
+            },
+            {
+              "id": "m12",
+              "label": "第二列 x 元素"
+            },
+            {
+              "id": "m21",
+              "label": "第一列 y 元素"
+            },
+            {
+              "id": "m22",
+              "label": "第二列 y 元素"
+            }
+          ],
+          "steps": [
+            {
+              "id": "write-the-rule",
+              "label": "1. 使用矩陣作用於一般點"
+            },
+            {
+              "id": "plug-in-point",
+              "label": "2. 代入追蹤點"
+            },
+            {
+              "id": "finish-point",
+              "label": "3. 完成 y 值"
+            }
+          ],
+          "resultLabel": "追蹤點像點",
+          "applyAction": {
+            "label": "應用反射情況",
+            "observationHint": "由於第一個基底方向已翻轉，追蹤點會移至對側。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "設定矩陣使其單位正方形向右傾斜而不翻轉，並保持第一個基底向量接近原始 x 軸方向。",
+      "prediction": "在接觸列之前，決定是否需要伸縮、剪下或反射。",
+      "answer": "你需要一個保持正向的剪下：讓 $M e_1$ 仍接近 $\\langle 1, 0 \\rangle$，同時把 $M e_2$ 推向右側。",
+      "explanation": "這樣會建立一個傾斜的平行四邊形而不是映象。基底列控制整個影像。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "根據實時平面圖和列規則一起回答。",
+    "questions": [
+      {
+        "id": "mt-qt-columns",
+        "prompt": "在這個工作台上，2x2 矩陣的兩列最誠實的第一層解讀是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它們是 $e_1$ 和 $e_2$ 的像。"
+          },
+          {
+            "id": "b",
+            "label": "它們隻影響樣本三角形，而不影響網格。"
+          },
+          {
+            "id": "c",
+            "label": "它們只是用來記錄數值，因此幾何影像是獨立的。"
+          }
+        ],
+        "explanation": "正因如此，這兩列已經決定了單位正方形和整個變換後網格的樣子。"
+      },
+      {
+        "id": "mt-qt-shear",
+        "prompt": "哪一個單一改動最適合做出向右剪下，同時把第一個基底方向維持在接近 $\\langle 1, 0 \\rangle$？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "增加第二列的 x 分量。"
+          },
+          {
+            "id": "b",
+            "label": "把第一列的 x 分量改成負值。"
+          },
+          {
+            "id": "c",
+            "label": "把兩個對角元素都設為零。"
+          }
+        ],
+        "explanation": "這樣會把 $e_2$ 向右傾斜，同時讓 $e_1$ 仍接近原本的方向。"
+      },
+      {
+        "id": "mt-qt-reflection",
+        "prompt": "有學生説反射只會翻轉樣本三角形，不會影響網格。漏掉了什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "反射改變的是整個平面的作用，因此網格、基底向量和每個樣本點都會一致地翻轉。"
+          },
+          {
+            "id": "b",
+            "label": "反射只會改變追蹤點，因為它是特殊情況。"
+          },
+          {
+            "id": "c",
+            "label": "反射需要第三個維度，網格才會察覺。"
+          }
+        ],
+        "explanation": "這個工作台展示的是同一個矩陣如何作用於整個平面，而不是隻有某個圖形收到特殊待遇。"
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬會顯示一個坐標平面，包含變換後的網格、兩個可拖動的基底像向量、變換後的單位正方形、變換後的樣本三角形，以及追蹤探針點。滑桿會改變決定兩個基底像的四個矩陣元素。",
+        "比較模式可以疊加第二組變換設定，而圖表懸停則能預覽同一矩陣作用從單位矩陣混合到目前矩陣的過程。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "其中一個圖會追蹤固定探針點的 x 與 y 座標，顯示目前矩陣從單位矩陣過渡過來時的位置變化。另一個圖則追蹤基底像向量的長度在同一混合過程中的改變。",
+        "這些圖都和同一個平面綁在一起，因此懸停時可以直接在網格與圖形上預覽中間矩陣動作。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "matrix-shear-right-view",
+        "label": "向右剪下",
+        "description": "開啟一個乾淨的剪下案例，讓基底向量和正方形清楚可見。",
+        "setup": {
+          "note": "用這個案例觀察一個非對角元素如何讓整個平面傾斜。"
+        }
+      },
+      {
+        "id": "matrix-reflect-y-view",
+        "label": "沿 y 軸反射",
+        "description": "開啟反射案例並比較原始三角形和變換後的三角形。",
+        "setup": {
+          "note": "這樣可以見證，反射會翻轉整個平面，而不僅僅是某個形狀。"
+        }
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "matrix-form",
+      "label": "2x2矩陣",
+      "meaning": "將平面上的一種線性操作整合為四個元素。"
+    },
+    {
+      "id": "basis-columns",
+      "label": "列是基底影像",
+      "meaning": "解釋為什麼這兩列已經告訴你單位正方形和整個網格會如何移動。"
+    },
+    {
+      "id": "matrix-action",
+      "label": "作用於任何向量",
+      "meaning": "展示每個點是如何從相同的基底影像列重建的。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "m11",
+      "label": "第一列 x 元素",
+      "description": "設定 $M e_1$ 的 x 分量。"
+    },
+    {
+      "id": "m21",
+      "label": "第一列 y 元素",
+      "description": "設定 $M e_1$ 的 y 分量。"
+    },
+    {
+      "id": "m12",
+      "label": "第二列 x 元素",
+      "description": "設定 $M e_2$ 的 x 分量，並是最快速的水平錯切視覺化途徑。"
+    },
+    {
+      "id": "m22",
+      "label": "第二列 y 元素",
+      "description": "設定 $M e_2$ 的 y 分量。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "m11",
+        "label": "第一列 x 分量",
+        "description": "設定 e1 映像的 x 分量。"
+      },
+      {
+        "id": "m21",
+        "label": "第一列 y 分量",
+        "description": "設定 e1 映像的 y 分量。"
+      },
+      {
+        "id": "m12",
+        "label": "第二列 x 分量",
+        "description": "設定 e2 映像的 x 分量。"
+      },
+      {
+        "id": "m22",
+        "label": "第二列 y 分量",
+        "description": "設定 e2 映像的 y 分量。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "shear-right",
+        "label": "向右錯切",
+        "description": "保持 e1 不變，並把 e2 推向右方。"
+      },
+      {
+        "id": "reflect-y",
+        "label": "對 y 軸反射",
+        "description": "把 x 方向翻轉，同時保留 y 方向。"
+      },
+      {
+        "id": "identity",
+        "label": "恆等變換",
+        "description": "保持整個平面不變。"
+      },
+      {
+        "id": "stretch-x",
+        "label": "沿 x 拉伸",
+        "description": "把水平方向放大得更明顯。"
+      },
+      {
+        "id": "combined-action",
+        "label": "組合動作",
+        "description": "同時包含拉伸與傾斜效果。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "referenceGrid",
+        "label": "參考網格",
+        "shortDescription": "保留原始與變換後的網格，方便直接比較。",
+        "whatToNotice": [
+          "整張網格都依照同一組列向量規則一起變形。"
+        ],
+        "whyItMatters": "它讓矩陣作用保持為整個平面的幾何變換。"
+      },
+      {
+        "id": "basisVectors",
+        "label": "基底向量",
+        "shortDescription": "把 e1 和 e2 的映像清楚畫出來。",
+        "whatToNotice": [
+          "只要看兩個基底向量去哪裡，就能預測整個方格會怎樣變。"
+        ],
+        "whyItMatters": "它把矩陣的列重新連回最核心的幾何意義。"
+      },
+      {
+        "id": "unitSquare",
+        "label": "單位正方形",
+        "shortDescription": "顯示單位正方形如何被拉伸、傾斜或翻轉。",
+        "whatToNotice": [
+          "正方形的四個角都跟隨同一套線性規則移動。"
+        ],
+        "whyItMatters": "它讓面積與形狀改變變得比單看箭頭更直觀。"
+      },
+      {
+        "id": "sampleShape",
+        "label": "樣本圖形",
+        "shortDescription": "保留一個具體圖形，觀察同一矩陣如何作用在一般點集上。",
+        "whatToNotice": [
+          "樣本圖形和網格、基底向量會一起被同一矩陣變換。"
+        ],
+        "whyItMatters": "它提醒你矩陣不是隻改變幾條基底箭頭，而是改變整個平面上的所有點。"
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "probe-image-blend",
+      "label": "探測點映像插值",
+      "xLabel": "插值引數 t",
+      "yLabel": "分量",
+      "description": "顯示探測點的映像如何隨插值過程平滑變化。"
+    },
+    {
+      "id": "basis-length-blend",
+      "label": "基底長度隨插值變化",
+      "xLabel": "插值引數 t",
+      "yLabel": "長度",
+      "description": "比較兩個基底映像的長度如何隨同一變換過程改變。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "觀察重點",
+    "intro": "把列向量、網格和樣本圖形一起看，避免只把矩陣當成數字表。",
+    "items": [
+      {
+        "id": "mt-notice-columns",
+        "text": "先看兩條列向量去哪裡，因為它們已經決定了整個網格和樣本圖形會怎樣被拖動。"
+      },
+      {
+        "id": "mt-notice-shear",
+        "text": "當第二列的 x 分量增加時，e2 會向右偏，整張網格也會出現明顯的錯切效果。"
+      },
+      {
+        "id": "mt-notice-blend",
+        "text": "留意插值滑動時的變化：t = 0 是起點，t = 1 是完整矩陣作用，中間每一刻都在同一條變換路徑上。"
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "先根據列向量預測幾何效果，再套用預設檢視結果。",
+    "items": [
+      {
+        "id": "mt-predict-shear-right",
+        "prompt": "如果把第二列的 x 分量 b 調大，最合理的幾何結果是甚麼？",
+        "scenarioLabel": "把 b 調大",
+        "choices": [
+          {
+            "id": "a",
+            "label": "e2 會向右傾，整個圖形出現更強的錯切。"
+          },
+          {
+            "id": "b",
+            "label": "只有 y 方向會改變。"
+          },
+          {
+            "id": "c",
+            "label": "整個平面會完全不變。"
+          }
+        ],
+        "explanation": "增加第二列的 x 分量，代表 e2 的映像會更向右偏，所以矩陣的作用會呈現更明顯的錯切。",
+        "observationHint": "留意第二條基底向量和單位正方形是否一起向右傾斜。"
+      },
+      {
+        "id": "mt-predict-reflect-y",
+        "prompt": "如果把 x 方向翻到對面，哪一句最能描述這個變換？",
+        "scenarioLabel": "對 y 軸反射",
+        "choices": [
+          {
+            "id": "a",
+            "label": "所有點都會左右翻轉，但 y 方向保持不變。"
+          },
+          {
+            "id": "b",
+            "label": "只有樣本圖形會翻轉，網格不會動。"
+          },
+          {
+            "id": "c",
+            "label": "整個平面只會被放大，不會反射。"
+          }
+        ],
+        "explanation": "對 y 軸反射會把所有 x 座標變號，因此整個平面會左右翻轉，而 y 座標保持原樣。",
+        "observationHint": "比較反射前後的樣本圖形，注意它如何跨過 y 軸映象對稱。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "用同一個變換台親手建立目標矩陣效果，而不是隻靠背誦行列數字。",
+    "items": [
+      {
+        "id": "mt-ch-build-right-shear",
+        "title": "建立右向錯切",
+        "prompt": "調整矩陣，使 e1 保持接近原位，同時令 e2 向右傾斜，從而形成明顯的右向錯切。",
+        "successMessage": "你已建立清楚的右向錯切：e1 仍接近原本方向，而 e2 向右偏移，整個網格也一起傾斜。",
+        "setup": {
+          "note": "先盯住 e2 的方向，再檢查 e1 是否仍接近原本位置。"
+        },
+        "hints": [
+          "保持 e1 接近標準 x 方向，也就是接近 ⟨1, 0⟩。",
+          "提高 x 分量，令 e2 向右偏移。"
+        ],
+        "targets": [
+          {
+            "label": "把第一列 x 分量保持在 1 附近"
+          },
+          {
+            "label": "把第一列 y 分量保持在 0 附近"
+          },
+          {
+            "label": "把第二列 x 分量調到 1 附近，使 e2 向右偏"
+          },
+          {
+            "label": "把第二列 y 分量保持在 1 附近以保留高度"
+          }
+        ]
+      }
+    ]
+  }
+}

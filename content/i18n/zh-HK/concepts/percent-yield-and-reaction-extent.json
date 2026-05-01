@@ -1,0 +1,402 @@
+{
+  "title": "產率和反應程度",
+  "shortTitle": "產率",
+  "summary": "將實際輸出與同一理論配方上限進行比較，使產率保持視覺上的真實性。",
+  "highlights": [
+    "理論標誌",
+    "實際輸出",
+    "產率差距"
+  ],
+  "topic": "物料衡算與產率",
+  "subtopic": "實際與理論輸出比較",
+  "recommendedNext": [
+    {
+      "slug": "concentration-and-dilution",
+      "reasonLabel": "將數量簿記帶入解決方案"
+    },
+    {
+      "slug": "solubility-and-saturation",
+      "reasonLabel": "在燒杯中保留輸出上限的概念"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "產率保持真實性，因為理想輸出標誌和實際產品託盤坐在同一配方工作台上。此模組將限制反應物概念、理論產物和實際完成批次放在一起，從而使產率永遠不會成為脱離代數的抽象概念。",
+        "在此工作台上，反應程度是實際完成的理論配方批次的比例。產率下降不改變配方卡或限制反應物。它僅改變可能輸出中出現的部分。"
+      ]
+    },
+    "keyIdeas": [
+      "理論產物來自於應用產率之前的限制反應物批次上限。",
+      "產率將實際輸出相對於該理論上限進行縮放。",
+      "如果產率低於100%，則可能的輸出部分缺失，且比全產率情況下更多的反應物包裝未被使用。"
+    ],
+    "commonMisconception": {
+      "myth": "75%的產率意味著配方本身從開始就只使用了每包反應物的75%。",
+      "correction": [
+        "配方卡保持不變。產率改變的是可能輸出中實際完成的部分。",
+        "相同的起始供應可以具有相同的理論產物，而實際產品託盤的位置較低。"
+      ]
+    },
+    "workedExamples": {
+      "title": "示例",
+      "intro": "一起使用實際託盤和理想標誌。",
+      "items": [
+        {
+          "id": "read-a-seventy-five-percent-yield-run",
+          "title": "閱讀75%的產率執行",
+          "prompt": "在有12 A、18 B和2:3配方且產率為75%的情況下，有多少產品出現以及產率差距是多少？",
+          "variables": [
+            {
+              "id": "reactant-a-supply",
+              "label": "反應物 A 包數"
+            },
+            {
+              "id": "reactant-b-supply",
+              "label": "反應物 B 包數"
+            },
+            {
+              "id": "percent-yield",
+              "label": "百分比產率"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-theoretical-output",
+              "label": "1. 首先閱讀理論批次上限"
+            },
+            {
+              "id": "apply-yield",
+              "label": "2. 透過產率縮放實際輸出"
+            },
+            {
+              "id": "read-the-gap",
+              "label": "3. 將實際輸出與理想標誌進行比較"
+            }
+          ],
+          "resultLabel": "實際輸出和差距",
+          "applyAction": {
+            "label": "展示75%的產率執行",
+            "observationHint": "理想標誌保持在6個批次的位置，而實際託盤則較低地停留在4.5個。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "固定配方，然後降低產率直到實際託盤明顯未達到理想的標誌。",
+      "prediction": "決定哪個滑桿改變實際產出而不改變理論批次上限。",
+      "answer": "百分比產率改變實際產出，而理論批次上限保持由同一配方和限制性反應物設定。",
+      "explanation": "這樣做可以將理論產率和實際產率分開在一個工作台上，而不是把它們合併成一個數字。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "從理論標記和實際託盤一起回答。",
+    "questions": [
+      {
+        "id": "pyre-qt-percent-yield",
+        "prompt": "如果一次執行的理論產出是6批次且產率為75%，那麼託盤應該顯示多少實際產出？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "4.5批次"
+          },
+          {
+            "id": "b",
+            "label": "6批次"
+          },
+          {
+            "id": "c",
+            "label": "1.5批次"
+          }
+        ],
+        "explanation": "七十五個百分比的六批次是4.5實際批次。",
+        "selectedWrongExplanations": {
+          "b": "六批次仍然是理論標記，而不是產率為75%時較低的實際託盤。",
+          "c": "1.5批次是缺失的產率差距，不是實際產出。"
+        },
+        "showMeAction": {
+          "label": "顯示75%產率執行",
+          "observationHint": "託盤停留在4.5而理想標記保持在6。"
+        }
+      },
+      {
+        "id": "pyre-qt-yield-keeps-recipe",
+        "prompt": "哪個陳述最能描述百分比產率的變化？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它改變相同比例下的實際產出。"
+          },
+          {
+            "id": "b",
+            "label": "它重寫了一個批次的化學計量比例。"
+          },
+          {
+            "id": "c",
+            "label": "它確保無論如何反應物都能完全消耗。"
+          }
+        ],
+        "explanation": "百分比產率根據同一理論配方調整實際產出。",
+        "selectedWrongExplanations": {
+          "b": "食譜卡保持不變。產率改變的是完成的產出，而不是化學計量比例。",
+          "c": "產率較低通常會留下更多反應物未使用，因為實際完成的批次較少。"
+        },
+        "showMeAction": {
+          "label": "比較75%和100%",
+          "observationHint": "理想標記保持不變，當你移動產率滑桿時，實際託盤改變。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示兩個反應物供應倉、一個產品託盤和一個配方卡，該卡表明一整批需要多少A和B的包裝。",
+        "讀出卡報告當前配方、最大可能批次、哪種供應品是限制反應物、實際產出以及執行後每種反應物剩餘多少。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "一張圖掃描可能批次對A供應，第二張圖掃描可能批次對B供應，第三張圖比較隨著百分比產率變化實際產品與理論產品。",
+        "理想標記和實際託盤保持緊密聯絡於同一配方工作台上，因此百分比產率讀作從理論產出的可見差距。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "readNext",
+        "title": "將產率帶入下一門化學分支"
+      }
+    ],
+    "featuredSetups": [
+      {
+        "id": "partial-yield-window",
+        "label": "75%產率執行",
+        "description": "開啟食譜匹配但實際託盤未達到理想標記的執行。"
+      },
+      {
+        "id": "full-yield-window",
+        "label": "全產率對比",
+        "description": "比較同一供應下的相同批次在100%產率下，使得理想產出完全實現。"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "actual-from-theoretical",
+      "label": "根據百分比產率的實際產出",
+      "meaning": "百分比產率將理論批次數調整為實際完成的產出。"
+    },
+    {
+      "id": "reaction-extent",
+      "label": "反應程度",
+      "meaning": "此實驗台上反應的反應程度是理論產出中實際出現的部分。"
+    },
+    {
+      "id": "yield-gap",
+      "label": "產率差距",
+      "meaning": "缺失的產出部分是理論標誌與實際託盤之間的差異。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "reactant-a-supply",
+      "label": "反應物 A 包數",
+      "description": "有助於在產率改變實際產出之前設定理論批次上限。"
+    },
+    {
+      "id": "reactant-b-supply",
+      "label": "反應物 B 包數",
+      "description": "有助於在產率改變實際產出之前設定理論批次上限。"
+    },
+    {
+      "id": "percent-yield",
+      "label": "百分比產率",
+      "description": "改變實際出現於產品託盤中的理論產出量。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "reactantAAmount",
+        "label": "反應物 A 包數",
+        "description": "調整這次實驗一開始提供多少包 A。"
+      },
+      {
+        "id": "reactantBAmount",
+        "label": "反應物 B 包數",
+        "description": "調整這次實驗一開始提供多少包 B。"
+      },
+      {
+        "id": "recipeA",
+        "label": "A 每批次",
+        "description": "設定完成一個完整配方批次要用多少包 A。"
+      },
+      {
+        "id": "recipeB",
+        "label": "B 每批次",
+        "description": "設定完成一個完整配方批次要用多少包 B。"
+      },
+      {
+        "id": "percentYield",
+        "label": "百分比產率",
+        "description": "把它調低，用固定的理論標記對照實際輸出。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "matched-two-three",
+        "label": "匹配 2:3 配方",
+        "description": "A 與 B 恰好對應同一個理論批次上限。"
+      },
+      {
+        "id": "a-limiting",
+        "label": "A 為限制反應物",
+        "description": "A 先決定理論上限，而 B 仍有剩餘。"
+      },
+      {
+        "id": "b-limiting",
+        "label": "B 為限制反應物",
+        "description": "B 先決定理論上限，而 A 仍有剩餘。"
+      },
+      {
+        "id": "partial-yield",
+        "label": "75% 產率",
+        "description": "配方不變，但實際輸出低於理論上限。"
+      },
+      {
+        "id": "three-to-two",
+        "label": "3:2 配方",
+        "description": "更改每批用量後，再比較理論與實際輸出。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "recipeCard",
+        "label": "配方卡",
+        "shortDescription": "顯示每一個完整批次需要多少 A 和 B。",
+        "whatToNotice": [
+          "即使產率下降，配方卡與限制試劑本身都不會改變。"
+        ],
+        "whyItMatters": "這能把理論配方的故事，跟之後的百分比產率調整清楚分開。"
+      },
+      {
+        "id": "limitingCue",
+        "label": "限制提示",
+        "shortDescription": "標示理論批次上限由哪一方決定，與產率設定分開。",
+        "whatToNotice": [
+          "理論批次上限仍由同一個限制試劑決定，不會因產率下降而改寫。"
+        ],
+        "whyItMatters": "這能避免把理論上限和實際輸出混成同一回事。"
+      },
+      {
+        "id": "yieldGap",
+        "label": "產率差距",
+        "shortDescription": "顯示理論標記與實際輸出之間的可見差距。",
+        "whatToNotice": [
+          "當產率下降時，理論標記與實際託盤之間的空隙會直接變大。"
+        ],
+        "whyItMatters": "它讓你一眼看出哪些原本可達的產物並沒有真正生成。"
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "batches-vs-reactant-a",
+      "label": "A 供應與可能批次",
+      "xLabel": "反應物 A 包數",
+      "yLabel": "可能批次",
+      "description": "掃描 A 的供應如何在 B 保持固定時設定理論批次上限。"
+    },
+    {
+      "id": "batches-vs-reactant-b",
+      "label": "B 供應與可能批次",
+      "xLabel": "反應物 B 包數",
+      "yLabel": "可能批次",
+      "description": "掃描 B 的供應如何在 A 保持固定時設定理論批次上限。"
+    },
+    {
+      "id": "yield-vs-percent",
+      "label": "產率與實際輸出",
+      "xLabel": "百分比產率",
+      "yLabel": "實際輸出",
+      "description": "顯示理論批次上限固定時，實際輸出如何隨產率變化。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "觀察重點",
+    "intro": "把理論標記和實際託盤放在同一個工作台上閱讀，不要把兩者混成同一個數字。",
+    "items": [
+      {
+        "id": "pyre-notice-theoretical-stays-fixed",
+        "text": "改變產率時，理論標記不會移動；移動的是實際輸出託盤。"
+      },
+      {
+        "id": "pyre-notice-gap-grows",
+        "text": "當產率下降時，理論標記與實際託盤之間的差距會擴大。"
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "先預測改變產率會如何影響實際輸出，再用同一個工作台驗證。",
+    "items": [
+      {
+        "id": "pyre-predict-raise-yield",
+        "prompt": "在相同 2:3 配方與相同供應下，把產率由 75% 提高到 100% 會怎樣？",
+        "scenarioLabel": "相同配方，不同產率",
+        "choices": [
+          {
+            "id": "a",
+            "label": "實際輸出會上升並更接近理論標記。"
+          },
+          {
+            "id": "b",
+            "label": "理論上限會下降。"
+          },
+          {
+            "id": "c",
+            "label": "限制反應物會自動改變。"
+          }
+        ],
+        "explanation": "產率改變的是理論輸出中真正出現在託盤上的部分，不會改寫配方或限制反應物。",
+        "observationHint": "留意理論標記不動，而實際託盤隨產率向上移動。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "把配方保持不變，精準設定一個低於滿額的產率案例。",
+    "items": [
+      {
+        "id": "pyre-ch-hit-seventy-five-percent-yield",
+        "title": "達到 75% 產率",
+        "prompt": "在 2 A + 3 B 的配方下，調整供應並把產率設為 75%，令實際輸出正好達到 3.75 批。",
+        "successMessage": "你成功把相同配方設定成 75% 產率，並令實際輸出停在 3.75 批。",
+        "hints": [
+          "在 2:3 配方下，10 個 A 和 15 個 B 會給出 5 批理論輸出。",
+          "5 批的 75% 剛好是 3.75 批。"
+        ],
+        "targets": [
+          {
+            "label": "配方中的 A 每批次為 2 嗎？"
+          },
+          {
+            "label": "配方中的 B 每批次為 3 嗎？"
+          },
+          {
+            "label": "把 A 調到 10 包"
+          },
+          {
+            "label": "把 B 調到 15 包"
+          },
+          {
+            "label": "把產率設為 75%"
+          }
+        ]
+      }
+    ]
+  }
+}

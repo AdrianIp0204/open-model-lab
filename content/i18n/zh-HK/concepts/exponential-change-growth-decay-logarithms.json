@@ -1,0 +1,248 @@
+{
+  "title": "指數變化 / 生長、衰減與對數",
+  "shortTitle": "指數變化",
+  "summary": "調整起始值、速率和目標，使生長、衰減、雙倍時間或半-Life以及對數目標時間都維持在同一個動態曲線上。",
+  "highlights": [
+    "生長與衰減之分",
+    "從對數求目標時間",
+    "雙倍時間或半-Life"
+  ],
+  "topic": "函式",
+  "subtopic": "指數增長與衰減",
+  "recommendedNext": [
+    {
+      "slug": "derivative-as-slope-local-rate-of-change",
+      "reasonLabel": "將變化帶入影像上的區域性斜率"
+    },
+    {
+      "slug": "radioactivity-half-life",
+      "reasonLabel": "在實驗台上看到相同的衰減法則，使用真實的半-Life語言"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "指數變化最易於信任，當生長或衰減與一個單一動態曲線維繫在一起時，而不是與一個分離的規則表。這個實驗台將起始值、連續速率、目標線和逆時間問題都連結在同一個圖上。",
+        "關鍵動作是乘法而非加法。在時間上的等距步驟會以相同的因子倍增數量，這就是為什麼生長可以雙倍而衰減可以在固定時間表下減半的原因。當你轉換問題並問如何達到選擇的目標時，對數才出現。"
+      ]
+    },
+    "keyIdeas": [
+      "在指數模型中，數量遵循 y(t) = y_0 e^{kt}，所以 k 的符號決定曲線是生長還是衰減。",
+      "雙倍時間和半-Life 是固定時間尺度，因為指數變化透過乘法重複，而不是每次步進都增加相同的量。",
+      "逆問題是對數：求解時間意味著取 ln(target / y_0) 併除以速率。"
+    ],
+    "commonMisconception": {
+      "myth": "指數變化意味著影像總是快速上升，而對數是一個獨立的章節，與曲線沒有直接聯絡。",
+      "correction": [
+        "負的速率提供真實的指數衰減，所以同一模型可以向零下降而不是從起點開始上升。",
+        "當你解決指數目標方程式的時間時，對數才出現。它是逆問題，而不是一個分離的新物件。"
+      ]
+    },
+    "workedExamples": {
+      "title": "例項工作",
+      "intro": "這個概念保持實驗台緊湊，所以主要曲線、目標線、節奏讀出和對數檢視直接帶有核心推理。",
+      "items": [
+        {
+          "id": "growth-target-time",
+          "title": "從比率求目標時間",
+          "prompt": "一開始的羣體有 3 單位並以連續速率 0.25 生長，直到達到 12 單位。這需要多長時間？",
+          "variables": [
+            {
+              "id": "initial-value",
+              "label": "起始值"
+            },
+            {
+              "id": "rate",
+              "label": "速率"
+            },
+            {
+              "id": "target",
+              "label": "目標"
+            }
+          ],
+          "steps": [
+            {
+              "id": "ratio",
+              "label": "1. 將目標與起始值比較"
+            },
+            {
+              "id": "log-step",
+              "label": "2. 使用逆時間規則"
+            },
+            {
+              "id": "graph-check",
+              "label": "3. 檢查影像與節奏"
+            }
+          ],
+          "resultLabel": "目標擊中時間",
+          "applyAction": {
+            "label": "應用生長目標案例"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "設定一個衰減案例，其中目標在起始值之下且目標時間長於一次半-Life。",
+      "prediction": "決定目標是否應僅位於起始點下方或遠低於起始點再進行測試。",
+      "answer": "目標必須位於起始值之下，以便曲線需要超過一個半-Life才能達到它。",
+      "explanation": "一個半-Life只能將數量減半。如果目標比這個第一個半-Life標誌低得多，反時間讀數就需要晚於一個半-Life。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "從實時曲線和反時間讀數一起回答。",
+    "questions": [
+      {
+        "id": "exp-qt-sign",
+        "prompt": "哪一個單一的改變可以將同一個指數平台從增長轉為衰減？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "讓率 k 變負。"
+          },
+          {
+            "id": "b",
+            "label": "提高目標同時保持 k 正值。"
+          },
+          {
+            "id": "c",
+            "label": "降低初始值同時保持 k 正值。"
+          }
+        ],
+        "explanation": "k 的符號決定數量是增長還是衰減。改變目標或起始值不會翻轉變化方向。",
+        "showMeAction": {
+          "label": "顯示一個衰減案例",
+          "observationHint": "現在同一個平台向零下降，因為 k 是負的。"
+        }
+      },
+      {
+        "id": "exp-qt-unreachable",
+        "prompt": "當 k 為正時，衰減曲線從 5 開始而目標是 12。反時間讀數應該説什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "對於當前 k 的符號，目標永遠無法達到。"
+          },
+          {
+            "id": "b",
+            "label": "目標時間必須為負，因此曲線會更快地達到它。"
+          },
+          {
+            "id": "c",
+            "label": "無論目標位於何處，目標時間始終等於半-Life。"
+          }
+        ],
+        "explanation": "衰減曲線只能從其正的起始值向下移動，所以更高的目標位於圖表的錯誤位置以獲得非負的擊中時間。",
+        "showMeAction": {
+          "label": "顯示無法達到的目標",
+          "observationHint": "目標線位於起始點之上，而曲線則不斷遠離它。"
+        }
+      },
+      {
+        "id": "exp-qt-log",
+        "prompt": "當你解目標方程求時間時，為什麼會出現對數？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "因為時間在指數中，所以解出它意味著用對數來反轉一個指數運算。"
+          },
+          {
+            "id": "b",
+            "label": "因為每個曲線圖都會自動轉換成對數。"
+          },
+          {
+            "id": "c",
+            "label": "因為對數只用於重新命名初始值。"
+          }
+        ],
+        "explanation": "對數是當時間被困在指數中時，反轉指數的逆運算步驟。",
+        "showMeAction": {
+          "label": "顯示對數指南",
+          "observationHint": "展平的對數檢視使反轉步驟變得清晰，成為一條穿越線。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一個指數量-時間曲線，包含起始值、目標線、相反率比較曲線、雙倍時間或半-Life指南（當該提示存在時）以及一個較小的對數檢視，該檢視展平了反轉目標問題。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "一張圖顯示當前指數曲線、相反率比較、目標交點和當該提示存在時的一步雙倍或半-Life量。另一張圖顯示 ln(量 / 初始值) 作為一條直線，與匹配的目標-對數線重合。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "growth-target-view",
+        "label": "從增長到目標",
+        "description": "開啟一個乾淨的增長案例，其中包含目標標記、相反率曲線和對數指南。",
+        "setup": {
+          "note": "使用此功能可以讓目標擊中時間和對數步驟保持與同一條曲線的聯絡。"
+        }
+      },
+      {
+        "id": "decay-half-life-view",
+        "label": "衰減和半-Life",
+        "description": "從一個衰減案例開始，並在目標位於起始點之下時保持半-Life指南顯示。",
+        "setup": {
+          "note": "這保持了下降曲線、半衰期提示和逆時間讀數在同一工作台上。"
+        }
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "exponential-rule",
+      "label": "指數變化規則",
+      "meaning": "使用一個起始值和一個連續的速率來生成指數增長或衰減。"
+    },
+    {
+      "id": "target-time",
+      "label": "由對數確定目標時間",
+      "meaning": "透過將目標比率轉換為對數來解決逆問題。"
+    },
+    {
+      "id": "doubling-half-life",
+      "label": "固定指數時間尺度",
+      "meaning": "顯示增長中的雙倍時間和衰減中的半衰期的固定時間尺度。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "initial-value",
+      "label": "起始值",
+      "description": "設定當前曲線和對比曲線的初始高度。"
+    },
+    {
+      "id": "rate",
+      "label": "速率",
+      "description": "改變曲線是增長還是衰減，並設定雙倍時間、半衰期和逆目標時間。"
+    },
+    {
+      "id": "target-value",
+      "label": "目標",
+      "description": "移動所選目標，使擊中標誌和對數逆時間線同時更新。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "initial-value",
+        "label": "起始值"
+      },
+      {
+        "id": "rate",
+        "label": "速率"
+      },
+      {
+        "id": "target-value",
+        "label": "目標"
+      }
+    ]
+  }
+}

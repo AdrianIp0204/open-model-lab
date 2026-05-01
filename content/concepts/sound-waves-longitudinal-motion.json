@@ -1,0 +1,1336 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live sound checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Compression checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Carry sound into later wave ideas"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "See sound as a longitudinal wave: air parcels oscillate back and forth, while compressions, rarefactions, and energy travel through the medium.",
+    "keyTakeaway": "In a longitudinal wave, parcel motion is parallel to the direction the disturbance travels, but each parcel mainly oscillates around its own resting position.",
+    "whyItMatters": "This keeps sound from looking like matter streaming down a tube, and it prepares you to read pitch, loudness, beats, and Doppler shifts as changes to one traveling disturbance."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Sound in a gas or liquid is a longitudinal wave. The disturbance moves through the medium, but the parcels in the medium do not ride across the whole tube with it. They oscillate back and forth around local resting positions while compressions and rarefactions move onward.",
+        "This bench keeps one source piston, one particle train, one pressure ribbon, and one movable probe on the same stage. The source and probe timing, the local compression cue, and the right-moving disturbance all come from the same displacement field, so sound stays visually honest without turning into a full acoustics engine."
+      ]
+    },
+    "keyIdeas": [
+      "In a longitudinal wave, parcel motion is parallel to the direction the disturbance travels, not perpendicular to it.",
+      "A compression is a region where neighboring parcels are crowded more tightly than usual, while a rarefaction is a region where they are spread farther apart.",
+      "Sound transfers energy through the medium because each parcel pushes on its neighbor, so the disturbance and its energy move onward even though each parcel only oscillates locally."
+    ],
+    "commonMisconception": {
+      "myth": "If the sound wave moves to the right, each air parcel must also drift steadily to the right with it.",
+      "correction": [
+        "The disturbance travels to the right, but each parcel mainly oscillates back and forth around its own equilibrium position.",
+        "What moves onward are the compression and rarefaction pattern and the energy transfer through the medium, not one chunk of matter riding all the way across the stage."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked examples",
+      "intro": "These checks read the same source, probe, and compression state that the stage and graphs already show, so the algebra never disconnects from the longitudinal wave.",
+      "items": [
+        {
+          "id": "sound-travel-timing",
+          "title": "Source timing and probe delay",
+          "prompt": "For the current sound wave with v_wave = {{waveSpeedValue}} m/s, λ = {{wavelengthValue}} m, and the probe at x_p = {{probeXValue}} m, what source frequency is required and how long does the disturbance take to reach the probe?",
+          "variables": [
+            {
+              "id": "wave-speed",
+              "variableId": "waveSpeed",
+              "symbol": "v_{wave}",
+              "label": "Wave speed",
+              "valueKey": "waveSpeedValue",
+              "unit": "m/s"
+            },
+            {
+              "id": "wavelength",
+              "variableId": "wavelength",
+              "symbol": "\\lambda",
+              "label": "Wavelength",
+              "valueKey": "wavelengthValue",
+              "unit": "m"
+            },
+            {
+              "id": "probe-position",
+              "variableId": "probeX",
+              "symbol": "x_p",
+              "label": "Probe position",
+              "valueKey": "probeXValue",
+              "unit": "m"
+            },
+            {
+              "id": "frequency",
+              "symbol": "f",
+              "label": "Frequency",
+              "valueKey": "frequencyValue",
+              "unit": "Hz"
+            },
+            {
+              "id": "travel-delay",
+              "symbol": "\\Delta t",
+              "label": "Travel delay",
+              "valueKey": "travelDelayValue",
+              "unit": "s"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Start from the wave timing relations",
+              "template": "Use f = v_wave / λ and Δt = x_p / v_wave. The first relation sets the source frequency; the second relation gives the travel delay to the probe."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the live speed, spacing, and probe position",
+              "template": "f = {{waveSpeedValue}} / {{wavelengthValue}} = {{frequencyValue}} Hz. Δt = {{probeXValue}} / {{waveSpeedValue}} = {{travelDelayValue}} s."
+            },
+            {
+              "id": "compute",
+              "label": "3. Interpret what the source and probe must do",
+              "template": "That means the source launches {{frequencyValue}} cycles each second, each cycle lasts {{periodValue}} s, and the probe parcel repeats that motion after a delay of {{travelDelayValue}} s."
+            }
+          ],
+          "resultLabel": "Current sound timing",
+          "resultTemplate": "f = {{frequencyValue}} Hz, Δt = {{travelDelayValue}} s",
+          "interpretationTemplate": "{{travelInterpretation}}",
+          "applyAction": {
+            "label": "Show a farther probe",
+            "presetId": "far-probe",
+            "observationHint": "The same longitudinal pattern arrives later downstream even though each parcel still only oscillates locally.",
+            "highlightedControlIds": [
+              "waveSpeed",
+              "probeX"
+            ],
+            "highlightedGraphIds": [
+              "displacement"
+            ],
+            "highlightedOverlayIds": [
+              "motionDirections"
+            ]
+          }
+        },
+        {
+          "id": "local-compression-cue",
+          "title": "Local compression from parcel motion",
+          "prompt": "At the current probe position $x_p = {{probeXValue}}\\,\\mathrm{m}$ and time $t = {{timeValue}}\\,\\mathrm{s}$, what does the parcel shift say about the local medium state?",
+          "dependsOnTime": true,
+          "variables": [
+            {
+              "id": "time",
+              "symbol": "t",
+              "label": "Time",
+              "valueKey": "timeValue",
+              "unit": "s"
+            },
+            {
+              "id": "probe-position",
+              "variableId": "probeX",
+              "symbol": "x_p",
+              "label": "Probe position",
+              "valueKey": "probeXValue",
+              "unit": "m"
+            },
+            {
+              "id": "particle-amplitude",
+              "variableId": "amplitude",
+              "symbol": "A",
+              "label": "Particle amplitude",
+              "valueKey": "amplitudeValue",
+              "unit": "m"
+            },
+            {
+              "id": "probe-displacement",
+              "symbol": "s_p",
+              "label": "Probe displacement",
+              "valueKey": "probeDisplacementValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Connect displacement to local spacing",
+              "template": "Use $s(x,t) = A\\sin\\!\\left(2\\pi\\left(\\dfrac{x}{\\lambda} - ft\\right)\\right)$ and read compression from $-\\partial s / \\partial x$. Positive cue means compression, negative cue means rarefaction."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Read the live probe parcel",
+              "template": "Right now the probe parcel is shifted by $s_p = {{probeDisplacementValue}}\\,\\mathrm{m}$ and the normalized compression cue is {{normalizedProbeCompressionValue}}."
+            },
+            {
+              "id": "compute",
+              "label": "3. Interpret the local state honestly",
+              "template": "The displacement tells you where the parcel is relative to equilibrium, while the compression cue tells you whether neighboring parcels are crowded together, spread apart, or close to their resting spacing."
+            }
+          ],
+          "resultLabel": "Current local state",
+          "resultTemplate": "$s_p = {{probeDisplacementValue}}\\,\\mathrm{m}, \\quad \\text{compression cue} = {{normalizedProbeCompressionValue}}$",
+          "interpretationTemplate": "{{compressionInterpretation}}",
+          "applyAction": {
+            "label": "Show a strong compression",
+            "presetId": "strong-compression",
+            "observationHint": "The highlighted parcel is near its center position while the compression cue peaks strongly positive.",
+            "highlightedControlIds": [
+              "probeX",
+              "wavelength"
+            ],
+            "highlightedGraphIds": [
+              "probe-pressure"
+            ],
+            "highlightedOverlayIds": [
+              "compressionBands"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "The medium stays the same, so the wave speed is fixed. What single change makes compressions pack closer together while the particle motion stays longitudinal?",
+      "prediction": "Decide whether you should increase amplitude, shorten wavelength, or move the probe farther right.",
+      "answer": "Shorten the wavelength.",
+      "explanation": "Compression spacing follows the wavelength. Shortening $\\lambda$ packs more compressions and rarefactions into the same distance without changing the fact that each parcel still oscillates back and forth along the tube."
+    }
+  },
+  "equations": [
+    {
+      "id": "sound-displacement",
+      "latex": "s(x,t) = A\\sin\\!\\left(2\\pi\\left(\\dfrac{x}{\\lambda} - ft\\right)\\right)",
+      "label": "Longitudinal parcel displacement",
+      "meaning": "Each parcel moves back and forth along the same line the disturbance travels, rather than riding across the whole medium."
+    },
+    {
+      "id": "sound-wave-relation",
+      "latex": "v_{wave} = f\\lambda",
+      "label": "Wave timing relation",
+      "meaning": "Wave speed links the source timing to the spacing between compressions."
+    },
+    {
+      "id": "sound-travel-delay",
+      "latex": "\\Delta t = \\dfrac{x}{v_{wave}}",
+      "label": "Travel delay",
+      "meaning": "A parcel farther from the source responds later because the disturbance still has to travel through the medium."
+    },
+    {
+      "id": "sound-compression-cue",
+      "latex": "\\text{compression cue} \\propto -\\dfrac{\\partial s}{\\partial x}",
+      "label": "Compression and rarefaction cue",
+      "meaning": "Positive cue means neighboring parcels are crowded together, while negative cue means they are spread farther apart."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "amplitude",
+      "symbol": "A",
+      "label": "Particle amplitude",
+      "param": "amplitude",
+      "tone": "coral",
+      "description": "Changes how far each parcel swings from equilibrium and therefore how strong the compression and rarefaction cue becomes.",
+      "equationIds": [
+        "sound-displacement",
+        "sound-compression-cue"
+      ],
+      "graphIds": [
+        "displacement",
+        "probe-pressure"
+      ],
+      "overlayIds": [
+        "motionDirections",
+        "compressionBands"
+      ]
+    },
+    {
+      "id": "waveSpeed",
+      "symbol": "v_{wave}",
+      "label": "Wave speed",
+      "param": "waveSpeed",
+      "tone": "teal",
+      "description": "Sets how quickly the compression pattern and its energy transfer move through the medium.",
+      "equationIds": [
+        "sound-wave-relation",
+        "sound-travel-delay"
+      ],
+      "graphIds": [
+        "displacement"
+      ],
+      "overlayIds": [
+        "motionDirections",
+        "energyTransfer"
+      ]
+    },
+    {
+      "id": "wavelength",
+      "symbol": "\\lambda",
+      "label": "Wavelength",
+      "param": "wavelength",
+      "tone": "sky",
+      "description": "Sets the spacing between repeating compressions and rarefactions along the medium.",
+      "equationIds": [
+        "sound-displacement",
+        "sound-wave-relation"
+      ],
+      "graphIds": [
+        "displacement",
+        "probe-pressure"
+      ],
+      "overlayIds": [
+        "compressionBands"
+      ]
+    },
+    {
+      "id": "probeX",
+      "symbol": "x_p",
+      "label": "Probe position",
+      "param": "probeX",
+      "tone": "amber",
+      "description": "Moves the tracked parcel downstream so you can compare local motion, local compression, and travel delay without creating a second state.",
+      "equationIds": [
+        "sound-travel-delay"
+      ],
+      "graphIds": [
+        "displacement",
+        "probe-pressure"
+      ],
+      "overlayIds": [
+        "motionDirections",
+        "compressionBands"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "amplitude": 0.12,
+      "waveSpeed": 2.4,
+      "wavelength": 1.8,
+      "probeX": 2.25,
+      "motionDirections": true,
+      "compressionBands": true,
+      "energyTransfer": false
+    },
+    "ui": {
+      "initialGraphId": "displacement",
+      "primaryGraphIds": [
+        "displacement",
+        "probe-pressure"
+      ],
+      "primaryControlIds": [
+        "probeX",
+        "wavelength",
+        "waveSpeed"
+      ],
+      "primaryPresetIds": [
+        "strong-compression",
+        "closer-compressions",
+        "far-probe"
+      ]
+    },
+    "controls": [
+      {
+        "id": "amplitude",
+        "kind": "slider",
+        "label": "Particle amplitude",
+        "param": "amplitude",
+        "min": 0.05,
+        "max": 0.24,
+        "step": 0.01,
+        "unit": "m",
+        "description": "Controls how far each parcel swings left and right from its resting position."
+      },
+      {
+        "id": "waveSpeed",
+        "kind": "slider",
+        "label": "Wave speed",
+        "param": "waveSpeed",
+        "min": 1.4,
+        "max": 4.2,
+        "step": 0.05,
+        "unit": "m/s",
+        "description": "Controls how quickly the disturbance and its energy move through the medium."
+      },
+      {
+        "id": "wavelength",
+        "kind": "slider",
+        "label": "Wavelength",
+        "param": "wavelength",
+        "min": 1.2,
+        "max": 3.6,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Controls the spacing between neighboring compressions."
+      },
+      {
+        "id": "probeX",
+        "kind": "slider",
+        "label": "Probe position",
+        "param": "probeX",
+        "min": 0,
+        "max": 8,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Moves the tracked parcel farther downstream or back toward the source."
+      }
+    ],
+    "presets": [
+      {
+        "id": "baseline",
+        "label": "Baseline",
+        "description": "A moderate sound wave with the probe away from the source but not currently at peak compression.",
+        "values": {
+          "amplitude": 0.12,
+          "waveSpeed": 2.4,
+          "wavelength": 1.8,
+          "probeX": 2.25
+        }
+      },
+      {
+        "id": "fast-medium",
+        "label": "Faster wave",
+        "description": "The disturbance moves faster while the parcel motion stays longitudinal, so the timing speeds up and the probe delay shortens.",
+        "values": {
+          "amplitude": 0.12,
+          "waveSpeed": 3.4,
+          "wavelength": 1.8,
+          "probeX": 2.25
+        }
+      },
+      {
+        "id": "closer-compressions",
+        "label": "Shorter wavelength",
+        "description": "Compressions pack closer together, so the source frequency rises at the same wave speed.",
+        "values": {
+          "amplitude": 0.12,
+          "waveSpeed": 2.4,
+          "wavelength": 1.2,
+          "probeX": 1.5
+        }
+      },
+      {
+        "id": "strong-compression",
+        "label": "Strong compression",
+        "description": "The probe sits where neighboring parcels are tightly crowded at the current moment.",
+        "values": {
+          "amplitude": 0.16,
+          "waveSpeed": 2.4,
+          "wavelength": 1.8,
+          "probeX": 2.7
+        }
+      },
+      {
+        "id": "far-probe",
+        "label": "Farther probe",
+        "description": "The same sound pattern reaches a parcel well downstream after a larger travel delay.",
+        "values": {
+          "amplitude": 0.12,
+          "waveSpeed": 2.4,
+          "wavelength": 1.8,
+          "probeX": 5.4
+        }
+      },
+      {
+        "id": "one-wavelength-farther",
+        "label": "One wavelength farther",
+        "description": "The probe is one full wavelength farther downstream, so the local phase repeats one full cycle later.",
+        "values": {
+          "amplitude": 0.12,
+          "waveSpeed": 2.4,
+          "wavelength": 1.8,
+          "probeX": 4.05
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "motionDirections",
+        "label": "Motion directions",
+        "shortDescription": "Shows parcel motion along the tube and the right-moving disturbance direction at the same time.",
+        "whatToNotice": [
+          "The parcels sway back and forth along the tube even while the disturbance itself keeps moving to the right."
+        ],
+        "whyItMatters": "It separates local particle motion from wave propagation, which is the core longitudinal-wave idea.",
+        "relatedControls": [
+          "probeX",
+          "waveSpeed"
+        ],
+        "relatedGraphTabs": [
+          "displacement"
+        ],
+        "relatedEquationVariables": [
+          "waveSpeed",
+          "probeX"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "compressionBands",
+        "label": "Compression / rarefaction",
+        "shortDescription": "Labels one local compression and one local rarefaction on the live pressure ribbon.",
+        "whatToNotice": [
+          "The colored ribbon marks crowded and spread-out regions in the medium, not just the motion of one parcel."
+        ],
+        "whyItMatters": "It keeps sound tied to density variations in the medium instead of turning it into a purely abstract sinusoid.",
+        "relatedControls": [
+          "wavelength",
+          "probeX"
+        ],
+        "relatedGraphTabs": [
+          "probe-pressure"
+        ],
+        "relatedEquationVariables": [
+          "wavelength",
+          "probeX"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "energyTransfer",
+        "label": "Energy-transfer cue",
+        "shortDescription": "Adds a rightward arrow train above the stage to mark energy transfer through the medium.",
+        "whatToNotice": [
+          "Energy transfer follows the right-moving disturbance even though no parcel rides all the way across the tube."
+        ],
+        "whyItMatters": "It gives a bounded visual cue for how sound carries energy through a medium without pretending the matter itself streams across the bench.",
+        "relatedControls": [
+          "waveSpeed"
+        ],
+        "relatedGraphTabs": [
+          "displacement"
+        ],
+        "relatedEquationVariables": [
+          "waveSpeed"
+        ],
+        "defaultOn": false
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "displacement",
+      "label": "Source and probe particle motion",
+      "xLabel": "time (s)",
+      "yLabel": "particle displacement (m)",
+      "series": [
+        "source",
+        "probe"
+      ],
+      "description": "Tracks the source parcel and the selected probe parcel on the same time axis so travel delay stays attached to the live sound bench."
+    },
+    {
+      "id": "probe-pressure",
+      "label": "Probe shift and compression cue",
+      "xLabel": "time (s)",
+      "yLabel": "normalized cue",
+      "series": [
+        "probe-shift",
+        "compression"
+      ],
+      "description": "Compares one parcel's normalized shift with the local compression cue, so a probe parcel can be near its center position while the medium there is strongly compressed."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use one cue at a time. Each prompt should point at a real longitudinal-wave effect that the current stage and graph already show.",
+    "items": [
+      {
+        "id": "sound-notice-direction-split",
+        "text": "Notice that the parcel arrow points left-right while the disturbance arrow points right. Sound propagation and particle motion are linked, but they are not the same motion.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Keep the motion-direction overlay on and watch the probe parcel for one full cycle before touching any controls.",
+        "whyItMatters": "This is the core distinction between a longitudinal wave and a parcel drifting with the wave.",
+        "relatedControls": [
+          "probeX"
+        ],
+        "relatedGraphTabs": [
+          "displacement"
+        ],
+        "relatedOverlays": [
+          "motionDirections"
+        ]
+      },
+      {
+        "id": "sound-notice-pressure-graph",
+        "text": "Notice that the compression cue peaks when the probe parcel is near its center position, not when the parcel is farthest to one side.",
+        "type": "graph-reading",
+        "priority": 4,
+        "conditions": {
+          "graphTabs": [
+            "probe-pressure"
+          ]
+        },
+        "tryThis": "Pause on the probe-pressure graph, then compare the compression curve with the parcel-shift curve through one cycle.",
+        "whyItMatters": "Compression is about how neighboring parcels crowd together, not just about one parcel's displacement by itself.",
+        "relatedGraphTabs": [
+          "probe-pressure"
+        ],
+        "relatedOverlays": [
+          "compressionBands"
+        ]
+      },
+      {
+        "id": "sound-notice-wavelength",
+        "text": "Notice that shortening lambda packs compressions and rarefactions closer together and also makes the source cycle faster when the wave speed is unchanged.",
+        "type": "try-this",
+        "priority": 5,
+        "conditions": {
+          "lastChangedControls": [
+            "wavelength"
+          ]
+        },
+        "tryThis": "Lower the wavelength while keeping the wave speed fixed, then compare the pressure ribbon spacing with the source-probe timing graph.",
+        "whyItMatters": "Wavelength is spatial, but it still sets the timing through v_wave = f lambda.",
+        "relatedControls": [
+          "wavelength",
+          "waveSpeed"
+        ],
+        "relatedGraphTabs": [
+          "displacement",
+          "probe-pressure"
+        ],
+        "relatedOverlays": [
+          "compressionBands"
+        ],
+        "relatedEquationVariables": [
+          "wavelength",
+          "waveSpeed"
+        ]
+      },
+      {
+        "id": "sound-notice-wave-speed",
+        "text": "Notice that increasing the wave speed shortens the probe delay, but it does not turn the parcel motion into a one-way drift. The motion is still back-and-forth.",
+        "type": "try-this",
+        "priority": 6,
+        "conditions": {
+          "lastChangedControls": [
+            "waveSpeed"
+          ]
+        },
+        "tryThis": "Raise the wave speed and compare the probe delay readout before and after.",
+        "whyItMatters": "A faster disturbance means the pattern reaches the probe sooner, not that the matter stops oscillating locally.",
+        "relatedControls": [
+          "waveSpeed"
+        ],
+        "relatedGraphTabs": [
+          "displacement"
+        ],
+        "relatedOverlays": [
+          "motionDirections",
+          "energyTransfer"
+        ],
+        "relatedEquationVariables": [
+          "waveSpeed"
+        ]
+      },
+      {
+        "id": "sound-notice-amplitude",
+        "text": "Notice that larger particle amplitude makes the compression cue stronger, but it does not change the wave speed, wavelength, or travel delay by itself.",
+        "type": "misconception",
+        "priority": 7,
+        "conditions": {
+          "lastChangedControls": [
+            "amplitude"
+          ]
+        },
+        "tryThis": "Increase amplitude and compare what changed on the compression curve with what stayed fixed in the timing graph.",
+        "whyItMatters": "Larger parcel swings do not automatically mean the wave pattern moved faster.",
+        "relatedControls": [
+          "amplitude"
+        ],
+        "relatedGraphTabs": [
+          "displacement",
+          "probe-pressure"
+        ],
+        "relatedOverlays": [
+          "compressionBands"
+        ],
+        "relatedEquationVariables": [
+          "amplitude"
+        ]
+      },
+      {
+        "id": "sound-notice-inspect",
+        "text": "Notice that the time rail changes which parcel shift and compression state you are inspecting, but the same one-source sound wave still drives every view.",
+        "type": "graph-reading",
+        "priority": 8,
+        "conditions": {
+          "inspectState": "inspect"
+        },
+        "tryThis": "Pause, step once, and compare what changed in the probe-pressure graph with what changed on the particle ribbon.",
+        "whyItMatters": "It keeps the stage and graphs synchronized instead of inventing a separate preview-only state.",
+        "relatedGraphTabs": [
+          "displacement",
+          "probe-pressure"
+        ]
+      },
+      {
+        "id": "sound-notice-compare",
+        "text": "Notice which setup packs compressions closer together and which setup reaches the probe sooner. Those are related by the same wave relation, but they are not always the same change.",
+        "type": "compare",
+        "priority": 9,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Clone the current state, then shorten lambda in one setup and raise v_wave in the other before comparing the two benches.",
+        "whyItMatters": "Compare mode separates spacing changes from timing changes without breaking the one-state story inside each setup.",
+        "relatedControls": [
+          "waveSpeed",
+          "wavelength"
+        ],
+        "relatedGraphTabs": [
+          "displacement",
+          "probe-pressure"
+        ],
+        "relatedOverlays": [
+          "motionDirections",
+          "compressionBands"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Commit to the longitudinal-wave consequence before you test it. Each prompt changes one cause at a time and asks what the same sound bench must do next.",
+    "items": [
+      {
+        "id": "sound-predict-faster-wave",
+        "prompt": "Keep lambda fixed and make the sound wave move faster through the same medium model. What must happen to the source timing and the probe delay?",
+        "scenarioLabel": "Raise the wave speed",
+        "changeLabel": "Wave speed",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The source frequency should increase and the probe delay should get shorter."
+          },
+          {
+            "id": "b",
+            "label": "The source frequency should stay fixed because the particle motion is still longitudinal."
+          },
+          {
+            "id": "c",
+            "label": "The probe delay should get longer because the disturbance is traveling farther each second."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "With lambda fixed, v_wave = f lambda means a larger wave speed requires a larger frequency. The same larger speed also reduces delta t = x / v_wave at a fixed probe position.",
+        "observationHint": "Watch the timing graph cycle faster while the same probe position is reached sooner.",
+        "apply": {
+          "presetId": "fast-medium"
+        },
+        "highlightedControls": [
+          "waveSpeed"
+        ],
+        "highlightedGraphs": [
+          "displacement"
+        ],
+        "highlightedOverlays": [
+          "motionDirections"
+        ]
+      },
+      {
+        "id": "sound-predict-shorter-wavelength",
+        "prompt": "Keep the wave speed fixed and shorten lambda. What should happen to the spacing of compressions and the source frequency?",
+        "scenarioLabel": "Shorten the wavelength",
+        "changeLabel": "Wavelength",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Compressions should pack closer together and the source frequency should rise."
+          },
+          {
+            "id": "b",
+            "label": "Compressions should spread out because the parcels need more room to move."
+          },
+          {
+            "id": "c",
+            "label": "Only the particle amplitude should change because the wave speed stayed fixed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A shorter wavelength means more cycles fit into the same distance. With the same wave speed, that tighter spacing requires a higher frequency.",
+        "observationHint": "Compare the pressure ribbon before and after the wavelength change, then read the source timing.",
+        "apply": {
+          "presetId": "closer-compressions"
+        },
+        "highlightedControls": [
+          "wavelength"
+        ],
+        "highlightedGraphs": [
+          "displacement",
+          "probe-pressure"
+        ],
+        "highlightedOverlays": [
+          "compressionBands"
+        ]
+      },
+      {
+        "id": "sound-predict-one-wavelength-farther",
+        "prompt": "Move the probe one full wavelength farther downstream without changing the wave itself. What should happen to the local phase relation at the probe?",
+        "scenarioLabel": "Shift the probe by one wavelength",
+        "changeLabel": "Probe position",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The probe should repeat the same phase relation, but one full cycle later."
+          },
+          {
+            "id": "b",
+            "label": "The probe should flip to the opposite phase because farther always means opposite."
+          },
+          {
+            "id": "c",
+            "label": "The probe should stop oscillating because the disturbance has spread out."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Adding one full wavelength adds one full cycle of lag. The delay grows, but the local phase relation repeats after every whole cycle.",
+        "observationHint": "Compare the source and probe traces before and after moving the probe one wavelength farther away.",
+        "apply": {
+          "presetId": "one-wavelength-farther"
+        },
+        "highlightedControls": [
+          "probeX"
+        ],
+        "highlightedGraphs": [
+          "displacement"
+        ],
+        "highlightedOverlays": [
+          "motionDirections"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the linked particle bench and probe graphs to turn longitudinal-wave ideas into compact positioning tasks.",
+    "items": [
+      {
+        "id": "swl-ch-find-compression",
+        "title": "Find a strong compression",
+        "style": "visible-condition",
+        "prompt": "Starting from Baseline, move the probe until it sits inside a strong compression while the probe-pressure graph and compression overlay stay visible.",
+        "successMessage": "You placed the probe where neighboring parcels are crowded together. The parcel itself is not flying down the tube; it is just sitting in a strongly compressed part of the medium.",
+        "setup": {
+          "presetId": "baseline",
+          "graphId": "probe-pressure",
+          "overlayIds": [
+            "compressionBands"
+          ],
+          "note": "Use the pressure labels and the probe graph together while you move the probe."
+        },
+        "hints": [
+          "A strong compression means the normalized compression cue should be close to +1.",
+          "The parcel shift can be near zero at the same moment. Compression is about local spacing, not just one parcel being far from center."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Open the probe shift and compression graph.",
+            "graphId": "probe-pressure"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the compression overlay visible.",
+            "overlayId": "compressionBands"
+          },
+          {
+            "type": "metric-range",
+            "label": "Make the normalized compression cue strongly positive.",
+            "metric": "normalizedProbeCompression",
+            "min": 0.85,
+            "max": 1.01
+          },
+          {
+            "type": "metric-range",
+            "label": "Bring the probe parcel close to its center position.",
+            "metric": "probeDisplacement",
+            "min": -0.03,
+            "max": 0.03,
+            "displayUnit": "m"
+          }
+        ]
+      },
+      {
+        "id": "swl-ch-one-wavelength-later",
+        "title": "One wavelength later",
+        "style": "parameter-match",
+        "prompt": "Enter compare mode and keep Setup B one full wavelength farther downstream than Setup A so both probes share the same phase relation but Setup B arrives one cycle later.",
+        "successMessage": "Setup B is one wavelength farther downstream. The local phase repeats, but the travel delay and cycle lag are both one full cycle larger.",
+        "setup": {
+          "presetId": "baseline",
+          "interactionMode": "compare",
+          "graphId": "displacement",
+          "note": "Clone Baseline into A and B, then edit only Setup B."
+        },
+        "hints": [
+          "Do not change the wavelength or wave speed between the two setups.",
+          "One extra wavelength adds one extra cycle of lag without changing the repeating phase relation."
+        ],
+        "checks": [
+          {
+            "type": "compare-active",
+            "label": "Switch into compare mode and edit Setup B.",
+            "target": "b"
+          },
+          {
+            "type": "graph-active",
+            "label": "Keep the source and probe motion graph open.",
+            "graphId": "displacement"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup A on the baseline wave speed.",
+            "setup": "a",
+            "param": "waveSpeed",
+            "min": 2.35,
+            "max": 2.45
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup B on the same wave speed.",
+            "setup": "b",
+            "param": "waveSpeed",
+            "min": 2.35,
+            "max": 2.45
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup A on the baseline wavelength.",
+            "setup": "a",
+            "param": "wavelength",
+            "min": 1.75,
+            "max": 1.85
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup B on the same wavelength.",
+            "setup": "b",
+            "param": "wavelength",
+            "min": 1.75,
+            "max": 1.85
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup A should stay near 1.25 cycles of lag.",
+            "setup": "a",
+            "metric": "phaseLagCycles",
+            "min": 1.2,
+            "max": 1.3
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B should be about one full cycle farther downstream.",
+            "setup": "b",
+            "metric": "phaseLagCycles",
+            "min": 2.2,
+            "max": 2.3
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Use the linked particle and pressure views, not memory alone. These checks focus on what longitudinal sound waves mean physically.",
+    "questions": [
+      {
+        "id": "sound-qt-direction",
+        "type": "misconception-check",
+        "prompt": "Which statement best describes the difference between parcel motion and wave propagation in this sound model?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Parcels oscillate back and forth locally, while the disturbance and its energy move through the medium."
+          },
+          {
+            "id": "b",
+            "label": "Parcels drift steadily with the sound wave, which is why the disturbance moves forward."
+          },
+          {
+            "id": "c",
+            "label": "Parcels move perpendicular to the disturbance because all waves are drawn that way."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Longitudinal sound waves move the disturbance through the medium by local pushes and pulls. The matter itself mainly oscillates around equilibrium.",
+        "selectedWrongExplanations": {
+          "b": "That would treat the medium like a drifting current instead of a local oscillation passing energy onward.",
+          "c": "Perpendicular particle motion belongs to transverse-wave models, not this sound bench."
+        },
+        "showMeAction": {
+          "label": "Highlight the direction split",
+          "presetId": "baseline",
+          "observationHint": "The motion overlay shows the parcel direction and the right-moving disturbance at the same time.",
+          "highlightedGraphIds": [
+            "displacement"
+          ],
+          "highlightedOverlayIds": [
+            "motionDirections"
+          ]
+        }
+      },
+      {
+        "id": "sound-qt-compression",
+        "type": "graph-reading",
+        "prompt": "On the probe-pressure graph, what does a strongly positive compression cue mean?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The probe parcel sits in a compression where neighboring parcels are crowded together."
+          },
+          {
+            "id": "b",
+            "label": "The parcel must be farthest to the right, so the local spacing is automatically largest."
+          },
+          {
+            "id": "c",
+            "label": "The sound has stopped moving because the cue is no longer changing sign."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Compression is about local crowding in the medium. The parcel can be near its equilibrium position while the compression cue is large and positive.",
+        "selectedWrongExplanations": {
+          "b": "A parcel's displacement and the local compression cue are not the same quantity. Compression depends on how nearby parcels are spaced.",
+          "c": "The cue changes through time as the same traveling disturbance keeps moving past the probe."
+        },
+        "showMeAction": {
+          "label": "Show a strong compression",
+          "presetId": "strong-compression",
+          "observationHint": "Compare the parcel shift with the compression curve at the same moment.",
+          "highlightedGraphIds": [
+            "probe-pressure"
+          ],
+          "highlightedOverlayIds": [
+            "compressionBands"
+          ]
+        }
+      },
+      {
+        "id": "sound-qt-wavelength",
+        "type": "variable-effect",
+        "prompt": "The wave speed stays fixed, but the wavelength is shortened. What must happen?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Compressions pack closer together and the source frequency increases."
+          },
+          {
+            "id": "b",
+            "label": "The parcel amplitude must decrease because the compressions are closer."
+          },
+          {
+            "id": "c",
+            "label": "The probe delay gets longer because more compressions fit in the tube."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At fixed wave speed, a shorter wavelength means more cycles per meter. That tightens the compression spacing and raises the source frequency.",
+        "selectedWrongExplanations": {
+          "b": "Amplitude and wavelength are different controls in this model. Changing one does not automatically force the other.",
+          "c": "Travel delay depends on probe distance and wave speed, not on how many compressions fit into the same distance."
+        },
+        "showMeAction": {
+          "label": "Show tighter compressions",
+          "presetId": "closer-compressions",
+          "observationHint": "The pressure ribbon packs more repeats into the same tube length while the source trace speeds up.",
+          "highlightedControlIds": [
+            "wavelength"
+          ],
+          "highlightedGraphIds": [
+            "displacement",
+            "probe-pressure"
+          ],
+          "highlightedOverlayIds": [
+            "compressionBands"
+          ]
+        }
+      },
+      {
+        "id": "sound-qt-one-wavelength-farther",
+        "type": "compare-two-cases",
+        "prompt": "Setup B places the probe one full wavelength farther downstream than Setup A without changing anything else. Which statement is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Setup B repeats the same local phase relation, but one full cycle later."
+          },
+          {
+            "id": "b",
+            "label": "Setup B must be in the opposite phase because it is farther away."
+          },
+          {
+            "id": "c",
+            "label": "Setup B should lose its compression pattern because the disturbance has spread out."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Adding one wavelength adds one whole cycle of lag. The travel time grows, but the repeating phase relation comes back after every full cycle.",
+        "selectedWrongExplanations": {
+          "b": "Opposite phase happens after a half-wavelength shift, not after a whole wavelength shift.",
+          "c": "The same traveling compression pattern still exists downstream in this bounded model."
+        },
+        "showMeAction": {
+          "label": "Show one wavelength farther",
+          "presetId": "one-wavelength-farther",
+          "observationHint": "The probe trace lines up with the same phase relation after one additional cycle of delay.",
+          "highlightedControlIds": [
+            "probeX"
+          ],
+          "highlightedGraphIds": [
+            "displacement"
+          ],
+          "highlightedOverlayIds": [
+            "motionDirections"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a horizontal tube with a source piston on the left, a row of parcel markers inside the tube, and a movable probe parcel. A colored ribbon inside the tube marks local compression and rarefaction, while optional overlays label parcel-motion direction, compression regions, and the rightward energy-transfer cue.",
+        "Changing particle amplitude, wave speed, wavelength, or probe position updates the same stage, probe graphs, and readout card so parcel motion, compression state, and travel delay stay synchronized."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The first graph compares source and probe parcel displacement over time so the downstream delay stays tied to the live sound bench.",
+        "The second graph compares the probe parcel's normalized shift with the local compression cue, which helps the learner separate one parcel's position from the local crowding of the medium."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Sound Waves and Longitudinal Motion | Open Model Lab",
+    "description": "Explore sound as a longitudinal wave with particle motion, compression and rarefaction, probe timing, prediction prompts, challenges, and linked graphs.",
+    "keywords": [
+      "sound waves",
+      "longitudinal waves",
+      "compression and rarefaction",
+      "particle motion",
+      "wave propagation"
+    ]
+  },
+  "v2": {
+    "intuition": "Follow one row of air parcels so the direction of parcel motion, the moving compression pattern, and the probe timing all stay connected.",
+    "whyItMatters": "Sound is easy to misread as air flowing across the room. This lesson shows how local back-and-forth motion passes a disturbance and its energy onward without carrying each parcel along for the ride.",
+    "estimatedMinutes": 12,
+    "equationSnapshot": {
+      "title": "Motion, spacing, and timing snapshot",
+      "note": "Use these equations to keep three ideas separate: parcel displacement is local back-and-forth motion, wavelength sets compression spacing, and wave speed controls travel delay.",
+      "equationIds": [
+        "sound-displacement",
+        "sound-wave-relation",
+        "sound-travel-delay"
+      ]
+    },
+    "startSetup": {
+      "presetId": "baseline",
+      "graphId": "displacement",
+      "overlayIds": [
+        "motionDirections",
+        "compressionBands"
+      ],
+      "note": "Begin with the baseline wave so the parcel arrows, pressure ribbon, and source/probe traces are visible before changing any controls."
+    },
+    "guidedSteps": [
+      {
+        "id": "separate-parcel-motion-from-wave-travel",
+        "title": "Separate parcel motion from wave travel",
+        "goal": "See why a sound wave can move right while each parcel only oscillates locally.",
+        "doThis": "Start from Baseline with the motion-directions overlay on, then watch the source and probe parcels for a few cycles.",
+        "notice": "The parcel arrows reverse left and right, but the disturbance arrow keeps carrying the pattern to the right.",
+        "explain": "Longitudinal describes the direction of local motion: the parcels move parallel to the wave direction. It does not mean the medium streams through the whole tube.",
+        "reveal": {
+          "controlIds": [
+            "probeX",
+            "waveSpeed"
+          ],
+          "graphIds": [
+            "displacement"
+          ],
+          "overlayIds": [
+            "motionDirections"
+          ],
+          "toolHints": [
+            "timeline",
+            "graph-preview"
+          ]
+        },
+        "setup": {
+          "presetId": "baseline",
+          "graphId": "displacement",
+          "overlayIds": [
+            "motionDirections"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "sound-qt-direction"
+          ]
+        }
+      },
+      {
+        "id": "read-compressions-as-crowding",
+        "title": "Read compressions as crowding",
+        "goal": "Connect the pressure ribbon and probe graph to local crowding in the medium.",
+        "doThis": "Apply Strong compression, open the probe-pressure graph, and keep the compression / rarefaction overlay visible.",
+        "notice": "The compression cue can be strongly positive even when the tracked parcel is near its center position.",
+        "explain": "Compression depends on how neighboring parcels are spaced. A single parcel position is not enough; the local spacing pattern tells you whether the medium is crowded or spread out.",
+        "reveal": {
+          "controlIds": [
+            "probeX",
+            "wavelength"
+          ],
+          "graphIds": [
+            "probe-pressure"
+          ],
+          "overlayIds": [
+            "compressionBands"
+          ]
+        },
+        "setup": {
+          "presetId": "strong-compression",
+          "graphId": "probe-pressure",
+          "overlayIds": [
+            "compressionBands"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "sound-qt-compression"
+          ]
+        }
+      },
+      {
+        "id": "change-spacing-and-timing",
+        "title": "Change spacing and timing",
+        "goal": "Use wavelength and wave speed to predict compression spacing, source frequency, and probe delay.",
+        "doThis": "Try Shorter wavelength, then Faster wave, while comparing the displacement and probe-pressure graphs.",
+        "notice": "Shorter wavelength packs compressions closer together. A faster wave reaches the same probe sooner and, at the same wavelength, cycles faster.",
+        "explain": "The relation v_wave = f lambda links spacing to timing. Changing one variable has consequences for frequency and delay, but it does not change the longitudinal direction of parcel motion.",
+        "reveal": {
+          "controlIds": [
+            "wavelength",
+            "waveSpeed",
+            "probeX"
+          ],
+          "graphIds": [
+            "displacement",
+            "probe-pressure"
+          ],
+          "overlayIds": [
+            "compressionBands",
+            "motionDirections"
+          ]
+        },
+        "setup": {
+          "presetId": "closer-compressions",
+          "graphId": "displacement",
+          "overlayIds": [
+            "compressionBands",
+            "motionDirections"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "sound-predict-shorter-wavelength",
+            "sound-predict-faster-wave"
+          ],
+          "questionIds": [
+            "sound-qt-wavelength"
+          ]
+        }
+      },
+      {
+        "id": "prove-energy-not-matter-flow",
+        "title": "Prove energy, not matter flow",
+        "goal": "Explain how sound carries energy through the medium without carrying one parcel across the bench.",
+        "doThis": "Turn on the energy-transfer cue, then compare Baseline with Farther probe or One wavelength farther.",
+        "notice": "The right-moving energy cue and delayed probe response travel onward, while each parcel keeps returning near its resting position.",
+        "explain": "Sound transfers energy by local pushes and pulls between neighbors. The wave pattern advances; the matter mostly oscillates in place.",
+        "reveal": {
+          "controlIds": [
+            "probeX",
+            "waveSpeed"
+          ],
+          "graphIds": [
+            "displacement"
+          ],
+          "overlayIds": [
+            "energyTransfer",
+            "motionDirections"
+          ]
+        },
+        "setup": {
+          "presetId": "far-probe",
+          "graphId": "displacement",
+          "overlayIds": [
+            "energyTransfer",
+            "motionDirections"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "sound-predict-one-wavelength-farther"
+          ],
+          "questionIds": [
+            "sound-qt-one-wavelength-farther"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Air parcels in this sound model oscillate parallel to the wave direction rather than drifting with the wave.",
+        "Compressions and rarefactions describe local crowding and spreading of neighboring parcels.",
+        "Wave speed, wavelength, frequency, and probe position connect spacing to timing through v_wave = f lambda and Delta t = x / v_wave."
+      ],
+      "misconception": "If sound travels to the right, the air itself must steadily flow to the right with it.",
+      "workedExampleRefs": [
+        "sound-travel-timing",
+        "local-compression-cue"
+      ],
+      "freePlayPrompt": "Move the probe to a strong compression, then turn on the energy-transfer cue and explain what moves across the tube and what only oscillates locally.",
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "pitch-frequency-loudness-intensity",
+          "title": "Pitch / Frequency / Loudness / Intensity",
+          "reasonLabel": "Separate timing from strength in sound"
+        },
+        {
+          "slug": "beats",
+          "title": "Beats",
+          "reasonLabel": "Use nearby sound frequencies to read interference"
+        },
+        {
+          "slug": "doppler-effect",
+          "title": "Doppler Effect",
+          "reasonLabel": "See how source or listener motion shifts heard frequency"
+        }
+      ]
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "quickTest"
+    ]
+  }
+}

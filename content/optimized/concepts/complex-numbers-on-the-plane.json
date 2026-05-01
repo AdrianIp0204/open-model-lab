@@ -1,0 +1,250 @@
+{
+"pageFramework": {
+"featuredSetups": [
+{
+"id": "vector-sum-view",
+"label": "Add as vectors",
+"description": "Open a clean addition case with the head-to-tail guide visible.",
+"setup": {
+"note": "Use this to read the same complex numbers as points, vectors, and a head-to-tail sum."
+}
+},
+{
+"id": "rotation-by-i",
+"label": "Multiply by i",
+"description": "Open the multiplication case where the multiplier acts like a quarter-turn.",
+"setup": {
+"note": "Use this to see that multiplication can change direction a lot without changing size much."
+}
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Complex numbers become easier to trust when the algebra and geometry stay on the same plane. This bench keeps z, w, and the current result visible together so a + bi can be read as both the point (a, b) and the arrow from the origin to that point.",
+"Addition should look like vector addition: add real parts and imaginary parts, or place one arrow head-to-tail with the other. Multiplication should look different: it changes size by multiplying magnitudes and changes direction by adding arguments, so multiplying by w scales z and rotates it at the same time."
+]
+},
+"keyIdeas": [
+"A complex number z = a + bi is one object with two views: the point (a, b) and the vector from the origin to that point.",
+"Adding complex numbers adds their horizontal and vertical components, just like vector addition on the plane.",
+"Complex multiplication multiplies magnitudes and adds arguments, so a multiplier near the unit circle mainly rotates while a larger or smaller magnitude also stretches or shrinks."
+],
+"commonMisconception": {
+"myth": "Complex multiplication is just a symbolic rule for components, so the geometric picture is optional.",
+"correction": [
+"The algebraic rule and the geometric picture describe the same operation.",
+"On this plane, multiplication by w changes the size of z by |w| and changes its direction by arg(w), which is why the product can be read as both a formula result and a rotated, scaled arrow."
+]
+},
+"workedExamples": {
+"title": "Read the result on the plane",
+"intro": "Use the live plane instead of a detached worksheet. First read z and w as points or arrows, then read the result from the same geometry.",
+"items": [
+{
+"id": "read-the-current-vector-sum",
+"title": "Read z + w as a head-to-tail sum",
+"prompt": "For the current addition view, where does z + w land, and how do the components and the head-to-tail guide show the same result?",
+"steps": [
+{
+"id": "write-points",
+"label": "1. Read z and w on the plane"
+},
+{
+"id": "add-components",
+"label": "2. Add the real and imaginary parts"
+},
+{
+"id": "read-result",
+"label": "3. Match that sum to the endpoint on the plane"
+}
+],
+"resultLabel": "Current sum on the plane",
+"applyAction": {
+"label": "Show the head-to-tail sum",
+"observationHint": "The translated copy of w ends exactly where z + w lands, so the picture and the component addition are telling the same story."
+}
+},
+{
+"id": "read-complex-multiplication-geometrically",
+"title": "Read z · w as scale plus turn",
+"prompt": "In multiplication view, use w's magnitude and angle to predict where z · w should land.",
+"steps": [
+{
+"id": "read-multiplier",
+"label": "1. Read |w| and arg(w)"
+},
+{
+"id": "apply-scale-turn",
+"label": "2. Scale and turn z"
+},
+{
+"id": "read-product",
+"label": "3. Match the product to the endpoint"
+}
+],
+"resultLabel": "Current product on the plane",
+"applyAction": {
+"label": "Show multiplication as a turn",
+"observationHint": "The product arrow should match the same scale-plus-turn story: |w| controls stretch, and arg(w) controls rotation."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Build a multiplication case where the product lands in the second quadrant without changing its size very much from z.",
+"prediction": "Decide whether w needs to act mostly like a rotation, mostly like a stretch, or both before you try it.",
+"answer": "Choose a multiplier whose argument turns z into the second quadrant while its magnitude stays close to 1.",
+"explanation": "In multiplication, the product direction comes from adding arguments and the product size comes from multiplying magnitudes."
+}
+},
+"equations": [
+{
+"id": "complex-coordinate",
+"meaning": "Reads one complex number as the point (a, b), or equivalently as the vector from the origin to that point."
+},
+{
+"id": "magnitude-argument",
+"meaning": "Repackages the same point as a distance from the origin and a direction on the plane."
+},
+{
+"id": "complex-product",
+"meaning": "Explains why multiplying by w changes both the size and the direction of z."
+}
+],
+"simulation": {
+"presets": [
+{
+"id": "vector-sum",
+"description": "A clean addition case where the head-to-tail picture is easy to follow."
+},
+{
+"id": "rotation-by-i",
+"description": "A unit-magnitude multiplier that rotates z by 90 degrees without changing its size."
+},
+{
+"id": "canceling-sum",
+"description": "An addition case where z and w partly cancel, so the result lands much closer to the origin."
+}
+],
+"overlays": [
+{
+"id": "additionGuide",
+"shortDescription": "Show w translated to the tip of z so addition can be read head-to-tail.",
+"whatToNotice": [
+"The same endpoint comes from both the head-to-tail picture and from adding the real and imaginary parts."
+],
+"whyItMatters": "It keeps complex addition tied to vector addition on the plane."
+},
+{
+"id": "magnitudeCircle",
+"shortDescription": "Keep a one-unit reference circle visible.",
+"whatToNotice": [
+"A multiplier with magnitude 1 can rotate a point strongly without changing its distance from the origin."
+],
+"whyItMatters": "It separates the size story of multiplication from the turning story."
+},
+{
+"id": "rotationCue",
+"shortDescription": "Show the turn from arg(z) to arg(z · w).",
+"whatToNotice": [
+"Multiplication changes direction by adding angles."
+],
+"whyItMatters": "It turns the argument-addition rule into a visible rotation."
+}
+]
+},
+"noticePrompts": {
+"intro": "Keep the plane, the result arrow, and the active graph visible together so the algebra stays tied to the picture.",
+"items": [
+{
+"id": "cnp-notice-addition",
+"text": "In addition view, the result arrow lands where the head-to-tail copy of w ends, so the geometry and the component sum agree."
+},
+{
+"id": "cnp-notice-multiply",
+"text": "A multiplier near the unit circle changes direction more than size, so multiplication can look mostly like a rotation."
+}
+]
+},
+"predictionMode": {
+"title": "Predict the geometric effect",
+"intro": "Predict what the product should do on the plane before you switch the preset or the view.",
+"items": [
+{
+"id": "cnp-predict-rotation-by-i",
+"scenarioLabel": "Multiply by i",
+"choices": [
+{
+"id": "a",
+"label": "z should rotate about 90 degrees while keeping the same magnitude."
+},
+{
+"id": "b",
+"label": "z should become much longer."
+},
+{
+"id": "c",
+"label": "z should collapse to the origin."
+}
+],
+"explanation": "The multiplier i has magnitude 1 and argument 90 degrees, so it acts like a quarter-turn without scaling the point.",
+"observationHint": "Turn the rotation cue on and compare the original and product arrows: the distance from the origin stays the same while the direction turns by 90 degrees."
+}
+]
+},
+"quickTest": {
+"intro": "Answer from the live plane picture, not from a detached symbol rule.",
+"questions": [
+{
+"id": "cnp-qt-plane-meaning",
+"prompt": "What is the most accurate way to read z = a + bi on this bench?",
+"explanation": "The complex plane works because the algebraic form and the geometric point describe the same object."
+},
+{
+"id": "cnp-qt-multiplication",
+"prompt": "If |w| is close to 1 but arg(w) is large, what is the best expectation for z · w?",
+"choices": [
+{
+"id": "a",
+"label": "The product should rotate a lot while changing size only a little."
+},
+{
+"id": "b",
+"label": "The product should always become much longer."
+},
+{
+"id": "c",
+"label": "Nothing important should happen."
+}
+],
+"explanation": "A multiplier near the unit circle mainly rotates. A large argument means a large turn, while magnitude near 1 means little scaling."
+}
+]
+},
+"challengeMode": {
+"title": "Rotate without stretching much",
+"intro": "Use the plane honestly: choose w so the product turns strongly while |w| stays near 1.",
+"items": [
+{
+"id": "cnp-ch-rotate-to-positive-imaginary",
+"title": "Turn the product onto the positive imaginary axis",
+"prompt": "In multiplication view, choose w so z · w lands almost on the positive imaginary axis while the multiplier magnitude stays close to 1.",
+"successMessage": "You built a multiplication case where the direction changed a lot while the size changed very little. The product landed near the positive imaginary axis because w acted mainly like a rotation."
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows a complex plane with z, w, and the current result arrow. Sliders or dragging change the real and imaginary parts of both points, and a toggle switches between addition view and multiplication view. Optional guides can show head-to-tail addition, a one-unit reference circle, and a rotation cue for multiplication."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"One graph shows how the real and imaginary parts of z + w change as the real part of w changes. A second graph shows how the real and imaginary parts of z · w change under the same sweep, so addition and multiplication can be compared as two different geometric actions on the same plane."
+]
+}
+}
+}

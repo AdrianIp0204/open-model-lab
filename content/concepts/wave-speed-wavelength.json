@@ -1,0 +1,1125 @@
+{
+  "pageIntro": {
+    "definition": "Follow one traveling wave across the same medium and connect crest spacing, travel delay, source timing, and the relation v = f lambda on one honest live stage.",
+    "keyTakeaway": "Wavelength is spacing on the stage, while frequency and period are timing read from one point on the graph."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Start with the Wavelength guide on the stage and the source and probe graph below it. The guide marks one crest-to-crest spacing in space, while the graph shows how the source point and one downstream probe repeat in time. Those are not two separate stories: the probe is replaying the same oscillation after the disturbance has traveled across the medium.",
+        "Change Wave speed while keeping Wavelength fixed. The crest train sweeps across the ruler faster, the source and probe traces bunch closer together in time, and the Delay guide shrinks because the same distance is covered more quickly. Change Wavelength while keeping Wave speed fixed and a different thing happens: the crests spread out, fewer cycles fit into each meter, and the source frequency drops.",
+        "The phase-map graph is the distance version of that timing story. Every extra wavelength of downstream distance adds one full cycle of lag, so a probe one wavelength farther away has the same phase again, just one period later. Moving the probe does not change the wave itself; it only changes how much travel delay and cycle lag separate that location from the source.",
+        "This is why v = f lambda matters: it ties spacing, timing, and travel into one constraint instead of three unrelated readouts. The same bookkeeping later explains sound arrival delays, interference conditions, and standing-wave patterns. Next, keep the probe fixed and compare a pure Wave speed change with a pure Wavelength change, then move the probe by one full wavelength and check that the phase repeats while the delay grows."
+      ]
+    },
+    "keyIdeas": [
+      "Wavelength is spacing on the stage, while frequency and period are timing read from one point on the graph.",
+      "With Wavelength fixed, raising Wave speed makes the source and probe traces cycle faster; with Wave speed fixed, raising Wavelength makes them cycle slower.",
+      "Probe position changes travel delay and cycle lag, not the wave launched by the source."
+    ],
+    "commonMisconception": {
+      "myth": "If the crest train moves faster, one point in the medium must always oscillate faster for the same reason.",
+      "correction": [
+        "Wave speed tells you how fast one crest moves through space. Frequency tells you how often one location repeats in time.",
+        "In this bench, a higher Wave speed only guarantees a higher frequency when Wavelength is held fixed. If the source timing were fixed instead, the spacing would have to change to keep the relation consistent."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live wave checks",
+      "intro": "These examples read the current wave speed, wavelength, and probe position from the same live stage, so the algebra stays tied to the crest train you are actually watching.",
+      "items": [
+        {
+          "id": "wave-relation",
+          "title": "Frequency and period from v and λ",
+          "prompt": "For the current traveling wave with v = {{waveSpeedValue}} m/s and λ = {{wavelengthValue}} m, what frequency and period must the source have?",
+          "variables": [
+            {
+              "id": "wave-speed",
+              "variableId": "waveSpeed",
+              "symbol": "v",
+              "label": "Wave speed",
+              "valueKey": "waveSpeedValue",
+              "unit": "m/s"
+            },
+            {
+              "id": "wavelength",
+              "variableId": "wavelength",
+              "symbol": "\\lambda",
+              "label": "Wavelength",
+              "valueKey": "wavelengthValue",
+              "unit": "m"
+            },
+            {
+              "id": "frequency",
+              "symbol": "f",
+              "label": "Frequency",
+              "valueKey": "frequencyValue",
+              "unit": "Hz"
+            },
+            {
+              "id": "period",
+              "symbol": "T",
+              "label": "Period",
+              "valueKey": "periodValue",
+              "unit": "s"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Start from the wave relation",
+              "template": "Use $v = f\\lambda$, so $f = \\dfrac{v}{\\lambda}$, and then $T = \\dfrac{1}{f}$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the live values",
+              "template": "$f = \\dfrac{{waveSpeedValue}}{{wavelengthValue}} = {{frequencyValue}}\\,\\mathrm{Hz}$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Convert to a time period",
+              "template": "That gives $T = \\dfrac{1}{f} = {{periodValue}}\\,\\mathrm{s}$, so one full source cycle launches one more wavelength every {{periodValue}} seconds."
+            }
+          ],
+          "resultLabel": "Current timing",
+          "resultTemplate": "$f = {{frequencyValue}}\\,\\mathrm{Hz}, \\quad T = {{periodValue}}\\,\\mathrm{s}$",
+          "interpretationTemplate": "{{relationInterpretation}}",
+          "applyAction": {
+            "label": "Show tighter crest spacing",
+            "presetId": "short-wavelength",
+            "observationHint": "Shorter wavelengths make the phase map rise more steeply, so the same medium length contains more cycles.",
+            "highlightedControlIds": [
+              "wavelength"
+            ],
+            "highlightedGraphIds": [
+              "phase-map",
+              "displacement"
+            ],
+            "highlightedOverlayIds": [
+              "wavelengthGuide",
+              "distancePerPeriod"
+            ]
+          }
+        },
+        {
+          "id": "probe-delay",
+          "title": "Probe delay and phase lag",
+          "prompt": "At the current probe position x_p = {{probeXValue}} m, how much later does the wave arrive there, and how many cycles behind the source is that point?",
+          "variables": [
+            {
+              "id": "probe-position",
+              "variableId": "probeX",
+              "symbol": "x_p",
+              "label": "Probe position",
+              "valueKey": "probeXValue",
+              "unit": "m"
+            },
+            {
+              "id": "wave-speed",
+              "variableId": "waveSpeed",
+              "symbol": "v",
+              "label": "Wave speed",
+              "valueKey": "waveSpeedValue",
+              "unit": "m/s"
+            },
+            {
+              "id": "wavelength",
+              "variableId": "wavelength",
+              "symbol": "\\lambda",
+              "label": "Wavelength",
+              "valueKey": "wavelengthValue",
+              "unit": "m"
+            },
+            {
+              "id": "travel-delay",
+              "symbol": "\\Delta t",
+              "label": "Travel delay",
+              "valueKey": "travelDelayValue",
+              "unit": "s"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Use distance over speed",
+              "template": "The travel delay is $\\Delta t = \\dfrac{x_p}{v}$, and the cycle lag is $\\dfrac{x_p}{\\lambda}$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the live probe location",
+              "template": "$\\Delta t = \\dfrac{{probeXValue}}{{waveSpeedValue}} = {{travelDelayValue}}\\,\\mathrm{s}$ and $\\dfrac{x_p}{\\lambda} = \\dfrac{{probeXValue}}{{wavelengthValue}} = {{phaseLagCyclesValue}}$ cycles."
+            },
+            {
+              "id": "compute",
+              "label": "3. Interpret what the probe should do",
+              "template": "That means the probe repeats the source motion after a delay of {{travelDelayValue}} s and a phase lag of {{phaseLagRadiansValue}} rad."
+            }
+          ],
+          "resultLabel": "Current probe lag",
+          "resultTemplate": "$\\Delta t = {{travelDelayValue}}\\,\\mathrm{s}, \\quad \\dfrac{x_p}{\\lambda} = {{phaseLagCyclesValue}}$ cycles",
+          "interpretationTemplate": "{{delayInterpretation}}",
+          "applyAction": {
+            "label": "Show one full-cycle lag",
+            "presetId": "one-wavelength-away",
+            "observationHint": "A probe one wavelength away repeats the source phase after one full cycle of lag.",
+            "highlightedControlIds": [
+              "probeX",
+              "wavelength"
+            ],
+            "highlightedGraphIds": [
+              "phase-map",
+              "displacement"
+            ],
+            "highlightedOverlayIds": [
+              "delayGuide"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "You are not allowed to move the probe, and Wave speed stays fixed. What one change makes the source oscillate more slowly while the crest train still reaches the probe?",
+      "prediction": "Decide whether you should change Amplitude, Wavelength, or Probe position.",
+      "answer": "Increase the wavelength.",
+      "explanation": "With Wave speed fixed, frequency is v / lambda. A larger Wavelength means fewer cycles fit into each meter, so the source frequency drops and the period gets longer."
+    }
+  },
+  "equations": [
+    {
+      "id": "traveling-wave",
+      "latex": "y(x,t) = A\\sin\\!\\left(2\\pi\\left(\\dfrac{x}{\\lambda} - ft\\right)\\right)",
+      "label": "Traveling-wave model",
+      "meaning": "Amplitude sets the vertical size, while wavelength and frequency set how the repeating pattern varies in space and time."
+    },
+    {
+      "id": "wave-speed",
+      "latex": "v = f\\lambda",
+      "label": "Wave relation",
+      "meaning": "Wave speed links the spatial spacing of crests to the time rate at which new cycles are launched."
+    },
+    {
+      "id": "wave-period",
+      "latex": "f = \\dfrac{1}{T}",
+      "label": "Frequency and period",
+      "meaning": "Frequency counts cycles each second, while period is the time for one full cycle."
+    },
+    {
+      "id": "wave-delay",
+      "latex": "\\Delta t = \\dfrac{x}{v}",
+      "label": "Travel delay",
+      "meaning": "A point farther from the source responds later because the disturbance still has to travel that distance through the medium."
+    },
+    {
+      "id": "wave-phase-lag",
+      "latex": "\\Delta \\phi = 2\\pi\\dfrac{x}{\\lambda}",
+      "label": "Phase lag by position",
+      "meaning": "Every extra wavelength of distance adds one full cycle of lag between the source and a downstream point."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "amplitude",
+      "symbol": "A",
+      "label": "Amplitude",
+      "param": "amplitude",
+      "tone": "coral",
+      "description": "Changes the height of the wave without changing how quickly crests travel or how far apart they are.",
+      "equationIds": [
+        "traveling-wave"
+      ],
+      "graphIds": [
+        "displacement"
+      ]
+    },
+    {
+      "id": "waveSpeed",
+      "symbol": "v",
+      "label": "Wave speed",
+      "param": "waveSpeed",
+      "tone": "teal",
+      "description": "Sets how quickly one phase point such as a crest moves through the medium, which also changes frequency when wavelength is held fixed.",
+      "equationIds": [
+        "wave-speed",
+        "wave-delay"
+      ],
+      "graphIds": [
+        "displacement"
+      ],
+      "overlayIds": [
+        "delayGuide",
+        "distancePerPeriod"
+      ]
+    },
+    {
+      "id": "wavelength",
+      "symbol": "\\lambda",
+      "label": "Wavelength",
+      "param": "wavelength",
+      "tone": "sky",
+      "description": "Sets the crest-to-crest spacing in the medium and controls how many cycles fit into a given distance.",
+      "equationIds": [
+        "traveling-wave",
+        "wave-speed",
+        "wave-phase-lag"
+      ],
+      "graphIds": [
+        "phase-map",
+        "displacement"
+      ],
+      "overlayIds": [
+        "wavelengthGuide",
+        "distancePerPeriod"
+      ]
+    },
+    {
+      "id": "probeX",
+      "symbol": "x_p",
+      "label": "Probe position",
+      "param": "probeX",
+      "tone": "amber",
+      "description": "Moves the measurement point farther downstream, which increases the travel delay and phase lag without changing the wave itself.",
+      "equationIds": [
+        "wave-delay",
+        "wave-phase-lag"
+      ],
+      "graphIds": [
+        "phase-map",
+        "displacement"
+      ],
+      "overlayIds": [
+        "delayGuide"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "amplitude": 1,
+      "waveSpeed": 2.4,
+      "wavelength": 1.6,
+      "probeX": 2.4,
+      "wavelengthGuide": true,
+      "delayGuide": true,
+      "distancePerPeriod": false
+    },
+    "ui": {
+      "initialGraphId": "displacement",
+      "primaryGraphIds": [
+        "displacement"
+      ],
+      "primaryControlIds": [
+        "waveSpeed",
+        "wavelength"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "amplitude",
+        "kind": "slider",
+        "label": "Amplitude",
+        "param": "amplitude",
+        "min": 0.4,
+        "max": 1.6,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Changes the wave height without changing v, lambda, f, or T."
+      },
+      {
+        "id": "waveSpeed",
+        "kind": "slider",
+        "label": "Wave speed",
+        "param": "waveSpeed",
+        "min": 1.2,
+        "max": 4.8,
+        "step": 0.05,
+        "unit": "m/s",
+        "description": "Controls how quickly the crest train moves through the medium."
+      },
+      {
+        "id": "wavelength",
+        "kind": "slider",
+        "label": "Wavelength",
+        "param": "wavelength",
+        "min": 0.8,
+        "max": 3.2,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Controls the crest spacing along the medium."
+      },
+      {
+        "id": "probeX",
+        "kind": "slider",
+        "label": "Probe position",
+        "param": "probeX",
+        "min": 0,
+        "max": 8,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Moves the live measurement point farther from or closer to the source."
+      }
+    ],
+    "presets": [
+      {
+        "id": "baseline-train",
+        "label": "Baseline",
+        "description": "A medium-speed wave with 1.6 m crest spacing and the probe 2.4 m from the source.",
+        "values": {
+          "amplitude": 1,
+          "waveSpeed": 2.4,
+          "wavelength": 1.6,
+          "probeX": 2.4
+        }
+      },
+      {
+        "id": "fast-medium",
+        "label": "Faster medium",
+        "description": "The crests travel faster while the wavelength stays fixed, so the source frequency rises.",
+        "values": {
+          "amplitude": 1,
+          "waveSpeed": 3.6,
+          "wavelength": 1.6,
+          "probeX": 2.4
+        }
+      },
+      {
+        "id": "long-wavelength",
+        "label": "Longer wavelength",
+        "description": "The same medium speed now spreads the crests farther apart, so the frequency drops.",
+        "values": {
+          "amplitude": 1,
+          "waveSpeed": 2.4,
+          "wavelength": 2.4,
+          "probeX": 2.4
+        }
+      },
+      {
+        "id": "short-wavelength",
+        "label": "Shorter wavelength",
+        "description": "More cycles fit into the same medium length, so the source must oscillate faster.",
+        "values": {
+          "amplitude": 1,
+          "waveSpeed": 2.4,
+          "wavelength": 1,
+          "probeX": 2.4
+        }
+      },
+      {
+        "id": "one-wavelength-away",
+        "label": "One wavelength away",
+        "description": "The probe sits exactly one wavelength from the source, so it is delayed by one full cycle.",
+        "values": {
+          "amplitude": 1,
+          "waveSpeed": 2.4,
+          "wavelength": 1.6,
+          "probeX": 1.6
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "wavelengthGuide",
+        "label": "Wavelength guide",
+        "shortDescription": "Marks one crest-to-crest spacing directly on the live wave.",
+        "whatToNotice": [
+          "Changing lambda re-spaces the crests on the stage and changes the slope of the phase map by the same underlying amount."
+        ],
+        "whyItMatters": "It keeps wavelength spatial and visible instead of treating it as a formula-only quantity.",
+        "relatedControls": [
+          "wavelength"
+        ],
+        "relatedGraphTabs": [
+          "phase-map"
+        ],
+        "relatedEquationVariables": [
+          "wavelength"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "delayGuide",
+        "label": "Delay guide",
+        "shortDescription": "Labels the source-to-probe distance, travel delay, and cycle lag together.",
+        "whatToNotice": [
+          "Moving the probe does not change the wave train. It only changes how long that point must wait for the disturbance to arrive."
+        ],
+        "whyItMatters": "It connects downstream distance to both time delay and phase lag on the same live stage.",
+        "relatedControls": [
+          "probeX",
+          "waveSpeed"
+        ],
+        "relatedGraphTabs": [
+          "displacement",
+          "phase-map"
+        ],
+        "relatedEquationVariables": [
+          "probeX",
+          "waveSpeed"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "distancePerPeriod",
+        "label": "One-period travel",
+        "shortDescription": "Shows that a crest travels one wavelength during one period.",
+        "whatToNotice": [
+          "The same spacing that marks one wavelength in space also equals the distance a crest covers in one period."
+        ],
+        "whyItMatters": "It makes lambda = vT visible instead of leaving the time-space bridge hidden in algebra.",
+        "relatedControls": [
+          "waveSpeed",
+          "wavelength"
+        ],
+        "relatedGraphTabs": [
+          "displacement",
+          "phase-map"
+        ],
+        "relatedEquationVariables": [
+          "waveSpeed",
+          "wavelength"
+        ],
+        "defaultOn": false
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "displacement",
+      "label": "Source and probe motion",
+      "xLabel": "time (s)",
+      "yLabel": "displacement (m)",
+      "series": [
+        "source",
+        "probe"
+      ],
+      "description": "Tracks the source point and one downstream probe on the same time axis, so travel delay and phase lag stay tied to the live stage."
+    },
+    {
+      "id": "phase-map",
+      "label": "Position to cycle lag",
+      "xLabel": "position in medium (m)",
+      "yLabel": "cycle lag from source",
+      "series": [
+        "cycle-lag"
+      ],
+      "description": "Shows how many full cycles of lag accumulate with downstream distance. Every extra wavelength adds one more cycle."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use one cue at a time. The best prompt should point at a real spatial or timing change that the current wave, graph, and overlays are already showing.",
+    "items": [
+      {
+        "id": "wave-speed-notice-stage-and-graph",
+        "text": "Notice that the source and probe traces stay on the same frequency story as the moving crest train. Faster travel or tighter spacing changes both the time graph and the live stage together.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Keep the probe fixed, then change wave speed or wavelength one at a time and compare the card readouts with the stage motion.",
+        "whyItMatters": "The graph is not a separate math panel. It is the same traveling wave seen at two locations.",
+        "relatedControls": [
+          "waveSpeed",
+          "wavelength"
+        ],
+        "relatedGraphTabs": [
+          "displacement"
+        ],
+        "relatedOverlays": [
+          "delayGuide"
+        ]
+      },
+      {
+        "id": "wave-speed-notice-phase-map-preview",
+        "text": "Notice that hovering the phase map moves the live probe to that same downstream position instead of inventing a separate preview state.",
+        "type": "graph-reading",
+        "priority": 4,
+        "conditions": {
+          "graphTabs": [
+            "phase-map"
+          ]
+        },
+        "tryThis": "Hover one wavelength farther to the right and compare how the probe phase relation changes.",
+        "whyItMatters": "The phase map and the stage are two views of the same distance-based lag.",
+        "relatedGraphTabs": [
+          "phase-map",
+          "displacement"
+        ],
+        "relatedOverlays": [
+          "delayGuide",
+          "wavelengthGuide"
+        ]
+      },
+      {
+        "id": "wave-speed-notice-wavelength",
+        "text": "Notice that shortening lambda packs more cycles into the same medium length, so the phase map rises more steeply and the source frequency has to increase if the wave speed is unchanged.",
+        "type": "try-this",
+        "priority": 5,
+        "conditions": {
+          "lastChangedControls": [
+            "wavelength"
+          ]
+        },
+        "tryThis": "Lower lambda while keeping v fixed and compare the crest spacing on the stage with the frequency readout.",
+        "whyItMatters": "Wavelength is a spatial quantity, but it still constrains the time behavior through v = f lambda.",
+        "relatedControls": [
+          "wavelength",
+          "waveSpeed"
+        ],
+        "relatedGraphTabs": [
+          "phase-map",
+          "displacement"
+        ],
+        "relatedOverlays": [
+          "wavelengthGuide",
+          "distancePerPeriod"
+        ],
+        "relatedEquationVariables": [
+          "wavelength",
+          "waveSpeed"
+        ]
+      },
+      {
+        "id": "wave-speed-notice-wave-speed",
+        "text": "Notice that increasing v while lambda stays fixed makes the time graph cycle faster even though the crest spacing on the stage does not change.",
+        "type": "try-this",
+        "priority": 6,
+        "conditions": {
+          "lastChangedControls": [
+            "waveSpeed"
+          ]
+        },
+        "tryThis": "Keep lambda fixed, raise the wave speed, and compare the period readout before and after.",
+        "whyItMatters": "Wave speed changes how quickly the pattern moves through the medium, which changes frequency when the spacing is held fixed.",
+        "relatedControls": [
+          "waveSpeed",
+          "wavelength"
+        ],
+        "relatedGraphTabs": [
+          "displacement"
+        ],
+        "relatedOverlays": [
+          "distancePerPeriod"
+        ],
+        "relatedEquationVariables": [
+          "waveSpeed"
+        ]
+      },
+      {
+        "id": "wave-speed-notice-amplitude",
+        "text": "Notice that a taller wave does not change the crest spacing, travel delay, frequency, or period. It only changes the displacement height.",
+        "type": "misconception",
+        "priority": 7,
+        "conditions": {
+          "lastChangedControls": [
+            "amplitude"
+          ]
+        },
+        "tryThis": "Increase amplitude and compare what changed on the time graph with what stayed fixed on the phase map and readout card.",
+        "whyItMatters": "Amplitude is often confused with speed or energy. Here it is visually separated from the timing and spacing relations.",
+        "relatedControls": [
+          "amplitude"
+        ],
+        "relatedGraphTabs": [
+          "displacement",
+          "phase-map"
+        ]
+      },
+      {
+        "id": "wave-speed-notice-inspect",
+        "text": "Notice that the time rail changes the instantaneous wave shape and source-probe displacements, but the phase map stays position-based because it represents lag from distance, not a time trace.",
+        "type": "graph-reading",
+        "priority": 8,
+        "conditions": {
+          "inspectState": "inspect"
+        },
+        "tryThis": "Pause, step once, and compare what changed on the stage with what stayed fixed on the phase map.",
+        "whyItMatters": "It separates the moving snapshot from the distance-based relation that does not depend on a chosen instant.",
+        "relatedGraphTabs": [
+          "displacement",
+          "phase-map"
+        ]
+      },
+      {
+        "id": "wave-speed-notice-compare",
+        "text": "Notice which setup packs more cycles into the same distance and which setup cycles faster in time. Those are not always the same change.",
+        "type": "compare",
+        "priority": 9,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Clone the current state, then shorten lambda in one setup and raise v in the other before comparing the two graphs.",
+        "whyItMatters": "Compare mode separates spacing changes from speed changes without breaking the one-state story inside each setup.",
+        "relatedControls": [
+          "waveSpeed",
+          "wavelength"
+        ],
+        "relatedGraphTabs": [
+          "displacement",
+          "phase-map"
+        ],
+        "relatedOverlays": [
+          "wavelengthGuide",
+          "delayGuide"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Commit to the timing and spacing consequence before you test it. Each prompt changes one cause at a time and asks what the same live wave must do next.",
+    "items": [
+      {
+        "id": "wave-speed-predict-faster-medium",
+        "prompt": "Keep lambda fixed at the current value and make the wave move faster through the medium. What must happen to the source frequency and period?",
+        "scenarioLabel": "Raise the wave speed",
+        "changeLabel": "Wave speed",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The frequency should increase and the period should get shorter."
+          },
+          {
+            "id": "b",
+            "label": "The frequency should stay the same because the crest spacing did not change."
+          },
+          {
+            "id": "c",
+            "label": "The period should get longer because the wave is moving farther each second."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "With lambda fixed, v = f lambda means a larger wave speed requires a larger frequency. Since T = 1 / f, the period becomes shorter.",
+        "observationHint": "Watch the crest train move faster while the time graph cycles more quickly at both the source and probe.",
+        "apply": {
+          "presetId": "fast-medium"
+        },
+        "highlightedControls": [
+          "waveSpeed"
+        ],
+        "highlightedGraphs": [
+          "displacement"
+        ],
+        "highlightedOverlays": [
+          "distancePerPeriod"
+        ]
+      },
+      {
+        "id": "wave-speed-predict-longer-wavelength",
+        "prompt": "Keep the wave speed fixed and increase lambda. What should happen to the phase-map slope and the source frequency?",
+        "scenarioLabel": "Increase the wavelength",
+        "changeLabel": "Wavelength",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The phase-map slope should flatten and the frequency should decrease."
+          },
+          {
+            "id": "b",
+            "label": "The phase-map slope should get steeper and the frequency should increase."
+          },
+          {
+            "id": "c",
+            "label": "Neither graph nor frequency should change because the medium speed stayed fixed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A larger wavelength means fewer cycles fit into each meter, so x / lambda rises more slowly with position. With v fixed, the frequency must decrease because f = v / lambda.",
+        "observationHint": "Compare the wider crest spacing on the stage with the lower cycle count in the phase map.",
+        "apply": {
+          "presetId": "long-wavelength"
+        },
+        "highlightedControls": [
+          "wavelength"
+        ],
+        "highlightedGraphs": [
+          "phase-map",
+          "displacement"
+        ],
+        "highlightedOverlays": [
+          "wavelengthGuide"
+        ]
+      },
+      {
+        "id": "wave-speed-predict-one-wavelength-farther",
+        "prompt": "Move the probe one full wavelength farther from the source without changing the wave itself. What should happen to the source-probe phase relation?",
+        "scenarioLabel": "Shift the probe by one lambda",
+        "changeLabel": "Probe position",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The probe should keep the same phase relation, but arrive one full cycle later."
+          },
+          {
+            "id": "b",
+            "label": "The probe should flip to the opposite phase because the distance got larger."
+          },
+          {
+            "id": "c",
+            "label": "The probe should gain amplitude because it is farther from the source."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Adding one full wavelength adds one full cycle of lag. That changes the travel delay, but the phase relation repeats after each complete cycle.",
+        "observationHint": "Watch the phase map rise by one extra cycle while the source and probe line back up with the same phase.",
+        "apply": {
+          "presetId": "one-wavelength-away"
+        },
+        "highlightedControls": [
+          "probeX"
+        ],
+        "highlightedGraphs": [
+          "phase-map",
+          "displacement"
+        ],
+        "highlightedOverlays": [
+          "delayGuide"
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Use the live wave relation, not memory alone. These checks are about how spacing, timing, and downstream delay fit together.",
+    "questions": [
+      {
+        "id": "wave-speed-qt-fixed-speed",
+        "prompt": "The wave speed stays fixed, but λ doubles. What happens to f and T?",
+        "type": "variable-effect",
+        "choices": [
+          {
+            "id": "a",
+            "label": "f doubles and T halves."
+          },
+          {
+            "id": "b",
+            "label": "f halves and T doubles."
+          },
+          {
+            "id": "c",
+            "label": "Neither one changes because v is fixed."
+          }
+        ],
+        "correctChoiceId": "b",
+        "explanation": "With v fixed, f = v / λ. Doubling λ cuts the frequency in half, and T = 1 / f therefore doubles.",
+        "selectedWrongExplanations": {
+          "a": "That would only happen if the wave speed increased while λ stayed fixed.",
+          "c": "Fixing v does not freeze the rest of the relation. Changing λ still forces f and T to adjust."
+        },
+        "showMeAction": {
+          "label": "Show longer wavelength",
+          "presetId": "long-wavelength",
+          "observationHint": "Compare the wider crest spacing with the lower frequency readout.",
+          "highlightedGraphIds": [
+            "phase-map",
+            "displacement"
+          ],
+          "highlightedOverlayIds": [
+            "wavelengthGuide"
+          ]
+        }
+      },
+      {
+        "id": "wave-speed-qt-phase-map",
+        "prompt": "On the phase map, what does y = 1 cycle mean for a downstream point?",
+        "type": "graph-reading",
+        "choices": [
+          {
+            "id": "a",
+            "label": "That point is one meter from the source and must have the highest amplitude."
+          },
+          {
+            "id": "b",
+            "label": "That point reaches the source one second earlier than the source itself."
+          },
+          {
+            "id": "c",
+            "label": "That point is one full wavelength from the source and repeats the same phase one period later."
+          }
+        ],
+        "correctChoiceId": "c",
+        "explanation": "One cycle of lag means one whole wavelength of downstream separation. The phase repeats after a full cycle, but the point still responds later in time.",
+        "selectedWrongExplanations": {
+          "a": "The phase-map y value counts cycles, not meters or amplitudes.",
+          "b": "Downstream points lag behind the source. They do not arrive earlier than the source."
+        },
+        "showMeAction": {
+          "label": "Show one-cycle lag",
+          "presetId": "one-wavelength-away",
+          "observationHint": "The probe sits one wavelength downstream, so the phase map reads one cycle.",
+          "highlightedControlIds": [
+            "probeX"
+          ],
+          "highlightedGraphIds": [
+            "phase-map"
+          ],
+          "highlightedOverlayIds": [
+            "delayGuide"
+          ]
+        }
+      },
+      {
+        "id": "wave-speed-qt-amplitude",
+        "prompt": "You increase amplitude while leaving wave speed, wavelength, and probe position alone. Which statement is correct?",
+        "type": "misconception-check",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Only the displacement height changes. v, lambda, f, T, and the cycle lag stay the same."
+          },
+          {
+            "id": "b",
+            "label": "The wave speed increases because taller waves move faster."
+          },
+          {
+            "id": "c",
+            "label": "The wavelength must increase because the crests are taller."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Amplitude controls the size of the oscillation, not the timing or spacing relation. The stage gets taller, but the crest spacing, travel delay, and frequency stay fixed.",
+        "selectedWrongExplanations": {
+          "b": "Nothing in the model makes wave speed depend on amplitude.",
+          "c": "Wavelength is crest spacing along the medium. It is independent of how tall the wave is."
+        },
+        "showMeAction": {
+          "label": "Highlight the unchanged relation",
+          "highlightedControlIds": [
+            "amplitude"
+          ],
+          "highlightedGraphIds": [
+            "phase-map",
+            "displacement"
+          ]
+        }
+      },
+      {
+        "id": "wave-speed-qt-compare",
+        "prompt": "Setup A keeps λ the same but raises v. Setup B keeps v the same but shortens λ. Which setup keeps the same phase-map slope but makes the time graph cycle faster?",
+        "type": "compare-two-cases",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Setup B"
+          },
+          {
+            "id": "b",
+            "label": "Setup A"
+          },
+          {
+            "id": "c",
+            "label": "Both setups do that in the same way."
+          }
+        ],
+        "correctChoiceId": "b",
+        "explanation": "The phase-map slope depends on λ, so keeping λ fixed preserves that graph. Raising v at fixed λ increases frequency, so the time graph cycles faster.",
+        "selectedWrongExplanations": {
+          "a": "Shortening λ changes the phase-map slope, so Setup B does not preserve that graph.",
+          "c": "The two setups change different parts of the relation. One preserves spacing, the other changes it."
+        },
+        "showMeAction": {
+          "label": "Compare speed vs spacing",
+          "patch": {
+            "waveSpeed": 3.6,
+            "wavelength": 1.6
+          },
+          "observationHint": "Use compare mode to separate a pure speed change from a pure spacing change.",
+          "highlightedControlIds": [
+            "waveSpeed",
+            "wavelength"
+          ],
+          "highlightedGraphIds": [
+            "phase-map",
+            "displacement"
+          ],
+          "highlightedOverlayIds": [
+            "wavelengthGuide",
+            "delayGuide"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one source on the left launching a transverse traveling wave across a horizontal medium. A movable probe marks one downstream position on the wave, and optional overlays can label one wavelength, the source-to-probe delay, and the distance a crest covers in one period.",
+        "A readout card summarizes the current wave speed, wavelength, frequency, period, probe position, and probe displacement so the key relation stays visible without leaving the stage."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The displacement graph compares source motion with probe motion on the same time axis, so the user can read delay and phase differences honestly. The phase-map graph shows how many cycles of lag accumulate with downstream distance, and hovering that graph moves the live probe to the matching position."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Wave Speed and Wavelength | Open Model Lab",
+    "description": "Explore how wave speed, wavelength, frequency, and period stay locked together on one traveling-wave simulation.",
+    "keywords": [
+      "wave speed",
+      "wavelength",
+      "frequency",
+      "period",
+      "traveling wave"
+    ]
+  },
+  "v2": {
+    "intuition": "Track one traveling wave so crest spacing, probe delay, and source timing stay tied to the same moving pattern.",
+    "whyItMatters": "This relation is the reusable link behind sound arrival delays, interference spacing, and later standing-wave reasoning, so it needs to feel like one story instead of three disconnected formulas.",
+    "estimatedMinutes": 12,
+    "equationSnapshot": {
+      "equationIds": [
+        "wave-speed",
+        "wave-delay",
+        "wave-phase-lag"
+      ]
+    },
+    "startSetup": {
+      "presetId": "baseline-train",
+      "graphId": "displacement",
+      "overlayIds": [
+        "wavelengthGuide",
+        "delayGuide"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-spacing-and-delay-together",
+        "title": "Read spacing and delay together",
+        "goal": "Use one baseline wave to connect wavelength on the stage to timing at the probe.",
+        "doThis": "Start with the baseline-train preset, keep the displacement graph visible, and move Probe position once.",
+        "notice": "The crest spacing on the stage stays fixed while the downstream probe repeats the same motion later in time.",
+        "explain": "Wavelength is spatial spacing, while the probe delay is a travel-time effect. They are different views of the same traveling disturbance.",
+        "reveal": {
+          "controlIds": [
+            "probeX"
+          ],
+          "graphIds": [
+            "displacement"
+          ],
+          "overlayIds": [
+            "wavelengthGuide",
+            "delayGuide"
+          ],
+          "toolHints": [
+            "timeline",
+            "graph-preview"
+          ]
+        },
+        "setup": {
+          "presetId": "baseline-train",
+          "graphId": "displacement",
+          "overlayIds": [
+            "wavelengthGuide",
+            "delayGuide"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "wave-speed-predict-one-wavelength-farther"
+          ]
+        }
+      },
+      {
+        "id": "change-wave-speed-not-spacing",
+        "title": "Change wave speed, not spacing",
+        "goal": "See what gets faster when the same wavelength moves through the medium more quickly.",
+        "doThis": "Apply the fast-medium preset and compare the source and probe timing while the wavelength guide stays visible.",
+        "notice": "The same crest spacing sweeps across the ruler faster, and the travel delay shrinks.",
+        "explain": "With wavelength fixed, a larger wave speed means the source must cycle faster so that v = f lambda still holds.",
+        "reveal": {
+          "controlIds": [
+            "waveSpeed"
+          ],
+          "graphIds": [
+            "displacement",
+            "phase-map"
+          ],
+          "overlayIds": [
+            "delayGuide",
+            "distancePerPeriod"
+          ]
+        },
+        "setup": {
+          "presetId": "fast-medium",
+          "graphId": "phase-map",
+          "overlayIds": [
+            "delayGuide",
+            "distancePerPeriod"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "wave-speed-predict-faster-medium"
+          ]
+        }
+      },
+      {
+        "id": "change-wavelength-at-fixed-speed",
+        "title": "Change wavelength at fixed speed",
+        "goal": "Separate spacing changes from medium-speed changes by holding wave speed steady.",
+        "doThis": "Switch between the short-wavelength and long-wavelength presets while keeping the same medium speed in view.",
+        "notice": "The crest spacing changes on the stage, and the source timing changes with it even though the crests do not travel faster through the medium.",
+        "explain": "If v stays fixed, changing lambda forces frequency and period to change so the same relation remains consistent.",
+        "reveal": {
+          "controlIds": [
+            "wavelength"
+          ],
+          "graphIds": [
+            "phase-map",
+            "displacement"
+          ],
+          "overlayIds": [
+            "wavelengthGuide",
+            "distancePerPeriod"
+          ]
+        },
+        "setup": {
+          "presetId": "short-wavelength",
+          "graphId": "phase-map",
+          "overlayIds": [
+            "wavelengthGuide",
+            "distancePerPeriod"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "wave-speed-qt-fixed-speed"
+          ]
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Wavelength is spacing on the stage, while frequency and period are timing read at one location.",
+        "With wavelength fixed, raising wave speed makes the source and probe cycle faster.",
+        "Probe position changes travel delay and phase lag, not the wave launched by the source."
+      ],
+      "misconception": "If the crest train moves faster, one point in the medium must always oscillate faster for the same reason.",
+      "workedExampleRefs": [
+        "wave-relation",
+        "probe-delay"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "sound-waves-longitudinal-motion",
+          "title": "Sound Waves and Longitudinal Motion",
+          "reasonLabel": "Apply the same timing story to sound"
+        },
+        {
+          "slug": "standing-waves",
+          "title": "Standing Waves",
+          "reasonLabel": "Use spacing and timing to read resonance"
+        }
+      ],
+      "freePlayPrompt": "Move the probe and the wavelength together until the phase repeats at a new downstream position."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "quickTest"
+    ]
+  }
+}

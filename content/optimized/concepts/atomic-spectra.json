@@ -1,0 +1,158 @@
+{
+"sections": {
+"explanation": {
+"paragraphs": [
+"On this page, an atom does not emit or absorb every color. It can change only between allowed energy levels, so it can emit or absorb only photons whose energies match those level gaps. That is why the spectrum appears as discrete lines instead of a smooth rainbow.",
+"The energy ladder, spectrum strip, and wavelength graph are all showing the same allowed transitions. When you change a gap or switch between emission and absorption, the line positions, overlays, worked examples, and checks stay tied to that same energy-gap story."
+]
+},
+"keyIdeas": [
+"Each spectral line comes from one allowed energy difference between levels.",
+"Larger energy gaps produce shorter-wavelength photons, while smaller gaps produce longer-wavelength photons.",
+"Emission and absorption use the same allowed wavelengths because both are set by the same level differences.",
+"This simplified ladder is here to explain line positions and energy gaps clearly, not to model full atomic structure."
+],
+"workedExamples": {
+"intro": "Use the current ladder and mode directly from the live bench. The same allowed gaps control the arrows, the strip, the graph, and the worked result.",
+"items": [
+{
+"id": "current-visible-pair",
+"prompt": "With gaps {{gap21Value}}, {{gap32Value}}, and {{gap43Value}}, which spectral lines from the current ladder fall in the visible range?",
+"steps": [
+{
+"id": "pair-21",
+"label": "1. Find the 2 -> 1 wavelength"
+},
+{
+"id": "pair-32",
+"label": "2. Find the 3 -> 2 wavelength"
+},
+{
+"id": "pattern",
+"label": "3. Count the visible lines"
+}
+],
+"applyAction": {
+"observationHint": "Watch each visible line stay linked to its ladder arrow on both the strip and the graph."
+}
+},
+{
+"id": "current-mode-line",
+"title": "Current mode and unchanged wavelength",
+"prompt": "For the current mode {{modeLabelValue}}, how does the largest-gap line appear, and why does its wavelength stay the same?",
+"steps": [
+{
+"id": "largest-gap",
+"label": "1. Identify the largest gap"
+},
+{
+"id": "convert-largest-gap",
+"label": "2. Convert it to a wavelength"
+},
+{
+"id": "mode-appearance",
+"label": "3. Separate position from appearance"
+}
+],
+"applyAction": {
+"observationHint": "Bright peaks turn into dark notches at the same x positions because the allowed gaps did not change."
+}
+}
+]
+},
+"miniChallenge": {
+"prediction": "Answer from the allowed energy gaps, not from whether a line looks bright or dark.",
+"explanation": "Discrete level gaps allow only discrete photon energies, so only certain wavelengths appear. This page focuses on that line-pattern logic without trying to model full atomic structure."
+}
+},
+"simulation": {
+"controls": [
+{
+"id": "gap12Ev",
+"description": "Set the energy difference between levels 2 and 1."
+},
+{
+"id": "gap23Ev",
+"description": "Set the energy difference between levels 3 and 2."
+},
+{
+"id": "gap34Ev",
+"description": "Set the energy difference between levels 4 and 3."
+},
+{
+"id": "absorptionMode",
+"description": "Switch between bright emission lines and dark absorption notches while keeping the same allowed wavelengths."
+}
+],
+"overlays": [
+{
+"id": "transitionPairs",
+"whatToNotice": [
+"The active ladder arrow, strip line, and graph position move together because they represent the same energy change."
+],
+"whyItMatters": "It helps you connect energy-level changes to spectral lines instead of treating them as separate pictures."
+},
+{
+"id": "lineLabels",
+"whatToNotice": [
+"Changing one gap can move several labeled lines because some larger jumps include that same gap."
+],
+"whyItMatters": "It makes the line pattern easier to explain from the ladder."
+},
+{
+"id": "modeLock",
+"whatToNotice": [
+"Bright peaks become dark notches at the same wavelengths because the allowed level differences are unchanged."
+],
+"whyItMatters": "It separates where a line appears from how it appears."
+},
+{
+"id": "quantizedSpacing",
+"whatToNotice": [
+"Empty wavelength regions are expected whenever no allowed energy gap lands there."
+],
+"whyItMatters": "It is the clearest visual cue that the spectrum is discrete, not continuous."
+}
+]
+},
+"graphs": [
+{
+"id": "spectrum-lines",
+"description": "Shows the current line pattern across ultraviolet, visible, and infrared wavelengths. In absorption mode, the continuum stays in place while dark notches mark the same allowed wavelengths."
+}
+],
+"noticePrompts": {
+"intro": "Use one prompt at a time so the ladder, strip, and graph keep telling the same energy-gap story.",
+"items": [
+{
+"id": "as-notice-discrete",
+"text": "Most wavelengths stay empty because this ladder allows only a few energy differences. The spectrum is sparse because of the model, not because the graph is hiding anything.",
+"tryThis": "Start on Hydrogen-like emission and look between the visible lines on the graph.",
+"whyItMatters": "It is the clearest reason this page shows lines instead of a smooth rainbow."
+},
+{
+"id": "as-notice-one-gap",
+"text": "Changing one gap can move more than one line because some larger jumps include that same gap.",
+"whyItMatters": "It helps you read the spectrum as a map of level differences, not a list of unrelated colors."
+},
+{
+"id": "as-notice-mode",
+"whyItMatters": "It keeps emission and absorption tied to the same energy-level structure."
+},
+{
+"id": "as-notice-compare",
+"text": "Compare mode works best when one setup changes a gap and the other changes only the mode. That lets you separate changes in line position from changes in appearance.",
+"whyItMatters": "Side by side, you can tell whether a difference came from the energy ladder or just from emission versus absorption."
+}
+]
+},
+"predictionMode": {
+"intro": "Commit to what the line pattern should do before you move a gap or flip the mode."
+},
+"challengeMode": {
+"intro": "Use the same ladder and spectrum bench for line-pattern targets, not a separate spectroscopy tool."
+},
+"quickTest": {
+"intro": "Answer from the energy-gap story shown on the ladder and graph, not from disconnected color names."
+}
+}

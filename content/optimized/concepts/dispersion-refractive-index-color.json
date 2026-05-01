@@ -1,0 +1,229 @@
+{
+"sections": {
+"explanation": {
+"paragraphs": [
+"Dispersion is refraction with one extra ingredient: the refractive index can depend on wavelength. If red, green, and violet light use slightly different refractive indices in the same material, the prism bends each color by a slightly different amount.",
+"This bench keeps that whole story on one bounded model. The index curve shows why colors separate, the prism angle sets the overall scale of the bend, and the outgoing fan shows the result on the stage. The stage slightly magnifies the fan so the color order stays readable, while the readout card and graphs keep the real deviation angles."
+]
+},
+"keyIdeas": [
+"Dispersion means the refractive index depends on wavelength, so one material can bend red, green, and violet by different amounts.",
+"In this visible range, shorter wavelengths use a slightly larger refractive index, so violet bends more than red in the same prism.",
+"A prism does not create colors. It separates wavelengths that were already present in the incoming beam.",
+"The amount of spread depends on both the material response and the prism angle: stronger wavelength dependence or a larger prism angle gives a bigger red-violet separation."
+],
+"commonMisconception": {
+"correction": [
+"The prism is not making new visible colors. It is separating wavelengths that were already present because different wavelengths can use different refractive indices in the same material.",
+"That is why a no-dispersion model can still bend the beam overall while failing to spread red and violet apart."
+]
+},
+"workedExamples": {
+"intro": "Read directly from the current prism. The same wavelength-dependent index model drives the stage, the color fan, and the graphs, so each step explains the live picture rather than a separate worksheet.",
+"items": [
+{
+"id": "current-index-from-wavelength",
+"title": "Find the refractive index for the selected wavelength",
+"steps": [
+{
+"id": "model",
+"label": "1. Use the wavelength-dependent index model"
+},
+{
+"id": "term",
+"label": "2. Evaluate the wavelength factor"
+},
+{
+"id": "index",
+"label": "3. Calculate the selected refractive index"
+}
+],
+"applyAction": {
+"observationHint": "Violet uses a larger refractive index than red, so its ray leaves the prism with the greatest downward deviation."
+}
+},
+{
+"id": "red-violet-spread",
+"title": "Find the red-violet angular spread",
+"prompt": "For the current material and prism angle, how much angular separation should there be between red and violet as they leave the prism?",
+"steps": [
+{
+"id": "red",
+"label": "1. Find the red deviation"
+},
+{
+"id": "violet",
+"label": "2. Find the violet deviation"
+},
+{
+"id": "spread",
+"label": "3. Subtract to get the spread"
+}
+],
+"resultLabel": "Red-violet spread",
+"applyAction": {
+"observationHint": "A stronger wavelength dependence and a larger prism angle both widen the outgoing color fan."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "You keep the same prism angle and the same green reference index, but you raise the dispersion strength. Before you touch the controls, which color should separate furthest from the others and why?",
+"prediction": "Answer from the wavelength-dependent refractive index, not from brightness.",
+"explanation": "Raising the dispersion strength increases the difference between short- and long-wavelength refractive indices. Violet then uses the largest refractive index in the visible range, so it bends the most and pulls furthest from red."
+}
+},
+"equations": [
+{
+"id": "dispersion-model",
+"meaning": "Gives one material a wavelength-dependent refractive index while staying anchored at a reference wavelength near green."
+},
+{
+"id": "speed-index",
+"meaning": "If one wavelength uses a larger refractive index, it travels more slowly in the material."
+},
+{
+"id": "thin-prism-deviation",
+"meaning": "For a thin prism, the total bend for a given color grows with both refractive index and prism angle."
+},
+{
+"id": "spread-relation",
+"meaning": "Red-violet separation grows when the material is more dispersive or when the prism angle is larger."
+}
+],
+"variableLinks": [
+{
+"id": "wavelength",
+"description": "Moves the selected color from red toward violet so you can see refractive index, speed, and prism deviation change together."
+},
+{
+"id": "reference-index",
+"description": "Sets the baseline refractive index near green, so it shifts the whole bending family up or down together."
+},
+{
+"id": "dispersion-strength",
+"description": "Controls how far apart red, green, and violet sit on the refractive-index curve, and therefore how wide the prism fan becomes."
+},
+{
+"id": "prism-angle",
+"description": "Scales the total bend of every color without changing their wavelength order."
+}
+],
+"simulation": {
+"overlays": [
+{
+"id": "colorFan",
+"shortDescription": "Shows red, green, and violet leaving the prism together so their angular separation is easy to compare.",
+"whatToNotice": [
+"Violet sits below red because it uses the larger refractive index and therefore the larger prism deviation."
+],
+"whyItMatters": "It turns dispersion into a visible difference in refraction angle instead of a vocabulary list about prisms."
+},
+{
+"id": "indexGuide",
+"shortDescription": "Shows how red, green, and violet are ordered by refractive index in the current material.",
+"whatToNotice": [
+"The color order on the stage comes from the ordering of refractive indices, not from a separate color rule."
+],
+"whyItMatters": "It keeps one wavelength-dependent refractive-index story behind both the stage and the graphs."
+},
+{
+"id": "thinPrismGuide",
+"whatToNotice": [
+"Changing the prism angle scales every color's deviation while keeping the same red-to-violet ordering."
+],
+"whyItMatters": "It separates overall bending from wavelength-dependent spreading."
+}
+]
+},
+"graphs": [
+{
+"id": "index-curve",
+"description": "Shows how the current material assigns slightly different refractive-index values across visible wavelengths."
+},
+{
+"id": "deviation-curve",
+"description": "Shows how the prism deviation changes across visible wavelengths, so color spread can be read as angle differences instead of only seen on the stage."
+}
+],
+"noticePrompts": {
+"intro": "Keep one cause in view at a time. The prism fan, readout card, and graphs are all showing the same wavelength-dependent refraction model.",
+"items": [
+{
+"id": "disp-notice-violet",
+"text": "Notice that violet bends more than red because violet uses the larger refractive index in this model. The color order on the stage comes from the index curve.",
+"whyItMatters": "It keeps the prism fan tied to refraction instead of to a separate color rule."
+},
+{
+"id": "disp-notice-no-dispersion",
+"text": "Notice that a prism can still bend the beam when dispersion is set to zero. What disappears is the color spread, not the overall refraction.",
+"whyItMatters": "It separates overall bending from wavelength-dependent separation."
+},
+{
+"id": "disp-notice-prism-angle",
+"text": "Notice that increasing the prism angle scales the whole bend family upward. The red-violet order stays the same, but every outgoing ray shifts farther.",
+"whyItMatters": "It shows why geometry and material response both matter in prism spreading."
+},
+{
+"id": "disp-notice-compare",
+"text": "Compare mode works best when one setup changes only the material response and the other keeps the same prism geometry. That makes color spread easier to separate from overall bending.",
+"whyItMatters": "It keeps two different causes from blending into one vague idea of a stronger prism."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict how the same prism should respond before you change wavelength, material response, or prism angle.",
+"items": [
+{
+"id": "disp-predict-stronger-d",
+"explanation": "Raising the dispersion strength increases how much the refractive index changes between red and violet. Because the reference index stays anchored near green, the green bend changes only a little while the color spread widens a lot.",
+"observationHint": "Watch the spread bracket and the index guide together after you apply the stronger-dispersion setup."
+},
+{
+"id": "disp-predict-violet",
+"explanation": "In this bounded model, shorter visible wavelengths use a larger refractive index. The same prism therefore bends violet more than red.",
+"observationHint": "Apply the violet shift and compare the selected ray with the fixed red and green fan."
+},
+{
+"id": "disp-predict-angle",
+"explanation": "Increasing the prism angle scales every deviation, so the whole fan opens more while the color order stays the same.",
+"observationHint": "Watch the deviation graph rise and the spread bracket lengthen after you widen the prism."
+}
+]
+},
+"quickTest": {
+"intro": "Answer from the wavelength-dependent refraction story, not from a vague picture of a rainbow beam.",
+"questions": [
+{
+"id": "disp-qt-violet-more",
+"explanation": "Dispersion means refractive index depends on wavelength. In this visible range, violet uses the largest refractive index and therefore the greatest prism deviation."
+},
+{
+"id": "disp-qt-no-dispersion",
+"explanation": "With zero dispersion, all visible wavelengths use the same refractive index. The prism still refracts the beam, but it no longer separates colors."
+},
+{
+"id": "disp-qt-prism-angle",
+"explanation": "In the thin-prism model, deviation is proportional to prism angle. A larger prism angle scales every color's deviation and increases the red-violet spread."
+},
+{
+"id": "disp-qt-prism-colors",
+"explanation": "A prism separates wavelengths already present in the beam because each wavelength can follow a slightly different refractive index in the same material."
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows one thin triangular prism with an incoming white beam, one highlighted selected-color ray, and optional red, green, and violet comparison rays leaving the same prism. A readout card lists wavelength, reference index, dispersion strength, selected refractive index, selected deviation, speed fraction, red-violet spread, and prism angle.",
+"Optional overlays show the outgoing color fan, the current red-green-violet index ordering, and the thin-prism guide. The stage slightly magnifies the outgoing fan for visibility, while the card and graphs keep the real angle values."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"One graph plots refractive index against visible wavelength for the current material. The other plots prism deviation against the same wavelengths for the current prism angle.",
+"Hovering either graph previews another wavelength on the same prism rather than advancing time."
+]
+}
+}
+}

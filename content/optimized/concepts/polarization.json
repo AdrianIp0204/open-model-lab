@@ -1,0 +1,176 @@
+{
+"sections": {
+"explanation": {
+"paragraphs": [
+"Polarization tells you which sideways direction the electric field is oscillating in. The beam still travels to the right, but the electric field can point in different directions across the beam. That is why polarization is a property of transverse waves.",
+"An ideal polarizer acts like a direction filter. It keeps the field component along its axis, blocks the perpendicular part, and leaves the output polarized along that axis. The detector brightness is therefore a projection result: good alignment transmits strongly, a 45° mismatch gives half intensity, and crossed axes ideally give almost none."
+]
+},
+"keyIdeas": [
+"Polarization is about wave orientation across the beam, not beam brightness by itself.",
+"For linearly polarized input, the transmitted field is the projection onto the polarizer axis, so the detector follows Malus's law: I_out / I_0 = cos^2(Δθ).",
+"For unpolarized input, one ideal polarizer transmits half the intensity on average and creates linearly polarized output along its axis.",
+"Polarization is a clean signature of transverse-wave behavior because there must be a sideways oscillation direction to select."
+],
+"commonMisconception": {
+"myth": "A polarizer is just a dimmer, so any wave should pass if the source is strong enough.",
+"correction": [
+"An ideal polarizer does not ask first how strong the wave is. It asks how much of the transverse oscillation points along its axis.",
+"That is why turning up amplitude changes the absolute transmitted field but not the transmission fraction, and why longitudinal sound in air is not filtered in the same way."
+]
+},
+"workedExamples": {
+"intro": "These checks use the same input state, axis, and detector shown on the live bench, so the algebra stays tied to the same projection picture you are seeing.",
+"items": [
+{
+"id": "current-output-state",
+"title": "Transmitted field and detector fraction",
+"prompt": "For the current input state and polarizer axis, what field leaves the polarizer and what fraction of the incoming intensity reaches the detector?",
+"steps": [
+{
+"id": "read-state",
+"label": "1. Read the incoming state and axis"
+},
+{
+"id": "project-field",
+"label": "2. Keep only the axis-parallel component"
+},
+{
+"id": "detector",
+"label": "3. Read the transmitted output and detector fraction"
+}
+],
+"resultLabel": "Current transmitted state",
+"applyAction": {
+"label": "Show a 45° mismatch",
+"observationHint": "At 45° mismatch, the axis-parallel field is reduced by cos 45°, so the detector drops to about half intensity."
+}
+},
+{
+"id": "current-blocked-share",
+"title": "Blocked component and what it means",
+"prompt": "For the current bench state, how much of the field is blocked, and what does that tell you about polarization?",
+"steps": [
+{
+"id": "separate-components",
+"label": "1. Identify the rejected component"
+},
+{
+"id": "compare-shares",
+"label": "2. Compare transmitted and blocked intensity"
+},
+{
+"id": "name-output",
+"label": "3. Decide what kind of output state is left"
+}
+],
+"resultLabel": "Current blocked component",
+"applyAction": {
+"label": "Show unpolarized first pass",
+"observationHint": "For unpolarized input, rotating the axis no longer sweeps between bright and dark in the same way; one ideal first polarizer stays near half intensity on average."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "A student says, \"If sound is also a wave, one ideal polarizer should just pick the right sound direction too.\" What key ingredient is missing from that argument?",
+"prediction": "Answer from the bench picture of sideways oscillation, not from a memorized definition.",
+"explanation": "A polarizer works only when the wave has a transverse oscillation that can be split into axis-parallel and perpendicular components. A longitudinal sound wave in air oscillates mainly along the direction of travel, so there is no single sideways oscillation component for this kind of filter to select."
+}
+},
+"simulation": {
+"overlays": [
+{
+"id": "transverseGuide",
+"shortDescription": "Separates beam direction from the sideways field direction.",
+"whatToNotice": [
+"The beam still travels to the right while polarization lives in the perpendicular cross-section."
+],
+"whyItMatters": "It separates wave propagation from wave orientation."
+},
+{
+"id": "projectionGuide",
+"shortDescription": "Shows the axis-parallel component that survives and the perpendicular component that is blocked.",
+"whatToNotice": [
+"Rotating the relative angle changes how much field lies along the axis; it does not turn the beam itself."
+],
+"whyItMatters": "It turns Malus's law back into visible geometry."
+},
+{
+"id": "intensityGuide",
+"shortDescription": "Shows transmitted and blocked shares next to the detector.",
+"whatToNotice": [
+"For linear input, brightness follows orientation match. For an unpolarized first pass, the detector stays near half on average."
+],
+"whyItMatters": "It helps compare aligned, crossed, and unpolarized cases without mixing them up."
+}
+]
+},
+"noticePrompts": {
+"intro": "Keep one question in mind: how much of the field lies along the polarizer axis?",
+"items": [
+{
+"id": "polarization-notice-aligned",
+"text": "When the input and axis line up, almost the whole field already points along the axis, so the detector stays bright.",
+"tryThis": "Start from Baseline linear, then rotate the axis until it matches the input.",
+"whyItMatters": "A polarizer keeps an existing component; it does not create one from nothing."
+},
+{
+"id": "polarization-notice-crossed",
+"text": "With crossed axes, the beam direction is unchanged but the axis-parallel component is nearly zero, so the detector goes dark.",
+"whyItMatters": "It ties zero transmission to orientation mismatch, not to the beam stopping or bending."
+},
+{
+"id": "polarization-notice-unpolarized",
+"text": "Switching to unpolarized input removes the single starting direction. One ideal first polarizer still creates a linearly polarized output, but the detector stays near half intensity on average.",
+"whyItMatters": "It separates a mixed input state from the linearly polarized output created by the filter."
+},
+{
+"id": "polarization-notice-compare",
+"text": "Compare mode works best when one setup changes only the relative angle while the other switches the input from linear to unpolarized.",
+"whyItMatters": "That separates a cosine-projection story from the half-intensity average story."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict the orientation consequence before you apply the change. Ask what component lies along the axis and what that means for detector brightness.",
+"items": [
+{
+"id": "polarization-pred-crossed",
+"explanation": "At 90° mismatch, an ideal linear input has zero projection onto the axis, so transmitted intensity collapses.",
+"observationHint": "Watch the blocked component grow as the detector drops."
+},
+{
+"id": "polarization-pred-half-power",
+"explanation": "At 45°, E_out = E_0 cos 45° and I_out = I_0 cos^2 45° = I_0/2.",
+"observationHint": "The field projection falls to about 0.707 while the detector settles near 0.5."
+},
+{
+"id": "polarization-pred-unpolarized",
+"explanation": "One ideal first polarizer creates a linearly polarized output from an unpolarized beam, but only half the intensity gets through on average.",
+"observationHint": "Rotate the axis and notice that the output axis changes, but the average transmitted fraction stays near one half."
+}
+]
+},
+"quickTest": {
+"intro": "Answer from projection geometry, not from a vague idea of brightness.",
+"questions": [
+{
+"id": "polarization-qt-transverse",
+"explanation": "A polarizer works by selecting one sideways component of the oscillation. That only makes sense when the wave has a transverse direction to project onto."
+},
+{
+"id": "polarization-qt-crossed",
+"explanation": "Transmission depends on the projection onto the axis. Alignment keeps the full component, while a 90° mismatch ideally removes it."
+},
+{
+"id": "polarization-qt-unpolarized",
+"explanation": "One ideal polarizer can create linearly polarized output from an unpolarized beam by selecting one axis from the mixed input, and the average transmitted intensity is one half."
+},
+{
+"id": "polarization-qt-amplitude",
+"explanation": "Increasing amplitude changes the absolute field size, but the same geometry still sets the transmission fraction and the same axis still sets the output orientation."
+}
+]
+}
+}

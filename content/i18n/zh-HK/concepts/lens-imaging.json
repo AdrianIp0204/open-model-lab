@@ -1,0 +1,319 @@
+{
+  "title": "透鏡成像",
+  "shortTitle": "透鏡成像",
+  "summary": "透過凸透鏡和凹透鏡追蹤主光束，將帶符號的薄透鏡方程式與圖形連線起來，並觀看物距和放大率對同一物體設定的反應。",
+  "highlights": [
+    "焦距",
+    "像距",
+    "放大率"
+  ],
+  "topic": "光學",
+  "subtopic": "薄透鏡",
+  "recommendedNext": [
+    {
+      "slug": "mirrors",
+      "reasonLabel": "與鏡子比較"
+    },
+    {
+      "slug": "optical-resolution-imaging-limits",
+      "reasonLabel": "觀看衍射極限"
+    },
+    {
+      "slug": "refraction-snells-law",
+      "reasonLabel": "邊界彎曲定律"
+    },
+    {
+      "slug": "wave-interference",
+      "reasonLabel": "對照波動光學"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "薄透鏡成像當許多從一個物體點發出的光束透過透鏡時，以某種模式會聚於一點或在反向延伸後看起來會聚於一點。射線圖和薄透鏡方程式是同一幾何結構的兩種視角。",
+        "此模組故意保持設定緊湊。您更改透鏡型別、焦距、物距和物體高度，然後像距、像的方向和放大率在舞台和響應圖表中一起更新。"
+      ]
+    },
+    "keyIdeas": [
+      "當物體位於焦距之外時，凸透鏡可以產生真實倒立的影像；但當物體移動到焦距之內時，它會轉變為虛擬直立的影像。",
+      "凹透鏡始終會對左側的實物生成虛立縮小的影像。",
+      "薄透鏡方程式給出了帶符號的像距，而放大率則告訴您影像大小的比例以及它是否直立或倒置。"
+    ],
+    "commonMisconception": {
+      "myth": "凹透鏡會散射光線，因此不會生成影像。",
+      "correction": [
+        "凹透鏡仍然生成影像。折射後的光束分開，但其反向延伸在物體側面相遇於一個虛像。",
+        "這就是為什麼影像直立、縮小且無法投射到螢幕上，儘管它仍然是幾何結構中的合法影像點。"
+      ]
+    },
+    "workedExamples": {
+      "title": "即時示範例題",
+      "intro": "直接解當前透鏡設定，而不是做一份脱離畫面的工作紙。代入值會跟著實時控制改變，而同一組帶號量會同時出現在光線圖和圖表上。",
+      "items": [
+        {
+          "id": "solve-image-distance",
+          "title": "求像距",
+          "prompt": "對於當前{{lensFamilyValue}}透鏡，從薄透鏡關係得出什麼帶符號的像距？",
+          "variables": [
+            {
+              "id": "object-distance",
+              "label": "物體距離"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 開始於薄透鏡關係"
+            },
+            {
+              "id": "rearrange",
+              "label": "2. 調整以求得帶號的像距"
+            },
+            {
+              "id": "result",
+              "label": "3. 反轉結果"
+            }
+          ],
+          "resultLabel": "帶號的像距",
+          "applyAction": {
+            "label": "應用近焦情況",
+            "observationHint": "注意虛線向後延伸。負像距與物體側的虛像相符。"
+          }
+        },
+        {
+          "id": "solve-image-height",
+          "title": "求解像高",
+          "prompt": "對於當前設定，放大率預測像高的大小為何?",
+          "variables": [
+            {
+              "id": "object-distance",
+              "label": "物體距離"
+            },
+            {
+              "id": "object-height",
+              "label": "物體高度"
+            },
+            {
+              "id": "image-distance",
+              "label": "像距"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 使用放大率關係"
+            },
+            {
+              "id": "compute-m",
+              "label": "2. 計算帶號的放大率"
+            },
+            {
+              "id": "compute-hi",
+              "label": "3. 求解像高"
+            }
+          ],
+          "resultLabel": "像高",
+          "applyAction": {
+            "label": "應用發散透鏡",
+            "observationHint": "正的放大率保持像直立，但其絕對值小於一則使其縮小。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "如果你將會聚透鏡的物體移動到焦點內側，在物體穿越焦點之前，根據光路圖預測像距和像大小有何變化?",
+      "prediction": "決定像距和像大小發生何種變化。",
+      "answer": "實像移得更遠且增大。",
+      "explanation": "當物體由焦點外側逐步靠近焦點時，折射光線需要更遠的距離才會相交。帶號像距 $d_i$、放大率 $m$ 的符號，以及光線本身的會聚或反向延伸，都應該一起閱讀，而不是隻靠口訣。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "利用 d_i 的符號、m 的符號以及光線的行為來共同判斷。目標是從活躍的透鏡模型中推論，而非背誦口訣。",
+    "questions": [
+      {
+        "id": "li-qt-screen",
+        "prompt": "哪種設定可以將像放置在透鏡右側的螢幕上？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "焦距以外的會聚透鏡。"
+          },
+          {
+            "id": "b",
+            "label": "左側實物配上發散透鏡。"
+          },
+          {
+            "id": "c",
+            "label": "物體位於焦距內側的會聚透鏡。"
+          }
+        ],
+        "explanation": "只有實像才能落在螢幕上，這需要遠端真正的光線交點。對於會聚透鏡來説，這是當物體位於 F 外部時發生的情況。其他兩種情況則保持虛像狀態。",
+        "selectedWrongExplanations": {
+          "b": "發散透鏡仍然可以形成像，但它仍停留在物體的一側因為光線在折射後散開。",
+          "c": "當物體位於焦距以內時，會聚透鏡的像變為虛像且直立，因此無法投射到螢幕上。"
+        },
+        "showMeAction": {
+          "label": "顯示螢幕就緒的情況",
+          "observationHint": "光線真的在遠端相遇，並且像的位置圖點位於正 d_i 分支上。"
+        }
+      },
+      {
+        "id": "li-qt-inside-focus",
+        "prompt": "對於會聚透鏡，當物體從焦距外穿越到焦距內時，像發生了什麼變化？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "像從倒立實像變為直立虛像。"
+          },
+          {
+            "id": "b",
+            "label": "像保持實像但變得更小。"
+          },
+          {
+            "id": "c",
+            "label": "因為光線不再形成任何像點，所以像消失。"
+          }
+        ],
+        "explanation": "穿越焦距內會改變光線幾何。透鏡後的光線不再在右側相遇，而是向左延伸相交，因此像變為虛像且直立。",
+        "selectedWrongExplanations": {
+          "b": "穿越焦距內並非一個平滑的尺寸變化在同一分支上。它改變了 d_i 的符號和 m 的符號。",
+          "c": "像點仍然存在，只是變得虛像並且必須透過向後延伸光線來找到。"
+        },
+        "showMeAction": {
+          "label": "顯示焦距以內的情況",
+          "observationHint": "像箭頭移至物體的一側，且虛線延伸取代了真實的光線交點。"
+        }
+      },
+      {
+        "id": "li-qt-sign-of-m",
+        "prompt": "負放大率告訴你什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "像相對於物體是倒立的。"
+          },
+          {
+            "id": "b",
+            "label": "像必須是虛像。"
+          },
+          {
+            "id": "c",
+            "label": "影像高度等於物體高度。"
+          }
+        ],
+        "explanation": "m 的符號代表影像方向。負放大率表示像是倒立的；像的大小則取決於 $|m|$。在本模組中，虛像的 $m$ 會是正值。",
+        "selectedWrongExplanations": {
+          "b": "這裡的虛影像為直立，因此其放大率為正而非負。",
+          "c": "等大需要|m|接近1。符號僅告訴你方向。"
+        },
+        "showMeAction": {
+          "label": "顯示倒置分支",
+          "observationHint": "放大率圖形在零以下且影像箭頭指向下方。"
+        }
+      },
+      {
+        "id": "li-qt-diverging",
+        "prompt": "對於左邊的實物，下列哪個陳述最能描述發散透鏡？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它會在物件側面產生虛立縮小的影像。"
+          },
+          {
+            "id": "b",
+            "label": "如果物件足夠遠，則會在物件側面產生倒立的實像。"
+          },
+          {
+            "id": "c",
+            "label": "由於射線散開，透鏡無法形成任何影像。"
+          }
+        ],
+        "explanation": "在此設定中，發散透鏡總是將實物留在虛影像分支上。射線在透鏡後分開，但其背向延伸仍然會在左側形成一個直立縮小的影像。",
+        "selectedWrongExplanations": {
+          "b": "改變物件距離不會使左邊的實物移動到發散透鏡的實像分支上。",
+          "c": "影像仍然清晰定義。您透過反向延伸折射射線來找到它，而不是在螢幕上捕捉它。"
+        },
+        "showMeAction": {
+          "label": "顯示發散分支",
+          "observationHint": "影像仍留在虛側，且放大率保持正但小於1。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示位於主軸中央的薄透鏡、左側的物件箭頭，以及按照帶號薄透鏡方程移動的像箭頭。視乎設定不同，像箭頭會在遠側形成倒立實像，或在物側形成直立虛像。",
+        "可選覆層顯示焦點標記、主射線以及用於放大率的距離和高度指南。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "物距—像距圖會畫出目前透鏡型別與焦距下，帶號像距如何隨物距改變。",
+        "放大率圖形繪製m對物件距離的函式，因此您可以不離開射線圖來看到影像放大的符號和大小。"
+      ]
+    }
+  },
+  "equations": [
+    {
+      "id": "thin-lens",
+      "label": "薄透鏡方程",
+      "meaning": "關係簽名焦距、物件距離和影像距離。"
+    },
+    {
+      "id": "magnification",
+      "label": "放大率",
+      "meaning": "給出影像尺寸比例和方向符號。"
+    },
+    {
+      "id": "screen-rule",
+      "label": "符號規則",
+      "meaning": "正的像距表示折射光線實際相遇，影像可以投射到螢幕上。",
+      "notes": [
+        "負的像距表示光線僅透過反向延伸看似相遇。"
+      ]
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "focal-length",
+      "label": "焦距",
+      "description": "設定透鏡彎曲光線的程度。符號來自透鏡型別：會聚透鏡使用正的 $f$，發散透鏡使用負的 $f$。"
+    },
+    {
+      "id": "object-distance",
+      "label": "物體距離",
+      "description": "把物件移近或移離透鏡，會同時改變帶號像距與放大率。"
+    },
+    {
+      "id": "object-height",
+      "label": "物體高度",
+      "description": "直接按比例縮放物體箭頭，因此影像的高度會以相同的放大率因子變化而不改變像距。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "objectDistance",
+        "label": "物體距離"
+      },
+      {
+        "id": "objectHeight",
+        "label": "物體高度"
+      }
+    ],
+    "presets": [
+      {
+        "id": "converging-inside-focus",
+        "description": "焦距以外的會聚透鏡。"
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "magnification",
+      "label": "放大率"
+    }
+  ]
+}

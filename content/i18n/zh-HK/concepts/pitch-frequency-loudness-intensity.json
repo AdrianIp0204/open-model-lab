@@ -1,0 +1,506 @@
+{
+  "title": "音高、頻率和音量 / 強度",
+  "shortTitle": "音高和音量",
+  "summary": "在同一個緊湊的聲音工作台上，清楚分開音高與頻率、音量與振幅，以及與振幅平方成正比的強度提示，並比較傳播延遲與聲源本身的差異。",
+  "highlights": [
+    "從頻率獲取音高",
+    "從振幅獲取音量",
+    "強度提示 ~ 振幅平方"
+  ],
+  "topic": "聲音",
+  "subtopic": "聲音特性",
+  "recommendedNext": [
+    {
+      "slug": "beats",
+      "reasonLabel": "聆聽疊加效果"
+    },
+    {
+      "slug": "doppler-effect",
+      "reasonLabel": "運動與音高"
+    },
+    {
+      "slug": "wave-interference",
+      "reasonLabel": "聲波疊加"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "音高和音量不是同一個聲音屬性。在這個受控的聲音工作台上，音高跟隨頻率：頻率越高，每秒重複的週期越多、週期也越短。音量則跟隨振幅和能量傳遞提示的強弱，所以更大的振幅可以令聲音聽起來更響，而不改變音高。",
+        "介質速度保持固定，讓頁面可以清楚分開這些概念。提高頻率會令壓縮區更快重複、間距更緊密；提高振幅則會令粒子運動更大，並提高與振幅平方相關的強度提示。"
+      ]
+    },
+    "keyIdeas": [
+      "音高跟隨頻率，而不是振幅。",
+      "音量或強度跟隨振幅和一個更強的能量傳遞提示。",
+      "聲音可以更高音而不更響，也可以更響而不改變音高。"
+    ],
+    "commonMisconception": {
+      "myth": "一列更高的聲波必須具有更高的音高因為波形看起來更大。",
+      "correction": [
+        "振幅改變的是運動的強度而不是每秒發生的波峯數。",
+        "頻率改變音高。振幅改變限定的音量 / 強度提示。"
+      ]
+    },
+    "workedExamples": {
+      "title": "示例",
+      "intro": "這些檢查使用課程中的同一組聲音工作台關係，因此數值會連到一個一致的設定，而不是抽離的練習題。",
+      "items": [
+        {
+          "id": "pitch-from-frequency",
+          "title": "從頻率獲取音高",
+          "prompt": "對於一個生成的聲音設定，其具有 $v_{wave} = {{waveSpeedValue}}\\,\\mathrm{m/s}$ 和 $f = {{frequencyValue}}\\,\\mathrm{Hz}$，與這個音高相配的波長和週期是什麼？",
+          "variables": [
+            {
+              "id": "wave-speed",
+              "label": "波速"
+            },
+            {
+              "id": "frequency",
+              "label": "頻率"
+            },
+            {
+              "id": "wavelength",
+              "label": "波長"
+            },
+            {
+              "id": "period",
+              "label": "週期"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 使用聲音時間關係"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 代入設定數值"
+            },
+            {
+              "id": "compute",
+              "label": "3. 解釋音高提示"
+            }
+          ],
+          "resultLabel": "這個音高的時間關係",
+          "applyAction": {
+            "label": "顯示更高的音高",
+            "observationHint": "軌跡迴圈得更快且壓縮間距變小而振幅保持固定。"
+          }
+        },
+        {
+          "id": "loudness-from-amplitude",
+          "title": "從振幅獲取強度提示",
+          "prompt": "對於一個生成的聲音設定，其具有振幅 $A = {{amplitudeValue}}\\,\\mathrm{m}$，這個工作台使用什麼強度提示？如果頻率保持不變，這對音量意味著什麼？",
+          "variables": [
+            {
+              "id": "amplitude",
+              "label": "振幅"
+            },
+            {
+              "id": "intensity-cue",
+              "label": "強度提示"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 開始於限定的強度關係"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 代入設定振幅"
+            },
+            {
+              "id": "compute",
+              "label": "3. 解讀音量概念"
+            }
+          ],
+          "resultLabel": "這個設定的音量提示",
+          "applyAction": {
+            "label": "顯示更響的聲波",
+            "observationHint": "振幅和強度回應圖會上升，而頻率讀數保持不變。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "你想要相同的音高但更大的聲音。應該做出什麼單一改變？",
+      "prediction": "決定是否提高振幅、提高頻率或將探頭移動到更遠下游。",
+      "answer": "提高振幅。",
+      "explanation": "保持音高相同意味著固定頻率。提高振幅會增加音量/響應提示而不改變音高。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "使用課程中的聲音工作台線索，而不是隻靠記憶。這些檢查會把音高、振幅和有界的音量提示清楚分開。",
+    "questions": [
+      {
+        "id": "pfli-qt-higher-pitch",
+        "prompt": "哪種改變提高了音高而不改變音量提示？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "提高頻率同時保持振幅固定。"
+          },
+          {
+            "id": "b",
+            "label": "提高振幅同時保持頻率固定。"
+          },
+          {
+            "id": "c",
+            "label": "將探頭移動到更遠下游。"
+          }
+        ],
+        "explanation": "音高跟隨頻率。若振幅固定，音量提示大致保持不變。",
+        "selectedWrongExplanations": {
+          "b": "這改變了音量而不是音高。",
+          "c": "這改變了延遲而不是聲源本身。"
+        },
+        "showMeAction": {
+          "label": "顯示較高音高設定",
+          "observationHint": "波形迴圈速度加快而振幅保持匹配。"
+        }
+      },
+      {
+        "id": "pfli-qt-louder",
+        "prompt": "頻率固定但振幅增加。那麼必須發生什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "由於響應提示上升，聲音在有界的意義上變得更大聲，而音高保持相同。"
+          },
+          {
+            "id": "b",
+            "label": "音高提高因為波浪更高意味著每秒更多迴圈。"
+          },
+          {
+            "id": "c",
+            "label": "波長必須縮短因為曲線更高。"
+          }
+        ],
+        "explanation": "振幅改變了運動的大小和響應提示。當頻率固定時，它不設定音高。",
+        "selectedWrongExplanations": {
+          "b": "音高並非來自波高。",
+          "c": "波長在此處由波速和頻率決定，而不是由振幅決定。"
+        },
+        "showMeAction": {
+          "label": "顯示更大的音量設定",
+          "observationHint": "響應圖上升而時間保持匹配於對話音高。"
+        }
+      },
+      {
+        "id": "pfli-qt-intensity-graph",
+        "prompt": "為什麼強度-響應圖曲線向上彎曲而不是保持直線？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "因為受限制的強度提示與振幅平方成比例。"
+          },
+          {
+            "id": "b",
+            "label": "因為隨著振幅上升，音高自動增加。"
+          },
+          {
+            "id": "c",
+            "label": "因為探針在大振幅下更遠離。"
+          }
+        ],
+        "explanation": "圖形是曲線的，因為提示使用 A 平方。這就是為什麼強度不能與音高混淆的原因。",
+        "selectedWrongExplanations": {
+          "b": "這個圖形關於振幅和強度提示，而不是頻率。",
+          "c": "探針位置不是響應圖掃描的內容。"
+        },
+        "showMeAction": {
+          "label": "開啟強度-響應圖",
+          "observationHint": "追蹤圖形到更大的振幅並觀察曲線。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一個水平聲管，帶有聲源活塞、粒子標記、移動探針和彩色壓縮帶。可選疊加標記運動方向、壓縮間距以及受限制的能量傳輸提示。",
+        "頻率改變聲音重複的速度和壓縮模式的緊密程度。振幅改變粒子運動的大小和相關的強度提示。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "第一個圖表比較聲源與探針位移隨時間變化，因此音高與頻率和週期保持一致。",
+        "第二個圖表比較探針移動與當地壓縮提示。",
+        "第三個圖表顯示受限制的強度提示作為振幅的函式。"
+      ]
+    }
+  },
+  "equations": [
+    {
+      "id": "sound-displacement",
+      "label": "縱向聲位移",
+      "meaning": "振幅設定粒子運動的大小，而頻率設定聲音重複的速度。"
+    },
+    {
+      "id": "sound-period",
+      "label": "頻率和週期",
+      "meaning": "更高的頻率意味著更短的週期和更高的音高。"
+    },
+    {
+      "id": "sound-wavelength",
+      "label": "固定介質速度下的間距",
+      "meaning": "如果介質速度固定，更高頻率會使壓縮模式更緊密。"
+    },
+    {
+      "id": "sound-intensity-cue",
+      "label": "受限制的強度/音量提示",
+      "meaning": "這個工作台使用振幅平方作為誠實的音量提示，所以更大的振幅意味著更強烈的音量提示而不會自行改變音高。",
+      "notes": [
+        "這是一個受限制的初學者友好提示，而不是完整的聲學功率模型。"
+      ]
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "amplitude",
+      "label": "振幅",
+      "description": "它改變粒子運動和音量提示的強度。"
+    },
+    {
+      "id": "frequency",
+      "label": "頻率",
+      "description": "設定每秒發生多少個週期，因此控制著音高。"
+    },
+    {
+      "id": "probeX",
+      "label": "探針位置",
+      "description": "下游移動跟蹤的粒子而不改變聲源的音高或音量。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "amplitude",
+        "label": "振幅",
+        "description": "控制粒子擺動幅度，以及音量／強度提示的強弱。"
+      },
+      {
+        "id": "frequency",
+        "label": "頻率",
+        "description": "在介質速度固定時控制音高。"
+      },
+      {
+        "id": "probeX",
+        "label": "探針位置",
+        "description": "移動探針可比較同一個聲源在不同位置的到達延遲，而不改變音高或音量。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "conversation",
+        "label": "對話聲",
+        "description": "基準的人聲音高與中等音量。"
+      },
+      {
+        "id": "higher-pitch",
+        "label": "較高音高",
+        "description": "提高頻率，同時保持振幅接近對話聲。"
+      },
+      {
+        "id": "louder",
+        "label": "更大聲",
+        "description": "提高振幅，同時保持音高幾乎不變。"
+      },
+      {
+        "id": "far-probe",
+        "label": "遠處探針",
+        "description": "把探針移到更遠位置，觀察傳播延遲。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "motionDirections",
+        "label": "運動方向",
+        "shortDescription": "顯示粒子來回移動的方向。"
+      },
+      {
+        "id": "compressionBands",
+        "label": "壓縮帶",
+        "shortDescription": "標示壓縮區和稀疏區的位置。"
+      },
+      {
+        "id": "energyTransfer",
+        "label": "能量傳遞提示",
+        "shortDescription": "用受限提示顯示較大振幅帶來的較強回應。"
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "displacement",
+      "label": "聲源與探針位移",
+      "xLabel": "時間 (s)",
+      "yLabel": "位移 (m)",
+      "description": "比較聲源活塞與探針粒子隨時間的運動，將音高連回頻率。"
+    },
+    {
+      "id": "probe-pressure",
+      "label": "探針壓縮提示",
+      "xLabel": "時間 (s)",
+      "yLabel": "壓縮提示",
+      "description": "觀察探針位置的壓縮 / 稀疏變化如何隨波形傳到下游。"
+    },
+    {
+      "id": "intensity-response",
+      "label": "振幅與強度提示",
+      "xLabel": "振幅 (m)",
+      "yLabel": "強度回應提示",
+      "description": "顯示受限的強度提示如何隨振幅增加而上升。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "觀察重點",
+    "intro": "用同一個聲音工作台觀察哪些量在改變、哪些量其實沒有改變。",
+    "items": [
+      {
+        "id": "pfli-notice-pitch",
+        "text": "把注意力放在波峯重複的快慢，而不是波形的高低。",
+        "tryThis": "提高頻率，但保持振幅不變。",
+        "whyItMatters": "這能幫你把音高和音量分開理解。"
+      },
+      {
+        "id": "pfli-notice-loudness",
+        "text": "比較較大振幅時的粒子位移和強度提示，而不是隻看頻率讀數。",
+        "tryThis": "提高振幅並開啟強度回應圖。",
+        "whyItMatters": "這能顯示更大聲不等於更高音。"
+      },
+      {
+        "id": "pfli-notice-probe",
+        "text": "把探針移遠，留意聲源並沒有改變，只是訊號較遲到達。",
+        "tryThis": "在固定頻率下把探針滑到右方。",
+        "whyItMatters": "這能把傳播延遲與聲源設定分開。"
+      },
+      {
+        "id": "pfli-notice-compare",
+        "text": "在比較模式中保持相同音高，只改其中一組的振幅。",
+        "tryThis": "讓 B 組保持相同頻率，但把振幅調高。",
+        "whyItMatters": "這能直接對照相同音高下的音量差異。"
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "先預測改變會如何影響音高、音量與探針讀數，再用同一個工作台驗證。",
+    "items": [
+      {
+        "id": "pfli-predict-higher-pitch",
+        "prompt": "如果只提高頻率而保持振幅不變，哪一項會改變？",
+        "scenarioLabel": "基準對話聲",
+        "changeLabel": "提高頻率",
+        "choices": [
+          {
+            "id": "a",
+            "label": "音高升高，而音量提示大致保持不變。"
+          },
+          {
+            "id": "b",
+            "label": "音量提示升高，但音高保持不變。"
+          },
+          {
+            "id": "c",
+            "label": "只有探針延遲改變，聲源本身不變。"
+          }
+        ],
+        "explanation": "頻率決定音高；振幅若不變，受限的音量提示也大致不變。",
+        "observationHint": "觀察波峯更密、週期更短，但波形高度幾乎一樣。"
+      },
+      {
+        "id": "pfli-predict-louder",
+        "prompt": "如果只提高振幅而保持頻率不變，哪一項會改變？",
+        "scenarioLabel": "基準對話聲",
+        "changeLabel": "提高振幅",
+        "choices": [
+          {
+            "id": "a",
+            "label": "音量提示升高，但音高保持不變。"
+          },
+          {
+            "id": "b",
+            "label": "音高升高，因為波形變高了。"
+          },
+          {
+            "id": "c",
+            "label": "波長一定縮短。"
+          }
+        ],
+        "explanation": "振幅改變的是位移大小與強度提示；頻率不變時，音高也不變。",
+        "observationHint": "留意振幅變大，但波峯間距和週期讀數保持一致。"
+      },
+      {
+        "id": "pfli-predict-farther-probe",
+        "prompt": "如果把探針移到更遠下游，而聲源設定保持不變，最直接的效果是什麼？",
+        "scenarioLabel": "基準對話聲",
+        "changeLabel": "移遠探針",
+        "choices": [
+          {
+            "id": "a",
+            "label": "探針會較遲接收到同一個波形。"
+          },
+          {
+            "id": "b",
+            "label": "聲源會自動變得更高音。"
+          },
+          {
+            "id": "c",
+            "label": "振幅一定會增加，因為路徑更長。"
+          }
+        ],
+        "explanation": "改變探針位置只會改變到達時間，不會直接改變聲源的頻率或振幅。",
+        "observationHint": "觀察探針讀數右移，但聲源波形本身沒有改變。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "用比較模式建立兩組設定，證明你能在保持音高不變時只讓一組更大聲。",
+    "items": [
+      {
+        "id": "pfli-ch-louder-same-pitch",
+        "title": "同音高，更大聲",
+        "prompt": "調整設定，令 B 組比 A 組更大聲，但兩組保持相同音高。",
+        "successMessage": "你令 B 組在不改變音高的情況下擁有更高的振幅和強度提示。",
+        "setup": {
+          "note": "先複製 A 到 B，再只調整 B 組。"
+        },
+        "hints": [
+          "音高由頻率決定，所以兩組頻率必須相同。",
+          "把 B 組的振幅調高即可令它更大聲。"
+        ],
+        "checks": [
+          {
+            "label": "B 組的頻率與 A 組相同嗎？"
+          },
+          {
+            "label": "兩組的音高是否一致？"
+          },
+          {
+            "label": "A 組的振幅維持基準值嗎？"
+          },
+          {
+            "label": "B 組的振幅已提高嗎？"
+          },
+          {
+            "label": "A 組的強度提示保持較低嗎？"
+          },
+          {
+            "label": "B 組的強度提示已提高嗎？"
+          },
+          {
+            "label": "A 組的波峯間距保持原樣嗎？"
+          },
+          {
+            "label": "B 組的波峯間距與 A 組相同嗎？"
+          }
+        ]
+      }
+    ]
+  }
+}

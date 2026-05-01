@@ -1,0 +1,406 @@
+{
+"pageFramework": {
+"sections": [
+{
+"id": "readNext",
+"title": "From collision theory to rate changes"
+}
+],
+"featuredSetups": [
+{
+"id": "crowded-but-cool-collision-box",
+"description": "Open a crowded, low-temperature box and compare frequent collision attempts with the much smaller number of successful collisions.",
+"setup": {
+"note": "Start here to separate a busy particle box from a genuinely fast reaction."
+}
+},
+{
+"id": "catalyzed-threshold-bench",
+"description": "Open a lower-barrier setup and watch the successful share rise without needing hotter particles.",
+"setup": {
+"note": "Use this to compare lowering the barrier with simply heating the mixture."
+}
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Start with two separate questions: how often do particles collide, and how many of those collisions actually react? This bench keeps the particle box, threshold cue, and live rate readout together so you can see both parts of the rate story at once.",
+"Concentration mostly changes how often particles get chances to collide. Temperature changes both collision frequency and the fraction energetic enough to clear the barrier. A catalyst changes the story in a different way: it lowers the effective barrier, so more collisions succeed without needing hotter particles."
+]
+},
+"keyIdeas": [
+"Reaction rate depends on successful collisions, not just on total collision attempts.",
+"Higher concentration mainly increases collision chances, while higher temperature also increases the fraction that can clear the barrier.",
+"A catalyst speeds the reaction by lowering the effective barrier, not by heating the particles or crowding the box."
+],
+"commonMisconception": {
+"myth": "If the box gets more crowded, every extra collision should automatically count as a reaction.",
+"correction": [
+"A crowded box mainly creates more collision attempts.",
+"The reaction speeds up only when enough of those collisions also clear the activation barrier."
+]
+},
+"workedExamples": {
+"title": "Worked examples on the live collision bench",
+"intro": "Use the same particle box, threshold cue, and graphs. The goal is to read rate as collision frequency multiplied by success, not as a single mysterious number.",
+"items": [
+{
+"id": "successful-versus-total-collisions",
+"title": "Separate collision attempts from successful reactions",
+"prompt": "For the current setup, what part of the rate comes from collision frequency and what part comes from barrier-clearing success?",
+"variables": [
+{
+"id": "activation-energy",
+"label": "Activation energy barrier"
+}
+],
+"steps": [
+{
+"id": "read-attempt-rate",
+"label": "1. Read the collision attempt rate"
+},
+{
+"id": "read-success-share",
+"label": "2. Read the successful fraction"
+},
+{
+"id": "convert-to-rate",
+"label": "3. Turn those into the reaction rate"
+}
+],
+"resultLabel": "Current reaction rate",
+"applyAction": {
+"label": "Load the crowded but cool case",
+"observationHint": "The box looks busy, but many collisions still fail the threshold test, so the reaction is slower than the raw collision count suggests."
+}
+},
+{
+"id": "lower-the-barrier-without-heating",
+"title": "Use a catalyst without heating the particles",
+"prompt": "What changes when you switch on the catalyst in the current setup?",
+"variables": [
+{
+"id": "activation-energy",
+"label": "Activation energy barrier"
+},
+{
+"id": "catalyst",
+"label": "Catalyst on or off"
+}
+],
+"steps": [
+{
+"id": "read-barrier",
+"label": "1. Read the original barrier"
+},
+{
+"id": "read-effective-barrier",
+"label": "2. Compare particle energy with the effective barrier"
+},
+{
+"id": "read-new-success-share",
+"label": "3. Read the new successful fraction"
+}
+],
+"resultLabel": "Current barrier and success story",
+"applyAction": {
+"label": "Load the catalyzed case",
+"observationHint": "Particle motion stays similar, but a larger fraction of collisions now clears the lower barrier."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Make the reaction clearly faster without solving it by simply packing the box with more particles.",
+"prediction": "Before you change anything, decide whether you will raise collision frequency, raise the successful fraction, or both.",
+"answer": "A strong solution keeps concentration moderate but makes a larger share of collisions clear the barrier.",
+"explanation": "That is the cleanest way to show that rate can rise because collisions become more successful, not just more frequent."
+}
+},
+"equations": [
+{
+"id": "rate-story",
+"label": "Reaction rate = attempts × successful fraction",
+"meaning": "Separate how often particles meet from how often those meetings actually become reactions."
+},
+{
+"id": "threshold-story",
+"label": "Clearing the barrier",
+"meaning": "Temperature helps by increasing the fraction of collisions with enough energy to get over the barrier."
+},
+{
+"id": "catalyst-story",
+"label": "Catalyst lowers the effective barrier",
+"meaning": "A catalyst changes the barrier side of the story without needing hotter particles."
+}
+],
+"variableLinks": [
+{
+"id": "temperature",
+"description": "Changes particle energy and motion, so it can raise both collision rate and the fraction that clears the barrier."
+},
+{
+"id": "concentration",
+"description": "Changes how crowded the box is, so it mostly changes how often particles get chances to collide."
+},
+{
+"id": "activation-energy",
+"label": "Activation energy barrier",
+"description": "Sets how much energy a collision needs in order to react."
+},
+{
+"id": "catalyst",
+"description": "Lowers the effective barrier, so more of the same collisions can succeed."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "temperature",
+"description": "Raise or lower particle energy in the box."
+},
+{
+"id": "concentration",
+"description": "Change how often particles get chances to collide."
+},
+{
+"id": "activation-energy",
+"label": "Activation energy barrier",
+"description": "Raise or lower the energy barrier collisions must clear."
+},
+{
+"id": "catalyst",
+"description": "Lower the effective barrier without increasing particle energy."
+}
+],
+"presets": [
+{
+"id": "baseline",
+"description": "Moderate temperature and crowding, with no catalyst."
+},
+{
+"id": "crowded-but-cool",
+"description": "Many collision attempts, but only a limited fraction clear the barrier."
+},
+{
+"id": "hot-and-dilute",
+"description": "Fewer particles than the crowded case, but a larger fraction of collisions clear the barrier."
+},
+{
+"id": "catalyzed-threshold",
+"description": "Similar crowding, but a lower effective barrier lets more collisions succeed."
+}
+],
+"overlays": [
+{
+"id": "energyCue",
+"shortDescription": "Show motion streaks so temperature changes stay visible in the particle box.",
+"whatToNotice": [
+"Hotter particles move more vigorously before you even compare the graphs."
+],
+"whyItMatters": "It makes temperature a visible cause of rate change rather than a hidden setting."
+},
+{
+"id": "thresholdGate",
+"shortDescription": "Keep the barrier and above-threshold share visible.",
+"whatToNotice": [
+"The successful fraction can rise even when the box is not especially crowded."
+],
+"whyItMatters": "It separates collision count from barrier-clearing success."
+},
+{
+"id": "successfulCollisions",
+"shortDescription": "Show all collisions and successful collisions separately in the vessel.",
+"whatToNotice": [
+"The all-collision pulses can stay busy while the successful pulses remain much fewer."
+],
+"whyItMatters": "It makes the difference between more collisions and more reaction directly visible."
+}
+]
+},
+"graphs": [
+{
+"id": "rate-temperature",
+"label": "Collision attempts and successful collisions vs temperature",
+"xLabel": "temperature",
+"yLabel": "collisions per second",
+"description": "As temperature rises, compare the growing attempt rate with the growing number of successful collisions."
+},
+{
+"id": "rate-concentration",
+"label": "Collision attempts and successful collisions vs concentration",
+"xLabel": "concentration",
+"yLabel": "collisions per second",
+"description": "As the box gets more crowded, compare extra collision chances with the number that actually react."
+},
+{
+"id": "success-temperature",
+"label": "Successful fraction vs temperature",
+"xLabel": "temperature",
+"yLabel": "successful fraction",
+"description": "Shows how heating increases the fraction of collisions that clear the barrier."
+}
+],
+"noticePrompts": {
+"title": "What to notice in the collision box",
+"intro": "Keep the particle box, threshold cue, and graph visible together. First ask how often collisions happen, then how many of them succeed.",
+"items": [
+{
+"id": "rr-notice-crowding-vs-success",
+"text": "When concentration rises, the all-collision pulses can increase faster than the successful pulses. A busier box does not automatically mean a faster reaction.",
+"whyItMatters": "Concentration mainly increases opportunities for collisions, not guaranteed success."
+},
+{
+"id": "rr-notice-threshold",
+"text": "When temperature rises, look for more collisions to clear the barrier, not just for faster particle motion."
+},
+{
+"id": "rr-notice-catalyst",
+"text": "A catalyst can raise the successful share even when the motion cue changes little. The key change is the lower barrier, not hotter particles."
+}
+]
+},
+"predictionMode": {
+"title": "Predict what changes the rate",
+"intro": "Before you test a change, decide whether it changes collision frequency, barrier-clearing success, or both.",
+"items": [
+{
+"id": "rr-predict-hotter",
+"prompt": "From the baseline mixture, you raise the temperature while concentration and barrier stay fixed. What is the best prediction?",
+"scenarioLabel": "Raise temperature only",
+"changeLabel": "Hotter particles, same crowding",
+"choices": [
+{
+"id": "a",
+"label": "Collision attempts should rise, and a larger fraction should clear the barrier."
+},
+{
+"id": "b",
+"label": "The rate should stay about the same because concentration did not change."
+},
+{
+"id": "c",
+"label": "The successful fraction should fall because faster particles are harder to react."
+}
+],
+"explanation": "Higher temperature makes particles collide more actively and makes more of those collisions energetic enough to clear the barrier.",
+"observationHint": "Watch the motion cue and the successful-fraction graph together after the change."
+},
+{
+"id": "rr-predict-catalyst",
+"prompt": "You switch on the catalyst while keeping the box at the same moderate temperature. Which explanation is best?",
+"scenarioLabel": "Turn on the catalyst",
+"changeLabel": "Same particle energy, lower effective barrier",
+"choices": [
+{
+"id": "a",
+"label": "A larger fraction of collisions should succeed because the barrier is lower."
+},
+{
+"id": "b",
+"label": "The particles must be much hotter, so the motion cue should show most of the change."
+},
+{
+"id": "c",
+"label": "Only the concentration graph should change."
+}
+],
+"explanation": "A catalyst changes the barrier story rather than the temperature story, so the successful share rises without needing faster particle motion.",
+"observationHint": "Look for a bigger change in the barrier cue than in the motion cue."
+}
+]
+},
+"quickTest": {
+"title": "Quick check",
+"intro": "Answer from the particle box, barrier cue, and graphs, not from a memorized slogan.",
+"questions": [
+{
+"id": "rr-qt-collision-vs-success",
+"prompt": "Which statement best matches the simulation?",
+"explanation": "A reaction needs successful collisions, not just lots of collisions. A busy box can still react slowly if most hits fail the barrier test.",
+"selectedWrongExplanations": {
+"b": "This ignores the activation barrier. Collision attempts and successful reactions are not the same thing.",
+"c": "Temperature can matter even in a moderately crowded or dilute box because it changes how many collisions clear the barrier."
+},
+"showMeAction": {
+"label": "Load the crowded but cool case",
+"observationHint": "The all-collision cue stays busy while the successful share stays limited."
+}
+},
+{
+"id": "rr-qt-heating",
+"prompt": "If you heat the same mixture without changing concentration or barrier, what is the best expectation?",
+"explanation": "Heating does not remove the barrier, but it does let a larger fraction of collisions clear it.",
+"selectedWrongExplanations": {
+"b": "Concentration is not the only factor. Temperature changes both particle motion and the barrier-clearing fraction.",
+"c": "Heating helps more collisions cross the barrier, but it does not make the barrier disappear."
+},
+"showMeAction": {
+"label": "Load the hotter case",
+"observationHint": "The particles are more energetic, and a larger fraction of collisions becomes successful."
+}
+},
+{
+"id": "rr-qt-catalyst",
+"prompt": "What does the catalyst change most directly on this bench?",
+"explanation": "The catalyst lowers the effective barrier, so more collisions can succeed without changing the crowding.",
+"showMeAction": {
+"label": "Switch on the catalyst",
+"observationHint": "The barrier cue changes even if the particle motion cue changes only a little."
+}
+}
+]
+},
+"challengeMode": {
+"title": "Challenge: speed it up without crowding",
+"intro": "Make the reaction clearly faster by improving collision success, not just by stuffing the box with particles.",
+"items": [
+{
+"id": "rrct-ch-more-success-not-just-more-hits",
+"title": "Raise success, not just collision count",
+"prompt": "Build a setup where the reaction is clearly fast even though concentration stays modest. Keep the threshold cue and collision pulses on so you can show that the rate rose because more collisions succeeded.",
+"successMessage": "You produced a fast reaction without relying on a crowded box. The main improvement came from a larger successful fraction, not just more collision attempts.",
+"setup": {
+"note": "Keep concentration near the baseline. The cleanest solution uses temperature and/or catalyst to improve success."
+},
+"hints": [
+"Stay near the baseline concentration instead of solving the task by packing in more particles.",
+"Temperature and catalyst are the cleanest tools here because they raise the successful fraction."
+],
+"targets": [
+{
+"label": "Keep concentration modest, between 0.9 and 1.15."
+},
+{
+"label": "Raise the successful-collision rate to between 12 and 15."
+},
+{
+"label": "Make the successful fraction strong, between 48% and 62%."
+}
+]
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows a particle box with reactants moving and colliding, plus cues for total collisions, successful collisions, and the barrier that collisions must clear. Sliders change temperature, concentration, and activation threshold, and a toggle applies a catalyst.",
+"A readout reports the current temperature, concentration, threshold, successful fraction, and successful-collision rate so the learner can connect the moving box to the graphs."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"One graph compares all collision attempts with successful collisions as temperature changes, a second makes the same comparison as concentration changes, and a third shows the successful fraction against temperature.",
+"Reading the box and the graphs together helps the learner separate two ideas: how often particles collide and how often those collisions actually react."
+]
+}
+}
+,"pageIntro": {
+"definition": "Use collision theory to predict whether a rate change comes from more particle meetings, more barrier-clearing hits, or both.",
+"whyItMatters": "It lets you explain temperature, concentration, and catalysts with one visible cause-and-effect model instead of memorized rate slogans.",
+"keyTakeaway": "A reaction speeds up only when collision attempts increase, the successful fraction increases, or both happen together."
+}
+
+}

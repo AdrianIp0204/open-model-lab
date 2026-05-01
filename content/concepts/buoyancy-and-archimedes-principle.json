@@ -1,0 +1,1332 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live buoyancy checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Archimedes checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Carry pressure into buoyancy and back"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Use one immersed-block bench to connect pressure difference, displaced fluid, and the density balance behind floating, sinking, and neutral buoyancy.",
+    "keyTakeaway": "Archimedes' principle says the buoyant force equals the weight of the displaced fluid, so displaced volume is the quantity to watch.",
+    "whyItMatters": "That link keeps Archimedes' principle from feeling like a memorized rule: every floating height comes from displaced volume, fluid density, and force balance."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Buoyancy is not a separate magic force that appears without a cause. It is the upward result of fluid pressure being larger on deeper parts of an immersed object than on shallower parts. This page deliberately reuses the pressure and hydrostatic-pressure language so buoyancy grows out of the same fluid-statics story instead of replacing it.",
+        "Archimedes' principle packages that pressure-difference story into one compact rule: the buoyant force equals the weight of the displaced fluid. On this bench the displaced-fluid column, the buoyant-force arrow, and the response graphs all come from the same submerged volume, so the equation stays tied to what the learner can actually see.",
+        "Floating and sinking depend on density balance, not mass alone. A large object can still float if its average density stays below the fluid density because both weight and buoyant force scale with volume. This bounded model keeps one rectangular block, one uniform fluid, and one immersion control so displaced volume, floating level, and the fully-submerged-deeper case stay visually honest without turning into a ship-design sandbox."
+      ]
+    },
+    "keyIdeas": [
+      "Archimedes' principle says the buoyant force equals the weight of the displaced fluid, so displaced volume is the quantity to watch.",
+      "While the block is only partly submerged, pushing it deeper increases displaced volume and therefore increases the buoyant force.",
+      "A freely floating block settles where weight and buoyant force balance, so the required submerged fraction is the density ratio $\\rho_{obj}/\\rho_f$.",
+      "Once the whole block is submerged in one uniform fluid, moving it deeper raises both the top and bottom pressures together but does not change their difference, so the buoyant force stays the same."
+    ],
+    "commonMisconception": {
+      "myth": "Heavy objects sink because buoyancy only depends on the object's mass.",
+      "correction": [
+        "Buoyancy depends on the fluid density, gravity, and displaced volume, not directly on the object's mass alone.",
+        "Weight and buoyant force both scale with volume, so floating versus sinking is really about average density compared with the fluid."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live buoyancy checks",
+      "intro": "Use the current bench directly. The same block, fluid, and immersed depth that you can see on the stage now drive both worked examples, so Archimedes' principle stays attached to the live model.",
+      "items": [
+        {
+          "id": "current-buoyant-force",
+          "title": "Current buoyant force from displaced fluid",
+          "prompt": "For the current block with $\\rho_f = {{fluidDensityValue}}\\,\\mathrm{kg/m^3}$, $g = {{gravityValue}}\\,\\mathrm{m/s^2}$, and displaced volume $V_{\\mathrm{disp}} = {{displacedVolumeValue}}\\,\\mathrm{m^3}$, what buoyant force does Archimedes' principle predict?",
+          "variables": [
+            {
+              "id": "fluidDensity",
+              "variableId": "fluidDensity",
+              "symbol": "\\rho_f",
+              "label": "Fluid density",
+              "valueKey": "fluidDensityValue",
+              "unit": "kg/m^3"
+            },
+            {
+              "id": "gravity",
+              "variableId": "gravity",
+              "symbol": "g",
+              "label": "Gravity",
+              "valueKey": "gravityValue",
+              "unit": "m/s^2"
+            },
+            {
+              "id": "displacedVolume",
+              "symbol": "V_{disp}",
+              "label": "Displaced volume",
+              "valueKey": "displacedVolumeValue",
+              "unit": "m^3"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-submerged-volume",
+              "label": "1. Read the displaced volume from the submerged part",
+              "template": "The block currently has ${{submergedHeightValue}}\\,\\mathrm{m}$ submerged, so the displaced-fluid column is showing $V_{\\mathrm{disp}} = {{displacedVolumeValue}}\\,\\mathrm{m^3}$."
+            },
+            {
+              "id": "apply-archimedes",
+              "label": "2. Apply Archimedes' principle",
+              "template": "Using $F_b = \\rho_f g V_{\\mathrm{disp}}$, the current state gives $F_b = {{buoyantForceValue}}\\,\\mathrm{N}$."
+            },
+            {
+              "id": "connect-to-fluid-weight",
+              "label": "3. Interpret the result as displaced-fluid weight",
+              "template": "That same ${{buoyantForceValue}}\\,\\mathrm{N}$ is the weight of the displaced fluid, which is why the displaced-fluid cue and the buoyant-force arrow stay synchronized."
+            }
+          ],
+          "resultLabel": "Current buoyant force",
+          "resultTemplate": "$F_b = {{buoyantForceValue}}\\,\\mathrm{N}, \\quad V_{\\mathrm{disp}} = {{displacedVolumeValue}}\\,\\mathrm{m^3}$",
+          "interpretationTemplate": "{{pressureInterpretation}}",
+          "applyAction": {
+            "label": "Show the fully submerged case",
+            "presetId": "deep-submerged-neutral",
+            "observationHint": "The displaced-fluid column is already full, so moving deeper changes the pressure callouts but not the buoyant-force arrow.",
+            "highlightedControlIds": [
+              "bottomDepth"
+            ],
+            "highlightedGraphIds": [
+              "force-depth"
+            ],
+            "highlightedOverlayIds": [
+              "displacedFluid",
+              "pressureDifference"
+            ]
+          }
+        },
+        {
+          "id": "current-force-balance",
+          "title": "Current floating or sinking balance",
+          "prompt": "For the current block with $\\rho_{obj} = {{objectDensityValue}}\\,\\mathrm{kg/m^3}$ and $V_{obj} = {{objectVolumeValue}}\\,\\mathrm{m^3}$, does the block balance at this depth by itself?",
+          "variables": [
+            {
+              "id": "objectDensity",
+              "variableId": "objectDensity",
+              "symbol": "\\rho_{obj}",
+              "label": "Object density",
+              "valueKey": "objectDensityValue",
+              "unit": "kg/m^3"
+            },
+            {
+              "id": "objectVolume",
+              "symbol": "V_{obj}",
+              "label": "Object volume",
+              "valueKey": "objectVolumeValue",
+              "unit": "m^3"
+            },
+            {
+              "id": "weight",
+              "symbol": "W",
+              "label": "Object weight",
+              "valueKey": "weightValue",
+              "unit": "N"
+            },
+            {
+              "id": "buoyantForce",
+              "symbol": "F_b",
+              "label": "Buoyant force",
+              "valueKey": "buoyantForceValue",
+              "unit": "N"
+            }
+          ],
+          "steps": [
+            {
+              "id": "compute-weight",
+              "label": "1. Compute the object's weight",
+              "template": "The block's fixed volume is ${{objectVolumeValue}}\\,\\mathrm{m^3}$, so $W = \\rho_{obj} g V_{obj} = {{weightValue}}\\,\\mathrm{N}$."
+            },
+            {
+              "id": "compare-weight-and-buoyancy",
+              "label": "2. Compare weight with the current buoyant force",
+              "template": "The displaced fluid is currently providing $F_b = {{buoyantForceValue}}\\,\\mathrm{N}$, while the floating-balance fraction would need to be about ${{requiredSubmergedFractionValue}}$ of the full block height."
+            },
+            {
+              "id": "decide-balance",
+              "label": "3. Decide whether this depth is self-balanced",
+              "template": "At this state $F_{net,up} = {{netForceValue}}\\,\\mathrm{N}$, so the free-float balance would sit near bottom depth ${{equilibriumBottomDepthValue}}\\,\\mathrm{m}$."
+            }
+          ],
+          "resultLabel": "Current force balance",
+          "resultTemplate": "$W = {{weightValue}}\\,\\mathrm{N}, \\quad F_b = {{buoyantForceValue}}\\,\\mathrm{N}, \\quad F_{net,up} = {{netForceValue}}\\,\\mathrm{N}$",
+          "interpretationTemplate": "{{balanceInterpretation}}",
+          "applyAction": {
+            "label": "Show the same block in denser fluid",
+            "presetId": "saltwater-balanced",
+            "observationHint": "The same block balances with less submerged height because the displaced fluid is denser.",
+            "highlightedControlIds": [
+              "fluidDensity",
+              "bottomDepth"
+            ],
+            "highlightedGraphIds": [
+              "force-fluid-density",
+              "required-fraction-object-density"
+            ],
+            "highlightedOverlayIds": [
+              "equilibriumLine",
+              "displacedFluid"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "A uniform block is already fully submerged in a uniform fluid. You pull it 0.5 m deeper without changing the fluid or the block's volume. What happens to its buoyant force?",
+      "prediction": "Decide whether deeper means larger buoyancy once the whole object is already underwater.",
+      "answer": "The buoyant force stays the same.",
+      "explanation": "Both the top and bottom pressures rise when the block is moved deeper, but their difference stays the same because the block's height and the fluid density are unchanged. The displaced volume also stays the same, so Archimedes' principle gives the same buoyant force."
+    }
+  },
+  "equations": [
+    {
+      "id": "pressure-difference",
+      "latex": "\\Delta P = \\rho_f g \\Delta h",
+      "label": "Pressure difference across the block",
+      "meaning": "The deeper bottom of the block feels more fluid pressure than the shallower top."
+    },
+    {
+      "id": "archimedes-principle",
+      "latex": "F_b = \\rho_f g V_{\\mathrm{disp}}",
+      "label": "Archimedes' principle",
+      "meaning": "The buoyant force equals the weight of the displaced fluid."
+    },
+    {
+      "id": "object-weight",
+      "latex": "W = \\rho_{\\mathrm{obj}} g V_{\\mathrm{obj}}",
+      "label": "Object weight",
+      "meaning": "The block's own weight depends on its average density, its volume, and gravity."
+    },
+    {
+      "id": "floating-fraction",
+      "latex": "\\dfrac{V_{\\mathrm{disp}}}{V_{\\mathrm{obj}}} = \\dfrac{\\rho_{\\mathrm{obj}}}{\\rho_f}",
+      "label": "Floating fraction at balance",
+      "meaning": "For a floating block, the submerged fraction is set by the density ratio.",
+      "notes": [
+        "If the density ratio is larger than 1, even full submersion is not enough and the block sinks."
+      ]
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "objectDensity",
+      "symbol": "\\rho_{obj}",
+      "label": "Object density",
+      "param": "objectDensity",
+      "tone": "coral",
+      "description": "Changes the block's weight and therefore the submerged fraction needed for floating balance.",
+      "equationIds": [
+        "object-weight",
+        "floating-fraction"
+      ],
+      "graphIds": [
+        "required-fraction-object-density",
+        "force-depth"
+      ],
+      "overlayIds": [
+        "forceBalance",
+        "equilibriumLine"
+      ]
+    },
+    {
+      "id": "fluidDensity",
+      "symbol": "\\rho_f",
+      "label": "Fluid density",
+      "param": "fluidDensity",
+      "tone": "amber",
+      "description": "Sets the displaced-fluid weight per unit volume. Denser fluid means the same submerged volume produces a larger buoyant force.",
+      "equationIds": [
+        "pressure-difference",
+        "archimedes-principle",
+        "floating-fraction"
+      ],
+      "graphIds": [
+        "force-fluid-density",
+        "required-fraction-object-density"
+      ],
+      "overlayIds": [
+        "displacedFluid",
+        "pressureDifference",
+        "equilibriumLine"
+      ]
+    },
+    {
+      "id": "gravity",
+      "symbol": "g",
+      "label": "Gravity",
+      "param": "gravity",
+      "tone": "ink",
+      "description": "Scales both weight and buoyant force together. It changes force size but does not change the density ratio needed for floating balance.",
+      "equationIds": [
+        "pressure-difference",
+        "archimedes-principle",
+        "object-weight"
+      ],
+      "graphIds": [
+        "force-depth",
+        "force-fluid-density"
+      ],
+      "overlayIds": [
+        "forceBalance",
+        "pressureDifference"
+      ]
+    },
+    {
+      "id": "bottomDepth",
+      "symbol": "h_{bottom}",
+      "label": "Bottom depth",
+      "param": "bottomDepth",
+      "tone": "teal",
+      "description": "Changes how much of the block is submerged. Once the entire block is underwater, further depth changes only the absolute pressures, not the buoyant force.",
+      "equationIds": [
+        "pressure-difference",
+        "archimedes-principle"
+      ],
+      "graphIds": [
+        "force-depth"
+      ],
+      "overlayIds": [
+        "forceBalance",
+        "displacedFluid",
+        "pressureDifference",
+        "equilibriumLine"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "objectDensity": 650,
+      "fluidDensity": 1000,
+      "gravity": 9.8,
+      "bottomDepth": 0.65
+    },
+    "ui": {
+      "initialGraphId": "force-depth",
+      "primaryGraphIds": [
+        "force-depth",
+        "required-fraction-object-density"
+      ],
+      "primaryControlIds": [
+        "bottomDepth",
+        "fluidDensity",
+        "objectDensity"
+      ],
+      "primaryPresetIds": [
+        "water-balanced",
+        "saltwater-balanced",
+        "neutral-float",
+        "deep-submerged-neutral"
+      ]
+    },
+    "controls": [
+      {
+        "id": "objectDensity",
+        "kind": "slider",
+        "label": "Object density",
+        "param": "objectDensity",
+        "min": 200,
+        "max": 1600,
+        "step": 25,
+        "unit": "kg/m^3",
+        "description": "Changes the block's weight without changing its outer volume."
+      },
+      {
+        "id": "fluidDensity",
+        "kind": "slider",
+        "label": "Fluid density",
+        "param": "fluidDensity",
+        "min": 500,
+        "max": 1400,
+        "step": 25,
+        "unit": "kg/m^3",
+        "description": "Changes how much each displaced cubic meter of fluid weighs."
+      },
+      {
+        "id": "gravity",
+        "kind": "slider",
+        "label": "Gravity",
+        "param": "gravity",
+        "min": 5,
+        "max": 12,
+        "step": 0.1,
+        "unit": "m/s^2",
+        "description": "Scales both the block's weight and the buoyant force together."
+      },
+      {
+        "id": "bottomDepth",
+        "kind": "slider",
+        "label": "Bottom depth",
+        "param": "bottomDepth",
+        "min": 0.15,
+        "max": 1.8,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Moves the bottom of the block deeper or shallower below the fluid surface."
+      }
+    ],
+    "presets": [
+      {
+        "id": "water-balanced",
+        "label": "Wood in water",
+        "description": "A less-dense block balances while still partly above the surface.",
+        "values": {
+          "objectDensity": 650,
+          "fluidDensity": 1000,
+          "gravity": 9.8,
+          "bottomDepth": 0.65
+        }
+      },
+      {
+        "id": "saltwater-balanced",
+        "label": "Same block in brine",
+        "description": "The same block balances with less submerged height because the fluid is denser.",
+        "values": {
+          "objectDensity": 650,
+          "fluidDensity": 1300,
+          "gravity": 9.8,
+          "bottomDepth": 0.5
+        }
+      },
+      {
+        "id": "neutral-float",
+        "label": "Neutral block",
+        "description": "Matched densities make full submersion enough for balance.",
+        "values": {
+          "objectDensity": 1000,
+          "fluidDensity": 1000,
+          "gravity": 9.8,
+          "bottomDepth": 1
+        }
+      },
+      {
+        "id": "dense-block",
+        "label": "Denser than water",
+        "description": "Full submersion is still not enough, so the block would keep sinking without support.",
+        "values": {
+          "objectDensity": 1250,
+          "fluidDensity": 1000,
+          "gravity": 9.8,
+          "bottomDepth": 1
+        }
+      },
+      {
+        "id": "deep-submerged-neutral",
+        "label": "Fully submerged deeper",
+        "description": "The whole block is underwater, so deeper placement changes the pressure level but not the buoyant force.",
+        "values": {
+          "objectDensity": 1000,
+          "fluidDensity": 1000,
+          "gravity": 9.8,
+          "bottomDepth": 1.45
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "forceBalance",
+        "label": "Force balance",
+        "shortDescription": "Shows the object's weight, the buoyant-force arrow, and any extra support needed to hold the current depth.",
+        "whatToNotice": [
+          "At balance the upward buoyant force matches the downward weight.",
+          "If the current depth is not a free-float depth, an extra support arrow appears to show what would be needed to hold the block there."
+        ],
+        "whyItMatters": "It keeps floating and sinking tied to force balance instead of memorized object labels.",
+        "relatedControls": [
+          "objectDensity",
+          "fluidDensity",
+          "bottomDepth"
+        ],
+        "relatedGraphTabs": [
+          "force-depth",
+          "force-fluid-density"
+        ],
+        "relatedEquationVariables": [
+          "objectDensity",
+          "fluidDensity",
+          "bottomDepth"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "displacedFluid",
+        "label": "Displaced fluid",
+        "shortDescription": "Displays a side column with the same fluid volume as the currently submerged part of the block.",
+        "whatToNotice": [
+          "While the block is only partly submerged, the displaced-fluid column grows exactly with the submerged part of the block.",
+          "Once the block is fully submerged, the column is already full and cannot grow any further."
+        ],
+        "whyItMatters": "It makes Archimedes' principle concrete by turning buoyancy into a displaced-fluid weight story.",
+        "relatedControls": [
+          "fluidDensity",
+          "bottomDepth"
+        ],
+        "relatedGraphTabs": [
+          "force-depth"
+        ],
+        "relatedEquationVariables": [
+          "fluidDensity",
+          "bottomDepth"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "equilibriumLine",
+        "label": "Free-float level",
+        "shortDescription": "Marks the bottom depth where the current density ratio would balance without extra support.",
+        "whatToNotice": [
+          "If the line sits below the current block, the block is being held too deep for a free float.",
+          "If the density-ratio requirement rises above full height, the line turns into a sink warning instead of a float marker."
+        ],
+        "whyItMatters": "It ties floating height directly to density ratio rather than to mass alone.",
+        "relatedControls": [
+          "objectDensity",
+          "fluidDensity"
+        ],
+        "relatedGraphTabs": [
+          "required-fraction-object-density"
+        ],
+        "relatedEquationVariables": [
+          "objectDensity",
+          "fluidDensity"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "pressureDifference",
+        "label": "Pressure difference",
+        "shortDescription": "Shows fluid-pressure samples at the top and bottom of the displaced part of the block.",
+        "whatToNotice": [
+          "The deeper sample is always larger, which is the pressure-language origin of the upward buoyant result.",
+          "When the block is fully submerged and moved deeper, both samples rise together while their difference stays fixed."
+        ],
+        "whyItMatters": "It carries the hydrostatic-pressure idea directly into buoyancy instead of treating Archimedes' principle as disconnected.",
+        "relatedControls": [
+          "fluidDensity",
+          "gravity",
+          "bottomDepth"
+        ],
+        "relatedGraphTabs": [
+          "force-depth"
+        ],
+        "relatedEquationVariables": [
+          "fluidDensity",
+          "gravity",
+          "bottomDepth"
+        ],
+        "defaultOn": false
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "force-depth",
+      "label": "Force balance vs bottom depth",
+      "xLabel": "bottom of block below surface (m)",
+      "yLabel": "force (N)",
+      "series": [
+        "weight",
+        "buoyant-force"
+      ],
+      "description": "Weight stays fixed for the same block, while buoyant force rises with submersion and then plateaus once the block is fully submerged."
+    },
+    {
+      "id": "force-fluid-density",
+      "label": "Force balance vs fluid density",
+      "xLabel": "fluid density (kg/m^3)",
+      "yLabel": "force (N)",
+      "series": [
+        "weight",
+        "buoyant-force"
+      ],
+      "description": "At the current depth the block's weight stays fixed while the buoyant force rises linearly with fluid density."
+    },
+    {
+      "id": "required-fraction-object-density",
+      "label": "Required submerged fraction vs object density",
+      "xLabel": "object density (kg/m^3)",
+      "yLabel": "required submerged fraction",
+      "series": [
+        "required-submerged-fraction",
+        "full-submersion-limit"
+      ],
+      "description": "The density-ratio curve shows how much of the block would need to be submerged for floating balance. Values above 1 mean the block sinks."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use one prompt at a time. Each one keeps buoyancy tied to pressure differences and displaced volume rather than turning the page into a rule shelf.",
+    "items": [
+      {
+        "id": "bap-notice-more-submerged-more-buoyancy",
+        "text": "While the block is still partly submerged, pushing the bottom deeper fills more of the displaced-fluid column and lengthens the buoyant-force arrow.",
+        "type": "observation",
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "bottomDepth",
+              "max": 0.95
+            }
+          ]
+        },
+        "tryThis": "Start from Wood in water, then raise the bottom-depth slider toward 0.9 m.",
+        "whyItMatters": "It shows that buoyant force follows displaced volume, not hidden mass inside the block.",
+        "relatedControls": [
+          "bottomDepth"
+        ],
+        "relatedGraphTabs": [
+          "force-depth"
+        ],
+        "relatedOverlays": [
+          "displacedFluid",
+          "forceBalance"
+        ],
+        "relatedEquationVariables": [
+          "bottomDepth",
+          "fluidDensity"
+        ]
+      },
+      {
+        "id": "bap-notice-full-submersion-plateau",
+        "text": "Once the whole block is under the surface, the displaced-fluid column is already full. Deeper placement raises both pressure callouts but leaves the buoyant-force arrow unchanged.",
+        "type": "graph-reading",
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "bottomDepth",
+              "min": 1.05
+            }
+          ],
+          "graphTabs": [
+            "force-depth"
+          ],
+          "overlayIds": [
+            "pressureDifference"
+          ]
+        },
+        "tryThis": "Switch to Fully submerged deeper, turn on Pressure difference, and compare the force-depth graph with the stage.",
+        "whyItMatters": "It ties Archimedes' principle back to the hydrostatic-pressure difference instead of to absolute pressure alone.",
+        "relatedControls": [
+          "bottomDepth"
+        ],
+        "relatedGraphTabs": [
+          "force-depth"
+        ],
+        "relatedOverlays": [
+          "pressureDifference",
+          "displacedFluid"
+        ],
+        "relatedEquationVariables": [
+          "fluidDensity",
+          "gravity",
+          "bottomDepth"
+        ]
+      },
+      {
+        "id": "bap-notice-density-threshold",
+        "text": "If the required-fraction curve rises above the full-submersion line, even full submersion cannot supply enough buoyant force, so the block sinks.",
+        "type": "misconception",
+        "conditions": {
+          "graphTabs": [
+            "required-fraction-object-density"
+          ]
+        },
+        "tryThis": "Slide object density upward until the required-fraction curve crosses the full-submersion line.",
+        "whyItMatters": "It prevents the shortcut that 'heavy means sink' without checking volume and fluid density.",
+        "relatedControls": [
+          "objectDensity",
+          "fluidDensity"
+        ],
+        "relatedGraphTabs": [
+          "required-fraction-object-density"
+        ],
+        "relatedOverlays": [
+          "equilibriumLine"
+        ],
+        "relatedEquationVariables": [
+          "objectDensity",
+          "fluidDensity"
+        ]
+      },
+      {
+        "id": "bap-notice-same-block-less-submerged",
+        "text": "In compare mode, the same block can balance with less submerged height in a denser fluid because each cubic meter of displaced fluid weighs more.",
+        "type": "compare",
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Compare Wood in water against Same block in brine and keep the weight the same while the displaced-fluid column gets shorter in Setup B.",
+        "whyItMatters": "It connects floating height directly to density ratio.",
+        "relatedControls": [
+          "fluidDensity",
+          "bottomDepth"
+        ],
+        "relatedGraphTabs": [
+          "force-fluid-density",
+          "force-depth"
+        ],
+        "relatedOverlays": [
+          "displacedFluid",
+          "equilibriumLine"
+        ],
+        "relatedEquationVariables": [
+          "fluidDensity",
+          "bottomDepth"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict from displaced volume and density balance first, then test the bench. Each prompt changes only one part of the current story.",
+    "items": [
+      {
+        "id": "bap-pred-denser-fluid",
+        "prompt": "Starting from Wood in water, switch to Same block in brine. What changes at the new balanced depth?",
+        "scenarioLabel": "Same block, denser fluid",
+        "changeLabel": "Fluid density rises while the balanced depth becomes shallower.",
+        "choices": [
+          {
+            "id": "less-submerged",
+            "label": "The block can balance with less submerged height because each displaced volume unit weighs more."
+          },
+          {
+            "id": "same-submerged",
+            "label": "The block must stay at the same submerged height because its own weight did not change."
+          },
+          {
+            "id": "deeper-needed",
+            "label": "The block must sink deeper because denser fluid always increases pressure everywhere."
+          }
+        ],
+        "correctChoiceId": "less-submerged",
+        "explanation": "The block's weight is unchanged, but denser fluid makes each cubic meter of displaced fluid weigh more. The same block can therefore balance with a smaller displaced volume and a shallower floating depth.",
+        "observationHint": "Watch the displaced-fluid column shrink while the balanced buoyant-force arrow still matches the same weight.",
+        "apply": {
+          "presetId": "saltwater-balanced"
+        },
+        "highlightedControls": [
+          "fluidDensity",
+          "bottomDepth"
+        ],
+        "highlightedGraphs": [
+          "force-fluid-density",
+          "force-depth"
+        ],
+        "highlightedOverlays": [
+          "displacedFluid",
+          "equilibriumLine"
+        ]
+      },
+      {
+        "id": "bap-pred-deeper-full",
+        "prompt": "Starting from Neutral block, move the already fully submerged block deeper. Which statement stays true?",
+        "scenarioLabel": "Same block, deeper after full submersion",
+        "changeLabel": "Bottom depth increases while the whole block remains underwater.",
+        "choices": [
+          {
+            "id": "same-buoyancy",
+            "label": "Top and bottom pressures both rise, but the buoyant force stays the same."
+          },
+          {
+            "id": "more-buoyancy",
+            "label": "The buoyant force increases because the bottom pressure is larger deeper down."
+          },
+          {
+            "id": "less-buoyancy",
+            "label": "The buoyant force decreases because the top pressure also rises."
+          }
+        ],
+        "correctChoiceId": "same-buoyancy",
+        "explanation": "Deeper placement raises the top and bottom pressures together. In a uniform fluid the pressure difference across the block stays fixed once the whole volume is already submerged, so the buoyant force stays the same.",
+        "observationHint": "Turn on Pressure difference and compare the pressure callouts with the unchanged buoyant-force arrow.",
+        "apply": {
+          "presetId": "deep-submerged-neutral"
+        },
+        "highlightedControls": [
+          "bottomDepth"
+        ],
+        "highlightedGraphs": [
+          "force-depth"
+        ],
+        "highlightedOverlays": [
+          "pressureDifference",
+          "displacedFluid"
+        ]
+      },
+      {
+        "id": "bap-pred-denser-object-same-depth",
+        "prompt": "Starting from Wood in water, increase only the object density to the Neutral block value while keeping the current depth. What happens immediately?",
+        "scenarioLabel": "Same depth, denser object",
+        "changeLabel": "Object density rises while the fluid and current submerged height stay the same.",
+        "choices": [
+          {
+            "id": "needs-upward-support",
+            "label": "Weight rises while buoyant force stays the same, so the block would need upward support."
+          },
+          {
+            "id": "buoyant-rises-too",
+            "label": "Buoyant force rises by the same amount because denser objects automatically displace more fluid."
+          },
+          {
+            "id": "nothing-changes",
+            "label": "Nothing changes because density only matters after the block is fully submerged."
+          }
+        ],
+        "correctChoiceId": "needs-upward-support",
+        "explanation": "At the same submerged depth the displaced volume is unchanged, so buoyant force is unchanged. Raising object density increases weight only, so the block is now too heavy for that depth and would need upward support or sink lower.",
+        "observationHint": "The weight arrow grows while the displaced-fluid column stays the same size.",
+        "apply": {
+          "presetId": "water-balanced",
+          "patch": {
+            "objectDensity": 1000
+          }
+        },
+        "highlightedControls": [
+          "objectDensity"
+        ],
+        "highlightedGraphs": [
+          "required-fraction-object-density",
+          "force-depth"
+        ],
+        "highlightedOverlays": [
+          "forceBalance",
+          "equilibriumLine"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the live bench, not memory alone. These challenges keep Archimedes' principle tied to density balance and displaced volume on the same stage.",
+    "items": [
+      {
+        "id": "bap-ch-half-submerged-balance",
+        "title": "Half-submerged balance",
+        "style": "target-setting",
+        "prompt": "Adjust the block so it could stay about half submerged without extra support.",
+        "successMessage": "The block is balancing near half its height submerged.",
+        "setup": {
+          "presetId": "water-balanced",
+          "graphId": "required-fraction-object-density",
+          "overlayIds": [
+            "forceBalance",
+            "equilibriumLine"
+          ],
+          "note": "Use density ratio, not guesswork."
+        },
+        "hints": [
+          "For a free float, the weight and buoyant force must match.",
+          "Half submerged means the object density should be about half the fluid density."
+        ],
+        "checks": [
+          {
+            "type": "param-range",
+            "label": "Set the bottom depth near half the block height.",
+            "param": "bottomDepth",
+            "min": 0.48,
+            "max": 0.52,
+            "displayUnit": "m"
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep the net upward force near zero.",
+            "metric": "netForce",
+            "min": -15,
+            "max": 15,
+            "displayUnit": "N"
+          },
+          {
+            "type": "metric-range",
+            "label": "Match a required submerged fraction near 0.5.",
+            "metric": "requiredSubmergedFraction",
+            "min": 0.48,
+            "max": 0.52
+          }
+        ]
+      },
+      {
+        "id": "bap-ch-less-submerged-in-brine",
+        "title": "Same block, less submersion in brine",
+        "style": "parameter-match",
+        "prompt": "Start from Wood in water, switch to compare mode, leave Setup A alone, and tune only Setup B until the same block balances with a noticeably smaller submerged height in denser fluid.",
+        "successMessage": "Setup B now balances the same block higher in the denser fluid.",
+        "setup": {
+          "presetId": "water-balanced",
+          "graphId": "force-depth",
+          "overlayIds": [
+            "displacedFluid",
+            "equilibriumLine"
+          ],
+          "interactionMode": "compare",
+          "note": "Setup A stays fixed as the water baseline. Edit only Setup B."
+        },
+        "hints": [
+          "The object's weight is the same in both setups.",
+          "If the fluid is denser, the same weight can be matched by a smaller displaced volume."
+        ],
+        "checks": [
+          {
+            "type": "compare-active",
+            "label": "Stay in compare mode while editing Setup B.",
+            "target": "b"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Keep Setup A at its water-baseline buoyant force.",
+            "setup": "a",
+            "metric": "buoyantForce",
+            "min": 504,
+            "max": 515,
+            "displayUnit": "N"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Raise Setup B's fluid density to about brine level.",
+            "setup": "b",
+            "param": "fluidDensity",
+            "min": 1280,
+            "max": 1320,
+            "displayUnit": "kg/m^3"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Make Setup B only about half submerged.",
+            "setup": "b",
+            "param": "bottomDepth",
+            "min": 0.48,
+            "max": 0.52,
+            "displayUnit": "m"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Keep Setup B balanced too.",
+            "setup": "b",
+            "metric": "netForce",
+            "min": -15,
+            "max": 15,
+            "displayUnit": "N"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Use the displaced-fluid and force-balance story, not memory alone. These checks focus on what buoyancy means physically.",
+    "questions": [
+      {
+        "id": "bap-qt-density-ratio",
+        "prompt": "A block has average density $600\\,\\mathrm{kg/m^3}$ and floats in water of density $1000\\,\\mathrm{kg/m^3}$. About what fraction of its volume must be submerged at balance?",
+        "type": "reasoning",
+        "choices": [
+          {
+            "id": "fraction-0-6",
+            "label": "About 0.6 of its volume"
+          },
+          {
+            "id": "fraction-1",
+            "label": "All of it"
+          },
+          {
+            "id": "fraction-0-4",
+            "label": "About 0.4 of its volume"
+          },
+          {
+            "id": "depends-on-g",
+            "label": "It depends only on gravity"
+          }
+        ],
+        "correctChoiceId": "fraction-0-6",
+        "explanation": "For a freely floating block, the submerged fraction is $\\rho_{obj}/\\rho_f = 600/1000 = 0.6$.",
+        "selectedWrongExplanations": {
+          "fraction-1": "Full submersion is only required when the object density matches the fluid density.",
+          "fraction-0-4": "The ratio goes object density divided by fluid density, not the other way around.",
+          "depends-on-g": "Gravity scales both weight and buoyancy together, so the density ratio still sets the floating fraction."
+        },
+        "showMeAction": {
+          "label": "Show a 0.6-fraction case",
+          "presetId": "water-balanced",
+          "patch": {
+            "objectDensity": 600,
+            "bottomDepth": 0.6
+          },
+          "observationHint": "The equilibrium line and the submerged part of the block line up near 0.6 of the full height.",
+          "highlightedControlIds": [
+            "objectDensity",
+            "bottomDepth"
+          ],
+          "highlightedGraphIds": [
+            "required-fraction-object-density"
+          ],
+          "highlightedOverlayIds": [
+            "equilibriumLine"
+          ]
+        }
+      },
+      {
+        "id": "bap-qt-deeper-fully-submerged",
+        "prompt": "Once the same uniform block is fully submerged in one uniform fluid, what happens if you move it deeper without changing its volume?",
+        "type": "misconception-check",
+        "choices": [
+          {
+            "id": "same-buoyancy",
+            "label": "Buoyant force stays the same"
+          },
+          {
+            "id": "more-buoyancy",
+            "label": "Buoyant force increases because the pressure is higher"
+          },
+          {
+            "id": "less-buoyancy",
+            "label": "Buoyant force decreases because the top pressure also rises"
+          },
+          {
+            "id": "zero-buoyancy",
+            "label": "Buoyancy disappears because the block is no longer floating"
+          }
+        ],
+        "correctChoiceId": "same-buoyancy",
+        "explanation": "In a uniform fluid the pressure difference across the fully submerged block depends on the block's height and the fluid density, not on the absolute depth. The displaced volume is also unchanged, so the buoyant force stays the same.",
+        "showMeAction": {
+          "label": "Show the deeper fully submerged state",
+          "presetId": "deep-submerged-neutral",
+          "observationHint": "The pressure callouts rise, but the buoyant-force arrow and displaced-fluid column stay unchanged.",
+          "highlightedControlIds": [
+            "bottomDepth"
+          ],
+          "highlightedGraphIds": [
+            "force-depth"
+          ],
+          "highlightedOverlayIds": [
+            "pressureDifference",
+            "displacedFluid"
+          ]
+        }
+      },
+      {
+        "id": "bap-qt-archimedes-definition",
+        "prompt": "Archimedes' principle says the buoyant force on an immersed object equals which quantity?",
+        "type": "reasoning",
+        "choices": [
+          {
+            "id": "weight-displaced-fluid",
+            "label": "The weight of the displaced fluid"
+          },
+          {
+            "id": "weight-object",
+            "label": "The weight of the object"
+          },
+          {
+            "id": "bottom-pressure-only",
+            "label": "The pressure at the block's bottom face"
+          },
+          {
+            "id": "mass-fluid-above",
+            "label": "The mass of all the fluid above the block"
+          }
+        ],
+        "correctChoiceId": "weight-displaced-fluid",
+        "explanation": "Archimedes' principle is exactly the displaced-fluid weight rule: $F_b = \\rho_f g V_{disp}$.",
+        "showMeAction": {
+          "label": "Show the displaced-fluid cue",
+          "presetId": "neutral-float",
+          "observationHint": "Compare the displaced-fluid column with the buoyant-force arrow on the same state.",
+          "highlightedGraphIds": [
+            "force-depth"
+          ],
+          "highlightedOverlayIds": [
+            "displacedFluid",
+            "forceBalance"
+          ]
+        }
+      },
+      {
+        "id": "bap-qt-equal-volume-different-density",
+        "prompt": "Two equal-volume blocks are fully submerged at the same depth in the same fluid. Block A is denser than Block B. Which statement is correct?",
+        "type": "compare-two-cases",
+        "choices": [
+          {
+            "id": "same-buoyancy-different-weight",
+            "label": "They feel the same buoyant force, but A weighs more"
+          },
+          {
+            "id": "a-more-buoyant",
+            "label": "A gets more buoyant force because it is denser"
+          },
+          {
+            "id": "b-more-buoyant",
+            "label": "B gets more buoyant force because it is lighter"
+          },
+          {
+            "id": "same-everything",
+            "label": "They have the same buoyant force and the same weight"
+          }
+        ],
+        "correctChoiceId": "same-buoyancy-different-weight",
+        "explanation": "Equal displaced volume in the same fluid gives the same buoyant force. The denser block has the larger weight, so it is more likely to sink even though the buoyant force is unchanged.",
+        "showMeAction": {
+          "label": "Show a denser block at the same depth",
+          "presetId": "neutral-float",
+          "patch": {
+            "objectDensity": 1250
+          },
+          "observationHint": "The displaced-fluid column stays full while the weight arrow grows.",
+          "highlightedControlIds": [
+            "objectDensity"
+          ],
+          "highlightedGraphIds": [
+            "required-fraction-object-density"
+          ],
+          "highlightedOverlayIds": [
+            "forceBalance"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The stage shows one rectangular block in a fluid tank. The block can sit partly above the surface or fully under the fluid depending on the bottom-depth slider. A readout panel reports object density, fluid density, displaced volume, weight, buoyant force, and any extra support needed to hold the current depth.",
+        "Guided overlays can show the weight and buoyant-force arrows on the block, a side column with the same displaced-fluid volume as the submerged part, a dashed free-float balance line for the current density ratio, and pressure samples at the top and bottom of the displaced part of the block."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The force-depth graph keeps the block's weight flat while the buoyant-force curve rises with submersion and then levels off after full submersion.",
+        "The force-fluid-density graph shows that denser fluid raises buoyant force at the same depth. The required-fraction graph shows how much of the block must be submerged for balance and marks the full-submersion limit at 1."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Buoyancy and Archimedes' Principle",
+    "description": "Learn buoyancy with a compact displaced-fluid simulation that connects pressure difference, Archimedes' principle, and the density balance behind floating and sinking.",
+    "keywords": [
+      "buoyancy and archimedes principle",
+      "displaced fluid buoyant force",
+      "floating and sinking density ratio",
+      "why fully submerged deeper does not change buoyancy",
+      "open model lab buoyancy"
+    ]
+  },
+  "v2": {
+    "intuition": "Buoyancy is a pressure-difference story you can read through displaced fluid: more displaced fluid gives more upward force until the object is fully submerged.",
+    "whyItMatters": "Once that displaced-fluid picture is clear, floating height, sinking, neutral buoyancy, and the “deeper but fully submerged” plateau all come from one density-balance model instead of separate rules.",
+    "estimatedMinutes": 20,
+    "equationSnapshot": {
+      "equationIds": [
+        "pressure-difference",
+        "archimedes-principle",
+        "floating-fraction"
+      ],
+      "note": "Start with the pressure difference, package it as displaced-fluid weight, then use the density ratio only for a freely floating balance."
+    },
+    "startSetup": {
+      "presetId": "water-balanced",
+      "graphId": "force-depth",
+      "overlayIds": [
+        "forceBalance",
+        "displacedFluid",
+        "equilibriumLine"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-displaced-fluid",
+        "title": "Read displaced fluid",
+        "goal": "Connect the visible submerged volume to the buoyant-force arrow.",
+        "doThis": "Load Wood in water and keep the displaced-fluid and force-balance overlays visible while you move Bottom depth slowly.",
+        "notice": "While the block is only partly submerged, the displaced-fluid column grows and the buoyant-force curve rises with it.",
+        "explain": "Archimedes' principle is not a separate magic push here: the upward force is the weight of the fluid volume the block has displaced.",
+        "reveal": {
+          "controlIds": [
+            "bottomDepth"
+          ],
+          "graphIds": [
+            "force-depth"
+          ],
+          "overlayIds": [
+            "displacedFluid",
+            "forceBalance"
+          ]
+        },
+        "setup": {
+          "presetId": "water-balanced",
+          "graphId": "force-depth",
+          "overlayIds": [
+            "displacedFluid",
+            "forceBalance"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "bap-qt-archimedes-definition"
+          ]
+        }
+      },
+      {
+        "id": "find-the-floating-balance",
+        "title": "Find balance",
+        "goal": "Use weight versus buoyant force to decide where a free-floating block settles.",
+        "doThis": "Keep Wood in water selected, then compare the current force arrows with the free-float level.",
+        "notice": "At the balance level, the upward buoyant force matches the block's weight; held too deep or too shallow, an extra support cue appears.",
+        "explain": "A floating object chooses the displaced volume that makes fluid weight equal object weight, so the needed submerged fraction is the density ratio.",
+        "reveal": {
+          "controlIds": [
+            "objectDensity",
+            "fluidDensity",
+            "bottomDepth"
+          ],
+          "graphIds": [
+            "required-fraction-object-density",
+            "force-depth"
+          ],
+          "overlayIds": [
+            "forceBalance",
+            "equilibriumLine"
+          ]
+        },
+        "setup": {
+          "presetId": "water-balanced",
+          "graphId": "required-fraction-object-density",
+          "overlayIds": [
+            "forceBalance",
+            "equilibriumLine"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "bap-qt-density-ratio"
+          ]
+        }
+      },
+      {
+        "id": "compare-denser-fluid",
+        "title": "Compare fluids",
+        "goal": "See why the same block can float higher in a denser fluid.",
+        "doThis": "Switch from Wood in water to Same block in brine, then compare the displaced-fluid column and the force-fluid-density graph.",
+        "notice": "The block's weight stays the same, but each cubic meter of brine weighs more, so the matching displaced volume can be smaller.",
+        "explain": "Changing fluid density changes the buoyant force per unit displaced volume. The object does not need to displace as much denser fluid to balance.",
+        "reveal": {
+          "controlIds": [
+            "fluidDensity",
+            "bottomDepth"
+          ],
+          "graphIds": [
+            "force-fluid-density",
+            "force-depth"
+          ],
+          "overlayIds": [
+            "displacedFluid",
+            "equilibriumLine"
+          ]
+        },
+        "setup": {
+          "presetId": "saltwater-balanced",
+          "graphId": "force-fluid-density",
+          "overlayIds": [
+            "displacedFluid",
+            "equilibriumLine"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "bap-pred-denser-fluid"
+          ]
+        }
+      },
+      {
+        "id": "test-full-submersion-plateau",
+        "title": "Test the plateau",
+        "goal": "Separate absolute pressure from pressure difference once the block is fully submerged.",
+        "doThis": "Use Fully submerged deeper, turn on Pressure difference, and move the block deeper after the displaced-fluid column is already full.",
+        "notice": "Top and bottom pressure samples both rise, but their difference, the displaced volume, and the buoyant-force arrow stay essentially unchanged.",
+        "explain": "In one uniform fluid, deeper full submersion changes absolute pressure, not the block height or displaced volume. That is why buoyancy plateaus after full submersion.",
+        "reveal": {
+          "controlIds": [
+            "bottomDepth",
+            "fluidDensity",
+            "gravity"
+          ],
+          "graphIds": [
+            "force-depth"
+          ],
+          "overlayIds": [
+            "pressureDifference",
+            "displacedFluid",
+            "forceBalance"
+          ]
+        },
+        "setup": {
+          "presetId": "deep-submerged-neutral",
+          "graphId": "force-depth",
+          "overlayIds": [
+            "pressureDifference",
+            "displacedFluid",
+            "forceBalance"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "bap-pred-deeper-full"
+          ],
+          "questionIds": [
+            "bap-qt-deeper-fully-submerged"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Buoyant force follows the weight of displaced fluid, so displaced volume is the live quantity to watch.",
+        "A free-floating block settles where buoyant force equals weight, which turns into the density-ratio submerged fraction.",
+        "Denser fluid can support the same block with less submerged volume because each displaced volume unit weighs more.",
+        "Once a uniform block is fully submerged in a uniform fluid, moving deeper changes absolute pressure but not buoyant force."
+      ],
+      "misconception": "Heavier objects always sink because buoyancy depends directly on mass.",
+      "workedExampleRefs": [
+        "current-buoyant-force",
+        "current-force-balance"
+      ],
+      "testCta": true,
+      "freePlayPrompt": "Try making the same block float near half submerged, then explain whether you changed object density, fluid density, or both.",
+      "nextConcepts": [
+        {
+          "slug": "drag-and-terminal-velocity",
+          "reasonLabel": "Compare buoyant support with velocity-dependent fluid drag"
+        },
+        {
+          "slug": "bernoullis-principle",
+          "reasonLabel": "Contrast static-fluid pressure differences with moving-fluid pressure tradeoffs"
+        },
+        {
+          "slug": "pressure-and-hydrostatic-pressure",
+          "reasonLabel": "Review the pressure difference that causes the upward push"
+        }
+      ]
+    },
+    "referenceSections": [
+      "workedExamples",
+      "miniChallenge",
+      "readNext"
+    ]
+  }
+}

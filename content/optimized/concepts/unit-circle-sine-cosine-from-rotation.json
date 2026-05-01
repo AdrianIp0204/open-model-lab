@@ -1,0 +1,242 @@
+{
+"pageFramework": {
+"featuredSetups": [
+{
+"id": "projection-link",
+"label": "See projections live",
+"description": "Start with the guides and sign map on so one angle, two projections, and two traces stay connected.",
+"setup": {
+"note": "Use this when you want to read cosine and sine directly from the rotating point."
+}
+},
+{
+"id": "axis-crossing-view",
+"label": "Watch an axis crossing",
+"description": "Start near the top of the circle so one projection is close to zero and a sign flip is easy to catch.",
+"setup": {
+"note": "This makes it easier to see exactly when cosine or sine hits zero and then changes sign."
+}
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"The unit circle is easier to understand when one rotating point, its projections onto the axes, and the sine-cosine traces all stay visible together. This bench ties every view to the same live angle, so the graphs read as a record of the motion rather than as separate rules to memorize.",
+"Because the circle has radius 1, the x-coordinate of the point is exactly $\\cos\\theta$ and the y-coordinate is exactly $\\sin\\theta$. When the point moves left of the y-axis, cosine becomes negative; when it moves below the x-axis, sine becomes negative."
+]
+},
+"keyIdeas": [
+"On the unit circle, angle $\\theta$ selects the point $(\\cos\\theta, \\sin\\theta)$.",
+"Cosine is the horizontal projection and sine is the vertical projection of the same rotating point.",
+"Sign changes come from position on the axes: left gives negative cosine, and below the x-axis gives negative sine."
+],
+"commonMisconception": {
+"myth": "Sine and cosine are just graph rules to memorize, so the unit-circle picture is optional.",
+"correction": [
+"The traces come from the same rotating point on the circle.",
+"On a radius-1 circle, the x-coordinate is $\\cos\\theta$ and the y-coordinate is $\\sin\\theta$, so the graphs are recording those coordinates over time."
+]
+},
+"workedExamples": {
+"title": "Read the live circle",
+"intro": "Use the current rotation state and read the geometry first. The same live angle sets the point on the circle, the axis projections, and the graph markers.",
+"items": [
+{
+"id": "read-the-current-projections",
+"title": "Read the current point",
+"prompt": "At the current time, which point on the unit circle is selected, and what does that tell you about $\\cos\\theta$ and $\\sin\\theta$?",
+"steps": [
+{
+"id": "read-angle",
+"label": "1. Find the current angle"
+},
+{
+"id": "read-projections",
+"label": "2. Read cosine and sine from the projections"
+},
+{
+"id": "build-point",
+"label": "3. Write the point as an ordered pair"
+}
+],
+"resultLabel": "Current point on the unit circle",
+"applyAction": {
+"label": "Show the projection link",
+"observationHint": "Keep the guides on and match the point's x- and y-projections to the cosine and sine traces at the same moment."
+}
+},
+{
+"id": "read-the-current-signs",
+"title": "Read the signs from the quadrant",
+"prompt": "From the point's current quadrant, what signs should $\\cos\\theta$ and $\\sin\\theta$ have?",
+"steps": [
+{
+"id": "name-region",
+"label": "1. Identify the current quadrant"
+},
+{
+"id": "map-signs",
+"label": "2. Use the axes to predict the signs"
+},
+{
+"id": "confirm-values",
+"label": "3. Check the live values"
+}
+],
+"resultLabel": "Current signs",
+"applyAction": {
+"label": "Start in Quadrant II",
+"observationHint": "Use the sign map to predict the signs first, then confirm them from the point and the trace values."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "If the point rotates counterclockwise from Quadrant I into Quadrant II, which projection changes sign first, and why?",
+"prediction": "Decide which axis is crossed first and which coordinate that crossing changes.",
+"answer": "Cosine changes sign first because the point crosses the y-axis first.",
+"explanation": "Crossing the y-axis changes the x-coordinate from positive to negative, so cosine changes sign while sine stays positive."
+}
+},
+"equations": [
+{
+"id": "unit-circle-point",
+"meaning": "Because the radius is 1, the coordinates of the point selected by angle theta are exactly cosine theta and sine theta."
+},
+{
+"id": "angle-in-time",
+"meaning": "With constant angular speed, the angle changes linearly in time."
+},
+{
+"id": "quadrant-signs",
+"meaning": "The sign of $\\cos\\theta$ matches the sign of x, and the sign of $\\sin\\theta$ matches the sign of y."
+}
+],
+"variableLinks": [
+{
+"id": "angular-speed",
+"description": "Controls how quickly the point turns, so the angle graph gets steeper and the sine-cosine traces cycle faster."
+},
+{
+"id": "phase",
+"description": "Sets the starting angle, which changes the starting point on the circle and the initial cosine and sine values."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "angular-speed",
+"description": "Set how quickly the point rotates around the circle. Faster rotation makes the angle graph steeper and the sine-cosine traces cycle faster."
+},
+{
+"id": "phase",
+"description": "Set the starting angle before time begins, which changes the starting point and the starting cosine and sine values."
+}
+],
+"overlays": [
+{
+"id": "projectionGuides",
+"shortDescription": "Drop perpendicular guides from the point to the x- and y-axes.",
+"whatToNotice": [
+"The x-guide reads $\\cos\\theta$ and the y-guide reads $\\sin\\theta$."
+],
+"whyItMatters": "It makes the point, the coordinates, and the traces mean the same thing."
+},
+{
+"id": "angleMarker",
+"shortDescription": "Show the current angle measured from the positive x-axis.",
+"whatToNotice": [
+"The same angle sets the point on the circle and the markers on the graphs."
+],
+"whyItMatters": "It keeps the geometry and the time graphs tied to one live angle."
+},
+{
+"id": "quadrantSigns",
+"shortDescription": "Keep the sign pattern for each quadrant visible.",
+"whatToNotice": [
+"Left side means negative cosine, and below the x-axis means negative sine."
+],
+"whyItMatters": "It turns sign changes into a geometry check instead of a memory trick."
+},
+{
+"id": "rotationTrail",
+"shortDescription": "Show the arc swept from the positive x-axis to the current point.",
+"whatToNotice": [
+"As the arc grows, the angle-history graph is tracking that same angle."
+],
+"whyItMatters": "It makes time progression visible on the circle itself."
+}
+]
+},
+"noticePrompts": {
+"intro": "Keep the circle, guides, and traces visible together so one moving point explains both graphs.",
+"items": [
+{
+"id": "ucr-notice-projection-link",
+"text": "As the point moves left or right, the cosine trace changes with its x-coordinate because they are the same value."
+},
+{
+"id": "ucr-notice-quadrant-signs",
+"text": "Crossing the y-axis changes the sign of cosine first, and crossing the x-axis changes the sign of sine."
+}
+]
+},
+"predictionMode": {
+"title": "Predict the signs",
+"intro": "Predict the sign pattern before you change the starting angle, then check it on the circle and the traces.",
+"items": [
+{
+"id": "ucr-predict-quadrant-two",
+"prompt": "If the point starts in Quadrant II, what signs should $\\cos\\theta$ and $\\sin\\theta$ have?",
+"scenarioLabel": "Start in Quadrant II",
+"explanation": "Quadrant II lies left of the y-axis but above the x-axis, so x is negative while y is positive.",
+"observationHint": "Watch the point begin on the upper-left arc: the x-projection is negative while the y-projection stays positive."
+}
+]
+},
+"challengeMode": {
+"intro": "Use the live circle, the sign map, and the traces together. The goal is to catch a sign change from the geometry instead of from a memorized quadrant chart.",
+"items": [
+{
+"id": "ucr-ch-quadrant-two-sign-read",
+"title": "Catch the first sign flip",
+"prompt": "Start from the axis-crossing view, then move just into Quadrant II so cosine is negative while sine is still clearly positive. Keep the guides and sign map on so you can see exactly why the signs differ.",
+"successMessage": "You caught the first sign flip directly from the circle. The point location, sign map, and traces all agree on negative cosine and positive sine.",
+"setup": {
+"note": "Stay close to the top crossing so the x-coordinate has only just become negative."
+}
+}
+]
+},
+"quickTest": {
+"intro": "Answer from the live circle, the projections, and the traces, not from a memorized list.",
+"questions": [
+{
+"id": "ucr-qt-horizontal-projection",
+"explanation": "On the unit circle, the x-coordinate is cosine and the y-coordinate is sine, so the projections match those two values.",
+"showMeAction": {
+"label": "Show cosine and sine as projections",
+"observationHint": "The x-guide lands at cosine and the y-guide lands at sine for the same point."
+}
+},
+{
+"id": "ucr-qt-quadrant-three-signs",
+"prompt": "Which sign pattern belongs to a point in Quadrant III?",
+"explanation": "Quadrant III lies left of the y-axis and below the x-axis, so both the x-coordinate and y-coordinate are negative."
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows a unit circle with one rotating point, projection guides to the x- and y-axes, an angle marker, a swept arc, and a sign map for the four quadrants."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"One graph shows cosine and sine changing over time, and the other shows the angle changing over time. Both graphs are linked to the same moving point on the circle."
+]
+}
+}
+}

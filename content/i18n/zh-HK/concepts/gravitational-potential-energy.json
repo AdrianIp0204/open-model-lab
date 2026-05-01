@@ -1,0 +1,383 @@
+{
+  "title": "重力勢與重力勢能",
+  "shortTitle": "重力勢能",
+  "summary": "觀察單一來源質量如何形成負值的勢阱，比較重力勢與勢能如何隨距離改變，並把勢圖的斜率連到重力場方向。",
+  "highlights": [
+    "負勢阱",
+    "U = mφ",
+    "場與斜率"
+  ],
+  "topic": "重力與軌道",
+  "subtopic": "重力勢與場",
+  "recommendedNext": [
+    {
+      "slug": "circular-orbits-orbital-speed",
+      "reasonLabel": "延伸到軌道速度"
+    },
+    {
+      "slug": "escape-velocity",
+      "reasonLabel": "延伸到逃逸門檻"
+    },
+    {
+      "slug": "electric-potential",
+      "reasonLabel": "對照電勢"
+    },
+    {
+      "slug": "projectile-motion",
+      "reasonLabel": "把能量觀點帶回拋體運動"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "重力勢 φ 描述的是單位質量在某一位置相對於無窮遠零點的勢能。對單一來源質量來説，φ = -GM/r，因此越靠近來源，勢阱越深，而且數值保持為負。",
+        "這個頁面把來源質量、探針位置、探針質量、勢圖、等勢圓與場連結圖放在同一個即時模型內。你看到的重力勢、重力勢能和場箭頭，全部都來自同一個來源與幾何設定。"
+      ]
+    },
+    "keyIdeas": [
+      "對單一來源質量而言，重力勢 φ 隨距離按 -1/r 變化，因此距離加倍時，其大小約減半。",
+      "重力勢能 U 由 U = m_test φ 給出，所以在同一位置上改變探針質量只會改變勢能大小，不會改變重力勢本身。",
+      "重力場沿著勢景觀下降最快的方向，水平掃描線上可用 g_x = -dphi/dx 來連線勢圖斜率與場分量。"
+    ],
+    "commonMisconception": {
+      "myth": "如果某點的重力勢是負值，代表那裡的重力一定指向外面。",
+      "correction": [
+        "勢的正負由參考零點決定；在這裡把無窮遠定為零，所以靠近來源時勢會變成負值。",
+        "場的方向則由勢的下降方向決定。對單一吸引來源而言，重力場仍然指向內側，而不是向外。"
+      ]
+    },
+    "workedExamples": {
+      "title": "即時例題",
+      "intro": "直接用畫面上的來源質量、探針位置和探針質量作答。下方代入和影像讀數來自同一個實時狀態。",
+      "items": [
+        {
+          "id": "current-gravitational-potential",
+          "title": "探針處目前的重力勢",
+          "prompt": "對目前的來源質量和探針位置而言，相對於無窮遠零點，探針處的重力勢是多少？",
+          "variables": [
+            {
+              "id": "sourceMass",
+              "label": "來源質量"
+            },
+            {
+              "id": "probeX",
+              "label": "探測器 x 軸位置"
+            },
+            {
+              "id": "probeY",
+              "label": "探測器 y 軸位置"
+            }
+          ],
+          "steps": [
+            {
+              "id": "measure-distance",
+              "label": "1. 量出來源到探針的距離"
+            },
+            {
+              "id": "apply-potential-relation",
+              "label": "2. 套用單一來源的重力勢關係"
+            },
+            {
+              "id": "compute-potential",
+              "label": "3. 算出目前重力勢"
+            }
+          ],
+          "resultLabel": "重力勢",
+          "applyAction": {
+            "label": "顯示距離加倍的軸上案例",
+            "observationHint": "比較 1 m 和 2 m 的同一來源；勢的大小會大約減半，而場的大小會下降得更快。"
+          }
+        },
+        {
+          "id": "current-gravitational-potential-energy",
+          "title": "探針質量目前的勢能",
+          "prompt": "對目前的正探針質量來説，根據畫面上的重力勢，探針勢能是多少？",
+          "variables": [
+            {
+              "id": "testMass",
+              "label": "探測器質量"
+            }
+          ],
+          "steps": [
+            {
+              "id": "energy-relation",
+              "label": "1. 寫出勢能關係"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 代入目前的探針質量與重力勢"
+            },
+            {
+              "id": "compute-energy",
+              "label": "3. 算出勢能"
+            }
+          ],
+          "resultLabel": "勢能",
+          "applyAction": {
+            "label": "把探針質量加倍",
+            "observationHint": "當只改變探針質量時，勢圖和場箭頭不會改變，但 U 和探針所受的力會立即按比例增大。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "先把探針放在 1 m 軸上位置，再移到 2 m 軸上位置，同時保持來源質量和探針質量不變。拖動之前，請預測 φ、U 和 |g| 會怎樣變化。",
+      "prediction": "先説比例：哪些量的大小應該減半？哪個量應該降到原來的四分之一？",
+      "answer": "距離加倍後，重力勢與重力勢能的大小都大約減半，且仍維持負值；而場的大小則會降到約四分之一。",
+      "explanation": "對單一來源來説，$\\phi \\propto -1/r$ 且 $U = m_{\\text{test}}\\phi$，所以 r 加倍時兩者大小減半；但 $|\\vec{g}| \\propto 1/r^2$，因此場會更快地降到四分之一。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "請根據即時的勢井、勢圖與場箭頭來推理，而不是單看符號。",
+    "questions": [
+      {
+        "id": "gp-qt-distance-potential",
+        "prompt": "探針沿同一條軸線，由距離來源 1 m 移到 2 m，來源質量保持不變。重力勢必然怎樣改變？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它仍然是負值，但會更接近零，大小約變成原來的一半。"
+          },
+          {
+            "id": "b",
+            "label": "它會變成正值，因為探針離來源更遠。"
+          },
+          {
+            "id": "c",
+            "label": "它完全不變，因為來源質量沒有改變。"
+          }
+        ],
+        "explanation": "對單一來源質量而言，φ = -GM/r。當 r 加倍時，φ 的大小減半，但符號仍保持負值。",
+        "selectedWrongExplanations": {
+          "b": "距離只會改變大小，不會把這個零點約定下的負勢變成正值。",
+          "c": "來源質量固定並不代表勢固定，距離同樣是關鍵變數。"
+        },
+        "showMeAction": {
+          "label": "顯示 1 m 與 2 m 軸上案例",
+          "observationHint": "比較兩個位置的讀數：勢變得沒那麼負，而場箭頭也明顯變弱。"
+        }
+      },
+      {
+        "id": "gp-qt-negative-potential-meaning",
+        "prompt": "有學生説：「因為來源附近的重力勢是負的，所以重力場一定指向外面。」最好的修正是甚麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "負的 φ 代表它低於無窮遠零點，而重力場仍沿勢井下降方向指向內側。"
+          },
+          {
+            "id": "b",
+            "label": "負的 φ 代表來源質量其實在排斥探針。"
+          },
+          {
+            "id": "c",
+            "label": "負的 φ 代表該處的場與力都等於零。"
+          }
+        ],
+        "explanation": "勢的正負來自參考零點的選擇，並不是因為力的方向翻轉。重力場仍沿著勢景觀的下降方向指向內側。",
+        "selectedWrongExplanations": {
+          "b": "對這個單一來源模型來説，力依然是吸引性的，並沒有變成排斥。",
+          "c": "負勢不代表場為零；真正決定場的是勢的空間變化。"
+        },
+        "showMeAction": {
+          "label": "顯示來源附近探針",
+          "observationHint": "讀數雖然為負，但場箭頭仍然明確地朝向來源質量。"
+        }
+      },
+      {
+        "id": "gp-qt-probe-mass",
+        "prompt": "在同一個位置上，若探針質量加倍，而來源質量與探針位置保持不變，哪句正確？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "重力勢和重力場保持不變，但勢能大小會加倍。"
+          },
+          {
+            "id": "b",
+            "label": "勢井會變深一倍，因為系統總質量變大。"
+          },
+          {
+            "id": "c",
+            "label": "場方向會反轉，因為探針變重。"
+          }
+        ],
+        "explanation": "來源質量與幾何決定 φ 和 g。只改變探針質量時，只是把 U = m_test φ 與探針受力按比例放大。",
+        "selectedWrongExplanations": {
+          "b": "探針質量不會改寫來源所產生的勢景觀。",
+          "c": "質量變大隻會改變大小，不會把重力方向反轉。"
+        },
+        "showMeAction": {
+          "label": "把探針質量加倍",
+          "observationHint": "U 讀數與力箭頭會加大，但勢圖與場連結圖保持不變。"
+        }
+      },
+      {
+        "id": "gp-qt-slope-link",
+        "prompt": "沿著當前的水平掃描線，若勢圖隨 x 增加而上升，該區域的 g_x 必須如何？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "g_x 必須為負，因為 g_x = -dphi/dx，而斜率為正。"
+          },
+          {
+            "id": "b",
+            "label": "g_x 必須為零，因為勢圖變化得很平滑。"
+          },
+          {
+            "id": "c",
+            "label": "g_x 必須為正，因為圖線往上升。"
+          }
+        ],
+        "explanation": "若影像隨 x 增加而上升，斜率便為正，因此在 g_x = -dphi/dx 中的負號會令水平方向的場分量 g_x 在該處為負。",
+        "selectedWrongExplanations": {
+          "b": "平滑變化不代表零斜率；只要斜率不為零，g_x 就不會是零。",
+          "c": "這裡關鍵是負號：勢圖往上升，代表對應的 g_x 往負方向。"
+        },
+        "showMeAction": {
+          "label": "顯示斜率與場方向連結",
+          "observationHint": "把勢圖斜率的符號與場連結圖上的 g_x 一起比較。"
+        }
+      },
+      {
+        "id": "gp-qt-source-mass",
+        "prompt": "在同一個探測點上，設定 A 使用 2 kg 的源質量，設定 B 使用 4 kg 的源質量，而兩者的探測質量都為 1 kg。哪個說法最恰當？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "設定 B 的 φ 大小和重力場大小都會是兩倍，但它們的符號與方向意義保持不變。"
+          },
+          {
+            "id": "b",
+            "label": "只有場大小會改變，因為重力勢不取決於來源質量。"
+          },
+          {
+            "id": "c",
+            "label": "較重的來源會令 φ 變成正值，因為勢井更深。"
+          }
+        ],
+        "explanation": "在固定位置上，對單一來源而言，φ 與 |g| 都跟 M 成正比。來源質量加倍時，負勢井變得更深，而場也按同一比例增強。",
+        "selectedWrongExplanations": {
+          "b": "來源質量同時決定勢井深度和場強，兩者都會改變。",
+          "c": "更深的勢井只代表數值更負，不會把重力勢變成正值。"
+        },
+        "showMeAction": {
+          "label": "顯示來源質量加倍",
+          "observationHint": "在同一位置上，勢圖會更深，場箭頭也更強。"
+        }
+      }
+    ]
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "即時重力勢檢查"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "勢井比例檢查點"
+      },
+      {
+        "id": "readNext",
+        "title": "把能量觀點延伸出去"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "distance-relation",
+      "label": "源點到探測器距離"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "sourceMass",
+      "label": "來源質量"
+    },
+    {
+      "id": "probeX",
+      "label": "探測器 x 軸位置"
+    },
+    {
+      "id": "probeY",
+      "label": "探測器 y 軸位置"
+    },
+    {
+      "id": "testMass",
+      "label": "探測器質量"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "sourceMass",
+        "label": "來源質量"
+      },
+      {
+        "id": "probeX",
+        "label": "探測器 x 軸位置"
+      },
+      {
+        "id": "probeY",
+        "label": "探測器 y 軸位置"
+      },
+      {
+        "id": "testMass",
+        "label": "探測器質量"
+      }
+    ],
+    "presets": [
+      {
+        "id": "baseline-diagonal",
+        "label": "基準斜向位置",
+        "description": "探針位於斜向位置，讓勢阱深度、向內重力場和受力都可在同一個清晰的基準狀態下比較。"
+      }
+    ]
+  },
+  "noticePrompts": {
+    "items": [
+      {
+        "id": "gp-notice-compare-ratios"
+      },
+      {
+        "id": "gp-notice-compare-ratios"
+      },
+      {
+        "id": "gp-notice-compare-ratios"
+      },
+      {
+        "id": "gp-notice-compare-ratios"
+      },
+      {
+        "id": "gp-notice-compare-ratios",
+        "text": "比較模式在一個設定把距離加倍、另一個設定把探測質量加倍時最有啟發性。前者會改變 φ 和 g；後者只會改變 U 和 F。",
+        "tryThis": "把設定 A 保持在 x 軸 1 m，讓設定 B 改成 x 軸 2 m 或較重探測器，再比較舞台讀數和兩張圖。"
+      }
+    ]
+  },
+  "predictionMode": {
+    "items": [
+      {
+        "id": "gp-pred-heavy-source",
+        "changeLabel": "來源質量"
+      },
+      {
+        "id": "gp-pred-heavy-probe",
+        "scenarioLabel": "將探測質量加倍",
+        "changeLabel": "探測器質量"
+      }
+    ]
+  },
+  "challengeMode": {
+    "items": [
+      {
+        "id": "gp-ch-double-energy-not-potential"
+      },
+      {
+        "id": "gp-ch-double-energy-not-potential",
+        "prompt": "由基準斜向位置開始，只改變探測質量，使重力勢能的大小加倍，同時令位勢和重力場保持不變。"
+      }
+    ]
+  }
+}

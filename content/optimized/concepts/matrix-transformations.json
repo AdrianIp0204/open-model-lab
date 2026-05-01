@@ -1,0 +1,276 @@
+{
+"pageFramework": {
+"featuredSetups": [
+{
+"id": "matrix-shear-right-view",
+"description": "Open a simple shear with the basis vectors and unit square visible.",
+"setup": {
+"note": "Use this to watch how changing where $e_2$ lands makes the whole plane lean right."
+}
+},
+{
+"id": "matrix-reflect-y-view",
+"description": "Open a reflection and compare the original and transformed triangle.",
+"setup": {
+"note": "Use this to see that reflecting one basis direction flips the whole plane, not just one shape."
+}
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"A 2 by 2 matrix is easiest to read as a rule that transforms the whole plane, not as a detached box of numbers. This bench keeps the grid, basis vectors, unit square, and sample triangle on one coordinate system so stretch, shear, reflection, and mixed actions stay visible together.",
+"Read the columns first. The first column is $M e_1$ and the second column is $M e_2$. Once you know where those two basis vectors land, every other point follows by the same linear-combination rule, which is why the entire grid moves consistently."
+]
+},
+"keyIdeas": [
+"The two matrix columns tell you where $e_1$ and $e_2$ land, so they already predict the new grid and the image of the unit square.",
+"Every vector is built from x copies of $e_1$ and y copies of $e_2$, so after transformation it becomes the same combination of $M e_1$ and $M e_2$.",
+"Stretch, shear, and reflection are different plane-wide outcomes of the same linear rule."
+],
+"commonMisconception": {
+"myth": "Each entry moves the sample shape separately, so the grid and basis vectors are just extra decoration.",
+"correction": [
+"The entries matter because they set the two basis-image columns.",
+"Once $M e_1$ and $M e_2$ are fixed, the unit square, the grid, and every other point follow automatically from the same linear-combination rule."
+]
+},
+"workedExamples": {
+"title": "Read the matrix from its columns",
+"intro": "Use one shear case and one reflection case. In each example, read the columns first, then check the same story on the plane.",
+"items": [
+{
+"id": "read-the-current-basis-images",
+"title": "Read the basis images in a shear",
+"prompt": "For the shear matrix $M = \\begin{bmatrix} 1 & 1 \\ 0 & 1 \\end{bmatrix}$, where do $e_1$ and $e_2$ land, and what does that predict for the unit square?",
+"steps": [
+{
+"id": "matrix-columns",
+"label": "1. Read the two columns"
+},
+{
+"id": "basis-1-image",
+"label": "2. Match the first column to $M e_1$"
+},
+{
+"id": "basis-2-image",
+"label": "3. Match the second column to $M e_2$"
+}
+],
+"resultLabel": "Basis images",
+"applyAction": {
+"label": "Show the shear",
+"observationHint": "Watch $M e_2$ lean right while $M e_1$ stays on the x-axis. The unit square follows those two columns into a parallelogram."
+}
+},
+{
+"id": "send-the-tracked-point-through-the-matrix",
+"title": "Track one point through a reflection",
+"prompt": "Where does $p = \\langle 1.6, 1.1 \\rangle$ land under the reflection matrix $M = \\begin{bmatrix} -1 & 0 \\ 0 & 1 \\end{bmatrix}$, and what does that mean geometrically?",
+"steps": [
+{
+"id": "write-the-rule",
+"label": "1. Write the rule for any point"
+},
+{
+"id": "plug-in-point",
+"label": "2. Compute the new x-coordinate"
+},
+{
+"id": "finish-point",
+"label": "3. Compute the new y-coordinate"
+}
+],
+"resultLabel": "Image of the tracked point",
+"applyAction": {
+"label": "Show the reflection",
+"observationHint": "The x-coordinate changes sign while the y-coordinate stays the same, so the point mirrors across the y-axis."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Build a matrix that shears the plane to the right without turning it into a reflection, and keep $M e_1$ close to the original x-axis direction.",
+"prediction": "Before changing any entries, decide which column controls the right-leaning effect.",
+"answer": "Keep $M e_1$ near $\\langle 1, 0 \rangle$ and move $M e_2$ to the right, for example by making the second-column x-entry positive.",
+"explanation": "A right shear comes from changing where $e_2$ lands while leaving $e_1$ almost unchanged. That tilts the unit square into a right-leaning parallelogram without flipping the plane."
+}
+},
+"equations": [
+{
+"id": "matrix-form",
+"meaning": "Records one linear rule that acts on every point in the plane."
+},
+{
+"id": "basis-columns",
+"meaning": "The columns are the images of the two basis vectors, so they organize the transformed grid."
+},
+{
+"id": "matrix-action",
+"meaning": "Any vector is rebuilt from the same basis-image columns."
+}
+],
+"variableLinks": [
+{
+"id": "m11",
+"description": "Sets the horizontal part of $M e_1$."
+},
+{
+"id": "m21",
+"description": "Sets the vertical part of $M e_1$."
+},
+{
+"id": "m12",
+"description": "Sets the horizontal part of $M e_2$. Changing this is the quickest way to create a visible horizontal shear."
+},
+{
+"id": "m22",
+"description": "Sets the vertical part of $M e_2$."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "m11",
+"description": "Move the image of $e_1$ left or right."
+},
+{
+"id": "m21",
+"description": "Move the image of $e_1$ up or down."
+},
+{
+"id": "m12",
+"description": "Move the image of $e_2$ left or right."
+},
+{
+"id": "m22",
+"description": "Move the image of $e_2$ up or down."
+}
+],
+"overlays": [
+{
+"id": "referenceGrid",
+"shortDescription": "Keep the original grid and shapes visible behind the transformed ones.",
+"whatToNotice": [
+"You can compare the before and after on the same axes."
+],
+"whyItMatters": "A fixed reference makes stretch, shear, and reflection easier to read."
+},
+{
+"id": "basisVectors",
+"shortDescription": "Show $e_1$, $e_2$, and their images under the matrix.",
+"whatToNotice": [
+"The columns are the new basis directions for the transformed plane."
+],
+"whyItMatters": "Reading the basis images is the fastest route from matrix entries to geometry."
+},
+{
+"id": "unitSquare",
+"shortDescription": "Track how the unit square becomes a parallelogram or flips orientation.",
+"whatToNotice": [
+"The top-right corner lands at the sum of the two column vectors."
+],
+"whyItMatters": "The square gives one compact picture of the whole matrix action."
+},
+{
+"id": "sampleShape",
+"shortDescription": "Show a non-square shape under the same transformation.",
+"whatToNotice": [
+"The triangle changes by the same rule as the grid and the unit square."
+],
+"whyItMatters": "It reinforces that the matrix acts on every point, not just on basis vectors."
+}
+]
+},
+"graphs": [
+{
+"id": "probe-image-blend",
+"description": "Blend from the identity matrix to the current matrix and track how one point's x- and y-coordinates change."
+},
+{
+"id": "basis-length-blend",
+"description": "Blend from the identity matrix to the current matrix and compare how the lengths of the two basis images change."
+}
+],
+"noticePrompts": {
+"intro": "Keep the entries, the columns, and the plane picture connected. A good reading starts with the basis images and then checks the grid and shapes.",
+"items": [
+{
+"id": "mt-notice-columns",
+"text": "Change one column and watch the matching basis vector, the unit square, the grid, and the sample triangle all update together."
+},
+{
+"id": "mt-notice-shear",
+"text": "Increase the second-column x entry and watch $M e_2$ lean right while the grid lines stay straight. That is the signature of a shear."
+},
+{
+"id": "mt-notice-blend",
+"text": "Hover the blend graphs and compare the intermediate plane pictures. The transformation grows continuously from the identity matrix to the full matrix."
+}
+]
+},
+"predictionMode": {
+"title": "Predict the plane action",
+"intro": "Predict what the plane should do before you apply the new matrix.",
+"items": [
+{
+"id": "mt-predict-shear-right",
+"prompt": "If the second-column x entry $b$ becomes positive while the other entries stay at the identity values, what visible change should happen first?",
+"explanation": "A positive second-column x entry changes where $e_2$ lands, so the grid and the unit square shear to the right.",
+"observationHint": "Watch $M e_2$ first, then the square and the triangle."
+},
+{
+"id": "mt-predict-reflect-y",
+"prompt": "If the first-column x entry becomes negative while the other entries stay near the identity, what should you expect?",
+"explanation": "Flipping the first basis direction across the y-axis reflects the plane in the x-direction.",
+"observationHint": "Compare the first basis vector and the mirrored triangle."
+}
+]
+},
+"challengeMode": {
+"intro": "Use the basis columns, the unit square, and the sample triangle together. The goal is to read one matrix as one plane-wide action, not as four separate numbers.",
+"items": [
+{
+"id": "mt-ch-build-right-shear",
+"title": "Build a right shear",
+"prompt": "Start from the identity matrix and create a right shear that keeps $M e_1$ close to the x-axis while the unit square becomes a right-leaning parallelogram.",
+"successMessage": "You built the shear by moving the second column, so the basis vectors, the square, and the triangle all lean together.",
+"setup": {
+"note": "Change the second column first. A right shear comes from moving where $e_2$ lands while leaving $e_1$ nearly unchanged."
+}
+}
+]
+},
+"quickTest": {
+"intro": "Answer from the plane picture and the column rule together.",
+"questions": [
+{
+"id": "mt-qt-columns",
+"explanation": "The columns tell you where the two basis vectors land. From there, the grid, unit square, and every other vector follow."
+},
+{
+"id": "mt-qt-shear",
+"explanation": "Increasing the second-column x entry moves $M e_2$ to the right while keeping $M e_1$ near its original direction, which creates a right shear."
+},
+{
+"id": "mt-qt-reflection",
+"explanation": "A reflection changes the whole linear action, so every point on the plane flips consistently, not just the sample triangle."
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows a coordinate plane with a transformed grid, two draggable basis-image vectors, a transformed unit square, a transformed sample triangle, and a tracked point. Sliders control the four matrix entries that determine where the two basis vectors land.",
+"Changing an entry updates the basis images, the grid, the unit square, and the sample triangle together so the learner can connect the matrix columns to one plane-wide action."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"One graph tracks the x- and y-coordinates of a fixed point while the current matrix is blended in from the identity matrix. The second graph tracks the lengths of the transformed basis vectors over the same blend.",
+"Those graphs are tied to the same plane picture, so hovering them previews an intermediate transformation directly on the grid and shapes."
+]
+}
+}
+}

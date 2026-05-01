@@ -1,0 +1,333 @@
+{
+  "title": "光學解析度 / 成像限制",
+  "shortTitle": "光學解析度",
+  "summary": "透過一個有限的孔徑觀看兩個鄰近點源的成像，瞭解衍射、波長和孔徑直徑如何限制光學系統將其分離得有多清晰。",
+  "highlights": [
+    "瑞利限值",
+    "孔徑與波長",
+    "兩個點源的檢測圖形"
+  ],
+  "topic": "光學",
+  "subtopic": "成像限制和解析度",
+  "recommendedNext": [
+    {
+      "slug": "double-slit-interference",
+      "reasonLabel": "另一種孔徑模式"
+    },
+    {
+      "slug": "lens-imaging",
+      "reasonLabel": "比較成像系統"
+    },
+    {
+      "slug": "diffraction",
+      "reasonLabel": "單一孔徑限值"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "一個光學系統不會將每個物體點完美地投射到檢測器上的某個點。有限的孔徑會衍射光，所以每個點都會變成一個具有有限寬度的模糊圖案。",
+        "為了保持故事的簡化：兩個等同的點源、一個有限的透鏡孔徑和一個檢測器條帶。相同的波長、孔徑直徑、點間距和檢測器樣本驅動著舞台、圖形曲線、疊加、示例計算、預測提示、挑戰檢查和快速測驗，使成像限制保持在一個誠實的衍射限值圖上，而不是一個巨大的Fourier-optics平台。"
+      ]
+    },
+    "keyIdeas": [
+      "解析度受到有限孔徑衍射光的限制。即使焦距正確聚焦，一個點也應該始終完美地分開。",
+      "更大的孔徑可以透過縮小衍射模糊來改善解析度，而更長的波長則會使它變得更寬。",
+      "瑞利限值 θ_R 大約等於 1.22 lambda / D，對於圓形孔徑而言，因此當兩個點源的角分離降至該尺度以下時，它們變得更難分辨。"
+    ],
+    "commonMisconception": {
+      "myth": "如果透鏡焦距正確，兩個鄰近的點應該始終完美地分開。",
+      "correction": [
+        "正確聚焦可以去除焦散模糊，但不能消除有限孔徑引起的衍射。",
+        "這就是為什麼即使在其他理想的成像設定中，當孔徑較小或波長較長時，鄰近的點仍然會合併。"
+      ]
+    },
+    "workedExamples": {
+      "title": "實時解析度檢查",
+      "intro": "直接使用當前的孔徑限制成像狀態。這些替換保持與活檢測器圖形曲線的聯絡，而不是切換到一個分離的工作表。",
+      "items": [
+        {
+          "id": "rayleigh-limit-from-live-aperture",
+          "title": "從當前孔徑計算瑞利限值",
+          "prompt": "對於當前波長 lambda = {{wavelengthNmValue}} 和孔徑 D = {{apertureMmValue}}，兩個等同點源的瑞利限值是多少？",
+          "variables": [
+            {
+              "id": "wavelength",
+              "label": "波長"
+            },
+            {
+              "id": "aperture",
+              "label": "光圈直徑"
+            },
+            {
+              "id": "rayleigh-limit",
+              "label": "瑞利極限"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 開始使用瑞利估計"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 代入當前波長和孔徑"
+            },
+            {
+              "id": "image-plane",
+              "label": "3. 將該模糊尺度對映到檢測器上"
+            }
+          ],
+          "resultLabel": "當前瑞利限值",
+          "applyAction": {
+            "label": "應用閾值對",
+            "observationHint": "點間距設定接近瑞利極限，因此組合檢測器輪廓剛剛開始分裂。"
+          }
+        },
+        {
+          "id": "current-separation-versus-threshold",
+          "title": "當前分離度與閾值的關係",
+          "prompt": "對於當前的角間距 Δθ = {{separationMradValue}}，設定是否接近瑞利極限，檢測器輪廓應該是什麼樣子？",
+          "variables": [
+            {
+              "id": "point-separation",
+              "label": "點間距"
+            },
+            {
+              "id": "image-separation",
+              "label": "像平面間距"
+            }
+          ],
+          "steps": [
+            {
+              "id": "ratio",
+              "label": "1. 將點間距與瑞利尺度進行比較"
+            },
+            {
+              "id": "detector-spacing",
+              "label": "2. 在檢測器上讀取相同的比較結果"
+            },
+            {
+              "id": "dip",
+              "label": "3. 檢查輪廓是否保持可見分裂"
+            }
+          ],
+          "resultLabel": "當前解析度比值",
+          "applyAction": {
+            "label": "應用模糊的點對",
+            "observationHint": "兩個模糊圖案現在重疊得非常緊密，檢測器輪廓表現得像一個寬峯。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "你不能移動物體點，但希望檢測器輪廓顯示出更清晰的分裂。最佳光學調整是什麼？",
+      "prediction": "選擇你應該改變光圈、波長還是檢測器樣本位置。",
+      "answer": "增大光圈或使用較短波長以使衍射模糊減小。",
+      "explanation": "移動檢測器樣本只會讀取現有影像的不同部分。實際的解析度極限變化取決於光圈直徑或波長的變化，這會改變衍射寬度本身。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "答案應來自實時衍射限制成像的故事，而不是孤立的口號。",
+    "questions": [
+      {
+        "id": "or-qt-aperture",
+        "prompt": "在相同波長和物體間距的情況下，哪種變化最直接地提高了分辨能力？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "增大光圈直徑以使衍射模糊減小。"
+          },
+          {
+            "id": "b",
+            "label": "將檢測器樣本移離中心凹陷。"
+          },
+          {
+            "id": "c",
+            "label": "減少點間距使其圖表看起來更緊湊。"
+          }
+        ],
+        "explanation": "當有限口徑的模糊變窄時，分辨能力提高。移動檢測器樣本只會讀取同一輪廓的不同部分，並且減小點間距會使任務更加困難。",
+        "selectedWrongExplanations": {
+          "b": "檢測器樣本只是一個讀數工具。它不會改變由光學系統形成的影像。",
+          "c": "較小的點間距使兩個點更難區分，因為相同的模糊寬度必須保持一個更小的間隙。"
+        },
+        "showMeAction": {
+          "label": "顯示寬光圈分裂",
+          "observationHint": "當光圈增大時，模糊寬度變窄且中心凹陷更加明顯。"
+        }
+      },
+      {
+        "id": "or-qt-wavelength",
+        "prompt": "在保持相同光圈和相同點間距的情況下，情況 A 和情況 B 的差別是甚麼？情況 B 的波長較長。",
+        "choices": [
+          {
+            "id": "a",
+            "label": "情況 B 會較難分辨，因為繞射模糊會更寬。"
+          },
+          {
+            "id": "b",
+            "label": "情況 B 會較容易分辨，因為較長波長彎曲得較少。"
+          },
+          {
+            "id": "c",
+            "label": "兩個案例應該同樣容易分辨因為光圈未改變。"
+          }
+        ],
+        "explanation": "瑞利極限與波長成正比，所以在相同光圈下，較長波長會令繞射模糊範圍變得更寬。",
+        "selectedWrongExplanations": {
+          "b": "這種直覺與這裡的衍射結果相反。較長的波長會使影像模糊範圍加寬。",
+          "c": "光圈固定不變，但波長仍改變模糊範圍和因此而影響分辨力。"
+        },
+        "showMeAction": {
+          "label": "顯示長波長模糊",
+          "observationHint": "當波長增加時，圖形會加寬且中間的凹陷填滿。"
+        }
+      },
+      {
+        "id": "or-qt-focus-misconception",
+        "prompt": "學生説：「如果透鏡焦距正確，它應該將每個點對映到一個完美的點，因此衍射不重要。」最好的補救措施是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "聚焦可以消除散焦模糊，但有限的光圈仍然會在非零寬度下產生衍射模糊。"
+          },
+          {
+            "id": "b",
+            "label": "只有當檢測器樣本位於中心時，衍射才重要。"
+          },
+          {
+            "id": "c",
+            "label": "只有當物體點足夠明亮時，衍射才重要。"
+          }
+        ],
+        "explanation": "理想的焦距設定仍然會留下有限光圈的衍射限制。這就是本頁面所教的成像限制。",
+        "selectedWrongExplanations": {
+          "b": "檢測器位置只能讀取由光學系統形成的圖形。",
+          "c": "亮度改變訊號水平，但衍射寬度來自波長和光圈。"
+        },
+        "showMeAction": {
+          "label": "顯示模糊配對",
+          "observationHint": "即使透鏡焦距正確，在此有界模型中，兩個點仍然會融合在一起，因為衍射模糊範圍太寬。"
+        }
+      },
+      {
+        "id": "or-qt-sample-vs-system",
+        "prompt": "為什麼移動檢測器樣本不會改變實際的解析度限制？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "因為樣本只能讀取檢測器圖形上的某一個位置；光學限制已經由波長和光圈設定。"
+          },
+          {
+            "id": "b",
+            "label": "因為無論你如何移動它，樣本總是停留在最亮的位置。"
+          },
+          {
+            "id": "c",
+            "label": "因為掃描檢測器會消除衍射。"
+          }
+        ],
+        "explanation": "檢測器樣本只是測量點。改變它不會改變光學形成的有限光圈影像。",
+        "selectedWrongExplanations": {
+          "b": "樣本可以移動到凹陷或圖形的一側。它並不是被鎖定在最亮的位置。",
+          "c": "掃描不會消除衍射。它只幫助你誠實地讀取空間圖形。"
+        },
+        "showMeAction": {
+          "label": "顯示偏心樣本",
+          "observationHint": "讀數會改變，因為你在不同的地方取樣，但整個檢測器圖形保持不變。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示左側兩個遠距離點源，中間一個有限透鏡光圈，右側一個檢測器條。每個源透過相同的光圈傳送光線，檢測器條根據結合的衍射限制圖形亮度增加。",
+        "可選疊加顯示透鏡上的光圈直徑、當前點展中心在檢測器上以及這些中心周圍的瑞利模糊尺度。移動的檢測器樣本標記條上的某一個位置並報告那裡的當前歸一化曝光。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "圖表顯示歸一化曝光對檢測器高度，有一個結合的圖形和兩個虛線組成的部分圖形，分別表示單個點展貢獻。",
+        "懸停在圖表上預覽匹配的檢測器位置在舞台上的位置，因此空間圖形始終與同一影像平面連線而不是轉變為脱離時間圖。"
+      ]
+    }
+  },
+  "equations": [
+    {
+      "id": "rayleigh-limit",
+      "label": "瑞利極限",
+      "meaning": "當兩個等亮點源的角分隔降至這個衍射限制尺度以下時，它們變得難以分辨。"
+    },
+    {
+      "id": "image-separation",
+      "label": "像平面間距",
+      "meaning": "在固定焦距下，角分隔對映到檢測器間距。"
+    },
+    {
+      "id": "airy-radius",
+      "label": "像平面模糊半徑",
+      "meaning": "同一衍射限制可以讀取為檢測器上一個點展散核心的特徵尺寸。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "wavelength",
+      "label": "波長",
+      "description": "較長的波長會使衍射模糊加寬，因此鄰近的點變得更難區分。"
+    },
+    {
+      "id": "aperture",
+      "label": "光圈直徑",
+      "description": "更大的光圈會縮小衍射模糊並降低瑞利限制。"
+    },
+    {
+      "id": "separation",
+      "label": "點間距",
+      "description": "這是光學系統試圖保留的物體點之間的實際角差距。"
+    },
+    {
+      "id": "probe-position",
+      "label": "檢測器樣本",
+      "description": "移動活檢測器樣本上下影像平面，以便在某一位置讀取當前曝光。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "wavelengthNm",
+        "label": "波長"
+      },
+      {
+        "id": "apertureMm",
+        "label": "光圈直徑"
+      },
+      {
+        "id": "separationMrad",
+        "label": "點間距"
+      },
+      {
+        "id": "probeYUm",
+        "label": "檢測器樣本"
+      }
+    ]
+  },
+  "predictionMode": {
+    "items": [
+      {
+        "id": "or-predict-wider-aperture",
+        "changeLabel": "光圈直徑"
+      },
+      {
+        "id": "or-predict-longer-wavelength",
+        "changeLabel": "波長"
+      },
+      {
+        "id": "or-predict-closer-pair",
+        "changeLabel": "點間距"
+      }
+    ]
+  }
+}

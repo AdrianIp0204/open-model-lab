@@ -1,0 +1,240 @@
+{
+"pageFramework": {
+"featuredSetups": [
+{
+"id": "far-right-target",
+"description": "Open a large ordered list with the target near the far edge, then watch the active interval collapse anyway.",
+"setup": {
+"note": "Use this to see that a far-away target in position can still take only a few checks when each midpoint removes half of what remains."
+}
+},
+{
+"id": "middle-target",
+"description": "Open a simple case where the midpoint lands on or near the target very quickly.",
+"setup": {
+"note": "Use this first to connect low, mid, and high to the highlighted interval before trying harder targets."
+}
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Binary search only works on ordered data. The invariant is simple: if the target exists, it must still be inside the current low-to-high interval.",
+"Because the values are sorted, one midpoint comparison tells you which half cannot contain the target. Move low or high inward, and the promise stays true.",
+"Watch low, mid, high, and the highlighted interval together. The speed does not come from scanning faster; it comes from preserving the invariant while shrinking the live search space again and again."
+]
+},
+"keyIdeas": [
+"Binary search only works because sorted order lets one midpoint comparison discard a whole half.",
+"The interval invariant is: the target, if it exists, stays between low and high.",
+"Low, mid, and high mark the current search space at every step."
+],
+"commonMisconception": {
+"myth": "Binary search is just a quicker item-by-item scan.",
+"correction": [
+"It does not improve a one-by-one search by a little. It changes the strategy: keep the target inside the active interval while each midpoint check removes half of what remains.",
+"Without ordered data, that elimination step would not be justified."
+]
+},
+"workedExamples": {
+"title": "Worked example: read the current interval",
+"intro": "Use the highlighted interval, midpoint marker, and counters to explain how the invariant survives this step.",
+"items": [
+{
+"id": "read-the-current-search-interval",
+"title": "Read one binary-search step",
+"prompt": "From the live scene, what does this step tell you about where the target can still be?",
+"steps": [
+{
+"id": "read-the-interval",
+"label": "1. Mark the active interval"
+},
+{
+"id": "read-the-midpoint",
+"label": "2. Compare the midpoint with the target"
+},
+{
+"id": "compare-to-linear",
+"label": "3. Compare binary search with a one-by-one scan"
+}
+],
+"resultLabel": "Current interval summary",
+"applyAction": {
+"label": "Try the far-right target setup",
+"observationHint": "Even though the target starts near the far edge, the interval-width graph drops quickly because each failed midpoint removes half of the remaining positions."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Build a large ordered list with the target near one edge, then show that binary search still finds it in only a few midpoint checks.",
+"prediction": "Before changing the controls, decide whether a target near an edge should matter more than the repeated halving of the interval.",
+"answer": "Put the target near an edge in a large list and let each midpoint remove half of what remains.",
+"explanation": "The target can be far from the first midpoint in position, but each midpoint preserves the correct half, so it is not far in the number of halving steps needed to reach it."
+}
+},
+"equations": [
+{
+"id": "midpoint-rule",
+"meaning": "Picks the index halfway between low and high, so the next comparison tests the middle of the live interval."
+},
+{
+"id": "interval-width",
+"meaning": "Counts how many positions in the current interval could still contain the target."
+}
+],
+"variableLinks": [
+{
+"id": "array-size",
+"description": "Changes how many ordered values are in play, so you can see how halving scales with list size."
+},
+{
+"id": "target-index",
+"description": "Moves the target to a new place in the ordered list so you can test whether edge targets are still found quickly."
+},
+{
+"id": "linear-contrast",
+"description": "Shows how many checks a one-by-one scan would need on the same ordered list."
+}
+],
+"simulation": {
+"presets": [
+{
+"id": "middle-target",
+"description": "A gentle first case where the midpoint lands on or near the target and the marker logic is easy to read."
+},
+{
+"id": "far-right-target",
+"description": "A larger case where the target sits near the far-right edge but the interval still shrinks quickly."
+},
+{
+"id": "left-edge-target",
+"description": "A mirror case on the left edge, useful for checking that halving works in either direction."
+}
+],
+"overlays": [
+{
+"id": "intervalWindow",
+"shortDescription": "Highlight the positions that could still contain the target.",
+"whatToNotice": [
+"After each midpoint check, one whole half disappears from the highlighted interval."
+],
+"whyItMatters": "It makes halving visible on the list instead of leaving it as an abstract rule."
+},
+{
+"id": "pointerMarkers",
+"shortDescription": "Show the current low, mid, and high positions on the ordered list.",
+"whatToNotice": [
+"low and high mark the surviving interval, and mid is the one position you test next."
+],
+"whyItMatters": "It links each update of low or high to the visible search space."
+}
+]
+},
+"noticePrompts": {
+"intro": "Keep the ordered list and one graph visible together, then follow what low, mid, and high do after each check.",
+"items": [
+{
+"id": "bsh-notice-halving",
+"text": "The key move is not reading faster. It is preserving the target-still-inside invariant while the midpoint rules out half of the remaining positions."
+},
+{
+"id": "bsh-notice-ordered-data",
+"text": "The midpoint only tells you which half to keep because every value is already in sorted order."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict which half survives before you advance the search.",
+"items": [
+{
+"id": "bsh-predict-right-half",
+"prompt": "If the target value is larger than the current midpoint value, which side of the interval should remain active?",
+"scenarioLabel": "Target larger than midpoint",
+"choices": [
+{
+"id": "a",
+"label": "Keep the right half, so low moves to just above mid."
+},
+{
+"id": "b",
+"label": "Keep the left half, so high moves to just below mid."
+},
+{
+"id": "c",
+"label": "Keep both halves, because one midpoint is not enough information."
+}
+],
+"explanation": "In an ordered list, everything left of mid is too small when the midpoint value is already too small.",
+"observationHint": "Open the far-right target setup and watch low jump past mid while the interval window keeps only the right half."
+}
+]
+},
+"quickTest": {
+"intro": "Answer from the interval, markers, and graphs, not from memorized vocabulary.",
+"questions": [
+{
+"id": "bsh-qt-ordered-data",
+"prompt": "Why does binary search need ordered data to keep the interval invariant true?",
+"choices": [
+{
+"id": "a",
+"label": "Because only then can one midpoint comparison discard half the interval while keeping the target in the surviving half."
+},
+{
+"id": "b",
+"label": "Because ordered data makes the midpoint closer to the target."
+},
+{
+"id": "c",
+"label": "Because ordering changes how many items are in the array."
+}
+],
+"explanation": "Only ordered data lets one midpoint comparison eliminate a whole half without breaking the target-still-inside promise."
+},
+{
+"id": "bsh-qt-halving",
+"prompt": "What is the main reason binary search stays fast on the bench?",
+"choices": [
+{
+"id": "a",
+"label": "The active interval keeps being cut roughly in half."
+},
+{
+"id": "b",
+"label": "It secretly checks many items at once."
+},
+{
+"id": "c",
+"label": "It works even better on unsorted data."
+}
+],
+"explanation": "Its efficiency comes from repeatedly shrinking the search space, not from reading individual items faster."
+}
+]
+},
+"challengeMode": {
+"intro": "Build a case where halving preserves the interval invariant, instead of relying on luck, to explain the small number of checks.",
+"items": [
+{
+"id": "bsh-ch-find-far-right-fast",
+"title": "Find an edge target fast",
+"prompt": "Create a large ordered list with the target near the far-right edge, but still find it in five checks or fewer.",
+"successMessage": "You built the right kind of scene. Even with the target near the edge, binary search stayed efficient because each failed midpoint cut the remaining interval roughly in half."
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows an ordered array. Markers show low, mid, and high, the active interval highlight shows which positions are still possible, and an optional ghost lane shows how far a one-by-one search would have progressed after the same number of checks."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"One graph shows the interval width shrinking over time, one tracks the low, mid, and high indices, and one compares the number of binary-search checks with linear-search checks."
+]
+}
+}
+}

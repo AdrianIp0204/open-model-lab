@@ -1,0 +1,231 @@
+{
+"pageIntro": {
+"whyItMatters": "This momentum-first view explains why electron-scale wavelengths can shape spectra and atomic models while everyday objects have matter waves too tiny to notice."
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"de Broglie proposed that a particle with momentum has a wavelength, given by \\(\\lambda = h / p\\). On this page, that means wavelength is controlled by momentum: if the particle is faster or heavier, its momentum is larger and its wavelength is shorter. That momentum-first view is why electron-scale wavelengths can shape spectra and atomic models while everyday matter waves stay too tiny to notice.",
+"The bench shows this in two linked ways. The strip shows one local wavelength spacing, and the fixed loop shows how many of those wavelengths fit around the same path. When the fit is close to a whole number, the wrapped wave matches up cleanly at the seam. That gives a simple bridge from wave spacing to early quantum ideas without pretending this page is a full quantum-mechanics solver."
+]
+},
+"keyIdeas": [
+"de Broglie wavelength is tied to momentum by \\(\\lambda = h / p\\), so the main inverse relation is between wavelength and momentum.",
+"On this bounded non-relativistic page, \\(p = mv\\), so increasing either mass or speed increases momentum and shortens the wavelength.",
+"The strip and the loop are two views of the same \\(\\lambda\\): when the spacing shrinks on the strip, more wavelengths fit around the loop.",
+"A whole-number loop fit is a useful bridge toward quantized behavior and the Bohr model, but it is not the full modern quantum picture."
+],
+"commonMisconception": {
+"correction": [
+"de Broglie wavelength is not set by distance traveled per second. It is set by momentum, so larger momentum means smaller wavelength.",
+"This page uses matter wavelength as a limited bridge between wave ideas and early quantum behavior. It is not treating the particle like an ordinary water wave or a complete quantum state."
+]
+},
+"workedExamples": {
+"intro": "Use the live mass and speed values from the bench. The same settings determine the local spacing strip, the loop-fit count, and both graphs.",
+"items": [
+{
+"id": "current-wavelength-from-momentum",
+"prompt": "For the current particle mass \\({{massMultipleValue}}\\,m_e\\) and speed \\({{speedValue}}\\,\\mathrm{Mm/s}\\), what momentum and de Broglie wavelength does the page show?",
+"steps": [
+{
+"id": "momentum-link",
+"label": "1. Find the momentum"
+},
+{
+"id": "wavelength-link",
+"label": "2. Convert momentum to wavelength"
+},
+{
+"id": "read-stage",
+"label": "3. Match the numbers to the bench"
+}
+],
+"applyAction": {
+"observationHint": "Watch the spacing on the strip tighten while the loop count rises. Both panels are responding to the same smaller wavelength."
+}
+},
+{
+"id": "current-loop-fit",
+"title": "Current loop fit and nearest whole number",
+"prompt": "With the fixed loop circumference \\(L = {{loopCircumferenceValue}}\\,\\mathrm{nm}\\), how many wavelengths fit around the loop now, and how close is that to a whole-number fit?",
+"steps": [
+{
+"id": "fit-relation",
+"label": "1. Use the fit-count relation"
+},
+{
+"id": "fit-substitute",
+"label": "2. Substitute the live wavelength"
+},
+{
+"id": "fit-interpret",
+"label": "3. Check the nearest whole number"
+}
+],
+"applyAction": {
+"observationHint": "Watch the seam become cleaner as the fit count moves close to one whole wavelength."
+}
+}
+]
+},
+"miniChallenge": {
+"prediction": "Reason from momentum and wavelength first, not from how long the path looks.",
+"answer": "Electron B is closer to fitting more whole wavelengths because its greater speed gives greater momentum, and greater momentum means a shorter de Broglie wavelength.",
+"explanation": "The loop length stays fixed, so a smaller \\(\\lambda\\) makes \\(N = L / \\lambda\\) larger. The faster electron therefore fits more wavelengths around the same loop."
+}
+},
+"equations": [
+{
+"id": "momentum",
+"meaning": "On this page, mass and speed combine into one momentum before wavelength is determined."
+},
+{
+"id": "de-broglie",
+"meaning": "More momentum means a shorter matter wavelength."
+},
+{
+"id": "mass-speed-wavelength",
+"meaning": "At fixed mass, increasing speed shortens the wavelength. At fixed speed, increasing mass also shortens it."
+},
+{
+"id": "loop-fit",
+"meaning": "The loop closes neatly only when a whole number of wavelengths fits around the fixed path."
+}
+],
+"variableLinks": [
+{
+"id": "massMultiple",
+"description": "At the same speed, increasing mass increases momentum and shortens the matter wavelength."
+},
+{
+"id": "speedMms",
+"description": "At the same mass, increasing speed increases momentum, so the spacing shrinks and more wavelengths fit around the loop."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "massMultiple",
+"description": "Set the particle mass in electron-mass units."
+},
+{
+"id": "speedMms",
+"description": "Change the speed and watch momentum, wavelength, and loop fit update together."
+}
+],
+"overlays": [
+{
+"id": "wavelengthGuide",
+"shortDescription": "Marks one crest-to-crest spacing on the local matter-wave strip.",
+"whatToNotice": [
+"When momentum increases, the marked spacing shrinks on the strip and the loop fit count rises."
+],
+"whyItMatters": "It makes wavelength visible as a spacing on the stage, not just as a number in an equation."
+},
+{
+"id": "momentumLink",
+"shortDescription": "Shows mass and speed combining into one momentum before wavelength is set.",
+"whatToNotice": [
+"Different mass-speed pairs can produce the same momentum and therefore the same wavelength."
+],
+"whyItMatters": "It keeps the focus on momentum as the variable behind the wavelength."
+},
+{
+"id": "wholeNumberFit",
+"shortDescription": "Compares the current loop count with the nearest whole-number match.",
+"whatToNotice": [
+"At whole numbers the wrapped wave meets itself cleanly; between them the seam does not match."
+],
+"whyItMatters": "It gives a compact visual bridge from wavelength to early quantized behavior."
+}
+]
+},
+"graphs": [
+{
+"id": "wavelength-momentum",
+"description": "Read the inverse de Broglie relation directly: moving to larger momentum means moving to shorter wavelength."
+},
+{
+"id": "loop-fit",
+"description": "As momentum increases, the fixed loop holds more wavelengths because the wavelength gets shorter."
+}
+],
+"noticePrompts": {
+"intro": "Use one cue at a time so the strip, loop, and graphs all stay tied to the same momentum-based state.",
+"items": [
+{
+"id": "dbmw-notice-two-views",
+"text": "The strip and the loop are showing the same wavelength. When the spacing on the strip shrinks, the loop fit count rises.",
+"tryThis": "Start from Near one-fit electron, then raise the speed and watch both panels together.",
+"whyItMatters": "It helps you read the bench as one connected story instead of two separate pictures."
+},
+{
+"id": "dbmw-notice-graph-preview",
+"text": "Hovering either graph previews the same bench at that momentum, not a separate example.",
+"tryThis": "Hover farther to the right on either graph and compare the tighter spacing with the larger loop count.",
+"whyItMatters": "The graphs and the bench are two views of the same momentum-based state."
+},
+{
+"id": "dbmw-notice-speed",
+"text": "At fixed mass, increasing speed raises momentum, shortens the wavelength, and pushes the loop toward a larger fit count.",
+"tryThis": "Move from Near one-fit electron toward Near two-fit electron.",
+"whyItMatters": "It turns \\(\\lambda = h / p\\) into something you can see on the stage."
+},
+{
+"id": "dbmw-notice-mass",
+"text": "At fixed speed, increasing mass still shortens the wavelength here because mass changes momentum too.",
+"tryThis": "Compare Near one-fit electron with Heavier same speed.",
+"whyItMatters": "It prevents the common mistake that only speed matters for de Broglie wavelength."
+},
+{
+"id": "dbmw-notice-compare-same-p",
+"text": "Compare a heavier slower case with a lighter faster case that keeps the same momentum. The wavelength should stay the same.",
+"tryThis": "Put Setup A on Near one-fit electron and Setup B on Same momentum swap.",
+"whyItMatters": "It shows that momentum, not mass or speed alone, is the control variable behind the wavelength."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict the momentum and wavelength change before you test it on the bench."
+},
+"challengeMode": {
+"intro": "Use the same bench to hit whole-number-fit targets by reading momentum, wavelength, and loop count together.",
+"items": [
+{
+"id": "dbmw-ch-one-fit",
+"prompt": "Starting from Slow electron, tune only the speed until the fixed loop is close to one wavelength long without changing the particle mass.",
+"successMessage": "You found the near one-fit case where the loop is almost exactly one wavelength around.",
+"hints": [
+"Keep the mass at the electron value.",
+"Aim for \\(N \\approx 1\\), not just for a shorter wavelength."
+]
+},
+{
+"id": "dbmw-ch-heavy-shorter-wave",
+"prompt": "Starting from Near one-fit electron, keep the speed nearly unchanged but increase the mass until roughly two wavelengths fit around the loop.",
+"successMessage": "You used mass, not speed, to raise momentum and reach a loop count near two.",
+"hints": [
+"Keep the speed close to the starting one-fit value.",
+"A shorter wavelength here must come from greater momentum through mass."
+]
+}
+]
+},
+"quickTest": {
+"intro": "Answer from the momentum-wavelength link shown on the bench, not from loose wave analogies."
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation has two main stage views: a local strip showing the current matter-wave spacing and a fixed loop showing how many of those wavelengths fit around the same path. Changing mass or speed updates both views together.",
+"Optional overlays mark one wavelength on the strip, show how mass and speed combine into momentum, and compare the loop fit with the nearest whole number. The readout card gives mass, speed, momentum, wavelength, loop length, and fit count."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"One graph shows wavelength decreasing as momentum increases. The other shows the loop-fit count increasing as momentum increases because more wavelengths fit around the same fixed path. Hovering a graph previews the corresponding bench state."
+]
+}
+}
+}

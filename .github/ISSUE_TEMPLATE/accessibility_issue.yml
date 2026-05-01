@@ -1,0 +1,60 @@
+name: Accessibility issue
+description: Report a keyboard, screen-reader, contrast, motion, or other accessibility problem.
+title: "[Accessibility]: "
+labels:
+  - "type: accessibility"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please avoid sharing private account data, private screenshots, or vulnerability details.
+  - type: input
+    id: route-page-tool
+    attributes:
+      label: Route, page, or tool
+      placeholder: /concepts/..., /tests, /circuit-builder
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem description
+      description: What accessibility barrier did you encounter?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include keyboard steps, screen-reader flow, or browser state if relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected accessible behavior
+      description: What should happen instead?
+    validations:
+      required: true
+  - type: input
+    id: assistive-tech
+    attributes:
+      label: Assistive technology and browser
+      placeholder: NVDA + Firefox, VoiceOver + Safari, keyboard only, etc.
+    validations:
+      required: false
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Keyboard navigation
+        - Screen reader semantics
+        - Focus management
+        - Color contrast
+        - Motion or animation
+        - Forms or error messages
+        - Touch or pointer interaction
+        - Other / not sure
+    validations:
+      required: false

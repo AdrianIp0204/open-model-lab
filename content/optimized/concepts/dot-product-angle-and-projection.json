@@ -1,0 +1,204 @@
+{
+"sections": {
+"explanation": {
+"paragraphs": [
+"The dot product is easiest to understand as a measure of alignment. This bench keeps two vectors, the angle between them, the signed projection of $\\vec{B}$ onto $\\vec{A}$, and the scalar $\\vec{A} \\cdot \\vec{B}$ on the same plane so the picture comes first and the formula confirms it.",
+"The key question is: how much of $\\vec{B}$ points along the direction of $\\vec{A}$? If that along-$\\vec{A}$ part points with $\\vec{A}$, the dot product is positive. At $90^\\circ$, that part is zero. Past $90^\\circ$, it points against $\\vec{A}$, so the dot product becomes negative for a geometric reason."
+]
+},
+"keyIdeas": [
+"The dot product measures alignment by multiplying the size of $\\vec{A}$ by the signed along-$\\vec{A}$ part of $\\vec{B}$.",
+"Orthogonal vectors have dot product zero because $\\vec{B}$ has no along-$\\vec{A}$ component at all.",
+"A negative dot product means the projection of $\\vec{B}$ points against $\\vec{A}$, not that either vector has a negative length."
+],
+"commonMisconception": {
+"myth": "A negative dot product means one of the vectors has a negative length.",
+"correction": [
+"Vector lengths stay nonnegative. The sign comes from direction: once the angle is obtuse, the projection of $\\vec{B}$ onto $\\vec{A}$ points against $\\vec{A}$.",
+"Positive, zero, and negative dot products come from alignment, not from a new kind of length."
+]
+},
+"workedExamples": {
+"title": "Read the picture, then the formula",
+"intro": "Use these as interpretation guides while you drag the vectors. Start by reading the angle and the amber projection, then use the formula to name what the picture is showing.",
+"items": [
+{
+"id": "current-dot-product",
+"title": "Read the dot product from alignment",
+"prompt": "How can you read the current dot product from the angle and the amber projection on the bench?",
+"steps": [
+{
+"id": "measure-a",
+"label": "1. Use A as the reference direction"
+},
+{
+"id": "read-projection",
+"label": "2. Read how much of B lies along A"
+},
+{
+"id": "multiply",
+"label": "3. Combine size with signed alignment"
+}
+],
+"resultLabel": "Dot-product reading",
+"applyAction": {
+"label": "Show a right-angle case",
+"observationHint": "At $90^\\circ$, the amber projection collapses even though both vectors are still visible, so the dot product drops to zero because there is no along-A part of B."
+}
+},
+{
+"id": "current-projection",
+"title": "Read the along-A part of B",
+"prompt": "How should you interpret the amber projection vector on the bench?",
+"steps": [
+{
+"id": "line-of-a",
+"label": "1. Keep the projection on A's line"
+},
+{
+"id": "signed-length",
+"label": "2. Use the sign of the along-A length"
+},
+{
+"id": "vector-readout",
+"label": "3. Rebuild B from parallel plus perpendicular parts"
+}
+],
+"resultLabel": "Projection reading",
+"applyAction": {
+"label": "Show an obtuse case",
+"observationHint": "Once the angle passes $90^\\circ$, the amber projection flips to the opposite side of the origin because the along-A part of B now points against A."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Keep both vectors clearly nonzero, then rotate $\\vec{B}$ until the dot product is almost zero. What must happen to the amber projection as the angle approaches $90^\\circ$?",
+"prediction": "Predict whether the projection shrinks to zero, keeps the same sign, or flips sign before you test it.",
+"answer": "The projection must shrink toward zero because $\\vec{B}$ is losing its along-A component.",
+"explanation": "Orthogonal does not mean short. It means none of $\\vec{B}$ points along $\\vec{A}$."
+}
+},
+"equations": [
+{
+"id": "dot-product-angle",
+"meaning": "Packages alignment into one number: acute gives positive, right angle gives zero, and obtuse gives negative."
+},
+{
+"id": "scalar-projection",
+"meaning": "Gives the signed length of the along-A part of B."
+},
+{
+"id": "vector-projection",
+"meaning": "Turns that signed length into a vector that lies on A's line."
+}
+],
+"simulation": {
+"overlays": [
+{
+"id": "angleMarker",
+"shortDescription": "Show the angle between A and B at the origin.",
+"whatToNotice": [
+"The sign change happens when the angle crosses $90^\\circ$, not when either vector becomes small."
+],
+"whyItMatters": "It ties positive, zero, and negative dot products to geometry."
+},
+{
+"id": "projectionGuide",
+"shortDescription": "Show the projection of B onto A and the perpendicular leftover.",
+"whatToNotice": [
+"The amber part is what contributes to the dot product. The dashed leftover does not."
+],
+"whyItMatters": "It turns the dot product into a visible decomposition instead of a hidden multiplication rule."
+}
+]
+},
+"graphs": [
+{
+"id": "dot-product-response",
+"description": "With the current vector lengths fixed, shows how angle alone changes the dot product from positive to zero to negative."
+},
+{
+"id": "projection-response",
+"description": "With the current vector lengths fixed, shows how the signed along-A part of B changes as the angle moves from acute to obtuse."
+}
+],
+"noticePrompts": {
+"intro": "Keep the angle marker, the amber projection, and the sign reading on the same story.",
+"items": [
+{
+"id": "dpp-notice-acute",
+"text": "An acute angle keeps a positive along-A part, so both the projection and the dot product are positive."
+},
+{
+"id": "dpp-notice-orthogonal",
+"text": "As the angle approaches $90^\\circ$, the amber projection shrinks to zero even if $\\vec{B}$ stays long."
+},
+{
+"id": "dpp-notice-obtuse",
+"text": "Past $90^\\circ$, the projection flips against A, so the dot product becomes negative."
+}
+]
+},
+"predictionMode": {
+"title": "Predict the sign",
+"intro": "Predict how the sign and projection will change before you rotate $\\vec{B}$.",
+"items": [
+{
+"id": "dpp-predict-orthogonal",
+"explanation": "Orthogonality removes the along-A part of B. Length alone does not keep the dot product positive.",
+"observationHint": "Watch the amber projection collapse while the angle marker approaches $90^\\circ$."
+},
+{
+"id": "dpp-predict-negative",
+"explanation": "An obtuse angle means the along-A part of B points the opposite way, so both the signed projection and the dot product flip sign.",
+"observationHint": "The amber projection crosses to the opposite side of the origin before you read the negative value."
+}
+]
+},
+"challengeMode": {
+"intro": "Use the angle marker, the amber projection, and the response graph together. The goal is to make zero alignment visible without shrinking either vector away.",
+"items": [
+{
+"id": "dpp-ch-collapse-the-projection",
+"title": "Make the projection nearly vanish",
+"successMessage": "You created the orthogonal case without hiding it in zero-length vectors. The angle, projection, and dot-product readout now agree on the same zero-alignment moment.",
+"hints": [
+"A right angle kills the along-A part without killing either vector.",
+"Use the angle marker first, then confirm with the amber projection."
+]
+}
+]
+},
+"quickTest": {
+"intro": "Use the picture and the readout together. These checks are about interpreting sign and projection geometrically.",
+"questions": [
+{
+"id": "dpp-qt-positive",
+"explanation": "The sign is about alignment, not about which vector is longer or whether the components match."
+},
+{
+"id": "dpp-qt-orthogonal",
+"explanation": "Orthogonality removes the along-A piece. That is why zero dot product does not require a zero vector."
+},
+{
+"id": "dpp-qt-negative",
+"explanation": "Negative sign means the along-A part points opposite A. Length still stays nonnegative, and the perpendicular leftover can still be present."
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows two draggable vectors from the origin on one coordinate plane. An angle marker can show the angle between them, and an amber guide can show the projection of B onto A together with the dashed perpendicular leftover.",
+"Changing either vector updates the stage, the readout, and the angle-response graphs together so the learner can compare geometry, sign, and projection on one bench."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"One graph shows how the dot product changes as the angle between the current vector lengths opens from $0^\\circ$ to $180^\\circ$. The second graph shows how the scalar projection of B onto A changes over that same angle sweep.",
+"Hovering either graph previews the same angle on the stage, so the response curve, the angle marker, and the amber projection stay synchronized."
+]
+}
+}
+}

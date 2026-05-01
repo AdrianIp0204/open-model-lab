@@ -1,0 +1,569 @@
+{
+  "title": "碰撞",
+  "shortTitle": "碰撞",
+  "summary": "在同一條固定軌道上讓兩部小車碰撞，保持總動量在視野中，並觀察彈性、質量和入射速度如何影響反彈或黏在一起的結果。",
+  "highlights": [
+    "動量守恆",
+    "彈性碰撞與非彈性碰撞",
+    "反彈速度"
+  ],
+  "topic": "力學",
+  "subtopic": "碰撞與恢復係數",
+  "recommendedNext": [
+    {
+      "slug": "projectile-motion",
+      "reasonLabel": "應用動量概念"
+    },
+    {
+      "slug": "momentum-impulse",
+      "reasonLabel": "複習衝量"
+    },
+    {
+      "slug": "conservation-of-momentum",
+      "reasonLabel": "系統觀點"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "碰撞是一段短暫的交互作用，但這並不會抹去動量的故事。如果兩部小車構成的系統是孤立的，那麼接觸前的總動量必須等於接觸後的總動量，即使個別小車的速度突然改變也是如此。",
+        "這個模組把場景保持得有邊界而且誠實：只有一條固定軌道、一個接觸點和一個彈性控制。你可以改變質量和入射速度，然後比較彈性反彈與較不彈性的結果，而不用把整個頁面變成巨大的沙盒。"
+      ]
+    },
+    "keyIdeas": [
+      "動量守恆屬於整個雙車系統，因此在接觸時總動量線保持平坦。",
+      "彈性告訴你有多少閉合速度會回饋為分離速度。彈性碰撞保持動能，而不彈性碰撞即使動量仍然守恆也會失去一些動能。",
+      "相同的動量規則因為質量的改變而可以導致碰撞後的速度有很大的不同。"
+    ],
+    "commonMisconception": {
+      "myth": "如果動量守恆，那麼小車必須保持相同的總動能並且每次反彈的方式都相同。",
+      "correction": [
+        "動量守恆並不保證機械能守恆。非彈性碰撞可以保持總動量相同，而總機械能卻會減少。",
+        "質量和入射速度仍然很重要。較輕的小車撞上較重的小車時，自己可能會明顯反彈，而較重的小車則可能只以較小的速度變化繼續前進。"
+      ]
+    },
+    "workedExamples": {
+      "title": "即時練習",
+      "intro": "解答你正在觀看的碰撞。總動量檢查會跟著目前正在檢視的瞬間，而結果檢查則會使用當前質量、入射速度和彈性來預測碰撞後的速度。",
+      "items": [
+        {
+          "id": "current-total-momentum",
+          "title": "當前系統總動量",
+          "prompt": "在 $t = {{timeValue}}\\,\\mathrm{s}$ 時，系統的總動量是多少？",
+          "variables": [
+            {
+              "id": "massA",
+              "label": "A 的質量"
+            },
+            {
+              "id": "velocityA",
+              "label": "A 的速度"
+            },
+            {
+              "id": "massB",
+              "label": "B 的質量"
+            },
+            {
+              "id": "velocityB",
+              "label": "B 的速度"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 把兩部小車的動量相加"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 代入實際值"
+            },
+            {
+              "id": "compute",
+              "label": "3. 計算總和"
+            }
+          ],
+          "resultLabel": "當前總動量",
+          "applyAction": {
+            "label": "顯示移動目標",
+            "observationHint": "觀察在接觸前兩部小車已經開始移動時，總動量線仍然保持平坦。"
+          }
+        },
+        {
+          "id": "final-velocity-split",
+          "title": "碰撞後的速度",
+          "prompt": "根據當前質量、入射速度和彈性係數，兩部小車在接觸後應該具有怎樣的速度？",
+          "variables": [
+            {
+              "id": "massA",
+              "label": "A 的質量"
+            },
+            {
+              "id": "incomingVelocityA",
+              "label": "A 的入射速度"
+            },
+            {
+              "id": "massB",
+              "label": "B 的質量"
+            },
+            {
+              "id": "incomingVelocityB",
+              "label": "B 的入射速度"
+            },
+            {
+              "id": "elasticity",
+              "label": "彈性系數"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relations",
+              "label": "1. 由守恆律和恢復關係開始"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 代入當前設定"
+            },
+            {
+              "id": "compute",
+              "label": "3. 解這兩個方程式"
+            }
+          ],
+          "resultLabel": "碰撞後的速度對",
+          "applyAction": {
+            "label": "應用黏性碰撞",
+            "observationHint": "請留意總動量線保持不變，而總機械能則在接觸時下降。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "能否讓 A 車碰撞後向左反彈，同時系統的總動量仍然指向右方？",
+      "prediction": "嘗試讓較輕的 A 車撞向較重的 B 車，並預測較重的 B 車在碰撞後是否能帶走足夠的右向動量，使總動量仍然保持為正。",
+      "answer": "可以。只要 B 車在碰撞後帶有足夠的正向動量，A 車即使向左反彈，系統的總動量仍然可以指向右方。",
+      "explanation": "動量守恆限制的是整個系統的總和，而不是每個物體各自的方向。較輕的 A 車可以在碰撞後向左反彈，而較重的 B 車則仍然讓系統整體向右移動。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "請使用舞台和連結的圖像一起進行。這些檢查是關於通過碰撞進行推理，而不是只是重複守恆的概念。",
+    "questions": [
+      {
+        "id": "col-qt-1",
+        "prompt": "在這個孤立的雙小車碰撞系統中，哪個量必須保持不變？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "系統的總動量"
+          },
+          {
+            "id": "b",
+            "label": "每次碰撞中系統的總機械能"
+          },
+          {
+            "id": "c",
+            "label": "每部小車各自的速度"
+          }
+        ],
+        "explanation": "動量守恆適用於整個隔離系統。只有在彈性碰撞中，總機械能才保持不變，而個別車輛的速度可能會發生很大變化。",
+        "selectedWrongExplanations": {
+          "b": "即使總動量保持不變，在非彈性碰撞中，總機械能也可能下降。",
+          "c": "碰撞的整個目的就是個別速度在接觸時會改變。"
+        },
+        "showMeAction": {
+          "label": "顯示黏性碰撞",
+          "observationHint": "兩部小車一起離開，但總動量線仍然保持平坦。"
+        }
+      },
+      {
+        "id": "col-qt-2",
+        "prompt": "如果總動量線保持平坦但總能量線在接觸時下降，你正在研究什麼種類的碰撞？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "非彈性碰撞"
+          },
+          {
+            "id": "b",
+            "label": "彈性碰撞"
+          },
+          {
+            "id": "c",
+            "label": "違反動量守恆的碰撞"
+          }
+        ],
+        "explanation": "總機械能下降而總動量無變動是非彈性碰撞的標誌。",
+        "selectedWrongExplanations": {
+          "b": "彈性碰撞保持總機械能不變，因此能量線應該在接觸時保持平坦。",
+          "c": "動量守恆仍然適用，因為總動量線從未偏移。"
+        },
+        "showMeAction": {
+          "label": "顯示能量下降",
+          "observationHint": "比較平坦的總動量與總機械能的步降。"
+        }
+      },
+      {
+        "id": "col-qt-3",
+        "prompt": "如果 B 車變得更重，而入射速度和彈性保持不變，最直接改變的是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "車B的速度變化較小，而車A的速度變化則更強烈。"
+          },
+          {
+            "id": "b",
+            "label": "總動量必須成為零，因為較重的車佔主導地位。"
+          },
+          {
+            "id": "c",
+            "label": "彈性在其中一車較重時便不再重要。"
+          }
+        ],
+        "explanation": "質量改變了動量轉移對速度的影響程度。較重的車通常改變的速度較小，而不是更大。",
+        "selectedWrongExplanations": {
+          "b": "較大的質量會改變速度的比例分配，而不是系統總動量是否消失。",
+          "c": "即使質量不同，彈性仍然控制著相撞後的反彈速度。"
+        },
+        "showMeAction": {
+          "label": "顯示輕車撞重車",
+          "observationHint": "較重的車會移動，但其速度改變遠小於較輕車的速度改變。"
+        }
+      },
+      {
+        "id": "col-qt-4",
+        "prompt": "兩個設定開始時具有相同的質量和入射速度，但一個的彈性為 1，另一個的彈性為 0。它們之間什麼保持不變？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "系統的總動量"
+          },
+          {
+            "id": "b",
+            "label": "小車最後的相對速度"
+          },
+          {
+            "id": "c",
+            "label": "系統的總機械能"
+          }
+        ],
+        "explanation": "改變彈性會影響反彈和能量保留，但不會改變孤立系統的總動量。",
+        "selectedWrongExplanations": {
+          "b": "彈性直接改變碰撞後相對速度，因此這兩個設置不能保持相同的反彈速度。",
+          "c": "只有在彈性碰撞的情況下，總動能才保持不變，而在完全非彈性的碰撞情況下則不然。"
+        },
+        "showMeAction": {
+          "label": "顯示彈性參考",
+          "observationHint": "把這個設定和比較模式中的黏性設定對照，區分動量守恆與能量損失。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示兩部小車在固定水平軌道上移動，朝向同一個碰撞點。每部小車都有質量標籤和水平速度箭頭，而可選的疊加圖層則可標出碰撞區、質心、動量條，以及接觸前後的相對速度。",
+        "改變質量、入射速度或彈性會更新同一個舞台、讀數與連動圖表，而不會改變軌道比例。完全非彈性碰撞會顯示小車一起離開，而較高的彈性則會在碰撞後讓兩車分得更開。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "速度圖表顯示車輛在接觸時速度的變化，並包含一條穩定的質心速度線。動量圖表顯示車輛的動量線隨著時間改變，而總體動量線則保持不變。",
+        "能量圖表顯示了總動能在接觸時是否保存和減少的情況，這是本模組中彈性行為與非彈性行為的主要視覺差異。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "實時碰撞檢查"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "碰撞結果檢查點"
+      },
+      {
+        "id": "readNext",
+        "title": "繼續動量的故事"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "object-momentum",
+      "label": "一輛車的動量",
+      "meaning": "每輛車的動量來自其自身的質量和速度。"
+    },
+    {
+      "id": "momentum-conservation",
+      "label": "碰撞期間動量守恆",
+      "meaning": "碰撞前後系統總動量必須相等。"
+    },
+    {
+      "id": "restitution",
+      "label": "彈性關係",
+      "meaning": "彈性比較碰撞後的反彈速度與碰撞前的接近速度。"
+    },
+    {
+      "id": "kinetic-energy",
+      "label": "動能",
+      "meaning": "動能有助於區分彈性碰撞和非彈性碰撞，因為只有彈性碰撞才會保持總動能不變。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "massA",
+      "label": "A 的質量",
+      "description": "改變A的質量會影響給定動量變化對碰撞後A速度的強烈程度。"
+    },
+    {
+      "id": "massB",
+      "label": "B 的質量",
+      "description": "改變B的質量會影響B的速度反應，但系統總動量仍遵守相同的定律。"
+    },
+    {
+      "id": "speedA",
+      "label": "A 的入射速度",
+      "description": "設定A從左方接近碰撞點的速度。"
+    },
+    {
+      "id": "speedB",
+      "label": "B 的入射速度",
+      "description": "設定小車B從右方接近碰撞點的速度。"
+    },
+    {
+      "id": "elasticity",
+      "label": "彈性",
+      "description": "設定碰撞時有多少相對速度會轉換成反彈速度，從而控制兩部小車是彈開還是一起離開。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "massA",
+        "label": "A 的質量",
+        "description": "更改小車A而不改變軌道或碰撞點。"
+      },
+      {
+        "id": "massB",
+        "label": "B的質量",
+        "description": "更改 B，並比較它與 A 在速度變化上的差異。"
+      },
+      {
+        "id": "speedA",
+        "label": "A 的入射速度",
+        "description": "設定A從左方快速接近的速度。"
+      },
+      {
+        "id": "speedB",
+        "label": "B 的入射速度",
+        "description": "設定B從右方快速接近的速度。零意味著B開始時處於靜止狀態。"
+      },
+      {
+        "id": "elasticity",
+        "label": "彈性",
+        "description": "零表示完全無彈性。一表示完全彈性。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "elastic-equal-masses",
+        "label": "等質量彈性碰撞",
+        "description": "等質量幾乎理想的反彈。"
+      },
+      {
+        "id": "sticky-collision",
+        "label": "黏滯碰撞",
+        "description": "車輛在接觸後一起移動。"
+      },
+      {
+        "id": "light-into-heavy",
+        "label": "輕車撞重車",
+        "description": "較輕的 A 車會從較重的 B 車身上彈回。"
+      },
+      {
+        "id": "heavy-into-light",
+        "label": "重車撞輕車",
+        "description": "較重的 A 車會繼續前進，而 B 車則被向前推走。"
+      },
+      {
+        "id": "moving-target",
+        "label": "移動目標",
+        "description": "碰撞發生之前，兩部小車都已經在移動。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "collisionZone",
+        "label": "碰撞區域",
+        "shortDescription": "標示軌道上的接觸點和時間軸上的接觸瞬間。",
+        "whatToNotice": [
+          "僅在接觸瞬間發生速度突變，整個過程中不會發生。",
+          "碰撞點固定不動，因此比較模式從不會移動目標以適應圖像。"
+        ],
+        "whyItMatters": "即使碰撞很短暫，它仍然是一個真實的物理事件，在時間上應該在同一瞬間使圖表跳躍。"
+      },
+      {
+        "id": "centerOfMass",
+        "label": "質心",
+        "shortDescription": "在小車接近、碰撞與離開時追蹤質心。"
+      },
+      {
+        "id": "relativeSpeed",
+        "label": "相對速度",
+        "shortDescription": "顯示接觸前的接近速度以及接觸後的分離速度。",
+        "whatToNotice": [
+          "較低的彈性不會改變碰撞前的接近速度，但會減少碰撞後的分離速度。",
+          "在彈性為零的情況下，車輛會一起離開，因此分離速度降至零。"
+        ],
+        "whyItMatters": "彈性以速度比例的方式來思考更容易理解，而不是抽象標籤。"
+      },
+      {
+        "id": "momentumBars",
+        "label": "動量條",
+        "shortDescription": "在同一中心尺度上比較車輛A、車輛B和總體動量。",
+        "whatToNotice": [
+          "在接觸時，對象條可以突然變化，而總條保持固定。",
+          "質量如何影響相同總動量在車輛速度中的分配。"
+        ],
+        "whyItMatters": "條形圖保持系統總動量的可見性，同時您推測個別結果。"
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "velocity",
+      "label": "速度和質心速度",
+      "xLabel": "時間 (s)",
+      "yLabel": "速度 (m/s)",
+      "description": "顯示接觸時的速度突變以及隨後保持系統總動量的穩定質心速度。"
+    },
+    {
+      "id": "momentum",
+      "label": "物體和總動量",
+      "xLabel": "時間 (s)",
+      "yLabel": "動量 (kg m/s)",
+      "description": "顯示車輛在接觸時互相交易動量，而總動量線保持平坦。"
+    },
+    {
+      "id": "energy",
+      "label": "碰撞過程中的機械能",
+      "xLabel": "時間 (s)",
+      "yLabel": "動能 (J)",
+      "description": "顯示彈性碰撞保持總動能，非彈性碰撞則在接觸時降低之。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "使用即時提示作為短暫指南，同時改變質量、來臨速度和彈性。最佳提示應指向舞台和當前圖像已經真實顯示的內容。",
+    "items": [
+      {
+        "id": "col-total-flat",
+        "text": "請注意總動量線保持平坦，即使小車動量線在接觸時跳變。",
+        "tryThis": "在碰撞前後暫停。個別軌跡會跳變，但總體軌跡不應漂移。",
+        "whyItMatters": "動量守恆涉及系統總和，而非每個車輛保持相同的動量。"
+      },
+      {
+        "id": "col-energy-drop",
+        "text": "注意降低彈性會使能量圖在接觸時下降，即使總動量線仍保持平坦。",
+        "tryThis": "降低彈性，然後在同一碰撞瞬間比較能量和動量圖。",
+        "whyItMatters": "這將動量守恆與動能守恆區分開來。"
+      },
+      {
+        "id": "col-heavy-target",
+        "text": "注意較重的目標即使遵守同一套動量守恆規則，其速度改變也會較小。",
+        "tryThis": "把 B 車設得很重，然後比較碰撞後 A 與 B 的速度跳變。",
+        "whyItMatters": "學生經常混淆動量改變和速度改變。質量決定了動量改變如何反映在速度上。"
+      },
+      {
+        "id": "col-elasticity-speed-ratio",
+        "text": "注意彈性會改變接觸後的反彈速度，而不是接觸前的接近速度。",
+        "tryThis": "啟用相對速度疊加層，然後將彈性從1調低至0並比較碰撞後的速度標籤。",
+        "whyItMatters": "彈性是一個速度比值，因此應該作為碰撞前後的比較來閱讀，而不是模糊的材料標籤。"
+      },
+      {
+        "id": "col-center-of-mass",
+        "text": "注意中心質量標誌在個別車輛速度在接觸時跳變的情況下仍然保持穩定的漂移。",
+        "tryThis": "在碰撞期間保留質心疊加層。CM 標誌不應出現折返或彈跳。",
+        "whyItMatters": "穩固的質心運動是系統總動量未變的另一個真實跡象。"
+      },
+      {
+        "id": "col-compare-energy",
+        "text": "注意，兩個設置可以擁有相同的總動量但損失不同的動能。",
+        "tryThis": "比較等質量彈性碰撞與黏滯碰撞。雖然動量總和相同，但能量圖形卻不同。",
+        "whyItMatters": "比較模式在此很有用，因為它可以區分動量守恆所保證的內容與彈性變化的內容。"
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "在測試之前，預測彈跳的情況。每個提示都會讓你考慮質量或彈性，同時保持動量守恆。",
+    "items": [
+      {
+        "id": "col-predict-equal-mass-elastic",
+        "prompt": "若兩輛等質量的車輛近乎彈性碰撞且車B初始靜止，碰撞後立即發生什麼情況？",
+        "scenarioLabel": "等質量的彈性碰撞",
+        "changeLabel": "相同質量，強烈彈跳",
+        "choices": [
+          {
+            "id": "a",
+            "label": "車A幾乎停止而車B以接近車A原始速度離開。"
+          },
+          {
+            "id": "b",
+            "label": "兩輛車一起向右移動且保持相同的速度。"
+          },
+          {
+            "id": "c",
+            "label": "總動量必須變為零，因為一個車輛開始時是靜止的。"
+          }
+        ],
+        "explanation": "對於等質量且彈性碰撞的情況，移動的車輛會將其運動傳遞給靜止的車輛，而總動量保持不變。",
+        "observationHint": "觀看接觸後的速度圖像。一條線幾乎停止，另一條則接手。"
+      },
+      {
+        "id": "col-predict-sticky",
+        "prompt": "如果相同的等質量設置變得完全非彈性，碰撞後車輛應該做什麼？",
+        "scenarioLabel": "完全非彈性的等質量",
+        "changeLabel": "將彈性設為零",
+        "choices": [
+          {
+            "id": "a",
+            "label": "他們一起離開並且共享一個速度，而總動能則減少。"
+          },
+          {
+            "id": "b",
+            "label": "他們彈得更快，因為在接觸期間儲存了更多的能量。"
+          },
+          {
+            "id": "c",
+            "label": "總動量消失，因為小車黏在一起。"
+          }
+        ],
+        "explanation": "完全非彈性碰撞仍然會守恆動量，但小車會一起離開，而總動能會下降。",
+        "observationHint": "請留意碰撞後的共同運動以及能量圖形中的下降。"
+      },
+      {
+        "id": "col-predict-light-into-heavy",
+        "prompt": "若輕車A與比它重得多的車B發生相對彈性碰撞，最有可能的結果是什麼？",
+        "scenarioLabel": "輕車撞重車",
+        "changeLabel": "質量差異大",
+        "choices": [
+          {
+            "id": "a",
+            "label": "車A反彈向左而車B只獲得微小的右行速度。"
+          },
+          {
+            "id": "b",
+            "label": "車B必須反彈向左因為它的質量較大。"
+          },
+          {
+            "id": "c",
+            "label": "兩部小車會保持相同速度，因為動量守恆。"
+          }
+        ],
+        "explanation": "較重的目標速度改變通常較小。較輕的 A 車可以反彈，而較重的 B 車只會小幅向前移動，但總動量仍然保持一致。",
+        "observationHint": "觀看碰撞後的速度跳變，比較B的速度變化是多麼的小。"
+      }
+    ]
+  }
+}

@@ -1,0 +1,400 @@
+{
+  "title": "重力場",
+  "shortTitle": "重力場",
+  "summary": "看看一個源質量如何建立一個向內的重力場，源質量和距離如何設定場強度，以及探測質量如何轉換這個場為力而不改變場本身。",
+  "highlights": [
+    "場方向",
+    "反平方下降",
+    "試驗質量力"
+  ],
+  "topic": "重力與軌道",
+  "subtopic": "重力與軌道橋樑",
+  "recommendedNext": [
+    {
+      "slug": "gravitational-potential-energy",
+      "reasonLabel": "能量觀點"
+    },
+    {
+      "slug": "circular-orbits-orbital-speed",
+      "reasonLabel": "軌道橋樑"
+    },
+    {
+      "slug": "escape-velocity",
+      "reasonLabel": "逃逸閾值"
+    },
+    {
+      "slug": "electric-fields",
+      "reasonLabel": "比較場邏輯"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "重力場告訴你在某一點一公斤探測質量會感受到什麼，而不假設實際存在任何探測質量。在這個有邊界的實驗室中，一個源質量位於原點，場總是指向該質量的內部方向，而場的大小遵循反平方距離趨勢。",
+        "相同的源質量、探測位置和探測質量驅動舞台箭頭、掃描圖表、比較模式、預測提示、示例解題、挑戰檢查和快速測驗。這樣可以保持場方向、場強度和試驗質量上的力與一個真實的活生生模型連線在一起，而不是分開規則。"
+      ]
+    },
+    "keyIdeas": [
+      "源質量建立重力場。探測質量不能決定該位置的場方向或強度。",
+      "一個質量產生的重力場指向源質量並且隨著源質量增加而增大，但隨著距離快速下降。",
+      "探測質量僅透過 F = m_test g 將現有的場轉換為力，因此只改變探測質量會重新調整力而不重寫場。"
+    ],
+    "commonMisconception": {
+      "myth": "更大的探測質量使該點的重力場更強。",
+      "correction": [
+        "某一點的重力場由源質量和源到探測質量的距離決定。探測質量只是對這個場作出反應。",
+        "增大探測質量會增加力，因為 F = m_test g，但向內的場箭頭和場圖保持不變，直到你改變源質量和探測位置。"
+      ]
+    },
+    "workedExamples": {
+      "title": "示例",
+      "intro": "直接從現場控制解決當前探測狀態。代入使用現在螢幕上顯示的相同源質量、探測位置和探測質量，並且應用示例保持圖和舞台與該狀態相連。",
+      "items": [
+        {
+          "id": "current-gravity-field",
+          "title": "當前場在探測器",
+          "prompt": "對於當前的源質量和探測位置，該點的什麼重力場向量作用於探測器？",
+          "variables": [
+            {
+              "id": "sourceMass",
+              "label": "來源質量"
+            },
+            {
+              "id": "probeX",
+              "label": "探測器 x 軸位置"
+            },
+            {
+              "id": "probeY",
+              "label": "探測器 y 軸位置"
+            }
+          ],
+          "steps": [
+            {
+              "id": "measure-distance",
+              "label": "1. 測量現場源到探測器距離"
+            },
+            {
+              "id": "apply-field-relation",
+              "label": "2. 應用單質量場關係"
+            },
+            {
+              "id": "resolve-components",
+              "label": "3. 分解當前場分量"
+            }
+          ],
+          "resultLabel": "重力場",
+          "applyAction": {
+            "label": "顯示雙倍距離軸情況",
+            "observationHint": "保持探測器在軸上，比較1米和2米處的強度。2米的情況應該約為1米場的一 Quarter。"
+          }
+        },
+        {
+          "id": "current-probe-force",
+          "title": "當前作用於探測質量上的力",
+          "prompt": "對於當前探測質量，來自活躍重力場的力是什麼？",
+          "variables": [
+            {
+              "id": "testMass",
+              "label": "探測器質量"
+            }
+          ],
+          "steps": [
+            {
+              "id": "force-relation",
+              "label": "1. 開始從場到力的關係"
+            },
+            {
+              "id": "substitute-force",
+              "label": "2. 代入當前探測質量和場"
+            },
+            {
+              "id": "compute-force",
+              "label": "3. 計算力分量"
+            }
+          ],
+          "resultLabel": "探測力",
+          "applyAction": {
+            "label": "將探測質量加倍",
+            "observationHint": "珊瑚力箭頭和力曲線變長，但青色場箭頭和場曲線保持不變，因為只有探測質量改變了。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "從軸附近開始，然後移動探測器到同一水平線上距離的兩倍。在拖動之前，請預測如果探測質量固定，場強度和力應該發生什麼變化。",
+      "prediction": "先説比例：場強應該變為一半、四分之一還是保持不變？",
+      "answer": "在同一半徑線上距離的兩倍處，場強和力都降至原始值的大約四分之一。",
+      "explanation": "對於一個源質量，$|\\vec{g}| \\propto 1/r^2$。將 $r$ 加倍會使分母乘以四，因此場強降至四分之一。探測質量固定時，$|\\vec{F}| = m_{\\text{test}}|\\vec{g}|$ 也下降相同的幅度。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "從場的邏輯來回答，而不是孤立地使用公式。每個問題都要求根據場的方向、反平方規則或探測質量上的力來推斷場圖的意義。",
+    "questions": [
+      {
+        "id": "gf-qt-field-direction",
+        "prompt": "一個探測器直接懸掛在源質量上方。那裡的重力場哪個描述最符合？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它指向下方直指源質量。"
+          },
+          {
+            "id": "b",
+            "label": "它指向上方，因為重力從源向外推。"
+          },
+          {
+            "id": "c",
+            "label": "它是零，因為探測器沒有接觸到源。"
+          }
+        ],
+        "explanation": "對於一個源質量，場總是指向源。直接懸掛在源上方時，這個向內的方向是直下。",
+        "selectedWrongExplanations": {
+          "b": "這會反轉重力場的意義。場指向源質量內部。",
+          "c": "距離改變了場的大小，但從一個源質量非零距離處仍然有非零場。"
+        },
+        "showMeAction": {
+          "label": "顯示垂直情況",
+          "observationHint": "探測器懸掛在源上方，所以向內的場箭頭指向直下。"
+        }
+      },
+      {
+        "id": "gf-qt-distance-ratio",
+        "prompt": "一個源質量固定而探測器從 1 m 移動到 2 m 的同一軸上。場強應該發生什麼變化？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它降至原始值的大約四分之一。"
+          },
+          {
+            "id": "b",
+            "label": "它降至原始值的一半，因為距離加倍了。"
+          },
+          {
+            "id": "c",
+            "label": "它保持不變，因為源質量沒有改變。"
+          }
+        ],
+        "explanation": "對於一個源質量，|g| 遵循反平方規則。將距離加倍會使分母乘以四，因此場強降至大約四分之一。",
+        "selectedWrongExplanations": {
+          "b": "這會匹配 1/r 趨勢，而不是這裡使用的反平方關係。",
+          "c": "固定的源質量仍然會在不同的距離處產生不同的場強。"
+        },
+        "showMeAction": {
+          "label": "顯示從1米到2米的移動",
+          "observationHint": "比較軸參考點與倍距點，以及環和場強圖表一起。"
+        }
+      },
+      {
+        "id": "gf-qt-probe-mass",
+        "prompt": "一名學生説：「如果探針質量加倍，該點的重力場也會加倍。」最好的修正應該是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "場強不受探針質量影響；只有力會變大，因為F = m_test g。"
+          },
+          {
+            "id": "b",
+            "label": "只有當探針比源質量更重時，場強才會加倍。"
+          },
+          {
+            "id": "c",
+            "label": "源質量和幾何形狀決定了場強。改變探針質量只會改變力的響應，而不是源產生的場本身。"
+          }
+        ],
+        "explanation": "此限定實驗不比較源質量和探針質量以決定場強。源質量和距離已經固定了該位置的場強。",
+        "selectedWrongExplanations": {
+          "b": "更重的探針仍然會感受到場強。場強依然存在，只是力隨著探針質量的比例而變化。",
+          "c": "顯示更重的探針"
+        },
+        "showMeAction": {
+          "label": "較重的探針使力箭頭增長，而青色的場強箭頭和曲線保持不變，因為只有探針質量改變了。",
+          "observationHint": "在一個固定的位置，源質量加倍，而探針位置和探針質量保持不變。哪個主張是正確的？"
+        }
+      },
+      {
+        "id": "gf-qt-source-mass",
+        "prompt": "場強和力的大小都加倍，方向保持相同。",
+        "choices": [
+          {
+            "id": "a",
+            "label": "只有力會加倍，因為場強只取決於距離。"
+          },
+          {
+            "id": "b",
+            "label": "增加源質量會使場強在每個點上按比例增大。探針質量不變時，力也會以相同的因子增大，因為它由該場構成。"
+          },
+          {
+            "id": "c",
+            "label": "場強方向反轉，因為源質量變大了。"
+          }
+        ],
+        "explanation": "增加源質量會在每一點上按比例放大場強。相同探針質量下，力會以同樣的因子增大，因為它是由那個場構建的。",
+        "selectedWrongExplanations": {
+          "b": "距離很重要，但源質量仍然決定了每個點上的場強規模。",
+          "c": "改變源質量只會影響大小，而不是指向源的方向。"
+        },
+        "showMeAction": {
+          "label": "顯示較重的源質量",
+          "observationHint": "在同一個探針位置上，場強和力都增強，而方向保持不變。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一個固定在原點的源質量、一個可移動的探針質量和一個限定的二維場強區域，並提供了粗略的場強網格、探針位置上的現場箭頭、探針質量上的力箭頭、等距環以及用於圖形的水平掃描線。",
+        "拖動探針會直接在舞台上改變取樣場強的位置。聚焦的探針手柄也響應鍵盤方向鍵進行小幅度位置變化，而滑塊提供了對源質量、探針位置和探針質量相同的控制。",
+        "非常接近源質量時，場強顯示使用最小取樣半徑以保持繪製箭頭和響應圖形的有限性和可讀性。這保持了視覺化的侷限性，同時保留了正確的趨勢：重力場強在源附近迅速增大。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "場分量圖繪製當前水平掃描線上的水平和垂直重力場分量。懸停在圖表上會預覽舞台上相同的位置。",
+        "強度響應圖繪製沿同一掃描線的場強大小和探針力大小。改變探針質量會重新縮放力曲線，但場曲線仍然是源質量和距離的讀數。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "實時重力檢查"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "反平方檢查點"
+      },
+      {
+        "id": "readNext",
+        "title": "橋接至軌道"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "distance-relation",
+      "label": "源點到探測器距離",
+      "meaning": "探測器與源質量的距離設定了一個單質量實驗室中的場強。"
+    },
+    {
+      "id": "gravity-field",
+      "label": "一個源質量的場",
+      "meaning": "重力場指向源質量，並隨著距離減弱。",
+      "notes": [
+        "此有邊界實驗室固定了 G = 1 在顯示單位中，以便讀數強調方向和比例。"
+      ]
+    },
+    {
+      "id": "inverse-square",
+      "label": "反平方趨勢",
+      "meaning": "源質量加倍會將場加倍，而距離加倍則使其減少至四分之一。"
+    },
+    {
+      "id": "force-on-probe",
+      "label": "探測器質量的力",
+      "meaning": "探測器質量僅調整其感受到的力，而不在此模型中建立第二個場。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "sourceMass",
+      "label": "來源質量",
+      "description": "改變產生場的質量，使得場和探測器力在每一個點都直接與 M 成比例。"
+    },
+    {
+      "id": "probeX",
+      "label": "探測器 x 軸位置",
+      "description": "沿舞台左右移動探測器，並連線掃描圖表，以便同時讀取兩個表面的場。"
+    },
+    {
+      "id": "probeY",
+      "label": "探測器 y 軸位置",
+      "description": "將探測器移動到新的水平掃描線，這會改變場的方向以及響應圖表中顯示的具體切片。"
+    },
+    {
+      "id": "testMass",
+      "label": "探測器質量",
+      "description": "僅調整探測器上的力。它不會改變源質量產生的場。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "sourceMass",
+        "label": "來源質量"
+      },
+      {
+        "id": "probeX",
+        "label": "探測器 x 軸位置"
+      },
+      {
+        "id": "probeY",
+        "label": "探測器 y 軸位置"
+      },
+      {
+        "id": "testMass",
+        "label": "探測器質量"
+      }
+    ],
+    "presets": [
+      {
+        "id": "baseline-diagonal",
+        "label": "基準斜向位置",
+        "description": "探針位於斜向位置，讓向內的重力場可清楚分成水平與垂直分量。"
+      }
+    ]
+  },
+  "noticePrompts": {
+    "items": [
+      {
+        "id": "gf-notice-compare-source-vs-probe"
+      },
+      {
+        "id": "gf-notice-compare-source-vs-probe"
+      },
+      {
+        "id": "gf-notice-compare-source-vs-probe"
+      },
+      {
+        "id": "gf-notice-compare-source-vs-probe"
+      },
+      {
+        "id": "gf-notice-compare-source-vs-probe",
+        "text": "比較模式在一個設定改變源質量、另一個設定改變探測質量時最有啟發性。前者同時改變重力場和受力，後者只改變受力。",
+        "tryThis": "把設定 A 保持在基準斜向位置，讓設定 B 改成較大源質量或較大探測質量，再比較舞台箭頭和強度圖。"
+      }
+    ]
+  },
+  "predictionMode": {
+    "items": [
+      {
+        "id": "gf-pred-source-mass",
+        "changeLabel": "來源質量",
+        "choices": [
+          {
+            "id": "b",
+            "label": "增加源質量會使場強在每個點上按比例增大。探針質量不變時，力也會以相同的因子增大，因為它由該場構成。"
+          }
+        ]
+      },
+      {
+        "id": "gf-pred-heavy-probe",
+        "scenarioLabel": "將探測質量加倍",
+        "changeLabel": "探測器質量"
+      }
+    ]
+  },
+  "challengeMode": {
+    "items": [
+      {
+        "id": "gf-ch-double-force-not-field"
+      },
+      {
+        "id": "gf-ch-double-force-not-field",
+        "prompt": "由基準斜向位置開始，只改變探測質量，使受力大小加倍，但重力場保持不變。"
+      }
+    ]
+  }
+}

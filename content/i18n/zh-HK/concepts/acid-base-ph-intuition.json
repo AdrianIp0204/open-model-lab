@@ -1,0 +1,316 @@
+{
+  "title": "酸鹼與 pH 直覺",
+  "shortTitle": "pH直覺",
+  "summary": "把酸量、鹼量和加水稀釋放在同一個燒杯裡一起看，讓你直接看見混合物如何沿著 pH 尺度由酸性移向鹼性，再回到接近中性。",
+  "highlights": [
+    "pH作為一個實際可見的尺度",
+    "酸與鹼的特性",
+    "水軟化了這種轉變"
+  ],
+  "topic": "溶液和pH值",
+  "subtopic": "酸鹼平衡",
+  "recommendedNext": [
+    {
+      "slug": "buffers-and-neutralization",
+      "reasonLabel": "用同一個 pH 實驗台理解為甚麼緩衝儲備能抵抗變化而不凍結化學反應"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "當 pH 尺度和混合物特性一起保持清楚可見時，酸鹼直覺就更容易建立。這個實驗台把酸量、鹼量、水量和目前 pH 值都放在同一個封閉場景中。",
+        "重點不在於虛假的精確度。目標是看到為什麼更多的酸會推動混合物朝一個方向移動，更多的鹼則推動它朝另一個方向移動，而更多的水則會軟化兩者的影響使其向中間靠攏。"
+      ]
+    },
+    "keyIdeas": [
+      "pH是一個跟蹤當前哪種特性更強的尺度",
+      "新增酸和新增鹼會在相同的pH試紙上推動混合物朝相反的方向移動。",
+      "新增更多的水會軟化兩邊的強度並可以將混合物重新推向中性。"
+    ],
+    "commonMisconception": {
+      "myth": "一個pH數字只是記憶中的標籤，所以粒子圖形並不會增加太多。",
+      "correction": [
+        "pH數字總結了當前混合物中哪種特性更強。",
+        "粒子和條形圖的提示幫助展示為什麼尺度會移動而不是將pH視為一個孤立的事實。"
+      ]
+    },
+    "workedExamples": {
+      "title": "即時例題",
+      "intro": "使用當前的酸鹼實驗台，而不是脱離情境的數線練習。",
+      "items": [
+        {
+          "id": "read-the-current-ph-balance",
+          "title": "讀取當前的pH平衡",
+          "prompt": "對於目前的混合物，pH 説明瞭甚麼關於酸性和鹼性特性的平衡？",
+          "variables": [
+            {
+              "id": "acid-amount",
+              "label": "酸量"
+            },
+            {
+              "id": "base-amount",
+              "label": "鹼量"
+            },
+            {
+              "id": "water-volume",
+              "label": "水量"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-mixture",
+              "label": "1. 閱讀目前的混合物份量"
+            },
+            {
+              "id": "read-character",
+              "label": "2. 比較兩種混合物特性"
+            },
+            {
+              "id": "read-ph",
+              "label": "3. 一起讀取pH尺度和混合物條形圖"
+            }
+          ],
+          "resultLabel": "當前pH讀數",
+          "applyAction": {
+            "label": "應用近中性情況",
+            "observationHint": "pH試紙和特性條形圖應該一起保持在中間附近。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "移動混合物接近中性，但不要完全去除較強的一方。",
+      "prediction": "在嘗試之前，決定是進行平衡新增還是增加水更乾淨的動作。",
+      "answer": "你可以透過新增相反的特性或用更多水稀釋混合物來接近中性。",
+      "explanation": "兩種行動都能減輕不平衡，但原因不同。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "根據實時pH值和混合物提示回答。",
+    "questions": [
+      {
+        "id": "abph-qt-ph-meaning",
+        "prompt": "目前實驗台上的 pH 值，最直接總結了甚麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "目前混合物哪一側具有較強的酸性或鹼性特性？"
+          },
+          {
+            "id": "b",
+            "label": "只有pH試紙的顏色。"
+          },
+          {
+            "id": "c",
+            "label": "僅液體總量。"
+          }
+        ],
+        "explanation": "pH讀數總結了當前的酸鹼平衡。"
+      },
+      {
+        "id": "abph-qt-water",
+        "prompt": "向同一酸鹼混合物中新增更多水最直接的效果是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它可以減輕兩側並使 pH 值回到中性附近。"
+          },
+          {
+            "id": "b",
+            "label": "它始終會使混合物更酸性。"
+          },
+          {
+            "id": "c",
+            "label": "它始終會使混合物更鹼性。"
+          }
+        ],
+        "explanation": "更多的水將相同的酸和鹼影響擴散到更大的體積中。"
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一個酸鹼容器、一張pH試紙以及調節酸量、鹼量和水量的控制項。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "一張圖表顯示 pH 隨著酸量變化，另一張則顯示 pH 隨著鹼量變化。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "acidic-mix",
+        "label": "酸性混合物",
+        "description": "開啟一個明顯呈酸性的案例，pH試紙可見。"
+      },
+      {
+        "id": "near-neutral",
+        "label": "接近中性",
+        "description": "開啟一個接近中性的案例並比較酸性和鹼性特性的條形圖。"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "ph-balance",
+      "label": "pH平衡故事",
+      "meaning": "保持 pH 數字與當前的酸鹼平衡相關聯。"
+    },
+    {
+      "id": "water-softening",
+      "label": "水軟化故事",
+      "meaning": "展示了為什麼稀釋可以將混合物拉回尺度的中間。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "acid-amount",
+      "label": "酸量",
+      "description": "增加了混合物中的酸性影響。"
+    },
+    {
+      "id": "base-amount",
+      "label": "鹼量",
+      "description": "增加了混合物中的鹼性影響。"
+    },
+    {
+      "id": "water-volume",
+      "label": "水量",
+      "description": "透過擴散到更多水中來減輕兩側的影響。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "acid-amount",
+        "label": "酸量"
+      },
+      {
+        "id": "base-amount",
+        "label": "鹼量"
+      },
+      {
+        "id": "water-volume",
+        "label": "水量"
+      }
+    ],
+    "presets": [
+      {
+        "id": "acidic-mix",
+        "label": "酸性混合",
+        "description": "一個明顯偏酸的混合情況。"
+      },
+      {
+        "id": "near-neutral",
+        "label": "接近中性",
+        "description": "酸與鹼兩邊的影響接近相抵。"
+      },
+      {
+        "id": "basic-mix",
+        "label": "鹼性混合",
+        "description": "一個明顯偏鹼的混合情況。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "characterMix",
+        "label": "性質條",
+        "shortDescription": "同時顯示酸性與鹼性兩邊的強弱。",
+        "whatToNotice": [
+          "pH 試紙和混合物性質條應該一起指向同一邊較強。"
+        ],
+        "whyItMatters": "它把 pH 讀數重新連回實際的混合物性質。"
+      },
+      {
+        "id": "phScale",
+        "label": "pH 尺度",
+        "shortDescription": "讓目前的 pH 位置保持清楚可見。",
+        "whatToNotice": [
+          "當酸或鹼一方變強時，刻度位置會向那一側移動。"
+        ],
+        "whyItMatters": "它讓 pH 不再只是抽象數字，而是混合狀態的即時讀數。"
+      },
+      {
+        "id": "particleMotion",
+        "label": "粒子動感",
+        "shortDescription": "保持燒杯內粒子活動的視覺線索。",
+        "whatToNotice": [
+          "即使 pH 接近中性，燒杯裡仍然是實際可見的混合過程。"
+        ],
+        "whyItMatters": "它提醒你這不是靜止標籤，而是持續混合中的溶液。"
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "ph-vs-acid",
+      "label": "pH 對酸量",
+      "xLabel": "酸量",
+      "yLabel": "pH"
+    },
+    {
+      "id": "ph-vs-base",
+      "label": "pH 對鹼量",
+      "xLabel": "鹼量",
+      "yLabel": "pH"
+    }
+  ],
+  "noticePrompts": {
+    "title": "觀察重點",
+    "intro": "把燒杯、性質條和 pH 尺度一起看。",
+    "items": [
+      {
+        "id": "abph-notice-acid",
+        "text": "當你慢慢增加酸量時，pH 會向較低的一側移動，而酸性條也會變得更長。"
+      },
+      {
+        "id": "abph-notice-water",
+        "text": "加水不會把酸或鹼變成另一種東西，但會把兩邊的影響都拉向較溫和，令 pH 靠近中間。"
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "先預測混合物會往哪一邊移動，再用燒杯和 pH 尺度驗證。",
+    "items": [
+      {
+        "id": "abph-predict-more-base",
+        "prompt": "如果在目前混合物中加入更多鹼，而其他條件不變，pH 最合理會怎樣改變？",
+        "scenarioLabel": "加入更多鹼",
+        "choices": [
+          {
+            "id": "a",
+            "label": "pH 會上升，混合物會向較鹼的一側移動。"
+          },
+          {
+            "id": "b",
+            "label": "pH 會下降，因為混合物變得更活躍。"
+          },
+          {
+            "id": "c",
+            "label": "完全不變。"
+          }
+        ],
+        "explanation": "當鹼量增加時，鹼性一側的影響變強，所以 pH 會向較高、較鹼的一側移動。",
+        "observationHint": "留意 pH 試紙位置和性質條是否一起向鹼性方向偏移。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "用同一個燒杯把混合物調到目標狀態，而不是隻靠記憶 pH 名稱。",
+    "items": [
+      {
+        "id": "abph-ch-land-near-neutral",
+        "title": "調到接近中性",
+        "prompt": "把目前的混合物調整到接近中性，令 pH 回到中間附近，同時保留清楚的酸鹼平衡。",
+        "successMessage": "你已把混合物拉回接近中性，pH 試紙與性質條都顯示兩邊影響接近平衡。"
+      }
+    ]
+  }
+}

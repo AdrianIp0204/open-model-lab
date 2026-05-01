@@ -1,0 +1,1223 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live induction checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Flux-change checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Keep the electricity-magnetism story moving"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Track one magnet passing one coil and see how changing magnetic flux linkage creates induced emf while Lenz's law fixes the response direction, with the stage, galvanometer, and graphs all driven by the same bounded motion.",
+    "keyTakeaway": "Induced emf depends on changing flux linkage $\\Lambda = N\\Phi$, not on the mere presence of a magnetic field."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Faraday's law is the bridge moment where magnetism stops being just a field pattern and starts becoming a source of electrical response. A magnetic field through a loop is not enough by itself. The loop only develops an emf when the magnetic flux through that loop changes, and Lenz's law fixes the sign so the induced effect opposes the change that produced it.",
+        "This module keeps one compact moving-magnet-and-coil picture in charge. One bar magnet passes one coil on one shared axis. The same magnet position, speed, pole orientation, coil turns, and coil area determine the stage, the galvanometer, the current arrows, the flux graph, the induced-response graph, the worked examples, the prediction prompts, the checkpoint challenge, and the quick test, so the Faraday/Lenz story stays tied to one honest changing setup instead of turning into a detached formula rule."
+      ]
+    },
+    "keyIdeas": [
+      "Induced emf depends on changing flux linkage $\\Lambda = N\\Phi$, not on the mere presence of a magnetic field.",
+      "Relative change matters. A strong magnetic field can exist through the coil while the induced emf is still zero if the flux is not changing at that instant.",
+      "More turns, larger coil area, stronger magnetic coupling, or faster relative motion can all increase the induction signal because they increase how much linked flux changes.",
+      "The sign of emf and current is a direction label: positive and negative mean opposite loop directions in the stage convention, and Lenz's law chooses the direction that opposes the current flux change.",
+      "Reversing the motion direction or flipping which pole faces the coil reverses the sign of the induced emf and current. Lenz's law says that sign always opposes the change in flux."
+    ],
+    "commonMisconception": {
+      "myth": "If the magnetic field through the coil is large, the induced emf must also be large.",
+      "correction": [
+        "A large field can produce a large flux, but induction depends on the rate of change of flux. A flat flux curve gives zero emf even at a strong-field moment.",
+        "That is why the induced-response graph crosses zero when the magnet is centered in a symmetric pass: the flux is momentarily at an extremum, so its slope is zero there."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live induction checks",
+      "intro": "Work directly from the live moving-magnet state on screen. The same magnet pass, coil geometry, and polarity now driving the stage also set the flux linkage, emf, and current below.",
+      "items": [
+        {
+          "id": "current-flux-and-emf",
+          "title": "Current flux linkage and induced emf",
+          "prompt": "For the current magnet pass, what flux linkage, induced emf, and loop current does the coil have right now?",
+          "variables": [
+            {
+              "id": "magnet-strength",
+              "variableId": "magnetStrength",
+              "symbol": "B_0",
+              "label": "Magnet strength",
+              "valueKey": "magnetStrengthValue",
+              "unit": "T"
+            },
+            {
+              "id": "coil-turns",
+              "variableId": "coilTurns",
+              "symbol": "N",
+              "label": "Coil turns",
+              "valueKey": "coilTurnsValue",
+              "unit": "turns"
+            },
+            {
+              "id": "coil-area",
+              "variableId": "coilArea",
+              "symbol": "A",
+              "label": "Coil area",
+              "valueKey": "coilAreaValue",
+              "unit": "m^2"
+            },
+            {
+              "id": "speed",
+              "variableId": "speed",
+              "symbol": "v",
+              "label": "Magnet speed",
+              "valueKey": "speedValue",
+              "unit": "m/s"
+            },
+            {
+              "id": "magnet-position",
+              "symbol": "x_m",
+              "label": "Magnet position",
+              "valueKey": "positionValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-motion",
+              "label": "1. Read the live magnet pass",
+              "template": "The magnet is at $x_m = {{positionValue}}\\,\\mathrm{m}$ with $v = {{speedValue}}\\,\\mathrm{m/s}$, so it is {{motionStateValue}} the coil."
+            },
+            {
+              "id": "field-at-coil",
+              "label": "2. Evaluate the signed field through the coil",
+              "template": "With pole sign $s = {{poleSignValue}}$, the bounded field model gives $B_{\\text{coil}} = {{fieldValue}}\\,\\mathrm{T}$."
+            },
+            {
+              "id": "flux-linkage",
+              "label": "3. Build the linked flux",
+              "template": "Using $N = {{coilTurnsValue}}$ and $A = {{coilAreaValue}}\\,\\mathrm{m^2}$, the coil links $\\Lambda = N A B_{\\text{coil}} = {{fluxLinkageValue}}\\,\\mathrm{Wb\\!\\cdot\\!turn}$ in this bounded setup."
+            },
+            {
+              "id": "faraday-law",
+              "label": "4. Turn changing flux into emf and current",
+              "template": "Faraday's law gives $\\mathcal{E} = -d\\Lambda/dt = {{emfValue}}\\,\\mathrm{V}$, so the loop current is $I = {{currentValue}}\\,\\mathrm{A}$."
+            }
+          ],
+          "resultLabel": "Induction state",
+          "resultTemplate": "$\\Lambda = {{fluxLinkageValue}}\\,\\mathrm{Wb\\!\\cdot\\!turn}, \\quad \\mathcal{E} = {{emfValue}}\\,\\mathrm{V}, \\quad I = {{currentValue}}\\,\\mathrm{A}$",
+          "interpretationTemplate": "{{fieldInterpretation}}",
+          "applyAction": {
+            "label": "Show faster pass",
+            "presetId": "fast-pass",
+            "observationHint": "The flux story keeps the same basic shape, but a faster pass makes the emf peaks taller because the same change happens in less time.",
+            "highlightedControlIds": [
+              "speed"
+            ],
+            "highlightedGraphIds": [
+              "field-flux",
+              "induced-response"
+            ],
+            "highlightedOverlayIds": [
+              "motionCue",
+              "currentLoop"
+            ]
+          }
+        },
+        {
+          "id": "flux-peak-versus-emf",
+          "title": "Why strong flux can still give zero emf",
+          "prompt": "At the current moment, does a large flux linkage guarantee a large induced emf?",
+          "variables": [
+            {
+              "id": "position",
+              "symbol": "x_m",
+              "label": "Magnet position",
+              "valueKey": "positionValue",
+              "unit": "m"
+            },
+            {
+              "id": "field",
+              "symbol": "B_{coil}",
+              "label": "Field through coil",
+              "valueKey": "fieldValue",
+              "unit": "T"
+            },
+            {
+              "id": "flux-linkage",
+              "symbol": "\\Lambda",
+              "label": "Flux linkage",
+              "valueKey": "fluxLinkageValue",
+              "unit": "Wb-turn"
+            },
+            {
+              "id": "emf",
+              "symbol": "\\mathcal{E}",
+              "label": "Induced emf",
+              "valueKey": "emfValue",
+              "unit": "V"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-flux",
+              "label": "1. Read the current flux linkage",
+              "template": "Right now the coil has $\\Lambda = {{fluxLinkageValue}}\\,\\mathrm{Wb\\!\\cdot\\!turn}$ while the magnet sits at $x_m = {{positionValue}}\\,\\mathrm{m}$."
+            },
+            {
+              "id": "check-slope",
+              "label": "2. Ask whether that flux is changing",
+              "template": "The change rate is $d\\Lambda/dt = {{fluxRateValue}}\\,\\mathrm{Wb\\!\\cdot\\!turn/s}$, so the flux is {{fluxTrendValue}} at this instant."
+            },
+            {
+              "id": "compare-response",
+              "label": "3. Compare flux itself with the induced response",
+              "template": "That makes $\\mathcal{E} = {{emfValue}}\\,\\mathrm{V}$ and $I = {{currentValue}}\\,\\mathrm{A}$ even though the field through the coil is still $B_{\\text{coil}} = {{fieldValue}}\\,\\mathrm{T}$."
+            }
+          ],
+          "resultLabel": "Flux versus response",
+          "resultTemplate": "$\\Lambda = {{fluxLinkageValue}}\\,\\mathrm{Wb\\!\\cdot\\!turn}, \\quad d\\Lambda/dt = {{fluxRateValue}}\\,\\mathrm{Wb\\!\\cdot\\!turn/s}, \\quad \\mathcal{E} = {{emfValue}}\\,\\mathrm{V}$",
+          "interpretationTemplate": "{{relativeChangeInterpretation}}",
+          "applyAction": {
+            "label": "Show centered zero",
+            "presetId": "paused-at-center",
+            "observationHint": "The field through the coil is still present, but the meter settles to zero because the linked flux is no longer changing.",
+            "highlightedControlIds": [
+              "speed",
+              "startOffset"
+            ],
+            "highlightedGraphIds": [
+              "field-flux",
+              "induced-response"
+            ],
+            "highlightedOverlayIds": [
+              "fieldBand",
+              "currentLoop"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Suppose the magnet is centered in the coil and the coil is linking a strong field at that instant. Should the galvanometer necessarily show a large deflection? Answer from flux-change logic, not from field-size intuition.",
+      "prediction": "Predict what the induced-response graph should do at the instant the flux curve reaches a maximum or minimum.",
+      "answer": "No. The galvanometer can read zero even at a strong-field moment if the flux linkage is not changing right then.",
+      "explanation": "Faraday's law cares about $d\\Lambda/dt$, not just $\\Lambda$. At the top or bottom of the flux curve, the slope is zero, so the induced emf and current cross through zero even though the field and linked flux can still be large."
+    }
+  },
+  "equations": [
+    {
+      "id": "motion-position",
+      "latex": "x_m(t) = x_0 + v t",
+      "label": "One-dimensional magnet pass",
+      "meaning": "The same shared pass determines where the magnet is relative to the coil at every instant.",
+      "notes": [
+        "Positive v means the magnet starts on the left and moves right.",
+        "Negative v means the magnet starts on the right and moves left."
+      ]
+    },
+    {
+      "id": "bounded-field",
+      "latex": "B_{\\text{coil}}(x_m) = s\\,\\dfrac{B_0}{1 + (x_m/\\ell)^2}",
+      "label": "Bounded field-through-coil model",
+      "meaning": "In this compact model, the field through the coil is strongest near the coil center and weakens with distance. The pole sign $s = \\pm 1$ flips the field direction."
+    },
+    {
+      "id": "flux-linkage",
+      "latex": "\\Lambda = N\\Phi = N A B_{\\text{coil}}",
+      "label": "Flux linkage",
+      "meaning": "More turns or more coil area means more linked magnetic flux for the same field-through-coil snapshot."
+    },
+    {
+      "id": "faraday-law",
+      "latex": "\\mathcal{E} = -\\dfrac{d\\Lambda}{dt}",
+      "label": "Faraday's law",
+      "meaning": "Induced emf depends on how quickly the linked flux changes, not on the flux value alone."
+    },
+    {
+      "id": "induced-current",
+      "latex": "I = \\dfrac{\\mathcal{E}}{R_{\\text{loop}}}",
+      "label": "Loop current",
+      "meaning": "With one fixed loop resistance in this model, the induced current follows the induced emf directly."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "magnetStrength",
+      "symbol": "B_0",
+      "label": "Magnet strength",
+      "param": "magnetStrength",
+      "tone": "amber",
+      "description": "Changes the size of the magnetic coupling through the coil, which lifts both the flux linkage and the induction response.",
+      "equationIds": [
+        "bounded-field",
+        "flux-linkage",
+        "faraday-law"
+      ],
+      "graphIds": [
+        "field-flux",
+        "induced-response"
+      ],
+      "overlayIds": [
+        "fieldBand",
+        "currentLoop"
+      ]
+    },
+    {
+      "id": "coilTurns",
+      "symbol": "N",
+      "label": "Coil turns",
+      "param": "coilTurns",
+      "tone": "sky",
+      "description": "Adding turns stacks more linked flux onto the same coil pass, so the emf and current traces scale up with the same motion.",
+      "equationIds": [
+        "flux-linkage",
+        "faraday-law",
+        "induced-current"
+      ],
+      "graphIds": [
+        "field-flux",
+        "induced-response"
+      ],
+      "overlayIds": [
+        "coilArea",
+        "currentLoop"
+      ]
+    },
+    {
+      "id": "coilArea",
+      "symbol": "A",
+      "label": "Coil area",
+      "param": "coilArea",
+      "tone": "teal",
+      "description": "A larger loop links more of the same field-through-coil picture, so the flux linkage and induced response both grow.",
+      "equationIds": [
+        "flux-linkage",
+        "faraday-law"
+      ],
+      "graphIds": [
+        "field-flux",
+        "induced-response"
+      ],
+      "overlayIds": [
+        "coilArea",
+        "currentLoop"
+      ]
+    },
+    {
+      "id": "speed",
+      "symbol": "v",
+      "label": "Magnet speed",
+      "param": "speed",
+      "tone": "coral",
+      "description": "Speed controls how quickly the same flux story unfolds in time. Faster motion makes the flux change more sharply and the induced response larger.",
+      "equationIds": [
+        "motion-position",
+        "faraday-law",
+        "induced-current"
+      ],
+      "graphIds": [
+        "field-flux",
+        "induced-response"
+      ],
+      "overlayIds": [
+        "motionCue",
+        "currentLoop"
+      ]
+    },
+    {
+      "id": "startOffset",
+      "symbol": "x_0",
+      "label": "Starting offset",
+      "param": "startOffset",
+      "tone": "ink",
+      "description": "Sets how far the magnet begins from the coil center at t = 0, which changes whether the time window catches an approach, a crossing, or a centered pause.",
+      "equationIds": [
+        "motion-position",
+        "bounded-field"
+      ],
+      "graphIds": [
+        "field-flux"
+      ],
+      "overlayIds": [
+        "motionCue"
+      ]
+    },
+    {
+      "id": "northFacingCoil",
+      "symbol": "s",
+      "label": "Pole sign",
+      "param": "northFacingCoil",
+      "tone": "sky",
+      "description": "Flips which pole faces the coil, which reverses the sign of the field, the flux linkage, the induced emf, and the loop current.",
+      "equationIds": [
+        "bounded-field",
+        "flux-linkage",
+        "faraday-law"
+      ],
+      "graphIds": [
+        "field-flux",
+        "induced-response"
+      ],
+      "overlayIds": [
+        "fieldBand",
+        "currentLoop"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "magnetStrength": 1.4,
+      "coilTurns": 120,
+      "coilArea": 1,
+      "speed": 1.2,
+      "startOffset": 2.6,
+      "northFacingCoil": true
+    },
+    "ui": {
+      "initialGraphId": "induced-response",
+      "primaryGraphIds": [
+        "induced-response"
+      ],
+      "primaryControlIds": [
+        "speed",
+        "startOffset"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "magnetStrength",
+        "kind": "slider",
+        "label": "Magnet strength",
+        "param": "magnetStrength",
+        "min": 0.6,
+        "max": 2.4,
+        "step": 0.05,
+        "unit": "T",
+        "description": "Changes the field-through-coil scale in the bounded magnet model."
+      },
+      {
+        "id": "coilTurns",
+        "kind": "slider",
+        "label": "Coil turns",
+        "param": "coilTurns",
+        "min": 40,
+        "max": 240,
+        "step": 5,
+        "unit": "turns",
+        "description": "Adds or removes turns from the same loop, which changes the flux linkage without changing the basic pass."
+      },
+      {
+        "id": "coilArea",
+        "kind": "slider",
+        "label": "Coil area",
+        "param": "coilArea",
+        "min": 0.6,
+        "max": 1.8,
+        "step": 0.05,
+        "unit": "m^2",
+        "description": "Changes the size of the loop that links the field through the coil."
+      },
+      {
+        "id": "speed",
+        "kind": "slider",
+        "label": "Magnet speed",
+        "param": "speed",
+        "min": -1.6,
+        "max": 1.6,
+        "step": 0.05,
+        "unit": "m/s",
+        "description": "Positive values start on the left and move right. Negative values start on the right and move left."
+      },
+      {
+        "id": "startOffset",
+        "kind": "slider",
+        "label": "Starting offset",
+        "param": "startOffset",
+        "min": 0,
+        "max": 3,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Sets the initial magnet distance from the coil center at t = 0."
+      },
+      {
+        "id": "northFacingCoil",
+        "kind": "toggle",
+        "label": "North pole faces coil",
+        "param": "northFacingCoil",
+        "description": "Flip which pole points toward the coil to reverse the sign of the induction story."
+      }
+    ],
+    "presets": [
+      {
+        "id": "approach-and-pass",
+        "label": "Approach and pass",
+        "description": "A clean left-to-right pass through the coil for the default induction story.",
+        "values": {
+          "magnetStrength": 1.4,
+          "coilTurns": 120,
+          "coilArea": 1,
+          "speed": 1.2,
+          "startOffset": 2.6,
+          "northFacingCoil": true
+        }
+      },
+      {
+        "id": "paused-at-center",
+        "label": "Paused at center",
+        "description": "Hold the magnet in the coil center to show that flux can be nonzero while induced current vanishes.",
+        "values": {
+          "magnetStrength": 1.4,
+          "coilTurns": 120,
+          "coilArea": 1,
+          "speed": 0,
+          "startOffset": 0,
+          "northFacingCoil": true
+        }
+      },
+      {
+        "id": "fast-pass",
+        "label": "Fast pass",
+        "description": "Use the same geometry but increase the speed so the flux changes more quickly.",
+        "values": {
+          "magnetStrength": 1.4,
+          "coilTurns": 120,
+          "coilArea": 1,
+          "speed": 1.6,
+          "startOffset": 2.6,
+          "northFacingCoil": true
+        }
+      },
+      {
+        "id": "wide-coil",
+        "label": "Wider coil",
+        "description": "Increase the loop area so the same field links more of the coil.",
+        "values": {
+          "magnetStrength": 1.4,
+          "coilTurns": 120,
+          "coilArea": 1.6,
+          "speed": 1.2,
+          "startOffset": 2.6,
+          "northFacingCoil": true
+        }
+      },
+      {
+        "id": "more-turns",
+        "label": "More turns",
+        "description": "Stack more turns onto the same pass so the flux linkage and induced response both grow.",
+        "values": {
+          "magnetStrength": 1.4,
+          "coilTurns": 200,
+          "coilArea": 1,
+          "speed": 1.2,
+          "startOffset": 2.6,
+          "northFacingCoil": true
+        }
+      },
+      {
+        "id": "reverse-polarity",
+        "label": "Reverse pole",
+        "description": "Keep the same pass but flip which pole faces the coil so the signs reverse.",
+        "values": {
+          "magnetStrength": 1.4,
+          "coilTurns": 120,
+          "coilArea": 1,
+          "speed": 1.2,
+          "startOffset": 2.6,
+          "northFacingCoil": false
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "fieldBand",
+        "label": "Field band",
+        "shortDescription": "Shows the signed field threading the coil at the current moment.",
+        "whatToNotice": [
+          "The band color flips when the pole facing the coil flips, even if the rest of the geometry stays the same."
+        ],
+        "whyItMatters": "It keeps the magnetic part of the induction story visible instead of hiding it behind the meter.",
+        "relatedControls": [
+          "magnetStrength",
+          "northFacingCoil"
+        ],
+        "relatedGraphTabs": [
+          "field-flux"
+        ],
+        "relatedEquationVariables": [
+          "magnetStrength",
+          "northFacingCoil"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "coilArea",
+        "label": "Coil area",
+        "shortDescription": "Highlights how much loop area is available to link the field.",
+        "whatToNotice": [
+          "A larger loop does not change the magnet pass itself. It changes how much of that field story the coil links."
+        ],
+        "whyItMatters": "It makes the area factor in $\\Lambda = N A B$ tangible on the stage.",
+        "relatedControls": [
+          "coilArea",
+          "coilTurns"
+        ],
+        "relatedGraphTabs": [
+          "field-flux",
+          "induced-response"
+        ],
+        "relatedEquationVariables": [
+          "coilArea",
+          "coilTurns"
+        ],
+        "defaultOn": false
+      },
+      {
+        "id": "motionCue",
+        "label": "Motion cue",
+        "shortDescription": "Shows the motion direction and the current rate of change of linked flux.",
+        "whatToNotice": [
+          "The same field pattern can give a different emf when the magnet moves faster because the change happens over a shorter time."
+        ],
+        "whyItMatters": "Induction is a change story, so the motion and the flux slope need to stay visible together.",
+        "relatedControls": [
+          "speed",
+          "startOffset"
+        ],
+        "relatedGraphTabs": [
+          "field-flux",
+          "induced-response"
+        ],
+        "relatedEquationVariables": [
+          "speed",
+          "startOffset"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "currentLoop",
+        "label": "Current loop",
+        "shortDescription": "Shows the loop-current direction and galvanometer sign from the same induced response.",
+        "whatToNotice": [
+          "Positive and negative current signs are direction labels for the loop arrows in this stage convention.",
+          "The arrows collapse when the emf crosses zero, then reverse when the sign of the induced response flips."
+        ],
+        "whyItMatters": "It keeps Lenz's-law direction tied to the same emf sign shown in the graph and readout, instead of treating the sign as just a number.",
+        "relatedControls": [
+          "speed",
+          "northFacingCoil"
+        ],
+        "relatedGraphTabs": [
+          "induced-response"
+        ],
+        "relatedEquationVariables": [
+          "speed",
+          "northFacingCoil"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "field-flux",
+      "label": "Field and flux linkage",
+      "xLabel": "time (s)",
+      "yLabel": "signed magnetic linkage response",
+      "series": [
+        "coil-field",
+        "flux-linkage"
+      ],
+      "description": "The field-through-coil trace and the linked-flux trace come from the same magnet pass, so the taller flux curve is just the field story scaled by coil turns and area."
+    },
+    {
+      "id": "induced-response",
+      "label": "Induced emf and current",
+      "xLabel": "time (s)",
+      "yLabel": "induced response",
+      "series": [
+        "induced-emf",
+        "induced-current"
+      ],
+      "description": "The response graph shows the signed emf and current created by changing flux linkage; positive and negative are opposite loop-current directions in the stage convention."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the current prompt as a compact investigation cue. Each one points at an induction pattern the stage, galvanometer, and graphs already show in the live state.",
+    "items": [
+      {
+        "id": "emi-notice-centered-zero",
+        "text": "A large linked flux can coexist with zero induced emf. What matters is whether the flux curve is changing right now.",
+        "type": "misconception",
+        "priority": 1,
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "speed",
+              "min": -0.05,
+              "max": 0.05
+            },
+            {
+              "param": "startOffset",
+              "min": 0,
+              "max": 0.2
+            }
+          ]
+        },
+        "tryThis": "Use the centered preset and compare the visible field band with the nearly flat induced-response graph.",
+        "whyItMatters": "This breaks the common mistake of treating field size itself as the cause of induction.",
+        "relatedControls": [
+          "speed",
+          "startOffset"
+        ],
+        "relatedGraphTabs": [
+          "field-flux",
+          "induced-response"
+        ],
+        "relatedOverlays": [
+          "fieldBand",
+          "currentLoop"
+        ],
+        "relatedEquationVariables": [
+          "speed",
+          "startOffset"
+        ]
+      },
+      {
+        "id": "emi-notice-stationary-field",
+        "text": "If the magnet stays fixed relative to the coil, the field and flux can remain nonzero while the induced current collapses to zero.",
+        "type": "observation",
+        "priority": 2,
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "speed",
+              "min": -0.05,
+              "max": 0.05
+            }
+          ]
+        },
+        "tryThis": "Freeze the pass by dragging speed to zero, then look at the galvanometer and the current-loop arrows.",
+        "whyItMatters": "Induction is about relative change, not about a magnet merely being nearby.",
+        "relatedControls": [
+          "speed",
+          "northFacingCoil"
+        ],
+        "relatedGraphTabs": [
+          "induced-response"
+        ],
+        "relatedOverlays": [
+          "fieldBand",
+          "currentLoop"
+        ],
+        "relatedEquationVariables": [
+          "speed",
+          "northFacingCoil"
+        ]
+      },
+      {
+        "id": "emi-notice-speed",
+        "text": "A faster pass does not create a different kind of flux story. It makes the same change happen in less time, so the emf peaks get taller.",
+        "type": "graph-reading",
+        "priority": 4,
+        "conditions": {
+          "lastChangedControls": [
+            "speed"
+          ]
+        },
+        "tryThis": "Switch between the default pass and the fast-pass preset while keeping the other controls fixed.",
+        "whyItMatters": "This connects the derivative idea in Faraday's law to an honest before-and-after comparison on the same stage.",
+        "relatedControls": [
+          "speed"
+        ],
+        "relatedGraphTabs": [
+          "field-flux",
+          "induced-response"
+        ],
+        "relatedOverlays": [
+          "motionCue",
+          "currentLoop"
+        ],
+        "relatedEquationVariables": [
+          "speed"
+        ]
+      },
+      {
+        "id": "emi-notice-area-turns",
+        "text": "More coil area or more turns scales the linked flux story upward without changing the magnet path itself.",
+        "type": "compare",
+        "priority": 5,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Clone the default pass into compare mode, then change only coil area or coil turns in Setup B.",
+        "whyItMatters": "It separates geometric linkage factors from the motion factor, so the learner can see what changed and what did not.",
+        "relatedControls": [
+          "coilArea",
+          "coilTurns"
+        ],
+        "relatedGraphTabs": [
+          "field-flux",
+          "induced-response"
+        ],
+        "relatedOverlays": [
+          "coilArea",
+          "currentLoop"
+        ],
+        "relatedEquationVariables": [
+          "coilArea",
+          "coilTurns"
+        ]
+      },
+      {
+        "id": "emi-notice-sign-reversal",
+        "text": "Flip the pole or reverse the motion and the response sign flips. Treat the sign as a loop-direction label, then use Lenz's law to decide which direction opposes the changing flux.",
+        "type": "try-this",
+        "priority": 6,
+        "tryThis": "Keep the same pass and use the reverse-polarity preset. Watch the field band, meter sign, and current-loop arrows reverse together.",
+        "whyItMatters": "It ties sign convention, current direction, and opposition to change into one shared picture instead of three disconnected rules.",
+        "relatedControls": [
+          "northFacingCoil",
+          "speed"
+        ],
+        "relatedGraphTabs": [
+          "field-flux",
+          "induced-response"
+        ],
+        "relatedOverlays": [
+          "fieldBand",
+          "currentLoop"
+        ],
+        "relatedEquationVariables": [
+          "northFacingCoil",
+          "speed"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the induction response before you apply the change. Each scenario changes one causal idea at a time so the stage, flux graph, and galvanometer stay coherent.",
+    "items": [
+      {
+        "id": "emi-pred-centered-zero",
+        "prompt": "If the magnet is held centered in the coil instead of passing through, what should the induced-response graph do?",
+        "scenarioLabel": "Pause at center",
+        "changeLabel": "Stop the relative change",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The field and flux can stay nonzero, but the induced emf and current collapse toward zero."
+          },
+          {
+            "id": "b",
+            "label": "A centered magnet must maximize emf because the field through the coil is largest there."
+          },
+          {
+            "id": "c",
+            "label": "The emf stays the same because coil turns and area did not change."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Faraday's law depends on the rate of change of linked flux. A symmetric centered pause can leave the coil linking field without changing that linkage in time.",
+        "observationHint": "The flux trace can sit away from zero while the induced-response graph settles to the axis.",
+        "apply": {
+          "presetId": "paused-at-center"
+        },
+        "highlightedControls": [
+          "speed",
+          "startOffset"
+        ],
+        "highlightedGraphs": [
+          "field-flux",
+          "induced-response"
+        ],
+        "highlightedOverlays": [
+          "fieldBand",
+          "currentLoop"
+        ]
+      },
+      {
+        "id": "emi-pred-fast-pass",
+        "prompt": "If the magnet passes the same coil faster with the same polarity and geometry, which graph change is most defensible?",
+        "scenarioLabel": "Faster pass",
+        "changeLabel": "Change rate",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The emf and current peaks become taller because the same flux story changes over a shorter time."
+          },
+          {
+            "id": "b",
+            "label": "Only the field-through-coil curve changes sign because the magnet is moving faster."
+          },
+          {
+            "id": "c",
+            "label": "Nothing important changes because the peak flux value is set only by magnet strength."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Speed changes how quickly the linked flux rises and falls. That steepens the time derivative and increases the emf magnitude even if the pass geometry stays the same.",
+        "observationHint": "Compare the slope of the flux linkage with the height of the emf peaks.",
+        "apply": {
+          "presetId": "fast-pass"
+        },
+        "highlightedControls": [
+          "speed"
+        ],
+        "highlightedGraphs": [
+          "field-flux",
+          "induced-response"
+        ],
+        "highlightedOverlays": [
+          "motionCue",
+          "currentLoop"
+        ]
+      },
+      {
+        "id": "emi-pred-pole-flip",
+        "prompt": "If the same pass is repeated but the opposite pole faces the coil, what should happen to the induction story?",
+        "scenarioLabel": "Reverse pole",
+        "changeLabel": "Sign flip",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The field, flux linkage, emf, and current all reverse sign while the overall timing stays similar."
+          },
+          {
+            "id": "b",
+            "label": "Only the field band color changes. The emf and current directions stay the same."
+          },
+          {
+            "id": "c",
+            "label": "The response disappears because north and south poles produce equal induction that cancels."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Changing which pole faces the coil flips the sign of the field through the coil. That flips the linked flux and the induced response while preserving the basic timing of the pass.",
+        "observationHint": "Watch the meter sign and the current-loop arrows switch direction with the pole orientation.",
+        "apply": {
+          "presetId": "reverse-polarity"
+        },
+        "highlightedControls": [
+          "northFacingCoil"
+        ],
+        "highlightedGraphs": [
+          "field-flux",
+          "induced-response"
+        ],
+        "highlightedOverlays": [
+          "fieldBand",
+          "currentLoop"
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from flux-change reasoning, not from isolated formulas or memorized slogans.",
+    "questions": [
+      {
+        "id": "emi-qt-stationary-field",
+        "prompt": "A coil sits in a steady magnetic field that is not changing through time. Which statement is best?",
+        "type": "reasoning",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The induced current is zero because the linked flux is not changing."
+          },
+          {
+            "id": "b",
+            "label": "The induced current must be large because the field is large."
+          },
+          {
+            "id": "c",
+            "label": "The current direction alternates even if the field is steady."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Induction requires a changing flux linkage. A steady magnetic condition can leave the coil linking field without producing emf.",
+        "showMeAction": {
+          "label": "Show stationary case",
+          "presetId": "paused-at-center",
+          "observationHint": "The field band remains visible while the meter settles near zero.",
+          "highlightedControlIds": [
+            "speed"
+          ],
+          "highlightedGraphIds": [
+            "field-flux",
+            "induced-response"
+          ],
+          "highlightedOverlayIds": [
+            "fieldBand",
+            "currentLoop"
+          ]
+        }
+      },
+      {
+        "id": "emi-qt-flux-peak",
+        "prompt": "During a symmetric pass, the flux linkage through the coil reaches a maximum when the magnet is centered. What must be true at that instant?",
+        "type": "graph-reading",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The induced emf can be zero because the flux curve has zero slope there."
+          },
+          {
+            "id": "b",
+            "label": "The emf must also be at a maximum because the flux is largest."
+          },
+          {
+            "id": "c",
+            "label": "The current direction becomes undefined because the field disappears."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A maximum flux value does not imply a maximum derivative. At the peak of the flux curve the slope is zero, so the induced emf crosses through zero.",
+        "showMeAction": {
+          "label": "Show centered zero",
+          "presetId": "paused-at-center",
+          "observationHint": "Read the flux graph and the induced-response graph together instead of comparing only the field size.",
+          "highlightedControlIds": [
+            "speed",
+            "startOffset"
+          ],
+          "highlightedGraphIds": [
+            "field-flux",
+            "induced-response"
+          ],
+          "highlightedOverlayIds": [
+            "fieldBand",
+            "currentLoop"
+          ]
+        }
+      },
+      {
+        "id": "emi-qt-sign-flip",
+        "prompt": "Which change will reverse the sign of the induced emf for the same basic pass through the coil?",
+        "type": "compare-two-cases",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Flip which pole faces the coil or reverse the direction of relative motion."
+          },
+          {
+            "id": "b",
+            "label": "Increase the number of turns while leaving the motion and polarity unchanged."
+          },
+          {
+            "id": "c",
+            "label": "Increase the coil area while leaving the motion and polarity unchanged."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The emf sign tracks the direction of change in linked flux under the stage's chosen positive loop direction. Flipping pole orientation or reversing motion reverses that change, so the emf and current signs reverse too.",
+        "showMeAction": {
+          "label": "Show pole flip",
+          "presetId": "reverse-polarity",
+          "observationHint": "The same timing remains, but the sign of the field, emf, and current reverses.",
+          "highlightedControlIds": [
+            "northFacingCoil"
+          ],
+          "highlightedGraphIds": [
+            "field-flux",
+            "induced-response"
+          ],
+          "highlightedOverlayIds": [
+            "fieldBand",
+            "currentLoop"
+          ]
+        }
+      },
+      {
+        "id": "emi-qt-turns-scale",
+        "prompt": "Two setups use the same magnet pass and polarity, but one coil has more turns. Which response is most defensible?",
+        "type": "variable-effect",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The larger-turn coil has a larger flux linkage and usually a larger emf because the same changing field links more turns."
+          },
+          {
+            "id": "b",
+            "label": "The emf must stay the same because only speed controls induction."
+          },
+          {
+            "id": "c",
+            "label": "The current disappears because adding turns cancels the field inside the coil."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "With the same pass, more turns means more linked flux and a larger flux-change rate in the coil model, so the induced response scales upward.",
+        "showMeAction": {
+          "label": "Show more turns",
+          "presetId": "more-turns",
+          "observationHint": "The magnet path stays the same while the flux linkage and response traces grow.",
+          "highlightedControlIds": [
+            "coilTurns"
+          ],
+          "highlightedGraphIds": [
+            "field-flux",
+            "induced-response"
+          ],
+          "highlightedOverlayIds": [
+            "coilArea",
+            "currentLoop"
+          ]
+        }
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the same bounded coil-and-magnet pass to hit one honest Faraday/Lenz target. The checklist reads the live flux and emf state instead of a detached answer key.",
+    "items": [
+      {
+        "id": "emi-ch-high-flux-zero-emf",
+        "title": "High flux, zero emf",
+        "style": "visible-condition",
+        "prompt": "Starting from Approach and pass, hold the magnet near the coil center so the coil still links strong flux while the induced emf collapses nearly to zero.",
+        "successMessage": "You isolated the Faraday/Lenz hinge: the coil can still link strong flux, but without changing flux there is almost no induced emf to drive current.",
+        "setup": {
+          "presetId": "approach-and-pass",
+          "graphId": "induced-response",
+          "overlayIds": [
+            "fieldBand",
+            "currentLoop"
+          ],
+          "note": "Use the field band and induced-response graph together. The goal is not zero field; it is nearly zero dLambda/dt."
+        },
+        "requirements": {
+          "graphId": "induced-response",
+          "overlayIds": [
+            "fieldBand",
+            "currentLoop"
+          ]
+        },
+        "hints": [
+          "Reduce the relative change instead of weakening the magnet.",
+          "Keep the magnet close enough to the coil that the field band stays strong while the galvanometer settles near center."
+        ],
+        "targets": [
+          {
+            "param": "speed",
+            "min": -0.05,
+            "max": 0.05,
+            "displayUnit": "m/s"
+          },
+          {
+            "param": "startOffset",
+            "min": 0,
+            "max": 0.12,
+            "displayUnit": "m"
+          },
+          {
+            "metric": "fluxLinkage",
+            "min": 2.2,
+            "displayUnit": "Wb-turn"
+          },
+          {
+            "metric": "emf",
+            "min": -0.06,
+            "max": 0.06,
+            "displayUnit": "V"
+          }
+        ]
+      },
+      {
+        "id": "emi-ch-oppose-rising-flux",
+        "title": "Oppose the rising flux",
+        "style": "visible-condition",
+        "prompt": "Pause during the left-side approach so the magnet is still outside the coil, the linked flux is increasing, and the induced current runs in the clockwise Lenz response.",
+        "successMessage": "You caught the Lenz-law moment cleanly: before the magnet reaches center, the coil sees rising flux and drives the opposing clockwise response.",
+        "setup": {
+          "presetId": "approach-and-pass",
+          "graphId": "field-flux",
+          "overlayIds": [
+            "fieldBand",
+            "currentLoop"
+          ],
+          "inspectTime": 1.8,
+          "note": "Start from the default pass, pause on the left approach, and use the current-loop arrow together with the field and flux graph."
+        },
+        "requirements": {
+          "graphId": "field-flux",
+          "overlayIds": [
+            "fieldBand",
+            "currentLoop"
+          ],
+          "timeSource": "inspect",
+          "timeRange": {
+            "label": "Inspect the left-approach window near t = 1.8 s.",
+            "min": 1.7,
+            "max": 1.9,
+            "displayUnit": "s"
+          }
+        },
+        "hints": [
+          "Do not wait for the magnet to reach center. At the center the flux is large, but its slope has already collapsed toward zero.",
+          "On the left approach with the north pole facing the coil, rising positive flux means the induced current must go clockwise in this stage convention."
+        ],
+        "targets": [
+          {
+            "metric": "positionX",
+            "label": "Keep the magnet left of center, around x = -0.55 to -0.3 m.",
+            "min": -0.55,
+            "max": -0.3,
+            "displayUnit": "m"
+          },
+          {
+            "metric": "fluxChangeRate",
+            "label": "Keep the linked flux increasing above 1.6 Wb-turn/s.",
+            "min": 1.6
+          },
+          {
+            "metric": "current",
+            "label": "Make the induced current stay in the clockwise band, about -0.95 to -0.65 A.",
+            "min": -0.95,
+            "max": -0.65,
+            "displayUnit": "A"
+          }
+        ]
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one circular coil fixed at the center of the stage and one bar magnet sliding horizontally past it. A field band marks the signed magnetic field through the coil, a galvanometer card reports induced emf and current, and optional arrows show the loop-current direction when the response is not zero.",
+        "A live readout lists time, magnet position, field through the coil, flux-change rate, induced emf, and current. The same shared pass also drives the graphs, so hovering the time-based plots previews the corresponding moment on the stage."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The first graph compares the field through the coil with the linked flux. The second graph compares induced emf with loop current over the same time axis.",
+        "The key accessibility takeaway is that the response graph depends on how quickly the linked flux changes, not on whether the field or flux itself is merely large at one instant."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Faraday's Law and Lenz's Law",
+    "description": "Learn how changing magnetic flux through a coil induces emf and why the response opposes the change with one compact moving-magnet simulation, linked graphs, worked examples, prediction prompts, and a checkpoint challenge.",
+    "keywords": [
+      "electromagnetic induction",
+      "faraday law",
+      "lenz law",
+      "magnetic flux",
+      "induced emf",
+      "coil and magnet"
+    ]
+  }
+}

@@ -1,0 +1,210 @@
+{
+"pageFramework": {
+"sections": [
+{
+"id": "workedExamples",
+"title": "Work from the live synthesis"
+},
+{
+"id": "miniChallenge",
+"title": "Displacement-current checkpoint"
+},
+{
+"id": "readNext",
+"title": "Carry the synthesis into electromagnetic waves"
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Maxwell's equations become much easier to read when you sort them into two jobs. Gauss's laws are source laws: enclosed charge sets the net electric flux through a closed surface, while magnetic field lines still close on themselves so the net magnetic flux through a closed surface is zero. Faraday's law and the Ampere-Maxwell law are circulation laws: changing magnetic flux drives circulating electric fields, and conduction current plus changing electric flux drive circulating magnetic fields.",
+"This page keeps that synthesis explanation-first. One shared stage shows the two flux laws, the two circulation laws, and a light-bridge cue on the same live state. The same enclosed charge, conduction current, changing-electric term, changing-magnetic term, and cycle rate drive the stage, graphs, prediction prompts, worked examples, and quick test, so Maxwell's equations stay tied to one field-update story rather than feeling like four disconnected formulas."
+]
+},
+"keyIdeas": [
+"Gauss for E is a source law: positive enclosed charge gives outward net electric flux, negative enclosed charge gives inward net electric flux, and zero enclosed charge removes the net source term.",
+"Gauss for B is a closure law: magnetic patterns can be strong locally, but the net magnetic flux through a closed surface still stays zero because magnetic field lines loop back.",
+"Faraday's law says changing magnetic flux creates a circulating electric field. A magnetic field that is merely present is not enough.",
+"Ampere-Maxwell says magnetic circulation can come from conduction current or from a changing electric field, so wire current is not the only source term in the loop story.",
+"When changing electric and magnetic fields both stay active together, Maxwell's equations explain how electricity, magnetism, and light fit into one unified field picture."
+],
+"commonMisconception": {
+"myth": "Maxwell's equations are four unrelated formulas to memorize, and light just means the electric field changes first while the magnetic field reacts later.",
+"correction": [
+"The four equations do different jobs. Two are source laws and two are circulation laws, so a good reading starts by separating net-flux statements from loop-response statements.",
+"In the synthesis picture, changing electric and magnetic fields can support the same ongoing field update. The key idea is coupling, not one field waiting to react after the other at the same point."
+]
+},
+"workedExamples": {
+"title": "Work from the live synthesis",
+"intro": "Read the source-law and circulation-law state directly from the live surface. The same enclosed charge, conduction current, changing-electric term, changing-magnetic term, and cycle rate that drive the stage also drive the algebra below.",
+"items": [
+{
+"id": "current-source-laws",
+"title": "What the source laws say right now",
+"steps": [
+{
+"id": "read-charge",
+"label": "1. Read the enclosed charge"
+},
+{
+"id": "gauss-electric",
+"label": "2. Apply Gauss for E"
+},
+{
+"id": "gauss-magnetic",
+"label": "3. Compare with Gauss for B"
+}
+],
+"resultLabel": "Source-law reading",
+"applyAction": {
+"observationHint": "The electric source term drops to zero, but the loop cards can still stay active because source laws and circulation laws are doing different jobs."
+}
+},
+{
+"id": "current-circulation-bridge",
+"title": "What the loop laws say right now",
+"steps": [
+{
+"id": "ampere-terms",
+"label": "1. Read the two terms that can feed magnetic circulation"
+},
+{
+"id": "ampere-balance",
+"label": "2. Apply Ampere-Maxwell"
+},
+{
+"id": "faraday-balance",
+"label": "3. Apply Faraday"
+},
+{
+"id": "light-bridge",
+"label": "4. Check how strongly the changing-field pair supports the bridge cue"
+}
+],
+"resultLabel": "Loop-law and bridge reading",
+"applyAction": {
+"observationHint": "The wire-current term goes quiet, but the magnetic loop can stay active because the changing electric field still feeds Ampere-Maxwell."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Imagine no conduction current passes through the loop, but the electric field in that region is still changing. Must the magnetic circulation around the loop vanish?",
+"prediction": "Answer from Ampere-Maxwell, not from a current-only rule.",
+"answer": "No. The magnetic circulation can still be nonzero because the changing electric field contributes through Maxwell's displacement-current term.",
+"explanation": "Ampere-Maxwell says $\\oint \\vec{B}\\cdot d\\vec{l}$ depends on enclosed conduction current plus the changing electric-flux term. Zero wire current does not force zero magnetic circulation if $d\\Phi_E/dt$ is still present."
+}
+},
+"equations": [
+{
+"id": "gauss-electric",
+"meaning": "Enclosed charge sets the net electric flux through a closed surface."
+},
+{
+"id": "gauss-magnetic",
+"meaning": "Magnetic field lines still close on themselves, so a closed surface has no net magnetic source term."
+},
+{
+"id": "faraday-law",
+"meaning": "A changing magnetic flux creates a circulating electric field around the loop."
+},
+{
+"id": "ampere-maxwell",
+"meaning": "Magnetic circulation can come from conduction current or from a changing electric field."
+},
+{
+"id": "light-bridge",
+"meaning": "When changing electric and magnetic fields both stay active together, the field update can keep propagating instead of remaining only local."
+}
+],
+"graphs": [
+{
+"id": "flux-laws",
+"description": "Compares the two source-law readings: net electric flux can change with enclosed charge, while net magnetic flux through a closed surface stays zero."
+},
+{
+"id": "ampere-maxwell-link",
+"description": "Shows the conduction-current term, the changing-electric term, and the resulting magnetic circulation on one time axis so you can see that either source can drive the loop response."
+},
+{
+"id": "faraday-wave-link",
+"description": "Shows how changing magnetic flux drives electric circulation and whether the changing-electric and changing-magnetic terms are aligned enough to support a strong light-bridge cue."
+}
+],
+"noticePrompts": {
+"intro": "Use one prompt at a time. First separate source laws from loop laws, then watch how the changing-field pair can bridge toward waves.",
+"items": [
+{
+"id": "maxwell-notice-source-vs-loop",
+"text": "Start by separating jobs. Enclosed charge changes the electric source-law card directly, but the loop cards can still stay active for completely different reasons.",
+"whyItMatters": "Many Maxwell confusions come from mixing source laws with circulation laws."
+},
+{
+"id": "maxwell-notice-no-monopoles",
+"text": "Gauss for B is not saying magnetism disappears. It is saying the net magnetic flux through a closed surface stays zero even while local magnetic loops are strong.",
+"whyItMatters": "This keeps Gauss for B from being misread as magnetism vanishing."
+},
+{
+"id": "maxwell-notice-displacement",
+"text": "Ampere-Maxwell is the key upgrade. Even with no conduction current, a changing electric field can still keep the magnetic loop alive.",
+"whyItMatters": "It turns the displacement-current term into something you can inspect directly instead of only reciting."
+},
+{
+"id": "maxwell-notice-light-bridge",
+"text": "The light bridge is strongest when both changing-field terms stay active together and with compatible signs. Flip one sign and the bridge cue weakens even though the loop laws themselves still remain.",
+"whyItMatters": "It is the intuition-first link from Maxwell's equations to electromagnetic waves and light."
+}
+]
+},
+"predictionMode": {
+"intro": "Commit to the field-law consequence before moving the slider. Each scenario changes one part of the synthesis so the live stage can confirm or correct the idea.",
+"items": [
+{
+"id": "maxwell-pred-neutral-charge",
+"explanation": "Gauss for E depends on enclosed charge, so the electric source term can go neutral. The circulation laws depend on current and changing fields, and Gauss for B still keeps net magnetic flux at zero.",
+"observationHint": "Watch the source-law row separate from the loop row instead of expecting one master slider for everything."
+},
+{
+"id": "maxwell-pred-displacement",
+"explanation": "Ampere-Maxwell includes both enclosed current and the changing-electric term. Zero conduction current does not remove magnetic circulation if the changing-electric contribution remains.",
+"observationHint": "Compare the current-term trace with the total magnetic-circulation trace after the conduction-current slider reaches zero."
+},
+{
+"id": "maxwell-pred-misaligned-bridge",
+"explanation": "Faraday depends directly on the sign of the magnetic-flux change, so the circulating-E response flips. If the changing-E and changing-B terms no longer align, the light-bridge cue weakens even though both loop laws still exist.",
+"observationHint": "Use the bridge card and the Faraday graph together. The loop law remains, but the combined bridge cue becomes misaligned."
+}
+]
+},
+"quickTest": {
+"intro": "Answer from the live synthesis logic, not from detached formula recall. Ask first whether the question is about a source law or a loop law.",
+"questions": [
+{
+"id": "maxwell-qt-gauss-electric",
+"explanation": "Gauss for E is the source-law statement linking enclosed charge to net electric flux through a closed surface."
+},
+{
+"id": "maxwell-qt-gauss-magnetic",
+"explanation": "Gauss for B is the no-net-magnetic-source statement. It does not say magnetic fields vanish; it says closed surfaces still have zero net magnetic flux."
+},
+{
+"id": "maxwell-qt-displacement",
+"explanation": "Maxwell's extra term matters here: a changing electric field can still source magnetic circulation even with zero conduction current."
+},
+{
+"id": "maxwell-qt-light-bridge",
+"explanation": "The light bridge is the intuition-first result of the two circulation laws staying active together. It is not just faster charge flow, and it does not require breaking Gauss for B."
+}
+]
+},
+"accessibility": {
+"graphSummary": {
+"paragraphs": [
+"The flux-laws graph keeps the two source-law readings separate: net electric flux can change with enclosed charge, while net magnetic flux through a closed surface stays zero.",
+"The Ampere-Maxwell graph shows how conduction current and the changing-electric term feed magnetic circulation, and the Faraday-and-bridge graph shows how changing magnetic flux drives electric circulation and how the changing-field pair contributes to the light-bridge cue."
+]
+}
+}
+}

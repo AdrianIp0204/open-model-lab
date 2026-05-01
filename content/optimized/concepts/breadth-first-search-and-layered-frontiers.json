@@ -1,0 +1,291 @@
+{
+"pageFramework": {
+"sections": [
+{
+"id": "readNext",
+"title": "Read the queue frontier and graph layers together"
+}
+],
+"featuredSetups": [
+{
+"id": "layered-campus-bfs",
+"description": "Use a clean graph where BFS finishes one shallow layer before moving to the next."
+},
+{
+"id": "hub-detours-bfs",
+"description": "Start from the center so one shallow node makes the frontier widen before it narrows again."
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Breadth-first search explores an unweighted graph in layers. From the start node, it first reaches nodes one edge away, then nodes two edges away, and so on.",
+"That layered pattern comes from the queue frontier. The oldest discovered node is expanded next, so shallow discoveries stay ahead of later deeper ones. On this bench, keep the graph, frontier cue, and depth history together so the rule stays visible."
+]
+},
+"keyIdeas": [
+"Breadth-first search reaches nodes in increasing fewest-edge distance from the start.",
+"The queue frontier expands the oldest waiting node first.",
+"The frontier can widen before it shrinks because one shallow node may discover several new neighbors."
+],
+"commonMisconception": {
+"myth": "Breadth-first search just means moving across the page in a wide-looking pattern.",
+"correction": [
+"The drawing can be misleading. What matters is queue order: the oldest discovered node is expanded next.",
+"That rule is what makes BFS finish one layer before moving to deeper nodes."
+]
+},
+"workedExamples": {
+"title": "Worked example: read the first BFS layers",
+"intro": "Use the graph, frontier cue, and depth picture together to read what BFS should do first.",
+"items": [
+{
+"id": "read-the-first-bfs-layers",
+"prompt": "Starting from A on the layered campus graph, which nodes should BFS settle before it goes deeper?",
+"variables": [
+{
+"id": "graph-layout",
+"label": "Chosen graph"
+},
+{
+"id": "start-node",
+"label": "Start node"
+},
+{
+"id": "frontier-order",
+"label": "First queue order"
+}
+],
+"steps": [
+{
+"id": "name-the-first-layer",
+"label": "1. Read the first frontier"
+},
+{
+"id": "keep-the-oldest-node-first",
+"label": "2. Keep the queue order honest"
+},
+{
+"id": "connect-to-layered-distance",
+"label": "3. Connect queue order to layer depth"
+}
+],
+"resultLabel": "Layer-order summary",
+"applyAction": {
+"label": "Open layered-campus BFS",
+"observationHint": "Keep the frontier cue and visited-history graph visible together. Watch B and C enter first, then notice that deeper nodes wait until that shallow layer has been processed."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Build a BFS case where the frontier becomes wide before the target is reached.",
+"prediction": "Before you switch presets, decide whether you need a hub-like start or a narrow edge start.",
+"answer": "Use a hub-like start so BFS discovers several same-depth neighbors before it moves deeper.",
+"explanation": "When one shallow node has many direct neighbors, the queue fills with several nodes from the same layer before that layer is processed."
+}
+},
+"equations": [
+{
+"id": "bfs-depth",
+"meaning": "A newly discovered neighbor is one edge deeper than the node that found it."
+},
+{
+"id": "bfs-first-in-first-out",
+"meaning": "BFS removes the oldest frontier node first, then adds its newly discovered neighbors to the back of the queue."
+}
+],
+"variableLinks": [
+{
+"id": "graph-layout",
+"description": "Switch graph scenes and compare how the same queue rule produces different frontier shapes."
+},
+{
+"id": "start-node",
+"description": "Move the starting point and watch the first BFS layer change immediately."
+},
+{
+"id": "target-node",
+"description": "Choose which node the search is trying to reach so you can see when BFS first reaches it."
+},
+{
+"id": "traversal-mode",
+"description": "Use DFS as a contrast, but notice that BFS is the mode that keeps the frontier in queue order."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "graph-index",
+"description": "Switch graph scenes and compare how the frontier grows under the same BFS rule."
+},
+{
+"id": "start-node",
+"description": "Choose where the traversal begins, then read that node's first layer."
+},
+{
+"id": "target-node",
+"description": "Mark the node the search is trying to reach."
+},
+{
+"id": "traversal-mode",
+"description": "Compare queue-based BFS with stack-like DFS on the same graph."
+}
+],
+"presets": [
+{
+"id": "layered-campus-bfs",
+"description": "A clean graph where the first frontier and first two layers are easy to read."
+},
+{
+"id": "bridge-cycle-bfs",
+"description": "A graph with cycles where BFS still settles the shallow side first and visited state prevents repeats."
+},
+{
+"id": "hub-detours-bfs",
+"description": "A centered start that makes the frontier widen quickly at one shallow depth."
+},
+{
+"id": "hub-detours-dfs",
+"description": "The same graph in DFS mode, useful for contrasting layered expansion with branch-first diving."
+}
+],
+"overlays": [
+{
+"id": "adjacencyCue",
+"shortDescription": "Keep the current node's neighbors visible.",
+"whatToNotice": [
+"Each BFS layer grows from the direct neighbors of the node that just left the queue."
+],
+"whyItMatters": "It links the layer pattern to actual edges in the graph."
+},
+{
+"id": "frontierCue",
+"shortDescription": "Show which discovered nodes are waiting next in the queue.",
+"whatToNotice": [
+"Earlier discoveries stay ahead of later ones, so BFS finishes a shallow layer before moving deeper."
+],
+"whyItMatters": "It makes the queue rule visible instead of leaving BFS as a slogan."
+},
+{
+"id": "visitedCue",
+"shortDescription": "Mark which nodes have already been expanded.",
+"whatToNotice": [
+"Visited nodes spread outward from the start in layer order."
+],
+"whyItMatters": "It shows the shallow-to-deep pattern directly on the graph."
+}
+]
+},
+"graphs": [
+{
+"id": "visited-frontier-history",
+"description": "Watch the frontier grow as shallow neighbors are discovered, then shrink as that waiting layer is processed."
+},
+{
+"id": "depth-history",
+"description": "See BFS finish shallower depths before the search reaches deeper nodes."
+},
+{
+"id": "neighbor-check-history",
+"description": "Compare new discoveries with repeat checks that visited state blocks."
+}
+],
+"noticePrompts": {
+"intro": "Keep the graph and one history graph visible together, then follow the queue order after each expansion.",
+"items": [
+{
+"id": "bfs-notice-shallow-before-deep",
+"text": "BFS does not go 'wide' because of the drawing. It goes layer by layer because the oldest discovered node leaves the queue first."
+},
+{
+"id": "bfs-notice-frontier-can-widen-first",
+"text": "The frontier often widens first when one shallow node discovers several neighbors at the same depth."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict which node should leave the queue next before you advance the scene.",
+"items": [
+{
+"id": "bfs-predict-oldest-frontier",
+"prompt": "On the layered-campus BFS run from A, which node should leave the frontier first after A discovers both B and C?",
+"scenarioLabel": "After A discovers B and C",
+"choices": [
+{
+"id": "a",
+"label": "B, because BFS removes the oldest discovered node first."
+},
+{
+"id": "b",
+"label": "C, because the newest discovery always goes next in BFS."
+},
+{
+"id": "c",
+"label": "H, because the target jumps to the front of the queue."
+}
+],
+"explanation": "BFS uses first-in, first-out queue order, so B leaves the frontier before the later discovery C.",
+"observationHint": "Run layered-campus BFS and watch the frontier cue after A expands. B stays ahead of C because it was discovered first."
+}
+]
+},
+"quickTest": {
+"intro": "Answer from the visible queue, layers, and depth graph, not from memorized acronyms.",
+"questions": [
+{
+"id": "bfs-qt-layer-order",
+"prompt": "Why does BFS reach shallow nodes before deeper ones on this bench?",
+"choices": [
+{
+"id": "a",
+"label": "Because the queue frontier keeps earlier discoveries ahead of later ones."
+},
+{
+"id": "b",
+"label": "Because BFS always teleports to the target node."
+},
+{
+"id": "c",
+"label": "Because BFS ignores adjacency once the search starts."
+}
+],
+"explanation": "Queue order keeps earlier shallow discoveries ahead of later deeper ones."
+},
+{
+"id": "bfs-qt-shortest-path-misread",
+"prompt": "What is the key reason BFS is useful on an unweighted graph?",
+"choices": [
+{
+"id": "a",
+"label": "Its layer order means the first time a node is reached, it is by a fewest-edge path from the start."
+},
+{
+"id": "b",
+"label": "It always uses fewer total edges than the graph actually has."
+},
+{
+"id": "c",
+"label": "It removes the need for a frontier entirely."
+}
+],
+"explanation": "Because BFS explores layer by layer, the first time it reaches a node is already along a fewest-edge route from the start."
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows one labeled graph with the current node, the queue frontier, and the visited nodes highlighted differently so the BFS layers stay readable.",
+"A readout card reports the traversal mode, current node, frontier size, visited count, and target, while a cue panel shows the frontier order and the current neighbor list."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"One graph tracks visited nodes against frontier size, a second tracks current depth against the deepest reached depth, and a third compares new discoveries with repeat skips.",
+"Together they show how breadth-first search can widen the frontier and then settle the graph layer by layer."
+]
+}
+}
+}

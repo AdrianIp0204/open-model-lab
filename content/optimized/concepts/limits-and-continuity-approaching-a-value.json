@@ -1,0 +1,282 @@
+{
+"pageFramework": {
+"featuredSetups": [
+{
+"id": "continuous-match",
+"label": "Matching limit and point",
+"description": "Open the case where both sides approach the same height and the actual point lands there too.",
+"setup": {
+"note": "Use this as the baseline continuity case before comparing holes, jumps, and blow-up behavior."
+}
+},
+{
+"id": "removable-hole",
+"label": "Same limit, different point",
+"description": "Open the case where both sides approach one height but the actual point is somewhere else.",
+"setup": {
+"note": "Use this to separate the limit from the actual function value at the target."
+}
+},
+{
+"id": "jump-split",
+"label": "Sides disagree",
+"description": "Open the case where the left-hand and right-hand sides approach different heights.",
+"setup": {
+"note": "Use this to see why a two-sided limit needs agreement from both sides."
+}
+},
+{
+"id": "vertical-blow-up",
+"label": "No finite landing height",
+"description": "Open the asymptote-like case where the nearby values do not settle to any finite value.",
+"setup": {
+"note": "Use this to compare a true no-finite-limit case with holes and jumps."
+}
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"A limit asks what the function values do as x gets close to a target, not what happens exactly at the target. On this bench the target stays fixed at $x = 0$, and the case slider plus the distance control $h$ let you watch whether the left-hand and right-hand values approach one shared height, split toward different heights, or fail to settle to any finite height at all.",
+"Continuity is the second question, not the first. First decide whether both sides approach one finite value. Then compare that limiting value with the actual plotted point at $x = 0$: if they match, the function is continuous there; if they do not, you may have a removable hole, a jump, or no finite limit."
+]
+},
+"keyIdeas": [
+"Always read the left-hand and right-hand behavior separately first. A two-sided limit exists only when both sides approach the same value.",
+"A removable hole and a continuous graph can have the same finite limit. The difference is whether the actual function value at the target matches that limit.",
+"A jump fails because the two sides approach different heights, while a blow-up fails because the values do not settle to any finite height."
+],
+"commonMisconception": {
+"myth": "The filled point at the target decides the limit.",
+"correction": [
+"The limit is about what nearby x-values are doing as they approach the target, not about the value at one point by itself.",
+"A removable-hole case shows this clearly: the nearby values can approach one number even when the actual function value is different or missing."
+]
+},
+"workedExamples": {
+"title": "Read the limit from the graph",
+"intro": "Use the case slider, the distance $h$, and the one-sided markers together. First read what the two sides are doing. Then compare that limit story with the actual point at $x = 0$.",
+"items": [
+{
+"id": "compare-the-one-sided-values",
+"title": "Read the one-sided behavior",
+"prompt": "For the current {{caseLabelValue}} case with $h = {{hValue}}$, what do the left-hand and right-hand markers suggest about the limit?",
+"steps": [
+{
+"id": "read-case",
+"label": "1. Read the case and the sample distance"
+},
+{
+"id": "read-sides",
+"label": "2. Read the left-hand and right-hand values"
+},
+{
+"id": "decide-limit-story",
+"label": "3. Decide whether a two-sided limit is possible"
+}
+],
+"resultLabel": "One-sided reading",
+"applyAction": {
+"label": "Show the removable hole",
+"observationHint": "The two sides are already approaching the same height even though the actual point at $x = 0$ does not sit there."
+}
+},
+{
+"id": "limit-versus-the-actual-point",
+"title": "Compare the limit with the actual value",
+"prompt": "In the current {{caseLabelValue}} case, does the function value at $x = 0$ match the value the graph approaches?",
+"steps": [
+{
+"id": "read-limit",
+"label": "1. Read the two-sided limit story"
+},
+{
+"id": "read-point",
+"label": "2. Read the actual value at the target"
+},
+{
+"id": "decide-continuity",
+"label": "3. Decide whether the function is continuous"
+}
+],
+"resultLabel": "Limit and actual value",
+"applyAction": {
+"label": "Show the jump",
+"observationHint": "The left and right sides approach different heights, so there is no single two-sided limit for the point at $x = 0$ to match."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Choose the case where both sides approach the same finite height, but the function is still not continuous at the target.",
+"prediction": "Before switching cases, decide whether the failure should come from disagreeing sides, no finite limit, or the actual point not matching the limit.",
+"answer": "Choose the removable-hole case. The limit exists, but the actual function value does not match it.",
+"explanation": "This separates the two ideas cleanly: limits describe nearby behavior, while continuity also requires the function value at the target to agree with that limit."
+}
+},
+"equations": [
+{
+"id": "one-sided-limits",
+"meaning": "Describe what the graph approaches from the left and from the right of the target."
+},
+{
+"id": "two-sided-limit",
+"meaning": "A finite two-sided limit exists only when both one-sided limits approach the same number $L$."
+},
+{
+"id": "continuity-at-a",
+"meaning": "Continuity at the target means the limit exists and equals the actual function value there."
+}
+],
+"variableLinks": [
+{
+"id": "case-mode",
+"description": "Switches between continuous, removable-hole, jump, and blow-up behavior while keeping the same target x-value."
+},
+{
+"id": "approach-distance",
+"description": "Moves the sample points closer to or farther from $x = 0$ so you can see whether both sides are settling to the same value."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "case-mode",
+"description": "Switch between a continuous graph, a removable hole, a jump, and an asymptote-like blow-up."
+},
+{
+"id": "approach-distance",
+"description": "Move the left-hand and right-hand sample points closer to or farther from the target at $x = 0$."
+}
+],
+"overlays": [
+{
+"id": "sampleMarkers",
+"shortDescription": "Show the left-hand and right-hand sample points and where they sit on the graph.",
+"whatToNotice": [
+"As $h$ shrinks, the two markers reveal whether the sides are moving toward one value, different values, or no finite value at all."
+],
+"whyItMatters": "It makes the idea of approach visible instead of leaving it as a definition to memorize."
+},
+{
+"id": "limitGuide",
+"shortDescription": "Show the shared finite limiting height when the case has one.",
+"whatToNotice": [
+"The continuous and removable-hole cases can share the same finite limit guide."
+],
+"whyItMatters": "It separates the limit from the separate question of whether the actual point matches it."
+},
+{
+"id": "actualPoint",
+"shortDescription": "Show the actual function value at $x = 0$, or show that no value is defined there.",
+"whatToNotice": [
+"Continuity depends on this point matching the limiting value when a finite limit exists."
+],
+"whyItMatters": "It keeps $f(0)$ separate from the nearby approach behavior."
+}
+]
+},
+"graphs": [
+{
+"id": "one-sided-approach",
+"description": "Shows how the left-hand and right-hand values behave as the sample points move toward the target from each side."
+}
+],
+"noticePrompts": {
+"intro": "Use these prompts to keep three questions separate: what happens from the left, what happens from the right, and what happens exactly at the target.",
+"items": [
+{
+"id": "lc-notice-same-height-different-point",
+"text": "Switch between the continuous and removable-hole cases. The nearby values can approach the same height in both cases, even though only one has the actual point at that height."
+},
+{
+"id": "lc-notice-one-sided-split",
+"text": "In the jump case, making $h$ smaller does not make the two sides agree. Each side approaches a different height."
+},
+{
+"id": "lc-notice-blow-up",
+"text": "In the blow-up case, the values do not settle to any finite height as $h$ shrinks. Their magnitudes keep growing instead."
+}
+]
+},
+"predictionMode": {
+"title": "Predict the limit story",
+"intro": "Predict what the graph should do before you switch cases or move the sample points inward.",
+"items": [
+{
+"id": "lc-predict-removable",
+"prompt": "If both sides head toward the same finite height but the actual point sits somewhere else, what type of behavior is that?",
+"explanation": "That is a removable discontinuity. The limit exists, but the function value at the target does not match it.",
+"observationHint": "Keep both the limit guide and the actual point visible so you can compare them directly."
+},
+{
+"id": "lc-predict-jump",
+"prompt": "If the left-hand and right-hand values approach different heights as $h$ shrinks, what happens to the two-sided limit?",
+"explanation": "A two-sided limit needs agreement from both sides. If the sides approach different heights, no single two-sided limit exists.",
+"observationHint": "Use a small $h$ and compare the two markers side by side."
+}
+]
+},
+"quickTest": {
+"intro": "Answer from the one-sided markers, the limit guide, and the actual point. Each question is really asking which of those three pieces matters.",
+"questions": [
+{
+"id": "lc-qt-one-sided",
+"explanation": "A finite two-sided limit requires both sides to approach the same finite value.",
+"showMeAction": {
+"label": "Show matching sides",
+"observationHint": "Both sides approach the same height, and in this case the actual point lands there too."
+}
+},
+{
+"id": "lc-qt-continuity",
+"explanation": "Continuity at a point means the limit exists and equals the actual function value there.",
+"showMeAction": {
+"label": "Show a limit that does not match the point",
+"observationHint": "The limit guide and the actual point are separated, so the function is not continuous even though the limit exists."
+}
+},
+{
+"id": "lc-qt-blow-up",
+"explanation": "If the values never settle to one finite number as $h$ shrinks, there is no finite two-sided limit.",
+"showMeAction": {
+"label": "Show no finite limit",
+"observationHint": "As the sample points move inward, the values do not settle to one finite height."
+}
+}
+]
+},
+"challengeMode": {
+"intro": "Use the graph as a classification bench. The goal is to separate “the limit exists” from “the function is continuous.”",
+"items": [
+{
+"id": "lc-ch-agreeing-sides-broken-continuity",
+"title": "Limit exists, continuity fails",
+"prompt": "Switch to the case where the left-hand and right-hand values agree on one finite limit, but the function is still not continuous at $x = 0$.",
+"successMessage": "You found the removable-hole case. The limit exists, but the actual point does not match it.",
+"setup": {
+"note": "Start from the continuous case, then look for the smallest change that breaks continuity without breaking the limit."
+},
+"hints": [
+"A jump is not the right case because the two sides stop agreeing.",
+"You want the case where the limit guide stays the same but the actual point moves away."
+]
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows one coordinate graph with a target at $x = 0$, a function curve, and two movable sample points approaching the target from the left and the right. Depending on the selected case, the graph can be continuous, show a removable hole with a separate filled point, split into a jump, or rise and fall sharply near the target like a vertical asymptote.",
+"A side readout reports the current left-hand value, right-hand value, limit reading, and actual function value at the target. Optional guides mark the sample points, the finite limiting height when one exists, and the actual point or undefined status at $x = 0$."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The one-sided-approach graph plots value against distance to the target, so the left-hand and right-hand traces show whether the two sides are converging to the same finite number, separating into a jump, or failing to settle at all.",
+"Optional guides keep the finite limit and the actual function value visible as separate objects, which makes removable holes and true continuity easy to compare."
+]
+}
+}
+}

@@ -1,0 +1,247 @@
+{
+"pageFramework": {
+"sections": [
+{
+"id": "workedExamples",
+"title": "Solve the live field"
+},
+{
+"id": "miniChallenge",
+"title": "Test the inverse-square law"
+},
+{
+"id": "readNext",
+"title": "Bridge this into orbits"
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"A gravitational field tells you the force per kilogram that a tiny test mass would feel at a point. The field exists because of the source mass, whether or not you place a probe there, so field comes before force.",
+"In this lab one source mass sits at the origin, so every live field arrow points inward toward it. Moving the probe changes distance and direction, changing the source mass changes the field itself, and changing the probe mass changes only the force response through F = m_test g. That keeps the stage, graphs, and equations tied to one live model."
+]
+},
+"keyIdeas": [
+"The source mass creates the field. At one chosen point, the probe mass does not change the field direction or strength.",
+"For one source mass, the field points toward the source and its magnitude follows the inverse-square rule |g| = GM/r^2, so doubling distance gives one quarter of the field.",
+"The probe mass turns the existing field into force through F = m_test g, so changing only the probe mass rescales force without rewriting the field."
+],
+"commonMisconception": {
+"myth": "A heavier probe makes the gravitational field at that point stronger.",
+"correction": [
+"At a point, the gravitational field is set by the source mass and the source-to-probe distance, not by the probe mass.",
+"Making the probe heavier increases the force because $\\vec{F} = m_{\text{test}}\\vec{g}$, but the field arrow and the field graph change only if you move the probe or change the source."
+]
+},
+"workedExamples": {
+"title": "Worked example from the live field",
+"intro": "Use the current source mass, probe position, and probe mass as evidence. First calculate the field vector from the live distance and inward direction. Then use that same field to calculate the force on the chosen probe mass, keeping the field-versus-force distinction explicit.",
+"items": [
+{
+"id": "current-gravity-field",
+"title": "Field at the current probe position",
+"steps": [
+{
+"id": "measure-distance",
+"label": "1. Find the source-to-probe distance"
+},
+{
+"id": "apply-field-relation",
+"label": "2. Substitute into the one-source field rule"
+},
+{
+"id": "resolve-components",
+"label": "3. Resolve the field components"
+}
+],
+"resultLabel": "Field at the probe",
+"applyAction": {
+"label": "Try double distance on-axis",
+"observationHint": "Keep the probe on the horizontal axis and compare 1 m with 2 m. At 2 m, the field should be about one quarter of the 1 m value."
+}
+},
+{
+"id": "current-probe-force",
+"title": "Force on the current probe",
+"prompt": "For the current probe mass, what force follows from the live gravitational field at that point?",
+"steps": [
+{
+"id": "force-relation",
+"label": "1. Start from the field-to-force rule"
+},
+{
+"id": "substitute-force",
+"label": "2. Substitute the current probe mass and field"
+},
+{
+"id": "compute-force",
+"label": "3. Compute the force components"
+}
+],
+"resultLabel": "Force on the probe",
+"applyAction": {
+"label": "Try heavier probe",
+"observationHint": "The coral force arrow and force curve grow, but the teal field arrow and field curve stay fixed because only the probe mass changed."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Start from Axis near, then move the probe to twice the distance on the same horizontal line. Before you drag, predict what happens to the field magnitude and the force if the probe mass stays fixed.",
+"prediction": "State the ratio first: if distance doubles, should the field become half, one quarter, or stay the same? Then say whether the fixed-mass force follows the same ratio.",
+"answer": "At twice the distance on the same radial line, the field magnitude and the force both drop to about one quarter of their original values.",
+"explanation": "For one source mass, |g| ∝ 1/r^2. Doubling r makes the denominator four times larger, so the field drops to one quarter. With the same probe mass, |F| = m_test |g| drops by the same factor; changing probe mass would change force, not the field."
+}
+},
+"equations": [
+{
+"id": "distance-relation",
+"meaning": "This source-to-probe distance sets the field strength in the one-source model."
+},
+{
+"id": "gravity-field",
+"meaning": "The minus sign shows that the field points inward toward the source mass.",
+"notes": [
+"In this bounded lab, $G = 1$ is built into the displayed units so you can focus on direction and scaling."
+]
+},
+{
+"id": "inverse-square",
+"meaning": "At fixed source mass, doubling distance reduces the field to one quarter."
+},
+{
+"id": "force-on-probe",
+"meaning": "Probe mass converts the field into force without changing the field itself."
+}
+],
+"variableLinks": [
+{
+"id": "sourceMass",
+"description": "Changes the mass creating the field, so both the field and the probe force scale directly with $M$ at every point."
+},
+{
+"id": "probeX",
+"description": "Moves the probe left or right on the stage and on the sampled graph slice, so you can read the same field on both."
+},
+{
+"id": "probeY",
+"description": "Moves the probe to a different horizontal scan line, changing both the field direction and the graph slice."
+},
+{
+"id": "testMass",
+"description": "Changes only the force on the probe. It does not rewrite the field created by the source mass."
+}
+],
+"simulation": {
+"overlays": [
+{
+"id": "fieldGrid",
+"shortDescription": "Shows sample field arrows across the stage.",
+"whatToNotice": [
+"Every arrow points inward toward the source, but the arrows shrink quickly as the distance grows."
+],
+"whyItMatters": "It makes field direction a whole-region pattern instead of something you infer from only one probe point."
+},
+{
+"id": "fieldVector",
+"shortDescription": "Shows the live field arrow and the radial line from the source to the probe.",
+"whatToNotice": [
+"At every point, the teal arrow points back along the line toward the source mass."
+],
+"whyItMatters": "It ties the stage direction directly to the component graph and the field equation."
+},
+{
+"id": "forceVector",
+"shortDescription": "Shows the force on the chosen probe mass using the same live field.",
+"whatToNotice": [
+"Changing only the probe mass rescales the coral force arrow while the teal field arrow stays fixed."
+],
+"whyItMatters": "It separates the field itself from the response of the object placed in that field."
+},
+{
+"id": "distanceRings",
+"shortDescription": "Marks equal-distance circles around the source for inverse-square comparisons.",
+"whatToNotice": [
+"The 1 m, 2 m, and 3 m rings make it easier to compare how quickly $|\\vec{g}|$ falls as $r$ grows."
+],
+"whyItMatters": "It turns inverse-square reasoning into a geometric comparison you can see before you calculate."
+},
+{
+"id": "scanLine",
+"shortDescription": "Marks the horizontal slice sampled by both graphs.",
+"whatToNotice": [
+"Changing the probe's y-position changes the entire graph because the graph is now sampling a different slice of the field."
+],
+"whyItMatters": "It keeps the graph-to-stage link honest instead of making the graphs feel detached."
+}
+]
+},
+"graphs": [
+{
+"id": "field-components",
+"description": "Shows how the inward field splits into x- and y-components along the current horizontal slice."
+},
+{
+"id": "strength-response",
+"description": "Separates field strength from force on the chosen probe, so source-mass and probe-mass changes do not get mixed up."
+}
+],
+"noticePrompts": {
+"title": "What to notice in the field",
+"intro": "Use these prompts to connect the stage to the graphs. Keep three ideas separate: the source mass creates the field, distance sets the inverse-square size, and probe mass turns the field into force.",
+"items": [
+{
+"id": "gf-notice-inward-direction",
+"text": "Field direction comes first: the gravitational field always points toward the source mass.",
+"tryThis": "Drag the probe around the source and keep the teal field arrow visible. The direction should keep rotating inward toward the center.",
+"whyItMatters": "Direction is part of the field, not an afterthought. Read the geometry before the magnitude."
+},
+{
+"id": "gf-notice-distance-ratio",
+"text": "On the same radial line, moving from 1 m to 2 m cuts $|\\vec{g}|$ to about one quarter.",
+"tryThis": "Switch between Axis near and Double distance while keeping the rings and strength graph visible.",
+"whyItMatters": "It turns inverse-square into a visual distance comparison."
+},
+{
+"id": "gf-notice-probe-mass",
+"text": "Changing only the probe mass moves the force curve and force arrow, not the field curve or field arrow.",
+"whyItMatters": "It separates the source-generated field from the response of the chosen object."
+},
+{
+"id": "gf-notice-source-mass",
+"text": "Changing source mass scales the whole field pattern while every arrow still points inward.",
+"tryThis": "Keep the probe fixed and raise the source mass from 2 kg to 4 kg. Both the field and force magnitudes should double at that point.",
+"whyItMatters": "It separates the source-strength idea from the distance idea before you combine them."
+},
+{
+"id": "gf-notice-compare-source-vs-probe",
+"text": "Compare mode is strongest when one setup changes the source mass and the other changes the probe mass. One changes the field and force, while the other changes only the force.",
+"whyItMatters": "It is the fastest honest contrast between cause of a field and response to a field."
+}
+]
+},
+"predictionMode": {
+"title": "Prediction mode",
+"intro": "Predict the gravitational response before you apply the change. Each scenario isolates one cause: source mass changes the field, distance changes the field by inverse-square scaling, and probe mass changes only force."
+},
+"quickTest": {
+"title": "Quick check",
+"intro": "Answer from field logic, not from isolated formulas. Each question asks what the stage and graphs must mean about inward field direction, inverse-square scaling, or force on the probe mass."
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows one source mass fixed at the origin, a movable probe mass in a bounded two-dimensional region, and optional overlays for a coarse field grid, the live field arrow at the probe, the force arrow on the probe, equal-distance rings, and the horizontal scan line used by the graphs.",
+"Dragging the probe changes the sampled field location directly on the stage. The same location is used by the field readout, the force readout, and the graph cursor, so the stage and graphs always describe the same point.",
+"Very near the source, the display uses a minimum sampling radius so the drawn arrows and graphs stay finite and readable. This keeps the visualization bounded while preserving the correct trend that field strength rises sharply near the source."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The field-components graph plots the horizontal and vertical gravitational field components along the current horizontal scan line. Hovering or scrubbing the graph previews the same x-location on the stage.",
+"The strength-response graph plots field magnitude and probe-force magnitude along that same scan line. Changing probe mass rescales only the force curve, while changing source mass or distance changes the field curve itself."
+]
+}
+}
+}

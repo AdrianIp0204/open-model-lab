@@ -1,0 +1,798 @@
+[
+  {
+    "topicSlug": "oscillations",
+    "questions": [
+      {
+        "id": "damping-energy-response",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedConceptSlugs": [
+          "simple-harmonic-motion",
+          "oscillation-energy",
+          "damping-resonance"
+        ],
+        "prompt": "A spring-mass system is driven near its natural frequency. Damping is increased without changing the driving force. Which combined explanation best matches the topic?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The resonant amplitude falls because energy added each cycle is dissipated faster, even though the motion still swaps energy between kinetic and spring potential forms."
+          },
+          {
+            "id": "b",
+            "label": "The resonant amplitude rises because damping helps the system store more spring energy each cycle."
+          },
+          {
+            "id": "c",
+            "label": "The natural frequency disappears, so energy no longer shifts between kinetic and potential at all."
+          },
+          {
+            "id": "d",
+            "label": "The oscillator stops exchanging energy internally and only stores energy in the driving source."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The oscillator still trades energy between kinetic and spring potential forms as it moves. Damping removes some of that mechanical energy each cycle, so a drive near resonance produces a smaller steady response unless it replaces those losses."
+      }
+    ]
+  },
+  {
+    "topicSlug": "mechanics",
+    "questions": [
+      {
+        "id": "impulse-before-collision-outcome",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedConceptSlugs": [
+          "momentum-impulse",
+          "conservation-of-momentum",
+          "collisions"
+        ],
+        "prompt": "In a crash analysis, why is it useful to separate the short contact force from the final two-object motion?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Use impulse to track each object's momentum change during contact, then use conservation and collision reasoning to interpret the post-impact motion of the system."
+          },
+          {
+            "id": "b",
+            "label": "Use collision formulas first to get the contact force, then ignore momentum because it only matters before impact."
+          },
+          {
+            "id": "c",
+            "label": "Treat impulse and conservation of momentum as unrelated topics because one applies only to stationary objects."
+          },
+          {
+            "id": "d",
+            "label": "Use torque instead, because every collision is mainly a rotational equilibrium problem."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Impulse connects the large force during the short contact interval to each object's momentum change. Once the interaction is over, conservation of momentum and the collision model explain how the objects move afterward."
+      }
+    ]
+  },
+  {
+    "topicSlug": "fluids",
+    "questions": [
+      {
+        "id": "static-vs-moving-fluid-pressure",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedConceptSlugs": [
+          "pressure-and-hydrostatic-pressure",
+          "continuity-equation",
+          "bernoullis-principle"
+        ],
+        "prompt": "A water tank feeds a horizontal pipe that narrows before the outlet. Which statement correctly connects the still-fluid and moving-fluid ideas in this topic?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "In the resting tank, pressure is larger deeper down. Once the water is moving in the narrow section, continuity makes the speed increase and Bernoulli says the static pressure there drops."
+          },
+          {
+            "id": "b",
+            "label": "Pressure is always highest where the fluid moves fastest, so the narrow section must have the largest static pressure."
+          },
+          {
+            "id": "c",
+            "label": "Hydrostatic pressure and Bernoulli cannot both apply to the same water system, so one of them must be ignored."
+          },
+          {
+            "id": "d",
+            "label": "Continuity predicts lower speed in the narrow section, so Bernoulli raises the pressure there."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Hydrostatic pressure describes how pressure varies with depth in a resting fluid. In the flowing pipe, continuity links the smaller cross-section to a higher speed, and Bernoulli links that higher speed to a lower static pressure at the same height."
+      }
+    ]
+  },
+  {
+    "topicSlug": "thermodynamics",
+    "questions": [
+      {
+        "id": "heat-flow-vs-temperature-plateau",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedConceptSlugs": [
+          "temperature-and-internal-energy",
+          "heat-transfer",
+          "specific-heat-and-phase-change"
+        ],
+        "prompt": "Ice at 0°C sits in a pan that keeps supplying heat. Why can energy keep entering while the thermometer stays at 0°C for a while?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Heat transfer keeps adding energy, but during the phase change that energy raises internal energy by breaking intermolecular binding instead of raising the average-kinetic-energy temperature signal."
+          },
+          {
+            "id": "b",
+            "label": "No energy enters during melting because a constant temperature always means zero heat transfer."
+          },
+          {
+            "id": "c",
+            "label": "The gas law forces every heated sample to increase temperature immediately, even during a phase change."
+          },
+          {
+            "id": "d",
+            "label": "Specific heat becomes negative, so added energy cancels itself out."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Heat can still flow into the sample while the temperature stays fixed during melting. In that stage the added energy changes the internal-energy bookkeeping through latent heat instead of increasing the average microscopic kinetic energy that the thermometer tracks."
+      }
+    ]
+  },
+  {
+    "topicSlug": "electricity",
+    "questions": [
+      {
+        "id": "field-potential-capacitor-chain",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedConceptSlugs": [
+          "electric-fields",
+          "electric-potential",
+          "capacitance-and-stored-electric-energy"
+        ],
+        "prompt": "A parallel-plate capacitor stays connected to a battery while the voltage is increased. Which chain best links the topic concepts?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "A larger potential difference corresponds to a stronger electric field between the plates, so more charge is stored and the capacitor's stored electric energy increases."
+          },
+          {
+            "id": "b",
+            "label": "A larger potential difference weakens the field, so the plates hold less charge and less energy."
+          },
+          {
+            "id": "c",
+            "label": "Electric potential is unrelated to electric field, so changing the battery voltage cannot affect stored charge."
+          },
+          {
+            "id": "d",
+            "label": "Capacitance means the battery voltage changes, but the field and stored energy stay fixed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The battery raises the potential difference between the plates. That supports a stronger electric field across the gap, and for the same capacitor geometry more charge and more stored electric energy are then held on the plates."
+      }
+    ]
+  },
+  {
+    "topicSlug": "electromagnetism",
+    "questions": [
+      {
+        "id": "induction-to-wave-propagation",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedConceptSlugs": [
+          "electromagnetic-induction",
+          "maxwells-equations-synthesis",
+          "electromagnetic-waves"
+        ],
+        "prompt": "Which statement best connects induction, Maxwell's synthesis, and electromagnetic waves?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "A changing magnetic flux can induce an electric effect, and Maxwell's laws extend that idea so time-varying electric and magnetic fields can sustain one another as a propagating electromagnetic wave."
+          },
+          {
+            "id": "b",
+            "label": "Induction works only for coils, so it has no conceptual connection to propagating electromagnetic waves."
+          },
+          {
+            "id": "c",
+            "label": "Electromagnetic waves need steady electric and magnetic fields that never change in time."
+          },
+          {
+            "id": "d",
+            "label": "Maxwell's equations replace induction by showing that changing fields cannot influence one another."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Induction already shows that a changing magnetic situation can produce an electric response. Maxwell's synthesis generalizes that coupling, which is why changing electric and magnetic fields can propagate together as an electromagnetic wave."
+      }
+    ]
+  },
+  {
+    "topicSlug": "optics",
+    "questions": [
+      {
+        "id": "prism-to-fiber",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedConceptSlugs": [
+          "refraction-snells-law",
+          "dispersion-refractive-index-color",
+          "total-internal-reflection"
+        ],
+        "prompt": "White light enters a prism and then one separated color enters an optical fiber. Which combined statement is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The prism separates colors because refraction depends on wavelength through the refractive index, and the fiber guides the chosen color by total internal reflection when the ray meets the boundary above the critical condition."
+          },
+          {
+            "id": "b",
+            "label": "The prism separates colors because total internal reflection happens first, and the fiber then works by ordinary refraction only."
+          },
+          {
+            "id": "c",
+            "label": "Dispersion changes brightness but not direction, so the prism cannot separate colors before the fiber."
+          },
+          {
+            "id": "d",
+            "label": "Once light has been refracted by the prism, total internal reflection is impossible inside the fiber."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Dispersion is a refraction effect: different wavelengths bend by different amounts because the refractive index depends on color. In the fiber, the chosen ray is then trapped by total internal reflection if it meets the boundary beyond the critical-angle condition."
+      }
+    ]
+  },
+  {
+    "topicSlug": "modern-physics",
+    "questions": [
+      {
+        "id": "quantized-energy-evidence",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedConceptSlugs": [
+          "photoelectric-effect",
+          "atomic-spectra",
+          "bohr-model"
+        ],
+        "prompt": "Which pair of observations points most directly to quantized energy levels rather than a smooth continuum?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "A threshold frequency in the photoelectric effect and discrete atomic spectral lines."
+          },
+          {
+            "id": "b",
+            "label": "Half-life randomness and a steady incandescent color gradient."
+          },
+          {
+            "id": "c",
+            "label": "Classical wave diffraction and continuous thermal expansion."
+          },
+          {
+            "id": "d",
+            "label": "A smoother orbit and a continuously variable standing-wave node count."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The photoelectric threshold shows that light-energy transfer is not arbitrarily smooth, and atomic line spectra show that atoms emit only specific energy differences. Those two observations are exactly the kind of evidence that motivated quantized energy levels."
+      }
+    ]
+  },
+  {
+    "topicSlug": "functions",
+    "questions": [
+      {
+        "id": "shifted-families-long-run-behavior",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedConceptSlugs": [
+          "graph-transformations",
+          "rational-functions-asymptotes-and-behavior",
+          "exponential-change-growth-decay-logarithms"
+        ],
+        "prompt": "A student shifts both y = 1/x and y = 2^x up by 3 units. Which comparison is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The same vertical transformation adds 3 to both graphs, but the shifted reciprocal still has a vertical asymptote and a horizontal asymptote at y = 3, while the shifted exponential still grows without bound for large x."
+          },
+          {
+            "id": "b",
+            "label": "Both graphs lose all asymptotes after the shift because any translation removes long-run structure."
+          },
+          {
+            "id": "c",
+            "label": "The reciprocal and the exponential now have the same end behavior because the same transformation was applied."
+          },
+          {
+            "id": "d",
+            "label": "The exponential gains a vertical asymptote at x = 3, while the reciprocal no longer has any domain break."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A graph transformation can act the same way on two families without making their long-run behavior identical. The reciprocal family keeps its domain break and horizontal asymptote after the vertical shift, while the exponential family keeps its characteristic unbounded growth."
+      }
+    ]
+  },
+  {
+    "topicSlug": "calculus",
+    "questions": [
+      {
+        "id": "accumulation-vs-local-optimization",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedConceptSlugs": [
+          "limits-and-continuity-approaching-a-value",
+          "derivative-as-slope-local-rate-of-change",
+          "optimization-maxima-minima-and-constraints",
+          "integral-as-accumulation-area"
+        ],
+        "prompt": "A graph shows the inflow rate into a tank over time. You want the time when the stored water is increasing fastest, and you also want the total water added by the end. Which combination is right?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Use derivative-style local-rate reasoning on the rate graph to find when the increase is steepest, and use integral accumulation to find the total added amount."
+          },
+          {
+            "id": "b",
+            "label": "Use the integral for both questions, because accumulation also tells you the steepest local change automatically."
+          },
+          {
+            "id": "c",
+            "label": "Use limits only; derivatives and integrals are unnecessary once the graph is continuous."
+          },
+          {
+            "id": "d",
+            "label": "Use optimization on the stored amount first, then ignore the rate graph because local change is unrelated to accumulation."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Derivatives answer local-rate questions, while integrals answer accumulation questions. Continuity matters because it tells you whether these tools behave cleanly on the interval, but it does not replace either derivative or integral reasoning."
+      }
+    ]
+  },
+  {
+    "topicSlug": "vectors",
+    "questions": [
+      {
+        "id": "transform-then-project",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedConceptSlugs": [
+          "vectors-in-2d",
+          "matrix-transformations",
+          "dot-product-angle-and-projection"
+        ],
+        "prompt": "A vector is first transformed by a matrix and then compared with a target direction. Which workflow matches the topic?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "First use the matrix to get the new vector, then use the dot product to measure how much of that transformed vector lies along the target direction."
+          },
+          {
+            "id": "b",
+            "label": "Use the dot product first, because projections never depend on the transformed vector itself."
+          },
+          {
+            "id": "c",
+            "label": "Matrix transformations can change position but never change the component of a vector along another direction."
+          },
+          {
+            "id": "d",
+            "label": "Once a matrix is applied, vector components are no longer meaningful, so projection is impossible."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The matrix changes the vector first, so the projection question must be asked about the transformed vector, not the original one. The dot product is then the right tool for measuring how much of that new vector lies along a chosen direction."
+      }
+    ]
+  },
+  {
+    "topicSlug": "complex-numbers-and-parametric-motion",
+    "questions": [
+      {
+        "id": "complex-rotation-parametric-point",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedConceptSlugs": [
+          "complex-numbers-on-the-plane",
+          "unit-circle-sine-cosine-from-rotation",
+          "polar-coordinates-radius-and-angle",
+          "parametric-curves-motion-from-equations"
+        ],
+        "prompt": "Which statement best connects complex numbers, polar form, and parametric motion on the plane?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Writing a point as r(cos θ + i sin θ) links polar magnitude-angle form to the same cosine-sine coordinates used by circular parametric motion, so changing the angle rotates the point around the plane."
+          },
+          {
+            "id": "b",
+            "label": "Complex numbers and parametric motion use unrelated coordinate systems, so angle changes in one do not correspond to motion in the other."
+          },
+          {
+            "id": "c",
+            "label": "Polar form removes radius information, so it cannot describe motion away from the unit circle."
+          },
+          {
+            "id": "d",
+            "label": "A rotating complex number changes only its real part, while parametric motion changes only its imaginary part."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Polar form and the unit-circle trig picture are two views of the same planar coordinates. That is why rotating a complex number changes its angle in exactly the same cosine-sine way used to parametrize circular motion on the plane."
+      }
+    ]
+  },
+  {
+    "topicSlug": "rates-and-equilibrium",
+    "questions": [
+      {
+        "id": "temperature-shock-new-balance",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedConceptSlugs": [
+          "reaction-rate-collision-theory",
+          "dynamic-equilibrium-le-chateliers-principle"
+        ],
+        "prompt": "A reversible reaction at equilibrium is heated. Which combined statement best matches the topic?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Temperature changes collision success rates immediately, so the forward and reverse rates stop matching at first; then the composition shifts until a new equilibrium is reached where the rates are equal again."
+          },
+          {
+            "id": "b",
+            "label": "Because the system was at equilibrium, heating cannot change any collision success rate."
+          },
+          {
+            "id": "c",
+            "label": "Heating changes the amount of product instantly, but the forward and reverse rates remain unequal forever."
+          },
+          {
+            "id": "d",
+            "label": "Collision theory matters only before equilibrium is reached, so it cannot explain the shift after heating."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Collision theory explains the immediate rate change after the disturbance. Dynamic equilibrium then explains why the mixture continues to adjust until the forward and reverse rates become equal again at the new balance point."
+      }
+    ]
+  },
+  {
+    "topicSlug": "stoichiometry-and-yield",
+    "questions": [
+      {
+        "id": "limiting-before-yield",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedConceptSlugs": [
+          "stoichiometric-ratios-and-recipe-batches",
+          "limiting-reagent-and-leftover-reactants",
+          "percent-yield-and-reaction-extent"
+        ],
+        "prompt": "A reaction recipe is run with one reactant in excess, and the actual product mass is lower than expected. Which reasoning chain is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "First identify the limiting reagent to get the theoretical product amount from the stoichiometric ratio, then compare the actual product to that theoretical amount to compute percent yield."
+          },
+          {
+            "id": "b",
+            "label": "Percent yield should be calculated first, because the limiting reagent depends on the measured actual product."
+          },
+          {
+            "id": "c",
+            "label": "Any excess reactant automatically increases percent yield above 100%."
+          },
+          {
+            "id": "d",
+            "label": "Stoichiometric ratios determine leftover reactants, but not the theoretical product amount."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The stoichiometric recipe sets the full-batch ratios, the limiting reagent sets the maximum number of complete batches, and that theoretical product amount is the reference you need before percent yield can be computed."
+      }
+    ]
+  },
+  {
+    "topicSlug": "solutions-and-ph",
+    "questions": [
+      {
+        "id": "buffer-dilution-response",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedConceptSlugs": [
+          "concentration-and-dilution",
+          "acid-base-ph-intuition",
+          "buffers-and-neutralization"
+        ],
+        "prompt": "A buffered acidic solution is diluted with water and then a small amount of base is added. Which combined statement best fits the topic?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Dilution lowers the concentrations of the buffer components, but the buffer can still resist a large pH jump because its acid-base pair neutralizes some added base until that reserve is used up."
+          },
+          {
+            "id": "b",
+            "label": "Dilution makes the solution more saturated, so pH is then controlled only by solubility and not by the buffer pair."
+          },
+          {
+            "id": "c",
+            "label": "A buffer works only before dilution, so any added water guarantees a huge pH jump from a small base addition."
+          },
+          {
+            "id": "d",
+            "label": "Adding base changes concentration, but buffers never affect pH response."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Dilution changes the concentrations, but the buffer still works through the same acid-base neutralization reserve until enough reactant is added to exhaust that reserve. So you must track both concentration changes and the buffer pair's remaining capacity."
+      }
+    ]
+  },
+  {
+    "topicSlug": "algorithms-and-search",
+    "questions": [
+      {
+        "id": "sorted-list-vs-graph-search",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedConceptSlugs": [
+          "sorting-and-algorithmic-trade-offs",
+          "binary-search-halving-the-search-space",
+          "graph-representation-and-adjacency-intuition",
+          "breadth-first-search-and-layered-frontiers",
+          "depth-first-search-and-backtracking-paths",
+          "frontier-and-visited-state-on-graphs"
+        ],
+        "prompt": "Which comparison correctly connects binary search with graph traversal?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Binary search works because a sorted list lets you discard half the remaining positions each step, while graph traversal needs frontier and visited bookkeeping because adjacency does not give you that same ordered-halving shortcut."
+          },
+          {
+            "id": "b",
+            "label": "Binary search and BFS use the same rule because both always discard half of their remaining search space."
+          },
+          {
+            "id": "c",
+            "label": "Visited-state tracking is unnecessary on graphs if you already know the graph is connected."
+          },
+          {
+            "id": "d",
+            "label": "Sorting a graph's node labels is enough to replace BFS or DFS with binary search."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Binary search depends on the special structure of sorted order. Graph search does not have that halving guarantee, so it needs queue or stack frontier management plus visited-state tracking to avoid getting lost or repeating work."
+      }
+    ]
+  },
+  {
+    "topicSlug": "gravity-and-orbits",
+    "questions": [
+      {
+        "id": "higher-orbit-energy-speed-period",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedConceptSlugs": [
+          "gravitational-fields",
+          "gravitational-potential-energy",
+          "circular-orbits-orbital-speed",
+          "keplers-third-law-orbital-periods"
+        ],
+        "prompt": "A satellite is moved from one circular orbit to a larger circular orbit around the same planet. Which combined statement is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The gravitational field is weaker, the required circular speed is lower, the orbital period is longer, and the gravitational potential energy is less negative in the higher orbit."
+          },
+          {
+            "id": "b",
+            "label": "The field is stronger, the circular speed is higher, and the period is shorter because the satellite is farther from the planet."
+          },
+          {
+            "id": "c",
+            "label": "The potential energy becomes more negative, so the satellite must orbit faster at the larger radius."
+          },
+          {
+            "id": "d",
+            "label": "Kepler's third law says the period stays fixed if the planet stays the same."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At a larger radius the gravitational field is weaker, so the circular speed needed for centripetal support is smaller. Kepler's third law then gives a longer orbital period, and the gravitational potential energy becomes less negative because the satellite is less tightly bound."
+      }
+    ]
+  },
+  {
+    "topicSlug": "waves",
+    "questions": [
+      {
+        "id": "doppler-vs-standing-mode",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedConceptSlugs": [
+          "wave-speed-wavelength",
+          "doppler-effect",
+          "standing-waves"
+        ],
+        "prompt": "Which statement correctly separates the traveling-wave and standing-wave ideas in this topic?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "A moving source can Doppler-shift the observed frequency of a traveling wave, but a standing-wave pattern on a fixed medium is still set by the allowed boundary wavelengths of that medium."
+          },
+          {
+            "id": "b",
+            "label": "Doppler shift changes the allowed standing-wave modes directly, so the boundary conditions no longer matter."
+          },
+          {
+            "id": "c",
+            "label": "Standing waves and interference depend only on source motion, not on path difference or boundaries."
+          },
+          {
+            "id": "d",
+            "label": "If a wave experiences Doppler shift, wavelength and speed can no longer be related."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Doppler shift describes how relative motion changes the observed frequency of a traveling wave. Standing waves are a different situation: their allowed patterns come from the medium length and boundary conditions, not from source motion alone."
+      }
+    ]
+  },
+  {
+    "topicSlug": "sound",
+    "questions": [
+      {
+        "id": "beats-versus-resonant-response",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedConceptSlugs": [
+          "pitch-frequency-loudness-intensity",
+          "beats",
+          "resonance-air-columns-open-closed-pipes"
+        ],
+        "prompt": "Two nearby-frequency sound sources drive an air column. Which combined statement is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The beat rate comes from the small difference between the two source frequencies, while the strongest air-column response still occurs when one of those frequencies matches an allowed resonant mode of the tube."
+          },
+          {
+            "id": "b",
+            "label": "Beat rate is determined by loudness only, while resonance depends only on how many sources are playing."
+          },
+          {
+            "id": "c",
+            "label": "Any two frequencies that create beats automatically resonate in every air column."
+          },
+          {
+            "id": "d",
+            "label": "Resonance changes pitch, but beat rate is fixed by tube length alone."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Beats come from interference between close frequencies, so the beat rate is set by the frequency difference. Resonance is different: the air column responds most strongly when one of the driving frequencies matches one of its allowed standing-wave modes."
+      }
+    ]
+  },
+  {
+    "topicSlug": "circuits",
+    "questions": [
+      {
+        "id": "parallel-branch-removal",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedConceptSlugs": [
+          "basic-circuits",
+          "series-parallel-circuits",
+          "equivalent-resistance"
+        ],
+        "prompt": "A battery feeds two branches in parallel. One branch is disconnected while the battery voltage stays the same. Which combined statement best matches the topic-level circuit model?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The equivalent resistance increases, the total current drops, and the remaining branch still has the source voltage across it."
+          },
+          {
+            "id": "b",
+            "label": "The equivalent resistance decreases, the total current rises, and the remaining branch gets a smaller voltage."
+          },
+          {
+            "id": "c",
+            "label": "The equivalent resistance stays the same, so the total current and every branch voltage stay unchanged."
+          },
+          {
+            "id": "d",
+            "label": "The total current drops only because the battery voltage falls to zero once one branch is removed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Removing a parallel branch leaves fewer current paths, so the overall equivalent resistance rises. With the same source voltage, Ohm's law gives a smaller total current. The remaining branch is still connected directly across the source, so its branch voltage still matches the source voltage."
+      }
+    ]
+  },
+  {
+    "topicSlug": "magnetism",
+    "questions": [
+      {
+        "id": "field-source-and-force",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedConceptSlugs": [
+          "magnetic-fields",
+          "magnetic-force-moving-charges-currents"
+        ],
+        "prompt": "Which chain best connects the two concepts in this topic?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "A current creates a magnetic field around the wire, and a moving charge or current placed in that field can feel a magnetic force perpendicular to both its motion and the field direction."
+          },
+          {
+            "id": "b",
+            "label": "A magnetic force creates the field first, and current appears only after the force is measured."
+          },
+          {
+            "id": "c",
+            "label": "Moving charges can create magnetic forces, but current cannot create a magnetic field."
+          },
+          {
+            "id": "d",
+            "label": "The magnetic field and magnetic force always point in the same direction."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The magnetic field is the environment created by moving charges or currents. A separate moving charge or current in that field can then experience a magnetic force whose direction is perpendicular to the motion-field plane."
+      }
+    ]
+  },
+  {
+    "topicSlug": "mirrors-and-lenses",
+    "questions": [
+      {
+        "id": "image-formation-versus-resolution",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedConceptSlugs": [
+          "mirrors",
+          "lens-imaging",
+          "optical-resolution-imaging-limits"
+        ],
+        "prompt": "A lens forms an image of two very close points. The image location follows the usual lens rules, but the two points still blur together. Which statement best explains that combination?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Geometric image formation still sets where the image appears, but diffraction limits the resolving power, so two points can share one blurry image spot even when the lens equation is satisfied."
+          },
+          {
+            "id": "b",
+            "label": "If the lens equation is satisfied, optical resolution is automatically perfect."
+          },
+          {
+            "id": "c",
+            "label": "Diffraction changes the image location formula itself, so no lens or mirror rule remains useful."
+          },
+          {
+            "id": "d",
+            "label": "Resolution limits matter only for mirrors, not for lenses."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Geometric imaging and diffraction-limited resolution answer different questions. Mirror or lens rules tell you where the image forms, while optical resolution tells you whether two nearby object points remain distinguishable in that image."
+      }
+    ]
+  }
+]

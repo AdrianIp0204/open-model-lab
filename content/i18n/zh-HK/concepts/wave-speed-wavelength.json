@@ -1,0 +1,376 @@
+{
+  "title": "波速和波長",
+  "shortTitle": "波速",
+  "summary": "跟隨一個行進中的波在相同的介質中移動，連線波峯間距、行進延遲、來源時間和關係 v = f lambda 在一個真實的現場舞台。",
+  "highlights": [
+    "v = f λ",
+    "行進延遲",
+    "波峯間距"
+  ],
+  "topic": "波動",
+  "subtopic": "波的時間與空間間隔",
+  "recommendedNext": [
+    {
+      "slug": "sound-waves-longitudinal-motion",
+      "reasonLabel": "縱向聲波"
+    },
+    {
+      "slug": "wave-interference",
+      "reasonLabel": "雙源相位"
+    },
+    {
+      "slug": "standing-waves",
+      "reasonLabel": "允許模式"
+    }
+  ],
+  "sections": {
+    "keyIdeas": [
+      "波速告訴你介質中一個相位點如波峯如何快速移動，而波長則告訴你在空間上重複特徵有多遠。",
+      "頻率和週期描述了一個位置上的時間行為。對於同一行進中的波，f = v / λ 和 T = 1 / f = λ / v。",
+      "移動探針不會改變波本身。它只會改變該點與來源之間的行進延遲和相位滯後。"
+    ],
+    "commonMisconception": {
+      "myth": "速度更快的波總是具有更高的頻率，因為它移動得更快速。",
+      "correction": [
+        "波速和頻率不是同一個概念。速度是模式在介質中移動的速度，而頻率是一點振蕩的次數。",
+        "如果速度改變而波峯間距保持固定，頻率會改變。如果速度改變而來源頻率固定，則波長會改變。這種關係使所有四個量數保持一致。"
+      ]
+    },
+    "workedExamples": {
+      "title": "實時波檢查",
+      "intro": "這些例子從同一個現場舞台讀取當前的波速、波長和探針位置，因此代數與你實際觀看的波峯列保持聯絡。",
+      "items": [
+        {
+          "id": "wave-relation",
+          "title": "由 v 和 λ 得出頻率和週期",
+          "prompt": "對於當前行進中的波，v = {{waveSpeedValue}}\\,\\mathrm{m/s} 且 λ = {{wavelengthValue}}\\,\\mathrm{m}，來源必須具有什麼頻率和週期？",
+          "variables": [
+            {
+              "id": "wave-speed",
+              "label": "波速"
+            },
+            {
+              "id": "wavelength",
+              "label": "波長"
+            },
+            {
+              "id": "frequency",
+              "label": "頻率"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 開始從波的關係"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 代入實時值"
+            },
+            {
+              "id": "compute",
+              "label": "3. 轉換為時間週期"
+            }
+          ],
+          "resultLabel": "當前時間",
+          "applyAction": {
+            "label": "顯示更緊湊的波峯間距",
+            "observationHint": "較短的波長使相點陣圖上升得更加陡峭，因此相同介質長度包含更多的週期。"
+          }
+        },
+        {
+          "id": "probe-delay",
+          "title": "探針延遲和相位滯後",
+          "prompt": "在當前探針位置 x_p = {{probeXValue}}\\,\\mathrm{m} 時，波到達那裡有多晚，並且該點比來源落後多少個週期？",
+          "variables": [
+            {
+              "id": "probe-position",
+              "label": "探測器位置"
+            },
+            {
+              "id": "wave-speed",
+              "label": "波速"
+            },
+            {
+              "id": "wavelength",
+              "label": "波長"
+            },
+            {
+              "id": "travel-delay",
+              "label": "行進延遲"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 使用距離除以速度"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 代入實時探針位置"
+            },
+            {
+              "id": "compute",
+              "label": "3. 解釋探針應該做什麼"
+            }
+          ],
+          "resultLabel": "當前探針滯後",
+          "applyAction": {
+            "label": "顯示一個完整的週期滯後",
+            "observationHint": "一個波長遠離的探針在一個完整的週期後重複來源的相位。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "你不允許移動探針，且波速保持固定。什麼改變可以使來源振盪得更慢，同時波峯仍然到達同一點？",
+      "prediction": "決定是否應該增加振幅、增加波長或將探針向右滑動。",
+      "answer": "增加波長。",
+      "explanation": "固定 v 時，頻率 f = v / λ。較大的波長意味著每米內的週期數減少，因此來源的頻率下降，週期變長。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "使用實時波關係，而不要只靠記憶。這些檢查集中在間距、計時和下游延遲如何連在一起。",
+    "questions": [
+      {
+        "id": "wave-speed-qt-fixed-speed",
+        "prompt": "波速保持固定，但 λ 加倍。f 和 T 會怎樣變化？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "f 變為兩倍，T 變為一半。"
+          },
+          {
+            "id": "b",
+            "label": "f 變為一半，T 變為兩倍。"
+          },
+          {
+            "id": "c",
+            "label": "兩者都不變，因為 v 是固定的。"
+          }
+        ],
+        "explanation": "在 v 固定時，f = v / λ。λ 加倍會令頻率減半，而 T = 1 / f，所以週期變為兩倍。",
+        "selectedWrongExplanations": {
+          "a": "這只會在波速增加而 λ 保持固定時發生。",
+          "c": "固定 v 不會凍結其他關係。改變 λ 仍然會迫使 f 和 T 一起調整。"
+        },
+        "showMeAction": {
+          "label": "顯示較長波長",
+          "observationHint": "比較更寬的波峯間距與更低的頻率讀數。"
+        }
+      },
+      {
+        "id": "wave-speed-qt-phase-map",
+        "prompt": "在相點陣圖上，y = 1 週期意味著下游點什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "該點距離聲源一米，而且必定有最大振幅。"
+          },
+          {
+            "id": "b",
+            "label": "該點比聲源本身早一秒到達。"
+          },
+          {
+            "id": "c",
+            "label": "該點距離聲源一個完整波長，並在一個週期後重複相同相位。"
+          }
+        ],
+        "explanation": "一個週期的滯後意味著下游有一個完整的波長分離。相位在一個完整週期後重複，但該點仍然在時間上較晚響應。",
+        "selectedWrongExplanations": {
+          "a": "相點陣圖上的 y 值是在數週期，不是在數米或振幅。",
+          "b": "下游點會落後於聲源，不會比聲源更早到達。"
+        },
+        "showMeAction": {
+          "label": "顯示一個週期的滯後",
+          "observationHint": "探針位於一個波長的下游位置，因此相點陣圖讀數為一週期。"
+        }
+      },
+      {
+        "id": "wave-speed-qt-amplitude",
+        "prompt": "你增加振幅而保持波速、波長和探針位置不變。哪個陳述是正確的？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "只有位移高度改變。v, λ, f, T 和週期滯後都保持不變。"
+          },
+          {
+            "id": "b",
+            "label": "波速增加因為波浪更高，所以移動得更快。"
+          },
+          {
+            "id": "c",
+            "label": "波長必須增加因為波峯更高。"
+          }
+        ],
+        "explanation": "振幅控制振盪的大小，而不是時間或空間關係。舞台變高了，但波峯間距、行進延遲和頻率保持不變。",
+        "selectedWrongExplanations": {
+          "b": "模型中沒有任何部分使波速依賴於振幅。",
+          "c": "波長是介質中的波峯間距。它獨立於波的高度。"
+        },
+        "showMeAction": {
+          "label": "高亮顯示未改變的關係"
+        }
+      },
+      {
+        "id": "wave-speed-qt-compare",
+        "prompt": "設定 A 保持 λ 不變但提高 v。設定 B 保持 v 不變但縮短 λ。哪個設定會保持相位圖的斜率不變，同時令時間圖循環得更快？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "設定 B"
+          },
+          {
+            "id": "b",
+            "label": "設定 A"
+          },
+          {
+            "id": "c",
+            "label": "兩個設定都以相同方式做到這一點。"
+          }
+        ],
+        "explanation": "相點陣圖斜率取決於λ，所以保持λ不變會保留該圖。提高v在固定λ的情況下增加頻率，因此時間圖週期更快。",
+        "selectedWrongExplanations": {
+          "a": "縮短 λ 會改變相位圖的斜率，所以設定 B 不會保留那條圖像關係。",
+          "c": "兩個設定改變關係中的不同部分。一個保留間距，另一個改變間距。"
+        },
+        "showMeAction": {
+          "label": "比較速度與間距",
+          "observationHint": "使用比較模式來分離純粹的速度變化和純粹的間距變化。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示左側的一個波源正在向水平介質中發射一個橫波。一個可移動探針標記波中的下游位置，並且可以選項地覆蓋以標記一箇波長、來源到探針的延遲以及一個波峯在一週期內覆蓋的距離。",
+        "讀出卡總結當前的波速、波長、頻率、週期、探針位置和探針位移，以便關鍵關係保持在視野中而不離開舞台。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "行進波模擬顯示來源運動與探針運動在同一時間軸上的比較，因此使用者可以誠實地閱讀延遲和相位差。相點陣圖顯示隨著下游距離累積的週期數量，並懸停該圖表可將活動探針移動到匹配的位置。"
+      ]
+    }
+  },
+  "equations": [
+    {
+      "id": "traveling-wave",
+      "label": "行進波模擬",
+      "meaning": "振幅設定垂直大小，而波長和頻率則設定空間中的重複模式如何在時間上變異。"
+    },
+    {
+      "id": "wave-speed",
+      "label": "波關係式",
+      "meaning": "波速將介質中波峯間距的空間間隔與每秒新週期的發射速率聯絡起來。"
+    },
+    {
+      "id": "wave-period",
+      "label": "頻率和週期",
+      "meaning": "頻率每秒計數週期，而週期是完成一個完整週期所需的時間。"
+    },
+    {
+      "id": "wave-delay",
+      "label": "行進延遲",
+      "meaning": "離來源更遠的一點反應較晚，因為擾動仍然需要透過介質傳播那段距離。"
+    },
+    {
+      "id": "wave-phase-lag",
+      "label": "位置上的相位滯後",
+      "meaning": "每多一個波長的距離會在來源和下游一點之間增加一整個週期的滯後。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "amplitude",
+      "label": "振幅",
+      "description": "改變波的高度而不改變波峯移動的速度或它們之間的間距。"
+    },
+    {
+      "id": "waveSpeed",
+      "label": "波速",
+      "description": "設定某個相位點，如波峯透過介質的速度，這也當固定波長時改變頻率。"
+    },
+    {
+      "id": "wavelength",
+      "label": "波長",
+      "description": "設定介質中的波峯到波谷的間距並控制在給定距離內能-fit-多少週期。"
+    },
+    {
+      "id": "probeX",
+      "label": "探測器位置",
+      "description": "將測量點移動到更下游的位置，這會增加行進延遲和相位滯後而不改變波本身。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "amplitude",
+        "label": "振幅"
+      },
+      {
+        "id": "waveSpeed",
+        "label": "波速"
+      },
+      {
+        "id": "wavelength",
+        "label": "波長"
+      },
+      {
+        "id": "probeX",
+        "label": "探測器位置"
+      }
+    ],
+    "presets": [
+      {
+        "id": "baseline-train",
+        "label": "基準設定",
+        "description": "一個中等波速的波列，波峰間距為 1.6 m，探針位於距離波源 2.4 m 的位置。"
+      }
+    ]
+  },
+  "noticePrompts": {
+    "items": [
+      {
+        "id": "wave-speed-notice-compare"
+      },
+      {
+        "id": "wave-speed-notice-compare"
+      },
+      {
+        "id": "wave-speed-notice-compare"
+      },
+      {
+        "id": "wave-speed-notice-compare"
+      },
+      {
+        "id": "wave-speed-notice-compare"
+      },
+      {
+        "id": "wave-speed-notice-compare"
+      },
+      {
+        "id": "wave-speed-notice-compare",
+        "whyItMatters": "比較模式可以把間距改變和波速改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。"
+      }
+    ]
+  },
+  "predictionMode": {
+    "items": [
+      {
+        "id": "wave-speed-predict-faster-medium",
+        "changeLabel": "波速"
+      },
+      {
+        "id": "wave-speed-predict-longer-wavelength",
+        "changeLabel": "波長"
+      },
+      {
+        "id": "wave-speed-predict-one-wavelength-farther",
+        "changeLabel": "探測器位置"
+      }
+    ]
+  }
+}

@@ -1,0 +1,1012 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "readNext",
+        "title": "Carry projection into motion"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Keep two vectors, their angle, the signed projection of one onto the other, and the dot product visible together so alignment reads geometrically instead of as memorized cases.",
+    "keyTakeaway": "The dot product measures alignment by multiplying the size of A by the signed along-A part of B.",
+    "whyItMatters": "Dot products show up anywhere you need to decide how much one direction helps another: motion along a ramp, force doing work, shadows, projections, and component-based geometry."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "The dot product becomes much easier to trust when it stays geometric. This bench keeps two vectors, the angle between them, the signed projection of B onto A, and the scalar A dot B visible together so alignment reads like a picture before it becomes a formula.",
+        "The key move is to separate what points along A from what stays perpendicular to A. When B leans with A, the projection is positive. When B turns to ninety degrees, that along-A part collapses. When B leans past ninety degrees, the projection flips and the dot product turns negative for a geometric reason instead of a memorized case."
+      ]
+    },
+    "keyIdeas": [
+      "The dot product measures alignment by multiplying the size of A by the signed along-A part of B.",
+      "Orthogonal vectors have dot product zero because B contributes no along-A component at all.",
+      "The vector projection of B onto A lies on A's line, while the leftover dashed piece is the perpendicular part."
+    ],
+    "commonMisconception": {
+      "myth": "A negative dot product means one of the vectors has a negative length.",
+      "correction": [
+        "Vector lengths stay nonnegative. The sign comes from direction: the projection of B onto A points against A once the angle becomes obtuse.",
+        "That is why the same two nonzero vectors can give a positive, zero, or negative dot product without changing how length itself is measured."
+      ]
+    },
+    "workedExamples": {
+      "title": "Worked examples",
+      "intro": "Use these as reading guides while you drag the vectors. The bench still drives the geometry, but the examples stay qualitative so the interpretation remains the focus.",
+      "items": [
+        {
+          "id": "current-dot-product",
+          "title": "Read dot product as alignment",
+          "prompt": "How should you read the current dot product from the picture on the bench?",
+          "variables": [
+            {
+              "id": "magnitudeA",
+              "symbol": "|A|",
+              "label": "Magnitude of A",
+              "valueKey": "magnitudeAValue"
+            },
+            {
+              "id": "projectionScalar",
+              "symbol": "comp_A(B)",
+              "label": "Signed projection of B onto A",
+              "valueKey": "projectionScalarValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "measure-a",
+              "label": "1. Read the size of the reference vector A",
+              "template": "Start with |A| = {{magnitudeAValue}}. That sets the scale for how much an along-A component will matter."
+            },
+            {
+              "id": "read-projection",
+              "label": "2. Read the signed along-A part of B",
+              "template": "Then read comp_A(B) = {{projectionScalarValue}}. Positive means B still points partly with A, zero means orthogonal, and negative means B points partly against A."
+            },
+            {
+              "id": "multiply",
+              "label": "3. Combine size and alignment",
+              "template": "So A · B = |A| comp_A(B) = {{magnitudeAValue}} × {{projectionScalarValue}} = {{dotProductValue}}. The sign comes from alignment while the magnitude scales with how much vector A weights that projection."
+            }
+          ],
+          "resultLabel": "Reading rule",
+          "resultTemplate": "$\\vec{A} \\cdot \\vec{B} = {{dotProductValue}}$",
+          "interpretationTemplate": "{{alignmentInterpretation}}",
+          "applyAction": {
+            "label": "Show the orthogonal case",
+            "presetId": "orthogonal-turn",
+            "observationHint": "When the angle hits ninety degrees, the amber projection collapses and the dot product falls to zero without either vector disappearing.",
+            "highlightedControlIds": [
+              "ax",
+              "ay",
+              "bx",
+              "by"
+            ],
+            "highlightedGraphIds": [
+              "dot-product-response"
+            ],
+            "highlightedOverlayIds": [
+              "angleMarker",
+              "projectionGuide"
+            ]
+          }
+        },
+        {
+          "id": "current-projection",
+          "title": "Read projection as the along-A piece",
+          "prompt": "How should you interpret the amber projection vector on the bench?",
+          "variables": [
+            {
+              "id": "projectionScalar",
+              "symbol": "comp_A(B)",
+              "label": "Signed projection of B onto A",
+              "valueKey": "projectionScalarValue"
+            },
+            {
+              "id": "angleBetween",
+              "symbol": "\\theta",
+              "label": "Angle between the vectors",
+              "valueKey": "angleBetweenValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "line-of-a",
+              "label": "1. Keep the projection on A's line",
+              "template": "The projection must lie on A's line, because it is only the along-A part of B. Here the angle is about {{angleBetweenValue}} degrees."
+            },
+            {
+              "id": "signed-length",
+              "label": "2. Use the signed along-A length",
+              "template": "Here comp_A(B) = {{projectionScalarValue}}, so the amber arrow points {{alignmentLabelValue}} relative to A."
+            },
+            {
+              "id": "vector-readout",
+              "label": "3. Compare it with the dashed leftover",
+              "template": "The amber piece has magnitude {{projectionMagnitudeValue}}, while the dashed leftover has magnitude {{rejectionMagnitudeValue}}. Together they reconstruct B as an along-A part plus a perpendicular part."
+            }
+          ],
+          "resultLabel": "Reading rule",
+          "resultTemplate": "$\\operatorname{comp}_{\\vec{A}}(\\vec{B}) = {{projectionScalarValue}}$",
+          "interpretationTemplate": "{{alignmentInterpretation}}",
+          "applyAction": {
+            "label": "Show a negative projection",
+            "presetId": "negative-projection",
+            "observationHint": "Once the angle moves past ninety degrees, the amber projection flips to the opposite side of the origin even though B itself is still visible as one arrow.",
+            "highlightedControlIds": [
+              "bx",
+              "by"
+            ],
+            "highlightedGraphIds": [
+              "projection-response"
+            ],
+            "highlightedOverlayIds": [
+              "projectionGuide",
+              "angleMarker"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Keep both vectors substantial, then rotate B until the dot product almost vanishes. What must happen to the amber projection as the angle approaches ninety degrees?",
+      "prediction": "Predict whether the projection shrinks to zero, keeps the same sign, or flips sign before you test it.",
+      "answer": "The projection shrinks toward zero because B is losing its along-A component.",
+      "explanation": "That is the clean geometric meaning of orthogonality here. B can still be long, but once it points perpendicular to A, none of that length lives along A's direction."
+    }
+  },
+  "equations": [
+    {
+      "id": "dot-product-angle",
+      "latex": "\\vec{A} \\cdot \\vec{B} = |\\vec{A}|\\,|\\vec{B}|\\cos(\\theta)",
+      "label": "Angle form",
+      "meaning": "Connects the dot product to alignment: acute gives positive, right angle gives zero, and obtuse gives negative."
+    },
+    {
+      "id": "scalar-projection",
+      "latex": "\\operatorname{comp}_{\\vec{A}}(\\vec{B}) = \\dfrac{\\vec{A} \\cdot \\vec{B}}{|\\vec{A}|}",
+      "label": "Scalar projection",
+      "meaning": "Reads the signed along-A part of B."
+    },
+    {
+      "id": "vector-projection",
+      "latex": "\\operatorname{proj}_{\\vec{A}}(\\vec{B}) = \\dfrac{\\vec{A} \\cdot \\vec{B}}{|\\vec{A}|^2}\\,\\vec{A}",
+      "label": "Vector projection",
+      "meaning": "Turns the signed along-A amount into an actual vector that lies on A's line."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "ax",
+      "symbol": "A_x",
+      "label": "A x-component",
+      "param": "ax",
+      "tone": "teal",
+      "description": "Moves the horizontal part of the reference vector A and changes both the angle marker and the projection direction.",
+      "equationIds": [
+        "dot-product-angle",
+        "scalar-projection",
+        "vector-projection"
+      ],
+      "graphIds": [
+        "dot-product-response",
+        "projection-response"
+      ],
+      "overlayIds": [
+        "angleMarker",
+        "projectionGuide"
+      ]
+    },
+    {
+      "id": "ay",
+      "symbol": "A_y",
+      "label": "A y-component",
+      "param": "ay",
+      "tone": "teal",
+      "description": "Moves the vertical part of A while keeping the same projection rules on the bench.",
+      "equationIds": [
+        "dot-product-angle",
+        "scalar-projection",
+        "vector-projection"
+      ],
+      "graphIds": [
+        "dot-product-response",
+        "projection-response"
+      ],
+      "overlayIds": [
+        "angleMarker",
+        "projectionGuide"
+      ]
+    },
+    {
+      "id": "bx",
+      "symbol": "B_x",
+      "label": "B x-component",
+      "param": "bx",
+      "tone": "coral",
+      "description": "Moves the horizontal part of the probe vector B, which changes its angle and its along-A component at the same time.",
+      "equationIds": [
+        "dot-product-angle",
+        "scalar-projection",
+        "vector-projection"
+      ],
+      "graphIds": [
+        "dot-product-response",
+        "projection-response"
+      ],
+      "overlayIds": [
+        "angleMarker",
+        "projectionGuide"
+      ]
+    },
+    {
+      "id": "by",
+      "symbol": "B_y",
+      "label": "B y-component",
+      "param": "by",
+      "tone": "coral",
+      "description": "Moves the vertical part of B, which controls whether the projection keeps, loses, or flips its sign along A.",
+      "equationIds": [
+        "dot-product-angle",
+        "scalar-projection",
+        "vector-projection"
+      ],
+      "graphIds": [
+        "dot-product-response",
+        "projection-response"
+      ],
+      "overlayIds": [
+        "angleMarker",
+        "projectionGuide"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "ax": 4,
+      "ay": 1.5,
+      "bx": 3,
+      "by": 2.5,
+      "angleMarker": true,
+      "projectionGuide": true
+    },
+    "ui": {
+      "initialGraphId": "projection-response",
+      "primaryGraphIds": [
+        "projection-response",
+        "dot-product-response"
+      ],
+      "primaryControlIds": [
+        "bx",
+        "by"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "ax",
+        "kind": "slider",
+        "label": "A x-component",
+        "param": "ax",
+        "min": -5,
+        "max": 5,
+        "step": 0.1,
+        "description": "Set the horizontal component of the reference vector A."
+      },
+      {
+        "id": "ay",
+        "kind": "slider",
+        "label": "A y-component",
+        "param": "ay",
+        "min": -5,
+        "max": 5,
+        "step": 0.1,
+        "description": "Set the vertical component of A."
+      },
+      {
+        "id": "bx",
+        "kind": "slider",
+        "label": "B x-component",
+        "param": "bx",
+        "min": -5,
+        "max": 5,
+        "step": 0.1,
+        "description": "Set the horizontal component of the probe vector B."
+      },
+      {
+        "id": "by",
+        "kind": "slider",
+        "label": "B y-component",
+        "param": "by",
+        "min": -5,
+        "max": 5,
+        "step": 0.1,
+        "description": "Set the vertical component of B."
+      }
+    ],
+    "presets": [
+      {
+        "id": "acute-alignment",
+        "label": "Acute alignment",
+        "description": "A clearly positive dot product with a forward projection along A.",
+        "values": {
+          "ax": 4,
+          "ay": 1.5,
+          "bx": 3,
+          "by": 2.5
+        }
+      },
+      {
+        "id": "orthogonal-turn",
+        "label": "Orthogonal turn",
+        "description": "A clean right-angle case where the along-A part collapses.",
+        "values": {
+          "ax": 4,
+          "ay": 2,
+          "bx": -1,
+          "by": 2
+        }
+      },
+      {
+        "id": "negative-projection",
+        "label": "Negative projection",
+        "description": "An obtuse-angle case where the projection points against A.",
+        "values": {
+          "ax": 4,
+          "ay": 1,
+          "bx": -2.5,
+          "by": 2.5
+        }
+      },
+      {
+        "id": "nearly-opposite",
+        "label": "Nearly opposite",
+        "description": "A strong negative dot product with only a small perpendicular leftover.",
+        "values": {
+          "ax": 3.5,
+          "ay": 1.5,
+          "bx": -3.2,
+          "by": -1.3
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "angleMarker",
+        "label": "Angle marker",
+        "shortDescription": "Show the angle between A and B at the origin.",
+        "whatToNotice": [
+          "The sign story changes when the angle passes ninety degrees, not when either vector stops being real."
+        ],
+        "whyItMatters": "It makes positive, zero, and negative dot products look like alignment stories instead of separate cases.",
+        "relatedControls": [
+          "ax",
+          "ay",
+          "bx",
+          "by"
+        ],
+        "relatedGraphTabs": [
+          "dot-product-response",
+          "projection-response"
+        ],
+        "relatedEquationVariables": [
+          "ax",
+          "ay",
+          "bx",
+          "by"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "projectionGuide",
+        "label": "Projection guide",
+        "shortDescription": "Show the amber projection of B onto A and the perpendicular leftover.",
+        "whatToNotice": [
+          "The amber arrow is the along-A part of B. The dashed blue segment is what remains after that part is removed."
+        ],
+        "whyItMatters": "It turns the dot product into a visible decomposition instead of a hidden multiplication rule.",
+        "relatedControls": [
+          "ax",
+          "ay",
+          "bx",
+          "by"
+        ],
+        "relatedGraphTabs": [
+          "projection-response"
+        ],
+        "relatedEquationVariables": [
+          "ax",
+          "ay",
+          "bx",
+          "by"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "dot-product-response",
+      "label": "Dot product vs angle",
+      "xLabel": "angle between A and B (deg)",
+      "yLabel": "A dot B",
+      "series": [
+        "dot-product"
+      ],
+      "description": "Shows how the current magnitudes of A and B turn angle into a positive, zero, or negative dot product."
+    },
+    {
+      "id": "projection-response",
+      "label": "Projection vs angle",
+      "xLabel": "angle between A and B (deg)",
+      "yLabel": "comp_A(B)",
+      "series": [
+        "projection-scalar"
+      ],
+      "description": "Shows how the signed along-A part of B changes as the angle opens from acute to obtuse."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use these prompts to keep the picture, the sign, and the projection interpretation synchronized.",
+    "items": [
+      {
+        "id": "dpp-notice-acute",
+        "text": "An acute angle gives a positive projection because part of B still points along A.",
+        "type": "observation",
+        "relatedControls": [
+          "bx",
+          "by"
+        ],
+        "relatedGraphTabs": [
+          "dot-product-response",
+          "projection-response"
+        ],
+        "relatedOverlays": [
+          "angleMarker",
+          "projectionGuide"
+        ],
+        "relatedEquationVariables": [
+          "bx",
+          "by"
+        ]
+      },
+      {
+        "id": "dpp-notice-orthogonal",
+        "text": "As the angle approaches ninety degrees, the amber projection shrinks to the origin even though B can still be long.",
+        "type": "graph-reading",
+        "relatedControls": [
+          "bx",
+          "by"
+        ],
+        "relatedGraphTabs": [
+          "dot-product-response"
+        ],
+        "relatedOverlays": [
+          "angleMarker",
+          "projectionGuide"
+        ],
+        "relatedEquationVariables": [
+          "bx",
+          "by"
+        ]
+      },
+      {
+        "id": "dpp-notice-obtuse",
+        "text": "Once the angle becomes obtuse, the projection flips to the opposite side of the origin because B now points partly against A.",
+        "type": "try-this",
+        "relatedControls": [
+          "bx",
+          "by"
+        ],
+        "relatedGraphTabs": [
+          "projection-response"
+        ],
+        "relatedOverlays": [
+          "projectionGuide",
+          "angleMarker"
+        ],
+        "relatedEquationVariables": [
+          "bx",
+          "by"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Predict",
+    "intro": "Predict how alignment will change before you rotate B and inspect the new projection.",
+    "items": [
+      {
+        "id": "dpp-predict-orthogonal",
+        "prompt": "If B rotates toward ninety degrees from A while both vector lengths stay fixed, what must happen?",
+        "scenarioLabel": "Turn B to ninety degrees",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The dot product and the signed projection both shrink toward zero."
+          },
+          {
+            "id": "b",
+            "label": "The dot product stays positive because the vectors still have nonzero length."
+          },
+          {
+            "id": "c",
+            "label": "The projection gets larger because the angle marker is larger."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Orthogonality removes the along-A part of B. Length alone does not keep the dot product positive.",
+        "observationHint": "Watch the amber projection collapse while the red angle marker approaches ninety degrees.",
+        "apply": {
+          "presetId": "orthogonal-turn"
+        },
+        "highlightedControls": [
+          "bx",
+          "by"
+        ],
+        "highlightedGraphs": [
+          "dot-product-response"
+        ],
+        "highlightedOverlays": [
+          "angleMarker",
+          "projectionGuide"
+        ]
+      },
+      {
+        "id": "dpp-predict-negative",
+        "prompt": "If B rotates past ninety degrees while A stays fixed, which statement becomes correct?",
+        "scenarioLabel": "Push B into an obtuse angle",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The projection flips against A and the dot product becomes negative."
+          },
+          {
+            "id": "b",
+            "label": "Only the angle changes. The projection must stay in A's direction."
+          },
+          {
+            "id": "c",
+            "label": "The dot product becomes undefined because the vectors are no longer aligned."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "An obtuse angle means the along-A part of B points the opposite way, so both the signed projection and the dot product flip sign.",
+        "observationHint": "The amber projection crosses to the opposite side of the origin before you read the negative value in the card.",
+        "apply": {
+          "presetId": "negative-projection"
+        },
+        "highlightedControls": [
+          "bx",
+          "by"
+        ],
+        "highlightedGraphs": [
+          "projection-response",
+          "dot-product-response"
+        ],
+        "highlightedOverlays": [
+          "projectionGuide",
+          "angleMarker"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the angle marker, the amber projection, and the response graph together. This checkpoint is about making orthogonality visible on the same bench instead of naming it after the fact.",
+    "items": [
+      {
+        "id": "dpp-ch-collapse-the-projection",
+        "title": "Orthogonal projection checkpoint",
+        "style": "visible-condition",
+        "prompt": "Adjust $\\vec{B}$ until the amber projection nearly collapses while both arrows stay clearly nonzero. Keep the angle marker and projection guide visible so the right-angle story stays geometric.",
+        "successMessage": "You built the orthogonal case without shrinking the vectors away. The angle marker, the amber projection, and the dot-product readout now agree on the same zero-alignment moment.",
+        "setup": {
+          "presetId": "acute-alignment",
+          "note": "Keep $\\vec{A}$ fixed and rotate $\\vec{B}$ until the along-A part disappears rather than shrinking either vector away."
+        },
+        "requirements": {
+          "graphId": "dot-product-response",
+          "overlayIds": [
+            "angleMarker",
+            "projectionGuide"
+          ]
+        },
+        "hints": [
+          "A right angle kills the along-A part before it kills either vector.",
+          "For the built-in $\\vec{A} = \\langle 4, 2 \\rangle$ reference, a $\\vec{B}$ close to $\\langle -1, 2 \\rangle$ gives the clean orthogonal landing."
+        ],
+        "targets": [
+          {
+            "param": "bx",
+            "label": "Move the B x-component close to $-1$.",
+            "min": -1.1,
+            "max": -0.9
+          },
+          {
+            "param": "by",
+            "label": "Move the B y-component close to $2$.",
+            "min": 1.9,
+            "max": 2.1
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Use the angle marker, the amber projection, and the readout together. These checks are about interpreting alignment honestly.",
+    "mode": "hybrid",
+    "isQuantitative": true,
+    "questionCount": 5,
+    "templates": [
+      {
+        "id": "dot-product-alignment-template",
+        "kind": "worked-example-result",
+        "exampleId": "current-dot-product"
+      },
+      {
+        "id": "dot-product-projection-template",
+        "kind": "worked-example-result",
+        "exampleId": "current-projection"
+      }
+    ],
+    "questions": [
+      {
+        "id": "dpp-qt-positive",
+        "type": "reasoning",
+        "prompt": "What is the most honest interpretation of a positive dot product on this bench?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "B keeps a signed along-A part that points in A's direction."
+          },
+          {
+            "id": "b",
+            "label": "B is automatically longer than A."
+          },
+          {
+            "id": "c",
+            "label": "The vectors must have identical components."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The sign is about alignment, not about which vector is longer or whether the components match.",
+        "selectedWrongExplanations": {
+          "b": "Length matters for size, but the sign comes from direction along A.",
+          "c": "Matching components is one special case, not the meaning of a positive dot product."
+        },
+        "showMeAction": {
+          "label": "Show a positive dot product",
+          "presetId": "acute-alignment",
+          "observationHint": "The amber projection lies on A's side of the origin, so the card reads a positive dot product.",
+          "highlightedControlIds": [
+            "bx",
+            "by"
+          ],
+          "highlightedGraphIds": [
+            "dot-product-response"
+          ],
+          "highlightedOverlayIds": [
+            "projectionGuide"
+          ]
+        }
+      },
+      {
+        "id": "dpp-qt-orthogonal",
+        "type": "misconception-check",
+        "prompt": "If the angle is ninety degrees and both vectors are still nonzero, what must be true?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The dot product is zero because B has no along-A component."
+          },
+          {
+            "id": "b",
+            "label": "The dot product stays positive because both lengths are positive."
+          },
+          {
+            "id": "c",
+            "label": "The projection becomes larger because the angle is larger."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Orthogonality removes the along-A piece. That is why zero dot product does not require a zero vector.",
+        "selectedWrongExplanations": {
+          "b": "Positive lengths do not guarantee positive alignment.",
+          "c": "At ninety degrees, the along-A part has collapsed rather than grown."
+        },
+        "showMeAction": {
+          "label": "Show the orthogonal case",
+          "presetId": "orthogonal-turn",
+          "observationHint": "The amber projection shrinks to the origin while A and B remain visible.",
+          "highlightedControlIds": [
+            "bx",
+            "by"
+          ],
+          "highlightedGraphIds": [
+            "dot-product-response"
+          ],
+          "highlightedOverlayIds": [
+            "angleMarker",
+            "projectionGuide"
+          ]
+        }
+      },
+      {
+        "id": "dpp-qt-negative",
+        "type": "variable-effect",
+        "prompt": "When the dot product becomes negative, which description best matches the geometry?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The projection of B onto A points against A."
+          },
+          {
+            "id": "b",
+            "label": "One of the vectors now has negative length."
+          },
+          {
+            "id": "c",
+            "label": "The perpendicular leftover has disappeared."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Negative sign means the along-A part points opposite A. Length still stays nonnegative, and the perpendicular leftover can still be present.",
+        "selectedWrongExplanations": {
+          "b": "Vector length never changes sign here. Direction creates the negative projection.",
+          "c": "The leftover perpendicular piece can still be visible even when the dot product is negative."
+        },
+        "showMeAction": {
+          "label": "Show a negative projection",
+          "presetId": "negative-projection",
+          "observationHint": "The amber projection flips to the opposite side of the origin before you read the negative value in the card.",
+          "highlightedControlIds": [
+            "bx",
+            "by"
+          ],
+          "highlightedGraphIds": [
+            "projection-response"
+          ],
+          "highlightedOverlayIds": [
+            "projectionGuide"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows two draggable vectors from the origin on one coordinate plane. An angle marker can show the current angle between the vectors, and an amber guide can show the projection of B onto A together with the dashed perpendicular leftover.",
+        "Changing either vector updates the stage, the readout, and the angle-response graphs together so the learner can compare geometry, sign, and projection without leaving the same bench."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "One graph shows how the dot product changes as the angle between the current magnitudes opens from zero to one hundred eighty degrees. The second graph shows how the scalar projection of B onto A changes over that same angle sweep.",
+        "Hovering either graph previews the same angle on the stage, so the response curve, the angle marker, and the amber projection remain synchronized."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Dot Product / Angle and Projection | Open Model Lab",
+    "description": "Learn dot product sign, orthogonality, and projection with one live 2D vector bench that keeps geometry and algebra visible together.",
+    "keywords": [
+      "dot product",
+      "vector projection",
+      "orthogonal vectors",
+      "vector angle",
+      "math vectors"
+    ]
+  },
+  "v2": {
+    "intuition": "A dot product is an alignment meter: keep A as the reference direction, then watch how much of B actually lives along that line.",
+    "whyItMatters": "Once the sign and size feel geometric, work, projection, angles, orthogonality, and motion components become one story instead of separate formulas.",
+    "estimatedMinutes": 16,
+    "equationSnapshot": {
+      "equationIds": [
+        "dot-product-angle",
+        "scalar-projection",
+        "vector-projection"
+      ],
+      "note": "Read the formulas through the picture: angle controls the sign, scalar projection gives the signed along-A length, and vector projection turns that length into the amber arrow."
+    },
+    "startSetup": {
+      "presetId": "acute-alignment",
+      "graphId": "projection-response",
+      "overlayIds": [
+        "angleMarker",
+        "projectionGuide"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-positive-alignment",
+        "title": "Read positive alignment",
+        "goal": "Connect an acute angle to a positive projection and a positive dot product before moving any controls.",
+        "doThis": "Start from Acute alignment with the angle marker and projection guide on. Compare the amber projection with the dot-product readout.",
+        "notice": "The amber projection lies on A's side of the origin, so B has a positive along-A part and A · B is positive.",
+        "explain": "The dot product is not just a component multiplication rule. It measures how much B helps in A's direction, scaled by the length of A.",
+        "reveal": {
+          "controlIds": [
+            "bx",
+            "by"
+          ],
+          "graphIds": [
+            "projection-response",
+            "dot-product-response"
+          ],
+          "overlayIds": [
+            "angleMarker",
+            "projectionGuide"
+          ]
+        },
+        "setup": {
+          "presetId": "acute-alignment",
+          "graphId": "projection-response",
+          "overlayIds": [
+            "angleMarker",
+            "projectionGuide"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "dpp-qt-positive"
+          ]
+        }
+      },
+      {
+        "id": "collapse-the-along-a-part",
+        "title": "Collapse the along-A part",
+        "goal": "See why a right angle makes the dot product zero without making either vector disappear.",
+        "doThis": "Switch to Orthogonal turn. Keep both arrows visible, then compare the angle marker, amber projection, and dot-product graph.",
+        "notice": "At ninety degrees the amber projection shrinks to the origin while A and B still have clear lengths.",
+        "explain": "Orthogonal means no along-A component. The zero comes from alignment, not from a zero-length vector.",
+        "reveal": {
+          "controlIds": [
+            "bx",
+            "by"
+          ],
+          "graphIds": [
+            "dot-product-response",
+            "projection-response"
+          ],
+          "overlayIds": [
+            "angleMarker",
+            "projectionGuide"
+          ]
+        },
+        "setup": {
+          "presetId": "orthogonal-turn",
+          "graphId": "dot-product-response",
+          "overlayIds": [
+            "angleMarker",
+            "projectionGuide"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "dpp-predict-orthogonal"
+          ],
+          "questionIds": [
+            "dpp-qt-orthogonal"
+          ]
+        }
+      },
+      {
+        "id": "flip-the-projection-sign",
+        "title": "Flip the projection sign",
+        "goal": "Turn B past ninety degrees and watch the sign change become a visible direction change.",
+        "doThis": "Switch to Negative projection, then move B x-component or B y-component around the obtuse case.",
+        "notice": "The amber projection crosses to the opposite side of the origin before the readout reports a negative dot product.",
+        "explain": "A negative dot product does not mean negative length. It means the along-A part of B points against A.",
+        "reveal": {
+          "controlIds": [
+            "bx",
+            "by"
+          ],
+          "graphIds": [
+            "projection-response",
+            "dot-product-response"
+          ],
+          "overlayIds": [
+            "projectionGuide",
+            "angleMarker"
+          ]
+        },
+        "setup": {
+          "presetId": "negative-projection",
+          "graphId": "projection-response",
+          "overlayIds": [
+            "projectionGuide",
+            "angleMarker"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "dpp-predict-negative"
+          ],
+          "questionIds": [
+            "dpp-qt-negative"
+          ]
+        }
+      },
+      {
+        "id": "use-projection-as-a-tool",
+        "title": "Use projection as a tool",
+        "goal": "Tie the formula, projection arrow, worked examples, and challenge into one reusable reading habit.",
+        "doThis": "Compare the two worked examples, then try the challenge by rotating B toward the right-angle landing without shrinking either arrow.",
+        "notice": "The same three pieces keep agreeing: angle decides the sign, projection gives the along-A amount, and |A| scales the final dot product.",
+        "explain": "Projection is the bridge between geometry and algebra. Once you can read the amber arrow, A · B = |A| comp_A(B) becomes a picture, not a memorized formula.",
+        "reveal": {
+          "controlIds": [
+            "ax",
+            "ay",
+            "bx",
+            "by"
+          ],
+          "graphIds": [
+            "projection-response",
+            "dot-product-response"
+          ],
+          "overlayIds": [
+            "angleMarker",
+            "projectionGuide"
+          ]
+        },
+        "setup": {
+          "presetId": "acute-alignment",
+          "graphId": "dot-product-response",
+          "overlayIds": [
+            "angleMarker",
+            "projectionGuide"
+          ]
+        },
+        "inlineCheck": {
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "A positive dot product means B has a signed along-A part that points with A.",
+        "Orthogonal nonzero vectors have dot product zero because B contributes no along-A component.",
+        "A negative dot product means the projection of B points against A, not that a vector length became negative.",
+        "Scalar and vector projection turn the same alignment idea into a signed length and an arrow on A's line."
+      ],
+      "misconception": "Do not read the dot product sign from vector length alone. Read it from the direction of B's projection onto A.",
+      "workedExampleRefs": [
+        "current-dot-product",
+        "current-projection"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "vectors-components",
+          "title": "Vectors / Components",
+          "reasonLabel": "Carry projection language into motion components."
+        },
+        {
+          "slug": "matrix-transformations",
+          "title": "Matrix Transformations",
+          "reasonLabel": "Use vector alignment while reading plane transformations."
+        },
+        {
+          "slug": "vectors-in-2d",
+          "title": "Vectors in 2D",
+          "reasonLabel": "Review vector components, scaling, and geometric arrows."
+        }
+      ],
+      "freePlayPrompt": "Create one acute, one right-angle, and one obtuse case. For each, explain the dot product from the projection arrow before reading the number."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "accessibility"
+    ]
+  }
+}

@@ -1,0 +1,766 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "readNext",
+        "title": "Keep frontier and visited state separate when cycles appear"
+      }
+    ],
+    "featuredSetups": [
+      {
+        "id": "bridge-cycle-bfs",
+        "label": "Bridge cycle BFS",
+        "description": "Use a looped graph where the frontier and visited state have to stay distinct.",
+        "setup": {
+          "presetId": "bridge-cycle-bfs",
+          "graphId": "neighbor-check-history",
+          "overlayIds": [
+            "frontierCue",
+            "visitedCue"
+          ]
+        }
+      },
+      {
+        "id": "bridge-cycle-dfs",
+        "label": "Bridge cycle DFS",
+        "description": "Compare the same looped graph under a branch-first run.",
+        "setup": {
+          "presetId": "bridge-cycle-dfs",
+          "graphId": "visited-frontier-history",
+          "overlayIds": [
+            "frontierCue",
+            "visitedCue"
+          ]
+        }
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Use one cyclic graph to track three different jobs: the current node being expanded, frontier nodes waiting their turn, and visited nodes whose neighbors are already checked.",
+    "whyItMatters": "That bookkeeping is what keeps graph search from walking around a cycle forever or counting the same work twice.",
+    "keyTakeaway": "Frontier means discovered and waiting; visited means already expanded, so repeat edges can be skipped honestly."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "On a graph with cycles, frontier and visited state answer different questions. The frontier says, \u201cWhich discovered nodes are still waiting to be expanded?\u201d The visited state says, \u201cWhich nodes have already had their neighbors checked?\u201d",
+        "That separation turns a loop from a trap into a bookkeeping event. When an edge points back to a visited node, the search records a repeat skip instead of reopening that node, while the remaining frontier keeps the run moving forward."
+      ]
+    },
+    "keyIdeas": [
+      "Frontier nodes have been discovered and claimed, but their neighborhoods have not been fully checked yet.",
+      "Visited nodes have already been expanded, so edges back to them become repeat skips instead of new work.",
+      "Cycles stay manageable when the current node, waiting frontier, and finished visited set are kept visually separate."
+    ],
+    "commonMisconception": {
+      "myth": "Frontier and visited state are basically the same set with two different names.",
+      "correction": [
+        "A frontier node has been claimed but not expanded yet. A visited node has already had its neighborhood used.",
+        "That difference is exactly what makes repeat skips and clean backtracking possible on looped graphs."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Use the bridge-cycle graph to name exactly which work is waiting, which work is finished, and what should happen when an edge points backward.",
+      "items": [
+        {
+          "id": "separate-frontier-from-visited",
+          "title": "Separate frontier from visited",
+          "prompt": "On the bridge-cycle graph, how can you tell whether a node belongs in the frontier, the visited set, or neither?",
+          "variables": [
+            {
+              "id": "graph-layout",
+              "variableId": "graph-layout",
+              "symbol": "G",
+              "label": "Graph layout",
+              "valueKey": "Bridge cycle"
+            },
+            {
+              "id": "frontier-label",
+              "variableId": "traversal-mode",
+              "symbol": "F",
+              "label": "Frontier role",
+              "valueKey": "claimed but waiting"
+            },
+            {
+              "id": "visited-label",
+              "variableId": "target-node",
+              "symbol": "V",
+              "label": "Visited role",
+              "valueKey": "already expanded"
+            }
+          ],
+          "steps": [
+            {
+              "id": "name-the-frontier-role",
+              "label": "1. Find the waiting work",
+              "template": "A node belongs in the frontier after it has been discovered from an edge, but before the search has checked all of its own neighbors."
+            },
+            {
+              "id": "name-the-visited-role",
+              "label": "2. Mark finished expansions",
+              "template": "A node belongs in visited only after its neighborhood has been used, so future edges back to it should not create new frontier work."
+            },
+            {
+              "id": "connect-to-cycle-control",
+              "label": "3. Read the repeat edge",
+              "template": "When the bridge-cycle graph points back to visited work, count that edge as a repeat skip and leave the still-waiting frontier in place."
+            }
+          ],
+          "resultLabel": "Cycle-control read",
+          "resultTemplate": "Frontier = discovered and waiting; visited = expanded and safe to skip when seen again.",
+          "interpretationTemplate": "The moment a backward edge appears, this distinction explains why the traversal keeps progressing instead of reopening the cycle.",
+          "applyAction": {
+            "label": "Show bridge-cycle BFS",
+            "presetId": "bridge-cycle-bfs",
+            "observationHint": "Open bridge-cycle BFS, then pause at the first repeat skip: name one node that is waiting in the frontier and one node that is already visited.",
+            "highlightedControlIds": [
+              "graphIndex",
+              "traversalMode",
+              "targetNodeIndex"
+            ],
+            "highlightedGraphIds": [
+              "neighbor-check-history",
+              "visited-frontier-history"
+            ],
+            "highlightedOverlayIds": [
+              "frontierCue",
+              "visitedCue"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Create a run where a repeat skip happens while at least one other node is still waiting in the frontier.",
+      "prediction": "Before you switch presets, predict which graph shape makes a backward edge appear before the frontier is empty.",
+      "answer": "Use the bridge-cycle graph, then watch for a backward edge into a visited node while another discovered node is still waiting.",
+      "explanation": "That moment is the whole point of the bookkeeping: visited prevents the loop from reopening, and the frontier preserves the useful work that remains."
+    }
+  },
+  "equations": [
+    {
+      "id": "frontier-visited-update",
+      "latex": "V_{next} = V \\cup \\{u\\}, \\quad F_{next} = F \\cup N_{new}(u)",
+      "label": "Visited and frontier update",
+      "meaning": "Expanding the current node u adds u to visited, while only newly discovered neighbors N_new(u) join the waiting frontier."
+    },
+    {
+      "id": "repeat-skip-count",
+      "latex": "R = C - D",
+      "label": "Repeat-skip count",
+      "meaning": "If C is total neighbor checks and D is new discoveries, then R counts checks that were skipped as repeats."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "graph-layout",
+      "symbol": "G",
+      "label": "Graph layout",
+      "param": "graphIndex",
+      "tone": "sky",
+      "description": "Switches among the bounded graph scenes on the same traversal bench.",
+      "equationIds": [
+        "repeat-skip-count"
+      ],
+      "graphIds": [
+        "neighbor-check-history",
+        "visited-frontier-history"
+      ],
+      "overlayIds": [
+        "visitedCue",
+        "frontierCue"
+      ]
+    },
+    {
+      "id": "start-node",
+      "symbol": "s",
+      "label": "Start node",
+      "param": "startNodeIndex",
+      "tone": "teal",
+      "description": "Moves the launch point so cycle behavior can appear from different places on the graph.",
+      "equationIds": [
+        "frontier-visited-update"
+      ],
+      "graphIds": [
+        "visited-frontier-history",
+        "depth-history"
+      ],
+      "overlayIds": [
+        "frontierCue",
+        "adjacencyCue"
+      ]
+    },
+    {
+      "id": "target-node",
+      "symbol": "t",
+      "label": "Target node",
+      "param": "targetNodeIndex",
+      "tone": "coral",
+      "description": "Marks which node the traversal is trying to reach while frontier and visited bookkeeping continue.",
+      "equationIds": [
+        "frontier-visited-update"
+      ],
+      "graphIds": [
+        "depth-history"
+      ],
+      "overlayIds": [
+        "visitedCue"
+      ]
+    },
+    {
+      "id": "traversal-mode",
+      "symbol": "M",
+      "label": "Traversal mode",
+      "param": "traversalMode",
+      "tone": "amber",
+      "description": "Lets the same cycle-handling story be compared under BFS and DFS without leaving the shared graph bench.",
+      "equationIds": [
+        "frontier-visited-update",
+        "repeat-skip-count"
+      ],
+      "graphIds": [
+        "visited-frontier-history",
+        "neighbor-check-history"
+      ],
+      "overlayIds": [
+        "frontierCue",
+        "visitedCue"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "graphIndex": 1,
+      "startNodeIndex": 0,
+      "targetNodeIndex": 7,
+      "traversalMode": 0,
+      "adjacencyCue": true,
+      "frontierCue": true,
+      "visitedCue": true
+    },
+    "ui": {
+      "initialGraphId": "visited-frontier-history",
+      "primaryGraphIds": [
+        "visited-frontier-history"
+      ],
+      "primaryControlIds": [
+        "traversal-mode"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "graph-index",
+        "kind": "slider",
+        "label": "Graph",
+        "param": "graphIndex",
+        "min": 0,
+        "max": 2,
+        "step": 1,
+        "displayValueLabels": [
+          {
+            "value": 0,
+            "label": "Layered campus"
+          },
+          {
+            "value": 1,
+            "label": "Bridge cycle"
+          },
+          {
+            "value": 2,
+            "label": "Hub and detours"
+          }
+        ],
+        "description": "Swap among a few bounded graph scenes without leaving the shared bench."
+      },
+      {
+        "id": "start-node",
+        "kind": "slider",
+        "label": "Start node",
+        "param": "startNodeIndex",
+        "min": 0,
+        "max": 7,
+        "step": 1,
+        "displayValueLabels": [
+          {
+            "value": 0,
+            "label": "A"
+          },
+          {
+            "value": 1,
+            "label": "B"
+          },
+          {
+            "value": 2,
+            "label": "C"
+          },
+          {
+            "value": 3,
+            "label": "D"
+          },
+          {
+            "value": 4,
+            "label": "E"
+          },
+          {
+            "value": 5,
+            "label": "F"
+          },
+          {
+            "value": 6,
+            "label": "G"
+          },
+          {
+            "value": 7,
+            "label": "H"
+          }
+        ],
+        "description": "Choose where the traversal begins."
+      },
+      {
+        "id": "target-node",
+        "kind": "slider",
+        "label": "Target node",
+        "param": "targetNodeIndex",
+        "min": 0,
+        "max": 7,
+        "step": 1,
+        "displayValueLabels": [
+          {
+            "value": 0,
+            "label": "A"
+          },
+          {
+            "value": 1,
+            "label": "B"
+          },
+          {
+            "value": 2,
+            "label": "C"
+          },
+          {
+            "value": 3,
+            "label": "D"
+          },
+          {
+            "value": 4,
+            "label": "E"
+          },
+          {
+            "value": 5,
+            "label": "F"
+          },
+          {
+            "value": 6,
+            "label": "G"
+          },
+          {
+            "value": 7,
+            "label": "H"
+          }
+        ],
+        "description": "Mark the node the search is trying to reach."
+      },
+      {
+        "id": "traversal-mode",
+        "kind": "slider",
+        "label": "Traversal mode",
+        "param": "traversalMode",
+        "min": 0,
+        "max": 1,
+        "step": 1,
+        "displayValueLabels": [
+          {
+            "value": 0,
+            "label": "BFS"
+          },
+          {
+            "value": 1,
+            "label": "DFS"
+          }
+        ],
+        "description": "Compare queue-like breadth-first expansion with stack-like depth-first branching."
+      }
+    ],
+    "presets": [
+      {
+        "id": "bridge-cycle-bfs",
+        "label": "Bridge cycle BFS",
+        "description": "A looped graph where the waiting frontier and visited state have to stay distinct.",
+        "values": {
+          "graphIndex": 1,
+          "startNodeIndex": 0,
+          "targetNodeIndex": 7,
+          "traversalMode": 0
+        }
+      },
+      {
+        "id": "bridge-cycle-dfs",
+        "label": "Bridge cycle DFS",
+        "description": "The same looped graph, now branch-first for comparison.",
+        "values": {
+          "graphIndex": 1,
+          "startNodeIndex": 0,
+          "targetNodeIndex": 7,
+          "traversalMode": 1
+        }
+      },
+      {
+        "id": "layered-campus-bfs",
+        "label": "Layered campus BFS",
+        "description": "A cleaner graph with fewer repeat skips for contrast.",
+        "values": {
+          "graphIndex": 0,
+          "startNodeIndex": 0,
+          "targetNodeIndex": 7,
+          "traversalMode": 0
+        }
+      },
+      {
+        "id": "hub-detours-dfs",
+        "label": "Hub and detours DFS",
+        "description": "A branch-first contrast where the frontier stays narrow longer.",
+        "values": {
+          "graphIndex": 2,
+          "startNodeIndex": 2,
+          "targetNodeIndex": 7,
+          "traversalMode": 1
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "adjacencyCue",
+        "label": "Adjacency cue",
+        "shortDescription": "Keep the current node's neighbor list visible.",
+        "whatToNotice": [
+          "Repeat skips only make sense relative to the current node's actual neighbor list."
+        ],
+        "whyItMatters": "It keeps cycle-handling attached to the graph's local structure.",
+        "relatedControls": [
+          "graphIndex",
+          "startNodeIndex"
+        ],
+        "relatedGraphTabs": [
+          "neighbor-check-history"
+        ],
+        "relatedEquationVariables": [
+          "graph-layout",
+          "start-node"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "frontierCue",
+        "label": "Frontier cue",
+        "shortDescription": "Show which claimed nodes are waiting next.",
+        "whatToNotice": [
+          "Frontier nodes are not finished yet, even though the search has already claimed them."
+        ],
+        "whyItMatters": "It keeps waiting work distinct from finished work on graphs with cycles.",
+        "relatedControls": [
+          "traversalMode",
+          "startNodeIndex"
+        ],
+        "relatedGraphTabs": [
+          "visited-frontier-history"
+        ],
+        "relatedEquationVariables": [
+          "start-node",
+          "traversal-mode"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "visitedCue",
+        "label": "Visited cue",
+        "shortDescription": "Mark which nodes have already been fully expanded.",
+        "whatToNotice": [
+          "Repeat edges can be skipped because those nodes have already had their neighborhoods used."
+        ],
+        "whyItMatters": "It makes loop control and repeat avoidance visible on the graph itself.",
+        "relatedControls": [
+          "graphIndex",
+          "targetNodeIndex"
+        ],
+        "relatedGraphTabs": [
+          "neighbor-check-history",
+          "visited-frontier-history"
+        ],
+        "relatedEquationVariables": [
+          "graph-layout",
+          "target-node"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "visited-frontier-history",
+      "label": "Visited nodes versus frontier size",
+      "xLabel": "step",
+      "yLabel": "nodes",
+      "series": [
+        "visited-count",
+        "frontier-size"
+      ],
+      "description": "Watch the difference between already expanded nodes and the still-waiting frontier."
+    },
+    {
+      "id": "depth-history",
+      "label": "Current depth versus deepest claimed depth",
+      "xLabel": "step",
+      "yLabel": "depth",
+      "series": [
+        "current-depth",
+        "max-depth"
+      ],
+      "description": "Track whether the active node stays shallow or dives deeper while frontier and visited bookkeeping continue."
+    },
+    {
+      "id": "neighbor-check-history",
+      "label": "New discoveries versus repeat skips",
+      "xLabel": "step",
+      "yLabel": "checks",
+      "series": [
+        "new-discoveries",
+        "repeat-skips"
+      ],
+      "description": "Compare fresh discoveries with the repeat edges that visited state prevents from reopening."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Keep the graph and one traversal graph visible together.",
+    "items": [
+      {
+        "id": "fvsg-notice-frontier-is-waiting-work",
+        "text": "The frontier is a waiting line of claimed nodes, not a list of finished nodes.",
+        "type": "observation",
+        "relatedControls": [
+          "traversalMode"
+        ],
+        "relatedGraphTabs": [
+          "visited-frontier-history"
+        ],
+        "relatedOverlays": [
+          "frontierCue"
+        ],
+        "relatedEquationVariables": [
+          "traversal-mode"
+        ]
+      },
+      {
+        "id": "fvsg-notice-repeat-skips-mark-cycles",
+        "text": "Repeat skips appear when a cycle points back into already expanded work and the visited state blocks the reopening.",
+        "type": "graph-reading",
+        "relatedControls": [
+          "graphIndex"
+        ],
+        "relatedGraphTabs": [
+          "neighbor-check-history"
+        ],
+        "relatedOverlays": [
+          "visitedCue",
+          "adjacencyCue"
+        ],
+        "relatedEquationVariables": [
+          "graph-layout"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Predict",
+    "intro": "Predict what a repeat edge should do before you advance the scene.",
+    "items": [
+      {
+        "id": "fvsg-predict-repeat-skip",
+        "prompt": "On the bridge-cycle graph, what should happen when the current node points back to a node that has already been visited?",
+        "scenarioLabel": "Backward edge in a cycle",
+        "choices": [
+          {
+            "id": "a",
+            "label": "That edge should count as a repeat skip, and the search should keep its current frontier instead of reopening the old node."
+          },
+          {
+            "id": "b",
+            "label": "The old node should return to the frontier every time the edge appears."
+          },
+          {
+            "id": "c",
+            "label": "The whole traversal should restart from the start node."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Visited state prevents the search from reopening already expanded work, so a backward edge becomes a repeat skip instead of a new discovery.",
+        "observationHint": "Run the bridge-cycle preset and watch the repeat-skip graph when the second diamond points backward.",
+        "apply": {
+          "presetId": "bridge-cycle-bfs"
+        },
+        "highlightedControls": [
+          "graphIndex",
+          "traversalMode"
+        ],
+        "highlightedGraphs": [
+          "neighbor-check-history",
+          "visited-frontier-history"
+        ],
+        "highlightedOverlays": [
+          "frontierCue",
+          "visitedCue"
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the visible cycle bookkeeping, not from memorized vocabulary.",
+    "questions": [
+      {
+        "id": "fvsg-qt-frontier-vs-visited",
+        "type": "reasoning",
+        "prompt": "What is the clearest difference between the frontier and the visited state?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Frontier nodes are waiting to be expanded, while visited nodes have already had their neighborhoods used."
+          },
+          {
+            "id": "b",
+            "label": "Frontier and visited always mean the same set of nodes."
+          },
+          {
+            "id": "c",
+            "label": "Visited nodes are the only nodes that still need work."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "That waiting-versus-finished distinction is what makes graph traversal work cleanly on graphs with cycles."
+      },
+      {
+        "id": "fvsg-qt-repeat-skip",
+        "type": "misconception-check",
+        "prompt": "Why are repeat skips useful on the bridge-cycle graph?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "They stop the traversal from reopening the same looped nodes over and over."
+          },
+          {
+            "id": "b",
+            "label": "They force the traversal to ignore adjacency completely."
+          },
+          {
+            "id": "c",
+            "label": "They remove the need for a frontier."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Cycles naturally point backward, so repeat skips are what turn the graph into bounded work instead of endless reopening."
+      },
+      {
+        "id": "fvsg-qt-frontier-not-finished",
+        "type": "graph-reading",
+        "prompt": "What is the cleanest description of a frontier node on this bench?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It has been discovered but not fully expanded yet."
+          },
+          {
+            "id": "b",
+            "label": "It has already finished all of its graph work."
+          },
+          {
+            "id": "c",
+            "label": "It can never be revisited under any rule."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Frontier means waiting work: found already, but not yet used up as a full expansion.",
+        "selectedWrongExplanations": {
+          "b": "Finished nodes belong to visited history, not the active frontier.",
+          "c": "The key point is waiting versus finished, not a blanket claim about every future rule."
+        }
+      },
+      {
+        "id": "fvsg-qt-repeat-skip-why",
+        "type": "reasoning",
+        "prompt": "Why does repeat-skip bookkeeping matter even when a graph is small?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because small cycle links can still reopen the same work over and over if visited state is ignored."
+          },
+          {
+            "id": "b",
+            "label": "Because repeat skips only matter once the graph has hundreds of nodes."
+          },
+          {
+            "id": "c",
+            "label": "Because repeat skips decide the graph drawing layout."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The cycle problem is structural, not just about graph size.",
+        "selectedWrongExplanations": {
+          "b": "Even a tiny cycle can cause endless reopening without the right bookkeeping.",
+          "c": "Repeat skips organize traversal work, not the drawing layout."
+        }
+      },
+      {
+        "id": "fvsg-qt-current-node",
+        "type": "compare-two-cases",
+        "prompt": "How should you distinguish the current node from the visited set?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The current node is the one being expanded now, while the visited set records nodes that are already settled."
+          },
+          {
+            "id": "b",
+            "label": "The current node is outside the visited set because it has never been discovered."
+          },
+          {
+            "id": "c",
+            "label": "The current node and visited set are just two names for the same thing."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The current node is one active member of the search, while visited records the broader settled history.",
+        "selectedWrongExplanations": {
+          "b": "The current node is already discovered; it is being worked on right now.",
+          "c": "Visited is a larger bookkeeping set than the one current expansion node."
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one labeled graph with the current node, the frontier nodes, and the visited nodes colored differently so waiting work and finished work stay separate.",
+        "A readout card reports the traversal mode, current node, frontier size, visited count, and target, while a cue panel shows the frontier order and the current neighbor list."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "One graph tracks visited nodes against frontier size, a second tracks current depth against the deepest claimed depth, and a third compares new discoveries with repeat skips.",
+        "Together they show how cycle-handling depends on keeping frontier and visited state distinct."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Frontier and Visited State on Graphs",
+    "description": "Explore graph traversal bookkeeping on one live graph where the frontier, visited state, and repeat skips stay visible together.",
+    "keywords": [
+      "graph traversal",
+      "frontier",
+      "visited state",
+      "cycles",
+      "computer science"
+    ]
+  }
+}

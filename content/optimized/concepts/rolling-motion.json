@@ -1,0 +1,260 @@
+{
+"pageFramework": {
+"sections": [
+{
+"id": "workedExamples",
+"title": "Solve the live rolling state"
+},
+{
+"id": "miniChallenge",
+"title": "Test the no-slip rule"
+},
+{
+"id": "readNext",
+"title": "Carry rolling ideas into later mechanics"
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Rolling without slipping links the motion of the center of mass to the spin of the object. As the roller speeds up down the incline, it must also spin so that the point touching the ramp does not slide relative to the surface.",
+"On this bench, every setup feels the same downhill component of gravity on the same incline. What changes is how the object's mass is distributed about its axis. That distribution changes how the motion is shared between translation and rotation, which is why different shapes reach the bottom at different times."
+]
+},
+"keyIdeas": [
+"No-slip rolling means $v_{\\mathrm{cm}} = r\\omega$ and $a_{\\mathrm{cm}} = r\\alpha$, so the linear and angular motions are locked together.",
+"The inertia factor $k = I/(mr^2)$ tells you how hard the shape is to spin for its mass and radius. Larger $k$ means more of the same downhill pull must go into building rotation.",
+"On a fixed incline, $a_{\\mathrm{cm}} = g\\sin\\theta/(1 + k)$, so smaller inertia factor gives larger center-of-mass acceleration and a faster run.",
+"Changing radius for the same shape mostly changes the spin rate through $\\omega = v/r$. In this bounded model, it does not by itself change the center-of-mass acceleration."
+],
+"commonMisconception": {
+"myth": "The heavier or larger roller must always win the race down the incline.",
+"correction": [
+"In this bounded no-slip model, the key race variable is not total mass by itself. It is how the mass is distributed about the axis, summarized by the inertia factor $k$.",
+"Changing radius changes how fast the object must spin for a given center speed, but for the same shape on the same incline it does not by itself change the center-of-mass acceleration formula."
+]
+},
+"workedExamples": {
+"title": "Worked example from the live incline",
+"intro": "Use the live slope, shape, and inspected time as evidence. First predict the center-of-mass acceleration and full-ramp travel time from the current slope and inertia factor. Then read the linked linear and angular speeds at one instant and check how the kinetic energy is split.",
+"items": [
+{
+"id": "current-rolling-acceleration",
+"title": "Acceleration of the current roller",
+"prompt": "For the current setup, what center-of-mass acceleration should this {{shapeLabelValue}} have, and how long should it take to travel the full ${{trackLengthValue}}\\,\\mathrm{m}$ ramp?",
+"steps": [
+{
+"id": "relation",
+"label": "1. Write the rolling-acceleration rule"
+},
+{
+"id": "substitute",
+"label": "2. Insert the live slope and inertia factor"
+},
+{
+"id": "compute",
+"label": "3. Use the acceleration to find the ramp time"
+}
+],
+"resultLabel": "Center-of-mass acceleration and ramp time",
+"applyAction": {
+"label": "Try hoop contrast",
+"observationHint": "Keep the acceleration map and mass-layout cue visible. The slope stays the same, but the larger inertia factor makes the trip slower."
+}
+},
+{
+"id": "current-no-slip-state",
+"title": "Linked speed and energy state",
+"prompt": "At $t = {{timeValue}}\\,\\mathrm{s}$, what are the current center-of-mass speed and angular speed, and how is the kinetic energy divided between translation and rotation?",
+"steps": [
+{
+"id": "relation",
+"label": "1. Write the no-slip link"
+},
+{
+"id": "substitute",
+"label": "2. Read the live linear and angular speeds"
+},
+{
+"id": "compute",
+"label": "3. Read the translational and rotational energy"
+}
+],
+"resultLabel": "Linked speeds and energy split",
+"applyAction": {
+"label": "Try small fast-spin sphere",
+"observationHint": "Keep the no-slip overlay and speed-link graph visible. The smaller radius does not change the same sphere-like acceleration curve, but it does require a larger angular speed."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Can you make one roller reach the bottom sooner without changing the slope angle?",
+"prediction": "Keep the incline fixed, then move from a rim-heavy shape toward a more center-loaded shape. Predict whether the travel time changes because of gravity, radius, or inertia factor.",
+"answer": "Yes. Lowering the inertia factor lets more of the same downhill pull accelerate the center of mass, so the travel time shrinks even though the no-slip link still has to be satisfied.",
+"explanation": "On the same incline, every setup gets the same downhill gravity component. The faster roller is the one that needs less of that pull to build rotation, so more is left for center-of-mass acceleration."
+}
+},
+"equations": [
+{
+"id": "inertia-factor",
+"meaning": "This bench summarizes shape or custom mass distribution with the dimensionless factor $k = I/(mr^2)$."
+},
+{
+"id": "rolling-acceleration",
+"meaning": "On the same incline, a larger inertia factor means more of the gravitational pull is tied up in spinning the object, so the center accelerates less."
+},
+{
+"id": "no-slip-link",
+"meaning": "The contact point does not slide, so the linear and angular motions must stay linked."
+},
+{
+"id": "rolling-energy",
+"meaning": "The drop in gravitational potential energy is shared between translational and rotational kinetic energy."
+}
+],
+"variableLinks": [
+{
+"id": "slopeAngle",
+"description": "Steeper slopes increase the downhill component of gravity for every shape on the same bench."
+},
+{
+"id": "inertiaFactor",
+"description": "This measures how far the mass is distributed from the axis. Larger $k$ means more rotational inertia and slower center-of-mass acceleration."
+},
+{
+"id": "radius",
+"description": "Radius sets the conversion between center speed and spin rate. For the same shape and slope, it mostly changes the required angular speed rather than the center-of-mass acceleration."
+}
+],
+"simulation": {
+"overlays": [
+{
+"id": "noSlipLink",
+"shortDescription": "Shows the live relation $v_{\\mathrm{cm}} = r\\omega$ beside the rolling object.",
+"whatToNotice": [
+"The center speed and angular speed are not independent once the object rolls without slipping.",
+"For the same center speed, smaller radius requires larger angular speed."
+],
+"whyItMatters": "It keeps translation and rotation tied to the same physical state."
+},
+{
+"id": "massLayout",
+"shortDescription": "Shows how sphere, cylinder, hoop, or custom mass distribution changes the inertia factor $k$.",
+"whatToNotice": [
+"The slope and total mass can stay the same while only the distribution about the axis changes.",
+"More rim-loaded layouts mean larger inertia factor and slower center-of-mass acceleration."
+],
+"whyItMatters": "Different shapes roll differently because rotational inertia changes, not because gravity acts differently on them."
+},
+{
+"id": "energySplit",
+"shortDescription": "Shows how the same drop in gravitational potential energy is split between translation and rotation.",
+"whatToNotice": [
+"All of the energy comes from the same drop in height.",
+"Larger inertia factor keeps a larger fraction of that energy in rotation."
+],
+"whyItMatters": "It explains the race outcome in energy language, not just as a kinematics rule."
+},
+{
+"id": "frictionTorque",
+"shortDescription": "Shows the uphill static-friction force and the torque it supplies at the contact point.",
+"whatToNotice": [
+"Static friction points uphill for an object accelerating down the ramp in this no-slip model.",
+"That same friction force supplies the torque needed to build angular acceleration."
+],
+"whyItMatters": "It corrects the common mistake that friction must always oppose the motion of the center of mass."
+}
+]
+},
+"graphs": [
+{
+"id": "distance",
+"description": "Distance curves upward because the center of mass accelerates as the object rolls down the incline."
+},
+{
+"id": "speed-link",
+"description": "The center-of-mass speed and $r\\omega$ stay on top of each other whenever the no-slip condition is satisfied."
+},
+{
+"id": "energy-split",
+"description": "The loss of height feeds both translational and rotational kinetic energy, and the split depends on shape."
+},
+{
+"id": "acceleration-map",
+"description": "For the current slope angle, larger inertia factor means smaller center-of-mass acceleration."
+}
+],
+"noticePrompts": {
+"title": "What to notice while it rolls",
+"intro": "Keep one question in view at a time: what the no-slip rule locks together, and what changing the shape actually changes.",
+"items": [
+{
+"id": "rolling-motion-notice-shape-race",
+"text": "Sphere, cylinder, and hoop feel the same incline, but the one with smaller inertia factor still reaches the bottom sooner.",
+"tryThis": "Switch between the solid-sphere, solid-cylinder, and hoop presets without changing the slope angle.",
+"whyItMatters": "This isolates rotational inertia as the reason the race order changes."
+},
+{
+"id": "rolling-motion-notice-no-slip",
+"text": "On the speed-link graph, the two curves lie on top of each other because no-slip rolling ties the linear and angular motions together.",
+"tryThis": "Turn on the no-slip overlay, then reduce the radius and watch the same center speed require a larger angular speed.",
+"whyItMatters": "It shows that spin is not a separate extra story. It is locked to the translation."
+},
+{
+"id": "rolling-motion-notice-energy-split",
+"text": "The energy split changes with shape even though the same drop in height supplies the whole budget in every case.",
+"tryThis": "Compare the solid sphere and the hoop on the same slope. The hoop keeps a larger share of the energy in rotation.",
+"whyItMatters": "This explains why equal gravity does not mean equal race times."
+},
+{
+"id": "rolling-motion-notice-compare",
+"text": "In compare mode, changing only the inertia factor is enough to separate the finish times on the same ramp.",
+"tryThis": "Clone the solid-sphere preset into compare mode, then turn only Setup B into a hoop.",
+"whyItMatters": "It makes the key idea explicit: shape matters because it changes rotational inertia."
+}
+]
+},
+"predictionMode": {
+"title": "Predict the rolling response",
+"intro": "Predict what changes before you touch the controls. Then test the same prediction on the stage, readouts, and graphs.",
+"items": [
+{
+"id": "rolling-motion-predict-shape-race",
+"prompt": "If the slope angle and radius stay the same but you switch from a hoop to a solid sphere, what should change?",
+"explanation": "Both still obey rolling without slipping, but the sphere has smaller inertia factor, so less of the same downhill pull is used to spin it up and more is available for center-of-mass acceleration.",
+"observationHint": "Watch the acceleration map and distance graph after the switch. The sphere should build center speed more quickly."
+},
+{
+"id": "rolling-motion-predict-steeper-ramp",
+"prompt": "If you keep the same solid sphere but increase the slope angle, what should change?",
+"explanation": "Shape still matters through $k$, but a steeper incline makes $g\\sin\\theta$ larger for every setup. The no-slip link still holds, so both center speed and spin build faster.",
+"observationHint": "Compare the distance curve and the speed-link graph after applying the steeper sphere."
+},
+{
+"id": "rolling-motion-predict-smaller-radius",
+"explanation": "For the same shape, the acceleration formula is unchanged, but the no-slip link requires $\\omega = v/r$. Smaller radius means larger angular speed for the same center speed.",
+"observationHint": "Keep the no-slip overlay visible and compare the live center speed with the larger spin rate."
+}
+]
+},
+"quickTest": {
+"title": "Quick check",
+"intro": "These questions test whether you can explain what sets rolling acceleration, spin rate, and energy split on the same incline."
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows one roller descending an incline from left to right. The interior graphic changes to represent a solid sphere, solid cylinder, hoop, or custom mass distribution, while the center marker and spoke rotate with the motion.",
+"Optional overlays can show the no-slip link between center speed and angular speed, a mass-layout cue for the inertia factor, an energy-split bar, and an uphill static-friction arrow with its torque cue. The same live state drives the stage, readouts, and graphs."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The distance graph curves upward because the center of mass accelerates down the incline. The speed-link graph plots center speed and $r\\omega$, which should overlap whenever rolling without slipping holds.",
+"The energy graph shows translational, rotational, and total kinetic energy together. The acceleration map falls as inertia factor rises, which is why a hoop rolls more slowly than a sphere on the same incline."
+]
+}
+}
+}

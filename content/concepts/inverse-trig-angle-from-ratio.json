@@ -1,0 +1,809 @@
+{
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "ratio-recovery-view",
+        "label": "Ratio recovery",
+        "description": "Open a first-quadrant point with the angle-recovery graph already in view.",
+        "setup": {
+          "presetId": "first-quadrant-ratio",
+          "graphId": "angle-recovery",
+          "overlayIds": [
+            "coordinateGuides",
+            "angleArc",
+            "radiusSweep"
+          ],
+          "note": "Use this when the coordinate ratio and the recovered angle should stay tied to the same point."
+        }
+      },
+      {
+        "id": "quadrant-warning-view",
+        "label": "Quadrant warning",
+        "description": "Open a second-quadrant point where the principal arctan output no longer matches the actual angle.",
+        "setup": {
+          "presetId": "quadrant-two-warning",
+          "graphId": "angle-recovery",
+          "overlayIds": [
+            "coordinateGuides",
+            "angleArc"
+          ],
+          "note": "This makes the quadrant correction visible without leaving the same polar bench."
+        }
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Keep one polar point and its coordinate signs visible so inverse trig becomes angle-from-ratio reasoning with quadrant checks instead of a calculator-only output.",
+    "keyTakeaway": "For a point with x not equal to zero, tan theta = y / x.",
+    "whyItMatters": "Angle recovery appears whenever coordinates have to become a direction again: polar conversion, complex-number arguments, vectors, and motion all need the ratio plus the quadrant check."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Inverse trig becomes easier to trust when it stays on the same plane as the point that created the ratio in the first place. This bench keeps one polar point, its x and y coordinates, and an angle-recovery graph visible together so angle-from-ratio reasoning stays geometric instead of calculator-first.",
+        "For a point away from the y-axis, the ratio y/x gives tan theta. But arctan(y/x) only returns a principal angle in a limited range. The coordinate signs still decide whether the full direction belongs in Quadrant I, II, III, or IV. That is why atan2(y, x), or equivalent quadrant reasoning, is the safer recovery rule."
+      ]
+    },
+    "keyIdeas": [
+      "For a point with x not equal to zero, tan theta = y / x.",
+      "The raw arctan(y / x) output is only a principal angle, not always the full polar direction.",
+      "The signs of x and y tell which quadrant the actual angle belongs to.",
+      "Changing radius at a fixed angle scales x and y together but does not change the recovered direction."
+    ],
+    "commonMisconception": {
+      "myth": "If a calculator returns arctan(y / x), that number is automatically the full angle of the point.",
+      "correction": [
+        "The ratio alone can miss the quadrant because opposite quadrants can share the same tangent value.",
+        "You still need the coordinate signs, or atan2(y, x), to recover the full direction safely."
+      ]
+    },
+    "workedExamples": {
+      "title": "Worked examples",
+      "intro": "Use one first-quadrant point and one second-quadrant warning case so the difference between principal angle and full angle stays visible.",
+      "items": [
+        {
+          "id": "first-quadrant-recovery",
+          "title": "Recover a first-quadrant angle from a ratio",
+          "prompt": "For the first-quadrant-ratio preset, what angle comes back from y / x?",
+          "variables": [
+            {
+              "id": "radius",
+              "variableId": "radius",
+              "symbol": "r",
+              "label": "Radius",
+              "valueKey": "4"
+            },
+            {
+              "id": "angle",
+              "variableId": "angle",
+              "symbol": "\\theta",
+              "label": "Angle",
+              "valueKey": "60",
+              "unit": "deg"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-coordinates",
+              "label": "1. Read the live Cartesian coordinates",
+              "template": "At r = 4 and theta = 60 deg, the point sits near (2.00, 3.46)."
+            },
+            {
+              "id": "form-the-ratio",
+              "label": "2. Form the tangent ratio",
+              "template": "The coordinate ratio is y / x \\approx 3.46 / 2.00 \\approx 1.73."
+            },
+            {
+              "id": "recover-the-angle",
+              "label": "3. Apply the inverse trig read",
+              "template": "arctan(1.73) returns about 60 deg, which already matches the actual first-quadrant angle."
+            }
+          ],
+          "resultLabel": "Recovered angle",
+          "resultTemplate": "\\theta \\approx 60^\\circ",
+          "interpretationTemplate": "In Quadrant I the principal arctan output and the full polar angle agree, so the ratio recovery is direct.",
+          "applyAction": {
+            "label": "Apply the ratio recovery view",
+            "presetId": "first-quadrant-ratio",
+            "observationHint": "Keep the coordinate guides on so the ratio y / x never disconnects from the actual point.",
+            "highlightedControlIds": [
+              "angleDeg"
+            ],
+            "highlightedGraphIds": [
+              "angle-recovery"
+            ],
+            "highlightedOverlayIds": [
+              "coordinateGuides",
+              "angleArc"
+            ]
+          }
+        },
+        {
+          "id": "quadrant-two-warning",
+          "title": "Catch the quadrant warning in Quadrant II",
+          "prompt": "For the quadrant-two-warning preset, why does the raw inverse tangent output fail by itself?",
+          "variables": [
+            {
+              "id": "angle",
+              "variableId": "angle",
+              "symbol": "\\theta",
+              "label": "Actual angle",
+              "valueKey": "140",
+              "unit": "deg"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-signs",
+              "label": "1. Read the signs of x and y",
+              "template": "The point is in Quadrant II, so x is negative while y stays positive."
+            },
+            {
+              "id": "notice-ratio",
+              "label": "2. Notice what the ratio alone says",
+              "template": "Because y / x is negative, the principal arctan output lands near -40 deg."
+            },
+            {
+              "id": "restore-full-angle",
+              "label": "3. Restore the actual direction",
+              "template": "The graph shows the real angle is 140 deg, so the signs force the point into Quadrant II instead of leaving it at a negative acute angle."
+            }
+          ],
+          "resultLabel": "Quadrant-corrected angle",
+          "resultTemplate": "\\theta = 140^\\circ",
+          "interpretationTemplate": "The ratio gives a reference-style angle, but the coordinate signs recover the full direction.",
+          "applyAction": {
+            "label": "Apply the quadrant warning view",
+            "presetId": "quadrant-two-warning",
+            "observationHint": "Watch how the principal-angle curve drops into the negative range while the actual-angle curve stays in Quadrant II.",
+            "highlightedControlIds": [
+              "angleDeg"
+            ],
+            "highlightedGraphIds": [
+              "angle-recovery"
+            ],
+            "highlightedOverlayIds": [
+              "coordinateGuides",
+              "angleArc"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Keep the ratio y / x negative, but move the point so the actual angle is definitely in Quadrant II rather than Quadrant IV.",
+      "prediction": "Decide first whether you need x positive or negative, and whether y should stay above or below the x-axis.",
+      "answer": "You need x negative and y positive, so the actual angle lands in Quadrant II.",
+      "explanation": "A negative tangent value can belong to either Quadrant II or Quadrant IV. The coordinate signs decide which one is physically correct for the point you are reading."
+    }
+  },
+  "equations": [
+    {
+      "id": "tangent-ratio",
+      "latex": "\\tan\\theta = \\frac{y}{x}",
+      "label": "Tangent from coordinates",
+      "meaning": "For points away from the y-axis, the slope of the ray gives the tangent ratio."
+    },
+    {
+      "id": "principal-angle",
+      "latex": "\\theta_{\\text{principal}} = \\tan^{-1}\\!\\left(\\frac{y}{x}\\right)",
+      "label": "Principal inverse-tangent output",
+      "meaning": "arctan returns one principal angle, not always the full polar direction."
+    },
+    {
+      "id": "quadrant-safe-recovery",
+      "latex": "\\theta = \\operatorname{atan2}(y, x)",
+      "label": "Quadrant-safe angle recovery",
+      "meaning": "Using both coordinates at once preserves the correct quadrant when the ratio alone is ambiguous."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "radius",
+      "symbol": "r",
+      "label": "Radius",
+      "param": "radius",
+      "tone": "teal",
+      "description": "Scales x and y together along the same ray without changing the recovered direction.",
+      "equationIds": [
+        "tangent-ratio"
+      ],
+      "graphIds": [
+        "coordinate-sweep",
+        "angle-recovery"
+      ],
+      "overlayIds": [
+        "coordinateGuides",
+        "radiusSweep"
+      ]
+    },
+    {
+      "id": "angle",
+      "symbol": "\\theta",
+      "label": "Angle",
+      "param": "angleDeg",
+      "tone": "amber",
+      "description": "Changes the direction of the point and decides which quadrant the ratio should map back to.",
+      "equationIds": [
+        "tangent-ratio",
+        "principal-angle",
+        "quadrant-safe-recovery"
+      ],
+      "graphIds": [
+        "coordinate-sweep",
+        "angle-recovery"
+      ],
+      "overlayIds": [
+        "coordinateGuides",
+        "angleArc",
+        "radiusSweep"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "radius": 4,
+      "angleDeg": 60,
+      "coordinateGuides": true,
+      "angleArc": true,
+      "radiusSweep": true
+    },
+    "ui": {
+      "initialGraphId": "angle-recovery",
+      "primaryGraphIds": [
+        "angle-recovery"
+      ],
+      "primaryControlIds": [
+        "angle",
+        "radius"
+      ],
+      "primaryPresetIds": [
+        "first-quadrant-ratio",
+        "quadrant-two-warning",
+        "fourth-quadrant-reference"
+      ]
+    },
+    "controls": [
+      {
+        "id": "radius",
+        "kind": "slider",
+        "label": "Radius",
+        "param": "radius",
+        "min": 0.5,
+        "max": 5,
+        "step": 0.1,
+        "description": "Controls how far the point sits from the origin."
+      },
+      {
+        "id": "angle",
+        "kind": "slider",
+        "label": "Angle",
+        "param": "angleDeg",
+        "min": 0,
+        "max": 360,
+        "step": 5,
+        "unit": "deg",
+        "description": "Controls the direction of the point measured from the positive x-axis."
+      }
+    ],
+    "presets": [
+      {
+        "id": "first-quadrant-ratio",
+        "label": "First-quadrant ratio",
+        "description": "A clean positive ratio case where the principal angle already matches the point.",
+        "values": {
+          "radius": 4,
+          "angleDeg": 60
+        }
+      },
+      {
+        "id": "quadrant-two-warning",
+        "label": "Quadrant II warning",
+        "description": "A second-quadrant point where the principal arctan output does not give the full angle by itself.",
+        "values": {
+          "radius": 4,
+          "angleDeg": 140
+        }
+      },
+      {
+        "id": "fourth-quadrant-reference",
+        "label": "Quadrant IV reference",
+        "description": "A fourth-quadrant point shares the same negative tangent sign as Quadrant II but keeps a different actual direction.",
+        "values": {
+          "radius": 4,
+          "angleDeg": 320
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "coordinateGuides",
+        "label": "Coordinate guides",
+        "shortDescription": "Project the current point back to the x and y axes.",
+        "whatToNotice": [
+          "The ratio y / x comes from the same two coordinate shadows that locate the point."
+        ],
+        "whyItMatters": "It keeps inverse trig tied to a real point on the plane.",
+        "relatedControls": [
+          "radius",
+          "angleDeg"
+        ],
+        "relatedGraphTabs": [
+          "coordinate-sweep",
+          "angle-recovery"
+        ],
+        "relatedEquationVariables": [
+          "radius",
+          "angle"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "angleArc",
+        "label": "Angle arc",
+        "shortDescription": "Show the swept angle from the positive x-axis to the current ray.",
+        "whatToNotice": [
+          "The actual angle can disagree with the principal-angle output once the point leaves Quadrant I or Quadrant IV."
+        ],
+        "whyItMatters": "It keeps the full direction visible while the ratio stays ambiguous.",
+        "relatedControls": [
+          "angleDeg"
+        ],
+        "relatedGraphTabs": [
+          "angle-recovery"
+        ],
+        "relatedEquationVariables": [
+          "angle"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "radiusSweep",
+        "label": "Radius sweep",
+        "shortDescription": "Keep the full circle for the current radius visible while theta moves around it.",
+        "whatToNotice": [
+          "Changing radius alone does not change the direction, so the recovered angle stays fixed along one ray."
+        ],
+        "whyItMatters": "It separates scale changes from angle recovery.",
+        "relatedControls": [
+          "radius",
+          "angleDeg"
+        ],
+        "relatedGraphTabs": [
+          "coordinate-sweep"
+        ],
+        "relatedEquationVariables": [
+          "radius",
+          "angle"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "angle-recovery",
+      "label": "Principal arctan vs actual angle",
+      "xLabel": "theta (deg)",
+      "yLabel": "angle (deg)",
+      "series": [
+        "actual-angle",
+        "principal-ratio-angle"
+      ],
+      "description": "Sweep theta while the graph compares the actual polar angle with the principal-angle output from arctan(y / x), so quadrant mistakes stand out."
+    },
+    {
+      "id": "coordinate-sweep",
+      "label": "x and y vs angle",
+      "xLabel": "theta (deg)",
+      "yLabel": "coordinate value",
+      "series": [
+        "x-coordinate",
+        "y-coordinate"
+      ],
+      "description": "Keep the coordinate sweep nearby so the ratio and the quadrant cues stay anchored to the same point."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Keep the point and the angle-recovery graph visible together.",
+    "items": [
+      {
+        "id": "iatr-notice-radius-does-not-change-angle",
+        "text": "Changing radius scales x and y together, so the point moves farther out on the same ray while the recovered direction stays the same.",
+        "type": "observation",
+        "relatedControls": [
+          "radius"
+        ],
+        "relatedGraphTabs": [
+          "coordinate-sweep",
+          "angle-recovery"
+        ],
+        "relatedOverlays": [
+          "coordinateGuides",
+          "radiusSweep"
+        ],
+        "relatedEquationVariables": [
+          "radius"
+        ]
+      },
+      {
+        "id": "iatr-notice-quadrant-warning",
+        "text": "In Quadrant II the ratio y / x is negative, so the principal arctan output drops into a negative acute angle even though the actual point is still above the x-axis on the left side.",
+        "type": "graph-reading",
+        "relatedControls": [
+          "angleDeg"
+        ],
+        "relatedGraphTabs": [
+          "angle-recovery"
+        ],
+        "relatedOverlays": [
+          "coordinateGuides",
+          "angleArc"
+        ],
+        "relatedEquationVariables": [
+          "angle"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Predict",
+    "intro": "Predict the principal-angle output before you move the point into a new quadrant.",
+    "items": [
+      {
+        "id": "iatr-predict-quadrant-two",
+        "prompt": "If the point moves into Quadrant II and y / x becomes negative, what should the raw arctan(y / x) output look like before you apply a quadrant correction?",
+        "scenarioLabel": "Move the point into Quadrant II",
+        "choices": [
+          {
+            "id": "a",
+            "label": "A negative acute angle."
+          },
+          {
+            "id": "b",
+            "label": "The full angle between 90 and 180 degrees."
+          },
+          {
+            "id": "c",
+            "label": "A positive acute angle in Quadrant I."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The principal arctan output stays in its limited range, so a negative ratio returns a negative acute angle even when the actual point is in Quadrant II.",
+        "observationHint": "Watch the principal-angle curve and the actual-angle curve separate as the point moves left of the y-axis.",
+        "apply": {
+          "presetId": "quadrant-two-warning"
+        },
+        "highlightedControls": [
+          "angleDeg"
+        ],
+        "highlightedGraphs": [
+          "angle-recovery"
+        ],
+        "highlightedOverlays": [
+          "coordinateGuides",
+          "angleArc"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the point, the coordinate guides, and the angle-recovery graph together. This checkpoint is about reading the quadrant honestly when the ratio alone is ambiguous.",
+    "items": [
+      {
+        "id": "iatr-ch-quadrant-two-ratio-recovery",
+        "title": "Quadrant II angle-from-ratio checkpoint",
+        "style": "parameter-match",
+        "prompt": "Build a point whose ratio y / x is negative but whose full angle is clearly in Quadrant II, not Quadrant IV. Keep the angle-recovery graph open so the principal-angle output and the actual angle disagree visibly.",
+        "successMessage": "You recovered the full angle from the geometry instead of trusting the ratio alone. The graph now shows a principal negative acute angle while the actual point still sits in Quadrant II.",
+        "setup": {
+          "presetId": "quadrant-two-warning",
+          "note": "Stay on the upper-left side of the plane so x stays negative while y remains positive."
+        },
+        "requirements": {
+          "graphId": "angle-recovery",
+          "overlayIds": [
+            "coordinateGuides",
+            "angleArc"
+          ]
+        },
+        "hints": [
+          "A negative tangent value can belong to Quadrant II or Quadrant IV, so the coordinate signs are the deciding clue.",
+          "If y drops below the x-axis, you have slid into Quadrant IV."
+        ],
+        "targets": [
+          {
+            "param": "radius",
+            "label": "Keep the radius near 4 so the point stays on the same warning circle.",
+            "min": 3.8,
+            "max": 4.2
+          },
+          {
+            "param": "angleDeg",
+            "label": "Set the angle between 134 deg and 146 deg so the point stays clearly in Quadrant II.",
+            "min": 134,
+            "max": 146,
+            "displayUnit": "deg"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live point and the angle-recovery graph.",
+    "questions": [
+      {
+        "id": "iatr-qt-quadrant-info",
+        "type": "misconception-check",
+        "prompt": "What extra information tells you whether a negative tangent ratio belongs to Quadrant II or Quadrant IV?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The signs of x and y."
+          },
+          {
+            "id": "b",
+            "label": "Only the radius."
+          },
+          {
+            "id": "c",
+            "label": "Nothing else matters once the ratio is known."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A negative tangent value can happen in two quadrants, so the coordinate signs decide the actual direction.",
+        "showMeAction": {
+          "label": "Show the quadrant warning",
+          "presetId": "quadrant-two-warning",
+          "observationHint": "Watch how the point stays in Quadrant II even while the principal-angle curve drops negative.",
+          "highlightedControlIds": [
+            "angleDeg"
+          ],
+          "highlightedGraphIds": [
+            "angle-recovery"
+          ],
+          "highlightedOverlayIds": [
+            "coordinateGuides",
+            "angleArc"
+          ]
+        }
+      },
+      {
+        "id": "iatr-qt-radius-effect",
+        "type": "variable-effect",
+        "prompt": "If radius increases while theta stays fixed, what should happen to the recovered angle?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It should stay the same because the point remains on the same ray."
+          },
+          {
+            "id": "b",
+            "label": "It should always move into a new quadrant."
+          },
+          {
+            "id": "c",
+            "label": "It should double with the radius."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Scaling the point along one ray changes the coordinate sizes but not the direction."
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one Cartesian plane with a point, a radius ray, an angle arc, dashed coordinate guides to the axes, and graphs that compare the actual polar angle with the principal inverse-tangent output from the same coordinates."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "One graph compares actual angle against the principal-angle output from arctan(y / x), and a second graph keeps the x and y coordinate sweep visible for the same point."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Inverse Trig / Angle from Ratio",
+    "description": "See inverse trig as angle-from-ratio reasoning on one polar bench, with quadrant checks that keep arctan outputs tied to the actual point on the plane.",
+    "keywords": [
+      "inverse trig",
+      "arctan",
+      "atan2",
+      "polar coordinates",
+      "trigonometry",
+      "math"
+    ]
+  },
+  "v2": {
+    "intuition": "Inverse trig recovers an angle only after the ratio is tied back to the point that made it. The slope y/x gives the tangent, but the signs of x and y decide which quadrant the full direction belongs to.",
+    "whyItMatters": "This is the geometry habit behind atan2: do not accept a calculator angle until the point, coordinate signs, and quadrant agree.",
+    "estimatedMinutes": 16,
+    "equationSnapshot": {
+      "equationIds": [
+        "tangent-ratio",
+        "principal-angle",
+        "quadrant-safe-recovery"
+      ],
+      "note": "Read y/x as the tangent ratio first, then compare the principal arctan output with the coordinate signs before naming the full angle."
+    },
+    "startSetup": {
+      "presetId": "first-quadrant-ratio",
+      "graphId": "angle-recovery",
+      "overlayIds": [
+        "coordinateGuides",
+        "angleArc"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "recover-a-direct-angle",
+        "title": "Recover a direct angle",
+        "goal": "Use a first-quadrant point to see when y/x and arctan agree with the actual direction.",
+        "doThis": "Apply the First-quadrant ratio preset, keep Coordinate guides and Angle arc visible, and compare the ratio readout with the angle-recovery graph.",
+        "notice": "x and y are both positive, so y/x is positive and the principal arctan output sits on the same 60 degree direction as the ray.",
+        "explain": "In Quadrant I the principal arctan range already contains the actual angle, so the ratio recovery is direct once x is not zero.",
+        "reveal": {
+          "controlIds": [
+            "angle",
+            "radius"
+          ],
+          "graphIds": [
+            "angle-recovery"
+          ],
+          "overlayIds": [
+            "coordinateGuides",
+            "angleArc"
+          ]
+        },
+        "setup": {
+          "presetId": "first-quadrant-ratio",
+          "graphId": "angle-recovery",
+          "overlayIds": [
+            "coordinateGuides",
+            "angleArc"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "iatr-qt-radius-effect"
+          ]
+        }
+      },
+      {
+        "id": "spot-the-quadrant-trap",
+        "title": "Spot the quadrant trap",
+        "goal": "See why the same inverse-tangent input can point to the wrong full direction.",
+        "doThis": "Switch to Quadrant II warning and watch the actual angle stay upper-left while the principal-angle curve drops to a negative acute angle.",
+        "notice": "The ratio y/x is negative because x is negative and y is positive, but the point is still above the x-axis on the left.",
+        "explain": "arctan(y/x) reports a principal value from the ratio alone. The coordinate signs are the missing evidence that restores the full Quadrant II direction.",
+        "reveal": {
+          "controlIds": [
+            "angle"
+          ],
+          "graphIds": [
+            "angle-recovery"
+          ],
+          "overlayIds": [
+            "coordinateGuides",
+            "angleArc"
+          ]
+        },
+        "setup": {
+          "presetId": "quadrant-two-warning",
+          "graphId": "angle-recovery",
+          "overlayIds": [
+            "coordinateGuides",
+            "angleArc"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "iatr-predict-quadrant-two"
+          ]
+        }
+      },
+      {
+        "id": "compare-negative-ratio-cases",
+        "title": "Compare negative ratios",
+        "goal": "Separate the sign of the tangent ratio from the quadrant of the point.",
+        "doThis": "Compare Quadrant II warning with Quadrant IV reference while the angle-recovery graph stays open.",
+        "notice": "Both cases can make y/x negative, but Quadrant II has x negative and y positive while Quadrant IV has x positive and y negative.",
+        "explain": "The tangent ratio alone compresses two different directions into one sign pattern. Reading both coordinate signs keeps the geometry from collapsing into a single calculator output.",
+        "reveal": {
+          "controlIds": [
+            "angle"
+          ],
+          "graphIds": [
+            "angle-recovery",
+            "coordinate-sweep"
+          ],
+          "overlayIds": [
+            "coordinateGuides",
+            "angleArc"
+          ]
+        },
+        "setup": {
+          "presetId": "fourth-quadrant-reference",
+          "graphId": "angle-recovery",
+          "overlayIds": [
+            "coordinateGuides",
+            "angleArc"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "iatr-qt-quadrant-info"
+          ]
+        }
+      },
+      {
+        "id": "recover-with-signs-and-atan2",
+        "title": "Recover with signs",
+        "goal": "State the safe angle-recovery rule before trying the challenge.",
+        "doThis": "Return to the Quadrant II warning setup, name the signs of x and y first, then explain why atan2(y, x) gives the full direction.",
+        "notice": "A complete answer names the ratio, the signs, the quadrant, and the corrected full angle instead of stopping at arctan(y/x).",
+        "explain": "atan2 uses y and x together, so it keeps the quadrant information that the single ratio can hide.",
+        "reveal": {
+          "controlIds": [
+            "angle",
+            "radius"
+          ],
+          "graphIds": [
+            "angle-recovery"
+          ],
+          "overlayIds": [
+            "coordinateGuides",
+            "angleArc",
+            "radiusSweep"
+          ]
+        },
+        "setup": {
+          "presetId": "quadrant-two-warning",
+          "graphId": "angle-recovery",
+          "overlayIds": [
+            "coordinateGuides",
+            "angleArc",
+            "radiusSweep"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "iatr-qt-quadrant-info"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "The coordinate ratio y/x gives tan theta for points with x not equal to zero.",
+        "arctan(y/x) returns a principal angle, so it may not be the full polar direction.",
+        "The signs of x and y decide whether a negative tangent ratio belongs in Quadrant II or Quadrant IV.",
+        "atan2(y, x), or equivalent sign-and-quadrant reasoning, preserves the full direction."
+      ],
+      "misconception": "Do not treat the raw arctan output as the final angle until the point and coordinate signs agree with that quadrant.",
+      "freePlayPrompt": "Move the angle through all four quadrants while the recovery graph is open, and say when the principal output matches the actual angle and when it needs correction.",
+      "workedExampleRefs": [
+        "first-quadrant-recovery",
+        "quadrant-two-warning"
+      ],
+      "nextConcepts": [
+        {
+          "slug": "parametric-curves-motion-from-equations",
+          "title": "Parametric Curves / Motion from Equations",
+          "reasonLabel": "Carry quadrant-aware x-y reading into motion where one parameter traces a changing point."
+        },
+        {
+          "slug": "dot-product-angle-and-projection",
+          "title": "Dot Product / Angle and Projection",
+          "reasonLabel": "Reuse angle-recovery habits when comparing the direction between two vectors."
+        }
+      ],
+      "testCta": true
+    }
+  }
+}

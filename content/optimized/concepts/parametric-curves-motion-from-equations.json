@@ -1,0 +1,238 @@
+{
+"pageFramework": {
+"featuredSetups": [
+{
+"id": "ellipse-trace",
+"label": "Ellipse with full trace",
+"description": "Open a same-frequency ellipse with the whole path and recent trail visible."
+},
+{
+"id": "phase-shift-loop",
+"label": "Phase-shifted loop",
+"description": "Open a loop with a phase offset and compare the full trace with the moving point."
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"A parametric curve is built by one shared clock t. At each moment, x(t) and y(t) together choose one point in the plane. This bench keeps those two coordinate values, the moving point, and the traced path visible at once so the equations stay tied to the geometry.",
+"Keep two questions separate. First, what set of points gets traced out? That is the path. Second, how does the point move through those points as time passes? That is the motion. Amplitudes mainly set the size of the path, while frequencies and phase shift control how the point is timed along it."
+]
+},
+"keyIdeas": [
+"At each time t, x(t) and y(t) must be read together as one ordered pair (x(t), y(t)).",
+"Amplitudes set the horizontal and vertical reach of the traced path.",
+"Frequencies and phase shift change the timing between x and y, so they affect how the point moves through the curve and can also change the shape that gets traced."
+],
+"commonMisconception": {
+"myth": "If two settings trace the same-looking curve, the motion along it must also be the same.",
+"correction": [
+"The traced path and the timing along that path are related but different ideas.",
+"To tell how the point is moving, you need the time-based information such as x(t), y(t), or the speed graph, not just the picture of the curve."
+]
+},
+"workedExamples": {
+"title": "Read one point from two time rules",
+"intro": "Use the live time slider and read x(t) and y(t) as one ordered pair. The full trace shows where the point can go, and the current time tells you which point is active now.",
+"items": [
+{
+"id": "read-the-current-parametric-point",
+"title": "Read the current point from x(t) and y(t)",
+"prompt": "At the current time, what ordered pair do x(t) and y(t) assign, and where is that point on the traced path?",
+"steps": [
+{
+"id": "read-time",
+"label": "1. Read the current time"
+},
+{
+"id": "read-coordinates",
+"label": "2. Read x(t) and y(t) as one pair"
+},
+{
+"id": "read-point",
+"label": "3. Place that pair on the plane"
+}
+],
+"resultLabel": "Current position on the path",
+"applyAction": {
+"label": "Show the ellipse trace",
+"observationHint": "Keep the full path visible so you can separate the whole shape from the one point selected by the current time."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Build a curve that is taller than it is wide, then catch the point near the y-axis while it is still moving quickly. Which settings control the shape, and which settings control the timing?",
+"prediction": "Decide first whether you need to change amplitudes, frequencies, phase shift, or some combination.",
+"answer": "Use amplitudes to make the curve taller than it is wide. Then use the timing settings and the current time to catch the point near the y-axis during a fast part of the motion.",
+"explanation": "That is the key separation in a parametric curve. Amplitudes mainly shape the trace, while frequency, phase shift, and the current time help determine how the point moves through it."
+}
+},
+"equations": [
+{
+"id": "x-of-t",
+"label": "Horizontal coordinate rule",
+"meaning": "Gives the x-coordinate selected by the current time t."
+},
+{
+"id": "y-of-t",
+"label": "Vertical coordinate rule",
+"meaning": "Gives the y-coordinate selected by the same t, with an optional phase offset."
+},
+{
+"id": "speed-rule",
+"label": "Speed along the curve",
+"meaning": "Measures how fast the point moves through the traced path, which is a motion question rather than a shape question."
+}
+],
+"variableLinks": [
+{
+"id": "x-amplitude",
+"description": "Sets the horizontal reach of the traced path."
+},
+{
+"id": "y-amplitude",
+"description": "Sets the vertical reach of the traced path."
+},
+{
+"id": "x-frequency",
+"description": "Controls how quickly the x-coordinate repeats as time runs."
+},
+{
+"id": "y-frequency",
+"description": "Controls how quickly the y-coordinate repeats as time runs."
+},
+{
+"id": "phase-shift",
+"description": "Offsets the y-motion relative to the x-motion, which changes how the point is timed on the curve."
+}
+],
+"simulation": {
+"ui": {
+"initialGraphId": "coordinate-time",
+"primaryGraphIds": [
+"coordinate-time",
+"speed-history"
+],
+"primaryControlIds": [
+"x-amplitude",
+"y-amplitude",
+"x-frequency",
+"y-frequency",
+"phase-shift"
+],
+"primaryPresetIds": [
+"ellipse-trace",
+"lissajous-loop",
+"phase-shift-loop"
+]
+},
+"presets": [
+{
+"id": "ellipse-trace",
+"description": "A same-frequency ellipse that cleanly separates path shape from motion around it."
+},
+{
+"id": "lissajous-loop",
+"description": "Different x and y frequencies create a loop that crosses itself."
+},
+{
+"id": "phase-shift-loop",
+"description": "The same frequency pair with a phase shift changes how the moving point lines up with the trace."
+}
+],
+"overlays": [
+{
+"id": "fullPath",
+"shortDescription": "Keep the entire traced curve visible behind the moving point.",
+"whatToNotice": [
+"The full trace shows the geometric path even when the point is currently somewhere else on it."
+],
+"whyItMatters": "It helps you separate the whole curve from the moment-by-moment position."
+},
+{
+"id": "timeTrail",
+"shortDescription": "Show the recent motion of the point along the curve.",
+"whatToNotice": [
+"The trail can bunch up or spread out, showing that the point does not have to move at the same speed everywhere."
+],
+"whyItMatters": "It makes traversal speed visible instead of hiding everything inside the shape alone."
+},
+{
+"id": "coordinateProjections",
+"shortDescription": "Project the current point back to the x- and y-axes.",
+"whatToNotice": [
+"The same point is being set by two time-dependent coordinate rules at once."
+],
+"whyItMatters": "It connects x(t) and y(t) to one visible point on the plane."
+}
+]
+},
+"noticePrompts": {
+"intro": "Keep the full path, the moving point, and the time graphs visible together. The main job is to separate shape from motion.",
+"items": [
+{
+"id": "pcm-notice-shape",
+"text": "Changing amplitudes changes the width and height of the traced path because it changes how far x and y can reach."
+},
+{
+"id": "pcm-notice-speed",
+"text": "The point can speed up and slow down along the same geometric curve, so path shape and traversal speed are not the same idea."
+}
+]
+},
+"predictionMode": {
+"title": "Predict what changes",
+"intro": "Before you move a control, decide whether it should change the path, the motion along the path, or both.",
+"items": [
+{
+"id": "pcm-predict-taller-loop",
+"explanation": "Increasing the y amplitude stretches the path vertically. It does not automatically make the path wider.",
+"observationHint": "Keep the full trace visible and compare the vertical reach before and after the change."
+}
+]
+},
+"quickTest": {
+"title": "Quick check",
+"intro": "Answer from the traced curve, the moving point, and the time graphs together.",
+"questions": [
+{
+"id": "pcm-qt-path-vs-motion",
+"prompt": "Which statement best separates the path from the motion along it?",
+"explanation": "The path is the set of points traced in the plane, while the motion tells which point is occupied at each time and how fast the point moves through the curve."
+},
+{
+"id": "pcm-qt-amplitude",
+"prompt": "What is the most direct effect of increasing the x amplitude?",
+"explanation": "Increasing the x amplitude stretches the curve farther left and right because it changes the horizontal reach, not the speed by itself."
+}
+]
+},
+"challengeMode": {
+"title": "Shape versus motion checkpoint",
+"intro": "Build the shape first, then use the timing to catch the point in a specific part of the path.",
+"items": [
+{
+"id": "pcm-ch-tall-fast-near-axis",
+"title": "Catch a fast point on a tall curve",
+"prompt": "Make the curve clearly taller than it is wide, then catch the point near the y-axis during a fast part of the motion.",
+"successMessage": "You separated shape from traversal successfully: the curve stayed tall while the point was caught near the y-axis during a fast part of the motion."
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows a parametric curve, a moving point, and controls for amplitudes, frequencies, and phase shift. The point moves through the same plane where the whole path is traced.",
+"Keeping the full trace visible shows the geometric path, while the moving point and time trail show how that path is traversed over time."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"One graph shows x(t) and y(t) together, so each time corresponds to one ordered pair on the plane.",
+"A second graph shows the point's speed over time, which helps separate the shape of the path from how fast the point moves along it."
+]
+}
+}
+}

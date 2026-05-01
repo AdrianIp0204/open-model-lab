@@ -1,0 +1,846 @@
+{
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "ellipse-trace",
+        "label": "Ellipse trace",
+        "description": "Open a one-frequency ellipse with the full path and time trail visible.",
+        "setup": {
+          "presetId": "ellipse-trace",
+          "graphId": "coordinate-time",
+          "overlayIds": [
+            "fullPath",
+            "timeTrail"
+          ]
+        }
+      },
+      {
+        "id": "phase-shift-loop",
+        "label": "Phase-shift loop",
+        "description": "Open a phase-shifted loop and compare the traced path with the moving point.",
+        "setup": {
+          "presetId": "phase-shift-loop",
+          "graphId": "speed-history",
+          "overlayIds": [
+            "fullPath",
+            "coordinateProjections"
+          ]
+        }
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Keep x(t), y(t), the traced path, and the moving point visible together so shape and traversal stay distinct.",
+    "keyTakeaway": "x(t) and y(t) work together to determine one moving point in the plane.",
+    "whyItMatters": "Parametric equations show up whenever a point moves through the plane, so separating path shape from timing makes later vectors, projectiles, and curves easier to read."
+  },
+  "v2": {
+    "intuition": "A parametric curve is not just a drawn shape. One shared clock t feeds x(t) and y(t), and those two coordinate readings choose the moving point at each instant.",
+    "whyItMatters": "Once you can keep the full path, the current point, and the coordinate-time graphs connected, you can tell whether a change reshapes the curve or only changes how the point travels through it.",
+    "estimatedMinutes": 15,
+    "equationSnapshot": {
+      "equationIds": [
+        "x-of-t",
+        "y-of-t",
+        "speed-rule"
+      ],
+      "note": "Read x(t) and y(t) together as one ordered pair, then use the speed rule only when you need the traversal story."
+    },
+    "startSetup": {
+      "presetId": "lissajous-loop",
+      "graphId": "coordinate-time",
+      "overlayIds": [
+        "fullPath",
+        "timeTrail"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-moving-point",
+        "title": "Read one moving point",
+        "goal": "Connect the coordinate-time readings to the single point moving on the traced curve.",
+        "doThis": "Keep Coordinates vs time open, leave the full path visible, and pause the clock once so you can read x(t) and y(t) together.",
+        "notice": "The graph values and the point on the plane describe the same instant, not two separate pictures.",
+        "explain": "A parameter value t selects one x-value and one y-value, so the active position is the ordered pair (x(t), y(t)).",
+        "reveal": {
+          "controlIds": [
+            "x-amplitude",
+            "y-amplitude"
+          ],
+          "graphIds": [
+            "coordinate-time"
+          ],
+          "overlayIds": [
+            "fullPath",
+            "timeTrail"
+          ]
+        },
+        "setup": {
+          "presetId": "lissajous-loop",
+          "graphId": "coordinate-time",
+          "overlayIds": [
+            "fullPath",
+            "timeTrail"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "pcm-qt-path-vs-motion"
+          ]
+        }
+      },
+      {
+        "id": "stretch-the-path-not-the-clock",
+        "title": "Stretch the path",
+        "goal": "See amplitudes as shape controls before changing the timing controls.",
+        "doThis": "Increase y amplitude while x amplitude stays fixed, then compare the full trace before and after the change.",
+        "notice": "The curve reaches higher and lower, but the same clock is still pairing x(t) with y(t).",
+        "explain": "Amplitudes set horizontal and vertical reach, so they are the cleanest first controls for width and height.",
+        "reveal": {
+          "controlIds": [
+            "x-amplitude",
+            "y-amplitude"
+          ],
+          "graphIds": [
+            "coordinate-time"
+          ],
+          "overlayIds": [
+            "fullPath"
+          ]
+        },
+        "setup": {
+          "presetId": "phase-shift-loop",
+          "graphId": "coordinate-time",
+          "overlayIds": [
+            "fullPath",
+            "timeTrail"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "pcm-predict-taller-loop"
+          ]
+        }
+      },
+      {
+        "id": "change-the-traversal-story",
+        "title": "Change the traversal",
+        "goal": "Use frequencies and phase shift to separate motion timing from a simple width-height reading.",
+        "doThis": "Switch to the speed graph, compare the Lissajous loop with the phase-shift loop, and watch where the point speeds up or slows down.",
+        "notice": "The point can cross, loop, or speed through part of the trace even when the width and height feel familiar.",
+        "explain": "Frequencies and phase shift change how x and y line up over time, so they affect both traversal and, for many settings, the traced shape itself.",
+        "reveal": {
+          "controlIds": [
+            "x-frequency",
+            "y-frequency",
+            "phase-shift"
+          ],
+          "graphIds": [
+            "speed-history"
+          ],
+          "overlayIds": [
+            "timeTrail",
+            "coordinateProjections"
+          ]
+        },
+        "setup": {
+          "presetId": "phase-shift-loop",
+          "graphId": "speed-history",
+          "overlayIds": [
+            "fullPath",
+            "timeTrail",
+            "coordinateProjections"
+          ]
+        }
+      },
+      {
+        "id": "check-shape-versus-motion",
+        "title": "Check shape versus motion",
+        "goal": "Explain the current curve using both the path shape and the moving-point story.",
+        "doThis": "Use the quick checks, then try the challenge: make a tall curve and catch the point near the y-axis while it is moving quickly.",
+        "notice": "A good explanation names which settings shaped the trace and which evidence came from the time or speed readout.",
+        "explain": "Parametric reasoning is strongest when you can move between equations, graphs, the full path, and the current ordered pair without losing the shared clock.",
+        "reveal": {
+          "controlIds": [
+            "x-amplitude",
+            "y-amplitude",
+            "x-frequency",
+            "y-frequency",
+            "phase-shift"
+          ],
+          "graphIds": [
+            "coordinate-time",
+            "speed-history"
+          ],
+          "overlayIds": [
+            "fullPath",
+            "timeTrail",
+            "coordinateProjections"
+          ]
+        },
+        "setup": {
+          "presetId": "phase-shift-loop",
+          "graphId": "speed-history",
+          "overlayIds": [
+            "fullPath",
+            "timeTrail",
+            "coordinateProjections"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "pcm-qt-amplitude"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "A shared parameter t selects one ordered pair (x(t), y(t)) at a time.",
+        "Amplitudes mainly change the horizontal and vertical reach of the path.",
+        "Frequencies, phase shift, and the current time explain how the point travels through the trace.",
+        "The full path and the moving-point/time readouts answer different questions, so both views matter."
+      ],
+      "misconception": "Do not treat the picture of the curve as the whole story. The same-looking path can hide a different traversal, and a timing change can alter the shape too.",
+      "workedExampleRefs": [
+        "read-the-current-parametric-point"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "vectors-in-2d",
+          "title": "Vectors in 2D",
+          "reasonLabel": "Use the same plane and ordered-pair language to read direction and displacement."
+        },
+        {
+          "slug": "projectile-motion",
+          "title": "Projectile Motion",
+          "reasonLabel": "Apply x(t) and y(t) thinking to a physical motion path."
+        }
+      ],
+      "freePlayPrompt": "Try to predict whether a setting change will mostly stretch the trace, change the timing, or do both before you touch the slider."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "accessibility"
+    ]
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Parametric curves become easier to trust when the path and the motion along that path stay visible together. This bench keeps x(t), y(t), the traced curve, and the moving point tied to the same time slider.",
+        "The goal is to separate two ideas that often blur together: the shape traced out in the plane and the timing of how the point moves through that shape."
+      ]
+    },
+    "keyIdeas": [
+      "x(t) and y(t) work together to determine one moving point in the plane.",
+      "Changing amplitudes changes the size of the traced path, while changing frequencies changes how the point traverses it.",
+      "A path can stay the same overall shape while the point speeds up and slows down along it."
+    ],
+    "commonMisconception": {
+      "myth": "If the curve looks the same, the motion along it must also be the same.",
+      "correction": [
+        "The traced path and the time-progress along it are related but not identical ideas.",
+        "The same kind of curve can be traversed at different speeds or with different timing between x and y."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Use the current parametric bench instead of a detached substitution problem.",
+      "items": [
+        {
+          "id": "read-the-current-parametric-point",
+          "title": "Read the current point from x(t) and y(t)",
+          "prompt": "At the current time, where is the point on the parametric curve?",
+          "variables": [
+            {
+              "id": "x-amplitude",
+              "variableId": "x-amplitude",
+              "symbol": "A_x",
+              "label": "x amplitude",
+              "valueKey": "xAmplitudeValue"
+            },
+            {
+              "id": "y-amplitude",
+              "variableId": "y-amplitude",
+              "symbol": "A_y",
+              "label": "y amplitude",
+              "valueKey": "yAmplitudeValue"
+            },
+            {
+              "id": "phase-shift",
+              "variableId": "phase-shift",
+              "symbol": "\\phi",
+              "label": "Phase shift",
+              "valueKey": "phaseShiftDegValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-time",
+              "label": "1. Start from the current time",
+              "template": "The current time is t = {{timeValue}}."
+            },
+            {
+              "id": "read-coordinates",
+              "label": "2. Read x(t) and y(t) together",
+              "template": "At this moment, x(t) = {{xValue}} and y(t) = {{yValue}}."
+            },
+            {
+              "id": "read-point",
+              "label": "3. Place that pair on the plane",
+              "template": "So the moving point is at ({{xValue}}, {{yValue}}) on the traced curve."
+            }
+          ],
+          "resultLabel": "Current point",
+          "resultTemplate": "$(x, y) = ({{xValue}}, {{yValue}})$",
+          "interpretationTemplate": "{{motionInterpretation}}",
+          "applyAction": {
+            "label": "Apply the ellipse trace",
+            "presetId": "ellipse-trace",
+            "observationHint": "Keep the full path on so the moving point never loses its geometric context.",
+            "highlightedControlIds": [
+              "xAmplitude",
+              "yAmplitude"
+            ],
+            "highlightedGraphIds": [
+              "coordinate-time"
+            ],
+            "highlightedOverlayIds": [
+              "fullPath",
+              "timeTrail"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Build a path that is taller than it is wide, then catch the point near the y-axis while it is still moving quickly.",
+      "prediction": "Decide whether amplitudes or frequencies control the shape and which settings mostly affect the speed.",
+      "answer": "The amplitudes set the width and height, while the frequencies and current time help determine how fast the point is moving at a given place.",
+      "explanation": "That is why the same idea has both a path shape and a traversal story."
+    }
+  },
+  "equations": [
+    {
+      "id": "x-of-t",
+      "latex": "x(t) = A_x \\cos(n_x t)",
+      "label": "x-coordinate rule",
+      "meaning": "Sets the horizontal motion as a function of the parameter t."
+    },
+    {
+      "id": "y-of-t",
+      "latex": "y(t) = A_y \\sin(n_y t + \\phi)",
+      "label": "y-coordinate rule",
+      "meaning": "Sets the vertical motion and allows a phase offset."
+    },
+    {
+      "id": "speed-rule",
+      "latex": "v = \\sqrt{\\left(\\frac{dx}{dt}\\right)^2 + \\left(\\frac{dy}{dt}\\right)^2}",
+      "label": "Speed along the path",
+      "meaning": "Separates the point's motion from the path it happens to trace."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "x-amplitude",
+      "symbol": "A_x",
+      "label": "x amplitude",
+      "param": "xAmplitude",
+      "tone": "teal",
+      "description": "Sets how far the path stretches horizontally.",
+      "equationIds": [
+        "x-of-t"
+      ],
+      "graphIds": [
+        "coordinate-time"
+      ],
+      "overlayIds": [
+        "fullPath",
+        "coordinateProjections"
+      ]
+    },
+    {
+      "id": "y-amplitude",
+      "symbol": "A_y",
+      "label": "y amplitude",
+      "param": "yAmplitude",
+      "tone": "coral",
+      "description": "Sets how far the path stretches vertically.",
+      "equationIds": [
+        "y-of-t"
+      ],
+      "graphIds": [
+        "coordinate-time"
+      ],
+      "overlayIds": [
+        "fullPath",
+        "coordinateProjections"
+      ]
+    },
+    {
+      "id": "x-frequency",
+      "symbol": "n_x",
+      "label": "x frequency",
+      "param": "xFrequency",
+      "tone": "sky",
+      "description": "Controls how quickly the x-coordinate cycles.",
+      "equationIds": [
+        "x-of-t",
+        "speed-rule"
+      ],
+      "graphIds": [
+        "coordinate-time",
+        "speed-history"
+      ],
+      "overlayIds": [
+        "timeTrail"
+      ]
+    },
+    {
+      "id": "y-frequency",
+      "symbol": "n_y",
+      "label": "y frequency",
+      "param": "yFrequency",
+      "tone": "amber",
+      "description": "Controls how quickly the y-coordinate cycles.",
+      "equationIds": [
+        "y-of-t",
+        "speed-rule"
+      ],
+      "graphIds": [
+        "coordinate-time",
+        "speed-history"
+      ],
+      "overlayIds": [
+        "timeTrail"
+      ]
+    },
+    {
+      "id": "phase-shift",
+      "symbol": "\\phi",
+      "label": "Phase shift",
+      "param": "phaseShiftDeg",
+      "tone": "teal",
+      "description": "Offsets the y-motion relative to the x-motion.",
+      "equationIds": [
+        "y-of-t"
+      ],
+      "graphIds": [
+        "coordinate-time",
+        "speed-history"
+      ],
+      "overlayIds": [
+        "coordinateProjections"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "xAmplitude": 3.2,
+      "yAmplitude": 2.4,
+      "xFrequency": 1,
+      "yFrequency": 2,
+      "phaseShiftDeg": 0,
+      "fullPath": true,
+      "timeTrail": true,
+      "coordinateProjections": false
+    },
+    "ui": {
+      "initialGraphId": "coordinate-time",
+      "primaryGraphIds": [
+        "coordinate-time",
+        "speed-history"
+      ],
+      "primaryControlIds": [
+        "x-amplitude",
+        "y-amplitude",
+        "x-frequency",
+        "y-frequency",
+        "phase-shift"
+      ],
+      "primaryPresetIds": [
+        "ellipse-trace",
+        "lissajous-loop",
+        "phase-shift-loop"
+      ]
+    },
+    "controls": [
+      {
+        "id": "x-amplitude",
+        "kind": "slider",
+        "label": "x amplitude",
+        "param": "xAmplitude",
+        "min": 1,
+        "max": 4.2,
+        "step": 0.1
+      },
+      {
+        "id": "y-amplitude",
+        "kind": "slider",
+        "label": "y amplitude",
+        "param": "yAmplitude",
+        "min": 1,
+        "max": 4.2,
+        "step": 0.1
+      },
+      {
+        "id": "x-frequency",
+        "kind": "slider",
+        "label": "x frequency",
+        "param": "xFrequency",
+        "min": 1,
+        "max": 4,
+        "step": 1
+      },
+      {
+        "id": "y-frequency",
+        "kind": "slider",
+        "label": "y frequency",
+        "param": "yFrequency",
+        "min": 1,
+        "max": 4,
+        "step": 1
+      },
+      {
+        "id": "phase-shift",
+        "kind": "slider",
+        "label": "Phase shift",
+        "param": "phaseShiftDeg",
+        "min": -180,
+        "max": 180,
+        "step": 5
+      }
+    ],
+    "presets": [
+      {
+        "id": "ellipse-trace",
+        "label": "Ellipse trace",
+        "description": "A same-frequency ellipse.",
+        "values": {
+          "xAmplitude": 3.2,
+          "yAmplitude": 2.4,
+          "xFrequency": 1,
+          "yFrequency": 1,
+          "phaseShiftDeg": 0
+        }
+      },
+      {
+        "id": "lissajous-loop",
+        "label": "Lissajous loop",
+        "description": "A two-frequency loop that crosses itself.",
+        "values": {
+          "xAmplitude": 3.2,
+          "yAmplitude": 2.4,
+          "xFrequency": 1,
+          "yFrequency": 2,
+          "phaseShiftDeg": 0
+        }
+      },
+      {
+        "id": "phase-shift-loop",
+        "label": "Phase-shift loop",
+        "description": "A loop changed by shifting the y-motion relative to x.",
+        "values": {
+          "xAmplitude": 2.8,
+          "yAmplitude": 3.4,
+          "xFrequency": 1,
+          "yFrequency": 2,
+          "phaseShiftDeg": 90
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "fullPath",
+        "label": "Full path",
+        "shortDescription": "Keep the complete traced curve visible.",
+        "whatToNotice": [
+          "The shape of the curve is easier to compare when the whole trace stays in view."
+        ],
+        "whyItMatters": "It separates the path from the moving point.",
+        "relatedControls": [
+          "xAmplitude",
+          "yAmplitude"
+        ],
+        "relatedGraphTabs": [
+          "coordinate-time"
+        ],
+        "relatedEquationVariables": [
+          "x-amplitude",
+          "y-amplitude"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "timeTrail",
+        "label": "Time trail",
+        "shortDescription": "Show the recent motion of the point.",
+        "whatToNotice": [
+          "The point can move quickly in one part of the curve and slowly in another."
+        ],
+        "whyItMatters": "It keeps traversal speed visible instead of collapsing everything into shape alone.",
+        "relatedControls": [
+          "xFrequency",
+          "yFrequency"
+        ],
+        "relatedGraphTabs": [
+          "speed-history"
+        ],
+        "relatedEquationVariables": [
+          "x-frequency",
+          "y-frequency"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "coordinateProjections",
+        "label": "Coordinate projections",
+        "shortDescription": "Project the current point back onto the axes.",
+        "whatToNotice": [
+          "The same moving point is being set by two separate coordinate rules."
+        ],
+        "whyItMatters": "It ties x(t) and y(t) back to the plane geometry.",
+        "relatedControls": [
+          "phaseShiftDeg"
+        ],
+        "relatedGraphTabs": [
+          "coordinate-time"
+        ],
+        "relatedEquationVariables": [
+          "phase-shift"
+        ],
+        "defaultOn": false
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "coordinate-time",
+      "label": "Coordinates vs time",
+      "xLabel": "time",
+      "yLabel": "coordinate value",
+      "series": [
+        "x-coordinate",
+        "y-coordinate"
+      ]
+    },
+    {
+      "id": "speed-history",
+      "label": "Speed vs time",
+      "xLabel": "time",
+      "yLabel": "speed",
+      "series": [
+        "speed-history"
+      ]
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Keep the traced curve and the moving point visible together.",
+    "items": [
+      {
+        "id": "pcm-notice-shape",
+        "text": "Changing amplitudes changes the width and height of the curve even if the timing stays the same.",
+        "type": "observation",
+        "relatedControls": [
+          "xAmplitude",
+          "yAmplitude"
+        ],
+        "relatedGraphTabs": [
+          "coordinate-time"
+        ],
+        "relatedOverlays": [
+          "fullPath"
+        ],
+        "relatedEquationVariables": [
+          "x-amplitude",
+          "y-amplitude"
+        ]
+      },
+      {
+        "id": "pcm-notice-speed",
+        "text": "The moving point can speed up and slow down along the same path, so shape and traversal are not the same idea.",
+        "type": "graph-reading",
+        "relatedControls": [
+          "xFrequency",
+          "yFrequency"
+        ],
+        "relatedGraphTabs": [
+          "speed-history"
+        ],
+        "relatedOverlays": [
+          "timeTrail"
+        ],
+        "relatedEquationVariables": [
+          "x-frequency",
+          "y-frequency"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Predict",
+    "intro": "Predict what changes before you apply the new settings.",
+    "items": [
+      {
+        "id": "pcm-predict-taller-loop",
+        "prompt": "If y amplitude increases while x amplitude stays fixed, what should happen to the traced path?",
+        "scenarioLabel": "Make the loop taller",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The path should get taller without necessarily getting wider."
+          },
+          {
+            "id": "b",
+            "label": "The path should always get wider."
+          },
+          {
+            "id": "c",
+            "label": "The path should stay identical."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The amplitudes control the horizontal and vertical span separately.",
+        "observationHint": "Compare the full trace before and after the change.",
+        "apply": {
+          "presetId": "phase-shift-loop"
+        },
+        "highlightedControls": [
+          "yAmplitude"
+        ],
+        "highlightedGraphs": [
+          "coordinate-time"
+        ],
+        "highlightedOverlays": [
+          "fullPath"
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live curve and motion cues.",
+    "questions": [
+      {
+        "id": "pcm-qt-path-vs-motion",
+        "type": "misconception-check",
+        "prompt": "Which statement best separates the curve from the motion along it?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The curve is the set of points traced out, while the motion describes how the point moves through them over time."
+          },
+          {
+            "id": "b",
+            "label": "They are always the same idea."
+          },
+          {
+            "id": "c",
+            "label": "Only the motion matters; the path is irrelevant."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The same path idea can be traversed with different timing."
+      },
+      {
+        "id": "pcm-qt-amplitude",
+        "type": "variable-effect",
+        "prompt": "What is the most direct effect of increasing x amplitude?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The path stretches farther left and right."
+          },
+          {
+            "id": "b",
+            "label": "The path must move faster everywhere."
+          },
+          {
+            "id": "c",
+            "label": "The y span doubles automatically."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "x amplitude controls horizontal span first."
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Build the shape first, then respect the timing of the moving point.",
+    "items": [
+      {
+        "id": "pcm-ch-tall-fast-near-axis",
+        "title": "Tall, fast, and near the axis",
+        "style": "visible-condition",
+        "prompt": "Build a curve that is clearly taller than it is wide, then pause when the point is near the y-axis and still moving quickly.",
+        "successMessage": "You separated shape from traversal successfully: the curve stayed tall while the point was caught near the axis during a fast part of the motion.",
+        "setup": {
+          "presetId": "phase-shift-loop",
+          "graphId": "speed-history",
+          "overlayIds": [
+            "fullPath",
+            "timeTrail"
+          ]
+        },
+        "requirements": {
+          "graphId": "speed-history",
+          "overlayIds": [
+            "fullPath",
+            "timeTrail"
+          ],
+          "timeSource": "live"
+        },
+        "targets": [
+          {
+            "metric": "pathHeight",
+            "min": 6.4,
+            "max": 8.5
+          },
+          {
+            "metric": "pathWidth",
+            "min": 2,
+            "max": 5.4
+          },
+          {
+            "metric": "x",
+            "min": -0.35,
+            "max": 0.35
+          },
+          {
+            "metric": "speed",
+            "min": 6.5,
+            "max": 20
+          }
+        ]
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a parametric curve, a moving point, and controls for amplitudes, frequencies, and phase shift. The point moves through the same plane where the whole path is traced."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "One graph shows x(t) and y(t) together, and a second graph shows the point's speed over time."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Parametric Curves / Motion from Equations",
+    "description": "Explore how x(t) and y(t) build a parametric curve, then separate the traced path from the motion along it on a live bench.",
+    "keywords": [
+      "parametric curves",
+      "parametric motion",
+      "x(t) and y(t)",
+      "math"
+    ]
+  }
+}

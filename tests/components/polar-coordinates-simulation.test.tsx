@@ -1,0 +1,111 @@
+import { fireEvent, render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
+import { PolarCoordinatesSimulation } from "@/components/simulations/PolarCoordinatesSimulation";
+import { getConceptBySlug } from "@/lib/content";
+import type { ConceptSimulationSource } from "@/lib/physics";
+
+function buildSimulationSource(): ConceptSimulationSource {
+  const concept = getConceptBySlug("polar-coordinates-radius-and-angle");
+  const simulationDescription = concept.accessibility.simulationDescription.paragraphs.join(" ");
+  const graphSummary = concept.accessibility.graphSummary.paragraphs.join(" ");
+
+  return {
+    id: concept.id,
+    title: concept.title,
+    summary: concept.summary,
+    slug: concept.slug,
+    topic: concept.topic,
+    equations: concept.equations,
+    variableLinks: concept.variableLinks,
+    accessibility: {
+      simulationDescription,
+      graphSummary,
+    },
+    simulation: {
+      ...concept.simulation,
+      graphs: concept.graphs,
+      accessibility: {
+        simulationDescription,
+        graphSummary,
+      },
+    },
+  };
+}
+
+describe("PolarCoordinatesSimulation", () => {
+  it("shows the same live point in polar and Cartesian readouts", () => {
+    const source = buildSimulationSource();
+
+    render(
+      <PolarCoordinatesSimulation
+        concept={source}
+        params={{
+          radius: 3,
+          angleDeg: 60,
+          coordinateGuides: true,
+          angleArc: true,
+          radiusSweep: true,
+        }}
+        time={0}
+        setParam={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByText("Polar readout")).toBeInTheDocument();
+    expect(screen.getByText("Cartesian readout")).toBeInTheDocument();
+    expect(screen.getByText("Quadrant I")).toBeInTheDocument();
+    expect(screen.getByText(/The same point sits at \(1\.5, 2\.6\)\./i)).toBeInTheDocument();
+  });
+
+  it("nudges the angle from the draggable point with keyboard controls", () => {
+    const source = buildSimulationSource();
+    const setParam = vi.fn();
+
+    render(
+      <PolarCoordinatesSimulation
+        concept={source}
+        params={{
+          radius: 3,
+          angleDeg: 60,
+          coordinateGuides: true,
+          angleArc: true,
+          radiusSweep: true,
+        }}
+        time={0}
+        setParam={setParam}
+      />,
+    );
+
+    fireEvent.keyDown(screen.getByRole("button", { name: /draggable polar point/i }), {
+      key: "ArrowRight",
+    });
+
+    expect(setParam).toHaveBeenCalledWith("angleDeg", 65);
+  });
+
+  it("nudges the radius from the draggable point with keyboard controls", () => {
+    const source = buildSimulationSource();
+    const setParam = vi.fn();
+
+    render(
+      <PolarCoordinatesSimulation
+        concept={source}
+        params={{
+          radius: 3,
+          angleDeg: 60,
+          coordinateGuides: true,
+          angleArc: true,
+          radiusSweep: true,
+        }}
+        time={0}
+        setParam={setParam}
+      />,
+    );
+
+    fireEvent.keyDown(screen.getByRole("button", { name: /draggable polar point/i }), {
+      key: "ArrowUp",
+    });
+
+    expect(setParam).toHaveBeenCalledWith("radius", 3.1);
+  });
+});

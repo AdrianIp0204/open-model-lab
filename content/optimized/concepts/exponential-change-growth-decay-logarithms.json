@@ -1,0 +1,285 @@
+{
+"pageFramework": {
+"featuredSetups": [
+{
+"id": "growth-target-view",
+"description": "Open a clean growth case with the target marker, opposite-rate comparison, and log guide visible on the same curve.",
+"setup": {
+"note": "Use this when you want the target-hit time and the logarithm step to stay tied to one visible crossing."
+}
+},
+{
+"id": "decay-half-life-view",
+"description": "Start from a decay case and keep the half-life guide visible while the target sits below the start.",
+"setup": {
+"note": "Use this to compare the falling curve, the half-life cue, and the inverse-time readout on one bench."
+}
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Exponential change is easier to understand when growth or decay stays attached to one live curve. This bench keeps the starting value, the continuous rate, the target line, and the target-hit time on the same graph so every algebra step matches a visible crossing.",
+"The key idea is multiplicative change, not adding the same amount each step. Equal time steps multiply the amount by the same factor, which is why growth can double and decay can halve on a fixed schedule. The logarithm appears when you reverse the question and solve for the time needed to reach a chosen target."
+]
+},
+"keyIdeas": [
+"In an exponential model, the amount follows y(t) = y_0 e^{kt}, and the sign of k decides whether the curve grows or decays.",
+"Doubling time and half-life are fixed time scales because exponential change repeats by multiplication, not by adding a constant amount each step.",
+"The inverse question is logarithmic: compare the target to the start with T / y_0, then solve for time with ln(T / y_0) / k."
+],
+"commonMisconception": {
+"myth": "Exponential change always means rapid growth, and logarithms belong to a separate chapter.",
+"correction": [
+"A negative rate gives honest exponential decay, so the same model can fall toward zero instead of rising away from the start.",
+"A logarithm appears naturally when you solve y_0 e^{kt} = T for time.",
+"So the logarithm is not a disconnected new object here. It is the inverse question for the same exponential curve."
+]
+},
+"workedExamples": {
+"title": "Read target time from the curve",
+"intro": "Use the growth-to-target preset and keep the target marker and log guide visible. First compare the target to the start, then solve for the hit time, then check that time against the graph.",
+"items": [
+{
+"id": "growth-target-time",
+"title": "Find the target-hit time",
+"prompt": "A population starts at 3 units and grows at a continuous rate of 0.25 until it reaches 12 units. How long should the curve take to hit the target?",
+"steps": [
+{
+"id": "ratio",
+"label": "1. Compare the target to the start"
+},
+{
+"id": "log-step",
+"label": "2. Solve for time with the log rule"
+},
+{
+"id": "graph-check",
+"label": "3. Check the answer against doubling time"
+}
+],
+"resultLabel": "Target-hit time",
+"applyAction": {
+"label": "Show the target crossing"
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Build a decay case where the target lies below the start and the hit time is longer than one half-life.",
+"prediction": "Decide whether the target should sit just below the start or much lower than the halfway mark.",
+"answer": "The target must sit well below half of the start so the curve needs more than one half-life to reach it.",
+"explanation": "One half-life only cuts the amount in half. To need more than one half-life, the target must lie below that first halfway level."
+}
+},
+"equations": [
+{
+"id": "exponential-rule",
+"label": "Exponential model",
+"meaning": "Uses one starting value y_0 and one continuous rate k to model growth or decay."
+},
+{
+"id": "target-time",
+"label": "Solve for the target-hit time",
+"meaning": "Turns the target ratio into a logarithm because time appears in the exponent."
+},
+{
+"id": "doubling-half-life",
+"label": "Fixed exponential time scales",
+"meaning": "Shows that doubling time for growth and half-life for decay depend on the rate, not on the current amount."
+}
+],
+"variableLinks": [
+{
+"id": "initial-value",
+"description": "Sets the starting amount y_0 at t = 0 and changes the reference height for both the curve and the target ratio."
+},
+{
+"id": "rate",
+"description": "Controls whether the curve grows or decays, and sets how quickly doubling time, half-life, and target-hit time unfold."
+},
+{
+"id": "target-value",
+"description": "Moves the target line so you can see immediately whether the curve can reach it and when."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "initial-value",
+"description": "Set the starting amount y_0 at time 0."
+},
+{
+"id": "rate",
+"description": "Use positive values for growth and negative values for decay."
+},
+{
+"id": "target-value",
+"description": "Choose the amount the curve is trying to reach."
+}
+],
+"presets": [
+{
+"id": "growth-to-target",
+"description": "A growth case where the target sits above the start and the crossing happens inside the visible window."
+},
+{
+"id": "decay-half-life",
+"description": "A decay case where the target sits below the start and the half-life cue is immediately useful."
+},
+{
+"id": "slow-growth",
+"description": "A smaller positive rate makes the curve rise more slowly, so the same kind of target takes longer to reach."
+},
+{
+"id": "unreachable-target",
+"description": "A decay case with a target above the start, so the curve moves away from the target instead of reaching it."
+}
+],
+"overlays": [
+{
+"id": "targetMarker",
+"shortDescription": "Show the target line and the crossing point when the curve can actually reach it.",
+"whatToNotice": [
+"The hit point only appears when the target lies on the side of the start that matches growth or decay."
+],
+"whyItMatters": "It ties the inverse-time question to one visible crossing on the curve."
+},
+{
+"id": "pairedRate",
+"shortDescription": "Show the same starting value with the opposite sign of the rate.",
+"whatToNotice": [
+"Keeping the same start but flipping the sign of k turns growth into decay, or decay into growth."
+],
+"whyItMatters": "It makes growth and decay two versions of the same model instead of two separate topics."
+},
+{
+"id": "doublingHalfLife",
+"shortDescription": "Mark one doubling time or one half-life on the curve when that guide exists.",
+"whatToNotice": [
+"One fixed time step always doubles the amount in growth or halves it in decay."
+],
+"whyItMatters": "It makes multiplicative cadence visible instead of leaving doubling time and half-life as slogans."
+},
+{
+"id": "logGuide",
+"shortDescription": "Show the target level in the straightened log view.",
+"whatToNotice": [
+"The straight line hits the target-log level at exactly the same time the curved graph hits the target."
+],
+"whyItMatters": "It shows why solving for time becomes a logarithm."
+}
+]
+},
+"graphs": [
+{
+"id": "change-curve",
+"description": "Shows the current exponential curve, the opposite-rate comparison, and the target crossing on the same amount-versus-time graph."
+},
+{
+"id": "log-view",
+"description": "Shows that ln(amount / initial) changes linearly in time, so the target-time question becomes one line-crossing problem."
+}
+],
+"noticePrompts": {
+"intro": "Use these prompts to keep the curve, the target line, and the inverse-time readout on the same story.",
+"items": [
+{
+"id": "exp-notice-sign",
+"text": "Flip the sign of k while keeping the same start. One curve rises and the other falls, so the same target can become reachable or unreachable."
+},
+{
+"id": "exp-notice-log",
+"text": "In the log view, the curved target question becomes a straight-line crossing because ln(y / y_0) = kt."
+},
+{
+"id": "exp-notice-cadence",
+"text": "A fixed positive k gives one doubling cadence. A fixed negative k gives one half-life cadence."
+},
+{
+"id": "exp-notice-unreachable",
+"text": "Try the unreachable-target preset and check which side of the start the target lies on before you look for a hit time.",
+"tryThis": "Apply the unreachable-target preset, then compare the target line with the direction of the decay curve before reading the inverse-time card."
+}
+]
+},
+"predictionMode": {
+"title": "Predict the target behavior",
+"intro": "Commit to what the curve and the hit time should do before you change the rate or the target.",
+"items": [
+{
+"id": "exp-predict-sign-flip",
+"explanation": "Changing only the sign of k flips growth into decay, so a target above the start stops being reachable on this bench.",
+"observationHint": "Watch the target marker and the opposite-rate comparison together."
+},
+{
+"id": "exp-predict-harder-target",
+"explanation": "With the same positive rate, a larger target ratio means a larger logarithm and therefore a larger hit time.",
+"observationHint": "Compare the target-log line before and after the target changes."
+},
+{
+"id": "exp-predict-faster-rate",
+"explanation": "Doubling time is ln 2 / k, so a larger positive k makes that fixed time shorter.",
+"observationHint": "Watch the doubling-time guide move left as the rate increases."
+}
+]
+},
+"quickTest": {
+"intro": "Answer from the curve, the target line, and the inverse-time readout together.",
+"questions": [
+{
+"id": "exp-qt-sign",
+"showMeAction": {
+"label": "Show growth turned into decay",
+"observationHint": "The same bench now falls toward zero because k is negative."
+}
+},
+{
+"id": "exp-qt-unreachable",
+"showMeAction": {
+"label": "Show a target on the wrong side of the start",
+"observationHint": "The target line sits above the start while the curve keeps falling away from it."
+}
+},
+{
+"id": "exp-qt-log",
+"showMeAction": {
+"label": "Show why the logarithm appears",
+"observationHint": "The straightened log view turns the inverse question into one line crossing."
+}
+}
+]
+},
+"challengeMode": {
+"title": "Read a quarter-target as two half-lives",
+"intro": "Use the curve, the target line, and the half-life guide together. The goal is to see a quarter-target as two multiplicative steps, not just as a number in a formula.",
+"items": [
+{
+"id": "exp-ch-quarter-target-two-half-lives",
+"title": "Make the target one quarter of the start",
+"prompt": "Build a decay case where the target is about one quarter of the start, so the curve reaches it in about two half-lives.",
+"successMessage": "You built a decay case where two half-life steps land on the target, so the ratio, the half-life guide, and the hit time all agree.",
+"setup": {
+"note": "Start from a simple decay case, then lower the target until it sits at one quarter of the start."
+},
+"hints": [
+"A quarter of the start means two halvings, not one.",
+"If the hit time is only one half-life, the target is still too high."
+]
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows an exponential amount-versus-time curve with a starting value, a target line, an opposite-rate comparison curve, a doubling-time or half-life guide, and a smaller log view that straightens the inverse target question."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"One graph shows the current exponential curve, the opposite-rate comparison, the target crossing, and the doubling-time or half-life cue when it exists. A second graph shows ln(amount / initial) as a straight line with the matching target-log line."
+]
+}
+}
+}

@@ -1,0 +1,269 @@
+{
+  "title": "導數作為斜率 / 區域性變化率",
+  "shortTitle": "導數作為斜率",
+  "summary": "沿著曲線滑動一個點，將割線收緊成切線，並將區域性陡度與導數圖表連線起來，而不離開同一個現場。",
+  "highlights": [
+    "從割線到切線",
+    "區域性變化率",
+    "導數圖表連結"
+  ],
+  "topic": "微積分",
+  "subtopic": "切線和區域性變化",
+  "recommendedNext": [
+    {
+      "slug": "limits-and-continuity-approaching-a-value",
+      "reasonLabel": "從割線到切線的語言縮小到單邊極限和連續性"
+    },
+    {
+      "slug": "optimization-maxima-minima-and-constraints",
+      "reasonLabel": "使用一個受限制的矩形現場上的區域性斜率來找到真正的最大值"
+    },
+    {
+      "slug": "integral-as-accumulation-area",
+      "reasonLabel": "將區域性斜率帶入累積總數和有號面積"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "當斜率問題始終附著於曲線上的一個可見點時，導數就不再抽象。本模組保持點、切線、割線和導數圖表在同一視野中，從而使區域性變化率從脱離符號的表述中不會漂移。",
+        "這裡的曲線故意固定。你沿著它滑動點，縮小或擴大delta x，並觀察一段割線的平均速率如何趨向切線的瞬時斜率。"
+      ]
+    },
+    "keyIdeas": [
+      "割線斜率是曲線上兩個鄰近點之間的平均變化率。",
+      "切線斜率是一個點處的區域性變化率，也是導數記錄的內容。",
+      "導數圖表顯示隨著你沿著曲線滑動該點時區域性斜率如何變化。"
+    ],
+    "commonMisconception": {
+      "myth": "導數是一個第二個圖表，一旦公式寫下來就與原始曲線無關。",
+      "correction": [
+        "導數圖表是由原始曲線上切線的斜率構建而成的。",
+        "當切線陡峭且上升時，導數值為正且大。當切線平坦時，導數值接近零。當切線下降時，導數值為負。"
+      ]
+    },
+    "workedExamples": {
+      "title": "例項工作",
+      "intro": "使用現場上的當前點和割線。相同的控制項驅動舞台、圖表標籤以及這些替換。",
+      "items": [
+        {
+          "id": "secant-slope-from-two-points",
+          "title": "計算割線斜率",
+          "prompt": "對於當前點和delta x，割線顯示什麼平均變化率？",
+          "variables": [
+            {
+              "id": "delta-x",
+              "label": "delta x"
+            }
+          ],
+          "steps": [
+            {
+              "id": "identify-points",
+              "label": "1. 讀取曲線上兩個點"
+            },
+            {
+              "id": "difference-quotient",
+              "label": "2. 形成差商"
+            },
+            {
+              "id": "compute-slope",
+              "label": "3. 計算平均變化率"
+            }
+          ],
+          "resultLabel": "當前割線斜率",
+          "applyAction": {
+            "label": "使用小的delta x",
+            "observationHint": "隨著 delta x 縮小，割線斜率和切線斜率會越來越接近。"
+          }
+        },
+        {
+          "id": "tangent-slope-from-the-derivative",
+          "title": "讀取切線斜率",
+          "prompt": "在當前點，導數説切線的斜率是多少？",
+          "steps": [
+            {
+              "id": "identify-location",
+              "label": "1. 識別曲線上的一個點"
+            },
+            {
+              "id": "read-derivative",
+              "label": "2. 在該點讀取導數值"
+            },
+            {
+              "id": "interpret-slope",
+              "label": "3. 將其與切線連線起來"
+            }
+          ],
+          "resultLabel": "當前切線斜率",
+          "applyAction": {
+            "label": "移動到平坦點",
+            "observationHint": "在轉折點附近，切線變平緩，導數圖接近零。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "將點移到切線正在上升但割線斜率仍然顯著不同的地方。",
+      "prediction": "決定是否需要更大的或更小的 delta x 在測試之前。",
+      "answer": "你需要一個切線斜率為正且 delta x 足夠大以使割線顯示出顯著不同的平均速率的點。",
+      "explanation": "切線斜率取決於某一點附近的區域性陡峭程度，而割線斜率則是區間上的平均值。保持 delta x 更大可以保留這個差距。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "一起使用切線、割線和導數圖。這些檢查關注的是曲線上斜率的行為。",
+    "questions": [
+      {
+        "id": "ds-qt-1",
+        "prompt": "如果某點的切線線是水平的，那裡的導數必須是多少？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它必須為零或非常接近零。"
+          },
+          {
+            "id": "b",
+            "label": "它必須為正因為該點仍在曲線上。"
+          },
+          {
+            "id": "c",
+            "label": "它必須與 delta x 相匹配。"
+          }
+        ],
+        "explanation": "水平切線的斜率為零，因此那裡的導數值為零或接近零。",
+        "selectedWrongExplanations": {
+          "b": "在曲線上並不一定會導致正斜率。導數取決於切線的方向。",
+          "c": "delta x 是割線比較的區間大小，而不是導數本身的值。"
+        },
+        "showMeAction": {
+          "label": "顯示近乎平坦的點",
+          "observationHint": "切線變平緩且導數圖接近 x 軸。"
+        }
+      },
+      {
+        "id": "ds-qt-2",
+        "prompt": "割線斜率和切線斜率之間最清晰的區別是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "割線斜率取決於一個區間，而切線斜率則集中在一點。"
+          },
+          {
+            "id": "b",
+            "label": "割線斜率使用導數圖，而切線斜率不使用原始曲線。"
+          },
+          {
+            "id": "c",
+            "label": "只要曲線平滑，他們總是相同的。"
+          }
+        ],
+        "explanation": "割線使用兩個點和一段區間，而切線則捕捉單一點的區域性斜率。",
+        "selectedWrongExplanations": {
+          "b": "兩種斜率都來自原始曲線。導數圖表是根據切線斜率建立起來的。",
+          "c": "只有當delta x非常小時，它們才會吻合得很緊密。"
+        },
+        "showMeAction": {
+          "label": "顯示較大的割線區間",
+          "observationHint": "割線斜率仍然在一個顯著的區間上平均計算，因此還不完全匹配切線。"
+        }
+      },
+      {
+        "id": "ds-qt-3",
+        "prompt": "如果導數圖表在某一點處位於零以下，這告訴你什麼?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "原始曲線從左到右在此處下降。"
+          },
+          {
+            "id": "b",
+            "label": "原始曲線在此處必須位於x軸之下。"
+          },
+          {
+            "id": "c",
+            "label": "已關閉割線線條。"
+          }
+        ],
+        "explanation": "負的導數意味著切線斜率為負，因此原始曲線在區域性從左到右下降。",
+        "selectedWrongExplanations": {
+          "b": "導數符號告訴你關於斜率的資訊，而不是原始y值。",
+          "c": "導數符號與割線疊加是否可見無關。"
+        },
+        "showMeAction": {
+          "label": "顯示負斜率",
+          "observationHint": "切線下降且導數圖表位於零以下。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "單一坐標網格顯示原始曲線、曲線上的一個移動點、可選的割線點以及主點上的切線。可選的引導線顯示差商中使用的水平和垂直變化。",
+        "拖動主要點會一起改變區域性斜率和導數讀數。拖動割線點會改變平均速率所用的區間大小。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "導數圖表繪製切線斜率對應於x，因此它作為原始曲線的斜率地圖。",
+        "差商圖表繪製割線斜率對應於delta x，因此它顯示平均速率如何隨著區間縮小而趨近切線斜率。"
+      ]
+    }
+  },
+  "equations": [
+    {
+      "id": "difference-quotient",
+      "label": "割線斜率",
+      "meaning": "衡量有限水平區間上的平均變化率。"
+    },
+    {
+      "id": "derivative-limit",
+      "label": "導數",
+      "meaning": "定義切線斜率為割線斜率的極限值。"
+    },
+    {
+      "id": "tangent-line",
+      "label": "切線線條",
+      "meaning": "使用某一點處的導數來寫出透過該點的切線。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "point-x",
+      "label": "點位置",
+      "description": "沿曲線滑動活動點，這會改變點值、切線斜率和導數圖表讀數。"
+    },
+    {
+      "id": "delta-x",
+      "label": "delta x",
+      "description": "設定割線點與主要點之間的距離，從而控制割線斜率與切線斜率匹配的程度。"
+    },
+    {
+      "id": "show-secant",
+      "label": "顯示割線",
+      "description": "保持平均速率比較可見，以便您可以將其與切線斜率進行比較。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "point-x",
+        "label": "點位置"
+      },
+      {
+        "id": "delta-x",
+        "label": "delta x"
+      },
+      {
+        "id": "show-secant",
+        "label": "顯示割線"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "tangentLine",
+        "label": "切線線條"
+      }
+    ]
+  }
+}

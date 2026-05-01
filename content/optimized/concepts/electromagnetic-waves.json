@@ -1,0 +1,274 @@
+{
+"pageFramework": {
+"sections": [
+{
+"id": "workedExamples",
+"title": "Work from the live wave"
+},
+{
+"id": "miniChallenge",
+"title": "Field-pair direction checkpoint"
+},
+{
+"id": "readNext",
+"title": "Continue with related wave ideas"
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Electromagnetic waves are where changing electric and magnetic fields appear as one moving pattern rather than two separate topics. At each location, the electric and magnetic fields rise, cross zero, and reverse together while the whole pattern travels through space. The field directions stay perpendicular, and the propagation direction is set by the pair rather than by either field alone.",
+"This module keeps that picture compact. One shared stage shows the electric lane, the magnetic lane, a movable probe, and a local propagation triad. The same electric amplitude, wave speed, wavelength, and probe position drive the stage, both graphs, the overlays, the worked examples, the prediction prompts, and the quick test, so every representation refers to the same traveling wave."
+]
+},
+"keyIdeas": [
+"At one fixed location in this model, the electric and magnetic fields are in phase: when E crosses zero, B crosses zero there too.",
+"Wave speed, wavelength, and frequency are linked by the same traveling-wave relation as other waves: v = f \\lambda.",
+"For the same electric-wave pattern, a slower wave in this model has a larger magnetic amplitude because B = E / v.",
+"A downstream probe sees the same oscillation later by x_p / v. That delay is about source versus probe, not about E versus B at one point."
+],
+"commonMisconception": {
+"myth": "The magnetic field happens after the electric field, so E should peak first and B should peak later at the same point.",
+"correction": [
+"In this model, E and B are two parts of the same passing wave. At one fixed point they rise, cross zero, and reverse together.",
+"The delay is spatial, not local: a probe farther downstream repeats the source later because the pattern needs time to travel there."
+]
+},
+"workedExamples": {
+"title": "Work from the live wave",
+"intro": "Read the local field pair and the source-to-probe timing directly from the wave now on screen. The same stage state drives both graphs and the algebra below.",
+"items": [
+{
+"id": "local-field-pair",
+"title": "Electric and magnetic fields at the probe right now",
+"steps": [
+{
+"id": "timing",
+"label": "1. Use v and \\lambda to read the current wave timing"
+},
+{
+"id": "electric-field",
+"label": "2. Read the electric field at the probe"
+},
+{
+"id": "magnetic-field",
+"label": "3. Use the local field-pair rule to find the magnetic field"
+}
+],
+"resultLabel": "Probe field pair",
+"applyAction": {
+"label": "Show slower wave",
+"observationHint": "The electric pattern keeps the same general shape, but a slower wave gives a larger magnetic readout and a longer probe delay."
+}
+},
+{
+"id": "source-probe-delay",
+"title": "Source-to-probe delay in the current setup",
+"steps": [
+{
+"id": "delay",
+"label": "1. Convert the probe distance into travel delay"
+},
+{
+"id": "cycle-lag",
+"label": "2. Convert the same spacing into cycle lag"
+},
+{
+"id": "compare-fields",
+"label": "3. Compare the source and probe values at this moment"
+}
+],
+"resultLabel": "Source-to-probe delay",
+"applyAction": {
+"label": "Show one full-wavelength lag",
+"observationHint": "At one wavelength of separation, the source and probe line up in phase again even though the probe signal arrives one full cycle later."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Suppose the probe snapshot shows the electric field pointing upward, but the stage still says the wave propagates to the right. What must the magnetic field direction be at that same point if the local field pair is consistent?",
+"prediction": "Use the propagation triad, not a memorized left-right guess.",
+"answer": "The magnetic field must point out of the page.",
+"explanation": "In the stage convention, an upward electric field crossed with an out-of-page magnetic field points to the right. If the magnetic direction flipped instead, the local pair would imply leftward propagation."
+}
+},
+"equations": [
+{
+"id": "electric-wave",
+"meaning": "The electric field repeats in space every \\lambda and oscillates in time with frequency f."
+},
+{
+"id": "magnetic-pair",
+"label": "Magnetic-field pair rule",
+"meaning": "In this bounded model, the magnetic field stays in phase with the electric field at the same point, and its amplitude scales as E / v."
+},
+{
+"id": "wave-relation",
+"meaning": "Wave speed tells you how fast one wavelength of pattern is launched each cycle."
+},
+{
+"id": "travel-delay",
+"meaning": "A point farther downstream copies the source later because the wave pattern needs time to reach it."
+},
+{
+"id": "propagation-direction",
+"meaning": "The local E and B directions together set the rightward propagation direction in this stage convention."
+}
+],
+"variableLinks": [
+{
+"id": "electricAmplitude",
+"label": "Electric-field amplitude",
+"description": "Scales the electric wave and the matching magnetic wave without changing wavelength or source-to-probe delay."
+},
+{
+"id": "waveSpeed",
+"description": "Changes how fast the pattern travels, which changes frequency, source-to-probe delay, and magnetic amplitude in this model."
+},
+{
+"id": "wavelength",
+"description": "Sets the spacing of the repeating pattern in space and therefore how many cycles of lag separate the source from the probe."
+},
+{
+"id": "probeX",
+"description": "Moves the sampled location downstream so the same wave can be read with a different travel delay and phase lag without changing the wave itself."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "electricAmplitude",
+"label": "Electric-field amplitude",
+"description": "Changes the electric-field height and the matching magnetic-field height without changing the timing relations."
+},
+{
+"id": "waveSpeed",
+"description": "Controls how quickly the whole field pattern travels to the right, changing both delay and frequency."
+},
+{
+"id": "probeX",
+"description": "Moves the live measurement point along the propagation axis so the same wave is read later or earlier."
+}
+],
+"overlays": [
+{
+"id": "wavelengthGuide",
+"shortDescription": "Marks one full crest-to-crest spacing directly on the electric-field lane.",
+"whatToNotice": [
+"Changing \\lambda re-spaces both field lanes together because they are two views of the same traveling wave."
+],
+"whyItMatters": "It keeps wavelength as a visible spacing in space rather than a formula-only quantity."
+},
+{
+"id": "probeGuide",
+"shortDescription": "Labels the source-to-probe distance, travel delay, and cycle lag together.",
+"whatToNotice": [
+"Moving the probe changes when that location responds, not how the source itself oscillates."
+],
+"whyItMatters": "It separates downstream delay from the local E/B relationship at one point."
+},
+{
+"id": "propagationTriad",
+"whatToNotice": [
+"When the electric direction flips, the magnetic direction flips with it, so E \times B still points to the right."
+],
+"whyItMatters": "It turns the local field pair into a direct statement about propagation direction."
+}
+]
+},
+"graphs": [
+{
+"id": "probe-fields",
+"label": "Probe electric and magnetic field",
+"description": "Tracks the electric field and the display-scaled magnetic field at the same probe, so their shared timing is easy to compare."
+},
+{
+"id": "source-probe",
+"label": "Source and probe electric field",
+"description": "Compares the source electric field with the downstream probe electric field on the same time axis, making travel delay and phase lag visible in one wave."
+}
+],
+"noticePrompts": {
+"intro": "Use one prompt at a time. Each one points to a relation the live stage and graphs already show in the current wave.",
+"items": [
+{
+"id": "emw-notice-field-pair",
+"text": "At one probe location, the electric and magnetic fields reverse together. The delay belongs to source versus probe, not to E versus B at the same point.",
+"tryThis": "Watch one probe marker through several cycles and compare the two traces on the probe-field graph.",
+"whyItMatters": "This is the main conceptual shift from treating electric and magnetic fields as separate timelines."
+},
+{
+"id": "emw-notice-source-probe-delay",
+"text": "The source-probe graph shows the same electric oscillation appearing later downstream, not a different oscillation.",
+"whyItMatters": "It keeps delay tied to distance through space instead of inventing a separate downstream mechanism."
+},
+{
+"id": "emw-notice-wave-speed",
+"text": "Lowering the wave speed does three things at once here: it lowers frequency at fixed wavelength, increases source-to-probe delay, and makes the magnetic amplitude larger for the same electric wave.",
+"whyItMatters": "It links propagation timing and local field pairing through one shared control."
+},
+{
+"id": "emw-notice-compare",
+"text": "Compare mode works best when the electric wave stays similar but one control changes the delay story. One setup can keep the same electric amplitude while showing a very different magnetic scale or source-to-probe lag.",
+"whyItMatters": "It isolates which differences come from propagation speed and which come from field size or wavelength."
+}
+]
+},
+"predictionMode": {
+"intro": "Make the prediction before moving the control. Each scenario changes one wave property at a time so the live stage and graphs can confirm the consequence.",
+"items": [
+{
+"id": "emw-pred-slower-medium",
+"explanation": "With \\lambda fixed, lowering v lowers f because v = f \\lambda. The source-to-probe delay x_p / v therefore increases, and the model's B = E / v rule makes the magnetic amplitude larger for the same electric field.",
+"observationHint": "Watch the source-probe gap widen and the magnetic trace grow relative to the electric trace."
+},
+{
+"id": "emw-pred-longer-wavelength",
+"explanation": "Travel delay depends on x_p / v, so it stays fixed when x_p and v are fixed. But the cycle lag is x_p / \\lambda, so a larger wavelength means fewer cycles of lag between the source and the same probe.",
+"observationHint": "Compare the cycle-lag readout before and after the wavelength change while the travel-delay value stays fixed."
+},
+{
+"id": "emw-pred-one-wavelength",
+"explanation": "One wavelength of extra distance adds one full cycle of lag. The downstream point repeats the same phase, but only after one full-cycle delay.",
+"observationHint": "Watch the source and probe electric traces line back up with a full-period horizontal shift."
+}
+]
+},
+"quickTest": {
+"intro": "Answer from the live field logic, not from isolated formulas. Ask what the wave picture must mean about field pairing, propagation, and timing.",
+"questions": [
+{
+"id": "emw-qt-triad-direction",
+"explanation": "An upward electric field paired with an out-of-page magnetic field gives a rightward propagation direction in this stage convention."
+},
+{
+"id": "emw-qt-lower-speed",
+"explanation": "At fixed wavelength, lowering wave speed lowers frequency through v = f \\lambda. The source-to-probe delay gets larger, and the local rule B = E / v makes the magnetic amplitude larger."
+},
+{
+"id": "emw-qt-one-wavelength",
+"explanation": "One full wavelength of distance adds one full cycle of lag. The phase repeats, but the downstream trace still arrives later in time."
+},
+{
+"id": "emw-qt-amplitude",
+"explanation": "In this bounded lab, electric amplitude changes the height of the field pair. It does not change wave speed, wavelength, or source-to-probe delay by itself."
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows a rightward-traveling electromagnetic wave on one shared horizontal axis. The top lane shows the electric field, the lower lane shows the magnetic field, and a movable probe marks the downstream position currently being sampled.",
+"Optional overlays can mark one wavelength, the source-to-probe delay, and a local propagation triad that combines the electric direction, magnetic direction, and rightward travel cue. A readout card summarizes electric amplitude, magnetic amplitude, wave speed, wavelength, frequency, probe position, and the current local field values from the same wave state."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The probe-field graph compares the electric field and the display-scaled magnetic field at one probe on the same time axis, so their shared timing can be read directly.",
+"The source-probe graph compares the source electric field with the downstream probe electric field. This makes the travel delay and phase lag visible for one wave without leaving the same simulation state."
+]
+}
+}
+}

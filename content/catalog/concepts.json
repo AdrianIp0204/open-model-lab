@@ -1,0 +1,5245 @@
+[
+  {
+    "id": "concept-shm",
+    "slug": "simple-harmonic-motion",
+    "contentFile": "simple-harmonic-motion",
+    "title": "Simple Harmonic Motion",
+    "shortTitle": "SHM",
+    "summary": "See one repeating system from displacement to acceleration and back again, with the math tied directly to the motion on screen.",
+    "topic": "Oscillations",
+    "subtopic": "Foundations",
+    "difficulty": "Intro",
+    "sequence": 10,
+    "tags": [
+      "oscillation",
+      "phase",
+      "restoring force",
+      "graphs"
+    ],
+    "related": [
+      "oscillation-energy",
+      "wave-interference",
+      "standing-waves",
+      "uniform-circular-motion",
+      "projectile-motion"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "oscillation-energy",
+        "reasonLabel": "Energy view"
+      },
+      {
+        "slug": "wave-interference",
+        "reasonLabel": "Superposition link"
+      },
+      {
+        "slug": "standing-waves",
+        "reasonLabel": "Wave pattern"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "heroConcept": true,
+    "accent": "teal",
+    "highlights": [
+      "Amplitude",
+      "Phase",
+      "Time graphs"
+    ],
+    "simulationKind": "shm",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-oscillation-energy",
+    "slug": "oscillation-energy",
+    "contentFile": "oscillation-energy",
+    "title": "Oscillation Energy",
+    "shortTitle": "Energy in SHM",
+    "summary": "Watch kinetic and potential energy trade places in simple harmonic motion while the total stays fixed by amplitude and spring stiffness.",
+    "topic": "Oscillations",
+    "subtopic": "Energy in SHM",
+    "difficulty": "Intro",
+    "sequence": 12,
+    "tags": [
+      "oscillation",
+      "energy",
+      "simple harmonic motion",
+      "turning points",
+      "graphs"
+    ],
+    "prerequisites": [
+      "simple-harmonic-motion"
+    ],
+    "related": [
+      "simple-harmonic-motion",
+      "wave-interference",
+      "standing-waves",
+      "uniform-circular-motion",
+      "damping-resonance"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "standing-waves",
+        "reasonLabel": "Boundary pattern"
+      },
+      {
+        "slug": "wave-interference",
+        "reasonLabel": "Add superposition"
+      },
+      {
+        "slug": "damping-resonance",
+        "reasonLabel": "See energy loss"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "amber",
+    "highlights": [
+      "Kinetic energy",
+      "Potential energy",
+      "Turning points"
+    ],
+    "simulationKind": "shm",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-wave-speed-wavelength",
+    "slug": "wave-speed-wavelength",
+    "contentFile": "wave-speed-wavelength",
+    "title": "Wave Speed and Wavelength",
+    "shortTitle": "Wave speed",
+    "summary": "Follow one traveling wave across the same medium and connect crest spacing, travel delay, source timing, and the relation v = f lambda on one honest live stage.",
+    "topic": "Waves",
+    "subtopic": "Wave timing and spacing",
+    "difficulty": "Intro",
+    "sequence": 13,
+    "tags": [
+      "waves",
+      "wavelength",
+      "frequency",
+      "period",
+      "wave speed"
+    ],
+    "prerequisites": [
+      "simple-harmonic-motion"
+    ],
+    "related": [
+      "simple-harmonic-motion",
+      "sound-waves-longitudinal-motion",
+      "wave-interference",
+      "standing-waves",
+      "oscillation-energy"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "sound-waves-longitudinal-motion",
+        "reasonLabel": "Longitudinal sound"
+      },
+      {
+        "slug": "wave-interference",
+        "reasonLabel": "Two-source phase"
+      },
+      {
+        "slug": "standing-waves",
+        "reasonLabel": "Allowed modes"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "sky",
+    "highlights": [
+      "v = f lambda",
+      "Travel delay",
+      "Crest spacing"
+    ],
+    "simulationKind": "wave-speed-wavelength",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-sound-waves-longitudinal-motion",
+    "slug": "sound-waves-longitudinal-motion",
+    "contentFile": "sound-waves-longitudinal-motion",
+    "title": "Sound Waves and Longitudinal Motion",
+    "shortTitle": "Sound waves",
+    "summary": "See sound as a longitudinal wave by keeping parcel motion, compression and rarefaction, probe timing, and energy transfer tied to one compact medium-first bench.",
+    "topic": "Sound",
+    "subtopic": "Sound in a medium",
+    "difficulty": "Intro",
+    "sequence": 14,
+    "tags": [
+      "sound",
+      "longitudinal waves",
+      "compression",
+      "rarefaction",
+      "wave propagation"
+    ],
+    "prerequisites": [
+      "wave-speed-wavelength"
+    ],
+    "related": [
+      "wave-speed-wavelength",
+      "pitch-frequency-loudness-intensity",
+      "beats",
+      "doppler-effect",
+      "wave-interference",
+      "standing-waves",
+      "resonance-air-columns-open-closed-pipes"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "pitch-frequency-loudness-intensity",
+        "reasonLabel": "Pitch vs loudness"
+      },
+      {
+        "slug": "beats",
+        "reasonLabel": "Nearby tones"
+      },
+      {
+        "slug": "doppler-effect",
+        "reasonLabel": "Motion-shifted pitch"
+      },
+      {
+        "slug": "wave-interference",
+        "reasonLabel": "Two-source superposition"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "amber",
+    "highlights": [
+      "Compression and rarefaction",
+      "Particle vs wave motion",
+      "Energy through a medium"
+    ],
+    "simulationKind": "sound-waves-longitudinal",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-pitch-frequency-loudness-intensity",
+    "slug": "pitch-frequency-loudness-intensity",
+    "contentFile": "pitch-frequency-loudness-intensity",
+    "title": "Pitch, Frequency, and Loudness / Intensity",
+    "shortTitle": "Pitch and loudness",
+    "summary": "Keep one compact sound bench while separating pitch from frequency, loudness from amplitude and an amplitude-squared intensity cue, and probe delay from the source sound itself.",
+    "topic": "Sound",
+    "subtopic": "Sound character",
+    "difficulty": "Intro",
+    "sequence": 14,
+    "tags": [
+      "sound",
+      "pitch",
+      "frequency",
+      "loudness",
+      "intensity",
+      "amplitude"
+    ],
+    "prerequisites": [
+      "sound-waves-longitudinal-motion"
+    ],
+    "related": [
+      "sound-waves-longitudinal-motion",
+      "beats",
+      "doppler-effect",
+      "wave-speed-wavelength",
+      "wave-interference",
+      "standing-waves",
+      "resonance-air-columns-open-closed-pipes"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "beats",
+        "reasonLabel": "Hear superposition"
+      },
+      {
+        "slug": "doppler-effect",
+        "reasonLabel": "Motion and pitch"
+      },
+      {
+        "slug": "wave-interference",
+        "reasonLabel": "Sound superposition"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 20,
+    "accent": "coral",
+    "highlights": [
+      "Pitch from frequency",
+      "Loudness from amplitude",
+      "Intensity cue ~ A squared"
+    ],
+    "simulationKind": "sound-waves-longitudinal",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-beats",
+    "slug": "beats",
+    "contentFile": "beats",
+    "title": "Beats",
+    "shortTitle": "Beats",
+    "summary": "Superpose two nearby sound frequencies, watch the fast carrier sit inside a slower envelope, and connect beat rate to the frequency difference on one compact bench.",
+    "topic": "Sound",
+    "subtopic": "Sound superposition",
+    "difficulty": "Intro",
+    "sequence": 14,
+    "tags": [
+      "sound",
+      "beats",
+      "superposition",
+      "frequency difference",
+      "interference"
+    ],
+    "prerequisites": [
+      "sound-waves-longitudinal-motion",
+      "pitch-frequency-loudness-intensity"
+    ],
+    "related": [
+      "sound-waves-longitudinal-motion",
+      "pitch-frequency-loudness-intensity",
+      "doppler-effect",
+      "wave-interference",
+      "standing-waves"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "doppler-effect",
+        "reasonLabel": "Motion and pitch"
+      },
+      {
+        "slug": "wave-interference",
+        "reasonLabel": "Broader superposition"
+      },
+      {
+        "slug": "standing-waves",
+        "reasonLabel": "Pattern from interference"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 20,
+    "accent": "amber",
+    "highlights": [
+      "Amplitude envelope",
+      "Beat frequency",
+      "Nearby tones"
+    ],
+    "simulationKind": "beats",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-doppler-effect",
+    "slug": "doppler-effect",
+    "contentFile": "doppler-effect",
+    "title": "Doppler Effect",
+    "shortTitle": "Doppler effect",
+    "summary": "Watch a moving sound source compress wavefronts ahead and stretch them behind, then see how source motion and observer motion combine to change the heard pitch on one bounded classical bench.",
+    "topic": "Waves",
+    "subtopic": "Sound with motion",
+    "difficulty": "Intermediate",
+    "sequence": 14,
+    "tags": [
+      "sound",
+      "doppler effect",
+      "relative motion",
+      "pitch",
+      "wavefronts"
+    ],
+    "prerequisites": [
+      "sound-waves-longitudinal-motion",
+      "pitch-frequency-loudness-intensity"
+    ],
+    "related": [
+      "sound-waves-longitudinal-motion",
+      "pitch-frequency-loudness-intensity",
+      "beats",
+      "wave-speed-wavelength",
+      "wave-interference",
+      "standing-waves"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "wave-interference",
+        "reasonLabel": "Combine sound sources"
+      },
+      {
+        "slug": "standing-waves",
+        "reasonLabel": "Resonant patterns"
+      },
+      {
+        "slug": "sound-waves-longitudinal-motion",
+        "reasonLabel": "Review the medium model"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "coral",
+    "highlights": [
+      "Compressed wavefronts",
+      "Moving observer",
+      "Observed pitch shift"
+    ],
+    "simulationKind": "doppler-effect",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-wave-interference",
+    "slug": "wave-interference",
+    "contentFile": "wave-interference",
+    "title": "Wave Interference",
+    "shortTitle": "Interference",
+    "summary": "Superpose two coherent sources, trace their path difference to phase difference, and watch bright and dark regions emerge on the same live screen.",
+    "topic": "Waves",
+    "subtopic": "Wave superposition",
+    "difficulty": "Intermediate",
+    "sequence": 14,
+    "tags": [
+      "waves",
+      "interference",
+      "phase difference",
+      "path difference",
+      "superposition"
+    ],
+    "prerequisites": [
+      "simple-harmonic-motion",
+      "wave-speed-wavelength"
+    ],
+    "related": [
+      "simple-harmonic-motion",
+      "wave-speed-wavelength",
+      "diffraction",
+      "double-slit-interference",
+      "beats",
+      "standing-waves",
+      "oscillation-energy",
+      "uniform-circular-motion",
+      "damping-resonance"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "diffraction",
+        "reasonLabel": "Single-slit spread"
+      },
+      {
+        "slug": "double-slit-interference",
+        "reasonLabel": "Optics bridge"
+      },
+      {
+        "slug": "standing-waves",
+        "reasonLabel": "Standing pattern"
+      },
+      {
+        "slug": "damping-resonance",
+        "reasonLabel": "Phase and response"
+      },
+      {
+        "slug": "oscillation-energy",
+        "reasonLabel": "Review amplitudes"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "sky",
+    "highlights": [
+      "Constructive interference",
+      "Destructive interference",
+      "Path difference"
+    ],
+    "simulationKind": "wave-interference",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-standing-waves",
+    "slug": "standing-waves",
+    "contentFile": "standing-waves",
+    "title": "Standing Waves",
+    "shortTitle": "Standing waves",
+    "summary": "Track fixed nodes, moving antinodes, and harmonic mode shapes on one live string while the same probe trace shows the underlying oscillation in time.",
+    "topic": "Waves",
+    "subtopic": "Standing-wave patterns",
+    "difficulty": "Intermediate",
+    "sequence": 15,
+    "tags": [
+      "standing waves",
+      "nodes",
+      "antinodes",
+      "harmonics",
+      "interference"
+    ],
+    "prerequisites": [
+      "simple-harmonic-motion",
+      "wave-speed-wavelength",
+      "wave-interference"
+    ],
+    "related": [
+      "simple-harmonic-motion",
+      "wave-speed-wavelength",
+      "wave-interference",
+      "resonance-air-columns-open-closed-pipes",
+      "oscillation-energy",
+      "damping-resonance"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "resonance-air-columns-open-closed-pipes",
+        "reasonLabel": "Open vs closed tubes"
+      },
+      {
+        "slug": "damping-resonance",
+        "reasonLabel": "Resonant response"
+      },
+      {
+        "slug": "oscillation-energy",
+        "reasonLabel": "Probe oscillation"
+      },
+      {
+        "slug": "simple-harmonic-motion",
+        "reasonLabel": "Review the local motion"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "teal",
+    "highlights": [
+      "Nodes",
+      "Antinodes",
+      "Harmonics"
+    ],
+    "simulationKind": "standing-waves",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-resonance-air-columns-open-closed-pipes",
+    "slug": "resonance-air-columns-open-closed-pipes",
+    "contentFile": "resonance-air-columns-open-closed-pipes",
+    "title": "Resonance in Air Columns / Open and Closed Pipes",
+    "shortTitle": "Air-column resonance",
+    "summary": "Compare open and closed pipe boundary conditions on one compact air column so standing-wave shapes, missing even harmonics, probe motion, and pressure cues stay tied to the same resonance state.",
+    "topic": "Sound",
+    "subtopic": "Air-column resonance",
+    "difficulty": "Intermediate",
+    "sequence": 16,
+    "tags": [
+      "air column resonance",
+      "open pipes",
+      "closed pipes",
+      "standing waves",
+      "harmonics",
+      "sound"
+    ],
+    "prerequisites": [
+      "sound-waves-longitudinal-motion",
+      "standing-waves"
+    ],
+    "related": [
+      "sound-waves-longitudinal-motion",
+      "pitch-frequency-loudness-intensity",
+      "standing-waves",
+      "damping-resonance"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "damping-resonance",
+        "reasonLabel": "Driven response"
+      },
+      {
+        "slug": "pitch-frequency-loudness-intensity",
+        "reasonLabel": "Sound cues review"
+      },
+      {
+        "slug": "standing-waves",
+        "reasonLabel": "String-to-tube bridge"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "amber",
+    "highlights": [
+      "Open vs closed ends",
+      "Odd-only closed harmonics",
+      "Pressure vs parcel motion"
+    ],
+    "simulationKind": "air-column-resonance",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-uniform-circular-motion",
+    "slug": "uniform-circular-motion",
+    "contentFile": "uniform-circular-motion",
+    "title": "Uniform Circular Motion",
+    "shortTitle": "UCM",
+    "summary": "Track a particle moving at constant speed around a circle and connect radius, angular speed, tangential speed, centripetal acceleration, and the inward-force requirement to the same live state.",
+    "topic": "Mechanics",
+    "subtopic": "Circular motion",
+    "difficulty": "Intro",
+    "sequence": 16,
+    "tags": [
+      "angular frequency",
+      "projection",
+      "vectors",
+      "centripetal acceleration",
+      "graphs"
+    ],
+    "prerequisites": [
+      "simple-harmonic-motion"
+    ],
+    "related": [
+      "projectile-motion",
+      "circular-orbits-orbital-speed",
+      "damping-resonance"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "circular-orbits-orbital-speed",
+        "reasonLabel": "Orbit bridge"
+      },
+      {
+        "slug": "damping-resonance",
+        "reasonLabel": "Next in Oscillations"
+      },
+      {
+        "slug": "projectile-motion",
+        "reasonLabel": "Vector comparison"
+      },
+      {
+        "slug": "simple-harmonic-motion",
+        "reasonLabel": "Review the projection"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "sky",
+    "highlights": [
+      "Radius",
+      "Tangential velocity",
+      "Centripetal acceleration",
+      "Centripetal force"
+    ],
+    "simulationKind": "ucm",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-damping-resonance",
+    "slug": "damping-resonance",
+    "contentFile": "damping-resonance",
+    "title": "Damping / Resonance",
+    "shortTitle": "Damping",
+    "summary": "Explore how damping removes energy, how driving frequency changes amplitude, and why resonance becomes dramatic near the natural frequency.",
+    "topic": "Oscillations",
+    "subtopic": "Driven response",
+    "difficulty": "Intermediate",
+    "sequence": 20,
+    "tags": [
+      "oscillation",
+      "resonance",
+      "driving force",
+      "response curves"
+    ],
+    "prerequisites": [
+      "simple-harmonic-motion"
+    ],
+    "related": [
+      "projectile-motion"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "projectile-motion",
+        "reasonLabel": "Useful comparison"
+      },
+      {
+        "slug": "simple-harmonic-motion",
+        "reasonLabel": "Review the foundation"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "amber",
+    "highlights": [
+      "Drive frequency",
+      "Amplitude response",
+      "Resonance"
+    ],
+    "simulationKind": "damping-resonance",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-vectors-components",
+    "slug": "vectors-components",
+    "contentFile": "vectors-components",
+    "title": "Vectors and Components",
+    "shortTitle": "Vectors",
+    "summary": "Rotate and scale a live vector, decompose it into horizontal and vertical parts, and watch those components drive the same straight-line motion and geometry.",
+    "topic": "Mechanics",
+    "subtopic": "Vector foundations",
+    "difficulty": "Intro",
+    "sequence": 25,
+    "tags": [
+      "vectors",
+      "components",
+      "motion",
+      "geometry",
+      "graphs"
+    ],
+    "related": [
+      "torque",
+      "momentum-impulse",
+      "conservation-of-momentum",
+      "projectile-motion",
+      "electric-fields",
+      "uniform-circular-motion"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "torque",
+        "reasonLabel": "Turning-effect bridge"
+      },
+      {
+        "slug": "momentum-impulse",
+        "reasonLabel": "Momentum link"
+      },
+      {
+        "slug": "projectile-motion",
+        "reasonLabel": "Trajectory application"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "sky",
+    "highlights": [
+      "Magnitude",
+      "Angle",
+      "Components"
+    ],
+    "simulationKind": "vectors-components",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-torque",
+    "slug": "torque",
+    "contentFile": "torque",
+    "title": "Torque",
+    "shortTitle": "Torque",
+    "summary": "Push on one pivoted bar and see how lever arm distance, force direction, and turning effect stay tied to the same compact rotational bench.",
+    "topic": "Mechanics",
+    "subtopic": "Turning effects of force",
+    "difficulty": "Intro",
+    "sequence": 26,
+    "prerequisites": [
+      "vectors-components"
+    ],
+    "tags": [
+      "torque",
+      "lever arm",
+      "moment arm",
+      "rotational effect",
+      "force direction"
+    ],
+    "related": [
+      "vectors-components",
+      "static-equilibrium-centre-of-mass",
+      "rotational-inertia",
+      "rolling-motion",
+      "angular-momentum",
+      "uniform-circular-motion",
+      "momentum-impulse",
+      "conservation-of-momentum",
+      "circular-orbits-orbital-speed"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "static-equilibrium-centre-of-mass",
+        "reasonLabel": "Support-region balance"
+      },
+      {
+        "slug": "rotational-inertia",
+        "reasonLabel": "Mass-distribution response"
+      },
+      {
+        "slug": "rolling-motion",
+        "reasonLabel": "Rolling without slipping"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "coral",
+    "highlights": [
+      "Lever arm",
+      "Force direction",
+      "Turning effect"
+    ],
+    "simulationKind": "torque",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-static-equilibrium-centre-of-mass",
+    "slug": "static-equilibrium-centre-of-mass",
+    "aliases": [
+      "static-equilibrium-center-of-mass"
+    ],
+    "contentFile": "static-equilibrium-centre-of-mass",
+    "title": "Static Equilibrium / Centre of Mass",
+    "shortTitle": "Static equilibrium",
+    "summary": "Shift one support region under one loaded plank and see how centre of mass, support reactions, and torque balance decide whether the object stays stable or tips.",
+    "topic": "Mechanics",
+    "subtopic": "Balance, support, and centre of mass",
+    "difficulty": "Intro",
+    "sequence": 27,
+    "prerequisites": [
+      "torque"
+    ],
+    "tags": [
+      "static equilibrium",
+      "centre of mass",
+      "center of mass",
+      "torque balance",
+      "support region"
+    ],
+    "related": [
+      "torque",
+      "rotational-inertia",
+      "rolling-motion",
+      "angular-momentum",
+      "vectors-components",
+      "projectile-motion"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "rotational-inertia",
+        "reasonLabel": "Mass-distribution response"
+      },
+      {
+        "slug": "rolling-motion",
+        "reasonLabel": "Support-to-contact bridge"
+      },
+      {
+        "slug": "angular-momentum",
+        "reasonLabel": "Carry rotational ideas forward"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "ink",
+    "highlights": [
+      "Centre of mass",
+      "Support region",
+      "Reaction balance"
+    ],
+    "simulationKind": "static-equilibrium-centre-of-mass",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-rotational-inertia",
+    "slug": "rotational-inertia",
+    "aliases": [
+      "moment-of-inertia"
+    ],
+    "contentFile": "rotational-inertia",
+    "title": "Rotational Inertia / Moment of Inertia",
+    "shortTitle": "Rotational inertia",
+    "summary": "Keep the same total mass and torque, then slide equal masses inward or outward to see why moment of inertia makes some rotors much harder to spin up than others.",
+    "topic": "Mechanics",
+    "subtopic": "Mass distribution and rotational response",
+    "difficulty": "Intro",
+    "sequence": 27,
+    "prerequisites": [
+      "torque"
+    ],
+    "tags": [
+      "rotational inertia",
+      "moment of inertia",
+      "mass distribution",
+      "angular acceleration",
+      "torque"
+    ],
+    "related": [
+      "torque",
+      "rolling-motion",
+      "angular-momentum",
+      "uniform-circular-motion",
+      "momentum-impulse",
+      "conservation-of-momentum",
+      "circular-orbits-orbital-speed"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "rolling-motion",
+        "reasonLabel": "Rolling response bridge"
+      },
+      {
+        "slug": "angular-momentum",
+        "reasonLabel": "Rotational momentum bridge"
+      },
+      {
+        "slug": "momentum-impulse",
+        "reasonLabel": "Linear inertia contrast"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "amber",
+    "highlights": [
+      "Mass radius",
+      "Moment of inertia",
+      "Spin-up response"
+    ],
+    "simulationKind": "rotational-inertia",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-rolling-motion",
+    "slug": "rolling-motion",
+    "aliases": [
+      "rolling-without-slipping"
+    ],
+    "contentFile": "rolling-motion",
+    "title": "Rolling Motion",
+    "shortTitle": "Rolling motion",
+    "summary": "Roll a sphere, cylinder, hoop, or custom mass distribution down one incline and see how rolling without slipping ties translation, rotation, and rotational inertia to the same honest run.",
+    "topic": "Mechanics",
+    "subtopic": "Rolling without slipping",
+    "difficulty": "Intermediate",
+    "sequence": 28,
+    "prerequisites": [
+      "torque",
+      "rotational-inertia"
+    ],
+    "tags": [
+      "rolling motion",
+      "rolling without slipping",
+      "rotational inertia",
+      "incline",
+      "translation and rotation"
+    ],
+    "related": [
+      "torque",
+      "rotational-inertia",
+      "angular-momentum",
+      "uniform-circular-motion",
+      "momentum-impulse"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "angular-momentum",
+        "reasonLabel": "Carry the spin language forward"
+      },
+      {
+        "slug": "uniform-circular-motion",
+        "reasonLabel": "Review the rotation language"
+      },
+      {
+        "slug": "momentum-impulse",
+        "reasonLabel": "Linear analogue"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "amber",
+    "highlights": [
+      "No-slip link",
+      "Inertia factor",
+      "Shape race"
+    ],
+    "simulationKind": "rolling-motion",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-angular-momentum",
+    "slug": "angular-momentum",
+    "contentFile": "angular-momentum",
+    "title": "Angular Momentum",
+    "shortTitle": "Angular momentum",
+    "summary": "Treat angular momentum as rotational momentum on one compact rotor where mass radius and spin rate stay tied to the same readouts, response maps, and same-L conservation story.",
+    "topic": "Mechanics",
+    "subtopic": "Rotational momentum and conservation",
+    "difficulty": "Intermediate",
+    "sequence": 28,
+    "prerequisites": [
+      "rotational-inertia"
+    ],
+    "tags": [
+      "angular momentum",
+      "conservation",
+      "moment of inertia",
+      "angular speed",
+      "rotation"
+    ],
+    "related": [
+      "torque",
+      "rotational-inertia",
+      "rolling-motion",
+      "momentum-impulse",
+      "conservation-of-momentum",
+      "uniform-circular-motion"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "conservation-of-momentum",
+        "reasonLabel": "System-total conservation"
+      },
+      {
+        "slug": "momentum-impulse",
+        "reasonLabel": "Linear analogue"
+      },
+      {
+        "slug": "uniform-circular-motion",
+        "reasonLabel": "Review the spin language"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "teal",
+    "highlights": [
+      "L = I omega",
+      "Same L, different spin",
+      "Radius changes"
+    ],
+    "simulationKind": "angular-momentum",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-momentum-impulse",
+    "slug": "momentum-impulse",
+    "contentFile": "momentum-impulse",
+    "title": "Momentum and Impulse",
+    "shortTitle": "Momentum / Impulse",
+    "summary": "Push one cart with a timed force pulse and watch momentum, impulse, and force-time area stay tied to the same motion, readouts, and graphs.",
+    "topic": "Mechanics",
+    "subtopic": "Momentum and force over time",
+    "difficulty": "Intro",
+    "sequence": 28,
+    "prerequisites": [
+      "vectors-components"
+    ],
+    "tags": [
+      "momentum",
+      "impulse",
+      "force-time",
+      "motion",
+      "graphs"
+    ],
+    "related": [
+      "vectors-components",
+      "conservation-of-momentum",
+      "collisions",
+      "projectile-motion",
+      "uniform-circular-motion",
+      "electric-fields"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "conservation-of-momentum",
+        "reasonLabel": "Two-object systems"
+      },
+      {
+        "slug": "collisions",
+        "reasonLabel": "Collision outcomes"
+      },
+      {
+        "slug": "projectile-motion",
+        "reasonLabel": "Apply it to trajectories"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "amber",
+    "highlights": [
+      "p = mv",
+      "J = F delta t",
+      "delta p = J"
+    ],
+    "simulationKind": "momentum-impulse",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-conservation-of-momentum",
+    "slug": "conservation-of-momentum",
+    "contentFile": "conservation-of-momentum",
+    "title": "Conservation of Momentum",
+    "shortTitle": "Momentum conservation",
+    "summary": "Use two carts to see the conservation rule in action: with no outside push, the system's total momentum stays fixed even while each cart's momentum and speed change.",
+    "topic": "Mechanics",
+    "subtopic": "Multi-object interactions",
+    "difficulty": "Intro",
+    "sequence": 29,
+    "prerequisites": [
+      "momentum-impulse"
+    ],
+    "tags": [
+      "momentum",
+      "conservation",
+      "isolated system",
+      "internal forces",
+      "graphs"
+    ],
+    "related": [
+      "momentum-impulse",
+      "vectors-components",
+      "collisions",
+      "projectile-motion",
+      "uniform-circular-motion"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "collisions",
+        "reasonLabel": "Real collisions"
+      },
+      {
+        "slug": "projectile-motion",
+        "reasonLabel": "Apply it to launches"
+      },
+      {
+        "slug": "momentum-impulse",
+        "reasonLabel": "Review the pulse view"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "teal",
+    "highlights": [
+      "Isolated systems",
+      "Total momentum",
+      "Center of mass"
+    ],
+    "simulationKind": "conservation-of-momentum",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-collisions",
+    "slug": "collisions",
+    "contentFile": "collisions",
+    "title": "Collisions",
+    "shortTitle": "Collisions",
+    "summary": "Collide two carts on one honest track, keep total momentum in view, and see how elasticity, mass, and incoming speed shape the rebound or stick-together outcome.",
+    "topic": "Mechanics",
+    "subtopic": "Collisions and restitution",
+    "difficulty": "Intro",
+    "sequence": 30,
+    "prerequisites": [
+      "momentum-impulse",
+      "conservation-of-momentum"
+    ],
+    "tags": [
+      "collisions",
+      "momentum",
+      "elastic",
+      "inelastic",
+      "kinetic energy"
+    ],
+    "related": [
+      "momentum-impulse",
+      "conservation-of-momentum",
+      "vectors-components",
+      "projectile-motion"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "projectile-motion",
+        "reasonLabel": "Apply momentum ideas"
+      },
+      {
+        "slug": "momentum-impulse",
+        "reasonLabel": "Review impulse"
+      },
+      {
+        "slug": "conservation-of-momentum",
+        "reasonLabel": "System view"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "coral",
+    "highlights": [
+      "Momentum conservation",
+      "Elastic vs inelastic",
+      "Rebound speed"
+    ],
+    "simulationKind": "collisions",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-projectile-motion",
+    "slug": "projectile-motion",
+    "contentFile": "projectile-motion",
+    "title": "Projectile Motion",
+    "shortTitle": "Projectile",
+    "summary": "Launch a projectile, watch the trajectory form, and connect the range, height, and component motion to the launch settings.",
+    "topic": "Mechanics",
+    "subtopic": "Two-dimensional motion",
+    "difficulty": "Intro",
+    "sequence": 30,
+    "prerequisites": [
+      "vectors-components"
+    ],
+    "tags": [
+      "components",
+      "graphs",
+      "kinematics",
+      "trajectory"
+    ],
+    "related": [
+      "vectors-components",
+      "momentum-impulse",
+      "conservation-of-momentum",
+      "collisions",
+      "simple-harmonic-motion",
+      "uniform-circular-motion",
+      "gravitational-fields",
+      "damping-resonance"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "momentum-impulse",
+        "reasonLabel": "Launch impulse view"
+      },
+      {
+        "slug": "vectors-components",
+        "reasonLabel": "Review the components"
+      },
+      {
+        "slug": "gravitational-fields",
+        "reasonLabel": "Gravity field bridge"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "heroConcept": true,
+    "accent": "coral",
+    "highlights": [
+      "Launch angle",
+      "Gravity",
+      "Trajectory"
+    ],
+    "simulationKind": "projectile",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-gravitational-fields",
+    "slug": "gravitational-fields",
+    "contentFile": "gravitational-fields",
+    "title": "Gravitational Fields",
+    "shortTitle": "Gravity fields",
+    "summary": "See how one source mass creates an inward gravitational field, how source mass and distance set the field strength, and how a probe mass turns that field into force without changing the field itself.",
+    "topic": "Gravity and Orbits",
+    "subtopic": "Gravity and orbit bridges",
+    "difficulty": "Intro",
+    "sequence": 31,
+    "prerequisites": [
+      "vectors-components",
+      "projectile-motion"
+    ],
+    "tags": [
+      "gravitational field",
+      "gravity",
+      "inverse square",
+      "test mass",
+      "orbit bridge"
+    ],
+    "related": [
+      "gravitational-potential-energy",
+      "circular-orbits-orbital-speed",
+      "escape-velocity",
+      "projectile-motion",
+      "uniform-circular-motion",
+      "electric-fields",
+      "magnetic-fields"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "gravitational-potential-energy",
+        "reasonLabel": "Energy view"
+      },
+      {
+        "slug": "circular-orbits-orbital-speed",
+        "reasonLabel": "Orbit bridge"
+      },
+      {
+        "slug": "escape-velocity",
+        "reasonLabel": "Escape threshold"
+      },
+      {
+        "slug": "electric-fields",
+        "reasonLabel": "Compare field logic"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "sky",
+    "highlights": [
+      "Field direction",
+      "Inverse-square drop",
+      "Test-mass force"
+    ],
+    "simulationKind": "gravitational-fields",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-gravitational-potential-energy",
+    "slug": "gravitational-potential-energy",
+    "contentFile": "gravitational-potential-energy",
+    "title": "Gravitational Potential and Potential Energy",
+    "shortTitle": "Gravity potential",
+    "summary": "See one source mass create a negative potential well, compare how potential and potential energy change with distance, and connect the downhill slope of phi to the gravitational field on the same live model.",
+    "topic": "Gravity and Orbits",
+    "subtopic": "Gravity and orbit bridges",
+    "difficulty": "Intro",
+    "sequence": 31,
+    "prerequisites": [
+      "gravitational-fields"
+    ],
+    "tags": [
+      "gravitational potential",
+      "potential energy",
+      "gravity well",
+      "inverse square",
+      "orbit bridge"
+    ],
+    "related": [
+      "gravitational-fields",
+      "circular-orbits-orbital-speed",
+      "escape-velocity",
+      "projectile-motion",
+      "uniform-circular-motion",
+      "electric-potential"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "circular-orbits-orbital-speed",
+        "reasonLabel": "Orbit bridge"
+      },
+      {
+        "slug": "escape-velocity",
+        "reasonLabel": "Escape threshold"
+      },
+      {
+        "slug": "electric-potential",
+        "reasonLabel": "Compare potential language"
+      },
+      {
+        "slug": "projectile-motion",
+        "reasonLabel": "Energy in motion"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "amber",
+    "highlights": [
+      "Negative potential wells",
+      "U = m phi",
+      "Field from slope"
+    ],
+    "simulationKind": "gravitational-potential",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-pressure-and-hydrostatic-pressure",
+    "slug": "pressure-and-hydrostatic-pressure",
+    "contentFile": "pressure-and-hydrostatic-pressure",
+    "title": "Pressure and Hydrostatic Pressure",
+    "shortTitle": "Pressure in fluids",
+    "summary": "Use one piston-and-tank bench to connect force per area, pressure acting in all directions, and the way density, gravity, and depth build hydrostatic pressure.",
+    "topic": "Fluids",
+    "subtopic": "Pressure and fluid statics",
+    "difficulty": "Intro",
+    "sequence": 31,
+    "tags": [
+      "pressure",
+      "hydrostatic pressure",
+      "force per area",
+      "density",
+      "gravity",
+      "fluid statics"
+    ],
+    "related": [
+      "continuity-equation",
+      "bernoullis-principle",
+      "buoyancy-and-archimedes-principle",
+      "gravitational-fields",
+      "ideal-gas-law-and-kinetic-theory"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "continuity-equation",
+        "reasonLabel": "Move from static pressure to steady flow"
+      },
+      {
+        "slug": "bernoullis-principle",
+        "reasonLabel": "Add speed-pressure tradeoffs"
+      },
+      {
+        "slug": "buoyancy-and-archimedes-principle",
+        "reasonLabel": "Carry pressure into buoyancy"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "teal",
+    "highlights": [
+      "Force / area",
+      "Same-depth pressure",
+      "rho g h"
+    ],
+    "simulationKind": "pressure-hydrostatic",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-continuity-equation",
+    "slug": "continuity-equation",
+    "contentFile": "continuity-equation",
+    "title": "Continuity Equation",
+    "shortTitle": "Continuity",
+    "summary": "Keep one steady stream tube on screen and use Q = Av to connect cross-sectional area, flow speed, and the same volume flow rate through narrow and wide sections.",
+    "topic": "Fluids",
+    "subtopic": "Steady flow and continuity",
+    "difficulty": "Intro",
+    "sequence": 31,
+    "prerequisites": [
+      "pressure-and-hydrostatic-pressure"
+    ],
+    "tags": [
+      "continuity equation",
+      "volume flow rate",
+      "cross-sectional area",
+      "fluid speed",
+      "steady flow",
+      "incompressible flow"
+    ],
+    "related": [
+      "pressure-and-hydrostatic-pressure",
+      "bernoullis-principle",
+      "buoyancy-and-archimedes-principle",
+      "gravitational-fields",
+      "ideal-gas-law-and-kinetic-theory"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "bernoullis-principle",
+        "reasonLabel": "Turn speed changes into pressure changes"
+      },
+      {
+        "slug": "pressure-and-hydrostatic-pressure",
+        "reasonLabel": "Contrast static and moving fluids"
+      },
+      {
+        "slug": "buoyancy-and-archimedes-principle",
+        "reasonLabel": "Return to pressure differences"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "coral",
+    "highlights": [
+      "Q = Av",
+      "Narrower means faster",
+      "Same flow each section"
+    ],
+    "simulationKind": "continuity-equation",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-bernoullis-principle",
+    "slug": "bernoullis-principle",
+    "contentFile": "bernoullis-principle",
+    "title": "Bernoulli's Principle",
+    "shortTitle": "Bernoulli",
+    "summary": "Follow one steady ideal-flow pipe and see how pressure, speed, and height trade within the same Bernoulli budget while continuity keeps the flow-rate story honest.",
+    "topic": "Fluids",
+    "subtopic": "Steady-flow energy and pressure",
+    "difficulty": "Intro",
+    "sequence": 31,
+    "prerequisites": [
+      "pressure-and-hydrostatic-pressure",
+      "continuity-equation"
+    ],
+    "tags": [
+      "bernoulli principle",
+      "fluid pressure",
+      "venturi",
+      "continuity equation",
+      "steady flow",
+      "height term"
+    ],
+    "related": [
+      "pressure-and-hydrostatic-pressure",
+      "continuity-equation",
+      "buoyancy-and-archimedes-principle",
+      "ideal-gas-law-and-kinetic-theory"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "buoyancy-and-archimedes-principle",
+        "reasonLabel": "Pressure differences in fluids"
+      },
+      {
+        "slug": "pressure-and-hydrostatic-pressure",
+        "reasonLabel": "Review static pressure"
+      },
+      {
+        "slug": "ideal-gas-law-and-kinetic-theory",
+        "reasonLabel": "Contrast pressure from particle motion"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "teal",
+    "highlights": [
+      "P + 1/2 rho v^2 + rho g y",
+      "Continuity plus Bernoulli",
+      "Lower pressure in the throat"
+    ],
+    "simulationKind": "bernoulli-principle",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-buoyancy-and-archimedes-principle",
+    "slug": "buoyancy-and-archimedes-principle",
+    "contentFile": "buoyancy-and-archimedes-principle",
+    "title": "Buoyancy and Archimedes' Principle",
+    "shortTitle": "Buoyancy",
+    "summary": "Use one immersed-block bench to connect pressure difference, displaced fluid, and the density balance behind floating, sinking, and neutral buoyancy.",
+    "topic": "Fluids",
+    "subtopic": "Buoyancy and displaced fluid",
+    "difficulty": "Intro",
+    "sequence": 31,
+    "prerequisites": [
+      "pressure-and-hydrostatic-pressure"
+    ],
+    "tags": [
+      "buoyancy",
+      "archimedes principle",
+      "displaced fluid",
+      "density",
+      "floating",
+      "sinking",
+      "fluid statics"
+    ],
+    "related": [
+      "pressure-and-hydrostatic-pressure",
+      "continuity-equation",
+      "bernoullis-principle",
+      "gravitational-fields",
+      "ideal-gas-law-and-kinetic-theory"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "pressure-and-hydrostatic-pressure",
+        "reasonLabel": "Review the pressure source"
+      },
+      {
+        "slug": "bernoullis-principle",
+        "reasonLabel": "Compare pressure changes in moving fluids"
+      },
+      {
+        "slug": "continuity-equation",
+        "reasonLabel": "Compare static and moving fluids"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "sky",
+    "highlights": [
+      "Displaced fluid",
+      "Density balance",
+      "Floating height"
+    ],
+    "simulationKind": "buoyancy-archimedes",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-drag-and-terminal-velocity",
+    "slug": "drag-and-terminal-velocity",
+    "contentFile": "drag-and-terminal-velocity",
+    "title": "Drag and Terminal Velocity",
+    "shortTitle": "Terminal speed",
+    "summary": "Drop one body through a fluid and use mass, area, and drag strength to see drag grow with speed until force balance settles into terminal velocity.",
+    "topic": "Fluids",
+    "subtopic": "Resistive motion and terminal speed",
+    "difficulty": "Intro",
+    "sequence": 31,
+    "prerequisites": [
+      "projectile-motion",
+      "pressure-and-hydrostatic-pressure"
+    ],
+    "tags": [
+      "drag",
+      "terminal velocity",
+      "fluid resistance",
+      "force balance",
+      "quadratic drag",
+      "falling body"
+    ],
+    "related": [
+      "projectile-motion",
+      "momentum-impulse",
+      "pressure-and-hydrostatic-pressure",
+      "continuity-equation",
+      "bernoullis-principle",
+      "buoyancy-and-archimedes-principle"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "projectile-motion",
+        "reasonLabel": "Compare free-flight and drag-limited motion"
+      },
+      {
+        "slug": "continuity-equation",
+        "reasonLabel": "Stay with one-fluid speed bookkeeping"
+      },
+      {
+        "slug": "bernoullis-principle",
+        "reasonLabel": "Carry fluid speed into pressure tradeoffs"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "coral",
+    "highlights": [
+      "F_d = k A v^2",
+      "Force balance",
+      "Terminal speed"
+    ],
+    "simulationKind": "drag-terminal-velocity",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-temperature-and-internal-energy",
+    "slug": "temperature-and-internal-energy",
+    "contentFile": "temperature-and-internal-energy",
+    "title": "Temperature and Internal Energy",
+    "shortTitle": "Temperature vs U",
+    "summary": "Compare average particle motion with whole-sample energy, vary amount and heating, and see why a phase-change shelf breaks naive temperature-only reasoning on one compact thermal bench.",
+    "topic": "Thermodynamics",
+    "subtopic": "Thermal foundations",
+    "difficulty": "Intro",
+    "sequence": 31,
+    "tags": [
+      "temperature",
+      "internal energy",
+      "particle model",
+      "ideal gas law",
+      "phase change",
+      "heating",
+      "heat transfer"
+    ],
+    "related": [
+      "ideal-gas-law-and-kinetic-theory",
+      "heat-transfer",
+      "specific-heat-and-phase-change",
+      "power-energy-circuits"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "ideal-gas-law-and-kinetic-theory",
+        "reasonLabel": "Gas pressure bridge"
+      },
+      {
+        "slug": "heat-transfer",
+        "reasonLabel": "Where the energy goes next"
+      },
+      {
+        "slug": "specific-heat-and-phase-change",
+        "reasonLabel": "How the energy changes T"
+      },
+      {
+        "slug": "power-energy-circuits",
+        "reasonLabel": "Rate vs total"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "heroConcept": true,
+    "accent": "coral",
+    "highlights": [
+      "Average particle motion",
+      "Amount matters",
+      "Phase shelf"
+    ],
+    "simulationKind": "temperature-internal-energy",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-ideal-gas-law-and-kinetic-theory",
+    "slug": "ideal-gas-law-and-kinetic-theory",
+    "contentFile": "ideal-gas-law-and-kinetic-theory",
+    "title": "Ideal Gas Law and Kinetic Theory",
+    "shortTitle": "Ideal gas law",
+    "summary": "Connect pressure, volume, temperature, and particle number on one bounded particle box, then read the same pressure changes back as changes in particle speed and wall-collision rate.",
+    "topic": "Thermodynamics",
+    "subtopic": "Gas-state bridge",
+    "difficulty": "Intro",
+    "sequence": 31,
+    "prerequisites": [
+      "temperature-and-internal-energy"
+    ],
+    "tags": [
+      "ideal gas law",
+      "kinetic theory",
+      "pressure",
+      "volume",
+      "temperature",
+      "particle model"
+    ],
+    "related": [
+      "temperature-and-internal-energy",
+      "heat-transfer",
+      "specific-heat-and-phase-change"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "heat-transfer",
+        "reasonLabel": "Boundary energy flow"
+      },
+      {
+        "slug": "specific-heat-and-phase-change",
+        "reasonLabel": "Heating response"
+      },
+      {
+        "slug": "temperature-and-internal-energy",
+        "reasonLabel": "Energy bookkeeping"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "sky",
+    "highlights": [
+      "P-V-T-N link",
+      "Wall collisions",
+      "Same pressure, different causes"
+    ],
+    "simulationKind": "ideal-gas-kinetic-theory",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-heat-transfer",
+    "slug": "heat-transfer",
+    "contentFile": "heat-transfer",
+    "title": "Heat Transfer",
+    "shortTitle": "Heat transfer",
+    "summary": "See heat as energy transfer driven by temperature difference while conduction, convection, and radiation compete on one compact bench with honest pathway rates.",
+    "topic": "Thermodynamics",
+    "subtopic": "Heat flow",
+    "difficulty": "Intro",
+    "sequence": 31,
+    "prerequisites": [
+      "temperature-and-internal-energy"
+    ],
+    "tags": [
+      "heat transfer",
+      "conduction",
+      "convection",
+      "radiation",
+      "temperature difference",
+      "specific heat",
+      "phase change"
+    ],
+    "related": [
+      "temperature-and-internal-energy",
+      "ideal-gas-law-and-kinetic-theory",
+      "specific-heat-and-phase-change",
+      "power-energy-circuits",
+      "light-spectrum-linkage"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "specific-heat-and-phase-change",
+        "reasonLabel": "What the energy does next"
+      },
+      {
+        "slug": "temperature-and-internal-energy",
+        "reasonLabel": "Energy bookkeeping"
+      },
+      {
+        "slug": "ideal-gas-law-and-kinetic-theory",
+        "reasonLabel": "Gas-state contrast"
+      },
+      {
+        "slug": "power-energy-circuits",
+        "reasonLabel": "Rate comparison"
+      },
+      {
+        "slug": "light-spectrum-linkage",
+        "reasonLabel": "Radiation bridge"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "amber",
+    "highlights": [
+      "Conduction",
+      "Convection",
+      "Radiation"
+    ],
+    "simulationKind": "heat-transfer",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-specific-heat-and-phase-change",
+    "slug": "specific-heat-and-phase-change",
+    "contentFile": "specific-heat-and-phase-change",
+    "title": "Specific Heat and Phase Change",
+    "shortTitle": "Specific heat and phase change",
+    "summary": "See why the same energy pulse changes different materials by different temperature amounts, and why a phase-change shelf can absorb or release energy without changing temperature on one compact thermal bench.",
+    "topic": "Thermodynamics",
+    "subtopic": "Thermal response",
+    "difficulty": "Intro",
+    "sequence": 31,
+    "prerequisites": [
+      "temperature-and-internal-energy",
+      "heat-transfer"
+    ],
+    "tags": [
+      "specific heat",
+      "phase change",
+      "latent heat",
+      "heating curve",
+      "thermal capacity",
+      "cooling curve"
+    ],
+    "related": [
+      "temperature-and-internal-energy",
+      "ideal-gas-law-and-kinetic-theory",
+      "heat-transfer",
+      "power-energy-circuits"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "power-energy-circuits",
+        "reasonLabel": "Compare rate and total energy"
+      },
+      {
+        "slug": "ideal-gas-law-and-kinetic-theory",
+        "reasonLabel": "Gas pressure bridge"
+      },
+      {
+        "slug": "heat-transfer",
+        "reasonLabel": "Revisit the boundary crossing"
+      },
+      {
+        "slug": "temperature-and-internal-energy",
+        "reasonLabel": "Return to the bookkeeping"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 35,
+    "accent": "teal",
+    "highlights": [
+      "Q = m c delta T",
+      "Latent-heat shelf",
+      "Heating curves"
+    ],
+    "simulationKind": "specific-heat-phase-change",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-circular-orbits-orbital-speed",
+    "slug": "circular-orbits-orbital-speed",
+    "aliases": [
+      "circular-orbits-and-orbital-speed"
+    ],
+    "contentFile": "circular-orbits-orbital-speed",
+    "title": "Circular Orbits and Orbital Speed",
+    "shortTitle": "Orbital speed",
+    "summary": "See why a circular orbit needs the right sideways speed, how gravity supplies the centripetal acceleration, and how source mass and radius together set orbital speed and period on one bounded live model.",
+    "topic": "Gravity and Orbits",
+    "subtopic": "Gravity and orbit bridges",
+    "difficulty": "Intermediate",
+    "sequence": 31,
+    "prerequisites": [
+      "uniform-circular-motion",
+      "gravitational-fields"
+    ],
+    "tags": [
+      "circular orbit",
+      "orbital speed",
+      "gravity",
+      "centripetal acceleration",
+      "orbit bridge"
+    ],
+    "related": [
+      "uniform-circular-motion",
+      "gravitational-fields",
+      "gravitational-potential-energy",
+      "keplers-third-law-orbital-periods",
+      "escape-velocity",
+      "magnetic-force-moving-charges-currents",
+      "projectile-motion"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "keplers-third-law-orbital-periods",
+        "reasonLabel": "Period law"
+      },
+      {
+        "slug": "escape-velocity",
+        "reasonLabel": "Unbound launch threshold"
+      },
+      {
+        "slug": "gravitational-potential-energy",
+        "reasonLabel": "Energy view"
+      },
+      {
+        "slug": "magnetic-force-moving-charges-currents",
+        "reasonLabel": "Curved-motion comparison"
+      },
+      {
+        "slug": "uniform-circular-motion",
+        "reasonLabel": "Review the motion model"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "ink",
+    "highlights": [
+      "Gravity as centripetal acceleration",
+      "Orbital speed",
+      "Radius and mass scaling"
+    ],
+    "simulationKind": "circular-orbits",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-keplers-third-law-orbital-periods",
+    "slug": "keplers-third-law-orbital-periods",
+    "aliases": [
+      "keplers-third-law"
+    ],
+    "contentFile": "keplers-third-law-orbital-periods",
+    "title": "Kepler's Third Law and Orbital Periods",
+    "shortTitle": "Orbital periods",
+    "summary": "Compare circular orbits around one source mass and see why larger orbits take longer: the path is longer, the circular speed is lower, and the same live model makes the period law visible without hiding the gravity-speed link.",
+    "topic": "Gravity and Orbits",
+    "subtopic": "Gravity and orbit bridges",
+    "difficulty": "Intermediate",
+    "sequence": 32,
+    "prerequisites": [
+      "circular-orbits-orbital-speed"
+    ],
+    "tags": [
+      "keplers third law",
+      "orbital period",
+      "circular orbit",
+      "gravity",
+      "orbit bridge"
+    ],
+    "related": [
+      "circular-orbits-orbital-speed",
+      "gravitational-potential-energy",
+      "escape-velocity",
+      "uniform-circular-motion",
+      "projectile-motion"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "escape-velocity",
+        "reasonLabel": "Unbound threshold"
+      },
+      {
+        "slug": "gravitational-potential-energy",
+        "reasonLabel": "Energy link"
+      },
+      {
+        "slug": "circular-orbits-orbital-speed",
+        "reasonLabel": "Speed review"
+      },
+      {
+        "slug": "uniform-circular-motion",
+        "reasonLabel": "Angular-speed review"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "amber",
+    "highlights": [
+      "T^2 proportional to r^3",
+      "Longer path and lower speed",
+      "Source-mass dependence"
+    ],
+    "simulationKind": "circular-orbits",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-escape-velocity",
+    "slug": "escape-velocity",
+    "contentFile": "escape-velocity",
+    "title": "Escape Velocity",
+    "shortTitle": "Escape speed",
+    "summary": "Launch outward from one bounded gravity source and see how source mass, launch radius, and total specific energy decide whether the object escapes or eventually returns.",
+    "topic": "Gravity and Orbits",
+    "subtopic": "Gravity and orbit bridges",
+    "difficulty": "Intermediate",
+    "sequence": 33,
+    "prerequisites": [
+      "gravitational-potential-energy",
+      "keplers-third-law-orbital-periods"
+    ],
+    "tags": [
+      "escape velocity",
+      "gravitational potential energy",
+      "total energy",
+      "launch radius",
+      "orbit bridge"
+    ],
+    "related": [
+      "gravitational-fields",
+      "gravitational-potential-energy",
+      "circular-orbits-orbital-speed",
+      "keplers-third-law-orbital-periods",
+      "projectile-motion",
+      "uniform-circular-motion"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "keplers-third-law-orbital-periods",
+        "reasonLabel": "Bound-orbit timing"
+      },
+      {
+        "slug": "circular-orbits-orbital-speed",
+        "reasonLabel": "Bound orbit contrast"
+      },
+      {
+        "slug": "gravitational-potential-energy",
+        "reasonLabel": "Energy review"
+      },
+      {
+        "slug": "projectile-motion",
+        "reasonLabel": "Return-to-launch comparison"
+      },
+      {
+        "slug": "magnetic-force-moving-charges-currents",
+        "reasonLabel": "Another curved-motion bridge"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "coral",
+    "highlights": [
+      "Escape threshold",
+      "Total specific energy",
+      "Launch-radius scaling"
+    ],
+    "simulationKind": "escape-velocity",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-basic-circuits",
+    "slug": "basic-circuits",
+    "contentFile": "basic-circuits",
+    "title": "Basic Circuits",
+    "shortTitle": "Circuits",
+    "summary": "Keep one battery and two resistors in view while current, voltage, resistance, Ohm's law, and the contrast between series and parallel all stay tied to one honest circuit.",
+    "topic": "Circuits",
+    "subtopic": "Circuits and Ohm's law",
+    "difficulty": "Intro",
+    "sequence": 33,
+    "tags": [
+      "current",
+      "voltage",
+      "resistance",
+      "ohm's law",
+      "series circuits",
+      "parallel circuits"
+    ],
+    "related": [
+      "series-parallel-circuits",
+      "equivalent-resistance",
+      "power-energy-circuits",
+      "magnetic-fields",
+      "electric-fields",
+      "electric-potential",
+      "vectors-components"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "power-energy-circuits",
+        "reasonLabel": "See rate and total in the same loop"
+      },
+      {
+        "slug": "series-parallel-circuits",
+        "reasonLabel": "Compare branch topologies"
+      },
+      {
+        "slug": "equivalent-resistance",
+        "reasonLabel": "Reduce mixed groups"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "amber",
+    "highlights": [
+      "Current",
+      "Voltage",
+      "Series vs parallel"
+    ],
+    "simulationKind": "basic-circuits",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-series-parallel-circuits",
+    "slug": "series-parallel-circuits",
+    "contentFile": "series-parallel-circuits",
+    "title": "Series and Parallel Circuits",
+    "shortTitle": "Series / Parallel",
+    "summary": "Switch the same two loads between one loop and two branches, then track how current, voltage, brightness, and charge flow reorganize without changing the battery.",
+    "topic": "Circuits",
+    "subtopic": "Series and parallel branches",
+    "difficulty": "Intro",
+    "sequence": 35,
+    "prerequisites": [
+      "basic-circuits"
+    ],
+    "tags": [
+      "current",
+      "voltage",
+      "series circuits",
+      "parallel circuits",
+      "branch current",
+      "bulb brightness"
+    ],
+    "related": [
+      "basic-circuits",
+      "kirchhoff-loop-and-junction-rules",
+      "equivalent-resistance",
+      "power-energy-circuits",
+      "electric-potential",
+      "electric-fields"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "kirchhoff-loop-and-junction-rules",
+        "reasonLabel": "Write the branch equations"
+      },
+      {
+        "slug": "equivalent-resistance",
+        "reasonLabel": "Reduce the mixed circuit"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "teal",
+    "highlights": [
+      "Current split",
+      "Voltage sharing",
+      "Bulb brightness"
+    ],
+    "simulationKind": "series-parallel-circuits",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-kirchhoff-loop-and-junction-rules",
+    "slug": "kirchhoff-loop-and-junction-rules",
+    "contentFile": "kirchhoff-loop-and-junction-rules",
+    "title": "Kirchhoff Loop and Junction Rules",
+    "shortTitle": "Kirchhoff rules",
+    "summary": "Use one small circuit to see the two Kirchhoff habits: currents balance at a split, and voltage rises and drops balance around every closed path.",
+    "topic": "Circuits",
+    "subtopic": "Loop and junction balance",
+    "difficulty": "Intro",
+    "sequence": 36,
+    "prerequisites": [
+      "series-parallel-circuits"
+    ],
+    "tags": [
+      "kirchhoff's laws",
+      "junction rule",
+      "loop rule",
+      "current conservation",
+      "voltage balance",
+      "circuits"
+    ],
+    "related": [
+      "basic-circuits",
+      "series-parallel-circuits",
+      "equivalent-resistance",
+      "power-energy-circuits"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "equivalent-resistance",
+        "reasonLabel": "Reduce the same network"
+      },
+      {
+        "slug": "power-energy-circuits",
+        "reasonLabel": "Rate and total consequences"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "sky",
+    "highlights": [
+      "Current conservation",
+      "Loop balance",
+      "Sign convention"
+    ],
+    "simulationKind": "equivalent-resistance",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-equivalent-resistance",
+    "slug": "equivalent-resistance",
+    "contentFile": "equivalent-resistance",
+    "title": "Equivalent Resistance",
+    "shortTitle": "R_eq",
+    "summary": "Reduce one highlighted resistor group into an equivalent block, then collapse the whole mixed circuit honestly and watch how the total current and grouped behavior change together.",
+    "topic": "Circuits",
+    "subtopic": "Mixed resistor groups",
+    "difficulty": "Intro",
+    "sequence": 37,
+    "prerequisites": [
+      "series-parallel-circuits"
+    ],
+    "tags": [
+      "equivalent resistance",
+      "series circuits",
+      "parallel circuits",
+      "current",
+      "voltage",
+      "mixed circuits"
+    ],
+    "related": [
+      "basic-circuits",
+      "series-parallel-circuits",
+      "kirchhoff-loop-and-junction-rules",
+      "power-energy-circuits",
+      "electric-potential"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "power-energy-circuits",
+        "reasonLabel": "Power consequences"
+      },
+      {
+        "slug": "basic-circuits",
+        "reasonLabel": "Review the simpler path"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "coral",
+    "highlights": [
+      "Reduce one group",
+      "R_group to R_eq",
+      "Mixed-circuit current"
+    ],
+    "simulationKind": "equivalent-resistance",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-power-energy-circuits",
+    "slug": "power-energy-circuits",
+    "contentFile": "power-energy-circuits",
+    "title": "Power and Energy in Circuits",
+    "shortTitle": "Circuit power",
+    "summary": "Keep one source and one resistive load in view while current, power, and accumulated energy over time stay tied to the same honest circuit.",
+    "topic": "Circuits",
+    "subtopic": "Power and energy",
+    "difficulty": "Intro",
+    "sequence": 34,
+    "prerequisites": [
+      "basic-circuits"
+    ],
+    "tags": [
+      "power",
+      "energy",
+      "current",
+      "voltage",
+      "resistance",
+      "ohm's law"
+    ],
+    "related": [
+      "basic-circuits",
+      "series-parallel-circuits",
+      "equivalent-resistance",
+      "internal-resistance-and-terminal-voltage",
+      "electric-fields",
+      "electric-potential",
+      "momentum-impulse"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "internal-resistance-and-terminal-voltage",
+        "reasonLabel": "Make the source non-ideal"
+      },
+      {
+        "slug": "series-parallel-circuits",
+        "reasonLabel": "See how branch structure changes power"
+      },
+      {
+        "slug": "equivalent-resistance",
+        "reasonLabel": "Try a mixed load"
+      },
+      {
+        "slug": "electric-potential",
+        "reasonLabel": "Reconnect power to voltage meaning"
+      },
+      {
+        "slug": "momentum-impulse",
+        "reasonLabel": "Rate vs total analogy"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "coral",
+    "highlights": [
+      "P = IV",
+      "E = Pt",
+      "Load response"
+    ],
+    "simulationKind": "power-energy-circuits",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-electric-fields",
+    "slug": "electric-fields",
+    "contentFile": "electric-fields",
+    "title": "Electric Fields",
+    "shortTitle": "E-fields",
+    "summary": "See how source-charge sign, distance, and superposition set the electric field at one probe, then watch a test charge turn that field into a force without changing the field itself.",
+    "topic": "Electricity",
+    "subtopic": "Field and force",
+    "difficulty": "Intro",
+    "sequence": 31,
+    "prerequisites": [
+      "vectors-components"
+    ],
+    "tags": [
+      "electric field",
+      "charge",
+      "superposition",
+      "force",
+      "inverse square"
+    ],
+    "related": [
+      "electric-potential",
+      "magnetic-fields",
+      "basic-circuits",
+      "vectors-components",
+      "projectile-motion"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "electric-potential",
+        "reasonLabel": "Potential and voltage"
+      },
+      {
+        "slug": "magnetic-fields",
+        "reasonLabel": "Current-made fields"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "amber",
+    "highlights": [
+      "Field direction",
+      "Superposition",
+      "Test-charge force"
+    ],
+    "simulationKind": "electric-fields",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-electric-potential",
+    "slug": "electric-potential",
+    "contentFile": "electric-potential",
+    "title": "Electric Potential",
+    "shortTitle": "Potential",
+    "summary": "Map how source-charge sign and distance shape electric potential, read voltage as a difference across one shared horizontal scan line, and connect the downhill slope of V to the electric field.",
+    "topic": "Electricity",
+    "subtopic": "Potential and voltage",
+    "difficulty": "Intro",
+    "sequence": 32,
+    "prerequisites": [
+      "electric-fields"
+    ],
+    "tags": [
+      "electric potential",
+      "voltage",
+      "equipotential",
+      "charge",
+      "inverse square"
+    ],
+    "related": [
+      "electric-fields",
+      "capacitance-and-stored-electric-energy",
+      "basic-circuits",
+      "power-energy-circuits",
+      "vectors-components"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "rc-charging-and-discharging",
+        "reasonLabel": "Turn storage into time response"
+      },
+      {
+        "slug": "basic-circuits",
+        "reasonLabel": "Reuse voltage in circuits"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "sky",
+    "highlights": [
+      "Potential maps",
+      "Equipotentials",
+      "Voltage difference"
+    ],
+    "simulationKind": "electric-potential",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-capacitance-and-stored-electric-energy",
+    "slug": "capacitance-and-stored-electric-energy",
+    "contentFile": "capacitance-and-stored-electric-energy",
+    "title": "Capacitance and Stored Electric Energy",
+    "shortTitle": "Capacitance",
+    "summary": "Keep one parallel-plate capacitor on screen so geometry, stored charge, field strength, and stored electric energy stay tied to the same bounded battery-and-plates model.",
+    "topic": "Electricity",
+    "subtopic": "Charge storage",
+    "difficulty": "Intro",
+    "sequence": 32,
+    "prerequisites": [
+      "electric-potential"
+    ],
+    "tags": [
+      "capacitance",
+      "capacitor",
+      "stored electric energy",
+      "parallel plate capacitor",
+      "charge storage"
+    ],
+    "related": [
+      "electric-potential",
+      "electric-fields",
+      "rc-charging-and-discharging",
+      "basic-circuits",
+      "power-energy-circuits"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "rc-charging-and-discharging",
+        "reasonLabel": "Turn storage into time response"
+      },
+      {
+        "slug": "basic-circuits",
+        "reasonLabel": "Carry stored charge into a live loop"
+      },
+      {
+        "slug": "power-energy-circuits",
+        "reasonLabel": "Connect storage to power and energy"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "amber",
+    "highlights": [
+      "C = A/d",
+      "Q = CV",
+      "U = 1/2 C V^2"
+    ],
+    "simulationKind": "capacitance-electric-energy",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-rc-charging-and-discharging",
+    "slug": "rc-charging-and-discharging",
+    "contentFile": "rc-charging-and-discharging",
+    "title": "RC Charging and Discharging",
+    "shortTitle": "RC response",
+    "summary": "Keep one resistor-capacitor loop on screen so capacitor voltage, current, stored energy, and the time constant all stay tied to the same charging or discharging setup.",
+    "topic": "Circuits",
+    "subtopic": "Time response with storage",
+    "difficulty": "Intro",
+    "sequence": 38,
+    "prerequisites": [
+      "basic-circuits",
+      "capacitance-and-stored-electric-energy"
+    ],
+    "tags": [
+      "RC circuit",
+      "charging",
+      "discharging",
+      "time constant",
+      "capacitor voltage",
+      "transient response"
+    ],
+    "related": [
+      "capacitance-and-stored-electric-energy",
+      "basic-circuits",
+      "power-energy-circuits",
+      "kirchhoff-loop-and-junction-rules"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "power-energy-circuits",
+        "reasonLabel": "Compare steady power with transient storage"
+      },
+      {
+        "slug": "capacitance-and-stored-electric-energy",
+        "reasonLabel": "Review the storage model"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "teal",
+    "highlights": [
+      "tau = RC",
+      "Charge vs discharge",
+      "Current fades"
+    ],
+    "simulationKind": "rc-charging-discharging",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-internal-resistance-and-terminal-voltage",
+    "slug": "internal-resistance-and-terminal-voltage",
+    "contentFile": "internal-resistance-and-terminal-voltage",
+    "title": "Internal Resistance and Terminal Voltage",
+    "shortTitle": "Internal resistance",
+    "summary": "Keep one non-ideal source and one load on screen so emf, internal drop, terminal voltage, current, and wasted power stay tied to the same one-loop circuit.",
+    "topic": "Circuits",
+    "subtopic": "Non-ideal source behavior",
+    "difficulty": "Intro",
+    "sequence": 39,
+    "prerequisites": [
+      "basic-circuits",
+      "power-energy-circuits"
+    ],
+    "tags": [
+      "internal resistance",
+      "terminal voltage",
+      "emf",
+      "non-ideal source",
+      "circuits"
+    ],
+    "related": [
+      "basic-circuits",
+      "power-energy-circuits",
+      "kirchhoff-loop-and-junction-rules",
+      "rc-charging-and-discharging"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "power-energy-circuits",
+        "reasonLabel": "Compare steady load power"
+      },
+      {
+        "slug": "kirchhoff-loop-and-junction-rules",
+        "reasonLabel": "Write the loop balance"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 28,
+    "accent": "coral",
+    "highlights": [
+      "emf vs terminal voltage",
+      "Internal drop",
+      "Power lost inside the source"
+    ],
+    "simulationKind": "internal-resistance-terminal-voltage",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-magnetic-fields",
+    "slug": "magnetic-fields",
+    "contentFile": "magnetic-fields",
+    "title": "Magnetic Fields",
+    "shortTitle": "B-fields",
+    "summary": "See how current direction, wire spacing, distance, and superposition set the magnetic field around one or two long straight wires, with the stage arrows and scan graphs tied to the same live source pattern.",
+    "topic": "Magnetism",
+    "subtopic": "Fields around current",
+    "difficulty": "Intro",
+    "sequence": 37,
+    "prerequisites": [
+      "electric-fields",
+      "basic-circuits"
+    ],
+    "tags": [
+      "magnetic field",
+      "current",
+      "right-hand rule",
+      "superposition",
+      "field patterns"
+    ],
+    "related": [
+      "electric-fields",
+      "basic-circuits",
+      "electric-potential",
+      "electromagnetic-induction",
+      "maxwells-equations-synthesis",
+      "electromagnetic-waves",
+      "magnetic-force-moving-charges-currents",
+      "vectors-components"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "electromagnetic-induction",
+        "reasonLabel": "Change flux into emf"
+      },
+      {
+        "slug": "maxwells-equations-synthesis",
+        "reasonLabel": "See the four-law synthesis"
+      },
+      {
+        "slug": "magnetic-force-moving-charges-currents",
+        "reasonLabel": "Force from B"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "teal",
+    "highlights": [
+      "Right-hand rule",
+      "Field patterns",
+      "Current source"
+    ],
+    "simulationKind": "magnetic-fields",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-electromagnetic-induction",
+    "slug": "electromagnetic-induction",
+    "aliases": [
+      "faradays-law-and-lenzs-law"
+    ],
+    "contentFile": "electromagnetic-induction",
+    "title": "Faraday's Law and Lenz's Law",
+    "shortTitle": "Faraday / Lenz",
+    "summary": "Track one magnet passing one coil and see how changing magnetic flux linkage creates induced emf while Lenz's law fixes the response direction, with the stage, galvanometer, and graphs all driven by the same bounded motion.",
+    "topic": "Electromagnetism",
+    "subtopic": "Flux and induced emf",
+    "difficulty": "Intro",
+    "sequence": 37,
+    "prerequisites": [
+      "basic-circuits",
+      "magnetic-fields"
+    ],
+    "tags": [
+      "electromagnetic induction",
+      "faraday law",
+      "lenz law",
+      "magnetic flux",
+      "induced emf"
+    ],
+    "related": [
+      "magnetic-fields",
+      "basic-circuits",
+      "maxwells-equations-synthesis",
+      "electromagnetic-waves",
+      "magnetic-force-moving-charges-currents",
+      "electric-potential"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "maxwells-equations-synthesis",
+        "reasonLabel": "Tie the four laws together"
+      },
+      {
+        "slug": "electromagnetic-waves",
+        "reasonLabel": "See changing fields propagate"
+      },
+      {
+        "slug": "magnetic-force-moving-charges-currents",
+        "reasonLabel": "See what B does next"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "amber",
+    "highlights": [
+      "Changing flux",
+      "Induced emf",
+      "Opposes the change"
+    ],
+    "simulationKind": "electromagnetic-induction",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-maxwells-equations-synthesis",
+    "slug": "maxwells-equations-synthesis",
+    "contentFile": "maxwells-equations-synthesis",
+    "title": "Maxwell's Equations Synthesis",
+    "shortTitle": "Maxwell synthesis",
+    "summary": "See what each Maxwell equation says physically, how sources and circulation differ, and why changing electric and magnetic fields together unify electricity, magnetism, and light.",
+    "topic": "Electromagnetism",
+    "subtopic": "Field synthesis",
+    "difficulty": "Intermediate",
+    "sequence": 37,
+    "prerequisites": [
+      "electric-fields",
+      "magnetic-fields",
+      "electromagnetic-induction"
+    ],
+    "tags": [
+      "maxwell equations",
+      "electric flux",
+      "magnetic flux",
+      "faraday law",
+      "ampere-maxwell",
+      "light"
+    ],
+    "related": [
+      "electric-fields",
+      "magnetic-fields",
+      "electromagnetic-induction",
+      "electromagnetic-waves",
+      "light-spectrum-linkage",
+      "magnetic-force-moving-charges-currents"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "electromagnetic-waves",
+        "reasonLabel": "See the propagation consequence"
+      },
+      {
+        "slug": "light-spectrum-linkage",
+        "reasonLabel": "Carry the synthesis into light"
+      },
+      {
+        "slug": "magnetic-force-moving-charges-currents",
+        "reasonLabel": "Reconnect B to force"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "sky",
+    "highlights": [
+      "Source laws",
+      "Circulation laws",
+      "Changing-field bridge"
+    ],
+    "simulationKind": "maxwell-equations-synthesis",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-electromagnetic-waves",
+    "slug": "electromagnetic-waves",
+    "contentFile": "electromagnetic-waves",
+    "title": "Electromagnetic Waves",
+    "shortTitle": "EM waves",
+    "summary": "See how changing electric and magnetic fields travel together as one rightward wave, with the local field pair, source-to-probe delay, and propagation cue all tied to the same compact live stage.",
+    "topic": "Electromagnetism",
+    "subtopic": "Changing fields and propagation",
+    "difficulty": "Intermediate",
+    "sequence": 37,
+    "prerequisites": [
+      "wave-speed-wavelength",
+      "electric-fields",
+      "magnetic-fields",
+      "electromagnetic-induction",
+      "maxwells-equations-synthesis"
+    ],
+    "tags": [
+      "electromagnetic waves",
+      "electric field",
+      "magnetic field",
+      "wave propagation",
+      "changing fields"
+    ],
+    "related": [
+      "wave-speed-wavelength",
+      "electric-fields",
+      "magnetic-fields",
+      "electromagnetic-induction",
+      "maxwells-equations-synthesis",
+      "light-spectrum-linkage",
+      "polarization",
+      "wave-interference",
+      "refraction-snells-law"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "light-spectrum-linkage",
+        "reasonLabel": "Turn EM waves into light"
+      },
+      {
+        "slug": "polarization",
+        "reasonLabel": "Test wave orientation"
+      },
+      {
+        "slug": "refraction-snells-law",
+        "reasonLabel": "Carry the wave into optics"
+      },
+      {
+        "slug": "wave-interference",
+        "reasonLabel": "Add superposition"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "sky",
+    "highlights": [
+      "E and B together",
+      "Propagation delay",
+      "Wave-speed link"
+    ],
+    "simulationKind": "electromagnetic-waves",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-light-spectrum-linkage",
+    "slug": "light-spectrum-linkage",
+    "contentFile": "light-spectrum-linkage",
+    "title": "Light as an Electromagnetic Wave",
+    "shortTitle": "Light and spectrum",
+    "summary": "Connect electromagnetic waves to visible light, color, frequency, and the broader spectrum while one compact stage keeps the spectrum rail, field-pair sketch, and medium-linked wavelength changes tied together.",
+    "topic": "Optics",
+    "subtopic": "Wave view of light",
+    "difficulty": "Intro",
+    "sequence": 33,
+    "prerequisites": [
+      "wave-speed-wavelength"
+    ],
+    "tags": [
+      "light",
+      "electromagnetic spectrum",
+      "visible light",
+      "frequency",
+      "refractive index"
+    ],
+    "related": [
+      "electromagnetic-waves",
+      "wave-speed-wavelength",
+      "polarization",
+      "diffraction",
+      "photoelectric-effect",
+      "refraction-snells-law",
+      "dispersion-refractive-index-color",
+      "total-internal-reflection",
+      "lens-imaging",
+      "wave-interference"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "polarization",
+        "reasonLabel": "Test transverse orientation"
+      },
+      {
+        "slug": "diffraction",
+        "reasonLabel": "Wave spreading"
+      },
+      {
+        "slug": "refraction-snells-law",
+        "reasonLabel": "Boundary bending"
+      },
+      {
+        "slug": "photoelectric-effect",
+        "reasonLabel": "Threshold frequency"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "amber",
+    "highlights": [
+      "Visible band",
+      "Color and frequency",
+      "n changes wavelength"
+    ],
+    "simulationKind": "light-spectrum-linkage",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-polarization",
+    "slug": "polarization",
+    "contentFile": "polarization",
+    "title": "Polarization",
+    "shortTitle": "Polarization",
+    "summary": "Use one compact polarizer bench to see polarization as the orientation story of transverse waves, how angle mismatch sets transmitted light, and why one ideal polarizer makes unpolarized light emerge with one chosen axis.",
+    "topic": "Optics",
+    "subtopic": "Wave orientation and filters",
+    "difficulty": "Intro",
+    "sequence": 33,
+    "prerequisites": [
+      "wave-speed-wavelength",
+      "light-spectrum-linkage"
+    ],
+    "tags": [
+      "optics",
+      "polarization",
+      "polarizer",
+      "transverse waves",
+      "Malus law"
+    ],
+    "related": [
+      "light-spectrum-linkage",
+      "electromagnetic-waves",
+      "diffraction",
+      "double-slit-interference",
+      "refraction-snells-law",
+      "sound-waves-longitudinal-motion"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "diffraction",
+        "reasonLabel": "Wave spreading"
+      },
+      {
+        "slug": "refraction-snells-law",
+        "reasonLabel": "Boundary optics"
+      },
+      {
+        "slug": "photoelectric-effect",
+        "reasonLabel": "Light beyond wave-only"
+      },
+      {
+        "slug": "sound-waves-longitudinal-motion",
+        "reasonLabel": "Contrast longitudinal waves"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "teal",
+    "highlights": [
+      "Transverse orientation",
+      "Malus's law",
+      "Unpolarized first pass"
+    ],
+    "simulationKind": "polarization",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-diffraction",
+    "slug": "diffraction",
+    "contentFile": "diffraction",
+    "title": "Diffraction",
+    "shortTitle": "Diffraction",
+    "summary": "Watch a wave spread after one narrow opening, see why diffraction grows when wavelength competes with slit width, and build the wave-optics bridge toward double-slit interference.",
+    "topic": "Optics",
+    "subtopic": "Wave spreading and apertures",
+    "difficulty": "Intermediate",
+    "sequence": 34,
+    "prerequisites": [
+      "wave-speed-wavelength",
+      "light-spectrum-linkage"
+    ],
+    "tags": [
+      "optics",
+      "diffraction",
+      "single slit",
+      "wave optics",
+      "wavelength",
+      "aperture"
+    ],
+    "related": [
+      "light-spectrum-linkage",
+      "polarization",
+      "wave-interference",
+      "double-slit-interference",
+      "optical-resolution-imaging-limits",
+      "refraction-snells-law",
+      "total-internal-reflection",
+      "standing-waves"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "double-slit-interference",
+        "reasonLabel": "Two-slit pattern"
+      },
+      {
+        "slug": "optical-resolution-imaging-limits",
+        "reasonLabel": "Imaging limit"
+      },
+      {
+        "slug": "wave-interference",
+        "reasonLabel": "Phase review"
+      },
+      {
+        "slug": "refraction-snells-law",
+        "reasonLabel": "Boundary optics"
+      },
+      {
+        "slug": "total-internal-reflection",
+        "reasonLabel": "Critical-angle limit"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "sky",
+    "highlights": [
+      "Slit width vs wavelength",
+      "Central peak width",
+      "Screen pattern"
+    ],
+    "simulationKind": "diffraction",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-double-slit-interference",
+    "slug": "double-slit-interference",
+    "contentFile": "double-slit-interference",
+    "title": "Double-Slit Interference",
+    "shortTitle": "Double slit",
+    "summary": "Use two coherent slits and one screen to connect path difference, phase difference, and fringe spacing to wavelength, slit separation, and screen distance on one compact optics bench.",
+    "topic": "Optics",
+    "subtopic": "Wave spreading and apertures",
+    "difficulty": "Intermediate",
+    "sequence": 34,
+    "prerequisites": [
+      "wave-interference",
+      "light-spectrum-linkage",
+      "diffraction"
+    ],
+    "tags": [
+      "optics",
+      "double slit",
+      "interference",
+      "fringe spacing",
+      "wave optics",
+      "coherent light"
+    ],
+    "related": [
+      "wave-interference",
+      "diffraction",
+      "light-spectrum-linkage",
+      "refraction-snells-law",
+      "standing-waves"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "refraction-snells-law",
+        "reasonLabel": "Boundary optics"
+      },
+      {
+        "slug": "total-internal-reflection",
+        "reasonLabel": "Critical-angle limit"
+      },
+      {
+        "slug": "photoelectric-effect",
+        "reasonLabel": "Beyond wave optics"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "amber",
+    "highlights": [
+      "Path difference",
+      "Fringe spacing",
+      "Bright and dark bands"
+    ],
+    "simulationKind": "double-slit-interference",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-magnetic-force-moving-charges-currents",
+    "slug": "magnetic-force-moving-charges-currents",
+    "contentFile": "magnetic-force-moving-charges-currents",
+    "title": "Magnetic Force on Moving Charges and Currents",
+    "shortTitle": "Magnetic force",
+    "summary": "See why a magnetic field bends a moving charge sideways, why faster charges can make wider arcs, and how the same cross-product direction rule pushes a current-carrying wire.",
+    "topic": "Magnetism",
+    "subtopic": "Magnetic force and motion",
+    "difficulty": "Intro",
+    "sequence": 37,
+    "prerequisites": [
+      "vectors-components",
+      "basic-circuits",
+      "magnetic-fields"
+    ],
+    "tags": [
+      "magnetic force",
+      "moving charge",
+      "current-carrying wire",
+      "right-hand rule",
+      "circular motion"
+    ],
+    "related": [
+      "magnetic-fields",
+      "electric-fields",
+      "basic-circuits",
+      "uniform-circular-motion",
+      "projectile-motion",
+      "vectors-components"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "uniform-circular-motion",
+        "reasonLabel": "Curved-motion comparison"
+      },
+      {
+        "slug": "electric-fields",
+        "reasonLabel": "Force-field contrast"
+      },
+      {
+        "slug": "basic-circuits",
+        "reasonLabel": "Reconnect current to source"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "coral",
+    "highlights": [
+      "qv x B direction",
+      "Current-segment force",
+      "Curved motion"
+    ],
+    "simulationKind": "magnetic-force",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-refraction-snells-law",
+    "slug": "refraction-snells-law",
+    "contentFile": "refraction-snells-law",
+    "title": "Refraction / Snell's Law",
+    "shortTitle": "Refraction",
+    "summary": "Watch one light ray cross a boundary, connect refractive index to speed change, and see Snell's law set the refracted angle, bending direction, and critical-angle limit on the same live diagram.",
+    "topic": "Optics",
+    "subtopic": "Boundaries and indices",
+    "difficulty": "Intro",
+    "sequence": 34,
+    "prerequisites": [
+      "vectors-components"
+    ],
+    "tags": [
+      "optics",
+      "refraction",
+      "snell's law",
+      "refractive index",
+      "critical angle"
+    ],
+    "related": [
+      "vectors-components",
+      "diffraction",
+      "total-internal-reflection",
+      "dispersion-refractive-index-color",
+      "mirrors",
+      "lens-imaging",
+      "wave-interference"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "dispersion-refractive-index-color",
+        "reasonLabel": "Color-dependent bending"
+      },
+      {
+        "slug": "total-internal-reflection",
+        "reasonLabel": "Critical-angle limit"
+      },
+      {
+        "slug": "diffraction",
+        "reasonLabel": "Wave spreading link"
+      },
+      {
+        "slug": "mirrors",
+        "reasonLabel": "Compare with reflection"
+      },
+      {
+        "slug": "lens-imaging",
+        "reasonLabel": "Build into lenses"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "sky",
+    "highlights": [
+      "Snell's law",
+      "Refractive index",
+      "Bending toward or away"
+    ],
+    "simulationKind": "refraction-snells-law",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-dispersion-refractive-index-color",
+    "slug": "dispersion-refractive-index-color",
+    "contentFile": "dispersion-refractive-index-color",
+    "title": "Dispersion / Refractive Index and Color",
+    "shortTitle": "Dispersion and color",
+    "summary": "Use one compact thin-prism bench to see how refractive index can depend on wavelength, why different colors bend by different amounts, and how a bounded prism model separates colors without widening into a full spectroscopy subsystem.",
+    "topic": "Optics",
+    "subtopic": "Color-dependent refraction",
+    "difficulty": "Intermediate",
+    "sequence": 35,
+    "prerequisites": [
+      "light-spectrum-linkage",
+      "refraction-snells-law"
+    ],
+    "tags": [
+      "optics",
+      "dispersion",
+      "refractive index",
+      "prism",
+      "visible light"
+    ],
+    "related": [
+      "light-spectrum-linkage",
+      "refraction-snells-law",
+      "total-internal-reflection",
+      "lens-imaging",
+      "diffraction"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "total-internal-reflection",
+        "reasonLabel": "Critical-angle limit"
+      },
+      {
+        "slug": "lens-imaging",
+        "reasonLabel": "Many surfaces, one bend rule"
+      },
+      {
+        "slug": "atomic-spectra",
+        "reasonLabel": "Prism versus line sources"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "amber",
+    "highlights": [
+      "Color-dependent n(lambda)",
+      "Prism spread",
+      "Thin-prism model"
+    ],
+    "simulationKind": "dispersion-refractive-index-color",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-total-internal-reflection",
+    "slug": "total-internal-reflection",
+    "contentFile": "total-internal-reflection",
+    "title": "Total Internal Reflection",
+    "shortTitle": "TIR",
+    "summary": "Push a ray from a higher-index medium toward a lower-index boundary, watch the critical angle emerge, and see the same live diagram hand off from ordinary refraction to full internal reflection.",
+    "topic": "Optics",
+    "subtopic": "Critical-angle threshold",
+    "difficulty": "Intermediate",
+    "sequence": 35,
+    "prerequisites": [
+      "refraction-snells-law"
+    ],
+    "tags": [
+      "optics",
+      "total internal reflection",
+      "critical angle",
+      "refractive index",
+      "snell's law"
+    ],
+    "related": [
+      "refraction-snells-law",
+      "dispersion-refractive-index-color",
+      "mirrors",
+      "lens-imaging",
+      "wave-interference"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "mirrors",
+        "reasonLabel": "Compare with reflection"
+      },
+      {
+        "slug": "lens-imaging",
+        "reasonLabel": "Build into lenses"
+      },
+      {
+        "slug": "wave-interference",
+        "reasonLabel": "Contrast wave optics"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "amber",
+    "highlights": [
+      "Critical angle",
+      "Internal reflection",
+      "Index contrast"
+    ],
+    "simulationKind": "refraction-snells-law",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-mirrors",
+    "slug": "mirrors",
+    "contentFile": "mirrors",
+    "title": "Mirrors",
+    "shortTitle": "Mirrors",
+    "summary": "Use plane, concave, and convex mirrors to track equal-angle reflection, signed image distance, and magnification on the same live ray diagram.",
+    "topic": "Mirrors and Lenses",
+    "subtopic": "Mirror imaging",
+    "difficulty": "Intro",
+    "sequence": 36,
+    "prerequisites": [
+      "vectors-components"
+    ],
+    "tags": [
+      "optics",
+      "mirrors",
+      "law of reflection",
+      "ray diagram",
+      "image formation"
+    ],
+    "related": [
+      "refraction-snells-law",
+      "lens-imaging",
+      "vectors-components",
+      "wave-interference"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "lens-imaging",
+        "reasonLabel": "Build into lenses"
+      },
+      {
+        "slug": "refraction-snells-law",
+        "reasonLabel": "Boundary angle rule"
+      },
+      {
+        "slug": "wave-interference",
+        "reasonLabel": "Contrast wave optics"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "sky",
+    "highlights": [
+      "Equal angles",
+      "Virtual vs real",
+      "Mirror type"
+    ],
+    "simulationKind": "mirrors",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-lens-imaging",
+    "slug": "lens-imaging",
+    "contentFile": "lens-imaging",
+    "title": "Lens Imaging",
+    "shortTitle": "Lens imaging",
+    "summary": "Trace principal rays through converging and diverging lenses, connect the signed thin-lens equation to the diagram, and watch image distance and magnification respond to the same object setup.",
+    "topic": "Mirrors and Lenses",
+    "subtopic": "Thin lenses",
+    "difficulty": "Intro",
+    "sequence": 37,
+    "prerequisites": [
+      "vectors-components"
+    ],
+    "tags": [
+      "optics",
+      "thin lens",
+      "magnification",
+      "ray diagram",
+      "image formation"
+    ],
+    "related": [
+      "refraction-snells-law",
+      "mirrors",
+      "optical-resolution-imaging-limits",
+      "vectors-components",
+      "projectile-motion",
+      "wave-interference"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "mirrors",
+        "reasonLabel": "Compare with mirrors"
+      },
+      {
+        "slug": "optical-resolution-imaging-limits",
+        "reasonLabel": "See diffraction limit"
+      },
+      {
+        "slug": "refraction-snells-law",
+        "reasonLabel": "Boundary bending law"
+      },
+      {
+        "slug": "wave-interference",
+        "reasonLabel": "Contrast wave optics"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "sky",
+    "highlights": [
+      "Focal length",
+      "Image distance",
+      "Magnification"
+    ],
+    "simulationKind": "lens-imaging",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-optical-resolution-imaging-limits",
+    "slug": "optical-resolution-imaging-limits",
+    "contentFile": "optical-resolution-imaging-limits",
+    "title": "Optical Resolution / Imaging Limits",
+    "shortTitle": "Optical resolution",
+    "summary": "Image two nearby point sources through one finite aperture and see why diffraction, wavelength, and aperture diameter limit how sharply an optical system can separate them.",
+    "topic": "Mirrors and Lenses",
+    "subtopic": "Imaging limits and resolution",
+    "difficulty": "Intermediate",
+    "sequence": 38,
+    "prerequisites": [
+      "diffraction",
+      "lens-imaging"
+    ],
+    "tags": [
+      "optics",
+      "resolution",
+      "diffraction limit",
+      "rayleigh criterion",
+      "aperture",
+      "imaging"
+    ],
+    "related": [
+      "diffraction",
+      "lens-imaging",
+      "double-slit-interference",
+      "mirrors",
+      "refraction-snells-law",
+      "light-spectrum-linkage"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "double-slit-interference",
+        "reasonLabel": "Another aperture pattern"
+      },
+      {
+        "slug": "lens-imaging",
+        "reasonLabel": "Compare image systems"
+      },
+      {
+        "slug": "diffraction",
+        "reasonLabel": "Single-aperture limit"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "sky",
+    "highlights": [
+      "Rayleigh limit",
+      "Aperture versus wavelength",
+      "Two-point detector profile"
+    ],
+    "simulationKind": "optical-resolution",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-photoelectric-effect",
+    "slug": "photoelectric-effect",
+    "contentFile": "photoelectric-effect",
+    "title": "Photoelectric Effect",
+    "shortTitle": "Photoelectric effect",
+    "summary": "Use one compact lamp-to-metal bench to see why light frequency sets electron emission, why intensity alone fails below threshold, and how stopping potential reads the electron energy honestly.",
+    "topic": "Modern Physics",
+    "subtopic": "Light and matter",
+    "difficulty": "Intermediate",
+    "sequence": 38,
+    "prerequisites": [
+      "light-spectrum-linkage",
+      "electric-potential"
+    ],
+    "tags": [
+      "photoelectric effect",
+      "threshold frequency",
+      "stopping potential",
+      "work function",
+      "photons"
+    ],
+    "related": [
+      "atomic-spectra",
+      "light-spectrum-linkage",
+      "electromagnetic-waves",
+      "electric-potential",
+      "maxwells-equations-synthesis",
+      "refraction-snells-law"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "atomic-spectra",
+        "reasonLabel": "Discrete line spectra"
+      },
+      {
+        "slug": "electric-potential",
+        "reasonLabel": "Stopping-voltage link"
+      },
+      {
+        "slug": "light-spectrum-linkage",
+        "reasonLabel": "Revisit the spectrum bridge"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "coral",
+    "highlights": [
+      "Threshold frequency",
+      "Intensity vs energy",
+      "Stopping potential"
+    ],
+    "simulationKind": "photoelectric-effect",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-atomic-spectra",
+    "slug": "atomic-spectra",
+    "contentFile": "atomic-spectra",
+    "title": "Atomic Spectra",
+    "shortTitle": "Atomic spectra",
+    "summary": "Link discrete emission and absorption lines to allowed energy-level gaps with one compact ladder-and-spectrum bench that keeps transitions, wavelengths, and mode changes tied together.",
+    "topic": "Modern Physics",
+    "subtopic": "Quantized line spectra",
+    "difficulty": "Intermediate",
+    "sequence": 39,
+    "prerequisites": [
+      "light-spectrum-linkage",
+      "photoelectric-effect"
+    ],
+    "tags": [
+      "atomic spectra",
+      "emission spectrum",
+      "absorption spectrum",
+      "spectral lines",
+      "energy levels"
+    ],
+    "related": [
+      "bohr-model",
+      "de-broglie-matter-waves",
+      "photoelectric-effect",
+      "light-spectrum-linkage",
+      "electromagnetic-waves",
+      "maxwells-equations-synthesis",
+      "electric-potential"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "de-broglie-matter-waves",
+        "reasonLabel": "Wave bridge to quantization"
+      },
+      {
+        "slug": "bohr-model",
+        "reasonLabel": "Hydrogen level model"
+      },
+      {
+        "slug": "photoelectric-effect",
+        "reasonLabel": "Reconnect frequency and photon energy"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "sky",
+    "highlights": [
+      "Emission vs absorption",
+      "Discrete spectral lines",
+      "Energy-gap mapping"
+    ],
+    "simulationKind": "atomic-spectra",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-de-broglie-matter-waves",
+    "slug": "de-broglie-matter-waves",
+    "contentFile": "de-broglie-matter-waves",
+    "title": "de Broglie Matter Waves",
+    "shortTitle": "Matter waves",
+    "summary": "Use one compact matter-wave bench to see how particle momentum sets wavelength, why heavier or faster particles get shorter wavelengths, and how whole-number loop fits form a bounded bridge toward early quantum behavior.",
+    "topic": "Modern Physics",
+    "subtopic": "Matter waves and quantum bridge",
+    "difficulty": "Intermediate",
+    "sequence": 40,
+    "prerequisites": [
+      "wave-speed-wavelength",
+      "atomic-spectra"
+    ],
+    "tags": [
+      "de broglie matter waves",
+      "matter wavelength",
+      "momentum and wavelength",
+      "wave-particle bridge",
+      "quantum wavelength"
+    ],
+    "related": [
+      "bohr-model",
+      "atomic-spectra",
+      "wave-speed-wavelength",
+      "photoelectric-effect",
+      "light-spectrum-linkage",
+      "electromagnetic-waves"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "bohr-model",
+        "reasonLabel": "Whole-number-fit bridge to Bohr"
+      },
+      {
+        "slug": "atomic-spectra",
+        "reasonLabel": "Reconnect the line evidence"
+      },
+      {
+        "slug": "wave-speed-wavelength",
+        "reasonLabel": "Revisit wavelength as spacing"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "teal",
+    "highlights": [
+      "Momentum sets wavelength",
+      "Mass or speed can shorten lambda",
+      "Whole-number loop fits"
+    ],
+    "simulationKind": "de-broglie-matter-waves",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-bohr-model",
+    "slug": "bohr-model",
+    "contentFile": "bohr-model",
+    "title": "Bohr Model",
+    "shortTitle": "Bohr model",
+    "summary": "Use a compact hydrogen bench to connect quantized energy levels, allowed transitions, and named spectral-line series while staying clear that Bohr is a useful historical model rather than the final quantum description.",
+    "topic": "Modern Physics",
+    "subtopic": "Hydrogen energy levels",
+    "difficulty": "Intermediate",
+    "sequence": 41,
+    "prerequisites": [
+      "atomic-spectra",
+      "de-broglie-matter-waves"
+    ],
+    "tags": [
+      "bohr model",
+      "hydrogen spectrum",
+      "quantized energy levels",
+      "balmer series",
+      "atomic transitions"
+    ],
+    "related": [
+      "atomic-spectra",
+      "de-broglie-matter-waves",
+      "radioactivity-half-life",
+      "photoelectric-effect",
+      "light-spectrum-linkage",
+      "electromagnetic-waves",
+      "maxwells-equations-synthesis"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "de-broglie-matter-waves",
+        "reasonLabel": "Wave-fit bridge behind Bohr"
+      },
+      {
+        "slug": "atomic-spectra",
+        "reasonLabel": "Line evidence behind Bohr"
+      },
+      {
+        "slug": "radioactivity-half-life",
+        "reasonLabel": "Probabilistic decay branch"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "amber",
+    "highlights": [
+      "Hydrogen series",
+      "Quantized levels",
+      "Same wavelength in reverse"
+    ],
+    "simulationKind": "bohr-model",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-radioactivity-half-life",
+    "slug": "radioactivity-half-life",
+    "contentFile": "radioactivity-half-life",
+    "title": "Radioactivity and Half-Life",
+    "shortTitle": "Half-life",
+    "summary": "Use one compact decay bench to see why each nucleus decays unpredictably, why large samples still follow a regular half-life curve, and how to read remaining-count graphs honestly.",
+    "topic": "Modern Physics",
+    "subtopic": "Nuclear decay and chance",
+    "difficulty": "Intermediate",
+    "sequence": 42,
+    "tags": [
+      "radioactivity",
+      "half-life",
+      "exponential decay",
+      "probability",
+      "nuclear decay"
+    ],
+    "related": [
+      "bohr-model",
+      "atomic-spectra",
+      "photoelectric-effect",
+      "de-broglie-matter-waves",
+      "light-spectrum-linkage",
+      "temperature-and-internal-energy"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "bohr-model",
+        "reasonLabel": "Quantized-structure comparison"
+      },
+      {
+        "slug": "atomic-spectra",
+        "reasonLabel": "Discrete-evidence comparison"
+      },
+      {
+        "slug": "photoelectric-effect",
+        "reasonLabel": "Another probability-versus-threshold clue"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 30,
+    "accent": "teal",
+    "highlights": [
+      "Single-event chance",
+      "Half-life checkpoints",
+      "Large-sample decay curve"
+    ],
+    "simulationKind": "radioactivity-half-life",
+    "subject": "Physics"
+  },
+  {
+    "id": "concept-graph-transformations",
+    "slug": "graph-transformations",
+    "contentFile": "graph-transformations",
+    "title": "Graph Transformations",
+    "shortTitle": "Graph transforms",
+    "summary": "Move one parent curve with honest controls so shifts, vertical scale, and reflections stay tied to the same overlaid graph and landmark points.",
+    "subject": "Math",
+    "topic": "Functions",
+    "subtopic": "Parent-function moves",
+    "difficulty": "Intro",
+    "sequence": 70,
+    "tags": [
+      "functions",
+      "graph transformations",
+      "translation",
+      "reflection",
+      "vertical stretch"
+    ],
+    "related": [
+      "rational-functions-asymptotes-and-behavior",
+      "exponential-change-growth-decay-logarithms",
+      "derivative-as-slope-local-rate-of-change",
+      "matrix-transformations"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "rational-functions-asymptotes-and-behavior",
+        "reasonLabel": "Carry the same graph-shift language into vertical and horizontal asymptote behavior"
+      },
+      {
+        "slug": "exponential-change-growth-decay-logarithms",
+        "reasonLabel": "Keep the graph-first branch moving into growth, decay, and target time"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 20,
+    "accent": "sky",
+    "highlights": [
+      "Left and right shifts",
+      "Up and down shifts",
+      "Reflections and vertical scale"
+    ],
+    "simulationKind": "graph-transformations"
+  },
+  {
+    "id": "concept-rational-functions-asymptotes-and-behavior",
+    "slug": "rational-functions-asymptotes-and-behavior",
+    "contentFile": "rational-functions-asymptotes-and-behavior",
+    "title": "Rational Functions / Asymptotes and Behavior",
+    "shortTitle": "Rational functions",
+    "summary": "Vary one shifted reciprocal family so domain breaks, vertical and horizontal asymptotes, intercepts, and removable-hole behavior stay tied to the same graph.",
+    "subject": "Math",
+    "topic": "Functions",
+    "subtopic": "Rational functions and asymptotes",
+    "difficulty": "Intro",
+    "sequence": 71,
+    "tags": [
+      "functions",
+      "rational functions",
+      "asymptotes",
+      "domain",
+      "removable hole"
+    ],
+    "related": [
+      "graph-transformations",
+      "exponential-change-growth-decay-logarithms",
+      "limits-and-continuity-approaching-a-value",
+      "derivative-as-slope-local-rate-of-change"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "exponential-change-growth-decay-logarithms",
+        "reasonLabel": "Compare a second non-polynomial family without leaving the graph-first functions branch"
+      },
+      {
+        "slug": "limits-and-continuity-approaching-a-value",
+        "reasonLabel": "Turn visible asymptote and hole behavior into one-sided limit language"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 23,
+    "accent": "amber",
+    "highlights": [
+      "Vertical and horizontal asymptotes",
+      "Domain breaks and intercepts",
+      "Optional removable hole"
+    ],
+    "simulationKind": "rational-functions"
+  },
+  {
+    "id": "concept-exponential-change-growth-decay-logarithms",
+    "slug": "exponential-change-growth-decay-logarithms",
+    "contentFile": "exponential-change-growth-decay-logarithms",
+    "title": "Exponential Change / Growth, Decay, and Logarithms",
+    "shortTitle": "Exponential change",
+    "summary": "Change one starting value, one rate, and one target so growth, decay, doubling or half-life, and logarithmic target time all stay tied to the same live curve.",
+    "subject": "Math",
+    "topic": "Functions",
+    "subtopic": "Exponential growth and decay",
+    "difficulty": "Intro",
+    "sequence": 71,
+    "tags": [
+      "functions",
+      "exponential growth",
+      "exponential decay",
+      "logarithms",
+      "doubling time",
+      "half-life"
+    ],
+    "related": [
+      "graph-transformations",
+      "rational-functions-asymptotes-and-behavior",
+      "derivative-as-slope-local-rate-of-change",
+      "radioactivity-half-life"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "derivative-as-slope-local-rate-of-change",
+        "reasonLabel": "Carry changing steepness into local slope on the graph"
+      },
+      {
+        "slug": "radioactivity-half-life",
+        "reasonLabel": "See the same decay law inside a physics bench with real half-life language"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 22,
+    "accent": "teal",
+    "highlights": [
+      "Growth versus decay",
+      "Target time from logs",
+      "Doubling time or half-life"
+    ],
+    "simulationKind": "exponential-change"
+  },
+  {
+    "id": "concept-derivative-as-slope-local-rate-of-change",
+    "slug": "derivative-as-slope-local-rate-of-change",
+    "contentFile": "derivative-as-slope-local-rate-of-change",
+    "title": "Derivative as Slope / Local Rate of Change",
+    "shortTitle": "Derivative as slope",
+    "summary": "Slide a point along one curve, tighten a secant into a tangent, and connect local steepness to the derivative graph without leaving the same live bench.",
+    "subject": "Math",
+    "topic": "Calculus",
+    "subtopic": "Tangent and local change",
+    "difficulty": "Intro",
+    "sequence": 72,
+    "tags": [
+      "calculus",
+      "derivative",
+      "tangent line",
+      "secant line",
+      "rate of change"
+    ],
+    "related": [
+      "graph-transformations",
+      "exponential-change-growth-decay-logarithms",
+      "optimization-maxima-minima-and-constraints",
+      "limits-and-continuity-approaching-a-value",
+      "integral-as-accumulation-area"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "limits-and-continuity-approaching-a-value",
+        "reasonLabel": "Zoom out from secant-to-tangent language into one-sided limits and continuity"
+      },
+      {
+        "slug": "optimization-maxima-minima-and-constraints",
+        "reasonLabel": "Use local slope on one constrained rectangle bench to find a real maximum"
+      },
+      {
+        "slug": "integral-as-accumulation-area",
+        "reasonLabel": "Carry local slope into running totals and signed area"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "teal",
+    "highlights": [
+      "Secant to tangent",
+      "Local rate of change",
+      "Derivative graph link"
+    ],
+    "simulationKind": "derivative-as-slope"
+  },
+  {
+    "id": "concept-limits-and-continuity-approaching-a-value",
+    "slug": "limits-and-continuity-approaching-a-value",
+    "contentFile": "limits-and-continuity-approaching-a-value",
+    "title": "Limits and Continuity / Approaching a Value",
+    "shortTitle": "Limits and continuity",
+    "summary": "Move one target-distance slider inward from both sides, compare the finite-limit guide with the actual point, and separate continuous, removable-hole, jump, and blow-up behavior on one graph-first bench.",
+    "subject": "Math",
+    "topic": "Calculus",
+    "subtopic": "Limits and visible continuity",
+    "difficulty": "Intro",
+    "sequence": 73,
+    "tags": [
+      "calculus",
+      "limits",
+      "continuity",
+      "one-sided limits",
+      "discontinuity"
+    ],
+    "related": [
+      "derivative-as-slope-local-rate-of-change",
+      "rational-functions-asymptotes-and-behavior",
+      "optimization-maxima-minima-and-constraints",
+      "integral-as-accumulation-area",
+      "graph-transformations"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "optimization-maxima-minima-and-constraints",
+        "reasonLabel": "Use the same graph-first calculus language to catch a constrained turning point on one rectangle bench"
+      },
+      {
+        "slug": "integral-as-accumulation-area",
+        "reasonLabel": "Then turn the same graph-first branch into signed area and running totals"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 24,
+    "accent": "sky",
+    "highlights": [
+      "Left and right approach",
+      "Limit versus actual point",
+      "Holes, jumps, and blow-up"
+    ],
+    "simulationKind": "limits-continuity"
+  },
+  {
+    "id": "concept-optimization-maxima-minima-and-constraints",
+    "slug": "optimization-maxima-minima-and-constraints",
+    "contentFile": "optimization-maxima-minima-and-constraints",
+    "title": "Optimization / Maxima, Minima, and Constraints",
+    "shortTitle": "Optimization and constraints",
+    "summary": "Move one rectangle width under a fixed 24 meter perimeter and watch height, area, and local slope respond together so the square maximum emerges from the same bench.",
+    "subject": "Math",
+    "topic": "Calculus",
+    "subtopic": "Constrained maxima and minima",
+    "difficulty": "Intro",
+    "sequence": 74,
+    "tags": [
+      "calculus",
+      "optimization",
+      "maxima",
+      "minima",
+      "constraints"
+    ],
+    "prerequisites": [
+      "derivative-as-slope-local-rate-of-change"
+    ],
+    "related": [
+      "derivative-as-slope-local-rate-of-change",
+      "limits-and-continuity-approaching-a-value",
+      "integral-as-accumulation-area",
+      "graph-transformations"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "integral-as-accumulation-area",
+        "reasonLabel": "Carry the same local-rate reasoning into a running-total and signed-area graph"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 24,
+    "accent": "amber",
+    "highlights": [
+      "Fixed-perimeter rectangle",
+      "Objective curve peak",
+      "Near-zero slope at the best shape"
+    ],
+    "simulationKind": "optimization-constraints"
+  },
+  {
+    "id": "concept-integral-as-accumulation-area",
+    "slug": "integral-as-accumulation-area",
+    "contentFile": "integral-as-accumulation-area",
+    "title": "Integral as Accumulation / Area",
+    "shortTitle": "Integral as area",
+    "summary": "Drag one upper bound across a source curve, watch signed area and the accumulation graph update together, and separate current source height from the running total.",
+    "subject": "Math",
+    "topic": "Calculus",
+    "subtopic": "Accumulation and area",
+    "difficulty": "Intro",
+    "sequence": 75,
+    "tags": [
+      "calculus",
+      "integral",
+      "accumulation",
+      "signed area",
+      "area under curve"
+    ],
+    "prerequisites": [
+      "derivative-as-slope-local-rate-of-change"
+    ],
+    "related": [
+      "derivative-as-slope-local-rate-of-change",
+      "limits-and-continuity-approaching-a-value",
+      "graph-transformations",
+      "vectors-in-2d"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "vectors-in-2d",
+        "reasonLabel": "Step out of this calculus run and keep the same graph-first reasoning in 2D quantities"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "coral",
+    "highlights": [
+      "Signed area",
+      "Running total",
+      "Slope-accumulation link"
+    ],
+    "simulationKind": "integral-accumulation"
+  },
+  {
+    "id": "concept-vectors-in-2d",
+    "slug": "vectors-in-2d",
+    "contentFile": "vectors-in-2d",
+    "title": "Vectors in 2D",
+    "shortTitle": "2D vectors",
+    "summary": "Combine, subtract, and scale vectors on one plane so magnitude, direction, and components stay tied to the same live object.",
+    "subject": "Math",
+    "topic": "Vectors",
+    "subtopic": "Combination and scaling",
+    "difficulty": "Intro",
+    "sequence": 76,
+    "tags": [
+      "vectors",
+      "components",
+      "vector addition",
+      "vector subtraction",
+      "scalar multiplication"
+    ],
+    "related": [
+      "matrix-transformations",
+      "dot-product-angle-and-projection",
+      "vectors-components",
+      "projectile-motion",
+      "integral-as-accumulation-area"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "matrix-transformations",
+        "reasonLabel": "Turn the same plane into a matrix action on the grid and basis vectors"
+      },
+      {
+        "slug": "dot-product-angle-and-projection",
+        "reasonLabel": "Turn combination into alignment and projection"
+      },
+      {
+        "slug": "vectors-components",
+        "reasonLabel": "Carry the same vector language into motion"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "sky",
+    "highlights": [
+      "Tip-to-tail combination",
+      "Components on the plane",
+      "Scalar flips and stretches"
+    ],
+    "simulationKind": "vectors-2d"
+  },
+  {
+    "id": "concept-matrix-transformations",
+    "slug": "matrix-transformations",
+    "contentFile": "matrix-transformations",
+    "title": "Matrix Transformations / Stretch, Shear, Reflection",
+    "shortTitle": "Matrix transforms",
+    "summary": "Let one 2 by 2 matrix act on a grid, the basis vectors, and a sample shape so stretch, shear, reflection, and combined plane changes stay visual instead of symbolic-only.",
+    "subject": "Math",
+    "topic": "Vectors",
+    "subtopic": "Linear actions on the plane",
+    "difficulty": "Intro",
+    "sequence": 77,
+    "prerequisites": [
+      "vectors-in-2d"
+    ],
+    "tags": [
+      "vectors",
+      "matrices",
+      "linear transformations",
+      "shear",
+      "reflection"
+    ],
+    "related": [
+      "vectors-in-2d",
+      "dot-product-angle-and-projection",
+      "graph-transformations",
+      "complex-numbers-on-the-plane"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "dot-product-angle-and-projection",
+        "reasonLabel": "Keep the vectors branch moving into alignment and projection"
+      },
+      {
+        "slug": "complex-numbers-on-the-plane",
+        "reasonLabel": "Reuse the same plane for scale-and-turn actions on complex numbers"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 26,
+    "accent": "teal",
+    "highlights": [
+      "Columns as basis images",
+      "Grid and square move together",
+      "Stretch, shear, reflection"
+    ],
+    "simulationKind": "matrix-transformations"
+  },
+  {
+    "id": "concept-dot-product-angle-and-projection",
+    "slug": "dot-product-angle-and-projection",
+    "contentFile": "dot-product-angle-and-projection",
+    "title": "Dot Product / Angle and Projection",
+    "shortTitle": "Dot product",
+    "summary": "Keep two vectors, their angle, the signed projection of one onto the other, and the dot product visible together so alignment reads geometrically instead of as memorized cases.",
+    "subject": "Math",
+    "topic": "Vectors",
+    "subtopic": "Alignment and projection",
+    "difficulty": "Intro",
+    "sequence": 78,
+    "prerequisites": [
+      "vectors-in-2d"
+    ],
+    "tags": [
+      "vectors",
+      "dot product",
+      "projection",
+      "orthogonal vectors",
+      "angle"
+    ],
+    "related": [
+      "vectors-in-2d",
+      "matrix-transformations",
+      "vectors-components",
+      "projectile-motion"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "vectors-components",
+        "reasonLabel": "Carry projection language into motion components"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 22,
+    "accent": "amber",
+    "highlights": [
+      "Positive, zero, and negative alignment",
+      "Orthogonality",
+      "Projection onto a vector"
+    ],
+    "simulationKind": "dot-product-projection"
+  },
+  {
+    "id": "concept-complex-numbers-on-the-plane",
+    "slug": "complex-numbers-on-the-plane",
+    "contentFile": "complex-numbers-on-the-plane",
+    "title": "Complex Numbers on the Plane",
+    "shortTitle": "Complex numbers",
+    "summary": "Read complex numbers as points and vectors on one plane, then keep addition and multiplication geometric instead of symbolic-only.",
+    "subject": "Math",
+    "topic": "Complex Numbers and Parametric Motion",
+    "subtopic": "Complex plane geometry",
+    "difficulty": "Intro",
+    "sequence": 78,
+    "tags": [
+      "complex numbers",
+      "complex plane",
+      "real part",
+      "imaginary part",
+      "magnitude and argument"
+    ],
+    "related": [
+      "vectors-in-2d",
+      "matrix-transformations",
+      "unit-circle-sine-cosine-from-rotation",
+      "polar-coordinates-radius-and-angle",
+      "trig-identities-from-unit-circle-geometry",
+      "inverse-trig-angle-from-ratio",
+      "graph-transformations"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "unit-circle-sine-cosine-from-rotation",
+        "reasonLabel": "Turn the same plane into sine and cosine projections from rotation"
+      },
+      {
+        "slug": "polar-coordinates-radius-and-angle",
+        "reasonLabel": "Reuse magnitude and angle as one live radius-angle point on the same plane"
+      },
+      {
+        "slug": "trig-identities-from-unit-circle-geometry",
+        "reasonLabel": "Use the same plane and unit-circle point to justify the core trig identities geometrically"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "sky",
+    "highlights": [
+      "Real and imaginary parts",
+      "Magnitude and argument",
+      "Addition as vectors",
+      "Multiplication as scale and turn"
+    ],
+    "simulationKind": "complex-numbers-plane"
+  },
+  {
+    "id": "concept-unit-circle-sine-cosine-from-rotation",
+    "slug": "unit-circle-sine-cosine-from-rotation",
+    "contentFile": "unit-circle-sine-cosine-from-rotation",
+    "title": "Unit Circle / Sine and Cosine from Rotation",
+    "shortTitle": "Unit circle rotation",
+    "summary": "Keep one rotating point, its x and y projections, and the sine-cosine traces linked so the unit circle becomes the live source of both functions.",
+    "subject": "Math",
+    "topic": "Complex Numbers and Parametric Motion",
+    "subtopic": "Rotation and projections",
+    "difficulty": "Intro",
+    "sequence": 79,
+    "prerequisites": [
+      "complex-numbers-on-the-plane"
+    ],
+    "tags": [
+      "unit circle",
+      "sine",
+      "cosine",
+      "rotation",
+      "trigonometry"
+    ],
+    "related": [
+      "complex-numbers-on-the-plane",
+      "polar-coordinates-radius-and-angle",
+      "trig-identities-from-unit-circle-geometry",
+      "inverse-trig-angle-from-ratio",
+      "parametric-curves-motion-from-equations",
+      "uniform-circular-motion",
+      "simple-harmonic-motion"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "polar-coordinates-radius-and-angle",
+        "reasonLabel": "Keep the same angle language while radius turns into x and y on the plane"
+      },
+      {
+        "slug": "trig-identities-from-unit-circle-geometry",
+        "reasonLabel": "Use the same projections to justify why the core trig identities stay true for every live angle"
+      },
+      {
+        "slug": "uniform-circular-motion",
+        "reasonLabel": "See the same projection story inside a physics rotation bench"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 20,
+    "accent": "teal",
+    "highlights": [
+      "cosine as x",
+      "sine as y",
+      "Quadrant sign changes",
+      "Rotation linked to traces"
+    ],
+    "simulationKind": "unit-circle-rotation"
+  },
+  {
+    "id": "concept-polar-coordinates-radius-and-angle",
+    "slug": "polar-coordinates-radius-and-angle",
+    "contentFile": "polar-coordinates-radius-and-angle",
+    "title": "Polar Coordinates / Radius and Angle",
+    "shortTitle": "Polar coordinates",
+    "summary": "Keep one point visible in polar and Cartesian views at the same time so radius and angle turn directly into x and y on the plane.",
+    "subject": "Math",
+    "topic": "Complex Numbers and Parametric Motion",
+    "subtopic": "Radius-angle coordinates",
+    "difficulty": "Intro",
+    "sequence": 79,
+    "prerequisites": [
+      "complex-numbers-on-the-plane",
+      "unit-circle-sine-cosine-from-rotation"
+    ],
+    "tags": [
+      "polar coordinates",
+      "radius and angle",
+      "cartesian conversion",
+      "theta",
+      "math"
+    ],
+    "related": [
+      "complex-numbers-on-the-plane",
+      "unit-circle-sine-cosine-from-rotation",
+      "trig-identities-from-unit-circle-geometry",
+      "inverse-trig-angle-from-ratio",
+      "parametric-curves-motion-from-equations",
+      "vectors-in-2d"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "trig-identities-from-unit-circle-geometry",
+        "reasonLabel": "Use the same x-y geometry on the unit circle to justify the core identities before the branch turns into motion"
+      },
+      {
+        "slug": "inverse-trig-angle-from-ratio",
+        "reasonLabel": "Keep the same radius-angle point while ratio recovery and quadrant checks stay on the same plane"
+      },
+      {
+        "slug": "unit-circle-sine-cosine-from-rotation",
+        "reasonLabel": "Reconnect theta to the unit-circle point that produces cosine and sine on the same plane"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 22,
+    "accent": "amber",
+    "highlights": [
+      "Radius and angle on one plane",
+      "x = r cos(theta)",
+      "y = r sin(theta)",
+      "Quadrant sign logic"
+    ],
+    "simulationKind": "polar-coordinates"
+  },
+  {
+    "id": "concept-trig-identities-from-unit-circle-geometry",
+    "slug": "trig-identities-from-unit-circle-geometry",
+    "contentFile": "trig-identities-from-unit-circle-geometry",
+    "title": "Trig Identities from Unit-Circle Geometry",
+    "shortTitle": "Trig identities",
+    "summary": "Keep one rotating point and its projections visible so the core trig identities stay tied to geometry instead of detached symbol rules.",
+    "subject": "Math",
+    "topic": "Complex Numbers and Parametric Motion",
+    "subtopic": "Trig geometry on the plane",
+    "difficulty": "Intermediate",
+    "sequence": 80,
+    "prerequisites": [
+      "unit-circle-sine-cosine-from-rotation",
+      "polar-coordinates-radius-and-angle"
+    ],
+    "tags": [
+      "trigonometry",
+      "trig identities",
+      "unit circle",
+      "pythagorean identity",
+      "geometry"
+    ],
+    "related": [
+      "unit-circle-sine-cosine-from-rotation",
+      "polar-coordinates-radius-and-angle",
+      "inverse-trig-angle-from-ratio",
+      "derivative-as-slope-local-rate-of-change",
+      "simple-harmonic-motion"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "inverse-trig-angle-from-ratio",
+        "reasonLabel": "Use the same plane to recover full angles from ratios without dropping the quadrant"
+      },
+      {
+        "slug": "parametric-curves-motion-from-equations",
+        "reasonLabel": "Carry the same trig pair into motion traced from x(t) and y(t)"
+      },
+      {
+        "slug": "derivative-as-slope-local-rate-of-change",
+        "reasonLabel": "Reuse the same trig relationships when the math branch turns back toward local rate of change"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 24,
+    "accent": "coral",
+    "highlights": [
+      "cos^2 + sin^2 = 1",
+      "Complementary-angle swap",
+      "Signs can change while the identity stays fixed",
+      "Geometry before symbolism"
+    ],
+    "simulationKind": "unit-circle-rotation"
+  },
+  {
+    "id": "concept-inverse-trig-angle-from-ratio",
+    "slug": "inverse-trig-angle-from-ratio",
+    "contentFile": "inverse-trig-angle-from-ratio",
+    "title": "Inverse Trig / Angle from Ratio",
+    "shortTitle": "Inverse trig",
+    "summary": "Keep one polar point and its coordinate signs visible so inverse trig becomes angle-from-ratio reasoning with quadrant checks instead of a calculator-only output.",
+    "subject": "Math",
+    "topic": "Complex Numbers and Parametric Motion",
+    "subtopic": "Angle recovery from x and y",
+    "difficulty": "Intermediate",
+    "sequence": 81,
+    "prerequisites": [
+      "polar-coordinates-radius-and-angle",
+      "trig-identities-from-unit-circle-geometry"
+    ],
+    "tags": [
+      "inverse trig",
+      "arctan",
+      "quadrants",
+      "ratios",
+      "polar coordinates"
+    ],
+    "related": [
+      "polar-coordinates-radius-and-angle",
+      "trig-identities-from-unit-circle-geometry",
+      "unit-circle-sine-cosine-from-rotation",
+      "dot-product-angle-and-projection",
+      "complex-numbers-on-the-plane"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "parametric-curves-motion-from-equations",
+        "reasonLabel": "Carry the same angle-reading habits into a moving point traced from x(t) and y(t)"
+      },
+      {
+        "slug": "dot-product-angle-and-projection",
+        "reasonLabel": "Reuse angle recovery and projection reasoning on the vectors branch"
+      },
+      {
+        "slug": "polar-coordinates-radius-and-angle",
+        "reasonLabel": "Return to the same radius-angle bench when you need the x-y conversion geometry again"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 24,
+    "accent": "amber",
+    "highlights": [
+      "tan(theta) as y/x",
+      "Principal-angle output",
+      "Quadrant correction",
+      "atan2 as the geometry-safe recovery"
+    ],
+    "simulationKind": "polar-coordinates"
+  },
+  {
+    "id": "concept-parametric-curves-motion-from-equations",
+    "slug": "parametric-curves-motion-from-equations",
+    "contentFile": "parametric-curves-motion-from-equations",
+    "title": "Parametric Curves / Motion from Equations",
+    "shortTitle": "Parametric curves",
+    "summary": "Keep x(t), y(t), the traced path, and the moving point visible together so shape and traversal stay distinct.",
+    "subject": "Math",
+    "topic": "Complex Numbers and Parametric Motion",
+    "subtopic": "Plane motion from equations",
+    "difficulty": "Intro",
+    "sequence": 79,
+    "tags": [
+      "parametric curves",
+      "x of t",
+      "y of t",
+      "lissajous curves",
+      "motion from equations"
+    ],
+    "related": [
+      "complex-numbers-on-the-plane",
+      "unit-circle-sine-cosine-from-rotation",
+      "polar-coordinates-radius-and-angle",
+      "trig-identities-from-unit-circle-geometry",
+      "inverse-trig-angle-from-ratio",
+      "vectors-in-2d",
+      "projectile-motion"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "vectors-in-2d",
+        "reasonLabel": "Carry the same plane language into vectors and direction"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "teal",
+    "highlights": [
+      "x(t) and y(t) together",
+      "Path vs traversal",
+      "Moving point on a curve"
+    ],
+    "simulationKind": "parametric-curves-motion"
+  },
+  {
+    "id": "concept-reaction-rate-collision-theory",
+    "slug": "reaction-rate-collision-theory",
+    "contentFile": "reaction-rate-collision-theory",
+    "title": "Reaction Rate / Collision Theory",
+    "shortTitle": "Reaction rate",
+    "summary": "Keep one chemistry box visible so temperature, concentration, activation threshold, and catalysts can be read as changes in successful collisions instead of chemistry slogans.",
+    "subject": "Chemistry",
+    "topic": "Rates and Equilibrium",
+    "subtopic": "Collision theory",
+    "difficulty": "Intro",
+    "sequence": 80,
+    "tags": [
+      "chemistry",
+      "reaction rate",
+      "collision theory",
+      "activation energy",
+      "catalyst"
+    ],
+    "related": [
+      "dynamic-equilibrium-le-chateliers-principle",
+      "temperature-and-internal-energy",
+      "ideal-gas-law-and-kinetic-theory"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "dynamic-equilibrium-le-chateliers-principle",
+        "reasonLabel": "Carry the collision story into a reversible system that re-balances"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "coral",
+    "highlights": [
+      "Successful collisions",
+      "Temperature vs concentration",
+      "Activation threshold"
+    ],
+    "simulationKind": "reaction-rate-collision-theory"
+  },
+  {
+    "id": "concept-dynamic-equilibrium-le-chateliers-principle",
+    "slug": "dynamic-equilibrium-le-chateliers-principle",
+    "contentFile": "dynamic-equilibrium-le-chateliers-principle",
+    "title": "Dynamic Equilibrium / Le Chatelier's Principle",
+    "shortTitle": "Dynamic equilibrium",
+    "summary": "Watch a reversible chemistry bench keep changing microscopically while the mixture settles toward a new balance after each disturbance.",
+    "subject": "Chemistry",
+    "topic": "Rates and Equilibrium",
+    "subtopic": "Equilibrium shifts",
+    "difficulty": "Intro",
+    "sequence": 82,
+    "tags": [
+      "chemistry",
+      "equilibrium",
+      "Le Chatelier principle",
+      "forward and reverse reaction",
+      "dynamic equilibrium"
+    ],
+    "prerequisites": [
+      "reaction-rate-collision-theory"
+    ],
+    "related": [
+      "reaction-rate-collision-theory",
+      "temperature-and-internal-energy",
+      "ideal-gas-law-and-kinetic-theory"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "ideal-gas-law-and-kinetic-theory",
+        "reasonLabel": "Reuse the particle-collision picture in a thermodynamics bench"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "teal",
+    "highlights": [
+      "Dynamic not static",
+      "Forward vs reverse balance",
+      "Shift to a new equilibrium"
+    ],
+    "simulationKind": "dynamic-equilibrium"
+  },
+  {
+    "id": "concept-concentration-and-dilution",
+    "slug": "concentration-and-dilution",
+    "contentFile": "concentration-and-dilution",
+    "title": "Concentration and Dilution",
+    "shortTitle": "Concentration",
+    "summary": "Use one beaker to separate how concentration changes when you add solvent from how it changes when you add more solute.",
+    "subject": "Chemistry",
+    "topic": "Solutions and pH",
+    "subtopic": "How crowded the solution is",
+    "difficulty": "Intro",
+    "sequence": 86,
+    "tags": [
+      "chemistry",
+      "concentration",
+      "dilution",
+      "solutions",
+      "solute and solvent"
+    ],
+    "related": [
+      "solubility-and-saturation",
+      "acid-base-ph-intuition",
+      "reaction-rate-collision-theory",
+      "ideal-gas-law-and-kinetic-theory"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "solubility-and-saturation",
+        "reasonLabel": "Carry the same beaker story into dissolving limits and visible saturation"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 22,
+    "accent": "sky",
+    "highlights": [
+      "Amount in volume",
+      "Dilution without losing solute",
+      "Crowded vs sparse particle view"
+    ],
+    "simulationKind": "concentration-dilution"
+  },
+  {
+    "id": "concept-solubility-and-saturation",
+    "slug": "solubility-and-saturation",
+    "contentFile": "solubility-and-saturation",
+    "title": "Solubility and Saturation",
+    "shortTitle": "Solubility",
+    "summary": "Keep dissolved amount, excess solid, and current capacity in one beaker so saturation reads like a visible limit instead of a slogan.",
+    "subject": "Chemistry",
+    "topic": "Solutions and pH",
+    "subtopic": "Dissolving limits",
+    "difficulty": "Intro",
+    "sequence": 87,
+    "tags": [
+      "chemistry",
+      "solubility",
+      "saturation",
+      "solutions",
+      "dissolving limit"
+    ],
+    "prerequisites": [
+      "concentration-and-dilution"
+    ],
+    "related": [
+      "concentration-and-dilution",
+      "acid-base-ph-intuition",
+      "reaction-rate-collision-theory"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "acid-base-ph-intuition",
+        "reasonLabel": "Carry the same beaker language into acid-base balance and pH"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 24,
+    "accent": "amber",
+    "highlights": [
+      "Dissolve up to a limit",
+      "Excess solid stays visible",
+      "Capacity vs concentration"
+    ],
+    "simulationKind": "solubility-saturation"
+  },
+  {
+    "id": "concept-acid-base-ph-intuition",
+    "slug": "acid-base-ph-intuition",
+    "contentFile": "acid-base-ph-intuition",
+    "title": "Acid-Base / pH Intuition",
+    "shortTitle": "pH intuition",
+    "summary": "Keep acid amount, base amount, water, and the pH strip visible together so acidity and basicity stay intuitive rather than memorized.",
+    "subject": "Chemistry",
+    "topic": "Solutions and pH",
+    "subtopic": "Acid-base balance",
+    "difficulty": "Intro",
+    "sequence": 88,
+    "tags": [
+      "chemistry",
+      "acid base",
+      "pH",
+      "neutralization",
+      "solutions"
+    ],
+    "prerequisites": [
+      "concentration-and-dilution"
+    ],
+    "related": [
+      "concentration-and-dilution",
+      "solubility-and-saturation",
+      "buffers-and-neutralization",
+      "dynamic-equilibrium-le-chateliers-principle",
+      "temperature-and-internal-energy"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "buffers-and-neutralization",
+        "reasonLabel": "Use the same pH bench to see why buffer reserve resists change without freezing the chemistry"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 24,
+    "accent": "coral",
+    "highlights": [
+      "pH as a live scale",
+      "Acid vs base character",
+      "Water softens the shift"
+    ],
+    "simulationKind": "acid-base-ph"
+  },
+  {
+    "id": "concept-buffers-and-neutralization",
+    "slug": "buffers-and-neutralization",
+    "contentFile": "buffers-and-neutralization",
+    "title": "Buffers and Neutralization",
+    "shortTitle": "Buffers",
+    "summary": "Keep neutralization, buffer reserve, and the pH strip visible together so steady pH does not look like unchanged chemistry.",
+    "subject": "Chemistry",
+    "topic": "Solutions and pH",
+    "subtopic": "Buffer reserve and neutralization",
+    "difficulty": "Intro",
+    "sequence": 89,
+    "tags": [
+      "chemistry",
+      "buffers",
+      "neutralization",
+      "pH",
+      "solutions"
+    ],
+    "prerequisites": [
+      "acid-base-ph-intuition"
+    ],
+    "related": [
+      "acid-base-ph-intuition",
+      "concentration-and-dilution",
+      "dynamic-equilibrium-le-chateliers-principle"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "dynamic-equilibrium-le-chateliers-principle",
+        "reasonLabel": "Carry the idea of resisting change into a reversible system that shifts to a new balance"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 25,
+    "accent": "teal",
+    "highlights": [
+      "Neutralization vs dilution",
+      "Buffer reserve",
+      "Stable pH still changing"
+    ],
+    "simulationKind": "buffers-neutralization"
+  },
+  {
+    "id": "concept-stoichiometric-ratios-and-recipe-batches",
+    "slug": "stoichiometric-ratios-and-recipe-batches",
+    "contentFile": "stoichiometric-ratios-and-recipe-batches",
+    "title": "Stoichiometric Ratios and Recipe Batches",
+    "shortTitle": "Recipe ratios",
+    "summary": "Keep one reaction recipe visible so stoichiometric ratios read as complete batches, not detached worksheet proportions.",
+    "subject": "Chemistry",
+    "topic": "Stoichiometry and Yield",
+    "subtopic": "Recipe batches",
+    "difficulty": "Intro",
+    "sequence": 83,
+    "tags": [
+      "chemistry",
+      "stoichiometry",
+      "reaction recipe",
+      "mole ratio",
+      "limiting reagent"
+    ],
+    "related": [
+      "limiting-reagent-and-leftover-reactants",
+      "percent-yield-and-reaction-extent",
+      "reaction-rate-collision-theory",
+      "concentration-and-dilution"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "limiting-reagent-and-leftover-reactants",
+        "reasonLabel": "Find the limiting side"
+      },
+      {
+        "slug": "percent-yield-and-reaction-extent",
+        "reasonLabel": "Compare actual vs theoretical"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 24,
+    "accent": "amber",
+    "highlights": [
+      "Recipe batches",
+      "Matched ratios",
+      "Complete output only"
+    ],
+    "simulationKind": "stoichiometry-recipe"
+  },
+  {
+    "id": "concept-limiting-reagent-and-leftover-reactants",
+    "slug": "limiting-reagent-and-leftover-reactants",
+    "contentFile": "limiting-reagent-and-leftover-reactants",
+    "title": "Limiting Reagent and Leftover Reactants",
+    "shortTitle": "Limiting reagent",
+    "summary": "Use one recipe bench to see which reactant caps the output first and why the other reactant can remain in excess.",
+    "subject": "Chemistry",
+    "topic": "Stoichiometry and Yield",
+    "subtopic": "Limiting and excess reactants",
+    "difficulty": "Intro",
+    "sequence": 84,
+    "prerequisites": [
+      "stoichiometric-ratios-and-recipe-batches"
+    ],
+    "tags": [
+      "chemistry",
+      "stoichiometry",
+      "limiting reagent",
+      "excess reactant",
+      "theoretical yield"
+    ],
+    "related": [
+      "stoichiometric-ratios-and-recipe-batches",
+      "percent-yield-and-reaction-extent",
+      "concentration-and-dilution",
+      "reaction-rate-collision-theory"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "percent-yield-and-reaction-extent",
+        "reasonLabel": "Lower the actual output"
+      },
+      {
+        "slug": "concentration-and-dilution",
+        "reasonLabel": "Carry amount bookkeeping into solutions"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 24,
+    "accent": "coral",
+    "highlights": [
+      "Lower batch cap",
+      "Excess reactant",
+      "Leftover packets"
+    ],
+    "simulationKind": "stoichiometry-recipe"
+  },
+  {
+    "id": "concept-percent-yield-and-reaction-extent",
+    "slug": "percent-yield-and-reaction-extent",
+    "contentFile": "percent-yield-and-reaction-extent",
+    "title": "Percent Yield and Reaction Extent",
+    "shortTitle": "Percent yield",
+    "summary": "Compare actual output with the same theoretical recipe cap so percent yield stays visual and honest on one shared bench.",
+    "subject": "Chemistry",
+    "topic": "Stoichiometry and Yield",
+    "subtopic": "Actual vs theoretical output",
+    "difficulty": "Intro",
+    "sequence": 85,
+    "prerequisites": [
+      "limiting-reagent-and-leftover-reactants"
+    ],
+    "tags": [
+      "chemistry",
+      "percent yield",
+      "reaction extent",
+      "theoretical yield",
+      "stoichiometry"
+    ],
+    "related": [
+      "stoichiometric-ratios-and-recipe-batches",
+      "limiting-reagent-and-leftover-reactants",
+      "concentration-and-dilution",
+      "solubility-and-saturation"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "concentration-and-dilution",
+        "reasonLabel": "Carry quantity bookkeeping into solutions"
+      },
+      {
+        "slug": "solubility-and-saturation",
+        "reasonLabel": "Keep the output-cap idea in a beaker"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 24,
+    "accent": "teal",
+    "highlights": [
+      "Theoretical marker",
+      "Actual output",
+      "Yield gap"
+    ],
+    "simulationKind": "stoichiometry-recipe"
+  },
+  {
+    "id": "concept-sorting-and-algorithmic-trade-offs",
+    "slug": "sorting-and-algorithmic-trade-offs",
+    "aliases": [
+      "sorting-tradeoffs"
+    ],
+    "contentFile": "sorting-and-algorithmic-trade-offs",
+    "title": "Sorting and Algorithmic Trade-offs",
+    "shortTitle": "Sorting trade-offs",
+    "summary": "Watch sorting as visible work on a live list so input order, comparisons, and writes stay concrete instead of collapsing into one final answer.",
+    "subject": "Computer Science",
+    "topic": "Algorithms and Search",
+    "subtopic": "Sorting as visible work",
+    "difficulty": "Intro",
+    "sequence": 88,
+    "tags": [
+      "computer science",
+      "sorting",
+      "algorithms",
+      "bubble sort",
+      "binary search"
+    ],
+    "related": [
+      "binary-search-halving-the-search-space",
+      "graph-representation-and-adjacency-intuition",
+      "graph-transformations"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "binary-search-halving-the-search-space",
+        "reasonLabel": "Reuse the same list language to understand ordered search"
+      },
+      {
+        "slug": "graph-representation-and-adjacency-intuition",
+        "reasonLabel": "Carry visible search work into one shared graph bench"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 24,
+    "accent": "amber",
+    "highlights": [
+      "Sorting as a process",
+      "Comparisons and writes",
+      "Input order matters"
+    ],
+    "simulationKind": "sorting-algorithmic-trade-offs"
+  },
+  {
+    "id": "concept-binary-search-halving-the-search-space",
+    "slug": "binary-search-halving-the-search-space",
+    "aliases": [
+      "binary-search"
+    ],
+    "contentFile": "binary-search-halving-the-search-space",
+    "title": "Binary Search / Halving the Search Space",
+    "shortTitle": "Binary search",
+    "summary": "Keep an ordered list, the low-mid-high markers, and the shrinking interval visible together so binary search feels visual instead of procedural.",
+    "subject": "Computer Science",
+    "topic": "Algorithms and Search",
+    "subtopic": "Halving an ordered interval",
+    "difficulty": "Intro",
+    "sequence": 90,
+    "tags": [
+      "computer science",
+      "binary search",
+      "algorithms",
+      "ordered data",
+      "search"
+    ],
+    "prerequisites": [
+      "sorting-and-algorithmic-trade-offs"
+    ],
+    "related": [
+      "sorting-and-algorithmic-trade-offs",
+      "graph-representation-and-adjacency-intuition",
+      "complex-numbers-on-the-plane"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "graph-representation-and-adjacency-intuition",
+        "reasonLabel": "Move from ordered intervals into graph neighborhoods and live frontiers"
+      },
+      {
+        "slug": "sorting-and-algorithmic-trade-offs",
+        "reasonLabel": "Return to the same list bench and compare search with sorting cost"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 22,
+    "accent": "sky",
+    "highlights": [
+      "Ordered data matters",
+      "Low mid high",
+      "Halving the interval"
+    ],
+    "simulationKind": "binary-search-halving"
+  },
+  {
+    "id": "concept-graph-representation-and-adjacency-intuition",
+    "slug": "graph-representation-and-adjacency-intuition",
+    "contentFile": "graph-representation-and-adjacency-intuition",
+    "title": "Graph Representation and Adjacency Intuition",
+    "shortTitle": "Graph adjacency",
+    "summary": "Keep one live graph, one local neighborhood, and one frontier cue visible together so graph structure feels readable before traversal rules get formal.",
+    "subject": "Computer Science",
+    "topic": "Algorithms and Search",
+    "subtopic": "Graph neighborhoods and adjacency",
+    "difficulty": "Intro",
+    "sequence": 91,
+    "tags": [
+      "computer science",
+      "graphs",
+      "adjacency",
+      "graph traversal",
+      "frontier"
+    ],
+    "prerequisites": [
+      "binary-search-halving-the-search-space"
+    ],
+    "related": [
+      "binary-search-halving-the-search-space",
+      "breadth-first-search-and-layered-frontiers",
+      "depth-first-search-and-backtracking-paths",
+      "frontier-and-visited-state-on-graphs"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "breadth-first-search-and-layered-frontiers",
+        "reasonLabel": "Turn local adjacency into a layered search"
+      },
+      {
+        "slug": "depth-first-search-and-backtracking-paths",
+        "reasonLabel": "Compare the same graph under a branch-first frontier"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 22,
+    "accent": "teal",
+    "highlights": [
+      "Local neighbors",
+      "First frontier",
+      "One live graph bench"
+    ],
+    "simulationKind": "graph-traversal"
+  },
+  {
+    "id": "concept-breadth-first-search-and-layered-frontiers",
+    "slug": "breadth-first-search-and-layered-frontiers",
+    "contentFile": "breadth-first-search-and-layered-frontiers",
+    "title": "Breadth-First Search and Layered Frontiers",
+    "shortTitle": "BFS",
+    "summary": "Keep the queue frontier, visited count, and graph layers visible together so breadth-first search reads as a layered process instead of a procedure list.",
+    "subject": "Computer Science",
+    "topic": "Algorithms and Search",
+    "subtopic": "Layered frontier search",
+    "difficulty": "Intro",
+    "sequence": 92,
+    "tags": [
+      "computer science",
+      "breadth-first search",
+      "BFS",
+      "graph traversal",
+      "queue frontier"
+    ],
+    "prerequisites": [
+      "graph-representation-and-adjacency-intuition"
+    ],
+    "related": [
+      "graph-representation-and-adjacency-intuition",
+      "depth-first-search-and-backtracking-paths",
+      "frontier-and-visited-state-on-graphs",
+      "binary-search-halving-the-search-space"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "depth-first-search-and-backtracking-paths",
+        "reasonLabel": "Compare a branch-first frontier on the same graph"
+      },
+      {
+        "slug": "frontier-and-visited-state-on-graphs",
+        "reasonLabel": "See how cycles and repeat skips change the bookkeeping"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 24,
+    "accent": "sky",
+    "highlights": [
+      "Queue frontier",
+      "Layered search",
+      "Fewest-edge distance"
+    ],
+    "simulationKind": "graph-traversal"
+  },
+  {
+    "id": "concept-depth-first-search-and-backtracking-paths",
+    "slug": "depth-first-search-and-backtracking-paths",
+    "contentFile": "depth-first-search-and-backtracking-paths",
+    "title": "Depth-First Search and Backtracking Paths",
+    "shortTitle": "DFS",
+    "summary": "Keep the stack frontier, current depth, and branch order visible together so depth-first search feels like disciplined backtracking instead of random wandering.",
+    "subject": "Computer Science",
+    "topic": "Algorithms and Search",
+    "subtopic": "Branch-first search",
+    "difficulty": "Intro",
+    "sequence": 93,
+    "tags": [
+      "computer science",
+      "depth-first search",
+      "DFS",
+      "graph traversal",
+      "backtracking"
+    ],
+    "prerequisites": [
+      "graph-representation-and-adjacency-intuition"
+    ],
+    "related": [
+      "graph-representation-and-adjacency-intuition",
+      "breadth-first-search-and-layered-frontiers",
+      "frontier-and-visited-state-on-graphs",
+      "binary-search-halving-the-search-space"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "frontier-and-visited-state-on-graphs",
+        "reasonLabel": "See why branch-first search still needs clean cycle bookkeeping"
+      },
+      {
+        "slug": "breadth-first-search-and-layered-frontiers",
+        "reasonLabel": "Return to the queue-based contrast on the same graph"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 24,
+    "accent": "coral",
+    "highlights": [
+      "Stack frontier",
+      "Branch-first depth",
+      "Backtracking"
+    ],
+    "simulationKind": "graph-traversal"
+  },
+  {
+    "id": "concept-frontier-and-visited-state-on-graphs",
+    "slug": "frontier-and-visited-state-on-graphs",
+    "contentFile": "frontier-and-visited-state-on-graphs",
+    "title": "Frontier and Visited State on Graphs",
+    "shortTitle": "Frontier and visited",
+    "summary": "Use one cyclic graph to see which nodes are waiting, which are finished, and why repeat edges are skipped instead of reopening loops.",
+    "subject": "Computer Science",
+    "topic": "Algorithms and Search",
+    "subtopic": "Cycle control and visited state",
+    "difficulty": "Intro",
+    "sequence": 94,
+    "tags": [
+      "computer science",
+      "graph traversal",
+      "frontier",
+      "visited state",
+      "cycles"
+    ],
+    "prerequisites": [
+      "breadth-first-search-and-layered-frontiers",
+      "depth-first-search-and-backtracking-paths"
+    ],
+    "related": [
+      "graph-representation-and-adjacency-intuition",
+      "breadth-first-search-and-layered-frontiers",
+      "depth-first-search-and-backtracking-paths",
+      "sorting-and-algorithmic-trade-offs"
+    ],
+    "recommendedNext": [
+      {
+        "slug": "sorting-and-algorithmic-trade-offs",
+        "reasonLabel": "Compare graph-traversal bookkeeping with visible list work"
+      },
+      {
+        "slug": "binary-search-halving-the-search-space",
+        "reasonLabel": "Return to the ordered-search case after the graph branch"
+      }
+    ],
+    "published": true,
+    "status": "published",
+    "estimatedStudyMinutes": 22,
+    "accent": "amber",
+    "highlights": [
+      "Frontier vs visited",
+      "Repeat skips",
+      "Cycle control"
+    ],
+    "simulationKind": "graph-traversal"
+  }
+]

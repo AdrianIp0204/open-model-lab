@@ -1,0 +1,756 @@
+{
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "linked-point-view",
+        "label": "Linked point view",
+        "description": "Open one reference point with the radius sweep, angle arc, and coordinate guides all visible.",
+        "setup": {
+          "presetId": "reference-point",
+          "graphId": "coordinate-sweep",
+          "overlayIds": [
+            "coordinateGuides",
+            "angleArc",
+            "radiusSweep"
+          ],
+          "note": "Use this when r, theta, x, and y should stay tied to one point."
+        }
+      },
+      {
+        "id": "second-quadrant-bridge",
+        "label": "Second-quadrant bridge",
+        "description": "Start in Quadrant II and keep the same radius while the component signs change.",
+        "setup": {
+          "presetId": "second-quadrant",
+          "graphId": "coordinate-sweep",
+          "overlayIds": [
+            "coordinateGuides",
+            "angleArc"
+          ],
+          "note": "This makes the sign change in x and y easier to read without losing the same radius."
+        }
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Keep one point visible in polar and Cartesian views at the same time so radius and angle turn directly into x and y on the plane.",
+    "keyTakeaway": "A polar point is set by a distance r from the origin and an angle theta from the positive x-axis.",
+    "whyItMatters": "Polar coordinates are the bridge between plane geometry, complex-number rotation, and later motion curves: one distance and one angle can locate the same point without abandoning x and y."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Polar coordinates become easier to trust when the same point stays visible in both polar and Cartesian language at once. This bench keeps r, theta, x, and y tied to one live point instead of turning coordinate conversion into a detached worksheet.",
+        "Changing radius should feel like sliding the point farther from the origin along the same direction. Changing theta should feel like sweeping the same point around the plane while x and y emerge from the same geometry."
+      ]
+    },
+    "keyIdeas": [
+      "A polar point is set by a distance r from the origin and an angle theta from the positive x-axis.",
+      "The same point has Cartesian coordinates x = r cos theta and y = r sin theta.",
+      "Keeping radius fixed sweeps the point around a circle, while changing radius scales both coordinates together along one direction."
+    ],
+    "commonMisconception": {
+      "myth": "Polar coordinates and Cartesian coordinates are two separate descriptions, so converting between them is just algebraic bookkeeping.",
+      "correction": [
+        "They are two views of the same point on the same plane.",
+        "The geometry explains the conversion: theta controls the direction, and r controls how far the point extends along that direction."
+      ]
+    },
+    "workedExamples": {
+      "title": "Worked example",
+      "intro": "Use the reference-point preset so one fixed ray, guide set, and graph reading all stay aligned.",
+      "items": [
+        {
+          "id": "read-the-current-cartesian-point",
+          "title": "Read a reference Cartesian point from r and theta",
+          "prompt": "For the reference-point preset, where does the point land in Cartesian coordinates?",
+          "variables": [
+            {
+              "id": "radius",
+              "variableId": "radius",
+              "symbol": "r",
+              "label": "Radius",
+              "valueKey": "3.2"
+            },
+            {
+              "id": "angle",
+              "variableId": "angle",
+              "symbol": "\\theta",
+              "label": "Angle",
+              "valueKey": "55",
+              "unit": "deg"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-polar-data",
+              "label": "1. Read the current polar data",
+              "template": "The reference-point preset sets $r = 3.2$ and $\\theta = 55^\\circ$."
+            },
+            {
+              "id": "resolve-components",
+              "label": "2. Use the same geometry to resolve x and y",
+              "template": "The horizontal component is $x = r\\cos\\theta = 3.2(0.57) \\approx 1.84$, and the vertical component is $y = r\\sin\\theta = 3.2(0.82) \\approx 2.62$."
+            },
+            {
+              "id": "write-point",
+              "label": "3. Write the Cartesian point",
+              "template": "So the same point lands at $(x, y) \\approx (1.84, 2.62)$ in Quadrant I."
+            }
+          ],
+          "resultLabel": "Current Cartesian point",
+          "resultTemplate": "$(x, y) \\approx (1.84, 2.62)$",
+          "interpretationTemplate": "The angle sets the quadrant and the component signs, while the radius scales both projections together along the same ray.",
+          "applyAction": {
+            "label": "Apply the linked point view",
+            "presetId": "reference-point",
+            "observationHint": "Keep the guides on so the radius ray and the Cartesian projections stay tied to the same point.",
+            "highlightedControlIds": [
+              "radius",
+              "angleDeg"
+            ],
+            "highlightedGraphIds": [
+              "coordinate-sweep"
+            ],
+            "highlightedOverlayIds": [
+              "coordinateGuides",
+              "angleArc"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Keep theta in Quadrant II, then make the point farther from the origin without changing the signs of x and y.",
+      "prediction": "Decide first whether you need to change the angle, the radius, or both.",
+      "answer": "You only need to increase the radius while keeping theta in Quadrant II.",
+      "explanation": "The quadrant and therefore the signs of x and y come from theta, while radius only scales how far the point sits from the origin along the same ray."
+    }
+  },
+  "equations": [
+    {
+      "id": "polar-to-x",
+      "latex": "x = r\\cos\\theta",
+      "label": "Horizontal component from polar data",
+      "meaning": "The x-coordinate is the radius projected onto the horizontal axis."
+    },
+    {
+      "id": "polar-to-y",
+      "latex": "y = r\\sin\\theta",
+      "label": "Vertical component from polar data",
+      "meaning": "The y-coordinate is the same radius projected onto the vertical axis."
+    },
+    {
+      "id": "cartesian-back-to-polar",
+      "latex": "r = \\sqrt{x^2 + y^2}, \\qquad \\theta = \\tan^{-1}\\!\\left(\\frac{y}{x}\\right)",
+      "label": "Recover polar information from x and y",
+      "meaning": "Distance from the origin gives r, and the direction of the point gives theta.",
+      "notes": [
+        "The quadrant still matters when you interpret the inverse tangent."
+      ]
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "radius",
+      "symbol": "r",
+      "label": "Radius",
+      "param": "radius",
+      "tone": "teal",
+      "description": "Moves the point farther from or closer to the origin along the same direction.",
+      "equationIds": [
+        "polar-to-x",
+        "polar-to-y"
+      ],
+      "graphIds": [
+        "coordinate-sweep"
+      ],
+      "overlayIds": [
+        "coordinateGuides",
+        "radiusSweep"
+      ]
+    },
+    {
+      "id": "angle",
+      "symbol": "\\theta",
+      "label": "Angle",
+      "param": "angleDeg",
+      "tone": "amber",
+      "description": "Sweeps the point around the plane and changes the signs and sizes of x and y.",
+      "equationIds": [
+        "polar-to-x",
+        "polar-to-y",
+        "cartesian-back-to-polar"
+      ],
+      "graphIds": [
+        "coordinate-sweep"
+      ],
+      "overlayIds": [
+        "coordinateGuides",
+        "angleArc",
+        "radiusSweep"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "radius": 3.2,
+      "angleDeg": 55,
+      "coordinateGuides": true,
+      "angleArc": true,
+      "radiusSweep": true
+    },
+    "ui": {
+      "initialGraphId": "coordinate-sweep",
+      "primaryGraphIds": [
+        "coordinate-sweep"
+      ],
+      "primaryControlIds": [
+        "radius",
+        "angle"
+      ],
+      "primaryPresetIds": [
+        "reference-point",
+        "second-quadrant"
+      ]
+    },
+    "controls": [
+      {
+        "id": "radius",
+        "kind": "slider",
+        "label": "Radius",
+        "param": "radius",
+        "min": 0.5,
+        "max": 5,
+        "step": 0.1,
+        "description": "Controls how far the point sits from the origin."
+      },
+      {
+        "id": "angle",
+        "kind": "slider",
+        "label": "Angle",
+        "param": "angleDeg",
+        "min": 0,
+        "max": 360,
+        "step": 5,
+        "unit": "deg",
+        "description": "Controls the direction of the point measured from the positive x-axis."
+      }
+    ],
+    "presets": [
+      {
+        "id": "reference-point",
+        "label": "Reference point",
+        "description": "A first-quadrant point with both components clearly visible.",
+        "values": {
+          "radius": 3.2,
+          "angleDeg": 55
+        }
+      },
+      {
+        "id": "second-quadrant",
+        "label": "Second quadrant",
+        "description": "A longer ray in Quadrant II makes the sign change in x and y easy to read.",
+        "values": {
+          "radius": 3.7,
+          "angleDeg": 140
+        }
+      },
+      {
+        "id": "long-shallow-ray",
+        "label": "Long shallow ray",
+        "description": "A larger radius with a small angle keeps x large while y stays positive but smaller.",
+        "values": {
+          "radius": 4.6,
+          "angleDeg": 25
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "coordinateGuides",
+        "label": "Coordinate guides",
+        "shortDescription": "Project the current point back to the x and y axes.",
+        "whatToNotice": [
+          "The horizontal and vertical projections are exactly the x and y values of the same point."
+        ],
+        "whyItMatters": "It keeps the polar ray and the Cartesian coordinates tied to one geometry instead of two separate worksheets.",
+        "relatedControls": [
+          "radius",
+          "angleDeg"
+        ],
+        "relatedGraphTabs": [
+          "coordinate-sweep"
+        ],
+        "relatedEquationVariables": [
+          "radius",
+          "angle"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "angleArc",
+        "label": "Angle arc",
+        "shortDescription": "Show the swept angle from the positive x-axis to the current ray.",
+        "whatToNotice": [
+          "The same theta that locates the point also determines which quadrant signs x and y should have."
+        ],
+        "whyItMatters": "It keeps theta geometric instead of reducing it to a formula input box.",
+        "relatedControls": [
+          "angleDeg"
+        ],
+        "relatedGraphTabs": [
+          "coordinate-sweep"
+        ],
+        "relatedEquationVariables": [
+          "angle"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "radiusSweep",
+        "label": "Radius sweep",
+        "shortDescription": "Keep the full circle for the current radius visible while theta moves around it.",
+        "whatToNotice": [
+          "Holding r fixed means the point stays on one circle while theta sweeps around it."
+        ],
+        "whyItMatters": "It makes the theta sweep visible without turning the concept into a larger polar-graphs unit.",
+        "relatedControls": [
+          "radius",
+          "angleDeg"
+        ],
+        "relatedGraphTabs": [
+          "coordinate-sweep"
+        ],
+        "relatedEquationVariables": [
+          "radius",
+          "angle"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "coordinate-sweep",
+      "label": "x and y vs angle",
+      "xLabel": "theta (deg)",
+      "yLabel": "coordinate value",
+      "series": [
+        "x-coordinate",
+        "y-coordinate"
+      ],
+      "description": "Sweep theta from 0 to 360 degrees at the current radius so x and y can be read as linked responses from the same geometry."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Keep the ray, the guides, and the coordinate sweep visible together.",
+    "items": [
+      {
+        "id": "polar-notice-quadrant-signs",
+        "text": "Changing theta changes the signs of x and y because the ray crosses into different quadrants, not because the formulas became new formulas.",
+        "type": "observation",
+        "relatedControls": [
+          "angleDeg"
+        ],
+        "relatedGraphTabs": [
+          "coordinate-sweep"
+        ],
+        "relatedOverlays": [
+          "coordinateGuides",
+          "angleArc"
+        ],
+        "relatedEquationVariables": [
+          "angle"
+        ]
+      },
+      {
+        "id": "polar-notice-radius-scaling",
+        "text": "Increasing r stretches both x and y together along the same direction, so the point keeps its angle while moving farther from the origin.",
+        "type": "graph-reading",
+        "relatedControls": [
+          "radius"
+        ],
+        "relatedGraphTabs": [
+          "coordinate-sweep"
+        ],
+        "relatedOverlays": [
+          "coordinateGuides",
+          "radiusSweep"
+        ],
+        "relatedEquationVariables": [
+          "radius"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Predict",
+    "intro": "Predict the sign pattern before you apply the new polar state.",
+    "items": [
+      {
+        "id": "polar-predict-second-quadrant",
+        "prompt": "If theta moves into Quadrant II while the radius stays fixed, what should happen to x and y?",
+        "scenarioLabel": "Move the point into Quadrant II",
+        "choices": [
+          {
+            "id": "a",
+            "label": "x should be negative while y stays positive."
+          },
+          {
+            "id": "b",
+            "label": "Both x and y should be negative."
+          },
+          {
+            "id": "c",
+            "label": "x should stay positive while y becomes negative."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Quadrant II is left of the y-axis but above the x-axis, so the horizontal component is negative while the vertical component stays positive.",
+        "observationHint": "Watch the same ray cross left of the y-axis while the coordinate guides stay on.",
+        "apply": {
+          "presetId": "second-quadrant"
+        },
+        "highlightedControls": [
+          "angleDeg"
+        ],
+        "highlightedGraphs": [
+          "coordinate-sweep"
+        ],
+        "highlightedOverlays": [
+          "coordinateGuides",
+          "angleArc"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the radius ray, the coordinate guides, and the x-y sweep together. This checkpoint is about reading one point in both polar and Cartesian language without leaving the bench.",
+    "items": [
+      {
+        "id": "polar-ch-second-quadrant-xy-bridge",
+        "title": "Radius-angle to x-y checkpoint",
+        "style": "parameter-match",
+        "prompt": "Build a point in Quadrant II where the leftward x projection is noticeably larger in magnitude than the upward y projection. Keep the coordinate guides on so $r$, $\\theta$, $x$, and $y$ stay tied to the same point.",
+        "successMessage": "You matched one polar point by reasoning through its Cartesian shadows instead of treating conversion as separate algebra. The ray and the axis projections now tell the same story.",
+        "setup": {
+          "presetId": "second-quadrant",
+          "note": "Use the live x and y readouts to check that the horizontal projection is more extreme than the vertical one."
+        },
+        "requirements": {
+          "graphId": "coordinate-sweep",
+          "overlayIds": [
+            "coordinateGuides",
+            "angleArc",
+            "radiusSweep"
+          ]
+        },
+        "hints": [
+          "Quadrant II means $x$ must be negative while $y$ stays positive.",
+          "To make $|x|$ larger than $y$, keep the angle closer to $180^\\circ$ than to $90^\\circ$."
+        ],
+        "targets": [
+          {
+            "param": "radius",
+            "label": "Keep the radius near $3.7$ so the point stays on the longer second-quadrant ray.",
+            "min": 3.55,
+            "max": 3.85
+          },
+          {
+            "param": "angleDeg",
+            "label": "Set the angle between $136^\\circ$ and $144^\\circ$ so the point stays in Quadrant II with a larger-magnitude x projection.",
+            "min": 136,
+            "max": 144,
+            "displayUnit": "deg"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live point, the guides, and the coordinate sweep.",
+    "questions": [
+      {
+        "id": "polar-qt-cartesian-link",
+        "type": "misconception-check",
+        "prompt": "Which statement is correct for the current polar point?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "x comes from r cos theta and y comes from r sin theta for the same point."
+          },
+          {
+            "id": "b",
+            "label": "x and y are separate from the polar point, so they must be solved on a different graph."
+          },
+          {
+            "id": "c",
+            "label": "The angle sets x only, and the radius sets y only."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The polar and Cartesian descriptions are two views of the same point, so both coordinates come from the same radius and angle.",
+        "showMeAction": {
+          "label": "Show the linked point view",
+          "presetId": "reference-point",
+          "observationHint": "The coordinate guides show exactly where x and y come from on the same ray.",
+          "highlightedControlIds": [
+            "radius",
+            "angleDeg"
+          ],
+          "highlightedGraphIds": [
+            "coordinate-sweep"
+          ],
+          "highlightedOverlayIds": [
+            "coordinateGuides",
+            "angleArc"
+          ]
+        }
+      },
+      {
+        "id": "polar-qt-radius-effect",
+        "type": "variable-effect",
+        "prompt": "If the radius increases while theta stays fixed, what should stay the same?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The point should keep the same direction and quadrant."
+          },
+          {
+            "id": "b",
+            "label": "The point should always move into a new quadrant."
+          },
+          {
+            "id": "c",
+            "label": "The x-coordinate should stay identical while only y changes."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Changing radius scales the point along the same ray, so theta and the quadrant stay fixed while the distance from the origin changes."
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one Cartesian plane with a point, a radius ray, an optional angle arc, dashed coordinate guides to the axes, and readout cards that report both polar and Cartesian values for the same point."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "One graph shows x and y changing together as theta sweeps from 0 to 360 degrees at the current radius."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Polar Coordinates / Radius and Angle",
+    "description": "See one point in polar and Cartesian views at the same time, with live radius and angle controls that show how x and y emerge from the same geometry.",
+    "keywords": [
+      "polar coordinates",
+      "radius and angle",
+      "x equals r cos theta",
+      "y equals r sin theta",
+      "math"
+    ]
+  },
+  "v2": {
+    "intuition": "Polar coordinates locate a point by keeping two jobs separate: r says how far from the origin, and θ says which direction the ray points.",
+    "whyItMatters": "Once you can read r, θ, x, and y as one linked picture, conversions stop feeling like memorized formulas and become reusable geometry for complex numbers, unit-circle trig, and parametric motion.",
+    "estimatedMinutes": 15,
+    "equationSnapshot": {
+      "equationIds": [
+        "polar-to-x",
+        "polar-to-y",
+        "cartesian-back-to-polar"
+      ],
+      "note": "Use x = r cos θ and y = r sin θ as projections of the same radius ray; when going backward, keep the quadrant visible before trusting an inverse tangent angle."
+    },
+    "startSetup": {
+      "presetId": "reference-point",
+      "graphId": "coordinate-sweep",
+      "overlayIds": [
+        "coordinateGuides",
+        "angleArc",
+        "radiusSweep"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-linked-point",
+        "title": "Read one linked point",
+        "goal": "Connect the polar readout and the Cartesian projections before changing anything.",
+        "doThis": "Start with the Reference point preset, keep the coordinate guides and angle arc visible, and compare the polar readout with the x-y readout.",
+        "notice": "The radius ray, angle arc, x-guide, and y-guide all point to the same dot on the same plane.",
+        "explain": "Polar and Cartesian coordinates are two descriptions of one point: r and θ locate the ray, while x and y are the horizontal and vertical shadows of that ray.",
+        "reveal": {
+          "controlIds": [
+            "radius",
+            "angle"
+          ],
+          "graphIds": [
+            "coordinate-sweep"
+          ],
+          "overlayIds": [
+            "coordinateGuides",
+            "angleArc",
+            "radiusSweep"
+          ]
+        },
+        "setup": {
+          "presetId": "reference-point",
+          "graphId": "coordinate-sweep",
+          "overlayIds": [
+            "coordinateGuides",
+            "angleArc",
+            "radiusSweep"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "polar-qt-cartesian-link"
+          ]
+        }
+      },
+      {
+        "id": "scale-the-radius",
+        "title": "Scale the radius",
+        "goal": "See r as a distance control that stretches the point along the same direction.",
+        "doThis": "Keep θ fixed, move only the Radius slider, and watch both projections grow or shrink together.",
+        "notice": "The quadrant does not change when only r changes; the point slides along the same ray and stays on the same angle.",
+        "explain": "Radius multiplies both projections, so x and y scale together while the direction and sign pattern stay fixed.",
+        "reveal": {
+          "controlIds": [
+            "radius"
+          ],
+          "graphIds": [
+            "coordinate-sweep"
+          ],
+          "overlayIds": [
+            "coordinateGuides",
+            "radiusSweep"
+          ]
+        },
+        "setup": {
+          "presetId": "reference-point",
+          "graphId": "coordinate-sweep",
+          "overlayIds": [
+            "coordinateGuides",
+            "radiusSweep"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "polar-qt-radius-effect"
+          ]
+        }
+      },
+      {
+        "id": "rotate-through-quadrants",
+        "title": "Rotate through quadrants",
+        "goal": "Use θ to predict the signs of x and y before reading the formulas.",
+        "doThis": "Apply the Second quadrant preset or move θ into Quadrant II while the coordinate guides stay on.",
+        "notice": "The point moves left of the y-axis but remains above the x-axis, so x becomes negative while y stays positive.",
+        "explain": "The angle sets the quadrant first. The cosine and sine signs in the equations match the geometry of that quadrant.",
+        "reveal": {
+          "controlIds": [
+            "angle"
+          ],
+          "graphIds": [
+            "coordinate-sweep"
+          ],
+          "overlayIds": [
+            "coordinateGuides",
+            "angleArc"
+          ]
+        },
+        "setup": {
+          "presetId": "second-quadrant",
+          "graphId": "coordinate-sweep",
+          "overlayIds": [
+            "coordinateGuides",
+            "angleArc"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "polar-predict-second-quadrant"
+          ]
+        }
+      },
+      {
+        "id": "check-one-point-two-languages",
+        "title": "Check both languages",
+        "goal": "Explain one point using radius-angle language and x-y projection language together.",
+        "doThis": "Use the quick checks, then try the challenge: build a Quadrant II point where the leftward x projection is larger in magnitude than the upward y projection.",
+        "notice": "A good answer names both the quadrant sign pattern and the projection sizes, not just a slider value.",
+        "explain": "Polar reasoning is strongest when r, θ, x, and y stay tied to one visible point and each formula has a geometric job.",
+        "reveal": {
+          "controlIds": [
+            "radius",
+            "angle"
+          ],
+          "graphIds": [
+            "coordinate-sweep"
+          ],
+          "overlayIds": [
+            "coordinateGuides",
+            "angleArc",
+            "radiusSweep"
+          ]
+        },
+        "setup": {
+          "presetId": "second-quadrant",
+          "graphId": "coordinate-sweep",
+          "overlayIds": [
+            "coordinateGuides",
+            "angleArc",
+            "radiusSweep"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "polar-qt-cartesian-link",
+            "polar-qt-radius-effect"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "A polar point uses r for distance from the origin and θ for direction from the positive x-axis.",
+        "x = r cos θ and y = r sin θ are projections of the same radius ray onto the coordinate axes.",
+        "Changing r scales the same direction, while changing θ rotates the ray and can change the signs of x and y.",
+        "When converting back from x and y, the quadrant must stay part of the angle decision."
+      ],
+      "misconception": "Do not treat polar and Cartesian forms as separate points. They are two languages for the same point, and the live ray plus guides show why the formulas work.",
+      "workedExampleRefs": [
+        "read-the-current-cartesian-point"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "inverse-trig-angle-from-ratio",
+          "title": "Inverse Trig / Angle from Ratio",
+          "reasonLabel": "Use quadrant-aware angle recovery when the direction has to be reconstructed from x and y."
+        },
+        {
+          "slug": "parametric-curves-motion-from-equations",
+          "title": "Parametric Curves / Motion from Equations",
+          "reasonLabel": "Carry the same linked x-y plane into motion where one parameter drives both coordinates."
+        }
+      ],
+      "freePlayPrompt": "Pick a quadrant first, predict the signs of x and y, then move r and θ until the live point proves or corrects your prediction."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "accessibility"
+    ]
+  }
+}

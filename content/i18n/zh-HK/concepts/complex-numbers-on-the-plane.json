@@ -1,0 +1,358 @@
+{
+  "title": "平面複數",
+  "shortTitle": "複數",
+  "summary": "將複數視為平面上的點和向量，然後保持加法和乘法的幾何意義而不僅僅是符號運算。",
+  "highlights": [
+    "實部與虛部",
+    "模長與幅角",
+    "加法作為向量",
+    "乘法作為縮放和旋轉"
+  ],
+  "topic": "複數和平面引數運動",
+  "subtopic": "複數平面幾何",
+  "recommendedNext": [
+    {
+      "slug": "unit-circle-sine-cosine-from-rotation",
+      "reasonLabel": "將同一平面轉換為旋轉的正弦和餘弦投影"
+    },
+    {
+      "slug": "polar-coordinates-radius-and-angle",
+      "reasonLabel": "把模長和角度重用成同一平面上的半徑－角度點"
+    },
+    {
+      "slug": "trig-identities-from-unit-circle-geometry",
+      "reasonLabel": "用同一平面和單位圓上的點，從幾何上驗證核心三角恆等式"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "當代數和幾何保持在同一平面時，複數變得更容易信任。這個試驗台讓z、w以及當前結果一起顯示，所以a + bi既可以讀作有序對也可以讀作指向箭頭。",
+        "加法應該感覺像是向量加法，而乘法應該感覺像是另一個複數旋轉和縮放某一點。"
+      ]
+    },
+    "keyIdeas": [
+      "一個複數z = a + bi可以被視為點(a, b)或從原點到該點的向量。",
+      "模長|z|是從原點的距離，而幅角則告訴同一點的方向。",
+      "複數乘法在相同的平面上結合了縮放和旋轉。"
+    ],
+    "commonMisconception": {
+      "myth": "複數乘法只是符號組成規則，所以幾何影像是可選的。",
+      "correction": [
+        "組成規則是真實的，但幾何影像是使結果可讀的原因。",
+        "在這個平面上，乘以w同時改變了z的大小和方向。"
+      ]
+    },
+    "workedExamples": {
+      "title": "即時例題",
+      "intro": "使用當前平面狀態而不是分離的工作表。",
+      "items": [
+        {
+          "id": "read-the-current-vector-sum",
+          "title": "閱讀當前向量總和",
+          "prompt": "對於當前加法檢視，z + w在平面上落在哪裡？",
+          "variables": [
+            {
+              "id": "real-part",
+              "label": "z 的實部"
+            },
+            {
+              "id": "imaginary-part",
+              "label": "z 的虛部"
+            },
+            {
+              "id": "operand-real",
+              "label": "w 的實部"
+            },
+            {
+              "id": "operand-imaginary",
+              "label": "w 的虛部"
+            }
+          ],
+          "steps": [
+            {
+              "id": "write-points",
+              "label": "1. 輸入當前點"
+            },
+            {
+              "id": "add-components",
+              "label": "2. 分別加實部和虛部"
+            },
+            {
+              "id": "read-result",
+              "label": "3. 閱讀新的終點"
+            }
+          ],
+          "resultLabel": "當前總和",
+          "applyAction": {
+            "label": "應用向量和法",
+            "observationHint": "頭尾相接的指引保持了分量加法和幾何圖形的一致性。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "建立一個乘法案例，使其積落在第二象限且點的長度不比原 z 多出太多。",
+      "prediction": "在嘗試之前，決定乘數主要像旋轉一樣作用還是像拉伸一樣作用，或者兩者兼有。",
+      "answer": "你需要一個乘數，使其角度將 z 轉換到第二象限且其大小接近一。",
+      "explanation": "積的方向來自相加的角度，而大小則來自乘數的大小。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "從實時平面影像中回答，而不是從一個脱離了規則的地方。",
+    "questions": [
+      {
+        "id": "cnp-qt-plane-meaning",
+        "prompt": "在這個工作台上，最誠實地讀取 z = a + bi 的方式是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "既是點 (a, b)，也是從原點到該點的向量。"
+          },
+          {
+            "id": "b",
+            "label": "只把它當成沒有幾何意義的符號式。"
+          },
+          {
+            "id": "c",
+            "label": "只把它當成兩個彼此無關的實數。"
+          }
+        ],
+        "explanation": "複數平面的核心就在於：代數和幾何其實在描述同一個物件。"
+      },
+      {
+        "id": "cnp-qt-multiplication",
+        "prompt": "如果 |w| 接近 1，但 arg(w) 很大，對 z · w 最合理的預期是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "乘積應該旋轉很多，但大小不會改變太多。"
+          },
+          {
+            "id": "b",
+            "label": "乘積一定會變得長很多。"
+          },
+          {
+            "id": "c",
+            "label": "不會發生什麼重要變化。"
+          }
+        ],
+        "explanation": "當乘數接近單位圓時，它主要改變方向而不是大小，所以乘積通常會旋轉很多，但長度改變不大。"
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬會顯示複數平面上的 z、w 和目前結果箭頭。你可以用滑桿或拖曳改變兩個點的實部與虛部，並在加法檢視和乘法檢視之間切換。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "一個圖表顯示 z + w 的實部和虛部隨著 w 的實部變化。另一個圖表在同一掃描下顯示 z · w 的實部和虛部。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "vector-sum-view",
+        "label": "向量和法",
+        "description": "開啟一個乾淨的加法案例，讓首尾相接的向量指引清楚可見。",
+        "setup": {
+          "note": "使用它來讀取複數既是一個點也是一個向量。"
+        }
+      },
+      {
+        "id": "rotation-by-i",
+        "label": "旋轉 i",
+        "description": "開啟一個乘法案例，其中乘數像四分之一轉一樣作用。",
+        "setup": {
+          "note": "使用它來看乘法作為旋轉和放大的過程。"
+        }
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "complex-coordinate",
+      "label": "複數坐標形式",
+      "meaning": "將一個複數讀作平面上的點，其實部為 a，虛部為 b。"
+    },
+    {
+      "id": "magnitude-argument",
+      "label": "大小和角度",
+      "meaning": "將同一點轉換為從原點的距離和平面上的方向。"
+    },
+    {
+      "id": "complex-product",
+      "label": "幾何乘法規則",
+      "meaning": "解釋了為什麼乘以 w 將擴大和旋轉 z。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "real-part",
+      "label": "z 的實部",
+      "description": "沿著實軸移動 z 左右。"
+    },
+    {
+      "id": "imaginary-part",
+      "label": "z 的虛部",
+      "description": "沿著虛軸移動 z 上下。"
+    },
+    {
+      "id": "operand-real",
+      "label": "w 的實部",
+      "description": "改變第二個複數點在實軸上的位置。"
+    },
+    {
+      "id": "operand-imaginary",
+      "label": "w 的虛部",
+      "description": "改變垂直分量，從而改變 w 的方向。"
+    },
+    {
+      "id": "multiply-mode",
+      "label": "乘法觀點",
+      "description": "將結果從首尾相接的和轉換為幾何積。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "real-part",
+        "label": "z 的實部"
+      },
+      {
+        "id": "imaginary-part",
+        "label": "z 的虛部"
+      },
+      {
+        "id": "operand-real",
+        "label": "w 的實部"
+      },
+      {
+        "id": "operand-imaginary",
+        "label": "w 的虛部"
+      },
+      {
+        "id": "multiply-mode",
+        "label": "乘法檢視"
+      }
+    ],
+    "presets": [
+      {
+        "id": "vector-sum",
+        "label": "向量和",
+        "description": "一個乾淨直接的加法例子。"
+      },
+      {
+        "id": "rotation-by-i",
+        "label": "乘上 i",
+        "description": "乘數的模為 1，幅角為 90°。"
+      },
+      {
+        "id": "canceling-sum",
+        "label": "部分抵消的和",
+        "description": "兩條向量會互相抵消一部分的加法情況。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "additionGuide",
+        "label": "首尾相接指引",
+        "shortDescription": "顯示求和時第二條向量的平移位置。",
+        "whatToNotice": [
+          "和向量仍然只是同一對實部與虛部的相加結果。"
+        ],
+        "whyItMatters": "它把複數加法直接連迴向量加法。"
+      },
+      {
+        "id": "magnitudeCircle",
+        "label": "單位圓提示",
+        "shortDescription": "保留半徑為 1 的參考圓。",
+        "whatToNotice": [
+          "模為 1 的乘數，仍然可以把 z 旋轉得很明顯。"
+        ],
+        "whyItMatters": "它讓乘法中的縮放大小更容易被看清。"
+      },
+      {
+        "id": "rotationCue",
+        "label": "旋轉提示",
+        "shortDescription": "顯示 arg(z) 到 arg(z · w) 之間的轉角。",
+        "whatToNotice": [
+          "乘法會透過角度相加來改變方向。"
+        ],
+        "whyItMatters": "它把幅角相加的規則變成可見的幾何動作。"
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "addition-sweep",
+      "label": "和的分量對 Re(w)",
+      "xLabel": "Re(w)",
+      "yLabel": "結果分量"
+    },
+    {
+      "id": "multiplication-sweep",
+      "label": "積的分量對 Re(w)",
+      "xLabel": "Re(w)",
+      "yLabel": "結果分量"
+    }
+  ],
+  "noticePrompts": {
+    "title": "觀察重點",
+    "intro": "把平面、結果箭頭和目前圖表一起看。",
+    "items": [
+      {
+        "id": "cnp-notice-addition",
+        "text": "在加法檢視中，結果箭頭既可以讀成分量相加，也可以讀成同一平面上的首尾相接和。"
+      },
+      {
+        "id": "cnp-notice-multiply",
+        "text": "當乘數接近單位圓時，它可以大幅改變 z 的方向，同時只帶來很小的伸縮。"
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "先預測幾何變化，再切換預設或檢視來驗證。",
+    "items": [
+      {
+        "id": "cnp-predict-rotation-by-i",
+        "prompt": "如果 w = i，在乘法檢視中 z 會發生甚麼事？",
+        "scenarioLabel": "乘上 i",
+        "choices": [
+          {
+            "id": "a",
+            "label": "z 會旋轉約 90°，同時保持相同模長。"
+          },
+          {
+            "id": "b",
+            "label": "z 的長度一定會加倍。"
+          },
+          {
+            "id": "c",
+            "label": "z 會塌縮到原點。"
+          }
+        ],
+        "explanation": "乘數 i 的模是 1，幅角是 90°，所以它的作用像一次四分之一轉，卻不會把點放大或縮小。",
+        "observationHint": "開啟旋轉提示，比較原本方向和乘積方向。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "誠實地使用複數平面：建立正確的縮放與旋轉情況，而不是隻靠公式猜答案。",
+    "items": [
+      {
+        "id": "cnp-ch-rotate-to-positive-imaginary",
+        "title": "旋轉到正虛軸",
+        "prompt": "建立一個乘法情況，令 z · w 幾乎落在正虛軸上，同時保持乘數的模接近 1。",
+        "successMessage": "你建立了一個真正以旋轉為主的乘法情況。乘積落在接近正虛軸的位置，因為幅角大幅改變，而縮放因子仍接近 1。"
+      }
+    ]
+  }
+}

@@ -1,0 +1,226 @@
+{
+  "title": "圖上的前沿和已訪問狀態",
+  "shortTitle": "前沿與已訪問",
+  "summary": "保持重複跳過、等待前沿節點以及已經展開的節點一起可見，以便迴圈控制感覺像是對單一圖表的一本正經的記錄。",
+  "highlights": [
+    "前沿與已訪問",
+    "重複跳過",
+    "迴圈控制"
+  ],
+  "topic": "演演算法與搜尋",
+  "subtopic": "迴圈控制和已訪問狀態",
+  "recommendedNext": [
+    {
+      "slug": "sorting-and-algorithmic-trade-offs",
+      "reasonLabel": "比較圖遍歷記錄與可見列表工作"
+    },
+    {
+      "slug": "binary-search-halving-the-search-space",
+      "reasonLabel": "在圖分支後返回有序搜尋案例"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "在包含迴圈的圖上，前沿和已訪問狀態不是同一回事。前沿儲存已經被佔領但還未展開的節點。已訪問狀態標記鄰居已經被使用的節點。",
+        "這種區分防止了圖遍歷無休止地重複在同一迴圈上工作。這個試驗保持重複跳過、前沿大小和已訪問節點一起可見，使得迴圈處理感覺像是明確的記錄而不是隱藏的魔法。"
+      ]
+    },
+    "keyIdeas": [
+      "前沿節點是等待的工作，不是已完成的工作。",
+      "已訪問狀態意味著該節點的鄰居已經被使用過，因此可以誠實地跳過返回到它的重複邊。",
+      "當搜尋保持佔領、等待和完成節點區分時，迴圈變得可管理。"
+    ],
+    "commonMisconception": {
+      "myth": "前沿和已訪問狀態基本上是同一個集合的兩個不同名稱。",
+      "correction": [
+        "前沿節點已經被佔領但尚未展開。已訪問節點已經使用過其鄰居。",
+        "這種區分使得在帶有迴圈的圖上實現重複跳過和乾淨回溯成為可能。"
+      ]
+    },
+    "workedExamples": {
+      "title": "示例",
+      "intro": "直接從橋迴圈試驗讀取前沿和已訪問集合。",
+      "items": [
+        {
+          "id": "separate-frontier-from-visited",
+          "title": "分開前沿與已訪問",
+          "prompt": "在橋迴圈圖上，為什麼需要同時使用前沿和已訪問狀態？",
+          "variables": [
+            {
+              "id": "graph-layout",
+              "label": "圖佈局"
+            }
+          ],
+          "steps": [
+            {
+              "id": "name-the-frontier-role",
+              "label": "1. 如實讀取前沿"
+            },
+            {
+              "id": "name-the-visited-role",
+              "label": "2. 如實讀取已訪問角色"
+            },
+            {
+              "id": "connect-to-cycle-control",
+              "label": "3. 如實讀取迴圈後果"
+            }
+          ],
+          "resultLabel": "迴圈控制讀取",
+          "applyAction": {
+            "label": "展示橋迴圈BFS",
+            "observationHint": "將前沿提示、已訪問提示和重複跳過圖一起顯示，以便迴圈記錄容易信任。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "構建一個圖執行，在前沿空之前使重複跳過變得可見",
+      "prediction": "在更改預設值之前，請先決定是需要迴圈圖還是類樹狀圖。",
+      "answer": "使用橋梁迴圈圖，以便在仍有前沿工作等待時顯示反向邊。",
+      "explanation": "重複跳過變得可見，當圖中包含迴圈且遍歷有足夠時間遇到它們時。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "根據可見迴圈記錄回答，而不是記憶術語。",
+    "questions": [
+      {
+        "id": "fvsg-qt-frontier-vs-visited",
+        "prompt": "前沿和已訪問狀態之間最清晰的區別是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "前沿節點等待延伸，而已訪問節點已經使用過其鄰居。"
+          },
+          {
+            "id": "b",
+            "label": "前沿和已訪問總是意味著同一組節點。"
+          },
+          {
+            "id": "c",
+            "label": "只有已訪問節點仍然需要工作。"
+          }
+        ],
+        "explanation": "這種等待與完成的區別是使圖遍歷在包含迴圈的圖上運作得當的原因。"
+      },
+      {
+        "id": "fvsg-qt-repeat-skip",
+        "prompt": "為什麼重複跳過對橋梁迴圈BFS有用？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它阻止了遍歷反復開啟同一迴圈節點。"
+          },
+          {
+            "id": "b",
+            "label": "它迫使遍歷忽略鄰接性完全無視。"
+          },
+          {
+            "id": "c",
+            "label": "它消除了前沿的需要。"
+          }
+        ],
+        "explanation": "迴圈自然指向後方，因此重複跳過是將圖轉換為有界工作而不是無限開啟的原因。"
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一個標記圖，當前節點、前沿節點和已訪問節點以不同顏色著色，以便等待的工作和已完成的工作保持區分。",
+        "一張讀取卡報告遍歷模式、當前節點、前沿大小、已訪問計數和目標，而一個提示面板顯示前沿順序和當前鄰居列表。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "一個圖表跟蹤已訪問節點對比前沿大小，另一個圖表跟蹤當前深度對比最深被探索深度，第三個圖表比較新發現與重複跳過的節點。",
+        "它們一起展示了迴圈處理取決於將前沿和已訪問狀態區分開來。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "readNext",
+        "title": "當出現迴圈時，請保持前沿和已訪問狀態的區分"
+      }
+    ],
+    "featuredSetups": [
+      {
+        "id": "bridge-cycle-bfs",
+        "label": "橋梁迴圈BFS",
+        "description": "使用一個需要將前沿和已訪問狀態區分開來的迴圈圖。"
+      },
+      {
+        "id": "bridge-cycle-dfs",
+        "label": "橋迴圈 DFS",
+        "description": "比較同一迴圈圖在分支優先執行下的情況。"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "frontier-visited-update",
+      "label": "已訪問和前沿更新",
+      "meaning": "延伸一個節點將其移入已訪問集，同時新鄰居加入等待的前沿。"
+    },
+    {
+      "id": "repeat-skip-count",
+      "label": "重複工作計數",
+      "meaning": "當檢查的鄰居不是新的發現時，會出現重複工作。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "graph-layout",
+      "label": "圖佈局",
+      "description": "在同一遍歷平台上切換有界圖場景。"
+    },
+    {
+      "id": "start-node",
+      "label": "起始節點",
+      "description": "將起點移動到圖的不同位置，以便迴圈行為從不同的地方出現。"
+    },
+    {
+      "id": "target-node",
+      "label": "目標節點",
+      "description": "標記遍歷正在嘗試達到的節點，同時前沿和已訪問記錄繼續進行。"
+    },
+    {
+      "id": "traversal-mode",
+      "label": "遍歷模式",
+      "description": "在同一個圖板上比較BFS和DFS的迴圈處理故事而不離開共享圖板。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "start-node",
+        "label": "起始節點"
+      },
+      {
+        "id": "target-node",
+        "label": "目標節點"
+      },
+      {
+        "id": "traversal-mode",
+        "label": "遍歷模式"
+      }
+    ],
+    "presets": [
+      {
+        "id": "bridge-cycle-bfs",
+        "label": "橋梁迴圈BFS"
+      },
+      {
+        "id": "bridge-cycle-dfs",
+        "label": "橋迴圈 DFS"
+      },
+      {
+        "id": "layered-campus-bfs",
+        "label": "分層校園BFS"
+      }
+    ]
+  }
+}

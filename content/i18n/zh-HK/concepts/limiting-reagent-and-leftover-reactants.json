@@ -1,0 +1,407 @@
+{
+  "title": "限制反應物和剩餘反應物",
+  "shortTitle": "限制反應物",
+  "summary": "使用一個食譜櫃台來看哪種反應物先限定了產出數量，為什麼另一種反應物會剩下過多。",
+  "highlights": [
+    "降低批次上限",
+    "過剩反應物",
+    "剩餘包裝"
+  ],
+  "topic": "物料衡算與產率",
+  "subtopic": "限制和過剩反應物",
+  "recommendedNext": [
+    {
+      "slug": "percent-yield-and-reaction-extent",
+      "reasonLabel": "降低實際產出"
+    },
+    {
+      "slug": "concentration-and-dilution",
+      "reasonLabel": "將物料衡算記帳帶入解決方案"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "當某一種反應物明顯低於食譜所需上限時，限制反應物這個概念才真正有意義。這個工作台把兩個反應物儲存箱、食譜卡片和剩餘讀出器放在一起，因此限制步驟不會變成隱藏的代數。",
+        "限制反應物就是隻能支援較少完整批次的反應物。另一種反應物是過剩的，因此在最後一個完整批次結束後會剩下一些。"
+      ]
+    },
+    "keyIdeas": [
+      "每種反應物供應都根據每個批次所需的食譜包數來分隔其可能的批次數。",
+      "較小的批次數設定了理論產出，因為反應不能完成比這個數字更多的完整批次。",
+      "剩餘反應物屬於過剩的一方，而不是限制的一方。"
+    ],
+    "commonMisconception": {
+      "myth": "原始包數較少的反應物總是成為限制反應物。",
+      "correction": [
+        "限制性不僅取決於食譜卡片，還取決於原始供應數量。",
+        "即使原始數量更大，如果每個批次消耗該反應物更多，它也可能成為限制反應物。"
+      ]
+    },
+    "workedExamples": {
+      "title": "示例",
+      "intro": "直接從食譜櫃台讀取較低的上限。",
+      "items": [
+        {
+          "id": "read-an-a-limiting-run",
+          "title": "閱讀A限制的2:3執行",
+          "prompt": "在8 A, 15 B執行中哪種供應是限制反應物，並且完全產出後剩餘什麼？",
+          "variables": [
+            {
+              "id": "reactant-a-supply",
+              "label": "反應物 A 包數"
+            },
+            {
+              "id": "reactant-b-supply",
+              "label": "反應物 B 包數"
+            },
+            {
+              "id": "recipe-b",
+              "label": "B 每批次"
+            }
+          ],
+          "steps": [
+            {
+              "id": "compare-batch-caps",
+              "label": "1. 將每個供應轉換為可能的批次"
+            },
+            {
+              "id": "name-the-limiting-side",
+              "label": "2. 閱讀較低的上限作為限制反應物"
+            },
+            {
+              "id": "read-the-leftover",
+              "label": "3. 使用食譜並閱讀剩餘什麼"
+            }
+          ],
+          "resultLabel": "限制反應物一方",
+          "applyAction": {
+            "label": "顯示A限制執行",
+            "observationHint": "較低的上限線屬於A，而B儲存箱在執行後仍然顯示剩餘的包裝。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "讓一個反應物限制配方，而另一個則明顯過剩。",
+      "prediction": "決定哪種供應品在比較模式下支援的完整批次較少，然後移動滑塊。",
+      "answer": "限制反應物是支援較少完整批次的那一邊。",
+      "explanation": "一旦在同一工作台上比較兩者的批次上限，剩餘的故事就會自動從過剩的一邊得出。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "根據可見的批次上限和剩餘來回答問題，而不是記住一句口訣。",
+    "questions": [
+      {
+        "id": "lr-qt-a-limits",
+        "prompt": "在2:3的配方中，有8個A和15個B，哪種供應品是限制反應物？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "A是限制反應物因為它只支援四個批次而B可以支援五個。"
+          },
+          {
+            "id": "b",
+            "label": "B是限制反應物因為它的配方係數較大。"
+          },
+          {
+            "id": "c",
+            "label": "兩邊都不是限制反應物因為兩個託盤仍然含有包裝。"
+          }
+        ],
+        "explanation": "限制反應物是指支援較少完整批次的那一邊，而不是係數較大的那一邊或看起來更滿的那邊。",
+        "selectedWrongExplanations": {
+          "b": "更大的配方係數本身不會使某種反應物成為限制反應物。當前供應仍然重要。",
+          "c": "託盤可以都開始非空，但一旦配方消耗完完整批次，其中一邊仍會先用盡。"
+        },
+        "showMeAction": {
+          "label": "顯示A限制的執行",
+          "observationHint": "A只支援四個批次而B可以支援五個，所以A是上限。"
+        }
+      },
+      {
+        "id": "lr-qt-leftover-belongs-to-excess",
+        "prompt": "哪種陳述最準確地描述了剩餘反應物？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "剩餘反應物屬於過剩的一邊因為限制反應物先用盡。"
+          },
+          {
+            "id": "b",
+            "label": "限制反應物總是應該有最大的剩餘，因為它最重要。"
+          },
+          {
+            "id": "c",
+            "label": "如果有任何東西剩下，那麼實際上並不存在限制反應物。"
+          }
+        ],
+        "explanation": "限制反應物在最後一個完整批次中被用盡，所以剩餘出現於過剩的一邊。",
+        "selectedWrongExplanations": {
+          "b": "限制反應物是先用盡的那一邊，因此它不能也是保持最大剩餘的那一邊。",
+          "c": "即使過剩一邊在執行後仍有包裝剩下，限制反應物仍然可能存在。"
+        },
+        "showMeAction": {
+          "label": "切換至B限制",
+          "observationHint": "B先用盡，A託盤是執行後仍顯示有包裝的那一邊。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示兩個反應物供應倉、一個產品託盤和一個配方卡，該卡表明一整批需要多少A和B的包裝。",
+        "讀出卡報告當前配方、最大可能批次、哪種供應品是限制反應物、實際產出以及執行後每種反應物剩餘多少。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "一張圖掃描可能批次對A供應品，第二張圖掃描可能批次對B供應品，第三張圖保持實際產出與理論產品標誌之間的百分比產率變化關係。",
+        "限制提示和剩餘讀出緊跟同一配方工作台，而不是離開粒子檢視。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "readNext",
+        "title": "將上限配方帶入實際產出"
+      }
+    ],
+    "featuredSetups": [
+      {
+        "id": "a-limiting-window",
+        "label": "A設定了批次上限",
+        "description": "開啟A限制的執行，B是剩餘的。"
+      },
+      {
+        "id": "b-limiting-window",
+        "label": "B設定了批次上限",
+        "description": "切換至B先用盡且A留在工作台上的執行。"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "reactant-caps",
+      "label": "反應物支援的批次數量",
+      "meaning": "每種供應物支援其自身的完整批次數，一旦除以每個批次所需的包數。"
+    },
+    {
+      "id": "theoretical-output",
+      "label": "理論批次上限",
+      "meaning": "兩個反應物支援的批次數量中較小的一方設定了理論產出。"
+    },
+    {
+      "id": "leftover-reactant",
+      "label": "剩餘過剩反應物",
+      "meaning": "過剩一方保留未在完成的理論批次中耗盡的所有包。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "reactant-a-supply",
+      "label": "反應物 A 包數",
+      "description": "設定反應物 A 在每個完整批次結束前可以支援多少個完整的批次。"
+    },
+    {
+      "id": "reactant-b-supply",
+      "label": "反應物 B 包數",
+      "description": "設定反應物 B 在每個完整批次結束前可以支援多少個完整的批次。"
+    },
+    {
+      "id": "recipe-a",
+      "label": "A 每批次",
+      "description": "改變每次完整批次結束後 A 的消耗速度。"
+    },
+    {
+      "id": "recipe-b",
+      "label": "B 每批次",
+      "description": "改變每次完整批次結束後 B 的消耗速度。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "reactantAAmount",
+        "label": "反應物 A 包數",
+        "description": "調整這次實驗一開始提供多少包 A。"
+      },
+      {
+        "id": "reactantBAmount",
+        "label": "反應物 B 包數",
+        "description": "調整這次實驗一開始提供多少包 B。"
+      },
+      {
+        "id": "recipeA",
+        "label": "A 每批次",
+        "description": "設定完成一個完整配方批次要用多少包 A。"
+      },
+      {
+        "id": "recipeB",
+        "label": "B 每批次",
+        "description": "設定完成一個完整配方批次要用多少包 B。"
+      },
+      {
+        "id": "percentYield",
+        "label": "百分比產率",
+        "description": "這裡先保持在 100%，讓剩餘只反映過量反應物，而不是產率變動。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "matched-two-three",
+        "label": "匹配 2:3 配方",
+        "description": "A 與 B 恰好能完成相同數目的完整批次。"
+      },
+      {
+        "id": "a-limiting",
+        "label": "A 為限制反應物",
+        "description": "A 先用盡，而 B 會有剩餘。"
+      },
+      {
+        "id": "b-limiting",
+        "label": "B 為限制反應物",
+        "description": "B 先用盡，而 A 會有剩餘。"
+      },
+      {
+        "id": "partial-yield",
+        "label": "部分產率",
+        "description": "配方保持不變，但實際輸出低於理論上限。"
+      },
+      {
+        "id": "three-to-two",
+        "label": "3:2 配方",
+        "description": "更改每批用量，重新比較哪一方先成為瓶頸。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "recipeCard",
+        "label": "配方卡",
+        "shortDescription": "顯示每一個完整批次需要多少 A 和 B。",
+        "whatToNotice": [
+          "限制試劑只可以相對於配方卡去理解，不能只看原始數量。"
+        ],
+        "whyItMatters": "這樣會把限制試劑的判斷綁在一張可見的配方卡上，而不是變成抽離的算術技巧。"
+      },
+      {
+        "id": "limitingCue",
+        "label": "限制提示",
+        "shortDescription": "標示目前是哪一方先設定了批次上限。",
+        "whatToNotice": [
+          "較低的上限線，就是會先把批次數卡住的那一方。"
+        ],
+        "whyItMatters": "它讓你直接看見誰先耗盡，而不是靠背公式猜答案。"
+      },
+      {
+        "id": "yieldGap",
+        "label": "產率差距",
+        "shortDescription": "顯示理論上限與實際輸出之間的差距。",
+        "whatToNotice": [
+          "完成理論批次後，剩餘一定落在過量的一邊，而不是限制的一邊。"
+        ],
+        "whyItMatters": "它把「剩餘反應物」和「限制試劑」放回同一個可見的批次故事。"
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "batches-vs-reactant-a",
+      "label": "A 供應與可能批次",
+      "xLabel": "反應物 A 包數",
+      "yLabel": "可能批次",
+      "description": "掃描 A 的供應如何在 B 保持固定時設定批次上限。"
+    },
+    {
+      "id": "batches-vs-reactant-b",
+      "label": "B 供應與可能批次",
+      "xLabel": "反應物 B 包數",
+      "yLabel": "可能批次",
+      "description": "掃描 B 的供應如何在 A 保持固定時設定批次上限。"
+    },
+    {
+      "id": "yield-vs-percent",
+      "label": "產率與實際輸出",
+      "xLabel": "百分比產率",
+      "yLabel": "實際輸出",
+      "description": "顯示在理論上限固定時，實際產出如何隨產率改變。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "觀察重點",
+    "intro": "用同一個配方工作台觀察誰先用盡、誰會剩下。",
+    "items": [
+      {
+        "id": "lr-notice-lower-cap",
+        "text": "先比較兩種反應物各自能支援多少個完整批次；較低那條上限就是限制反應物。"
+      },
+      {
+        "id": "lr-notice-leftover",
+        "text": "完成最後一個完整批次後，注意剩餘一定留在過量的一邊。"
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "先根據配方比例預測誰會先用盡，再用同一個工作台驗證。",
+    "items": [
+      {
+        "id": "lr-predict-b-limits",
+        "prompt": "在 2 A + 3 B 的配方下，如果 A 有 12 包而 B 只有 9 包，哪一方會先限制輸出？",
+        "scenarioLabel": "A 較多，B 較少",
+        "choices": [
+          {
+            "id": "a",
+            "label": "B 會成為限制反應物，因為它支援的完整批次較少。"
+          },
+          {
+            "id": "b",
+            "label": "A 會成為限制反應物，因為 A 的數量寫在前面。"
+          },
+          {
+            "id": "c",
+            "label": "兩者會同時成為限制反應物。"
+          }
+        ],
+        "explanation": "12 個 A 可支援 6 批，但 9 個 B 只能支援 3 批，所以 B 先用盡。",
+        "observationHint": "把 A 和 B 的批次上限對照，留意較低的那一條線。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "把 B 調成限制反應物，同時讓 A 明顯過量。",
+    "items": [
+      {
+        "id": "lr-ch-make-b-the-limiting-reagent",
+        "title": "讓 B 成為限制反應物",
+        "prompt": "在 2 A + 3 B 的配方下，調整供應，令 B 先用盡，同時 A 仍至少剩下 3 包。",
+        "successMessage": "你成功令 B 先成為限制反應物，而 A 在完成批次後仍留下至少 3 包。",
+        "hints": [
+          "在 2:3 配方下，6 個 A 對應 9 個 B。",
+          "想讓 A 至少剩下 3 包，可把 A 調到 9 包，並讓 B 維持 9 包。"
+        ],
+        "targets": [
+          {
+            "label": "配方中的 A 每批次為 2 嗎？"
+          },
+          {
+            "label": "配方中的 B 每批次為 3 嗎？"
+          },
+          {
+            "label": "把 A 調到 9 包"
+          },
+          {
+            "label": "把 B 調到 9 包"
+          },
+          {
+            "label": "把產率保持在 100%，讓剩餘只來自過量反應物。"
+          }
+        ]
+      }
+    ]
+  }
+}

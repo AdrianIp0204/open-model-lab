@@ -1,0 +1,243 @@
+{
+"sections": {
+"explanation": {
+"paragraphs": [
+"The derivative is the slope the curve has at one chosen point. This module keeps the point, the tangent line, the secant line, and the derivative graph linked together so you can see that local slope on the original curve before reading it on a second graph.",
+"A secant uses two points and gives an average rate of change across an interval of width Δx. As Δx shrinks, the second point moves toward the first, the secant slope approaches the tangent slope, and that limiting local slope is the derivative."
+]
+},
+"keyIdeas": [
+"The derivative at one point is the tangent slope there: the local rate of change on the original curve.",
+"A secant slope is an average rate of change across a finite interval, so shrinking Δx moves that average toward the tangent slope.",
+"The derivative graph records those tangent slopes as the point moves along the original curve."
+],
+"commonMisconception": {
+"myth": "Once you have a derivative graph, it no longer has anything to do with the original curve.",
+"correction": [
+"The derivative graph is built from tangent slopes on the original curve.",
+"When the tangent rises, the derivative is positive. When the tangent is flat, the derivative is near zero. When the tangent falls, the derivative is negative."
+]
+},
+"workedExamples": {
+"title": "Read the live slopes",
+"intro": "Use the current point and Δx on the live curve. First read the secant as an average rate over an interval, then compare it with the tangent and the derivative graph.",
+"items": [
+{
+"id": "secant-slope-from-two-points",
+"title": "Compute the average rate from the secant",
+"prompt": "For the current point and Δx, what average rate of change does the secant line represent over that interval?",
+"resultLabel": "Current average rate",
+"applyAction": {
+"label": "Shrink Δx",
+"observationHint": "As Δx gets smaller, the second point moves closer, the secant pivots toward the tangent, and the secant-slope graph moves toward the derivative value."
+}
+},
+{
+"id": "tangent-slope-from-the-derivative",
+"title": "Read the local slope from the derivative",
+"prompt": "At the current point, what local rate of change does the derivative give?",
+"resultLabel": "Current local slope",
+"applyAction": {
+"label": "Move near a turning point",
+"observationHint": "Near the turning point, the tangent becomes almost horizontal and the derivative graph moves close to zero even if the curve itself is not near $y=0$."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Move the point to a place where the tangent is rising, but keep Δx large enough that the secant still shows a noticeably different average rate.",
+"prediction": "Decide first whether you need a larger or smaller Δx to keep that gap visible.",
+"answer": "You need a point where the tangent slope is positive and a Δx that is still large enough for the secant to show a visibly different average rate.",
+"explanation": "The tangent uses only the local steepness at one point. The secant averages over a wider interval, so a larger Δx keeps the two slopes visibly different."
+}
+},
+"equations": [
+{
+"id": "difference-quotient",
+"meaning": "Measures the average rate of change across a finite horizontal interval."
+},
+{
+"id": "derivative-limit",
+"meaning": "Defines the tangent slope as the value the secant slope approaches when Δx shrinks to 0."
+},
+{
+"id": "tangent-line",
+"meaning": "Uses the derivative at one point to write the line with the same local slope through that point."
+}
+],
+"variableLinks": [
+{
+"id": "point-x",
+"description": "Slides the chosen point along the curve, changing the tangent line, the secant comparison, and the derivative-graph reading together."
+},
+{
+"id": "delta-x",
+"description": "Sets the horizontal gap to the secant point. Smaller Δx makes the average rate move closer to the local slope."
+},
+{
+"id": "show-secant",
+"description": "Keeps the two-point average-rate comparison visible while you compare it with the tangent slope."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "point-x",
+"description": "Move the chosen point along the curve."
+},
+{
+"id": "delta-x",
+"description": "Set the horizontal spacing to the secant point used for the average rate."
+},
+{
+"id": "show-secant",
+"description": "Hide or show the secant comparison so you can compare average and local slope."
+}
+],
+"presets": [
+{
+"id": "negative-slope",
+"description": "A point where the curve is decreasing and the tangent slope is negative."
+},
+{
+"id": "flat-turn",
+"description": "A point near a turning point where the tangent is almost horizontal."
+},
+{
+"id": "positive-rise",
+"description": "A point where the curve is increasing and the tangent slope is clearly positive."
+}
+],
+"overlays": [
+{
+"id": "tangentLine",
+"shortDescription": "Draw the tangent at the current point to show the instantaneous slope.",
+"whatToNotice": [
+"At the chosen point, the tangent matches the curve's local direction."
+],
+"whyItMatters": "It shows the derivative as a visible slope on the original curve."
+},
+{
+"id": "deltaGuide",
+"shortDescription": "Draw the secant through the two sample points separated by the current Δx.",
+"whatToNotice": [
+"A larger Δx usually makes this average slope differ more from the tangent slope."
+],
+"whyItMatters": "It keeps the average-rate idea visible before the limit definition takes over."
+},
+{
+"id": "slopeGuide",
+"label": "Δy/Δx guide",
+"shortDescription": "Show the horizontal and vertical changes used in the difference quotient.",
+"whatToNotice": [
+"The secant slope is the visible ratio Δy/Δx."
+],
+"whyItMatters": "It connects the drawn interval to the algebra of the difference quotient."
+}
+]
+},
+"graphs": [
+{
+"id": "slope-function",
+"description": "Shows how the tangent slope changes across the curve: positive values mean the curve rises there, negative values mean it falls there, and values near zero mean a nearly flat tangent."
+},
+{
+"id": "difference-quotient",
+"description": "Shows how the secant slope changes as Δx shrinks and how it approaches the tangent slope at the chosen point."
+}
+],
+"noticePrompts": {
+"intro": "Use these prompts to connect the curve, the lines, and the slope graphs. Read the geometry first, then use the graph as a slope map.",
+"items": [
+{
+"id": "ds-notice-tangent-sign",
+"text": "Move the point and watch the tangent switch from falling to rising. The derivative crosses zero where the tangent becomes flat."
+},
+{
+"id": "ds-notice-small-delta",
+"text": "Shrink Δx and compare the secant slope with the tangent slope. The average rate approaches the local rate."
+},
+{
+"id": "ds-notice-derivative-graph",
+"text": "Read the derivative graph as a slope map: positive means rising, negative means falling, and zero means a flat tangent."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict what should happen to the slope before you move the point or change Δx.",
+"items": [
+{
+"id": "ds-predict-rising",
+"explanation": "Far enough to the right, the curve is increasing there, so the tangent slope becomes positive.",
+"observationHint": "Check the tangent on the curve and the matching point on the derivative graph at the same time."
+},
+{
+"id": "ds-predict-small-delta",
+"observationHint": "Keep the point fixed and watch the secant-slope readout move toward the tangent-slope readout as the interval tightens."
+}
+]
+},
+"quickTest": {
+"intro": "Use the tangent line, secant line, and derivative graph together. Each question is really asking what slope means on the original curve.",
+"questions": [
+{
+"id": "ds-qt-1",
+"explanation": "A horizontal tangent has slope 0, so the derivative there is 0 or very close to 0.",
+"showMeAction": {
+"label": "Show the almost flat tangent",
+"observationHint": "The tangent is nearly horizontal and the derivative graph sits close to zero."
+}
+},
+{
+"id": "ds-qt-2",
+"prompt": "Which statement best separates a secant slope from a tangent slope?",
+"explanation": "A secant slope measures average change across an interval, while a tangent slope measures local change at one point.",
+"showMeAction": {
+"label": "Show average slope over a wider interval",
+"observationHint": "The secant still averages over a noticeable interval, so it does not yet match the tangent exactly."
+}
+},
+{
+"id": "ds-qt-3",
+"prompt": "If the derivative graph is below zero at a point, what does that mean about the original curve there?",
+"explanation": "A negative derivative means the tangent slope is negative, so the original curve is falling there.",
+"showMeAction": {
+"label": "Show a falling tangent",
+"observationHint": "The tangent falls and the derivative graph lies below zero."
+}
+}
+]
+},
+"challengeMode": {
+"intro": "Use the point and Δx as a slope-comparison bench. The goal is to make the tangent and secant tell the same near-flat story for a geometric reason, not just to hit a number.",
+"items": [
+{
+"id": "ds-ch-catch-the-flat-tangent",
+"title": "Match the near-flat slopes",
+"prompt": "Move to the right-hand turning point so the tangent is almost flat, then shrink Δx until the secant slope is almost flat there too.",
+"successMessage": "You found a point where both the local slope and the small-interval average slope are nearly zero. The derivative and difference quotient are now telling the same near-flat story.",
+"setup": {
+"note": "Use the secant graph and the Δy/Δx guide while you move toward the right-hand turning point."
+},
+"hints": [
+"The right-hand turning point sits a little past $x=1.3$.",
+"If the secant is still noticeably tilted, shrink Δx further."
+]
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"A single coordinate grid shows the original curve, one movable point on the curve, an optional secant point, and the tangent line at the main point. Optional guides show the horizontal and vertical changes used in the difference quotient.",
+"Moving the chosen point changes the local slope and the derivative reading together. Changing Δx moves the secant point and changes the interval used for the average rate."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The derivative graph plots tangent slope against x, so it acts as a slope map for the original curve.",
+"The difference-quotient graph plots secant slope against Δx, so it shows how the average rate approaches the tangent slope as the interval shrinks."
+]
+}
+}
+}

@@ -1,0 +1,168 @@
+{
+"pageFramework": {
+"sections": [
+{
+"id": "workedExamples",
+"title": "Work from the live circuit"
+},
+{
+"id": "miniChallenge",
+"title": "Series vs parallel checkpoint"
+},
+{
+"id": "readNext",
+"title": "Continue with related ideas"
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"A simple circuit needs three things: a voltage source to provide a push, a closed path so charge can move, and resistance that limits the current. Ohm's law links them: for the same resistance, a larger voltage drives a larger current; for the same voltage, a larger resistance gives a smaller current.",
+"This module stays small on purpose. One battery drives two resistors, and the only structural change is whether they are in one series loop or in two parallel branches. That is enough to show how current, voltage, and equivalent resistance change together while the stage, readout, overlays, and graphs all describe the same live circuit."
+]
+},
+"keyIdeas": [
+"For one fixed topology and resistor setup, current is proportional to voltage and inversely proportional to equivalent resistance.",
+"In series there is only one path, so the same current flows through both resistors and the battery voltage is shared between them.",
+"In parallel both branches connect across the same two nodes, so each branch gets the full battery voltage, the branch currents depend on branch resistance, and the total current is the sum of the branch currents."
+],
+"commonMisconception": {
+"correction": [
+"Current is not used up by a resistor. In a steady series loop, the same amount of charge per second passes every point in the loop.",
+"What changes across a resistor is voltage, not how much current is left. The resistor causes a voltage drop while the loop current stays the same unless the path splits into branches."
+]
+},
+"workedExamples": {
+"title": "Work from the live circuit",
+"intro": "Use the values from the circuit now on screen. The same battery, resistor values, and topology determine the stage, readout, overlays, and graphs, so every calculation matches the live setup.",
+"items": [
+{
+"id": "equivalent-resistance-and-current",
+"prompt": "For the current circuit, what equivalent resistance does the battery see, and what total current follows from it?",
+"steps": [
+{
+"id": "topology-rule",
+"label": "1. Choose the correct equivalent-resistance rule for this topology"
+},
+{
+"id": "substitute-live-values",
+"label": "2. Substitute the live resistor values"
+},
+{
+"id": "whole-circuit-ohms-law",
+"label": "3. Apply Ohm's law to the whole circuit"
+},
+{
+"id": "total-current-result",
+"label": "4. Calculate the total current"
+}
+],
+"applyAction": {
+"label": "Load uneven series divider",
+"observationHint": "The same current passes through both resistors, but the larger resistor takes the larger voltage drop."
+}
+},
+{
+"id": "branch-b-current-and-voltage",
+"title": "Resistor B current and voltage",
+"prompt": "For the current setup, what current goes through resistor B, and what voltage is across that resistor or branch?",
+"steps": [
+{
+"id": "branch-current-rule",
+"label": "1. Choose the rule for current through resistor B"
+},
+{
+"id": "branch-current-substitute",
+"label": "2. Substitute the live values for I_B"
+},
+{
+"id": "branch-voltage-rule",
+"label": "3. Choose the matching voltage relation"
+},
+{
+"id": "branch-voltage-substitute",
+"label": "4. Calculate V_B"
+}
+],
+"applyAction": {
+"label": "Load branch split",
+"observationHint": "In parallel, the blue branch still has the full battery voltage, but it carries less current because its resistance is larger."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Use the matched-resistor presets. Why is the total current larger in the parallel circuit than in the series circuit even though the battery and both resistor values are unchanged?",
+"prediction": "Before switching topology, predict whether the battery will see a larger or smaller equivalent resistance.",
+"answer": "In parallel, the battery sees a smaller equivalent resistance because charge has two paths instead of one long path. With the same battery voltage, Ohm's law then gives a larger total current.",
+"explanation": "Series puts the resistors end to end, so their resistances add. Parallel gives charge two paths between the same two nodes, so the equivalent resistance is smaller. With the same source voltage, smaller equivalent resistance means larger total current."
+}
+},
+"equations": [
+{
+"id": "ohms-law",
+"meaning": "For one fixed resistance, doubling the voltage doubles the current."
+},
+{
+"id": "parallel-equivalent",
+"meaning": "Two parallel branches reduce the total load because charge has multiple paths between the same two nodes."
+},
+{
+"id": "series-current",
+"meaning": "In a steady series loop, the current is the same at every point."
+},
+{
+"id": "parallel-current",
+"meaning": "At a junction, the total current equals the sum of the branch currents."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "parallelMode",
+"description": "Off keeps one series loop. On gives charge two branches across the same battery."
+}
+]
+},
+"graphs": [
+{
+"id": "current-map",
+"description": "Sweep the battery voltage while keeping the resistor values and topology fixed. Straight lines show that current changes linearly with voltage for one fixed circuit."
+},
+{
+"id": "voltage-share",
+"description": "Sweep only resistor B while keeping the battery and resistor A fixed. In series the voltage shares depend on resistance ratio, while in parallel both branches stay at the battery voltage."
+}
+],
+"noticePrompts": {
+"intro": "Use each prompt as a short investigation. Make the change, then connect what the circuit shows on the stage to what the graphs show.",
+"items": [
+{
+"id": "bc-notice-ohms-law-line",
+"text": "For one fixed circuit, the current map stays linear because current is proportional to voltage.",
+"whyItMatters": "This is the clearest graph version of Ohm's law before extra circuit complexity is added."
+},
+{
+"id": "bc-notice-series-current",
+"text": "In series, the same loop current passes through both resistors. Changing either resistor changes that same current everywhere in the loop."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict the circuit response before you apply the change. Each scenario changes one cause at a time so you can track how voltage, current, and equivalent resistance are linked."
+},
+"challengeMode": {
+"intro": "Use the same compact battery-resistor model to build circuit targets. The checks come from the live stage, not a separate answer key.",
+"items": [
+{
+"id": "bc-ch-full-voltage-parallel-pair",
+"title": "Build a full-voltage parallel pair",
+"prompt": "Starting from the matched series pair, change only the circuit structure needed so each branch gets the full battery voltage and the total current is about 4 A."
+}
+]
+},
+"quickTest": {
+"intro": "Answer from circuit logic, then use the live setup to check yourself. Each question asks what the stage, readout, or graphs must mean."
+}
+}

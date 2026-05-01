@@ -1,0 +1,261 @@
+{
+"sections": {
+"explanation": {
+"paragraphs": [
+"After launch, the projectile is no longer being pushed in the ideal model. Gravity acts only downward, so the motion splits into two simpler parts: constant horizontal velocity and vertical motion with constant downward acceleration.",
+"The stage and graphs are designed to show that same split from several angles. The trajectory is the combined result, while the component and velocity graphs show why the arc forms: the horizontal part stays steady, the vertical part slows on the way up, reaches zero at the apex, then grows downward on the way down."
+]
+},
+"keyIdeas": [
+"Treat projectile motion as two linked motions: horizontal motion with constant velocity and vertical motion with constant downward acceleration.",
+"At the apex, the vertical velocity is zero for an instant, but the horizontal velocity is still nonzero, so the projectile keeps moving forward.",
+"For equal launch and landing height, complementary launch angles give the same range, and 45° gives the maximum range for a fixed speed."
+],
+"commonMisconception": {
+"myth": "A steeper launch angle must always give a longer range.",
+"correction": [
+"Range depends on the tradeoff between horizontal speed and time in the air, not on launch angle alone.",
+"For equal launch and landing height, a very steep shot stays aloft longer but gives up horizontal speed, so the range can shrink again. The maximum range happens at 45°, and complementary angles share the same range."
+]
+},
+"workedExamples": {
+"title": "Worked example from the live launch",
+"intro": "Use the current launch as evidence. First compute the range from the same speed, angle, and gravity used by the stage. Then freeze any instant in flight and read the velocity components from the same state shown on the graphs.",
+"items": [
+{
+"id": "predicted-range",
+"title": "Range predicted for this launch",
+"prompt": "For the current launch settings, what landing range does the equal-height formula predict?",
+"steps": [
+{
+"id": "relation",
+"label": "1. Use the equal-height range formula"
+},
+{
+"id": "substitute",
+"label": "2. Insert the current launch values"
+},
+{
+"id": "compute",
+"label": "3. Evaluate the range"
+}
+],
+"resultLabel": "Predicted landing range",
+"applyAction": {
+"label": "Try Earth shot",
+"observationHint": "Compare the computed value with the landing marker on the stage. This formula applies when the launch and landing heights are the same."
+}
+},
+{
+"id": "current-velocity-components",
+"title": "Velocity components at this instant",
+"prompt": "At $t = {{timeValue}}\\,\\mathrm{s}$, what are the projectile's horizontal and vertical velocity components?",
+"steps": [
+{
+"id": "relation",
+"label": "1. Use the component formulas"
+},
+{
+"id": "substitute",
+"label": "2. Insert the live values"
+},
+{
+"id": "compute",
+"label": "3. Evaluate each component"
+}
+],
+"resultLabel": "Velocity components now",
+"applyAction": {
+"label": "Try shallow arc",
+"observationHint": "The horizontal component stays constant, while the vertical component decreases linearly, reaches zero at the apex, and then becomes negative."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "If launch speed stays fixed and you lower the launch angle, what happens to the arc and to the time in the air?",
+"prediction": "Will the path get flatter or taller? Will the projectile stay aloft longer or for less time?",
+"answer": "The arc gets flatter and the flight time decreases.",
+"explanation": "Lowering the angle shifts more of the launch speed into the horizontal component and less into the vertical component. With less upward speed, gravity brings the projectile back down sooner."
+}
+},
+"equations": [
+{
+"id": "x-position",
+"meaning": "With no horizontal acceleration in the ideal model, horizontal position changes linearly in time."
+},
+{
+"id": "y-position",
+"meaning": "Vertical position combines the upward launch part with the downward pull of gravity."
+},
+{
+"id": "flight-time",
+"meaning": "This gives the time to return to the launch height in the ideal equal-height case."
+},
+{
+"id": "range",
+"meaning": "This gives the landing distance for the ideal equal-height case. At fixed speed, complementary launch angles share the same range."
+}
+],
+"variableLinks": [
+{
+"id": "speed",
+"description": "Increases both the horizontal and vertical launch components, so the arc can go higher and farther."
+},
+{
+"id": "angle",
+"description": "Redistributes the same launch speed between sideways motion and upward motion, which changes both the shape of the arc and the time in the air."
+},
+{
+"id": "gravity",
+"description": "Changes only the downward acceleration after launch, so the vertical motion bends more or less sharply while the initial horizontal component is unchanged."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "speed",
+"description": "Sets the size of the initial velocity vector, so both launch components start larger."
+},
+{
+"id": "angle",
+"description": "Chooses how the same launch speed is split between horizontal and vertical components."
+},
+{
+"id": "gravity",
+"description": "Sets the downward acceleration after launch. The horizontal part of the motion stays uniform in this ideal model."
+}
+],
+"presets": [
+{
+"id": "earth-shot",
+"description": "Reference case on Earth-like gravity with a clear, nearly symmetric arc."
+},
+{
+"id": "shallow-arc",
+"description": "More of the launch speed is horizontal, so the arc is flatter and the flight time is shorter."
+},
+{
+"id": "moon-hop",
+"description": "The same launch on much lower gravity stays in the air longer and travels farther."
+}
+],
+"overlays": [
+{
+"id": "velocityVector",
+"shortDescription": "Shows the projectile's instantaneous velocity direction and size.",
+"whatToNotice": [
+"The arrow is always tangent to the trajectory.",
+"It tilts downward because gravity changes the vertical component during flight."
+],
+"whyItMatters": "It links the moving projectile to the component and velocity graphs."
+},
+{
+"id": "componentVectors",
+"shortDescription": "Separates the velocity into horizontal and vertical parts.",
+"whatToNotice": [
+"The horizontal component stays the same in the ideal model.",
+"The vertical component shrinks to zero at the apex and then points downward."
+],
+"whyItMatters": "It shows exactly why the path curves even though one component stays constant."
+},
+{
+"id": "apexMarker",
+"shortDescription": "Marks the highest point of the flight.",
+"whatToNotice": [
+"At the apex, the vertical velocity is zero but the horizontal velocity is still nonzero."
+],
+"whyItMatters": "It identifies the instant when upward motion ends but forward motion continues."
+},
+{
+"id": "rangeMarker",
+"shortDescription": "Marks the horizontal landing distance from the launch point.",
+"whatToNotice": [
+"The range depends on both airtime and horizontal speed, not on angle alone."
+],
+"whyItMatters": "It keeps the landing distance tied to the full component story."
+}
+]
+},
+"graphs": [
+{
+"id": "trajectory",
+"description": "Shows the full arc produced by combining constant horizontal velocity with downward vertical acceleration."
+},
+{
+"id": "components",
+"description": "Shows horizontal position increasing steadily while vertical position rises and then falls."
+},
+{
+"id": "velocity",
+"description": "Shows $v_x$ staying constant while $v_y$ decreases linearly, crosses zero at the apex, and becomes negative on the way down."
+}
+],
+"noticePrompts": {
+"intro": "Use these prompts to connect the launch, the vectors, and the graphs. The most useful question is usually either 'which component changed?' or 'which component stayed the same?'",
+"items": [
+{
+"id": "pm-notice-components",
+"text": "Horizontal and vertical motion follow different rules even though they belong to the same launch.",
+"tryThis": "Keep the same launch speed, then compare the steady horizontal motion with the changing vertical motion as gravity bends the path.",
+"whyItMatters": "Projectile motion becomes easier once you separate the two components."
+},
+{
+"id": "pm-notice-trajectory-link",
+"text": "The trajectory graph is the same flight shown with horizontal distance and height axes.",
+"tryThis": "Hover or scrub the trajectory graph and watch the projectile move to the matching point on the stage.",
+"whyItMatters": "It turns the graph into another view of the same motion, not a separate calculation."
+},
+{
+"id": "pm-notice-angle-change",
+"text": "Changing launch angle redistributes the same launch speed between upward height and forward reach.",
+"tryThis": "Raise Launch angle and compare how the apex rises while the landing marker stops improving once the shot gets too steep.",
+"whyItMatters": "It guards against the idea that steeper always means farther."
+},
+{
+"id": "pm-notice-apex-inspection",
+"text": "The projectile is highest when the vertical velocity has dropped to zero, not when the whole velocity is zero.",
+"tryThis": "Pause and scrub near the top of the arc, then compare the apex marker with the vertical velocity on the graph.",
+"whyItMatters": "The apex is about the vertical component only. Forward motion continues."
+},
+{
+"id": "pm-notice-velocity-graph",
+"text": "On the velocity graph, $v_x$ stays flat while $v_y$ slopes downward and crosses zero at the apex.",
+"tryThis": "Switch to Velocity components and watch the horizontal line stay flat while the vertical line slopes downward.",
+"whyItMatters": "It shows exactly why the path curves even though one component is uniform."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict the component tradeoff before you touch the launch, then test it on the stage and graphs.",
+"items": [
+{
+"id": "pm-predict-1",
+"explanation": "Increasing angle puts more of the same launch speed upward and less sideways. The arc rises higher, but beyond a point the range shrinks because the horizontal component becomes too small.",
+"observationHint": "The apex rises while the landing marker eventually stops moving outward."
+},
+{
+"id": "pm-predict-2",
+"explanation": "Increasing launch speed makes both the horizontal and vertical components larger, so the projectile goes higher and farther when the angle stays fixed.",
+"observationHint": "The arc stretches both upward and outward."
+}
+]
+},
+"quickTest": {
+"intro": "Use the trajectory and component graphs together. These questions test whether you can explain the flight, not just quote one formula."
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows a projectile launched from ground level and followed through the air under gravity alone. Optional overlays can show the instantaneous velocity vector, its horizontal and vertical components, the apex, and the landing range.",
+"Changing speed, launch angle, or gravity reshapes the same flight path and updates the same component graphs. The stage and graphs are synchronized views of one launch."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The trajectory graph shows the curved flight path from launch to landing.",
+"The component graphs show horizontal position increasing steadily while vertical position rises and then falls. The velocity graph shows constant $v_x$ and linearly changing $v_y$."
+]
+}
+}
+}

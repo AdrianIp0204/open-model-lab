@@ -1,0 +1,263 @@
+[
+  {
+    "slug": "physics-connected-models",
+    "subjectSlug": "physics",
+    "title": "Physics Connections Pack",
+    "summary": "Connect motion, oscillation, wave behavior, and orbital reasoning across one compact physics assessment.",
+    "includedTopicSlugs": [
+      "mechanics",
+      "oscillations",
+      "waves",
+      "gravity-and-orbits"
+    ],
+    "questionCount": 16,
+    "questions": [
+      {
+        "id": "orbit-as-continuous-fall",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedTopicSlugs": [
+          "mechanics",
+          "gravity-and-orbits"
+        ],
+        "relatedConceptSlugs": [
+          "uniform-circular-motion",
+          "gravitational-fields",
+          "circular-orbits-orbital-speed"
+        ],
+        "authorNote": "Connects circular-motion mechanics to gravitational orbit reasoning.",
+        "prompt": "A satellite moves sideways fast enough that it keeps missing the planet while still accelerating inward. Which explanation best connects the two physics topics in this pack?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Gravity provides the inward acceleration, and the satellite's sideways speed keeps turning that continuous fall into an orbit instead of a straight drop."
+          },
+          {
+            "id": "b",
+            "label": "The sideways speed cancels gravity completely, so the satellite stops accelerating once it reaches orbit."
+          },
+          {
+            "id": "c",
+            "label": "Orbits work only because gravity disappears after launch, leaving uniform motion with no inward force."
+          },
+          {
+            "id": "d",
+            "label": "Uniform circular motion and gravity are separate ideas, so one cannot explain the other."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Mechanics says circular motion needs a continuous inward acceleration. The gravity topic then supplies the source of that inward pull, while the satellite's sideways speed keeps the motion wrapped into an orbit instead of a direct fall."
+      },
+      {
+        "id": "source-oscillation-versus-wave-travel",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedTopicSlugs": [
+          "oscillations",
+          "waves"
+        ],
+        "relatedConceptSlugs": [
+          "simple-harmonic-motion",
+          "wave-speed-wavelength",
+          "standing-waves"
+        ],
+        "authorNote": "Separates local oscillation of the source from propagation along the medium.",
+        "prompt": "A rope end is moved up and down sinusoidally while the disturbance travels along the rope. Which combined statement best connects the oscillation and wave topics?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The source point oscillates locally with its own period, while the disturbance pattern travels along the rope with a speed set by the medium; those are related but not identical motions."
+          },
+          {
+            "id": "b",
+            "label": "The source point and the disturbance must move together at the same speed, because every oscillation is automatically a traveling wave."
+          },
+          {
+            "id": "c",
+            "label": "Wave motion removes the need for local oscillation, so the rope end no longer has its own period once a wave is formed."
+          },
+          {
+            "id": "d",
+            "label": "Standing-wave patterns can form only if the source point stops oscillating entirely."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The oscillation topic tracks the repeated local motion of one point, while the wave topic tracks how the disturbance travels through space. The source frequency influences the wave, but the point's oscillation and the wave's travel are not the same kind of motion."
+      }
+    ]
+  },
+  {
+    "slug": "math-linked-representations",
+    "subjectSlug": "math",
+    "title": "Math Linked Representations Pack",
+    "summary": "Move between transformed graphs, local rates, vectors, and complex-plane motion without treating each representation as a separate island.",
+    "includedTopicSlugs": [
+      "functions",
+      "calculus",
+      "vectors",
+      "complex-numbers-and-parametric-motion"
+    ],
+    "questionCount": 14,
+    "questions": [
+      {
+        "id": "transformation-changes-the-derivative-story",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedTopicSlugs": [
+          "functions",
+          "calculus"
+        ],
+        "relatedConceptSlugs": [
+          "graph-transformations",
+          "derivative-as-slope-local-rate-of-change",
+          "optimization-maxima-minima-and-constraints"
+        ],
+        "authorNote": "Links graph transformations to derivative and optimization interpretation.",
+        "prompt": "A curve is shifted upward and stretched vertically. Which statement correctly connects the functions and calculus ideas?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The vertical stretch changes slope values and can change optimization values, while the upward shift changes output values without changing where the slope is zero."
+          },
+          {
+            "id": "b",
+            "label": "Any vertical shift changes the derivative everywhere, because slope depends only on the y-value."
+          },
+          {
+            "id": "c",
+            "label": "A vertical stretch leaves every slope unchanged, because only horizontal changes affect derivatives."
+          },
+          {
+            "id": "d",
+            "label": "Graph transformations matter for plotting, but not for local-rate or optimization reasoning."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Graph transformations and calculus are linked. Adding a constant moves the graph without changing slope, while a vertical scale factor changes slope values and therefore changes derivative-based rate and optimization interpretations."
+      },
+      {
+        "id": "complex-point-as-vector-and-polar-form",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedTopicSlugs": [
+          "vectors",
+          "complex-numbers-and-parametric-motion"
+        ],
+        "relatedConceptSlugs": [
+          "vectors-in-2d",
+          "complex-numbers-on-the-plane",
+          "polar-coordinates-radius-and-angle"
+        ],
+        "authorNote": "Connects vector components to complex-plane and polar descriptions of the same point.",
+        "prompt": "A point is written as 3 + 4i and also shown as a vector from the origin. Which interpretation best connects the two topics?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The complex number and the vector describe the same point: the real and imaginary parts are the vector components, and the same point can also be rewritten in polar magnitude-angle form."
+          },
+          {
+            "id": "b",
+            "label": "The complex number fixes only the angle, while the vector fixes only the length, so they cannot represent the same point."
+          },
+          {
+            "id": "c",
+            "label": "Complex numbers and vectors use incompatible coordinate systems, so converting between them changes the point itself."
+          },
+          {
+            "id": "d",
+            "label": "Polar form replaces the point with a curve, so it no longer matches the vector interpretation."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A point in the plane can be seen as a vector, as rectangular coordinates, or as a complex number. Polar form is another description of that same point using magnitude and angle instead of x-y components."
+      }
+    ]
+  },
+  {
+    "slug": "chemistry-connected-systems",
+    "subjectSlug": "chemistry",
+    "title": "Chemistry Connected Systems Pack",
+    "summary": "Connect reaction progress, recipe limits, and solution balance across the current chemistry topics.",
+    "includedTopicSlugs": [
+      "rates-and-equilibrium",
+      "stoichiometry-and-yield",
+      "solutions-and-ph"
+    ],
+    "questionCount": 12,
+    "questions": [
+      {
+        "id": "equilibrium-limits-theoretical-yield",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedTopicSlugs": [
+          "rates-and-equilibrium",
+          "stoichiometry-and-yield"
+        ],
+        "relatedConceptSlugs": [
+          "dynamic-equilibrium-le-chateliers-principle",
+          "stoichiometric-ratios-and-recipe-batches",
+          "percent-yield-and-reaction-extent"
+        ],
+        "authorNote": "Connects recipe-based theoretical output to reactions that do not run to full completion.",
+        "prompt": "Why can a reaction have a clear stoichiometric recipe and still produce less final product than the recipe suggests even before lab errors are considered?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Stoichiometry gives the full-conversion recipe, but an equilibrium or limited reaction extent can stop the system before that full conversion is reached."
+          },
+          {
+            "id": "b",
+            "label": "Once the balanced equation is known, every reaction must reach 100% conversion unless a catalyst is missing."
+          },
+          {
+            "id": "c",
+            "label": "Equilibrium changes the balanced equation itself, so stoichiometric ratios no longer apply."
+          },
+          {
+            "id": "d",
+            "label": "Reaction extent matters only for pH problems and never for product amount."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The balanced recipe still tells you the ratio for complete conversion, but the rates-and-equilibrium branch explains why some systems settle before all reactants are consumed. That is why theoretical full-conversion output and actual equilibrium output are not always the same thing."
+      },
+      {
+        "id": "moles-before-ph-after-dilution",
+        "kind": "bridge",
+        "type": "reasoning",
+        "relatedTopicSlugs": [
+          "stoichiometry-and-yield",
+          "solutions-and-ph"
+        ],
+        "relatedConceptSlugs": [
+          "stoichiometric-ratios-and-recipe-batches",
+          "concentration-and-dilution",
+          "acid-base-ph-intuition",
+          "buffers-and-neutralization"
+        ],
+        "authorNote": "Connects stoichiometric neutralization bookkeeping to concentration and pH after mixing.",
+        "prompt": "An acid solution is diluted and then neutralized with a base. Which workflow best connects the two chemistry topics?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Use mole ratios first to decide how much acid and base react, then use the final amounts and volume to interpret concentration and pH."
+          },
+          {
+            "id": "b",
+            "label": "Use pH first to determine the balanced reaction ratio, because mole bookkeeping is unnecessary once concentration is known."
+          },
+          {
+            "id": "c",
+            "label": "Dilution changes only the volume, so neutralization no longer depends on the reacting amounts."
+          },
+          {
+            "id": "d",
+            "label": "Buffers remove the need for stoichiometric bookkeeping entirely, even when no buffer is present."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Neutralization still follows stoichiometric mole ratios. After the reaction, the remaining amounts and the final volume determine concentration, and that concentration picture is what the solutions-and-pH topic uses to interpret pH and mixture behavior."
+      }
+    ]
+  }
+]

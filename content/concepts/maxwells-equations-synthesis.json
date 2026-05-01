@@ -1,0 +1,1226 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live synthesis checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Field-bridge checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Carry the synthesis into waves"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "See what each Maxwell equation says physically, how sources and circulation differ, and why changing electric and magnetic fields together unify electricity, magnetism, and light.",
+    "keyTakeaway": "Read Maxwell's equations as one field story: Gauss's laws separate electric sources from magnetic closure, while Faraday and Ampere-Maxwell show how changing fields drive circulation and bridge toward light."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Maxwell's equations are the compact synthesis that turns electricity and magnetism from separate-looking cases into one field story. Two equations say what counts as a source: enclosed charge sets the net electric flux through a closed surface, while magnetic field lines still close on themselves so the net magnetic flux through a closed surface stays zero. Two more equations say what changing fields do around loops: changing magnetic flux creates circulating electric fields, and conduction current plus changing electric flux create circulating magnetic fields.",
+        "This page keeps that synthesis explanation-first. One shared stage shows the two flux laws, the two circulation laws, and a light bridge cue on the same live state. The same enclosed charge, conduction current, changing-electric term, changing-magnetic term, and cycle rate drive the stage, graphs, prediction prompts, overlays, worked examples, and quick test so Maxwell's equations stay tied to one honest field-update story rather than four detached formulas."
+      ]
+    },
+    "keyIdeas": [
+      "Gauss for E is a source law: positive enclosed charge gives outward net electric flux, negative enclosed charge gives inward net electric flux, and zero enclosed charge removes the net source term.",
+      "Gauss for B is a closure law: magnetic patterns can strengthen or weaken locally, but the net magnetic flux through a closed surface still stays zero because magnetic field lines loop back.",
+      "Faraday's law says changing magnetic flux creates a circulating electric field. The response is about change, not about whether a magnetic field is merely present.",
+      "Ampere-Maxwell says magnetic circulation can come from conduction current or from a changing electric field, so current is not the only magnetic source term in the loop story.",
+      "When changing electric and magnetic fields both stay active together, Maxwell's equations explain why electricity, magnetism, and light belong to one unified field picture."
+    ],
+    "commonMisconception": {
+      "myth": "Maxwell's equations are just four separate formulas to memorize, and light only means the electric field changes first while the magnetic field reacts later.",
+      "correction": [
+        "The four equations do different jobs. Two are source laws and two are circulation laws, so reading them well means separating what creates net flux from what creates loop-like response.",
+        "In the synthesis picture, changing electric and magnetic fields can both belong to the same ongoing field update. The point is not a delayed after-effect at one point, but a coupled structure that can support propagation."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live synthesis checks",
+      "intro": "Read the current source-law and circulation-law state directly from the live synthesis surface. The same sliders and time state now driving the stage also drive the algebra below.",
+      "items": [
+        {
+          "id": "current-source-laws",
+          "title": "Current source-law readout",
+          "prompt": "At the current synthesis time t = {{timeValue}}\\,\\mathrm{s}, what do the two flux laws say about enclosed charge and magnetic closure?",
+          "variables": [
+            {
+              "id": "charge-source",
+              "variableId": "chargeSource",
+              "symbol": "Q_{\\text{enc}}",
+              "label": "Enclosed charge",
+              "valueKey": "chargeSourceValue",
+              "unit": "arb."
+            },
+            {
+              "id": "electric-flux",
+              "symbol": "\\oint \\vec{E}\\cdot d\\vec{A}",
+              "label": "Net electric flux",
+              "valueKey": "electricFluxValue",
+              "unit": "arb."
+            },
+            {
+              "id": "magnetic-loop-strength",
+              "symbol": "B_{\\text{loop}}",
+              "label": "Closed-loop magnetic pattern",
+              "valueKey": "closedLoopStrengthValue",
+              "unit": "arb."
+            },
+            {
+              "id": "cycle-rate",
+              "variableId": "cycleRate",
+              "symbol": "f",
+              "label": "Cycle rate",
+              "valueKey": "cycleRateValue",
+              "unit": "Hz"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-charge",
+              "label": "1. Read the enclosed source term",
+              "template": "The current enclosed charge is $Q_{\\text{enc}} = {{chargeSourceValue}}\\,\\mathrm{arb.}$, so the source is {{chargeSignText}}."
+            },
+            {
+              "id": "gauss-electric",
+              "label": "2. Apply Gauss for E",
+              "template": "That gives $\\oint \\vec{E}\\cdot d\\vec{A} = {{electricFluxValue}}\\,\\mathrm{arb.}$, so the net electric flux is {{electricFluxDirectionText}}."
+            },
+            {
+              "id": "gauss-magnetic",
+              "label": "3. Apply Gauss for B",
+              "template": "At the same instant the stage still gives $\\oint \\vec{B}\\cdot d\\vec{A} = {{magneticNetFluxValue}}\\,\\mathrm{arb.}$ even though the local closed-loop strength is ${{closedLoopStrengthValue}}\\,\\mathrm{arb.}$."
+            }
+          ],
+          "resultLabel": "Flux-law reading",
+          "resultTemplate": "$\\oint \\vec{E}\\cdot d\\vec{A} = {{electricFluxValue}}\\,\\mathrm{arb.}, \\quad \\oint \\vec{B}\\cdot d\\vec{A} = {{magneticNetFluxValue}}\\,\\mathrm{arb.}$",
+          "interpretationTemplate": "{{gaussInterpretation}}",
+          "applyAction": {
+            "label": "Show neutral enclosure",
+            "presetId": "neutral-circulation",
+            "observationHint": "The electric source term collapses to zero, but the loop cards can still stay active because circulation laws are a different part of the story.",
+            "highlightedControlIds": [
+              "chargeSource"
+            ],
+            "highlightedGraphIds": [
+              "flux-laws"
+            ],
+            "highlightedOverlayIds": [
+              "chargeSurface",
+              "noMonopoles"
+            ]
+          }
+        },
+        {
+          "id": "current-circulation-bridge",
+          "title": "Current circulation and light-bridge readout",
+          "prompt": "With the current changing-field snapshot, what circulating responses follow from Ampere-Maxwell and Faraday, and how strong is the light bridge cue?",
+          "variables": [
+            {
+              "id": "conduction-current",
+              "variableId": "conductionCurrent",
+              "symbol": "I_{\\text{enc}}",
+              "label": "Enclosed current",
+              "valueKey": "conductionCurrentValue",
+              "unit": "arb."
+            },
+            {
+              "id": "electric-change",
+              "variableId": "electricChangeRate",
+              "symbol": "\\dfrac{d\\Phi_E}{dt}",
+              "label": "Changing electric-flux term",
+              "valueKey": "electricChangeInstantValue",
+              "unit": "arb."
+            },
+            {
+              "id": "magnetic-change",
+              "variableId": "magneticChangeRate",
+              "symbol": "\\dfrac{d\\Phi_B}{dt}",
+              "label": "Changing magnetic-flux term",
+              "valueKey": "magneticFluxChangeValue",
+              "unit": "arb."
+            },
+            {
+              "id": "cycle-rate-bridge",
+              "variableId": "cycleRate",
+              "symbol": "f",
+              "label": "Cycle rate",
+              "valueKey": "cycleRateValue",
+              "unit": "Hz"
+            }
+          ],
+          "steps": [
+            {
+              "id": "ampere-terms",
+              "label": "1. Read the two B-circulation sources",
+              "template": "Right now the enclosed current is $I_{\\text{enc}} = {{conductionCurrentValue}}\\,\\mathrm{arb.}$ while the changing-electric term is ${{electricChangeInstantValue}}\\,\\mathrm{arb.}$."
+            },
+            {
+              "id": "ampere-balance",
+              "label": "2. Apply Ampere-Maxwell",
+              "template": "Together they give $\\oint \\vec{B}\\cdot d\\vec{l} = {{bCirculationValue}}\\,\\mathrm{arb.}$, so the magnetic loop is {{ampereBalanceText}}."
+            },
+            {
+              "id": "faraday-balance",
+              "label": "3. Apply Faraday",
+              "template": "The magnetic-flux change is ${{magneticFluxChangeValue}}\\,\\mathrm{arb.}$, so Faraday gives $\\oint \\vec{E}\\cdot d\\vec{l} = {{eCirculationValue}}\\,\\mathrm{arb.}$."
+            },
+            {
+              "id": "light-bridge",
+              "label": "4. Read the changing-field bridge",
+              "template": "Because the changing-field pair is {{fieldAlignmentText}}, the stage reports a {{waveCueLabelText}} of ${{waveCueValue}}\\,\\mathrm{arb.}$."
+            }
+          ],
+          "resultLabel": "Circulation and bridge",
+          "resultTemplate": "$\\oint \\vec{B}\\cdot d\\vec{l} = {{bCirculationValue}}\\,\\mathrm{arb.}, \\quad \\oint \\vec{E}\\cdot d\\vec{l} = {{eCirculationValue}}\\,\\mathrm{arb.}, \\quad \\text{bridge} = {{waveCueValue}}\\,\\mathrm{arb.}$",
+          "interpretationTemplate": "{{circulationInterpretation}}",
+          "applyAction": {
+            "label": "Show displacement-driven loop",
+            "presetId": "displacement-driven-loop",
+            "observationHint": "The conduction-current term goes quiet, but the magnetic loop stays alive because the changing electric field is still feeding Ampere-Maxwell.",
+            "highlightedControlIds": [
+              "conductionCurrent",
+              "electricChangeRate"
+            ],
+            "highlightedGraphIds": [
+              "ampere-maxwell-link",
+              "faraday-wave-link"
+            ],
+            "highlightedOverlayIds": [
+              "ampereMaxwell",
+              "lightBridge"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Imagine a region with no conduction current through the loop, but the electric field across that region is still changing. Should the magnetic circulation around the loop vanish?",
+      "prediction": "Answer from Ampere-Maxwell, not from a current-only rule.",
+      "answer": "No. The magnetic circulation can still be nonzero because the changing electric field contributes through Maxwell's displacement-current term.",
+      "explanation": "Ampere-Maxwell says $\\oint \\vec{B}\\cdot d\\vec{l}$ depends on enclosed conduction current plus the changing electric-flux term. Zero wire current does not force zero magnetic circulation if $d\\Phi_E/dt$ is still present."
+    }
+  },
+  "equations": [
+    {
+      "id": "gauss-electric",
+      "latex": "\\oint \\vec{E}\\cdot d\\vec{A} = \\dfrac{Q_{\\text{enc}}}{\\varepsilon_0}",
+      "label": "Gauss for E",
+      "meaning": "Enclosed charge sets the net electric flux through a closed surface."
+    },
+    {
+      "id": "gauss-magnetic",
+      "latex": "\\oint \\vec{B}\\cdot d\\vec{A} = 0",
+      "label": "Gauss for B",
+      "meaning": "Magnetic field lines still close on themselves, so a closed surface has no net magnetic source term."
+    },
+    {
+      "id": "faraday-law",
+      "latex": "\\oint \\vec{E}\\cdot d\\vec{l} = -\\dfrac{d\\Phi_B}{dt}",
+      "label": "Faraday's law",
+      "meaning": "Changing magnetic flux creates a circulating electric field."
+    },
+    {
+      "id": "ampere-maxwell",
+      "latex": "\\oint \\vec{B}\\cdot d\\vec{l} = \\mu_0 I_{\\text{enc}} + \\mu_0\\varepsilon_0\\dfrac{d\\Phi_E}{dt}",
+      "label": "Ampere-Maxwell law",
+      "meaning": "Magnetic circulation comes from conduction current and from a changing electric field."
+    },
+    {
+      "id": "light-bridge",
+      "latex": "\\partial_t \\vec{E} \\leftrightarrow \\partial_t \\vec{B}",
+      "label": "Changing-field bridge",
+      "meaning": "When both changing-field terms stay active together, the field story can keep propagating instead of remaining only local."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "chargeSource",
+      "symbol": "Q_{\\text{enc}}",
+      "label": "Enclosed charge",
+      "param": "chargeSource",
+      "tone": "coral",
+      "description": "Changes the electric source term directly, so the electric-flux card can switch between outward, inward, and balanced net flux.",
+      "equationIds": [
+        "gauss-electric"
+      ],
+      "graphIds": [
+        "flux-laws"
+      ],
+      "overlayIds": [
+        "chargeSurface"
+      ]
+    },
+    {
+      "id": "conductionCurrent",
+      "symbol": "I_{\\text{enc}}",
+      "label": "Conduction current",
+      "param": "conductionCurrent",
+      "tone": "sky",
+      "description": "Changes the ordinary current contribution to magnetic circulation without touching the electric source law.",
+      "equationIds": [
+        "ampere-maxwell"
+      ],
+      "graphIds": [
+        "ampere-maxwell-link"
+      ],
+      "overlayIds": [
+        "ampereMaxwell"
+      ]
+    },
+    {
+      "id": "electricChangeRate",
+      "symbol": "\\dfrac{d\\Phi_E}{dt}",
+      "label": "Changing electric field",
+      "param": "electricChangeRate",
+      "tone": "teal",
+      "description": "Feeds the displacement-current term in Ampere-Maxwell and helps determine whether the light bridge can stay active.",
+      "equationIds": [
+        "ampere-maxwell",
+        "light-bridge"
+      ],
+      "graphIds": [
+        "ampere-maxwell-link",
+        "faraday-wave-link"
+      ],
+      "overlayIds": [
+        "ampereMaxwell",
+        "lightBridge"
+      ]
+    },
+    {
+      "id": "magneticChangeRate",
+      "symbol": "\\dfrac{d\\Phi_B}{dt}",
+      "label": "Changing magnetic field",
+      "param": "magneticChangeRate",
+      "tone": "amber",
+      "description": "Sets the Faraday response and helps determine whether the changing-field pair reinforces a light-like bridge.",
+      "equationIds": [
+        "faraday-law",
+        "light-bridge"
+      ],
+      "graphIds": [
+        "faraday-wave-link"
+      ],
+      "overlayIds": [
+        "faradayLoop",
+        "lightBridge"
+      ]
+    },
+    {
+      "id": "cycleRate",
+      "symbol": "f",
+      "label": "Cycle rate",
+      "param": "cycleRate",
+      "tone": "ink",
+      "description": "Sets how quickly the changing-field handoff oscillates, which changes the shared timing seen by the stage and graphs.",
+      "equationIds": [
+        "light-bridge"
+      ],
+      "graphIds": [
+        "ampere-maxwell-link",
+        "faraday-wave-link"
+      ],
+      "overlayIds": [
+        "lightBridge"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "chargeSource": 1.1,
+      "conductionCurrent": 0.7,
+      "electricChangeRate": 0.9,
+      "magneticChangeRate": 0.9,
+      "cycleRate": 0.85
+    },
+    "ui": {
+      "initialGraphId": "flux-laws",
+      "primaryGraphIds": [
+        "flux-laws"
+      ],
+      "primaryControlIds": [
+        "chargeSource",
+        "electricChangeRate"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "chargeSource",
+        "kind": "slider",
+        "label": "Enclosed charge",
+        "param": "chargeSource",
+        "min": -1.6,
+        "max": 1.6,
+        "step": 0.05,
+        "unit": "arb.",
+        "description": "Sets the electric source term for the closed-surface flux reading."
+      },
+      {
+        "id": "conductionCurrent",
+        "kind": "slider",
+        "label": "Conduction current",
+        "param": "conductionCurrent",
+        "min": -1.6,
+        "max": 1.6,
+        "step": 0.05,
+        "unit": "arb.",
+        "description": "Sets the current contribution to the Ampere-Maxwell loop story."
+      },
+      {
+        "id": "electricChangeRate",
+        "kind": "slider",
+        "label": "Changing electric field",
+        "param": "electricChangeRate",
+        "min": -1.6,
+        "max": 1.6,
+        "step": 0.05,
+        "unit": "arb.",
+        "description": "Changes the size and sign of the changing-electric contribution over the shared cycle."
+      },
+      {
+        "id": "magneticChangeRate",
+        "kind": "slider",
+        "label": "Changing magnetic field",
+        "param": "magneticChangeRate",
+        "min": -1.6,
+        "max": 1.6,
+        "step": 0.05,
+        "unit": "arb.",
+        "description": "Changes the size and sign of the changing-magnetic contribution over the shared cycle."
+      },
+      {
+        "id": "cycleRate",
+        "kind": "slider",
+        "label": "Cycle rate",
+        "param": "cycleRate",
+        "min": 0.4,
+        "max": 1.6,
+        "step": 0.05,
+        "unit": "Hz",
+        "description": "Controls how quickly the shared changing-field clock runs."
+      }
+    ],
+    "presets": [
+      {
+        "id": "balanced-synthesis",
+        "label": "Balanced synthesis",
+        "description": "A compact baseline with charge, current, and both changing-field terms active together.",
+        "values": {
+          "chargeSource": 1.1,
+          "conductionCurrent": 0.7,
+          "electricChangeRate": 0.9,
+          "magneticChangeRate": 0.9,
+          "cycleRate": 0.85
+        }
+      },
+      {
+        "id": "neutral-circulation",
+        "label": "Neutral enclosure",
+        "description": "Remove the electric source term while leaving the circulation story active.",
+        "values": {
+          "chargeSource": 0,
+          "conductionCurrent": 0.8,
+          "electricChangeRate": 0.9,
+          "magneticChangeRate": 0.9,
+          "cycleRate": 0.85
+        }
+      },
+      {
+        "id": "current-dominated-loop",
+        "label": "Current-dominated loop",
+        "description": "Let conduction current dominate the magnetic circulation while the changing-electric term stays small.",
+        "values": {
+          "chargeSource": 1.1,
+          "conductionCurrent": 1.4,
+          "electricChangeRate": 0.2,
+          "magneticChangeRate": 0.7,
+          "cycleRate": 0.85
+        }
+      },
+      {
+        "id": "displacement-driven-loop",
+        "label": "Displacement-driven loop",
+        "description": "Turn off wire current and keep the changing-electric term strong so Ampere-Maxwell still drives a magnetic loop.",
+        "values": {
+          "chargeSource": 0.6,
+          "conductionCurrent": 0,
+          "electricChangeRate": 1.2,
+          "magneticChangeRate": 0.9,
+          "cycleRate": 1
+        }
+      },
+      {
+        "id": "strong-light-bridge",
+        "label": "Strong light bridge",
+        "description": "Keep both changing-field terms active together so the synthesis card shows a stronger light-like bridge cue.",
+        "values": {
+          "chargeSource": 0.4,
+          "conductionCurrent": 0.4,
+          "electricChangeRate": 1.2,
+          "magneticChangeRate": 1.2,
+          "cycleRate": 1.1
+        }
+      },
+      {
+        "id": "misaligned-bridge",
+        "label": "Misaligned bridge",
+        "description": "Flip the sign of the changing-magnetic term so the changing-field pair stops reinforcing a clean bridge.",
+        "values": {
+          "chargeSource": 0.4,
+          "conductionCurrent": 0.4,
+          "electricChangeRate": 1.2,
+          "magneticChangeRate": -1.2,
+          "cycleRate": 1.1
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "chargeSurface",
+        "label": "Charge surface",
+        "shortDescription": "Highlights the closed surface around enclosed charge so the electric source law stays visible.",
+        "whatToNotice": [
+          "Changing the enclosed charge changes the electric source term directly, even if the circulation cards below do something different."
+        ],
+        "whyItMatters": "It separates electric sources from the loop laws instead of blending everything into one field-line picture.",
+        "relatedControls": [
+          "chargeSource"
+        ],
+        "relatedGraphTabs": [
+          "flux-laws"
+        ],
+        "relatedEquationVariables": [
+          "chargeSource"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "noMonopoles",
+        "label": "Magnetic closure",
+        "shortDescription": "Keeps the no-monopoles reminder on screen so local magnetic loops are not mistaken for a net source term.",
+        "whatToNotice": [
+          "The local magnetic pattern can grow stronger while the net closed-surface magnetic flux still stays zero."
+        ],
+        "whyItMatters": "It keeps Gauss for B conceptually separate from the Ampere-Maxwell loop law.",
+        "relatedGraphTabs": [
+          "flux-laws"
+        ],
+        "relatedEquationVariables": [
+          "magneticChangeRate"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "faradayLoop",
+        "label": "Faraday loop",
+        "shortDescription": "Marks the circulating electric-field response created by changing magnetic flux.",
+        "whatToNotice": [
+          "Flipping the sign of the magnetic-flux change flips the circulating electric response."
+        ],
+        "whyItMatters": "It turns Faraday's law into a loop-reading story rather than a detached minus sign.",
+        "relatedControls": [
+          "magneticChangeRate"
+        ],
+        "relatedGraphTabs": [
+          "faraday-wave-link"
+        ],
+        "relatedEquationVariables": [
+          "magneticChangeRate"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "ampereMaxwell",
+        "label": "Ampere-Maxwell loop",
+        "shortDescription": "Shows the current term and changing-electric term feeding one shared magnetic loop.",
+        "whatToNotice": [
+          "Zero conduction current does not force zero magnetic circulation if the changing-electric term is still active."
+        ],
+        "whyItMatters": "It keeps Maxwell's displacement-current idea visible instead of hiding it inside the formula.",
+        "relatedControls": [
+          "conductionCurrent",
+          "electricChangeRate"
+        ],
+        "relatedGraphTabs": [
+          "ampere-maxwell-link"
+        ],
+        "relatedEquationVariables": [
+          "conductionCurrent",
+          "electricChangeRate"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "lightBridge",
+        "label": "Light bridge",
+        "shortDescription": "Shows whether the current changing-field pair supports a clean light-like bridge cue.",
+        "whatToNotice": [
+          "The bridge is strongest when both changing-field terms stay active together and aligned, not when only one law is doing all the work."
+        ],
+        "whyItMatters": "It is the intuition-first bridge from Maxwell's equations to electromagnetic waves and light.",
+        "relatedControls": [
+          "electricChangeRate",
+          "magneticChangeRate",
+          "cycleRate"
+        ],
+        "relatedGraphTabs": [
+          "faraday-wave-link",
+          "ampere-maxwell-link"
+        ],
+        "relatedEquationVariables": [
+          "electricChangeRate",
+          "magneticChangeRate",
+          "cycleRate"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "flux-laws",
+      "label": "Flux laws",
+      "xLabel": "time (s)",
+      "yLabel": "flux",
+      "series": [
+        "electric-flux",
+        "magnetic-net-flux"
+      ],
+      "description": "Compares the electric source-law reading with the closed-surface magnetic-flux reading so the two flux laws stay visibly different."
+    },
+    {
+      "id": "ampere-maxwell-link",
+      "label": "Ampere-Maxwell link",
+      "xLabel": "time (s)",
+      "yLabel": "circulation / source term",
+      "series": [
+        "conduction-current",
+        "electric-change-term",
+        "b-circulation"
+      ],
+      "description": "Shows the conduction-current term, the changing-electric term, and the resulting magnetic circulation on one shared time axis."
+    },
+    {
+      "id": "faraday-wave-link",
+      "label": "Faraday and light bridge",
+      "xLabel": "time (s)",
+      "yLabel": "circulation / bridge cue",
+      "series": [
+        "magnetic-change",
+        "e-circulation",
+        "light-bridge"
+      ],
+      "description": "Shows how changing magnetic flux sets the electric circulation and whether the current changing-field pair supports a clean light-like bridge cue."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use one prompt at a time. Each one points at a distinction the live synthesis stage and graphs are already making.",
+    "items": [
+      {
+        "id": "maxwell-notice-source-vs-loop",
+        "text": "Start by separating jobs. Charge changes the electric source-law card directly, but the loop cards below can still be active for completely different reasons.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Lower enclosed charge toward zero without touching the changing-field terms and watch which parts of the stage do and do not collapse.",
+        "whyItMatters": "Many Maxwell confusions come from mixing source laws with circulation laws.",
+        "relatedControls": [
+          "chargeSource"
+        ],
+        "relatedGraphTabs": [
+          "flux-laws"
+        ],
+        "relatedOverlays": [
+          "chargeSurface",
+          "ampereMaxwell"
+        ],
+        "relatedEquationVariables": [
+          "chargeSource"
+        ]
+      },
+      {
+        "id": "maxwell-notice-no-monopoles",
+        "text": "The magnetic card is not saying there is no magnetic field. It is saying the net closed-surface flux stays zero even while magnetic loops are strong locally.",
+        "type": "misconception",
+        "priority": 3,
+        "conditions": {
+          "overlayIds": [
+            "noMonopoles"
+          ]
+        },
+        "tryThis": "Watch the closed-loop readout while the lower loop cards are active. Local magnetic structure is still present even when the net flux law stays at zero.",
+        "whyItMatters": "This keeps Gauss for B from being misread as magnetism disappearing.",
+        "relatedGraphTabs": [
+          "flux-laws"
+        ],
+        "relatedOverlays": [
+          "noMonopoles"
+        ]
+      },
+      {
+        "id": "maxwell-notice-displacement",
+        "text": "Ampere-Maxwell is the key upgrade. If the changing-electric term grows while conduction current stays small, the magnetic loop can still stay active.",
+        "type": "graph-reading",
+        "priority": 5,
+        "conditions": {
+          "graphTabs": [
+            "ampere-maxwell-link"
+          ]
+        },
+        "tryThis": "Use the displacement-driven-loop preset, then compare the current-term trace with the total magnetic-circulation trace.",
+        "whyItMatters": "It turns the displacement-current term into something you can inspect directly instead of only reciting.",
+        "relatedControls": [
+          "conductionCurrent",
+          "electricChangeRate"
+        ],
+        "relatedGraphTabs": [
+          "ampere-maxwell-link"
+        ],
+        "relatedOverlays": [
+          "ampereMaxwell"
+        ],
+        "relatedEquationVariables": [
+          "conductionCurrent",
+          "electricChangeRate"
+        ]
+      },
+      {
+        "id": "maxwell-notice-light-bridge",
+        "text": "The light bridge is strongest when both changing-field terms stay active together. Flip one sign and the bridge cue weakens even though the loop laws still exist.",
+        "type": "compare",
+        "priority": 8,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Clone the strong-light-bridge setup, then flip only the magnetic-change sign in Setup B and compare the faraday-wave graph.",
+        "whyItMatters": "It is the compact intuition for why Maxwell's equations unify local electricity, magnetism, and light.",
+        "relatedControls": [
+          "electricChangeRate",
+          "magneticChangeRate"
+        ],
+        "relatedGraphTabs": [
+          "faraday-wave-link"
+        ],
+        "relatedOverlays": [
+          "lightBridge"
+        ],
+        "relatedEquationVariables": [
+          "electricChangeRate",
+          "magneticChangeRate"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Commit to the field-law consequence before you apply the change. Each scenario changes one part of the synthesis so the same stage can confirm or correct the idea.",
+    "items": [
+      {
+        "id": "maxwell-pred-neutral-charge",
+        "prompt": "If enclosed charge is reduced to zero while the current and changing-field terms stay active, what should happen on the synthesis page?",
+        "scenarioLabel": "Neutral enclosure",
+        "changeLabel": "Charge source",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The net electric-flux card should go neutral, but the circulation cards can still remain active."
+          },
+          {
+            "id": "b",
+            "label": "All four cards should collapse because Maxwell's equations need charge to do anything."
+          },
+          {
+            "id": "c",
+            "label": "The magnetic net-flux card should become nonzero to compensate for the missing charge."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Gauss for E depends on enclosed charge, so the electric source term can disappear. But the circulation laws depend on current and changing fields, and Gauss for B still keeps net magnetic flux at zero.",
+        "observationHint": "Watch the source-law row separate from the loop row instead of expecting one master slider for everything.",
+        "apply": {
+          "presetId": "neutral-circulation"
+        },
+        "highlightedControls": [
+          "chargeSource"
+        ],
+        "highlightedGraphs": [
+          "flux-laws",
+          "ampere-maxwell-link"
+        ],
+        "highlightedOverlays": [
+          "chargeSurface",
+          "noMonopoles"
+        ]
+      },
+      {
+        "id": "maxwell-pred-displacement",
+        "prompt": "If conduction current is set to zero but the changing electric field stays strong, what should happen to the magnetic circulation?",
+        "scenarioLabel": "Displacement-driven loop",
+        "changeLabel": "Ampere-Maxwell source",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The magnetic circulation can stay nonzero because the changing-electric term still feeds Ampere-Maxwell."
+          },
+          {
+            "id": "b",
+            "label": "The magnetic circulation must vanish because only wire current can source B loops."
+          },
+          {
+            "id": "c",
+            "label": "The electric source-law card should flip sign to replace the missing current."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Ampere-Maxwell includes both enclosed current and the changing-electric term. Zero conduction current does not remove the magnetic loop if the changing-electric contribution is still active.",
+        "observationHint": "Compare the current-term trace with the total B-circulation trace after the conduction-current slider hits zero.",
+        "apply": {
+          "presetId": "displacement-driven-loop"
+        },
+        "highlightedControls": [
+          "conductionCurrent",
+          "electricChangeRate"
+        ],
+        "highlightedGraphs": [
+          "ampere-maxwell-link"
+        ],
+        "highlightedOverlays": [
+          "ampereMaxwell"
+        ]
+      },
+      {
+        "id": "maxwell-pred-misaligned-bridge",
+        "prompt": "If the sign of the changing-magnetic term is flipped while the changing-electric term stays the same, what should the synthesis page show?",
+        "scenarioLabel": "Misaligned bridge",
+        "changeLabel": "Changing-B sign",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Faraday's circulating-E response should flip, and the light bridge cue should weaken into a misaligned state."
+          },
+          {
+            "id": "b",
+            "label": "Only the electric source-law card should flip because charge and magnetic change are the same thing here."
+          },
+          {
+            "id": "c",
+            "label": "Nothing important changes because both loop laws always point the same way."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Faraday depends directly on the sign of the magnetic-flux change, so the circulating-E response flips. If the changing-E and changing-B terms stop aligning, the light bridge cue weakens even though both loop laws still exist.",
+        "observationHint": "Use the bridge card and the faraday-wave graph together. The loop law remains, but the combined bridge cue becomes misaligned.",
+        "apply": {
+          "presetId": "misaligned-bridge"
+        },
+        "highlightedControls": [
+          "magneticChangeRate",
+          "electricChangeRate"
+        ],
+        "highlightedGraphs": [
+          "faraday-wave-link"
+        ],
+        "highlightedOverlays": [
+          "faradayLoop",
+          "lightBridge"
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live synthesis logic, not from detached formula recall. Each question asks what the field picture must mean physically.",
+    "questions": [
+      {
+        "id": "maxwell-qt-gauss-electric",
+        "prompt": "Which Maxwell equation is the direct source-law statement that enclosed charge changes the net field through a closed surface?",
+        "type": "reasoning",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Gauss for E"
+          },
+          {
+            "id": "b",
+            "label": "Gauss for B"
+          },
+          {
+            "id": "c",
+            "label": "Faraday's law"
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Gauss for E links enclosed charge to the net electric flux through a closed surface. The other equations are about magnetic closure or circulation around loops.",
+        "selectedWrongExplanations": {
+          "b": "Gauss for B is the no-monopoles statement, not the charge-source law.",
+          "c": "Faraday is a circulation law driven by changing magnetic flux."
+        },
+        "showMeAction": {
+          "label": "Highlight the charge surface",
+          "highlightedGraphIds": [
+            "flux-laws"
+          ],
+          "highlightedOverlayIds": [
+            "chargeSurface"
+          ]
+        }
+      },
+      {
+        "id": "maxwell-qt-gauss-magnetic",
+        "prompt": "What does Gauss for B mean on this synthesis page?",
+        "type": "misconception-check",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The net magnetic flux through a closed surface stays zero even when local magnetic loops are strong."
+          },
+          {
+            "id": "b",
+            "label": "Magnetic fields disappear whenever the electric source term is zero."
+          },
+          {
+            "id": "c",
+            "label": "Magnetic circulation and magnetic flux are the same measurement."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Gauss for B is the no-net-source statement. It does not say magnetic fields are absent; it says the field lines still close so the net closed-surface flux stays zero.",
+        "selectedWrongExplanations": {
+          "b": "Zero electric source term does not remove local magnetic structure.",
+          "c": "Flux through a closed surface and circulation around a loop are different physical readings."
+        },
+        "showMeAction": {
+          "label": "Highlight magnetic closure",
+          "highlightedGraphIds": [
+            "flux-laws"
+          ],
+          "highlightedOverlayIds": [
+            "noMonopoles"
+          ]
+        }
+      },
+      {
+        "id": "maxwell-qt-displacement",
+        "prompt": "A student says, If no conduction current passes through the loop, the magnetic circulation must be zero. What is the best correction?",
+        "type": "variable-effect",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Ampere-Maxwell still allows magnetic circulation if the electric field is changing."
+          },
+          {
+            "id": "b",
+            "label": "That statement is correct because only wire current can create magnetic loops."
+          },
+          {
+            "id": "c",
+            "label": "The loop law disappears and Gauss for E takes over instead."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Maxwell's extra term matters here. A changing electric field can still source magnetic circulation even when the conduction-current contribution is zero.",
+        "selectedWrongExplanations": {
+          "b": "That misses Maxwell's displacement-current term.",
+          "c": "Gauss for E is a separate source law, not a replacement for the loop law."
+        },
+        "showMeAction": {
+          "label": "Show the displacement-driven loop",
+          "presetId": "displacement-driven-loop",
+          "observationHint": "The current term goes quiet, but the total magnetic-circulation trace stays active.",
+          "highlightedControlIds": [
+            "conductionCurrent",
+            "electricChangeRate"
+          ],
+          "highlightedGraphIds": [
+            "ampere-maxwell-link"
+          ],
+          "highlightedOverlayIds": [
+            "ampereMaxwell"
+          ]
+        }
+      },
+      {
+        "id": "maxwell-qt-light-bridge",
+        "prompt": "Why does this synthesis page treat the aligned changing-field pair as the bridge to light?",
+        "type": "compare-two-cases",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because changing E and changing B can keep feeding one coherent field update instead of remaining only local source effects."
+          },
+          {
+            "id": "b",
+            "label": "Because light is just the electric source-law card with a faster cycle rate."
+          },
+          {
+            "id": "c",
+            "label": "Because the magnetic net-flux law becomes nonzero when light appears."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The light bridge cue is the intuition-first result of the two circulation laws working together. It is not just faster charge flow, and it does not require breaking Gauss for B.",
+        "selectedWrongExplanations": {
+          "b": "Light is not the electric source law by itself; the coupled changing-field story matters.",
+          "c": "Gauss for B still stays at zero net flux even in the unified light story."
+        },
+        "showMeAction": {
+          "label": "Show the strong light bridge",
+          "presetId": "strong-light-bridge",
+          "observationHint": "Start from the aligned bridge, then compare it with the misaligned preset to see why the bridge cue weakens.",
+          "highlightedControlIds": [
+            "electricChangeRate",
+            "magneticChangeRate"
+          ],
+          "highlightedGraphIds": [
+            "faraday-wave-link"
+          ],
+          "highlightedOverlayIds": [
+            "lightBridge"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows five compact cards on one shared synthesis surface. Two top cards summarize the flux laws for electric and magnetic fields, two lower cards summarize the circulation laws, and a wider bridge card summarizes whether the current changing-field pair supports a light-like bridge cue.",
+        "A live readout lists time, enclosed charge, conduction current, changing-electric term, changing-magnetic term, magnetic circulation, and electric circulation. Optional overlays highlight the charge surface, magnetic closure reminder, Faraday loop, Ampere-Maxwell loop, and the light bridge cue."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The flux-laws graph compares net electric flux with net magnetic flux on the same time axis. The Ampere-Maxwell graph compares conduction current, the changing-electric term, and the resulting magnetic circulation. The Faraday-and-bridge graph compares the changing-magnetic term, the circulating electric response, and the light-bridge cue.",
+        "The accessibility takeaway is that the graphs keep source laws and circulation laws distinct while still showing how the changing-field pair can support a unified electricity-magnetism-light story."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Maxwell's Equations Synthesis | Open Model Lab",
+    "description": "Explore the physical meaning of Maxwell's equations with one compact synthesis stage that links source laws, circulation laws, changing fields, and the bridge to light.",
+    "keywords": [
+      "maxwell equations",
+      "electromagnetism",
+      "electric flux",
+      "faraday law",
+      "ampere maxwell law",
+      "light"
+    ]
+  },
+  "v2": {
+    "intuition": "Maxwell's equations become less intimidating when you sort them by job: closed surfaces reveal source laws, while loops reveal circulation laws.",
+    "whyItMatters": "That source-versus-loop split is the clean route from charge, current, and induction to the idea that changing electric and magnetic fields can sustain one electromagnetic wave story.",
+    "estimatedMinutes": 30,
+    "equationSnapshot": {
+      "equationIds": [
+        "gauss-electric",
+        "gauss-magnetic",
+        "ampere-maxwell"
+      ],
+      "note": "Use Gauss for E and Gauss for B to split source from closure, then use Ampere-Maxwell as the loop-law upgrade; Faraday joins it in the guided bridge step."
+    },
+    "startSetup": {
+      "presetId": "balanced-synthesis",
+      "graphId": "flux-laws",
+      "overlayIds": [
+        "chargeSurface",
+        "noMonopoles"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "sort-source-laws",
+        "title": "Sort the source laws",
+        "goal": "Separate the electric source law from the magnetic no-source law before looking at loops.",
+        "doThis": "Keep Flux laws open, move Enclosed charge toward zero, and compare the electric-flux card with the magnetic-flux card.",
+        "notice": "The electric flux changes with enclosed charge, but the magnetic net flux through the closed surface stays zero.",
+        "explain": "Gauss for E is a charge-source law, while Gauss for B is a closure law. They are both flux laws, but only one has an enclosed-source term.",
+        "reveal": {
+          "controlIds": [
+            "chargeSource"
+          ],
+          "graphIds": [
+            "flux-laws"
+          ],
+          "overlayIds": [
+            "chargeSurface",
+            "noMonopoles"
+          ]
+        },
+        "setup": {
+          "presetId": "neutral-circulation",
+          "graphId": "flux-laws",
+          "overlayIds": [
+            "chargeSurface",
+            "noMonopoles"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "maxwell-qt-gauss-electric"
+          ]
+        }
+      },
+      {
+        "id": "compare-loop-sources",
+        "title": "Compare loop sources",
+        "goal": "Use Ampere-Maxwell to see why magnetic circulation is not only a wire-current effect.",
+        "doThis": "Switch to the Ampere-Maxwell graph, set up the displacement-driven loop, and compare the conduction-current trace with the changing-electric trace.",
+        "notice": "The wire-current contribution can go quiet while the total magnetic circulation stays active because the changing electric field is still feeding the loop law.",
+        "explain": "Ampere-Maxwell adds the displacement-current term, so changing electric flux can source magnetic circulation even without conduction current through the loop.",
+        "reveal": {
+          "controlIds": [
+            "conductionCurrent",
+            "electricChangeRate"
+          ],
+          "graphIds": [
+            "ampere-maxwell-link"
+          ],
+          "overlayIds": [
+            "ampereMaxwell"
+          ]
+        },
+        "setup": {
+          "presetId": "displacement-driven-loop",
+          "graphId": "ampere-maxwell-link",
+          "overlayIds": [
+            "ampereMaxwell"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "maxwell-pred-displacement"
+          ]
+        }
+      },
+      {
+        "id": "connect-faraday-bridge",
+        "title": "Connect the field bridge",
+        "goal": "Tie Faraday's changing-B response to the light-bridge cue from the changing-field pair.",
+        "doThis": "Open the Faraday and light bridge graph, compare strong-light-bridge with misaligned-bridge, and watch how the bridge cue changes.",
+        "notice": "Flipping one changing-field sign changes the Faraday response and weakens the bridge cue even though the loop laws still exist.",
+        "explain": "The bridge to electromagnetic waves is not a delayed one-field-after-the-other story. It is the coupled changing-field structure that can keep the update going.",
+        "reveal": {
+          "controlIds": [
+            "electricChangeRate",
+            "magneticChangeRate",
+            "cycleRate"
+          ],
+          "graphIds": [
+            "faraday-wave-link"
+          ],
+          "overlayIds": [
+            "faradayLoop",
+            "lightBridge"
+          ]
+        },
+        "setup": {
+          "presetId": "strong-light-bridge",
+          "graphId": "faraday-wave-link",
+          "overlayIds": [
+            "faradayLoop",
+            "lightBridge"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "maxwell-pred-misaligned-bridge"
+          ]
+        }
+      },
+      {
+        "id": "synthesize-four-laws",
+        "title": "Synthesize the four laws",
+        "goal": "Explain the current live state using one source-versus-circulation sentence.",
+        "doThis": "Use the quick checks, then answer the checkpoint about zero conduction current with a changing electric field.",
+        "notice": "A good Maxwell explanation names which laws are about net flux and which laws are about loop response before jumping to the wave connection.",
+        "explain": "The synthesis is the classification: charges source net electric flux, magnetic flux stays closed, changing B circulates E, and current or changing E circulates B.",
+        "reveal": {
+          "controlIds": [
+            "chargeSource",
+            "conductionCurrent",
+            "electricChangeRate",
+            "magneticChangeRate",
+            "cycleRate"
+          ],
+          "graphIds": [
+            "flux-laws",
+            "ampere-maxwell-link",
+            "faraday-wave-link"
+          ],
+          "overlayIds": [
+            "chargeSurface",
+            "noMonopoles",
+            "faradayLoop",
+            "ampereMaxwell",
+            "lightBridge"
+          ]
+        },
+        "setup": {
+          "presetId": "balanced-synthesis",
+          "graphId": "faraday-wave-link",
+          "overlayIds": [
+            "faradayLoop",
+            "ampereMaxwell",
+            "lightBridge"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "maxwell-qt-displacement"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Gauss for E links enclosed charge to net electric flux through a closed surface.",
+        "Gauss for B keeps the net magnetic flux through a closed surface at zero without making local magnetic fields disappear.",
+        "Faraday turns changing magnetic flux into circulating electric field.",
+        "Ampere-Maxwell lets conduction current or changing electric flux feed magnetic circulation.",
+        "Aligned changing electric and magnetic fields are the bridge from Maxwell's equations toward electromagnetic waves."
+      ],
+      "misconception": "Do not memorize the four equations as disconnected formulas. First ask whether the equation is about net flux through a closed surface or circulation around a loop.",
+      "workedExampleRefs": [
+        "current-source-laws",
+        "current-circulation-bridge"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "electromagnetic-waves",
+          "title": "Electromagnetic Waves",
+          "reasonLabel": "See the propagation consequence"
+        },
+        {
+          "slug": "light-spectrum-linkage",
+          "title": "Light as an Electromagnetic Wave",
+          "reasonLabel": "Carry the synthesis into light"
+        },
+        {
+          "slug": "magnetic-force-moving-charges-currents",
+          "title": "Magnetic Force on Moving Charges and Currents",
+          "reasonLabel": "Reconnect B to force"
+        }
+      ],
+      "freePlayPrompt": "Pick one change first, predict whether it belongs to a source law or a loop law, then move the matching slider and check the graph."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "accessibility"
+    ]
+  }
+}

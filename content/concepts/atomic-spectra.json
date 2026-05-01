@@ -1,0 +1,1272 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live spectra checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Line-pattern checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Carry the line story forward"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Link discrete emission and absorption lines to allowed energy-level gaps with one compact ladder-and-spectrum bench that keeps transitions, wavelengths, and mode changes tied together.",
+    "keyTakeaway": "Each spectral line comes from one allowed energy difference, not from any arbitrary wavelength.",
+    "whyItMatters": "Line spectra are the clean bridge from photon energy to atomic structure: once you can map each line to an allowed energy gap, emission, absorption, and later Bohr-style models stop feeling like disconnected facts."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Atomic spectra are the bounded modern-physics case where light does not come out in every color. When an atom changes between allowed energy levels, it can emit or absorb only photons whose energy matches one of those level gaps, so the spectrum breaks into discrete lines instead of a smooth rainbow.",
+        "This module keeps one energy ladder, one observed spectrum strip, one wavelength graph, and one shared set of readouts. The same gaps drive the stage, overlays, worked examples, challenge checks, compare mode, quick test, and read-next cues, so the learner keeps one honest link between energy changes and spectral lines instead of drifting into a detached derivation page."
+      ]
+    },
+    "keyIdeas": [
+      "Each spectral line comes from one allowed energy difference, not from any arbitrary wavelength.",
+      "Larger energy gaps make shorter-wavelength photons, while smaller gaps make longer-wavelength photons.",
+      "Emission and absorption use the same allowed wavelengths because they come from the same level differences.",
+      "This compact ladder is a bounded precursor to later Bohr-style level models: it emphasizes line positions and energy differences without claiming full atomic structure."
+    ],
+    "commonMisconception": {
+      "myth": "Emission lines and absorption lines should appear at different wavelengths because one process sends light out and the other takes light in.",
+      "correction": [
+        "The same allowed level gaps set both processes, so the allowed wavelengths match.",
+        "What changes is the appearance of the spectrum: emission gives bright lines, while absorption removes those same wavelengths from a background continuum."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live spectra checks",
+      "intro": "Use the current ladder and spectrum state directly from the live bench. The same gaps and mode setting drive the stage, the spectrum graph, the overlays, and the worked result.",
+      "items": [
+        {
+          "id": "current-visible-pair",
+          "title": "Current visible-line pattern",
+          "prompt": "With gaps {{gap21Value}}, {{gap32Value}}, and {{gap43Value}}, which visible lines should the current ladder produce?",
+          "variables": [
+            {
+              "id": "gap21",
+              "variableId": "gap12Ev",
+              "symbol": "\\Delta E_{2\\to1}",
+              "label": "Level 2 to 1 gap",
+              "valueKey": "gap21Value",
+              "unit": "eV"
+            },
+            {
+              "id": "gap32",
+              "variableId": "gap23Ev",
+              "symbol": "\\Delta E_{3\\to2}",
+              "label": "Level 3 to 2 gap",
+              "valueKey": "gap32Value",
+              "unit": "eV"
+            },
+            {
+              "id": "gap43",
+              "variableId": "gap34Ev",
+              "symbol": "\\Delta E_{4\\to3}",
+              "label": "Level 4 to 3 gap",
+              "valueKey": "gap43Value",
+              "unit": "eV"
+            }
+          ],
+          "steps": [
+            {
+              "id": "pair-21",
+              "label": "1. Convert the 2 -> 1 gap to a wavelength",
+              "template": "For the current ladder, $\\Delta E_{2\\to1} = {{gap21Value}}$, so the 2 -> 1 line sits near {{line21WavelengthValue}}."
+            },
+            {
+              "id": "pair-32",
+              "label": "2. Convert another allowed gap",
+              "template": "The 3 -> 2 gap is {{gap32Value}}, so that line lands near {{line32WavelengthValue}}."
+            },
+            {
+              "id": "pattern",
+              "label": "3. Read the visible pattern honestly",
+              "template": "On the live spectrum, the current gap set gives {{visibleLineCountValue}} visible lines between {{shortestVisibleWavelengthValue}} and {{longestVisibleWavelengthValue}}."
+            }
+          ],
+          "resultLabel": "Current visible pattern",
+          "resultTemplate": "$\\lambda_{2\\to1} = {{line21WavelengthValue}}, \\; \\lambda_{3\\to2} = {{line32WavelengthValue}}, \\; {{visibleLineCountValue}} visible lines$",
+          "interpretationTemplate": "{{visiblePatternInterpretation}}",
+          "applyAction": {
+            "label": "Show a hydrogen-like emission pattern",
+            "presetId": "hydrogen-like-emission",
+            "observationHint": "Watch the same three visible lines stay tied to the ladder arrows and the spectrum graph together.",
+            "highlightedControlIds": [
+              "gap12Ev",
+              "gap23Ev",
+              "gap34Ev"
+            ],
+            "highlightedGraphIds": [
+              "spectrum-lines"
+            ],
+            "highlightedOverlayIds": [
+              "transitionPairs",
+              "lineLabels",
+              "quantizedSpacing"
+            ]
+          }
+        },
+        {
+          "id": "current-mode-line",
+          "title": "Current mode and shared wavelength",
+          "prompt": "For the current mode {{modeLabelValue}}, what happens to the strongest high-energy line and why does its wavelength stay fixed?",
+          "variables": [
+            {
+              "id": "mode",
+              "variableId": "absorptionMode",
+              "symbol": "m",
+              "label": "Spectrum mode",
+              "valueKey": "modeLabelValue"
+            },
+            {
+              "id": "line41energy",
+              "symbol": "\\Delta E_{4\\to1}",
+              "label": "Largest gap",
+              "valueKey": "line41EnergyValue",
+              "unit": "eV"
+            },
+            {
+              "id": "line41wavelength",
+              "symbol": "\\lambda_{4\\leftrightarrow1}",
+              "label": "Shared wavelength",
+              "valueKey": "line41WavelengthValue",
+              "unit": "nm"
+            }
+          ],
+          "steps": [
+            {
+              "id": "largest-gap",
+              "label": "1. Read the largest allowed gap",
+              "template": "The biggest allowed jump here is $\\Delta E_{4\\to1} = {{line41EnergyValue}}$."
+            },
+            {
+              "id": "convert-largest-gap",
+              "label": "2. Convert that gap to a wavelength",
+              "template": "That same gap corresponds to {{line41WavelengthValue}}, whether the atom is emitting or absorbing."
+            },
+            {
+              "id": "mode-appearance",
+              "label": "3. Separate wavelength from appearance",
+              "template": "In {{modeLabelValue}}, that line appears as {{appearanceLabelValue}}, but the wavelength stays locked to the same allowed gap."
+            }
+          ],
+          "resultLabel": "Current mode link",
+          "resultTemplate": "$\\Delta E_{4\\to1} = {{line41EnergyValue}}, \\; \\lambda_{4\\leftrightarrow1} = {{line41WavelengthValue}}, \\; {{modeLabelValue}}$",
+          "interpretationTemplate": "{{modeInterpretation}}",
+          "applyAction": {
+            "label": "Flip to the matching absorption case",
+            "presetId": "hydrogen-like-absorption",
+            "observationHint": "The bright lines become dark notches at the same wavelengths because the allowed gaps did not change.",
+            "highlightedControlIds": [
+              "absorptionMode"
+            ],
+            "highlightedGraphIds": [
+              "spectrum-lines"
+            ],
+            "highlightedOverlayIds": [
+              "modeLock",
+              "transitionPairs",
+              "lineLabels"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "A spectrum shows only a few narrow lines instead of every visible color. What is the strongest bounded explanation on this page?",
+      "prediction": "Answer from the allowed energy gaps, not from the color labels alone.",
+      "answer": "The atom can change only between allowed energy levels, so it can emit or absorb only the photon energies that match those level differences.",
+      "explanation": "Discrete level gaps create discrete photon energies. The page stays bounded by showing only that line-pattern logic, without claiming a full atom-by-atom derivation."
+    }
+  },
+  "equations": [
+    {
+      "id": "line-energy",
+      "latex": "\\Delta E = hf = \\dfrac{hc}{\\lambda}",
+      "label": "Energy carried by one spectral line",
+      "meaning": "Each line corresponds to one photon energy that matches one allowed level difference."
+    },
+    {
+      "id": "wavelength-gap",
+      "latex": "\\lambda = \\dfrac{hc}{\\Delta E}",
+      "label": "Wavelength from an energy gap",
+      "meaning": "Bigger level gaps give shorter wavelengths; smaller gaps give longer wavelengths."
+    },
+    {
+      "id": "combined-gap",
+      "latex": "\\Delta E_{4\\to1} = \\Delta E_{4\\to3} + \\Delta E_{3\\to2} + \\Delta E_{2\\to1}",
+      "label": "Combined jump",
+      "meaning": "A larger jump across several levels adds the intermediate gaps together."
+    },
+    {
+      "id": "same-lines",
+      "latex": "\\lambda_{\\mathrm{abs}} = \\lambda_{\\mathrm{emit}}",
+      "label": "Shared allowed wavelengths",
+      "meaning": "Emission and absorption line positions match because both use the same allowed level differences."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "gap12Ev",
+      "symbol": "\\Delta E_{2\\to1}",
+      "label": "2 to 1 gap",
+      "param": "gap12Ev",
+      "tone": "coral",
+      "description": "Moves the lowest visible or infrared line and any larger jump that includes level 1.",
+      "equationIds": [
+        "line-energy",
+        "wavelength-gap",
+        "combined-gap"
+      ],
+      "graphIds": [
+        "spectrum-lines"
+      ],
+      "overlayIds": [
+        "transitionPairs",
+        "quantizedSpacing"
+      ]
+    },
+    {
+      "id": "gap23Ev",
+      "symbol": "\\Delta E_{3\\to2}",
+      "label": "3 to 2 gap",
+      "param": "gap23Ev",
+      "tone": "sky",
+      "description": "Moves the middle level spacing and changes the line pattern non-uniformly because some larger jumps include it and some do not.",
+      "equationIds": [
+        "line-energy",
+        "wavelength-gap",
+        "combined-gap"
+      ],
+      "graphIds": [
+        "spectrum-lines"
+      ],
+      "overlayIds": [
+        "transitionPairs",
+        "lineLabels"
+      ]
+    },
+    {
+      "id": "gap34Ev",
+      "symbol": "\\Delta E_{4\\to3}",
+      "label": "4 to 3 gap",
+      "param": "gap34Ev",
+      "tone": "teal",
+      "description": "Moves the upper-level spacing and can pull a line into or out of the visible window without changing the lower gaps.",
+      "equationIds": [
+        "line-energy",
+        "wavelength-gap",
+        "combined-gap"
+      ],
+      "graphIds": [
+        "spectrum-lines"
+      ],
+      "overlayIds": [
+        "transitionPairs",
+        "lineLabels"
+      ]
+    },
+    {
+      "id": "absorptionMode",
+      "symbol": "m",
+      "label": "Absorption mode",
+      "param": "absorptionMode",
+      "tone": "amber",
+      "description": "Switches the same allowed wavelengths between bright emission lines and dark absorption notches.",
+      "equationIds": [
+        "same-lines"
+      ],
+      "graphIds": [
+        "spectrum-lines"
+      ],
+      "overlayIds": [
+        "modeLock",
+        "lineLabels"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "gap12Ev": 1.9,
+      "gap23Ev": 2.6,
+      "gap34Ev": 2.7,
+      "absorptionMode": false,
+      "transitionPairs": true,
+      "lineLabels": true,
+      "modeLock": true,
+      "quantizedSpacing": true
+    },
+    "ui": {
+      "initialGraphId": "spectrum-lines",
+      "primaryGraphIds": [
+        "spectrum-lines"
+      ],
+      "primaryControlIds": [
+        "gap12Ev",
+        "gap23Ev",
+        "gap34Ev",
+        "absorptionMode"
+      ],
+      "primaryPresetIds": [
+        "hydrogen-like-emission",
+        "hydrogen-like-absorption",
+        "clustered-visible-lines"
+      ]
+    },
+    "controls": [
+      {
+        "id": "gap12Ev",
+        "kind": "slider",
+        "label": "2 to 1 gap",
+        "param": "gap12Ev",
+        "min": 1.1,
+        "max": 3.6,
+        "step": 0.05,
+        "unit": "eV",
+        "description": "Sets the lowest allowed gap."
+      },
+      {
+        "id": "gap23Ev",
+        "kind": "slider",
+        "label": "3 to 2 gap",
+        "param": "gap23Ev",
+        "min": 1.1,
+        "max": 3.6,
+        "step": 0.05,
+        "unit": "eV",
+        "description": "Sets the middle allowed gap."
+      },
+      {
+        "id": "gap34Ev",
+        "kind": "slider",
+        "label": "4 to 3 gap",
+        "param": "gap34Ev",
+        "min": 1.1,
+        "max": 3.6,
+        "step": 0.05,
+        "unit": "eV",
+        "description": "Sets the highest allowed gap."
+      },
+      {
+        "id": "absorptionMode",
+        "kind": "toggle",
+        "label": "Show absorption case",
+        "param": "absorptionMode",
+        "description": "Switch between bright emission lines and dark absorption notches without changing the allowed wavelengths."
+      }
+    ],
+    "presets": [
+      {
+        "id": "hydrogen-like-emission",
+        "label": "Hydrogen-like emission",
+        "description": "Three visible emission lines with several ultraviolet jumps above them.",
+        "values": {
+          "gap12Ev": 1.9,
+          "gap23Ev": 2.6,
+          "gap34Ev": 2.7,
+          "absorptionMode": false
+        }
+      },
+      {
+        "id": "hydrogen-like-absorption",
+        "label": "Hydrogen-like absorption",
+        "description": "The same line positions now appear as dark notches in a continuum.",
+        "values": {
+          "gap12Ev": 1.9,
+          "gap23Ev": 2.6,
+          "gap34Ev": 2.7,
+          "absorptionMode": true
+        }
+      },
+      {
+        "id": "clustered-visible-lines",
+        "label": "Clustered visible lines",
+        "description": "Place three visible lines closer together to compare their spacing.",
+        "values": {
+          "gap12Ev": 2,
+          "gap23Ev": 2.1,
+          "gap34Ev": 2.2,
+          "absorptionMode": false
+        }
+      },
+      {
+        "id": "wide-upper-gap",
+        "label": "Wide upper gap",
+        "description": "Push the highest single-step line toward the ultraviolet while lower gaps stay visible.",
+        "values": {
+          "gap12Ev": 1.9,
+          "gap23Ev": 2.1,
+          "gap34Ev": 3.4,
+          "absorptionMode": false
+        }
+      },
+      {
+        "id": "infrared-plus-visible",
+        "label": "Infrared plus visible",
+        "description": "Let one smaller gap slip into the infrared while two other lines stay visible.",
+        "values": {
+          "gap12Ev": 1.3,
+          "gap23Ev": 2.1,
+          "gap34Ev": 2.9,
+          "absorptionMode": false
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "transitionPairs",
+        "label": "Transition pairs",
+        "shortDescription": "Links the active ladder jump directly to its wavelength in the spectrum strip.",
+        "whatToNotice": [
+          "The active arrow and the active line move together because they are two views of the same energy change."
+        ],
+        "whyItMatters": "It prevents the ladder and the spectrum from becoming disconnected pictures.",
+        "relatedControls": [
+          "gap12Ev",
+          "gap23Ev",
+          "gap34Ev"
+        ],
+        "relatedGraphTabs": [
+          "spectrum-lines"
+        ],
+        "relatedEquationVariables": [
+          "gap12Ev",
+          "gap23Ev",
+          "gap34Ev"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "lineLabels",
+        "label": "Line labels",
+        "shortDescription": "Shows which level pair belongs to each spectral line and where it lands in nanometers.",
+        "whatToNotice": [
+          "Changing one gap can move several labeled lines because larger jumps include multiple level differences."
+        ],
+        "whyItMatters": "It makes the non-uniform pattern of spectral lines easier to read and compare.",
+        "relatedControls": [
+          "gap12Ev",
+          "gap23Ev",
+          "gap34Ev"
+        ],
+        "relatedGraphTabs": [
+          "spectrum-lines"
+        ],
+        "relatedEquationVariables": [
+          "gap12Ev",
+          "gap23Ev",
+          "gap34Ev"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "modeLock",
+        "label": "Mode lock",
+        "shortDescription": "Keeps the same allowed wavelengths visible when the page flips between emission and absorption.",
+        "whatToNotice": [
+          "Bright peaks become dark notches at the same wavelengths because the level differences did not change."
+        ],
+        "whyItMatters": "It separates line position from spectrum appearance.",
+        "relatedControls": [
+          "absorptionMode"
+        ],
+        "relatedGraphTabs": [
+          "spectrum-lines"
+        ],
+        "relatedEquationVariables": [
+          "absorptionMode"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "quantizedSpacing",
+        "label": "Quantized spacing",
+        "shortDescription": "Reminds you that only allowed level gaps produce lines, so the spectrum is not continuously filled in.",
+        "whatToNotice": [
+          "Empty wavelength regions are expected whenever no allowed gap matches them."
+        ],
+        "whyItMatters": "It is the cleanest bounded cue for quantization on this page.",
+        "relatedControls": [
+          "gap12Ev",
+          "gap23Ev",
+          "gap34Ev"
+        ],
+        "relatedGraphTabs": [
+          "spectrum-lines"
+        ],
+        "relatedEquationVariables": [
+          "gap12Ev",
+          "gap23Ev",
+          "gap34Ev"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "spectrum-lines",
+      "label": "Observed spectrum",
+      "xLabel": "wavelength (nm)",
+      "yLabel": "relative intensity",
+      "series": [
+        "observed-spectrum",
+        "continuum-reference"
+      ],
+      "description": "Shows the current discrete line pattern across ultraviolet, visible, and infrared wavelengths with a continuum reference for the absorption case."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use one prompt at a time so the ladder, the spectrum strip, and the wavelength graph stay on the same compact bench.",
+    "items": [
+      {
+        "id": "as-notice-discrete",
+        "text": "Most wavelengths stay empty because this ladder allows only a few level differences. The spectrum is sparse by construction, not by display choice.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Start on Hydrogen-like emission and watch the spectrum graph between the visible lines.",
+        "whyItMatters": "It is the bounded visual reason atoms produce line spectra instead of smooth rainbows.",
+        "relatedControls": [
+          "gap12Ev",
+          "gap23Ev",
+          "gap34Ev"
+        ],
+        "relatedGraphTabs": [
+          "spectrum-lines"
+        ],
+        "relatedOverlays": [
+          "quantizedSpacing",
+          "transitionPairs"
+        ]
+      },
+      {
+        "id": "as-notice-one-gap",
+        "text": "Changing one gap can move more than one line because larger jumps include that same gap inside them.",
+        "type": "try-this",
+        "priority": 4,
+        "tryThis": "Raise only the 2 to 1 gap and watch which labeled lines shift together.",
+        "whyItMatters": "It turns the line pattern into a structured energy map instead of a list of unrelated colors.",
+        "relatedControls": [
+          "gap12Ev"
+        ],
+        "relatedGraphTabs": [
+          "spectrum-lines"
+        ],
+        "relatedOverlays": [
+          "transitionPairs",
+          "lineLabels"
+        ]
+      },
+      {
+        "id": "as-notice-mode",
+        "text": "Switching to absorption does not move the allowed wavelengths. It changes the same lines from bright peaks into dark notches.",
+        "type": "misconception",
+        "priority": 7,
+        "tryThis": "Flip between the hydrogen-like emission and absorption presets.",
+        "whyItMatters": "It keeps emission and absorption tied to the same atomic structure.",
+        "relatedControls": [
+          "absorptionMode"
+        ],
+        "relatedGraphTabs": [
+          "spectrum-lines"
+        ],
+        "relatedOverlays": [
+          "modeLock",
+          "lineLabels"
+        ]
+      },
+      {
+        "id": "as-notice-compare",
+        "text": "Compare mode is strongest when one setup changes a gap and the other changes only the mode. That separates structure changes from appearance changes.",
+        "type": "compare",
+        "priority": 10,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Keep Setup A on Hydrogen-like emission and Setup B on Hydrogen-like absorption, then change only one gap in Setup A.",
+        "whyItMatters": "The side-by-side view keeps wavelength shifts from getting confused with bright-versus-dark changes.",
+        "relatedControls": [
+          "gap12Ev",
+          "gap23Ev",
+          "gap34Ev",
+          "absorptionMode"
+        ],
+        "relatedGraphTabs": [
+          "spectrum-lines"
+        ],
+        "relatedOverlays": [
+          "transitionPairs",
+          "modeLock",
+          "lineLabels"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Commit to the line-pattern consequence before you move the slider or flip the mode.",
+    "items": [
+      {
+        "id": "as-pred-lower-gap",
+        "prompt": "Start from Hydrogen-like emission and increase only the 2 to 1 gap. What should happen first?",
+        "scenarioLabel": "Raise the lowest gap",
+        "changeLabel": "2 to 1 gap",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The 2 -> 1 line shifts to shorter wavelength, and any larger jump that includes level 1 also shifts."
+          },
+          {
+            "id": "b",
+            "label": "Only the uppermost 4 -> 3 line shifts because the bottom gap is isolated."
+          },
+          {
+            "id": "c",
+            "label": "The line intensities change, but the wavelengths stay fixed because the number of levels did not change."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Wavelength comes from the energy gap. If a larger jump includes the same lower gap, its total energy changes too.",
+        "observationHint": "Watch the labeled lines move on the strip and the graph together.",
+        "apply": {
+          "patch": {
+            "gap12Ev": 2.35
+          }
+        },
+        "highlightedControls": [
+          "gap12Ev"
+        ],
+        "highlightedGraphs": [
+          "spectrum-lines"
+        ],
+        "highlightedOverlays": [
+          "transitionPairs",
+          "lineLabels"
+        ]
+      },
+      {
+        "id": "as-pred-mode-switch",
+        "prompt": "Keep the same ladder but switch from emission to absorption. Which statement stays honest?",
+        "scenarioLabel": "Flip the mode",
+        "changeLabel": "Absorption mode",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The allowed wavelengths stay the same, but bright peaks become dark notches."
+          },
+          {
+            "id": "b",
+            "label": "All wavelengths reverse order because absorption reads the ladder upward."
+          },
+          {
+            "id": "c",
+            "label": "Only ultraviolet lines remain because absorption removes visible light first."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The level differences have not changed, so the allowed wavelengths remain locked. Only the appearance of each line changes.",
+        "observationHint": "Focus on the same x positions on the spectrum graph before and after the toggle.",
+        "apply": {
+          "presetId": "hydrogen-like-absorption"
+        },
+        "highlightedControls": [
+          "absorptionMode"
+        ],
+        "highlightedGraphs": [
+          "spectrum-lines"
+        ],
+        "highlightedOverlays": [
+          "modeLock",
+          "lineLabels"
+        ]
+      },
+      {
+        "id": "as-pred-middle-gap",
+        "prompt": "Reduce only the 3 to 2 gap while leaving the other gaps alone. What should the pattern do?",
+        "scenarioLabel": "Lower the middle gap",
+        "changeLabel": "3 to 2 gap",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The 3 -> 2 line moves to longer wavelength, and some larger jumps shift while others stay where they were."
+          },
+          {
+            "id": "b",
+            "label": "Every line moves by the same wavelength amount because all gaps shrink together."
+          },
+          {
+            "id": "c",
+            "label": "Nothing changes in the spectrum because the top and bottom gaps stayed fixed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Only the jumps that include the 3 to 2 spacing change. That makes the line pattern shift non-uniformly, which is part of the evidence for structured level differences.",
+        "observationHint": "Compare the labeled 3 -> 2 line with the larger jumps that bypass it.",
+        "apply": {
+          "patch": {
+            "gap23Ev": 1.75
+          }
+        },
+        "highlightedControls": [
+          "gap23Ev"
+        ],
+        "highlightedGraphs": [
+          "spectrum-lines"
+        ],
+        "highlightedOverlays": [
+          "transitionPairs",
+          "lineLabels"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the same ladder-and-spectrum bench for line-pattern targets instead of switching to a separate spectroscopy tool.",
+    "items": [
+      {
+        "id": "as-ch-two-visible-emission",
+        "title": "Keep only two visible emission lines",
+        "style": "target-setting",
+        "prompt": "Starting from Hydrogen-like emission, tune the gaps so only two visible lines remain while the spectrum still stretches from blue-visible to red-visible wavelengths.",
+        "successMessage": "You pushed one single-step line out of the visible window while keeping two visible emission lines tied to the same ladder.",
+        "setup": {
+          "presetId": "hydrogen-like-emission",
+          "graphId": "spectrum-lines",
+          "overlayIds": [
+            "transitionPairs",
+            "lineLabels",
+            "quantizedSpacing"
+          ],
+          "note": "Use the graph and the strip together so you can count visible lines and watch where they land."
+        },
+        "requirements": {
+          "graphId": "spectrum-lines",
+          "overlayIds": [
+            "transitionPairs"
+          ]
+        },
+        "hints": [
+          "You do not need to change the mode. Keep the spectrum in emission.",
+          "Try pushing the upper single-step line out of the visible band while leaving the lower two visible."
+        ],
+        "targets": [
+          {
+            "metric": "modeFlag",
+            "min": 0,
+            "max": 0
+          },
+          {
+            "metric": "visibleLineCount",
+            "min": 2,
+            "max": 2
+          },
+          {
+            "metric": "shortestVisibleWavelengthNm",
+            "min": 430,
+            "max": 520,
+            "displayUnit": "nm"
+          },
+          {
+            "metric": "longestVisibleWavelengthNm",
+            "min": 620,
+            "max": 720,
+            "displayUnit": "nm"
+          },
+          {
+            "metric": "minVisibleSeparationNm",
+            "min": 120,
+            "max": 260,
+            "displayUnit": "nm"
+          }
+        ]
+      },
+      {
+        "id": "as-ch-match-absorption-notches",
+        "title": "Match the same lines in absorption",
+        "style": "target-setting",
+        "prompt": "Starting from Wide upper gap, switch into absorption and tune the ladder until you have three visible notches with a clear red-to-blue spread.",
+        "successMessage": "You built an absorption pattern whose notch positions still encode the same allowed level differences.",
+        "setup": {
+          "presetId": "wide-upper-gap",
+          "graphId": "spectrum-lines",
+          "overlayIds": [
+            "modeLock",
+            "lineLabels",
+            "transitionPairs"
+          ],
+          "note": "Use the mode cue to keep wavelength position separate from bright-versus-dark appearance."
+        },
+        "requirements": {
+          "graphId": "spectrum-lines",
+          "overlayIds": [
+            "modeLock"
+          ]
+        },
+        "hints": [
+          "First flip to absorption. Then bring the highest single-step line back into the visible band.",
+          "You want three visible lines, but they should not collapse into one tight cluster."
+        ],
+        "targets": [
+          {
+            "metric": "modeFlag",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "metric": "visibleLineCount",
+            "min": 3,
+            "max": 3
+          },
+          {
+            "metric": "shortestVisibleWavelengthNm",
+            "min": 460,
+            "max": 540,
+            "displayUnit": "nm"
+          },
+          {
+            "metric": "longestVisibleWavelengthNm",
+            "min": 620,
+            "max": 700,
+            "displayUnit": "nm"
+          },
+          {
+            "metric": "minVisibleSeparationNm",
+            "min": 50,
+            "max": 110,
+            "displayUnit": "nm"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live line-spectrum logic, not from disconnected labels.",
+    "questions": [
+      {
+        "id": "as-qt-discrete-lines",
+        "type": "reasoning",
+        "prompt": "Why does this bounded atomic-spectrum page show discrete lines instead of a smooth visible rainbow?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because the atom can change only by allowed energy gaps, so only matching photon energies appear."
+          },
+          {
+            "id": "b",
+            "label": "Because the graph is zoomed in so most wavelengths are hidden."
+          },
+          {
+            "id": "c",
+            "label": "Because only visible light can interact with atoms at all."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The line pattern comes from allowed level differences, not from graph zoom or from a visible-only rule.",
+        "selectedWrongExplanations": {
+          "b": "The empty regions are part of the modeled physics, not a display crop.",
+          "c": "The page still shows ultraviolet and infrared regions. They can also host allowed lines."
+        },
+        "showMeAction": {
+          "label": "Show the sparse pattern",
+          "presetId": "hydrogen-like-emission",
+          "observationHint": "Notice how only a few wavelengths carry lines while the graph between them stays empty.",
+          "highlightedControlIds": [
+            "gap12Ev",
+            "gap23Ev",
+            "gap34Ev"
+          ],
+          "highlightedGraphIds": [
+            "spectrum-lines"
+          ],
+          "highlightedOverlayIds": [
+            "quantizedSpacing",
+            "transitionPairs"
+          ]
+        }
+      },
+      {
+        "id": "as-qt-gap-vs-wavelength",
+        "type": "variable-effect",
+        "prompt": "If one allowed gap gets larger while the others stay fixed, what happens to the wavelength tied to that gap?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It gets shorter because a larger photon energy means a shorter wavelength."
+          },
+          {
+            "id": "b",
+            "label": "It gets longer because stronger transitions always move toward red."
+          },
+          {
+            "id": "c",
+            "label": "It stays fixed because wavelength depends only on the number of levels."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "From $\\lambda = hc / \\Delta E$, larger energy gaps correspond to shorter wavelengths.",
+        "selectedWrongExplanations": {
+          "b": "Transition strength and line position are different ideas on this page.",
+          "c": "The line position depends on the actual gap size, not just on how many levels exist."
+        },
+        "showMeAction": {
+          "label": "Raise the lowest gap",
+          "patch": {
+            "gap12Ev": 2.35,
+            "gap23Ev": 2.6,
+            "gap34Ev": 2.7,
+            "absorptionMode": false
+          },
+          "observationHint": "Watch the red line slide toward shorter wavelength as the gap grows.",
+          "highlightedControlIds": [
+            "gap12Ev"
+          ],
+          "highlightedGraphIds": [
+            "spectrum-lines"
+          ],
+          "highlightedOverlayIds": [
+            "transitionPairs",
+            "lineLabels"
+          ]
+        }
+      },
+      {
+        "id": "as-qt-emission-absorption",
+        "type": "compare-two-cases",
+        "prompt": "Which comparison between emission and absorption is correct for the same ladder?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "They use the same allowed wavelengths, but emission shows bright lines and absorption shows dark notches."
+          },
+          {
+            "id": "b",
+            "label": "Absorption shifts every line to a longer wavelength because the atom climbs the ladder instead of falling."
+          },
+          {
+            "id": "c",
+            "label": "Emission shows only visible lines, but absorption shows only ultraviolet lines."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The same level differences fix the wavelengths. Only the visual appearance of the spectrum changes.",
+        "selectedWrongExplanations": {
+          "b": "Upward versus downward transitions do not change the magnitude of the energy gap.",
+          "c": "Either mode can include visible, ultraviolet, or infrared lines if the same allowed gaps place them there."
+        },
+        "showMeAction": {
+          "label": "Flip to absorption",
+          "presetId": "hydrogen-like-absorption",
+          "observationHint": "Track the same x positions on the graph before and after the mode switch.",
+          "highlightedControlIds": [
+            "absorptionMode"
+          ],
+          "highlightedGraphIds": [
+            "spectrum-lines"
+          ],
+          "highlightedOverlayIds": [
+            "modeLock",
+            "lineLabels"
+          ]
+        }
+      },
+      {
+        "id": "as-qt-pattern-evidence",
+        "type": "misconception-check",
+        "prompt": "Why is the irregular spacing between spectral lines useful evidence for quantized structure on this page?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because a few specific gaps create a patterned set of wavelengths instead of evenly filling the spectrum."
+          },
+          {
+            "id": "b",
+            "label": "Because atoms naturally prefer only red and blue light."
+          },
+          {
+            "id": "c",
+            "label": "Because the graph removes intermediate wavelengths whenever intensity is low."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The pattern comes from the allowed set of level differences. Different combined jumps produce a structured but non-uniform line map.",
+        "selectedWrongExplanations": {
+          "b": "Color preference is not the model here. The line positions follow the chosen energy gaps.",
+          "c": "The graph does not hide weak intermediate wavelengths. Those wavelengths are absent because no allowed gap matches them."
+        },
+        "showMeAction": {
+          "label": "Show clustered visible lines",
+          "presetId": "clustered-visible-lines",
+          "observationHint": "Notice that the line positions form a pattern, but they still do not fill in every wavelength between them.",
+          "highlightedControlIds": [
+            "gap12Ev",
+            "gap23Ev",
+            "gap34Ev"
+          ],
+          "highlightedGraphIds": [
+            "spectrum-lines"
+          ],
+          "highlightedOverlayIds": [
+            "lineLabels",
+            "quantizedSpacing"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a four-level energy ladder on the left and a compact observed-spectrum strip on the right. Colored arrows mark allowed level changes, and the active transition is linked to a matching wavelength in the spectrum strip.",
+        "Optional overlays can label each line, lock emission and absorption to the same wavelengths, and call out why only a few wavelengths appear. The readout card summarizes the current mode, active level pair, photon energy, wavelength, visible-line count, visible-band edges, and minimum visible spacing."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The spectrum graph plots relative intensity against wavelength from ultraviolet through visible to infrared. In emission mode, the graph shows narrow bright peaks on a dark baseline. In absorption mode, it shows dark notches carved out of a flat continuum reference at those same wavelengths."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Atomic Spectra | Open Model Lab",
+    "description": "Connect emission and absorption spectra to discrete atomic energy-level gaps with a compact ladder-and-spectrum simulation.",
+    "keywords": [
+      "atomic spectra simulation",
+      "emission absorption spectra",
+      "spectral lines",
+      "quantized energy levels",
+      "atomic energy gaps"
+    ]
+  },
+  "v2": {
+    "intuition": "Treat the spectrum as a barcode made by an energy ladder. Every bright peak or dark notch is one allowed jump; empty spaces mean no level gap lands at that wavelength.",
+    "whyItMatters": "Atomic spectra are where quantization becomes visible: a few measured wavelengths reveal which energy differences an atom can actually use.",
+    "estimatedMinutes": 18,
+    "equationSnapshot": {
+      "title": "Energy-gap to line-position snapshot",
+      "note": "Read the level gap first, then convert it to wavelength. Larger gaps move lines toward shorter wavelengths; switching mode changes bright versus dark, not position.",
+      "equationIds": [
+        "line-energy",
+        "wavelength-gap",
+        "same-lines"
+      ]
+    },
+    "startSetup": {
+      "presetId": "hydrogen-like-emission",
+      "graphId": "spectrum-lines",
+      "overlayIds": [
+        "transitionPairs",
+        "lineLabels",
+        "quantizedSpacing"
+      ],
+      "note": "Begin with a sparse emission pattern so each visible line can be traced back to a specific allowed jump on the ladder."
+    },
+    "guidedSteps": [
+      {
+        "id": "map-one-gap-to-one-line",
+        "title": "Map one gap to one line",
+        "goal": "Connect a single level difference to its photon wavelength before comparing whole patterns.",
+        "doThis": "Start from Hydrogen-like emission with transition pairs and line labels on, then follow the 2 -> 1 arrow to its matching line on the spectrum graph.",
+        "notice": "The arrow, label, strip mark, and graph peak all point to the same allowed energy difference.",
+        "explain": "A spectral line is not a free-floating color. It is the photon produced or absorbed when the atom changes by one allowed energy gap.",
+        "reveal": {
+          "controlIds": [
+            "gap12Ev"
+          ],
+          "graphIds": [
+            "spectrum-lines"
+          ],
+          "overlayIds": [
+            "transitionPairs",
+            "lineLabels",
+            "quantizedSpacing"
+          ]
+        },
+        "setup": {
+          "presetId": "hydrogen-like-emission",
+          "graphId": "spectrum-lines",
+          "overlayIds": [
+            "transitionPairs",
+            "lineLabels",
+            "quantizedSpacing"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Check the discrete-line reason",
+          "questionIds": [
+            "as-qt-discrete-lines"
+          ]
+        }
+      },
+      {
+        "id": "change-a-gap-change-the-pattern",
+        "title": "Change a gap, change the pattern",
+        "goal": "See why one slider can move several lines but not the whole spectrum uniformly.",
+        "doThis": "Raise the 2 to 1 gap, then compare which labeled lines move and which empty wavelength regions stay empty.",
+        "notice": "The direct 2 -> 1 line shifts, and larger jumps that include the same gap shift with it.",
+        "explain": "Combined jumps reuse smaller gaps. That makes the line pattern structured and non-uniform, which is the evidence for an underlying ladder.",
+        "reveal": {
+          "controlIds": [
+            "gap12Ev",
+            "gap23Ev",
+            "gap34Ev"
+          ],
+          "graphIds": [
+            "spectrum-lines"
+          ],
+          "overlayIds": [
+            "transitionPairs",
+            "lineLabels"
+          ]
+        },
+        "setup": {
+          "presetId": "clustered-visible-lines",
+          "graphId": "spectrum-lines",
+          "overlayIds": [
+            "transitionPairs",
+            "lineLabels",
+            "quantizedSpacing"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Predict the gap change",
+          "predictionIds": [
+            "as-pred-lower-gap"
+          ],
+          "questionIds": [
+            "as-qt-gap-vs-wavelength"
+          ]
+        }
+      },
+      {
+        "id": "flip-mode-keep-wavelengths",
+        "title": "Flip mode, keep wavelengths",
+        "goal": "Separate line position from emission-versus-absorption appearance.",
+        "doThis": "Switch from Hydrogen-like emission to Hydrogen-like absorption while mode lock and line labels stay visible.",
+        "notice": "Bright peaks become dark notches at the same x-positions because the allowed level gaps did not change.",
+        "explain": "Absorption uses the same energy differences in the opposite direction. The spectrum appearance changes, but the wavelength map stays locked to the ladder.",
+        "reveal": {
+          "controlIds": [
+            "absorptionMode"
+          ],
+          "graphIds": [
+            "spectrum-lines"
+          ],
+          "overlayIds": [
+            "modeLock",
+            "lineLabels",
+            "transitionPairs"
+          ]
+        },
+        "setup": {
+          "presetId": "hydrogen-like-absorption",
+          "graphId": "spectrum-lines",
+          "overlayIds": [
+            "modeLock",
+            "lineLabels",
+            "transitionPairs"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Check emission versus absorption",
+          "predictionIds": [
+            "as-pred-mode-switch"
+          ],
+          "questionIds": [
+            "as-qt-emission-absorption"
+          ]
+        }
+      },
+      {
+        "id": "build-a-target-line-pattern",
+        "title": "Build a target line pattern",
+        "goal": "Use the ladder deliberately to meet a visible-line target instead of guessing colors.",
+        "doThis": "Use the challenge setup to keep emission on and tune the gaps until only two well-spread visible lines remain.",
+        "notice": "Success comes from moving allowed gaps into or out of the visible window while keeping each line tied to the ladder.",
+        "explain": "A spectrum becomes diagnostic because a target line pattern constrains the possible energy differences that could have produced it.",
+        "reveal": {
+          "controlIds": [
+            "gap12Ev",
+            "gap23Ev",
+            "gap34Ev"
+          ],
+          "graphIds": [
+            "spectrum-lines"
+          ],
+          "overlayIds": [
+            "transitionPairs",
+            "lineLabels",
+            "quantizedSpacing"
+          ]
+        },
+        "setup": {
+          "presetId": "hydrogen-like-emission",
+          "graphId": "spectrum-lines",
+          "overlayIds": [
+            "transitionPairs",
+            "lineLabels",
+            "quantizedSpacing"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Check the line-pattern evidence",
+          "questionIds": [
+            "as-qt-pattern-evidence"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Each spectral line maps to one allowed energy-level difference.",
+        "Larger energy gaps make shorter-wavelength lines, while smaller gaps move toward longer wavelengths.",
+        "Changing one gap can shift several combined-jump lines without filling the spectrum continuously.",
+        "Emission peaks and absorption notches share wavelengths when the same ladder is used."
+      ],
+      "misconception": "Do not treat emission and absorption as different wavelength sets. For the same levels, they use the same allowed gaps; only the bright-versus-dark appearance changes.",
+      "workedExampleRefs": [
+        "current-visible-pair",
+        "current-mode-line"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "de-broglie-matter-waves",
+          "title": "de Broglie Matter Waves",
+          "reasonLabel": "Extend quantization into matter-wave reasoning."
+        },
+        {
+          "slug": "bohr-model",
+          "title": "Bohr Model",
+          "reasonLabel": "Turn spectral gaps into a hydrogen level model."
+        },
+        {
+          "slug": "photoelectric-effect",
+          "title": "Photoelectric Effect",
+          "reasonLabel": "Reconnect line wavelengths to photon energy measurements."
+        }
+      ],
+      "freePlayPrompt": "Build one setup where changing a gap moves line positions, then build a second setup where only the mode changes. Explain which difference came from structure and which came from appearance."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "commonMisconception",
+      "workedExamples",
+      "quickTest"
+    ]
+  }
+}

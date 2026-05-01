@@ -1,0 +1,236 @@
+{
+"pageFramework": {
+"featuredSetups": [
+{
+"id": "room-to-dissolve",
+"description": "Open a beaker that is still below its current dissolving capacity, so all of the solute can remain dissolved."
+},
+{
+"id": "at-the-limit",
+"description": "Open a saturated beaker where the dissolved amount has reached capacity and extra solute remains as visible solid."
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Solubility and concentration are related, but they are not the same idea. Solubility tells you the maximum amount that can stay dissolved under the current conditions. Concentration tells you how much dissolved solute is actually present per amount of solvent.",
+"Saturation happens when the dissolved amount reaches that current capacity. After that point, adding more solute does not keep raising the dissolved amount under the same conditions. The extra material stays as visible excess solid. This bench keeps dissolved amount, excess solid, and capacity in one place so those roles stay separate."
+]
+},
+"keyIdeas": [
+"Concentration describes the dissolved solute already in the solvent.",
+"Solubility describes the current maximum amount that can stay dissolved under these conditions.",
+"Once the beaker is saturated under fixed conditions, extra solute increases the excess pile rather than the dissolved amount."
+],
+"commonMisconception": {
+"myth": "If you can see more solid in the beaker, the solution itself must be more concentrated.",
+"correction": [
+"Visible solid can mean the beaker has already reached its dissolving capacity.",
+"Once saturation is reached, extra solute can increase the undissolved pile while the dissolved amount stays at the same limit."
+]
+},
+"workedExamples": {
+"title": "Worked example: read capacity before saturation",
+"intro": "Use the live beaker to separate total solute, dissolved solute, and excess solid.",
+"items": [
+{
+"id": "read-the-current-capacity",
+"title": "Read the current dissolving capacity",
+"prompt": "For the current beaker, how much solute can stay dissolved and how much must remain as excess solid?",
+"variables": [
+{
+"id": "solute-amount",
+"label": "Total solute amount"
+},
+{
+"id": "solvent-volume",
+"label": "Solvent volume"
+},
+{
+"id": "solubility-limit",
+"label": "Solubility limit"
+}
+],
+"steps": [
+{
+"id": "read-limit",
+"label": "1. Read the solubility limit"
+},
+{
+"id": "read-capacity",
+"label": "2. Use the solvent volume to find the current capacity"
+},
+{
+"id": "read-excess",
+"label": "3. Compare the total solute with that capacity"
+}
+],
+"resultLabel": "Current dissolving capacity",
+"applyAction": {
+"label": "Apply the near-saturation case",
+"observationHint": "The dissolved amount should sit close to the capacity line, and any extra solute should start appearing as a visible excess pile."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Make the excess solid disappear without removing any solute from the beaker.",
+"prediction": "Before you move a control, decide whether you need to increase capacity or decrease total solute.",
+"answer": "Increase the beaker's capacity by adding solvent or raising the solubility limit.",
+"explanation": "Both moves let more of the same total solute stay dissolved. Removing solute would solve a different problem."
+}
+},
+"equations": [
+{
+"id": "capacity-rule",
+"label": "Current dissolving capacity",
+"meaning": "The maximum dissolved amount depends on both the solubility limit and the amount of solvent present."
+},
+{
+"id": "dissolved-rule",
+"label": "Dissolved amount cannot exceed capacity",
+"meaning": "If total solute is below capacity, it can all dissolve. If total solute is above capacity, only the capacity amount stays dissolved."
+},
+{
+"id": "excess-rule",
+"label": "Excess solid after saturation",
+"meaning": "Any solute above the current capacity remains visible as undissolved solid."
+},
+{
+"id": "concentration-rule",
+"label": "Concentration of the dissolved solution",
+"meaning": "Concentration counts only the dissolved solute in the solvent, not the extra solid sitting in the beaker."
+}
+],
+"variableLinks": [
+{
+"id": "solute-amount",
+"description": "Changes the total amount trying to dissolve. Below capacity it raises the dissolved amount; above capacity it mainly builds the excess pile."
+},
+{
+"id": "solvent-volume",
+"description": "Changes how much liquid is available, so it changes the beaker's dissolving capacity and the concentration of what is dissolved."
+},
+{
+"id": "solubility-limit",
+"description": "Changes the maximum amount that can stay dissolved per unit volume under the current conditions."
+}
+],
+"simulation": {
+"presets": [
+{
+"id": "room-to-dissolve",
+"description": "The total solute is still below capacity, so all of it can stay dissolved."
+},
+{
+"id": "near-saturation",
+"description": "The beaker is close to saturation, so a small extra amount of solute would create visible excess solid."
+},
+{
+"id": "at-the-limit",
+"description": "The beaker is saturated, so extra solute remains as an undissolved pile."
+}
+],
+"overlays": [
+{
+"id": "saturationGauge",
+"shortDescription": "Show the current capacity and how full that capacity is.",
+"whatToNotice": [
+"As the beaker approaches saturation, the dissolved amount approaches a ceiling instead of rising forever."
+],
+"whyItMatters": "It makes solubility a visible capacity limit rather than just a word."
+},
+{
+"id": "dissolvedCue",
+"shortDescription": "Keep the dissolved portion easy to distinguish from the undissolved solid.",
+"whatToNotice": [
+"Concentration follows the dissolved portion, not the total amount poured into the beaker."
+],
+"whyItMatters": "It separates the dissolved solution from the excess solid that no longer fits."
+},
+{
+"id": "excessPile",
+"shortDescription": "Show the undissolved solid once total solute exceeds capacity.",
+"whatToNotice": [
+"After saturation, extra solute builds the excess pile instead of increasing the dissolved amount."
+],
+"whyItMatters": "It shows why saturation is different from simply making a solution more concentrated."
+}
+]
+},
+"noticePrompts": {
+"title": "What to notice as the beaker saturates",
+"intro": "Keep the beaker, the saturation gauge, and the dissolved/excess cues visible together.",
+"items": [
+{
+"id": "ss-notice-limit",
+"text": "Watch for the moment when the dissolved amount stops rising with added solute and the excess pile starts to grow.",
+"tryThis": "Start from room to dissolve, then raise the solute amount slowly until the first undissolved solid appears.",
+"whyItMatters": "That is the point where the solution reaches saturation under the current conditions."
+},
+{
+"id": "ss-notice-capacity",
+"text": "Changing the solubility limit changes the beaker's capacity itself, not just the concentration number.",
+"tryThis": "Increase the solubility limit and watch the same total solute move farther below saturation as more of it can stay dissolved.",
+"whyItMatters": "It separates solubility, which sets the cap, from concentration, which describes the dissolved portion right now."
+}
+]
+},
+"predictionMode": {
+"title": "Predict the capacity shift",
+"intro": "Predict whether the beaker will gain dissolving room or move closer to saturation before you apply the change.",
+"items": [
+{
+"id": "ss-pred-raise-limit",
+"prompt": "What should happen if you raise the solubility limit while keeping the same total solute and solvent volume?",
+"scenarioLabel": "Increase the dissolving capacity",
+"changeLabel": "Raise the solubility limit",
+"explanation": "A higher solubility limit increases capacity, so more of the same total solute can stay dissolved and the excess pile can shrink or disappear.",
+"observationHint": "Watch the capacity increase on the gauge and the excess pile shrink at the same time."
+}
+]
+},
+"quickTest": {
+"title": "Quick check",
+"intro": "Answer from the beaker, the dissolved amount, and the capacity limit together.",
+"questions": [
+{
+"id": "ss-qt-saturation-meaning",
+"prompt": "What does saturation mean on this bench?",
+"explanation": "Saturation means the dissolved amount has reached the current capacity. Any extra solute must stay undissolved."
+},
+{
+"id": "ss-qt-solubility-vs-concentration",
+"prompt": "Which idea tells you the maximum amount that can stay dissolved under the current conditions?",
+"explanation": "The solubility limit sets the current capacity. Concentration only tells you how much is already dissolved."
+}
+]
+},
+"challengeMode": {
+"title": "Challenge: remove the excess without removing solute",
+"intro": "Increase capacity honestly: make more of the same total solute stay dissolved instead of quietly deleting the extra solid.",
+"items": [
+{
+"id": "ss-ch-dissolve-excess-without-removing-solute",
+"title": "Make the excess pile disappear",
+"prompt": "Starting from a saturated beaker, make the excess pile disappear while keeping the total solute amount the same.",
+"successMessage": "You increased the beaker's capacity enough for the same total solute to stay dissolved. The excess pile disappeared because the capacity rose, not because solute was removed."
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows a beaker with dissolved solute, a visible excess-solid pile when saturation is reached, and controls for total solute, solvent volume, and the current solubility limit.",
+"A readout reports total solute, current capacity, dissolved amount, excess solid, and concentration so the learner can compare the visual beaker with the numeric state."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"One graph shows dissolved amount against total solute, a second shows excess solid against total solute, and two more show how capacity changes with solvent volume and solubility limit.",
+"Together they show the key saturation pattern: dissolved amount levels off at capacity while excess solid begins to grow."
+]
+}
+}
+}

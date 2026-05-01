@@ -1,0 +1,296 @@
+{
+"pageFramework": {
+"featuredSetups": [
+{
+"id": "stretch-upward-vertex-map",
+"description": "Open the stretched graph with the base curve and transformed vertex visible together.",
+"setup": {
+"note": "Use this to see the outside scale and outside shift act on the same landmark after the horizontal placement is fixed."
+}
+},
+{
+"id": "reflect-and-shift-right",
+"label": "Reflect, then shift right",
+"description": "Open the reflected case and track the base vertex as the graph flips left-right and then moves.",
+"setup": {
+"note": "Use this setup to see the inside reflection reverse the graph first, then watch the horizontal shift place the reflected landmark."
+}
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Graph transformations make more sense when one reference graph stays visible and every parameter acts on that same shape. This module keeps the base curve on screen while horizontal shift, vertical shift, vertical scale, and optional y-axis reflection build the transformed graph in the same coordinate plane.",
+"The safest reading is landmark-first. Pick a known point on the base graph, such as the vertex, then track how its x-location changes under the inside move and how its y-value changes under the outside move. That is what separates horizontal placement from vertical stretching or reflection."
+]
+},
+"keyIdeas": [
+"Inside changes decide where a chosen base x-landmark ends up on the transformed graph.",
+"Outside changes act on y-values after the horizontal placement has been determined.",
+"A negative vertical scale reflects the graph across the x-axis, while the optional inside reflection reverses left-right orientation across the y-axis before the horizontal shift places the graph."
+],
+"commonMisconception": {
+"myth": "A positive horizontal shift must move the graph left because the sign inside the brackets looks backwards.",
+"correction": [
+"Do not guess from the sign alone. Track a known base landmark and ask where the inside input must equal that same base x-value again.",
+"On this bench, the base vertex starts at $x = 1$. If the inside reflection is on, that landmark flips to $x = -1$ first, and only then does the horizontal shift place the transformed vertex."
+]
+},
+"workedExamples": {
+"title": "Track one landmark through the transformation",
+"intro": "Use the current transform and follow the base vertex. The same controls move the graph, the vertex markers, and these calculations.",
+"items": [
+{
+"id": "track-the-vertex",
+"title": "Track where the vertex lands",
+"prompt": "The base graph has a vertex at $( {{baseVertexXValue}}, {{baseVertexYValue}} )$. For the current transform, where does that same landmark end up?",
+"steps": [
+{
+"id": "inside-change",
+"label": "1. Work out the inside landmark"
+},
+{
+"id": "horizontal-placement",
+"label": "2. Place that landmark on the x-axis"
+},
+{
+"id": "vertical-placement",
+"label": "3. Apply the vertical scale and shift"
+}
+],
+"resultLabel": "Transformed vertex",
+"applyAction": {
+"label": "Show reflection, then shift right",
+"observationHint": "Watch the base vertex reflect across the y-axis first. Then the horizontal shift places it, and the negative vertical scale flips its height before the vertical shift sets the final y-value."
+}
+},
+{
+"id": "scale-and-reflect-the-height",
+"title": "Read how $a$ and $k$ change the height",
+"prompt": "How do the current vertical scale and vertical shift change the base vertex height?",
+"steps": [
+{
+"id": "start-base-height",
+"label": "1. Start with the base vertex height"
+},
+{
+"id": "apply-scale",
+"label": "2. Apply the vertical scale"
+},
+{
+"id": "apply-shift",
+"label": "3. Add the vertical shift"
+}
+],
+"resultLabel": "Transformed vertex height",
+"applyAction": {
+"label": "Show the upward stretch",
+"observationHint": "Compare the base and transformed vertices: $a$ changes the distance from the x-axis first, then $k$ moves the result up or down."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Set the graph so the transformed vertex is left of the y-axis but above the x-axis, and make sure the graph has been reflected across the x-axis.",
+"prediction": "Decide first which controls must change the x-location, which controls must change the y-location, and which sign creates the x-axis reflection.",
+"answer": "You need the transformed vertex x-coordinate to be negative, the transformed vertex y-coordinate to be positive, and the vertical scale to be negative so the graph reflects across the x-axis.",
+"explanation": "The x-location comes from the inside reflection together with the horizontal shift. The height comes from the vertical scale and vertical shift. The x-axis reflection comes from the sign of the vertical scale."
+}
+},
+"equations": [
+{
+"id": "transformation-rule",
+"meaning": "Shows one base graph being changed by an inside input move, an outside vertical scale, and an outside vertical shift."
+},
+{
+"id": "vertex-x",
+"meaning": "Tracks where a known base x-landmark lands after the inside move and the horizontal placement."
+},
+{
+"id": "vertex-y",
+"meaning": "Tracks how the same base y-value is scaled and then shifted."
+}
+],
+"variableLinks": [
+{
+"id": "horizontal-shift",
+"description": "Moves the transformed landmark left or right after the inside change has identified which x-location corresponds to the base point."
+},
+{
+"id": "vertical-shift",
+"description": "Moves every output up or down after the vertical scale has acted."
+},
+{
+"id": "vertical-scale",
+"description": "Stretches or compresses all y-values. A negative value also reflects the graph across the x-axis."
+},
+{
+"id": "mirror-input",
+"description": "Reverses the base graph left-right across the y-axis before the horizontal shift places it."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "horizontal-shift",
+"description": "Move the transformed graph left or right by changing where the chosen x-landmark lands."
+},
+{
+"id": "vertical-shift",
+"description": "Move the transformed graph up or down after the vertical scale has acted."
+},
+{
+"id": "vertical-scale",
+"description": "Stretch, compress, or reflect the graph across the x-axis."
+},
+{
+"id": "mirror-y",
+"description": "Reverse the graph left-right across the y-axis before the horizontal shift acts."
+}
+],
+"overlays": [
+{
+"id": "referenceCurve",
+"shortDescription": "Keep the base graph visible behind the transformed graph.",
+"whatToNotice": [
+"The transformed graph is always being compared against the same original shape.",
+"The y-axis reflection is easiest to read when the base curve stays on screen."
+],
+"whyItMatters": "A fixed reference graph makes the parameter effects readable instead of abstract."
+},
+{
+"id": "vertexMarkers",
+"shortDescription": "Mark the base vertex and the transformed vertex.",
+"whatToNotice": [
+"The transformed vertex follows the inside move horizontally and the outside move vertically.",
+"The vertex is the fastest landmark for checking whether a shift or reflection story is correct."
+]
+},
+{
+"id": "shiftGuide",
+"shortDescription": "Show how the landmark moves horizontally and vertically from the base vertex.",
+"whatToNotice": [
+"The horizontal placement sets the x-location first, then the vertical scale and shift set the final height.",
+"A negative vertical scale can flip the height before the vertical shift is added."
+]
+}
+]
+},
+"graphs": [
+{
+"id": "function-graph",
+"description": "Compare the base and transformed curves on the same axes so landmark moves stay visible."
+},
+{
+"id": "vertex-height-map",
+"description": "Shows how changing the vertical scale changes the transformed vertex height for the current vertical shift."
+}
+],
+"noticePrompts": {
+"intro": "Use these prompts when the signs start to feel slippery. Each one points back to a visible landmark on the graph.",
+"items": [
+{
+"id": "gt-notice-horizontal",
+"text": "Change only the horizontal shift and watch the transformed vertex slide sideways while its height stays fixed."
+},
+{
+"id": "gt-notice-negative-a",
+"text": "When the vertical scale becomes negative, the graph flips across the x-axis before the vertical shift places it."
+},
+{
+"id": "gt-notice-mirror-y",
+"text": "Turn on the y-axis reflection and compare the base vertex with the reflected inside landmark before the horizontal shift acts."
+}
+]
+},
+"predictionMode": {
+"title": "Predict the landmark move",
+"intro": "Commit to the landmark move before you apply the new transform.",
+"items": [
+{
+"id": "gt-predict-right",
+"prompt": "If $h$ increases while everything else stays fixed, what happens first to the transformed vertex?",
+"explanation": "Changing only $h$ moves the graph horizontally. The vertex height stays fixed until $a$ or $k$ changes.",
+"observationHint": "Track the transformed vertex marker rather than the sign in the formula by itself."
+},
+{
+"id": "gt-predict-negative-a",
+"prompt": "If $a$ changes from positive to negative with $|a| > 1$, what is the clearest visual result?",
+"explanation": "A negative vertical scale reflects the graph across the x-axis, and a magnitude greater than 1 makes that reflected graph steeper."
+,
+"observationHint": "Watch the opening direction and the vertex height together."
+},
+{
+"id": "gt-predict-mirror-y",
+"prompt": "If you turn on the y-axis reflection without changing any other control, what happens first?",
+"explanation": "The inside input reverses left-right orientation. It does not change the vertical scale or vertical shift by itself.",
+"observationHint": "Use the reference curve and the current vertex markers together."
+}
+]
+},
+"challengeMode": {
+"intro": "Use the graph like a landmark-matching bench: keep the reference curve visible, then place a reflected and scaled vertex deliberately instead of guessing from the symbols.",
+"items": [
+{
+"id": "gt-ch-reflect-land-vertex",
+"title": "Land a reflected vertex",
+"prompt": "Build a reflected graph whose transformed vertex lands near $(-1, 2.4)$. Keep the reference curve and shift guide on so the move stays tied to the base landmark.",
+"successMessage": "You matched the reflected landmark while keeping the graph anchored to the base curve. The sign choices now read as visible moves instead of symbol tricks.",
+"setup": {
+"note": "Start from the base graph, then use the reference curve, vertex markers, and shift guide together."
+},
+"hints": [
+"A vertex near $x=-1$ with almost no horizontal shift means the leftward landing must come mainly from the inside reflection.",
+"A negative vertical scale flips the height first, and then the vertical shift finishes the placement."
+]
+}
+]
+},
+"quickTest": {
+"intro": "Reason from the live graph and the landmark formulas together. These checks are about where the graph goes, not just about matching symbols.",
+"questions": [
+{
+"id": "gt-qt-shift",
+"prompt": "Which single change moves the graph up without changing its opening or left-right placement?",
+"explanation": "Changing only $k$ lifts or lowers every output value without changing the graph's left-right position or opening direction.",
+"showMeAction": {
+"label": "Show a pure vertical shift",
+"observationHint": "The transformed graph keeps the same shape and orientation while the whole curve moves upward."
+}
+},
+{
+"id": "gt-qt-negative-a",
+"prompt": "A student says a negative $a$ only makes the graph steeper. What important effect are they missing?",
+"explanation": "The sign of $a$ controls whether the outputs stay upright or reflect across the x-axis. The size of $a$ controls stretch or compression.",
+"showMeAction": {
+"label": "Show the x-axis reflection",
+"observationHint": "The graph opens downward because the outputs have been reflected across the x-axis."
+}
+},
+{
+"id": "gt-qt-mirror-y",
+"prompt": "Two setups have the same $h$, $k$, and $a$, but only one turns on the y-axis reflection. What changes first?",
+"explanation": "Turning on the y-axis reflection changes the inside input only, so the first visible difference is the left-right orientation of the graph.",
+"showMeAction": {
+"label": "Turn on the y-axis reflection",
+"observationHint": "Compare the reflected graph with the reference curve and watch the landmark flip to the opposite side first."
+}
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"A coordinate grid shows the base graph and the transformed graph together. Sliders and a reflection toggle change the horizontal shift, vertical shift, vertical scale, and optional y-axis reflection, while vertex markers keep the main landmark visible.",
+"A readout card reports the current values of $h$, $k$, $a$, the transformed vertex, and the y-intercept so the graph and the algebra can be checked together."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The first graph tab compares the base and transformed curves on one set of axes. The second graph tab shows how the current vertical shift changes the transformed vertex height as the vertical scale varies.",
+"These graph views stay tied to the same landmark story: one view shows where the graph is, and the other shows how the transformed vertex height responds to $a$."
+]
+}
+}
+}

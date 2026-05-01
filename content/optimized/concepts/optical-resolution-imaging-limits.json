@@ -1,0 +1,246 @@
+{
+"sections": {
+"explanation": {
+"paragraphs": [
+"Even a perfectly focused imaging system does not send one object point to a mathematically perfect point on the detector. Because the aperture is finite, each object point forms a diffraction blur with a real width.",
+"Resolution is therefore a comparison between two distances on the same image plane: how far apart the two image centers are, and how wide each diffraction blur is. On this bench, wavelength and aperture set the blur width, point separation sets the center-to-center spacing, and the detector sample only reads one place on the finished profile."
+]
+},
+"keyIdeas": [
+"A finite aperture turns each object point into a diffraction blur, not a perfect point.",
+"A larger aperture or a shorter wavelength shrinks that blur, while a smaller aperture or a longer wavelength broadens it.",
+"Two points are easier to resolve when their detector spacing is large compared with the blur width.",
+"The Rayleigh limit gives a practical scale for when two equal point sources are only just distinguishable."
+],
+"commonMisconception": {
+"myth": "If the lens is focused correctly, two nearby points should always stay perfectly separate.",
+"correction": [
+"Correct focus removes defocus blur, but it does not remove diffraction from a finite aperture.",
+"That is why two well-focused points can still merge when the aperture is small or the wavelength is long."
+]
+},
+"workedExamples": {
+"intro": "These examples use the live wavelength, aperture, and point spacing from the current image, so the algebra explains the same detector profile you are already seeing.",
+"items": [
+{
+"id": "rayleigh-limit-from-live-aperture",
+"title": "Rayleigh limit from the current optical setup",
+"prompt": "For the current wavelength lambda = {{wavelengthNmValue}} and aperture D = {{apertureMmValue}}, what diffraction-limited Rayleigh scale should you expect for two equal point sources?",
+"steps": [
+{
+"id": "relation",
+"label": "1. Start from the diffraction limit"
+},
+{
+"id": "substitute",
+"label": "2. Substitute the live wavelength and aperture"
+},
+{
+"id": "image-plane",
+"label": "3. Turn that angular limit into a detector blur size"
+}
+],
+"resultLabel": "Current diffraction scale",
+"applyAction": {
+"observationHint": "At about the Rayleigh limit, one peak sits close to the first minimum of the other, so the profile is only just split."
+}
+},
+{
+"id": "current-separation-versus-threshold",
+"title": "Is the current pair actually resolved?",
+"prompt": "For the current pair separation Delta theta = {{separationMradValue}}, is the image below the limit, near it, or clearly above it?",
+"steps": [
+{
+"id": "ratio",
+"label": "1. Compare the point spacing with the Rayleigh scale"
+},
+{
+"id": "detector-spacing",
+"label": "2. Compare the same spacing on the detector"
+},
+{
+"id": "dip",
+"label": "3. Decide whether the profile should keep a visible dip"
+}
+],
+"resultLabel": "Current separation versus limit",
+"applyAction": {
+"observationHint": "When the point centers are too close compared with the blur radius, the two peaks merge into one broad hump."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "You cannot move the object points, but you want the detector profile to show a clearer split. What optical change helps most?",
+"prediction": "Choose between changing aperture, wavelength, or detector sample position.",
+"answer": "Increase the aperture or use a shorter wavelength so the diffraction blur shrinks.",
+"explanation": "The detector sample only reads the existing profile. To really improve resolution, you must shrink the diffraction blur itself."
+}
+},
+"equations": [
+{
+"id": "rayleigh-limit",
+"meaning": "Gives a practical angular scale for when two equal diffraction blurs are only just distinguishable."
+},
+{
+"id": "image-separation",
+"meaning": "Turns the object's angular separation into center-to-center spacing on the detector."
+},
+{
+"id": "airy-radius",
+"meaning": "Turns the same diffraction limit into the characteristic radius of one point-spread core on the detector."
+}
+],
+"variableLinks": [
+{
+"id": "wavelength",
+"description": "Longer wavelengths broaden each diffraction blur, so the same point pair becomes harder to separate."
+},
+{
+"id": "aperture",
+"description": "A larger aperture narrows each diffraction blur and lowers the Rayleigh limit."
+},
+{
+"id": "separation",
+"description": "Changes the center-to-center spacing of the two image points, but it does not change the blur width of each point."
+},
+{
+"id": "probe-position",
+"description": "Moves the detector sample to a different place on the existing image profile. It does not change the resolution limit."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "apertureMm",
+"description": "A larger clear aperture narrows each diffraction blur and improves resolution."
+},
+{
+"id": "separationMrad",
+"description": "Sets the angular gap between the object points. Smaller gaps are harder to preserve when the blur width is fixed."
+},
+{
+"id": "probeYUm",
+"description": "Moves the live readout along the detector profile without changing the optical image itself."
+}
+],
+"overlays": [
+{
+"id": "apertureGuide",
+"whatToNotice": [
+"Changing D changes the diffraction width itself, not just the brightness of the image."
+],
+"whyItMatters": "It keeps resolving power tied to aperture geometry instead of making blur look like a mysterious detector effect."
+},
+{
+"id": "rayleighGuide",
+"whatToNotice": [
+"At about the Rayleigh limit, one image-point center sits close to the first-minimum scale of the other blur pattern."
+],
+"whyItMatters": "It turns the Rayleigh criterion into a visible comparison on the detector."
+},
+{
+"id": "componentProfiles",
+"shortDescription": "Marks the centers of the two individual point-spread patterns.",
+"whatToNotice": [
+"Whether the pair is resolved depends on center spacing compared with blur width, not on focus alone."
+],
+"whyItMatters": "It makes the merged-versus-separated transition visible as overlap between two real blur patterns."
+}
+]
+},
+"graphs": [
+{
+"id": "image-profile",
+"description": "Shows the combined detector exposure together with the two individual point-spread profiles, so you can see whether their overlap still leaves a central dip."
+}
+],
+"noticePrompts": {
+"intro": "Use one prompt at a time and keep the aperture, detector strip, and graph tied to the same diffraction-limited image.",
+"items": [
+{
+"id": "or-notice-aperture",
+"text": "Notice that widening the aperture does not move the point centers. It narrows each diffraction blur, so the gap between the peaks is easier to preserve.",
+"whyItMatters": "Resolution improves because the blur shrinks, not because the object points move farther apart."
+},
+{
+"id": "or-notice-wavelength",
+"text": "Notice that increasing the wavelength broadens each blur even though the lens, detector, and point spacing stay fixed.",
+"whyItMatters": "It turns lambda over D into a visible imaging limit instead of a formula to memorize."
+},
+{
+"id": "or-notice-separation",
+"text": "Notice that reducing point separation does not change the blur width. It only pushes the same two blur centers closer together.",
+"whyItMatters": "It cleanly separates object spacing from optical blur width."
+},
+{
+"id": "or-notice-graph",
+"text": "Notice that the graph is detector position versus exposure, not a time trace. Hovering it moves the sample along the current image plane.",
+"whyItMatters": "Resolution lives in the spatial profile across the detector, not in a later-versus-earlier time story."
+},
+{
+"id": "or-notice-compare",
+"text": "Compare mode works best when one setup changes aperture and the other changes wavelength. Then you can see two different ways to change the same diffraction width.",
+"whyItMatters": "It stops imaging limits from collapsing into one vague blur slider."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict whether the image should split more clearly or merge more strongly before you test it. Each prompt changes one cause at a time.",
+"items": [
+{
+"id": "or-predict-wider-aperture",
+"explanation": "A larger aperture lowers the Rayleigh limit and narrows each diffraction blur. The point spacing itself does not change.",
+"observationHint": "Watch the Rayleigh guide tighten while the two peaks separate more cleanly."
+},
+{
+"id": "or-predict-longer-wavelength",
+"explanation": "A longer wavelength raises the Rayleigh limit and broadens each diffraction blur, so nearby points merge more easily.",
+"observationHint": "The point centers stay where they are, but the middle dip fills in as the blurs widen."
+},
+{
+"id": "or-predict-closer-pair",
+"explanation": "Changing the point separation moves the blur centers closer together or farther apart. The blur width itself stays set by wavelength and aperture.",
+"observationHint": "Watch the two centers crowd together while the same blur size tries to preserve a smaller gap."
+}
+]
+},
+"challengeMode": {
+"intro": "Use the live detector profile to hit resolution targets. The task is to change the optics or the point spacing, not to game the detector sample."
+},
+"quickTest": {
+"intro": "Answer from blur width versus point spacing, not from slogans about focus.",
+"questions": [
+{
+"id": "or-qt-aperture",
+"explanation": "Resolving power improves when each diffraction blur gets narrower. Moving the detector sample only reads a different place on the same image profile."
+},
+{
+"id": "or-qt-wavelength",
+"explanation": "The Rayleigh limit scales with wavelength, so a longer wavelength broadens the diffraction blur for the same aperture."
+},
+{
+"id": "or-qt-focus-misconception",
+"explanation": "Correct focus removes defocus blur, but a finite aperture still leaves a diffraction-limited blur with a nonzero width."
+},
+{
+"id": "or-qt-sample-vs-system",
+"explanation": "The detector sample is only a measurement point. The optical limit was already set by wavelength and aperture before you moved the sample."
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows two distant point sources on the left, one finite lens aperture in the middle, and one detector strip on the right. Each source forms a diffraction-limited blur on the detector rather than a perfect point.",
+"Optional overlays show the aperture diameter on the lens, the current point-spread centers on the detector, and the Rayleigh blur scale around those centers. A movable detector sample marks one detector position and reports the current normalized exposure there."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The graph shows normalized exposure against detector height, with one combined profile and two component profiles for the individual point-spread contributions.",
+"Hovering the graph previews the matching detector position on the stage, so the profile stays linked to the same image plane rather than turning into a time plot."
+]
+}
+}
+}

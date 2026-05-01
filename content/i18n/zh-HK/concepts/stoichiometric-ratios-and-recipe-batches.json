@@ -1,0 +1,402 @@
+{
+  "title": "化學計量比例與配方批次",
+  "shortTitle": "配方比例",
+  "summary": "用同一個配方工作台讀出反應比例，理解為甚麼只有供應比例與配方比例匹配時，完整批次才能持續產生。",
+  "highlights": [
+    "食譜批次",
+    "匹配的比例",
+    "僅完整產出"
+  ],
+  "topic": "物料衡算與產率",
+  "subtopic": "食譜批次",
+  "recommendedNext": [
+    {
+      "slug": "limiting-reagent-and-leftover-reactants",
+      "reasonLabel": "找出哪一方先成為限制試劑"
+    },
+    {
+      "slug": "percent-yield-and-reaction-extent",
+      "reasonLabel": "比較實際輸出與理論輸出"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "化學計量比例首先是一張配方卡的故事：一個完整批次要用多少 A 和多少 B。這個工作台把兩個反應物儲倉、配方卡和產品託盤放在同一個畫面，讓你直接看到比例如何設定完整批次的數量。",
+        "在 2 A + 3 B 的例子裡，只有當供應比例同樣匹配 2:3 時，兩邊才會一起完成整數批次。只要比例不匹配，其中一邊就會先成為瓶頸，完整輸出也會停止。"
+      ]
+    },
+    "keyIdeas": [
+      "配方比例定義一個完整批次需要多少各種反應物。",
+      "供應與配方同比例時，兩邊可以同步完成最多的完整批次。",
+      "只計算完整批次時，部分剩餘不會自動變成額外產品。"
+    ],
+    "commonMisconception": {
+      "myth": "如果一個反應物旁邊寫著更大的數字，那意味著它總是產生更多的產品。",
+      "correction": [
+        "產物來自完整的食譜批次，而不是哪一方原始計數較多。",
+        "只有當供應比例與同一工作台上顯示的食譜比例匹配時，反應才能繼續完成完整的批次直到兩個儲存箱同時空。"
+      ]
+    },
+    "workedExamples": {
+      "title": "例題",
+      "intro": "直接從同一個配方工作台讀出批次，而不是抽離到獨立算式。",
+      "items": [
+        {
+          "id": "count-full-batches-from-a-matched-recipe",
+          "title": "從配對的 2:3 配方中計算完整批次",
+          "prompt": "一組配對的 2 A + 3 B 設定，可以製造多少個完整批次？",
+          "variables": [
+            {
+              "id": "reactant-a-supply",
+              "label": "反應物 A 包數"
+            },
+            {
+              "id": "reactant-b-supply",
+              "label": "反應物 B 包數"
+            },
+            {
+              "id": "recipe-a",
+              "label": "A 每批次"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-the-recipe",
+              "label": "1. 先從配方卡讀出一個完整批次"
+            },
+            {
+              "id": "count-copies",
+              "label": "2. 計算這些配方的副本數量"
+            },
+            {
+              "id": "connect-to-output",
+              "label": "3. 把產品託盤讀成完成的批次"
+            }
+          ],
+          "resultLabel": "批次數量",
+          "applyAction": {
+            "label": "顯示配對配方",
+            "observationHint": "當配方與供應量配對時，兩邊的讀數會落在相同的批次數上。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "把供應調到剛好配對配方，讓兩個儲倉在最後一個完整批次後同時用盡。",
+      "prediction": "先估計 2:3 配方在甚麼供應比例下，會同時完成整數批次。",
+      "answer": "當 A 與 B 的供應維持同樣的 2:3 比例時，兩邊就會一起完成完整批次。",
+      "explanation": "這説明化學計量比例不是裝飾用語，而是真正決定完整批次能否持續生成的規則。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "根據同一個配方工作台上的比例與批次讀數作答。",
+    "questions": [
+      {
+        "id": "srb-qt-ratio-match",
+        "prompt": "哪一個説法最準確地讀出了化學計量比例？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "配方比例告訴你一個完整批次應該包含多少包反應物。"
+          },
+          {
+            "id": "b",
+            "label": "原始供應量較多的一方，無論配方卡怎樣寫，都一定能產生更多產品。"
+          },
+          {
+            "id": "c",
+            "label": "只有在產率改變之後，配方比例才開始重要。"
+          }
+        ],
+        "explanation": "化學計量比例先定義了一個完整批次是甚麼，限制試劑和產率只是之後再接上的故事。",
+        "selectedWrongExplanations": {
+          "b": "單看原始數量並不能決定輸出；一個完整批次仍然要滿足配方卡的要求。",
+          "c": "產率是之後才會加入的條件；在計算可形成的完整批次時，比例本身已經很重要。"
+        },
+        "showMeAction": {
+          "label": "顯示配對配方",
+          "observationHint": "配方卡與兩條上限線都會指向同一個批次數。"
+        }
+      },
+      {
+        "id": "srb-qt-recipe-change",
+        "prompt": "如果配方由 2:3 變成 3:2，而供應倉大致保持不變，首先改變的是甚麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "因為每個批次現在消耗的包數不同，可形成的完整批次數也可能改變。"
+          },
+          {
+            "id": "b",
+            "label": "甚麼都不會改變，因為供應倉沒有移動。"
+          },
+          {
+            "id": "c",
+            "label": "只有產率會改變。"
+          }
+        ],
+        "explanation": "只要改了配方，一個完整批次的定義就變了，所以同一組供應倉也可能支援不同的輸出。",
+        "selectedWrongExplanations": {
+          "b": "供應倉必須連同配方卡一起理解，不能只看它們本身的數字。",
+          "c": "產率與配方定義是分開的；先改變的是批次配方本身。"
+        },
+        "showMeAction": {
+          "label": "切換成 3:2 配方",
+          "observationHint": "即使供應倉變化不大，只要配方卡改了，上限線的故事也會跟著改變。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬會顯示兩個反應物供應倉、一個產品託盤和一張配方卡，配方卡會説明完成一整批需要多少包 A 和多少包 B。",
+        "讀出卡會報告目前配方、最多可形成多少批次、哪一種供應先成為限制試劑、實際輸出多少，以及執行後每種反應物還剩多少。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "第一張圖顯示 A 供應量與可形成批次的關係，第二張圖顯示 B 供應量與可形成批次的關係，第三張圖比較不同百分比產率下的實際產物與理論產物。",
+        "圖表懸停、比較模式和分享疊層仍然連回同一個配方工作台，而不是打開另一個獨立的化學檢視。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "readNext",
+        "title": "把配方帶到下一個反應步驟"
+      }
+    ],
+    "featuredSetups": [
+      {
+        "id": "matched-two-three-recipe",
+        "label": "配對 2:3 配方",
+        "description": "開啟一組供應量與配方卡完全配對的執行。"
+      },
+      {
+        "id": "three-to-two-recipe",
+        "label": "切換成 3:2 配方",
+        "description": "更換配方卡，觀察批次故事如何跟著改變。"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "ratio-match",
+      "label": "比例匹配",
+      "meaning": "如果你想讓兩個倉庫都能支援相同數量的完整批次，供應比例必須與食譜比例匹配。"
+    },
+    {
+      "id": "batch-cap",
+      "label": "批次上限",
+      "meaning": "一次完整反應最多隻能做出目前配方所允許的批次數。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "reactant-a-supply",
+      "label": "反應物 A 包數",
+      "description": "調整工作台上可用的 A 包數量，看看它能支援多少個完整批次。"
+    },
+    {
+      "id": "reactant-b-supply",
+      "label": "反應物 B 包數",
+      "description": "調整工作台上可用的 B 包數量，看看它能支援多少個完整批次。"
+    },
+    {
+      "id": "recipe-a",
+      "label": "A 每批次",
+      "description": "設定完成一個完整批次時要消耗多少包 A。"
+    },
+    {
+      "id": "recipe-b",
+      "label": "B 每批次",
+      "description": "設定完成一個完整批次時要消耗多少包 B。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "reactantAAmount",
+        "label": "反應物 A 包數",
+        "description": "調整這次實驗一開始提供多少包 A。"
+      },
+      {
+        "id": "reactantBAmount",
+        "label": "反應物 B 包數",
+        "description": "調整這次實驗一開始提供多少包 B。"
+      },
+      {
+        "id": "recipeA",
+        "label": "A 每批次",
+        "description": "設定完成一個完整配方批次要用多少包 A。"
+      },
+      {
+        "id": "recipeB",
+        "label": "B 每批次",
+        "description": "設定完成一個完整配方批次要用多少包 B。"
+      },
+      {
+        "id": "percentYield",
+        "label": "百分比產率",
+        "description": "這裡先保持在 100%，讓焦點放在配方比例本身。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "matched-two-three",
+        "label": "配對 2:3 配方",
+        "description": "A 和 B 會跟配方卡一起按比例增加。"
+      },
+      {
+        "id": "a-limiting",
+        "label": "A 先成為限制試劑",
+        "description": "目前的 A 包數不足以配合全部 B 供應。"
+      },
+      {
+        "id": "b-limiting",
+        "label": "B 先成為限制試劑",
+        "description": "目前的 B 包數不足以配合全部 A 供應。"
+      },
+      {
+        "id": "partial-yield",
+        "label": "部分產率",
+        "description": "實際產物只填滿可達輸出的一部分。"
+      },
+      {
+        "id": "three-to-two",
+        "label": "切換成 3:2 配方",
+        "description": "即使供應倉變化不大，只要換配方卡，整個批次故事也會改變。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "recipeCard",
+        "label": "配方卡",
+        "shortDescription": "在供應倉變動時，持續把反應配方卡保留在畫面上。",
+        "whatToNotice": [
+          "同一組供應量在配方卡改變後，能代表完全不同的批次故事。"
+        ],
+        "whyItMatters": "這樣能把化學計量比例牢牢連在一張可見的批次配方卡上，而不是變成抽離的比例規則。"
+      },
+      {
+        "id": "limitingCue",
+        "label": "限制提示",
+        "shortDescription": "高亮顯示目前是哪一方供應限制了可完成的批次數。",
+        "whatToNotice": [
+          "較低的上限線，決定了目前最多能完成多少個完整批次。"
+        ],
+        "whyItMatters": "它把限制試劑變成一條看得見的上限線，而不是隱藏在工作紙裡的步驟。"
+      },
+      {
+        "id": "yieldGap",
+        "label": "產率差距",
+        "shortDescription": "在實際產物託盤旁邊保留理論輸出的參考標記。",
+        "whatToNotice": [
+          "較低的產率不會改變配方卡；它改變的是實際出現了多少可達的產物。"
+        ],
+        "whyItMatters": "這能為下一個產率概念預留脈絡，同時不打亂目前的配方故事。"
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "batches-vs-reactant-a",
+      "label": "可形成批次與 A 供應量",
+      "xLabel": "反應物 A 包數",
+      "yLabel": "可形成批次",
+      "description": "觀察可形成批次如何上升，直到固定的 B 供應成為上限。"
+    },
+    {
+      "id": "batches-vs-reactant-b",
+      "label": "可形成批次與 B 供應量",
+      "xLabel": "反應物 B 包數",
+      "yLabel": "可形成批次",
+      "description": "觀察可形成批次如何上升，直到固定的 A 供應成為上限。"
+    },
+    {
+      "id": "yield-vs-percent",
+      "label": "實際與理論輸出",
+      "xLabel": "百分比產率",
+      "yLabel": "產物批次",
+      "description": "在產率改變時，把實際產物託盤與理論輸出標記放在一起比較。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "觀察重點",
+    "intro": "同時把配方卡和其中一張批次圖表留在畫面上。",
+    "items": [
+      {
+        "id": "srb-notice-ratio-match",
+        "text": "當供應比例與配方比例配對時，兩條上限線會落在同一個批次數上。"
+      },
+      {
+        "id": "srb-notice-recipe-change",
+        "text": "只要改變配方卡，即使供應倉保持不變，可支援的完整批次數也可能改變。"
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測",
+    "intro": "在移動工作台之前，先預測這張配方卡會講出甚麼故事。",
+    "items": [
+      {
+        "id": "srb-predict-fixed-b-cap",
+        "prompt": "如果 B 保持不變，而 A 在 2:3 配方下逐步增加，當批次數碰到 B 的上限後，會發生甚麼？",
+        "scenarioLabel": "在固定 B 的情況下增加 A",
+        "choices": [
+          {
+            "id": "a",
+            "label": "可形成批次數會趨於平坦，因為此時 B 已成為上限。"
+          },
+          {
+            "id": "b",
+            "label": "可形成批次數會一直上升，因為 A 變得更多。"
+          },
+          {
+            "id": "c",
+            "label": "配方卡會失去作用。"
+          }
+        ],
+        "explanation": "一旦固定的 B 供應成為較小的配方上限，單靠增加 A 並不能再多做完整批次。",
+        "observationHint": "觀察青綠色曲線如何在虛線的 B 上限下方趨於平坦。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "忠於配方：建立一組讓批次上限同時落在兩邊供應上的配對執行。",
+    "items": [
+      {
+        "id": "srb-ch-build-a-three-to-two-recipe",
+        "title": "建立配對的 3:2 執行",
+        "prompt": "把工作台設成 3 A + 2 B 的配方，並把供應調到剛好能一起完成四個完整批次。",
+        "successMessage": "你配對的是新的配方卡，而不是隻看原始總數。現在工作台可完成四個完整的 3:2 批次，而且沒有任何一方會提早把流程卡住。",
+        "hints": [
+          "先改配方卡，再把供應調到新的比例。",
+          "四個完整的 3:2 批次需要 12 包 A 和 8 包 B。"
+        ],
+        "targets": [
+          {
+            "label": "把 A 每批次設成 3。"
+          },
+          {
+            "label": "把 B 每批次設成 2。"
+          },
+          {
+            "label": "把 A 調到 12 包。"
+          },
+          {
+            "label": "把 B 調到 8 包。"
+          },
+          {
+            "label": "把產率保持在 100%，讓這次只測試配方比例。"
+          }
+        ]
+      }
+    ]
+  }
+}

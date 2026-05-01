@@ -1,0 +1,284 @@
+{
+"sections": {
+"explanation": {
+"paragraphs": [
+"At first a standing wave can look frozen, but the string is not motionless. It forms when two equal waves travel in opposite directions on the same string and keep interfering. At some points the cancellation is permanent, so those points stay at zero displacement and become nodes. Halfway between them, reinforcement is strongest, so those points become antinodes with the largest oscillation.",
+"This lab keeps the stage, mode-shape graph, and probe trace tied to the same harmonic. The graph shows where the string can have zero motion or maximum motion, the stage shows that pattern across the whole string, and the probe trace shows what one chosen point does in time. When you change the mode number, you are not just changing the picture. You are choosing a new allowed wavelength and frequency for a string with fixed ends."
+]
+},
+"keyIdeas": [
+"Nodes are fixed positions where destructive interference persists. The wave has not vanished from the whole string.",
+"Antinodes are the centers of the loops, where the local oscillation is largest and the time trace reaches its biggest amplitude.",
+"Higher harmonics fit more half-wavelength segments into the same length, so node spacing shrinks and frequency rises."
+],
+"commonMisconception": {
+"myth": "Because the pattern stays in place, the string must stop moving once the standing wave forms.",
+"correction": [
+"The pattern in space stays fixed, but most points between the nodes still move up and down in time.",
+"What stays fixed are the node positions and the overall mode shape, not the instantaneous displacement of the string."
+]
+},
+"workedExamples": {
+"intro": "These examples use the current harmonic, string length, probe position, and inspected time from the live bench, so each calculation refers to the same string you are watching.",
+"items": [
+{
+"id": "allowed-wavelength",
+"prompt": "For the current mode number and string length, what wavelength and oscillation frequency are allowed on this fixed string?",
+"steps": [
+{
+"id": "relation",
+"label": "1. Start from the fixed-end relations"
+},
+{
+"id": "substitute",
+"label": "2. Substitute the current harmonic and string length"
+},
+{
+"id": "compute",
+"label": "3. Calculate the allowed wavelength and frequency"
+}
+],
+"resultLabel": "Current allowed values",
+"applyAction": {
+"label": "Show third harmonic",
+"observationHint": "More half-wavelength segments fit on the same string, so the nodes move closer together and the oscillation gets faster."
+}
+},
+{
+"id": "probe-displacement",
+"title": "Displacement at the current probe point",
+"prompt": "At the current probe position $x_p = {{probeXValue}}\\,\\mathrm{m}$ and time $t = {{timeValue}}\\,\\mathrm{s}$, what displacement should this point on the string have?",
+"steps": [
+{
+"id": "substitute",
+"label": "2. Evaluate the position factor"
+},
+{
+"id": "compute",
+"label": "3. Find the displacement at this instant"
+}
+],
+"applyAction": {
+"observationHint": "At a node, the spatial factor is zero, so the local trace collapses even while nearby parts of the string keep moving."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "You want one more interior node, but the fixed ends cannot change. What should you change?",
+"prediction": "Choose between moving the probe, raising the mode number, and waiting longer in time.",
+"explanation": "Moving the probe only changes where you observe the string, and waiting only changes the moment you look at the same harmonic. The number of interior nodes is set by the harmonic, so you must raise the mode number."
+}
+},
+"equations": [
+{
+"id": "standing-displacement",
+"meaning": "The sine term sets how the amplitude varies along the string, and the cosine term makes each allowed point oscillate in time.",
+"notes": [
+"The sine factor fixes the node and antinode pattern in space.",
+"The cosine factor means points between nodes still move up and down."
+]
+},
+{
+"id": "standing-wavelength",
+"meaning": "Only wavelengths that fit an integer number of half-wavelengths between the fixed ends can form a standing wave."
+},
+{
+"id": "standing-frequency",
+"meaning": "Once the wave speed and string length are fixed, each harmonic has one matching frequency."
+},
+{
+"id": "standing-nodes",
+"meaning": "These fixed positions stay at zero because the two traveling waves keep canceling there."
+}
+],
+"variableLinks": [
+{
+"id": "amplitude",
+"description": "Changes how far the antinodes can swing, while the nodes still remain fixed."
+},
+{
+"id": "modeNumber",
+"description": "Chooses which harmonic fits between the fixed ends, so node count, antinode count, wavelength, and frequency all change together."
+},
+{
+"id": "length",
+"description": "Changes the distance between the fixed ends, so the allowed wavelengths, node spacing, and frequencies change with it."
+},
+{
+"id": "probeX",
+"description": "Moves the measurement point along the same string so you can compare a node, an antinode, and an in-between point."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "amplitude",
+"description": "Changes how far the antinodes swing without moving the node positions."
+},
+{
+"id": "length",
+"description": "Changes the distance between the fixed ends, so the allowed harmonic spacing changes."
+},
+{
+"id": "modeNumber",
+"description": "Chooses which harmonic fits on the fixed string."
+},
+{
+"id": "probeX",
+"description": "Moves the live measurement point along the string so you can compare node, antinode, and in-between motion. Values past the end clamp to the current string length."
+}
+],
+"overlays": [
+{
+"id": "nodes",
+"whatToNotice": [
+"A node stays on the center line at every instant, even while nearby parts of the string swing above and below it."
+],
+"whyItMatters": "It makes persistent destructive interference visible instead of treating nodes as decorative markers."
+},
+{
+"id": "antinodes",
+"shortDescription": "Shows where the string can reach its largest local oscillation.",
+"whatToNotice": [
+"An antinode is the center of a loop where the local envelope is largest, not just a high point in one frozen frame."
+],
+"whyItMatters": "It separates maximum possible displacement from the instantaneous shape at one moment."
+},
+{
+"id": "componentWaves",
+"shortDescription": "Adds the two equal traveling waves that superpose to create the standing pattern.",
+"whyItMatters": "It makes the interference origin of a standing wave visible instead of treating the pattern as a special separate object."
+}
+]
+},
+"graphs": [
+{
+"id": "shape",
+"description": "Shows the spatial factor of the current harmonic. Zero crossings mark nodes, and peaks mark antinodes."
+},
+{
+"id": "displacement",
+"description": "Shows how one chosen point moves in time and how large its local envelope is in the current mode."
+}
+],
+"noticePrompts": {
+"intro": "Use one cue at a time. Each prompt should point to something you can actually see on the string or graph.",
+"items": [
+{
+"id": "standing-notice-nodes",
+"text": "Notice that the node markers never leave the center line, even while the neighboring loops cross it every cycle.",
+"whyItMatters": "A standing wave is not motionless everywhere. What stays fixed are the nodes and the mode pattern."
+},
+{
+"id": "standing-notice-shape-link",
+"text": "Notice that hovering the mode-shape graph moves the same live probe to that position on the string.",
+"whyItMatters": "The graph and stage are two views of the same standing-wave pattern."
+},
+{
+"id": "standing-notice-mode",
+"text": "Notice that raising the mode number adds another half-wavelength segment to the same string, so nodes move closer together and the oscillation gets faster.",
+"whyItMatters": "Changing mode number changes both the spatial pattern and the time behavior."
+},
+{
+"id": "standing-notice-components",
+"text": "Notice that the standing pattern comes from two equal waves passing through each other. The string has not stopped carrying waves.",
+"whyItMatters": "This connects standing waves back to interference between traveling waves."
+},
+{
+"id": "standing-notice-inspect",
+"text": "Notice that the time rail changes the instantaneous string shape and probe displacement, but the mode-shape graph stays the same because it represents the spatial pattern, not one frozen frame."
+},
+{
+"id": "standing-notice-compare",
+"text": "Notice which setup packs more loops into the same length. That setup is either a higher harmonic or a shorter string."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict the consequence before you test it. Each prompt changes one cause at a time so you can connect the string, graph, and equations.",
+"items": [
+{
+"id": "standing-predict-mode",
+"explanation": "On a fixed string, a higher harmonic fits more half-wavelength segments into the same length. That adds nodes, shortens the allowed wavelength, and raises the oscillation frequency.",
+"observationHint": "Watch the node spacing shrink and the probe trace cycle faster after the change."
+},
+{
+"id": "standing-predict-node",
+"explanation": "A node is a permanent cancellation point. Moving the probe there makes the spatial factor zero, so that point stops oscillating even though the rest of the string keeps moving."
+},
+{
+"id": "standing-predict-length",
+"explanation": "For the same mode number, shortening $L$ shortens the allowed wavelength through $\\lambda_n = 2L/n$. With the wave speed fixed, that shorter wavelength means a higher frequency."
+}
+]
+},
+"challengeMode": {
+"intro": "Use the mode-shape graph, overlays, and inspect-time rail to solve short standing-wave tasks on the same live string.",
+"items": [
+{
+"id": "sw-ch-probe-on-node",
+"prompt": "Starting from the third harmonic, move the probe onto a node so its local envelope becomes almost zero.",
+"successMessage": "You placed the probe on a true node. The rest of the string still shows a standing-wave pattern, but that point stays still.",
+"setup": {
+"note": "Use the node overlay and the mode-shape graph together as you move the probe."
+},
+"hints": [
+"In the third harmonic, the interior nodes divide the string into three equal loop sections.",
+"A tiny probe envelope matters more than one instant of small displacement. A true node stays quiet at all times."
+]
+},
+{
+"id": "sw-ch-center-zero-crossing",
+"prompt": "From the fundamental mode, keep the probe at the center antinode and pause when that antinode crosses through zero displacement.",
+"successMessage": "You separated instantaneous displacement from envelope. An antinode can cross zero even though it is the point of largest oscillation.",
+"setup": {
+"note": "Keep the probe at the center antinode, then pause when the probe-motion trace crosses the axis."
+},
+"hints": [
+"The center of the fundamental is an antinode, so its envelope should stay large even when the instantaneous displacement is zero.",
+"This is an inspect-time task. Watch the probe-motion graph and pause at a zero crossing."
+]
+}
+]
+},
+"quickTest": {
+"intro": "Use the stage, graph, and interference idea together. These checks ask what the string must be doing, not just which formula you remember.",
+"questions": [
+{
+"id": "standing-qt-1",
+"explanation": "Nodes are fixed cancellation points created by interference. Nearby points can still oscillate strongly, so the standing wave is still present.",
+"selectedWrongExplanations": {
+"b": "The full string does not stop. Only the node points stay at zero while neighboring segments continue to move.",
+"c": "Nodes and antinodes are different positions in the mode shape, not the same point viewed at a different time."
+}
+},
+{
+"id": "standing-qt-2",
+"explanation": "Zero on the mode-shape graph means the local spatial factor is zero there, so that point is a node and stays fixed."
+},
+{
+"id": "standing-qt-3",
+"explanation": "Interference explains why the fixed pattern of nodes and antinodes exists. Oscillation explains why points between nodes still move up and down in time."
+},
+{
+"id": "standing-qt-4",
+"explanation": "A higher harmonic fits more half-wavelength segments into the same length, so node spacing shrinks and frequency rises. Amplitude does not need to change."
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows a horizontal string fixed at both ends with a movable probe marker and a ruler underneath. The string oscillates in one selected harmonic, and optional overlays can mark nodes, antinodes, and the two traveling-wave components that combine to make the standing pattern.",
+"Changing amplitude, string length, mode number, or probe position updates the same stage, mode-shape graph, and probe-motion graph together so the standing-wave state stays synchronized."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The mode-shape graph plots the spatial factor of the standing wave against position on the string. Zero crossings correspond to nodes and peaks correspond to antinodes.",
+"The probe-motion graph plots the chosen point's displacement in time together with its local envelope, so a node produces a flat trace while an antinode reaches the largest swing."
+]
+}
+}
+}

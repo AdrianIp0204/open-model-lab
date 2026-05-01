@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/AdrianIp0204/OpenModelLab/blob/main/SECURITY.md
+    about: Please report suspected vulnerabilities privately. Do not open public security issues.
+  - name: Account or billing support
+    url: https://openmodellab.com/contact
+    about: Use the contact page for account, payment, subscription, or private user-data questions.
+  - name: Product feedback
+    url: https://openmodellab.com/contact
+    about: Use the contact page for general feedback that does not need source-repo triage.

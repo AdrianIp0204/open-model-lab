@@ -1,0 +1,373 @@
+{
+  "title": "雙縫幹渉",
+  "shortTitle": "雙縫",
+  "summary": "使用兩個相干縫和一個螢幕，將路徑差、相位差與條紋間距與波長、縫間距及螢幕距離聯絡起來，在一個緊湊的光學平台上。",
+  "highlights": [
+    "路徑差",
+    "條紋間距",
+    "明暗條紋"
+  ],
+  "topic": "光學",
+  "subtopic": "波的擴散和開口",
+  "recommendedNext": [
+    {
+      "slug": "refraction-snells-law",
+      "reasonLabel": "邊界光學"
+    },
+    {
+      "slug": "total-internal-reflection",
+      "reasonLabel": "臨界角極限"
+    },
+    {
+      "slug": "photoelectric-effect",
+      "reasonLabel": "超越波動光學"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "雙縫幹渉是光學版本的一個波干涉概念：兩個相干來源在同一位置相遇，其路徑差決定了它們是否互相增強或抵消。這裡的兩個來源來自兩個窄縫並落在一個螢幕上。",
+        "這個平台有意保持模型的簡化：只有一種波長、一種縫間距、一種螢幕距離和一個可移動探針。相同的幾何構造驅動著舞台、影像、預測模式、示例問題和挑戰檢查，使條紋模式始終與一個真實的光學故事保持一致。"
+      ]
+    },
+    "keyIdeas": [
+      "當路徑差接近整數倍波長時，螢幕上的點變亮；當接近半數波長時，則變暗。",
+      "路徑差轉換為相位差透過\\(\\Delta \\phi = 2\\pi \\Delta r / \\lambda\\)，因此波長控制著每增加一米所貢獻的相位量。",
+      "對於小角度，明條紋間距約為\\(\\Delta y \\approx \\lambda L / d\\)，所以較大的波長或螢幕距離會使條紋加寬，而較大的縫間距則使其縮緊。",
+      "此頁面將波干涉和衍射延伸到光學領域，而不假裝模擬完整的波傳播細節。"
+    ],
+    "commonMisconception": {
+      "myth": "暗條紋意味著來自一個縫的光沒有達到螢幕上的該點。",
+      "correction": [
+        "兩個縫仍然為同一螢幕點供應光源。暗條紋出現的原因是兩相干來源幾乎以相反相位抵消。",
+        "螢幕模式由疊加決定，而不是一個縫在特定位置關閉。"
+      ]
+    },
+    "workedExamples": {
+      "title": "實時雙縫檢查",
+      "intro": "這些示例直接從當前光學平台讀取實時幾何形狀，因此代數保持與您正在檢視的同一條紋模式一致。",
+      "items": [
+        {
+          "id": "path-difference-to-phase",
+          "title": "路徑差到相位差",
+          "prompt": "對於當前探針位置y = {{probeYValue}}，達到該螢幕點的相位分裂是多少？",
+          "variables": [
+            {
+              "id": "probe-height",
+              "label": "探針高度"
+            },
+            {
+              "id": "path-difference",
+              "label": "路徑差異"
+            },
+            {
+              "id": "wavelength",
+              "label": "波長"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 從幹渉關係開始"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 代入實時幾何形狀"
+            },
+            {
+              "id": "interpret",
+              "label": "3. 包裹比較角"
+            }
+          ],
+          "resultLabel": "當前相位分裂",
+          "applyAction": {
+            "label": "顯示第一個暗條紋",
+            "observationHint": "探針位於路徑差接近半個波長的位置，因此縫的貢獻幾乎相互抵消。"
+          }
+        },
+        {
+          "id": "fringe-spacing-geometry",
+          "title": "由波長和幾何構造決定的條紋間距",
+          "prompt": "對於當前的波長、狹縫間距和螢幕距離，鄰近的亮干涉條紋之間應該相隔多遠？",
+          "variables": [
+            {
+              "id": "wavelength",
+              "label": "波長"
+            },
+            {
+              "id": "screen-distance",
+              "label": "螢幕距離"
+            },
+            {
+              "id": "slit-separation",
+              "label": "狹縫間距"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 開始使用小角間距規則"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 代入當前的工作台幾何形狀"
+            },
+            {
+              "id": "read",
+              "label": "3. 將其與可見的條紋連線起來"
+            }
+          ],
+          "resultLabel": "當前的條紋間距",
+          "applyAction": {
+            "label": "顯示寬廣的條紋",
+            "observationHint": "寬廣的條紋來自於 lambda 乘以 L 除以 d 的較大值，而不是單獨移動探針。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "你想要在相同的螢幕上使條紋更遠。哪個控制設定可以可靠地改變這個距離，而哪個只是在不同位置取樣？",
+      "prediction": "決定是波長、狹縫間距、螢幕距離還是探針高度實際上會增加條紋間距。",
+      "answer": "增加波長、增加螢幕距離或減少狹縫間距。探針只是讀取現有模式的一個位置，而不是創造它。",
+      "explanation": "條紋間距遵循幾何規則 \\(\\Delta y \\approx \\lambda L / d\\)。探針並未創造模式；它只在該模式上取樣一個位置。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "從路徑差、相位和幾何關係一起回答，而不是將模式視為一句口訣。",
+    "questions": [
+      {
+        "id": "dsi-qt-1",
+        "prompt": "在這個雙狹縫工作台上，哪種條件最好地描述了亮干涉條紋？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "路徑差接近整數倍的波長，因此狹縫的貢獻相互加強。"
+          },
+          {
+            "id": "b",
+            "label": "路徑差最大，所以那裡的螢幕亮度最高。"
+          },
+          {
+            "id": "c",
+            "label": "只有其中一個狹縫實際上在供應該螢幕點。"
+          }
+        ],
+        "explanation": "亮干涉條紋是建設性幹擾的位置，這意味著路徑差對應於約 0、1、2 及更高整數倍的波長的額外行程。",
+        "selectedWrongExplanations": {
+          "b": "大的路徑差並不保證會加強。重要的是它與波長相比較的程度。",
+          "c": "兩個狹縫仍然供應該點。亮和暗區域來自於疊加，而不是一個狹縫消失。"
+        },
+        "showMeAction": {
+          "label": "顯示中心亮帶",
+          "observationHint": "中心線是亮的因為那裡的路徑差幾乎為零。"
+        }
+      },
+      {
+        "id": "dsi-qt-2",
+        "prompt": "如果你增加狹縫間距而保持波長和螢幕距離不變，條紋間距會發生什麼變化？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "條紋收緊因為 \\(\\Delta y \\approx \\lambda L / d\\) 變小了。"
+          },
+          {
+            "id": "b",
+            "label": "條紋延伸因為狹縫更遠。"
+          },
+          {
+            "id": "c",
+            "label": "什麼都不變，因為只有波長才重要。"
+          }
+        ],
+        "explanation": "當波長和螢幕距離固定時，增加 d 會使間距變小，因此相同螢幕高度內可以容納更多的亮暗條紋。",
+        "selectedWrongExplanations": {
+          "b": "更大的狹縫間距改變了路徑差梯度，這使得可見的間距變小而不是變大。",
+          "c": "波長很重要，但 d 是相同的間距規則，會改變圖案。"
+        },
+        "showMeAction": {
+          "label": "顯示緊密的干涉條紋",
+          "observationHint": "較大的狹縫分離有助於使條紋更緊密地排列。"
+        }
+      },
+      {
+        "id": "dsi-qt-3",
+        "prompt": "情況 A 和情況 B 使用相同的雙縫，但情況 B 的波長較長，且屏幕也更遠。哪一個圖樣應該在屏幕上看起來更疏開？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "情況 B，因為較長波長和較遠的屏幕距離都會增大條紋間距。"
+          },
+          {
+            "id": "b",
+            "label": "情況 A，因為較短波長會令條紋更集中。"
+          },
+          {
+            "id": "c",
+            "label": "兩種情況都不。只有探針位置改變你看到的間距。"
+          }
+        ],
+        "explanation": "間距規則 \\(\\Delta y \\approx \\lambda L / d\\) 會隨波長和屏幕距離增加而增大，所以情況 B 應顯示更寬的條紋間距。",
+        "selectedWrongExplanations": {
+          "b": "這裡的圖案間距遵循共享幾何規則，而不是模糊的尖鋭波動直覺。",
+          "c": "探針位置取樣圖案。它不設定條紋之間的間距。"
+        },
+        "showMeAction": {
+          "label": "顯示寬廣的干涉條紋",
+          "observationHint": "當 λ 和 L 相對於 d 都較大時，相同的實驗台會顯示更寬的間距。"
+        }
+      },
+      {
+        "id": "dsi-qt-4",
+        "prompt": "為什麼探針場圖保持固定，而你在探針場圖中步進時間時螢幕模式圖形不變？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "因為圖形是螢幕上的空間強度圖，而探針場圖表跟蹤的是時間的一個點。"
+          },
+          {
+            "id": "b",
+            "label": "因為雙狹縫幹擾模型中的任何地方都沒有時間依賴性。"
+          },
+          {
+            "id": "c",
+            "label": "因為圖案圖形只在相位輪被隱藏時更新。"
+          }
+        ],
+        "explanation": "探針場仍然隨著時間振蕩，但圖案是螢幕高度基準的強度對映。兩個圖表回答同一狀態的不同問題。",
+        "selectedWrongExplanations": {
+          "b": "探針處的地方場仍然隨著時間振蕩，並且時間軌道用於檢查這種誠實的運動。",
+          "c": "相位輪覆蓋是可選的，並不能控制圖案圖形是否更新。"
+        },
+        "showMeAction": {
+          "label": "顯示第一暗紋",
+          "observationHint": "步進時間並觀看探針場隨時間變化而變化的同時，觀察模式圖保持與螢幕位置相關。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示入射波前擊中帶有兩個窄縫的障礙物。在右側，一個垂直的螢幕條帶會明暗交替以顯示幹擾圖案，並且有一個可移動的探針標記選定的螢幕高度。",
+        "可選覆蓋層顯示狹縫幾何、兩個狹縫到探針的路徑、近似條紋間距標記以及一個相位輪，用於比較當前探針點處兩個狹縫貢獻。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "探針場圖顯示選定螢幕點處兩個狹縫貢獻及其實時結果隨著時間的變化。",
+        "螢幕模式圖顯示相對強度與螢幕高度之間的關係，因此即使時間軌道繼續檢查區域性探針場，它也保持位置基準。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "實時雙狹縫檢查"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "條紋間距檢查點"
+      },
+      {
+        "id": "readNext",
+        "title": "將幹擾深入光學領域"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "path-difference",
+      "label": "路徑差異",
+      "meaning": "同一螢幕點處的一個狹縫到螢幕的路徑可以比另一個稍長。",
+      "notes": [
+        "舞台在探針移動時保持兩個路徑長度可見。"
+      ]
+    },
+    {
+      "id": "phase-difference",
+      "label": "相位差異",
+      "meaning": "路徑差僅透過它代表多少個波長的額外行進距離而起作用。"
+    },
+    {
+      "id": "bright-condition",
+      "label": "明亮的干涉條紋",
+      "meaning": " 相長干涉 在路徑差為波長整數倍時發生。"
+    },
+    {
+      "id": "dark-condition",
+      "label": "暗的干涉條紋",
+      "meaning": " 相消干涉 在路徑差為波長半數倍時發生。"
+    },
+    {
+      "id": "fringe-spacing",
+      "label": "干涉條紋間距",
+      "meaning": "對於小角度，波長和幾何形狀共同決定了螢幕上相鄰明亮條紋之間的距離。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "wavelength",
+      "label": "波長",
+      "description": "較長的波長使得相同的路徑差對應更少的相位變化每米，並使條紋間隔變大。"
+    },
+    {
+      "id": "slitSeparation",
+      "label": "狹縫間距",
+      "description": "較大的狹縫間距會使相同螢幕角度產生更大的路徑差，從而使條紋變緊。"
+    },
+    {
+      "id": "screenDistance",
+      "label": "螢幕距離",
+      "description": "更遠的螢幕會將相同的干涉角轉換為螢幕上更大的垂直間隔。"
+    },
+    {
+      "id": "probeY",
+      "label": "探針高度",
+      "description": "移動取樣螢幕點上下，以便讀取該處路徑差條件。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "wavelength",
+        "label": "波長"
+      },
+      {
+        "id": "slitSeparation",
+        "label": "狹縫間距"
+      },
+      {
+        "id": "screenDistance",
+        "label": "螢幕距離"
+      },
+      {
+        "id": "probeY",
+        "label": "探針高度"
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "pattern",
+      "label": "螢幕圖案"
+    }
+  ],
+  "predictionMode": {
+    "items": [
+      {
+        "id": "dsi-pred-larger-separation",
+        "changeLabel": "狹縫間距"
+      },
+      {
+        "id": "dsi-pred-farther-screen",
+        "changeLabel": "螢幕距離"
+      },
+      {
+        "id": "dsi-pred-half-wavelength",
+        "changeLabel": "探針高度"
+      }
+    ]
+  }
+}

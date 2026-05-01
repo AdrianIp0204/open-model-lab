@@ -1,0 +1,169 @@
+{
+"pageFramework": {
+"sections": [
+{
+"id": "workedExamples",
+"title": "Solve the live motion"
+},
+{
+"id": "miniChallenge",
+"title": "Test the vector directions"
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Uniform circular motion is the clearest example of why constant speed does not mean zero acceleration. The speed stays the same, but the velocity keeps changing because its direction keeps turning.",
+"This lab keeps the orbit, vectors, and time graphs tied to one live state. Change the radius, angular speed, or phase, then compare the circle, the tangent velocity, the inward acceleration, and the x(t) and y(t) projections. You are seeing the same motion in several representations, not learning separate formulas."
+]
+},
+"keyIdeas": [
+"Velocity is always tangent to the circle, not pointed toward the center.",
+"Centripetal acceleration points inward because the velocity direction is changing continuously, even when the speed stays constant.",
+"The x and y coordinates of uniform circular motion behave like sine and cosine oscillations, which is why this motion connects directly to simple harmonic motion."
+],
+"commonMisconception": {
+"myth": "If the particle moves at constant speed, its acceleration must be zero.",
+"correction": [
+"Speed tells you only how fast the particle moves. Velocity includes direction as well as size.",
+"In uniform circular motion the direction changes at every instant, so there must be a nonzero inward acceleration even when the speed readout stays constant."
+]
+},
+"workedExamples": {
+"title": "Worked example from the live motion",
+"intro": "Use the current orbit and inspected time, not a separate diagram. First read the x-coordinate from the same radius, angular speed, and phase that the stage is using. Then calculate the inward acceleration from that same circular motion.",
+"items": [
+{
+"id": "current-x-projection",
+"title": "Horizontal position at this instant",
+"prompt": "At $t = {{timeValue}}\\,\\mathrm{s}$, what is the particle's x-coordinate?",
+"steps": [
+{
+"id": "relation",
+"label": "1. Write the x-projection formula"
+},
+{
+"id": "substitute",
+"label": "2. Substitute the live values"
+},
+{
+"id": "compute",
+"label": "3. Evaluate the current x-coordinate"
+}
+],
+"resultLabel": "Current x-coordinate",
+"applyAction": {
+"label": "Turn on projection guides",
+"observationHint": "Watch the particle, the dashed projection, and the x(t) graph marker update together."
+}
+},
+{
+"id": "centripetal-acceleration",
+"title": "Inward acceleration for this orbit",
+"prompt": "What centripetal acceleration is needed to keep the particle on the current circle?",
+"steps": [
+{
+"id": "relation",
+"label": "1. Write the centripetal-acceleration formula"
+},
+{
+"id": "substitute",
+"label": "2. Substitute the current radius and angular speed"
+},
+{
+"id": "compute",
+"label": "3. Calculate the inward acceleration"
+}
+],
+"resultLabel": "Current inward acceleration",
+"applyAction": {
+"label": "Try a tighter turn",
+"observationHint": "A smaller radius with a larger angular speed makes the inward acceleration grow quickly."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "At the very top of the circle, which way does the velocity point, and which way does the centripetal acceleration point?",
+"prediction": "Decide before you turn on the vectors whether either arrow can point straight up at that instant.",
+"answer": "At the top of the circle, the velocity is horizontal because it is tangent to the path, and the centripetal acceleration points straight down toward the center.",
+"explanation": "Velocity follows the tangent, while centripetal acceleration points inward along the radius. In uniform circular motion, those two directions are perpendicular."
+}
+},
+"noticePrompts": {
+"intro": "Use the orbit, vectors, and graphs as one linked system. The best prompt tells you which representation is clearest for the question you are asking.",
+"items": [
+{
+"id": "ucm-notice-constant-speed",
+"text": "The speed can stay constant while the velocity vector keeps turning.",
+"tryThis": "Watch the tangent arrow complete a full turn without the speed value on the stage changing.",
+"whyItMatters": "Acceleration depends on changing velocity, not just changing speed."
+},
+{
+"id": "ucm-notice-inward-acceleration",
+"text": "The centripetal acceleration points inward, while the velocity points tangent to the circle.",
+"tryThis": "Pause at the top, bottom, or side of the orbit and compare the inward arrow with the tangent velocity arrow.",
+"whyItMatters": "This is the geometry that makes circular motion acceleration nonzero."
+},
+{
+"id": "ucm-notice-projection-link",
+"text": "The x and y graphs are the axis projections of the same circular motion.",
+"tryThis": "Turn on the projection guides, then scrub the graph so the marker and the projected coordinates stay synchronized.",
+"whyItMatters": "It is the direct visual bridge from circular motion to simple harmonic motion."
+},
+{
+"id": "ucm-notice-omega",
+"text": "Increasing angular speed makes the particle go around the circle faster and steepens the angle graph without changing the radius.",
+"tryThis": "Raise Angular speed and compare how much sooner the particle completes a full revolution.",
+"whyItMatters": "Angular speed changes the timing of the motion even when the circle size stays fixed."
+},
+{
+"id": "ucm-notice-inspect",
+"text": "When you pause and scrub, the orbit position, vector directions, and graph marker all describe the same instant.",
+"tryThis": "Pause, step once, then compare the particle angle with the x and y projection values.",
+"whyItMatters": "It turns the formulas into one inspectable state instead of separate facts."
+},
+{
+"id": "ucm-notice-compare",
+"text": "The setup that completes a revolution sooner has the larger angular speed.",
+"tryThis": "Keep the radius similar in A and B, then change only Angular speed in one setup.",
+"whyItMatters": "Compare mode makes timing differences obvious without changing the spatial frame."
+}
+]
+},
+"predictionMode": {
+"title": "Predict the effect",
+"intro": "Predict what changes before you touch the orbit. Then test the same change on the stage, the vectors, and the graphs.",
+"items": [
+{
+"id": "ucm-predict-1",
+"explanation": "A larger angular speed means more radians per second, so each revolution takes less time. Because $a_c = \\omega^2 R$, the inward acceleration also rises strongly when radius stays fixed.",
+"observationHint": "The angle graph gets steeper, and the inward arrow grows while the circle size stays fixed."
+},
+{
+"id": "ucm-predict-2",
+"prompt": "If angular speed stays fixed and radius increases, what changes most directly?",
+"explanation": "With angular speed fixed, the period $T = 2\\pi/\\omega$ stays the same. But the particle has to cover a larger circle in the same time, so its speed rises and the inward acceleration also increases.",
+"observationHint": "Watch the orbit widen while the angle graph keeps the same slope and the speed readout becomes larger."
+}
+]
+},
+"quickTest": {
+"intro": "Use the orbit, vectors, and graphs together. These checks ask whether you can explain what constant speed, tangent velocity, and inward acceleration really mean."
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows a particle moving around a circle centered on visible x and y axes. Optional overlays can show the radius vector, the tangent velocity vector, the inward centripetal-acceleration vector, the angular marker, and the x and y projection guides.",
+"Changing radius, angular speed, or phase updates the same orbit, vectors, readouts, and graphs together. The stage and graphs are synchronized views of one live circular motion."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The projection graphs show x(t) and y(t), the velocity graph shows the x and y components of the tangent velocity, and the angle graph shows angular position over time.",
+"These are different views of the same circular motion, not separate datasets. The graphs and the orbit stage always describe the same instant."
+]
+}
+}
+}

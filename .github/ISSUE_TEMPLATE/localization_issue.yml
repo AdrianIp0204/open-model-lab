@@ -1,0 +1,61 @@
+name: Localization issue
+description: Report translation, locale routing, or localized wording issues.
+title: "[Localization]: "
+labels:
+  - "type: localization"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for zh-HK or other localization issues. Do not include private account data or secrets in screenshots.
+  - type: dropdown
+    id: locale
+    attributes:
+      label: Locale
+      options:
+        - zh-HK
+        - English
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: page-concept-message
+    attributes:
+      label: Page, concept, or message
+      description: Include the route, concept slug, or message key if known.
+    validations:
+      required: true
+  - type: textarea
+    id: current-wording
+    attributes:
+      label: Current wording
+      description: Quote only the minimum needed.
+    validations:
+      required: true
+  - type: textarea
+    id: suggested-wording
+    attributes:
+      label: Suggested wording
+      description: Use natural wording for the target locale.
+    validations:
+      required: false
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Why this is better
+      description: Explain meaning, tone, grammar, terminology, or regional usage.
+    validations:
+      required: false
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact
+      options:
+        - Changes meaning
+        - Tone or fluency
+        - Typo or formatting
+        - Missing translation / English fallback
+        - Locale routing or selection
+        - Other / not sure
+    validations:
+      required: true

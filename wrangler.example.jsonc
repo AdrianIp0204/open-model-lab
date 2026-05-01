@@ -1,0 +1,85 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": ".open-next/worker.js",
+  "find_additional_modules": true,
+  "preserve_file_names": true,
+  "base_dir": ".",
+  "rules": [
+    {
+      "type": "Text",
+      "globs": ["content/**/*.json"]
+    }
+  ],
+  "name": "your-worker-name",
+  "compatibility_date": "2026-03-29",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "your-worker-name"
+    }
+  ],
+  "images": {
+    "binding": "IMAGES"
+  },
+  "observability": {
+    "enabled": true
+  },
+
+  // Copy this file to wrangler.jsonc for real preview/deploy work.
+  // Keep the real wrangler.jsonc private and untracked.
+  // Store secret values in Cloudflare/Wrangler/CI secret stores, not here.
+  "keep_vars": true,
+
+  "secrets": {
+    "required": [
+      "RESEND_API_KEY",
+      "SUPABASE_SERVICE_ROLE_KEY",
+      "STRIPE_SECRET_KEY",
+      "STRIPE_WEBHOOK_SECRET"
+    ]
+  },
+
+  "vars": {
+    "NEXT_PUBLIC_SUPABASE_URL": "your_supabase_url_here",
+    "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY": "your_supabase_publishable_key_here",
+
+    "NEXT_PUBLIC_OPEN_MODEL_LAB_SITE_URL": "https://your-domain.example",
+    "OPEN_MODEL_LAB_SITE_URL": "https://your-domain.example",
+    "NEXT_PUBLIC_SITE_URL": "https://your-domain.example",
+
+    "STRIPE_PREMIUM_PRICE_ID": "your_supporter_price_id_here",
+    "STRIPE_PREMIUM_ACHIEVEMENT_COUPON_ID": "your_reward_coupon_id_here",
+
+    "FEEDBACK_FROM_EMAIL": "Open Model Lab <feedback@your-domain.example>",
+    "FEEDBACK_TO_EMAIL": "feedback@your-domain.example",
+    "NEXT_PUBLIC_FEEDBACK_EMAIL": "feedback@your-domain.example",
+
+    "NEXT_PUBLIC_OPEN_MODEL_LAB_ADSENSE_ENABLED": "false",
+    "NEXT_PUBLIC_OPEN_MODEL_LAB_ADSENSE_CLIENT_ID": "your_adsense_client_id_here",
+    "NEXT_PUBLIC_OPEN_MODEL_LAB_ADSENSE_SLOT_HOME_DISCOVERY": "your_home_discovery_slot_here",
+    "NEXT_PUBLIC_OPEN_MODEL_LAB_ADSENSE_SLOT_CONCEPT_LIBRARY_DISCOVERY": "your_concept_library_slot_here",
+    "NEXT_PUBLIC_OPEN_MODEL_LAB_ADSENSE_SLOT_TOPIC_DIRECTORY_DISCOVERY": "your_topic_directory_slot_here",
+    "NEXT_PUBLIC_OPEN_MODEL_LAB_ADSENSE_SLOT_GUIDED_DIRECTORY_DISCOVERY": "your_guided_directory_slot_here"
+  },
+
+  "routes": [
+    {
+      "pattern": "your-domain.example",
+      "zone_name": "your-domain.example",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.your-domain.example",
+      "zone_name": "your-domain.example",
+      "custom_domain": true
+    }
+  ],
+  "workers_dev": true,
+  "preview_urls": true
+}

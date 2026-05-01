@@ -1,0 +1,846 @@
+{
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "projection-link",
+        "label": "Projection link",
+        "description": "Open a clean counterclockwise turn with the guides and sign map visible.",
+        "setup": {
+          "presetId": "reference-turn",
+          "graphId": "projection-history",
+          "overlayIds": [
+            "projectionGuides",
+            "quadrantSigns",
+            "angleMarker"
+          ],
+          "note": "Use this when you want the circle, the projections, and the sine-cosine traces to stay locked together."
+        }
+      },
+      {
+        "id": "axis-crossing-view",
+        "label": "Axis crossing",
+        "description": "Start near the top of the circle and watch one projection drop to zero on the axis.",
+        "setup": {
+          "presetId": "axis-crossing",
+          "graphId": "angle-history",
+          "overlayIds": [
+            "projectionGuides",
+            "rotationTrail",
+            "angleMarker"
+          ],
+          "note": "This makes it easier to notice exactly when cosine or sine changes sign."
+        }
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Keep one rotating point, its x and y projections, and the sine-cosine traces linked so the unit circle becomes the live source of both functions.",
+    "keyTakeaway": "On the unit circle, the point selected by angle theta is the ordered pair (cos theta, sin theta).",
+    "whyItMatters": "This turns trig graphs into a motion story: every cosine value, sine value, and sign change comes from one visible point instead of a memorized table."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "The unit circle is easiest to trust when one rotating point, its horizontal and vertical projections, and the sine-cosine traces all stay visible together. This bench keeps those pieces tied to the same live angle instead of treating sine and cosine as detached graph rules.",
+        "Cosine is the x-coordinate because the horizontal projection is literally the point's shadow on the x-axis. Sine is the y-coordinate for the same reason on the y-axis. As the point moves through the quadrants, the signs change because the projections change side with the point."
+      ]
+    },
+    "keyIdeas": [
+      "On the unit circle, the point selected by angle theta is the ordered pair (cos theta, sin theta).",
+      "Cosine is the horizontal projection and sine is the vertical projection of the same rotating point.",
+      "Quadrant sign changes are geometry first: left side means negative cosine, below the axis means negative sine."
+    ],
+    "commonMisconception": {
+      "myth": "Sine and cosine are separate graph tricks, so the unit circle picture is optional.",
+      "correction": [
+        "The graphs come from the same rotating point on the unit circle.",
+        "When the point moves left or right, cosine changes sign; when it moves above or below the x-axis, sine changes sign."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Use the current rotation state instead of a detached table of special angles.",
+      "items": [
+        {
+          "id": "read-the-current-projections",
+          "title": "Read the current cosine and sine pair",
+          "prompt": "For the current time and rotation state, what point on the unit circle is the motion selecting?",
+          "dependsOnTime": true,
+          "variables": [
+            {
+              "id": "time",
+              "symbol": "t",
+              "label": "Time",
+              "valueKey": "timeValue",
+              "unit": "s"
+            },
+            {
+              "id": "omega",
+              "variableId": "angular-speed",
+              "symbol": "\\omega",
+              "label": "Angular speed",
+              "valueKey": "omegaValue",
+              "unit": "rad/s"
+            },
+            {
+              "id": "phase",
+              "variableId": "phase",
+              "symbol": "\\phi",
+              "label": "Phase",
+              "valueKey": "phaseValue",
+              "unit": "rad"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-angle",
+              "label": "1. Read the current angle",
+              "template": "The live angle comes from $\\theta = \\omega t + \\phi$, so the current rotation is at $\\theta = {{angleValue}}\\,\\mathrm{rad}$ or about {{angleDegValue}} deg."
+            },
+            {
+              "id": "read-projections",
+              "label": "2. Read the two projections from the same point",
+              "template": "The horizontal projection gives $\\cos\\theta = {{cosValue}}$ and the vertical projection gives $\\sin\\theta = {{sinValue}}$."
+            },
+            {
+              "id": "build-point",
+              "label": "3. Write the current unit-circle point",
+              "template": "So the rotating point is $(\\cos\\theta, \\sin\\theta) = ({{cosValue}}, {{sinValue}})$."
+            }
+          ],
+          "resultLabel": "Current unit-circle point",
+          "resultTemplate": "$(\\cos\\theta, \\sin\\theta) = ({{cosValue}}, {{sinValue}})$",
+          "interpretationTemplate": "{{projectionInterpretation}}",
+          "applyAction": {
+            "label": "Apply the projection link",
+            "presetId": "reference-turn",
+            "observationHint": "Keep the guides on so the x and y projections never separate from the rotating point.",
+            "highlightedControlIds": [
+              "angularSpeed",
+              "phase"
+            ],
+            "highlightedGraphIds": [
+              "projection-history"
+            ],
+            "highlightedOverlayIds": [
+              "projectionGuides",
+              "angleMarker"
+            ]
+          }
+        },
+        {
+          "id": "read-the-current-signs",
+          "title": "Read the current signs from the region",
+          "prompt": "From the current location on the unit circle, what signs should cosine and sine have?",
+          "dependsOnTime": true,
+          "variables": [
+            {
+              "id": "angle-deg",
+              "symbol": "\\theta",
+              "label": "Current angle",
+              "valueKey": "angleDegValue",
+              "unit": "deg"
+            }
+          ],
+          "steps": [
+            {
+              "id": "name-region",
+              "label": "1. Name the current region",
+              "template": "The point is currently in {{regionValue}}."
+            },
+            {
+              "id": "map-signs",
+              "label": "2. Translate the region into projection signs",
+              "template": "That means the horizontal projection has a {{cosineSignValue}} sign and the vertical projection has a {{sineSignValue}} sign."
+            },
+            {
+              "id": "confirm-values",
+              "label": "3. Confirm with the live values",
+              "template": "The readout agrees: $\\cos\\theta = {{cosValue}}$ and $\\sin\\theta = {{sinValue}}$."
+            }
+          ],
+          "resultLabel": "Current sign pattern",
+          "resultTemplate": "$\\cos\\theta$ is {{cosineSignValue}} and $\\sin\\theta$ is {{sineSignValue}}.",
+          "interpretationTemplate": "{{signInterpretation}}",
+          "applyAction": {
+            "label": "Apply the Quadrant II start",
+            "presetId": "quadrant-two-start",
+            "observationHint": "The sign map makes the quadrant logic visible before you memorize any special-angle table.",
+            "highlightedControlIds": [
+              "phase"
+            ],
+            "highlightedGraphIds": [
+              "projection-history"
+            ],
+            "highlightedOverlayIds": [
+              "quadrantSigns",
+              "projectionGuides"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "If the point keeps rotating counterclockwise from Quadrant I into Quadrant II, which projection has to change sign first?",
+      "prediction": "Decide whether the point crosses an axis that changes x first or an axis that changes y first.",
+      "answer": "Cosine changes sign first because the point crosses the y-axis before it reaches the x-axis again.",
+      "explanation": "Crossing the y-axis flips the horizontal projection from positive to negative while the vertical projection stays above the x-axis."
+    }
+  },
+  "equations": [
+    {
+      "id": "unit-circle-point",
+      "latex": "(x, y) = (\\cos\\theta, \\sin\\theta)",
+      "label": "Point on the unit circle",
+      "meaning": "The live point selected by angle theta has cosine as its x-coordinate and sine as its y-coordinate."
+    },
+    {
+      "id": "angle-in-time",
+      "latex": "\\theta(t) = \\omega t + \\phi",
+      "label": "Angle in time",
+      "meaning": "The angle grows steadily in time when the rotation rate stays constant.",
+      "notes": [
+        "\\omega controls how quickly the point sweeps through the circle.",
+        "\\phi sets the starting angle."
+      ]
+    },
+    {
+      "id": "quadrant-signs",
+      "latex": "\\operatorname{sgn}(\\cos\\theta) = \\operatorname{sgn}(x), \\qquad \\operatorname{sgn}(\\sin\\theta) = \\operatorname{sgn}(y)",
+      "label": "Sign logic from the axes",
+      "meaning": "The signs follow the side of each axis where the projection lands."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "angular-speed",
+      "symbol": "\\omega",
+      "label": "Angular speed",
+      "param": "angularSpeed",
+      "tone": "teal",
+      "description": "Controls how quickly the point turns, so the angle graph steepens and the sine-cosine traces cycle faster.",
+      "equationIds": [
+        "angle-in-time"
+      ],
+      "graphIds": [
+        "projection-history",
+        "angle-history"
+      ],
+      "overlayIds": [
+        "rotationTrail",
+        "angleMarker"
+      ]
+    },
+    {
+      "id": "phase",
+      "symbol": "\\phi",
+      "label": "Phase",
+      "param": "phase",
+      "tone": "coral",
+      "description": "Sets the starting angle on the circle without changing the size of the unit circle itself.",
+      "equationIds": [
+        "angle-in-time",
+        "unit-circle-point"
+      ],
+      "graphIds": [
+        "projection-history",
+        "angle-history"
+      ],
+      "overlayIds": [
+        "projectionGuides",
+        "quadrantSigns",
+        "angleMarker"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "angularSpeed": 1,
+      "phase": 0.18,
+      "projectionGuides": true,
+      "angleMarker": true,
+      "quadrantSigns": true,
+      "rotationTrail": true
+    },
+    "ui": {
+      "initialGraphId": "projection-history",
+      "primaryGraphIds": [
+        "projection-history"
+      ],
+      "primaryControlIds": [
+        "phase",
+        "angular-speed"
+      ],
+      "primaryPresetIds": [
+        "reference-turn",
+        "axis-crossing",
+        "fast-turn"
+      ]
+    },
+    "controls": [
+      {
+        "id": "angular-speed",
+        "kind": "slider",
+        "label": "Angular speed",
+        "param": "angularSpeed",
+        "min": 0.6,
+        "max": 1.6,
+        "step": 0.05,
+        "unit": "rad/s",
+        "description": "Controls how quickly the point rotates around the unit circle."
+      },
+      {
+        "id": "phase",
+        "kind": "slider",
+        "label": "Phase",
+        "param": "phase",
+        "min": 0,
+        "max": 6.283185307179586,
+        "step": 0.01,
+        "unit": "rad",
+        "description": "Sets the starting angle before time begins to advance."
+      }
+    ],
+    "presets": [
+      {
+        "id": "reference-turn",
+        "label": "Reference turn",
+        "description": "A clean counterclockwise turn that shows the projection link clearly.",
+        "values": {
+          "angularSpeed": 1,
+          "phase": 0.18
+        }
+      },
+      {
+        "id": "quadrant-two-start",
+        "label": "Quadrant II start",
+        "description": "Start on the left-above side so cosine is negative while sine stays positive.",
+        "values": {
+          "angularSpeed": 1,
+          "phase": 2.2
+        }
+      },
+      {
+        "id": "axis-crossing",
+        "label": "Axis crossing",
+        "description": "Start near the top of the circle so one projection is close to zero.",
+        "values": {
+          "angularSpeed": 0.9,
+          "phase": 1.54
+        }
+      },
+      {
+        "id": "fast-turn",
+        "label": "Fast turn",
+        "description": "A quicker rotation makes the angle graph steeper and the traces cycle faster.",
+        "values": {
+          "angularSpeed": 1.45,
+          "phase": 0.18
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "projectionGuides",
+        "label": "Projection guides",
+        "shortDescription": "Project the current point back to the x and y axes.",
+        "whatToNotice": [
+          "The x-axis projection is exactly cosine and the y-axis projection is exactly sine."
+        ],
+        "whyItMatters": "It keeps the graph traces anchored to the same point on the circle.",
+        "relatedControls": [
+          "phase"
+        ],
+        "relatedGraphTabs": [
+          "projection-history"
+        ],
+        "relatedEquationVariables": [
+          "phase"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "angleMarker",
+        "label": "Angle marker",
+        "shortDescription": "Show the current swept angle from the positive x-axis.",
+        "whatToNotice": [
+          "The same angle controls both the circle position and the graph markers."
+        ],
+        "whyItMatters": "It ties the geometry to the time history instead of leaving theta abstract.",
+        "relatedControls": [
+          "angularSpeed",
+          "phase"
+        ],
+        "relatedGraphTabs": [
+          "angle-history"
+        ],
+        "relatedEquationVariables": [
+          "angular-speed",
+          "phase"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "quadrantSigns",
+        "label": "Quadrant sign map",
+        "shortDescription": "Keep the quadrant sign pattern visible while the point moves.",
+        "whatToNotice": [
+          "Left means negative cosine, below means negative sine, and the sign map changes exactly when the point crosses an axis."
+        ],
+        "whyItMatters": "It makes quadrant sign changes feel geometric instead of memorized.",
+        "relatedControls": [
+          "phase"
+        ],
+        "relatedGraphTabs": [
+          "projection-history"
+        ],
+        "relatedEquationVariables": [
+          "phase"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "rotationTrail",
+        "label": "Rotation trail",
+        "shortDescription": "Show the swept arc from the positive x-axis to the current point.",
+        "whatToNotice": [
+          "The arc grows with the same angle that the angle-history graph is tracking."
+        ],
+        "whyItMatters": "It keeps time progression visible on the circle itself.",
+        "relatedControls": [
+          "angularSpeed"
+        ],
+        "relatedGraphTabs": [
+          "angle-history"
+        ],
+        "relatedEquationVariables": [
+          "angular-speed"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "projection-history",
+      "label": "Cosine and sine traces",
+      "xLabel": "time",
+      "yLabel": "projection value",
+      "series": [
+        "cosine-projection",
+        "sine-projection"
+      ]
+    },
+    {
+      "id": "angle-history",
+      "label": "Angle vs time",
+      "xLabel": "time",
+      "yLabel": "angle",
+      "series": [
+        "angle-history"
+      ]
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Keep the circle and the traces visible together.",
+    "items": [
+      {
+        "id": "ucr-notice-projection-link",
+        "text": "When the point moves left or right, the cosine trace moves with the horizontal projection because they are the same x-value.",
+        "type": "observation",
+        "relatedControls": [
+          "phase"
+        ],
+        "relatedGraphTabs": [
+          "projection-history"
+        ],
+        "relatedOverlays": [
+          "projectionGuides"
+        ],
+        "relatedEquationVariables": [
+          "phase"
+        ]
+      },
+      {
+        "id": "ucr-notice-quadrant-signs",
+        "text": "Crossing the y-axis flips the sign of cosine first, and crossing the x-axis flips the sign of sine.",
+        "type": "graph-reading",
+        "relatedControls": [
+          "phase"
+        ],
+        "relatedGraphTabs": [
+          "projection-history"
+        ],
+        "relatedOverlays": [
+          "quadrantSigns"
+        ],
+        "relatedEquationVariables": [
+          "phase"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Predict",
+    "intro": "Predict the sign change before you apply the new starting angle.",
+    "items": [
+      {
+        "id": "ucr-predict-quadrant-two",
+        "prompt": "If the point is moved into Quadrant II while the rotation stays counterclockwise, what should the signs of cosine and sine be?",
+        "scenarioLabel": "Move the point into Quadrant II",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Cosine should be negative while sine stays positive."
+          },
+          {
+            "id": "b",
+            "label": "Both cosine and sine should be negative."
+          },
+          {
+            "id": "c",
+            "label": "Cosine should stay positive while sine turns negative."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Quadrant II is left of the y-axis but still above the x-axis, so x is negative while y is positive.",
+        "observationHint": "Watch the sign map and the two projection traces as the point starts on the upper-left arc.",
+        "apply": {
+          "presetId": "quadrant-two-start"
+        },
+        "highlightedControls": [
+          "phase"
+        ],
+        "highlightedGraphs": [
+          "projection-history"
+        ],
+        "highlightedOverlays": [
+          "quadrantSigns",
+          "projectionGuides"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the live circle, the projection traces, and the sign map together. This checkpoint is about reading the sign change from the bench instead of memorizing a quadrant table in isolation.",
+    "items": [
+      {
+        "id": "ucr-ch-quadrant-two-sign-read",
+        "title": "Quadrant II sign checkpoint",
+        "style": "visible-condition",
+        "prompt": "Start from the axis-crossing view, then push the point just into Quadrant II so cosine has flipped negative while sine is still strongly positive. Keep the projection guides and sign map on so the crossing stays visible.",
+        "successMessage": "You caught the first real sign flip from the live geometry. The point, the sign map, and the projection traces now agree on the same Quadrant II story.",
+        "setup": {
+          "presetId": "axis-crossing",
+          "note": "Stay close to the top crossing so the horizontal projection has only just changed sign."
+        },
+        "requirements": {
+          "graphId": "projection-history",
+          "overlayIds": [
+            "projectionGuides",
+            "quadrantSigns",
+            "angleMarker"
+          ]
+        },
+        "hints": [
+          "You only need to move a little past ninety degrees, not all the way to the middle of Quadrant II.",
+          "If cosine is still positive, the point has not crossed the y-axis yet."
+        ],
+        "targets": [
+          {
+            "param": "phase",
+            "label": "Set the starting angle between about $1.62$ and $1.78\\,\\mathrm{rad}$ so the point sits just into Quadrant II.",
+            "min": 1.62,
+            "max": 1.78,
+            "displayUnit": "rad"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live circle and traces.",
+    "questions": [
+      {
+        "id": "ucr-qt-horizontal-projection",
+        "type": "misconception-check",
+        "prompt": "Which statement is correct on the unit circle?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Cosine is the horizontal projection and sine is the vertical projection."
+          },
+          {
+            "id": "b",
+            "label": "Cosine is always vertical and sine is always horizontal."
+          },
+          {
+            "id": "c",
+            "label": "Neither coordinate is tied to the projections."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The x-coordinate is the horizontal projection and the y-coordinate is the vertical projection.",
+        "showMeAction": {
+          "label": "Show the projection link",
+          "presetId": "reference-turn",
+          "observationHint": "The guide dots on the axes show exactly where cosine and sine land.",
+          "highlightedControlIds": [
+            "phase"
+          ],
+          "highlightedGraphIds": [
+            "projection-history"
+          ],
+          "highlightedOverlayIds": [
+            "projectionGuides"
+          ]
+        }
+      },
+      {
+        "id": "ucr-qt-quadrant-three-signs",
+        "type": "variable-effect",
+        "prompt": "What sign pattern belongs to Quadrant III?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Both cosine and sine are negative."
+          },
+          {
+            "id": "b",
+            "label": "Cosine is positive and sine is negative."
+          },
+          {
+            "id": "c",
+            "label": "Cosine is negative and sine is positive."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Quadrant III is left of the y-axis and below the x-axis, so both projections are negative."
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a unit circle with one rotating point, axis projections for cosine and sine, an angle marker, and a sign map for the four quadrants."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "One graph shows cosine and sine changing together over time, and a second graph shows the same angle increasing over time."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Unit Circle / Sine and Cosine from Rotation",
+    "description": "See sine and cosine come directly from one rotating point on the unit circle, with live projections, quadrant sign changes, and linked graph traces.",
+    "keywords": [
+      "unit circle",
+      "sine and cosine",
+      "trigonometry",
+      "rotation",
+      "math"
+    ]
+  },
+  "v2": {
+    "intuition": "The unit circle has one moving point doing all the work: cosine is its horizontal shadow, sine is its vertical shadow, and the graphs are those shadows over time.",
+    "whyItMatters": "Once the circle, projections, and traces stay linked, quadrant signs and sine-cosine graphs become geometry you can predict rather than facts to memorize.",
+    "estimatedMinutes": 15,
+    "equationSnapshot": {
+      "equationIds": [
+        "unit-circle-point",
+        "angle-in-time",
+        "quadrant-signs"
+      ],
+      "note": "Start with the point (cos θ, sin θ), then use θ(t) only to explain how the same point moves and why the projection signs change at the axes."
+    },
+    "startSetup": {
+      "presetId": "reference-turn",
+      "graphId": "projection-history",
+      "overlayIds": [
+        "projectionGuides",
+        "quadrantSigns",
+        "angleMarker"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "link-one-point-to-two-traces",
+        "title": "Link point to traces",
+        "goal": "See cosine and sine as two projections of the same rotating point before changing the setup.",
+        "doThis": "Start with Reference turn, keep Projection guides and Angle marker on, and compare the live point with the cosine and sine markers on the trace graph.",
+        "notice": "The x-guide lands at the cosine value and the y-guide lands at the sine value for the same angle.",
+        "explain": "On a radius-1 circle, the point selected by angle θ is (cos θ, sin θ). The graph traces are not separate rules; they record those two coordinates as the point rotates.",
+        "reveal": {
+          "controlIds": [
+            "phase",
+            "angular-speed"
+          ],
+          "graphIds": [
+            "projection-history"
+          ],
+          "overlayIds": [
+            "projectionGuides",
+            "angleMarker"
+          ]
+        },
+        "setup": {
+          "presetId": "reference-turn",
+          "graphId": "projection-history",
+          "overlayIds": [
+            "projectionGuides",
+            "angleMarker"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "ucr-qt-horizontal-projection"
+          ]
+        }
+      },
+      {
+        "id": "cross-an-axis-for-a-sign-change",
+        "title": "Cross one axis",
+        "goal": "Connect the first quadrant sign change to a visible axis crossing.",
+        "doThis": "Apply Axis crossing, then move Phase just past the top of the circle while the Quadrant sign map stays visible.",
+        "notice": "As the point crosses the y-axis, the horizontal projection moves from positive to negative while the vertical projection stays above the x-axis.",
+        "explain": "Cosine changes sign at the y-axis because cosine is the x-coordinate. Sine does not change sign there because the point is still above the x-axis.",
+        "reveal": {
+          "controlIds": [
+            "phase"
+          ],
+          "graphIds": [
+            "projection-history"
+          ],
+          "overlayIds": [
+            "projectionGuides",
+            "quadrantSigns",
+            "angleMarker"
+          ]
+        },
+        "setup": {
+          "presetId": "axis-crossing",
+          "graphId": "projection-history",
+          "overlayIds": [
+            "projectionGuides",
+            "quadrantSigns",
+            "angleMarker"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "ucr-predict-quadrant-two"
+          ]
+        }
+      },
+      {
+        "id": "speed-up-the-same-pattern",
+        "title": "Speed up the pattern",
+        "goal": "Separate rotation speed from the unit-circle coordinate rule.",
+        "doThis": "Switch to Fast turn or raise Angular speed, then watch the angle graph get steeper while each instant still reads from the same circle point.",
+        "notice": "The traces cycle faster, but the point at any one angle still has x = cos θ and y = sin θ.",
+        "explain": "Angular speed changes how quickly θ moves through time. It does not change the unit-circle rule; it only changes how fast the graph records the projections.",
+        "reveal": {
+          "controlIds": [
+            "angular-speed"
+          ],
+          "graphIds": [
+            "projection-history",
+            "angle-history"
+          ],
+          "overlayIds": [
+            "rotationTrail",
+            "angleMarker",
+            "projectionGuides"
+          ]
+        },
+        "setup": {
+          "presetId": "fast-turn",
+          "graphId": "angle-history",
+          "overlayIds": [
+            "rotationTrail",
+            "angleMarker",
+            "projectionGuides"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "ucr-qt-quadrant-three-signs"
+          ]
+        }
+      },
+      {
+        "id": "check-the-geometry-story",
+        "title": "Check the geometry story",
+        "goal": "Use the circle, sign map, and traces together to explain a quadrant result.",
+        "doThis": "Use the quick checks, then try the challenge by placing the point just into Quadrant II with guides and sign map visible.",
+        "notice": "A strong answer names the point location, the axis crossing, and the matching trace signs instead of quoting a quadrant table alone.",
+        "explain": "The unit-circle story is complete when the point, projections, signs, and graphs all give the same explanation for cos θ and sin θ.",
+        "reveal": {
+          "controlIds": [
+            "phase"
+          ],
+          "graphIds": [
+            "projection-history"
+          ],
+          "overlayIds": [
+            "projectionGuides",
+            "quadrantSigns",
+            "angleMarker"
+          ]
+        },
+        "setup": {
+          "presetId": "axis-crossing",
+          "graphId": "projection-history",
+          "overlayIds": [
+            "projectionGuides",
+            "quadrantSigns",
+            "angleMarker"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "ucr-qt-horizontal-projection",
+            "ucr-qt-quadrant-three-signs"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "On the unit circle, the angle θ selects the point (cos θ, sin θ).",
+        "Cosine is the horizontal projection and sine is the vertical projection of that same point.",
+        "Quadrant signs come from axis crossings: left of the y-axis means negative cosine, and below the x-axis means negative sine.",
+        "Changing angular speed changes how fast the traces are drawn, not the coordinate rule at each angle."
+      ],
+      "misconception": "Do not treat sine, cosine, and quadrant signs as separate memorized tables. They are all readings of one rotating point and its projections.",
+      "workedExampleRefs": [
+        "read-the-current-projections",
+        "read-the-current-signs"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "polar-coordinates-radius-and-angle",
+          "title": "Polar Coordinates / Radius and Angle",
+          "reasonLabel": "Keep angle as direction while radius changes the size of the projection story."
+        },
+        {
+          "slug": "trig-identities-from-unit-circle-geometry",
+          "title": "Trig Identities from Unit-Circle Geometry",
+          "reasonLabel": "Use the same projections to explain why core trig identities are always true."
+        },
+        {
+          "slug": "uniform-circular-motion",
+          "title": "Uniform Circular Motion",
+          "reasonLabel": "Carry the rotating-point picture into a physics motion model."
+        }
+      ],
+      "freePlayPrompt": "Pick a quadrant, predict the signs of cosine and sine, then move Phase until the live point and traces either confirm or correct your prediction."
+    }
+  }
+}

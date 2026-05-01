@@ -1,0 +1,23 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#F4F2EB"/>
+  <rect x="56" y="56" width="1088" height="518" rx="34" fill="#FBF8EF" stroke="#D7D1C4"/>
+  <path d="M88 170H1112" stroke="#DDE3E7" stroke-width="2"/>
+  <path d="M88 246H1112" stroke="#DDE3E7" stroke-width="2"/>
+  <path d="M88 322H1112" stroke="#DDE3E7" stroke-width="2"/>
+  <path d="M88 398H1112" stroke="#DDE3E7" stroke-width="2"/>
+  <path d="M88 474H1112" stroke="#DDE3E7" stroke-width="2"/>
+  <path d="M178 88V542" stroke="#DDE3E7" stroke-width="2"/>
+  <path d="M330 88V542" stroke="#DDE3E7" stroke-width="2"/>
+  <path d="M482 88V542" stroke="#DDE3E7" stroke-width="2"/>
+  <path d="M634 88V542" stroke="#DDE3E7" stroke-width="2"/>
+  <path d="M786 88V542" stroke="#DDE3E7" stroke-width="2"/>
+  <path d="M938 88V542" stroke="#DDE3E7" stroke-width="2"/>
+  <path d="M1090 88V542" stroke="#DDE3E7" stroke-width="2"/>
+  <path d="M112 428C196.333 359.333 267.833 325 326.5 325C385.167 325 437.5 366.833 483.5 450.5C530.833 534.167 587 576 652 576C727.333 576 813.667 505 911 363C976.333 269 1031 222.5 1075 223.5" stroke="#1EA6A2" stroke-width="14" stroke-linecap="round"/>
+  <path d="M118 223C172.667 223 236 255 308 319C380 383 438.667 415 484 415C541.333 415 612.833 361.5 698.5 254.5C771.833 163.5 836 118 891 118C949.667 118 1013.67 152.5 1083 221.5" stroke="#F16659" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="326" cy="325" r="26" fill="#0F1C24"/>
+  <circle cx="326" cy="325" r="17" fill="#F0AB3C"/>
+  <rect x="700" y="102" width="406" height="124" rx="24" fill="#0F1C24"/>
+  <text x="730" y="157" fill="#F4F2EB" font-family="Arial, sans-serif" font-size="38" font-weight="700">Open Model Lab</text>
+  <text x="730" y="196" fill="#9DB0BB" font-family="Arial, sans-serif" font-size="20">See the system. Learn the math.</text>
+</svg>

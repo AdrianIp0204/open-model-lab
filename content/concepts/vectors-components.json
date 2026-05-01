@@ -1,0 +1,1158 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live component checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Decompose it",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Build toward mechanics"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Rotate and scale a live vector, decompose it into horizontal and vertical parts, and watch those components drive the same straight-line motion and geometry.",
+    "keyTakeaway": "A diagonal vector is not two separate pushes. Its horizontal and vertical components are the shadows of the same vector on each axis.",
+    "whyItMatters": "Components turn any slanted motion, force, or field into horizontal and vertical pieces you can calculate and check on graphs."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "A two-dimensional vector does not need a special diagonal rule. You can project it onto the horizontal and vertical axes, then track those perpendicular parts with ordinary algebra and geometry.",
+        "This module uses a constant velocity vector so the component idea stays visible. The same magnitude and angle determine the one-second reference vector, the moving point, the component graphs, and the straight-line path, which is why the decomposition carries directly into later mechanics."
+      ]
+    },
+    "keyIdeas": [
+      "A diagonal vector is not two separate pushes. Its horizontal and vertical components are the shadows of the same vector on each axis.",
+      "At fixed magnitude, changing angle redistributes the vector between horizontal and vertical parts.",
+      "If the components stay constant, the resulting motion stays on one straight path while the x(t) and y(t) graphs remain linear."
+    ],
+    "commonMisconception": {
+      "myth": "A diagonal vector needs its own separate rule, so the components are only rough approximations.",
+      "correction": [
+        "The components are exact perpendicular projections of the same vector, which is why the Pythagorean and trigonometric relations recover the original magnitude and angle.",
+        "A negative component does not mean the vector got smaller. It only means that piece points leftward or downward relative to the chosen axis."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Solve the current vector directly from the live controls. The same magnitude and angle drive the stage, the graphs, and these substitutions, and the time-based example follows the current inspected time unless you freeze it.",
+      "items": [
+        {
+          "id": "current-components",
+          "title": "Current component values",
+          "prompt": "For the current vector, what horizontal and vertical components does $\\vec{v}$ have?",
+          "variables": [
+            {
+              "id": "magnitude",
+              "variableId": "magnitude",
+              "symbol": "v",
+              "label": "Vector magnitude",
+              "valueKey": "magnitudeValue",
+              "unit": "m/s"
+            },
+            {
+              "id": "angle",
+              "variableId": "angle",
+              "symbol": "\\theta",
+              "label": "Angle",
+              "valueKey": "angleValue",
+              "unit": "deg"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Identify the component relations",
+              "template": "Use $v_x = v\\cos(\\theta)$ and $v_y = v\\sin(\\theta)$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the live magnitude and angle",
+              "template": "$v_x = {{magnitudeValue}}\\cos({{angleValue}}^\\circ)$ and $v_y = {{magnitudeValue}}\\sin({{angleValue}}^\\circ)$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compute each component",
+              "template": "That gives $v_x = {{vxValue}}\\,\\mathrm{m/s}$ and $v_y = {{vyValue}}\\,\\mathrm{m/s}$."
+            }
+          ],
+          "resultLabel": "Current components",
+          "resultTemplate": "$v_x = {{vxValue}}\\,\\mathrm{m/s}, \\quad v_y = {{vyValue}}\\,\\mathrm{m/s}$",
+          "interpretationTemplate": "{{componentInterpretation}}",
+          "applyAction": {
+            "label": "Show steep climb",
+            "presetId": "steep-climb",
+            "observationHint": "Watch the component graph and the reference triangle together: the vector keeps the same magnitude while the upward share grows and the horizontal share shrinks.",
+            "highlightedControlIds": [
+              "magnitude",
+              "angle"
+            ],
+            "highlightedGraphIds": [
+              "components",
+              "path"
+            ],
+            "highlightedOverlayIds": [
+              "componentGuides",
+              "angleMarker",
+              "referenceStep"
+            ]
+          }
+        },
+        {
+          "id": "current-displacement",
+          "title": "Current displacement",
+          "prompt": "After $t = {{timeValue}}\\,\\mathrm{s}$, where is the moving point?",
+          "dependsOnTime": true,
+          "variables": [
+            {
+              "id": "time",
+              "symbol": "t",
+              "label": "Time",
+              "valueKey": "timeValue",
+              "unit": "s"
+            },
+            {
+              "id": "magnitude",
+              "variableId": "magnitude",
+              "symbol": "v",
+              "label": "Vector magnitude",
+              "valueKey": "magnitudeValue",
+              "unit": "m/s"
+            },
+            {
+              "id": "angle",
+              "variableId": "angle",
+              "symbol": "\\theta",
+              "label": "Angle",
+              "valueKey": "angleValue",
+              "unit": "deg"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Start from the component position relations",
+              "template": "With constant components, $x(t) = v\\cos(\\theta)t$ and $y(t) = v\\sin(\\theta)t$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the live state",
+              "template": "$x({{timeValue}}) = {{magnitudeValue}}\\cos({{angleValue}}^\\circ)\\cdot {{timeValue}}$ and $y({{timeValue}}) = {{magnitudeValue}}\\sin({{angleValue}}^\\circ)\\cdot {{timeValue}}$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compute the current coordinates",
+              "template": "The point is at $x = {{xValue}}\\,\\mathrm{m}$ and $y = {{yValue}}\\,\\mathrm{m}$, with total displacement $|\\vec{r}| = {{distanceValue}}\\,\\mathrm{m}$."
+            }
+          ],
+          "resultLabel": "Current displacement",
+          "resultTemplate": "$x = {{xValue}}\\,\\mathrm{m}, \\quad y = {{yValue}}\\,\\mathrm{m}$",
+          "interpretationTemplate": "{{displacementInterpretation}}",
+          "applyAction": {
+            "label": "Show downward dive",
+            "presetId": "downward-dive",
+            "observationHint": "The component lines keep the same slopes and signs while the moving point marches along one straight path. A negative vertical component simply drives the point downward.",
+            "highlightedControlIds": [
+              "angle"
+            ],
+            "highlightedGraphIds": [
+              "path",
+              "position"
+            ],
+            "highlightedOverlayIds": [
+              "componentGuides",
+              "referenceStep"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Keep the vector magnitude fixed and rotate the direction closer to the vertical axis. What must happen to the horizontal and vertical components, and how does the straight-line path change?",
+      "prediction": "Predict which component grows, which shrinks, and whether the path becomes flatter or steeper before you test it.",
+      "answer": "The vertical component grows in magnitude while the horizontal component shrinks, so the path tilts closer to vertical.",
+      "explanation": "At fixed magnitude, rotating the vector redistributes the same total length between the component legs. The resultant stays the same size, but the right-triangle geometry changes."
+    }
+  },
+  "equations": [
+    {
+      "id": "x-component",
+      "latex": "v_x = v\\cos(\\theta)",
+      "label": "Horizontal component",
+      "meaning": "Projects the vector onto the horizontal axis.",
+      "readAloud": "horizontal component equals vector magnitude times cosine of the angle"
+    },
+    {
+      "id": "y-component",
+      "latex": "v_y = v\\sin(\\theta)",
+      "label": "Vertical component",
+      "meaning": "Projects the vector onto the vertical axis.",
+      "readAloud": "vertical component equals vector magnitude times sine of the angle"
+    },
+    {
+      "id": "x-position",
+      "latex": "x(t) = v_x t = v\\cos(\\theta)t",
+      "label": "Horizontal position",
+      "meaning": "Tracks how far the point moves horizontally when the horizontal component stays constant."
+    },
+    {
+      "id": "y-position",
+      "latex": "y(t) = v_y t = v\\sin(\\theta)t",
+      "label": "Vertical position",
+      "meaning": "Tracks how far the point moves vertically when the vertical component stays constant."
+    },
+    {
+      "id": "magnitude-relation",
+      "latex": "v = \\sqrt{v_x^2 + v_y^2}",
+      "label": "Resultant magnitude",
+      "meaning": "Reconstructs the original vector from its perpendicular components.",
+      "notes": [
+        "This relation works because the component legs are perpendicular.",
+        "The same geometry later reappears in velocity, displacement, and force problems."
+      ]
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "magnitude",
+      "symbol": "v",
+      "label": "Vector magnitude",
+      "param": "magnitude",
+      "tone": "amber",
+      "description": "Sets the total size of the vector, so both components and the travelled distance scale with it when the angle stays fixed.",
+      "equationIds": [
+        "x-component",
+        "y-component",
+        "x-position",
+        "y-position",
+        "magnitude-relation"
+      ],
+      "graphIds": [
+        "path",
+        "position",
+        "components"
+      ],
+      "overlayIds": [
+        "componentGuides",
+        "referenceStep"
+      ]
+    },
+    {
+      "id": "angle",
+      "symbol": "\\theta",
+      "label": "Angle",
+      "param": "angle",
+      "tone": "coral",
+      "description": "Rotates the vector relative to the positive x-axis, which changes the sign and size of the components without needing a new magnitude rule.",
+      "equationIds": [
+        "x-component",
+        "y-component",
+        "x-position",
+        "y-position"
+      ],
+      "graphIds": [
+        "path",
+        "position",
+        "components"
+      ],
+      "overlayIds": [
+        "angleMarker",
+        "componentGuides",
+        "referenceStep"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "magnitude": 8,
+      "angle": 35
+    },
+    "ui": {
+      "initialGraphId": "components",
+      "primaryGraphIds": [
+        "components",
+        "path",
+        "position"
+      ],
+      "primaryControlIds": [
+        "magnitude",
+        "angle"
+      ],
+      "primaryPresetIds": [
+        "balanced-walk",
+        "steep-climb",
+        "downward-dive"
+      ]
+    },
+    "controls": [
+      {
+        "id": "magnitude",
+        "kind": "slider",
+        "label": "Magnitude",
+        "param": "magnitude",
+        "min": 3,
+        "max": 12,
+        "step": 0.1,
+        "unit": "m/s",
+        "description": "Sets the total vector size and the one-second step length."
+      },
+      {
+        "id": "angle",
+        "kind": "slider",
+        "label": "Angle",
+        "param": "angle",
+        "min": -75,
+        "max": 165,
+        "step": 1,
+        "unit": "deg",
+        "description": "Positive angles point above the x-axis and negative angles point below it."
+      }
+    ],
+    "presets": [
+      {
+        "id": "balanced-walk",
+        "label": "Balanced split",
+        "description": "A first-quadrant vector with strong horizontal and vertical parts.",
+        "values": {
+          "magnitude": 8,
+          "angle": 35
+        }
+      },
+      {
+        "id": "steep-climb",
+        "label": "Steep climb",
+        "description": "Mostly vertical motion with a smaller horizontal share.",
+        "values": {
+          "magnitude": 8,
+          "angle": 75
+        }
+      },
+      {
+        "id": "downward-dive",
+        "label": "Downward dive",
+        "description": "Positive horizontal motion with a negative vertical component.",
+        "values": {
+          "magnitude": 8,
+          "angle": -30
+        }
+      },
+      {
+        "id": "leftward-pull",
+        "label": "Leftward pull",
+        "description": "A second-quadrant vector with negative horizontal and positive vertical motion.",
+        "values": {
+          "magnitude": 8,
+          "angle": 140
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "componentGuides",
+        "label": "Component guides",
+        "shortDescription": "Projects the current point onto the horizontal and vertical axes.",
+        "whatToNotice": [
+          "The component legs are the exact horizontal and vertical distances at the current time."
+        ],
+        "whyItMatters": "It turns the diagonal motion into the right triangle that the equations describe.",
+        "relatedControls": [
+          "magnitude",
+          "angle"
+        ],
+        "relatedGraphTabs": [
+          "path",
+          "position"
+        ],
+        "relatedEquationVariables": [
+          "magnitude",
+          "angle"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "angleMarker",
+        "label": "Angle marker",
+        "shortDescription": "Shows the vector angle measured from the positive x-axis.",
+        "whatToNotice": [
+          "Crossing below the axis or past 90 degrees changes component signs without changing the trigonometric rule."
+        ],
+        "whyItMatters": "It keeps the angle convention visible while you reason about signs and quadrants.",
+        "relatedControls": [
+          "angle"
+        ],
+        "relatedGraphTabs": [
+          "components",
+          "path"
+        ],
+        "relatedEquationVariables": [
+          "angle"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "referenceStep",
+        "label": "1 s reference step",
+        "shortDescription": "Shows where the vector would place the point after one second and splits that step into components.",
+        "whatToNotice": [
+          "The one-second step stays fixed while the moving point scales farther along the same direction as time increases."
+        ],
+        "whyItMatters": "It separates the constant vector itself from the displacement that accumulates from it.",
+        "relatedControls": [
+          "magnitude",
+          "angle"
+        ],
+        "relatedGraphTabs": [
+          "position",
+          "components"
+        ],
+        "relatedEquationVariables": [
+          "magnitude",
+          "angle"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "path",
+      "label": "Position path",
+      "xLabel": "horizontal displacement (m)",
+      "yLabel": "vertical displacement (m)",
+      "series": [
+        "path"
+      ],
+      "description": "Shows the straight-line path traced by the moving point in the plane."
+    },
+    {
+      "id": "position",
+      "label": "Position components",
+      "xLabel": "time (s)",
+      "yLabel": "displacement (m)",
+      "series": [
+        "xPosition",
+        "yPosition"
+      ],
+      "description": "Shows how horizontal and vertical displacement accumulate from the constant components."
+    },
+    {
+      "id": "components",
+      "label": "Vector components",
+      "xLabel": "time (s)",
+      "yLabel": "component value (m/s)",
+      "series": [
+        "vx",
+        "vy"
+      ],
+      "description": "Shows the constant horizontal and vertical components created by the current magnitude and angle."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the live prompt as a compact guide while you rotate or scale the vector. The best prompt should point you at a pattern the current stage or graph actually shows.",
+    "items": [
+      {
+        "id": "vc-notice-component-triangle",
+        "text": "Notice that the diagonal motion is exactly the horizontal and vertical changes happening together.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Keep the magnitude fixed, then drag the vector handle and compare the right triangle in the stage with the x(t) and y(t) lines.",
+        "whyItMatters": "This is the core move behind vector decomposition in kinematics and forces.",
+        "relatedControls": [
+          "magnitude",
+          "angle"
+        ],
+        "relatedGraphTabs": [
+          "position",
+          "components"
+        ],
+        "relatedOverlays": [
+          "componentGuides",
+          "referenceStep"
+        ]
+      },
+      {
+        "id": "vc-notice-path-link",
+        "text": "Notice that the path graph and the stage are the same straight-line motion shown in two representations.",
+        "type": "graph-reading",
+        "priority": 5,
+        "conditions": {
+          "graphTabs": [
+            "path"
+          ]
+        },
+        "tryThis": "Hover or scrub the path graph and watch the moving point jump to the matching place in the stage.",
+        "whyItMatters": "It keeps the geometry and the graph linked instead of treating the plot as a separate diagram.",
+        "relatedGraphTabs": [
+          "path"
+        ],
+        "relatedOverlays": [
+          "componentGuides"
+        ]
+      },
+      {
+        "id": "vc-notice-angle-redistribution",
+        "text": "Notice that changing angle at fixed magnitude makes one component grow while the other shrinks.",
+        "type": "try-this",
+        "priority": 7,
+        "conditions": {
+          "lastChangedControls": [
+            "angle"
+          ]
+        },
+        "tryThis": "Rotate from about 35 degrees toward 75 degrees and compare the vx and vy lines before you check the path.",
+        "whyItMatters": "It is the cleanest way to see that angle redistributes the same total vector instead of adding new length.",
+        "relatedControls": [
+          "angle",
+          "magnitude"
+        ],
+        "relatedGraphTabs": [
+          "components",
+          "path"
+        ],
+        "relatedOverlays": [
+          "angleMarker",
+          "referenceStep"
+        ],
+        "relatedEquationVariables": [
+          "angle"
+        ]
+      },
+      {
+        "id": "vc-notice-negative-component",
+        "text": "A negative component does not mean the vector became smaller. It means that projected piece points leftward or downward on the chosen axis.",
+        "type": "misconception",
+        "priority": 8,
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "angle",
+              "max": -1
+            }
+          ]
+        },
+        "tryThis": "Keep the magnitude the same and drag the vector below the axis. The vertical component flips sign while the total vector still has the same size.",
+        "whyItMatters": "Sign errors become common later in mechanics if the axis convention is hidden.",
+        "relatedControls": [
+          "angle"
+        ],
+        "relatedGraphTabs": [
+          "position",
+          "components"
+        ],
+        "relatedOverlays": [
+          "angleMarker",
+          "componentGuides"
+        ]
+      },
+      {
+        "id": "vc-notice-inspection",
+        "text": "Pausing changes how much displacement has accumulated, but it does not change the underlying vector components.",
+        "type": "graph-reading",
+        "priority": 6,
+        "conditions": {
+          "inspectState": "inspect"
+        },
+        "tryThis": "Pause and step through time. The x(t) and y(t) markers move, while the vx and vy lines stay flat because the components are constant.",
+        "whyItMatters": "It separates rate information from accumulated position information.",
+        "relatedGraphTabs": [
+          "position",
+          "components"
+        ],
+        "relatedOverlays": [
+          "referenceStep"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the component change first, then apply it and compare the live geometry with your reasoning.",
+    "items": [
+      {
+        "id": "vc-predict-steep",
+        "prompt": "If the angle rotates from 35 degrees to 75 degrees while magnitude stays fixed, what must happen?",
+        "scenarioLabel": "Rotate toward vertical",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The horizontal component shrinks, the vertical component grows, and the path becomes steeper."
+          },
+          {
+            "id": "b",
+            "label": "Both components grow because the angle is larger."
+          },
+          {
+            "id": "c",
+            "label": "The path stays unchanged because the magnitude did not move."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At fixed magnitude, rotating toward vertical redistributes the vector upward. The vertical component takes more of the total length while the horizontal component gives some up.",
+        "observationHint": "Watch the flat component lines move apart and the stage path tilt more sharply upward.",
+        "apply": {
+          "patch": {
+            "angle": 75
+          }
+        },
+        "highlightedControls": [
+          "angle"
+        ],
+        "highlightedGraphs": [
+          "components",
+          "path",
+          "position"
+        ],
+        "highlightedOverlays": [
+          "angleMarker",
+          "componentGuides",
+          "referenceStep"
+        ]
+      },
+      {
+        "id": "vc-predict-downward",
+        "prompt": "If you keep the same magnitude but rotate the vector to -30 degrees, which statement must be true?",
+        "scenarioLabel": "Rotate below the axis",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The vertical component becomes negative while the horizontal component stays positive."
+          },
+          {
+            "id": "b",
+            "label": "Both components become negative because the angle is below zero."
+          },
+          {
+            "id": "c",
+            "label": "Nothing changes sign because the magnitude stayed the same."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A negative angle points below the x-axis but still to the right, so the vertical projection flips sign while the horizontal projection remains positive.",
+        "observationHint": "Check the component graph signs and the path direction after the rotation.",
+        "apply": {
+          "presetId": "downward-dive"
+        },
+        "highlightedControls": [
+          "angle"
+        ],
+        "highlightedGraphs": [
+          "components",
+          "path",
+          "position"
+        ],
+        "highlightedOverlays": [
+          "angleMarker",
+          "componentGuides"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the vector controls and inspect-time rail as a compact component-matching tool instead of a passive diagram.",
+    "items": [
+      {
+        "id": "vc-ch-equal-components",
+        "title": "Equal components",
+        "style": "parameter-match",
+        "prompt": "Build a vector whose horizontal and vertical components are nearly the same size. Keep the component graph open so the match is visible in the real readout.",
+        "successMessage": "You decomposed the vector into nearly equal parts. The geometric picture and the component graph now tell the same story.",
+        "setup": {
+          "presetId": "balanced-walk",
+          "note": "Use the component graph and guides together while you adjust the angle."
+        },
+        "requirements": {
+          "graphId": "components",
+          "overlayIds": [
+            "componentGuides"
+          ]
+        },
+        "hints": [
+          "A $45^\\circ$ direction is the cleanest place to start for equal-sized components.",
+          "If one component stays much larger, the angle is still leaning too far toward one axis."
+        ],
+        "targets": [
+          {
+            "metric": "componentDifference",
+            "label": "Make the component mismatch smaller than $0.2\\,\\mathrm{m/s}$.",
+            "min": 0,
+            "max": 0.2,
+            "displayUnit": "m/s"
+          }
+        ]
+      },
+      {
+        "id": "vc-ch-hit-end-point",
+        "title": "Hit the endpoint",
+        "style": "visible-condition",
+        "prompt": "Pause at the end of the $4\\,\\mathrm{s}$ walk and make the point land near $(16\\,\\mathrm{m}, 12\\,\\mathrm{m})$.",
+        "successMessage": "You matched a target endpoint by balancing magnitude and angle instead of guessing from one axis alone. The path and component plots agree on the same destination.",
+        "setup": {
+          "note": "Set the vector, let the motion run to the end, then pause and scrub the final sample if you need to fine-tune it."
+        },
+        "requirements": {
+          "graphId": "position",
+          "timeSource": "inspect",
+          "timeRange": {
+            "label": "Inspect the final sample near $t = 4\\,\\mathrm{s}$.",
+            "min": 3.9,
+            "max": 4,
+            "displayUnit": "s"
+          }
+        },
+        "hints": [
+          "This task needs inspect mode near the end of the motion window.",
+          "A shallower angle increases the horizontal reach faster than the vertical reach."
+        ],
+        "targets": [
+          {
+            "metric": "x",
+            "label": "Bring the horizontal position into the $15.5$ to $16.5\\,\\mathrm{m}$ band.",
+            "min": 15.5,
+            "max": 16.5,
+            "displayUnit": "m"
+          },
+          {
+            "metric": "y",
+            "label": "Bring the vertical position into the $11.5$ to $12.5\\,\\mathrm{m}$ band.",
+            "min": 11.5,
+            "max": 12.5,
+            "displayUnit": "m"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Use the stage, component graph, and position graph together. These checks are about explaining what the vector does, not just naming formulas.",
+    "questions": [
+      {
+        "id": "vc-qt-1",
+        "type": "compare-two-cases",
+        "prompt": "Two vectors have the same magnitude. One points at $30^\\circ$ and the other at $60^\\circ$. Which comparison is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The $30^\\circ$ vector has the larger horizontal component, while the $60^\\circ$ vector has the larger vertical component."
+          },
+          {
+            "id": "b",
+            "label": "The $60^\\circ$ vector has larger horizontal and vertical components because the angle is larger."
+          },
+          {
+            "id": "c",
+            "label": "Both vectors have identical components because their magnitudes match."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At equal magnitude, a smaller angle keeps more of the vector on the horizontal axis, while a larger acute angle gives more of it to the vertical axis.",
+        "selectedWrongExplanations": {
+          "b": "The components trade against each other at fixed magnitude. A larger angle does not make both projections larger at once.",
+          "c": "Equal magnitudes only guarantee the same total vector size. The angle decides how that size is split between axes."
+        },
+        "showMeAction": {
+          "label": "Show the steeper acute case",
+          "patch": {
+            "magnitude": 8,
+            "angle": 60
+          },
+          "observationHint": "The vertical share grows while the horizontal share shrinks, even though the total magnitude is unchanged.",
+          "highlightedControlIds": [
+            "angle",
+            "magnitude"
+          ],
+          "highlightedGraphIds": [
+            "components",
+            "path"
+          ],
+          "highlightedOverlayIds": [
+            "angleMarker",
+            "referenceStep"
+          ]
+        }
+      },
+      {
+        "id": "vc-qt-2",
+        "type": "misconception-check",
+        "prompt": "If the angle is $90^\\circ$, which statement must be true?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The horizontal component is zero, but the vector magnitude can still be nonzero."
+          },
+          {
+            "id": "b",
+            "label": "Both components must be zero because the vector points straight up."
+          },
+          {
+            "id": "c",
+            "label": "The vertical component becomes zero because the vector has no diagonal part."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At $90^\\circ$, the vector lies entirely on the vertical axis. That kills the horizontal projection, not the magnitude itself.",
+        "selectedWrongExplanations": {
+          "b": "Pointing straight up is not the same as having zero size. Only the horizontal projection vanishes at $90^\\circ$.",
+          "c": "The vertical component is largest there for a fixed magnitude because the vector aligns completely with the vertical axis."
+        },
+        "showMeAction": {
+          "label": "Show the vertical case",
+          "patch": {
+            "magnitude": 8,
+            "angle": 90
+          },
+          "observationHint": "The path becomes vertical, the x(t) line stays at zero, and the vx line sits on the axis while vy remains positive.",
+          "highlightedControlIds": [
+            "angle"
+          ],
+          "highlightedGraphIds": [
+            "position",
+            "components",
+            "path"
+          ],
+          "highlightedOverlayIds": [
+            "angleMarker",
+            "componentGuides"
+          ]
+        }
+      },
+      {
+        "id": "vc-qt-3",
+        "type": "graph-reading",
+        "prompt": "On the position graph, the x(t) line slopes upward while the y(t) line slopes downward. What does that mean physically?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The point is moving rightward and downward at the same time."
+          },
+          {
+            "id": "b",
+            "label": "The point is moving leftward because y is negative."
+          },
+          {
+            "id": "c",
+            "label": "The vector magnitude must be zero because one graph goes down."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A positive x slope means the horizontal displacement is increasing to the right, while a negative y slope means the vertical displacement is decreasing downward.",
+        "selectedWrongExplanations": {
+          "b": "The sign of y(t) does not decide horizontal motion. The x(t) slope tells you the horizontal direction, and it is positive here.",
+          "c": "A downward line in y(t) only means the vertical component is negative. The vector can still have substantial size."
+        },
+        "showMeAction": {
+          "label": "Show the downward dive",
+          "presetId": "downward-dive",
+          "observationHint": "The x(t) line rises, the y(t) line falls, and the path goes into the fourth quadrant.",
+          "highlightedControlIds": [
+            "angle"
+          ],
+          "highlightedGraphIds": [
+            "position",
+            "path"
+          ],
+          "highlightedOverlayIds": [
+            "componentGuides"
+          ]
+        }
+      },
+      {
+        "id": "vc-qt-4",
+        "type": "reasoning",
+        "prompt": "If the angle passes above $90^\\circ$ while magnitude stays fixed, which reasoning is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The horizontal component becomes negative while the vertical component can stay positive, so the path turns up and left."
+          },
+          {
+            "id": "b",
+            "label": "Both components must become negative because the vector points away from the first quadrant."
+          },
+          {
+            "id": "c",
+            "label": "The horizontal component stays positive until the magnitude changes."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Angles between $90^\\circ$ and $180^\\circ$ sit in the second quadrant. The x projection points left, but the y projection still points upward.",
+        "selectedWrongExplanations": {
+          "b": "Quadrant II has negative x and positive y. Only one sign flips there.",
+          "c": "The sign of the horizontal component depends on direction, not on whether the magnitude changes."
+        },
+        "showMeAction": {
+          "label": "Show the leftward pull",
+          "presetId": "leftward-pull",
+          "observationHint": "The component graph shows negative vx with positive vy, and the path heads into the second quadrant.",
+          "highlightedControlIds": [
+            "angle"
+          ],
+          "highlightedGraphIds": [
+            "components",
+            "path",
+            "position"
+          ],
+          "highlightedOverlayIds": [
+            "angleMarker",
+            "componentGuides"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a coordinate plane with a draggable vector anchored at the origin and a point moving in the vector direction over time. Optional overlays show the angle marker, a one-second reference step, and the horizontal and vertical component guides.",
+        "Changing the magnitude or angle immediately updates the path, the position graphs, and the constant component graph so the same vector decomposition stays synchronized across every representation."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The path graph is a straight line through the plane because the components stay constant. Hovering or scrubbing the graph moves the stage point to the same place on that line.",
+        "The position graph shows linear x(t) and y(t) trends, while the component graph shows flat vx and vy lines because the vector components do not change with time in this model."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Vectors and Components | Open Model Lab",
+    "description": "Learn vector decomposition with a live angle-and-magnitude lab that links geometry, component graphs, worked examples, prediction mode, and quick tests.",
+    "keywords": [
+      "vectors",
+      "components",
+      "vector decomposition",
+      "mechanics",
+      "physics simulation"
+    ]
+  },
+  "v2": {
+    "intuition": "One diagonal vector can be read as two exact shadows: a horizontal component and a vertical component that act together to make the same motion.",
+    "whyItMatters": "Component thinking is the reusable move behind projectile motion, forces on slopes, torque, momentum, and fields: split the vector into axes, solve the pieces, then recombine the result.",
+    "estimatedMinutes": 25,
+    "equationSnapshot": {
+      "title": "Component snapshot",
+      "note": "Use the angle to split one vector into exact x and y projections, then use the same components to predict the straight-line motion.",
+      "equationIds": [
+        "x-component",
+        "y-component",
+        "magnitude-relation"
+      ]
+    },
+    "startSetup": {
+      "presetId": "balanced-walk",
+      "graphId": "components",
+      "overlayIds": [
+        "componentGuides",
+        "angleMarker",
+        "referenceStep"
+      ],
+      "note": "Begin with a first-quadrant vector so both component legs are visible and positive."
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-vector-triangle",
+        "title": "Read one vector triangle",
+        "goal": "Connect the diagonal arrow to its horizontal and vertical component legs.",
+        "doThis": "Start with the balanced split preset, keep the component graph open, and trace the reference-step triangle from the origin.",
+        "notice": "The diagonal arrow, the two component guides, and the two graph values all describe the same vector state.",
+        "explain": "Components are exact projections of one vector onto perpendicular axes, so the horizontal and vertical legs recombine to the original diagonal.",
+        "reveal": {
+          "controlIds": [
+            "magnitude",
+            "angle"
+          ],
+          "graphIds": [
+            "components"
+          ],
+          "overlayIds": [
+            "componentGuides",
+            "angleMarker",
+            "referenceStep"
+          ],
+          "toolHints": [
+            "graph-preview",
+            "timeline"
+          ]
+        },
+        "setup": {
+          "presetId": "balanced-walk",
+          "graphId": "components",
+          "overlayIds": [
+            "componentGuides",
+            "angleMarker",
+            "referenceStep"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Check the split",
+          "questionIds": [
+            "vc-qt-1"
+          ]
+        }
+      },
+      {
+        "id": "rotate-with-magnitude-fixed",
+        "title": "Rotate at fixed length",
+        "goal": "See angle as a redistribution of the same total vector length.",
+        "doThis": "Switch to the steep climb preset or drag the angle toward vertical while leaving magnitude fixed.",
+        "notice": "The vertical component grows, the horizontal component shrinks, and the path tilts upward without the vector needing extra length.",
+        "explain": "At fixed magnitude, sine and cosine trade share between the two perpendicular projections; the resultant length stays the same.",
+        "reveal": {
+          "controlIds": [
+            "angle"
+          ],
+          "graphIds": [
+            "components",
+            "path"
+          ],
+          "overlayIds": [
+            "componentGuides",
+            "angleMarker"
+          ]
+        },
+        "setup": {
+          "presetId": "steep-climb",
+          "graphId": "components",
+          "overlayIds": [
+            "componentGuides",
+            "angleMarker"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Predict the rotation",
+          "predictionIds": [
+            "vc-predict-steep"
+          ]
+        }
+      },
+      {
+        "id": "use-signs-for-direction",
+        "title": "Use signs for direction",
+        "goal": "Interpret negative components as direction along an axis, not as lost magnitude.",
+        "doThis": "Apply the downward dive preset, then compare the sign of v_y with the slope of the stage path and position graph.",
+        "notice": "The vertical component flips below zero while the total vector still has the chosen magnitude and the point still moves on one straight path.",
+        "explain": "A component sign tells you which way that projection points on its axis; the magnitude relation still recombines signed components into the same vector size.",
+        "reveal": {
+          "controlIds": [
+            "angle"
+          ],
+          "graphIds": [
+            "position",
+            "path",
+            "components"
+          ],
+          "overlayIds": [
+            "componentGuides",
+            "angleMarker",
+            "referenceStep"
+          ]
+        },
+        "setup": {
+          "presetId": "downward-dive",
+          "graphId": "position",
+          "overlayIds": [
+            "componentGuides",
+            "angleMarker",
+            "referenceStep"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Check the sign",
+          "predictionIds": [
+            "vc-predict-downward"
+          ],
+          "questionIds": [
+            "vc-qt-2"
+          ]
+        }
+      },
+      {
+        "id": "recombine-and-check-motion",
+        "title": "Recombine and check motion",
+        "goal": "Use components to predict position and then verify the same motion on the stage.",
+        "doThis": "Scrub toward the end of the run and compare the stage point with the x(t), y(t), and path graphs.",
+        "notice": "Constant components make straight-line motion: x and y grow linearly, and the path graph agrees with the stage point.",
+        "explain": "Once v_x and v_y are known, each axis becomes a one-dimensional motion problem; together they recreate the original two-dimensional displacement.",
+        "reveal": {
+          "graphIds": [
+            "position",
+            "path",
+            "components"
+          ],
+          "overlayIds": [
+            "componentGuides",
+            "referenceStep"
+          ],
+          "toolHints": [
+            "timeline",
+            "inspect"
+          ]
+        },
+        "setup": {
+          "presetId": "balanced-walk",
+          "graphId": "path",
+          "overlayIds": [
+            "componentGuides",
+            "referenceStep"
+          ],
+          "inspectTime": 4
+        },
+        "inlineCheck": {
+          "title": "Can you build from components?",
+          "questionIds": [
+            "vc-qt-3",
+            "vc-qt-4"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "A vector component is an exact projection of one vector onto an axis.",
+        "Changing angle at fixed magnitude redistributes the same vector between horizontal and vertical components.",
+        "Component signs encode direction along the axes, while the resultant magnitude comes from the perpendicular legs.",
+        "Constant components produce straight-line motion with matching x(t), y(t), path, and stage representations."
+      ],
+      "misconception": "Do not treat components as two new vectors added after the fact; they are the axis shadows of the original vector.",
+      "workedExampleRefs": [
+        "current-components",
+        "current-displacement"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "projectile-motion",
+          "title": "Projectile Motion",
+          "reasonLabel": "Use horizontal and vertical components to predict a curved path."
+        },
+        {
+          "slug": "torque",
+          "title": "Torque",
+          "reasonLabel": "Split force into the part that creates turning."
+        },
+        {
+          "slug": "momentum-impulse",
+          "title": "Momentum and Impulse",
+          "reasonLabel": "Carry vector direction into momentum changes."
+        }
+      ],
+      "freePlayPrompt": "Build one upward and one downward vector with the same magnitude, then explain what changed using only component signs and sizes."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "quickTest"
+    ]
+  }
+}

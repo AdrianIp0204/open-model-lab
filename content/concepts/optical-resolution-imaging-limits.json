@@ -1,0 +1,1186 @@
+{
+  "pageIntro": {
+    "definition": "Use one finite aperture to decide when two nearby point sources look separate, only barely resolved, or merged into one blur.",
+    "keyTakeaway": "Resolution is a comparison: the point spacing must be large enough compared with the diffraction blur set by wavelength and aperture.",
+    "whyItMatters": "The same diffraction limit explains why microscopes, telescopes, cameras, and eyes cannot reveal detail just by focusing harder."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "An imaging system does not send each object point to a mathematically perfect point on the detector. A finite aperture diffracts the light, so each point becomes a blur pattern with a finite width.",
+        "This page keeps that story bounded on purpose: two equal point sources, one finite lens aperture, and one detector strip. The same wavelength, aperture diameter, point separation, and detector sample drive the stage, the profile graph, the overlays, the worked examples, the prediction prompts, the challenge checks, and the quick test so imaging limits stay tied to one honest diffraction-limited picture instead of a giant Fourier-optics platform."
+      ]
+    },
+    "keyIdeas": [
+      "Resolution is limited because finite apertures diffract light. Even a well-focused lens turns one point into a spread pattern with a nonzero width.",
+      "A larger aperture improves resolution by shrinking the diffraction blur, while a longer wavelength worsens resolution by broadening it.",
+      "The Rayleigh limit theta_R approximately equals 1.22 lambda / D for a circular aperture, so two points become harder to distinguish when their angular separation falls below that scale."
+    ],
+    "commonMisconception": {
+      "myth": "If the lens is focused correctly, two nearby points should always stay perfectly separate.",
+      "correction": [
+        "Correct focus removes defocus blur, but it does not remove diffraction from a finite aperture.",
+        "That is why nearby points can still merge when the aperture is small or the wavelength is long, even in an otherwise ideal imaging setup."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live resolution checks",
+      "intro": "Use the current aperture-limited imaging state directly. These substitutions stay attached to the live detector profile instead of switching to a detached worksheet.",
+      "items": [
+        {
+          "id": "rayleigh-limit-from-live-aperture",
+          "title": "Rayleigh limit from the live aperture",
+          "prompt": "For the current wavelength lambda = {{wavelengthNmValue}} and aperture D = {{apertureMmValue}}, what Rayleigh limit follows for two equal point sources?",
+          "variables": [
+            {
+              "id": "wavelength",
+              "variableId": "wavelength",
+              "symbol": "lambda",
+              "label": "Wavelength",
+              "valueKey": "wavelengthNmValue",
+              "unit": "nm"
+            },
+            {
+              "id": "aperture",
+              "variableId": "aperture",
+              "symbol": "D",
+              "label": "Aperture diameter",
+              "valueKey": "apertureMmValue",
+              "unit": "mm"
+            },
+            {
+              "id": "rayleigh-limit",
+              "symbol": "theta_R",
+              "label": "Rayleigh limit",
+              "valueKey": "rayleighLimitMradValue",
+              "unit": "mrad"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Start from the Rayleigh estimate",
+              "template": "Use $\\theta_R \\approx 1.22\\lambda / D$ for a circular aperture."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the live wavelength and aperture",
+              "template": "{{thresholdStepText}}"
+            },
+            {
+              "id": "image-plane",
+              "label": "3. Map that blur scale onto the detector",
+              "template": "{{imagePlaneStepText}}"
+            }
+          ],
+          "resultLabel": "Current Rayleigh limit",
+          "resultTemplate": "$\\theta_R \\approx {{rayleighLimitMradValue}}$ and $r_R \\approx {{airyRadiusUmValue}}$.",
+          "interpretationTemplate": "{{thresholdInterpretation}}",
+          "applyAction": {
+            "label": "Apply threshold pair",
+            "presetId": "near-threshold",
+            "observationHint": "The point spacing is set close to the Rayleigh limit, so the combined detector profile is only just beginning to split.",
+            "highlightedControlIds": [
+              "wavelengthNm",
+              "apertureMm"
+            ],
+            "highlightedGraphIds": [
+              "image-profile"
+            ],
+            "highlightedOverlayIds": [
+              "rayleighGuide"
+            ]
+          }
+        },
+        {
+          "id": "current-separation-versus-threshold",
+          "title": "Current separation versus the threshold",
+          "prompt": "For the current pair separation Delta theta = {{separationMradValue}}, how does the setup compare with the Rayleigh limit and what should the detector profile look like?",
+          "variables": [
+            {
+              "id": "point-separation",
+              "variableId": "separation",
+              "symbol": "Delta theta",
+              "label": "Point separation",
+              "valueKey": "separationMradValue",
+              "unit": "mrad"
+            },
+            {
+              "id": "image-separation",
+              "symbol": "s",
+              "label": "Image-plane spacing",
+              "valueKey": "imageSeparationUmValue",
+              "unit": "um"
+            },
+            {
+              "id": "ratio",
+              "symbol": "Delta theta / theta_R",
+              "label": "Resolution ratio",
+              "valueKey": "separationRatioValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "ratio",
+              "label": "1. Compare the point spacing with the Rayleigh scale",
+              "template": "{{ratioStepText}}"
+            },
+            {
+              "id": "detector-spacing",
+              "label": "2. Read the same comparison on the detector",
+              "template": "With the fixed focal length, the detector spacing is $s \\approx {{imageSeparationUmValue}}$ while the first-minimum radius is $r_R \\approx {{airyRadiusUmValue}}$."
+            },
+            {
+              "id": "dip",
+              "label": "3. Check whether the profile keeps a visible split",
+              "template": "{{dipStepText}}"
+            }
+          ],
+          "resultLabel": "Current resolution ratio",
+          "resultTemplate": "$\\Delta \\theta / \\theta_R = {{separationRatioValue}}$",
+          "interpretationTemplate": "{{ratioInterpretation}}",
+          "applyAction": {
+            "label": "Apply blurred pair",
+            "presetId": "blurred-pair",
+            "observationHint": "The two blur patterns now overlap so strongly that the detector profile behaves like one broad hump.",
+            "highlightedControlIds": [
+              "separationMrad",
+              "apertureMm"
+            ],
+            "highlightedGraphIds": [
+              "image-profile"
+            ],
+            "highlightedOverlayIds": [
+              "rayleighGuide",
+              "componentProfiles"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "You cannot move the object points, but you want the detector profile to show a clearer split. What is the best optical move?",
+      "prediction": "Choose whether you should change aperture, wavelength, or detector sample position.",
+      "answer": "Increase the aperture or use a shorter wavelength so the diffraction blur shrinks.",
+      "explanation": "Moving the detector sample only reads a different place on the existing image. The actual resolution limit changes when the aperture diameter or wavelength changes the diffraction width itself."
+    }
+  },
+  "equations": [
+    {
+      "id": "rayleigh-limit",
+      "latex": "\\theta_R \\approx 1.22\\frac{\\lambda}{D}",
+      "label": "Rayleigh limit",
+      "meaning": "Two equally bright point sources become hard to distinguish when their angular separation falls below this diffraction-limited scale."
+    },
+    {
+      "id": "image-separation",
+      "latex": "s \\approx f\\,\\Delta\\theta",
+      "label": "Image-plane spacing",
+      "meaning": "At fixed focal length, angular separation maps to detector spacing."
+    },
+    {
+      "id": "airy-radius",
+      "latex": "r_R = f\\theta_R \\approx 1.22\\frac{\\lambda f}{D}",
+      "label": "Image-plane blur radius",
+      "meaning": "The same diffraction limit can be read as the characteristic size of one point-spread core on the detector."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "wavelength",
+      "symbol": "lambda",
+      "label": "Wavelength",
+      "param": "wavelengthNm",
+      "tone": "amber",
+      "description": "Longer wavelengths broaden the diffraction blur, so nearby points become harder to distinguish.",
+      "equationIds": [
+        "rayleigh-limit",
+        "airy-radius"
+      ],
+      "graphIds": [
+        "image-profile"
+      ],
+      "overlayIds": [
+        "rayleighGuide"
+      ]
+    },
+    {
+      "id": "aperture",
+      "symbol": "D",
+      "label": "Aperture diameter",
+      "param": "apertureMm",
+      "tone": "teal",
+      "description": "A larger aperture shrinks the diffraction blur and lowers the Rayleigh limit.",
+      "equationIds": [
+        "rayleigh-limit",
+        "airy-radius"
+      ],
+      "graphIds": [
+        "image-profile"
+      ],
+      "overlayIds": [
+        "apertureGuide",
+        "rayleighGuide"
+      ]
+    },
+    {
+      "id": "separation",
+      "symbol": "Delta theta",
+      "label": "Point separation",
+      "param": "separationMrad",
+      "tone": "coral",
+      "description": "This is the actual angular gap between the object points that the optical system is trying to preserve.",
+      "equationIds": [
+        "image-separation"
+      ],
+      "graphIds": [
+        "image-profile"
+      ],
+      "overlayIds": [
+        "componentProfiles",
+        "rayleighGuide"
+      ]
+    },
+    {
+      "id": "probe-position",
+      "symbol": "y_d",
+      "label": "Detector sample",
+      "param": "probeYUm",
+      "tone": "sky",
+      "description": "Moves the live detector sample up or down the image plane so you can read the current exposure at one position.",
+      "equationIds": [
+        "image-separation"
+      ],
+      "graphIds": [
+        "image-profile"
+      ],
+      "overlayIds": [
+        "componentProfiles"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "wavelengthNm": 550,
+      "apertureMm": 2.4,
+      "separationMrad": 0.32,
+      "probeYUm": 0,
+      "apertureGuide": true,
+      "rayleighGuide": true,
+      "componentProfiles": false
+    },
+    "ui": {
+      "initialGraphId": "image-profile",
+      "primaryGraphIds": [
+        "image-profile"
+      ],
+      "primaryControlIds": [
+        "apertureMm",
+        "wavelengthNm",
+        "separationMrad"
+      ],
+      "primaryPresetIds": [
+        "near-threshold",
+        "wide-aperture-split",
+        "long-wave-blur"
+      ]
+    },
+    "controls": [
+      {
+        "id": "wavelengthNm",
+        "kind": "slider",
+        "label": "Wavelength",
+        "param": "wavelengthNm",
+        "min": 420,
+        "max": 700,
+        "step": 10,
+        "unit": "nm",
+        "description": "Longer wavelength broadens each point-spread blur."
+      },
+      {
+        "id": "apertureMm",
+        "kind": "slider",
+        "label": "Aperture diameter",
+        "param": "apertureMm",
+        "min": 0.8,
+        "max": 4.5,
+        "step": 0.05,
+        "unit": "mm",
+        "description": "A larger clear aperture improves resolving power by shrinking the diffraction pattern."
+      },
+      {
+        "id": "separationMrad",
+        "kind": "slider",
+        "label": "Point separation",
+        "param": "separationMrad",
+        "min": 0.08,
+        "max": 1.4,
+        "step": 0.01,
+        "unit": "mrad",
+        "description": "Sets how far apart the two object points are in angle."
+      },
+      {
+        "id": "probeYUm",
+        "kind": "slider",
+        "label": "Detector sample",
+        "param": "probeYUm",
+        "min": -180,
+        "max": 180,
+        "step": 2,
+        "unit": "um",
+        "description": "Moves the live sample point along the detector profile."
+      }
+    ],
+    "presets": [
+      {
+        "id": "blurred-pair",
+        "label": "Blurred pair",
+        "description": "The diffraction blur is still wider than the point spacing, so the detector profile is mostly merged.",
+        "values": {
+          "wavelengthNm": 650,
+          "apertureMm": 1.6,
+          "separationMrad": 0.22,
+          "probeYUm": 0
+        }
+      },
+      {
+        "id": "near-threshold",
+        "label": "Near threshold",
+        "description": "The spacing sits close to the Rayleigh limit, so the split is only just beginning to appear.",
+        "values": {
+          "wavelengthNm": 550,
+          "apertureMm": 2.4,
+          "separationMrad": 0.28,
+          "probeYUm": 0
+        }
+      },
+      {
+        "id": "wide-aperture-split",
+        "label": "Wide aperture split",
+        "description": "A larger aperture makes the two peaks clearly distinct.",
+        "values": {
+          "wavelengthNm": 500,
+          "apertureMm": 3.6,
+          "separationMrad": 0.5,
+          "probeYUm": 0
+        }
+      },
+      {
+        "id": "long-wave-blur",
+        "label": "Long-wave blur",
+        "description": "A longer wavelength broadens the blur enough to erase an otherwise visible split.",
+        "values": {
+          "wavelengthNm": 680,
+          "apertureMm": 1.8,
+          "separationMrad": 0.28,
+          "probeYUm": 0
+        }
+      },
+      {
+        "id": "detector-off-center",
+        "label": "Off-center sample",
+        "description": "The sample point is moved onto one side of the detector profile instead of staying at the middle dip.",
+        "values": {
+          "wavelengthNm": 550,
+          "apertureMm": 2.4,
+          "separationMrad": 0.32,
+          "probeYUm": 42
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "apertureGuide",
+        "label": "Aperture guide",
+        "shortDescription": "Marks the clear aperture diameter directly on the lens.",
+        "whatToNotice": [
+          "The finite opening is part of the imaging physics. Changing D changes the diffraction width itself rather than only scaling the brightness."
+        ],
+        "whyItMatters": "It keeps resolving power attached to the aperture geometry instead of treating blur as a mysterious screen effect.",
+        "relatedControls": [
+          "apertureMm"
+        ],
+        "relatedGraphTabs": [
+          "image-profile"
+        ],
+        "relatedEquationVariables": [
+          "aperture"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "rayleighGuide",
+        "label": "Rayleigh guide",
+        "shortDescription": "Shows the current image-point centers and the first-minimum blur scale around them.",
+        "whatToNotice": [
+          "The split becomes easier to see when one point center lands beyond the first-minimum scale of the other."
+        ],
+        "whyItMatters": "It ties the Rayleigh criterion directly to the detector picture instead of leaving it as a memorized formula.",
+        "relatedControls": [
+          "wavelengthNm",
+          "apertureMm",
+          "separationMrad"
+        ],
+        "relatedGraphTabs": [
+          "image-profile"
+        ],
+        "relatedEquationVariables": [
+          "wavelength",
+          "aperture",
+          "separation"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "componentProfiles",
+        "label": "Component centers",
+        "shortDescription": "Marks where each individual point-spread core is centered on the detector.",
+        "whatToNotice": [
+          "The combined image only separates when the two individual blur centers are far enough apart compared with each blur width."
+        ],
+        "whyItMatters": "It makes the merged-versus-separated transition visible without pretending the detector profile is made from perfect geometric points.",
+        "relatedControls": [
+          "separationMrad",
+          "probeYUm"
+        ],
+        "relatedGraphTabs": [
+          "image-profile"
+        ],
+        "relatedEquationVariables": [
+          "separation",
+          "probe-position"
+        ],
+        "defaultOn": false
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "image-profile",
+      "label": "Image-plane profile",
+      "xLabel": "image-plane height (um)",
+      "yLabel": "normalized exposure",
+      "series": [
+        "combined-profile",
+        "point-a-profile",
+        "point-b-profile"
+      ],
+      "description": "Shows the combined detector profile and the two individual point-spread contributions for the current aperture-limited image."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use one prompt at a time so the aperture, the detector strip, and the graph stay tied to the same live resolution story.",
+    "items": [
+      {
+        "id": "or-notice-aperture",
+        "text": "Notice that widening the aperture does not move the points themselves. It narrows each diffraction blur, so the gap between the peaks becomes easier to preserve.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Start from Blurred pair, then widen the aperture before touching the point separation.",
+        "whyItMatters": "Resolution improves because the blur shrinks, not because the object points move farther apart.",
+        "relatedControls": [
+          "apertureMm"
+        ],
+        "relatedGraphTabs": [
+          "image-profile"
+        ],
+        "relatedOverlays": [
+          "apertureGuide",
+          "rayleighGuide"
+        ]
+      },
+      {
+        "id": "or-notice-wavelength",
+        "text": "Notice that longer wavelength broadens the blur even when the geometry and the detector stay fixed.",
+        "type": "try-this",
+        "priority": 4,
+        "conditions": {
+          "lastChangedControls": [
+            "wavelengthNm"
+          ]
+        },
+        "tryThis": "Compare Near threshold with Long-wave blur, then watch how the middle dip fills in.",
+        "whyItMatters": "It turns lambda / D into a visible imaging limit instead of an isolated optics slogan.",
+        "relatedControls": [
+          "wavelengthNm"
+        ],
+        "relatedGraphTabs": [
+          "image-profile"
+        ],
+        "relatedOverlays": [
+          "rayleighGuide"
+        ],
+        "relatedEquationVariables": [
+          "wavelength"
+        ]
+      },
+      {
+        "id": "or-notice-separation",
+        "text": "Notice that moving the point pair closer does not change the blur width. It only asks the same blur pattern to preserve a smaller gap.",
+        "type": "misconception",
+        "priority": 5,
+        "conditions": {
+          "lastChangedControls": [
+            "separationMrad"
+          ]
+        },
+        "tryThis": "Lower the point separation while leaving aperture and wavelength fixed, then compare how the two dashed component centers crowd together.",
+        "whyItMatters": "This separates the object spacing from the optical blur width honestly.",
+        "relatedControls": [
+          "separationMrad"
+        ],
+        "relatedGraphTabs": [
+          "image-profile"
+        ],
+        "relatedOverlays": [
+          "componentProfiles",
+          "rayleighGuide"
+        ],
+        "relatedEquationVariables": [
+          "separation"
+        ]
+      },
+      {
+        "id": "or-notice-graph",
+        "text": "Notice that the graph is a detector-position profile, not a time trace. Hovering it previews where the sample sits on the image plane right now.",
+        "type": "graph-reading",
+        "priority": 6,
+        "conditions": {
+          "graphTabs": [
+            "image-profile"
+          ]
+        },
+        "tryThis": "Hover the profile near the center dip, then near one peak, and compare the live detector sample readout.",
+        "whyItMatters": "Resolution lives in the spatial profile across the detector, not in a later-versus-earlier time story.",
+        "relatedGraphTabs": [
+          "image-profile"
+        ]
+      },
+      {
+        "id": "or-notice-compare",
+        "text": "Compare mode works best when one setup changes aperture and the other changes wavelength. That keeps both ways of changing theta_R visible without hiding which cause changed the blur.",
+        "type": "compare",
+        "priority": 8,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Clone Near threshold, widen the aperture in one row, and lengthen the wavelength in the other row before reading the profile.",
+        "whyItMatters": "It stops imaging limits from collapsing into one vague blur slider.",
+        "relatedControls": [
+          "apertureMm",
+          "wavelengthNm",
+          "separationMrad"
+        ],
+        "relatedGraphTabs": [
+          "image-profile"
+        ],
+        "relatedOverlays": [
+          "rayleighGuide",
+          "componentProfiles"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Commit to the imaging change before you test it. Each prompt changes one cause at a time.",
+    "items": [
+      {
+        "id": "or-predict-wider-aperture",
+        "prompt": "Keep the wavelength and point separation fixed, then widen the aperture. What should happen to the detector profile?",
+        "scenarioLabel": "Widen the aperture",
+        "changeLabel": "Aperture diameter",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The blur width should shrink, so the pair becomes easier to separate."
+          },
+          {
+            "id": "b",
+            "label": "The points should move farther apart on the detector even though the object spacing stayed fixed."
+          },
+          {
+            "id": "c",
+            "label": "Only the detector sample value should change. The full profile should stay the same."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A larger aperture lowers theta_R and shrinks the diffraction blur. The object spacing itself does not change.",
+        "observationHint": "Watch the Rayleigh guide tighten while the two profile peaks pull into a cleaner split.",
+        "apply": {
+          "presetId": "near-threshold",
+          "patch": {
+            "apertureMm": 3.4
+          }
+        },
+        "highlightedControls": [
+          "apertureMm"
+        ],
+        "highlightedGraphs": [
+          "image-profile"
+        ],
+        "highlightedOverlays": [
+          "apertureGuide",
+          "rayleighGuide"
+        ]
+      },
+      {
+        "id": "or-predict-longer-wavelength",
+        "prompt": "Keep the aperture and point separation fixed, then increase the wavelength. What should happen?",
+        "scenarioLabel": "Increase the wavelength",
+        "changeLabel": "Wavelength",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The blur should broaden, so the middle dip fills in and the pair becomes harder to distinguish."
+          },
+          {
+            "id": "b",
+            "label": "The blur should shrink because longer waves stay straighter through the lens."
+          },
+          {
+            "id": "c",
+            "label": "The graph should shift left or right, but the peak overlap should stay unchanged."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Longer wavelength increases theta_R and broadens each diffraction-limited blur, so nearby points merge more easily.",
+        "observationHint": "The point centers stay put, but the combined profile becomes smoother and less split.",
+        "apply": {
+          "presetId": "near-threshold",
+          "patch": {
+            "wavelengthNm": 680
+          }
+        },
+        "highlightedControls": [
+          "wavelengthNm"
+        ],
+        "highlightedGraphs": [
+          "image-profile"
+        ],
+        "highlightedOverlays": [
+          "rayleighGuide"
+        ]
+      },
+      {
+        "id": "or-predict-closer-pair",
+        "prompt": "Leave the optics alone, but move the two point sources closer together. What should the detector do?",
+        "scenarioLabel": "Bring the pair closer",
+        "changeLabel": "Point separation",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The two blur patterns should overlap more, so the central dip fills in toward one broad hump."
+          },
+          {
+            "id": "b",
+            "label": "The blur width should shrink because the pair is closer together."
+          },
+          {
+            "id": "c",
+            "label": "Nothing important should change because aperture and wavelength stayed fixed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Changing the source spacing changes how far apart the blur centers are. The blur width itself stays set by wavelength and aperture.",
+        "observationHint": "Watch the two component centers crowd together while the same blur scale tries to preserve a smaller gap.",
+        "apply": {
+          "presetId": "near-threshold",
+          "patch": {
+            "separationMrad": 0.18
+          }
+        },
+        "highlightedControls": [
+          "separationMrad"
+        ],
+        "highlightedGraphs": [
+          "image-profile"
+        ],
+        "highlightedOverlays": [
+          "componentProfiles",
+          "rayleighGuide"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the real aperture-limited detector profile to hit resolution targets instead of switching to a detached puzzle model.",
+    "items": [
+      {
+        "id": "or-ch-hit-rayleigh-threshold",
+        "title": "Hit the Rayleigh threshold",
+        "style": "target-setting",
+        "prompt": "Starting from Blurred pair, tune the aperture or wavelength until the point spacing sits right on the Rayleigh limit.",
+        "successMessage": "You matched the threshold honestly: the object spacing did not move, but the diffraction scale now lines up with it.",
+        "setup": {
+          "presetId": "blurred-pair",
+          "graphId": "image-profile",
+          "overlayIds": [
+            "rayleighGuide"
+          ],
+          "note": "Use the Rayleigh guide and the profile dip together."
+        },
+        "requirements": {
+          "graphId": "image-profile",
+          "overlayIds": [
+            "rayleighGuide"
+          ]
+        },
+        "targets": [
+          {
+            "metric": "separationRatio",
+            "label": "Bring Delta theta / theta_R between 0.97 and 1.03.",
+            "min": 0.97,
+            "max": 1.03
+          },
+          {
+            "metric": "centerDipRatio",
+            "label": "Keep the center-to-peak ratio between 0.7 and 0.9.",
+            "min": 0.7,
+            "max": 0.9
+          }
+        ]
+      },
+      {
+        "id": "or-ch-open-a-clear-gap",
+        "title": "Open a clear central dip",
+        "style": "target-setting",
+        "prompt": "Starting from Near threshold, make the split clearly visible without changing the detector sample control.",
+        "successMessage": "You created a clearly resolved pair by changing the optics or the point spacing itself, not by sliding the detector sample to a friendlier position.",
+        "setup": {
+          "presetId": "near-threshold",
+          "graphId": "image-profile",
+          "overlayIds": [
+            "componentProfiles",
+            "rayleighGuide"
+          ],
+          "note": "The sample slider only reads the profile. Use the optics or the point spacing to change the actual split."
+        },
+        "requirements": {
+          "graphId": "image-profile",
+          "overlayIds": [
+            "componentProfiles"
+          ]
+        },
+        "targets": [
+          {
+            "metric": "separationRatio",
+            "label": "Raise Delta theta / theta_R above 1.2.",
+            "min": 1.2,
+            "max": 4
+          },
+          {
+            "metric": "centerDipRatio",
+            "label": "Push the center-to-peak ratio below 0.8.",
+            "min": 0,
+            "max": 0.8
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live diffraction-limited imaging story, not from detached slogans.",
+    "questions": [
+      {
+        "id": "or-qt-aperture",
+        "type": "variable-effect",
+        "prompt": "Which change most directly improves resolving power for the same wavelength and object spacing?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Increase the aperture diameter so the diffraction blur shrinks."
+          },
+          {
+            "id": "b",
+            "label": "Move the detector sample away from the center dip."
+          },
+          {
+            "id": "c",
+            "label": "Decrease the point separation so the graph looks more compact."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Resolving power improves when the finite-aperture blur gets narrower. Moving the detector sample only reads a different place on the same profile, and decreasing the point spacing makes the job harder.",
+        "selectedWrongExplanations": {
+          "b": "The detector sample is only a readout. It does not change the image formed by the optics.",
+          "c": "A smaller point spacing makes two points harder to distinguish because the same blur width must preserve a smaller gap."
+        },
+        "showMeAction": {
+          "label": "Show wide aperture split",
+          "presetId": "wide-aperture-split",
+          "observationHint": "The blur width narrows and the central dip becomes more obvious when the aperture grows.",
+          "highlightedControlIds": [
+            "apertureMm"
+          ],
+          "highlightedGraphIds": [
+            "image-profile"
+          ],
+          "highlightedOverlayIds": [
+            "apertureGuide",
+            "rayleighGuide"
+          ]
+        }
+      },
+      {
+        "id": "or-qt-wavelength",
+        "type": "compare-two-cases",
+        "prompt": "Case A and Case B use the same aperture and the same point spacing, but Case B has the longer wavelength. What should be different?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Case B should be harder to resolve because the diffraction blur is broader."
+          },
+          {
+            "id": "b",
+            "label": "Case B should be easier to resolve because longer waves bend less."
+          },
+          {
+            "id": "c",
+            "label": "Both cases should resolve equally because the aperture is unchanged."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The Rayleigh limit scales with wavelength, so longer wavelength broadens the diffraction blur for the same aperture.",
+        "selectedWrongExplanations": {
+          "b": "That intuition works against the diffraction result here. Longer wavelength broadens the image blur.",
+          "c": "The aperture stayed fixed, but wavelength still changes the blur width and therefore the resolving power."
+        },
+        "showMeAction": {
+          "label": "Show long-wave blur",
+          "presetId": "long-wave-blur",
+          "observationHint": "The profile broadens and the middle dip fills in when the wavelength increases.",
+          "highlightedControlIds": [
+            "wavelengthNm"
+          ],
+          "highlightedGraphIds": [
+            "image-profile"
+          ],
+          "highlightedOverlayIds": [
+            "rayleighGuide"
+          ]
+        }
+      },
+      {
+        "id": "or-qt-focus-misconception",
+        "type": "misconception-check",
+        "prompt": "A student says, \"If the lens is focused, it should map each point to a perfect point, so diffraction cannot matter.\" What is the best correction?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Focus removes defocus blur, but a finite aperture still creates diffraction blur with a nonzero width."
+          },
+          {
+            "id": "b",
+            "label": "Diffraction only matters when the detector sample is exactly at the center."
+          },
+          {
+            "id": "c",
+            "label": "Diffraction matters only if the object points are bright enough."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "An ideal focus setting still leaves the finite-aperture diffraction limit. That is the imaging limit this page is teaching.",
+        "selectedWrongExplanations": {
+          "b": "Detector position only reads the profile already formed by the optics.",
+          "c": "Brightness changes signal level, but the diffraction width comes from wavelength and aperture."
+        },
+        "showMeAction": {
+          "label": "Show blurred pair",
+          "presetId": "blurred-pair",
+          "observationHint": "The lens is focused in this bounded model, but the two points still merge because the diffraction blur is too wide.",
+          "highlightedControlIds": [
+            "apertureMm",
+            "wavelengthNm"
+          ],
+          "highlightedGraphIds": [
+            "image-profile"
+          ],
+          "highlightedOverlayIds": [
+            "rayleighGuide"
+          ]
+        }
+      },
+      {
+        "id": "or-qt-sample-vs-system",
+        "type": "graph-reading",
+        "prompt": "Why does moving the detector sample not change the actual resolution limit?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because the sample only reads one place on the existing detector profile; the optical limit is already set by wavelength and aperture."
+          },
+          {
+            "id": "b",
+            "label": "Because the sample always stays on the brightest point no matter where you move it."
+          },
+          {
+            "id": "c",
+            "label": "Because diffraction disappears once the detector is scanned."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The detector sample is just a measurement point. Changing it does not change the finite-aperture image that the optics formed.",
+        "selectedWrongExplanations": {
+          "b": "The sample can move to a dip or to one side of the profile. It is not locked to the brightest point.",
+          "c": "Scanning does not remove diffraction. It only helps you read the spatial profile honestly."
+        },
+        "showMeAction": {
+          "label": "Show off-center sample",
+          "presetId": "detector-off-center",
+          "observationHint": "The readout changes because you are sampling a different place, but the full detector profile stays the same.",
+          "highlightedControlIds": [
+            "probeYUm"
+          ],
+          "highlightedGraphIds": [
+            "image-profile"
+          ],
+          "highlightedOverlayIds": [
+            "componentProfiles"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows two distant point sources on the left, one finite lens aperture in the middle, and one detector strip on the right. Each source sends light through the same aperture, and the detector strip brightens according to the combined diffraction-limited image profile.",
+        "Optional overlays show the aperture diameter on the lens, the current point-spread centers on the detector, and the Rayleigh blur scale around those centers. A movable detector sample marks one position on the strip and reports the current normalized exposure there."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The graph shows normalized exposure against detector height, with one combined profile and two dashed component profiles for the individual point-spread contributions.",
+        "Hovering the graph previews the matching detector position on the stage, so the spatial profile stays linked to the same image plane rather than turning into a detached time plot."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Optical Resolution / Imaging Limits",
+    "description": "Interactive optical-resolution lesson with aperture diameter, wavelength, point separation, Rayleigh-limit readouts, and a linked detector profile.",
+    "keywords": [
+      "optical resolution",
+      "imaging limits",
+      "Rayleigh criterion",
+      "diffraction limit",
+      "aperture and wavelength"
+    ]
+  },
+  "v2": {
+    "intuition": "A focused lens still draws each point as a small diffraction blur. Resolution asks whether the two blur centers are far enough apart for the detector profile to keep a visible dip.",
+    "whyItMatters": "That comparison is the practical bridge from the Rayleigh formula to real imaging choices: open the aperture, use shorter wavelength, or accept that two details are below the system limit.",
+    "estimatedMinutes": 30,
+    "equationSnapshot": {
+      "title": "Resolution comparison",
+      "note": "Read the point spacing and the Rayleigh blur scale together; neither one alone tells you whether the pair is resolved.",
+      "equationIds": [
+        "rayleigh-limit",
+        "image-separation",
+        "airy-radius"
+      ]
+    },
+    "startSetup": {
+      "presetId": "near-threshold",
+      "graphId": "image-profile",
+      "overlayIds": [
+        "rayleighGuide",
+        "componentProfiles"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "compare-spacing-with-blur",
+        "title": "Compare spacing with blur",
+        "goal": "See resolution as a side-by-side comparison between source separation and diffraction width.",
+        "doThis": "Load Near threshold, keep the Rayleigh guide and component centers visible, then read the separation ratio beside the detector profile.",
+        "notice": "The two image centers are distinct, but their diffraction cores overlap enough that the middle dip is only just visible.",
+        "explain": "Focusing placed the image in the right plane; the remaining blur width comes from diffraction through the finite aperture.",
+        "reveal": {
+          "controlIds": [
+            "separationMrad",
+            "apertureMm"
+          ],
+          "graphIds": [
+            "image-profile"
+          ],
+          "overlayIds": [
+            "rayleighGuide",
+            "componentProfiles"
+          ]
+        },
+        "setup": {
+          "presetId": "near-threshold",
+          "graphId": "image-profile",
+          "overlayIds": [
+            "rayleighGuide",
+            "componentProfiles"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Does focus remove the limit?",
+          "questionIds": [
+            "or-qt-focus-misconception"
+          ]
+        }
+      },
+      {
+        "id": "shrink-the-diffraction-blur",
+        "title": "Shrink the diffraction blur",
+        "goal": "Use aperture as the cleanest optical move for making the same pair easier to resolve.",
+        "doThis": "Starting from the near-threshold pair, widen the aperture and watch the Rayleigh guide tighten around each point.",
+        "notice": "The object spacing stays fixed while the blur narrows, so the central dip becomes clearer.",
+        "explain": "Because theta_R is proportional to lambda / D, increasing D lowers the Rayleigh limit and improves resolving power.",
+        "reveal": {
+          "controlIds": [
+            "apertureMm"
+          ],
+          "graphIds": [
+            "image-profile"
+          ],
+          "overlayIds": [
+            "apertureGuide",
+            "rayleighGuide"
+          ]
+        },
+        "setup": {
+          "presetId": "wide-aperture-split",
+          "graphId": "image-profile",
+          "overlayIds": [
+            "apertureGuide",
+            "rayleighGuide",
+            "componentProfiles"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Predict the aperture change",
+          "predictionIds": [
+            "or-predict-wider-aperture"
+          ],
+          "questionIds": [
+            "or-qt-aperture"
+          ]
+        }
+      },
+      {
+        "id": "broaden-the-blur",
+        "title": "Broaden the blur",
+        "goal": "Make the same detector profile worse by increasing wavelength or crowding the two source centers.",
+        "doThis": "Apply Long-wave blur, then compare it with moving the point separation closer while the optics stay fixed.",
+        "notice": "Longer wavelength widens each blur; smaller separation moves the blur centers together. Both fill in the middle dip, but for different reasons.",
+        "explain": "Wavelength and aperture set blur size, while source separation sets center spacing. Resolution depends on the ratio between those two quantities.",
+        "reveal": {
+          "controlIds": [
+            "wavelengthNm",
+            "separationMrad"
+          ],
+          "graphIds": [
+            "image-profile"
+          ],
+          "overlayIds": [
+            "rayleighGuide",
+            "componentProfiles"
+          ]
+        },
+        "setup": {
+          "presetId": "long-wave-blur",
+          "graphId": "image-profile",
+          "overlayIds": [
+            "rayleighGuide",
+            "componentProfiles"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Separate the two causes",
+          "predictionIds": [
+            "or-predict-longer-wavelength",
+            "or-predict-closer-pair"
+          ],
+          "questionIds": [
+            "or-qt-wavelength"
+          ]
+        }
+      },
+      {
+        "id": "judge-the-limit-honestly",
+        "title": "Judge the limit honestly",
+        "goal": "Use the Rayleigh ratio and the center dip to decide whether the pair is below, near, or above the resolving limit.",
+        "doThis": "Start from Blurred pair, adjust aperture or wavelength until the ratio sits near 1, and avoid using the detector sample as if it changed the optics.",
+        "notice": "Moving the sample readout changes one measured value, but the whole profile and the resolution limit stay the same.",
+        "explain": "A trustworthy resolution claim names the optical change that altered blur width or the source spacing that altered center separation.",
+        "reveal": {
+          "controlIds": [
+            "apertureMm",
+            "wavelengthNm",
+            "probeYUm"
+          ],
+          "graphIds": [
+            "image-profile"
+          ],
+          "overlayIds": [
+            "rayleighGuide",
+            "componentProfiles"
+          ]
+        },
+        "setup": {
+          "presetId": "blurred-pair",
+          "graphId": "image-profile",
+          "overlayIds": [
+            "rayleighGuide"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Do not game the detector sample",
+          "questionIds": [
+            "or-qt-sample-vs-system"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "A finite aperture makes each focused point a diffraction blur with a measurable width.",
+        "A larger aperture or shorter wavelength narrows the blur; a longer wavelength or smaller aperture broadens it.",
+        "Two points are resolved only when their spacing is large enough compared with the Rayleigh blur scale.",
+        "Moving the detector sample reads the profile but does not change the optical resolution limit."
+      ],
+      "misconception": "Correct focus is necessary, but it is not enough: diffraction from the finite aperture still limits how much detail the image can separate.",
+      "workedExampleRefs": [
+        "rayleigh-limit-from-live-aperture",
+        "current-separation-versus-threshold"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "double-slit-interference",
+          "title": "Double-Slit Interference",
+          "reasonLabel": "Compare another aperture pattern"
+        },
+        {
+          "slug": "lens-imaging",
+          "title": "Lens Imaging",
+          "reasonLabel": "Separate focusing from sharpness"
+        },
+        {
+          "slug": "diffraction",
+          "title": "Diffraction",
+          "reasonLabel": "Review the spreading mechanism"
+        }
+      ],
+      "freePlayPrompt": "Build one case that is barely resolved and one case that clearly fails. Explain whether you changed blur width, point spacing, or only the detector readout."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "quickTest",
+      "accessibility"
+    ]
+  }
+}

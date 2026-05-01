@@ -1,0 +1,279 @@
+{
+"sections": {
+"explanation": {
+"paragraphs": [
+"On this particle bench, temperature tells you how energetic the particles are on average. Internal energy tells you how much microscopic energy the whole sample has altogether.",
+"That is why amount matters. Two samples can show the same temperature and similar motion traces, yet the larger sample can still have more internal energy because that average motion is being counted across more particles.",
+"When you heat the sample, watch both the stage and the graphs. Sometimes added energy raises temperature quickly, and sometimes it mainly fills another internal store, so internal energy rises while temperature changes little."
+]
+},
+"keyIdeas": [
+"Temperature tracks the average microscopic motion per particle, not the total energy of the whole sample.",
+"Internal energy depends on average motion, the amount of substance, and the other microscopic store shown on the bench.",
+"At the same heater power, a smaller sample warms faster because the same input energy is shared across fewer particles.",
+"On the phase shelf, energy can keep entering the sample even while the temperature graph stays nearly flat."
+],
+"commonMisconception": {
+"myth": "If two samples have the same temperature, they must have the same internal energy.",
+"correction": [
+"Equal temperature means the average kinetic energy per particle is similar.",
+"The larger sample can still have more total internal energy because that average motion is counted across more particles, along with any other internal store."
+]
+},
+"workedExamples": {
+"title": "Read the live sample",
+"intro": "Use the current sample state as your evidence. The particle motion, energy bars, and graphs all come from the same live setup, so you can connect what you see on the stage to the numbers you calculate.",
+"items": [
+{
+"id": "same-temperature-different-total-energy",
+"prompt": "For the current sample with $N = {{particleCountValue}}$ particles and temperature ${{temperatureValue}}$, use the live readouts to separate per-particle energy from whole-sample energy. What are the thermal kinetic energy and the total internal energy?",
+"steps": [
+{
+"id": "read-average-motion",
+"label": "1. Read the average per-particle energy"
+},
+{
+"id": "multiply-by-amount",
+"label": "2. Multiply by particle count"
+},
+{
+"id": "add-other-store",
+"label": "3. Add the other internal store"
+}
+],
+"resultLabel": "Thermal part and total internal energy",
+"applyAction": {
+"label": "Compare with the larger sample",
+"observationHint": "The motion traces and temperature chip can stay similar, while the internal-energy bar and amount scan both increase because more particles are being counted."
+}
+},
+{
+"id": "heating-through-the-shelf",
+"title": "Heating across the shelf",
+"prompt": "At the current inspected time $t = {{timeValue}}\\,\\mathrm{s}$, how much energy has the heater added so far, and what do the live readouts say about temperature and shelf progress right now?",
+"steps": [
+{
+"id": "start-with-input",
+"label": "1. Compute the input energy so far"
+},
+{
+"id": "read-current-state",
+"label": "2. Read the live temperature and internal energy"
+},
+{
+"id": "check-shelf-progress",
+"label": "3. Decide where the added energy is going"
+}
+],
+"resultLabel": "Input energy and current shelf state",
+"applyAction": {
+"label": "Inspect the phase shelf",
+"observationHint": "On the shelf, the temperature graph can flatten while the internal-energy graph and the shelf-progress bar still rise. That means the heater is still adding energy."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Two samples start at the same temperature. Sample A has three times as many particles as Sample B, and both receive the same heater power for the same short time. Which sample ends with more internal energy, and which one warms faster?",
+"prediction": "Do not assume that the sample with more total stored energy must also show the faster temperature change.",
+"answer": "The larger sample ends with more total internal energy, but the smaller sample warms faster.",
+"explanation": "Temperature follows the per-particle energy scale, so the same heater input is spread across more particles in the larger sample. Internal energy still ends up larger for that sample because the total counts energy across more particles and internal stores."
+}
+},
+"simulation": {
+"overlays": [
+{
+"id": "motionVectors",
+"shortDescription": "Shows motion traces on representative particles so the average microscopic motion stays visible.",
+"whatToNotice": [
+"Faster average motion means higher temperature, but it does not by itself tell you the total internal energy."
+],
+"whyItMatters": "It links temperature to visible particle motion instead of treating temperature as a disconnected meter."
+},
+{
+"id": "energySplit",
+"shortDescription": "Shows how the current internal energy is divided between thermal motion and the other microscopic store.",
+"whatToNotice": [
+"During shelf heating, the total internal-energy bar can keep growing even when the temperature graph is flat."
+],
+"whyItMatters": "It helps you separate temperature from total internal energy on the same bench."
+},
+{
+"id": "phaseShelf",
+"whatToNotice": [
+"If the shelf is only partly filled, the heater can keep adding energy while the temperature changes very little."
+],
+"whyItMatters": "It shows why added energy does not always produce an immediate temperature rise."
+},
+{
+"id": "particleCounter",
+"whatToNotice": [
+"Samples with the same temperature chip can still have different particle counts and different total internal energies."
+],
+"whyItMatters": "It makes the difference between amount and average motion visible before you read the graphs."
+}
+]
+},
+"graphs": [
+{
+"id": "temperature-history",
+"description": "Use this graph to follow how the sample warms over time. A flat section does not automatically mean energy has stopped entering the sample."
+},
+{
+"id": "energy-breakdown",
+"description": "Compare total internal energy with its thermal-motion part and the other microscopic store. This is the clearest graph for seeing what happens on the shelf."
+},
+{
+"id": "amount-internal-energy",
+"description": "This graph changes only particle count while the temperature-like scale stays fixed, so it cleanly shows how same-temperature samples can have different total internal energies."
+},
+{
+"id": "amount-heating-rate",
+"description": "This graph changes only particle count at the current heater setting. It shows why larger samples warm more slowly under the same energy input."
+}
+],
+"noticePrompts": {
+"intro": "Use one prompt at a time. Each one links a control change to what you should see on the stage, overlays, and graphs.",
+"items": [
+{
+"id": "tie-notice-same-temp-more-total",
+"text": "If you change only particle count, the temperature chip can stay nearly the same while the internal-energy bar grows a lot. That is the clearest sign that temperature and total internal energy are different quantities.",
+"tryThis": "Switch between the small-warm-sample and large-warm-sample presets. Compare the temperature chip, motion cues, internal-energy bar, and amount scan.",
+"whyItMatters": "You need this distinction before ideas like heat transfer, specific heat, and phase change can make sense."
+},
+{
+"id": "tie-notice-heating-rate",
+"text": "At fixed heater power, the temperature-rise graph falls as particle count increases because the same input energy is shared across more particles.",
+"tryThis": "Hover a point at small particle count and one at large particle count, then compare the preview values with the particle box.",
+"whyItMatters": "It shows why warming rate depends on amount, not just on heater power."
+},
+{
+"id": "tie-notice-shelf-flat-temperature",
+"text": "A flat temperature graph does not mean the heater turned off. If the shelf is still filling, internal energy is still increasing even while temperature stays nearly constant.",
+"tryThis": "Use the on-the-shelf preset, scrub through the flat part of the temperature graph, and compare it with the energy-breakdown graph and the shelf-progress bar.",
+"whyItMatters": "It prevents the common mistake that flat temperature means no energy is entering the sample."
+},
+{
+"id": "tie-notice-starting-temperature",
+"text": "Raising starting temperature makes the motion cues more active immediately, but total internal energy still depends on particle count and the other store.",
+"tryThis": "Raise only the starting temperature and compare how the motion vectors, temperature chip, and internal-energy bar move together but not by the same amount.",
+"whyItMatters": "It blocks the shortcut that hotter must always mean more total energy in every comparison."
+},
+{
+"id": "tie-notice-compare-mode",
+"text": "Compare mode is most useful when Setup A and Setup B have similar temperatures but different particle counts. Then you can isolate average motion from total internal energy.",
+"whyItMatters": "It lets you test one causal change at a time without losing the live particle picture."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict before you apply the change. Each scenario checks whether you can keep average motion, total internal energy, and shelf behavior separate.",
+"items": [
+{
+"id": "tie-predict-more-particles-same-temp",
+"prompt": "From the small warm sample, you increase only particle count and keep the starting temperature the same. Which statement best matches the bench?",
+"scenarioLabel": "Increase particle count",
+"changeLabel": "Particle count only",
+"explanation": "Temperature follows the average per-particle motion, while internal energy counts the whole sample. More particles at the same temperature give a larger total internal energy, and the same heater would warm that larger sample more slowly.",
+"observationHint": "Look for a similar temperature chip but a taller internal-energy bar and a lower temperature-rise graph."
+},
+{
+"id": "tie-predict-shelf-heating",
+"prompt": "A sample is already on the phase shelf and the heater stays on. What should happen before the shelf is finished filling?",
+"changeLabel": "Heater stays on",
+"explanation": "During the shelf, the heater still adds energy. That energy goes into the other microscopic store, so temperature does not need to rise at the same moment.",
+"observationHint": "The temperature graph stays nearly flat while the internal-energy curve and shelf bar keep moving."
+},
+{
+"id": "tie-predict-fewer-particles-faster-rise",
+"prompt": "Two samples start at the same temperature and get the same heater power, but one has far fewer particles. Which sample warms faster before any shelf behavior matters?",
+"scenarioLabel": "Reduce particle count",
+"changeLabel": "Particle count only",
+"explanation": "Heater power sets the input rate, but the temperature response depends on how many particles have to share that incoming energy.",
+"observationHint": "The amount-heating-rate graph is highest at small particle counts."
+}
+]
+},
+"challengeMode": {
+"intro": "Use the live bench to hit targets about amount and shelf behavior. The checks read the current metrics, so you must match the displayed state as well as the idea.",
+"items": [
+{
+"id": "tie-ch-same-temperature-more-total",
+"title": "Same temperature, larger internal energy",
+"prompt": "Start from the small warm sample, switch to compare mode, and edit only Setup B until it stays at about the same temperature as Setup A but clearly stores much more internal energy.",
+"successMessage": "You kept the temperatures similar while making Setup B store much more internal energy. That is the key difference between average motion and whole-sample energy.",
+"setup": {
+"note": "Keep Setup A unchanged and edit only Setup B."
+},
+"hints": [
+"Use particle count to raise the whole-sample total without changing the temperature much.",
+"Check both the compare readouts and the amount scan to see whether the temperatures still match."
+]
+},
+{
+"id": "tie-ch-catch-the-shelf",
+"title": "Find a true shelf state",
+"prompt": "Start from Warming toward a shelf and pause at a moment when temperature is nearly flat even though energy is still entering the sample.",
+"successMessage": "You found a genuine shelf state. The heater was still adding energy, but that energy was filling the internal store instead of raising temperature immediately.",
+"setup": {
+"note": "Run the sample until the temperature curve levels off, then pause during that flat region."
+},
+"hints": [
+"Use inspect mode. Let the run reach the shelf, then pause and fine-tune with the time controls.",
+"Use the energy-breakdown graph or the shelf bar to confirm that energy is still increasing while temperature is nearly constant."
+]
+}
+]
+},
+"quickTest": {
+"intro": "Answer from what the bench means, not from a memorized slogan. Keep average per-particle motion separate from total internal energy.",
+"questions": [
+{
+"id": "tie-qt-same-temp-more-u",
+"prompt": "Two samples have the same temperature, but one contains three times as many particles. Which statement is best supported by this model?",
+"explanation": "Temperature follows the average per-particle motion. Total internal energy still depends on how many particles and internal stores the whole sample contains.",
+"selectedWrongExplanations": {
+"b": "That confuses temperature with total internal energy. Here, temperature is an average-scale measure, not the full total.",
+"c": "Crowding is not the key idea in this model. The relevant pieces are amount and per-particle energy."
+},
+"showMeAction": {
+"label": "Compare with the larger sample",
+"observationHint": "Look for a similar temperature chip but a larger internal-energy bar as particle count increases."
+}
+},
+{
+"id": "tie-qt-flat-temperature",
+"prompt": "On the shelf, the temperature graph is nearly flat while the heater is still on. What must be true in this model?",
+"explanation": "The shelf represents an internal store that can absorb energy without a matching immediate temperature rise.",
+"selectedWrongExplanations": {
+"b": "A flat temperature graph does not automatically mean zero energy input. You need the energy bookkeeping too.",
+"c": "Temperature and internal energy are different quantities, so a flat temperature does not imply decreasing internal energy."
+},
+"showMeAction": {
+"label": "Inspect the shelf",
+"observationHint": "The shelf bar and internal-energy curve keep moving even while the temperature graph flattens."
+}
+},
+{
+"id": "tie-qt-temperature-average",
+"explanation": "Temperature is tied to the average microscopic motion scale, not to the whole-sample energy total and not to the heater alone.",
+"showMeAction": {
+"observationHint": "Watch the motion vectors and the temperature chip change together, while the internal-energy total still depends on particle count."
+}
+},
+{
+"id": "tie-qt-more-energy-no-temp-jump",
+"prompt": "A student says, 'If the heater adds energy, temperature must rise immediately every time.' What is the best correction in this model?",
+"explanation": "The shelf is the reminder that energy input can feed other microscopic changes, so temperature is not forced to jump every instant.",
+"selectedWrongExplanations": {
+"b": "That ignores shelf behavior. In this model, temperature is not the only way added energy can appear.",
+"c": "Particle count is a separate control. Added energy changes internal energy directly and can also change temperature when it goes into average motion."
+},
+"showMeAction": {
+"label": "Inspect shelf heating",
+"observationHint": "The heater is still active while the shelf bar and internal-energy curve continue to rise."
+}
+}
+]
+}
+}

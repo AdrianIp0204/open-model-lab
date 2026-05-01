@@ -1,0 +1,1207 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live flow checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Continuity checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Carry this into Bernoulli and the fluids branch"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Keep one steady stream tube on screen and use Q = Av to connect cross-sectional area, flow speed, and the same volume flow rate through narrow and wide sections.",
+    "keyTakeaway": "For steady incompressible flow, the same volume flow rate passes every cross section each second, so $Q = A_A v_A = A_B v_B$.",
+    "whyItMatters": "Continuity is the bridge from pipe shape to flow speed: once you can see where the same stream speeds up or slows down, Bernoulli can explain the pressure changes next."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "The continuity equation is the bookkeeping rule for steady incompressible flow. If fluid is not piling up or leaving gaps inside one pipe, then each cross section must pass the same volume every second. That shared volume flow rate is written as $Q = Av$.",
+        "A smaller section does not create more fluid each second. It gives the stream less area to move through, so the speed there has to rise to keep the same $Q$. A wider section does the opposite: the same flow rate can move more slowly there.",
+        "This page stays bounded on purpose. The stage is one changing pipe with two labeled sections, animated tracers, and compact response graphs. It is not a full fluid-dynamics engine, but it keeps the speed-area story honest and sets up the later Bernoulli bridge."
+      ]
+    },
+    "keyIdeas": [
+      "For steady incompressible flow, the same volume flow rate passes every cross section each second, so $Q = A_A v_A = A_B v_B$.",
+      "If one section has a smaller area, the fluid speed there must be larger to keep the same flow rate.",
+      "If the area gets larger, the same flow rate can move more slowly through that section.",
+      "Continuity is the speed-and-area bookkeeping layer that Bernoulli later combines with pressure changes in moving fluids."
+    ],
+    "commonMisconception": {
+      "myth": "A narrow section carries more fluid each second because the fluid shoots through it faster.",
+      "correction": [
+        "In steady incompressible flow, the volume per second stays the same through every section of the pipe.",
+        "The speed changes because the area changes. Faster does not mean a bigger $Q$ unless the area stays fixed."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live flow checks",
+      "intro": "Use the live pipe. The current flow rate and section areas drive both worked examples.",
+      "items": [
+        {
+          "id": "current-section-speeds",
+          "title": "Current section speeds from continuity",
+          "prompt": "For the current stream with $Q = {{flowRateValue}}\\,\\mathrm{m^3/s}$, $A_A = {{entryAreaValue}}\\,\\mathrm{m^2}$, and $A_B = {{middleAreaValue}}\\,\\mathrm{m^2}$, what speeds does continuity predict in sections A and B?",
+          "variables": [
+            {
+              "id": "flowRate",
+              "variableId": "flowRate",
+              "symbol": "Q",
+              "label": "Volume flow rate",
+              "valueKey": "flowRateValue",
+              "unit": "m^3/s"
+            },
+            {
+              "id": "entryArea",
+              "variableId": "entryArea",
+              "symbol": "A_A",
+              "label": "Section A area",
+              "valueKey": "entryAreaValue",
+              "unit": "m^2"
+            },
+            {
+              "id": "middleArea",
+              "variableId": "middleArea",
+              "symbol": "A_B",
+              "label": "Section B area",
+              "valueKey": "middleAreaValue",
+              "unit": "m^2"
+            }
+          ],
+          "steps": [
+            {
+              "id": "section-a",
+              "label": "1. Use $v = Q/A$ in section A",
+              "template": "The entry speed is $v_A = Q/A_A = {{entrySpeedValue}}\\,\\mathrm{m/s}$."
+            },
+            {
+              "id": "section-b",
+              "label": "2. Use the same $Q$ in section B",
+              "template": "The middle speed is $v_B = Q/A_B = {{middleSpeedValue}}\\,\\mathrm{m/s}$."
+            },
+            {
+              "id": "compare",
+              "label": "3. Compare the two sections",
+              "template": "So $v_B/v_A = {{speedRatioValue}}$. {{geometryInterpretationText}}"
+            }
+          ],
+          "resultLabel": "Current section speeds",
+          "resultTemplate": "$v_A = {{entrySpeedValue}}\\,\\mathrm{m/s}, \\quad v_B = {{middleSpeedValue}}\\,\\mathrm{m/s}, \\quad v_B/v_A = {{speedRatioValue}}$",
+          "interpretationTemplate": "{{geometryInterpretationText}}",
+          "applyAction": {
+            "label": "Show the tight throat",
+            "presetId": "tight-throat",
+            "observationHint": "The middle section shrinks and the section B speed arrow grows.",
+            "highlightedControlIds": [
+              "middleArea"
+            ],
+            "highlightedGraphIds": [
+              "speed-middle-area"
+            ],
+            "highlightedOverlayIds": [
+              "areaMarkers",
+              "speedArrows"
+            ]
+          }
+        },
+        {
+          "id": "same-time-flow-slices",
+          "title": "Same-time slices in both sections",
+          "prompt": "For the current stream, how long is a {{sliceDurationValue}} fluid slice in sections A and B?",
+          "variables": [
+            {
+              "id": "flowRate",
+              "variableId": "flowRate",
+              "symbol": "Q",
+              "label": "Volume flow rate",
+              "valueKey": "flowRateValue",
+              "unit": "m^3/s"
+            },
+            {
+              "id": "entryArea",
+              "variableId": "entryArea",
+              "symbol": "A_A",
+              "label": "Section A area",
+              "valueKey": "entryAreaValue",
+              "unit": "m^2"
+            },
+            {
+              "id": "middleArea",
+              "variableId": "middleArea",
+              "symbol": "A_B",
+              "label": "Section B area",
+              "valueKey": "middleAreaValue",
+              "unit": "m^2"
+            }
+          ],
+          "steps": [
+            {
+              "id": "slice-a",
+              "label": "1. Convert the section A speed into a same-time length",
+              "template": "Over {{sliceDurationValue}}, section A covers $\\Delta x_A = {{entrySliceLengthValue}}\\,\\mathrm{m}$."
+            },
+            {
+              "id": "slice-b",
+              "label": "2. Do the same in section B",
+              "template": "Over the same {{sliceDurationValue}}, section B covers $\\Delta x_B = {{middleSliceLengthValue}}\\,\\mathrm{m}$."
+            },
+            {
+              "id": "meaning",
+              "label": "3. Read what those two lengths mean",
+              "template": "The lengths differ because the speeds differ, but both slices still represent the same $Q = {{flowRateValue}}\\,\\mathrm{m^3/s}$."
+            }
+          ],
+          "resultLabel": "Same-time slice lengths",
+          "resultTemplate": "$\\Delta x_A = {{entrySliceLengthValue}}\\,\\mathrm{m}, \\quad \\Delta x_B = {{middleSliceLengthValue}}\\,\\mathrm{m}$",
+          "interpretationTemplate": "{{sliceInterpretation}}",
+          "applyAction": {
+            "label": "Show the flow slices",
+            "presetId": "wide-chamber",
+            "observationHint": "The same short time slice stretches farther in the faster section.",
+            "highlightedControlIds": [
+              "middleArea",
+              "flowRate"
+            ],
+            "highlightedGraphIds": [
+              "flow-balance"
+            ],
+            "highlightedOverlayIds": [
+              "flowSlices",
+              "flowRateEquality"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "A steady incompressible stream enters a pipe section whose area becomes half as large. What must happen to the speed in that smaller section?",
+      "prediction": "Decide whether the speed stays the same, doubles, or drops when $Q$ stays fixed.",
+      "answer": "The speed doubles.",
+      "explanation": "Continuity says $Q = Av$. If $Q$ stays fixed and the area becomes half as large, the speed has to become twice as large."
+    }
+  },
+  "equations": [
+    {
+      "id": "volume-flow-rate",
+      "latex": "Q = \\dfrac{\\Delta V}{\\Delta t}",
+      "label": "Volume flow rate",
+      "meaning": "The stream carries a certain volume past a cross section each second."
+    },
+    {
+      "id": "continuity-equation",
+      "latex": "Q = A_A v_A = A_B v_B",
+      "label": "Continuity equation",
+      "meaning": "For steady incompressible flow, each section of the same pipe carries the same flow rate."
+    },
+    {
+      "id": "speed-from-flow",
+      "latex": "v = \\dfrac{Q}{A}",
+      "label": "Speed from flow rate and area",
+      "meaning": "At a fixed flow rate, a smaller area requires a larger speed."
+    },
+    {
+      "id": "speed-ratio",
+      "latex": "\\dfrac{v_B}{v_A} = \\dfrac{A_A}{A_B}",
+      "label": "Speed ratio from area ratio",
+      "meaning": "The speed change is the inverse of the area change between two sections."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "flowRate",
+      "symbol": "Q",
+      "label": "Volume flow rate",
+      "param": "flowRate",
+      "tone": "teal",
+      "description": "Raises or lowers how much volume the pipe carries each second. Increasing $Q$ raises both section speeds together.",
+      "equationIds": [
+        "volume-flow-rate",
+        "continuity-equation",
+        "speed-from-flow"
+      ],
+      "graphIds": [
+        "speed-flow-rate",
+        "flow-balance"
+      ],
+      "overlayIds": [
+        "flowRateEquality",
+        "flowSlices"
+      ]
+    },
+    {
+      "id": "entryArea",
+      "symbol": "A_A",
+      "label": "Section A area",
+      "param": "entryArea",
+      "tone": "sky",
+      "description": "Changes the wider entry section. At the same flow rate, a larger section A area makes the entry speed smaller.",
+      "equationIds": [
+        "continuity-equation",
+        "speed-from-flow",
+        "speed-ratio"
+      ],
+      "graphIds": [
+        "speed-entry-area"
+      ],
+      "overlayIds": [
+        "areaMarkers",
+        "speedArrows"
+      ]
+    },
+    {
+      "id": "middleArea",
+      "symbol": "A_B",
+      "label": "Section B area",
+      "param": "middleArea",
+      "tone": "coral",
+      "description": "Changes the middle section. Making it smaller speeds the fluid up there; making it larger slows the fluid down there.",
+      "equationIds": [
+        "continuity-equation",
+        "speed-from-flow",
+        "speed-ratio"
+      ],
+      "graphIds": [
+        "speed-middle-area",
+        "flow-balance"
+      ],
+      "overlayIds": [
+        "areaMarkers",
+        "speedArrows",
+        "flowSlices"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "flowRate": 0.18,
+      "entryArea": 0.24,
+      "middleArea": 0.12
+    },
+    "ui": {
+      "initialGraphId": "speed-middle-area",
+      "primaryGraphIds": [
+        "speed-middle-area"
+      ],
+      "primaryControlIds": [
+        "middleArea"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "flowRate",
+        "kind": "slider",
+        "label": "Volume flow rate",
+        "param": "flowRate",
+        "min": 0.12,
+        "max": 0.28,
+        "step": 0.01,
+        "unit": "m^3/s",
+        "description": "Changes how much volume the pipe carries each second."
+      },
+      {
+        "id": "entryArea",
+        "kind": "slider",
+        "label": "Section A area",
+        "param": "entryArea",
+        "min": 0.16,
+        "max": 0.32,
+        "step": 0.01,
+        "unit": "m^2",
+        "description": "Adjusts the wider entry section."
+      },
+      {
+        "id": "middleArea",
+        "kind": "slider",
+        "label": "Section B area",
+        "param": "middleArea",
+        "min": 0.08,
+        "max": 0.36,
+        "step": 0.01,
+        "unit": "m^2",
+        "description": "Adjusts the middle section so it can narrow or widen relative to section A."
+      }
+    ],
+    "presets": [
+      {
+        "id": "baseline-stream",
+        "label": "Baseline stream",
+        "description": "A steady stream entering a narrower middle section.",
+        "values": {
+          "flowRate": 0.18,
+          "entryArea": 0.24,
+          "middleArea": 0.12
+        }
+      },
+      {
+        "id": "uniform-pipe",
+        "label": "Uniform pipe",
+        "description": "Both sections have the same area, so the speeds match.",
+        "values": {
+          "flowRate": 0.18,
+          "entryArea": 0.24,
+          "middleArea": 0.24
+        }
+      },
+      {
+        "id": "tight-throat",
+        "label": "Tight throat",
+        "description": "A much smaller middle section forces a larger middle speed.",
+        "values": {
+          "flowRate": 0.18,
+          "entryArea": 0.24,
+          "middleArea": 0.08
+        }
+      },
+      {
+        "id": "wide-chamber",
+        "label": "Wide chamber",
+        "description": "A wider middle section slows the fluid down there.",
+        "values": {
+          "flowRate": 0.18,
+          "entryArea": 0.24,
+          "middleArea": 0.3
+        }
+      },
+      {
+        "id": "wide-entry",
+        "label": "Wide entry",
+        "description": "A larger section A lowers the entry speed.",
+        "values": {
+          "flowRate": 0.18,
+          "entryArea": 0.3,
+          "middleArea": 0.12
+        }
+      },
+      {
+        "id": "high-flow",
+        "label": "Higher flow",
+        "description": "A larger flow rate raises both section speeds.",
+        "values": {
+          "flowRate": 0.24,
+          "entryArea": 0.24,
+          "middleArea": 0.12
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "areaMarkers",
+        "label": "Area markers",
+        "shortDescription": "Marks the two cross sections used in the continuity equation.",
+        "whatToNotice": [
+          "Section B can be smaller or larger than section A, and the speed change follows that area change inversely."
+        ],
+        "whyItMatters": "It keeps the equation tied to visible geometry.",
+        "relatedControls": [
+          "entryArea",
+          "middleArea"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "speedArrows",
+        "label": "Speed arrows",
+        "shortDescription": "Shows the section A and section B speeds directly on the pipe.",
+        "whatToNotice": [
+          "The arrow in the smaller section gets longer because the same flow rate needs more speed there."
+        ],
+        "whyItMatters": "It makes the speed change visible before you read the graph.",
+        "relatedControls": [
+          "flowRate",
+          "entryArea",
+          "middleArea"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "flowRateEquality",
+        "label": "Flow-rate equality",
+        "shortDescription": "Shows the same $Q$ written for both sections.",
+        "whatToNotice": [
+          "The two $Q$ labels stay matched even when the two speeds do not."
+        ],
+        "whyItMatters": "It keeps conservation of flow rate separate from the speed change.",
+        "relatedControls": [
+          "flowRate",
+          "entryArea",
+          "middleArea"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "flowSlices",
+        "label": "Same-time slices",
+        "shortDescription": "Shows how much pipe length a short equal-time slice occupies in each section.",
+        "whatToNotice": [
+          "The same short time slice stretches farther in the faster section."
+        ],
+        "whyItMatters": "It gives a concrete volume-flow-rate picture.",
+        "relatedControls": [
+          "flowRate",
+          "middleArea"
+        ],
+        "defaultOn": false
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "speed-entry-area",
+      "label": "Section speed vs entry area",
+      "xLabel": "Entry area A_A (m^2)",
+      "yLabel": "Speed (m/s)",
+      "series": [
+        "entry-speed",
+        "middle-speed"
+      ],
+      "description": "Change section A while keeping section B and the flow rate fixed."
+    },
+    {
+      "id": "speed-middle-area",
+      "label": "Section speed vs middle area",
+      "xLabel": "Middle area A_B (m^2)",
+      "yLabel": "Speed (m/s)",
+      "series": [
+        "entry-speed",
+        "middle-speed"
+      ],
+      "description": "Change section B while keeping section A and the flow rate fixed."
+    },
+    {
+      "id": "speed-flow-rate",
+      "label": "Section speed vs flow rate",
+      "xLabel": "Flow rate Q (m^3/s)",
+      "yLabel": "Speed (m/s)",
+      "series": [
+        "entry-speed",
+        "middle-speed"
+      ],
+      "description": "Raise or lower $Q$ while keeping the pipe geometry fixed."
+    },
+    {
+      "id": "flow-balance",
+      "label": "Volume flow rate by section",
+      "xLabel": "Middle area A_B (m^2)",
+      "yLabel": "Flow rate Q (m^3/s)",
+      "series": [
+        "entry-flow",
+        "middle-flow"
+      ],
+      "description": "The two lines stay matched because both sections carry the same steady incompressible flow rate."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Keep one flow question in view at a time so the pipe shape, speeds, and flow-rate readout stay tied together.",
+    "items": [
+      {
+        "id": "narrower-middle-faster",
+        "text": "Pull section B smaller. The flow-rate labels stay matched, but the middle speed arrow gets longer because $v = Q/A$ grows there.",
+        "type": "observation",
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "middleArea",
+              "max": 0.14
+            }
+          ]
+        },
+        "relatedControls": [
+          "middleArea"
+        ],
+        "relatedGraphTabs": [
+          "speed-middle-area"
+        ],
+        "relatedOverlays": [
+          "speedArrows",
+          "flowRateEquality"
+        ],
+        "relatedEquationVariables": [
+          "middleArea"
+        ]
+      },
+      {
+        "id": "wider-middle-slower",
+        "text": "Push section B wider than section A. The middle speed drops even though the same $Q$ still passes through both sections.",
+        "type": "compare",
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "middleArea",
+              "min": 0.26
+            }
+          ]
+        },
+        "relatedControls": [
+          "middleArea"
+        ],
+        "relatedGraphTabs": [
+          "speed-middle-area"
+        ],
+        "relatedOverlays": [
+          "areaMarkers",
+          "speedArrows"
+        ],
+        "relatedEquationVariables": [
+          "middleArea"
+        ]
+      },
+      {
+        "id": "flat-flow-balance",
+        "text": "Open the flow-balance graph. A flat line here is not saying nothing matters. It is saying the same volume flow rate survives the area change while the speeds do the adjusting elsewhere.",
+        "type": "graph-reading",
+        "conditions": {
+          "graphTabs": [
+            "flow-balance"
+          ]
+        },
+        "relatedControls": [
+          "flowRate",
+          "middleArea"
+        ],
+        "relatedGraphTabs": [
+          "flow-balance"
+        ],
+        "relatedOverlays": [
+          "flowRateEquality"
+        ],
+        "relatedEquationVariables": [
+          "flowRate",
+          "middleArea"
+        ]
+      },
+      {
+        "id": "bernoulli-bridge",
+        "text": "Use compare mode to keep the same $Q$ but give section B a much smaller area in one setup. Continuity is the piece that tells Bernoulli where the larger speed will live.",
+        "type": "try-this",
+        "tryThis": "Start from Baseline stream, open compare mode, leave Setup A alone, and change section B until the speed contrast feels obvious while the flow-rate labels stay matched.",
+        "relatedControls": [
+          "middleArea",
+          "flowRate"
+        ],
+        "relatedGraphTabs": [
+          "speed-middle-area",
+          "flow-balance"
+        ],
+        "relatedOverlays": [
+          "speedArrows",
+          "flowRateEquality"
+        ],
+        "relatedEquationVariables": [
+          "middleArea",
+          "flowRate"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the speed change before you test it. The point is to separate the conserved flow rate from the speed adjustment.",
+    "items": [
+      {
+        "id": "ce-predict-smaller-b",
+        "prompt": "Starting from Baseline stream, you make section B smaller while keeping section A and the same $Q$. What should happen?",
+        "scenarioLabel": "Smaller section B",
+        "changeLabel": "Middle area",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The middle speed rises while the flow rate through both sections stays the same."
+          },
+          {
+            "id": "b",
+            "label": "The flow rate rises because the fluid is squeezed through the narrow section."
+          },
+          {
+            "id": "c",
+            "label": "Both speeds stay the same because the same fluid is moving."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Continuity keeps $Q$ matched across the pipe. When area gets smaller, the local speed has to rise.",
+        "observationHint": "The middle pipe height shrinks, the section B speed arrow grows, and the flow-balance graph still keeps the two $Q$ lines matched.",
+        "apply": {
+          "presetId": "tight-throat"
+        },
+        "highlightedControls": [
+          "middleArea"
+        ],
+        "highlightedGraphs": [
+          "speed-middle-area",
+          "flow-balance"
+        ],
+        "highlightedOverlays": [
+          "speedArrows",
+          "flowRateEquality"
+        ]
+      },
+      {
+        "id": "ce-predict-higher-q",
+        "prompt": "Starting from Baseline stream, you raise the volume flow rate $Q$ while keeping both areas fixed. What changes next?",
+        "scenarioLabel": "Higher flow rate",
+        "changeLabel": "Flow rate",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Both section speeds rise, while the faster section stays the one with the smaller area."
+          },
+          {
+            "id": "b",
+            "label": "Only section B changes because it is the narrow section."
+          },
+          {
+            "id": "c",
+            "label": "The speed ratio changes even though the areas are fixed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "With both areas fixed, speed in each section is proportional to $Q$. The area ratio is unchanged, so the same section remains the faster one.",
+        "observationHint": "Both speed arrows grow together and the speed-flow-rate graph lifts both lines.",
+        "apply": {
+          "presetId": "high-flow"
+        },
+        "highlightedControls": [
+          "flowRate"
+        ],
+        "highlightedGraphs": [
+          "speed-flow-rate"
+        ],
+        "highlightedOverlays": [
+          "speedArrows",
+          "flowRateEquality"
+        ]
+      },
+      {
+        "id": "ce-predict-wider-a",
+        "prompt": "Starting from Baseline stream, you make section A wider while keeping section B and $Q$ fixed. What happens?",
+        "scenarioLabel": "Wider section A",
+        "changeLabel": "Entry area",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The entry speed falls, but the middle speed stays the same because section B did not change."
+          },
+          {
+            "id": "b",
+            "label": "The middle speed rises because section A got wider."
+          },
+          {
+            "id": "c",
+            "label": "The flow rate must double because the entry area is larger."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Section A follows $v_A = Q/A_A$, so a larger entry area lowers the entry speed. Section B still has the same area.",
+        "observationHint": "The section A arrow shortens while section B stays nearly unchanged.",
+        "apply": {
+          "presetId": "wide-entry"
+        },
+        "highlightedControls": [
+          "entryArea"
+        ],
+        "highlightedGraphs": [
+          "speed-entry-area"
+        ],
+        "highlightedOverlays": [
+          "areaMarkers",
+          "speedArrows"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the same pipe for direct continuity targets and compare matches. The checks read the live areas, speeds, and flow rate.",
+    "items": [
+      {
+        "id": "ce-ch-double-middle-speed",
+        "title": "Make section B twice as fast",
+        "style": "parameter-match",
+        "prompt": "Start from Uniform pipe and adjust only section B until the middle speed is about twice the section A speed while the same baseline flow rate is kept.",
+        "successMessage": "You hit the continuity target. The areas changed, the speed ratio changed, and the flow rate stayed the same.",
+        "setup": {
+          "presetId": "uniform-pipe",
+          "graphId": "speed-middle-area",
+          "overlayIds": [
+            "areaMarkers",
+            "flowRateEquality"
+          ],
+          "note": "Keep the flow rate and section A near baseline while you tune only section B."
+        },
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Open the section-speed vs middle-area graph.",
+            "graphId": "speed-middle-area"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the flow-rate equality overlay visible.",
+            "overlayId": "flowRateEquality"
+          },
+          {
+            "type": "param-range",
+            "label": "Keep the baseline flow rate.",
+            "param": "flowRate",
+            "min": 0.175,
+            "max": 0.185,
+            "displayUnit": "m^3/s"
+          },
+          {
+            "type": "param-range",
+            "label": "Keep section A near the baseline area.",
+            "param": "entryArea",
+            "min": 0.235,
+            "max": 0.245,
+            "displayUnit": "m^2"
+          },
+          {
+            "type": "param-range",
+            "label": "Tune section B to about half that area.",
+            "param": "middleArea",
+            "min": 0.118,
+            "max": 0.122,
+            "displayUnit": "m^2"
+          },
+          {
+            "type": "metric-range",
+            "label": "Make section B about twice as fast.",
+            "metric": "speedRatio",
+            "min": 1.98,
+            "max": 2.02
+          }
+        ]
+      },
+      {
+        "id": "ce-ch-same-flow-wider-b",
+        "title": "Same flow, slower wide section",
+        "style": "parameter-match",
+        "prompt": "Start from Baseline stream, switch to compare mode, leave Setup A alone, and tune Setup B until it keeps the same flow rate but slows section B down by widening that middle section.",
+        "successMessage": "You built the same-flow contrast. Setup A and Setup B carry the same $Q$, but the wider middle section in Setup B runs slower.",
+        "setup": {
+          "presetId": "baseline-stream",
+          "graphId": "flow-balance",
+          "overlayIds": [
+            "flowRateEquality",
+            "speedArrows"
+          ],
+          "interactionMode": "compare",
+          "note": "Setup A stays as the baseline narrow middle section. Edit only Setup B."
+        },
+        "checks": [
+          {
+            "type": "compare-active",
+            "label": "Stay in compare mode while editing Setup B.",
+            "target": "b"
+          },
+          {
+            "type": "graph-active",
+            "label": "Open the flow-balance graph.",
+            "graphId": "flow-balance"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the flow-rate equality overlay visible.",
+            "overlayId": "flowRateEquality"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup B at the same flow rate.",
+            "setup": "b",
+            "param": "flowRate",
+            "min": 0.175,
+            "max": 0.185,
+            "displayUnit": "m^3/s"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup B near the same section A area.",
+            "setup": "b",
+            "param": "entryArea",
+            "min": 0.235,
+            "max": 0.245,
+            "displayUnit": "m^2"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Widen Setup B's middle section.",
+            "setup": "b",
+            "param": "middleArea",
+            "min": 0.29,
+            "max": 0.31,
+            "displayUnit": "m^2"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Make Setup B's middle speed lower than section A's.",
+            "setup": "b",
+            "metric": "speedRatio",
+            "min": 0.78,
+            "max": 0.82
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Keep Setup B carrying the same flow rate.",
+            "setup": "b",
+            "metric": "middleVolumeFlow",
+            "min": 0.175,
+            "max": 0.185,
+            "displayUnit": "m^3/s"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the pipe, not from a slogan.",
+    "questions": [
+      {
+        "id": "ce-qt-half-area",
+        "type": "variable-effect",
+        "prompt": "At the same volume flow rate, what happens to the speed in section B if section B's area is cut in half?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It doubles."
+          },
+          {
+            "id": "b",
+            "label": "It stays the same because the same fluid is moving."
+          },
+          {
+            "id": "c",
+            "label": "It halves because the section is smaller."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Continuity says $v = Q/A$ when the same $Q$ is kept. Halving the area doubles the speed.",
+        "showMeAction": {
+          "label": "Show the tight throat",
+          "presetId": "tight-throat",
+          "observationHint": "The middle section shrinks and the section B speed arrow grows.",
+          "highlightedControlIds": [
+            "middleArea"
+          ],
+          "highlightedGraphIds": [
+            "speed-middle-area"
+          ],
+          "highlightedOverlayIds": [
+            "speedArrows"
+          ]
+        }
+      },
+      {
+        "id": "ce-qt-flow-balance",
+        "type": "reasoning",
+        "prompt": "What does the flat flow-balance graph mean on this page?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Section A and section B keep carrying the same flow rate even while the speeds change."
+          },
+          {
+            "id": "b",
+            "label": "Speed is the same everywhere in the pipe."
+          },
+          {
+            "id": "c",
+            "label": "Area no longer matters once the fluid starts moving."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Continuity keeps $Q$ matched across the pipe. The speed and area can change, but the flow rate stays the same.",
+        "showMeAction": {
+          "label": "Open the flow-balance graph",
+          "presetId": "baseline-stream",
+          "observationHint": "The two $Q$ lines stay matched while the speed arrows still show different section speeds.",
+          "highlightedGraphIds": [
+            "flow-balance"
+          ],
+          "highlightedOverlayIds": [
+            "flowRateEquality"
+          ]
+        }
+      },
+      {
+        "id": "ce-qt-bernoulli-bridge",
+        "type": "graph-reading",
+        "prompt": "Which idea from this page is the direct speed-bookkeeping piece that Bernoulli later builds on?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "That changing area changes speed while the same flow rate is conserved."
+          },
+          {
+            "id": "b",
+            "label": "That each section gets a different flow rate when the area changes."
+          },
+          {
+            "id": "c",
+            "label": "That speed can change without any relation to area."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Bernoulli needs the continuity result first: if the area changes, the speed changes in a specific way while the same steady flow rate is conserved.",
+        "showMeAction": {
+          "label": "Compare narrow and wide setups",
+          "presetId": "baseline-stream",
+          "observationHint": "Use compare mode next and keep the same $Q$ while changing section B.",
+          "highlightedControlIds": [
+            "middleArea"
+          ],
+          "highlightedGraphIds": [
+            "speed-middle-area",
+            "flow-balance"
+          ],
+          "highlightedOverlayIds": [
+            "speedArrows",
+            "flowRateEquality"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one steady stream tube with a labeled section A at the entry and a labeled section B in the middle. The pipe height represents cross-sectional area, the animated tracer dots show the flow moving through the pipe, and the section speed arrows show which region is faster or slower.",
+        "The readout card reports the volume flow rate, both section areas, both section speeds, and the speed ratio. Compare mode ghosts one alternate pipe shape so two different continuity states can be read on the same bench.",
+        "The same-time slice overlay marks how much pipe length a short equal-time fluid slice occupies in each section. It is a visual cue for the same conserved flow rate."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The section-speed graphs isolate how entry area, middle area, or flow rate changes the two section speeds.",
+        "The flow-balance graph keeps the two section flow-rate lines matched so continuity stays explicit while the speed adjustments happen elsewhere."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Continuity Equation | Open Model Lab",
+    "description": "Learn the continuity equation with a compact moving-fluid simulation that connects flow rate, cross-sectional area, and speed through a narrowing or widening pipe.",
+    "keywords": [
+      "continuity equation",
+      "volume flow rate area speed",
+      "steady incompressible flow",
+      "narrow pipe faster fluid",
+      "open model lab continuity equation"
+    ]
+  },
+  "v2": {
+    "intuition": "Picture one steady stream tube as a promise: the same amount of fluid must pass every cross section each second, so area and speed trade off.",
+    "whyItMatters": "This keeps “narrower means faster” from being a slogan. You can point to the conserved flow rate, calculate the speed change, and carry that speed into Bernoulli next.",
+    "estimatedMinutes": 17,
+    "equationSnapshot": {
+      "equationIds": [
+        "continuity-equation",
+        "speed-from-flow",
+        "speed-ratio"
+      ],
+      "note": "Start with the shared flow rate Q, then use v = Q/A to see why the smaller cross section gets the larger speed."
+    },
+    "startSetup": {
+      "presetId": "baseline-stream",
+      "graphId": "speed-middle-area",
+      "overlayIds": [
+        "areaMarkers",
+        "speedArrows",
+        "flowRateEquality"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-flow-rate",
+        "title": "Read one flow rate",
+        "goal": "Treat sections A and B as two windows into the same steady stream, not as two separate flows.",
+        "doThis": "Load Baseline stream and keep the area markers, speed arrows, and flow-rate equality overlay visible.",
+        "notice": "The pipe is narrower at section B, so the B speed arrow is longer, but the Q labels still match at both sections.",
+        "explain": "Continuity starts with conservation: if fluid is not piling up between A and B, the same volume per second must cross both sections.",
+        "reveal": {
+          "controlIds": [
+            "flowRate",
+            "entryArea",
+            "middleArea"
+          ],
+          "graphIds": [
+            "speed-middle-area"
+          ],
+          "overlayIds": [
+            "areaMarkers",
+            "speedArrows",
+            "flowRateEquality"
+          ]
+        },
+        "setup": {
+          "presetId": "baseline-stream",
+          "graphId": "speed-middle-area",
+          "overlayIds": [
+            "areaMarkers",
+            "speedArrows",
+            "flowRateEquality"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "ce-qt-flow-balance"
+          ]
+        }
+      },
+      {
+        "id": "shrink-area-speed-up",
+        "title": "Shrink area, speed up",
+        "goal": "Use v = Q/A to predict what happens when only section B gets smaller.",
+        "doThis": "Drag Section B area smaller or load Tight throat, then compare the speed arrow with the Section speed vs middle area graph.",
+        "notice": "The middle speed rises as A_B falls, while the flow-balance graph can still show the same Q through both sections.",
+        "explain": "At fixed Q, a smaller cross-sectional area needs a larger speed so the same volume still clears the section each second.",
+        "reveal": {
+          "controlIds": [
+            "middleArea"
+          ],
+          "graphIds": [
+            "speed-middle-area",
+            "flow-balance"
+          ],
+          "overlayIds": [
+            "areaMarkers",
+            "speedArrows",
+            "flowRateEquality"
+          ]
+        },
+        "setup": {
+          "presetId": "tight-throat",
+          "graphId": "speed-middle-area",
+          "overlayIds": [
+            "areaMarkers",
+            "speedArrows",
+            "flowRateEquality"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "ce-predict-smaller-b"
+          ],
+          "questionIds": [
+            "ce-qt-half-area"
+          ]
+        }
+      },
+      {
+        "id": "trace-equal-time-slices",
+        "title": "Trace equal-time slices",
+        "goal": "Turn the equation into a concrete same-time picture of distance, area, and volume.",
+        "doThis": "Turn on Same-time slices and compare Baseline stream with Wide chamber.",
+        "notice": "The faster section covers more length in the same short time, but area times length still represents the same volume per second.",
+        "explain": "A narrow fast slice and a wide slow slice can carry equal volume because the speed change compensates for the area change.",
+        "reveal": {
+          "controlIds": [
+            "middleArea",
+            "flowRate"
+          ],
+          "graphIds": [
+            "speed-middle-area",
+            "flow-balance"
+          ],
+          "overlayIds": [
+            "flowSlices",
+            "flowRateEquality",
+            "speedArrows"
+          ]
+        },
+        "setup": {
+          "presetId": "wide-chamber",
+          "graphId": "flow-balance",
+          "overlayIds": [
+            "flowSlices",
+            "flowRateEquality",
+            "speedArrows"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "ce-predict-higher-q"
+          ]
+        }
+      },
+      {
+        "id": "connect-the-bernoulli-bridge",
+        "title": "Bridge to Bernoulli",
+        "goal": "Use compare mode to separate the continuity speed story from the pressure story that comes next.",
+        "doThis": "Open compare mode, leave Setup A as Baseline stream, and widen section B in Setup B while keeping the same Q.",
+        "notice": "Setup B keeps the same flow rate but its wider middle section runs slower, giving Bernoulli a different speed state to explain later.",
+        "explain": "Continuity does one job: it tells you where the speed changes when area changes. Bernoulli can then ask how pressure responds to that speed change.",
+        "reveal": {
+          "controlIds": [
+            "middleArea",
+            "flowRate"
+          ],
+          "graphIds": [
+            "speed-middle-area",
+            "flow-balance"
+          ],
+          "overlayIds": [
+            "speedArrows",
+            "flowRateEquality",
+            "areaMarkers"
+          ]
+        },
+        "setup": {
+          "presetId": "baseline-stream",
+          "graphId": "flow-balance",
+          "overlayIds": [
+            "speedArrows",
+            "flowRateEquality",
+            "areaMarkers"
+          ],
+          "interactionMode": "compare"
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "ce-qt-bernoulli-bridge"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "The same steady incompressible stream carries one shared volume flow rate through sections A and B.",
+        "At fixed Q, shrinking a cross-sectional area raises the local speed, while widening it lowers the local speed.",
+        "Same-time slices make the compensation visible: longer fast slices and shorter slow slices can represent the same volume per second.",
+        "Continuity supplies the speed-area link that Bernoulli uses when pressure joins the story."
+      ],
+      "misconception": "A narrow section carries more volume per second just because the fluid moves faster there.",
+      "freePlayPrompt": "Pick one graph, change only one control, and say which quantity stayed conserved before you read the answer from the bench.",
+      "nextConcepts": [
+        {
+          "slug": "bernoullis-principle",
+          "reasonLabel": "Add pressure to the speed change"
+        },
+        {
+          "slug": "pressure-and-hydrostatic-pressure",
+          "reasonLabel": "Review static pressure first"
+        },
+        {
+          "slug": "buoyancy-and-archimedes-principle",
+          "reasonLabel": "Use pressure differences in fluids"
+        }
+      ]
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "quickTest",
+      "accessibility"
+    ]
+  }
+}

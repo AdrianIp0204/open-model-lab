@@ -1,0 +1,250 @@
+{
+"pageFramework": {
+"featuredSetups": [
+{
+"id": "acidic-mix",
+"description": "Start from a clearly acidic case and watch the pH marker sit below neutral while the acid-base bars show the acid side as stronger."
+},
+{
+"id": "near-neutral",
+"description": "Start near neutral and compare how similar the acid-base bars look when the pH marker stays close to the middle."
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Treat pH as a live reading of the mixture, not a detached fact to memorize. On this bench, the pH strip, acid-base bars, and sliders stay visible together so you can connect each change to the state of the mixture.",
+"When the mixture becomes more acidic, the pH marker moves lower; when it becomes more basic, it moves higher. Adding water does not create more acid or base, but it spreads the same mixture through more liquid, so the pH can shift back toward the middle."
+]
+},
+"keyIdeas": [
+"pH tells you whether the mixture is currently more acidic or more basic and how far it is from neutral.",
+"Increasing acid amount and increasing base amount push the pH marker in opposite directions.",
+"Increasing water volume dilutes both sides, so the same mixture can become less extreme."
+],
+"commonMisconception": {
+"myth": "pH is just a number or color label to memorize, so the bars and particle view are only decoration.",
+"correction": [
+"The pH reading summarizes the current balance between acid and base influence in the mixture.",
+"The bars and motion cues help you see why the pH shifts instead of treating it like an isolated fact."
+]
+},
+"workedExamples": {
+"title": "Worked example: read one mixture",
+"intro": "Use the live bench to read the mixture step by step instead of treating pH as a standalone number.",
+"items": [
+{
+"id": "read-the-current-ph-balance",
+"title": "Read the mixture before judging the pH",
+"prompt": "For the current mixture, what does the pH tell you about which side is stronger?",
+"steps": [
+{
+"id": "read-mixture",
+"label": "1. Read the starting amounts"
+},
+{
+"id": "read-character",
+"label": "2. Compare the acid and base influence"
+},
+{
+"id": "read-ph",
+"label": "3. Use the pH strip to summarize the balance"
+}
+],
+"resultLabel": "pH summary",
+"applyAction": {
+"label": "Apply the near-neutral preset",
+"observationHint": "The pH marker should stay near the middle while the two acid-base bars remain similar in size."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Bring the mixture closer to neutral without simply dragging the stronger side all the way down.",
+"prediction": "Before you move a slider, decide whether adding the opposite character or adding water will move the pH more effectively for this mixture.",
+"answer": "Adding the opposite character rebalances the mixture, while adding water dilutes both sides and can soften the shift away from neutral.",
+"explanation": "One method changes the balance directly. The other keeps the same ingredients but spreads them through more liquid."
+}
+},
+"equations": [
+{
+"id": "ph-balance",
+"label": "How pH follows the balance",
+"meaning": "Read it as a rule for the bench: more acid influence pushes pH lower, and more base influence pushes pH higher."
+},
+{
+"id": "water-softening",
+"label": "How water softens the mixture",
+"meaning": "Dilution makes the same acid-base amounts less extreme, so the pH can move back toward the middle."
+}
+],
+"variableLinks": [
+{
+"id": "acid-amount",
+"description": "Increasing this strengthens the acid side of the mixture and usually pulls the pH lower."
+},
+{
+"id": "base-amount",
+"description": "Increasing this strengthens the base side of the mixture and usually pushes the pH higher."
+},
+{
+"id": "water-volume",
+"description": "Increasing this dilutes both sides, so the mixture can become less extreme."
+}
+],
+"simulation": {
+"presets": [
+{
+"id": "acidic-mix",
+"description": "A clearly acidic mixture with the pH marker below neutral."
+},
+{
+"id": "near-neutral",
+"description": "A mixture where acid and base influence are close, so the pH stays near the middle."
+},
+{
+"id": "basic-mix",
+"description": "A clearly basic mixture with the pH marker above neutral."
+}
+],
+"overlays": [
+{
+"id": "characterMix",
+"label": "Acid-base bars",
+"shortDescription": "Show the acid and base bars beside the pH strip.",
+"whatToNotice": [
+"When the acid bar is larger, the pH marker should sit lower; when the base bar is larger, it should sit higher.",
+"Adding water can reduce the size of the mismatch without changing which side is larger."
+],
+"whyItMatters": "It turns the pH reading into a visible balance instead of a number to memorize."
+},
+{
+"id": "phScale",
+"shortDescription": "Keep the current pH marker visible as you change the mixture.",
+"whatToNotice": [
+"The marker moves continuously as the mixture changes, so pH responds to balance rather than jumping between named categories."
+],
+"whyItMatters": "It helps you read pH as a live measure of how acidic or basic the mixture currently is."
+},
+{
+"id": "particleMotion",
+"shortDescription": "Keep the liquid animated so the mixture feels like a real moving system.",
+"whatToNotice": [
+"The particles can keep moving even when the pH reading has settled to a steady value."
+],
+"whyItMatters": "It reminds you that pH describes the state of a mixture, not a frozen label."
+}
+]
+},
+"noticePrompts": {
+"title": "What to notice as you change the mixture",
+"intro": "Keep the pH strip and acid-base bars visible, then change one control at a time.",
+"items": [
+{
+"id": "abph-notice-acid",
+"text": "Increase acid amount while base amount and water volume stay fixed. The acid bar should grow and the pH marker should move below neutral together."
+},
+{
+"id": "abph-notice-water",
+"text": "Increase water volume without changing acid or base amount. The mixture can move toward the middle because the same acid-base amounts are spread through more liquid."
+}
+]
+},
+"predictionMode": {
+"title": "Predict before you change it",
+"intro": "Make the prediction from the pH strip, the acid-base bars, and the graph before you apply the new case.",
+"items": [
+{
+"id": "abph-predict-more-base",
+"prompt": "If you add more base while keeping acid amount and water volume the same, how should the pH marker respond?",
+"scenarioLabel": "Increase base amount",
+"choices": [
+{
+"id": "a",
+"label": "The pH should move upward because base influence becomes stronger than before."
+},
+{
+"id": "b",
+"label": "The pH should move downward even though base was added."
+},
+{
+"id": "c",
+"label": "The pH should stay in the same place."
+}
+],
+"explanation": "Adding base strengthens the basic side of the mixture, so the pH shifts upward toward the basic region.",
+"observationHint": "Watch the pH strip, the base bar, and the pH vs base amount graph together."
+}
+]
+},
+"quickTest": {
+"title": "Quick check",
+"intro": "Answer from what the pH strip and acid-base bars are showing right now.",
+"questions": [
+{
+"id": "abph-qt-ph-meaning",
+"prompt": "On this bench, what does the current pH most directly tell you?",
+"choices": [
+{
+"id": "a",
+"label": "Which side of the mixture currently has the stronger acid-base influence."
+},
+{
+"id": "b",
+"label": "Only the color of the pH strip."
+},
+{
+"id": "c",
+"label": "The total amount of liquid alone."
+}
+],
+"explanation": "The pH reading summarizes the current balance: lower means the acid side is stronger, and higher means the base side is stronger."
+},
+{
+"id": "abph-qt-water",
+"prompt": "What is the most direct effect of adding more water while acid amount and base amount stay the same?",
+"choices": [
+{
+"id": "a",
+"label": "It dilutes both sides and can pull the pH toward neutral."
+},
+{
+"id": "b",
+"label": "It always makes the mixture more acidic."
+},
+{
+"id": "c",
+"label": "It always makes the mixture more basic."
+}
+],
+"explanation": "The same acid and base are spread through more liquid, so the mixture becomes less extreme."
+}
+]
+},
+"challengeMode": {
+"intro": "Use the pH strip and acid-base bars to guide your choices instead of chasing the number alone.",
+"items": [
+{
+"id": "abph-ch-land-near-neutral",
+"title": "Bring the mixture near neutral",
+"prompt": "Adjust the mixture until the pH sits near neutral and the acid and base bars stay close together.",
+"successMessage": "You brought the mixture into the near-neutral region while keeping acid and base influence closely balanced."
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows one container of solution, a pH strip, bars for acid and base influence, and sliders for acid amount, base amount, and water volume.",
+"Changing a slider updates the current pH and the visible balance of the mixture."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"One graph shows pH against acid amount, and the other shows pH against base amount.",
+"Use them to compare how each control pushes the mixture away from or toward neutral."
+]
+}
+}
+}

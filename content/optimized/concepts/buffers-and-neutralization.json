@@ -1,0 +1,269 @@
+{
+"pageFramework": {
+"featuredSetups": [
+{
+"id": "buffered-acid-pulse",
+"description": "Open the same acid push with buffer reserve available, and watch the reserve bar fall before the pH strip moves much."
+},
+{
+"id": "neutralized-with-reserve",
+"description": "Open a near-neutral mixture and notice that pH can stay near the middle while buffering room is still left."
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Start with this idea: a buffer does not stop acid-base chemistry. It resists a large pH change by using up reserve, so a stable pH can still hide active chemistry. Keeping the pH strip, reserve bar, and mixture cues visible together lets you see that hidden work.",
+"This bench helps you separate three different effects. Neutralization directly cancels acid with base. Dilution adds water and softens the same mixture without cancelling it. Buffering absorbs some leftover push, so the pH changes less until the reserve begins to run out."
+]
+},
+"keyIdeas": [
+"Neutralization cancels acid with base, dilution spreads the same imbalance through more water, and buffering spends reserve to resist a large pH change.",
+"A buffer keeps pH steadier by spending reserve, not by freezing the chemistry.",
+"Once the buffer reserve is mostly used up, the same added acid or base causes a much larger pH shift."
+],
+"commonMisconception": {
+"myth": "If the pH barely changes, the mixture must have stayed almost unchanged.",
+"correction": [
+"A buffer can keep the pH fairly steady while the mixture is still changing and using up reserve.",
+"The reserve bar matters because stable pH does not mean the chemistry has stopped changing."
+]
+},
+"workedExamples": {
+"title": "Worked example: read a buffered mixture",
+"intro": "Use the live bench to separate direct neutralization, remaining imbalance, and buffer reserve.",
+"items": [
+{
+"id": "read-buffer-response",
+"title": "Read how the buffer is responding",
+"prompt": "For the current mixture, how much has been neutralized directly, and how much reserve is still protecting the pH?",
+"steps": [
+{
+"id": "read-mixture",
+"label": "1. Read the starting amounts"
+},
+{
+"id": "read-neutralization",
+"label": "2. Separate direct neutralization from leftover imbalance"
+},
+{
+"id": "read-reserve",
+"label": "3. Read the reserve and pH together"
+}
+],
+"resultLabel": "Buffered mixture summary",
+"applyAction": {
+"label": "Apply the buffered acid pulse",
+"observationHint": "Compare the falling reserve bar with the smaller pH change. The buffer is working even though the pH looks almost steady."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Keep the pH close to neutral after an acid push while showing that reserve is being spent, not that the mixture stayed unchanged.",
+"prediction": "Before moving a control, decide whether buffer, added base, or added water best matches the goal.",
+"answer": "Use a buffer when you want pH to stay near neutral while the reserve bar shows the buffer doing work.",
+"explanation": "Added base changes the chemistry by direct neutralization. Added water dilutes the same mixture. Buffering works by absorbing some leftover push until the reserve is used."
+}
+},
+"equations": [
+{
+"id": "neutralization-story",
+"label": "How much cancels directly",
+"meaning": "Acid and base can only neutralize each other pair by pair, so the smaller side limits how much is cancelled."
+},
+{
+"id": "buffer-story",
+"label": "How reserve delays a big pH shift",
+"meaning": "After direct neutralization, the buffer can absorb part of the leftover imbalance before the pH changes strongly."
+}
+],
+"variableLinks": [
+{
+"id": "acid-amount",
+"description": "Adds more acid push to the mixture. Some may be neutralized first, and any extra can start using buffer reserve."
+},
+{
+"id": "base-amount",
+"description": "Directly counteracts acid and, if there is excess base left, can push the mixture toward the basic side."
+},
+{
+"id": "buffer-amount",
+"description": "Sets how much leftover acid or base the buffer can absorb before the pH starts changing much faster."
+},
+{
+"id": "water-volume",
+"description": "Dilutes the same mixture through more water, softening the pH shift without directly neutralizing acid and base."
+}
+],
+"simulation": {
+"presets": [
+{
+"id": "unbuffered-acid-pulse",
+"description": "The same acid push with no buffer reserve, so the pH changes more sharply."
+},
+{
+"id": "buffered-acid-pulse",
+"description": "The same acid push with reserve available, so reserve falls before the pH shifts much."
+},
+{
+"id": "neutralized-with-reserve",
+"description": "A near-neutral mixture that still has buffer reserve available for later pushes."
+}
+],
+"overlays": [
+{
+"id": "characterMix",
+"label": "Acid-base bars",
+"shortDescription": "Show the current acid-side and base-side bars beside the pH strip.",
+"whatToNotice": [
+"The pH can stay near neutral even while the reserve bar shows that the buffer is absorbing a real push."
+],
+"whyItMatters": "It links the pH reading to what is happening in the mixture instead of treating pH as a detached number."
+},
+{
+"id": "phScale",
+"shortDescription": "Keep the live pH marker visible while reserve is being used.",
+"whatToNotice": [
+"A small pH change does not always mean a small chemical change. Check the reserve bar at the same time."
+],
+"whyItMatters": "It helps you read pH together with buffering rather than as a standalone label."
+},
+{
+"id": "bufferReserve",
+"shortDescription": "Show how much buffering capacity is still available.",
+"whatToNotice": [
+"The reserve can drop a lot before the pH moves much."
+],
+"whyItMatters": "It makes the hidden action of the buffer visible."
+},
+{
+"id": "particleMotion",
+"shortDescription": "Keep the mixture moving while the readouts update.",
+"whatToNotice": [
+"A nearly steady pH does not mean the mixture has stopped reacting or mixing."
+],
+"whyItMatters": "It keeps the bench feeling like a live chemical system rather than a frozen display."
+}
+]
+},
+"noticePrompts": {
+"title": "What to notice when reserve is working",
+"intro": "Keep the pH strip and reserve bar visible, then change one control at a time.",
+"items": [
+{
+"id": "bn-notice-reserve-before-ph",
+"text": "In a buffered case, the reserve bar often falls before the pH strip moves far.",
+"tryThis": "Start from the buffered acid pulse, increase acid amount a little, and watch reserve drop before the pH changes dramatically.",
+"whyItMatters": "This is the clearest sign that the buffer is absorbing change rather than freezing the mixture."
+},
+{
+"id": "bn-notice-dilution-vs-neutralization",
+"text": "Adding water can soften the pH shift, but it does not neutralize acid and base the way adding the opposite side does.",
+"tryThis": "Change water volume first, then add more base and compare which move actually changes the neutralized amount.",
+"whyItMatters": "It helps you separate dilution, neutralization, and buffering instead of treating them as the same idea."
+}
+]
+},
+"predictionMode": {
+"title": "Predict the first visible change",
+"intro": "Before you apply the change, decide whether reserve, pH, or both should respond first.",
+"items": [
+{
+"id": "bn-pred-buffered-pulse",
+"prompt": "Starting from the buffered acid pulse, what should you notice first if you add a little more acid while reserve is still available?",
+"scenarioLabel": "Small acid increase with reserve still available",
+"changeLabel": "Increase acid amount slightly",
+"choices": [
+{
+"id": "a",
+"label": "The reserve drops noticeably while the pH moves only a little."
+},
+{
+"id": "b",
+"label": "The pH swings strongly at once, but the reserve stays about the same."
+},
+{
+"id": "c",
+"label": "Nothing changes because the buffer stops the chemistry."
+}
+],
+"explanation": "As long as reserve remains, the buffer absorbs some of the added acid. Reserve therefore drops first, while pH changes less than it would in an unbuffered case.",
+"observationHint": "Watch the reserve bar, pH strip, and graphs together after the acid increase."
+}
+]
+},
+"quickTest": {
+"title": "Quick check",
+"intro": "Answer from the pH strip, reserve bar, and what each action means on the bench.",
+"questions": [
+{
+"id": "bn-qt-buffer-meaning",
+"prompt": "What does a nearly stable pH together with a shrinking reserve bar tell you?",
+"choices": [
+{
+"id": "a",
+"label": "The buffer is absorbing the push, so the chemistry is changing even though the pH is resisting a large shift."
+},
+{
+"id": "b",
+"label": "Nothing in the mixture is changing."
+},
+{
+"id": "c",
+"label": "The pH strip has stopped working correctly."
+}
+],
+"explanation": "The buffer is being used to absorb the added push, so the chemistry is changing even though the pH stays steadier."
+},
+{
+"id": "bn-qt-dilution-vs-neutralization",
+"prompt": "Which action is the clearest example of neutralization rather than dilution or display-only change?",
+"choices": [
+{
+"id": "a",
+"label": "Adding more of the opposite side so acid and base directly counteract each other."
+},
+{
+"id": "b",
+"label": "Adding more water while leaving the same acid-base amounts in place."
+},
+{
+"id": "c",
+"label": "Turning on the reserve overlay without changing the mixture."
+}
+],
+"explanation": "Neutralization happens when acid and base directly counteract each other. Adding water only dilutes, and turning on an overlay changes nothing in the mixture."
+}
+]
+},
+"challengeMode": {
+"intro": "Use the reserve bar honestly. Keep pH near neutral while leaving the acid push visible, without solving the problem by simply diluting everything.",
+"items": [
+{
+"id": "bn-ch-hold-near-neutral-under-acid-pulse",
+"title": "Hold pH near neutral during an acid pulse",
+"prompt": "Starting from the unbuffered acid pulse, add enough buffer reserve to bring pH near neutral while keeping the acid and base amounts in place and without relying on lots of extra water.",
+"successMessage": "You used buffer reserve to resist the acid pulse while keeping the same chemical push and visible reserve. The reserve bar shows the buffer is doing work, not making the mixture magically unchanged.",
+"setup": {
+"note": "Keep the acid pulse in place. Raise buffer reserve until pH is near neutral and some reserve remains; do not wash the mixture away with extra water."
+}
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows one solution container with acid-base character, a pH strip, a buffer reserve meter, and controls for acid amount, base amount, buffer reserve, and water volume.",
+"A readout reports the current acid amount, base amount, buffer reserve, neutralized amount, and pH so the learner can connect the moving scene to the numeric summary."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"One graph shows pH against added acid, and a second shows remaining buffer reserve against added acid.",
+"Reading both graphs together helps show when reserve is being used before pH begins to shift strongly."
+]
+}
+}
+}

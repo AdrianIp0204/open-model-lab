@@ -1,0 +1,1307 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live rolling checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "No-slip checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Carry rolling ideas forward"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Roll a sphere, cylinder, hoop, or custom mass distribution down one incline and see how rolling without slipping ties translation, rotation, and rotational inertia to the same honest run.",
+    "keyTakeaway": "Rolling without slipping means the center-of-mass speed and angular speed stay locked by $v_{\\mathrm{cm}} = r\\omega$."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Rolling without slipping ties translational motion and rotational motion to the same live state. The center of mass speeds up down the incline while the object also spins fast enough to keep the contact point from sliding.",
+        "This bench stays bounded on purpose. One rigid roller moves on one incline with a no-slip constraint, so the key comparison stays honest: the same gravity component acts down the slope, while shape and mass distribution decide how strongly that motion must also build rotation."
+      ]
+    },
+    "keyIdeas": [
+      "Rolling without slipping means the center-of-mass speed and angular speed stay locked by $v_{\\mathrm{cm}} = r\\omega$.",
+      "Different shapes roll differently because their rotational inertia changes how the same downhill pull is shared between translation and rotation. A convenient summary is $k = I/(mr^2)$.",
+      "For one incline angle, the center-of-mass acceleration becomes $a_{\\mathrm{cm}} = g\\sin\\theta/(1 + k)$. Smaller inertia factor means faster rolling.",
+      "Changing radius at the same shape barely changes the center-of-mass acceleration in this bounded model, but it does change the required angular speed because $\\omega = v/r$."
+    ],
+    "commonMisconception": {
+      "myth": "A heavier-looking or larger-looking rolling object must always win the race down the incline.",
+      "correction": [
+        "In this bounded no-slip model the key race variable is not the total mass. It is how the mass is distributed relative to the axis, summarized here by the inertia factor $k$.",
+        "Radius matters for angular speed and rotational bookkeeping, but for the same shape on the same incline it does not by itself change the center-of-mass acceleration formula."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Use the live incline, shape preset, and inspected time to solve the rolling state you are actually looking at.",
+      "items": [
+        {
+          "id": "current-rolling-acceleration",
+          "title": "Current rolling acceleration",
+          "prompt": "For the current setup, what acceleration should this {{shapeLabelValue}} have, and how long should it take to travel the full ${{trackLengthValue}}\\,\\mathrm{m}$ ramp?",
+          "variables": [
+            {
+              "id": "slopeAngle",
+              "variableId": "slopeAngle",
+              "symbol": "\\theta",
+              "label": "Slope angle",
+              "valueKey": "slopeAngleValue",
+              "unit": "deg"
+            },
+            {
+              "id": "inertiaFactor",
+              "variableId": "inertiaFactor",
+              "symbol": "k",
+              "label": "Inertia factor",
+              "valueKey": "inertiaFactorValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Start from the rolling-without-slipping acceleration rule",
+              "template": "For this bounded incline use $a_{\\mathrm{cm}} = \\dfrac{g\\sin\\theta}{1 + k}$, with $g = {{gravityValue}}\\,\\mathrm{m/s^2}$ and $k = {{inertiaFactorValue}}$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Insert the live slope and shape response",
+              "template": "With $\\theta = {{slopeAngleValue}}^\\circ$, the center-of-mass acceleration becomes $a_{\\mathrm{cm}} = {{accelerationValue}}\\,\\mathrm{m/s^2}$ for the current shape or custom mass distribution."
+            },
+            {
+              "id": "compute",
+              "label": "3. Turn acceleration into a ramp time",
+              "template": "The ramp length is $L = {{trackLengthValue}}\\,\\mathrm{m}$, so from rest use $L = \\tfrac{1}{2}at^2$. That gives a travel time of ${{travelTimeValue}}\\,\\mathrm{s}$."
+            }
+          ],
+          "resultLabel": "Current acceleration and ramp time",
+          "resultTemplate": "$a_{\\mathrm{cm}} = {{accelerationValue}}\\,\\mathrm{m/s^2}, \\quad t_{\\mathrm{bottom}} = {{travelTimeValue}}\\,\\mathrm{s}$",
+          "interpretationTemplate": "{{accelerationInterpretation}}",
+          "applyAction": {
+            "label": "Apply hoop contrast",
+            "presetId": "hoop-baseline",
+            "observationHint": "Keep the acceleration map and mass-layout overlay visible. The incline stays the same while the larger inertia factor slows the trip.",
+            "highlightedControlIds": [
+              "inertiaFactor"
+            ],
+            "highlightedGraphIds": [
+              "acceleration-map",
+              "distance"
+            ],
+            "highlightedOverlayIds": [
+              "massLayout"
+            ]
+          }
+        },
+        {
+          "id": "current-no-slip-state",
+          "title": "Current no-slip state",
+          "prompt": "At $t = {{timeValue}}\\,\\mathrm{s}$, what linked linear and angular speeds does the current roller have, and how is the kinetic energy split?",
+          "dependsOnTime": true,
+          "variables": [
+            {
+              "id": "time",
+              "symbol": "t",
+              "label": "Time",
+              "valueKey": "timeValue",
+              "unit": "s"
+            },
+            {
+              "id": "radius",
+              "variableId": "radius",
+              "symbol": "r",
+              "label": "Radius",
+              "valueKey": "radiusValue",
+              "unit": "m"
+            },
+            {
+              "id": "inertiaFactor",
+              "variableId": "inertiaFactor",
+              "symbol": "k",
+              "label": "Inertia factor",
+              "valueKey": "inertiaFactorValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Use the no-slip link",
+              "template": "Rolling without slipping keeps $v_{\\mathrm{cm}} = r\\omega$, so one live speed immediately fixes the other."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Read the current live state",
+              "template": "For the current radius $r = {{radiusValue}}\\,\\mathrm{m}$, the live speeds are $v_{\\mathrm{cm}} = {{linearSpeedValue}}\\,\\mathrm{m/s}$ and $\\omega = {{angularSpeedValue}}\\,\\mathrm{rad/s}$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Read the kinetic-energy split",
+              "template": "At the same instant the kinetic energy is ${{translationalEnergyValue}}\\,\\mathrm{J}$ translational plus ${{rotationalEnergyValue}}\\,\\mathrm{J}$ rotational, for a total of ${{totalKineticEnergyValue}}\\,\\mathrm{J}$."
+            }
+          ],
+          "resultLabel": "Current linked speeds and energy split",
+          "resultTemplate": "$v_{\\mathrm{cm}} = {{linearSpeedValue}}\\,\\mathrm{m/s}, \\quad \\omega = {{angularSpeedValue}}\\,\\mathrm{rad/s}, \\quad K = {{translationalEnergyValue}} + {{rotationalEnergyValue}}\\,\\mathrm{J}$",
+          "interpretationTemplate": "{{rollingStateInterpretation}}",
+          "applyAction": {
+            "label": "Apply small fast-spin sphere",
+            "presetId": "small-sphere-fast-spin",
+            "observationHint": "Watch the speed-link graph and the no-slip overlay together. The center speed stays on the same rolling story, but the smaller radius demands a larger angular speed.",
+            "highlightedControlIds": [
+              "radius"
+            ],
+            "highlightedGraphIds": [
+              "speed-link",
+              "energy-split"
+            ],
+            "highlightedOverlayIds": [
+              "noSlipLink",
+              "energySplit"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Can you make one roller reach the bottom sooner without touching the slope angle?",
+      "prediction": "Try keeping the incline fixed, then move from a rim-heavy shape toward a center-loaded shape and predict what happens before you touch the controls.",
+      "answer": "Yes. Lowering the inertia factor lets more of the same downhill pull accelerate the center of mass, so the travel time shrinks even though the no-slip link still has to be satisfied.",
+      "explanation": "Rolling races are really about how translation and rotation share the same gravity-driven budget. Smaller rotational inertia leaves less of that budget trapped in spin-up."
+    }
+  },
+  "equations": [
+    {
+      "id": "inertia-factor",
+      "latex": "I = kmr^2",
+      "label": "Shape through inertia factor",
+      "meaning": "The bounded bench summarizes each shape or custom mass distribution by one dimensionless factor $k = I/(mr^2)$."
+    },
+    {
+      "id": "rolling-acceleration",
+      "latex": "a_{\\mathrm{cm}} = \\dfrac{g\\sin\\theta}{1 + k}",
+      "label": "Rolling acceleration on the incline",
+      "meaning": "The same slope angle drives every setup, but a larger inertia factor leaves less of that downhill pull available for center-of-mass acceleration."
+    },
+    {
+      "id": "no-slip-link",
+      "latex": "v_{\\mathrm{cm}} = r\\omega, \\quad a_{\\mathrm{cm}} = r\\alpha",
+      "label": "Rolling without slipping",
+      "meaning": "Translation and rotation are locked together. The contact point does not slide, so the linear and angular kinematics must stay consistent."
+    },
+    {
+      "id": "rolling-energy",
+      "latex": "mgh = \\tfrac{1}{2}mv^2 + \\tfrac{1}{2}I\\omega^2",
+      "label": "Energy split in rolling",
+      "meaning": "The loss of gravitational potential energy becomes both translational and rotational kinetic energy."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "slopeAngle",
+      "symbol": "\\theta",
+      "label": "Slope angle",
+      "param": "slopeAngle",
+      "tone": "amber",
+      "description": "Steeper slope angle increases the downhill component of gravity for every shape on the same bench.",
+      "equationIds": [
+        "rolling-acceleration",
+        "rolling-energy"
+      ],
+      "graphIds": [
+        "distance",
+        "speed-link",
+        "acceleration-map"
+      ],
+      "overlayIds": [
+        "energySplit",
+        "frictionTorque"
+      ]
+    },
+    {
+      "id": "inertiaFactor",
+      "symbol": "k",
+      "label": "Inertia factor",
+      "param": "inertiaFactor",
+      "tone": "coral",
+      "description": "This summarizes how far the mass sits from the axis. Sphere, cylinder, hoop, and custom mass layouts differ mainly through this factor.",
+      "equationIds": [
+        "inertia-factor",
+        "rolling-acceleration",
+        "rolling-energy"
+      ],
+      "graphIds": [
+        "acceleration-map",
+        "energy-split",
+        "distance"
+      ],
+      "overlayIds": [
+        "massLayout",
+        "energySplit"
+      ]
+    },
+    {
+      "id": "radius",
+      "symbol": "r",
+      "label": "Radius",
+      "param": "radius",
+      "tone": "teal",
+      "description": "Radius sets the link between center-of-mass speed and angular speed. For the same shape and slope, it mostly changes how much spin rate is required, not the center-of-mass acceleration.",
+      "equationIds": [
+        "inertia-factor",
+        "no-slip-link"
+      ],
+      "graphIds": [
+        "speed-link"
+      ],
+      "overlayIds": [
+        "noSlipLink"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "slopeAngle": 12,
+      "radius": 0.22,
+      "inertiaFactor": 0.5
+    },
+    "ui": {
+      "initialGraphId": "distance",
+      "primaryGraphIds": [
+        "distance",
+        "acceleration-map"
+      ],
+      "primaryControlIds": [
+        "inertiaFactor"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "slopeAngle",
+        "kind": "slider",
+        "label": "Slope angle",
+        "param": "slopeAngle",
+        "min": 6,
+        "max": 24,
+        "step": 0.5,
+        "unit": "deg",
+        "description": "Change the downhill gravity component without changing the same no-slip rolling model."
+      },
+      {
+        "id": "radius",
+        "kind": "slider",
+        "label": "Radius",
+        "param": "radius",
+        "min": 0.16,
+        "max": 0.4,
+        "step": 0.01,
+        "unit": "m",
+        "description": "Change the roller size. In this bounded model it mostly changes the angular-speed requirement, not the center-of-mass acceleration for a fixed shape."
+      },
+      {
+        "id": "inertiaFactor",
+        "kind": "slider",
+        "label": "Mass distribution",
+        "param": "inertiaFactor",
+        "min": 0.4,
+        "max": 1,
+        "step": 0.01,
+        "description": "Slide from a center-loaded sphere-like response toward a rim-loaded hoop-like response, or land exactly on the named shape presets."
+      }
+    ],
+    "presets": [
+      {
+        "id": "solid-sphere-baseline",
+        "label": "Solid sphere",
+        "description": "Center-loaded enough to roll quickly while still splitting some energy into rotation.",
+        "values": {
+          "slopeAngle": 12,
+          "radius": 0.22,
+          "inertiaFactor": 0.4
+        }
+      },
+      {
+        "id": "solid-cylinder-baseline",
+        "label": "Solid cylinder",
+        "description": "The benchmark middle case for rolling without slipping on this incline.",
+        "values": {
+          "slopeAngle": 12,
+          "radius": 0.22,
+          "inertiaFactor": 0.5
+        }
+      },
+      {
+        "id": "hoop-baseline",
+        "label": "Hoop",
+        "description": "Rim-heavy mass distribution makes the center-of-mass acceleration noticeably smaller on the same incline.",
+        "values": {
+          "slopeAngle": 12,
+          "radius": 0.22,
+          "inertiaFactor": 1
+        }
+      },
+      {
+        "id": "steep-sphere",
+        "label": "Steeper sphere",
+        "description": "A steeper angle raises the shared downhill pull, but the same sphere inertia factor still sets the translation-rotation split.",
+        "values": {
+          "slopeAngle": 18,
+          "radius": 0.22,
+          "inertiaFactor": 0.4
+        }
+      },
+      {
+        "id": "small-sphere-fast-spin",
+        "label": "Small fast-spin sphere",
+        "description": "The center keeps rolling with the same sphere response, but the smaller radius demands a larger angular speed.",
+        "values": {
+          "slopeAngle": 12,
+          "radius": 0.16,
+          "inertiaFactor": 0.4
+        }
+      },
+      {
+        "id": "custom-rim-loaded",
+        "label": "Custom rim-loaded",
+        "description": "A custom distribution sits between the cylinder and hoop while staying on the same incline.",
+        "values": {
+          "slopeAngle": 12,
+          "radius": 0.28,
+          "inertiaFactor": 0.82
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "noSlipLink",
+        "label": "No-slip link",
+        "shortDescription": "Shows the live relation $v_{\\mathrm{cm}} = r\\omega$ right next to the rolling object.",
+        "whatToNotice": [
+          "The center speed and angular speed are not independent once the object rolls without slipping.",
+          "Smaller radius demands larger angular speed for the same center speed."
+        ],
+        "whyItMatters": "This keeps the translational and rotational views tied to the same honest state instead of treating spin as a decorative add-on.",
+        "relatedControls": [
+          "radius"
+        ],
+        "relatedGraphTabs": [
+          "speed-link"
+        ],
+        "relatedEquationVariables": [
+          "radius"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "massLayout",
+        "label": "Mass layout cue",
+        "shortDescription": "Highlights how sphere, cylinder, hoop, or custom mass distribution changes the inertia factor $k$.",
+        "whatToNotice": [
+          "The incline and total mass can stay fixed while only the distribution changes.",
+          "More rim-loaded layouts correspond to larger inertia factor and slower center-of-mass acceleration."
+        ],
+        "whyItMatters": "Shape matters in rolling because it changes rotational inertia, not because gravity acts differently on different shapes.",
+        "relatedControls": [
+          "inertiaFactor"
+        ],
+        "relatedGraphTabs": [
+          "acceleration-map",
+          "distance"
+        ],
+        "relatedEquationVariables": [
+          "inertiaFactor"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "energySplit",
+        "label": "Energy split bar",
+        "shortDescription": "Shows how the same potential-energy drop divides into translational and rotational kinetic energy.",
+        "whatToNotice": [
+          "All of the energy comes from the same drop in height.",
+          "Rim-heavy shapes keep a larger fraction of that energy in rotation."
+        ],
+        "whyItMatters": "This is the cleanest reason different shapes roll differently on the same incline even when the same no-slip rule holds.",
+        "relatedControls": [
+          "slopeAngle",
+          "inertiaFactor"
+        ],
+        "relatedGraphTabs": [
+          "energy-split"
+        ],
+        "relatedEquationVariables": [
+          "slopeAngle",
+          "inertiaFactor"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "frictionTorque",
+        "label": "Static-friction torque",
+        "shortDescription": "Adds the uphill static-friction arrow and the rolling torque cue at the contact point.",
+        "whatToNotice": [
+          "Static friction points uphill for objects accelerating down the ramp in this no-slip model.",
+          "That same friction force is what supplies the torque needed to build angular acceleration."
+        ],
+        "whyItMatters": "Learners often think friction must always slow motion. Here it enables honest rolling without slipping.",
+        "relatedControls": [
+          "slopeAngle",
+          "inertiaFactor"
+        ],
+        "relatedGraphTabs": [
+          "speed-link",
+          "energy-split"
+        ],
+        "relatedEquationVariables": [
+          "slopeAngle",
+          "inertiaFactor"
+        ],
+        "defaultOn": false
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "distance",
+      "label": "Distance down ramp vs time",
+      "xLabel": "time (s)",
+      "yLabel": "distance down ramp (m)",
+      "series": [
+        "distance"
+      ],
+      "description": "Distance curves upward because the center speeds up as the object rolls down the same incline."
+    },
+    {
+      "id": "speed-link",
+      "label": "No-slip speed link",
+      "xLabel": "time (s)",
+      "yLabel": "speed (m/s)",
+      "series": [
+        "linear-speed",
+        "rolling-link"
+      ],
+      "description": "The center-of-mass speed and $r\\omega$ lie on top of each other whenever the object rolls without slipping."
+    },
+    {
+      "id": "energy-split",
+      "label": "Kinetic-energy split",
+      "xLabel": "time (s)",
+      "yLabel": "energy (J)",
+      "series": [
+        "translational-energy",
+        "rotational-energy",
+        "total-kinetic-energy"
+      ],
+      "description": "As the object descends, the same potential-energy drop becomes both translational and rotational kinetic energy."
+    },
+    {
+      "id": "acceleration-map",
+      "label": "Acceleration vs inertia factor",
+      "xLabel": "inertia factor k",
+      "yLabel": "center acceleration (m/s^2)",
+      "series": [
+        "acceleration-response",
+        "current-acceleration"
+      ],
+      "description": "For the current slope angle, larger inertia factor means smaller center-of-mass acceleration."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Keep the bench honest: one incline, one no-slip rule, and one shape-dependent inertia factor.",
+    "items": [
+      {
+        "id": "rolling-motion-notice-shape-race",
+        "text": "Notice that the sphere, cylinder, and hoop feel the same downhill gravity component on the same ramp, yet the sphere still reaches the bottom first because its inertia factor is smaller.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Switch between the solid-sphere, solid-cylinder, and hoop presets without changing the slope angle.",
+        "whyItMatters": "This isolates rotational inertia as the reason different shapes roll differently.",
+        "relatedControls": [
+          "inertiaFactor"
+        ],
+        "relatedGraphTabs": [
+          "distance",
+          "acceleration-map"
+        ],
+        "relatedOverlays": [
+          "massLayout"
+        ],
+        "relatedEquationVariables": [
+          "inertiaFactor"
+        ]
+      },
+      {
+        "id": "rolling-motion-notice-no-slip",
+        "text": "Notice on the speed-link graph that the two curves sit exactly on top of each other. The center speed and the rotational speed are not separate stories here.",
+        "type": "graph-reading",
+        "priority": 2,
+        "tryThis": "Turn on the no-slip overlay, then shrink the radius and watch how the same center speed now demands a larger angular speed.",
+        "whyItMatters": "Rolling without slipping is the bridge that keeps the translational and rotational representations conceptually honest.",
+        "relatedControls": [
+          "radius"
+        ],
+        "relatedGraphTabs": [
+          "speed-link"
+        ],
+        "relatedOverlays": [
+          "noSlipLink"
+        ],
+        "relatedEquationVariables": [
+          "radius"
+        ]
+      },
+      {
+        "id": "rolling-motion-notice-energy-split",
+        "text": "Notice that the energy bar changes its split with shape even though the same drop in height supplies the whole budget for every setup.",
+        "type": "misconception",
+        "priority": 3,
+        "conditions": {
+          "graphTabs": [
+            "energy-split"
+          ]
+        },
+        "tryThis": "Compare the solid sphere and the hoop on the same slope. The total kinetic-energy line reaches the same gravitational budget, but the rotational share is larger for the hoop.",
+        "whyItMatters": "This explains the race outcome without pretending that one shape gets more gravity than another.",
+        "relatedControls": [
+          "inertiaFactor",
+          "slopeAngle"
+        ],
+        "relatedGraphTabs": [
+          "energy-split"
+        ],
+        "relatedOverlays": [
+          "energySplit"
+        ],
+        "relatedEquationVariables": [
+          "inertiaFactor",
+          "slopeAngle"
+        ]
+      },
+      {
+        "id": "rolling-motion-notice-compare",
+        "text": "Notice in compare mode that keeping the same slope and radius while only changing the inertia factor separates the rolling times immediately.",
+        "type": "compare",
+        "priority": 4,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Clone the solid-sphere preset into compare mode, then turn only Setup B into a hoop.",
+        "whyItMatters": "Compare mode makes the curricular point explicit: shape matters because it changes rotational inertia, not because the rest of the incline story changed.",
+        "relatedControls": [
+          "inertiaFactor"
+        ],
+        "relatedGraphTabs": [
+          "distance",
+          "acceleration-map"
+        ],
+        "relatedOverlays": [
+          "massLayout",
+          "energySplit"
+        ],
+        "relatedEquationVariables": [
+          "inertiaFactor"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the rolling response before you apply the change. Then compare the stage, readouts, and linked graphs against the same bounded model.",
+    "items": [
+      {
+        "id": "rolling-motion-predict-shape-race",
+        "prompt": "If you keep the same slope angle and radius but switch from a hoop to a solid sphere, what should happen first?",
+        "scenarioLabel": "Same ramp, smaller inertia factor",
+        "changeLabel": "Switch from hoop to sphere",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The center-of-mass acceleration should rise and the travel time should drop."
+          },
+          {
+            "id": "b",
+            "label": "Nothing important should change because the no-slip condition is still true."
+          },
+          {
+            "id": "c",
+            "label": "The sphere should roll more slowly because more of its motion is translational."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The no-slip rule still holds for both shapes, but the sphere has smaller inertia factor. That means less of the same downhill pull is diverted into spin, so the center speeds up more strongly.",
+        "observationHint": "Watch the acceleration map and the distance graph after the switch.",
+        "apply": {
+          "presetId": "solid-sphere-baseline"
+        },
+        "highlightedControls": [
+          "inertiaFactor"
+        ],
+        "highlightedGraphs": [
+          "acceleration-map",
+          "distance"
+        ],
+        "highlightedOverlays": [
+          "massLayout"
+        ]
+      },
+      {
+        "id": "rolling-motion-predict-steeper-ramp",
+        "prompt": "If you keep the same solid sphere but increase the slope angle, what should happen?",
+        "scenarioLabel": "Same shape, steeper incline",
+        "changeLabel": "Raise the slope angle",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The acceleration and center speed should rise because the downhill component of gravity is larger."
+          },
+          {
+            "id": "b",
+            "label": "The acceleration should stay the same because the shape did not change."
+          },
+          {
+            "id": "c",
+            "label": "The no-slip relation should fail automatically on a steeper incline."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Shape still matters through $k$, but a steeper incline makes $g\\sin\\theta$ larger for every setup. The bounded model still keeps rolling without slipping.",
+        "observationHint": "Compare the stage note and the rising speed-link graph after applying the steeper sphere.",
+        "apply": {
+          "presetId": "steep-sphere"
+        },
+        "highlightedControls": [
+          "slopeAngle"
+        ],
+        "highlightedGraphs": [
+          "distance",
+          "speed-link"
+        ],
+        "highlightedOverlays": [
+          "noSlipLink"
+        ]
+      },
+      {
+        "id": "rolling-motion-predict-smaller-radius",
+        "prompt": "If you keep the same solid sphere and the same slope but make the radius smaller, what should happen to the center acceleration and angular speed?",
+        "scenarioLabel": "Same shape, smaller radius",
+        "changeLabel": "Shrink the radius",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The center acceleration should stay on the same sphere curve, but the angular speed should become larger."
+          },
+          {
+            "id": "b",
+            "label": "Both the center acceleration and angular speed should become smaller."
+          },
+          {
+            "id": "c",
+            "label": "The center acceleration should become much larger because the object is smaller."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "For the same shape the acceleration formula is unchanged, but the no-slip link requires $\\omega = v/r$. Smaller radius means larger angular speed for the same center speed.",
+        "observationHint": "Keep the no-slip overlay visible and compare the speed-link graph with the readout card.",
+        "apply": {
+          "presetId": "small-sphere-fast-spin"
+        },
+        "highlightedControls": [
+          "radius"
+        ],
+        "highlightedGraphs": [
+          "speed-link"
+        ],
+        "highlightedOverlays": [
+          "noSlipLink"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use one compact incline to prove that you can reason about rolling response instead of memorizing which shape wins.",
+    "items": [
+      {
+        "id": "rolling-motion-ch-fast-run",
+        "title": "Fast run, same ramp",
+        "style": "target-setting",
+        "prompt": "Keep the ramp near its baseline angle and tune the roller so it reaches the bottom in under about $1.85\\,\\mathrm{s}$.",
+        "successMessage": "You kept the same incline and built a faster roller by lowering the inertia factor instead of pretending gravity changed.",
+        "setup": {
+          "presetId": "solid-cylinder-baseline",
+          "graphId": "acceleration-map",
+          "overlayIds": [
+            "massLayout"
+          ],
+          "note": "Use the acceleration map to stay on the same incline while you move toward a more center-loaded shape."
+        },
+        "requirements": {
+          "graphId": "acceleration-map",
+          "overlayIds": [
+            "massLayout"
+          ]
+        },
+        "hints": [
+          "Do not solve this by steepening the incline too much. Keep the slope near baseline and change the mass distribution first.",
+          "A sphere-like response should beat a hoop-like response on the same ramp."
+        ],
+        "targets": [
+          {
+            "param": "slopeAngle",
+            "label": "Keep the slope angle between $11.5^\\circ$ and $12.5^\\circ$.",
+            "min": 11.5,
+            "max": 12.5,
+            "displayUnit": "deg"
+          },
+          {
+            "param": "inertiaFactor",
+            "label": "Bring the inertia factor between $0.4$ and $0.43$.",
+            "min": 0.4,
+            "max": 0.43
+          },
+          {
+            "metric": "travelTime",
+            "label": "Make the full-ramp travel time land between $1.78$ and $1.86\\,\\mathrm{s}$.",
+            "min": 1.78,
+            "max": 1.86,
+            "displayUnit": "s"
+          }
+        ]
+      },
+      {
+        "id": "rolling-motion-ch-compare-race",
+        "title": "Same ramp, different finish",
+        "style": "visible-condition",
+        "prompt": "Open compare mode and make Setup B finish much later than Setup A while keeping both setups on the same slope and radius.",
+        "successMessage": "You used shape alone to separate the finish times. The ramp stayed the same, but the larger inertia factor in Setup B slowed the center-of-mass acceleration.",
+        "setup": {
+          "presetId": "solid-sphere-baseline",
+          "graphId": "distance",
+          "overlayIds": [
+            "massLayout",
+            "energySplit"
+          ],
+          "interactionMode": "compare",
+          "note": "Clone the sphere, then turn only Setup B into a hoop while keeping the same slope and radius."
+        },
+        "requirements": {
+          "graphId": "distance",
+          "overlayIds": [
+            "massLayout"
+          ],
+          "compareTarget": "b"
+        },
+        "hints": [
+          "Keep both radii matched so the race comparison stays about shape and inertia factor.",
+          "Setup A should stay sphere-like. Setup B should move toward the hoop limit."
+        ],
+        "targets": [
+          {
+            "setup": "a",
+            "param": "slopeAngle",
+            "label": "Keep Setup A slope angle between $11.5^\\circ$ and $12.5^\\circ$.",
+            "min": 11.5,
+            "max": 12.5,
+            "displayUnit": "deg"
+          },
+          {
+            "setup": "b",
+            "param": "slopeAngle",
+            "label": "Keep Setup B slope angle between $11.5^\\circ$ and $12.5^\\circ$.",
+            "min": 11.5,
+            "max": 12.5,
+            "displayUnit": "deg"
+          },
+          {
+            "setup": "a",
+            "param": "radius",
+            "label": "Keep Setup A radius between $0.21$ and $0.23\\,\\mathrm{m}$.",
+            "min": 0.21,
+            "max": 0.23,
+            "displayUnit": "m"
+          },
+          {
+            "setup": "b",
+            "param": "radius",
+            "label": "Keep Setup B radius between $0.21$ and $0.23\\,\\mathrm{m}$.",
+            "min": 0.21,
+            "max": 0.23,
+            "displayUnit": "m"
+          },
+          {
+            "setup": "a",
+            "param": "inertiaFactor",
+            "label": "Keep Setup A sphere-like between $0.4$ and $0.43$.",
+            "min": 0.4,
+            "max": 0.43
+          },
+          {
+            "setup": "b",
+            "param": "inertiaFactor",
+            "label": "Move Setup B toward the hoop between $0.98$ and $1.0$.",
+            "min": 0.98,
+            "max": 1
+          },
+          {
+            "setup": "b",
+            "metric": "travelTime",
+            "label": "Make Setup B travel time land between $2.12$ and $2.22\\,\\mathrm{s}$.",
+            "min": 2.12,
+            "max": 2.22,
+            "displayUnit": "s"
+          }
+        ]
+      },
+      {
+        "id": "rolling-motion-ch-small-radius-spin",
+        "title": "Same roll, faster spin",
+        "style": "target-setting",
+        "prompt": "Inspect the run near the end and tune a small sphere that keeps the same rolling logic but reaches a high angular speed.",
+        "successMessage": "You kept the sphere-like rolling response while using a smaller radius to push the angular speed higher under the same no-slip link.",
+        "setup": {
+          "presetId": "small-sphere-fast-spin",
+          "graphId": "speed-link",
+          "overlayIds": [
+            "noSlipLink"
+          ],
+          "inspectTime": 1.8,
+          "note": "Keep the inspection cursor near the end of the run and use the no-slip link to tune the angular speed."
+        },
+        "requirements": {
+          "graphId": "speed-link",
+          "overlayIds": [
+            "noSlipLink"
+          ],
+          "timeSource": "inspect",
+          "timeRange": {
+            "min": 1.75,
+            "max": 1.82,
+            "label": "Keep the inspection cursor near the end of the run."
+          }
+        },
+        "hints": [
+          "Do not turn this into a hoop. Keep the shape sphere-like and use radius to drive the angular speed.",
+          "The center speed stays on the same sphere rolling curve, but the smaller radius raises $\\omega$."
+        ],
+        "targets": [
+          {
+            "param": "inertiaFactor",
+            "label": "Keep the inertia factor between $0.4$ and $0.43$.",
+            "min": 0.4,
+            "max": 0.43
+          },
+          {
+            "param": "radius",
+            "label": "Keep the radius between $0.16$ and $0.18\\,\\mathrm{m}$.",
+            "min": 0.16,
+            "max": 0.18,
+            "displayUnit": "m"
+          },
+          {
+            "metric": "angularSpeed",
+            "label": "Make the late-run angular speed land between $15.5$ and $17.5\\,\\mathrm{rad/s}$.",
+            "min": 15.5,
+            "max": 17.5,
+            "displayUnit": "rad/s"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "These checks ask whether you can reason through rolling motion, not just recite which shape wins.",
+    "questions": [
+      {
+        "id": "rolling-motion-qt-shape-race",
+        "type": "compare-two-cases",
+        "prompt": "A solid sphere and a hoop start from rest on the same incline with the same radius. Which statement is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The solid sphere should reach the bottom first because its smaller inertia factor leaves more of the downhill pull for center-of-mass acceleration."
+          },
+          {
+            "id": "b",
+            "label": "They should tie because the same no-slip condition applies to both."
+          },
+          {
+            "id": "c",
+            "label": "The hoop should win because more of its motion is rotational."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Both shapes obey rolling without slipping, but the sphere has smaller rotational inertia relative to $mr^2$, so its center accelerates more strongly.",
+        "selectedWrongExplanations": {
+          "b": "No-slip does not erase the effect of rotational inertia. It is the rule that couples the two motions while still allowing different accelerations.",
+          "c": "A larger rotational share means less of the same downhill pull is left for center-of-mass acceleration."
+        },
+        "showMeAction": {
+          "label": "Show the sphere-hoop contrast",
+          "presetId": "hoop-baseline",
+          "observationHint": "Compare the hoop against the solid-sphere preset on the same slope.",
+          "highlightedControlIds": [
+            "inertiaFactor"
+          ],
+          "highlightedGraphIds": [
+            "distance",
+            "acceleration-map"
+          ],
+          "highlightedOverlayIds": [
+            "massLayout"
+          ]
+        }
+      },
+      {
+        "id": "rolling-motion-qt-radius",
+        "type": "misconception-check",
+        "prompt": "For the same solid sphere on the same incline, what mainly changes when you reduce the radius?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The required angular speed rises, while the center-of-mass acceleration stays on the same shape-controlled curve."
+          },
+          {
+            "id": "b",
+            "label": "The center-of-mass acceleration doubles automatically because the object is smaller."
+          },
+          {
+            "id": "c",
+            "label": "Rolling without slipping stops being possible."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "For a fixed shape the acceleration formula depends on slope and inertia factor, not directly on radius. But the no-slip relation requires a larger angular speed when the radius is smaller.",
+        "selectedWrongExplanations": {
+          "b": "Smaller radius alone is not what sets the center-of-mass acceleration in this bounded model.",
+          "c": "The same no-slip link still holds. It just demands a different angular speed."
+        },
+        "showMeAction": {
+          "label": "Show the small fast-spin case",
+          "presetId": "small-sphere-fast-spin",
+          "observationHint": "Keep the no-slip overlay open and compare the readout against the baseline sphere.",
+          "highlightedControlIds": [
+            "radius"
+          ],
+          "highlightedGraphIds": [
+            "speed-link"
+          ],
+          "highlightedOverlayIds": [
+            "noSlipLink"
+          ]
+        }
+      },
+      {
+        "id": "rolling-motion-qt-friction",
+        "type": "reasoning",
+        "prompt": "Why is static friction still part of the rolling-down-ramp story here?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It provides the torque that builds angular acceleration while the object rolls without slipping."
+          },
+          {
+            "id": "b",
+            "label": "It is the main force dragging the object backward so the center cannot accelerate."
+          },
+          {
+            "id": "c",
+            "label": "It is irrelevant once the object starts moving."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Static friction points uphill here, but that same force supplies the torque needed for rolling without slipping.",
+        "selectedWrongExplanations": {
+          "b": "The object still accelerates down the ramp. Static friction does not erase the downhill component of gravity.",
+          "c": "The no-slip rolling constraint still needs a torque source, and static friction is what supplies it on this bench."
+        },
+        "showMeAction": {
+          "label": "Show the friction torque cue",
+          "presetId": "solid-cylinder-baseline",
+          "observationHint": "Turn on the static-friction torque overlay and watch the uphill friction arrow and rolling torque cue together.",
+          "highlightedControlIds": [
+            "slopeAngle"
+          ],
+          "highlightedGraphIds": [
+            "speed-link",
+            "energy-split"
+          ],
+          "highlightedOverlayIds": [
+            "frictionTorque"
+          ]
+        }
+      },
+      {
+        "id": "rolling-motion-qt-bridge",
+        "type": "reasoning",
+        "prompt": "Why is rolling motion the natural bridge after rotational inertia and before angular momentum?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because rolling is where rotational inertia directly reshapes a visible translational race, while the same spin language later carries into angular momentum."
+          },
+          {
+            "id": "b",
+            "label": "Because rolling ignores rotational inertia once an object touches the ramp."
+          },
+          {
+            "id": "c",
+            "label": "Because every rolling object carries the same angular momentum if the mass matches."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Rolling makes moment of inertia matter in a visible translational setting, and the same rotational variables later feed directly into angular-momentum reasoning.",
+        "selectedWrongExplanations": {
+          "b": "Rolling is one of the clearest places where rotational inertia matters.",
+          "c": "Angular momentum still depends on both moment of inertia and angular speed."
+        },
+        "showMeAction": {
+          "label": "Show the cylinder bridge",
+          "presetId": "solid-cylinder-baseline",
+          "observationHint": "Use the rolling bench first, then carry the same rotational language into angular momentum next.",
+          "highlightedControlIds": [
+            "inertiaFactor",
+            "radius"
+          ],
+          "highlightedGraphIds": [
+            "energy-split",
+            "speed-link"
+          ],
+          "highlightedOverlayIds": [
+            "massLayout",
+            "noSlipLink"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one roller descending a single incline from left to right. The wheel interior changes to represent a solid sphere, solid cylinder, hoop, or custom mass distribution, while the center point and spoke lines rotate with the motion.",
+        "Optional overlays can show the no-slip relation between center speed and angular speed, a cue for the mass layout and inertia factor, an energy-split bar, and the uphill static-friction force together with the rolling torque. The readout card reports the same live time, slope, acceleration, travel time, and spin state."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The distance curve bends upward because the center of mass is accelerating down the incline. The no-slip speed-link graph keeps the center speed and $r\\omega$ on top of each other whenever rolling without slipping is active.",
+        "The energy graph shows translational, rotational, and total kinetic energy together. The acceleration map falls as the inertia factor rises, which is why a hoop rolls more slowly than a sphere on the same incline."
+      ]
+    }
+  },
+  "seo": {
+    "description": "Interactive rolling motion lesson with sphere, cylinder, hoop, and custom mass distributions on one incline. Explore rolling without slipping, inertia factor, energy split, compare mode, prediction prompts, and conceptual quick tests.",
+    "keywords": [
+      "rolling motion",
+      "rolling without slipping",
+      "rotational inertia",
+      "incline",
+      "physics simulation"
+    ]
+  },
+  "v2": {
+    "intuition": "Roll one shape down one incline so translation, rotation, and no-slip stay tied to the same visible run.",
+    "whyItMatters": "Rolling motion is where rotational inertia finally changes an obvious race outcome. It is the clearest bridge from mass distribution into a real moving object before the same language carries on into angular momentum.",
+    "estimatedMinutes": 11,
+    "equationSnapshot": {
+      "equationIds": [
+        "no-slip-link",
+        "rolling-acceleration",
+        "rolling-energy"
+      ],
+      "note": "Keep the no-slip link in view first, then use the acceleration and energy split to explain why different shapes race differently."
+    },
+    "startSetup": {
+      "presetId": "solid-cylinder-baseline",
+      "graphId": "speed-link",
+      "overlayIds": [
+        "noSlipLink",
+        "massLayout"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-no-slip-run",
+        "title": "Read one no-slip run",
+        "goal": "Start with one stable run so the learner can see that center speed and spin are locked together during rolling without slipping.",
+        "doThis": "Use the solid-cylinder baseline, keep the speed-link graph visible, and run one full clip with the no-slip overlay on.",
+        "notice": "The center speed and $r\\omega$ stay matched while the same roller both translates down the ramp and spins up.",
+        "explain": "Rolling without slipping ties the translational and rotational stories together through $v_{\\mathrm{cm}} = r\\omega$. The bench is not showing two separate motions; it is showing one constrained motion in two ways.",
+        "reveal": {
+          "controlIds": [
+            "radius"
+          ],
+          "graphIds": [
+            "speed-link",
+            "distance"
+          ],
+          "overlayIds": [
+            "noSlipLink",
+            "massLayout"
+          ],
+          "toolHints": [
+            "timeline",
+            "graph-preview"
+          ]
+        },
+        "setup": {
+          "presetId": "solid-cylinder-baseline",
+          "graphId": "speed-link",
+          "overlayIds": [
+            "noSlipLink",
+            "massLayout"
+          ]
+        }
+      },
+      {
+        "id": "race-shapes-on-the-same-ramp",
+        "title": "Race shapes on the same ramp",
+        "goal": "Use the same incline to show that shape matters because the rotational inertia changes how the downhill pull is shared.",
+        "doThis": "Switch between the solid sphere and the hoop on the same incline and compare the distance graph with the acceleration map.",
+        "notice": "The sphere reaches the bottom sooner while the hoop lags behind, even though both feel the same downhill gravity component.",
+        "explain": "Different shapes roll differently because the same downhill pull has to build both translation and rotation. A larger inertia factor leaves less of that pull available for center-of-mass acceleration.",
+        "reveal": {
+          "controlIds": [
+            "inertiaFactor"
+          ],
+          "graphIds": [
+            "distance",
+            "acceleration-map"
+          ],
+          "overlayIds": [
+            "massLayout",
+            "energySplit"
+          ]
+        },
+        "setup": {
+          "presetId": "hoop-baseline",
+          "graphId": "acceleration-map",
+          "overlayIds": [
+            "massLayout",
+            "energySplit"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "rolling-motion-predict-shape-race"
+          ]
+        }
+      },
+      {
+        "id": "separate-radius-from-shape",
+        "title": "Separate radius from shape",
+        "goal": "Prevent the learner from blaming every rolling change on radius alone.",
+        "doThis": "Apply the small-sphere-fast-spin preset and compare its speed-link graph with the baseline sphere.",
+        "notice": "The smaller sphere does not win because radius changed the acceleration formula. It mainly changes the angular speed needed to keep the no-slip link true.",
+        "explain": "For the same shape on the same incline, the center-of-mass acceleration stays tied to the inertia factor. Radius still matters for rotational bookkeeping because $\\omega = v/r$.",
+        "reveal": {
+          "controlIds": [
+            "radius",
+            "inertiaFactor"
+          ],
+          "graphIds": [
+            "speed-link",
+            "acceleration-map"
+          ],
+          "overlayIds": [
+            "noSlipLink",
+            "massLayout"
+          ]
+        },
+        "setup": {
+          "presetId": "small-sphere-fast-spin",
+          "graphId": "speed-link",
+          "overlayIds": [
+            "noSlipLink",
+            "massLayout"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "rolling-motion-qt-radius"
+          ]
+        }
+      },
+      {
+        "id": "use-friction-and-energy-to-explain-it",
+        "title": "Use friction and energy to explain it",
+        "goal": "End by explaining the rolling race through the actual force and energy bookkeeping instead of surface appearances.",
+        "doThis": "Keep one baseline roller on the same ramp, open the energy-split graph, and turn on the friction-torque overlay while you reason through the run.",
+        "notice": "Static friction points uphill, yet the object still accelerates down the ramp while part of the same energy budget is being routed into spin.",
+        "explain": "Static friction supplies the torque needed for rolling without slipping. The race outcome comes from how the same gravity-driven budget is split between translation and rotation, not from one shape getting more gravity than another.",
+        "reveal": {
+          "controlIds": [
+            "slopeAngle",
+            "inertiaFactor"
+          ],
+          "graphIds": [
+            "energy-split",
+            "speed-link"
+          ],
+          "overlayIds": [
+            "frictionTorque",
+            "energySplit",
+            "noSlipLink"
+          ]
+        },
+        "setup": {
+          "presetId": "solid-cylinder-baseline",
+          "graphId": "energy-split",
+          "overlayIds": [
+            "frictionTorque",
+            "energySplit",
+            "noSlipLink"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "rolling-motion-qt-friction"
+          ]
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Rolling without slipping keeps center speed and angular speed locked by $v_{\\mathrm{cm}} = r\\omega$.",
+        "Shape changes the race because the inertia factor changes how the same downhill pull is split between translation and rotation.",
+        "Static friction supplies the rolling torque even while the object still accelerates down the incline."
+      ],
+      "misconception": "A larger or heavier-looking rolling object must always lose because size alone controls the race.",
+      "workedExampleRefs": [
+        "current-rolling-acceleration",
+        "current-no-slip-state"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "angular-momentum",
+          "title": "Angular Momentum",
+          "reasonLabel": "Carry the same rotational bookkeeping into a conserved quantity."
+        },
+        {
+          "slug": "rotational-inertia",
+          "title": "Rotational Inertia / Moment of Inertia",
+          "reasonLabel": "Return to the mass-distribution idea that shaped the rolling race."
+        }
+      ],
+      "freePlayPrompt": "Build two rollers that keep the same slope but finish at clearly different times, then explain whether shape, radius, or both created the difference."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "quickTest",
+      "accessibility"
+    ]
+  }
+}

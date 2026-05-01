@@ -1,0 +1,984 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live source checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Terminal-voltage checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Keep the source-realism story moving"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Predict how a real battery or supply sags under load by keeping emf, internal resistance, current, terminal voltage, and wasted power tied to one visible loop.",
+    "keyTakeaway": "Current depends on the total loop resistance E / (R + r), not on the load resistance alone."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "A real source is not just an ideal emf. When current flows through its internal resistance, part of the source rise is spent inside the source, so the terminal voltage available to the load becomes smaller than the emf.",
+        "This bench stays intentionally bounded: one source with emf E and internal resistance r drives one load resistance R. That is enough to show why heavy loads pull the terminal voltage down, why the source wastes power internally, and why the ideal-source limit is still useful without pretending every battery is perfect."
+      ]
+    },
+    "keyIdeas": [
+      "Current depends on the total loop resistance E / (R + r), not on the load resistance alone.",
+      "Terminal voltage is the voltage that actually reaches the load, so under load it is V_terminal = E - I r.",
+      "A larger current means a larger internal voltage drop and more power wasted inside the source."
+    ],
+    "commonMisconception": {
+      "myth": "If a battery is labeled 12 V, the load must always receive 12 V no matter what is connected to it.",
+      "correction": [
+        "The 12 V label is the emf, not necessarily the terminal voltage under load.",
+        "Once current flows through an internal resistance, some of the emf is lost inside the source and the load sees a smaller terminal voltage."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Use the exact source and load on screen. The same emf, internal resistance, and load resistance drive the live loop, the readout card, and the response graphs below.",
+      "items": [
+        {
+          "id": "current-and-terminal-voltage",
+          "title": "Current and terminal voltage under load",
+          "prompt": "For the current non-ideal source and load, what current flows and what terminal voltage does the load actually receive?",
+          "variables": [
+            {
+              "id": "emf",
+              "variableId": "emf",
+              "symbol": "E",
+              "label": "Source emf",
+              "valueKey": "emfValue",
+              "unit": "V"
+            },
+            {
+              "id": "internalResistance",
+              "variableId": "internalResistance",
+              "symbol": "r",
+              "label": "Internal resistance",
+              "valueKey": "internalResistanceValue",
+              "unit": "ohm"
+            },
+            {
+              "id": "loadResistance",
+              "variableId": "loadResistance",
+              "symbol": "R",
+              "label": "Load resistance",
+              "valueKey": "loadResistanceValue",
+              "unit": "ohm"
+            }
+          ],
+          "steps": [
+            {
+              "id": "build-total-resistance",
+              "label": "1. Build the full loop resistance",
+              "template": "$R_{\\text{total}} = R + r = {{loadResistanceValue}} + {{internalResistanceValue}}$."
+            },
+            {
+              "id": "solve-current",
+              "label": "2. Use the full loop current rule",
+              "template": "$I = \\dfrac{E}{R + r} = \\dfrac{{emfValue}}{ {{loadResistanceValue}} + {{internalResistanceValue}} } = {{currentValue}}$."
+            },
+            {
+              "id": "solve-terminal-voltage",
+              "label": "3. Read the load voltage honestly",
+              "template": "$V_{\\text{terminal}} = IR = {{currentValue}} \\times {{loadResistanceValue}} = {{terminalVoltageValue}}$."
+            },
+            {
+              "id": "check-source-drop",
+              "label": "4. Check the internal drop",
+              "template": "The source loses $I r = {{currentValue}} \\times {{internalResistanceValue}} = {{internalDropValue}}$ inside itself, so $E - I r = {{terminalVoltageValue}}$."
+            }
+          ],
+          "resultLabel": "Current and terminal voltage",
+          "resultTemplate": "$I = {{currentValue}}, \\quad V_{\\text{terminal}} = {{terminalVoltageValue}}$",
+          "interpretationTemplate": "{{terminalInterpretation}}",
+          "applyAction": {
+            "label": "Show heavy load",
+            "presetId": "heavy-load-lossy-source",
+            "observationHint": "The larger current makes the internal drop obvious, so the terminal voltage falls well below the emf.",
+            "highlightedControlIds": [
+              "loadResistance",
+              "internalResistance"
+            ],
+            "highlightedGraphIds": [
+              "terminal-response"
+            ],
+            "highlightedOverlayIds": [
+              "currentFlow",
+              "voltageLabels"
+            ]
+          }
+        },
+        {
+          "id": "power-delivered-vs-lost",
+          "title": "Power delivered to the load vs power lost inside the source",
+          "prompt": "For the current source and load, how much power reaches the load and how much is wasted inside the source?",
+          "variables": [
+            {
+              "id": "current",
+              "symbol": "I",
+              "label": "Loop current",
+              "valueKey": "currentValue",
+              "unit": "A"
+            },
+            {
+              "id": "loadResistance",
+              "variableId": "loadResistance",
+              "symbol": "R",
+              "label": "Load resistance",
+              "valueKey": "loadResistanceValue",
+              "unit": "ohm"
+            },
+            {
+              "id": "internalResistance",
+              "variableId": "internalResistance",
+              "symbol": "r",
+              "label": "Internal resistance",
+              "valueKey": "internalResistanceValue",
+              "unit": "ohm"
+            }
+          ],
+          "steps": [
+            {
+              "id": "load-power-rule",
+              "label": "1. Write the delivered-power rule",
+              "template": "$P_{\\text{load}} = I^2 R = ({{currentValue}})^2 \\times {{loadResistanceValue}}$."
+            },
+            {
+              "id": "internal-power-rule",
+              "label": "2. Write the internal-loss rule",
+              "template": "$P_{\\text{internal}} = I^2 r = ({{currentValue}})^2 \\times {{internalResistanceValue}}$."
+            },
+            {
+              "id": "power-results",
+              "label": "3. Read both power values",
+              "template": "That gives $P_{\\text{load}} = {{loadPowerValue}}$ and $P_{\\text{internal}} = {{internalPowerValue}}$."
+            },
+            {
+              "id": "efficiency-check",
+              "label": "4. Compare the delivered fraction",
+              "template": "The load is getting about {{efficiencyPercentValue}} of the source power in this setup."
+            }
+          ],
+          "resultLabel": "Delivered power and internal loss",
+          "resultTemplate": "$P_{\\text{load}} = {{loadPowerValue}}, \\quad P_{\\text{internal}} = {{internalPowerValue}}$",
+          "interpretationTemplate": "{{powerInterpretation}}",
+          "applyAction": {
+            "label": "Show low-r reference",
+            "presetId": "near-ideal-source",
+            "observationHint": "When r is very small, the internal-loss bar shrinks and the terminal voltage rises closer to the emf.",
+            "highlightedControlIds": [
+              "internalResistance"
+            ],
+            "highlightedGraphIds": [
+              "power-split"
+            ],
+            "highlightedOverlayIds": [
+              "powerSplit",
+              "idealReference"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Why can a heavy load make the current larger but the terminal voltage smaller at the same time?",
+      "prediction": "Decide whether the current change or the internal drop is the more important causal step before you inspect the load sweep.",
+      "answer": "A heavy load lowers the total loop resistance, so the current rises. But that larger current also makes the internal drop I r bigger, which pulls the terminal voltage downward.",
+      "explanation": "The same current does two jobs here: it helps the load by increasing the delivered current, but it also hurts the source by increasing the internal voltage loss. That is why non-ideal sources matter."
+    }
+  },
+  "equations": [
+    {
+      "id": "loop-current",
+      "latex": "I = \\dfrac{E}{R + r}",
+      "label": "Loop current with internal resistance",
+      "meaning": "The current is set by the emf and the total loop resistance from both the load and the source."
+    },
+    {
+      "id": "terminal-voltage",
+      "latex": "V_{\\text{terminal}} = E - I r = I R",
+      "label": "Terminal voltage",
+      "meaning": "Terminal voltage is what remains for the load after the internal drop is taken from the emf."
+    },
+    {
+      "id": "load-power",
+      "latex": "P_{\\text{load}} = I^2 R",
+      "label": "Power delivered to the load",
+      "meaning": "This is the useful power actually reaching the external load."
+    },
+    {
+      "id": "internal-power",
+      "latex": "P_{\\text{internal}} = I^2 r",
+      "label": "Power lost inside the source",
+      "meaning": "Non-zero internal resistance wastes some source power as internal heating."
+    },
+    {
+      "id": "ideal-limit",
+      "latex": "r \\to 0 \\;\\Rightarrow\\; V_{\\text{terminal}} \\to E",
+      "label": "Ideal-source limit",
+      "meaning": "If the internal resistance vanishes, the terminal voltage approaches the emf and the source behaves ideally."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "emf",
+      "symbol": "E",
+      "label": "Source emf",
+      "param": "emf",
+      "tone": "teal",
+      "description": "Sets the ideal source rise before the internal drop is taken away.",
+      "equationIds": [
+        "loop-current",
+        "terminal-voltage"
+      ],
+      "graphIds": [
+        "terminal-response"
+      ],
+      "overlayIds": [
+        "voltageLabels",
+        "idealReference"
+      ]
+    },
+    {
+      "id": "internalResistance",
+      "symbol": "r",
+      "label": "Internal resistance",
+      "param": "internalResistance",
+      "tone": "coral",
+      "description": "Changes how much voltage and power the source loses inside itself when current flows.",
+      "equationIds": [
+        "loop-current",
+        "terminal-voltage",
+        "internal-power",
+        "ideal-limit"
+      ],
+      "graphIds": [
+        "terminal-response",
+        "power-split"
+      ],
+      "overlayIds": [
+        "voltageLabels",
+        "powerSplit",
+        "idealReference"
+      ]
+    },
+    {
+      "id": "loadResistance",
+      "symbol": "R",
+      "label": "Load resistance",
+      "param": "loadResistance",
+      "tone": "sky",
+      "description": "Changes the current drawn by the load, which then changes both the internal drop and the delivered power.",
+      "equationIds": [
+        "loop-current",
+        "terminal-voltage",
+        "load-power"
+      ],
+      "graphIds": [
+        "terminal-response",
+        "power-split"
+      ],
+      "overlayIds": [
+        "currentFlow",
+        "voltageLabels",
+        "powerSplit"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "emf": 12,
+      "internalResistance": 1,
+      "loadResistance": 6
+    },
+    "controls": [
+      {
+        "id": "emf",
+        "kind": "slider",
+        "label": "Source emf",
+        "param": "emf",
+        "min": 6,
+        "max": 18,
+        "step": 0.5,
+        "unit": "V",
+        "description": "Sets the ideal source rise before any internal loss is taken away."
+      },
+      {
+        "id": "internalResistance",
+        "kind": "slider",
+        "label": "Internal resistance r",
+        "param": "internalResistance",
+        "min": 0.2,
+        "max": 5,
+        "step": 0.1,
+        "unit": "ohm",
+        "description": "Larger internal resistance makes the source lose more voltage and more power inside itself."
+      },
+      {
+        "id": "loadResistance",
+        "kind": "slider",
+        "label": "Load resistance R",
+        "param": "loadResistance",
+        "min": 1,
+        "max": 16,
+        "step": 0.2,
+        "unit": "ohm",
+        "description": "Heavier loads pull more current and therefore increase the internal voltage loss."
+      }
+    ],
+    "presets": [
+      {
+        "id": "near-ideal-source",
+        "label": "Near-ideal source",
+        "description": "A very small internal resistance makes the terminal voltage stay close to the emf.",
+        "values": {
+          "emf": 12,
+          "internalResistance": 0.2,
+          "loadResistance": 6
+        }
+      },
+      {
+        "id": "lossy-source",
+        "label": "Lossy source",
+        "description": "A clearly non-ideal source loses a noticeable chunk of voltage inside itself.",
+        "values": {
+          "emf": 12,
+          "internalResistance": 3,
+          "loadResistance": 6
+        }
+      },
+      {
+        "id": "heavy-load-lossy-source",
+        "label": "Heavy load on a lossy source",
+        "description": "A small load resistance pulls a larger current and makes the terminal drop especially visible.",
+        "values": {
+          "emf": 12,
+          "internalResistance": 2,
+          "loadResistance": 2
+        }
+      },
+      {
+        "id": "light-load-reference",
+        "label": "Light-load reference",
+        "description": "A lighter load keeps current small, so the terminal voltage sits much closer to the emf.",
+        "values": {
+          "emf": 12,
+          "internalResistance": 2,
+          "loadResistance": 12
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "currentFlow",
+        "label": "Current flow",
+        "shortDescription": "Shows the live loop current under the present load.",
+        "whatToNotice": [
+          "Heavier loads pull more current, and that larger current is exactly what deepens the internal drop."
+        ],
+        "whyItMatters": "It keeps terminal-voltage loss tied to the same current that the load is drawing.",
+        "relatedControls": [
+          "loadResistance",
+          "internalResistance"
+        ],
+        "relatedGraphTabs": [
+          "terminal-response"
+        ],
+        "relatedEquationVariables": [
+          "loadResistance",
+          "internalResistance"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "voltageLabels",
+        "label": "Voltage labels",
+        "shortDescription": "Marks the emf, the internal drop, and the terminal voltage reaching the load.",
+        "whatToNotice": [
+          "The emf is not the same as the terminal voltage once a non-zero current is flowing."
+        ],
+        "whyItMatters": "It makes the source realism visible instead of leaving it as a correction note under an ideal-battery formula.",
+        "relatedControls": [
+          "emf",
+          "internalResistance",
+          "loadResistance"
+        ],
+        "relatedGraphTabs": [
+          "terminal-response"
+        ],
+        "relatedEquationVariables": [
+          "emf",
+          "internalResistance",
+          "loadResistance"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "powerSplit",
+        "label": "Power split",
+        "shortDescription": "Shows how much source power reaches the load and how much is wasted inside the source.",
+        "whatToNotice": [
+          "A larger internal resistance can waste a surprising amount of the same source power."
+        ],
+        "whyItMatters": "It separates useful delivered power from internal heating inside the source.",
+        "relatedControls": [
+          "internalResistance",
+          "loadResistance"
+        ],
+        "relatedGraphTabs": [
+          "power-split"
+        ],
+        "relatedEquationVariables": [
+          "internalResistance",
+          "loadResistance"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "idealReference",
+        "label": "Ideal-source reference",
+        "shortDescription": "Shows the ideal limit where the terminal voltage would equal the emf.",
+        "whatToNotice": [
+          "The terminal voltage approaches the emf when internal resistance is very small or the load current is tiny."
+        ],
+        "whyItMatters": "It keeps the ideal-source model available as a useful reference instead of pretending it was wrong all along.",
+        "relatedControls": [
+          "emf",
+          "internalResistance",
+          "loadResistance"
+        ],
+        "relatedGraphTabs": [
+          "terminal-response"
+        ],
+        "relatedEquationVariables": [
+          "emf",
+          "internalResistance"
+        ],
+        "defaultOn": true
+      }
+    ],
+    "ui": {
+      "initialGraphId": "terminal-response",
+      "primaryGraphIds": [
+        "terminal-response"
+      ],
+      "primaryControlIds": [
+        "internalResistance",
+        "loadResistance"
+      ],
+      "primaryPresetIds": [
+        "near-ideal-source",
+        "heavy-load-lossy-source",
+        "light-load-reference"
+      ],
+      "starterExploreTasks": [
+        "Open the near-ideal-source preset and compare the emf with the terminal voltage before you touch the load.",
+        "Switch to the heavy-load lossy-source preset and watch the internal drop grow when the current rises.",
+        "Compare the load-power and internal-loss bars before deciding whether the source is behaving close to the ideal limit."
+      ]
+    }
+  },
+  "graphs": [
+    {
+      "id": "terminal-response",
+      "label": "Terminal voltage and internal drop vs load resistance",
+      "xLabel": "load resistance R (ohm)",
+      "yLabel": "voltage (V)",
+      "series": [
+        "terminal-voltage",
+        "internal-drop"
+      ],
+      "description": "As the load changes, the terminal voltage and the internal drop share one voltage scale so the non-ideal source behavior stays visible at a glance."
+    },
+    {
+      "id": "power-split",
+      "label": "Load power and internal loss vs load resistance",
+      "xLabel": "load resistance R (ohm)",
+      "yLabel": "power (W)",
+      "series": [
+        "load-power",
+        "internal-power"
+      ],
+      "description": "Use the same load sweep to compare useful power delivered to the load with power wasted inside the source."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the same one-loop non-ideal source to keep current, voltage loss, and wasted power in one story.",
+    "items": [
+      {
+        "id": "ir-notice-terminal-not-emf",
+        "text": "Under load, the terminal voltage is smaller than the emf because some of the source rise is being spent across the internal resistance.",
+        "type": "observation",
+        "priority": 2,
+        "conditions": {
+          "overlayIds": [
+            "voltageLabels"
+          ]
+        },
+        "tryThis": "Compare the near-ideal-source and lossy-source presets with the same load.",
+        "whyItMatters": "It is the core realism correction this concept exists to teach.",
+        "relatedControls": [
+          "internalResistance",
+          "loadResistance"
+        ],
+        "relatedGraphTabs": [
+          "terminal-response"
+        ],
+        "relatedOverlays": [
+          "voltageLabels",
+          "idealReference"
+        ]
+      },
+      {
+        "id": "ir-notice-heavy-load",
+        "text": "A heavier load can make the current larger and the terminal voltage smaller at the same time because the larger current deepens the internal drop.",
+        "type": "compare",
+        "priority": 4,
+        "conditions": {
+          "lastChangedControls": [
+            "loadResistance"
+          ]
+        },
+        "tryThis": "Move between the heavy-load and light-load presets without changing the source emf.",
+        "whyItMatters": "It keeps current increase and terminal-voltage decrease from feeling contradictory.",
+        "relatedControls": [
+          "loadResistance",
+          "internalResistance"
+        ],
+        "relatedGraphTabs": [
+          "terminal-response"
+        ],
+        "relatedOverlays": [
+          "currentFlow",
+          "voltageLabels"
+        ]
+      },
+      {
+        "id": "ir-notice-power-loss",
+        "text": "The source does not just feed the load. Some of its power is always being lost inside the source itself when r is non-zero.",
+        "type": "graph-reading",
+        "priority": 5,
+        "conditions": {
+          "graphTabs": [
+            "power-split"
+          ]
+        },
+        "tryThis": "Raise the internal resistance and compare the two power curves at the same load resistance.",
+        "whyItMatters": "It turns internal resistance from a voltage-only correction into an energy and efficiency story.",
+        "relatedControls": [
+          "internalResistance",
+          "loadResistance"
+        ],
+        "relatedGraphTabs": [
+          "power-split"
+        ],
+        "relatedOverlays": [
+          "powerSplit"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the non-ideal source response before you apply the change.",
+    "items": [
+      {
+        "id": "ir-pred-heavier-load",
+        "prompt": "If the same non-ideal source is connected to a heavier load, which statement is best?",
+        "scenarioLabel": "Heavier load",
+        "changeLabel": "Load resistance",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The current rises, the internal drop rises, and the terminal voltage falls."
+          },
+          {
+            "id": "b",
+            "label": "The current rises, so the terminal voltage must also rise."
+          },
+          {
+            "id": "c",
+            "label": "Nothing changes because the emf is a fixed source property."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A heavier load lowers the total loop resistance, so the current rises. That same larger current makes I r bigger, which pulls the terminal voltage down.",
+        "observationHint": "Watch the current arrow and the internal-drop chip together.",
+        "apply": {
+          "presetId": "heavy-load-lossy-source"
+        },
+        "highlightedControls": [
+          "loadResistance"
+        ],
+        "highlightedGraphs": [
+          "terminal-response"
+        ],
+        "highlightedOverlays": [
+          "currentFlow",
+          "voltageLabels"
+        ]
+      },
+      {
+        "id": "ir-pred-larger-r",
+        "prompt": "If the source internal resistance increases while emf and load stay fixed, what happens?",
+        "scenarioLabel": "Increase internal resistance",
+        "changeLabel": "Internal resistance",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The current falls, the terminal voltage falls, and the internal-loss share becomes more important."
+          },
+          {
+            "id": "b",
+            "label": "The terminal voltage rises because the source is holding more voltage for itself."
+          },
+          {
+            "id": "c",
+            "label": "Only the efficiency changes. Current and voltage stay fixed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Larger internal resistance increases the total loop resistance and therefore reduces current. That weaker current still produces a non-trivial internal drop, so the terminal voltage and delivered power both fall.",
+        "observationHint": "Compare the near-ideal and lossy presets at the same load.",
+        "apply": {
+          "presetId": "lossy-source"
+        },
+        "highlightedControls": [
+          "internalResistance"
+        ],
+        "highlightedGraphs": [
+          "terminal-response",
+          "power-split"
+        ],
+        "highlightedOverlays": [
+          "voltageLabels",
+          "powerSplit"
+        ]
+      },
+      {
+        "id": "ir-pred-ideal-limit",
+        "prompt": "What should happen in the ideal-source limit r -> 0?",
+        "scenarioLabel": "Ideal-source limit",
+        "changeLabel": "Source realism",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Terminal voltage approaches the emf and the internal-loss power approaches zero."
+          },
+          {
+            "id": "b",
+            "label": "Current vanishes because the source has no resistance left to drive the loop."
+          },
+          {
+            "id": "c",
+            "label": "The load power must also vanish because the source has become too ideal."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "With almost no internal resistance, the source wastes almost no voltage or power inside itself, so the load sees nearly the full emf.",
+        "observationHint": "Use the ideal reference cue while you compare the low-r case with the lossy one.",
+        "apply": {
+          "presetId": "near-ideal-source"
+        },
+        "highlightedControls": [
+          "internalResistance"
+        ],
+        "highlightedGraphs": [
+          "terminal-response",
+          "power-split"
+        ],
+        "highlightedOverlays": [
+          "idealReference",
+          "powerSplit"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the same one-loop non-ideal source for compact realism targets.",
+    "items": [
+      {
+        "id": "ir-ch-heavy-load-terminal-drop",
+        "title": "Heavy-load terminal drop",
+        "style": "target-setting",
+        "prompt": "Starting from Lossy source, change only the load until the source is driving about 2 A and the terminal voltage lands near 6 V.",
+        "successMessage": "You built the heavier-load case where the larger current makes the internal drop large enough to pull the terminal voltage below the emf.",
+        "setup": {
+          "presetId": "lossy-source",
+          "graphId": "terminal-response",
+          "overlayIds": [
+            "currentFlow",
+            "voltageLabels"
+          ],
+          "note": "Keep the emf and internal resistance fixed. Only the load should move."
+        },
+        "requirements": {
+          "graphId": "terminal-response",
+          "overlayIds": [
+            "currentFlow",
+            "voltageLabels"
+          ]
+        },
+        "hints": [
+          "A heavier load means smaller load resistance, not larger.",
+          "With this lossy source, look for the load resistance that makes I r about 6 V so the remaining terminal voltage is also about 6 V."
+        ],
+        "targets": [
+          {
+            "metric": "current",
+            "min": 2.9,
+            "max": 3.1,
+            "displayUnit": "A",
+            "label": "Make the heavier-load current land near $3.0\\,\\mathrm{A}$."
+          },
+          {
+            "metric": "terminalVoltage",
+            "min": 5.9,
+            "max": 6.1,
+            "displayUnit": "V"
+          }
+        ]
+      },
+      {
+        "id": "ir-ch-near-ideal",
+        "title": "Recover the near-ideal source",
+        "style": "target-setting",
+        "prompt": "Starting from Lossy source, reduce only the internal resistance until the internal loss is below 1 W and the terminal voltage is above 10 V.",
+        "successMessage": "You pushed the source close to the ideal limit: the internal loss became small and the terminal voltage climbed back near the emf.",
+        "setup": {
+          "presetId": "lossy-source",
+          "graphId": "power-split",
+          "overlayIds": [
+            "powerSplit",
+            "idealReference"
+          ],
+          "note": "Leave the emf and load alone. Only the internal resistance should move."
+        },
+        "requirements": {
+          "graphId": "power-split",
+          "overlayIds": [
+            "powerSplit",
+            "idealReference"
+          ]
+        },
+        "hints": [
+          "The target is about reducing wasted power inside the source, not about changing the load.",
+          "Terminal voltage rises toward the emf as r becomes smaller; with the lossy-source load, the near-ideal setting can push internal power below 1 W."
+        ],
+        "targets": [
+          {
+            "metric": "internalPower",
+            "min": 0,
+            "max": 1,
+            "displayUnit": "W"
+          },
+          {
+            "metric": "terminalVoltage",
+            "min": 10,
+            "max": 12.1,
+            "displayUnit": "V"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live non-ideal source, not from an ideal-battery shortcut.",
+    "questions": [
+      {
+        "id": "ir-qt-terminal-vs-emf",
+        "type": "misconception-check",
+        "prompt": "Which statement is best when the source has non-zero internal resistance and current is flowing?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Terminal voltage is smaller than emf because some voltage is lost inside the source."
+          },
+          {
+            "id": "b",
+            "label": "Terminal voltage must equal emf because both are measured in volts."
+          },
+          {
+            "id": "c",
+            "label": "Terminal voltage is larger than emf because the load adds its own voltage."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Internal resistance creates a real internal drop I r, so the load sees less than the emf under load.",
+        "selectedWrongExplanations": {
+          "b": "They are related but not identical once internal resistance matters.",
+          "c": "The load consumes the terminal voltage. It does not create extra source voltage."
+        },
+        "showMeAction": {
+          "label": "Show lossy source",
+          "presetId": "lossy-source",
+          "observationHint": "Compare the emf chip with the terminal-voltage chip on the same loop.",
+          "highlightedControlIds": [
+            "internalResistance"
+          ],
+          "highlightedGraphIds": [
+            "terminal-response"
+          ],
+          "highlightedOverlayIds": [
+            "voltageLabels",
+            "idealReference"
+          ]
+        }
+      },
+      {
+        "id": "ir-qt-heavy-load",
+        "type": "reasoning",
+        "prompt": "Why can a heavier load make the current larger but the terminal voltage smaller at the same time?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because the larger current also makes the internal drop larger, which pulls the terminal voltage down."
+          },
+          {
+            "id": "b",
+            "label": "Because heavier loads always lower emf directly inside the source."
+          },
+          {
+            "id": "c",
+            "label": "Because terminal voltage and current must always move in opposite directions in every circuit."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The load changes the current first. That same current then changes the size of the internal voltage drop.",
+        "selectedWrongExplanations": {
+          "b": "Emf is a source property here. The load does not directly change it.",
+          "c": "That is not a universal rule. It is the non-ideal-source mechanism on this bench."
+        },
+        "showMeAction": {
+          "label": "Show heavy load",
+          "presetId": "heavy-load-lossy-source",
+          "observationHint": "Watch the current arrow and the internal-drop chip rise together.",
+          "highlightedControlIds": [
+            "loadResistance"
+          ],
+          "highlightedGraphIds": [
+            "terminal-response"
+          ],
+          "highlightedOverlayIds": [
+            "currentFlow",
+            "voltageLabels"
+          ]
+        }
+      },
+      {
+        "id": "ir-qt-ideal-limit",
+        "type": "compare-two-cases",
+        "prompt": "Which setup behaves more like an ideal source?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The one with the smaller internal resistance, because the terminal voltage stays closer to the emf and the internal loss is smaller."
+          },
+          {
+            "id": "b",
+            "label": "The one with the larger internal resistance, because it stores more voltage inside the source."
+          },
+          {
+            "id": "c",
+            "label": "Both behave the same as long as emf is the same."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Smaller internal resistance means less voltage lost and less power wasted inside the source, so the source behaves more like the ideal limit.",
+        "selectedWrongExplanations": {
+          "b": "Storing more loss inside the source is the opposite of ideal behavior.",
+          "c": "Equal emf does not make sources behave identically if their internal resistance differs."
+        },
+        "showMeAction": {
+          "label": "Show near-ideal source",
+          "presetId": "near-ideal-source",
+          "observationHint": "The terminal-voltage and emf cues almost coincide in the low-r case.",
+          "highlightedControlIds": [
+            "internalResistance"
+          ],
+          "highlightedGraphIds": [
+            "terminal-response",
+            "power-split"
+          ],
+          "highlightedOverlayIds": [
+            "idealReference"
+          ]
+        }
+      },
+      {
+        "id": "ir-qt-power-loss",
+        "type": "graph-reading",
+        "prompt": "What does the internal-loss curve on the power graph represent?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Power wasted as heating inside the source because current is flowing through the internal resistance."
+          },
+          {
+            "id": "b",
+            "label": "Extra power the source creates to help the load."
+          },
+          {
+            "id": "c",
+            "label": "The part of the load power that will later return to the source."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Internal resistance wastes some of the source power inside the source itself, so not all of the source power reaches the load.",
+        "selectedWrongExplanations": {
+          "b": "That curve is a loss, not a bonus.",
+          "c": "The graph is showing dissipation inside the source, not a future return path."
+        },
+        "showMeAction": {
+          "label": "Show power split",
+          "presetId": "lossy-source",
+          "observationHint": "The loss bar grows when the source has to push a larger current through its own internal resistance.",
+          "highlightedControlIds": [
+            "internalResistance",
+            "loadResistance"
+          ],
+          "highlightedGraphIds": [
+            "power-split"
+          ],
+          "highlightedOverlayIds": [
+            "powerSplit"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one battery with emf and one internal resistor on the same top wire, followed by one external load resistor and one return path. Sliders set emf, internal resistance, and load resistance.",
+        "Overlays can show current flow, voltage labels, the power split between the load and the source interior, and an ideal-source reference cue. The readout card and both graphs update from the same one-loop source-load model."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The terminal-response graph sweeps load resistance and shows terminal voltage together with the internal drop on one voltage scale. The power-split graph uses the same sweep to compare power delivered to the load with power lost inside the source."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Internal Resistance and Terminal Voltage | Open Model Lab",
+    "description": "Learn how internal resistance changes terminal voltage, current, and power loss with one bounded non-ideal source and load simulation.",
+    "keywords": [
+      "internal resistance",
+      "terminal voltage",
+      "emf",
+      "non-ideal source",
+      "circuit simulation"
+    ]
+  }
+}

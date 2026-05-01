@@ -1,0 +1,206 @@
+{
+"sections": {
+"explanation": {
+"paragraphs": [
+"The Doppler effect does not mean the source changes how often it emits. In this model the emitted frequency stays fixed. What changes first is the spacing laid down in the medium: ahead of a moving source, wavefronts are packed closer together, while behind it they are spread farther apart.",
+"Observer motion then changes how quickly those wavefronts are met on the chosen side. A listener moving toward the source encounters them more often, while a listener moving away encounters them less often. This bench keeps the circles, spacing guides, and heard-frequency trace tied to the same pass-by scene, so a higher heard pitch means a higher arrival rate, not a hidden change in the emitted tone."
+]
+},
+"keyIdeas": [
+"A moving source changes the spacing laid down in the medium: compressed ahead, stretched behind.",
+"A moving observer changes how quickly wavefronts are encountered, but it does not change the spacing already present in the medium.",
+"In this classical sound model, a higher heard pitch means wavefronts arrive more often, not that the source started emitting faster."
+],
+"commonMisconception": {
+"myth": "A higher heard pitch means the source must actually be emitting a higher frequency.",
+"correction": [
+"The emitted frequency stays fixed here. What changes is the spacing in the medium and the rate at which the observer meets those wavefronts.",
+"Source motion changes front and rear spacing. Observer motion changes arrival rate on the chosen side."
+]
+},
+"workedExamples": {
+"title": "Live worked examples",
+"intro": "These checks use the same moving-source setup shown on the stage and graphs, so each formula stays tied to one honest pass-by situation.",
+"items": [
+{
+"id": "front-vs-rear-spacing",
+"title": "Wavefront spacing ahead and behind",
+"prompt": "For this moving-source setup with $v_{wave} = {{waveSpeedValue}}\\,\\mathrm{m/s}$, $f_s = {{sourceFrequencyValue}}\\,\\mathrm{Hz}$, and $v_s = {{sourceSpeedValue}}\\,\\mathrm{m/s}$, what spacing is laid down ahead of the source and behind it?"
+},
+{
+"id": "heard-frequency-from-motion",
+"title": "Heard frequency on the selected side",
+"prompt": "On the {{sideLabelValue}} side of this setup, what observed frequency should the listener hear when $f_s = {{sourceFrequencyValue}}\\,\\mathrm{Hz}$ and observer speed is $v_o = {{observerSpeedValue}}\\,\\mathrm{m/s}$, with positive values meaning toward the source on that side?",
+"resultLabel": "Heard-frequency result"
+}
+]
+},
+"miniChallenge": {
+"prompt": "You want the same siren to sound lower without changing the emitted frequency. On which side of the moving source should you listen?",
+"explanation": "Behind the source, the wavefront spacing is stretched rather than compressed. Larger spacing means fewer arrivals each second, so the heard pitch is lower in this classical model."
+}
+},
+"equations": [
+{
+"id": "rest-spacing",
+"meaning": "This is the wavelength laid down in the medium when the source is stationary."
+},
+{
+"id": "front-spacing",
+"meaning": "Ahead of the moving source, each new crest is emitted from a more forward position, so the spacing in the medium is smaller."
+},
+{
+"id": "rear-spacing",
+"meaning": "Behind the moving source, each new crest is emitted farther ahead than the previous one, so the spacing in the medium is larger."
+},
+{
+"id": "observed-frequency",
+"meaning": "The denominator comes from the spacing laid down by the moving source on the chosen side, while the numerator comes from how quickly the observer meets those wavefronts."
+}
+],
+"variableLinks": [
+{
+"id": "sourceFrequency",
+"description": "Sets how often the source emits wavefronts. In this model that emitted rate stays fixed even when motion changes the heard pitch."
+},
+{
+"id": "sourceSpeed",
+"description": "Changes the spacing laid down in the medium: tighter ahead of the source and wider behind it."
+},
+{
+"id": "observerSpeed",
+"description": "Changes how quickly the observer meets the existing wavefronts on the chosen side without changing the spacing already in the medium."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "sourceFrequency",
+"description": "Sets how often the source emits new wavefronts."
+},
+{
+"id": "sourceSpeed",
+"description": "Moves the source through the medium, which compresses spacing ahead and stretches spacing behind."
+},
+{
+"id": "observerSpeed",
+"description": "Positive values move the observer toward the source on the chosen side; negative values move away and change only the arrival rate."
+},
+{
+"id": "observerAhead",
+"description": "Choose whether the observer listens on the compressed front side or the stretched rear side of the moving source."
+}
+],
+"overlays": [
+{
+"id": "motionVectors",
+"shortDescription": "Marks source and observer motion on the same pass-by scene.",
+"whatToNotice": [
+"Source motion changes the spacing laid down in the medium, while observer motion changes how quickly those wavefronts are encountered."
+],
+"whyItMatters": "It keeps two different Doppler causes from being blended into one."
+},
+{
+"id": "frontBackSpacing",
+"shortDescription": "Shows one spacing ahead of the source and one behind it at the same moment.",
+"whatToNotice": [
+"As soon as the source moves forward, spacing ahead becomes smaller and spacing behind becomes larger."
+],
+"whyItMatters": "It ties the pitch shift to a visible change in the medium rather than to the source somehow emitting faster."
+},
+{
+"id": "arrivalTiming",
+"shortDescription": "Labels the current arrival rate on the observer's chosen side.",
+"whatToNotice": [
+"Changing observer speed changes the heard arrival rate even when the chosen-side spacing stays the same."
+],
+"whyItMatters": "It separates spacing in the medium from the rate at which the observer encounters those wavefronts."
+}
+]
+},
+"graphs": [
+{
+"id": "displacement",
+"description": "Compares the emitted signal with the received signal, so you can see that the source keeps one emitted frequency while the observer receives a different arrival rate."
+},
+{
+"id": "source-spacing",
+"description": "Shows how source speed changes the spacing in the medium ahead of the source and behind it while the emitted frequency stays fixed."
+},
+{
+"id": "observer-response",
+"description": "Shows how observer motion changes heard frequency on the chosen side relative to the emitted-frequency baseline."
+}
+],
+"noticePrompts": {
+"intro": "Change one cause at a time and link it to something visible on the pass-by bench.",
+"items": [
+{
+"id": "doppler-notice-front-spacing",
+"text": "Notice that faster source motion compresses the front markers and stretches the rear markers at the same time. The source is not emitting faster; it is moving between emissions.",
+"whyItMatters": "The Doppler shift begins with a spacing change laid down in the medium."
+},
+{
+"id": "doppler-notice-observer-motion",
+"text": "Notice that changing observer speed moves the heard-frequency trace even though the front and rear spacing markers do not move. The observer is changing the encounter rate, not the medium.",
+"whyItMatters": "It separates source-created spacing changes from observer-created arrival-rate changes."
+},
+{
+"id": "doppler-notice-ahead-behind",
+"text": "Notice that switching from ahead to behind changes which spacing the observer samples. Ahead is compressed and sounds higher; behind is stretched and sounds lower.",
+"whyItMatters": "The pitch shift depends on which side of the moving source the observer listens from."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict the pitch and spacing change before you test it. Each prompt changes one cause at a time so you can separate emitted frequency, spacing in the medium, and arrival rate.",
+"items": [
+{
+"id": "de-predict-faster-source",
+"explanation": "A faster source does not change its emitted frequency here. It emits each crest from a more forward position, which compresses the front spacing and raises the arrival rate for an observer ahead."
+},
+{
+"id": "de-predict-moving-observer",
+"explanation": "Observer motion changes how quickly the observer meets wavefronts on the chosen side. It does not redraw the spacing already laid down by the source."
+},
+{
+"id": "de-predict-behind-source",
+"explanation": "Behind the source, the observer samples stretched rear spacing, so fewer crests arrive each second and the heard pitch drops."
+}
+]
+},
+"challengeMode": {
+"intro": "Use the same pass-by bench to separate two ideas people often mix up: changes to spacing in the medium and changes to arrival rate at the observer."
+},
+"quickTest": {
+"intro": "Use the moving-source setup, not memory alone. These checks separate what changes in the medium from what changes at the observer.",
+"questions": [
+{
+"id": "de-qt-observer-motion",
+"explanation": "Observer motion changes the arrival rate. It does not rewrite the wavefront spacing already launched into the medium."
+},
+{
+"id": "de-qt-behind-source",
+"explanation": "Behind the moving source, each later crest is emitted from a more forward position than the one before it, so the rear spacing is larger and the heard pitch is lower."
+},
+{
+"id": "de-qt-ahead-vs-behind",
+"explanation": "Ahead of the source, the observer samples compressed spacing. Behind the source, the observer samples stretched spacing. The emitted frequency is the same, but the arrival rate is different."
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows one sound source moving through a horizontal medium and one observer listening either ahead of the source or behind it. Expanding wavefronts, spacing markers, motion arrows, and arrival labels all stay linked on the same bench.",
+"Changing source speed changes the spacing laid down in the medium. Changing observer speed changes how fast the observer meets those wavefronts. Both effects update the same bench and graphs."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The first graph compares the emitted source signal with the observer signal over time.",
+"The second graph shows how source speed changes front and rear spacing, and the third graph shows how observer speed changes heard frequency on the chosen side relative to the emitted-frequency baseline."
+]
+}
+}
+}

@@ -1,0 +1,190 @@
+{
+"sections": {
+"explanation": {
+"paragraphs": [
+"Keep the Path-difference guide and Combined-amplitude guide visible, and fix the probe at one screen height. The probe graph traces Source A, Source B, and their combined wave at that one point over time, while the pattern graph shows the long-run brightness at every screen height. A bright band is not one frozen crest in time. It is a position where the combined wave stays large cycle after cycle.",
+"The key quantity is the total phase difference: how far out of step the two arrivals are when they meet. The Path-difference guide shows where part of it comes from. When you move the probe, r1 and r2 change, so the extra distance Delta r changes too. If Delta r is 0, one wavelength, two wavelengths, and so on, equal sources reinforce. If Delta r is about half a wavelength, one and a half wavelengths, and so on, equal sources arrive nearly opposite in phase and the screen becomes dark.",
+"The source controls let you test which part of that phase difference changed. Source phase offset can turn the center from bright to dark without changing the geometry at all, because it adds phase directly. Changing Wavelength also leaves the geometry alone, but it changes how much phase each meter of path difference represents, so the fringes squeeze together or spread apart on the pattern graph.",
+"One last check matters before you trust a dark band: destructive phase does not guarantee a perfect zero unless the source amplitudes are matched. If Source A and Source B are unequal, the combined-amplitude guide—the outline of how large the added wave can get—does not fully close. The same idea later reappears in standing waves, noise cancellation, and optical interference. Next, make a dark band by moving Probe height, return to the center and darken it again with Source phase offset alone, then unbalance the amplitudes and watch the null fill back in."
+]
+},
+"keyIdeas": [
+"The pattern graph shows brightness across the whole screen, while the probe graph traces the wave at one chosen point over time.",
+"A bright or dark band depends on total phase difference: whole-wavelength path differences reinforce, while half-wavelength differences cancel for equal sources.",
+"A perfect dark fringe needs both destructive phase and equal source amplitudes."
+],
+"commonMisconception": {
+"correction": [
+"A dark fringe is produced by two waves arriving at the same point with nearly opposite phase.",
+"The waves still overlap there. What disappears is the combined amplitude, not one of the waves."
+]
+},
+"workedExamples": {
+"intro": "These examples use the live probe position and source settings, so each calculation stays tied to the bright or dark region you are actually inspecting.",
+"items": [
+{
+"id": "path-to-phase",
+"title": "Turn path difference into phase difference",
+"prompt": "For the current probe position at y = {{probeYValue}}\\,\\mathrm{m}, what total phase difference reaches this screen point?",
+"steps": [
+{
+"id": "substitute",
+"label": "2. Substitute the live path difference"
+},
+{
+"id": "compute",
+"label": "3. Reduce it to an equivalent comparison angle"
+}
+],
+"applyAction": {
+"observationHint": "The path difference is close to half a wavelength, so the probe sits near a dark fringe on the screen."
+}
+},
+{
+"id": "resultant-envelope",
+"title": "Find the combined amplitude at the probe",
+"prompt": "For the current source amplitudes and phase difference, how large can the combined wave get at the probe point?",
+"steps": [
+{
+"id": "compute",
+"label": "3. Interpret the combined amplitude"
+}
+],
+"applyAction": {
+"observationHint": "The phase split is still destructive, but unequal amplitudes leave leftover combined motion instead of a perfect null."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Your probe is on a bright region, and you may not change Source A amplitude or Source B amplitude. What is one reliable way to make that same point dark?",
+"prediction": "Decide whether changing Probe height, Wavelength, or Source phase offset can shift the point to destructive interference.",
+"explanation": "A dark point needs the total phase difference to shift by about pi. You can do that by changing geometry, because Probe height changes path difference, or by adding source phase directly."
+}
+},
+"simulation": {
+"overlays": [
+{
+"id": "pathDifference",
+"shortDescription": "Labels the two travel distances and the extra distance between them.",
+"whatToNotice": [
+"Moving the probe changes both path lengths, but interference depends on their difference, not on the two lengths separately."
+],
+"whyItMatters": "It shows how screen position turns into phase difference instead of making bright and dark bands look mysterious."
+},
+{
+"id": "resultEnvelope",
+"shortDescription": "Shows the maximum size of the combined motion at the probe.",
+"whatToNotice": [
+"The instantaneous displacement can cross zero even at a bright point, but the guide still shows whether that point is mostly bright or dark over time."
+],
+"whyItMatters": "It separates the fast up-and-down motion from the longer-run interference pattern."
+},
+{
+"id": "phaseWheel",
+"shortDescription": "Shows the two source contributions as arrows that add to the final result.",
+"whatToNotice": [
+"As the phase difference changes, the two arrows swing apart or together, and the final arrow shrinks or grows with that angle."
+],
+"whyItMatters": "It turns the amplitude formula into a picture of vector addition instead of algebra alone."
+}
+]
+},
+"graphs": [
+{
+"id": "displacement",
+"description": "Traces Source A, Source B, and their combined wave at one chosen screen point over time, so you can see how bright or dark regions still come from time-varying waves."
+},
+{
+"id": "pattern",
+"description": "Shows the average brightness at every screen height, so you can compare one chosen probe point with the full interference pattern."
+}
+],
+"noticePrompts": {
+"intro": "Use one cue at a time. Each prompt should point to something you can actually see change on the stage or graphs.",
+"items": [
+{
+"id": "wave-notice-probe-and-pattern",
+"text": "Notice that the probe point and the screen band tell the same story: a larger combined-amplitude guide at the probe means a brighter region on the screen.",
+"whyItMatters": "The pattern is the long-run result of the same wave addition you are watching at one point."
+},
+{
+"id": "wave-notice-pattern-preview",
+"text": "Notice that hovering the pattern graph moves the live probe to that same screen height. The graph and stage are linked to the same point.",
+"whyItMatters": "It keeps the graph, geometry, and probe motion synchronized."
+},
+{
+"id": "wave-notice-wavelength",
+"text": "Notice that shortening the wavelength makes the same path difference count for more phase, so the bright and dark bands pack closer together.",
+"whyItMatters": "Wavelength sets fringe spacing because it converts path difference into phase difference."
+},
+{
+"id": "wave-notice-unequal-amplitudes",
+"whyItMatters": "A perfect null needs both the right phase difference and equal amplitudes."
+},
+{
+"id": "wave-notice-inspect",
+"text": "Notice that the time rail changes the instantaneous probe motion, but the pattern graph stays the same because intensity is an average over time, not a time trace."
+},
+{
+"id": "wave-notice-compare",
+"text": "Notice which setup keeps the bright peaks farther apart on the screen. That setup has the larger wavelength or the smaller phase change per meter of path difference.",
+"whyItMatters": "Compare mode makes fringe-spacing changes easy to see without hiding the geometry underneath."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict the outcome before you test it. Each prompt changes one cause at a time so you can connect geometry, phase, and brightness.",
+"items": [
+{
+"id": "wave-predict-phase-flip",
+"explanation": "At the center, the path difference is zero, so geometry does not create a phase split. But a source phase offset of pi still makes the two arrivals oppose each other at that same point.",
+"observationHint": "Watch the center band dim even though the path lengths stay equal."
+},
+{
+"id": "wave-predict-shorter-wavelength",
+"explanation": "Shorter wavelength means the same extra distance produces a larger phase change, so the fringes crowd closer together."
+},
+{
+"id": "wave-predict-unequal-null",
+"explanation": "Destructive phase alone does not create a full null. If one source is stronger, part of its contribution is left over instead of being completely canceled.",
+"observationHint": "The phase split is still destructive, but the combined-amplitude guide opens back up because the amplitudes are unmatched."
+}
+]
+},
+"quickTest": {
+"intro": "Use geometry, phase, and amplitude together. These questions ask what the screen point must do, not which formula you remember.",
+"questions": [
+{
+"id": "wave-qt-1",
+"explanation": "Bright regions are places where the arrivals reinforce over repeated cycles. That happens when the total phase difference is near 0, 2π, 4π, and so on, not only when the path difference is exactly zero.",
+"selectedWrongExplanations": {
+"b": "Zero path difference is one way to get constructive interference, but any whole-number multiple of the wavelength can do it.",
+"c": "The probe still oscillates in time. The bright pattern comes from a larger combined amplitude, not from the displacement being frozen."
+}
+},
+{
+"id": "wave-qt-2",
+"explanation": "Interference requires both arrivals to reach the same point. A dark fringe is created by overlapping waves with nearly opposite phase, not by one wave missing the point."
+},
+{
+"id": "wave-qt-4",
+"explanation": "Geometry sets the path difference, but wavelength determines how much phase that path difference represents. Shorter wavelength means more phase change per meter, so the fringes crowd closer together."
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows two coherent sources on the left, a shared screen on the right, and one adjustable probe point on that screen. Two wavy paths run from the sources to the probe so the user can compare the path lengths, the local phase split, and the resulting probe motion in the same picture.",
+"The probe point also appears on a vertical screen strip that brightens or darkens according to the time-averaged combined amplitude. Optional overlays label the path difference, the combined-amplitude guide, and an arrow diagram for phase addition."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The probe graph plots Source A, Source B, and their combined wave at one selected screen point as functions of time.",
+"The screen-pattern graph plots average brightness against screen height, so it stays position-based even while the time rail is used to inspect the instantaneous probe motion."
+]
+}
+}
+}

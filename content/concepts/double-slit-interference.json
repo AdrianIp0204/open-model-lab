@@ -1,0 +1,1281 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live double-slit checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Fringe-spacing checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Carry interference deeper into optics"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Use two coherent slits and one screen to connect path difference, phase difference, and fringe spacing to wavelength, slit separation, and screen distance on one compact optics bench.",
+    "keyTakeaway": "A screen point is bright when the path difference is close to a whole-number multiple of the wavelength, and dark when it is close to a half-number multiple."
+  },
+  "v2": {
+    "intuition": "Treat the center bright fringe as your zero-path-difference reference, then move the probe and geometry controls to see how path difference, phase, and spacing stay linked.",
+    "whyItMatters": "Double-slit interference is the clean bridge from wave superposition to real optical patterns: one geometry rule explains where bright and dark bands appear and how to widen or tighten them.",
+    "estimatedMinutes": 30,
+    "equationSnapshot": {
+      "title": "Path, phase, and spacing",
+      "note": "Keep the path-to-phase relation beside the small-angle spacing rule while you compare the probe with the whole screen pattern.",
+      "equationIds": [
+        "phase-difference",
+        "fringe-spacing"
+      ]
+    },
+    "startSetup": {
+      "presetId": "center-bright",
+      "graphId": "pattern",
+      "overlayIds": [
+        "geometryGuide",
+        "pathDifference"
+      ],
+      "note": "Start with the center bright fringe so equal path lengths give you a clean reference before moving off axis."
+    },
+    "guidedSteps": [
+      {
+        "id": "anchor-the-center-bright-fringe",
+        "title": "Anchor the center bright fringe",
+        "goal": "Use the center of the screen as the easiest place to see equal path lengths and constructive interference.",
+        "doThis": "Apply Center bright, keep the path-difference guide on, and compare the center screen band with the pattern graph.",
+        "notice": "At the center, the two slit-to-screen paths are equal, the phase split is near zero, and the screen is bright.",
+        "explain": "The bright center is not a special extra beam; it is the point where the two coherent slit contributions arrive in phase and reinforce.",
+        "setup": {
+          "presetId": "center-bright",
+          "graphId": "pattern",
+          "overlayIds": [
+            "geometryGuide",
+            "pathDifference"
+          ]
+        },
+        "reveal": {
+          "controlIds": [
+            "probeY"
+          ],
+          "graphIds": [
+            "pattern"
+          ],
+          "overlayIds": [
+            "geometryGuide",
+            "pathDifference"
+          ],
+          "toolHints": [
+            "playback"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Predict the first dark point",
+          "predictionIds": [
+            "dsi-pred-half-wavelength"
+          ]
+        }
+      },
+      {
+        "id": "move-the-probe-into-a-dark-fringe",
+        "title": "Move the probe into a dark fringe",
+        "goal": "Connect one sampled screen point to the path-difference and phase readings at that exact point.",
+        "doThis": "Switch to First dark, show the phase wheel, and read the path difference in wavelengths before looking at the probe-field graph.",
+        "notice": "Near the first dark fringe, the path difference is about half a wavelength and the two contributions nearly cancel at the probe.",
+        "explain": "A dark band still receives light from both slits. It is dark because the arrivals are nearly opposite in phase, not because one slit stopped contributing.",
+        "setup": {
+          "presetId": "first-dark",
+          "graphId": "displacement",
+          "overlayIds": [
+            "pathDifference",
+            "phaseWheel"
+          ]
+        },
+        "reveal": {
+          "controlIds": [
+            "probeY",
+            "wavelength"
+          ],
+          "graphIds": [
+            "displacement",
+            "pattern"
+          ],
+          "overlayIds": [
+            "pathDifference",
+            "phaseWheel"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Read path difference, not brightness alone",
+          "questionIds": [
+            "dsi-qt-1"
+          ]
+        }
+      },
+      {
+        "id": "tune-fringe-spacing-with-geometry",
+        "title": "Tune fringe spacing with geometry",
+        "goal": "Separate controls that actually widen the whole pattern from the probe control that only samples one place.",
+        "doThis": "Turn on the fringe-spacing guide, compare Tight fringes with Wide fringes, and change wavelength, slit separation, or screen distance one at a time.",
+        "notice": "Longer wavelength or a farther screen spreads the bands apart, while larger slit separation packs more bands into the same height.",
+        "explain": "The spacing rule links all three geometry controls: spacing grows with λ and L, but shrinks as d gets larger.",
+        "setup": {
+          "presetId": "wide-fringes",
+          "graphId": "pattern",
+          "overlayIds": [
+            "geometryGuide",
+            "fringeSpacingGuide"
+          ]
+        },
+        "reveal": {
+          "controlIds": [
+            "wavelength",
+            "screenDistance",
+            "slitSeparation"
+          ],
+          "graphIds": [
+            "pattern"
+          ],
+          "overlayIds": [
+            "geometryGuide",
+            "fringeSpacingGuide"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Predict which way the spacing moves",
+          "predictionIds": [
+            "dsi-pred-larger-separation",
+            "dsi-pred-farther-screen"
+          ]
+        }
+      },
+      {
+        "id": "compare-local-probe-with-whole-pattern",
+        "title": "Compare probe and whole pattern",
+        "goal": "Keep the time trace at one probe point separate from the spatial intensity pattern across the screen.",
+        "doThis": "Step through time on the probe-field graph, then return to the screen-pattern graph without moving the geometry controls.",
+        "notice": "The local field oscillates in time, but the pattern graph remains a map of brightness versus screen height for the same geometry.",
+        "explain": "The probe field answers what the two waves are doing at one chosen point; the pattern graph answers where all the bright and dark bands sit.",
+        "setup": {
+          "presetId": "first-dark",
+          "graphId": "displacement",
+          "overlayIds": [
+            "pathDifference",
+            "phaseWheel"
+          ]
+        },
+        "reveal": {
+          "controlIds": [
+            "probeY"
+          ],
+          "graphIds": [
+            "displacement",
+            "pattern"
+          ],
+          "overlayIds": [
+            "phaseWheel",
+            "fringeSpacingGuide"
+          ],
+          "toolHints": [
+            "playback"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Check the pattern-versus-probe distinction",
+          "questionIds": [
+            "dsi-qt-2",
+            "dsi-qt-4"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Bright and dark bands come from path difference measured in wavelengths, not from either slit switching off.",
+        "Phase difference is the path-difference story written as an angle, so half a wavelength means near-opposite phase.",
+        "Fringe spacing widens with larger wavelength or screen distance and tightens with larger slit separation.",
+        "Probe height samples one point on the pattern; it does not change the spacing of the pattern itself."
+      ],
+      "misconception": "A dark fringe does not mean no light reaches that screen point; it means the two coherent contributions cancel there.",
+      "workedExampleRefs": [
+        "path-difference-to-phase",
+        "fringe-spacing-geometry"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "refraction-snells-law",
+          "reasonLabel": "Move from interference geometry to boundary bending"
+        },
+        {
+          "slug": "photoelectric-effect",
+          "reasonLabel": "Contrast wave optics with photon evidence"
+        }
+      ],
+      "freePlayPrompt": "Try to make the fringes wide without moving the probe first; then use the probe only to verify one bright or dark location."
+    }
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Double-slit interference is the optics version of a wave-interference idea you have already seen: two coherent arrivals reach the same place, and their path difference sets whether they reinforce or cancel. Here the two arrivals come from two narrow slits and land on one screen.",
+        "This bench keeps the model intentionally bounded: one wavelength, one slit separation, one screen distance, and one movable probe on the screen. The same geometry drives the stage, the pattern graph, prediction mode, worked examples, and challenge checks so the fringe pattern stays tied to one honest optics story instead of a giant wave-optics engine."
+      ]
+    },
+    "keyIdeas": [
+      "A screen point is bright when the path difference is close to a whole-number multiple of the wavelength, and dark when it is close to a half-number multiple.",
+      "The path difference becomes a phase difference through \\(\\Delta \\phi = 2\\pi \\Delta r / \\lambda\\), so wavelength controls how much phase each extra meter contributes.",
+      "For small angles, the bright-fringe spacing is approximately \\(\\Delta y \\approx \\lambda L / d\\), so larger wavelength or screen distance widens the fringes while larger slit separation tightens them.",
+      "This page extends Wave Interference and Diffraction into optics without pretending to simulate every detail of full wave propagation."
+    ],
+    "commonMisconception": {
+      "myth": "A dark fringe means the light from one slit did not reach that point on the screen.",
+      "correction": [
+        "Both slits still feed the same screen point. The dark fringe appears because the two coherent contributions arrive with nearly opposite phase.",
+        "The screen pattern is set by superposition, not by one slit turning off at selected places."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live double-slit checks",
+      "intro": "These examples read the live geometry directly from the current optics bench, so the algebra stays attached to the same fringe pattern you are looking at.",
+      "items": [
+        {
+          "id": "path-difference-to-phase",
+          "title": "Path difference to phase difference",
+          "prompt": "For the current probe position at y = {{probeYValue}}, what phase split reaches that screen point?",
+          "variables": [
+            {
+              "id": "probe-height",
+              "variableId": "probeY",
+              "symbol": "y_p",
+              "label": "Probe height",
+              "valueKey": "probeYValue",
+              "unit": "m"
+            },
+            {
+              "id": "path-difference",
+              "symbol": "\\Delta r",
+              "label": "Path difference",
+              "valueKey": "pathDifferenceValue",
+              "unit": "m"
+            },
+            {
+              "id": "wavelength",
+              "variableId": "wavelength",
+              "symbol": "\\lambda",
+              "label": "Wavelength",
+              "valueKey": "wavelengthValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Start from the interference relation",
+              "template": "Use $\\Delta \\phi = \\dfrac{2\\pi \\Delta r}{\\lambda}$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the live geometry",
+              "template": "$\\Delta \\phi = \\dfrac{2\\pi({{pathDifferenceValue}})}{{wavelengthValue}}$."
+            },
+            {
+              "id": "interpret",
+              "label": "3. Wrap the comparison angle",
+              "template": "That path difference is about {{pathDifferenceWavelengthsValue}} wavelengths of extra travel, so the wrapped phase comparison is {{phaseDifferenceValue}} rad."
+            }
+          ],
+          "resultLabel": "Current phase split",
+          "resultTemplate": "$\\Delta \\phi = {{phaseDifferenceValue}}\\,\\mathrm{rad}$",
+          "interpretationTemplate": "{{phaseInterpretation}}",
+          "applyAction": {
+            "label": "Show first dark",
+            "presetId": "first-dark",
+            "observationHint": "The probe sits where the path difference is close to half a wavelength, so the slit contributions nearly cancel.",
+            "highlightedControlIds": [
+              "probeY",
+              "wavelength"
+            ],
+            "highlightedGraphIds": [
+              "pattern",
+              "displacement"
+            ],
+            "highlightedOverlayIds": [
+              "pathDifference",
+              "phaseWheel"
+            ]
+          }
+        },
+        {
+          "id": "fringe-spacing-geometry",
+          "title": "Fringe spacing from wavelength and geometry",
+          "prompt": "For the current wavelength, slit separation, and screen distance, how far apart should neighboring bright fringes be?",
+          "variables": [
+            {
+              "id": "wavelength",
+              "variableId": "wavelength",
+              "symbol": "\\lambda",
+              "label": "Wavelength",
+              "valueKey": "wavelengthValue",
+              "unit": "m"
+            },
+            {
+              "id": "screen-distance",
+              "variableId": "screenDistance",
+              "symbol": "L",
+              "label": "Screen distance",
+              "valueKey": "screenDistanceValue",
+              "unit": "m"
+            },
+            {
+              "id": "slit-separation",
+              "variableId": "slitSeparation",
+              "symbol": "d",
+              "label": "Slit separation",
+              "valueKey": "slitSeparationValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Start from the small-angle spacing rule",
+              "template": "Use $\\Delta y \\approx \\dfrac{\\lambda L}{d}$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the current bench geometry",
+              "template": "$\\Delta y \\approx \\dfrac{({{wavelengthValue}})({{screenDistanceValue}})}{{slitSeparationValue}}$."
+            },
+            {
+              "id": "read",
+              "label": "3. Connect it to the visible fringes",
+              "template": "That gives a bright-fringe spacing of {{fringeSpacingValue}} m, so the first dark band should sit about {{firstDarkValue}} m from the center."
+            }
+          ],
+          "resultLabel": "Current fringe spacing",
+          "resultTemplate": "$\\Delta y \\approx {{fringeSpacingValue}}\\,\\mathrm{m}$",
+          "interpretationTemplate": "{{spacingInterpretation}}",
+          "applyAction": {
+            "label": "Show wide fringes",
+            "presetId": "wide-fringes",
+            "observationHint": "Wide fringes come from a larger value of lambda times L over d, not from moving the probe alone.",
+            "highlightedControlIds": [
+              "wavelength",
+              "screenDistance",
+              "slitSeparation"
+            ],
+            "highlightedGraphIds": [
+              "pattern"
+            ],
+            "highlightedOverlayIds": [
+              "geometryGuide",
+              "fringeSpacingGuide"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "You want the fringes farther apart on the same screen. Which control changes are reliable and which one is only sampling a different point?",
+      "prediction": "Decide whether changing wavelength, slit separation, screen distance, or probe height actually widens the fringe spacing.",
+      "answer": "Increase wavelength, increase screen distance, or decrease slit separation. Probe height only samples a different place on the existing pattern.",
+      "explanation": "Fringe spacing follows the geometry rule \\(\\Delta y \\approx \\lambda L / d\\). The probe does not create the pattern; it only reads one location on it."
+    }
+  },
+  "equations": [
+    {
+      "id": "path-difference",
+      "latex": "\\Delta r = r_2 - r_1",
+      "label": "Path difference",
+      "meaning": "One slit-to-screen path can be slightly longer than the other for the same screen point.",
+      "notes": [
+        "The stage keeps both path lengths visible while the probe moves."
+      ]
+    },
+    {
+      "id": "phase-difference",
+      "latex": "\\Delta \\phi = \\dfrac{2\\pi \\Delta r}{\\lambda}",
+      "label": "Phase difference",
+      "meaning": "Path difference matters only through how many wavelengths of extra travel it represents."
+    },
+    {
+      "id": "bright-condition",
+      "latex": "d\\sin\\theta = m\\lambda",
+      "label": "Bright fringes",
+      "meaning": "Constructive interference occurs when the path difference matches a whole-number multiple of the wavelength."
+    },
+    {
+      "id": "dark-condition",
+      "latex": "d\\sin\\theta = \\left(m + \\dfrac{1}{2}\\right)\\lambda",
+      "label": "Dark fringes",
+      "meaning": "Destructive interference occurs when the path difference is a half-number multiple of the wavelength."
+    },
+    {
+      "id": "fringe-spacing",
+      "latex": "\\Delta y \\approx \\dfrac{\\lambda L}{d}",
+      "label": "Fringe spacing",
+      "meaning": "For small angles, wavelength and geometry together set how far apart neighboring bright fringes appear on the screen."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "wavelength",
+      "symbol": "\\lambda",
+      "label": "Wavelength",
+      "param": "wavelength",
+      "tone": "amber",
+      "description": "Longer wavelength makes the same path difference count for less phase per meter and spreads the fringes farther apart.",
+      "equationIds": [
+        "phase-difference",
+        "bright-condition",
+        "dark-condition",
+        "fringe-spacing"
+      ],
+      "graphIds": [
+        "pattern",
+        "displacement"
+      ],
+      "overlayIds": [
+        "pathDifference",
+        "fringeSpacingGuide",
+        "phaseWheel"
+      ]
+    },
+    {
+      "id": "slitSeparation",
+      "symbol": "d",
+      "label": "Slit separation",
+      "param": "slitSeparation",
+      "tone": "teal",
+      "description": "Larger slit separation makes the same screen angle produce more path difference, so the fringes tighten.",
+      "equationIds": [
+        "bright-condition",
+        "dark-condition",
+        "fringe-spacing"
+      ],
+      "graphIds": [
+        "pattern"
+      ],
+      "overlayIds": [
+        "geometryGuide",
+        "fringeSpacingGuide"
+      ]
+    },
+    {
+      "id": "screenDistance",
+      "symbol": "L",
+      "label": "Screen distance",
+      "param": "screenDistance",
+      "tone": "sky",
+      "description": "A farther screen turns the same interference angles into larger vertical spacing on the pattern.",
+      "equationIds": [
+        "fringe-spacing"
+      ],
+      "graphIds": [
+        "pattern"
+      ],
+      "overlayIds": [
+        "geometryGuide",
+        "fringeSpacingGuide"
+      ]
+    },
+    {
+      "id": "probeY",
+      "symbol": "y_p",
+      "label": "Probe height",
+      "param": "probeY",
+      "tone": "coral",
+      "description": "Moves the sampled screen point up or down so you can read which path-difference condition is active there.",
+      "equationIds": [
+        "path-difference",
+        "phase-difference",
+        "dark-condition"
+      ],
+      "graphIds": [
+        "pattern",
+        "displacement"
+      ],
+      "overlayIds": [
+        "pathDifference",
+        "phaseWheel"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "wavelength": 0.78,
+      "slitSeparation": 2.6,
+      "screenDistance": 5.4,
+      "probeY": 0.8,
+      "geometryGuide": true,
+      "pathDifference": true,
+      "fringeSpacingGuide": false,
+      "phaseWheel": false
+    },
+    "ui": {
+      "initialGraphId": "pattern",
+      "primaryGraphIds": [
+        "pattern"
+      ],
+      "primaryControlIds": [
+        "probeY"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "wavelength",
+        "kind": "slider",
+        "label": "Wavelength",
+        "param": "wavelength",
+        "min": 0.5,
+        "max": 1.1,
+        "step": 0.01,
+        "unit": "m",
+        "description": "Longer wavelength widens the fringe spacing for the same slit geometry."
+      },
+      {
+        "id": "slitSeparation",
+        "kind": "slider",
+        "label": "Slit separation",
+        "param": "slitSeparation",
+        "min": 1.6,
+        "max": 3.4,
+        "step": 0.02,
+        "unit": "m",
+        "description": "Increasing slit separation tightens the fringes by increasing the path-difference gradient."
+      },
+      {
+        "id": "screenDistance",
+        "kind": "slider",
+        "label": "Screen distance",
+        "param": "screenDistance",
+        "min": 4.2,
+        "max": 6.4,
+        "step": 0.02,
+        "unit": "m",
+        "description": "Moving the screen farther turns the same interference angles into larger fringe spacing."
+      },
+      {
+        "id": "probeY",
+        "kind": "slider",
+        "label": "Probe height",
+        "param": "probeY",
+        "min": -3.2,
+        "max": 3.2,
+        "step": 0.02,
+        "unit": "m",
+        "description": "Moves the sampled screen point without changing the underlying fringe pattern."
+      }
+    ],
+    "presets": [
+      {
+        "id": "center-bright",
+        "label": "Center bright",
+        "description": "The center line has equal path lengths, so it is a bright fringe.",
+        "values": {
+          "wavelength": 0.78,
+          "slitSeparation": 2.6,
+          "screenDistance": 5.4,
+          "probeY": 0
+        }
+      },
+      {
+        "id": "first-dark",
+        "label": "First dark",
+        "description": "The probe sits close to the first dark fringe where the path difference is about half a wavelength.",
+        "values": {
+          "wavelength": 0.78,
+          "slitSeparation": 2.6,
+          "screenDistance": 5.4,
+          "probeY": 0.81
+        }
+      },
+      {
+        "id": "wide-fringes",
+        "label": "Wide fringes",
+        "description": "Longer wavelength, smaller slit separation, and a farther screen spread the bright bands apart.",
+        "values": {
+          "wavelength": 1,
+          "slitSeparation": 1.8,
+          "screenDistance": 6.2,
+          "probeY": 1.7
+        }
+      },
+      {
+        "id": "tight-fringes",
+        "label": "Tight fringes",
+        "description": "Shorter wavelength, larger slit separation, and a nearer screen pack the bands together.",
+        "values": {
+          "wavelength": 0.56,
+          "slitSeparation": 3.2,
+          "screenDistance": 4.4,
+          "probeY": 0.38
+        }
+      },
+      {
+        "id": "far-screen",
+        "label": "Far screen",
+        "description": "Moving the screen farther widens the same interference pattern in vertical spacing.",
+        "values": {
+          "wavelength": 0.78,
+          "slitSeparation": 2.6,
+          "screenDistance": 6.3,
+          "probeY": 0.95
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "geometryGuide",
+        "label": "Geometry guide",
+        "shortDescription": "Marks slit separation and screen distance directly on the stage.",
+        "whatToNotice": [
+          "The same d and L values that label the stage also control the fringe spacing equation."
+        ],
+        "whyItMatters": "It keeps the optics geometry visible instead of treating the pattern as a disconnected graph effect.",
+        "relatedControls": [
+          "slitSeparation",
+          "screenDistance"
+        ],
+        "relatedGraphTabs": [
+          "pattern"
+        ],
+        "relatedEquationVariables": [
+          "slitSeparation",
+          "screenDistance"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "pathDifference",
+        "label": "Path-difference guide",
+        "shortDescription": "Shows the two slit-to-probe paths and their current difference.",
+        "whatToNotice": [
+          "Moving the probe changes both path lengths, but the interference condition depends on the difference between them."
+        ],
+        "whyItMatters": "It keeps the geometry-to-phase step visible on the same bench.",
+        "relatedControls": [
+          "probeY",
+          "wavelength"
+        ],
+        "relatedGraphTabs": [
+          "pattern",
+          "displacement"
+        ],
+        "relatedEquationVariables": [
+          "probeY",
+          "wavelength"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "fringeSpacingGuide",
+        "label": "Fringe-spacing guide",
+        "shortDescription": "Marks the approximate first bright spacing and first dark position on the screen.",
+        "whatToNotice": [
+          "Changing lambda, L, or d moves these markers together because the spacing follows one shared geometry rule."
+        ],
+        "whyItMatters": "It turns the small-angle spacing formula into a visible stage measurement.",
+        "relatedControls": [
+          "wavelength",
+          "screenDistance",
+          "slitSeparation"
+        ],
+        "relatedGraphTabs": [
+          "pattern"
+        ],
+        "relatedEquationVariables": [
+          "wavelength",
+          "screenDistance",
+          "slitSeparation"
+        ],
+        "defaultOn": false
+      },
+      {
+        "id": "phaseWheel",
+        "label": "Phase wheel",
+        "shortDescription": "Shows the relative phase angle between the two slit contributions at the current probe.",
+        "whatToNotice": [
+          "As the path difference changes, the two equal phasors rotate apart and the resultant vector grows or shrinks."
+        ],
+        "whyItMatters": "It makes the phase story legible without pretending the screen pattern is a separate system.",
+        "relatedControls": [
+          "probeY",
+          "wavelength"
+        ],
+        "relatedGraphTabs": [
+          "displacement",
+          "pattern"
+        ],
+        "relatedEquationVariables": [
+          "probeY",
+          "wavelength"
+        ],
+        "defaultOn": false
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "displacement",
+      "label": "Probe field",
+      "xLabel": "time (s)",
+      "yLabel": "field / displacement (a.u.)",
+      "series": [
+        "slit-1",
+        "slit-2",
+        "resultant",
+        "envelope-plus",
+        "envelope-minus"
+      ],
+      "description": "Tracks the two slit contributions and the live resultant at the selected probe point."
+    },
+    {
+      "id": "pattern",
+      "label": "Screen pattern",
+      "xLabel": "screen height (m)",
+      "yLabel": "relative intensity",
+      "series": [
+        "pattern"
+      ],
+      "description": "Shows the spatial interference pattern across the screen rather than a time trace at one point."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use one cue at a time so the same slit geometry, probe, and pattern graph stay easy to compare.",
+    "items": [
+      {
+        "id": "dsi-notice-center-bright",
+        "text": "Notice that the center line is bright because the two paths are equal there, so the phase split is close to zero.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Start from Center bright, then move the probe upward until the strip first turns dark.",
+        "whyItMatters": "It anchors the pattern on a simple reference point before you read the off-center fringes.",
+        "relatedControls": [
+          "probeY"
+        ],
+        "relatedGraphTabs": [
+          "pattern"
+        ],
+        "relatedOverlays": [
+          "pathDifference"
+        ]
+      },
+      {
+        "id": "dsi-notice-slit-separation",
+        "text": "Notice that increasing slit separation tightens the fringes because the same screen move now changes the path difference more quickly.",
+        "type": "try-this",
+        "priority": 4,
+        "conditions": {
+          "lastChangedControls": [
+            "slitSeparation"
+          ]
+        },
+        "tryThis": "Compare Tight fringes with Center bright and watch how many bright bands fit into the same screen height.",
+        "whyItMatters": "It keeps d tied to path-difference geometry instead of treating it as a cosmetic spacing slider.",
+        "relatedControls": [
+          "slitSeparation"
+        ],
+        "relatedGraphTabs": [
+          "pattern"
+        ],
+        "relatedOverlays": [
+          "geometryGuide",
+          "fringeSpacingGuide"
+        ],
+        "relatedEquationVariables": [
+          "slitSeparation"
+        ]
+      },
+      {
+        "id": "dsi-notice-wavelength",
+        "text": "Notice that increasing wavelength widens the fringes because the same path difference counts as fewer wavelengths of phase change.",
+        "type": "graph-reading",
+        "priority": 5,
+        "conditions": {
+          "lastChangedControls": [
+            "wavelength"
+          ]
+        },
+        "tryThis": "Raise lambda while holding d and L fixed, then compare how far apart the bright peaks sit on the pattern graph.",
+        "whyItMatters": "It keeps wavelength connected to phase per meter rather than only to color language.",
+        "relatedControls": [
+          "wavelength"
+        ],
+        "relatedGraphTabs": [
+          "pattern"
+        ],
+        "relatedOverlays": [
+          "pathDifference",
+          "fringeSpacingGuide"
+        ],
+        "relatedEquationVariables": [
+          "wavelength"
+        ]
+      },
+      {
+        "id": "dsi-notice-screen-distance",
+        "text": "Notice that moving the screen farther spreads the same interference angles into larger vertical spacing on the screen.",
+        "type": "observation",
+        "priority": 6,
+        "conditions": {
+          "lastChangedControls": [
+            "screenDistance"
+          ]
+        },
+        "tryThis": "Compare Center bright with Far screen before changing any other control.",
+        "whyItMatters": "It separates the angular interference condition from the physical height spacing you see on the screen.",
+        "relatedControls": [
+          "screenDistance"
+        ],
+        "relatedGraphTabs": [
+          "pattern"
+        ],
+        "relatedOverlays": [
+          "geometryGuide",
+          "fringeSpacingGuide"
+        ],
+        "relatedEquationVariables": [
+          "screenDistance"
+        ]
+      },
+      {
+        "id": "dsi-notice-time-vs-pattern",
+        "text": "Notice that the time rail changes the instantaneous probe field, but the pattern graph stays position-based because the fringe pattern is an intensity map across space.",
+        "type": "graph-reading",
+        "priority": 7,
+        "conditions": {
+          "inspectState": "inspect"
+        },
+        "tryThis": "Pause on the probe-field graph, step once, and compare what changed at the probe with what stayed fixed on the pattern graph.",
+        "whyItMatters": "It separates local oscillation from the spatial fringe pattern honestly.",
+        "relatedGraphTabs": [
+          "displacement",
+          "pattern"
+        ],
+        "relatedOverlays": [
+          "phaseWheel"
+        ]
+      },
+      {
+        "id": "dsi-notice-compare",
+        "text": "Compare mode is strongest when one setup changes d and the other changes lambda or L, because you can see different causes widen or tighten fringes on the same bench.",
+        "type": "compare",
+        "priority": 8,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Clone the live setup, tighten one row with larger d, and widen the other row with larger lambda before reading the graph.",
+        "whyItMatters": "It keeps fringe spacing tied to the same geometry rule across both rows.",
+        "relatedControls": [
+          "wavelength",
+          "slitSeparation",
+          "screenDistance"
+        ],
+        "relatedGraphTabs": [
+          "pattern"
+        ],
+        "relatedOverlays": [
+          "geometryGuide",
+          "fringeSpacingGuide"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Commit to the fringe change before you test it. Each prompt changes one cause at a time on the same optics bench.",
+    "items": [
+      {
+        "id": "dsi-pred-larger-separation",
+        "prompt": "Keep wavelength and screen distance fixed, but increase the slit separation. What should happen to the bright-fringe spacing?",
+        "scenarioLabel": "Increase slit separation",
+        "changeLabel": "Slit separation",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The fringes should tighten because the same screen move now produces more path difference."
+          },
+          {
+            "id": "b",
+            "label": "The fringes should widen because the slits are farther apart."
+          },
+          {
+            "id": "c",
+            "label": "Only the probe-field graph should change. The pattern spacing should stay fixed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The spacing rule is \\(\\Delta y \\approx \\lambda L / d\\), so increasing d makes the fringe spacing smaller.",
+        "observationHint": "The bright peaks pack closer together when the slits are farther apart.",
+        "apply": {
+          "presetId": "tight-fringes"
+        },
+        "highlightedControls": [
+          "slitSeparation"
+        ],
+        "highlightedGraphs": [
+          "pattern"
+        ],
+        "highlightedOverlays": [
+          "geometryGuide",
+          "fringeSpacingGuide"
+        ]
+      },
+      {
+        "id": "dsi-pred-farther-screen",
+        "prompt": "Leave wavelength and slit separation alone, but move the screen farther away. What should happen to the fringe spacing in meters on the screen?",
+        "scenarioLabel": "Move the screen farther",
+        "changeLabel": "Screen distance",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The fringes should widen because the same interference angles now span more vertical distance."
+          },
+          {
+            "id": "b",
+            "label": "The fringes should tighten because the paths get longer."
+          },
+          {
+            "id": "c",
+            "label": "The fringes should stay fixed because only wavelength matters."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Increasing L raises \\(\\Delta y \\approx \\lambda L / d\\), so the same angular pattern covers a larger height range on the screen.",
+        "observationHint": "The bright and dark bands spread apart vertically when the screen moves farther from the slits.",
+        "apply": {
+          "presetId": "far-screen"
+        },
+        "highlightedControls": [
+          "screenDistance"
+        ],
+        "highlightedGraphs": [
+          "pattern"
+        ],
+        "highlightedOverlays": [
+          "geometryGuide",
+          "fringeSpacingGuide"
+        ]
+      },
+      {
+        "id": "dsi-pred-half-wavelength",
+        "prompt": "Starting from the center bright fringe, move the probe until the path difference is about half a wavelength. What should happen at that point?",
+        "scenarioLabel": "Reach a half-wavelength split",
+        "changeLabel": "Probe height",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The point should become dark because the two slit contributions arrive nearly opposite in phase."
+          },
+          {
+            "id": "b",
+            "label": "The point should stay bright because both slits still reach the screen."
+          },
+          {
+            "id": "c",
+            "label": "The point should brighten more because the path difference is larger."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A half-wavelength path difference corresponds to a phase split near \\(\\pi\\), which produces destructive interference for equal slit contributions.",
+        "observationHint": "Watch the strip and pattern graph dim at the same probe height where the path-difference label reaches about 0.5 lambda.",
+        "apply": {
+          "presetId": "first-dark"
+        },
+        "highlightedControls": [
+          "probeY"
+        ],
+        "highlightedGraphs": [
+          "pattern",
+          "displacement"
+        ],
+        "highlightedOverlays": [
+          "pathDifference",
+          "phaseWheel"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Turn the fringe pattern into compact optics hunts that stay tied to the same slit geometry and live probe.",
+    "items": [
+      {
+        "id": "dsi-ch-find-first-dark",
+        "title": "Find the first dark fringe",
+        "style": "visible-condition",
+        "prompt": "Starting from Center bright, move the probe onto the first dark fringe without changing wavelength, slit separation, or screen distance.",
+        "successMessage": "You found the first dark fringe by changing the real screen point, not by inventing a separate preview state. The geometry label, the probe field, and the pattern now agree on destructive interference.",
+        "setup": {
+          "presetId": "center-bright",
+          "graphId": "pattern",
+          "overlayIds": [
+            "pathDifference",
+            "fringeSpacingGuide"
+          ],
+          "note": "Use the pattern graph as the guide while you move only the probe."
+        },
+        "requirements": {
+          "graphId": "pattern",
+          "overlayIds": [
+            "pathDifference"
+          ]
+        },
+        "hints": [
+          "You are looking for a path difference near half a wavelength.",
+          "The first dark fringe should be closer to the center than the first bright spacing marker."
+        ],
+        "targets": [
+          {
+            "metric": "pathDifferenceInWavelengths",
+            "label": "Bring the path difference close to half a wavelength.",
+            "min": 0.45,
+            "max": 0.55
+          },
+          {
+            "metric": "normalizedIntensity",
+            "label": "Drive the relative intensity below 0.08.",
+            "min": 0,
+            "max": 0.08
+          }
+        ]
+      },
+      {
+        "id": "dsi-ch-wide-fringe-spacing",
+        "title": "Set wide fringes",
+        "style": "target-setting",
+        "prompt": "Starting from Tight fringes, tune the geometry until the bright-fringe spacing lands between 1.8 m and 2.1 m.",
+        "successMessage": "You widened the fringes by changing the shared geometry rule \\(\\lambda L / d\\), not by moving the probe. The stage labels and the spacing guide now support the same target.",
+        "setup": {
+          "presetId": "tight-fringes",
+          "graphId": "pattern",
+          "overlayIds": [
+            "geometryGuide",
+            "fringeSpacingGuide"
+          ],
+          "note": "Use the spacing guide and the graph together while you tune wavelength, slit separation, and screen distance."
+        },
+        "requirements": {
+          "graphId": "pattern",
+          "overlayIds": [
+            "fringeSpacingGuide"
+          ]
+        },
+        "hints": [
+          "You need a larger value of lambda times L over d than the Tight fringes preset gives.",
+          "Increasing wavelength or screen distance helps. Decreasing slit separation helps too."
+        ],
+        "targets": [
+          {
+            "metric": "fringeSpacing",
+            "label": "Set the bright-fringe spacing between 1.8 m and 2.1 m.",
+            "min": 1.8,
+            "max": 2.1,
+            "displayUnit": "m"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from path difference, phase, and geometry together rather than treating the pattern as a memorized slogan.",
+    "questions": [
+      {
+        "id": "dsi-qt-1",
+        "type": "reasoning",
+        "prompt": "Which condition best describes a bright fringe in this double-slit bench?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The path difference is near a whole-number multiple of the wavelength, so the slit contributions reinforce."
+          },
+          {
+            "id": "b",
+            "label": "The path difference is largest, so the screen must be brightest there."
+          },
+          {
+            "id": "c",
+            "label": "Only one slit is effectively reaching the screen point."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Bright fringes are constructive-interference locations, which means the path difference corresponds to about 0, 1, 2, and higher whole numbers of wavelengths of extra travel.",
+        "selectedWrongExplanations": {
+          "b": "Large path difference does not guarantee reinforcement. What matters is how that difference compares with the wavelength.",
+          "c": "Both slits still feed the point. Bright and dark regions come from superposition, not from one slit disappearing."
+        },
+        "showMeAction": {
+          "label": "Show center bright",
+          "presetId": "center-bright",
+          "observationHint": "The center line is bright because the path difference is nearly zero there.",
+          "highlightedControlIds": [
+            "probeY"
+          ],
+          "highlightedGraphIds": [
+            "pattern"
+          ],
+          "highlightedOverlayIds": [
+            "pathDifference"
+          ]
+        }
+      },
+      {
+        "id": "dsi-qt-2",
+        "type": "variable-effect",
+        "prompt": "What happens to the fringe spacing if you increase slit separation while holding wavelength and screen distance fixed?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The fringes tighten because \\(\\Delta y \\approx \\lambda L / d\\) gets smaller."
+          },
+          {
+            "id": "b",
+            "label": "The fringes widen because the slits are farther apart."
+          },
+          {
+            "id": "c",
+            "label": "Nothing changes because only wavelength matters."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "With wavelength and screen distance fixed, increasing d makes the spacing smaller, so more bright and dark bands fit into the same screen height.",
+        "selectedWrongExplanations": {
+          "b": "The larger slit separation changes the path-difference gradient, and that makes the visible spacing smaller rather than larger.",
+          "c": "Wavelength matters, but d is in the same spacing rule and changes the pattern too."
+        },
+        "showMeAction": {
+          "label": "Show tight fringes",
+          "presetId": "tight-fringes",
+          "observationHint": "The larger slit separation helps pack the fringes more tightly.",
+          "highlightedControlIds": [
+            "slitSeparation"
+          ],
+          "highlightedGraphIds": [
+            "pattern"
+          ],
+          "highlightedOverlayIds": [
+            "geometryGuide",
+            "fringeSpacingGuide"
+          ]
+        }
+      },
+      {
+        "id": "dsi-qt-3",
+        "type": "compare-two-cases",
+        "prompt": "Case A and Case B use the same slits, but Case B has the longer wavelength and the farther screen. Which pattern should look more spread out in meters on the screen?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Case B, because both longer wavelength and larger screen distance increase fringe spacing."
+          },
+          {
+            "id": "b",
+            "label": "Case A, because shorter wavelength travels more sharply."
+          },
+          {
+            "id": "c",
+            "label": "Neither case. Only probe position changes the spacing you see."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The spacing rule \\(\\Delta y \\approx \\lambda L / d\\) grows with both wavelength and screen distance, so Case B should show wider spacing.",
+        "selectedWrongExplanations": {
+          "b": "The pattern spacing here follows the shared geometry rule rather than a vague sharper-wave intuition.",
+          "c": "Probe position samples the pattern. It does not set the spacing between fringes."
+        },
+        "showMeAction": {
+          "label": "Show wide fringes",
+          "presetId": "wide-fringes",
+          "observationHint": "The same bench shows wider spacing when lambda and L are both larger relative to d.",
+          "highlightedControlIds": [
+            "wavelength",
+            "screenDistance",
+            "slitSeparation"
+          ],
+          "highlightedGraphIds": [
+            "pattern"
+          ],
+          "highlightedOverlayIds": [
+            "fringeSpacingGuide"
+          ]
+        }
+      },
+      {
+        "id": "dsi-qt-4",
+        "type": "graph-reading",
+        "prompt": "Why does the screen-pattern graph stay fixed while you step through time on the probe-field graph?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because the pattern graph is a spatial intensity map across the screen, while the probe-field graph tracks one point in time."
+          },
+          {
+            "id": "b",
+            "label": "Because double-slit interference has no time dependence anywhere in the model."
+          },
+          {
+            "id": "c",
+            "label": "Because the pattern graph only updates when the phase wheel is hidden."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The probe field still oscillates in time, but the fringe pattern is a position-based intensity map across the screen. The two graphs answer different questions about the same state.",
+        "selectedWrongExplanations": {
+          "b": "The local field at the probe still oscillates in time, and the time rail is there to inspect that honest motion.",
+          "c": "The phase-wheel overlay is optional and does not control whether the pattern graph updates."
+        },
+        "showMeAction": {
+          "label": "Show first dark",
+          "presetId": "first-dark",
+          "observationHint": "Step through time and watch the local probe motion change while the pattern graph stays tied to screen position.",
+          "highlightedControlIds": [
+            "probeY"
+          ],
+          "highlightedGraphIds": [
+            "displacement",
+            "pattern"
+          ],
+          "highlightedOverlayIds": [
+            "phaseWheel"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows incoming wavefronts striking a barrier with two narrow slits. On the right, a vertical screen strip brightens and darkens to show the interference pattern, and a movable probe marks one selected screen height.",
+        "Optional overlays show the slit geometry, the two slit-to-probe paths, approximate fringe-spacing markers, and a phase wheel that compares the two slit contributions at the current probe point."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The probe-field graph shows the two slit contributions and their live resultant at one selected screen point as functions of time.",
+        "The screen-pattern graph shows relative intensity against screen height, so it stays position-based even while the time rail continues to inspect the local probe field."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Double-Slit Interference",
+    "description": "Interactive double-slit interference with path difference, phase difference, fringe spacing, live probe motion, and a linked screen-pattern graph.",
+    "keywords": [
+      "double slit interference",
+      "interference fringes",
+      "path difference",
+      "fringe spacing",
+      "wave optics"
+    ]
+  }
+}

@@ -1,0 +1,1248 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live impulse checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Force-pulse checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Keep mechanics moving"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Push one cart with a timed force pulse and watch momentum, impulse, and force-time area stay tied to the same motion, readouts, and graphs.",
+    "keyTakeaway": "Momentum is mass times velocity, and impulse is signed force-time area; matching that area matches the momentum change even when the pulse shape changes.",
+    "whyItMatters": "Impulse turns a force history into a precise momentum change, so you can predict how hard, how long, and in what direction a push will change motion."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Momentum tells you how much motion an object is carrying: in one dimension it is $p = mv$, so a heavier cart or a faster cart has more momentum. The sign matters too, because momentum points with the velocity.",
+        "Impulse is what a force does over a stretch of time. In this module one bounded force pulse pushes a cart on a fixed track, so you can see the pulse shape, the accumulated impulse, and the momentum graph move together without inventing a separate subsystem for collisions."
+      ]
+    },
+    "keyIdeas": [
+      "Momentum is mass times velocity, so the same speed change does not mean the same momentum change for every mass.",
+      "Impulse is the signed force-time area. A short large force and a smaller longer force can produce the same total impulse if the areas match.",
+      "For the same cart, impulse changes momentum directly through $J = \\Delta p$, which is why the momentum graph and the accumulated-impulse graph should agree."
+    ],
+    "commonMisconception": {
+      "myth": "A bigger force always means a bigger momentum change, even if it acts for less time.",
+      "correction": [
+        "Momentum change depends on the total impulse, not force alone. A large force over a very short interval can match the effect of a smaller force acting longer.",
+        "Mass changes how much the velocity shifts for a given impulse, but it does not change the fact that the momentum change itself is set by $J = F\\Delta t$."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Solve the pulse you are actually watching. Time-based examples follow the current inspected time unless you freeze them, and the pulse example keeps the full force-duration pair tied to the real controls.",
+      "items": [
+        {
+          "id": "current-momentum",
+          "title": "Current momentum",
+          "prompt": "At $t = {{timeValue}}\\,\\mathrm{s}$, what is the cart's momentum?",
+          "dependsOnTime": true,
+          "variables": [
+            {
+              "id": "time",
+              "symbol": "t",
+              "label": "Time",
+              "valueKey": "timeValue",
+              "unit": "s"
+            },
+            {
+              "id": "mass",
+              "variableId": "mass",
+              "symbol": "m",
+              "label": "Mass",
+              "valueKey": "massValue",
+              "unit": "kg"
+            },
+            {
+              "id": "velocity",
+              "symbol": "v",
+              "label": "Velocity",
+              "valueKey": "velocityValue",
+              "unit": "m/s"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Identify the relation",
+              "template": "Use $p = mv$ for the cart at the currently inspected moment."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the live values",
+              "template": "$p = {{massValue}}\\cdot {{velocityValue}}$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compute the momentum",
+              "template": "That gives $p = {{momentumValue}}\\,\\mathrm{kg\\,m/s}$."
+            }
+          ],
+          "resultLabel": "Current momentum",
+          "resultTemplate": "$p = {{momentumValue}}\\,\\mathrm{kg\\,m/s}$",
+          "interpretationTemplate": "{{momentumInterpretation}}",
+          "applyAction": {
+            "label": "Apply short hard push",
+            "presetId": "short-hard-push",
+            "observationHint": "Watch the momentum graph, the cart speed arrow, and the stage bars together. They should all be describing the same moment.",
+            "highlightedControlIds": [
+              "mass",
+              "initialVelocity"
+            ],
+            "highlightedGraphIds": [
+              "momentum"
+            ],
+            "highlightedOverlayIds": [
+              "momentumBars"
+            ]
+          }
+        },
+        {
+          "id": "pulse-impulse",
+          "title": "Impulse from the pulse",
+          "prompt": "For the current force pulse, what impulse does the cart receive and what final momentum should that predict?",
+          "variables": [
+            {
+              "id": "force",
+              "variableId": "force",
+              "symbol": "F",
+              "label": "Force",
+              "valueKey": "forceValue",
+              "unit": "N"
+            },
+            {
+              "id": "duration",
+              "variableId": "duration",
+              "symbol": "\\Delta t",
+              "label": "Pulse duration",
+              "valueKey": "pulseDurationValue",
+              "unit": "s"
+            },
+            {
+              "id": "initialMomentum",
+              "symbol": "p_i",
+              "label": "Initial momentum",
+              "valueKey": "initialMomentumValue",
+              "unit": "kg m/s"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Start from impulse-momentum",
+              "template": "Use $J = F\\Delta t$ and $p_f = p_i + J$ for this constant pulse."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the current pulse",
+              "template": "$J = {{forceValue}}\\cdot {{pulseDurationValue}}$ and $p_f = {{initialMomentumValue}} + J$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compute the predicted final momentum",
+              "template": "So $J = {{impulseValue}}\\,\\mathrm{N\\,s}$ and $p_f = {{finalMomentumValue}}\\,\\mathrm{kg\\,m/s}$."
+            }
+          ],
+          "resultLabel": "Impulse and final momentum",
+          "resultTemplate": "$J = {{impulseValue}}\\,\\mathrm{N\\,s}, \\quad p_f = {{finalMomentumValue}}\\,\\mathrm{kg\\,m/s}$",
+          "interpretationTemplate": "{{impulseInterpretation}}",
+          "applyAction": {
+            "label": "Apply long gentle push",
+            "presetId": "long-gentle-push",
+            "observationHint": "Compare the wider force pulse with the same final jump in the momentum and impulse graphs.",
+            "highlightedControlIds": [
+              "force",
+              "pulseDuration"
+            ],
+            "highlightedGraphIds": [
+              "force",
+              "impulse",
+              "momentum"
+            ],
+            "highlightedOverlayIds": [
+              "pulseWindow",
+              "forceArrow"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Can you choose a new force-duration pair that leaves the final momentum unchanged?",
+      "prediction": "Try making the pulse shorter while raising the force, or longer while lowering the force. Predict which pairs should keep the same final momentum.",
+      "answer": "Any pair with the same signed area under the force-time graph gives the same momentum change for the same cart.",
+      "explanation": "This is the bounded version of the impulse idea. If $F\\Delta t$ stays the same, then $J$ stays the same, so the momentum change stays the same even though the pulse shape looks different."
+    }
+  },
+  "equations": [
+    {
+      "id": "momentum",
+      "latex": "p = mv",
+      "label": "Momentum",
+      "meaning": "Momentum combines how much mass is moving with how fast it moves."
+    },
+    {
+      "id": "impulse",
+      "latex": "J = F\\Delta t",
+      "label": "Impulse for a constant pulse",
+      "meaning": "For a constant force, impulse is the force-time area."
+    },
+    {
+      "id": "impulse-momentum",
+      "latex": "J = \\Delta p = p_f - p_i",
+      "label": "Impulse-momentum theorem",
+      "meaning": "Impulse changes momentum directly, which is why the accumulated impulse and momentum shift should match."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "mass",
+      "symbol": "m",
+      "label": "Mass",
+      "param": "mass",
+      "tone": "teal",
+      "description": "Heavier carts need more impulse for the same velocity change, even though the momentum change still follows the same force-time area.",
+      "equationIds": [
+        "momentum",
+        "impulse-momentum"
+      ],
+      "graphIds": [
+        "momentum"
+      ],
+      "overlayIds": [
+        "momentumBars"
+      ]
+    },
+    {
+      "id": "initialVelocity",
+      "symbol": "v_i",
+      "label": "Initial velocity",
+      "param": "initialVelocity",
+      "tone": "sky",
+      "description": "Sets the starting direction and the starting momentum before the pulse begins.",
+      "equationIds": [
+        "momentum",
+        "impulse-momentum"
+      ],
+      "graphIds": [
+        "momentum"
+      ],
+      "overlayIds": [
+        "momentumBars"
+      ]
+    },
+    {
+      "id": "force",
+      "symbol": "F",
+      "label": "Force",
+      "param": "force",
+      "tone": "coral",
+      "description": "Sets the height and sign of the pulse, so it controls how quickly the cart's momentum changes while the pulse is on.",
+      "equationIds": [
+        "impulse",
+        "impulse-momentum"
+      ],
+      "graphIds": [
+        "force",
+        "impulse",
+        "momentum"
+      ],
+      "overlayIds": [
+        "forceArrow",
+        "pulseWindow"
+      ]
+    },
+    {
+      "id": "duration",
+      "symbol": "\\Delta t",
+      "label": "Pulse duration",
+      "param": "pulseDuration",
+      "tone": "amber",
+      "description": "Sets how long the force stays on, so it widens or narrows the force-time area and changes the total impulse.",
+      "equationIds": [
+        "impulse",
+        "impulse-momentum"
+      ],
+      "graphIds": [
+        "force",
+        "impulse"
+      ],
+      "overlayIds": [
+        "pulseWindow"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "mass": 1,
+      "initialVelocity": 0.5,
+      "force": 3,
+      "pulseDuration": 0.4
+    },
+    "ui": {
+      "initialGraphId": "force",
+      "primaryGraphIds": [
+        "force",
+        "impulse",
+        "momentum"
+      ],
+      "primaryControlIds": [
+        "force",
+        "pulseDuration",
+        "mass"
+      ],
+      "primaryPresetIds": [
+        "short-hard-push",
+        "long-gentle-push",
+        "heavy-cart",
+        "braking-pulse"
+      ]
+    },
+    "controls": [
+      {
+        "id": "mass",
+        "kind": "slider",
+        "label": "Mass",
+        "param": "mass",
+        "min": 1,
+        "max": 4,
+        "step": 0.1,
+        "unit": "kg",
+        "description": "Change how much mass is moving without changing the force pulse."
+      },
+      {
+        "id": "initialVelocity",
+        "kind": "slider",
+        "label": "Initial velocity",
+        "param": "initialVelocity",
+        "min": -1.5,
+        "max": 1.5,
+        "step": 0.1,
+        "unit": "m/s",
+        "description": "Set the cart's starting motion before the pulse begins."
+      },
+      {
+        "id": "force",
+        "kind": "slider",
+        "label": "Force",
+        "param": "force",
+        "min": -3,
+        "max": 3,
+        "step": 0.1,
+        "unit": "N",
+        "description": "Positive force pushes right. Negative force pushes left."
+      },
+      {
+        "id": "pulseDuration",
+        "kind": "slider",
+        "label": "Pulse duration",
+        "param": "pulseDuration",
+        "min": 0.2,
+        "max": 1,
+        "step": 0.05,
+        "unit": "s",
+        "description": "Set how long the force stays on during the fixed pulse window."
+      }
+    ],
+    "presets": [
+      {
+        "id": "short-hard-push",
+        "label": "Short hard push",
+        "description": "A tall, narrow pulse with $J = 1.2\\,\\mathrm{N\\,s}$.",
+        "values": {
+          "mass": 1,
+          "initialVelocity": 0.5,
+          "force": 3,
+          "pulseDuration": 0.4
+        }
+      },
+      {
+        "id": "long-gentle-push",
+        "label": "Long gentle push",
+        "description": "A lower, wider pulse with the same $J = 1.2\\,\\mathrm{N\\,s}$.",
+        "values": {
+          "mass": 1,
+          "initialVelocity": 0.5,
+          "force": 1.5,
+          "pulseDuration": 0.8
+        }
+      },
+      {
+        "id": "heavy-cart",
+        "label": "Heavy cart",
+        "description": "Keep the same pulse but triple the mass.",
+        "values": {
+          "mass": 3,
+          "initialVelocity": 0.5,
+          "force": 3,
+          "pulseDuration": 0.4
+        }
+      },
+      {
+        "id": "braking-pulse",
+        "label": "Braking pulse",
+        "description": "A leftward pulse reduces the cart's rightward momentum.",
+        "values": {
+          "mass": 1.4,
+          "initialVelocity": 1,
+          "force": -2.4,
+          "pulseDuration": 0.5
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "forceArrow",
+        "label": "Force arrow",
+        "shortDescription": "Shows the direction and size of the applied force on the cart.",
+        "whatToNotice": [
+          "The arrow only matters during the pulse window. Before and after that, the cart coasts.",
+          "Reversing the arrow reverses the sign of the impulse and the momentum change."
+        ],
+        "whyItMatters": "Impulse is signed, so direction matters just as much as size.",
+        "relatedControls": [
+          "force"
+        ],
+        "relatedGraphTabs": [
+          "force",
+          "impulse"
+        ],
+        "relatedEquationVariables": [
+          "force"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "pulseWindow",
+        "label": "Pulse window",
+        "shortDescription": "Shades the time interval where the force is on.",
+        "whatToNotice": [
+          "The shaded interval is time, not distance.",
+          "Widening the pulse can keep the same impulse even when the force gets smaller."
+        ],
+        "whyItMatters": "The force-time area is what sets impulse.",
+        "relatedControls": [
+          "pulseDuration"
+        ],
+        "relatedGraphTabs": [
+          "force",
+          "impulse"
+        ],
+        "relatedEquationVariables": [
+          "force",
+          "duration"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "momentumBars",
+        "label": "Momentum bars",
+        "shortDescription": "Compares the initial, current, and final momentum on one centered scale.",
+        "whatToNotice": [
+          "The middle bar moves while the pulse is active, then freezes when the force returns to zero.",
+          "The gap from $p_i$ to $p_f$ matches the total impulse."
+        ],
+        "whyItMatters": "The bars make $J = \\Delta p$ visible without leaving the same stage.",
+        "relatedControls": [
+          "mass",
+          "initialVelocity"
+        ],
+        "relatedGraphTabs": [
+          "momentum",
+          "impulse"
+        ],
+        "relatedEquationVariables": [
+          "mass",
+          "initialVelocity"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "force",
+      "label": "Force vs time",
+      "xLabel": "time (s)",
+      "yLabel": "force (N)",
+      "series": [
+        "force"
+      ],
+      "description": "Shows the height, sign, and width of the force pulse."
+    },
+    {
+      "id": "momentum",
+      "label": "Momentum vs time",
+      "xLabel": "time (s)",
+      "yLabel": "momentum (kg m/s)",
+      "series": [
+        "momentum"
+      ],
+      "description": "Shows momentum staying flat before and after the pulse and changing only while the force acts."
+    },
+    {
+      "id": "impulse",
+      "label": "Impulse and change in momentum",
+      "xLabel": "time (s)",
+      "yLabel": "impulse / delta p",
+      "series": [
+        "impulse",
+        "delta-momentum"
+      ],
+      "description": "The accumulated impulse and the change in momentum should sit on top of each other for the same cart."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the live prompt as a short guide while you change the pulse. The best prompt should point at something the stage and the graph can both honestly show right now.",
+    "items": [
+      {
+        "id": "mi-notice-area-link",
+        "text": "Notice that the pulse area on the force graph is the same quantity that appears as the momentum change.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Watch the force pulse and the accumulated-impulse graph together. The momentum graph should shift by the same signed amount.",
+        "whyItMatters": "This is the impulse-momentum theorem in one bounded visual loop.",
+        "relatedControls": [
+          "force",
+          "pulseDuration"
+        ],
+        "relatedGraphTabs": [
+          "force",
+          "impulse",
+          "momentum"
+        ],
+        "relatedOverlays": [
+          "pulseWindow",
+          "momentumBars"
+        ],
+        "relatedEquationVariables": [
+          "force",
+          "duration"
+        ]
+      },
+      {
+        "id": "mi-notice-force-only-during-pulse",
+        "text": "Notice that momentum only changes while the force is actually on.",
+        "type": "graph-reading",
+        "priority": 4,
+        "conditions": {
+          "graphTabs": [
+            "momentum"
+          ]
+        },
+        "tryThis": "Pause before the pulse, during it, and after it. The momentum graph should be flat, sloped, then flat again.",
+        "whyItMatters": "It separates the effect of a force from motion that simply continues afterward.",
+        "relatedGraphTabs": [
+          "momentum",
+          "force"
+        ],
+        "relatedOverlays": [
+          "forceArrow",
+          "pulseWindow"
+        ]
+      },
+      {
+        "id": "mi-notice-equal-impulse",
+        "text": "Notice that a lower wider pulse can end at the same final momentum as a taller narrower pulse.",
+        "type": "compare",
+        "priority": 6,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Compare the short hard push with the long gentle push. The force graph should look different even when the final momentum matches.",
+        "whyItMatters": "It breaks the lazy rule that only force size matters.",
+        "relatedControls": [
+          "force",
+          "pulseDuration"
+        ],
+        "relatedGraphTabs": [
+          "force",
+          "momentum",
+          "impulse"
+        ],
+        "relatedOverlays": [
+          "pulseWindow",
+          "momentumBars"
+        ]
+      },
+      {
+        "id": "mi-notice-duration-change",
+        "text": "Notice that changing pulse duration widens the force-time area even when the force height stays fixed.",
+        "type": "try-this",
+        "priority": 5,
+        "conditions": {
+          "lastChangedControls": [
+            "pulseDuration"
+          ]
+        },
+        "tryThis": "Lengthen the pulse without changing the force. The force graph gets wider and the final momentum shifts farther.",
+        "whyItMatters": "Impulse is not about force alone. Time matters just as directly.",
+        "relatedControls": [
+          "pulseDuration",
+          "force"
+        ],
+        "relatedGraphTabs": [
+          "force",
+          "impulse"
+        ],
+        "relatedOverlays": [
+          "pulseWindow"
+        ],
+        "relatedEquationVariables": [
+          "force",
+          "duration"
+        ]
+      },
+      {
+        "id": "mi-notice-mass",
+        "text": "Notice that mass changes the velocity response more than the momentum change for the same impulse.",
+        "type": "misconception",
+        "priority": 7,
+        "conditions": {
+          "lastChangedControls": [
+            "mass"
+          ]
+        },
+        "tryThis": "Keep the same pulse and compare a light cart with a heavy cart. The impulse graph should match even though the speed change on the stage is smaller for the heavy cart.",
+        "whyItMatters": "It separates $\\Delta p$ from $\\Delta v$, which students often collapse into one idea.",
+        "relatedControls": [
+          "mass",
+          "force",
+          "pulseDuration"
+        ],
+        "relatedGraphTabs": [
+          "momentum",
+          "impulse"
+        ],
+        "relatedOverlays": [
+          "momentumBars"
+        ],
+        "relatedEquationVariables": [
+          "mass"
+        ]
+      },
+      {
+        "id": "mi-notice-impulse-graph",
+        "text": "Notice that the impulse graph should stop climbing exactly when the force pulse ends.",
+        "type": "graph-reading",
+        "priority": 4,
+        "conditions": {
+          "graphTabs": [
+            "impulse"
+          ]
+        },
+        "tryThis": "Scrub the graph near the end of the pulse and compare the time cursor with the shaded pulse window.",
+        "whyItMatters": "It shows that accumulated impulse is a running total, not a permanent force.",
+        "relatedGraphTabs": [
+          "force",
+          "impulse"
+        ],
+        "relatedOverlays": [
+          "pulseWindow"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the pulse first, then apply the change and compare the cart, the force graph, and the momentum shift.",
+    "items": [
+      {
+        "id": "mi-predict-equal-impulse",
+        "prompt": "If you switch from the short hard push to the long gentle push on the same $1\\,\\mathrm{kg}$ cart, what should stay the same?",
+        "scenarioLabel": "Long gentle equal-impulse pulse",
+        "changeLabel": "Same impulse, different shape",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The final momentum change stays the same, even though the force graph gets lower and wider."
+          },
+          {
+            "id": "b",
+            "label": "The final momentum must get smaller because the peak force is smaller."
+          },
+          {
+            "id": "c",
+            "label": "Nothing changes because force and time always cancel out completely."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Both presets deliver the same signed impulse, so they give the same momentum change to the same cart even though the pulse shapes differ.",
+        "observationHint": "Compare the end of the momentum graph and the final momentum bars after the long gentle pulse is applied.",
+        "apply": {
+          "presetId": "long-gentle-push"
+        },
+        "highlightedControls": [
+          "force",
+          "pulseDuration"
+        ],
+        "highlightedGraphs": [
+          "force",
+          "impulse",
+          "momentum"
+        ],
+        "highlightedOverlays": [
+          "pulseWindow",
+          "momentumBars"
+        ]
+      },
+      {
+        "id": "mi-predict-heavy-cart",
+        "prompt": "If mass increases while the same short hard pulse is applied, what should the stage and graphs show?",
+        "scenarioLabel": "Heavy cart with the same pulse",
+        "changeLabel": "More mass, same impulse",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The momentum change stays the same, but the cart's velocity changes less."
+          },
+          {
+            "id": "b",
+            "label": "The impulse gets smaller automatically because the cart is heavier."
+          },
+          {
+            "id": "c",
+            "label": "The force graph must get taller to keep the momentum graph honest."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The force-time area is unchanged, so the impulse and momentum change stay the same. The heavier cart simply converts that same $\\Delta p$ into a smaller $\\Delta v$.",
+        "observationHint": "Watch the momentum graph move by the same amount while the cart speed and spacing on the track change less dramatically.",
+        "apply": {
+          "presetId": "heavy-cart"
+        },
+        "highlightedControls": [
+          "mass",
+          "force",
+          "pulseDuration"
+        ],
+        "highlightedGraphs": [
+          "momentum",
+          "impulse"
+        ],
+        "highlightedOverlays": [
+          "momentumBars"
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Use the force pulse, the cart motion, and the graphs together. Each question checks whether you can reason with momentum and impulse, not just recite a definition.",
+    "questions": [
+      {
+        "id": "mi-qt-1",
+        "type": "compare-two-cases",
+        "prompt": "A $3\\,\\mathrm{N}$ force for $0.4\\,\\mathrm{s}$ and a $1.5\\,\\mathrm{N}$ force for $0.8\\,\\mathrm{s}$ act on the same cart in the same direction. Which statement is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "They can produce the same momentum change because the force-time areas are equal."
+          },
+          {
+            "id": "b",
+            "label": "The $3\\,\\mathrm{N}$ force must produce the larger momentum change because it is taller on the graph."
+          },
+          {
+            "id": "c",
+            "label": "The $1.5\\,\\mathrm{N}$ force must produce zero momentum change because it is gentler."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Impulse depends on the signed area under the force-time graph. If those areas match, then the momentum changes match for the same cart.",
+        "selectedWrongExplanations": {
+          "b": "Height alone is not enough. The shorter duration of the $3\\,\\mathrm{N}$ pulse can balance the larger peak force.",
+          "c": "A gentle force can still change momentum if it acts long enough to build nonzero impulse."
+        },
+        "showMeAction": {
+          "label": "Show the long gentle case",
+          "presetId": "long-gentle-push",
+          "observationHint": "The force pulse is lower and wider, but the final momentum bar lands in the same place as the short hard push.",
+          "highlightedControlIds": [
+            "force",
+            "pulseDuration"
+          ],
+          "highlightedGraphIds": [
+            "force",
+            "momentum",
+            "impulse"
+          ],
+          "highlightedOverlayIds": [
+            "pulseWindow",
+            "momentumBars"
+          ]
+        }
+      },
+      {
+        "id": "mi-qt-2",
+        "type": "variable-effect",
+        "prompt": "If the same force pulse acts on a heavier cart, what changes most directly?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The same impulse gives the same momentum change, but a smaller velocity change."
+          },
+          {
+            "id": "b",
+            "label": "The impulse disappears because heavy carts resist force completely."
+          },
+          {
+            "id": "c",
+            "label": "The momentum change must get larger because heavier carts always gain more motion."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Impulse fixes $\\Delta p$. Since $p = mv$, a larger mass means the same momentum change corresponds to a smaller change in velocity.",
+        "selectedWrongExplanations": {
+          "b": "A heavier cart can still receive the same impulse. The effect shows up as a smaller speed shift, not zero momentum change.",
+          "c": "Heavier carts can have more momentum at the same velocity, but the momentum change from a fixed pulse is still set by $J$."
+        },
+        "showMeAction": {
+          "label": "Show the heavy cart",
+          "presetId": "heavy-cart",
+          "observationHint": "The momentum graph still climbs by the same amount, but the cart speed after the pulse is less dramatic.",
+          "highlightedControlIds": [
+            "mass"
+          ],
+          "highlightedGraphIds": [
+            "momentum",
+            "impulse"
+          ],
+          "highlightedOverlayIds": [
+            "momentumBars"
+          ]
+        }
+      },
+      {
+        "id": "mi-qt-3",
+        "type": "graph-reading",
+        "prompt": "What should the momentum and accumulated-impulse graphs do after the force pulse has ended?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Both should become flat because no additional impulse is being added."
+          },
+          {
+            "id": "b",
+            "label": "Momentum should keep sloping forever because the cart is still moving."
+          },
+          {
+            "id": "c",
+            "label": "The impulse graph should reset to zero as soon as the force turns off."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Once the force returns to zero, the running impulse stops changing, so the momentum stops changing too. Motion can continue even while both graphs are flat.",
+        "selectedWrongExplanations": {
+          "b": "Motion continuing is not the same as momentum continuing to change. Without force, the existing momentum simply persists.",
+          "c": "Accumulated impulse is a running total. It stays at the delivered value after the pulse rather than resetting itself."
+        },
+        "showMeAction": {
+          "label": "Show the pulse ending",
+          "presetId": "short-hard-push",
+          "observationHint": "Pause after the pulse and compare the flat tail of the impulse graph with the flat tail of the momentum graph.",
+          "highlightedControlIds": [
+            "force",
+            "pulseDuration"
+          ],
+          "highlightedGraphIds": [
+            "momentum",
+            "impulse"
+          ],
+          "highlightedOverlayIds": [
+            "pulseWindow"
+          ]
+        }
+      },
+      {
+        "id": "mi-qt-4",
+        "type": "misconception-check",
+        "prompt": "Which explanation best corrects the claim that a larger force must always create a larger momentum change?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "You must include the time interval too, because impulse depends on the full force-time area."
+          },
+          {
+            "id": "b",
+            "label": "Momentum change depends only on the cart's starting speed, not on force."
+          },
+          {
+            "id": "c",
+            "label": "Momentum change depends only on mass because force is temporary."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Force height matters, but it is only part of the area. A smaller force can still create the same or larger momentum change if it acts longer.",
+        "selectedWrongExplanations": {
+          "b": "Starting speed sets the initial momentum, but the change in momentum comes from the applied impulse.",
+          "c": "Mass affects how velocity responds, but impulse still depends on force and time together."
+        },
+        "showMeAction": {
+          "label": "Show the braking pulse",
+          "presetId": "braking-pulse",
+          "observationHint": "The negative pulse changes momentum in the opposite direction, which shows that sign and duration matter too.",
+          "highlightedControlIds": [
+            "force",
+            "pulseDuration"
+          ],
+          "highlightedGraphIds": [
+            "force",
+            "momentum",
+            "impulse"
+          ],
+          "highlightedOverlayIds": [
+            "forceArrow",
+            "pulseWindow"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a cart moving on a fixed horizontal track while a single force pulse turns on during a highlighted time window. The cart label shows mass, a horizontal arrow shows velocity, and overlays can emphasize the force direction, the pulse window, and centered bars for initial, current, and final momentum.",
+        "Changing mass, initial velocity, force, or pulse duration immediately updates the cart motion, the pulse timing, the readouts, and the linked graphs without changing the underlying scale."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The force graph shows a rectangular pulse that can point positive or negative. The momentum graph is flat before and after the pulse and changes only while the force acts.",
+        "The impulse graph and the change-in-momentum graph should overlap because they represent the same signed quantity for the same cart."
+      ]
+    }
+  },
+  "seo": {
+    "description": "Interactive momentum and impulse lesson with a timed force pulse, linked momentum graphs, compare mode, prediction prompts, and conceptual quick tests.",
+    "keywords": [
+      "momentum",
+      "impulse",
+      "force over time",
+      "impulse momentum theorem",
+      "physics simulation"
+    ]
+  },
+  "v2": {
+    "intuition": "Watch one cart through one force pulse so momentum change and force-time area stay tied to the same moving object.",
+    "whyItMatters": "Impulse is the durable bridge from a force history to a momentum change, so this bench needs to feel like one cause-and-effect chain instead of two formulas.",
+    "estimatedMinutes": 11,
+    "equationSnapshot": {
+      "equationIds": [
+        "momentum",
+        "impulse",
+        "impulse-momentum"
+      ]
+    },
+    "startSetup": {
+      "presetId": "short-hard-push",
+      "graphId": "force",
+      "overlayIds": [
+        "pulseWindow",
+        "momentumBars"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-force-pulse",
+        "title": "Read one force pulse",
+        "goal": "Treat the force pulse as an area that changes the cart momentum.",
+        "doThis": "Start with the short-hard-push preset, keep the force graph visible, and scrub one full pulse.",
+        "notice": "The force-time graph builds a finite area while the momentum readout changes over the same interval.",
+        "explain": "Impulse is the accumulated force over time, so the area under the force graph is the same quantity that changes momentum.",
+        "reveal": {
+          "controlIds": [
+            "force",
+            "pulseDuration"
+          ],
+          "graphIds": [
+            "force",
+            "impulse"
+          ],
+          "overlayIds": [
+            "pulseWindow",
+            "forceArrow"
+          ],
+          "toolHints": [
+            "timeline",
+            "graph-preview"
+          ]
+        },
+        "setup": {
+          "presetId": "short-hard-push",
+          "graphId": "force",
+          "overlayIds": [
+            "pulseWindow",
+            "momentumBars"
+          ]
+        }
+      },
+      {
+        "id": "compare-two-equal-impulses",
+        "title": "Compare two equal impulses",
+        "goal": "See why different force shapes can still land the same momentum change.",
+        "doThis": "Switch between the short-hard-push and long-gentle-push presets and compare the final momentum each pulse leaves behind.",
+        "notice": "One pulse is taller and shorter, the other is lower and wider, but the final momentum change can match.",
+        "explain": "The details of force versus time can differ while the total area stays the same, so equal impulse gives equal momentum change.",
+        "reveal": {
+          "controlIds": [
+            "force",
+            "pulseDuration"
+          ],
+          "graphIds": [
+            "force",
+            "momentum",
+            "impulse"
+          ],
+          "overlayIds": [
+            "pulseWindow",
+            "momentumBars"
+          ]
+        },
+        "setup": {
+          "presetId": "long-gentle-push",
+          "graphId": "impulse",
+          "overlayIds": [
+            "pulseWindow",
+            "momentumBars"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "mi-predict-equal-impulse"
+          ]
+        }
+      },
+      {
+        "id": "change-mass-not-impulse",
+        "title": "Change mass, not impulse",
+        "goal": "Separate momentum change from speed change by making the cart heavier.",
+        "doThis": "Apply the heavy-cart preset and compare the resulting speed change with the earlier pulse cases.",
+        "notice": "The same kind of impulse can produce a smaller speed change when the cart mass is larger.",
+        "explain": "Impulse changes momentum directly. The resulting speed change also depends on mass because p = mv.",
+        "reveal": {
+          "controlIds": [
+            "mass"
+          ],
+          "graphIds": [
+            "momentum",
+            "impulse"
+          ],
+          "overlayIds": [
+            "momentumBars"
+          ]
+        },
+        "setup": {
+          "presetId": "heavy-cart",
+          "graphId": "momentum",
+          "overlayIds": [
+            "momentumBars"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "mi-qt-2"
+          ]
+        }
+      },
+      {
+        "id": "build-a-matching-impulse",
+        "title": "Build a matching impulse",
+        "goal": "Use force and duration together to land a target momentum change instead of chasing force height alone.",
+        "doThis": "Open the challenge and make a lower, longer pulse that still lands near the same final momentum as the short hard push.",
+        "notice": "The force graph looks different, but the impulse readout and final momentum can still end in the same band.",
+        "explain": "This is the impulse-momentum theorem as a design rule: keep the signed area fixed and the momentum change stays fixed for the same starting cart.",
+        "reveal": {
+          "controlIds": [
+            "force",
+            "pulseDuration"
+          ],
+          "graphIds": [
+            "force",
+            "impulse",
+            "momentum"
+          ],
+          "overlayIds": [
+            "pulseWindow",
+            "momentumBars"
+          ],
+          "toolHints": [
+            "challenge-mode",
+            "graph-preview"
+          ]
+        },
+        "setup": {
+          "presetId": "short-hard-push",
+          "graphId": "impulse",
+          "overlayIds": [
+            "pulseWindow",
+            "momentumBars"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Can you preserve the area?",
+          "questionIds": [
+            "mi-qt-1",
+            "mi-qt-4"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Momentum combines mass, speed, and direction.",
+        "Impulse is the signed area under the force-time graph.",
+        "Equal impulse gives the same momentum change even when the force pulse has a different shape.",
+        "A heavier cart can get the same momentum change with a smaller change in speed."
+      ],
+      "misconception": "A bigger force automatically means a bigger final momentum change, even if the pulse is much shorter.",
+      "workedExampleRefs": [
+        "current-momentum",
+        "pulse-impulse"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "conservation-of-momentum",
+          "title": "Conservation of Momentum",
+          "reasonLabel": "Carry impulse into multi-object motion"
+        },
+        {
+          "slug": "collisions",
+          "title": "Collisions",
+          "reasonLabel": "Use momentum change during impacts"
+        }
+      ],
+      "freePlayPrompt": "Build a lower, longer pulse and a taller, shorter pulse that land in the same final-momentum band, then try a braking pulse and explain the sign change."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "quickTest"
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the force and duration controls as an area-matching tool: the graph shape may change, but the final momentum should prove whether the impulse matched.",
+    "items": [
+      {
+        "id": "mi-ch-match-final-momentum-with-gentler-pulse",
+        "title": "Match momentum with a gentler pulse",
+        "style": "target-setting",
+        "prompt": "Starting from the short hard push, build a lower, longer rightward pulse that still delivers nearly the same impulse and final momentum.",
+        "successMessage": "You matched the impulse without copying the force height. The lower, longer pulse lands in the same final-momentum band because the signed force-time area stayed nearly the same.",
+        "setup": {
+          "presetId": "short-hard-push",
+          "graphId": "impulse",
+          "overlayIds": [
+            "pulseWindow",
+            "momentumBars"
+          ],
+          "note": "Use the force and pulse-duration sliders together. The target is not a tall force; it is matching the final momentum."
+        },
+        "requirements": {
+          "graphId": "impulse",
+          "overlayIds": [
+            "pulseWindow",
+            "momentumBars"
+          ]
+        },
+        "hints": [
+          "The baseline impulse is about $1.2\\,\\mathrm{N\\,s}$, so lowering force means you need a longer pulse.",
+          "A force near $1.5\\,\\mathrm{N}$ and a duration near $0.8\\,\\mathrm{s}$ should keep the area close.",
+          "Check the final momentum bar, not just the peak height of the force graph."
+        ],
+        "targets": [
+          {
+            "param": "force",
+            "label": "Lower the force to roughly $1.5\\,\\mathrm{N}$.",
+            "min": 1.35,
+            "max": 1.65,
+            "displayUnit": "N"
+          },
+          {
+            "param": "pulseDuration",
+            "label": "Stretch the pulse duration to roughly $0.8\\,\\mathrm{s}$.",
+            "min": 0.7,
+            "max": 0.9,
+            "displayUnit": "s"
+          },
+          {
+            "metric": "impulse",
+            "label": "Keep total impulse between $1.1$ and $1.3\\,\\mathrm{N\\,s}$.",
+            "min": 1.1,
+            "max": 1.3,
+            "displayUnit": "N s"
+          },
+          {
+            "metric": "finalMomentum",
+            "label": "Land final momentum between $1.6$ and $1.8\\,\\mathrm{kg\\,m/s}$.",
+            "min": 1.6,
+            "max": 1.8,
+            "displayUnit": "kg m/s"
+          }
+        ]
+      },
+      {
+        "id": "mi-ch-brake-with-negative-impulse",
+        "title": "Brake with negative impulse",
+        "style": "visible-condition",
+        "prompt": "Make a right-moving cart receive a leftward pulse, then explain how the negative force-time area reduces the final momentum.",
+        "successMessage": "You used impulse as a signed quantity: the leftward force arrow creates negative area, so the cart keeps moving only if its starting momentum is larger than the braking impulse.",
+        "setup": {
+          "presetId": "braking-pulse",
+          "graphId": "force",
+          "overlayIds": [
+            "forceArrow",
+            "pulseWindow",
+            "momentumBars"
+          ],
+          "note": "Keep the force graph and momentum bars visible so the sign of the impulse is not hidden."
+        },
+        "requirements": {
+          "graphId": "force",
+          "overlayIds": [
+            "forceArrow",
+            "pulseWindow",
+            "momentumBars"
+          ]
+        },
+        "hints": [
+          "Negative force makes the impulse graph step downward during the pulse.",
+          "The final momentum should be lower than the initial momentum even though the cart began by moving right."
+        ],
+        "targets": [
+          {
+            "param": "force",
+            "label": "Use a leftward force below $-1.5\\,\\mathrm{N}$.",
+            "max": -1.5,
+            "displayUnit": "N"
+          },
+          {
+            "metric": "deltaMomentum",
+            "label": "Make the momentum change negative.",
+            "max": -0.2,
+            "displayUnit": "kg m/s"
+          }
+        ]
+      }
+    ]
+  }
+}

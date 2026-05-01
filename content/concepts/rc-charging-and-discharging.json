@@ -1,0 +1,1115 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live RC checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "1tau checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Keep the time-response story moving"
+      }
+    ],
+    "featuredSetups": [
+      {
+        "id": "one-tau-checkpoint",
+        "label": "1τ checkpoint",
+        "description": "Open the reference setup at 1τ so the 63% voltage and 37% current markers are visible together.",
+        "setup": {
+          "presetId": "one-tau-reference",
+          "graphId": "normalized-response",
+          "overlayIds": [
+            "tauMarkers",
+            "currentFlow"
+          ],
+          "inspectTime": 2
+        }
+      },
+      {
+        "id": "slow-response",
+        "label": "Slow response",
+        "description": "Increase the RC product and compare how the same source voltage takes longer to build capacitor voltage.",
+        "setup": {
+          "presetId": "slow-charge",
+          "graphId": "voltage-time",
+          "overlayIds": [
+            "tauMarkers",
+            "chargeCue"
+          ]
+        }
+      },
+      {
+        "id": "discharge-reversal",
+        "label": "Discharge reversal",
+        "description": "Switch to discharge and watch the charged capacitor drive reversed current while stored energy drains away.",
+        "setup": {
+          "presetId": "discharge-starter",
+          "graphId": "voltage-time",
+          "overlayIds": [
+            "currentFlow",
+            "energyStore"
+          ]
+        }
+      }
+    ],
+    "entryGuidance": {
+      "firstAction": "Open the 1τ checkpoint setup, then inspect the voltage, current, and stored-energy readouts before moving any sliders.",
+      "watchFor": "At 1τ the capacitor is only partway charged while the current has already faded; larger R or C spreads the same story over more seconds.",
+      "hints": [
+        {
+          "kind": "preset",
+          "id": "one-tau-reference",
+          "label": "1τ reference"
+        },
+        {
+          "kind": "graph",
+          "id": "normalized-response",
+          "label": "Normalized response"
+        },
+        {
+          "kind": "overlay",
+          "id": "tauMarkers",
+          "label": "tau markers"
+        },
+        {
+          "kind": "overlay",
+          "id": "currentFlow",
+          "label": "current flow"
+        }
+      ]
+    }
+  },
+  "pageIntro": {
+    "definition": "Use one resistor-capacitor loop to see why capacitor voltage changes gradually, why current fades, and how the time constant τ = RC sets the pace.",
+    "keyTakeaway": "At 1τ a charging capacitor is only about 63% of the way to the source voltage, because the current has already fallen to about 37% of its starting value.",
+    "whyItMatters": "RC timing is the foundation for camera flashes, filters, sensor delays, and any circuit where stored charge cannot change instantly."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "An RC circuit turns capacitor storage into a time-response story. The resistor limits how fast charge can move, the capacitor stores that charge as voltage builds across its plates, and the time constant tau = RC tells you whether the response is fast or slow.",
+        "This bench stays intentionally small: one battery, one resistor, one capacitor, and one charge-versus-discharge toggle. That is enough to show why capacitor voltage does not jump instantly, why current is largest right at the start, and how stored energy follows the same changing voltage without turning the page into a general transient-circuit simulator."
+      ]
+    },
+    "keyIdeas": [
+      "At 1τ, a charging capacitor has made a predictable partial move: about 63% of the voltage rise is complete while current has fallen to about 37% of its starting value.",
+      "Charging starts with the largest current because the capacitor voltage is initially zero; as capacitor voltage rises, resistor drop and current both shrink.",
+      "The time constant tau = RC sets the pace. Larger resistance or larger capacitance both make charging and discharging slower."
+    ],
+    "commonMisconception": {
+      "myth": "A capacitor connected to a battery should jump to the battery voltage immediately because the source voltage is already fixed.",
+      "correction": [
+        "The source voltage is fixed, but the resistor limits how quickly charge can move onto the capacitor plates.",
+        "The capacitor voltage builds over time because the current starts large and then fades as the capacitor itself takes more of the source voltage."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Use the exact RC setup on screen. The same source voltage, resistance, capacitance, mode, and inspected time drive the equations below.",
+      "items": [
+        {
+          "id": "time-constant-and-capacitor-voltage",
+          "title": "Time constant and capacitor voltage",
+          "dependsOnTime": true,
+          "prompt": "For the current RC setup, what is the time constant, and what capacitor voltage follows at the current inspected time?",
+          "variables": [
+            {
+              "id": "resistance",
+              "variableId": "resistance",
+              "symbol": "R",
+              "label": "Resistance",
+              "valueKey": "resistanceValue",
+              "unit": "ohm"
+            },
+            {
+              "id": "capacitance",
+              "variableId": "capacitance",
+              "symbol": "C",
+              "label": "Capacitance",
+              "valueKey": "capacitanceValue",
+              "unit": "F"
+            },
+            {
+              "id": "time",
+              "symbol": "t",
+              "label": "Elapsed time",
+              "valueKey": "timeValue",
+              "unit": "s"
+            }
+          ],
+          "steps": [
+            {
+              "id": "build-time-constant",
+              "label": "1. Build the time constant",
+              "template": "$\\tau = RC = {{resistanceValue}} \\times {{capacitanceValue}} = {{timeConstantValue}}$."
+            },
+            {
+              "id": "choose-voltage-rule",
+              "label": "2. Use the live mode rule",
+              "template": "This setup is {{modeLabelValue}}, so ${{capacitorRuleValue}}$."
+            },
+            {
+              "id": "substitute-voltage",
+              "label": "3. Substitute the live values",
+              "template": "${{capacitorSubstitutionValue}}$."
+            },
+            {
+              "id": "read-capacitor-voltage",
+              "label": "4. Read the capacitor voltage",
+              "template": "That gives $V_C = {{capacitorVoltageValue}}$ at $t = {{timeValue}}$."
+            }
+          ],
+          "resultLabel": "Time constant and capacitor voltage",
+          "resultTemplate": "$\\tau = {{timeConstantValue}}, \\quad V_C = {{capacitorVoltageValue}}$",
+          "interpretationTemplate": "{{voltageInterpretation}}",
+          "applyAction": {
+            "label": "Show the slow charge",
+            "presetId": "slow-charge",
+            "observationHint": "The larger R and C make tau bigger, so the voltage curve rises more slowly.",
+            "highlightedControlIds": [
+              "resistance",
+              "capacitance",
+              "charging"
+            ],
+            "highlightedGraphIds": [
+              "voltage-time"
+            ],
+            "highlightedOverlayIds": [
+              "tauMarkers",
+              "chargeCue"
+            ]
+          }
+        },
+        {
+          "id": "current-and-stored-energy",
+          "title": "Current and stored energy",
+          "dependsOnTime": true,
+          "prompt": "For the current setup and inspected time, what current is flowing and how much energy is stored in the capacitor?",
+          "variables": [
+            {
+              "id": "sourceVoltage",
+              "variableId": "sourceVoltage",
+              "symbol": "V_s",
+              "label": "Source voltage",
+              "valueKey": "sourceVoltageValue",
+              "unit": "V"
+            },
+            {
+              "id": "resistance",
+              "variableId": "resistance",
+              "symbol": "R",
+              "label": "Resistance",
+              "valueKey": "resistanceValue",
+              "unit": "ohm"
+            },
+            {
+              "id": "capacitance",
+              "variableId": "capacitance",
+              "symbol": "C",
+              "label": "Capacitance",
+              "valueKey": "capacitanceValue",
+              "unit": "F"
+            }
+          ],
+          "steps": [
+            {
+              "id": "choose-current-rule",
+              "label": "1. Start from the live current rule",
+              "template": "This setup is {{modeLabelValue}}, so ${{currentRuleValue}}$."
+            },
+            {
+              "id": "substitute-current-rule",
+              "label": "2. Substitute the live values",
+              "template": "${{currentSubstitutionValue}}$, so $I = {{currentValue}}$."
+            },
+            {
+              "id": "stored-energy-rule",
+              "label": "3. Use the capacitor energy relation",
+              "template": "$U = \\tfrac{1}{2} C V_C^2 = \\tfrac{1}{2} \\times {{capacitanceValue}} \\times ({{capacitorVoltageValue}})^2$."
+            },
+            {
+              "id": "stored-energy-result",
+              "label": "4. Read the stored energy",
+              "template": "That gives $U = {{storedEnergyValue}}$."
+            }
+          ],
+          "resultLabel": "Current and stored energy",
+          "resultTemplate": "$I = {{currentValue}}, \\quad U = {{storedEnergyValue}}$",
+          "interpretationTemplate": "{{energyInterpretation}}",
+          "applyAction": {
+            "label": "Show discharge",
+            "presetId": "discharge-starter",
+            "observationHint": "The current reverses and the stored energy drains away while the same time constant still controls the pace.",
+            "highlightedControlIds": [
+              "charging",
+              "resistance",
+              "capacitance"
+            ],
+            "highlightedGraphIds": [
+              "normalized-response"
+            ],
+            "highlightedOverlayIds": [
+              "currentFlow",
+              "energyStore"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "At one time constant, why has the charging capacitor not finished the job yet even though the source voltage has been fixed the whole time?",
+      "prediction": "Decide whether the unfinished response comes from the capacitor voltage, the current, or the time constant before you inspect the tau markers.",
+      "answer": "At one time constant the capacitor is only partway through the change because the current has already started fading. As the capacitor voltage rises, the resistor gets less of the source voltage, so the charging current keeps shrinking instead of staying constant.",
+      "explanation": "The source voltage is fixed, but the RC circuit is not driven by a fixed current. The current is strongest at the start and then decays exponentially, which is why the capacitor voltage approaches its final value gradually."
+    }
+  },
+  "equations": [
+    {
+      "id": "time-constant",
+      "latex": "\\tau = RC",
+      "label": "Time constant",
+      "meaning": "The product of resistance and capacitance sets how quickly the RC response happens."
+    },
+    {
+      "id": "charging-voltage",
+      "latex": "V_C = V_s \\left(1 - e^{-t/\\tau}\\right)",
+      "label": "Charging capacitor voltage",
+      "meaning": "The capacitor voltage rises toward the source value instead of jumping there instantly."
+    },
+    {
+      "id": "discharging-voltage",
+      "latex": "V_C = V_0 e^{-t/\\tau}",
+      "label": "Discharging capacitor voltage",
+      "meaning": "During discharge, the capacitor voltage falls exponentially from its starting value."
+    },
+    {
+      "id": "current-rule",
+      "latex": "I = \\pm \\dfrac{V}{R} e^{-t/\\tau}",
+      "label": "RC current",
+      "meaning": "The current magnitude decays exponentially in either mode, while the sign depends on whether the capacitor is charging or discharging."
+    },
+    {
+      "id": "stored-energy",
+      "latex": "U = \\tfrac{1}{2} C V_C^2",
+      "label": "Stored capacitor energy",
+      "meaning": "Stored energy follows the capacitor voltage, so it changes even faster than the charge fraction."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "sourceVoltage",
+      "symbol": "V_s",
+      "label": "Source voltage",
+      "param": "sourceVoltage",
+      "tone": "teal",
+      "description": "Sets the full charging target and the initial current scale.",
+      "equationIds": [
+        "charging-voltage",
+        "current-rule"
+      ],
+      "graphIds": [
+        "voltage-time"
+      ],
+      "overlayIds": [
+        "voltageLabels",
+        "currentFlow"
+      ]
+    },
+    {
+      "id": "resistance",
+      "symbol": "R",
+      "label": "Resistance",
+      "param": "resistance",
+      "tone": "coral",
+      "description": "Larger resistance slows the response by increasing tau and reducing the starting current.",
+      "equationIds": [
+        "time-constant",
+        "current-rule"
+      ],
+      "graphIds": [
+        "normalized-response"
+      ],
+      "overlayIds": [
+        "tauMarkers",
+        "currentFlow"
+      ]
+    },
+    {
+      "id": "capacitance",
+      "symbol": "C",
+      "label": "Capacitance",
+      "param": "capacitance",
+      "tone": "amber",
+      "description": "Larger capacitance stores more charge and also slows the response because tau = RC grows.",
+      "equationIds": [
+        "time-constant",
+        "stored-energy"
+      ],
+      "graphIds": [
+        "normalized-response"
+      ],
+      "overlayIds": [
+        "chargeCue",
+        "energyStore",
+        "tauMarkers"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "sourceVoltage": 8,
+      "resistance": 2,
+      "capacitance": 1,
+      "charging": true
+    },
+    "controls": [
+      {
+        "id": "charging",
+        "kind": "toggle",
+        "label": "Charging mode",
+        "param": "charging",
+        "description": "On connects the source and charges the capacitor. Off disconnects the source so the capacitor discharges through the resistor.",
+        "displayValueLabels": [
+          {
+            "value": true,
+            "label": "Charging"
+          },
+          {
+            "value": false,
+            "label": "Discharging"
+          }
+        ]
+      },
+      {
+        "id": "sourceVoltage",
+        "kind": "slider",
+        "label": "Source voltage",
+        "param": "sourceVoltage",
+        "min": 4,
+        "max": 12,
+        "step": 0.2,
+        "unit": "V",
+        "description": "Sets the charging target and the initial current scale."
+      },
+      {
+        "id": "resistance",
+        "kind": "slider",
+        "label": "Resistance R",
+        "param": "resistance",
+        "min": 1,
+        "max": 6,
+        "step": 0.1,
+        "unit": "ohm",
+        "description": "Larger resistance makes the response slower and lowers the initial current."
+      },
+      {
+        "id": "capacitance",
+        "kind": "slider",
+        "label": "Capacitance C",
+        "param": "capacitance",
+        "min": 0.4,
+        "max": 2.4,
+        "step": 0.05,
+        "unit": "F",
+        "description": "Larger capacitance stores more charge but also slows the response because tau = RC grows."
+      }
+    ],
+    "presets": [
+      {
+        "id": "fast-charge",
+        "label": "Fast charge",
+        "description": "A smaller time constant makes the charging curve climb quickly.",
+        "values": {
+          "sourceVoltage": 8,
+          "resistance": 1.2,
+          "capacitance": 0.8,
+          "charging": true
+        }
+      },
+      {
+        "id": "slow-charge",
+        "label": "Slow charge",
+        "description": "Larger R and C make the same source charge the capacitor more slowly.",
+        "values": {
+          "sourceVoltage": 8,
+          "resistance": 4,
+          "capacitance": 1.5,
+          "charging": true
+        }
+      },
+      {
+        "id": "discharge-starter",
+        "label": "Discharge starter",
+        "description": "Start from a charged capacitor and let it drain through the same resistor.",
+        "values": {
+          "sourceVoltage": 8,
+          "resistance": 2,
+          "capacitance": 1,
+          "charging": false
+        }
+      },
+      {
+        "id": "one-tau-reference",
+        "label": "1tau reference",
+        "description": "A clean charging setup with tau = 2 s so the 1tau checkpoint is easy to inspect.",
+        "values": {
+          "sourceVoltage": 8,
+          "resistance": 2,
+          "capacitance": 1,
+          "charging": true
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "currentFlow",
+        "label": "Current flow",
+        "shortDescription": "Shows the direction and strength of the transient current.",
+        "whatToNotice": [
+          "The current is largest right at the start and then fades as the response progresses."
+        ],
+        "whyItMatters": "It keeps the voltage curve tied to the real current that is doing the charging or discharging.",
+        "relatedControls": [
+          "charging",
+          "resistance",
+          "sourceVoltage"
+        ],
+        "relatedGraphTabs": [
+          "normalized-response"
+        ],
+        "relatedEquationVariables": [
+          "sourceVoltage",
+          "resistance"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "voltageLabels",
+        "label": "Voltage labels",
+        "shortDescription": "Marks the source voltage, resistor drop, and capacitor voltage on the live loop.",
+        "whatToNotice": [
+          "During charging, the resistor drop shrinks while the capacitor voltage rises toward the same source value."
+        ],
+        "whyItMatters": "It makes the changing loop balance visible instead of hiding it in one formula.",
+        "relatedControls": [
+          "sourceVoltage",
+          "charging"
+        ],
+        "relatedGraphTabs": [
+          "voltage-time"
+        ],
+        "relatedEquationVariables": [
+          "sourceVoltage"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "tauMarkers",
+        "label": "tau markers",
+        "shortDescription": "Shows 1tau, 2tau, 3tau, and the current time position on the same response ruler.",
+        "whatToNotice": [
+          "One time constant is a pacing marker, not the end of the response."
+        ],
+        "whyItMatters": "It gives tau a physical timing meaning instead of leaving it as a product only.",
+        "relatedControls": [
+          "resistance",
+          "capacitance"
+        ],
+        "relatedGraphTabs": [
+          "normalized-response"
+        ],
+        "relatedEquationVariables": [
+          "resistance",
+          "capacitance"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "chargeCue",
+        "label": "charge cue",
+        "shortDescription": "Shows opposite charge building or fading on the capacitor plates.",
+        "whatToNotice": [
+          "The plate charge does not jump instantly. It grows or fades with the same RC pace."
+        ],
+        "whyItMatters": "It keeps the voltage curve attached to real stored charge on the capacitor.",
+        "relatedControls": [
+          "capacitance",
+          "charging"
+        ],
+        "relatedGraphTabs": [
+          "normalized-response"
+        ],
+        "relatedEquationVariables": [
+          "capacitance"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "energyStore",
+        "label": "energy store",
+        "shortDescription": "Shows stored capacitor energy rising or falling with the capacitor voltage.",
+        "whatToNotice": [
+          "Stored energy changes more steeply than charge fraction because it depends on V_C squared."
+        ],
+        "whyItMatters": "It separates energy storage from charge storage while keeping both on the same bench.",
+        "relatedControls": [
+          "capacitance",
+          "sourceVoltage",
+          "charging"
+        ],
+        "relatedGraphTabs": [
+          "normalized-response"
+        ],
+        "relatedEquationVariables": [
+          "capacitance",
+          "sourceVoltage"
+        ],
+        "defaultOn": true
+      }
+    ],
+    "ui": {
+      "initialGraphId": "voltage-time",
+      "primaryGraphIds": [
+        "voltage-time"
+      ],
+      "primaryControlIds": [
+        "charging",
+        "resistance",
+        "capacitance",
+        "sourceVoltage"
+      ],
+      "primaryPresetIds": [
+        "one-tau-reference",
+        "discharge-starter",
+        "slow-charge"
+      ],
+      "starterExploreTasks": [
+        "Open the 1tau reference preset and read the time constant before you move the clock.",
+        "Scrub to 1tau and compare the capacitor voltage, current, and stored energy together.",
+        "Switch to discharge mode and watch the current reverse while the same time constant still sets the pace."
+      ]
+    }
+  },
+  "graphs": [
+    {
+      "id": "voltage-time",
+      "label": "Capacitor and resistor voltage vs time",
+      "xLabel": "time t (s)",
+      "yLabel": "voltage (V)",
+      "series": [
+        "capacitor-voltage",
+        "resistor-voltage"
+      ],
+      "description": "The capacitor voltage and resistor drop stay on the same graph so the changing loop balance remains visible through time."
+    },
+    {
+      "id": "normalized-response",
+      "label": "Normalized charge, current, and energy response",
+      "xLabel": "time t (s)",
+      "yLabel": "fraction of the response",
+      "series": [
+        "charge-fraction",
+        "current-fraction",
+        "energy-fraction"
+      ],
+      "description": "Charge fraction, current fraction, and stored-energy fraction share one dimensionless graph so the time-constant story stays easy to compare."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the same RC loop to keep time constant, current, voltage, and stored energy visible together.",
+    "items": [
+      {
+        "id": "rc-notice-start-current",
+        "text": "The current is largest right at the start because the resistor initially sees almost the full source voltage.",
+        "type": "observation",
+        "priority": 2,
+        "conditions": {
+          "lastChangedControls": [
+            "charging",
+            "sourceVoltage"
+          ]
+        },
+        "tryThis": "Reset the loop to a charging preset and watch the current arrow before you let much time pass.",
+        "whyItMatters": "It explains why the voltage curve is steepest right at the start instead of later.",
+        "relatedControls": [
+          "charging",
+          "sourceVoltage"
+        ],
+        "relatedGraphTabs": [
+          "voltage-time"
+        ],
+        "relatedOverlays": [
+          "currentFlow",
+          "voltageLabels"
+        ]
+      },
+      {
+        "id": "rc-notice-tau",
+        "text": "One time constant is a pacing marker, not the finish line. The response is still incomplete at 1tau.",
+        "type": "graph-reading",
+        "priority": 4,
+        "conditions": {
+          "overlayIds": [
+            "tauMarkers"
+          ]
+        },
+        "tryThis": "Use the 1tau reference preset and inspect the state exactly at tau.",
+        "whyItMatters": "It turns tau into a readable timing idea instead of a symbol only.",
+        "relatedControls": [
+          "resistance",
+          "capacitance"
+        ],
+        "relatedGraphTabs": [
+          "normalized-response"
+        ],
+        "relatedOverlays": [
+          "tauMarkers"
+        ]
+      },
+      {
+        "id": "rc-notice-discharge",
+        "text": "Discharging uses the same time constant, but the current reverses because the capacitor becomes the source that drives the resistor.",
+        "type": "compare",
+        "priority": 5,
+        "conditions": {
+          "lastChangedControls": [
+            "charging"
+          ]
+        },
+        "tryThis": "Switch between the 1tau reference and the discharge starter without changing R or C.",
+        "whyItMatters": "It keeps charging and discharging as one RC story instead of two unrelated formulas.",
+        "relatedControls": [
+          "charging"
+        ],
+        "relatedGraphTabs": [
+          "voltage-time",
+          "normalized-response"
+        ],
+        "relatedOverlays": [
+          "currentFlow",
+          "energyStore"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the RC response before you apply the change.",
+    "items": [
+      {
+        "id": "rc-pred-larger-r",
+        "prompt": "If resistance increases while the same capacitor and source stay in charging mode, which statement is best?",
+        "scenarioLabel": "Increase R",
+        "changeLabel": "Resistance",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The time constant gets larger, the initial current gets smaller, and the capacitor takes longer to approach the source voltage."
+          },
+          {
+            "id": "b",
+            "label": "The capacitor charges faster because the resistor now blocks less current later in time."
+          },
+          {
+            "id": "c",
+            "label": "Only the stored energy changes. The voltage curve itself stays the same."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Larger resistance raises tau = RC and lowers the starting current V/R, so the whole charging response slows down.",
+        "observationHint": "Compare the one-tau reference with the slow-charge preset.",
+        "apply": {
+          "presetId": "slow-charge"
+        },
+        "highlightedControls": [
+          "resistance"
+        ],
+        "highlightedGraphs": [
+          "voltage-time",
+          "normalized-response"
+        ],
+        "highlightedOverlays": [
+          "tauMarkers",
+          "currentFlow"
+        ]
+      },
+      {
+        "id": "rc-pred-larger-c",
+        "prompt": "If capacitance increases while the same resistor and source stay in charging mode, what changes?",
+        "scenarioLabel": "Increase C",
+        "changeLabel": "Capacitance",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The time constant gets larger, so the response is slower even though the source voltage target is the same."
+          },
+          {
+            "id": "b",
+            "label": "The time constant gets smaller because the capacitor can hold more charge."
+          },
+          {
+            "id": "c",
+            "label": "The current instantly stays the same forever because the larger capacitor absorbs the source."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Larger capacitance also raises tau = RC. The capacitor can store more charge, but that same increase makes the voltage build more slowly.",
+        "observationHint": "Hold the source fixed and compare the tau markers as you increase C.",
+        "apply": {
+          "patch": {
+            "sourceVoltage": 8,
+            "resistance": 2,
+            "capacitance": 2,
+            "charging": true
+          }
+        },
+        "highlightedControls": [
+          "capacitance"
+        ],
+        "highlightedGraphs": [
+          "normalized-response"
+        ],
+        "highlightedOverlays": [
+          "tauMarkers",
+          "chargeCue"
+        ]
+      },
+      {
+        "id": "rc-pred-discharge",
+        "prompt": "When the loop is switched from charging to discharging with the same R and C, which statement is best?",
+        "scenarioLabel": "Switch to discharge",
+        "changeLabel": "Mode",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The current reverses direction and the capacitor voltage now decays toward zero with the same time constant."
+          },
+          {
+            "id": "b",
+            "label": "The capacitor keeps rising to the source voltage because the source setting did not change."
+          },
+          {
+            "id": "c",
+            "label": "The current disappears instantly because the battery is disconnected."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The battery is removed from the active loop during discharge, so the charged capacitor becomes the source that drives the resistor. The current reverses, but the same tau = RC still sets the pace.",
+        "observationHint": "Compare the current arrow and the energy bar before and after the mode switch.",
+        "apply": {
+          "presetId": "discharge-starter"
+        },
+        "highlightedControls": [
+          "charging"
+        ],
+        "highlightedGraphs": [
+          "voltage-time"
+        ],
+        "highlightedOverlays": [
+          "currentFlow",
+          "energyStore"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the same RC loop for compact time-response targets.",
+    "items": [
+      {
+        "id": "rc-ch-one-tau-charge",
+        "title": "Catch the 1tau charge point",
+        "style": "target-setting",
+        "prompt": "Starting from the 1tau reference preset, inspect the loop at 1tau and keep the charging setup where the capacitor voltage is about 63% of the source and the current fraction is about 37%.",
+        "successMessage": "You landed on the classic 1tau charging checkpoint: the capacitor is partway up the curve while the current has already dropped strongly.",
+        "setup": {
+          "presetId": "one-tau-reference",
+          "graphId": "normalized-response",
+          "overlayIds": [
+            "tauMarkers",
+            "currentFlow"
+          ],
+          "inspectTime": 2,
+          "note": "Stay in charging mode and use the tau markers instead of guessing from the absolute time alone."
+        },
+        "requirements": {
+          "graphId": "normalized-response",
+          "overlayIds": [
+            "tauMarkers",
+            "currentFlow"
+          ],
+          "timeSource": "inspect",
+          "timeRange": {
+            "min": 1.95,
+            "max": 2.05
+          }
+        },
+        "hints": [
+          "At 1tau the response is not finished.",
+          "Current fraction should be much smaller than the charge fraction."
+        ],
+        "targets": [
+          {
+            "metric": "timeConstant",
+            "min": 1.95,
+            "max": 2.05,
+            "displayUnit": "s"
+          },
+          {
+            "metric": "chargeFraction",
+            "min": 0.62,
+            "max": 0.64
+          },
+          {
+            "metric": "currentFraction",
+            "min": 0.36,
+            "max": 0.38
+          },
+          {
+            "metric": "capacitorVoltage",
+            "min": 5,
+            "max": 5.15,
+            "displayUnit": "V"
+          }
+        ]
+      },
+      {
+        "id": "rc-ch-slower-response",
+        "title": "Build the slower response",
+        "style": "target-setting",
+        "prompt": "Starting from Fast charge, change only R and C until the time constant is about 4 s while the source voltage stays fixed.",
+        "successMessage": "You made the same source respond more slowly by increasing the RC product instead of changing the target voltage.",
+        "setup": {
+          "presetId": "fast-charge",
+          "graphId": "normalized-response",
+          "overlayIds": [
+            "tauMarkers",
+            "chargeCue"
+          ],
+          "note": "Keep the source voltage fixed. Only R and C should move."
+        },
+        "requirements": {
+          "graphId": "normalized-response",
+          "overlayIds": [
+            "tauMarkers",
+            "chargeCue"
+          ]
+        },
+        "hints": [
+          "Tau depends on the product RC, not on source voltage.",
+          "Many different R and C pairs could work, but this target wants tau near 4 s."
+        ],
+        "targets": [
+          {
+            "param": "sourceVoltage",
+            "min": 7.9,
+            "max": 8.1,
+            "displayUnit": "V"
+          },
+          {
+            "metric": "timeConstant",
+            "min": 3.9,
+            "max": 4.1,
+            "displayUnit": "s"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live RC loop, not from detached formulas.",
+    "questions": [
+      {
+        "id": "rc-qt-largest-current",
+        "type": "reasoning",
+        "prompt": "During charging, when is the current largest?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Right at the start, before the capacitor has built much voltage."
+          },
+          {
+            "id": "b",
+            "label": "Halfway through the response, because that is when the capacitor and resistor share the voltage evenly."
+          },
+          {
+            "id": "c",
+            "label": "At the end, because the capacitor has finally reached the source voltage."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At the start of charging the capacitor voltage is near zero, so almost the full source voltage appears across the resistor and the current is largest.",
+        "selectedWrongExplanations": {
+          "b": "The current is already smaller by the midpoint because the capacitor has taken some of the source voltage.",
+          "c": "At the end of charging the current is near zero, not largest."
+        },
+        "showMeAction": {
+          "label": "Show fast charge",
+          "presetId": "fast-charge",
+          "observationHint": "Watch the current arrow at the instant the response starts.",
+          "highlightedControlIds": [
+            "charging"
+          ],
+          "highlightedGraphIds": [
+            "voltage-time"
+          ],
+          "highlightedOverlayIds": [
+            "currentFlow",
+            "voltageLabels"
+          ]
+        }
+      },
+      {
+        "id": "rc-qt-one-tau",
+        "type": "graph-reading",
+        "prompt": "At 1tau during charging, which statement is best?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The capacitor is only partway to its final voltage, and the current has already dropped a lot."
+          },
+          {
+            "id": "b",
+            "label": "The capacitor has finished charging because one time constant means one full charge."
+          },
+          {
+            "id": "c",
+            "label": "The current is still the same as at the start because the source voltage is fixed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "One time constant is a pacing marker, not the finish line. The charging curve is only partway complete and the current has already decayed strongly.",
+        "selectedWrongExplanations": {
+          "b": "The response approaches its final value gradually and is still incomplete at 1tau.",
+          "c": "The source is fixed, but the current is not. It falls as the capacitor voltage rises."
+        },
+        "showMeAction": {
+          "label": "Show 1tau reference",
+          "presetId": "one-tau-reference",
+          "observationHint": "Scrub to the tau marker and compare charge fraction with current fraction.",
+          "highlightedControlIds": [
+            "resistance",
+            "capacitance"
+          ],
+          "highlightedGraphIds": [
+            "normalized-response"
+          ],
+          "highlightedOverlayIds": [
+            "tauMarkers"
+          ]
+        }
+      },
+      {
+        "id": "rc-qt-larger-r",
+        "type": "variable-effect",
+        "prompt": "If the resistor is made larger while the same capacitor and source remain in charging mode, what happens?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The response gets slower because tau increases and the starting current gets smaller."
+          },
+          {
+            "id": "b",
+            "label": "The response gets faster because the resistor can now hold more energy."
+          },
+          {
+            "id": "c",
+            "label": "Nothing changes because capacitance is the only thing that sets RC timing."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Larger resistance raises tau = RC and reduces the starting current V/R, so the whole response becomes slower.",
+        "selectedWrongExplanations": {
+          "b": "The resistor does not create a faster response here. It slows the flow of charge onto the capacitor.",
+          "c": "Both R and C set tau."
+        },
+        "showMeAction": {
+          "label": "Show slow charge",
+          "presetId": "slow-charge",
+          "observationHint": "Compare the tau marker spacing and the current arrow with the faster setup.",
+          "highlightedControlIds": [
+            "resistance"
+          ],
+          "highlightedGraphIds": [
+            "normalized-response"
+          ],
+          "highlightedOverlayIds": [
+            "tauMarkers",
+            "currentFlow"
+          ]
+        }
+      },
+      {
+        "id": "rc-qt-discharge",
+        "type": "misconception-check",
+        "prompt": "A student says, \"Once the source is disconnected, the current must instantly vanish because there is no battery left.\" What is the best correction?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The current does not vanish instantly. The charged capacitor becomes the source that drives the resistor, so the current reverses and then decays."
+          },
+          {
+            "id": "b",
+            "label": "That is correct because only batteries can ever drive current in a loop."
+          },
+          {
+            "id": "c",
+            "label": "The current stays exactly the same forever because the capacitor keeps the same stored voltage."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The charged capacitor stores voltage and energy. During discharge it becomes the source driving the resistor, so the current reverses and then fades away.",
+        "selectedWrongExplanations": {
+          "b": "A charged capacitor can also drive current while it is releasing stored energy.",
+          "c": "The capacitor voltage is not fixed during discharge. It falls with time."
+        },
+        "showMeAction": {
+          "label": "Show discharge",
+          "presetId": "discharge-starter",
+          "observationHint": "Watch the current arrow reverse while the energy bar shrinks.",
+          "highlightedControlIds": [
+            "charging"
+          ],
+          "highlightedGraphIds": [
+            "voltage-time"
+          ],
+          "highlightedOverlayIds": [
+            "currentFlow",
+            "energyStore"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one battery, one resistor, and one capacitor in a bounded RC loop. A mode toggle switches between charging and discharging, while sliders set source voltage, resistance, and capacitance.",
+        "Overlays can show current flow, voltage labels, tau markers, plate charge build-up, and stored-energy cues. The same controls drive the stage, readout card, and both graphs."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The voltage graph shows capacitor voltage and resistor drop against time so the changing loop balance stays visible. The normalized-response graph shows charge fraction, current fraction, and stored-energy fraction against the same time axis so the RC pace is easy to compare."
+      ]
+    }
+  },
+  "seo": {
+    "title": "RC Charging and Discharging | Open Model Lab",
+    "description": "Learn RC charging and discharging with one bounded resistor-capacitor loop that keeps capacitor voltage, current, stored energy, and the time constant on the same live bench.",
+    "keywords": [
+      "RC circuit",
+      "charging and discharging",
+      "time constant",
+      "capacitor voltage",
+      "circuit simulation"
+    ]
+  }
+}

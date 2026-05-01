@@ -1,0 +1,1280 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live beat checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Envelope checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Carry beats into superposition and resonance"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Superpose two nearby sound frequencies, watch the fast carrier sit inside a slower envelope, and connect beat rate to the frequency difference on one compact bench.",
+    "whyItMatters": "Beats are how musicians tune instruments and how wave interference becomes audible, so reading the envelope makes superposition feel like something you can hear and measure.",
+    "keyTakeaway": "Beat frequency depends on the difference between the two source frequencies, not on their average amplitude or on the average frequency by itself."
+  },
+  "v2": {
+    "intuition": "Beats are not a new low-frequency source. They are the slow loud-soft envelope that appears when two nearby frequencies drift between reinforcement and cancellation.",
+    "whyItMatters": "This lets you tune instruments, read interference patterns by ear, and separate beat rate from the faster pitch you still hear underneath.",
+    "estimatedMinutes": 12,
+    "equationSnapshot": {
+      "title": "Envelope versus carrier snapshot",
+      "note": "Keep the two time scales separate: the frequency difference sets the slow beat envelope, while the average frequency sets the faster carrier inside it.",
+      "equationIds": [
+        "beats-frequency",
+        "beats-superposition"
+      ]
+    },
+    "startSetup": {
+      "presetId": "near-unison",
+      "graphId": "envelope",
+      "overlayIds": [
+        "envelopeGuide",
+        "differenceGuide"
+      ],
+      "note": "Begin near unison so the slow envelope is easy to see before changing the source pair."
+    },
+    "guidedSteps": [
+      {
+        "id": "hear-the-envelope",
+        "title": "Hear the envelope",
+        "goal": "Separate the slow loud-soft pulse from the faster oscillation inside it.",
+        "doThis": "Start from Near unison with the envelope guide on, then compare the displacement graph with the envelope graph.",
+        "notice": "The fast resultant keeps oscillating while the envelope swells and fades around it.",
+        "explain": "A beat is the envelope created by superposition. The sources are steady; the combined wave changes size because their phases drift in and out of alignment.",
+        "reveal": {
+          "graphIds": [
+            "displacement",
+            "envelope"
+          ],
+          "overlayIds": [
+            "envelopeGuide",
+            "loudnessCue"
+          ],
+          "controlIds": [
+            "frequencyA",
+            "frequencyB"
+          ]
+        },
+        "setup": {
+          "presetId": "near-unison",
+          "graphId": "envelope",
+          "overlayIds": [
+            "envelopeGuide",
+            "loudnessCue"
+          ]
+        }
+      },
+      {
+        "id": "tune-the-difference",
+        "title": "Tune the difference",
+        "goal": "See beat rate respond to the frequency split, not to amplitude.",
+        "doThis": "Move Source B frequency farther from Source A while keeping Source amplitude fixed.",
+        "notice": "A wider split makes the envelope pulse faster even though the source amplitude did not change.",
+        "explain": "The beat frequency is |f2 - f1|. Amplitude changes the height of the envelope, but the difference between the two frequencies sets how quickly it repeats.",
+        "reveal": {
+          "controlIds": [
+            "frequencyA",
+            "frequencyB",
+            "amplitude"
+          ],
+          "graphIds": [
+            "envelope"
+          ],
+          "overlayIds": [
+            "differenceGuide",
+            "envelopeGuide"
+          ]
+        },
+        "setup": {
+          "presetId": "slow-pulses",
+          "graphId": "envelope",
+          "overlayIds": [
+            "differenceGuide",
+            "envelopeGuide"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "beats-predict-wider-split"
+          ],
+          "questionIds": [
+            "beats-qt-difference"
+          ]
+        }
+      },
+      {
+        "id": "remove-the-beats",
+        "title": "Remove the beats",
+        "goal": "Confirm what happens when the frequency difference becomes zero.",
+        "doThis": "Apply No beats, or tune the two source frequencies until they match exactly.",
+        "notice": "The separate slow pulse disappears, but the resultant does not have to vanish.",
+        "explain": "Equal frequencies make |f2 - f1| equal zero. With equal amplitudes in this setup, the two sources combine into one steady-frequency motion instead of a beat envelope.",
+        "reveal": {
+          "controlIds": [
+            "frequencyA",
+            "frequencyB"
+          ],
+          "graphIds": [
+            "displacement",
+            "envelope"
+          ],
+          "overlayIds": [
+            "differenceGuide",
+            "envelopeGuide"
+          ]
+        },
+        "setup": {
+          "presetId": "no-beats",
+          "graphId": "displacement",
+          "overlayIds": [
+            "differenceGuide",
+            "envelopeGuide"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "beats-predict-equalize"
+          ],
+          "questionIds": [
+            "beats-qt-equal-frequencies"
+          ]
+        }
+      },
+      {
+        "id": "separate-beat-from-carrier",
+        "title": "Separate beat from carrier",
+        "goal": "Keep the same beat rate while changing the faster carrier frequency.",
+        "doThis": "Compare Same beat, higher carrier with Same beat, lower carrier and keep the difference callout visible.",
+        "notice": "The loud-soft envelope can pulse at the same rate while the inner wiggle becomes faster or slower.",
+        "explain": "The average frequency controls the carrier; the frequency difference controls the envelope. Good beat explanations name both parts separately.",
+        "reveal": {
+          "controlIds": [
+            "frequencyA",
+            "frequencyB"
+          ],
+          "graphIds": [
+            "displacement",
+            "envelope"
+          ],
+          "overlayIds": [
+            "differenceGuide",
+            "envelopeGuide"
+          ]
+        },
+        "setup": {
+          "presetId": "same-beat-higher-carrier",
+          "graphId": "displacement",
+          "overlayIds": [
+            "differenceGuide",
+            "envelopeGuide"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "beats-predict-same-difference"
+          ],
+          "questionIds": [
+            "beats-qt-same-difference"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "A beat is the slow envelope around a faster resultant wave, not a separate source turning volume up and down.",
+        "Beat frequency is set by the frequency difference |f2 - f1|.",
+        "The carrier frequency follows the average of the two source frequencies, so the same beat rate can sit on a higher or lower pitch."
+      ],
+      "misconception": "If two tones create beats, each tone must be changing its own loudness.",
+      "workedExampleRefs": [
+        "beat-rate-from-frequencies",
+        "current-envelope-strength"
+      ],
+      "freePlayPrompt": "Try to make the beat pulse twice as fast without touching Source amplitude, then explain what changed and what stayed the same.",
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "wave-interference",
+          "title": "Wave Interference",
+          "reasonLabel": "Extend the same superposition idea to spatial interference patterns"
+        },
+        {
+          "slug": "standing-waves",
+          "title": "Standing Waves",
+          "reasonLabel": "Use interference to build fixed nodes and antinodes"
+        },
+        {
+          "slug": "doppler-effect",
+          "title": "Doppler Effect",
+          "reasonLabel": "Compare beat changes with pitch shifts caused by motion"
+        }
+      ]
+    }
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Beats appear when two nearby frequencies reach the same listener or probe and superpose. The fast oscillation does not disappear. Instead, it sits inside a slower amplitude envelope, so the combined motion swells and fades even though each source keeps oscillating steadily at its own frequency.",
+        "This bench stays bounded on purpose. It shows two equal-amplitude source traces, one live resultant, and one normalized loudness cue from the same superposition state. That keeps the physics honest: beat frequency comes from the frequency difference, while the faster carrier still follows the average source frequency."
+      ]
+    },
+    "keyIdeas": [
+      "Beat frequency depends on the difference between the two source frequencies, not on their average amplitude or on the average frequency by itself.",
+      "The loud-soft pulse is an envelope created by superposition, so neither source needs to get louder or quieter on its own.",
+      "Keeping the same frequency difference keeps the same beat rate even if both source frequencies shift upward or downward together."
+    ],
+    "commonMisconception": {
+      "myth": "If you hear beats, each source must be turning its own volume up and down.",
+      "correction": [
+        "Each source keeps a steady amplitude in this model. The pulsing comes from how the two waves add together.",
+        "The superposed resultant grows when the waves reinforce and shrinks when they nearly cancel, which is why the loudness cue pulses."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked examples",
+      "intro": "These checks read the same source frequencies and live envelope state that the stage and graphs already show, so the math stays tied to one superposition bench.",
+      "items": [
+        {
+          "id": "beat-rate-from-frequencies",
+          "title": "Beat rate from the source pair",
+          "prompt": "For this beat setup with $f_1 = {{frequencyAValue}}\\,\\mathrm{Hz}$ and $f_2 = {{frequencyBValue}}\\,\\mathrm{Hz}$, what beat frequency and average carrier frequency follow from that pair?",
+          "variables": [
+            {
+              "id": "frequency-a",
+              "variableId": "frequencyA",
+              "symbol": "f_1",
+              "label": "Source A frequency",
+              "valueKey": "frequencyAValue",
+              "unit": "Hz"
+            },
+            {
+              "id": "frequency-b",
+              "variableId": "frequencyB",
+              "symbol": "f_2",
+              "label": "Source B frequency",
+              "valueKey": "frequencyBValue",
+              "unit": "Hz"
+            },
+            {
+              "id": "beat-frequency",
+              "symbol": "f_{beat}",
+              "label": "Beat frequency",
+              "valueKey": "beatFrequencyValue",
+              "unit": "Hz"
+            },
+            {
+              "id": "average-frequency",
+              "symbol": "f_{avg}",
+              "label": "Average carrier frequency",
+              "valueKey": "averageFrequencyValue",
+              "unit": "Hz"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Start from the nearby-frequency relations",
+              "template": "Use $f_{beat} = |f_2 - f_1|$ for the envelope rate and $f_{avg} = \\dfrac{f_1 + f_2}{2}$ for the faster carrier underneath it."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the setup source pair",
+              "template": "$f_{beat} = |{{frequencyBValue}} - {{frequencyAValue}}| = {{frequencyDifferenceValue}}\\,\\mathrm{Hz}$ and $f_{avg} = \\dfrac{ {{frequencyAValue}} + {{frequencyBValue}} }{2} = {{averageFrequencyValue}}\\,\\mathrm{Hz}$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Interpret the pulse rate",
+              "template": "So the envelope repeats at ${{beatFrequencyValue}}\\,\\mathrm{Hz}$, {{beatPeriodClause}}, while the faster oscillation still centers on ${{averageFrequencyValue}}\\,\\mathrm{Hz}$."
+            }
+          ],
+          "resultLabel": "Beat and carrier result",
+          "resultTemplate": "$f_{beat} = {{beatFrequencyValue}}\\,\\mathrm{Hz}, \\quad f_{avg} = {{averageFrequencyValue}}\\,\\mathrm{Hz}$",
+          "interpretationTemplate": "{{beatInterpretation}}",
+          "applyAction": {
+            "label": "Show slow pulses",
+            "presetId": "slow-pulses",
+            "observationHint": "The displacement trace keeps cycling quickly while the envelope graph reveals one much slower beat rhythm.",
+            "highlightedControlIds": [
+              "frequencyA",
+              "frequencyB"
+            ],
+            "highlightedGraphIds": [
+              "displacement",
+              "envelope"
+            ],
+            "highlightedOverlayIds": [
+              "differenceGuide",
+              "envelopeGuide"
+            ]
+          }
+        },
+        {
+          "id": "current-envelope-strength",
+          "title": "Current envelope strength",
+          "prompt": "At the generated instant $t = {{timeValue}}\\,\\mathrm{s}$, what envelope amplitude and loudness cue does this superposition setup have?",
+          "variables": [
+            {
+              "id": "time",
+              "symbol": "t",
+              "label": "Current time",
+              "valueKey": "timeValue",
+              "unit": "s"
+            },
+            {
+              "id": "amplitude",
+              "variableId": "amplitude",
+              "symbol": "A",
+              "label": "Source amplitude",
+              "valueKey": "amplitudeValue",
+              "unit": "m"
+            },
+            {
+              "id": "frequency-difference",
+              "symbol": "\\Delta f",
+              "label": "Frequency difference",
+              "valueKey": "frequencyDifferenceValue",
+              "unit": "Hz"
+            },
+            {
+              "id": "envelope-amplitude",
+              "symbol": "A_{env}",
+              "label": "Envelope amplitude",
+              "valueKey": "envelopeAmplitudeValue",
+              "unit": "m"
+            },
+            {
+              "id": "loudness-cue",
+              "symbol": "I_{cue}",
+              "label": "Loudness cue",
+              "valueKey": "loudnessCueValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Use the bounded envelope relation",
+              "template": "For equal source amplitudes, this bench uses $A_{env} = 2A\\left|\\cos\\!\\left(\\pi \\Delta f\\, t\\right)\\right|$ and a normalized loudness cue that scales like $\\left(\\dfrac{A_{env}}{2A}\\right)^2$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the setup values",
+              "template": "$A_{env} = 2({{amplitudeValue}})\\left|\\cos\\!\\left(\\pi({{frequencyDifferenceValue}})({{timeValue}})\\right)\\right| = {{envelopeAmplitudeValue}}\\,\\mathrm{m}$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Interpret the loudness cue",
+              "template": "That envelope is {{envelopeRatioValue}} of the largest possible value here, so the bounded loudness cue is ${{loudnessCueValue}}$ even though neither source amplitude changed by itself."
+            }
+          ],
+          "resultLabel": "Envelope state result",
+          "resultTemplate": "$A_{env} = {{envelopeAmplitudeValue}}\\,\\mathrm{m}, \\quad I_{cue} = {{loudnessCueValue}}$",
+          "interpretationTemplate": "{{loudnessInterpretation}}",
+          "applyAction": {
+            "label": "Open the envelope graph",
+            "presetId": "slow-pulses",
+            "observationHint": "Use inspect time on the same setup and watch the resultant move between loud pulses and quiet gaps without changing the source amplitudes.",
+            "highlightedControlIds": [
+              "frequencyA",
+              "frequencyB",
+              "amplitude"
+            ],
+            "highlightedGraphIds": [
+              "envelope",
+              "displacement"
+            ],
+            "highlightedOverlayIds": [
+              "envelopeGuide",
+              "loudnessCue"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "You want the loud-soft pulsing to disappear without changing the source amplitudes. What should you do to the two source frequencies?",
+      "prediction": "Decide whether you should move them farther apart, bring them together, or shift both upward together.",
+      "answer": "Bring the two source frequencies together until they match.",
+      "explanation": "The beat envelope comes from the frequency difference. When $f_1$ and $f_2$ become equal, $\\Delta f$ goes to zero and the separate beat cycle disappears."
+    }
+  },
+  "equations": [
+    {
+      "id": "beats-sources",
+      "latex": "y_1 = A\\sin(2\\pi f_1 t), \\qquad y_2 = A\\sin(2\\pi f_2 t)",
+      "label": "Two nearby source waves",
+      "meaning": "Each source keeps its own steady sinusoidal motion with the same amplitude but a slightly different frequency."
+    },
+    {
+      "id": "beats-superposition",
+      "latex": "y = y_1 + y_2 = 2A\\cos\\!\\left(\\pi(f_2-f_1)t\\right)\\sin\\!\\left(2\\pi\\dfrac{f_1+f_2}{2}t\\right)",
+      "label": "Resultant with envelope and carrier",
+      "meaning": "The slow cosine factor sets the envelope, while the faster sine factor keeps the average-frequency carrier visible inside it."
+    },
+    {
+      "id": "beats-frequency",
+      "latex": "f_{beat} = |f_2 - f_1|",
+      "label": "Beat frequency",
+      "meaning": "The envelope rate comes from the difference between the source frequencies."
+    },
+    {
+      "id": "beats-loudness",
+      "latex": "I_{cue} \\propto \\left(\\dfrac{A_{env}}{2A}\\right)^2",
+      "label": "Bounded loudness cue",
+      "meaning": "This intro bench uses a normalized amplitude-squared cue so the heard loud-soft pulsing stays tied to the envelope instead of becoming a full acoustics model.",
+      "notes": [
+        "The cue is bounded and conceptual. It is not a full psychoacoustic loudness law."
+      ]
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "amplitude",
+      "symbol": "A",
+      "label": "Source amplitude",
+      "param": "amplitude",
+      "tone": "coral",
+      "description": "Scales the source traces and the largest possible envelope, but it does not set the beat rate.",
+      "equationIds": [
+        "beats-sources",
+        "beats-superposition",
+        "beats-loudness"
+      ],
+      "graphIds": [
+        "displacement",
+        "envelope"
+      ],
+      "overlayIds": [
+        "envelopeGuide",
+        "loudnessCue"
+      ]
+    },
+    {
+      "id": "frequencyA",
+      "symbol": "f_1",
+      "label": "Source A frequency",
+      "param": "frequencyA",
+      "tone": "teal",
+      "description": "Sets one source timing, so moving it changes both the average carrier and the beat difference with Source B.",
+      "equationIds": [
+        "beats-sources",
+        "beats-superposition",
+        "beats-frequency"
+      ],
+      "graphIds": [
+        "displacement",
+        "envelope"
+      ],
+      "overlayIds": [
+        "differenceGuide",
+        "envelopeGuide"
+      ]
+    },
+    {
+      "id": "frequencyB",
+      "symbol": "f_2",
+      "label": "Source B frequency",
+      "param": "frequencyB",
+      "tone": "sky",
+      "description": "Pairs with Source A to set the beat difference, so matching the two frequencies removes beats while widening the split speeds the envelope.",
+      "equationIds": [
+        "beats-sources",
+        "beats-superposition",
+        "beats-frequency"
+      ],
+      "graphIds": [
+        "displacement",
+        "envelope"
+      ],
+      "overlayIds": [
+        "differenceGuide",
+        "envelopeGuide"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "amplitude": 0.12,
+      "frequencyA": 1,
+      "frequencyB": 1.12,
+      "envelopeGuide": true,
+      "loudnessCue": true,
+      "differenceGuide": false
+    },
+    "ui": {
+      "initialGraphId": "displacement",
+      "primaryGraphIds": [
+        "displacement",
+        "envelope"
+      ],
+      "primaryControlIds": [
+        "frequencyA",
+        "frequencyB"
+      ],
+      "primaryPresetIds": [
+        "near-unison",
+        "no-beats",
+        "same-beat-higher-carrier"
+      ]
+    },
+    "controls": [
+      {
+        "id": "amplitude",
+        "kind": "slider",
+        "label": "Source amplitude",
+        "param": "amplitude",
+        "min": 0.05,
+        "max": 0.24,
+        "step": 0.01,
+        "unit": "m",
+        "description": "Scales the source motion and the maximum possible envelope without changing the beat frequency."
+      },
+      {
+        "id": "frequencyA",
+        "kind": "slider",
+        "label": "Source A frequency",
+        "param": "frequencyA",
+        "min": 0.6,
+        "max": 2.2,
+        "step": 0.02,
+        "unit": "Hz",
+        "description": "Sets the first source timing so you can tune the carrier and the beat difference."
+      },
+      {
+        "id": "frequencyB",
+        "kind": "slider",
+        "label": "Source B frequency",
+        "param": "frequencyB",
+        "min": 0.6,
+        "max": 2.2,
+        "step": 0.02,
+        "unit": "Hz",
+        "description": "Sets the second source timing. Matching it to Source A removes beats, while widening the split speeds the envelope."
+      }
+    ],
+    "presets": [
+      {
+        "id": "near-unison",
+        "label": "Near unison",
+        "description": "Two close frequencies create a slow, obvious envelope.",
+        "values": {
+          "amplitude": 0.12,
+          "frequencyA": 1,
+          "frequencyB": 1.12
+        }
+      },
+      {
+        "id": "slow-pulses",
+        "label": "Slow pulses",
+        "description": "A small frequency split makes the loud-soft cycle easy to track.",
+        "values": {
+          "amplitude": 0.12,
+          "frequencyA": 1,
+          "frequencyB": 1.2
+        }
+      },
+      {
+        "id": "no-beats",
+        "label": "No beats",
+        "description": "Equal frequencies remove the separate envelope pulse.",
+        "values": {
+          "amplitude": 0.12,
+          "frequencyA": 1.1,
+          "frequencyB": 1.1
+        }
+      },
+      {
+        "id": "same-beat-higher-carrier",
+        "label": "Same beat, higher carrier",
+        "description": "The source pair keeps a 0.3 Hz split while the average frequency is higher.",
+        "values": {
+          "amplitude": 0.12,
+          "frequencyA": 1.3,
+          "frequencyB": 1.6
+        }
+      },
+      {
+        "id": "same-beat-lower-carrier",
+        "label": "Same beat, lower carrier",
+        "description": "The source pair keeps the same 0.3 Hz split but lowers the average frequency.",
+        "values": {
+          "amplitude": 0.12,
+          "frequencyA": 0.7,
+          "frequencyB": 1
+        }
+      },
+      {
+        "id": "wide-split",
+        "label": "Wide split",
+        "description": "A larger difference speeds the envelope enough that the simple one-beat listening picture starts to feel crowded.",
+        "values": {
+          "amplitude": 0.12,
+          "frequencyA": 0.9,
+          "frequencyB": 1.7
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "envelopeGuide",
+        "label": "Envelope guide",
+        "shortDescription": "Shows the slow upper and lower bounds that wrap the faster resultant trace.",
+        "whatToNotice": [
+          "The fast oscillation keeps running inside the slow envelope instead of turning into a separate third wave."
+        ],
+        "whyItMatters": "It keeps the carrier and the beat envelope visible as two roles inside one honest superposition.",
+        "relatedControls": [
+          "amplitude",
+          "frequencyA",
+          "frequencyB"
+        ],
+        "relatedGraphTabs": [
+          "displacement",
+          "envelope"
+        ],
+        "relatedEquationVariables": [
+          "amplitude",
+          "frequencyA",
+          "frequencyB"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "loudnessCue",
+        "label": "Listener cue",
+        "shortDescription": "Shows the bounded loudness cue that rises and falls with the envelope, not with either source alone.",
+        "whatToNotice": [
+          "The loud-soft pulse changes even though both source amplitudes stay fixed."
+        ],
+        "whyItMatters": "It ties the listening idea to superposition without pretending the page is a full audio analyzer.",
+        "relatedControls": [
+          "amplitude",
+          "frequencyA",
+          "frequencyB"
+        ],
+        "relatedGraphTabs": [
+          "envelope"
+        ],
+        "relatedEquationVariables": [
+          "amplitude"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "differenceGuide",
+        "label": "Frequency-difference callout",
+        "shortDescription": "Keeps $|f_2-f_1|$ and the beat rate visible while you retune the two sources.",
+        "whatToNotice": [
+          "A larger frequency split speeds the envelope even if the average carrier stays similar."
+        ],
+        "whyItMatters": "It keeps beat frequency tied to the actual source difference instead of to the average pitch cue.",
+        "relatedControls": [
+          "frequencyA",
+          "frequencyB"
+        ],
+        "relatedGraphTabs": [
+          "displacement",
+          "envelope"
+        ],
+        "relatedEquationVariables": [
+          "frequencyA",
+          "frequencyB"
+        ],
+        "defaultOn": false
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "displacement",
+      "label": "Source and resultant motion",
+      "xLabel": "time (s)",
+      "yLabel": "displacement (m)",
+      "series": [
+        "source-a",
+        "source-b",
+        "resultant"
+      ],
+      "description": "Tracks the two source traces and their live superposition on the same time axis so the faster carrier stays visible."
+    },
+    {
+      "id": "envelope",
+      "label": "Envelope and loudness cue",
+      "xLabel": "time (s)",
+      "yLabel": "normalized cue",
+      "series": [
+        "envelope-ratio",
+        "loudness-cue"
+      ],
+      "description": "Shows how the slow envelope ratio and the bounded loudness cue rise and fall together as the frequency difference changes."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use one cue at a time. The prompts keep the fast carrier, the slow envelope, and the listening idea tied to the same superposition state.",
+    "items": [
+      {
+        "id": "beats-notice-fast-inside-slow",
+        "text": "Notice that the fast wiggle keeps running even while the envelope swells and fades. Beats are the slow envelope wrapped around that faster carrier.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Start from Near unison and watch the displacement graph before you read the envelope graph.",
+        "whyItMatters": "It prevents the loud-soft pulse from being mistaken for a separate low-frequency source.",
+        "relatedControls": [
+          "frequencyA",
+          "frequencyB"
+        ],
+        "relatedGraphTabs": [
+          "displacement",
+          "envelope"
+        ],
+        "relatedOverlays": [
+          "envelopeGuide"
+        ],
+        "relatedEquationVariables": [
+          "frequencyA",
+          "frequencyB"
+        ]
+      },
+      {
+        "id": "beats-notice-equal-frequencies",
+        "text": "Notice that matching the two source frequencies removes the slow envelope instead of creating slower beats.",
+        "type": "misconception",
+        "priority": 3,
+        "conditions": {
+          "lastChangedControls": [
+            "frequencyA",
+            "frequencyB"
+          ]
+        },
+        "tryThis": "Move from Near unison to No beats and watch the envelope graph flatten into a steady value.",
+        "whyItMatters": "Beat frequency comes from the difference, so making that difference zero removes the separate beat cycle.",
+        "relatedControls": [
+          "frequencyA",
+          "frequencyB"
+        ],
+        "relatedGraphTabs": [
+          "envelope",
+          "displacement"
+        ],
+        "relatedOverlays": [
+          "differenceGuide"
+        ],
+        "relatedEquationVariables": [
+          "frequencyA",
+          "frequencyB"
+        ]
+      },
+      {
+        "id": "beats-notice-difference-graph",
+        "text": "Notice that doubling the frequency difference speeds the envelope directly. The carrier may still look similar, but the pulse rate does not stay the same.",
+        "type": "graph-reading",
+        "priority": 5,
+        "conditions": {
+          "graphTabs": [
+            "envelope"
+          ]
+        },
+        "tryThis": "Open the envelope graph, widen the split, and compare how quickly the loudness cue rises and falls.",
+        "whyItMatters": "It keeps the graph reading honest by tying the pulse rate to $|f_2-f_1|$.",
+        "relatedControls": [
+          "frequencyA",
+          "frequencyB"
+        ],
+        "relatedGraphTabs": [
+          "envelope"
+        ],
+        "relatedOverlays": [
+          "differenceGuide",
+          "loudnessCue"
+        ],
+        "relatedEquationVariables": [
+          "frequencyA",
+          "frequencyB"
+        ]
+      },
+      {
+        "id": "beats-notice-compare",
+        "text": "Notice which setup keeps the same beat rate but changes the faster carrier. Matching the frequency difference does that even when the average frequency changes.",
+        "type": "compare",
+        "priority": 6,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Use compare mode to put Same beat, higher carrier beside Same beat, lower carrier and read the displacement rows together.",
+        "whyItMatters": "Compare mode makes it easier to separate beat rate from the average pitch or carrier cue.",
+        "relatedControls": [
+          "frequencyA",
+          "frequencyB"
+        ],
+        "relatedGraphTabs": [
+          "displacement",
+          "envelope"
+        ],
+        "relatedOverlays": [
+          "differenceGuide",
+          "envelopeGuide"
+        ],
+        "relatedEquationVariables": [
+          "frequencyA",
+          "frequencyB"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Commit to the superposition consequence before you test it. Each prompt changes one honest cause at a time.",
+    "items": [
+      {
+        "id": "beats-predict-equalize",
+        "prompt": "The two sources are close but not equal. If you tune them to exactly the same frequency while keeping amplitude fixed, what should happen?",
+        "scenarioLabel": "Equalize the two frequencies",
+        "changeLabel": "Frequency match",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The separate beat envelope should disappear, leaving one steady resultant frequency."
+          },
+          {
+            "id": "b",
+            "label": "The beats should get slower and slower but never fully disappear."
+          },
+          {
+            "id": "c",
+            "label": "The loudness cue should vanish completely because matching frequencies always cancels the sound."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "When $f_1 = f_2$, the difference is zero, so the separate beat cycle is gone. The sources now reinforce as one steady-frequency resultant instead of pulsing in and out.",
+        "observationHint": "Watch the envelope graph stop pulsing when the two source frequencies match.",
+        "apply": {
+          "presetId": "no-beats"
+        },
+        "highlightedControls": [
+          "frequencyA",
+          "frequencyB"
+        ],
+        "highlightedGraphs": [
+          "envelope",
+          "displacement"
+        ],
+        "highlightedOverlays": [
+          "differenceGuide",
+          "envelopeGuide"
+        ]
+      },
+      {
+        "id": "beats-predict-wider-split",
+        "prompt": "Keep the amplitudes fixed but move the two frequencies farther apart. What should happen to the slow loud-soft cycle?",
+        "scenarioLabel": "Widen the frequency split",
+        "changeLabel": "Frequency difference",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The beat envelope should pulse faster because the frequency difference is larger."
+          },
+          {
+            "id": "b",
+            "label": "The beat envelope should stay the same because amplitude did not change."
+          },
+          {
+            "id": "c",
+            "label": "The beat envelope should slow down because each source now has more energy."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Beat frequency follows $|f_2-f_1|$, so widening the split speeds the envelope directly even when amplitude stays fixed.",
+        "observationHint": "Compare the slower pulses near unison with the faster pulsing in the wider-split preset.",
+        "apply": {
+          "presetId": "wide-split"
+        },
+        "highlightedControls": [
+          "frequencyA",
+          "frequencyB"
+        ],
+        "highlightedGraphs": [
+          "envelope",
+          "displacement"
+        ],
+        "highlightedOverlays": [
+          "differenceGuide"
+        ]
+      },
+      {
+        "id": "beats-predict-same-difference",
+        "prompt": "Case A uses $1.3\\,\\mathrm{Hz}$ and $1.6\\,\\mathrm{Hz}$. Case B lowers both to $0.7\\,\\mathrm{Hz}$ and $1.0\\,\\mathrm{Hz}$. What should change?",
+        "scenarioLabel": "Lower both frequencies together",
+        "changeLabel": "Average frequency",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The beat rate stays the same, but the faster carrier drops because the average frequency is lower."
+          },
+          {
+            "id": "b",
+            "label": "The beat rate drops because both individual frequencies are lower."
+          },
+          {
+            "id": "c",
+            "label": "Both the beat rate and the carrier stay the same because the frequency split is the same."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Both cases keep the same 0.3 Hz difference, so the beat rate matches. Lowering both frequencies together lowers the average carrier without changing the envelope rate.",
+        "observationHint": "Use compare mode later to confirm that matching $\\Delta f$ keeps the pulse rate while the inner wiggle slows down.",
+        "apply": {
+          "presetId": "same-beat-lower-carrier"
+        },
+        "highlightedControls": [
+          "frequencyA",
+          "frequencyB"
+        ],
+        "highlightedGraphs": [
+          "displacement",
+          "envelope"
+        ],
+        "highlightedOverlays": [
+          "differenceGuide",
+          "envelopeGuide"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the same compact bench to separate beat rate from carrier frequency and from source amplitude.",
+    "items": [
+      {
+        "id": "beats-ch-slow-pulses",
+        "title": "Tune slow pulses",
+        "style": "parameter-match",
+        "prompt": "Starting near unison, tune the source pair until the envelope pulses at about $0.2\\,\\mathrm{Hz}$ while the source amplitude stays near the baseline.",
+        "successMessage": "You matched the beat target by setting the frequency difference, not by changing the amplitude. The envelope graph and the stage agree on the same slow pulse rate.",
+        "setup": {
+          "presetId": "near-unison",
+          "graphId": "envelope",
+          "overlayIds": [
+            "envelopeGuide",
+            "differenceGuide"
+          ],
+          "note": "Use the envelope graph and the frequency-difference callout together while you tune the two source frequencies."
+        },
+        "hints": [
+          "Beat frequency follows the frequency difference, so look for a split of about $0.2\\,\\mathrm{Hz}$.",
+          "Changing amplitude only rescales the envelope height. It does not set the beat rate."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Keep the envelope graph open.",
+            "graphId": "envelope"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the frequency-difference callout on.",
+            "overlayId": "differenceGuide",
+            "value": true
+          },
+          {
+            "type": "param-range",
+            "label": "Keep the source amplitude near the baseline.",
+            "param": "amplitude",
+            "min": 0.11,
+            "max": 0.13,
+            "displayUnit": "m"
+          },
+          {
+            "type": "metric-range",
+            "label": "Tune the beat frequency to about $0.2\\,\\mathrm{Hz}$.",
+            "metric": "beatFrequency",
+            "min": 0.18,
+            "max": 0.22,
+            "displayUnit": "Hz"
+          },
+          {
+            "type": "metric-range",
+            "label": "That should give a beat period close to $5\\,\\mathrm{s}$.",
+            "metric": "beatPeriod",
+            "min": 4.7,
+            "max": 5.6,
+            "displayUnit": "s"
+          }
+        ]
+      },
+      {
+        "id": "beats-ch-same-beat-lower-carrier",
+        "title": "Same beat, lower carrier",
+        "style": "parameter-match",
+        "prompt": "Enter compare mode and make Setup B keep the same beat frequency as Setup A while clearly lowering the average carrier frequency.",
+        "successMessage": "Both setups now pulse at the same beat rate because they share the same frequency difference, but Setup B carries that envelope on a lower average-frequency oscillation.",
+        "setup": {
+          "presetId": "same-beat-higher-carrier",
+          "interactionMode": "compare",
+          "graphId": "displacement",
+          "overlayIds": [
+            "envelopeGuide",
+            "differenceGuide"
+          ],
+          "note": "Clone the higher-carrier setup, then edit only Setup B until the pulse rate matches while the inner wiggle slows down."
+        },
+        "hints": [
+          "Matching beat rate means matching the frequency difference, not matching the average frequency.",
+          "Lower both Setup B source frequencies together while keeping their difference close to $0.3\\,\\mathrm{Hz}$."
+        ],
+        "checks": [
+          {
+            "type": "compare-active",
+            "label": "Switch into compare mode and edit Setup B.",
+            "target": "b"
+          },
+          {
+            "type": "graph-active",
+            "label": "Keep the displacement graph open so the carrier stays visible.",
+            "graphId": "displacement"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Keep Setup A on a beat frequency near $0.3\\,\\mathrm{Hz}$.",
+            "setup": "a",
+            "metric": "beatFrequency",
+            "min": 0.28,
+            "max": 0.32,
+            "displayUnit": "Hz"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Match Setup B to the same beat frequency.",
+            "setup": "b",
+            "metric": "beatFrequency",
+            "min": 0.28,
+            "max": 0.32,
+            "displayUnit": "Hz"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Keep Setup A on the higher average carrier.",
+            "setup": "a",
+            "metric": "averageFrequency",
+            "min": 1.43,
+            "max": 1.47,
+            "displayUnit": "Hz"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Lower Setup B to a smaller average carrier frequency.",
+            "setup": "b",
+            "metric": "averageFrequency",
+            "min": 0.83,
+            "max": 0.87,
+            "displayUnit": "Hz"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Use the beat-bench cues from the lesson, not memory alone. These checks separate beat rate, carrier frequency, and source amplitude.",
+    "questions": [
+      {
+        "id": "beats-qt-difference",
+        "type": "variable-effect",
+        "prompt": "Which quantity sets the beat frequency in this page's model?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The magnitude of the frequency difference $|f_2-f_1|$."
+          },
+          {
+            "id": "b",
+            "label": "The average source frequency $\\dfrac{f_1+f_2}{2}$."
+          },
+          {
+            "id": "c",
+            "label": "The common source amplitude $A$."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Beat frequency follows the difference between the two source frequencies. Average frequency sets the faster carrier, and amplitude only rescales the envelope height.",
+        "selectedWrongExplanations": {
+          "b": "The average frequency sets the faster carrier inside the envelope, not the envelope rate itself.",
+          "c": "Amplitude changes how large the envelope can get, but it does not set how quickly it pulses."
+        },
+        "showMeAction": {
+          "label": "Show slow pulses",
+          "presetId": "slow-pulses",
+          "observationHint": "Read the difference callout beside the envelope graph and compare it with the beat-frequency readout.",
+          "highlightedControlIds": [
+            "frequencyA",
+            "frequencyB"
+          ],
+          "highlightedGraphIds": [
+            "envelope"
+          ],
+          "highlightedOverlayIds": [
+            "differenceGuide"
+          ]
+        }
+      },
+      {
+        "id": "beats-qt-same-difference",
+        "type": "compare-two-cases",
+        "prompt": "Case A uses $1.0\\,\\mathrm{Hz}$ and $1.2\\,\\mathrm{Hz}$. Case B uses $1.6\\,\\mathrm{Hz}$ and $1.8\\,\\mathrm{Hz}$. What should be true?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Both cases have the same beat rate, but Case B has the faster carrier."
+          },
+          {
+            "id": "b",
+            "label": "Case B must have a faster beat rate because both source frequencies are larger."
+          },
+          {
+            "id": "c",
+            "label": "Case A must have a faster carrier because its frequencies are closer together."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Both pairs differ by $0.2\\,\\mathrm{Hz}$, so the beat rate matches. Case B has the larger average frequency, so the inner carrier oscillation is faster.",
+        "selectedWrongExplanations": {
+          "b": "Beat rate follows the difference, not the absolute size of the two frequencies.",
+          "c": "Closer frequencies slow the beat envelope, but the carrier still follows the average frequency."
+        },
+        "showMeAction": {
+          "label": "Show the higher-carrier pair",
+          "presetId": "same-beat-higher-carrier",
+          "observationHint": "The same difference can sit on a faster inner wiggle when the average frequency is higher.",
+          "highlightedControlIds": [
+            "frequencyA",
+            "frequencyB"
+          ],
+          "highlightedGraphIds": [
+            "displacement",
+            "envelope"
+          ],
+          "highlightedOverlayIds": [
+            "differenceGuide",
+            "envelopeGuide"
+          ]
+        }
+      },
+      {
+        "id": "beats-qt-equal-frequencies",
+        "type": "graph-reading",
+        "prompt": "If both source frequencies are equal and amplitude stays nonzero, what should the envelope graph show?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "A steady envelope level with no separate beat pulsing."
+          },
+          {
+            "id": "b",
+            "label": "A stronger beat pulse because the sources now reinforce perfectly."
+          },
+          {
+            "id": "c",
+            "label": "A zero envelope because matching waves always cancel."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Matching the two frequencies removes the separate beat cycle. The resultant can still oscillate strongly, but the envelope no longer rises and falls as a distinct pulse.",
+        "selectedWrongExplanations": {
+          "b": "Reinforcement can make the resultant large, but it does not create a slow beat cycle when the frequency difference is zero.",
+          "c": "Equal-frequency waves do not automatically cancel. Cancellation depends on phase, and this bench keeps the sources in step."
+        },
+        "showMeAction": {
+          "label": "Show no beats",
+          "presetId": "no-beats",
+          "observationHint": "The displacement still oscillates, but the envelope graph no longer breathes in and out.",
+          "highlightedControlIds": [
+            "frequencyA",
+            "frequencyB"
+          ],
+          "highlightedGraphIds": [
+            "envelope",
+            "displacement"
+          ]
+        }
+      },
+      {
+        "id": "beats-qt-origin",
+        "type": "reasoning",
+        "prompt": "Why does the sound seem to get louder and quieter during beats in this bounded model?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because the two steady source waves alternate between stronger reinforcement and stronger cancellation in the resultant."
+          },
+          {
+            "id": "b",
+            "label": "Because each source automatically modulates its own amplitude as the frequencies get closer."
+          },
+          {
+            "id": "c",
+            "label": "Because the medium periodically absorbs and releases sound energy on its own."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The loud-soft pulse is an envelope produced by superposition. Each source keeps a steady amplitude; what changes is how their phases line up in the sum.",
+        "selectedWrongExplanations": {
+          "b": "The source amplitudes stay fixed here. The pulsing happens in the resultant, not in the individual sources.",
+          "c": "This page does not model periodic absorption. The effect comes directly from two nearby frequencies adding together."
+        },
+        "showMeAction": {
+          "label": "Open the envelope guide",
+          "presetId": "near-unison",
+          "observationHint": "The source traces stay steady while the resultant grows and fades inside the envelope.",
+          "highlightedControlIds": [
+            "frequencyA",
+            "frequencyB"
+          ],
+          "highlightedGraphIds": [
+            "displacement",
+            "envelope"
+          ],
+          "highlightedOverlayIds": [
+            "envelopeGuide",
+            "loudnessCue"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows two source drivers on the left, a shared time-trace region in the middle, and one listener cue on the right. The upper trace compares the two source motions, while the lower trace shows their combined resultant with an optional envelope guide around it.",
+        "Optional overlays label the envelope, the loudness cue, and the current frequency difference. In compare mode, the same compact bench appears in two rows so the learner can contrast beat rate and carrier frequency without leaving the shared layout."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The first graph plots Source A, Source B, and the resultant displacement against time so the faster carrier stays visible inside the superposition.",
+        "The second graph plots the normalized envelope ratio and a bounded loudness cue against time so the slow beat cycle can be read separately from the fast oscillation."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Beats | Open Model Lab",
+    "description": "Learn how two nearby frequencies create beats, why beat frequency follows the difference between the sources, and how the amplitude envelope connects to sound perception.",
+    "keywords": [
+      "beats",
+      "beat frequency",
+      "superposition",
+      "sound interference",
+      "amplitude envelope"
+    ]
+  }
+}

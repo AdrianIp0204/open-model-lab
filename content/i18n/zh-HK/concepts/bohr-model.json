@@ -1,0 +1,593 @@
+{
+  "title": "波耳模型",
+  "shortTitle": "波耳模型",
+  "summary": "用緊湊的氫原子實驗台把量子化能級、允許躍遷與命名譜線系列連起來，同時清楚知道波耳模型只是有用的歷史模型，而不是最終的量子描述。",
+  "highlights": [
+    "氫譜線系列",
+    "量子化能級",
+    "反向同一波長"
+  ],
+  "topic": "現代物理",
+  "subtopic": "氫原子能級",
+  "recommendedNext": [
+    {
+      "slug": "de-broglie-matter-waves",
+      "reasonLabel": "連到波動觀點"
+    },
+    {
+      "slug": "atomic-spectra",
+      "reasonLabel": "回到譜線證據"
+    },
+    {
+      "slug": "radioactivity-half-life",
+      "reasonLabel": "延伸到機率式現代物理"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "波耳模型是一個刻意有界的氫原子歷史模型：電子只能位於某些允許能級，所以光不是來自任意軌道下落，而是來自離散躍遷。這讓它成為由觀測到的譜線走向量子化原子結構的好橋樑，同時又不假裝自己已經是完整的量子力學。",
+        "這個模組把半徑圖、能級梯、氫譜線帶與波長圖放在同一個實驗台上。你選的躍遷、對應波長、所屬系列、反向激發案例、工作例題、快速測驗和小挑戰，全都綁在同一個即時狀態上。"
+      ]
+    },
+    "keyIdeas": [
+      "在波耳模型中，氫原子的允許能量遵循 E_n = -13.6 eV / n^2，所以只會出現特定的能量差與譜線。",
+      "固定較低能級後，就會得到命名的氫譜線系列，例如萊曼系、巴耳末系和帕邢系。",
+      "在同一個系列裡，當起始能級愈來愈高，譜線會向系列極限擠近，因為高能級彼此之間的間隔愈來愈小。",
+      "本頁把波耳模型當成理解氫譜線的歷史與概念工具，而不是最終的量子影像。"
+    ],
+    "commonMisconception": {
+      "myth": "如果電子真的在繞核執行，它就應該可以從任何半徑跳到任何其他半徑，發出任何顏色的光。",
+      "correction": [
+        "在波耳模型裡，只有特定能級被允許，所以也只會出現特定的躍遷能量差與波長。",
+        "現代量子力學雖然取代了字面上的圓形軌道影像，但能級量子化這個核心想法仍然能解釋為什麼氫譜線是離散的。"
+      ]
+    },
+    "workedExamples": {
+      "title": "即時波耳檢查",
+      "intro": "直接用畫面上的當前氫躍遷來解題。同一組能級、影像、覆層與讀數卡會驅動下面每個例題。",
+      "items": [
+        {
+          "id": "active-transition-wavelength",
+          "title": "目前躍遷與波長",
+          "prompt": "對於目前的躍遷 {{activeLabelValue}}，這次波耳躍遷對應的光子能量與波長是甚麼？",
+          "variables": [
+            {
+              "id": "upperLevel",
+              "label": "上層能級"
+            },
+            {
+              "id": "lowerLevel",
+              "label": "下層能級"
+            },
+            {
+              "id": "gap",
+              "label": "躍遷能量"
+            },
+            {
+              "id": "wavelength",
+              "label": "光子波長"
+            }
+          ],
+          "steps": [
+            {
+              "id": "identify-jump",
+              "label": "1. 先辨認目前躍遷"
+            },
+            {
+              "id": "read-gap",
+              "label": "2. 讀出量子化能隙"
+            },
+            {
+              "id": "convert-gap",
+              "label": "3. 把能隙轉成光子波長"
+            }
+          ],
+          "resultLabel": "目前躍遷",
+          "applyAction": {
+            "label": "顯示紅色巴耳末線",
+            "observationHint": "留意能級梯箭頭、波長帶與圖上的標記如何同時對齊到同一條紅色巴耳末線。"
+          }
+        },
+        {
+          "id": "current-series-scale",
+          "title": "目前系列與尺度",
+          "prompt": "在較低能級為 {{lowerLevelValue}} 的情況下，現在屬於哪個氫譜線系列？為甚麼這個系列的譜線會擠向極限？",
+          "variables": [
+            {
+              "id": "series",
+              "label": "譜系列"
+            },
+            {
+              "id": "seriesLimit",
+              "label": "譜系極限"
+            },
+            {
+              "id": "radiusRatio",
+              "label": "半徑比"
+            }
+          ],
+          "steps": [
+            {
+              "id": "identify-series",
+              "label": "1. 固定較低能級"
+            },
+            {
+              "id": "compare-scales",
+              "label": "2. 比較軌道尺度改變"
+            },
+            {
+              "id": "read-limit",
+              "label": "3. 解釋譜線為何擠近"
+            }
+          ],
+          "resultLabel": "目前系列連結",
+          "applyAction": {
+            "label": "顯示高 n 的巴耳末案例",
+            "observationHint": "比較目前譜線與巴耳末 α 線，觀察它如何向系列極限擠近，同時反向激發仍保持同一波長。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "為甚麼 3 -> 2 的發射與 2 -> 3 的激發在這一頁會對應同一個波長，即使箭頭方向相反？",
+      "prediction": "先從允許能量差來推理，而不是隻看箭頭朝上還是朝下。",
+      "answer": "因為兩者都對應同一對允許能級之間的同一個能量差。發射是把那個光子能量釋放出去，激發則需要吸收同樣大小的光子能量。",
+      "explanation": "改變的是能量流向，而不是允許能量差本身的大小；所以匹配的發射與激發會對應同一個光子波長。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "請根據畫面上的氫能級與譜線邏輯作答，而不是背歷史口號。",
+    "questions": [
+      {
+        "id": "bm-qt-discrete-lines",
+        "prompt": "為甚麼波耳模型頁面顯示的是離散氫譜線，而不是所有波長？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "因為氫只允許特定能級，所以也只會有特定的躍遷能量差與波長。"
+          },
+          {
+            "id": "b",
+            "label": "因為圖表把標示譜線之間的波長隱藏起來了。"
+          },
+          {
+            "id": "c",
+            "label": "因為原子中的電子只能放出可見光。"
+          }
+        ],
+        "explanation": "譜線的離散性來自允許能級與允許能隙，而不是影像裁切或只顯示可見光的規則。",
+        "selectedWrongExplanations": {
+          "b": "圖上空白的區域是模型本身的物理結果，不是顯示時故意刪掉。",
+          "c": "同一頁也包含紫外與紅外譜線，並不限於可見光。"
+        },
+        "showMeAction": {
+          "label": "顯示一條巴耳末譜線",
+          "observationHint": "留意譜線尖峯之間大多保持空白，因為沒有允許能隙會落在那些位置。"
+        }
+      },
+      {
+        "id": "bm-qt-series-limit",
+        "prompt": "如果在同一個巴耳末系內把 n_i 提高，當前波長會怎樣變化？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它會變短，並逐漸向巴耳末極限擠近。"
+          },
+          {
+            "id": "b",
+            "label": "它會變長，因為上方軌道半徑更大。"
+          },
+          {
+            "id": "c",
+            "label": "它會保持不變，因為 n_f 沒有改變。"
+          }
+        ],
+        "explanation": "在 n_f 固定時，較高的 n_i 會帶來更大的能量差，而這些差距會逐步逼近該系列的極限。",
+        "selectedWrongExplanations": {
+          "b": "起始軌道較大並不代表能量差會比較小；這裡反而會更接近系列極限。",
+          "c": "只固定 n_f 不足以令波長不變，因為上方能級一改變，能量差也會改變。"
+        },
+        "showMeAction": {
+          "label": "跳到高 n 的巴耳末案例",
+          "observationHint": "把目前波長與巴耳末 α 線比較，觀察它如何向系列極限標記擠近。"
+        }
+      },
+      {
+        "id": "bm-qt-reverse-same-wavelength",
+        "prompt": "對同一對波耳能級而言，下列哪句最正確地描述匹配的發射與激發？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它們會對應同一個波長，因為能量差的大小相同。"
+          },
+          {
+            "id": "b",
+            "label": "激發一定需要更長波長，因為電子是向上跳。"
+          },
+          {
+            "id": "c",
+            "label": "只有發射才屬於命名的氫譜線系列。"
+          }
+        ],
+        "explanation": "只要是同一對能級，就固定了同一個能量差，因此兩個方向對應的光子波長相同。",
+        "selectedWrongExplanations": {
+          "b": "箭頭方向只改變能量是吸收還是放出，不會改變允許能隙的大小。",
+          "c": "系列名稱仍然由較低能級決定，並不只屬於發射過程。"
+        },
+        "showMeAction": {
+          "label": "切換到反向激發",
+          "observationHint": "觀察箭頭方向翻轉，但波長讀數仍然鎖定在同一個值。"
+        }
+      },
+      {
+        "id": "bm-qt-model-scope",
+        "prompt": "這頁對波耳模型最誠實的描述是甚麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它是理解量子化能級與氫譜線的有用歷史模型，但不是最終的量子描述。"
+          },
+          {
+            "id": "b",
+            "label": "因為能重現氫的系列譜線，所以它就是所有原子的完整現代量子理論。"
+          },
+          {
+            "id": "c",
+            "label": "它只是手動替譜線上色，並不是由能量差推匯出來。"
+          }
+        ],
+        "explanation": "這頁用波耳模型建立受限而清楚的氫譜線直覺，同時明確指出真正的量子力學比字面上的電子軌道更完整。",
+        "selectedWrongExplanations": {
+          "b": "本頁刻意限定在氫類能級的入門邏輯，並不是完整的量子力學處理。",
+          "c": "譜線的波長先由允許能隙決定，顏色只是後續的視覺提示。"
+        },
+        "showMeAction": {
+          "label": "再顯示一次巴耳末 α 線",
+          "observationHint": "把譜線圖與方程一起看，再讀讀讀數卡上的有界模型説明。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "這個模擬把緊湊的波耳模型氫原子實驗台放在同一頁上：左邊是半徑圖，中間是能級梯，右邊是氫譜線帶。高亮箭頭會標示目前的躍遷，而對應的波長標記亦會同步出現在譜線帶和圖表上。",
+        "可選覆層會標出譜系、允許波長、n^2 的半徑比例，以及對應的反向激發波長。讀數卡會總結目前模式、譜系名稱、活躍能級配對、光子能量、波長、譜系極限和半徑比例。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "圖表會按所選氫譜系，在紫外線、可見光和紅外線範圍內以波長為橫軸、相對譜線強度為縱軸繪出細窄峯值。活躍躍遷會沿用與譜線帶相同的波長軸讀取。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "即時波耳檢查"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "氫譜線檢查點"
+      },
+      {
+        "id": "readNext",
+        "title": "把氫譜線故事延伸下去"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "bohr-energy",
+      "label": "波耳能級",
+      "meaning": "對氫原子而言，允許的波耳能量會隨 n 增大而愈來愈接近。"
+    },
+    {
+      "id": "transition-gap",
+      "label": "允許的躍遷能量差",
+      "meaning": "氫原子的光子來自兩個允許能級之間的差值，而且 n_i 必須大於 n_f。"
+    },
+    {
+      "id": "photon-link",
+      "label": "能級差對應波長",
+      "meaning": "允許的波耳能級差愈大，對應的波長就愈短。"
+    },
+    {
+      "id": "radius-rule",
+      "label": "波耳半徑比例",
+      "meaning": "較高的允許軌道會很快遠離原子核。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "upperLevel",
+      "label": "上層能級",
+      "description": "決定目前躍遷由哪一個允許的上層氫能級開始。"
+    },
+    {
+      "id": "lowerLevel",
+      "label": "下層能級",
+      "description": "選擇會定義目前氫譜系族別的下層能級。"
+    },
+    {
+      "id": "excitationMode",
+      "label": "反向激發",
+      "description": "把同一個允許能級差在發射光和吸收光之間翻轉，而不改變其波長。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "upperLevel",
+        "label": "上層能級",
+        "description": "選擇起始的波耳能級 n_i。"
+      },
+      {
+        "id": "lowerLevel",
+        "label": "下層能級",
+        "description": "選擇下層能級 n_f，從而決定是 Lyman、Balmer 還是 Paschen 譜系。"
+      },
+      {
+        "id": "excitationMode",
+        "label": "顯示反向激發",
+        "description": "把目前躍遷翻轉成相應的吸收光子情況。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "balmer-alpha",
+        "label": "Balmer α",
+        "description": "經典的紅色氫譜線，來自 3 → 2。"
+      },
+      {
+        "id": "balmer-beta",
+        "label": "Balmer β",
+        "description": "較短波長的 Balmer 譜線，來自 4 → 2。"
+      },
+      {
+        "id": "lyman-alpha",
+        "label": "Lyman α",
+        "description": "由 2 → 1 產生的強烈紫外線氫譜線。"
+      },
+      {
+        "id": "paschen-alpha",
+        "label": "Paschen α",
+        "description": "由 4 → 3 產生的紅外線氫譜線。"
+      },
+      {
+        "id": "high-n-balmer",
+        "label": "高 n Balmer",
+        "description": "更高的 Balmer 躍遷，會更接近譜系極限。"
+      },
+      {
+        "id": "balmer-reverse-excitation",
+        "label": "Balmer 反向激發",
+        "description": "用與 Balmer α 相同的波長把原子重新激發向上。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "radiusRule",
+        "label": "半徑規律",
+        "shortDescription": "顯示允許的波耳半徑如何按 n^2 擴大。",
+        "whatToNotice": [
+          "較高的所選軌道會比下層軌道遠離原子核得多。"
+        ],
+        "whyItMatters": "它讓歷史上的軌道影像仍然和同一個量子化能級梯綁在一起，而不是變成獨立圖示。"
+      },
+      {
+        "id": "lineLabels",
+        "label": "譜線標籤",
+        "shortDescription": "標示所選譜系中每條譜線對應的能級配對和波長。",
+        "whatToNotice": [
+          "同一個譜系中，較高的起始能級會把譜線推向極限，而不是永遠平均間隔。"
+        ],
+        "whyItMatters": "它讓譜系模式可讀，而不會把整頁拆成獨立表格。"
+      },
+      {
+        "id": "seriesFamily",
+        "label": "譜系族別",
+        "shortDescription": "標示目前選擇的氫譜系和其波長極限。",
+        "whatToNotice": [
+          "改變 n_f 會改變整個譜系，而不只是目前那一條譜線。"
+        ],
+        "whyItMatters": "它把命名的譜系列和同一個緊湊實驗台連在一起。"
+      },
+      {
+        "id": "reverseTransition",
+        "label": "反向波長鎖定",
+        "shortDescription": "讓反向激發仍明顯鎖定在與對應發射相同的波長。",
+        "whatToNotice": [
+          "把箭頭方向反轉並不會改變能級差的大小。"
+        ],
+        "whyItMatters": "它可阻止一個常見誤解：向上的躍遷需要和對應向下躍遷不同的波長。"
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "series-spectrum",
+      "label": "氫譜系光譜",
+      "xLabel": "波長（nm）",
+      "yLabel": "相對譜線強度",
+      "description": "把目前的氫譜系顯示為一組由紫外線延伸到紅外線的窄峯，並在同一條波長軸上高亮目前躍遷。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "要留意什麼",
+    "intro": "每次只用一條提示，讓半徑圖、能級梯、譜線帶和光譜圖保持在同一個緊湊實驗台上。",
+    "items": [
+      {
+        "id": "bm-notice-allowed",
+        "text": "這裡只存在某些特定的氫能級差，所以光譜會呈現與允許能級相連的一組譜線，而不是平滑的彩虹。",
+        "tryThis": "先從 Balmer α 開始，再沿圖表檢視各條譜線之間的區域。",
+        "whyItMatters": "它讓量子化在談更深的量子力學之前已經先變得可見。"
+      },
+      {
+        "id": "bm-notice-crowding",
+        "text": "在同一個譜系內，提高 n_i 會帶來更短的波長，並因上層波耳能級互相靠近而向同一個極限擠近。",
+        "tryThis": "比較 Balmer α 和高 n Balmer。",
+        "whyItMatters": "它解釋了為甚麼命名的氫譜系會有極限，而不是永遠等距排列。"
+      },
+      {
+        "id": "bm-notice-reverse",
+        "text": "切換到反向激發時，箭頭方向會反轉，但波長保持不變，因為允許的能量差沒有改變。",
+        "tryThis": "由 Balmer α 切換到 Balmer 反向激發。",
+        "whyItMatters": "它讓發射和吸收都牢牢鎖定在同一個能級差故事上。"
+      },
+      {
+        "id": "bm-notice-compare",
+        "text": "比較模式最適合用來把其中一組設定改變同一譜系內的 n_i，另一組改變譜系之間的 n_f，這樣就能把譜系內部的擠近和譜系切換清楚分開。",
+        "tryThis": "讓設定 A 保持在高 n Balmer，而設定 B 切到 Lyman α。",
+        "whyItMatters": "並排檢視能避免把譜系身分和目前波長混在一起。"
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "先承諾你的光譜後果，再移動能級選擇器。",
+    "items": [
+      {
+        "id": "bm-pred-higher-balmer",
+        "prompt": "從 Balmer α 開始，只把上層能級由 n_i = 3 提高到 n_i = 6，並保持 n_f = 2。不妨先預測會發生甚麼？",
+        "scenarioLabel": "在 Balmer 內提高 n_i",
+        "changeLabel": "上層能級",
+        "choices": [
+          {
+            "id": "a",
+            "label": "波長會變短，譜線會向 Balmer 極限靠近。"
+          },
+          {
+            "id": "b",
+            "label": "因為電子從更遠的地方開始，所以波長會變長。"
+          },
+          {
+            "id": "c",
+            "label": "下層能級沒有變，所以甚麼都不會改變。"
+          }
+        ],
+        "explanation": "對固定的 Balmer 下層能級來説，較高的起始能級會形成更大的能級差，並逐步逼近 Balmer 譜系極限。",
+        "observationHint": "把譜線帶和圖表上的活躍譜線一起追蹤。"
+      },
+      {
+        "id": "bm-pred-series-switch",
+        "prompt": "保持同一個上層能級 n_i = 3，但把下層能級由 n_f = 2 改成 n_f = 1。哪一個説法最誠實？",
+        "scenarioLabel": "由 Balmer 轉到 Lyman",
+        "changeLabel": "下層能級",
+        "choices": [
+          {
+            "id": "a",
+            "label": "光子能量會增加，譜線會移到紫外線，因為終點能級更低。"
+          },
+          {
+            "id": "b",
+            "label": "因為 n_i 沒有改變，所以波長會保持不變。"
+          },
+          {
+            "id": "c",
+            "label": "譜線會變成紅外線，因為 Lyman 使用更大的軌道。"
+          }
+        ],
+        "explanation": "落到 n_f = 1 所形成的氫能級差，會比落到 n_f = 2 大得多，所以波長會明顯縮短。",
+        "observationHint": "觀察圖表和讀數卡，留意目前譜系如何改變。"
+      },
+      {
+        "id": "bm-pred-reverse",
+        "prompt": "保持 Balmer α，但把模式由發射切換成反向激發。頁面上應該有哪一項保持不變？",
+        "scenarioLabel": "反轉躍遷",
+        "changeLabel": "激發模式",
+        "choices": [
+          {
+            "id": "a",
+            "label": "波長保持不變，改變的只有箭頭方向。"
+          },
+          {
+            "id": "b",
+            "label": "因為電子是向上爬升，所以波長會加倍。"
+          },
+          {
+            "id": "c",
+            "label": "譜線會消失，因為激發不能使用同一個譜系。"
+          }
+        ],
+        "explanation": "同一對允許能級，不論方向如何，都會對應同一個能級差大小。",
+        "observationHint": "把反向躍遷覆層和讀數卡一起看。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "用同一個氫原子實驗台完成緊湊的躍遷與譜系目標，而不是把頁面延伸成完整的原子物理引擎。",
+    "items": [
+      {
+        "id": "bm-ch-find-red-balmer",
+        "title": "找出紅色 Balmer 譜線",
+        "prompt": "從 Balmer β 開始調整即時狀態，直到活躍躍遷變成經典的紅色 Balmer 譜線，同時頁面仍保持在發射模式。",
+        "successMessage": "你已經找到紅色的 Balmer α 躍遷，並且保持了同一個譜系的物理意義。",
+        "setup": {
+          "note": "把活躍能級配對、波長讀數和圖表一起使用。"
+        },
+        "hints": [
+          "把 n_f 保持在 Balmer 的下層能級。",
+          "紅色 Balmer 譜線對應最小的可見 Balmer 能級下降。"
+        ],
+        "targets": [
+          {
+            "label": "把下層能級保持在 n = 2。"
+          },
+          {
+            "label": "把上層能級保持在 n = 3。"
+          },
+          {
+            "label": "保持在發射模式。"
+          },
+          {
+            "label": "把波長保持在 650 nm 到 663 nm 之間。"
+          },
+          {
+            "label": "把光子能量保持在 1.86 eV 到 1.92 eV 之間。"
+          },
+          {
+            "label": "保持在可見光譜線範圍內。"
+          }
+        ]
+      },
+      {
+        "id": "bm-ch-ultraviolet-reverse",
+        "title": "配對反向紫外激發",
+        "prompt": "從 Lyman α 發射開始，切換到由基態出發的對應反向激發，同時保持同一條紫外線波長。",
+        "successMessage": "你成功配對了反向的 Lyman α 激發，因此頁面在箭頭反轉的同時仍保持同一條紫外線波長。",
+        "setup": {
+          "note": "利用反向躍遷提示，避免因箭頭方向改變而誤選不同波長。"
+        },
+        "hints": [
+          "保持在基態家族。",
+          "你只需要由 n = 1 出發的第一個向上躍遷。"
+        ],
+        "targets": [
+          {
+            "label": "把下層能級保持在 n = 1。"
+          },
+          {
+            "label": "把上層能級保持在 n = 2。"
+          },
+          {
+            "label": "切換到激發模式。"
+          },
+          {
+            "label": "把波長保持在 121 nm 到 123 nm 之間。"
+          },
+          {
+            "label": "把光子能量保持在 10.1 eV 到 10.3 eV 之間。"
+          },
+          {
+            "label": "保持在紫外線範圍，而不是可見光。"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,238 @@
+{
+  "title": "廣度優先搜尋與層次前沿",
+  "summary": "把佇列前沿、已訪問計數和圖層一起清楚顯示，讓廣度優先搜尋讀起來像逐層展開的過程，而不是一張程式步驟表。",
+  "highlights": [
+    "佇列前沿",
+    "分層搜尋",
+    "最短邊距距離"
+  ],
+  "topic": "演演算法與搜尋",
+  "subtopic": "分層前沿搜尋",
+  "recommendedNext": [
+    {
+      "slug": "depth-first-search-and-backtracking-paths",
+      "reasonLabel": "比較分支優先前沿在同一張圖上"
+    },
+    {
+      "slug": "frontier-and-visited-state-on-graphs",
+      "reasonLabel": "看看迴圈和重複跳過如何改變記錄方式"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "廣度優先搜尋用佇列來組織前沿。最早進入佇列的節點會先展開，因此搜尋會向外形成清楚的層次，而不是馬上沿單一分支往深處鑽。",
+        "在這個示例裡，圖、佇列前沿和已訪問計數會保持同步。這讓廣度優先搜尋逐層展開的形狀變得真實：因為佇列會把較早發現的節點放在前面，所以離起點較近的節點會先被處理。"
+      ]
+    },
+    "keyIdeas": [
+      "廣度優先搜尋會先展開最早進入等待佇列的節點。",
+      "在無權重圖上，廣度優先的層次會對應從起點出發的最短邊數距離。",
+      "當一個節點發現新的鄰居時佇列前沿會延伸，而當這些等待中的節點被展開時佇列前沿會縮小。"
+    ],
+    "commonMisconception": {
+      "myth": "廣度優先搜尋只是看起來在畫面上往寬處移動而已。",
+      "correction": [
+        "真正重要的不是圖畫長什麼樣，而是最早入列的節點必須先離開前沿。",
+        "正是這個佇列規則，讓 BFS 會一層一層地處理整張圖。"
+      ]
+    },
+    "workedExamples": {
+      "title": "即時例題",
+      "intro": "直接從分層校園的示例讀出佇列前沿。",
+      "items": [
+        {
+          "id": "read-the-first-bfs-layers",
+          "title": "閱讀第一層廣度優先搜尋",
+          "prompt": "在分層校園圖上，從 A 點開始時，BFS 應該先處理哪一層節點？",
+          "variables": [
+            {
+              "id": "graph-layout",
+              "label": "圖佈局"
+            },
+            {
+              "id": "start-node",
+              "label": "起始節點"
+            },
+            {
+              "id": "frontier-order",
+              "label": "佇列前沿"
+            }
+          ],
+          "steps": [
+            {
+              "id": "name-the-first-layer",
+              "label": "1. 閱讀第一層"
+            },
+            {
+              "id": "keep-the-oldest-node-first",
+              "label": "2. 保持佇列順序真實"
+            },
+            {
+              "id": "connect-to-layered-distance",
+              "label": "3. 閱讀其含義"
+            }
+          ],
+          "resultLabel": "廣度優先的層次讀數",
+          "applyAction": {
+            "label": "展示分層校園廣度優先搜尋",
+            "observationHint": "保持前沿提示和已訪問歷史圖清晰地顯示在一起，以免層次順序變成一句口號。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "構建一個廣度優先搜尋案例，讓前沿在碰到目標之前先變寬。",
+      "prediction": "在切換預設前，決定是否需要邊緣開始或中心點開始。",
+      "answer": "用類似樞紐節點的起點，讓 BFS 能先宣告同一層上的多個鄰居，再慢慢收窄。",
+      "explanation": "當一個節點有多個直接鄰居在同一層淺處時，廣度優先搜尋延伸得最快。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "根據可見佇列和深度模式回答問題，而不是記憶的縮寫。",
+    "questions": [
+      {
+        "id": "bfs-qt-layer-order",
+        "prompt": "為什麼BFS在這個平台上會先發現淺層節點再發現深層節點？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "因為佇列前沿始終保持較早發現的節點在前面。"
+          },
+          {
+            "id": "b",
+            "label": "因為BFS總是直接跳轉到目標節點。"
+          },
+          {
+            "id": "c",
+            "label": "因為BFS忽視了圖的鄰接關係。"
+          }
+        ],
+        "explanation": "佇列前沿確保淺層發現先於更深層探索。"
+      },
+      {
+        "id": "bfs-qt-shortest-path-misread",
+        "prompt": "什麼是最清晰的理由説明BFS在無權重圖中很有用？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它的分層順序讓首次發現節點反映最短路徑距離。"
+          },
+          {
+            "id": "b",
+            "label": "它總是使用比圖實際邊數更少的總邊數。"
+          },
+          {
+            "id": "c",
+            "label": "它消除了需要前沿的需求。"
+          }
+        ],
+        "explanation": "因為BFS按層次逐步探索圖，首次到達節點已經是最短路徑距離。"
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一個標籤圖，其中當前節點、佇列前沿和已訪問節點以不同顏色著色，以便保持BFS分層清晰。",
+        "一張讀取卡報告遍歷模式、當前節點、前沿大小、已訪問計數和目標，而一個提示面板顯示前沿順序和當前鄰居列表。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "一個圖表跟蹤已訪問節點對比前沿大小，另一個圖表跟蹤當前深度對比最深被探索深度，第三個圖表比較新發現與重複跳過的節點。",
+        "它們共同展示了廣度優先搜尋如何逐步延伸然後定層圖。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "readNext",
+        "title": "保持佇列前沿和圖層在視野中"
+      }
+    ],
+    "featuredSetups": [
+      {
+        "id": "layered-campus-bfs",
+        "label": "分層校園BFS",
+        "description": "使用一張會由左至右清楚填滿下一層的圖。"
+      },
+      {
+        "id": "hub-detours-bfs",
+        "label": "中心點與繞路BFS",
+        "description": "從中心開始，讓佇列在縮小前先延伸。"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "bfs-depth",
+      "label": "分層深度規則",
+      "meaning": "一個新發現的鄰居比找到它的節點深一層。"
+    },
+    {
+      "id": "bfs-first-in-first-out",
+      "label": "佇列前沿更新",
+      "meaning": "廣度優先搜尋移除最舊的前沿節點，然後將其新鄰居加到佇列尾部。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "graph-layout",
+      "label": "圖佈局",
+      "description": "在同一遍歷平台上切換有界圖場景。"
+    },
+    {
+      "id": "start-node",
+      "label": "起始節點",
+      "description": "移動發射點，使第一層BFS可以改變而不更換圖。"
+    },
+    {
+      "id": "target-node",
+      "label": "目標節點",
+      "description": "標記這次以佇列為核心的搜尋想要到達的節點。"
+    },
+    {
+      "id": "traversal-mode",
+      "label": "遍歷模式",
+      "description": "把以佇列為基礎的 BFS 模式固定在同一個可與 DFS 比較的圖表工作台上。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "start-node",
+        "label": "起始節點"
+      },
+      {
+        "id": "target-node",
+        "label": "目標節點"
+      },
+      {
+        "id": "traversal-mode",
+        "label": "遍歷模式"
+      }
+    ],
+    "presets": [
+      {
+        "id": "layered-campus-bfs",
+        "label": "分層校園BFS"
+      },
+      {
+        "id": "bridge-cycle-bfs",
+        "label": "橋梁迴圈BFS"
+      },
+      {
+        "id": "hub-detours-bfs",
+        "label": "中心點與繞路BFS"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "把佇列前沿、已訪問計數和圖層一起清楚顯示，讓廣度優先搜尋讀起來像逐層展開的過程，而不是一張程式步驟表。",
+    "whyItMatters": "廣度優先搜尋用佇列來組織前沿。最早進入佇列的節點會先展開，因此搜尋會向外形成清楚的層次，而不是馬上沿單一分支往深處鑽。",
+    "keyTakeaway": "廣度優先搜尋會先展開最早進入等待佇列的節點。"
+  }
+}

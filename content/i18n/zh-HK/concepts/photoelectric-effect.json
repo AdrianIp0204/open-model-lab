@@ -1,0 +1,391 @@
+{
+  "title": "光電效應",
+  "shortTitle": "光電效應",
+  "summary": "使用一台簡化的燈-金屬台來瞭解為什麼光的頻率決定了電子的發射，為什麼單靠亮度無法在閾值以下產生電子，以及停止電壓如何真實地反映電子的能量。",
+  "highlights": [
+    "閾值頻率",
+    "亮度與能量",
+    "停止電壓"
+  ],
+  "topic": "現代物理",
+  "subtopic": "光與物質",
+  "recommendedNext": [
+    {
+      "slug": "atomic-spectra",
+      "reasonLabel": "離散譜線譜"
+    },
+    {
+      "slug": "electric-potential",
+      "reasonLabel": "停止電壓關係"
+    },
+    {
+      "slug": "light-spectrum-linkage",
+      "reasonLabel": "重溫譜線橋梁"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "光電效應是現代物理中一個關鍵案例，其中光的頻率比亮度更重要。如果每個光子的能量低於金屬的工作功函式，即使增加燈光的亮度，表面也完全不會有電子逸出。",
+        "此模組僅使用一盞燈、一片金屬板、一個收集板和一套連線的讀數器。頻率、亮度、工作功函式、集電電壓、示例問題、快速測驗、覆蓋層和挑戰檢查都指向同一個真實的發射台，而不是分開成不同的故事。"
+      ]
+    },
+    "keyIdeas": [
+      "在閾值頻率以下，單靠提高亮度仍不會有逸出的電子。",
+      "超過閾值後，頻率改變電子的能量，而亮度主要影響每秒逸出的電子數量。",
+      "閾值頻率由工作函數透過 f_0 = phi / h 決定。",
+      "集電電壓可以停止甚至逸出的電子，而停止電壓讀取最大動能。"
+    ],
+    "commonMisconception": {
+      "myth": "如果你使閾值以下的光足夠明亮，電子最終會吸收足夠的能量逃逸。",
+      "correction": [
+        "在這個有界模型中，每個逸出的電子仍然需要一個具有足夠能量的光子來克服工作功函式障礙。",
+        "亮度提高光子的通量，但如果每個光子仍低於閾值，集電電流仍為零。"
+      ]
+    },
+    "workedExamples": {
+      "title": "實時光電效應檢查",
+      "intro": "直接使用現場設定的當前燈和金屬。相同的控制驅動舞台、圖表、覆蓋層和計算結果。",
+      "items": [
+        {
+          "id": "current-energy-budget",
+          "title": "當前發射能量預算",
+          "prompt": "對於當前頻率 {{frequencyValue}} 和工作功函式 {{workFunctionValue}}，是否發生發射以及剩餘的能量預算是多少？",
+          "variables": [
+            {
+              "id": "frequencyPHz",
+              "label": "光頻率"
+            },
+            {
+              "id": "wavelengthNm",
+              "label": "波長"
+            },
+            {
+              "id": "workFunctionEv",
+              "label": "工作功函"
+            }
+          ],
+          "steps": [
+            {
+              "id": "photon-energy",
+              "label": "1. 將頻率轉換為光子能量"
+            },
+            {
+              "id": "threshold-check",
+              "label": "2. 對比與工作功函式"
+            },
+            {
+              "id": "budget",
+              "label": "3. 閱讀剩餘的能量"
+            }
+          ],
+          "resultLabel": "當前發射狀態",
+          "applyAction": {
+            "label": "跳轉至紫光以上閾值",
+            "observationHint": "觀看能量預算卡片和發射的電子同時亮起。"
+          }
+        },
+        {
+          "id": "current-stopping-potential",
+          "title": "電流停止電位檢查",
+          "prompt": "對於電流收集偏置 {{collectorVoltageValue}}，這束光的停止電位是多少？還剩多少電流抵達集電極？",
+          "variables": [
+            {
+              "id": "collectorVoltage",
+              "label": "收集電壓"
+            },
+            {
+              "id": "stoppingPotential",
+              "label": "停止電壓"
+            }
+          ],
+          "steps": [
+            {
+              "id": "stop-link",
+              "label": "1. 將能量與停止電位聯絡起來"
+            },
+            {
+              "id": "compare-bias",
+              "label": "2. 將應用的偏置與停止點進行比較"
+            },
+            {
+              "id": "current-readout",
+              "label": "3. 如實讀取剩餘的電流"
+            }
+          ],
+          "resultLabel": "集電極狀態",
+          "applyAction": {
+            "label": "顯示截止偏置",
+            "observationHint": "發射的電子仍然存在於表面，但退偏場減少了收集到的電流幾乎為零。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "兩束光照射同一種金屬。束A是亮度較低的紅色光，未達閾值。束B是亮度較暗的紫羅蘭色光，已達閾值。哪一束會發射電子？為什麼？",
+      "prediction": "從光子能量的角度回答，而不是單純依靠亮度。",
+      "answer": "束B會發射電子，因為它的頻率給每個光子足夠的能量來克服功函式。束A不會，即使它更亮。",
+      "explanation": "比較的是每光子能量，而不是總光功率。亮度改變了光子流，但閾值頻率決定了是否可以開始發射。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "從活的光照射金屬邏輯回答，而不是來自斷開的口號。",
+    "questions": [
+      {
+        "id": "pe-qt-bright-below-threshold",
+        "prompt": "未達閾值的紅色光束打在金屬表面。應該發生什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "不會發射電子，因為每個光子仍然缺乏所需的能量。"
+          },
+          {
+            "id": "b",
+            "label": "出現了一個小電流，因為這束光總體上足夠明亮。"
+          },
+          {
+            "id": "c",
+            "label": "出現了電子，但只有在一個顯著的延遲後，當能量累積起來時。"
+          }
+        ],
+        "explanation": "這裡的閾值故事是關於每個光子的能量，而不是等待足夠的總亮度。",
+        "selectedWrongExplanations": {
+          "b": "亮度改變的是光子流，而不是每個光子所帶的能量。",
+          "c": "此封閉模型不使用低於閾值的能量累積延遲。"
+        },
+        "showMeAction": {
+          "label": "顯示明亮的次閾值光束",
+          "observationHint": "這束光看起來更亮，但電流仍然為零。"
+        }
+      },
+      {
+        "id": "pe-qt-intensity-vs-energy",
+        "prompt": "兩束超閾值光束打在相同的金屬上。束A更亮。束B具有更高的頻率。哪個陳述是正確的？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "束A可以提供更多的電流，但束B仍然可以產生更快的電子。"
+          },
+          {
+            "id": "b",
+            "label": "束A既提供了更多的電流也提供了更快的電子，因為它更亮。"
+          },
+          {
+            "id": "c",
+            "label": "束B提供了更多的電流而束A提供了更快的電子，因為他們互換了角色。"
+          }
+        ],
+        "explanation": "強度主要改變的是數量或電流。頻率設定每光子的能量，從而決定電子的動能預算。",
+        "selectedWrongExplanations": {
+          "b": "亮度本身在頻率固定的情況下不會提高最大動能。",
+          "c": "這些角色不會互換。頻率和強度保持不同的職責。"
+        },
+        "showMeAction": {
+          "label": "比較上述的暗光和亮光",
+          "observationHint": "現在將其與紫羅蘭色光以上門檻頻率進行比較，並觀察哪些讀數實際上有所變化。"
+        }
+      },
+      {
+        "id": "pe-qt-stopping-potential",
+        "prompt": "在這個設定中，停止電壓告訴你什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它告訴你逸出的電子的最大動能。"
+          },
+          {
+            "id": "b",
+            "label": "它告訴你在金屬表面的光束亮度。"
+          },
+          {
+            "id": "c",
+            "label": "它直接告訴你門檻頻率，而不涉及金屬。"
+          }
+        ],
+        "explanation": "在截止點，反向電場移除的是最快電子的能量，因此 eVstop = Kmax。",
+        "selectedWrongExplanations": {
+          "b": "停止電壓是一個能量讀數，而不是亮度計。",
+          "c": "門檻取決於工作功函，仍需透過金屬的障礙來推斷。"
+        },
+        "showMeAction": {
+          "label": "顯示截止區域",
+          "observationHint": "當顯示的停止電壓附近時，電流幾乎為零。"
+        }
+      },
+      {
+        "id": "pe-qt-classical-wave-challenge",
+        "prompt": "為什麼在這個有界模組中，光電效應挑戰了純粹的波亮度影像？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "因為頻率可以決定是否會發射電子，即使較低頻率的束更亮。"
+          },
+          {
+            "id": "b",
+            "label": "因為光在可見範圍以上任何地方都不再像波一樣行為。"
+          },
+          {
+            "id": "c",
+            "label": "因為收集電壓只測量或篩選逸出的電子。它不創造來源於燈的光。"
+          }
+        ],
+        "explanation": "這種張力來自門檻行為和停止電壓證據，而不是從放棄所有波的概念開始。",
+        "selectedWrongExplanations": {
+          "b": "本頁面保持有界。它沒有宣稱波的概念消失；而是表明亮度本身不足以解釋發射資料。",
+          "c": "收集電壓僅測量或篩選逸出的電子。它不創造來源於燈的光。"
+        },
+        "showMeAction": {
+          "label": "比較明亮的紅色和紫羅蘭色",
+          "observationHint": "在這之後使用比較模式將明亮的紅色放在紫羅蘭色以上門檻頻率旁邊。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一軌光頻，跨越紅外、可見光和紫外線，以及一個簡短的燈到金屬台架，包含發射板、收集板和當發射時動態的電子包。",
+        "選用覆層標記門檻頻率、強度/電流區別、反向或助勢收集場以及簡短的能量預算卡片。讀數卡總結帶隙、光子能量、工作功函、最大動能、停止電壓、可用電流、收集電流和收集電壓。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "能量平衡圖比較一個頻率軸上的光子能量、工作功函和最大動能。收集掃描圖顯示在收集電壓下的收集電流，以參考可用電流，而強度掃描圖保持強度與電流比例相關而不是與電子能量。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "實時光電效應檢查"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "門檻檢查點"
+      },
+      {
+        "id": "readNext",
+        "title": "推進頻率的故事"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "photon-energy",
+      "label": "光子能量",
+      "meaning": "更高的頻率意味著每個光子的能量更多。"
+    },
+    {
+      "id": "threshold-frequency",
+      "label": "閾值頻率",
+      "meaning": "工作功函設定所需的最小頻率以實現發射。"
+    },
+    {
+      "id": "kinetic-energy",
+      "label": "最大釋放電子能量",
+      "meaning": "任何高於工作功函的光子能量都轉化為電子動能。"
+    },
+    {
+      "id": "stopping-potential",
+      "label": "停止電壓",
+      "meaning": "需要的反向電壓以停止最快速的電子即為最大動能。"
+    },
+    {
+      "id": "current-intensity",
+      "label": "釋放率趨勢",
+      "meaning": "超過閾值後，更亮的光提高了可用電流多於單個電子的能量。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "frequencyPHz",
+      "label": "光頻率",
+      "description": "從紅外線移動到可見光再到紫外線，並改變每個光子的能量。"
+    },
+    {
+      "id": "intensity",
+      "label": "強度",
+      "description": "改變光子流量和可用電流而不改變每個光子攜帶的能量。"
+    },
+    {
+      "id": "workFunctionEv",
+      "label": "工作功函",
+      "description": "提高或降低電子必須克服的能障以逃逸金屬。"
+    },
+    {
+      "id": "collectorVoltage",
+      "label": "收集電壓",
+      "description": "當為正時有助於收集釋放的電子，當為負時則減緩它們。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "frequencyPHz",
+        "label": "光頻率"
+      },
+      {
+        "id": "intensity",
+        "label": "強度"
+      },
+      {
+        "id": "workFunctionEv",
+        "label": "工作功函"
+      },
+      {
+        "id": "collectorVoltage",
+        "label": "收集電壓"
+      }
+    ]
+  },
+  "predictionMode": {
+    "items": [
+      {
+        "id": "pe-pred-bright-red",
+        "changeLabel": "強度"
+      },
+      {
+        "id": "pe-pred-frequency",
+        "changeLabel": "頻率"
+      },
+      {
+        "id": "pe-pred-retarding-field",
+        "changeLabel": "收集電壓"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "在同一個發射工作台上完成精簡的閾值與停止電壓目標。",
+    "items": [
+      {
+        "id": "pe-ch-cutoff-voltage",
+        "title": "找出停止點",
+        "prompt": "從高於閾值的紫光起步，在不改變頻率或功函數的情況下，令集電電流幾乎降至零。",
+        "successMessage": "你已找到停止區域；在這裡，阻滯電場剛好抵消最快發射電子的動能。",
+        "setup": {
+          "note": "同時參考集電電壓掃描圖和主舞台。"
+        },
+        "hints": [
+          "不要改變入射光頻率；發射電子的能量應保持固定。",
+          "截止點應接近畫面顯示的停止電壓。"
+        ]
+      },
+      {
+        "id": "pe-ch-brightness-not-enough",
+        "title": "單靠亮度仍然不夠",
+        "prompt": "從「亮但仍低於閾值」的預設起步，保持光束很亮，同時證明集電電流仍可幾乎為零。",
+        "successMessage": "你成功把明亮光束維持在閾值以下，因此沒有任何光電子到達集電極。",
+        "setup": {
+          "note": "把強度當成干擾項，再回頭檢查閾值障壁。"
+        },
+        "hints": [
+          "保持高強度，但不要讓頻率越過閾值標記。",
+          "能量預算卡仍應顯示 hf 低於 phi。"
+        ]
+      }
+    ]
+  }
+}

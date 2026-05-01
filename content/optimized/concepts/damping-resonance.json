@@ -1,0 +1,254 @@
+{
+"sections": {
+"explanation": {
+"paragraphs": [
+"Damping and resonance are two different ideas that shape how a real oscillator behaves. Damping removes energy from the motion, so left on its own the oscillation fades. A driver adds energy at a chosen frequency, so the motion can be sustained or amplified.",
+"Resonance is the case where the driver transfers energy especially efficiently because its frequency is close to the oscillator's natural frequency. This module keeps that story clear by separating two views: a time-history view, where you watch one motion fade or settle, and a response view, where you compare steady-state amplitude across many driving frequencies."
+]
+},
+"keyIdeas": [
+"Larger damping removes energy faster, so the transient motion dies away more quickly.",
+"In driven motion, the steady-state response is largest when the driving frequency is close to the natural frequency.",
+"Damping does not remove resonance completely. It lowers the peak and makes the response less sharply concentrated around one frequency."
+],
+"commonMisconception": {
+"myth": "Resonance always means the amplitude shoots upward without limit.",
+"correction": [
+"In a real damped system, energy is lost every cycle, so the amplitude stays finite even near resonance.",
+"Lower damping makes the resonance peak taller and sharper, while higher damping makes it lower and broader."
+]
+},
+"workedExamples": {
+"title": "Worked example from the live settings",
+"intro": "Use the mode and parameters already on screen. First evaluate the oscillator's displacement in the currently selected mode. Then calculate the steady-state response amplitude from the drive settings and compare it with the response curve.",
+"items": [
+{
+"id": "current-displacement",
+"title": "Displacement at this instant",
+"steps": [
+{
+"id": "relation",
+"label": "1. Choose the formula for the current mode"
+},
+{
+"id": "substitute",
+"label": "2. Substitute the live settings"
+},
+{
+"id": "compute",
+"label": "3. Evaluate the displacement"
+}
+],
+"resultLabel": "Displacement at this time",
+"applyAction": {
+"label": "Try free swing",
+"observationHint": "In transient mode, damping makes the envelope shrink with time, so later oscillations are smaller even when the motion is still repeating."
+}
+},
+{
+"id": "response-amplitude",
+"title": "Steady-state amplitude at this drive frequency",
+"steps": [
+{
+"id": "relation",
+"label": "1. Write the steady-state response formula"
+},
+{
+"id": "substitute",
+"label": "2. Substitute the current drive settings"
+},
+{
+"id": "compute",
+"label": "3. Calculate the response amplitude"
+}
+],
+"resultLabel": "Steady-state response amplitude",
+"applyAction": {
+"label": "Try near resonance",
+"observationHint": "In response mode, the largest steady-state amplitude appears when the drive frequency sits close to the peak of the response curve."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "If you increase damping while keeping the natural frequency and driving frequency fixed, what happens to the resonance peak?",
+"prediction": "Decide whether the peak becomes taller or shorter, sharper or broader.",
+"answer": "The peak becomes shorter and broader.",
+"explanation": "More damping means more energy is removed each cycle, so the oscillator cannot build as much steady-state amplitude. The system also becomes less selective about the exact driving frequency."
+}
+},
+"equations": [
+{
+"id": "damped-oscillator",
+"meaning": "The restoring term, damping term, and driving term act on the same oscillator. The motion you see comes from the balance between energy lost and energy added."
+},
+{
+"id": "natural-frequency",
+"meaning": "This is the frequency the system prefers when it is displaced and released without driving. Resonance is judged by how close the driver is to this value."
+},
+{
+"id": "resonance-response",
+"meaning": "This gives the steady-state amplitude for each driving frequency. Lower damping makes the peak taller and sharper, while higher damping makes it lower and broader."
+}
+],
+"variableLinks": [
+{
+"id": "dampingRatio",
+"description": "Sets how quickly energy is removed from the motion, so it controls both how fast the transient dies away and how tall and sharp the resonance peak can become."
+},
+{
+"id": "naturalFrequency",
+"description": "Sets the oscillator's preferred rate. Resonance happens when the driver is close to this frequency, not just when the driving force is large."
+},
+{
+"id": "driveFrequency",
+"description": "Changes how well the external driver stays in step with the oscillator. Near resonance the energy transfer is most effective, and away from resonance the response is smaller."
+},
+{
+"id": "driveAmplitude",
+"description": "Sets how strongly the driver pushes. It scales the overall response, but it does not decide where resonance occurs."
+}
+],
+"simulation": {
+"ui": {
+"initialGraphId": "transient",
+"primaryGraphIds": [
+"transient",
+"response"
+],
+"primaryControlIds": [
+"dampingRatio",
+"driveFrequency",
+"naturalFrequency"
+],
+"primaryPresetIds": [
+"free-swing",
+"near-resonance"
+],
+"starterExploreTasks": [
+"Raise damping in the damped-motion view and watch the envelope collapse faster.",
+"Switch to the response graph and move the driving frequency toward the peak marker.",
+"Compare light and heavy damping to see the resonance peak become taller/narrower or shorter/broader."
+]
+},
+"controls": [
+{
+"id": "responseMode",
+"description": "Switch between following one oscillation through time and scanning steady-state amplitude across many driving frequencies."
+}
+],
+"overlays": [
+{
+"id": "forcingArrow",
+"whatToNotice": [
+"This arrow shows the external driver, which can add energy even while damping is removing energy."
+],
+"whyItMatters": "It separates the source of the forcing from the oscillator's own preferred motion."
+},
+{
+"id": "responseEnvelope",
+"whatToNotice": [
+"In transient mode, stronger damping makes the envelope tighten more quickly.",
+"In response mode, the visible amplitude stays bounded instead of growing without limit."
+],
+"whyItMatters": "It helps you read damping as energy loss rather than just as a smaller-looking motion."
+},
+{
+"id": "peakMarker",
+"shortDescription": "Marks the driving frequency that gives the strongest steady-state response for the current damping and natural frequency.",
+"whatToNotice": [
+"This marker belongs to the response curve, not to a later moment in time.",
+"Changing damping can lower the peak and shift its sharpness without removing it."
+],
+"whyItMatters": "It makes the resonance condition readable as a frequency comparison rather than as a mystery spike."
+}
+]
+},
+"graphs": [
+{
+"id": "transient",
+"description": "This follows one oscillator through time and shows how damping makes the envelope shrink from cycle to cycle."
+},
+{
+"id": "response",
+"description": "This is not a time trace. Each point shows the steady-state amplitude for one driving frequency, so the peak shows where resonance is strongest."
+}
+],
+"noticePrompts": {
+"intro": "Use the prompt to match the current view. In transient mode you are following one motion through time. In response mode you are comparing many possible steady-state responses across different driving frequencies.",
+"items": [
+{
+"id": "dr-notice-transient-decay",
+"text": "Damping removes energy each cycle, so the envelope shrinks even while the oscillator keeps crossing equilibrium.",
+"tryThis": "Stay in the damped-motion view and compare the first few swings with the later ones instead of looking only at one instant.",
+"whyItMatters": "This is the clearest sign that the system is still oscillating while steadily losing energy."
+},
+{
+"id": "dr-notice-damping-change",
+"text": "Increasing damping makes the time trace die away faster and makes the resonance peak lower and broader.",
+"tryThis": "Increase Damping ratio, then compare the tighter transient envelope or the shorter, wider response peak.",
+"whyItMatters": "It connects one control to both the time-history view and the frequency-response view."
+},
+{
+"id": "dr-notice-response-graph",
+"text": "The response graph is not a later part of the motion. Its horizontal axis is driving frequency, so each point is a different operating condition.",
+"whyItMatters": "Without this distinction, resonance can look like a time-based spike instead of a frequency-dependent effect."
+},
+{
+"id": "dr-notice-near-resonance",
+"text": "The response is largest when the driving frequency sits close to the natural frequency.",
+"tryThis": "Move the drive frequency toward the peak and watch the response-curve marker and the stage amplitude strengthen together.",
+"whyItMatters": "Resonance is efficient energy transfer near a matching frequency, not just “big motion” for any reason."
+},
+{
+"id": "dr-notice-inspect",
+"text": "When you pause late in the motion, the stage and graph marker still refer to the same instant even though the envelope has already shrunk.",
+"whyItMatters": "Stepping through time makes damping visible as a drop in amplitude from cycle to cycle."
+},
+{
+"id": "dr-notice-compare",
+"text": "The setup with the taller response or the slower decay is usually the one with lower damping or a drive frequency closer to resonance.",
+"whyItMatters": "Compare mode helps separate changes caused by damping from changes caused by frequency matching."
+}
+]
+},
+"predictionMode": {
+"title": "Prediction mode",
+"intro": "Predict whether the change mainly affects time decay or the steady-state resonance peak, then test it on the live graph.",
+"items": [
+{
+"id": "dr-predict-1",
+"explanation": "Lower damping means less energy is lost each cycle, so the oscillator can build a larger steady-state response near resonance. That makes the peak taller and narrower.",
+"observationHint": "In response mode, compare both the height of the peak and how tightly it is concentrated around one frequency."
+},
+{
+"id": "dr-predict-2",
+"explanation": "Moving the drive away from the natural frequency makes the driver and oscillator less well matched, so the energy transfer becomes less effective and the response falls.",
+"observationHint": "The peak stays near the natural frequency, but the marker moves down the curve as the drive frequency moves away from it."
+}
+]
+},
+"quickTest": {
+"intro": "Use the stage and the graph axes together. One graph follows a single motion through time, while the other compares steady-state amplitude across driving frequencies.",
+"questions": [
+{
+"id": "dr-qt-4",
+"explanation": "The transient view follows one oscillator as time passes. The response view is not a time history at all. It compares the steady-state amplitude the oscillator would have at different driving frequencies."
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation alternates between two views of the same damped, driven oscillator: a time-based motion view and a frequency-response view. In the motion view, the displacement changes through time and can decay or settle. In the response view, the horizontal axis becomes driving frequency, and the graph shows steady-state amplitude instead of a time history.",
+"The controls make the physical meaning explicit, so it stays clear whether you are changing damping, the natural frequency, or the rate and strength of the external driver."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The transient graph shows one oscillator through time and makes damping visible as a shrinking envelope.",
+"The response graph is not a later-time continuation of that motion. It shows how steady-state amplitude changes across driving frequencies and how damping changes the height and width of the resonance peak."
+]
+}
+}
+}

@@ -1,0 +1,161 @@
+import { describe, expect, it } from "vitest";
+import enMessages from "@/messages/en.json";
+import zhHkMessages from "@/messages/zh-HK.json";
+
+const cjkPattern = /[\u3400-\u9fff]/u;
+
+describe("zh-HK test hub copy", () => {
+  it("localizes the new test hub surface instead of falling back to English", () => {
+    expect(zhHkMessages.TestHubPage.metadata.title).not.toBe(
+      enMessages.TestHubPage.metadata.title,
+    );
+    expect(zhHkMessages.TestHubPage.hero.title).not.toBe(
+      enMessages.TestHubPage.hero.title,
+    );
+    expect(zhHkMessages.TestHubPage.actions.startTopicTest).not.toBe(
+      enMessages.TestHubPage.actions.startTopicTest,
+    );
+    expect(zhHkMessages.TestHubPage.labels.pack).not.toBe(
+      enMessages.TestHubPage.labels.pack,
+    );
+    expect(zhHkMessages.TestHubPage.actions.startPack).not.toBe(
+      enMessages.TestHubPage.actions.startPack,
+    );
+    expect(zhHkMessages.TestHubPage.progress.loading).not.toBe(
+      enMessages.TestHubPage.progress.loading,
+    );
+    expect(zhHkMessages.TestHubPage.actions.openPack).not.toBe(
+      enMessages.TestHubPage.actions.openPack,
+    );
+    expect(zhHkMessages.TestHubPage.suggestions.title).not.toBe(
+      enMessages.TestHubPage.suggestions.title,
+    );
+    expect(zhHkMessages.TestHubPage.guidedTracks.title).not.toBe(
+      enMessages.TestHubPage.guidedTracks.title,
+    );
+    expect(zhHkMessages.TestHubPage.actions.continueTopicTestPath).not.toBe(
+      enMessages.TestHubPage.actions.continueTopicTestPath,
+    );
+    expect(zhHkMessages.TestHubPage.actions.resumeTopicTest).not.toBe(
+      enMessages.TestHubPage.actions.resumeTopicTest,
+    );
+    expect(zhHkMessages.TestHubPage.progress.resumeAvailable).not.toBe(
+      enMessages.TestHubPage.progress.resumeAvailable,
+    );
+    expect(zhHkMessages.TestHubPage.progress.resumeDescription).not.toBe(
+      enMessages.TestHubPage.progress.resumeDescription,
+    );
+    expect(cjkPattern.test(zhHkMessages.TestHubPage.metadata.title)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.TestHubPage.hero.title)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.TestHubPage.actions.startTopicTest)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.TestHubPage.labels.pack)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.TestHubPage.actions.startPack)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.TestHubPage.progress.loading)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.TestHubPage.actions.openPack)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.TestHubPage.suggestions.title)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.TestHubPage.guidedTracks.title)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.TestHubPage.actions.continueTopicTestPath)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.TestHubPage.actions.resumeTopicTest)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.TestHubPage.progress.resumeAvailable)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.TestHubPage.progress.resumeDescription)).toBe(true);
+  });
+
+  it("localizes the topic-test route copy instead of falling back to English", () => {
+    expect(zhHkMessages.TopicTestPage.metadata.title).not.toBe(
+      enMessages.TopicTestPage.metadata.title,
+    );
+    expect(zhHkMessages.TopicTestPage.hero.assessmentLabel).not.toBe(
+      enMessages.TopicTestPage.hero.assessmentLabel,
+    );
+    expect(zhHkMessages.TopicTestPage.followUp.title).not.toBe(
+      enMessages.TopicTestPage.followUp.title,
+    );
+    expect(zhHkMessages.TopicTestPage.actions.reviewIncludedConcepts).not.toBe(
+      enMessages.TopicTestPage.actions.reviewIncludedConcepts,
+    );
+    expect(zhHkMessages.TopicTestPage.actions.followOnPack).not.toBe(
+      enMessages.TopicTestPage.actions.followOnPack,
+    );
+    expect(zhHkMessages.TopicTestPage.actions.openConceptTest).not.toBe(
+      enMessages.TopicTestPage.actions.openConceptTest,
+    );
+    expect(zhHkMessages.TopicTestPage.status.loading).not.toBe(
+      enMessages.TopicTestPage.status.loading,
+    );
+    expect(zhHkMessages.TopicTestPage.status.resumeAvailable).not.toBe(
+      enMessages.TopicTestPage.status.resumeAvailable,
+    );
+    expect(zhHkMessages.TopicTestPage.status.resumeDescription).not.toBe(
+      enMessages.TopicTestPage.status.resumeDescription,
+    );
+    expect(cjkPattern.test(zhHkMessages.TopicTestPage.metadata.title)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.TopicTestPage.hero.assessmentLabel)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.TopicTestPage.followUp.title)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.TopicTestPage.actions.reviewIncludedConcepts)).toBe(
+      true,
+    );
+    expect(cjkPattern.test(zhHkMessages.TopicTestPage.actions.followOnPack)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.TopicTestPage.actions.openConceptTest)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.TopicTestPage.status.loading)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.TopicTestPage.status.resumeAvailable)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.TopicTestPage.status.resumeDescription)).toBe(true);
+  });
+
+  it("localizes the standalone concept-test route copy instead of falling back to English", () => {
+    expect(zhHkMessages.ConceptTestPage.metadata.title).not.toBe(
+      enMessages.ConceptTestPage.metadata.title,
+    );
+    expect(zhHkMessages.ConceptTestPage.hero.assessmentLabel).not.toBe(
+      enMessages.ConceptTestPage.hero.assessmentLabel,
+    );
+    expect(zhHkMessages.ConceptTestPage.followUp.title).not.toBe(
+      enMessages.ConceptTestPage.followUp.title,
+    );
+    expect(zhHkMessages.ConceptTestPage.followUp.actions.relatedConcept).not.toBe(
+      enMessages.ConceptTestPage.followUp.actions.relatedConcept,
+    );
+    expect(zhHkMessages.ConceptTestPage.actions.reviewConcept).not.toBe(
+      enMessages.ConceptTestPage.actions.reviewConcept,
+    );
+    expect(zhHkMessages.ConceptTestPage.status.resumeDescription).not.toBe(
+      enMessages.ConceptTestPage.status.resumeDescription,
+    );
+    expect(cjkPattern.test(zhHkMessages.ConceptTestPage.metadata.title)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.ConceptTestPage.hero.assessmentLabel)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.ConceptTestPage.followUp.title)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.ConceptTestPage.followUp.actions.relatedConcept)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.ConceptTestPage.actions.reviewConcept)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.ConceptTestPage.status.resumeDescription)).toBe(true);
+  });
+
+  it("localizes the pack-test route copy instead of falling back to English", () => {
+    expect(zhHkMessages.PackTestPage.metadata.description).not.toBe(
+      enMessages.PackTestPage.metadata.description,
+    );
+    expect(zhHkMessages.PackTestPage.hero.assessmentLabel).not.toBe(
+      enMessages.PackTestPage.hero.assessmentLabel,
+    );
+    expect(zhHkMessages.PackTestPage.followUp.title).not.toBe(
+      enMessages.PackTestPage.followUp.title,
+    );
+    expect(zhHkMessages.PackTestPage.actions.reviewIncludedTopics).not.toBe(
+      enMessages.PackTestPage.actions.reviewIncludedTopics,
+    );
+    expect(zhHkMessages.PackTestPage.status.loading).not.toBe(
+      enMessages.PackTestPage.status.loading,
+    );
+    expect(zhHkMessages.PackTestPage.status.resumeAvailable).not.toBe(
+      enMessages.PackTestPage.status.resumeAvailable,
+    );
+    expect(zhHkMessages.PackTestPage.status.resumeDescription).not.toBe(
+      enMessages.PackTestPage.status.resumeDescription,
+    );
+    expect(cjkPattern.test(zhHkMessages.PackTestPage.metadata.description)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.PackTestPage.hero.assessmentLabel)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.PackTestPage.followUp.title)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.PackTestPage.actions.reviewIncludedTopics)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.PackTestPage.status.loading)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.PackTestPage.status.resumeAvailable)).toBe(true);
+    expect(cjkPattern.test(zhHkMessages.PackTestPage.status.resumeDescription)).toBe(true);
+  });
+});

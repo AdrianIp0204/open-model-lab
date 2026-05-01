@@ -1,0 +1,840 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "readNext",
+        "title": "Carry this graph-first lens onward"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Drag one upper bound across a source curve, watch signed area and the accumulation graph update together, and separate current source height from the running total.",
+    "keyTakeaway": "A(x) is the signed area from 0 to the current upper bound, so moving the bound changes the total instead of creating a separate static picture."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "An integral becomes easier to trust when the upper-bound slider, the shaded signed area, and the accumulation graph all move together. This bench keeps one source curve and one running-total graph in view so you can watch the total build, flatten, or fall as the bound moves.",
+        "The key distinction is local versus accumulated. The source height f(x) tells you what the next thin slice is doing right now, while A(x) remembers everything collected from 0 to the current bound, including earlier positive area that can keep the total above zero even after the curve has dropped below the axis."
+      ]
+    },
+    "keyIdeas": [
+      "A(x) is the signed area from 0 to the current upper bound, so moving the bound changes the total instead of creating a separate static picture.",
+      "When the source curve is above the axis, new slices add to the running total; when it is below the axis, new slices subtract from it.",
+      "The source height controls the local slope of the accumulation graph through A'(x) = f(x), but that local slope is not the same thing as the accumulated amount already built up."
+    ],
+    "commonMisconception": {
+      "myth": "If the source height is negative at x, the accumulated amount must already be negative there.",
+      "correction": [
+        "A negative source height only says the running total is decreasing locally at that bound.",
+        "Earlier positive signed area may still keep A(x) above zero, which is exactly why this bench shows the source graph and accumulation graph side by side."
+      ]
+    },
+    "workedExamples": {
+      "title": "Bench worked examples",
+      "intro": "Use the upper-bound slider, signed-area shading, and accumulation point together. These walkthroughs keep the source curve and running-total graph on the same live bench.",
+      "items": [
+        {
+          "id": "current-accumulated-amount",
+          "title": "Read the running total",
+          "prompt": "At the current upper bound, what total signed area has accumulated from 0 to x?",
+          "variables": [
+            {
+              "id": "upper-bound",
+              "variableId": "upper-bound",
+              "symbol": "x",
+              "label": "Upper bound",
+              "valueKey": "upperBoundValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-bound",
+              "label": "1. Read the active bound on the source graph",
+              "template": "The current upper bound is x = {{upperBoundValue}}, and the source height there is f(x) = {{sourceHeightValue}}."
+            },
+            {
+              "id": "read-total",
+              "label": "2. Read the matching point on the accumulation graph",
+              "template": "At that same x-value, the accumulation graph shows A(x) = {{accumulatedValue}}."
+            },
+            {
+              "id": "connect-slope",
+              "label": "3. Connect the local slope to the source height",
+              "template": "Because A'(x) = f(x), the accumulation graph has local slope {{accumulationSlopeValue}} at this point."
+            }
+          ],
+          "resultLabel": "Current accumulated amount",
+          "resultTemplate": "$A(x) = {{accumulatedValue}}$",
+          "interpretationTemplate": "{{accumulationInterpretation}}",
+          "applyAction": {
+            "label": "Apply a near-cancel case",
+            "presetId": "near-cancel",
+            "observationHint": "The running total comes close to zero even though the current source height is not zero, because earlier positive and later negative contributions are offsetting each other.",
+            "highlightedControlIds": [
+              "upperBound"
+            ],
+            "highlightedGraphIds": [
+              "source-function",
+              "accumulation-function"
+            ],
+            "highlightedOverlayIds": [
+              "signedArea",
+              "accumulationPoint"
+            ]
+          }
+        },
+        {
+          "id": "height-versus-total",
+          "title": "Separate local height from total accumulation",
+          "prompt": "At the current bound, how do the source height and accumulated total tell different stories?",
+          "variables": [
+            {
+              "id": "upper-bound",
+              "variableId": "upper-bound",
+              "symbol": "x",
+              "label": "Upper bound",
+              "valueKey": "upperBoundValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-height",
+              "label": "1. Read the local height on the source graph",
+              "template": "The current source height is f({{upperBoundValue}}) = {{sourceHeightValue}}."
+            },
+            {
+              "id": "read-total",
+              "label": "2. Read the total accumulated amount",
+              "template": "The running total from 0 to {{upperBoundValue}} is A({{upperBoundValue}}) = {{accumulatedValue}}."
+            },
+            {
+              "id": "compare-meanings",
+              "label": "3. Compare what each value means",
+              "template": "The local slope of the accumulation graph is still {{accumulationSlopeValue}}, but that slope is not the same thing as the full accumulated amount {{accumulatedValue}}."
+            }
+          ],
+          "resultLabel": "Current height vs total",
+          "resultTemplate": "$f(x) = {{sourceHeightValue}}, \\quad A(x) = {{accumulatedValue}}$",
+          "interpretationTemplate": "{{sourceVsAccumulationInterpretation}}",
+          "applyAction": {
+            "label": "Apply the negative-tail case",
+            "presetId": "negative-tail",
+            "observationHint": "The source height is below zero here, so the running total is decreasing locally even though the total can still remain positive for a while.",
+            "highlightedControlIds": [
+              "upperBound"
+            ],
+            "highlightedGraphIds": [
+              "source-function",
+              "accumulation-function"
+            ],
+            "highlightedOverlayIds": [
+              "boundGuide",
+              "accumulationPoint"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Move the bound to a place where the source curve is below the axis, but the running total has not fallen below zero yet.",
+      "prediction": "Before you drag, decide whether you need to stop just after the curve turns negative or much farther into the negative tail.",
+      "answer": "You need a bound where the curve has already dropped below the axis but the earlier positive signed area has not been fully cancelled yet.",
+      "explanation": "This is the cleanest bench state for separating local rate from total accumulation. The next slices are negative, but the earlier positive area still dominates the total."
+    }
+  },
+  "equations": [
+    {
+      "id": "accumulation-rule",
+      "latex": "A(x) = \\int_0^x f(t)\\,dt",
+      "label": "Accumulation rule",
+      "meaning": "Defines the accumulated amount as the signed area gathered from the starting bound 0 up to the current bound x."
+    },
+    {
+      "id": "ftc-link",
+      "latex": "A'(x) = f(x)",
+      "label": "Accumulation slope",
+      "meaning": "Says the local slope of the accumulation graph matches the current source height."
+    },
+    {
+      "id": "small-change",
+      "latex": "\\Delta A \\approx f(x)\\,\\Delta x",
+      "label": "Small-step accumulation",
+      "meaning": "For a small move in x, the change in the running total is approximately a thin rectangle with height f(x)."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "upper-bound",
+      "symbol": "x",
+      "label": "Upper bound",
+      "param": "upperBound",
+      "tone": "sky",
+      "description": "Moves the current endpoint that controls both the signed area on the source graph and the matching point on the accumulation graph.",
+      "equationIds": [
+        "accumulation-rule",
+        "ftc-link",
+        "small-change"
+      ],
+      "graphIds": [
+        "source-function",
+        "accumulation-function"
+      ],
+      "overlayIds": [
+        "signedArea",
+        "boundGuide",
+        "accumulationPoint"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "upperBound": 1.6,
+      "signedArea": true,
+      "boundGuide": true,
+      "accumulationPoint": true
+    },
+    "ui": {
+      "initialGraphId": "source-function",
+      "primaryGraphIds": [
+        "source-function",
+        "accumulation-function"
+      ],
+      "primaryControlIds": [
+        "upper-bound"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "upper-bound",
+        "kind": "slider",
+        "label": "Upper bound",
+        "param": "upperBound",
+        "min": -3.2,
+        "max": 3.2,
+        "step": 0.05,
+        "description": "Move the current endpoint that sets how much signed area has been accumulated."
+      }
+    ],
+    "presets": [
+      {
+        "id": "positive-build",
+        "label": "Positive build",
+        "description": "A bound where the source is above the axis and the total is growing.",
+        "values": {
+          "upperBound": 1.2
+        }
+      },
+      {
+        "id": "near-cancel",
+        "label": "Near cancel",
+        "description": "A bound where earlier positive area and later negative area nearly balance.",
+        "values": {
+          "upperBound": 2.95
+        }
+      },
+      {
+        "id": "negative-tail",
+        "label": "Negative tail",
+        "description": "A bound where the source is below the axis and the total is being pulled down.",
+        "values": {
+          "upperBound": 2.2
+        }
+      },
+      {
+        "id": "leftward-build",
+        "label": "Leftward build",
+        "description": "A negative bound so you can see signed area accumulate in the opposite direction.",
+        "values": {
+          "upperBound": -1.5
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "signedArea",
+        "label": "Signed area shading",
+        "shortDescription": "Shade the positive and negative area collected from 0 to the current bound.",
+        "whatToNotice": [
+          "Area above the axis adds to the running total, while area below the axis subtracts from it."
+        ],
+        "whyItMatters": "It keeps the integral tied to accumulation instead of turning it into a detached symbol.",
+        "relatedControls": [
+          "upperBound"
+        ],
+        "relatedGraphTabs": [
+          "source-function"
+        ],
+        "relatedEquationVariables": [
+          "upper-bound"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "boundGuide",
+        "label": "Bound guide",
+        "shortDescription": "Mark the current upper bound directly on the source graph.",
+        "whatToNotice": [
+          "The guide pinpoints the current source height, which determines how the running total is changing right now."
+        ],
+        "whyItMatters": "It separates the current source value from the whole accumulated total.",
+        "relatedControls": [
+          "upperBound"
+        ],
+        "relatedGraphTabs": [
+          "source-function"
+        ],
+        "relatedEquationVariables": [
+          "upper-bound"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "accumulationPoint",
+        "label": "Accumulation point",
+        "shortDescription": "Show the matching point on the accumulation graph.",
+        "whatToNotice": [
+          "The y-value on the accumulation graph is the running total, and its slope is set by the current source height."
+        ],
+        "whyItMatters": "It makes the link A'(x) = f(x) visible instead of purely algebraic.",
+        "relatedControls": [
+          "upperBound"
+        ],
+        "relatedGraphTabs": [
+          "accumulation-function"
+        ],
+        "relatedEquationVariables": [
+          "upper-bound"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "source-function",
+      "label": "Source function",
+      "xLabel": "x",
+      "yLabel": "f(x)",
+      "series": [
+        "source-curve"
+      ],
+      "description": "Shows the original curve whose signed area is being accumulated."
+    },
+    {
+      "id": "accumulation-function",
+      "label": "Accumulation graph",
+      "xLabel": "x",
+      "yLabel": "A(x)",
+      "series": [
+        "accumulation-curve"
+      ],
+      "description": "Shows the running total produced by the signed area from 0 to x."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the live prompts to keep the source curve and the accumulation graph telling one story.",
+    "items": [
+      {
+        "id": "ia-notice-positive-growth",
+        "text": "While the source curve stays above the axis, moving the bound to the right keeps adding positive area and the running total rises.",
+        "type": "observation",
+        "relatedControls": [
+          "upperBound"
+        ],
+        "relatedGraphTabs": [
+          "source-function",
+          "accumulation-function"
+        ],
+        "relatedOverlays": [
+          "signedArea",
+          "accumulationPoint"
+        ],
+        "relatedEquationVariables": [
+          "upper-bound"
+        ]
+      },
+      {
+        "id": "ia-notice-negative-slope",
+        "text": "Once the source drops below the axis, the accumulation graph can still be above zero while its local slope turns negative.",
+        "type": "graph-reading",
+        "relatedControls": [
+          "upperBound"
+        ],
+        "relatedGraphTabs": [
+          "source-function",
+          "accumulation-function"
+        ],
+        "relatedOverlays": [
+          "boundGuide",
+          "accumulationPoint"
+        ],
+        "relatedEquationVariables": [
+          "upper-bound"
+        ]
+      },
+      {
+        "id": "ia-notice-height-vs-total",
+        "text": "Compare the source height and the accumulation readout directly. One is local height right now, and the other is the full running total so far.",
+        "type": "try-this",
+        "relatedControls": [
+          "upperBound"
+        ],
+        "relatedGraphTabs": [
+          "source-function",
+          "accumulation-function"
+        ],
+        "relatedOverlays": [
+          "signedArea",
+          "accumulationPoint"
+        ],
+        "relatedEquationVariables": [
+          "upper-bound"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Predict",
+    "intro": "Predict whether the running total will grow, flatten, or fall before you move the bound.",
+    "items": [
+      {
+        "id": "ia-predict-positive-region",
+        "prompt": "If the upper bound moves a little farther right while the source height stays positive, what should happen to the accumulated amount?",
+        "scenarioLabel": "Move right in the positive region",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The accumulated amount should increase."
+          },
+          {
+            "id": "b",
+            "label": "The accumulated amount must drop because the interval is longer."
+          },
+          {
+            "id": "c",
+            "label": "The accumulated amount should stay fixed because the starting bound is still 0."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Positive source height means each small move to the right adds positive signed area, so the running total increases.",
+        "observationHint": "Watch the shaded area and the accumulation point move together.",
+        "apply": {
+          "presetId": "positive-build"
+        },
+        "highlightedControls": [
+          "upperBound"
+        ],
+        "highlightedGraphs": [
+          "source-function",
+          "accumulation-function"
+        ],
+        "highlightedOverlays": [
+          "signedArea",
+          "accumulationPoint"
+        ]
+      },
+      {
+        "id": "ia-predict-negative-region",
+        "prompt": "If the source height is negative at the current bound, what must be true about the accumulation graph there?",
+        "scenarioLabel": "Source below the axis",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Its local slope is negative there."
+          },
+          {
+            "id": "b",
+            "label": "Its y-value must already be negative there."
+          },
+          {
+            "id": "c",
+            "label": "It becomes flat because negative area cancels the whole graph."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A'(x) = f(x), so a negative source height means the accumulation graph is sloping downward locally even if its y-value is still positive.",
+        "observationHint": "Separate the local slope from the total height of the accumulation point.",
+        "apply": {
+          "presetId": "negative-tail"
+        },
+        "highlightedControls": [
+          "upperBound"
+        ],
+        "highlightedGraphs": [
+          "source-function",
+          "accumulation-function"
+        ],
+        "highlightedOverlays": [
+          "boundGuide",
+          "accumulationPoint"
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Use the source graph, the shaded area, and the accumulation graph together. These questions are about what the total means.",
+    "questions": [
+      {
+        "id": "ia-qt-slope-link",
+        "type": "graph-reading",
+        "prompt": "If the source height is zero at a bound, what does that say about the accumulation graph right there?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Its local slope is zero or very close to zero there."
+          },
+          {
+            "id": "b",
+            "label": "Its accumulated amount must also be zero there."
+          },
+          {
+            "id": "c",
+            "label": "The shaded area disappears on both sides of the origin."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Because A'(x) = f(x), a zero source height means the accumulation graph is locally flat there.",
+        "selectedWrongExplanations": {
+          "b": "A zero local slope does not force the total accumulated amount to be zero. It only says the running total is momentarily flat there.",
+          "c": "Only the current local height is zero. Earlier signed area can still remain."
+        },
+        "showMeAction": {
+          "label": "Show a nearly flat accumulation point",
+          "patch": {
+            "upperBound": 1.73
+          },
+          "observationHint": "The source curve is near the axis, and the accumulation graph is nearly flat at the matching x-value.",
+          "highlightedControlIds": [
+            "upperBound"
+          ],
+          "highlightedGraphIds": [
+            "source-function",
+            "accumulation-function"
+          ],
+          "highlightedOverlayIds": [
+            "boundGuide",
+            "accumulationPoint"
+          ]
+        }
+      },
+      {
+        "id": "ia-qt-height-vs-total",
+        "type": "misconception-check",
+        "prompt": "Which comparison keeps local height and total accumulation honest?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The source height is local, while the accumulated amount is a running total."
+          },
+          {
+            "id": "b",
+            "label": "The source height and the accumulated amount always mean the same thing at one x-value."
+          },
+          {
+            "id": "c",
+            "label": "The accumulated amount only matters once the source curve crosses the axis."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "That is the core distinction this concept is trying to make visible: height is local, while accumulation is total.",
+        "selectedWrongExplanations": {
+          "b": "They can sometimes have similar numerical values, but they describe different quantities.",
+          "c": "Accumulation starts immediately. Crossing the axis only changes whether new area adds or subtracts."
+        },
+        "showMeAction": {
+          "label": "Show local height vs total",
+          "presetId": "negative-tail",
+          "observationHint": "The source height is negative there, but the accumulated amount is not forced to match it.",
+          "highlightedControlIds": [
+            "upperBound"
+          ],
+          "highlightedGraphIds": [
+            "source-function",
+            "accumulation-function"
+          ],
+          "highlightedOverlayIds": [
+            "signedArea",
+            "accumulationPoint"
+          ]
+        }
+      },
+      {
+        "id": "ia-qt-signed-area",
+        "type": "reasoning",
+        "prompt": "As the bound moves right through a region where the source is below the axis, what happens to the running total?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It is decreasing because new signed area is negative."
+          },
+          {
+            "id": "b",
+            "label": "It is automatically increasing because the interval is getting longer."
+          },
+          {
+            "id": "c",
+            "label": "It must freeze because the bound is past the positive region."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Area below the axis counts negatively, so extending the bound through that region subtracts from the running total.",
+        "selectedWrongExplanations": {
+          "b": "Longer interval length alone does not decide the sign of the change. The sign comes from the source height.",
+          "c": "The total keeps changing. It just changes downward instead of upward."
+        },
+        "showMeAction": {
+          "label": "Show the negative region",
+          "presetId": "negative-tail",
+          "observationHint": "The shaded area below the axis makes the running total fall.",
+          "highlightedControlIds": [
+            "upperBound"
+          ],
+          "highlightedGraphIds": [
+            "source-function",
+            "accumulation-function"
+          ],
+          "highlightedOverlayIds": [
+            "signedArea",
+            "boundGuide"
+          ]
+        }
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the source curve and accumulation graph together. The challenge is to hold onto the distinction between local height and total accumulation, even when the signs look like they should agree.",
+    "items": [
+      {
+        "id": "ia-ch-negative-height-positive-total",
+        "title": "Negative height, positive total",
+        "style": "visible-condition",
+        "prompt": "Move the bound into a region where the source height is already negative, but the running total is still positive overall.",
+        "successMessage": "You found the clean split between local rate and accumulated amount. The source is subtracting locally, but the earlier positive area still keeps the running total above zero.",
+        "setup": {
+          "presetId": "positive-build",
+          "note": "Watch the source height, the shaded area, and the accumulation point together while you move the bound."
+        },
+        "requirements": {
+          "graphId": "accumulation-function",
+          "overlayIds": [
+            "signedArea",
+            "boundGuide",
+            "accumulationPoint"
+          ]
+        },
+        "hints": [
+          "You need to move past the right-hand zero of the source curve, but not so far that the earlier positive area is fully cancelled.",
+          "The accumulation graph can stay above zero even while its local slope turns negative."
+        ],
+        "targets": [
+          {
+            "metric": "upperBound",
+            "label": "Place the upper bound in the negative-tail window between $2.05$ and $2.35$.",
+            "min": 2.05,
+            "max": 2.35
+          },
+          {
+            "metric": "sourceHeight",
+            "label": "Make the current source height clearly negative, between $-0.8$ and $-0.45$.",
+            "min": -0.8,
+            "max": -0.45
+          },
+          {
+            "metric": "accumulatedValue",
+            "label": "Keep the accumulated amount positive, between $0.8$ and $1.2$.",
+            "min": 0.8,
+            "max": 1.2
+          }
+        ]
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a source curve on a coordinate plane with a draggable upper-bound point. Signed area from 0 to that bound is shaded directly on the source graph, and a second smaller graph shows the matching accumulated amount A(x).",
+        "Moving the bound updates the source height, the signed area, and the accumulation point together so the learner can compare the local source value with the running total."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The source-function graph shows the current height that controls whether new area adds or subtracts. The accumulation graph shows the running total built from that signed area.",
+        "The two graphs are linked point-for-point: the x-value matches across both, and the local slope of the accumulation graph matches the source height."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Integral as Accumulation / Area",
+    "description": "Explore signed area, running totals, and the link between source height and accumulation with a live integral graphing bench.",
+    "keywords": [
+      "integral",
+      "accumulation",
+      "signed area",
+      "fundamental theorem of calculus",
+      "calculus"
+    ]
+  },
+  "v2": {
+    "intuition": "Drag one upper bound across one source curve so signed area and the accumulation graph update together instead of becoming separate pictures.",
+    "whyItMatters": "Accumulation is the core integral story, so students need to see how current source height and running total relate without confusing them for the same quantity.",
+    "estimatedMinutes": 12,
+    "equationSnapshot": {
+      "equationIds": [
+        "accumulation-rule",
+        "ftc-link",
+        "small-change"
+      ]
+    },
+    "startSetup": {
+      "presetId": "positive-build",
+      "graphId": "source-function",
+      "overlayIds": [
+        "signedArea",
+        "boundGuide"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "build-signed-area",
+        "title": "Build signed area",
+        "goal": "Treat the running total as the signed area from 0 to the current upper bound.",
+        "doThis": "Start with the positive-build preset, keep the source graph visible, and drag the upper bound to the right.",
+        "notice": "The shaded region grows while the accumulation total updates with it.",
+        "explain": "A(x) is not the source height. It is the signed area collected so far from the start to the current bound.",
+        "reveal": {
+          "controlIds": [
+            "upper-bound"
+          ],
+          "graphIds": [
+            "source-function"
+          ],
+          "overlayIds": [
+            "signedArea",
+            "boundGuide"
+          ],
+          "toolHints": [
+            "graph-preview"
+          ]
+        },
+        "setup": {
+          "presetId": "positive-build",
+          "graphId": "source-function",
+          "overlayIds": [
+            "signedArea",
+            "boundGuide"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "ia-predict-positive-region"
+          ]
+        }
+      },
+      {
+        "id": "separate-height-from-total",
+        "title": "Separate height from total",
+        "goal": "See why the source value and the accumulated area answer different questions.",
+        "doThis": "Open the accumulation graph and compare the current source height with the current accumulated total at the same bound.",
+        "notice": "One value tells you the local height right now, while the other records everything collected so far.",
+        "explain": "The source function controls the slope of the accumulation graph, but it is not the same quantity as the accumulated area itself.",
+        "reveal": {
+          "controlIds": [
+            "upper-bound"
+          ],
+          "graphIds": [
+            "source-function",
+            "accumulation-function"
+          ],
+          "overlayIds": [
+            "accumulationPoint",
+            "boundGuide"
+          ]
+        },
+        "setup": {
+          "presetId": "positive-build",
+          "graphId": "accumulation-function",
+          "overlayIds": [
+            "accumulationPoint",
+            "boundGuide"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "ia-qt-height-vs-total"
+          ]
+        }
+      },
+      {
+        "id": "cross-into-negative-region",
+        "title": "Cross into a negative region",
+        "goal": "Read what happens when the source curve falls below the axis but the total has history.",
+        "doThis": "Apply the negative-tail preset and move the bound into the region where the source curve is below the axis.",
+        "notice": "The running total can stay positive for a while even though the current source height is negative.",
+        "explain": "Negative source height subtracts from the accumulated total, but it only undoes the positive area that was already built earlier.",
+        "reveal": {
+          "controlIds": [
+            "upper-bound"
+          ],
+          "graphIds": [
+            "source-function",
+            "accumulation-function"
+          ],
+          "overlayIds": [
+            "signedArea",
+            "accumulationPoint"
+          ]
+        },
+        "setup": {
+          "presetId": "negative-tail",
+          "graphId": "accumulation-function",
+          "overlayIds": [
+            "signedArea",
+            "accumulationPoint"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "ia-qt-signed-area"
+          ]
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "The accumulation function is the signed area built from the start to the current bound.",
+        "The source value sets how the total is changing right now, not the total itself.",
+        "Negative source regions subtract area from whatever positive total was already built."
+      ],
+      "misconception": "If the source height is negative, the accumulated total must already be negative too.",
+      "workedExampleRefs": [
+        "current-accumulated-amount",
+        "height-versus-total"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "derivative-as-slope-local-rate-of-change",
+          "title": "Derivative as Slope / Local Rate of Change",
+          "reasonLabel": "Connect total change back to local rate"
+        },
+        {
+          "slug": "optimization-maxima-minima-and-constraints",
+          "title": "Optimization / Maxima / Minima and Constraints",
+          "reasonLabel": "Use rate and area reasoning together"
+        }
+      ],
+      "freePlayPrompt": "Find a bound where the source height is negative but the running total is still above zero."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "quickTest"
+    ]
+  }
+}

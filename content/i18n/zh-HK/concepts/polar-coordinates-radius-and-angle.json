@@ -1,0 +1,217 @@
+{
+  "title": "極坐標 / 半徑和角度",
+  "shortTitle": "極坐標",
+  "summary": "在同一時間保持一個點在極坐標和笛卡爾坐標檢視中可見，以便半徑和角度直接轉換為平面上的 x 和 y。",
+  "highlights": [
+    "同一平面的半徑和角度",
+    "x = r cos(θ)",
+    "y = r sin(θ)",
+    "象限符號邏輯"
+  ],
+  "topic": "複數和平面引數運動",
+  "subtopic": "半徑-角度坐標",
+  "recommendedNext": [
+    {
+      "slug": "trig-identities-from-unit-circle-geometry",
+      "reasonLabel": "在同一平面上用單位圓的 x-y 幾何來驗證核心恆等式，而不跳到另一條運動分支"
+    },
+    {
+      "slug": "inverse-trig-angle-from-ratio",
+      "reasonLabel": "保持相同的半徑-角度點，同時比例恢復和象限檢查停留在同一平面"
+    },
+    {
+      "slug": "unit-circle-sine-cosine-from-rotation",
+      "reasonLabel": "重新連線 θ 到單位圓上的點，該點在同一平面產生餘弦和正弦"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "當同一點在同一時間在極坐標和笛卡爾語言中都保持可見時，極坐標變得更容易信任。這個試驗台將 r, θ, x 和 y 連結到一個活躍的點上，而不是將坐標轉換變成一個分離的工作表。",
+        "改變半徑應該感覺像是沿著同一方向從原點滑動該點。改變角度應該感覺像是在同一平面旋轉同一點，同時 x 和 y 從相同的幾何形狀中出現。"
+      ]
+    },
+    "keyIdeas": [
+      "一個極坐標點由其與原點的距離 r 和其與正 x 軸的角度 θ 組成。",
+      "同一點在笛卡爾坐標中的座標為 x = r cos θ 和 y = r sin θ。",
+      "固定半徑旋轉該點形成一個圓，而改變半徑則沿著某個方向一起縮放兩者的坐標。"
+    ],
+    "commonMisconception": {
+      "myth": "極坐標和笛卡爾坐標是兩個獨立的描述，因此在其中之間進行轉換只是代數記帳。",
+      "correction": [
+        "它們是同一平面同一點的兩種檢視。",
+        "幾何形狀解釋了轉換：θ 控制方向，r 控制該方向上點延伸的程度。"
+      ]
+    },
+    "workedExamples": {
+      "title": "即時例題",
+      "intro": "使用參考點預設以便一個固定的射線、引導集和圖表閱讀都保持對齊。",
+      "items": [
+        {
+          "id": "read-the-current-cartesian-point",
+          "title": "從 r 和 θ 中讀取參考點的笛卡爾坐標",
+          "prompt": "對於參考點預設，該點在笛卡爾坐標中落在哪裡？",
+          "variables": [
+            {
+              "id": "radius",
+              "label": "半徑"
+            },
+            {
+              "id": "angle",
+              "label": "角度"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-polar-data",
+              "label": "1. 閱讀當前極坐標資料"
+            },
+            {
+              "id": "resolve-components",
+              "label": "2. 使用相同的幾何圖形分解 x 和 y"
+            },
+            {
+              "id": "write-point",
+              "label": "3. 撰寫笛卡爾座標點"
+            }
+          ],
+          "resultLabel": "當前笛卡爾座標點",
+          "applyAction": {
+            "label": "應用連結點檢視",
+            "observationHint": "保持引導線開啟，以便半徑射線和笛卡爾投影始終與同一點連結。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "把 θ 保持在第二象限，然後讓點離原點更遠，同時不改變 x 和 y 的符號。",
+      "prediction": "首先決定是否需要更改角度、半徑或兩者。",
+      "answer": "你只需要增加半徑，同時把 θ 保持在第二象限。",
+      "explanation": "象限以及 x 和 y 的符號由 θ 決定，而半徑只會沿同一條射線改變點到原點的距離。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "從實時點、引導線和坐標掃描回答問題。",
+    "questions": [
+      {
+        "id": "polar-qt-cartesian-link",
+        "prompt": "當前極座標點哪個陳述正確？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "對同一個點而言，x 由 r cos θ 得出，而 y 由 r sin θ 得出。"
+          },
+          {
+            "id": "b",
+            "label": "x 和 y 與極座標點無關，因此必須在另一張圖上另外處理。"
+          },
+          {
+            "id": "c",
+            "label": "角度只決定 x，而半徑只決定 y。"
+          }
+        ],
+        "explanation": "極座標和笛卡爾坐標是同一點的兩種視角，所以兩個坐標都來自相同的半徑和角度。",
+        "showMeAction": {
+          "label": "顯示連結點檢視",
+          "observationHint": "引導線會顯示 x 和 y 是怎樣從同一條射線投影出來的。"
+        }
+      },
+      {
+        "id": "polar-qt-radius-effect",
+        "prompt": "如果半徑增加而 θ 保持不變，什麼應該保持不變？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "點應保持相同的方向和象限。"
+          },
+          {
+            "id": "b",
+            "label": "點始終應該移動到新的象限。"
+          },
+          {
+            "id": "c",
+            "label": "x 座標應該保持不變，只有 y 座標改變。"
+          }
+        ],
+        "explanation": "改變半徑會沿同一條射線把點拉近或拉遠，所以 θ 和象限保持不變，改變的是點離原點的距離。"
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一個笛卡爾平面，包含一個點、一條半徑射線、可選的角度弧、虛線坐標引導至軸以及報告同一點的極坐標和笛卡兒坐標值的讀出卡片。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "其中一個圖會顯示 x 和 y 在 θ 從 0 度掃到 360 度時如何一起變化。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "linked-point-view",
+        "label": "參考點檢視",
+        "description": "開啟一個參考點，使其顯示半徑掃描、角度弧和坐標引導。",
+        "setup": {
+          "note": "當你想把 r、θ、x 和 y 都牢牢對準同一個點時，就用這個設定。"
+        }
+      },
+      {
+        "id": "second-quadrant-bridge",
+        "label": "第二象限橋樑",
+        "description": "從第二象限開始，保持半徑不變同時分量符號改變。",
+        "setup": {
+          "note": "這樣可以更容易地閱讀x和y的符號變化而不失去相同的半徑。"
+        }
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "polar-to-x",
+      "label": "由極坐標資料獲得水平分量",
+      "meaning": "x 座標是半徑向量在水平軸上的投影。"
+    },
+    {
+      "id": "polar-to-y",
+      "label": "由極坐標資料獲得垂直分量",
+      "meaning": "y 座標是同一條半徑向量在垂直軸上的投影。"
+    },
+    {
+      "id": "cartesian-back-to-polar",
+      "label": "從x和y恢復極坐標資訊",
+      "meaning": "離原點的距離給出 r，而點的方向給出 θ。",
+      "notes": [
+        "當解釋反正切時仍然需要考慮象限。"
+      ]
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "radius",
+      "label": "半徑",
+      "description": "沿著同一方向將點移動得更遠或更靠近原點。"
+    },
+    {
+      "id": "angle",
+      "label": "角度",
+      "description": "讓點繞著平面轉動，並改變 x 和 y 的符號與大小。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "radius",
+        "label": "半徑"
+      },
+      {
+        "id": "angle",
+        "label": "角度"
+      }
+    ]
+  }
+}

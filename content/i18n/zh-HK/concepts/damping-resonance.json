@@ -1,0 +1,337 @@
+{
+  "title": "阻尼 / 複振動",
+  "shortTitle": "阻尼",
+  "summary": "探索阻尼如何移除能量、驅動頻率如何改變振幅，以及為什麼在自然頻率附近複振動會變得更加劇烈。",
+  "highlights": [
+    "驅動頻率",
+    "振幅響應",
+    "複振動"
+  ],
+  "topic": "振動",
+  "subtopic": "受迫響應",
+  "recommendedNext": [
+    {
+      "slug": "projectile-motion",
+      "reasonLabel": "進行比較"
+    },
+    {
+      "slug": "simple-harmonic-motion",
+      "reasonLabel": "回顧基礎知識"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "阻尼和複振動是使振子看起來真實的兩種力量。阻尼會消散運動，而驅動器可以不斷向系統輸入能量並建立更大的響應。",
+        "此模組同時顯示這兩個故事。在一種模式下，您觀察運動逐漸衰減；在另一種模式下，您掃描驅動頻率並看到響應在複振動附近上升和下降。"
+      ]
+    },
+    "keyIdeas": [
+      "更高的阻尼使瞬態運動更快地消散。",
+      "最強的響應發生在驅動頻率接近自然頻率時。",
+      "少量阻尼會軟化複振動峯值而不是完全消除它。"
+    ],
+    "commonMisconception": {
+      "myth": "複振動總是意味著無限大的振幅尖峯。",
+      "correction": [
+        "真實系統會失去能量，因此阻尼保持振幅有限。",
+        "峯值的確切形狀取決於系統阻尼的程度。"
+      ]
+    },
+    "workedExamples": {
+      "title": "示例",
+      "intro": "使用當前驅動設定，在相關情況下，使用當前檢查時間。數學遵循與活躍振子相同的模式和引數。",
+      "items": [
+        {
+          "id": "current-displacement",
+          "title": "當前執行位移",
+          "prompt": "在 $t = {{timeValue}}\\,\\mathrm{s}$ 時，振子在當前模式中有何位移？",
+          "variables": [
+            {
+              "id": "damping",
+              "label": "阻尼比"
+            },
+            {
+              "id": "naturalFrequency",
+              "label": "自然頻率"
+            },
+            {
+              "id": "driveFrequency",
+              "label": "驅動頻率"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 識別當前模式關係"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 代入當前值"
+            },
+            {
+              "id": "compute",
+              "label": "3. 計算位移"
+            }
+          ],
+          "resultLabel": "當前位移",
+          "applyAction": {
+            "label": "應用自由擺動",
+            "observationHint": "在瞬態模式下，封包會隨著時間縮小，因此同一公式在運動的後期給出較小的位移。"
+          }
+        },
+        {
+          "id": "response-amplitude",
+          "title": "穩態響應振幅",
+          "prompt": "根據當前驅動設定，共振公式預測的穩態響應振幅是多少？",
+          "variables": [
+            {
+              "id": "driveAmplitude",
+              "label": "驅動振幅"
+            },
+            {
+              "id": "damping",
+              "label": "阻尼比"
+            },
+            {
+              "id": "naturalFrequency",
+              "label": "自然頻率"
+            },
+            {
+              "id": "driveFrequency",
+              "label": "驅動頻率"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 識別響應關係"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 代入當前驅動值"
+            },
+            {
+              "id": "compute",
+              "label": "3. 計算響應振幅"
+            }
+          ],
+          "resultLabel": "穩態振幅",
+          "applyAction": {
+            "label": "應用接近共振",
+            "observationHint": "切換到響應曲線並比較當前驅動頻率與峯值標記。當驅動器靠近共振時，振幅會增長。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "如果你增加阻尼但保持驅動頻率不變，共振峯會發生什麼變化？",
+      "prediction": "預測峯高是否會更高、更寬或兩者皆有。",
+      "answer": "峯高變短且更寬。",
+      "explanation": "阻尼更快地移除能量，因此係統無法建立這麼大的振幅。響應也變得對驅動頻率的精確值不那麼敏感。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "選擇最符合運動、瞬態或響應曲線的解釋。重點是從物理學推理，而不是僅僅識別定義。",
+    "questions": [
+      {
+        "id": "dr-qt-1",
+        "prompt": "兩個響應曲線具有相同的自然頻率和驅動振幅。一個峯更低且更寬。最有可能發生了什麼變化？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "阻尼變大了。"
+          },
+          {
+            "id": "b",
+            "label": "自然頻率移動，但阻尼保持不變。"
+          },
+          {
+            "id": "c",
+            "label": "系統完全停止損失能量。"
+          }
+        ],
+        "explanation": "強烈的阻尼更快地移除能量，因此振盪器無法建立這麼大的響應。峯高變短且變得不太精確調，這使得它看起來更寬。",
+        "selectedWrongExplanations": {
+          "b": "移動自然頻率會使峯值左或右移。單獨這樣做不會解釋同一位置中心的更低、更寬形狀。",
+          "c": "沒有能量損失會讓響應更加極端，而不是更加受控制。一個更低、更寬的峯是更多阻尼而非無阻尼的標誌。"
+        },
+        "showMeAction": {
+          "label": "顯示較大的阻尼",
+          "observationHint": "比較較短且更寬的峯值與輕度阻尼的情況，並注意最強響應不如前者那樣戲劇性。"
+        }
+      },
+      {
+        "id": "dr-qt-2",
+        "prompt": "為什麼在振幅-響應圖上靠近自然頻率的地方響應傾向於最大？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "重力在那特定頻率消失。"
+          },
+          {
+            "id": "b",
+            "label": "驅動器和振盪器保持步調一致更有效。"
+          },
+          {
+            "id": "c",
+            "label": "阻尼在那個頻率恰好為零。"
+          }
+        ],
+        "explanation": "靠近自然頻率時，驅動力以幾乎相同的速率向系統新增能量，因此每次推力都更有效地增強運動，使得振幅可以建立。",
+        "selectedWrongExplanations": {
+          "a": "重力並非造成此模型共振峯值的原因。峯值來自驅動器與振盪器之間高效的能量轉移。",
+          "c": "阻尼是系統的特性，而不僅僅在某個特定頻率消失。即使接近共振時，驅動器變得更有效，但損失仍然存在。"
+        },
+        "showMeAction": {
+          "label": "顯示接近共振",
+          "observationHint": "觀察峯值標誌靠近自然頻率時，反應會比遠離共振時大得多。"
+        }
+      },
+      {
+        "id": "dr-qt-3",
+        "prompt": "哪個陳述最能修正阻尼移動振盪器平衡位置的觀念？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "阻尼主要去除能量，因此它改變了運動衰減的速度和反應幅度的大小。"
+          },
+          {
+            "id": "b",
+            "label": "阻尼將零位移線移至新的位置。"
+          },
+          {
+            "id": "c",
+            "label": "阻尼只在反應模式中才重要，而在時間基準運動中則不然。"
+          }
+        ],
+        "explanation": "阻尼改變能量損失，而不影響平衡位置。在瞬態檢視中它縮短了運動，在反應檢視中則降低了並加寬了共振峯值。",
+        "selectedWrongExplanations": {
+          "b": "平衡是振盪器的參考位置。阻尼可以使運動更快地穩定下來，而不移動這個中心點。",
+          "c": "阻尼在兩個檢視中都很重要。它塑造瞬態衰減的時間特徵，同時也限制了接近共振時的穩態反應。"
+        },
+        "showMeAction": {
+          "label": "顯示更強烈的阻尼",
+          "observationHint": "運動更快地消散，但振盪器的中心線位置不變。"
+        }
+      },
+      {
+        "id": "dr-qt-4",
+        "prompt": "此模組中瞬態圖和反應圖之間真正的差異是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它們都顯示同一段時間的歷史，但只是縮放不同而已。"
+          },
+          {
+            "id": "b",
+            "label": "反應圖是一個從某個瞬間擷取的位置圖。"
+          },
+          {
+            "id": "c",
+            "label": "瞬態圖跟隨一個運動透過時間，而反應圖比較多個驅動頻率下的穩態幅度。"
+          }
+        ],
+        "explanation": "瞬態檢視是一個時間故事，描述一個振盪器的運動。反應圖並非時間軸上的截圖，而是比較不同驅動頻率下的穩態幅度。",
+        "selectedWrongExplanations": {
+          "a": "反應圖不是縮放後的時間歷史。它的水平軸是驅動頻率，因此它回答的是完全不同的問題。",
+          "b": "反應曲線上的一個點是一個執行條件，而不是一個週期內位置的快照。"
+        },
+        "showMeAction": {
+          "label": "顯示反應檢視",
+          "observationHint": "注意即使在時間上可以檢查舞台，但反應圖本身是關於不同頻率下幅度如何變化的比較。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬交替展示同一系統的兩種檢視：基於時間的阻尼運動和掃描不同頻率下的頻率響應檢視。",
+        "控制項明確地展現了物理意義，讓使用者能夠分辨是在改變阻尼、自然頻率還是外部驅動力的強度和速率。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "瞬態圖顯示在阻尼去除能量後運動如何迅速穩定下來。",
+        "反應圖顯示驅動器與共振有多接近，以及阻尼如何改變峯值的形狀。"
+      ]
+    }
+  },
+  "equations": [
+    {
+      "id": "damped-oscillator",
+      "label": "受迫阻尼振盪器",
+      "meaning": "恢復力、阻尼力和外部驅動力作用在同一系統上。",
+      "notes": [
+        "阻尼項去除能量。",
+        "驅動項在選擇的頻率下新增能量。"
+      ]
+    },
+    {
+      "id": "natural-frequency",
+      "label": "自然頻率",
+      "meaning": "當沒有外部驅動時，系統偏好的頻率。",
+      "notes": [
+        "這是共振的參考頻率。"
+      ]
+    },
+    {
+      "id": "resonance-response",
+      "label": "響應振幅",
+      "meaning": "一個簡化的振幅曲線，在自然頻率附近峯值，並且取決於阻尼。",
+      "notes": [
+        "較大的阻尼降低峯值並使響應展寬。"
+      ]
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "dampingRatio",
+      "label": "阻尼比",
+      "description": "控制能量移除的速度，這會縮短瞬態過程並降低共振峯值。"
+    },
+    {
+      "id": "naturalFrequency",
+      "label": "自然頻率",
+      "description": "設定系統的振動偏好速率，成為共振的參考點。"
+    },
+    {
+      "id": "driveFrequency",
+      "label": "驅動頻率",
+      "description": "移動外部推力的速率，因此響應曲線相對於自然頻率和驅動運動會發生變化。"
+    },
+    {
+      "id": "driveAmplitude",
+      "label": "驅動振幅",
+      "description": "控制外部驅動器的強度，使得振動和響應振幅一起放大或縮小"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "dampingRatio",
+        "label": "阻尼比"
+      },
+      {
+        "id": "naturalFrequency",
+        "label": "自然頻率"
+      },
+      {
+        "id": "driveFrequency",
+        "label": "驅動頻率"
+      },
+      {
+        "id": "driveAmplitude",
+        "label": "驅動振幅"
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "response",
+      "label": "振幅響應"
+    }
+  ]
+}

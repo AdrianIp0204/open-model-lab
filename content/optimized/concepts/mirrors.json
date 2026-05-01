@@ -1,0 +1,286 @@
+{
+"sections": {
+"explanation": {
+"paragraphs": [
+"Every mirror image starts from the same rule: the angle of incidence equals the angle of reflection. If the reflected rays really meet, the image is real. If the reflected rays spread apart but their backward extensions meet, the image is virtual.",
+"This bench keeps plane, concave, and convex mirrors on one shared geometry. As you change mirror type, focal-length magnitude, object distance, and object height, the stage, signed image distance, and magnification all update together. That lets you connect what the rays do, where the image forms, and whether it is upright or inverted without treating them as separate rules."
+]
+},
+"keyIdeas": [
+"A plane mirror gives a virtual upright image the same distance behind the mirror as the object is in front.",
+"For a concave mirror, an object outside F gives a real inverted image in front of the mirror, while an object inside F gives a virtual upright image behind it.",
+"A convex mirror always gives a virtual upright reduced image for a real object in front.",
+"The sign of d_i tells which side of the mirror the image is on, and the sign of m tells whether the image is upright or inverted."
+],
+"commonMisconception": {
+"myth": "A virtual image is not a real image because no light actually reaches it.",
+"correction": [
+"A virtual image is still a real geometric result. The reflected rays do not cross there physically, but their backward extensions meet there consistently.",
+"That is why your eye still receives the reflected light in a way that makes the image appear at a definite location behind the mirror."
+]
+},
+"workedExamples": {
+"title": "Live mirror checks",
+"intro": "These examples use the current mirror, object position, and object height from the live bench, so each calculation matches the ray diagram you are actually seeing.",
+"items": [
+{
+"id": "solve-image-distance",
+"title": "Find the signed image distance",
+"prompt": "For the current {{mirrorFamilyValue}} mirror, what signed image distance does the mirror equation predict, and what does the sign tell you about the image?",
+"steps": [
+{
+"id": "relation",
+"label": "1. Start with the mirror equation"
+},
+{
+"id": "rearrange",
+"label": "2. Solve for the signed image distance"
+},
+{
+"id": "result",
+"label": "3. Interpret the sign of the result"
+}
+],
+"resultLabel": "Signed image-distance result",
+"applyAction": {
+"label": "Apply plane-mirror case",
+"observationHint": "For a plane mirror, the image stays the same distance behind the mirror as the object is in front, so the sign comes from the image being virtual rather than from any crossing of real rays."
+}
+},
+{
+"id": "solve-image-height",
+"title": "Find the image height from magnification",
+"prompt": "For the current mirror, what image height and orientation does magnification predict?",
+"steps": [
+{
+"id": "relation",
+"label": "1. Start with the magnification relation"
+},
+{
+"id": "compute-m",
+"label": "2. Calculate the signed magnification"
+},
+{
+"id": "compute-hi",
+"label": "3. Use m to find the image height"
+}
+],
+"resultLabel": "Image-height result",
+"applyAction": {
+"label": "Apply concave mirror inside focus",
+"observationHint": "Positive magnification means upright, and a value larger than 1 means the virtual image is enlarged."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "A concave mirror has the object outside F, and you slowly move the object inward. What should happen just before the object crosses inside the focal point, and what changes after it crosses?",
+"prediction": "Decide what happens to the image distance, image type, and orientation as the object passes through F.",
+"explanation": "As the object approaches F from outside, the real image moves farther away and the magnitude of the magnification grows. Once the object crosses inside F, the reflected rays no longer meet in front of the mirror, so the image flips to a virtual upright image behind the mirror."
+}
+},
+"equations": [
+{
+"id": "mirror-equation",
+"meaning": "Relates signed focal length, object distance, and image distance for the current mirror.",
+"notes": [
+"For a plane mirror, the focal length is effectively infinite, so the relation reduces to $d_i = -d_o$ and the image sits the same distance behind the mirror as the object is in front."
+]
+},
+{
+"id": "magnification",
+"meaning": "The sign of m gives orientation, and the magnitude |m| gives the size ratio."
+}
+],
+"variableLinks": [
+{
+"id": "focal-length",
+"description": "Sets how strongly a curved mirror redirects the rays. In this module, concave uses positive f and convex uses negative f."
+},
+{
+"id": "object-distance",
+"description": "Moves the object toward or away from the mirror. For a concave mirror, crossing F changes the image from real and inverted to virtual and upright."
+},
+{
+"id": "object-height",
+"description": "Changes only the object size. The image height scales by the same magnification factor, but the image distance is still set by the mirror geometry."
+}
+],
+"simulation": {
+"ui": {
+"initialGraphId": "image-map",
+"primaryGraphIds": [
+"image-map",
+"magnification"
+],
+"primaryControlIds": [
+"curved",
+"concave",
+"objectDistance",
+"focalLength"
+],
+"primaryPresetIds": [
+"plane-reference",
+"concave-real",
+"concave-inside-focus",
+"convex-reference"
+]
+},
+"controls": [
+{
+"id": "curved",
+"description": "Turn this off for a plane mirror. Leave it on and use Concave mirror to switch between concave and convex cases with the same focal-length magnitude."
+},
+{
+"id": "concave",
+"description": "With Curved mirror on, turn this off to switch from concave to convex while keeping the same |f|."
+},
+{
+"id": "objectDistance",
+"description": "Moves the object along the principal axis. For a concave mirror, crossing F changes the image from real to virtual."
+},
+{
+"id": "objectHeight",
+"description": "Changes only the object size, so the image height changes by the same magnification factor without moving the image point."
+}
+],
+"presets": [
+{
+"id": "concave-real",
+"description": "A concave mirror with the object outside F, giving a real inverted image in front of the mirror."
+},
+{
+"id": "concave-inside-focus",
+"description": "A concave mirror with the object inside F, giving a virtual upright enlarged image behind the mirror."
+},
+{
+"id": "convex-reference",
+"description": "A convex mirror with a virtual upright reduced image behind the mirror."
+}
+],
+"overlays": [
+{
+"id": "equalAngles",
+"whatToNotice": [
+"Every mirror on this page still obeys the same equal-angle reflection rule at the surface."
+],
+"whyItMatters": "The different image behaviors come from how those reflected rays combine, not from a different reflection law."
+},
+{
+"id": "focusMarkers",
+"whatToNotice": [
+"For a concave mirror, crossing F changes the image from real to virtual."
+],
+"whyItMatters": "The focal markers anchor the standard mirror regions directly on the stage."
+},
+{
+"id": "principalRays",
+"whatToNotice": [
+"Real images come from reflected rays that actually meet, while virtual images come from backward extensions."
+],
+"whyItMatters": "It ties the sign of d_i to visible ray behavior instead of to a memorized sign rule."
+},
+{
+"id": "distanceGuide",
+"shortDescription": "Shows the signed distances and the object-image height comparison used in magnification.",
+"whatToNotice": [
+"The sign of m tells orientation, while |m| tells how much the image size has changed."
+],
+"whyItMatters": "It links the stage directly to the magnification relation."
+}
+]
+},
+"graphs": [
+{
+"id": "image-map",
+"description": "Shows signed image distance against object distance for the current mirror. Positive values are real images in front of the mirror, and negative values are virtual images behind it."
+},
+{
+"id": "magnification",
+"description": "Shows how m changes with object distance. Negative values are inverted images, positive values are upright images, and |m| gives the image-size scale."
+}
+],
+"noticePrompts": {
+"intro": "Use the live prompt to connect the law of reflection, the ray construction, and the graph branch for the current mirror.",
+"items": [
+{
+"id": "mi-notice-equal-angles",
+"text": "Notice that every mirror on this page still obeys the same equal-angle rule at the surface. The different image behaviors come from where the reflected rays do or do not meet.",
+"whyItMatters": "Mirror type changes the geometry built from reflection, not the reflection law itself."
+},
+{
+"id": "mi-notice-graph-preview",
+"text": "Notice that the mirror graphs are object-distance based, not time based. Hovering a point previews a different geometry immediately, not a later moment.",
+"whyItMatters": "It keeps the graph honest: you are comparing families of setups, not stepping through time."
+},
+{
+"id": "mi-notice-concave-sign-flip",
+"text": "Notice that when a concave-mirror object crosses inside F, both d_i and m change sign together.",
+"whyItMatters": "That shared sign flip is the clean signal that the image has changed from real inverted to virtual upright."
+},
+{
+"id": "mi-notice-plane-distance",
+"text": "Notice that a plane mirror places the image the same distance behind the mirror as the object is in front. The image is not inside the surface; it is set by the backward extensions of the reflected rays.",
+"whyItMatters": "It separates the geometric image location from the physical mirror material."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict the branch or orientation change before you apply it. Then compare the sign of d_i and m with the ray diagram.",
+"items": [
+{
+"id": "mi-predict-plane-to-concave",
+"explanation": "At this object distance, the concave mirror is outside the focal length, so the reflected rays meet in front of the mirror and form a real inverted image."
+},
+{
+"id": "mi-predict-cross-focus",
+"explanation": "Inside F, the reflected rays no longer meet in front of the mirror. Their backward extensions meet behind the mirror instead, so the image becomes virtual and upright.",
+"observationHint": "The dashed backward extensions replace the real ray intersection, and both d_i and m flip sign."
+},
+{
+"id": "mi-predict-convex",
+"explanation": "A convex mirror always sends the image to the virtual side for a real object in front of it and keeps the image upright with magnification below one."
+}
+]
+},
+"challengeMode": {
+"intro": "Use the real mirror controls and signed graphs to hit image targets. The checks read the same d_i and m that the stage is already showing."
+},
+"quickTest": {
+"intro": "Use the ray behavior, the sign of d_i, and the sign of m together. The goal is to reason from the live mirror model.",
+"questions": [
+{
+"id": "mi-qt-plane",
+"explanation": "A plane mirror gives a virtual image found by backward extension. The geometry is symmetric, so the image is upright, the same size, and equally far behind the mirror."
+},
+{
+"id": "mi-qt-screen",
+"prompt": "Which mirror setup can project an image onto a screen in front of the mirror?",
+"explanation": "Only a real image can land on a screen, and the concave mirror produces that when the object is outside F. The plane and convex cases stay virtual."
+},
+{
+"id": "mi-qt-cross-focus",
+"explanation": "Crossing inside F changes the reflected-ray geometry. The rays no longer meet in front of the mirror, and their backward extensions meet behind the mirror instead."
+},
+{
+"id": "mi-qt-convex",
+"prompt": "What is always true for a convex mirror with a real object in front of it?",
+"explanation": "A convex mirror always keeps the image on the virtual side for a real object in this setup. The image stays upright and reduced because the reflected rays spread and only their backward extensions meet."
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows a mirror at the center of the principal axis, an object arrow on the left, and an image arrow that moves according to the selected mirror type. Depending on the setup, the image appears in front of the mirror as a real inverted image or behind the mirror as a virtual upright image.",
+"Optional overlays show the equal-angle cue at the pole, the focal markers for curved mirrors, the principal rays, and the distance-and-height guide used in magnification."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The object-image graph plots signed image distance against object distance for the current mirror family and focal-length magnitude.",
+"The magnification graph plots m against object distance, so the sign gives orientation and the magnitude gives the image-size scale without leaving the ray diagram."
+]
+}
+}
+}

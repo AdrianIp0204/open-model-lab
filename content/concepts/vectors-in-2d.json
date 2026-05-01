@@ -1,0 +1,1114 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "readNext",
+        "title": "Bridge vectors into motion"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Use one coordinate plane to combine, subtract, and scale arrows so the picture and component arithmetic tell the same vector story.",
+    "keyTakeaway": "A 2D vector is one object with two equivalent views: an arrow on the plane and an ordered pair of x- and y-components.",
+    "whyItMatters": "This is the foundation for forces, motion, complex numbers, matrices, and any situation where two directions have to work together."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "A 2D vector becomes easier to trust when the algebra and geometry stay on the same plane. This module keeps two vectors, a scalar multiplier, and the resultant visible together so addition, subtraction, and scaling all read as actual movement on one coordinate system.",
+        "The important habit is to treat a vector as both a whole arrow and an ordered pair of components. The plane shows the direction and length, while the component readout and response graphs show the same object in algebraic form."
+      ]
+    },
+    "keyIdeas": [
+      "A vector in 2D has both magnitude and direction, and its components record the same object in coordinate form.",
+      "Vector addition and subtraction can be read geometrically with tip-to-tail arrows or algebraically by combining components.",
+      "Scalar multiplication changes the size of a vector, and a negative scalar flips its direction through the origin."
+    ],
+    "commonMisconception": {
+      "myth": "Vector subtraction needs a separate geometric rule from vector addition.",
+      "correction": [
+        "Subtraction is still addition, but with the opposite vector.",
+        "That is why the same tip-to-tail picture works once B is reversed to -B."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked examples",
+      "intro": "Use the current vectors and scalar from the plane. The same live state drives the stage, the response graphs, and these substitutions.",
+      "items": [
+        {
+          "id": "current-resultant-components",
+          "title": "Compute the resultant components",
+          "prompt": "For the current setup, what components does the resultant vector have?",
+          "variables": [
+            {
+              "id": "scalar",
+              "variableId": "scalar",
+              "symbol": "s",
+              "label": "Scalar",
+              "valueKey": "scalarValue"
+            },
+            {
+              "id": "ax",
+              "variableId": "ax",
+              "symbol": "A_x",
+              "label": "A x-component",
+              "valueKey": "axValue"
+            },
+            {
+              "id": "ay",
+              "variableId": "ay",
+              "symbol": "A_y",
+              "label": "A y-component",
+              "valueKey": "ayValue"
+            },
+            {
+              "id": "bx",
+              "variableId": "bx",
+              "symbol": "B_x",
+              "label": "B x-component",
+              "valueKey": "bxValue"
+            },
+            {
+              "id": "by",
+              "variableId": "by",
+              "symbol": "B_y",
+              "label": "B y-component",
+              "valueKey": "byValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "scale-a",
+              "label": "1. Scale vector A first",
+              "template": "The scaled first vector is sA = <{{scaledAxValue}}, {{scaledAyValue}}>."
+            },
+            {
+              "id": "combine-b",
+              "label": "2. Combine it with the effective second vector",
+              "template": "The current operation is sA {{operationSymbol}} B, so the second piece contributes <{{effectiveBxValue}}, {{effectiveByValue}}>."
+            },
+            {
+              "id": "result-components",
+              "label": "3. Add the components",
+              "template": "That gives result = <{{scaledAxValue}} + {{effectiveBxValue}}, {{scaledAyValue}} + {{effectiveByValue}}> = <{{resultXValue}}, {{resultYValue}}>."
+            }
+          ],
+          "resultLabel": "Current resultant",
+          "resultTemplate": "$\\vec{r} = \\langle {{resultXValue}}, {{resultYValue}} \\rangle$",
+          "interpretationTemplate": "{{vectorInterpretation}}",
+          "applyAction": {
+            "label": "Apply a subtraction case",
+            "presetId": "difference",
+            "observationHint": "The second arrow is reversed before it is translated tip-to-tail, so subtraction still reads like vector addition on the same plane.",
+            "highlightedControlIds": [
+              "scalar",
+              "subtractMode"
+            ],
+            "highlightedGraphIds": [
+              "result-components"
+            ],
+            "highlightedOverlayIds": [
+              "tipToTail",
+              "componentGuides"
+            ]
+          }
+        },
+        {
+          "id": "scaled-vector-before-combination",
+          "title": "Read the effect of scalar multiplication",
+          "prompt": "What does the current scalar do to vector A before the combination step?",
+          "variables": [
+            {
+              "id": "scalar",
+              "variableId": "scalar",
+              "symbol": "s",
+              "label": "Scalar",
+              "valueKey": "scalarValue"
+            },
+            {
+              "id": "ax",
+              "variableId": "ax",
+              "symbol": "A_x",
+              "label": "A x-component",
+              "valueKey": "axValue"
+            },
+            {
+              "id": "ay",
+              "variableId": "ay",
+              "symbol": "A_y",
+              "label": "A y-component",
+              "valueKey": "ayValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "start-a",
+              "label": "1. Start from vector A",
+              "template": "The original vector is A = <{{axValue}}, {{ayValue}}>."
+            },
+            {
+              "id": "scale-components",
+              "label": "2. Multiply each component by the scalar",
+              "template": "Scaling gives sA = <{{scalarValue}}({{axValue}}), {{scalarValue}}({{ayValue}})> = <{{scaledAxValue}}, {{scaledAyValue}}>."
+            },
+            {
+              "id": "read-size",
+              "label": "3. Compare the new size and direction",
+              "template": "The scaled vector has magnitude {{scaledMagnitudeValue}} before any combination with B happens."
+            }
+          ],
+          "resultLabel": "Current scaled vector",
+          "resultTemplate": "$s\\vec{A} = \\langle {{scaledAxValue}}, {{scaledAyValue}} \\rangle$",
+          "interpretationTemplate": "{{magnitudeInterpretation}}",
+          "applyAction": {
+            "label": "Apply a flipped scale",
+            "presetId": "flipped-scale",
+            "observationHint": "A negative scalar flips A through the origin before changing its size, and the resultant graph updates from that new starting arrow.",
+            "highlightedControlIds": [
+              "scalar"
+            ],
+            "highlightedGraphIds": [
+              "result-magnitude"
+            ],
+            "highlightedOverlayIds": [
+              "scaledVector"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Adjust the vectors until the resultant is small in magnitude even though neither vector is small by itself.",
+      "prediction": "Decide whether you need stronger cancellation from the second vector, a flipped scalar, or both before you test it.",
+      "answer": "You need the combined x- and y-components to nearly cancel so the resultant lands close to the origin.",
+      "explanation": "That is the cleanest way to see that vector addition is component bookkeeping and geometry at the same time. The arrows can look substantial while the net result stays small if their components oppose each other."
+    }
+  },
+  "equations": [
+    {
+      "id": "component-form",
+      "latex": "\\vec{A} = \\langle A_x, A_y \\rangle, \\quad \\vec{B} = \\langle B_x, B_y \\rangle",
+      "label": "Component form",
+      "meaning": "Records each vector as an ordered pair on the same 2D plane."
+    },
+    {
+      "id": "resultant-rule",
+      "latex": "\\vec{r} = s\\vec{A} \\pm \\vec{B} = \\langle sA_x \\pm B_x,\\; sA_y \\pm B_y \\rangle",
+      "label": "Resultant rule",
+      "meaning": "Shows that addition and subtraction are both component-wise once the effective second vector is chosen."
+    },
+    {
+      "id": "magnitude-rule",
+      "latex": "|\\vec{r}| = \\sqrt{r_x^2 + r_y^2}",
+      "label": "Resultant magnitude",
+      "meaning": "Reconstructs the vector length from the perpendicular components."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "ax",
+      "symbol": "A_x",
+      "label": "A x-component",
+      "param": "ax",
+      "tone": "teal",
+      "description": "Moves the horizontal component of vector A while keeping the same geometric arrow on the plane.",
+      "equationIds": [
+        "component-form",
+        "resultant-rule"
+      ],
+      "graphIds": [
+        "result-components",
+        "result-magnitude"
+      ],
+      "overlayIds": [
+        "scaledVector",
+        "tipToTail"
+      ]
+    },
+    {
+      "id": "ay",
+      "symbol": "A_y",
+      "label": "A y-component",
+      "param": "ay",
+      "tone": "teal",
+      "description": "Moves the vertical component of vector A on the same plane.",
+      "equationIds": [
+        "component-form",
+        "resultant-rule"
+      ],
+      "graphIds": [
+        "result-components",
+        "result-magnitude"
+      ],
+      "overlayIds": [
+        "scaledVector",
+        "tipToTail"
+      ]
+    },
+    {
+      "id": "bx",
+      "symbol": "B_x",
+      "label": "B x-component",
+      "param": "bx",
+      "tone": "coral",
+      "description": "Sets the horizontal contribution of vector B before addition or subtraction.",
+      "equationIds": [
+        "component-form",
+        "resultant-rule"
+      ],
+      "graphIds": [
+        "result-components"
+      ],
+      "overlayIds": [
+        "tipToTail"
+      ]
+    },
+    {
+      "id": "by",
+      "symbol": "B_y",
+      "label": "B y-component",
+      "param": "by",
+      "tone": "coral",
+      "description": "Sets the vertical contribution of vector B before addition or subtraction.",
+      "equationIds": [
+        "component-form",
+        "resultant-rule"
+      ],
+      "graphIds": [
+        "result-components"
+      ],
+      "overlayIds": [
+        "tipToTail"
+      ]
+    },
+    {
+      "id": "scalar",
+      "symbol": "s",
+      "label": "Scalar",
+      "param": "scalar",
+      "tone": "amber",
+      "description": "Scales vector A before it combines with B, and a negative value flips A through the origin.",
+      "equationIds": [
+        "resultant-rule",
+        "magnitude-rule"
+      ],
+      "graphIds": [
+        "result-components",
+        "result-magnitude"
+      ],
+      "overlayIds": [
+        "scaledVector",
+        "tipToTail"
+      ]
+    },
+    {
+      "id": "subtract-mode",
+      "symbol": "-",
+      "label": "Subtract mode",
+      "param": "subtractMode",
+      "tone": "sky",
+      "description": "Replaces B with its opposite so subtraction can be read with the same tip-to-tail geometry as addition.",
+      "equationIds": [
+        "resultant-rule"
+      ],
+      "graphIds": [
+        "result-components",
+        "result-magnitude"
+      ],
+      "overlayIds": [
+        "tipToTail"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "ax": 3,
+      "ay": 2,
+      "bx": 1.5,
+      "by": 3,
+      "scalar": 1,
+      "subtractMode": false,
+      "componentGuides": true,
+      "tipToTail": true,
+      "scaledVector": true
+    },
+    "ui": {
+      "initialGraphId": "result-components",
+      "primaryGraphIds": [
+        "result-components",
+        "result-magnitude"
+      ],
+      "primaryControlIds": [
+        "ax",
+        "ay",
+        "bx",
+        "by",
+        "scalar",
+        "subtract-mode"
+      ],
+      "primaryPresetIds": [
+        "balanced-sum",
+        "difference",
+        "flipped-scale",
+        "near-cancel"
+      ]
+    },
+    "controls": [
+      {
+        "id": "ax",
+        "kind": "slider",
+        "label": "A x-component",
+        "param": "ax",
+        "min": -5,
+        "max": 5,
+        "step": 0.1,
+        "description": "Set the horizontal component of vector A."
+      },
+      {
+        "id": "ay",
+        "kind": "slider",
+        "label": "A y-component",
+        "param": "ay",
+        "min": -5,
+        "max": 5,
+        "step": 0.1,
+        "description": "Set the vertical component of vector A."
+      },
+      {
+        "id": "bx",
+        "kind": "slider",
+        "label": "B x-component",
+        "param": "bx",
+        "min": -5,
+        "max": 5,
+        "step": 0.1,
+        "description": "Set the horizontal component of vector B."
+      },
+      {
+        "id": "by",
+        "kind": "slider",
+        "label": "B y-component",
+        "param": "by",
+        "min": -5,
+        "max": 5,
+        "step": 0.1,
+        "description": "Set the vertical component of vector B."
+      },
+      {
+        "id": "scalar",
+        "kind": "slider",
+        "label": "Scalar on A",
+        "param": "scalar",
+        "min": -2.5,
+        "max": 2.5,
+        "step": 0.1,
+        "description": "Stretch, compress, or flip A before it combines with B."
+      },
+      {
+        "id": "subtract-mode",
+        "kind": "toggle",
+        "label": "Subtract B",
+        "param": "subtractMode",
+        "description": "Show subtraction as adding the opposite vector."
+      }
+    ],
+    "presets": [
+      {
+        "id": "balanced-sum",
+        "label": "Balanced sum",
+        "description": "A clean first-quadrant addition case.",
+        "values": {
+          "ax": 3,
+          "ay": 2,
+          "bx": 1.5,
+          "by": 3,
+          "scalar": 1,
+          "subtractMode": false
+        }
+      },
+      {
+        "id": "difference",
+        "label": "Difference",
+        "description": "A subtraction case where B is reversed before the combination.",
+        "values": {
+          "ax": 3,
+          "ay": 2,
+          "bx": 2.5,
+          "by": 1.5,
+          "scalar": 1,
+          "subtractMode": true
+        }
+      },
+      {
+        "id": "flipped-scale",
+        "label": "Flipped scale",
+        "description": "A negative scalar that flips A through the origin before the sum.",
+        "values": {
+          "ax": 2.8,
+          "ay": 1.8,
+          "bx": 1,
+          "by": 2.6,
+          "scalar": -1.4,
+          "subtractMode": false
+        }
+      },
+      {
+        "id": "near-cancel",
+        "label": "Near cancel",
+        "description": "A case where the resultant lands close to the origin.",
+        "values": {
+          "ax": 3,
+          "ay": 2,
+          "bx": -2.8,
+          "by": -2.1,
+          "scalar": 1,
+          "subtractMode": false
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "componentGuides",
+        "label": "Component guides",
+        "shortDescription": "Project the resultant onto the x- and y-axes.",
+        "whatToNotice": [
+          "The same arrow can be read geometrically on the plane and algebraically through its components."
+        ],
+        "whyItMatters": "It keeps the coordinate and geometric views of the resultant synchronized.",
+        "relatedControls": [
+          "ax",
+          "ay",
+          "bx",
+          "by",
+          "scalar"
+        ],
+        "relatedGraphTabs": [
+          "result-components"
+        ],
+        "relatedEquationVariables": [
+          "ax",
+          "ay",
+          "bx",
+          "by"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "tipToTail",
+        "label": "Tip-to-tail view",
+        "shortDescription": "Translate the second vector to the tip of the scaled first vector.",
+        "whatToNotice": [
+          "Addition and subtraction both use the same picture once the effective second vector is chosen."
+        ],
+        "whyItMatters": "It turns vector combination into a visible geometric construction instead of a rule to memorize.",
+        "relatedControls": [
+          "bx",
+          "by",
+          "subtractMode"
+        ],
+        "relatedGraphTabs": [
+          "result-components"
+        ],
+        "relatedEquationVariables": [
+          "bx",
+          "by",
+          "subtract-mode"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "scaledVector",
+        "label": "Scaled A",
+        "shortDescription": "Show the scaled version of A before it combines with B.",
+        "whatToNotice": [
+          "A positive scalar keeps the direction of A, while a negative scalar flips it through the origin."
+        ],
+        "whyItMatters": "It isolates scalar multiplication from the later addition or subtraction step.",
+        "relatedControls": [
+          "ax",
+          "ay",
+          "scalar"
+        ],
+        "relatedGraphTabs": [
+          "result-magnitude",
+          "result-components"
+        ],
+        "relatedEquationVariables": [
+          "ax",
+          "ay",
+          "scalar"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "result-components",
+      "label": "Result components vs scalar",
+      "xLabel": "scalar s",
+      "yLabel": "component value",
+      "series": [
+        "result-x",
+        "result-y"
+      ],
+      "description": "Shows how the x- and y-components of the resultant change as the scalar on A varies."
+    },
+    {
+      "id": "result-magnitude",
+      "label": "Result magnitude vs scalar",
+      "xLabel": "scalar s",
+      "yLabel": "|result|",
+      "series": [
+        "result-magnitude"
+      ],
+      "description": "Shows how the size of the resultant changes as the scaled first vector moves."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the live prompts to keep the plane picture and the component algebra locked together.",
+    "items": [
+      {
+        "id": "v2d-notice-components",
+        "text": "Drag either endpoint and compare the arrow on the plane with the ordered-pair readout. They are two views of the same vector.",
+        "type": "observation",
+        "relatedControls": [
+          "ax",
+          "ay",
+          "bx",
+          "by"
+        ],
+        "relatedGraphTabs": [
+          "result-components"
+        ],
+        "relatedOverlays": [
+          "componentGuides"
+        ],
+        "relatedEquationVariables": [
+          "ax",
+          "ay",
+          "bx",
+          "by"
+        ]
+      },
+      {
+        "id": "v2d-notice-tip-to-tail",
+        "text": "Turn subtraction on and watch B reverse before it is translated tip-to-tail. The geometric rule has not changed; only the effective second vector has.",
+        "type": "graph-reading",
+        "relatedControls": [
+          "subtractMode"
+        ],
+        "relatedGraphTabs": [
+          "result-components"
+        ],
+        "relatedOverlays": [
+          "tipToTail"
+        ],
+        "relatedEquationVariables": [
+          "subtract-mode"
+        ]
+      },
+      {
+        "id": "v2d-notice-negative-scalar",
+        "text": "Move the scalar through zero and notice when the scaled first vector flips through the origin. The magnitude graph stays nonnegative even while direction changes.",
+        "type": "try-this",
+        "relatedControls": [
+          "scalar"
+        ],
+        "relatedGraphTabs": [
+          "result-components",
+          "result-magnitude"
+        ],
+        "relatedOverlays": [
+          "scaledVector"
+        ],
+        "relatedEquationVariables": [
+          "scalar"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Predict",
+    "intro": "Predict the vector change before you flip the operation or the scalar.",
+    "items": [
+      {
+        "id": "v2d-predict-negative-scalar",
+        "prompt": "If the scalar on A changes from positive to negative while its magnitude stays above 1, what is the most direct visual effect?",
+        "scenarioLabel": "Flip the scalar",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The scaled version of A flips through the origin and changes size."
+          },
+          {
+            "id": "b",
+            "label": "Vector B is forced to reverse instead."
+          },
+          {
+            "id": "c",
+            "label": "The resultant magnitude must become negative."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A negative scalar flips the first vector through the origin, and its magnitude still scales the length of that arrow.",
+        "observationHint": "Watch the amber scaled vector first, then see how the blue resultant responds.",
+        "apply": {
+          "presetId": "flipped-scale"
+        },
+        "highlightedControls": [
+          "scalar"
+        ],
+        "highlightedGraphs": [
+          "result-components",
+          "result-magnitude"
+        ],
+        "highlightedOverlays": [
+          "scaledVector"
+        ]
+      },
+      {
+        "id": "v2d-predict-subtract",
+        "prompt": "If subtract mode turns on while every component stays the same, what should happen to the second vector in the tip-to-tail picture?",
+        "scenarioLabel": "Turn on subtraction",
+        "choices": [
+          {
+            "id": "a",
+            "label": "B should reverse direction so the picture becomes sA + (-B)."
+          },
+          {
+            "id": "b",
+            "label": "A should disappear because subtraction removes the first vector."
+          },
+          {
+            "id": "c",
+            "label": "Only the magnitude graph changes while the plane stays the same."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Vector subtraction is addition with the opposite vector, so the geometric picture reverses B before it is translated.",
+        "observationHint": "Watch the coral translated arrow and the resultant update together.",
+        "apply": {
+          "presetId": "difference"
+        },
+        "highlightedControls": [
+          "subtractMode"
+        ],
+        "highlightedGraphs": [
+          "result-components"
+        ],
+        "highlightedOverlays": [
+          "tipToTail",
+          "componentGuides"
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Use the plane, the component readout, and the response graphs together. These checks are about making the geometric and algebraic views agree.",
+    "questions": [
+      {
+        "id": "v2d-qt-components",
+        "type": "reasoning",
+        "prompt": "Which statement is the cleanest description of a 2D vector?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It can be read as one arrow on the plane and as one ordered pair of components."
+          },
+          {
+            "id": "b",
+            "label": "Its direction matters on the plane, but its components are only approximations."
+          },
+          {
+            "id": "c",
+            "label": "It needs separate rules for geometry and algebra because those are different objects."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "That is the core idea of this concept: the arrow and the ordered pair are two views of the same vector.",
+        "selectedWrongExplanations": {
+          "b": "Components are exact coordinate descriptions, not approximations.",
+          "c": "The two views are intentionally linked, not separated."
+        },
+        "showMeAction": {
+          "label": "Show the same vector two ways",
+          "presetId": "balanced-sum",
+          "observationHint": "The plane and the readout are describing the same arrows.",
+          "highlightedControlIds": [
+            "ax",
+            "ay",
+            "bx",
+            "by"
+          ],
+          "highlightedGraphIds": [
+            "result-components"
+          ],
+          "highlightedOverlayIds": [
+            "componentGuides"
+          ]
+        }
+      },
+      {
+        "id": "v2d-qt-subtraction",
+        "type": "misconception-check",
+        "prompt": "What is the most honest way to think about vector subtraction on this bench?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It is addition with the opposite vector."
+          },
+          {
+            "id": "b",
+            "label": "It uses a completely different picture from vector addition."
+          },
+          {
+            "id": "c",
+            "label": "It only changes the readout, not the geometry."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "That is why the tip-to-tail picture still works: subtraction is handled by reversing B first.",
+        "selectedWrongExplanations": {
+          "b": "The same plane picture still works once the second vector is replaced by its opposite.",
+          "c": "Turning on subtraction changes the geometry directly because the second arrow flips."
+        },
+        "showMeAction": {
+          "label": "Show subtraction as adding the opposite",
+          "presetId": "difference",
+          "observationHint": "B reverses first, then the same tip-to-tail construction builds the resultant.",
+          "highlightedControlIds": [
+            "subtractMode"
+          ],
+          "highlightedGraphIds": [
+            "result-components"
+          ],
+          "highlightedOverlayIds": [
+            "tipToTail"
+          ]
+        }
+      },
+      {
+        "id": "v2d-qt-scalar",
+        "type": "variable-effect",
+        "prompt": "If the scalar becomes negative while A is not the zero vector, what must happen?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The scaled version of A flips direction through the origin."
+          },
+          {
+            "id": "b",
+            "label": "The magnitude graph must dip below zero."
+          },
+          {
+            "id": "c",
+            "label": "Vector B must inherit the same sign change."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A negative scalar reverses the direction of A while still scaling its size. Magnitude remains nonnegative.",
+        "selectedWrongExplanations": {
+          "b": "Magnitude graphs plot size, so they stay at or above zero.",
+          "c": "The scalar only acts on A in this bench."
+        },
+        "showMeAction": {
+          "label": "Show the flipped scale",
+          "presetId": "flipped-scale",
+          "observationHint": "The amber scaled vector flips through the origin before the sum is taken.",
+          "highlightedControlIds": [
+            "scalar"
+          ],
+          "highlightedGraphIds": [
+            "result-magnitude"
+          ],
+          "highlightedOverlayIds": [
+            "scaledVector"
+          ]
+        }
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the plane like a real vector-combination bench. The goal is to make component cancellation visible while the vectors themselves stay substantial.",
+    "items": [
+      {
+        "id": "v2d-ch-near-zero-result",
+        "title": "Near-zero resultant",
+        "style": "parameter-match",
+        "prompt": "Adjust the vectors until the resultant lands very close to the origin, but keep the scaled first vector clearly nontrivial so the cancellation has to be earned.",
+        "successMessage": "You built a strong cancellation case instead of a trivial tiny-vector case. The plane and the component readout now show the same near-zero resultant for an honest reason.",
+        "setup": {
+          "presetId": "balanced-sum",
+          "note": "Use the tip-to-tail view and the component guides together while you cancel the x- and y-components."
+        },
+        "requirements": {
+          "graphId": "result-components",
+          "overlayIds": [
+            "componentGuides",
+            "tipToTail",
+            "scaledVector"
+          ]
+        },
+        "hints": [
+          "A near-zero resultant needs both component sums to cancel, not just one.",
+          "Keep the scalar away from zero so the first vector still contributes a meaningful arrow."
+        ],
+        "targets": [
+          {
+            "metric": "resultMagnitude",
+            "label": "Bring the resultant magnitude below $0.35$.",
+            "min": 0,
+            "max": 0.35
+          },
+          {
+            "metric": "scaledMagnitude",
+            "label": "Keep the scaled first vector magnitude between $3.3$ and $3.9$.",
+            "min": 3.3,
+            "max": 3.9
+          },
+          {
+            "param": "scalar",
+            "label": "Keep the scalar close to $1$ so the cancellation comes mostly from vector opposition, not from shrinking A away.",
+            "min": 0.9,
+            "max": 1.1
+          }
+        ]
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a coordinate plane with two draggable vectors from the origin, a scaled version of the first vector, and a resultant vector. Optional overlays show the tip-to-tail construction, the resultant component guides, and the scaled first vector.",
+        "Changing any component, the scalar, or subtract mode updates the plane, the algebraic readout, and the response graphs together so the learner can compare the geometric and algebraic views directly."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "One graph shows the x- and y-components of the resultant as the scalar on A changes. The other graph shows how the magnitude of the resultant changes over the same scalar scan.",
+        "Those graphs are tied to the same live plane, so the current scalar value and the current resultant arrow match the highlighted response point."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Vectors in 2D",
+    "description": "Explore vector components, addition, subtraction, and scalar multiplication with a live 2D plane and coordinated response graphs.",
+    "keywords": [
+      "vectors",
+      "2D vectors",
+      "vector addition",
+      "vector subtraction",
+      "scalar multiplication",
+      "components"
+    ]
+  },
+  "v2": {
+    "intuition": "A 2D vector is easiest to trust when the arrow, the tip-to-tail construction, and the component readout all move together on the same plane.",
+    "whyItMatters": "Once those views stay connected, vector addition, subtraction, scaling, forces, velocities, complex-plane motion, and matrix transformations stop feeling like separate rules.",
+    "estimatedMinutes": 15,
+    "equationSnapshot": {
+      "equationIds": [
+        "component-form",
+        "resultant-rule",
+        "magnitude-rule"
+      ],
+      "note": "Read the component rule as the algebra version of the arrows: scale A first, choose B or -B, then combine x with x and y with y."
+    },
+    "startSetup": {
+      "presetId": "balanced-sum",
+      "graphId": "result-components",
+      "overlayIds": [
+        "componentGuides",
+        "tipToTail",
+        "scaledVector"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-arrow-two-ways",
+        "title": "Read one arrow two ways",
+        "goal": "Connect the visible arrow on the plane to its x- and y-component readout before combining anything.",
+        "doThis": "Start from Balanced sum, keep Component guides visible, and move only A x-component or A y-component for a first pass.",
+        "notice": "The arrow endpoint, the horizontal/vertical guides, and the ordered pair change together.",
+        "explain": "A vector is not a direction-only sketch. Its components are the exact coordinate description of the same arrow.",
+        "reveal": {
+          "controlIds": [
+            "ax",
+            "ay"
+          ],
+          "graphIds": [
+            "result-components"
+          ],
+          "overlayIds": [
+            "componentGuides",
+            "scaledVector"
+          ]
+        },
+        "setup": {
+          "presetId": "balanced-sum",
+          "graphId": "result-components",
+          "overlayIds": [
+            "componentGuides",
+            "scaledVector"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "v2d-qt-components"
+          ]
+        }
+      },
+      {
+        "id": "build-a-tip-to-tail-sum",
+        "title": "Build the sum",
+        "goal": "See vector addition as both tip-to-tail geometry and component-by-component arithmetic.",
+        "doThis": "Turn on the Tip-to-tail view and change B x-component or B y-component while watching the resultant endpoint.",
+        "notice": "Moving B changes the translated second arrow and the resultant components by the same horizontal and vertical amounts.",
+        "explain": "Addition works because each axis keeps its own account: x-components combine with x-components, and y-components combine with y-components.",
+        "reveal": {
+          "controlIds": [
+            "bx",
+            "by"
+          ],
+          "graphIds": [
+            "result-components"
+          ],
+          "overlayIds": [
+            "tipToTail",
+            "componentGuides"
+          ]
+        },
+        "setup": {
+          "presetId": "balanced-sum",
+          "graphId": "result-components",
+          "overlayIds": [
+            "tipToTail",
+            "componentGuides"
+          ]
+        }
+      },
+      {
+        "id": "flip-or-scale-before-combining",
+        "title": "Flip or scale first",
+        "goal": "Separate scalar multiplication and subtraction from the final combination step.",
+        "doThis": "Try Difference, then Flipped scale. Watch whether B reverses, A flips, or only the resultant changes.",
+        "notice": "Subtraction reverses B before tip-to-tail addition; a negative scalar reverses the scaled copy of A before any B is added.",
+        "explain": "Both moves prepare an effective vector first. After that, the same component and tip-to-tail combination rules still apply.",
+        "reveal": {
+          "controlIds": [
+            "scalar",
+            "subtract-mode"
+          ],
+          "graphIds": [
+            "result-components",
+            "result-magnitude"
+          ],
+          "overlayIds": [
+            "tipToTail",
+            "scaledVector",
+            "componentGuides"
+          ]
+        },
+        "setup": {
+          "presetId": "flipped-scale",
+          "graphId": "result-magnitude",
+          "overlayIds": [
+            "tipToTail",
+            "scaledVector",
+            "componentGuides"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "v2d-predict-negative-scalar",
+            "v2d-predict-subtract"
+          ],
+          "questionIds": [
+            "v2d-qt-subtraction",
+            "v2d-qt-scalar"
+          ]
+        }
+      },
+      {
+        "id": "check-cancellation-honestly",
+        "title": "Check cancellation",
+        "goal": "Use the plane and component graph to decide whether a small resultant came from real cancellation.",
+        "doThis": "Switch to Near cancel, compare the component graph with the plane, then try the challenge without shrinking A away.",
+        "notice": "A near-zero resultant needs both x and y contributions to balance; one cancelled axis is not enough.",
+        "explain": "The strongest vector explanations keep magnitude, direction, and components in agreement instead of relying on one view alone.",
+        "reveal": {
+          "controlIds": [
+            "ax",
+            "ay",
+            "bx",
+            "by",
+            "scalar"
+          ],
+          "graphIds": [
+            "result-components",
+            "result-magnitude"
+          ],
+          "overlayIds": [
+            "componentGuides",
+            "tipToTail",
+            "scaledVector"
+          ]
+        },
+        "setup": {
+          "presetId": "near-cancel",
+          "graphId": "result-components",
+          "overlayIds": [
+            "componentGuides",
+            "tipToTail",
+            "scaledVector"
+          ]
+        },
+        "inlineCheck": {
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "A 2D vector can be read as one arrow and as one ordered pair of components.",
+        "Vector addition and subtraction share the same tip-to-tail picture once subtraction is treated as adding the opposite vector.",
+        "A scalar changes A before the combination step; a negative scalar flips its direction.",
+        "A small resultant is convincing only when the x- and y-components both explain the cancellation."
+      ],
+      "misconception": "Do not treat the plane picture and component arithmetic as separate methods. They are two descriptions of the same vector state.",
+      "workedExampleRefs": [
+        "current-resultant-components",
+        "scaled-vector-before-combination"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "matrix-transformations",
+          "title": "Matrix Transformations",
+          "reasonLabel": "Let matrices move the same plane, basis vectors, and arrows."
+        },
+        {
+          "slug": "dot-product-angle-and-projection",
+          "title": "Dot Product / Angle and Projection",
+          "reasonLabel": "Use vector components to read alignment and projection."
+        },
+        {
+          "slug": "vectors-components",
+          "title": "Vectors / Components",
+          "reasonLabel": "Carry the same component language into motion and physics."
+        }
+      ],
+      "freePlayPrompt": "Invent one nontrivial cancellation case, then explain it once from the arrows and once from the x- and y-component sums."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "accessibility"
+    ]
+  }
+}

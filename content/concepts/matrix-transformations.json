@@ -1,0 +1,917 @@
+{
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "matrix-shear-right-view",
+        "label": "Shear right",
+        "description": "Open a clean right-shear case where moving the second column makes the square lean immediately.",
+        "setup": {
+          "presetId": "shear-right",
+          "graphId": "probe-image-blend",
+          "overlayIds": [
+            "basisVectors",
+            "unitSquare",
+            "sampleShape"
+          ],
+          "note": "Use this to watch one off-axis second-column entry lean the whole plane while the first basis direction stays anchored."
+        }
+      },
+      {
+        "id": "matrix-reflect-y-view",
+        "label": "Reflect across y-axis",
+        "description": "Open the reflection case and compare the original and transformed triangle.",
+        "setup": {
+          "presetId": "reflect-y",
+          "graphId": "basis-length-blend",
+          "overlayIds": [
+            "referenceGrid",
+            "basisVectors",
+            "sampleShape"
+          ],
+          "note": "Use this to see that a reflection flips the whole plane, not just one shape."
+        }
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Use one 2 by 2 matrix as a visible action on the whole plane: read the basis-vector columns, then watch the grid, unit square, and sample triangle stretch, shear, or reflect together.",
+    "keyTakeaway": "The columns of the matrix are the images of the basis vectors, so they already tell you how the unit square and the grid will lean, stretch, or reflect."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "A 2 by 2 matrix becomes easier to trust when it is treated as a visible action on the plane instead of a detached table of numbers. This bench keeps the transformed grid, the basis vectors, the unit square, and one sample triangle on the same coordinate system so stretch, shear, reflection, and combined actions stay geometric.",
+        "The cleanest reading is column-first. The first column tells you where $e_1$ lands, the second column tells you where $e_2$ lands, and every other point follows by the same combination rule."
+      ]
+    },
+    "keyIdeas": [
+      "The columns of the matrix are the images of the basis vectors, so they already tell you how the unit square and the grid will lean, stretch, or reflect.",
+      "A matrix acts on every point with the same linear rule $M\\langle x, y \\rangle = \\langle ax + by, cx + dy \\rangle$, so straight grid lines stay straight.",
+      "Stretch, shear, and reflection are different visible outcomes of the same 2 by 2 action."
+    ],
+    "commonMisconception": {
+      "myth": "Each entry moves the sample shape independently, so the grid and basis vectors are just decoration.",
+      "correction": [
+        "The entries matter because they set the two basis-image columns.",
+        "Once those columns are fixed, the grid, the unit square, and every sample point all follow from the same linear combination rule."
+      ]
+    },
+    "workedExamples": {
+      "title": "Worked examples",
+      "intro": "Use two fixed matrix cases to keep the column rule tied to a clear plane picture.",
+      "items": [
+        {
+          "id": "read-the-current-basis-images",
+          "title": "Read the shear columns",
+          "prompt": "For the shear matrix $M = \\begin{bmatrix} 1 & 1 \\\\ 0 & 1 \\end{bmatrix}$, where do $e_1$ and $e_2$ land?",
+          "variables": [
+            {
+              "id": "m11",
+              "variableId": "m11",
+              "symbol": "a",
+              "label": "First-column x entry",
+              "valueKey": "1"
+            },
+            {
+              "id": "m21",
+              "variableId": "m21",
+              "symbol": "c",
+              "label": "First-column y entry",
+              "valueKey": "0"
+            },
+            {
+              "id": "m12",
+              "variableId": "m12",
+              "symbol": "b",
+              "label": "Second-column x entry",
+              "valueKey": "1"
+            },
+            {
+              "id": "m22",
+              "variableId": "m22",
+              "symbol": "d",
+              "label": "Second-column y entry",
+              "valueKey": "1"
+            }
+          ],
+          "steps": [
+            {
+              "id": "matrix-columns",
+              "label": "1. Read the matrix columns directly",
+              "template": "The matrix columns are $\\langle 1, 0 \\rangle$ and $\\langle 1, 1 \\rangle$."
+            },
+            {
+              "id": "basis-1-image",
+              "label": "2. Apply it to the first basis vector",
+              "template": "Because $e_1 = \\langle 1, 0 \\rangle$, the first column is its image, so $M e_1 = \\langle 1, 0 \\rangle$."
+            },
+            {
+              "id": "basis-2-image",
+              "label": "3. Apply it to the second basis vector",
+              "template": "Because $e_2 = \\langle 0, 1 \\rangle$, the second column is its image, so $M e_2 = \\langle 1, 1 \\rangle$."
+            }
+          ],
+          "resultLabel": "Current basis images",
+          "resultTemplate": "$M e_1 = \\langle 1, 0 \\rangle, \\quad M e_2 = \\langle 1, 1 \\rangle$",
+          "interpretationTemplate": "The first basis direction stays put while the second basis direction leans right, so the unit square becomes a right-leaning parallelogram.",
+          "applyAction": {
+            "label": "Apply the shear case",
+            "presetId": "shear-right",
+            "observationHint": "The first column stays near the x-axis while the second column leans right.",
+            "highlightedControlIds": [
+              "m12"
+            ],
+            "highlightedGraphIds": [
+              "probe-image-blend"
+            ],
+            "highlightedOverlayIds": [
+              "basisVectors",
+              "unitSquare"
+            ]
+          }
+        },
+        {
+          "id": "send-the-tracked-point-through-the-matrix",
+          "title": "Send the tracked point through a reflection",
+          "prompt": "Where does $p = \\langle 1.6, 1.1 \\rangle$ land under the reflection matrix $M = \\begin{bmatrix} -1 & 0 \\\\ 0 & 1 \\end{bmatrix}$?",
+          "variables": [
+            {
+              "id": "m11",
+              "variableId": "m11",
+              "symbol": "a",
+              "label": "First-column x entry",
+              "valueKey": "-1"
+            },
+            {
+              "id": "m12",
+              "variableId": "m12",
+              "symbol": "b",
+              "label": "Second-column x entry",
+              "valueKey": "0"
+            },
+            {
+              "id": "m21",
+              "variableId": "m21",
+              "symbol": "c",
+              "label": "First-column y entry",
+              "valueKey": "0"
+            },
+            {
+              "id": "m22",
+              "variableId": "m22",
+              "symbol": "d",
+              "label": "Second-column y entry",
+              "valueKey": "1"
+            }
+          ],
+          "steps": [
+            {
+              "id": "write-the-rule",
+              "label": "1. Use the matrix action on a general point",
+              "template": "$M\\langle x, y \\rangle = \\langle ax + by, cx + dy \\rangle$."
+            },
+            {
+              "id": "plug-in-point",
+              "label": "2. Substitute the tracked point",
+              "template": "For $p = \\langle 1.6, 1.1 \\rangle$, the new x-value is $-1(1.6) + 0(1.1) = -1.6$."
+            },
+            {
+              "id": "finish-point",
+              "label": "3. Finish the y-value the same way",
+              "template": "The new y-value is $0(1.6) + 1(1.1) = 1.1$."
+            }
+          ],
+          "resultLabel": "Tracked point image",
+          "resultTemplate": "$M p = \\langle -1.6, 1.1 \\rangle$",
+          "interpretationTemplate": "Only the x-direction flips sign here, so the point mirrors across the y-axis while keeping the same height.",
+          "applyAction": {
+            "label": "Apply the reflection case",
+            "presetId": "reflect-y",
+            "observationHint": "The tracked point crosses to the opposite side because the first basis direction has flipped.",
+            "highlightedControlIds": [
+              "m11"
+            ],
+            "highlightedGraphIds": [
+              "basis-length-blend"
+            ],
+            "highlightedOverlayIds": [
+              "basisVectors",
+              "sampleShape"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Set the matrix so the unit square leans to the right without flipping over, and keep the first basis vector close to the original x-axis direction.",
+      "prediction": "Decide whether you need a stretch, a shear, or a reflection before you touch the columns.",
+      "answer": "You need a positive-orientation shear: keep $M e_1$ near $\\langle 1, 0 \\rangle$ while moving $M e_2$ to the right.",
+      "explanation": "That creates a slanted parallelogram instead of a mirror image. The basis columns control the whole picture."
+    }
+  },
+  "equations": [
+    {
+      "id": "matrix-form",
+      "latex": "M = \\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix}",
+      "label": "2 by 2 matrix",
+      "meaning": "Packages one linear action on the plane into four entries."
+    },
+    {
+      "id": "basis-columns",
+      "latex": "M e_1 = \\langle a, c \\rangle, \\qquad M e_2 = \\langle b, d \\rangle",
+      "label": "Columns are basis images",
+      "meaning": "Explains why the two columns already tell you how the unit square and the whole grid will move."
+    },
+    {
+      "id": "matrix-action",
+      "latex": "M\\langle x, y \\rangle = \\langle ax + by, cx + dy \\rangle",
+      "label": "Action on any vector",
+      "meaning": "Shows how every point is rebuilt from the same basis-image columns."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "m11",
+      "symbol": "a",
+      "label": "First-column x entry",
+      "param": "m11",
+      "tone": "teal",
+      "description": "Sets the x-component of $M e_1$.",
+      "equationIds": [
+        "matrix-form",
+        "basis-columns",
+        "matrix-action"
+      ],
+      "graphIds": [
+        "probe-image-blend",
+        "basis-length-blend"
+      ],
+      "overlayIds": [
+        "basisVectors",
+        "unitSquare"
+      ]
+    },
+    {
+      "id": "m21",
+      "symbol": "c",
+      "label": "First-column y entry",
+      "param": "m21",
+      "tone": "teal",
+      "description": "Sets the y-component of $M e_1$.",
+      "equationIds": [
+        "matrix-form",
+        "basis-columns",
+        "matrix-action"
+      ],
+      "graphIds": [
+        "probe-image-blend",
+        "basis-length-blend"
+      ],
+      "overlayIds": [
+        "basisVectors",
+        "unitSquare"
+      ]
+    },
+    {
+      "id": "m12",
+      "symbol": "b",
+      "label": "Second-column x entry",
+      "param": "m12",
+      "tone": "coral",
+      "description": "Sets the x-component of $M e_2$ and is the fastest route to a visible horizontal shear.",
+      "equationIds": [
+        "matrix-form",
+        "basis-columns",
+        "matrix-action"
+      ],
+      "graphIds": [
+        "probe-image-blend",
+        "basis-length-blend"
+      ],
+      "overlayIds": [
+        "basisVectors",
+        "unitSquare",
+        "sampleShape"
+      ]
+    },
+    {
+      "id": "m22",
+      "symbol": "d",
+      "label": "Second-column y entry",
+      "param": "m22",
+      "tone": "coral",
+      "description": "Sets the y-component of $M e_2$.",
+      "equationIds": [
+        "matrix-form",
+        "basis-columns",
+        "matrix-action"
+      ],
+      "graphIds": [
+        "probe-image-blend",
+        "basis-length-blend"
+      ],
+      "overlayIds": [
+        "basisVectors",
+        "unitSquare",
+        "sampleShape"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "m11": 1,
+      "m12": 0.6,
+      "m21": 0,
+      "m22": 1,
+      "referenceGrid": true,
+      "basisVectors": true,
+      "unitSquare": true,
+      "sampleShape": true
+    },
+    "ui": {
+      "initialGraphId": "probe-image-blend",
+      "primaryGraphIds": [
+        "probe-image-blend",
+        "basis-length-blend"
+      ],
+      "primaryControlIds": [
+        "m12",
+        "m22"
+      ],
+      "primaryPresetIds": [
+        "shear-right",
+        "reflect-y"
+      ]
+    },
+    "controls": [
+      {
+        "id": "m11",
+        "kind": "slider",
+        "label": "First-column x entry",
+        "param": "m11",
+        "min": -2,
+        "max": 2,
+        "step": 0.1,
+        "description": "Move the image of $e_1$ left or right."
+      },
+      {
+        "id": "m21",
+        "kind": "slider",
+        "label": "First-column y entry",
+        "param": "m21",
+        "min": -2,
+        "max": 2,
+        "step": 0.1,
+        "description": "Move the image of $e_1$ up or down."
+      },
+      {
+        "id": "m12",
+        "kind": "slider",
+        "label": "Second-column x entry",
+        "param": "m12",
+        "min": -2,
+        "max": 2,
+        "step": 0.1,
+        "description": "Move the image of $e_2$ left or right."
+      },
+      {
+        "id": "m22",
+        "kind": "slider",
+        "label": "Second-column y entry",
+        "param": "m22",
+        "min": -2,
+        "max": 2,
+        "step": 0.1,
+        "description": "Move the image of $e_2$ up or down."
+      }
+    ],
+    "presets": [
+      {
+        "id": "identity",
+        "label": "Identity",
+        "description": "Leave the plane unchanged.",
+        "values": {
+          "m11": 1,
+          "m12": 0,
+          "m21": 0,
+          "m22": 1
+        }
+      },
+      {
+        "id": "stretch-x",
+        "label": "Stretch x",
+        "description": "Stretch the plane horizontally.",
+        "values": {
+          "m11": 1.7,
+          "m12": 0,
+          "m21": 0,
+          "m22": 1
+        }
+      },
+      {
+        "id": "shear-right",
+        "label": "Shear right",
+        "description": "Keep $e_1$ fixed while $e_2$ leans right.",
+        "values": {
+          "m11": 1,
+          "m12": 1,
+          "m21": 0,
+          "m22": 1
+        }
+      },
+      {
+        "id": "reflect-y",
+        "label": "Reflect across y-axis",
+        "description": "Flip x while keeping y upright.",
+        "values": {
+          "m11": -1,
+          "m12": 0,
+          "m21": 0,
+          "m22": 1
+        }
+      },
+      {
+        "id": "combined-action",
+        "label": "Combined action",
+        "description": "Mix stretch and shear.",
+        "values": {
+          "m11": 1.2,
+          "m12": 0.6,
+          "m21": 0.3,
+          "m22": 0.9
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "referenceGrid",
+        "label": "Reference frame",
+        "shortDescription": "Keep the original square and triangle visible behind the transformed versions.",
+        "whatToNotice": [
+          "The transformed objects stay tied to one fixed starting picture."
+        ],
+        "whyItMatters": "A stable reference makes it easier to separate stretch, shear, and reflection.",
+        "relatedControls": [
+          "m11",
+          "m12",
+          "m21",
+          "m22"
+        ],
+        "relatedGraphTabs": [
+          "probe-image-blend",
+          "basis-length-blend"
+        ],
+        "relatedEquationVariables": [
+          "m11",
+          "m12",
+          "m21",
+          "m22"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "basisVectors",
+        "label": "Basis vectors",
+        "shortDescription": "Show the original basis directions and their images.",
+        "whatToNotice": [
+          "The columns are the new basis directions that organize the transformed plane."
+        ],
+        "whyItMatters": "The basis images are the fastest route from matrix entries to geometry.",
+        "relatedControls": [
+          "m11",
+          "m12",
+          "m21",
+          "m22"
+        ],
+        "relatedGraphTabs": [
+          "basis-length-blend"
+        ],
+        "relatedEquationVariables": [
+          "m11",
+          "m12",
+          "m21",
+          "m22"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "unitSquare",
+        "label": "Unit square",
+        "shortDescription": "Track how the unit square becomes a parallelogram.",
+        "whatToNotice": [
+          "The image of the top-right corner is the sum of the two basis-image columns."
+        ],
+        "whyItMatters": "The square gives one compact shape that makes stretch, shear, and reflection obvious.",
+        "relatedControls": [
+          "m11",
+          "m12",
+          "m21",
+          "m22"
+        ],
+        "relatedGraphTabs": [
+          "basis-length-blend"
+        ],
+        "relatedEquationVariables": [
+          "m11",
+          "m12",
+          "m21",
+          "m22"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "sampleShape",
+        "label": "Sample triangle",
+        "shortDescription": "Keep one non-square shape visible so combined actions read clearly.",
+        "whatToNotice": [
+          "The triangle deforms with the same rule as the grid and the unit square."
+        ],
+        "whyItMatters": "A second shape makes the plane-wide action feel less abstract than a grid alone.",
+        "relatedControls": [
+          "m11",
+          "m12",
+          "m21",
+          "m22"
+        ],
+        "relatedGraphTabs": [
+          "probe-image-blend"
+        ],
+        "relatedEquationVariables": [
+          "m11",
+          "m12",
+          "m21",
+          "m22"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "probe-image-blend",
+      "label": "Tracked point during the blend",
+      "xLabel": "blend t",
+      "yLabel": "coordinate value",
+      "series": [
+        "probe-x",
+        "probe-y"
+      ],
+      "description": "Blend from the identity matrix to the current matrix and watch the tracked point coordinates evolve."
+    },
+    {
+      "id": "basis-length-blend",
+      "label": "Basis-vector lengths during the blend",
+      "xLabel": "blend t",
+      "yLabel": "length",
+      "series": [
+        "basis-1-length",
+        "basis-2-length"
+      ],
+      "description": "Blend from the identity matrix to the current matrix and compare how much each basis direction stretches or compresses."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Keep the matrix entries tied to the visible plane action instead of treating them as detached numbers.",
+    "items": [
+      {
+        "id": "mt-notice-columns",
+        "text": "Drag one basis-image handle and watch the same column change in the matrix, the grid, the square, and the sample triangle all at once.",
+        "type": "observation",
+        "relatedControls": [
+          "m11",
+          "m21",
+          "m12",
+          "m22"
+        ],
+        "relatedGraphTabs": [
+          "basis-length-blend"
+        ],
+        "relatedOverlays": [
+          "basisVectors",
+          "unitSquare"
+        ],
+        "relatedEquationVariables": [
+          "m11",
+          "m12",
+          "m21",
+          "m22"
+        ]
+      },
+      {
+        "id": "mt-notice-shear",
+        "text": "Increase the second-column x entry and watch $e_2$ lean right while the transformed grid lines stay straight. That is the visible signature of a shear on this bench.",
+        "type": "graph-reading",
+        "relatedControls": [
+          "m12"
+        ],
+        "relatedGraphTabs": [
+          "probe-image-blend"
+        ],
+        "relatedOverlays": [
+          "basisVectors",
+          "sampleShape"
+        ],
+        "relatedEquationVariables": [
+          "m12"
+        ]
+      },
+      {
+        "id": "mt-notice-blend",
+        "text": "Hover either graph and track the preview badge. The same matrix action is being blended in from $t = 0$ to $t = 1$, so the plane change stays continuous instead of jumping between cases.",
+        "type": "try-this",
+        "relatedControls": [
+          "m11",
+          "m12",
+          "m21",
+          "m22"
+        ],
+        "relatedGraphTabs": [
+          "probe-image-blend",
+          "basis-length-blend"
+        ],
+        "relatedOverlays": [
+          "basisVectors",
+          "unitSquare",
+          "sampleShape"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Predict",
+    "intro": "Commit to the plane change before you apply the new matrix.",
+    "items": [
+      {
+        "id": "mt-predict-shear-right",
+        "prompt": "If the second-column x entry $b$ becomes positive while the other entries stay at the identity matrix, what is the most direct visible change?",
+        "scenarioLabel": "Make b positive",
+        "choices": [
+          {
+            "id": "a",
+            "label": "$e_2$ leans right and the square becomes a right-leaning parallelogram."
+          },
+          {
+            "id": "b",
+            "label": "The plane reflects across the y-axis immediately."
+          },
+          {
+            "id": "c",
+            "label": "Only the lengths change; the directions cannot."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A positive second-column x entry changes where $e_2$ lands, so the square and the grid shear to the right.",
+        "observationHint": "Watch the coral basis vector first, then the square and the triangle.",
+        "apply": {
+          "presetId": "shear-right"
+        },
+        "highlightedControls": [
+          "m12"
+        ],
+        "highlightedGraphs": [
+          "probe-image-blend"
+        ],
+        "highlightedOverlays": [
+          "basisVectors",
+          "unitSquare"
+        ]
+      },
+      {
+        "id": "mt-predict-reflect-y",
+        "prompt": "If the first-column x entry becomes negative while the other entries stay near the identity matrix, what is the cleanest expectation?",
+        "scenarioLabel": "Flip the first column",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The plane reflects across the y-axis because the first basis direction crosses to the left."
+          },
+          {
+            "id": "b",
+            "label": "Only the sample triangle flips, but the grid and the square do not."
+          },
+          {
+            "id": "c",
+            "label": "Nothing geometric changes until all four entries are nonzero."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Once the first basis direction flips to the other side, the whole matrix action reflects that x-direction across the plane.",
+        "observationHint": "Compare the original and transformed triangle while the first basis vector crosses left.",
+        "apply": {
+          "presetId": "reflect-y"
+        },
+        "highlightedControls": [
+          "m11"
+        ],
+        "highlightedGraphs": [
+          "basis-length-blend"
+        ],
+        "highlightedOverlays": [
+          "referenceGrid",
+          "basisVectors",
+          "sampleShape"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the basis columns, the unit square, and the transformed sample shape together. This checkpoint is about reading a matrix as one plane action instead of four disconnected entries.",
+    "items": [
+      {
+        "id": "mt-ch-build-right-shear",
+        "title": "Right-shear checkpoint",
+        "style": "parameter-match",
+        "prompt": "Start from the identity matrix and build a right shear that keeps the first basis vector near its original x-axis direction while the unit square becomes a right-leaning parallelogram. Keep the basis and square visible so the column story stays on the plane.",
+        "successMessage": "You built the shear from the basis columns instead of treating the entries as disconnected numbers. The grid, square, and sample shape now lean together under one linear action.",
+        "setup": {
+          "presetId": "identity",
+          "note": "Change the second column first. A right shear comes from moving where $e_2$ lands while leaving $e_1$ almost unchanged."
+        },
+        "requirements": {
+          "graphId": "probe-image-blend",
+          "overlayIds": [
+            "basisVectors",
+            "unitSquare",
+            "sampleShape"
+          ]
+        },
+        "hints": [
+          "Keep the first column near $\\langle 1, 0 \\rangle$ if you want $e_1$ to stay close to the original x-axis direction.",
+          "A positive second-column x entry is what makes $e_2$ lean to the right."
+        ],
+        "targets": [
+          {
+            "param": "m11",
+            "label": "Keep the first-column x entry near $1$.",
+            "min": 0.95,
+            "max": 1.05
+          },
+          {
+            "param": "m21",
+            "label": "Keep the first-column y entry near $0$.",
+            "min": -0.05,
+            "max": 0.05
+          },
+          {
+            "param": "m12",
+            "label": "Push the second-column x entry close to $1$ so $e_2$ leans right.",
+            "min": 0.9,
+            "max": 1.1
+          },
+          {
+            "param": "m22",
+            "label": "Keep the second-column y entry near $1$ so the shear does not collapse the vertical scale.",
+            "min": 0.95,
+            "max": 1.05
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live plane picture and the column rule together.",
+    "questions": [
+      {
+        "id": "mt-qt-columns",
+        "type": "reasoning",
+        "prompt": "What is the most honest first interpretation of the two columns of a 2 by 2 matrix on this bench?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "They are the images of $e_1$ and $e_2$."
+          },
+          {
+            "id": "b",
+            "label": "They only affect the sample triangle, not the grid."
+          },
+          {
+            "id": "c",
+            "label": "They are bookkeeping only, so the geometry is separate."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "That is why the columns already organize the unit square and the whole transformed grid."
+      },
+      {
+        "id": "mt-qt-shear",
+        "type": "variable-effect",
+        "prompt": "Which single change is the cleanest way to create a right shear while keeping the first basis direction near $\\langle 1, 0 \\rangle$?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Increase the second-column x entry."
+          },
+          {
+            "id": "b",
+            "label": "Make the first-column x entry negative."
+          },
+          {
+            "id": "c",
+            "label": "Set both diagonal entries to zero."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "That leans $e_2$ right while keeping $e_1$ close to its original direction."
+      },
+      {
+        "id": "mt-qt-reflection",
+        "type": "misconception-check",
+        "prompt": "A student says a reflection only flips the sample triangle and does not matter for the grid. What is missing?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "A reflection changes the whole plane action, so the grid, the basis vectors, and every sample point flip consistently."
+          },
+          {
+            "id": "b",
+            "label": "A reflection only changes the tracked point because it is special."
+          },
+          {
+            "id": "c",
+            "label": "A reflection needs a third dimension before the grid can notice it."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "This bench is about one matrix acting on the entire plane, not about one shape receiving a special case."
+      },
+      {
+        "id": "mt-qt-diagonal-scale",
+        "type": "graph-reading",
+        "prompt": "If both off-diagonal entries stay near zero while the diagonal entries get larger than one, what is the cleanest plane reading?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The basis directions keep their axes, but the plane stretches along those same directions."
+          },
+          {
+            "id": "b",
+            "label": "The plane must turn into a reflection because only diagonals changed."
+          },
+          {
+            "id": "c",
+            "label": "The unit square cannot change unless a shear entry is nonzero."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "With the off-diagonal entries quiet, the columns stay aligned to the axes and the visible change is axis-aligned stretching or compression.",
+        "selectedWrongExplanations": {
+          "b": "Reflections come from sign flips across a direction, not from every diagonal change.",
+          "c": "The unit square can stretch even without a shear."
+        }
+      },
+      {
+        "id": "mt-qt-basis-first",
+        "type": "reasoning",
+        "prompt": "Why is reading the basis vectors first a better move than starting from one transformed sample point?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because the basis vectors define the whole plane action, so every other transformed shape follows from them."
+          },
+          {
+            "id": "b",
+            "label": "Because the sample point ignores the matrix entirely."
+          },
+          {
+            "id": "c",
+            "label": "Because transformed shapes never depend on the columns of the matrix."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Once you know where e1 and e2 land, the transformed grid, square, triangle, and probe point all follow from the same matrix action.",
+        "selectedWrongExplanations": {
+          "b": "The sample point still responds to the same matrix action.",
+          "c": "The columns are exactly what set the transformed basis directions."
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a coordinate plane with the transformed grid, two draggable basis-image vectors, the transformed unit square, a transformed sample triangle, and a tracked probe point. Sliders change the four matrix entries that set the images of the two basis vectors.",
+        "Compare mode can overlay a second transformed setup, and graph hover can preview the same matrix action blended in from the identity matrix to the current matrix."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "One graph tracks the x- and y-coordinates of a fixed probe point while the current matrix is blended in from the identity matrix. The second graph tracks the lengths of the transformed basis vectors over the same blend.",
+        "Those graphs are tied to the same plane, so hovering them previews an intermediate matrix action directly on the grid and shapes."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Matrix Transformations / Stretch, Shear, Reflection",
+    "description": "Explore how a 2 by 2 matrix stretches, shears, reflects, and combines actions on a grid, basis vectors, and sample shapes on one live plane.",
+    "keywords": [
+      "matrix transformations",
+      "2 by 2 matrix",
+      "linear transformations",
+      "stretch shear reflection",
+      "math vectors"
+    ]
+  }
+}

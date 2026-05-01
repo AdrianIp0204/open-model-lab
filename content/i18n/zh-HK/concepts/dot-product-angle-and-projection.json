@@ -1,0 +1,266 @@
+{
+  "title": "點積 / 角度和投影",
+  "shortTitle": "點積",
+  "summary": "保持兩個向量、它們之間的角度、B 在 A 上的有號投影以及標量 A 點 B 可以同時視覺化，以便對齊可以像圖形一樣閱讀而不是記憶案例。",
+  "highlights": [
+    "正向、零和負向對齊",
+    "正交",
+    "向量在另一個向量上的投影"
+  ],
+  "topic": "向量",
+  "subtopic": "對齊和投影",
+  "recommendedNext": [
+    {
+      "slug": "vectors-components",
+      "reasonLabel": "將投影語言應用於運動分量"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "點積保持幾何性時變得更容易信任。這個試驗台保持兩個向量、它們之間的角度、B 在 A 上的有號投影以及標量 A 點 B 可以同時視覺化，以便對齊可以像圖形一樣閱讀而不是公式。",
+        "關鍵步驟是將指向 A 的部分與垂直於 A 的部分分開。當 B 朝著 A 傾斜時，投影為正。當 B 轉向直角時，沿 A 部分消失。當 B 傾斜超過直角時，投影翻轉且點積變為負數，這是因為幾何原因而不是記憶案例。"
+      ]
+    },
+    "keyIdeas": [
+      "點積透過將 A 的大小乘以 B 在 A 上的有號部分來衡量對齊程度。",
+      "正交向量的點積為零，因為 B 完全沒有沿 A 的分量。",
+      "B 在 A 上的向量投影位於 A 的直線上，而剩下的虛線部分是垂直部分。"
+    ],
+    "commonMisconception": {
+      "myth": "負點積意味著其中一個向量具有負長度。",
+      "correction": [
+        "向量長度始終非負。符號來自方向：當角度變為鈍角時，B 在 A 上的投影指向相反的方向。",
+        "這就是為什麼相同的兩個非零向量可以給出正、零或負點積而不改變如何測量長度本身。"
+      ]
+    },
+    "workedExamples": {
+      "title": "示例",
+      "intro": "在拖動向量時使用這些作為閱讀指南。試驗台仍然驅動幾何圖形，但示例保持定性，以便解釋始終是重點。",
+      "items": [
+        {
+          "id": "current-dot-product",
+          "title": "讀點積為對齊",
+          "prompt": "您應該如何從試驗台上圖形中的當前點積讀取資訊？",
+          "steps": [
+            {
+              "id": "measure-a",
+              "label": "1. 調整參考向量 A 的大小"
+            },
+            {
+              "id": "read-projection",
+              "label": "2. 調整 B 在 A 上的有號部分"
+            },
+            {
+              "id": "multiply",
+              "label": "3. 合併大小和對齊"
+            }
+          ],
+          "resultLabel": "閱讀規則",
+          "applyAction": {
+            "label": "顯示正交情況",
+            "observationHint": "當角度達到直角時，琥珀色投影消失，點積降至零，而兩個向量都未消失。"
+          }
+        },
+        {
+          "id": "current-projection",
+          "title": "讀投影為沿 A 的部分",
+          "prompt": "你應如何解讀工作台上琥珀色的投影向量?",
+          "steps": [
+            {
+              "id": "line-of-a",
+              "label": "1. 保持投影在 A 的線上"
+            },
+            {
+              "id": "signed-length",
+              "label": "2. 使用沿 A 的有號長度"
+            },
+            {
+              "id": "vector-readout",
+              "label": "3. 將其與虛線剩餘部分比較"
+            }
+          ],
+          "resultLabel": "閱讀規則",
+          "applyAction": {
+            "label": "顯示負投影",
+            "observationHint": "一旦角度超過九十度，即使 B 仍然可以被視為一個箭頭，琥珀色投影仍會翻轉到原點的另一側。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "保持兩個向量都具有實質性，然後旋轉 B 直至點積幾乎消失。隨著角度趨近九十度時，琥珀色投影應該發生什麼變化?",
+      "prediction": "預測在你測試之前，投影是否會縮小到零、保持相同的符號或翻轉符號。",
+      "answer": "投影會逐漸縮小至零，因為 B 丟失了沿 A 的部分。",
+      "explanation": "這是這裡正交性的乾淨幾何意義。即使 B 很長，但一旦它垂直指向 A，其沿 A 方向的部分就為零。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "使用角度標記、琥珀色投影和讀數一起來檢查。這些檢查是關於誠實地解讀對齊。",
+    "questions": [
+      {
+        "id": "dpp-qt-positive",
+        "prompt": "在這個工作台上，最誠實的正點積解釋是什麼?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "B 保留了一個沿 A 方向的有號部分。"
+          },
+          {
+            "id": "b",
+            "label": "B 自動比 A 長。"
+          },
+          {
+            "id": "c",
+            "label": "這兩個向量必須具有相同的分量。"
+          }
+        ],
+        "explanation": "符號來自沿 A 的方向，而不是哪個向量更長或分量是否匹配。",
+        "selectedWrongExplanations": {
+          "b": "長度涉及大小，但符號來自沿 A 的方向。",
+          "c": "分量匹配僅是一種特殊情況，不是正點積的意義。"
+        },
+        "showMeAction": {
+          "label": "顯示正點積",
+          "observationHint": "琥珀色投影位於原點的一側，因此卡片讀作正值點積。"
+        }
+      },
+      {
+        "id": "dpp-qt-orthogonal",
+        "prompt": "如果角度為九十度且兩個向量仍然非零，那麼必須滿足什麼條件?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "點積為零因為 B 沒有沿 A 的部分。"
+          },
+          {
+            "id": "b",
+            "label": "點積保持正值因為兩者的長度都是正的。"
+          },
+          {
+            "id": "c",
+            "label": "投影變得更大因為角度變大。"
+          }
+        ],
+        "explanation": "正交性消除了沿 A 的部分。這就是為何零點積不需要零向量的原因。",
+        "selectedWrongExplanations": {
+          "b": "正長度不保證對齊為正。",
+          "c": "在九十度時，沿A的部分已經縮減而非增長。"
+        },
+        "showMeAction": {
+          "label": "顯示正交情況",
+          "observationHint": "琥珀色投影收縮至原點，而A和B仍保持可見。"
+        }
+      },
+      {
+        "id": "dpp-qt-negative",
+        "prompt": "當點積變為負值時，哪種描述最符合幾何關係？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "B在A上的投影指向與A相反的方向。"
+          },
+          {
+            "id": "b",
+            "label": "其中一個向量現在具有負長度。"
+          },
+          {
+            "id": "c",
+            "label": "垂直剩餘部分已經消失。"
+          }
+        ],
+        "explanation": "負號意味著沿A的部分指向前方，但長度仍然保持非負，並且垂直剩餘部分仍可能存在。",
+        "selectedWrongExplanations": {
+          "b": "向量的長度在此處永遠不會變號。方向創造了負投影。",
+          "c": "即使點積為負值，垂直剩餘部分仍可能可見。"
+        },
+        "showMeAction": {
+          "label": "顯示負投影",
+          "observationHint": "琥珀色投影在你讀取卡上的負值之前翻轉到原點的對側。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示從原點出發的兩個可拖動向量在同一坐標平面。角度標記可以顯示當前兩向量之間的角度，而琥珀色引導則顯示B在A上的投影以及虛線垂直剩餘部分。",
+        "改變任一向量會同時更新舞台、讀出和角度響應圖表，讓學習者可以在同一工作台上比較幾何、符號和投影。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "一個圖表顯示點積隨著兩向量之間的角度從零度開到一百八十度而變化。另一個圖表則顯示B在A上的標量投影在同一角度範圍內的變化。",
+        "懸停於任一圖表可以預覽相同角度在舞台上的情況，因此響應曲線、角度標記和琥珀色投影保持同步。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "readNext",
+        "title": "將投影引入運動"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "dot-product-angle",
+      "label": "角度形式",
+      "meaning": "連線點積與對齊：鋭角給出正值，直角給出零值，鈍角給出負值。"
+    },
+    {
+      "id": "scalar-projection",
+      "label": "標量投影",
+      "meaning": "讀取沿A部分的帶號值。"
+    },
+    {
+      "id": "vector-projection",
+      "label": "向量投影",
+      "meaning": "將帶號沿A的部分轉換為實際位於A線上的向量。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "ax",
+      "label": "A x-分量",
+      "description": "移動參考向量A的水平部分，同時更新角度標記和投影方向。"
+    },
+    {
+      "id": "ay",
+      "label": "A y-分量",
+      "description": "移動A的垂直部分，保持同一工作台上相同的投影規則。"
+    },
+    {
+      "id": "bx",
+      "label": "B x-分量",
+      "description": "移動探測向量B的水平部分，同時改變其角度和沿A的部分。"
+    },
+    {
+      "id": "by",
+      "label": "B y-分量",
+      "description": "移動B的垂直部分，控制投影沿A的方向是否保持、消失或翻轉其符號。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "ax",
+        "label": "A x-分量"
+      },
+      {
+        "id": "ay",
+        "label": "A y-分量"
+      },
+      {
+        "id": "bx",
+        "label": "B x-分量"
+      },
+      {
+        "id": "by",
+        "label": "B y-分量"
+      }
+    ]
+  }
+}

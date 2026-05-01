@@ -1,0 +1,393 @@
+{
+  "title": "電勢",
+  "shortTitle": "電勢",
+  "summary": "觀察來源電荷的正負與距離如何塑造電勢，比較同一條掃描線上的電勢差異，並把電勢圖的斜率連到電場。",
+  "highlights": [
+    "電勢圖",
+    "等位線",
+    "電位差"
+  ],
+  "topic": "電學",
+  "subtopic": "電勢與電壓",
+  "recommendedNext": [
+    {
+      "slug": "basic-circuits",
+      "reasonLabel": "重用電路中的電壓"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "電勢描述的是某位置上每單位正試驗電荷所對應的勢能。正來源電荷會提高電勢，負來源電荷會拉低電勢，而距離則決定每個來源的貢獻有多大。",
+        "本模組沿用與電場頁面相同的有界雙電荷幾何，所以地圖、等位線提示、探針讀數、例題、預測提示和快速測驗都指向同一個誠實模型。沿著當前掃描線，電場就是電勢圖向下的斜率，而不是另一條獨立規則。"
+      ]
+    },
+    "keyIdeas": [
+      "電勢是一個標量，因此各來源的貢獻會按帶符號的數值相加，而不是按向量方向相加。",
+      "兩個等量正電荷可以在中點令電場為零而電勢仍保持正值，因為電場在向量上互相抵消，但電勢在標量上相加。",
+      "對於正試驗電荷而言，電場指向較低的電勢。沿水平掃描線，一個正的 E_x 代表 V 會隨 x 增大而下降。"
+    ],
+    "commonMisconception": {
+      "myth": "如果某點的電場為零，該點的電位也必須為零。",
+      "correction": [
+        "電場和電勢彼此相關，但不是同一個量。電場為零隻表示區域性電勢圖的斜率為零，不代表電勢本身消失。",
+        "兩個等量正電荷在中點處的電場會互相抵消，因為推力大小相等而方向相反；但電勢仍保持正值，因為兩者的標量貢獻都是正的。"
+      ]
+    },
+    "workedExamples": {
+      "title": "即時例題",
+      "intro": "直接利用畫面上的即時控制來解讀目前探針狀態。來源電荷的正負、距離和試驗電荷符號會同時驅動電勢圖、連結圖與下方結果。",
+      "items": [
+        {
+          "id": "current-net-potential",
+          "title": "探針處的總電勢",
+          "prompt": "對目前這對來源電荷與探針位置而言，探針處的標量電勢是多少？",
+          "variables": [
+            {
+              "id": "sourceChargeA",
+              "label": "源A電荷"
+            },
+            {
+              "id": "sourceChargeB",
+              "label": "源B電荷"
+            },
+            {
+              "id": "sourceSeparation",
+              "label": "源間距"
+            },
+            {
+              "id": "probeX",
+              "label": "探測器 x 軸位置"
+            },
+            {
+              "id": "probeY",
+              "label": "探測器 y 軸位置"
+            }
+          ],
+          "steps": [
+            {
+              "id": "source-positions",
+              "label": "1. 將兩個來源放置在共享軸上"
+            },
+            {
+              "id": "source-distances",
+              "label": "2. 測量探針距離"
+            },
+            {
+              "id": "signed-contributions",
+              "label": "3. 評估符號來源貢獻"
+            },
+            {
+              "id": "add-scalars",
+              "label": "4. 加總標量貢獻"
+            }
+          ],
+          "applyAction": {
+            "label": "顯示同號電荷的中點案例",
+            "observationHint": "在兩個等量正電荷的中點，電場箭頭會消失，但地圖仍保持暖色，而 V 仍然是正值。"
+          }
+        },
+        {
+          "id": "current-potential-energy",
+          "title": "目前測試電荷的電勢能",
+          "prompt": "對目前的 $q_{\\text{test}}$ 來説，測試電荷在探針處的電勢能是多少？",
+          "variables": [
+            {
+              "id": "testCharge",
+              "label": "試驗電荷"
+            }
+          ],
+          "steps": [
+            {
+              "id": "energy-relation",
+              "label": "1. 先寫出電勢能關係"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 代入目前的測試電荷與電勢"
+            },
+            {
+              "id": "compute",
+              "label": "3. 算出電勢能"
+            }
+          ],
+          "resultLabel": "電勢能",
+          "applyAction": {
+            "label": "顯示負測試電荷的電勢能",
+            "observationHint": "當只有 q_test 改變時，電勢地圖和 V 曲線都不變，但 U 會立即改變符號。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "兩個等量正電荷對稱地位於 x 軸上，探針正好在它們之間的中點。為什麼在那裡的電位可以保持正值而電場為零？",
+      "prediction": "預測在開啟中點預設之前，每個數量是透過標量加法還是向量抵消來決定的。",
+      "answer": "電位保持正值因為兩個源貢獻都是正標量，但電場為零因為兩個等量的電場向量方向相反而相互抵消。",
+      "explanation": "電位透過帶符號值相加，而電場則透過向量方向相加。中點處兩個等量正電荷是觀察這些規則分歧而不改變任何幾何形狀的最佳位置。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "從實時電位邏輯回答，而不是來自分離的公式。每個問題都問地圖、等高線或連結曲線必須意味著什麼。",
+    "questions": [
+      {
+        "id": "ep-qt-positive-source-distance",
+        "prompt": "一個探針移動得更遠以離開一個孤立的正電荷源。在探針處的電位必須發生什麼變化？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它保持正值但靠近零，因為隨著距離增加，來源貢獻會減弱。"
+          },
+          {
+            "id": "b",
+            "label": "它變為負數，因為移動方向改變了符號。"
+          },
+          {
+            "id": "c",
+            "label": "它保持不變，因為來源電荷沒有改變。"
+          }
+        ],
+        "explanation": "對於一個正的來源電荷，V = kq/r 儘管其大小隨著 r 的增大而減小，但始終為正值。",
+        "selectedWrongExplanations": {
+          "b": "距離隻影響貢獻的大小，而不影響由來源電荷設定的符號。",
+          "c": "來源電荷很重要，但距離也很重要。r 增大會降低電位貢獻。"
+        },
+        "showMeAction": {
+          "label": "顯示一個正的來源電荷",
+          "observationHint": "將探針移得更遠，觀察暖色漸淡並且電位曲線向零平緩地趨近。"
+        }
+      },
+      {
+        "id": "ep-qt-midpoint-like-charges",
+        "prompt": "兩個等量正電荷沿 x 軸對稱放置，探針正好位於它們之間的中點。哪個主張是正確的？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "那裡的電場為零，但電位為正。"
+          },
+          {
+            "id": "b",
+            "label": "那裡的電場和電位都為零。"
+          },
+          {
+            "id": "c",
+            "label": "那裡的電位為負，因為電場相互抵消。"
+          }
+        ],
+        "explanation": "兩個正來源電荷在中點處以向量形式相互抵消，但兩者的電位以標量形式相加。",
+        "selectedWrongExplanations": {
+          "b": "電位景觀中的斜率為零並不一定意味著電位本身的值為零。",
+          "c": "電場的抵消並不會使標量電位變負。兩個來源貢獻仍然是正的。"
+        },
+        "showMeAction": {
+          "label": "顯示同號電荷中點",
+          "observationHint": "箭頭消失，而地圖和 V 讀數仍然為正值。"
+        }
+      },
+      {
+        "id": "ep-qt-zero-potential-not-zero-field",
+        "prompt": "在 x 軸上的中點處，左邊有一個正電荷，右邊有一個等量的負電荷。哪一個陳述最正確？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "那裡的電位為零，但電場不為零，因為電場貢獻在同一水平方向上。"
+          },
+          {
+            "id": "b",
+            "label": "那裡的電場和電位都為零，因為兩個電荷具有相同的大小。"
+          },
+          {
+            "id": "c",
+            "label": "那裡的電場為零，但電位為正。"
+          }
+        ],
+        "explanation": "在等量偶極子的中點處，正電位和負電位相互抵消，但電場貢獻都指向從正來源到負來源的方向並且相加。",
+        "selectedWrongExplanations": {
+          "b": "相同的大小不足以實現電場的抵消。方向很重要，而且這裡的向量互相增強。",
+          "c": "這個正電位結果屬於兩個同號正電荷，而不是等量偶極子。"
+        },
+        "showMeAction": {
+          "label": "顯示零電位中點",
+          "observationHint": "讀取器顯示 V 接近於零，而箭頭仍然指向從正來源到負來源的方向。"
+        }
+      },
+      {
+        "id": "ep-qt-slope-to-field",
+        "prompt": "沿當前水平掃描線，電點陣圖在 x 增加的區域中下降。那裡的 E_x 必須為何?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "E_x 在那裡是正數，因為 E_x = -dV/dx 而斜率是負的。"
+          },
+          {
+            "id": "b",
+            "label": "E_x 在那裡是零，因為電位平滑地變化。"
+          },
+          {
+            "id": "c",
+            "label": "E_x 在那裡是負數，因為圖表正在向下移動。"
+          }
+        ],
+        "explanation": "斜率向下意味著 dV/dx 是負的，所以 E_x = -dV/dx 中的負號使 E_x 正數。",
+        "selectedWrongExplanations": {
+          "b": "平滑變化並不代表零斜率。只有平坦的圖表才會讓 E_x 在那條切片上消失。",
+          "c": "場取負斜率，而不是斜率本身。"
+        },
+        "showMeAction": {
+          "label": "顯示坡度-場的連結",
+          "observationHint": "懸停圖表並比較電位斜率與 E_x 曲線的符號。"
+        }
+      },
+      {
+        "id": "ep-qt-test-charge-energy",
+        "prompt": "一名學生説：「如果測試電荷變為負數，那點的電位也必須翻轉符號。」最好的修正應該是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "電勢不會因 q_test 改變；雖然 U = qV，但只有電勢能的符號會改變。"
+          },
+          {
+            "id": "b",
+            "label": "電勢只會翻轉當負試驗電荷大於源電荷時。"
+          },
+          {
+            "id": "c",
+            "label": "電位和電場都消失了，因為負電荷不能用作探測器。"
+          }
+        ],
+        "explanation": "來源電荷決定電勢。試驗電荷只是在這個已定好的電勢上，告訴你某個指定電荷會有多少電勢能。",
+        "selectedWrongExplanations": {
+          "b": "在此模型中，q_test 從未重新定義由源生成的電位。它僅僅將其乘以來製作出 U。",
+          "c": "負電荷同樣可以作為有效探針；它們之所以有用，正是因為可以揭示電勢能的符號。"
+        },
+        "showMeAction": {
+          "label": "顯示負試驗電荷能量",
+          "observationHint": "地圖和影像保持固定，而電勢能讀數會立即變號。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示兩個來源電荷放在水平軸上，一個可移動的探針電荷位於有界電勢區域內，並可選擇顯示帶符號的電勢地圖、等位線、探針位置的電場箭頭，以及供圖表使用的水平掃描線。",
+        "拖動探針會直接在舞台上改變取樣位置，而拖動任一源標記則會對稱地改變共享源間距。滑塊提供了相同的控制選項，包括源電荷符號和大小、間距、探針位置以及試驗電荷符號。",
+        "電勢地圖中的顏色飽和度在靠近來源的位置會被裁剪，以提高可讀性；但數值讀數和圖表仍保留正確趨勢，即探針愈接近電荷，電勢大小就愈快增加。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "電位掃描圖表顯示來源A的貢獻、來源B的貢獻以及沿當前水平掃描線的淨電位。懸停在圖表上可預覽舞台上相同的位置。",
+        "斜率與場強圖表沿同一掃描線繪出淨水平電場，以及與電勢圖對應的負斜率。試驗電荷的符號只會改變電勢能讀數，但圖表仍只顯示來源造成的 V 與 E 檢視。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "即時電勢檢查"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "電勢差檢查點"
+      },
+      {
+        "id": "readNext",
+        "title": "把這個電勢檢視延伸下去"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "source-positions",
+      "label": "對稱來源位置",
+      "meaning": "共享分離控制將兩個來源電荷等距離放置在水平軸上。"
+    },
+    {
+      "id": "potential-from-source",
+      "label": "一個來源的電位",
+      "meaning": "正來源貢獻正值，負來源貢獻負值，且隨著距離增大而減小。"
+    },
+    {
+      "id": "net-potential",
+      "label": "標量疊加",
+      "meaning": "淨電勢是某一點上各來源貢獻的帶符號總和。"
+    },
+    {
+      "id": "field-from-potential",
+      "label": "從電位到場強",
+      "meaning": "電場指向電位最陡峭下降的方向。"
+    },
+    {
+      "id": "scan-line-slope",
+      "label": "水平掃描線連結",
+      "meaning": "沿當前水平切片，場強的x分量是電點陣圖表的負斜率。"
+    },
+    {
+      "id": "potential-energy",
+      "label": "電勢能",
+      "meaning": "改變試驗電荷的符號會改變 U 的符號，但不會改變來源所設定的電勢。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "sourceChargeA",
+      "label": "來源 A 電荷",
+      "description": "改變來源 A 的符號和大小，會提高或降低附近的電勢圖，並重塑掃描曲線。"
+    },
+    {
+      "id": "sourceChargeB",
+      "label": "來源 B 電荷",
+      "description": "改變來源 B 的符號和大小，讓第二個電勢貢獻可以增強、抵消或反轉淨電勢。"
+    },
+    {
+      "id": "sourceSeparation",
+      "label": "來源間距",
+      "description": "沿軸把兩個來源對稱移動，這會改變來源到探針的距離，以及區域性電勢景觀的斜率。"
+    },
+    {
+      "id": "probeX",
+      "label": "探針 x 軸位置",
+      "description": "在舞台上移動探針並連動掃描圖表，令兩處都讀取同一個 x 位置。"
+    },
+    {
+      "id": "probeY",
+      "label": "探針 y 軸位置",
+      "description": "把探針移到新的水平切片上，讓地圖、等位線和圖表取樣不同的電勢景觀。"
+    },
+    {
+      "id": "testCharge",
+      "label": "試驗電荷",
+      "description": "只會透過 U = qV 改變電勢能讀數，不會改變電勢地圖或場強圖表。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "sourceChargeA",
+        "label": "源A電荷"
+      },
+      {
+        "id": "sourceChargeB",
+        "label": "源B電荷"
+      },
+      {
+        "id": "sourceSeparation",
+        "label": "源間距"
+      },
+      {
+        "id": "probeX",
+        "label": "探測器 x 軸位置"
+      },
+      {
+        "id": "probeY",
+        "label": "探測器 y 軸位置"
+      },
+      {
+        "id": "testCharge",
+        "label": "試驗電荷"
+      }
+    ]
+  }
+}

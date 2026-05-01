@@ -1,0 +1,1169 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live period checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Kepler checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Keep the orbit-timing story moving"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Compare circular orbits around one source mass and see why larger orbits take longer: the path is longer, the circular speed is lower, and the same live model makes the period law visible without hiding the gravity-speed link.",
+    "keyTakeaway": "For circular orbits around one source mass, the period follows $T_c = 2\\pi\\sqrt{r^3/M}$ in the displayed units with $G = 1$."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Kepler's third law is the timing view of the same circular-orbit balance you already met in the speed story. Around one source mass, larger circular orbits take longer because they have farther to travel and because the allowed circular speed is lower at larger radius.",
+        "This bounded lab keeps one source mass, one chosen reference orbit, one speed factor, one live path, and the linked radius, speed, and acceleration-balance graphs tied to the same state. That makes the period law honest: it is not a disconnected astronomy rule, but the time consequence of gravity setting the circular speed."
+      ]
+    },
+    "keyIdeas": [
+      "For circular orbits around one source mass, the period follows $T_c = 2\\pi\\sqrt{r^3/M}$ in the displayed units with $G = 1$.",
+      "At fixed source mass, a larger circular orbit has both a longer circumference and a lower circular speed, so the period grows faster than the radius alone.",
+      "Kepler's third law describes the circular-match case. If the speed factor moves away from 1.00, the path stops being the circular orbit whose period the law is talking about."
+    ],
+    "commonMisconception": {
+      "myth": "A larger orbit takes longer only because the object has farther to go around, while the orbital speed stays about the same.",
+      "correction": [
+        "The path is longer, but that is only half of the story. The circular speed is also lower at larger radius because gravity is weaker there.",
+        "That combination is why the period grows strongly with radius: the object travels farther and it does so more slowly."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Use the same source mass, reference orbit radius, and speed factor already on screen. These examples stay tied to the live bench instead of jumping to a detached answer key.",
+      "items": [
+        {
+          "id": "current-circular-period",
+          "title": "Current circular period",
+          "prompt": "For the current source mass and chosen circular orbit radius, what period should one full circular orbit take?",
+          "variables": [
+            {
+              "id": "sourceMass",
+              "variableId": "sourceMass",
+              "symbol": "M",
+              "label": "Source mass",
+              "valueKey": "sourceMassValue",
+              "unit": "kg"
+            },
+            {
+              "id": "orbitRadius",
+              "variableId": "orbitRadius",
+              "symbol": "r",
+              "label": "Reference orbit radius",
+              "valueKey": "orbitRadiusValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "speed",
+              "label": "1. Start from the circular speed",
+              "template": "For the circular case, the same gravity-turning balance gives $v_c = \\sqrt{M/r} = \\sqrt{{{sourceMassValue}}/{{orbitRadiusValue}}}$."
+            },
+            {
+              "id": "period-relation",
+              "label": "2. Turn speed into one full-orbit time",
+              "template": "A circular period is circumference divided by circular speed, so $T_c = 2\\pi r / v_c = 2\\pi\\sqrt{r^3/M}$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compute the live circular period",
+              "template": "For this bench, $T_c = {{periodValue}}\\,\\mathrm{s}$, with $\\omega_c = {{angularSpeedValue}}\\,\\mathrm{rad/s}$ and $T_c^2/r^3 = {{keplerRatioValue}}\\,\\mathrm{s^2/m^3}$."
+            }
+          ],
+          "resultLabel": "Current circular period",
+          "resultTemplate": "$T_c = {{periodValue}}\\,\\mathrm{s}$",
+          "interpretationTemplate": "{{periodInterpretation}}",
+          "applyAction": {
+            "label": "Show the outer long-year case",
+            "presetId": "outer-long-year",
+            "observationHint": "The circular speed drops while the circular period climbs sharply when the chosen orbit gets wider.",
+            "highlightedControlIds": [
+              "orbitRadius"
+            ],
+            "highlightedGraphIds": [
+              "speed-history",
+              "radius-history"
+            ],
+            "highlightedOverlayIds": [
+              "referenceOrbit",
+              "trail"
+            ]
+          }
+        },
+        {
+          "id": "radius-doubling-ratio",
+          "title": "What doubling the radius does",
+          "prompt": "Keeping the same source mass, how would the circular speed and circular period change if the chosen orbit radius doubled?",
+          "variables": [
+            {
+              "id": "orbitRadius",
+              "variableId": "orbitRadius",
+              "symbol": "r",
+              "label": "Current circular radius",
+              "valueKey": "orbitRadiusValue",
+              "unit": "m"
+            },
+            {
+              "id": "doubleRadius",
+              "symbol": "2r",
+              "label": "Doubled radius",
+              "valueKey": "doubleRadiusValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "period-ratio",
+              "label": "1. Use the period scaling",
+              "template": "At fixed source mass, $T \\propto r^{3/2}$, so doubling the radius gives $T_2/T_1 = (2)^{3/2} = {{doubleRadiusPeriodRatioValue}}$."
+            },
+            {
+              "id": "speed-ratio",
+              "label": "2. Use the speed scaling too",
+              "template": "The circular speed scales as $v_c \\propto r^{-1/2}$, so $v_2/v_1 = 1/\\sqrt{2} = {{doubleRadiusSpeedRatioValue}}$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Translate that into the current live case",
+              "template": "If this orbit changed from $r = {{orbitRadiusValue}}\\,\\mathrm{m}$ to $2r = {{doubleRadiusValue}}\\,\\mathrm{m}$ around the same source, the new circular speed would be ${{doubleRadiusCircularSpeedValue}}\\,\\mathrm{m/s}$ and the new circular period would be ${{doubleRadiusPeriodValue}}\\,\\mathrm{s}$."
+            }
+          ],
+          "resultLabel": "Radius-doubling comparison",
+          "resultTemplate": "$T_2/T_1 = {{doubleRadiusPeriodRatioValue}},\\; v_2/v_1 = {{doubleRadiusSpeedRatioValue}}$",
+          "interpretationTemplate": "{{radiusScalingInterpretation}}",
+          "applyAction": {
+            "label": "Show the inner vs outer contrast",
+            "presetId": "outer-long-year",
+            "observationHint": "The wider circular case has the lower speed curve and the much longer period readout even before you open compare mode.",
+            "highlightedControlIds": [
+              "orbitRadius"
+            ],
+            "highlightedGraphIds": [
+              "speed-history"
+            ],
+            "highlightedOverlayIds": [
+              "referenceOrbit",
+              "trail"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Keep the same source mass and the circular match. If the chosen orbit radius doubles, should the period double, grow by less than double, or grow by more than double?",
+      "prediction": "Answer before you try the inner and outer circular presets: is the longer year caused only by more distance around, or by both more distance and lower circular speed?",
+      "answer": "It grows by more than double.",
+      "explanation": "A larger circular orbit is not just a bigger circle. The allowed circular speed is also lower at larger radius, so the period scales as $r^{3/2}$ rather than directly as $r$."
+    }
+  },
+  "equations": [
+    {
+      "id": "gravity-acceleration",
+      "latex": "g = \\dfrac{M}{r^2}",
+      "label": "Gravity from one source mass",
+      "meaning": "In this bounded lab with displayed units using $G = 1$, the inward gravitational acceleration is set by source mass and radius."
+    },
+    {
+      "id": "circular-speed",
+      "latex": "v_c = \\sqrt{\\dfrac{M}{r}}",
+      "label": "Circular speed",
+      "meaning": "Matching gravity to the turning requirement fixes the sideways speed for a circular orbit at the chosen radius."
+    },
+    {
+      "id": "circular-period",
+      "latex": "T_c = 2\\pi\\sqrt{\\dfrac{r^3}{M}}",
+      "label": "Circular period",
+      "meaning": "The circular period grows strongly with radius and shortens for heavier source mass."
+    },
+    {
+      "id": "kepler-third-law",
+      "latex": "T_c^2 = \\dfrac{4\\pi^2}{M}r^3",
+      "label": "Kepler's third-law form for one source mass",
+      "meaning": "At fixed source mass, the period-squared versus radius-cubed ratio stays fixed for circular orbits in this one-source model."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "sourceMass",
+      "symbol": "M",
+      "label": "Source mass",
+      "param": "sourceMass",
+      "tone": "ink",
+      "description": "A heavier source mass supports a faster circular speed at the same radius, so the circular period gets shorter.",
+      "equationIds": [
+        "gravity-acceleration",
+        "circular-speed",
+        "circular-period",
+        "kepler-third-law"
+      ],
+      "graphIds": [
+        "speed-history",
+        "acceleration-balance"
+      ],
+      "overlayIds": [
+        "gravityVector",
+        "referenceOrbit"
+      ]
+    },
+    {
+      "id": "orbitRadius",
+      "symbol": "r",
+      "label": "Reference orbit radius",
+      "param": "orbitRadius",
+      "tone": "amber",
+      "description": "A larger circular orbit has more distance around and a lower circular speed, so the period increases strongly as radius grows.",
+      "equationIds": [
+        "gravity-acceleration",
+        "circular-speed",
+        "circular-period",
+        "kepler-third-law"
+      ],
+      "graphIds": [
+        "radius-history",
+        "speed-history",
+        "acceleration-balance"
+      ],
+      "overlayIds": [
+        "referenceOrbit",
+        "radiusLine",
+        "trail"
+      ]
+    },
+    {
+      "id": "speedFactor",
+      "symbol": "\\dfrac{v}{v_c}",
+      "label": "Speed factor",
+      "param": "speedFactor",
+      "tone": "sky",
+      "description": "Kepler's third law is about the circular-match case. At 1.00 the live orbit is the circular case; away from 1.00 the path stops being the orbit whose circular period the law describes.",
+      "equationIds": [
+        "circular-speed"
+      ],
+      "graphIds": [
+        "radius-history",
+        "speed-history",
+        "acceleration-balance"
+      ],
+      "overlayIds": [
+        "velocityVector",
+        "gravityVector",
+        "trail"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "sourceMass": 4,
+      "orbitRadius": 1.4,
+      "speedFactor": 1,
+      "referenceOrbit": true,
+      "radiusLine": true,
+      "velocityVector": true,
+      "gravityVector": true,
+      "trail": true
+    },
+    "ui": {
+      "initialGraphId": "speed-history",
+      "primaryGraphIds": [
+        "speed-history"
+      ],
+      "primaryControlIds": [
+        "orbitRadius"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "sourceMass",
+        "kind": "slider",
+        "label": "Source mass",
+        "param": "sourceMass",
+        "min": 2,
+        "max": 6,
+        "step": 0.05,
+        "unit": "kg",
+        "description": "Changes the mass creating the inward gravity."
+      },
+      {
+        "id": "orbitRadius",
+        "kind": "slider",
+        "label": "Reference orbit radius",
+        "param": "orbitRadius",
+        "min": 0.9,
+        "max": 2.2,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Sets the dashed circular orbit whose period and speed are being compared."
+      },
+      {
+        "id": "speedFactor",
+        "kind": "slider",
+        "label": "Speed factor",
+        "param": "speedFactor",
+        "min": 0.8,
+        "max": 1.1,
+        "step": 0.01,
+        "unit": "x circular",
+        "description": "1.00 means the actual speed equals the circular-orbit speed for the chosen mass and radius."
+      }
+    ],
+    "presets": [
+      {
+        "id": "kepler-baseline",
+        "label": "Baseline year",
+        "description": "A circular orbit with a medium radius and the speed factor set exactly to 1.",
+        "values": {
+          "sourceMass": 4,
+          "orbitRadius": 1.4,
+          "speedFactor": 1
+        }
+      },
+      {
+        "id": "inner-short-year",
+        "label": "Inner short year",
+        "description": "A smaller circular orbit around the same source mass moves faster and finishes sooner.",
+        "values": {
+          "sourceMass": 4,
+          "orbitRadius": 1.05,
+          "speedFactor": 1
+        }
+      },
+      {
+        "id": "outer-long-year",
+        "label": "Outer long year",
+        "description": "A wider circular orbit around the same source mass moves more slowly and takes much longer to go around.",
+        "values": {
+          "sourceMass": 4,
+          "orbitRadius": 2.1,
+          "speedFactor": 1
+        }
+      },
+      {
+        "id": "heavier-shorter-year",
+        "label": "Heavier source",
+        "description": "At the same radius, a heavier source mass shortens the circular period because the allowed circular speed rises.",
+        "values": {
+          "sourceMass": 5.2,
+          "orbitRadius": 1.4,
+          "speedFactor": 1
+        }
+      },
+      {
+        "id": "too-slow-not-circular",
+        "label": "Too slow to stay circular",
+        "description": "Lowering the speed factor below 1 breaks the circular case, so the path bends inward instead of tracing a new circular year.",
+        "values": {
+          "sourceMass": 4,
+          "orbitRadius": 1.4,
+          "speedFactor": 0.88
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "referenceOrbit",
+        "label": "Reference orbit",
+        "shortDescription": "Shows the dashed circle for the chosen circular-orbit target.",
+        "whatToNotice": [
+          "Kepler's law is about the circular case riding on this dashed orbit, not about paths that peel away from it."
+        ],
+        "whyItMatters": "It keeps the chosen circular year separate from the actual path when the speed factor is not matched.",
+        "relatedControls": [
+          "orbitRadius",
+          "speedFactor"
+        ],
+        "relatedGraphTabs": [
+          "radius-history"
+        ],
+        "relatedEquationVariables": [
+          "orbitRadius",
+          "speedFactor"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "radiusLine",
+        "label": "Radius line",
+        "shortDescription": "Shows the current source-to-satellite radius.",
+        "whatToNotice": [
+          "The same radius setting that makes the circle wider also changes the allowed circular speed and the period."
+        ],
+        "whyItMatters": "It keeps the geometry of the larger-versus-smaller orbit visible while you compare timing consequences.",
+        "relatedControls": [
+          "orbitRadius"
+        ],
+        "relatedGraphTabs": [
+          "radius-history",
+          "acceleration-balance"
+        ],
+        "relatedEquationVariables": [
+          "orbitRadius"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "velocityVector",
+        "label": "Velocity vector",
+        "shortDescription": "Shows the current tangent direction and speed of the orbiting body.",
+        "whatToNotice": [
+          "Wider circular orbits have shorter velocity vectors because the allowed circular speed is lower."
+        ],
+        "whyItMatters": "It makes the slower-part of the longer-year story visible instead of hiding it in a formula only.",
+        "relatedControls": [
+          "speedFactor",
+          "orbitRadius"
+        ],
+        "relatedGraphTabs": [
+          "speed-history"
+        ],
+        "relatedEquationVariables": [
+          "orbitRadius",
+          "speedFactor"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "gravityVector",
+        "label": "Gravity vector",
+        "shortDescription": "Shows the inward gravitational acceleration that bends the path.",
+        "whatToNotice": [
+          "This same inward gravity is what sets the slower circular speed at larger radius and the shorter year for heavier source mass."
+        ],
+        "whyItMatters": "It keeps the timing law connected to the actual force picture instead of making period feel detached from gravity.",
+        "relatedControls": [
+          "sourceMass",
+          "orbitRadius",
+          "speedFactor"
+        ],
+        "relatedGraphTabs": [
+          "acceleration-balance"
+        ],
+        "relatedEquationVariables": [
+          "sourceMass",
+          "orbitRadius",
+          "speedFactor"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "trail",
+        "label": "Trajectory trail",
+        "shortDescription": "Leaves the actual path behind the moving body over the current time window.",
+        "whatToNotice": [
+          "At the circular match, the trail keeps tracing one stable orbit whose timing can be described cleanly. Off the match, the path stops being that circular case."
+        ],
+        "whyItMatters": "It shows when you are still looking at a circular-orbit year and when you have left the Kepler-law case.",
+        "relatedControls": [
+          "speedFactor"
+        ],
+        "relatedGraphTabs": [
+          "radius-history"
+        ],
+        "relatedEquationVariables": [
+          "speedFactor"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "radius-history",
+      "label": "Radius over time",
+      "xLabel": "time (s)",
+      "yLabel": "radius (m)",
+      "series": [
+        "radius",
+        "reference-radius"
+      ],
+      "description": "Use this graph to confirm whether you are still in the circular case being described by the period law."
+    },
+    {
+      "id": "speed-history",
+      "label": "Actual speed and circular speed",
+      "xLabel": "time (s)",
+      "yLabel": "speed (m/s)",
+      "series": [
+        "actual-speed",
+        "circular-speed"
+      ],
+      "description": "The wider-orbit story becomes intuitive here: larger radius lowers the circular-speed curve, which helps lengthen the period."
+    },
+    {
+      "id": "acceleration-balance",
+      "label": "Gravity and turning requirement",
+      "xLabel": "time (s)",
+      "yLabel": "inward acceleration (m/s^2)",
+      "series": [
+        "gravity-available",
+        "centripetal-required"
+      ],
+      "description": "Kepler's law is the timing consequence of this same balance when the actual path is circular."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use one prompt at a time. The clearest period idea depends on whether you are comparing circular cases, changing source mass, or breaking the circular condition.",
+    "items": [
+      {
+        "id": "ktl-notice-two-reasons",
+        "text": "In compare mode, notice that the wider circular orbit has both a bigger circle to travel and a lower speed curve. Both effects lengthen the year.",
+        "type": "compare",
+        "priority": 8,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Open compare mode, keep both setups at speed factor 1.00, then make one orbit much wider. Watch the speed-history graph and the circular-period readout together.",
+        "whyItMatters": "This is the most intuitive bridge into $T \\propto r^{3/2}$.",
+        "relatedControls": [
+          "orbitRadius"
+        ],
+        "relatedGraphTabs": [
+          "speed-history",
+          "radius-history"
+        ],
+        "relatedOverlays": [
+          "referenceOrbit",
+          "trail"
+        ],
+        "relatedEquationVariables": [
+          "orbitRadius"
+        ]
+      },
+      {
+        "id": "ktl-notice-kepler-constant",
+        "text": "With the source mass fixed and the orbit still circular, the period readout changes but the $T^2/r^3$ readout stays fixed.",
+        "type": "graph-reading",
+        "priority": 7,
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "speedFactor",
+              "min": 0.99,
+              "max": 1.01
+            }
+          ]
+        },
+        "tryThis": "Move the radius slider while keeping speed factor at 1.00. The speed curve shifts and the period changes, but the law ratio stays tied to the same source mass.",
+        "whyItMatters": "It is the direct readout version of Kepler's third law for this one-source model.",
+        "relatedControls": [
+          "orbitRadius",
+          "speedFactor"
+        ],
+        "relatedGraphTabs": [
+          "speed-history"
+        ],
+        "relatedOverlays": [
+          "referenceOrbit"
+        ],
+        "relatedEquationVariables": [
+          "orbitRadius",
+          "sourceMass"
+        ]
+      },
+      {
+        "id": "ktl-notice-heavier-source",
+        "text": "At the same radius, increasing the source mass shortens the circular year because stronger gravity supports a faster circular speed.",
+        "type": "observation",
+        "priority": 6,
+        "conditions": {
+          "lastChangedControls": [
+            "sourceMass"
+          ],
+          "controlRanges": [
+            {
+              "param": "speedFactor",
+              "min": 0.99,
+              "max": 1.01
+            }
+          ]
+        },
+        "tryThis": "Keep the radius fixed, then raise the source mass. The speed readout rises and the circular period falls.",
+        "whyItMatters": "It shows that the law constant changes with the source mass, not just with the orbit size.",
+        "relatedControls": [
+          "sourceMass"
+        ],
+        "relatedGraphTabs": [
+          "speed-history",
+          "acceleration-balance"
+        ],
+        "relatedOverlays": [
+          "gravityVector"
+        ],
+        "relatedEquationVariables": [
+          "sourceMass"
+        ]
+      },
+      {
+        "id": "ktl-notice-law-needs-circle",
+        "text": "If the speed factor moves away from 1.00, you are no longer looking at the circular orbit whose period Kepler's law describes.",
+        "type": "misconception",
+        "priority": 9,
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "speedFactor",
+              "max": 0.97
+            }
+          ]
+        },
+        "tryThis": "Apply Too slow to stay circular, then compare the dashed reference orbit with the actual trail and the acceleration-balance graph.",
+        "whyItMatters": "It prevents the period law from being used as if it applied to every drifting path built from the same starting radius.",
+        "relatedControls": [
+          "speedFactor"
+        ],
+        "relatedGraphTabs": [
+          "radius-history",
+          "acceleration-balance"
+        ],
+        "relatedOverlays": [
+          "trail",
+          "referenceOrbit",
+          "gravityVector"
+        ],
+        "relatedEquationVariables": [
+          "speedFactor"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the timing consequence before you apply the preset. Use the live readouts, overlays, and graphs to check the answer afterward.",
+    "items": [
+      {
+        "id": "ktl-pred-outer-year",
+        "prompt": "At the same source mass, what changes most clearly when the circular orbit radius increases while the speed factor stays at 1.00?",
+        "scenarioLabel": "Wider circular orbit",
+        "changeLabel": "Reference orbit radius",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The circular speed decreases and the circular period increases by more than the radius alone."
+          },
+          {
+            "id": "b",
+            "label": "The circular speed increases because larger circles always need more speed to get around."
+          },
+          {
+            "id": "c",
+            "label": "The period stays about the same because the speed factor did not change."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At fixed source mass, $v_c = \\sqrt{M/r}$ falls with radius while $T_c = 2\\pi\\sqrt{r^3/M}$ rises strongly. Keeping speed factor at 1 preserves the circular match at the new radius.",
+        "observationHint": "The dashed circle gets wider, the speed curve shifts downward, and the circular period readout climbs sharply.",
+        "apply": {
+          "presetId": "outer-long-year"
+        },
+        "highlightedControls": [
+          "orbitRadius"
+        ],
+        "highlightedGraphs": [
+          "speed-history",
+          "radius-history"
+        ],
+        "highlightedOverlays": [
+          "referenceOrbit",
+          "trail"
+        ]
+      },
+      {
+        "id": "ktl-pred-heavier-source",
+        "prompt": "At the same radius and with speed factor held at 1.00, what should a heavier source mass do to the circular year?",
+        "scenarioLabel": "Heavier source at the same radius",
+        "changeLabel": "Source mass",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It shortens the circular period because stronger gravity supports a faster circular speed."
+          },
+          {
+            "id": "b",
+            "label": "It lengthens the period because stronger gravity has more distance to control."
+          },
+          {
+            "id": "c",
+            "label": "It leaves the period unchanged because only radius matters in Kepler's law."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "For circular orbits around one source, $T_c = 2\\pi\\sqrt{r^3/M}$, so increasing $M$ at fixed $r$ shortens the period. The live speed readout rises at the same time.",
+        "observationHint": "The radius stays fixed, but the circular speed rises and the circular period drops.",
+        "apply": {
+          "presetId": "heavier-shorter-year"
+        },
+        "highlightedControls": [
+          "sourceMass"
+        ],
+        "highlightedGraphs": [
+          "speed-history",
+          "acceleration-balance"
+        ],
+        "highlightedOverlays": [
+          "gravityVector",
+          "referenceOrbit"
+        ]
+      },
+      {
+        "id": "ktl-pred-break-circle",
+        "prompt": "If the speed factor drops below 1.00 while the reference radius stays fixed, what is the honest claim about the period law?",
+        "scenarioLabel": "Too little orbital speed",
+        "changeLabel": "Speed factor",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The path bends inward, so you are no longer looking at the circular orbit whose period the law describes."
+          },
+          {
+            "id": "b",
+            "label": "The orbit is still circular, just with a slightly longer Kepler period."
+          },
+          {
+            "id": "c",
+            "label": "The period law works better because gravity now dominates the motion."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Kepler's third law here is the circular-case timing rule. Lowering the speed below the circular value makes gravity stronger than the turning requirement, so the path bends inward instead of tracing a new stable circular year.",
+        "observationHint": "The trail falls inside the dashed orbit and the acceleration-balance graph shows gravity above $v^2/r$.",
+        "apply": {
+          "presetId": "too-slow-not-circular"
+        },
+        "highlightedControls": [
+          "speedFactor"
+        ],
+        "highlightedGraphs": [
+          "acceleration-balance",
+          "radius-history"
+        ],
+        "highlightedOverlays": [
+          "gravityVector",
+          "trail",
+          "referenceOrbit"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Build honest circular-year comparisons from the same live gravity model. The checks read the same orbit state, overlays, and graphs instead of a detached answer key.",
+    "items": [
+      {
+        "id": "ktl-ch-inner-vs-outer-years",
+        "title": "Inner year vs outer year",
+        "style": "visible-condition",
+        "prompt": "Open compare mode, keep the same source mass in both setups, set Setup A to the inner circular orbit, and set Setup B to the much wider circular orbit so Setup B has the longer year.",
+        "successMessage": "You kept the comparison honest: the same source mass, both setups circular, Setup A on the inner short-year orbit, and Setup B on the wider longer-year orbit.",
+        "setup": {
+          "presetId": "kepler-baseline",
+          "interactionMode": "compare",
+          "graphId": "speed-history",
+          "overlayIds": [
+            "referenceOrbit",
+            "trail"
+          ],
+          "note": "Keep both setups at speed factor 1.00. Put Setup A near 1.05 m and Setup B near 2.10 m so the timing difference stays about radius rather than leaving the circular case."
+        },
+        "requirements": {
+          "graphId": "speed-history",
+          "overlayIds": [
+            "referenceOrbit",
+            "trail"
+          ],
+          "compareActive": true,
+          "compareTarget": "b"
+        },
+        "hints": [
+          "Use the same source mass in both setups so the timing difference stays about radius.",
+          "Set Setup A near the inner short-year radius and Setup B near the outer long-year radius.",
+          "The wider circular orbit should have the lower circular speed and the longer period."
+        ],
+        "targets": [
+          {
+            "setup": "a",
+            "param": "sourceMass",
+            "min": 3.95,
+            "max": 4.05,
+            "displayUnit": "kg"
+          },
+          {
+            "setup": "b",
+            "param": "sourceMass",
+            "min": 3.95,
+            "max": 4.05,
+            "displayUnit": "kg"
+          },
+          {
+            "setup": "a",
+            "param": "orbitRadius",
+            "min": 1,
+            "max": 1.1,
+            "displayUnit": "m"
+          },
+          {
+            "setup": "b",
+            "param": "orbitRadius",
+            "min": 2,
+            "max": 2.1,
+            "displayUnit": "m"
+          },
+          {
+            "setup": "a",
+            "metric": "speedFactor",
+            "min": 0.99,
+            "max": 1.01
+          },
+          {
+            "setup": "b",
+            "metric": "speedFactor",
+            "min": 0.99,
+            "max": 1.01
+          },
+          {
+            "setup": "a",
+            "metric": "period",
+            "min": 3.3,
+            "max": 3.5,
+            "displayUnit": "s"
+          },
+          {
+            "setup": "b",
+            "metric": "period",
+            "min": 9.4,
+            "max": 9.7,
+            "displayUnit": "s"
+          }
+        ]
+      },
+      {
+        "id": "ktl-ch-heavier-shorter-year",
+        "title": "Heavier source, shorter year",
+        "style": "target-setting",
+        "prompt": "Starting from Baseline year, raise the source mass while keeping the same radius circular so the period becomes clearly shorter.",
+        "successMessage": "You shortened the circular year by making the source heavier while keeping the orbit circular at the same radius.",
+        "setup": {
+          "presetId": "kepler-baseline",
+          "graphId": "speed-history",
+          "overlayIds": [
+            "gravityVector",
+            "referenceOrbit"
+          ],
+          "note": "Leave the radius near 1.4 m and keep the speed factor near 1.00."
+        },
+        "requirements": {
+          "graphId": "speed-history",
+          "overlayIds": [
+            "gravityVector",
+            "referenceOrbit"
+          ]
+        },
+        "hints": [
+          "A heavier source should make the circular speed rise, not fall.",
+          "This target is about changing the source mass while preserving the circular case."
+        ],
+        "targets": [
+          {
+            "param": "sourceMass",
+            "min": 5.15,
+            "max": 5.25,
+            "displayUnit": "kg"
+          },
+          {
+            "param": "orbitRadius",
+            "min": 1.35,
+            "max": 1.45,
+            "displayUnit": "m"
+          },
+          {
+            "metric": "speedFactor",
+            "min": 0.99,
+            "max": 1.01
+          },
+          {
+            "metric": "actualSpeed",
+            "min": 1.88,
+            "max": 1.97,
+            "displayUnit": "m/s"
+          },
+          {
+            "metric": "period",
+            "min": 4.48,
+            "max": 4.64,
+            "displayUnit": "s"
+          }
+        ]
+      },
+      {
+        "id": "ktl-ch-not-circular-anymore",
+        "title": "Break the circular-year case",
+        "style": "target-setting",
+        "prompt": "Starting from Baseline year, lower the speed enough that the path is no longer the circular orbit Kepler's law is describing.",
+        "successMessage": "You built the honest off-circle case: gravity now exceeds the turning requirement, so the path falls inward instead of tracing a new circular year.",
+        "setup": {
+          "presetId": "kepler-baseline",
+          "graphId": "acceleration-balance",
+          "overlayIds": [
+            "referenceOrbit",
+            "gravityVector",
+            "trail"
+          ],
+          "note": "Keep the source mass and radius near baseline first, then lower only the speed factor."
+        },
+        "requirements": {
+          "graphId": "acceleration-balance",
+          "overlayIds": [
+            "referenceOrbit",
+            "gravityVector",
+            "trail"
+          ]
+        },
+        "hints": [
+          "A smaller speed lowers $v^2/r$ at the same radius.",
+          "This challenge is about showing why the period law does not apply once the path stops being circular."
+        ],
+        "targets": [
+          {
+            "param": "orbitRadius",
+            "min": 1.35,
+            "max": 1.45,
+            "displayUnit": "m"
+          },
+          {
+            "metric": "speedFactor",
+            "min": 0.87,
+            "max": 0.89
+          },
+          {
+            "metric": "actualSpeed",
+            "min": 1.45,
+            "max": 1.53,
+            "displayUnit": "m/s"
+          },
+          {
+            "metric": "gravityAcceleration",
+            "min": 2,
+            "max": 2.08,
+            "displayUnit": "m/s^2"
+          },
+          {
+            "metric": "requiredCentripetalAcceleration",
+            "min": 1.55,
+            "max": 1.61,
+            "displayUnit": "m/s^2"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the linked orbit state, not from detached memorization. The aim is to read why larger circular orbits take longer and when the law does not apply.",
+    "questions": [
+      {
+        "id": "ktl-qt-radius-doubling",
+        "type": "reasoning",
+        "prompt": "Around the same source mass, the circular orbit radius doubles while the path stays circular. What must be true?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The circular period becomes more than twice as large, and the circular speed becomes smaller."
+          },
+          {
+            "id": "b",
+            "label": "The period exactly doubles because the distance around doubled."
+          },
+          {
+            "id": "c",
+            "label": "The period stays almost the same because the weaker gravity cancels the larger circle."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At fixed source mass, $T \\propto r^{3/2}$ and $v_c \\propto r^{-1/2}$. A wider circular orbit takes longer because it is both farther around and slower.",
+        "selectedWrongExplanations": {
+          "b": "Doubling the distance around is only half of the story. The circular speed also falls at larger radius, so the period grows by more than a factor of two.",
+          "c": "Weaker gravity does lower the circular speed, but that makes the period longer rather than leaving it unchanged."
+        },
+        "showMeAction": {
+          "label": "Show the outer long-year case",
+          "presetId": "outer-long-year",
+          "observationHint": "The speed curve sits lower and the circular period readout climbs well above the baseline value.",
+          "highlightedControlIds": [
+            "orbitRadius"
+          ],
+          "highlightedGraphIds": [
+            "speed-history",
+            "radius-history"
+          ],
+          "highlightedOverlayIds": [
+            "referenceOrbit",
+            "trail"
+          ]
+        }
+      },
+      {
+        "id": "ktl-qt-heavier-source",
+        "type": "variable-effect",
+        "prompt": "At the same radius, the source mass increases while the orbit stays circular. Which claim is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The circular year gets shorter because the allowed circular speed rises."
+          },
+          {
+            "id": "b",
+            "label": "The circular year gets longer because stronger gravity needs more time to pull inward."
+          },
+          {
+            "id": "c",
+            "label": "The circular year stays the same because only radius matters."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "For circular orbits in this one-source model, $T_c = 2\\pi\\sqrt{r^3/M}$, so increasing $M$ at fixed $r$ shortens the period.",
+        "selectedWrongExplanations": {
+          "b": "Stronger gravity supports a faster circular speed at the same radius, so the period becomes shorter, not longer.",
+          "c": "Radius matters, but source mass matters too. It changes the constant in Kepler's law."
+        },
+        "showMeAction": {
+          "label": "Show the heavier source case",
+          "presetId": "heavier-shorter-year",
+          "observationHint": "The radius stays the same, but the speed rises and the period drops.",
+          "highlightedControlIds": [
+            "sourceMass"
+          ],
+          "highlightedGraphIds": [
+            "speed-history",
+            "acceleration-balance"
+          ],
+          "highlightedOverlayIds": [
+            "gravityVector",
+            "referenceOrbit"
+          ]
+        }
+      },
+      {
+        "id": "ktl-qt-why-longer",
+        "type": "reasoning",
+        "prompt": "What is the best intuitive explanation for why a larger circular orbit takes longer around the same source mass?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It has farther to travel and the allowed circular speed is lower, so both effects lengthen the period."
+          },
+          {
+            "id": "b",
+            "label": "Only the distance around changes; the speed is basically unchanged."
+          },
+          {
+            "id": "c",
+            "label": "Gravity is weaker, so the object gets pulled around faster."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Kepler's third law is the timing summary of two linked effects: the circumference grows with radius and the circular speed falls with radius.",
+        "selectedWrongExplanations": {
+          "b": "The circular speed does not stay fixed. It falls with radius, which is why the period grows more strongly than circumference alone.",
+          "c": "Weaker gravity means gentler turning and lower circular speed, so the period gets longer, not shorter."
+        },
+        "showMeAction": {
+          "label": "Show the inner and outer contrast",
+          "presetId": "outer-long-year",
+          "observationHint": "Use the speed readout and the period readout together. The outer orbit is slower and takes much longer.",
+          "highlightedControlIds": [
+            "orbitRadius"
+          ],
+          "highlightedGraphIds": [
+            "speed-history"
+          ],
+          "highlightedOverlayIds": [
+            "velocityVector",
+            "referenceOrbit"
+          ]
+        }
+      },
+      {
+        "id": "ktl-qt-law-needs-circle",
+        "type": "misconception-check",
+        "prompt": "The speed factor is lowered below 1 while the chosen reference radius stays the same. Which statement is now honest?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The path bends inward, so this is no longer the circular-orbit case whose period Kepler's law describes."
+          },
+          {
+            "id": "b",
+            "label": "The orbit stays circular, just with a slightly longer period from the same law."
+          },
+          {
+            "id": "c",
+            "label": "Kepler's law works even better because gravity is more important than speed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Lowering the speed below the circular value makes gravity larger than the turning requirement, so the trail bends inward instead of tracing a stable circular orbit.",
+        "selectedWrongExplanations": {
+          "b": "A different period would still require a different circular balance. Here the path is no longer circular at all.",
+          "c": "The law here is the circular-case timing rule, so leaving the circular case does not make the law more applicable."
+        },
+        "showMeAction": {
+          "label": "Show the off-circle case",
+          "presetId": "too-slow-not-circular",
+          "observationHint": "The trail drops inside the dashed circle and the acceleration-balance graph shows gravity above $v^2/r$.",
+          "highlightedControlIds": [
+            "speedFactor"
+          ],
+          "highlightedGraphIds": [
+            "acceleration-balance",
+            "radius-history"
+          ],
+          "highlightedOverlayIds": [
+            "gravityVector",
+            "trail",
+            "referenceOrbit"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one fixed source mass at the center, a moving satellite launched from the right side of a chosen circular reference radius, and optional overlays for the dashed reference orbit, the live radius line, the tangent velocity vector, the inward gravity vector, and the trajectory trail.",
+        "Changing source mass, reference orbit radius, or speed factor updates the same orbit path, circular-speed readout, circular-period readout, law-ratio readout, and linked graphs together. Compare mode overlays a second setup without switching to a separate orbit model.",
+        "The displayed units use a bounded one-source gravity model with $G = 1$. A minimum sample radius keeps the stage and graphs finite and readable while preserving the correct inward and inverse-square trends."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The radius-history graph compares the live radius with the chosen circular reference radius over time so you can tell whether the path is still the circular case.",
+        "The speed-history graph compares the live speed with the circular speed required at the current radius, and the acceleration-balance graph compares gravity with the turning requirement $v^2/r$ on that same live path."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Kepler's Third Law and Orbital Periods | Open Model Lab",
+    "description": "Learn why larger circular orbits take longer with a compact gravity lab that links orbital radius, circular speed, orbital period, compare mode, live readouts, guided prompts, and conceptual quick tests.",
+    "keywords": [
+      "Kepler's third law",
+      "orbital period",
+      "circular orbit",
+      "gravity",
+      "physics simulation"
+    ]
+  }
+}

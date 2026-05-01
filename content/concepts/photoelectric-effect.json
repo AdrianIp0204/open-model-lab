@@ -1,0 +1,1277 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live photoelectric checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Threshold checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Carry the frequency story forward"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Use one compact lamp-to-metal bench to see why light frequency sets electron emission, why intensity alone fails below threshold, and how stopping potential reads the electron energy honestly.",
+    "keyTakeaway": "Below the threshold frequency, raising intensity alone still gives no emitted electrons.",
+    "whyItMatters": "The effect is the shortest route from wave brightness intuition to a measurable photon-energy story: threshold frequency decides whether emission starts, and stopping voltage measures the leftover electron energy."
+  },
+  "v2": {
+    "intuition": "Treat the lamp as a photon-energy budget. Brightness changes how many photons arrive, but frequency decides whether each one can clear the metal's work-function barrier.",
+    "whyItMatters": "The photoelectric effect is where threshold behavior, current, and stopping voltage make the photon model feel necessary instead of decorative.",
+    "estimatedMinutes": 16,
+    "equationSnapshot": {
+      "title": "Threshold and energy snapshot",
+      "note": "Compare hf with the work function first; only above threshold do current and stopping voltage become meaningful measurements.",
+      "equationIds": [
+        "photon-energy",
+        "kinetic-energy",
+        "stopping-potential"
+      ]
+    },
+    "startSetup": {
+      "presetId": "red-below-threshold",
+      "graphId": "energy-balance",
+      "overlayIds": [
+        "thresholdGate",
+        "energyBudget",
+        "intensityFlux"
+      ],
+      "note": "Begin below threshold so brightness can be tested before frequency turns emission on."
+    },
+    "guidedSteps": [
+      {
+        "id": "test-brightness-below-threshold",
+        "title": "Test brightness below threshold",
+        "goal": "Separate photon energy from total beam brightness before any electrons appear.",
+        "doThis": "Start from Red below threshold, then switch to Bright but still below threshold while the threshold gate and energy budget stay visible.",
+        "notice": "The lamp looks brighter and photon flux rises, but hf remains below the work function and collected current stays at zero.",
+        "explain": "Intensity changes how many photons arrive each second. If each photon is still below the work-function barrier, no single electron gets enough energy to escape.",
+        "reveal": {
+          "controlIds": [
+            "frequencyPHz",
+            "intensity"
+          ],
+          "graphIds": [
+            "energy-balance",
+            "intensity-sweep"
+          ],
+          "overlayIds": [
+            "thresholdGate",
+            "intensityFlux",
+            "energyBudget"
+          ]
+        },
+        "setup": {
+          "presetId": "bright-below-threshold",
+          "graphId": "energy-balance",
+          "overlayIds": [
+            "thresholdGate",
+            "intensityFlux",
+            "energyBudget"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Predict the brightness test",
+          "predictionIds": [
+            "pe-pred-bright-red"
+          ],
+          "questionIds": [
+            "pe-qt-bright-below-threshold"
+          ]
+        }
+      },
+      {
+        "id": "cross-the-frequency-threshold",
+        "title": "Cross the frequency threshold",
+        "goal": "See frequency turn emission on and create leftover electron energy.",
+        "doThis": "Move from the bright red case to Violet above threshold, then read the energy-balance graph and emitted-electron stage together.",
+        "notice": "As hf crosses the barrier, electrons appear, Kmax becomes positive, and the stopping-potential readout becomes nonzero.",
+        "explain": "Frequency changes energy per photon. Crossing threshold is the on/off gate; extra photon energy above the work function becomes maximum kinetic energy.",
+        "reveal": {
+          "controlIds": [
+            "frequencyPHz",
+            "workFunctionEv"
+          ],
+          "graphIds": [
+            "energy-balance",
+            "collector-sweep"
+          ],
+          "overlayIds": [
+            "thresholdGate",
+            "energyBudget"
+          ]
+        },
+        "setup": {
+          "presetId": "violet-above-threshold",
+          "graphId": "energy-balance",
+          "overlayIds": [
+            "thresholdGate",
+            "energyBudget"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Predict the threshold crossing",
+          "predictionIds": [
+            "pe-pred-frequency"
+          ]
+        }
+      },
+      {
+        "id": "separate-count-from-energy",
+        "title": "Separate count from energy",
+        "goal": "Use above-threshold light to distinguish electron current from electron energy.",
+        "doThis": "Compare Dim but above threshold with Violet above threshold while the intensity-sweep and energy-budget views are available.",
+        "notice": "Changing intensity changes the available and collected current, but Kmax and stopping potential stay tied to frequency.",
+        "explain": "Above threshold, brightness mostly changes how many electrons are emitted per second. It does not make each emitted electron faster unless frequency changes too.",
+        "reveal": {
+          "controlIds": [
+            "intensity",
+            "frequencyPHz"
+          ],
+          "graphIds": [
+            "intensity-sweep",
+            "energy-balance"
+          ],
+          "overlayIds": [
+            "intensityFlux",
+            "energyBudget"
+          ]
+        },
+        "setup": {
+          "presetId": "dim-above-threshold",
+          "graphId": "intensity-sweep",
+          "overlayIds": [
+            "intensityFlux",
+            "energyBudget"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Check count versus energy",
+          "questionIds": [
+            "pe-qt-intensity-vs-energy"
+          ]
+        }
+      },
+      {
+        "id": "read-stopping-voltage",
+        "title": "Read stopping voltage",
+        "goal": "Turn the retarding collector field into a measurement of maximum electron energy.",
+        "doThis": "Apply Stopping-potential cutoff, then compare the collector-voltage sweep with the energy-budget card.",
+        "notice": "A negative collector voltage can reduce collected current to nearly zero while electrons are still emitted at the metal surface.",
+        "explain": "The stopping voltage does not create the photons. It measures the energy the fastest emitted electrons had after escaping: eVstop = Kmax.",
+        "reveal": {
+          "controlIds": [
+            "collectorVoltage"
+          ],
+          "graphIds": [
+            "collector-sweep"
+          ],
+          "overlayIds": [
+            "stoppingField",
+            "energyBudget"
+          ]
+        },
+        "setup": {
+          "presetId": "stopping-potential-cutoff",
+          "graphId": "collector-sweep",
+          "overlayIds": [
+            "stoppingField",
+            "energyBudget"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Check the voltage measurement",
+          "predictionIds": [
+            "pe-pred-retarding-field"
+          ],
+          "questionIds": [
+            "pe-qt-stopping-potential"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Threshold frequency decides whether emission can begin at all.",
+        "Intensity changes photon flux and current, not the energy carried by each photon.",
+        "Above threshold, extra photon energy becomes maximum electron kinetic energy.",
+        "Stopping potential measures that maximum kinetic energy by just preventing collection."
+      ],
+      "misconception": "Do not treat brightness as stored-up energy that eventually ejects electrons below threshold. In this model, each emitted electron needs one photon above the work-function barrier.",
+      "workedExampleRefs": [
+        "current-energy-budget",
+        "current-stopping-potential"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "atomic-spectra",
+          "title": "Atomic Spectra",
+          "reasonLabel": "Carry photon energy into discrete line spectra."
+        },
+        {
+          "slug": "electric-potential",
+          "title": "Electric Potential",
+          "reasonLabel": "Connect stopping voltage to potential-energy differences."
+        },
+        {
+          "slug": "light-spectrum-linkage",
+          "title": "Light as an Electromagnetic Wave",
+          "reasonLabel": "Revisit frequency, wavelength, and color on the spectrum rail."
+        }
+      ],
+      "freePlayPrompt": "Build a side-by-side comparison with bright red below threshold and dim violet above threshold, then explain which beam ejects electrons and which one gives more current."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "commonMisconception",
+      "workedExamples",
+      "quickTest"
+    ]
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "The photoelectric effect is the compact modern-physics case where light frequency matters more deeply than brightness. If each photon's energy stays below the metal's work function, no electrons leave the surface at all, even when the beam is made brighter.",
+        "This module keeps one lamp, one metal plate, one collector plate, and one linked set of readouts. Frequency, intensity, work function, collector voltage, worked examples, quick tests, overlays, and challenge checks all refer to that same honest emission bench instead of splitting into separate stories."
+      ]
+    },
+    "keyIdeas": [
+      "Below the threshold frequency, raising intensity alone still gives no emitted electrons.",
+      "Above threshold, frequency changes the electron energy, while intensity mainly changes how many electrons are emitted per second.",
+      "The threshold frequency comes from the work function through f_0 = phi / h.",
+      "A negative collector voltage can stop even emitted electrons, and the stopping potential reads the maximum kinetic energy."
+    ],
+    "commonMisconception": {
+      "myth": "If you make sub-threshold light bright enough, electrons eventually absorb enough wave energy to escape.",
+      "correction": [
+        "In this bounded model, each emitted electron still needs one photon with enough energy to clear the work function barrier.",
+        "Brightness raises the flux of photons, but if each photon is still below threshold, the collector current remains zero."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live photoelectric checks",
+      "intro": "Use the current light and metal settings directly from the live bench. The same controls drive the stage, graphs, overlays, and worked result.",
+      "items": [
+        {
+          "id": "current-energy-budget",
+          "title": "Current emission energy budget",
+          "prompt": "For the current frequency {{frequencyValue}} and work function {{workFunctionValue}}, does emission happen and what kinetic-energy budget remains?",
+          "variables": [
+            {
+              "id": "frequencyPHz",
+              "variableId": "frequencyPHz",
+              "symbol": "f",
+              "label": "Light frequency",
+              "valueKey": "frequencyValue",
+              "unit": "PHz"
+            },
+            {
+              "id": "wavelengthNm",
+              "symbol": "\\lambda",
+              "label": "Wavelength",
+              "valueKey": "wavelengthValue",
+              "unit": "nm"
+            },
+            {
+              "id": "workFunctionEv",
+              "variableId": "workFunctionEv",
+              "symbol": "\\phi",
+              "label": "Work function",
+              "valueKey": "workFunctionValue",
+              "unit": "eV"
+            }
+          ],
+          "steps": [
+            {
+              "id": "photon-energy",
+              "label": "1. Convert frequency to photon energy",
+              "template": "With $f = {{frequencyValue}}$, the photon energy is $hf = {{photonEnergyValue}}$."
+            },
+            {
+              "id": "threshold-check",
+              "label": "2. Compare with the work function",
+              "template": "The metal needs $\\phi = {{workFunctionValue}}$, so the current threshold is $f_0 = {{thresholdFrequencyValue}}$."
+            },
+            {
+              "id": "budget",
+              "label": "3. Read the leftover energy",
+              "template": "That leaves $K_{\\max} = hf - \\phi = {{maxKineticValue}}$, so the live bench says {{emissionOutcome}}."
+            }
+          ],
+          "resultLabel": "Current emission state",
+          "resultTemplate": "$hf = {{photonEnergyValue}}, \\; K_{\\max} = {{maxKineticValue}}, \\; {{emissionOutcome}}$",
+          "interpretationTemplate": "{{energyInterpretation}}",
+          "applyAction": {
+            "label": "Jump to violet above threshold",
+            "presetId": "violet-above-threshold",
+            "observationHint": "Watch the energy-budget card and the emitted electrons turn on together.",
+            "highlightedControlIds": [
+              "frequencyPHz",
+              "workFunctionEv"
+            ],
+            "highlightedGraphIds": [
+              "energy-balance"
+            ],
+            "highlightedOverlayIds": [
+              "thresholdGate",
+              "energyBudget"
+            ]
+          }
+        },
+        {
+          "id": "current-stopping-potential",
+          "title": "Current stopping-potential check",
+          "prompt": "For the current collector bias {{collectorVoltageValue}}, what stopping potential belongs to this light and how much current still reaches the collector?",
+          "variables": [
+            {
+              "id": "collectorVoltage",
+              "variableId": "collectorVoltage",
+              "symbol": "V_c",
+              "label": "Collector voltage",
+              "valueKey": "collectorVoltageValue",
+              "unit": "V"
+            },
+            {
+              "id": "stoppingPotential",
+              "symbol": "V_{\\text{stop}}",
+              "label": "Stopping potential",
+              "valueKey": "stoppingPotentialValue",
+              "unit": "V"
+            },
+            {
+              "id": "collectorCurrent",
+              "symbol": "I_{\\text{col}}",
+              "label": "Collected current",
+              "valueKey": "collectorCurrentValue",
+              "unit": "arb."
+            }
+          ],
+          "steps": [
+            {
+              "id": "stop-link",
+              "label": "1. Link energy to stopping potential",
+              "template": "The current energy budget gives $V_{\\text{stop}} = {{stoppingPotentialValue}}$ because $eV_{\\text{stop}} = K_{\\max}$."
+            },
+            {
+              "id": "compare-bias",
+              "label": "2. Compare the applied bias with the stopping point",
+              "template": "The collector is set to {{collectorVoltageValue}}, so the field currently says {{collectorAssistText}}."
+            },
+            {
+              "id": "current-readout",
+              "label": "3. Read the remaining current honestly",
+              "template": "The available emission is {{saturationCurrentValue}}, and the collector actually receives {{collectorCurrentValue}}."
+            }
+          ],
+          "resultLabel": "Current collector state",
+          "resultTemplate": "$V_{\\text{stop}} = {{stoppingPotentialValue}}, \\; I_{\\text{col}} = {{collectorCurrentValue}}$",
+          "interpretationTemplate": "{{stoppingInterpretation}}",
+          "applyAction": {
+            "label": "Show the cutoff bias",
+            "presetId": "stopping-potential-cutoff",
+            "observationHint": "The emitted electrons still exist at the surface, but the retarding field trims the collected current to almost zero.",
+            "highlightedControlIds": [
+              "collectorVoltage"
+            ],
+            "highlightedGraphIds": [
+              "collector-sweep"
+            ],
+            "highlightedOverlayIds": [
+              "stoppingField",
+              "energyBudget"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Two beams hit the same metal. Beam A is bright red light below threshold. Beam B is dimmer violet light above threshold. Which beam ejects electrons, and why?",
+      "prediction": "Answer from photon energy first, not from brightness alone.",
+      "answer": "Beam B ejects electrons because its frequency gives each photon enough energy to clear the work function. Beam A does not, even if it is brighter.",
+      "explanation": "The comparison is about per-photon energy, not just total light power. Intensity changes the photon flux, but threshold frequency decides whether emission can begin."
+    }
+  },
+  "equations": [
+    {
+      "id": "photon-energy",
+      "latex": "E_{\\gamma} = hf",
+      "label": "Photon energy",
+      "meaning": "Higher frequency means more energy per photon."
+    },
+    {
+      "id": "threshold-frequency",
+      "latex": "f_0 = \\dfrac{\\phi}{h}",
+      "label": "Threshold frequency",
+      "meaning": "The work function sets the minimum frequency needed for emission."
+    },
+    {
+      "id": "kinetic-energy",
+      "latex": "K_{\\max} = hf - \\phi",
+      "label": "Maximum emitted-electron energy",
+      "meaning": "Any photon energy above the work function becomes electron kinetic energy."
+    },
+    {
+      "id": "stopping-potential",
+      "latex": "eV_{\\text{stop}} = K_{\\max}",
+      "label": "Stopping potential",
+      "meaning": "The retarding voltage needed to stop the fastest electrons reads the maximum kinetic energy."
+    },
+    {
+      "id": "current-intensity",
+      "latex": "I_{\\text{sat}} \\propto \\text{intensity}",
+      "label": "Emission rate trend",
+      "meaning": "Above threshold, brighter light raises the available current more than it raises individual electron energy."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "frequencyPHz",
+      "symbol": "f",
+      "label": "Light frequency",
+      "param": "frequencyPHz",
+      "tone": "sky",
+      "description": "Moves the beam from infrared through visible into ultraviolet and changes the per-photon energy.",
+      "equationIds": [
+        "photon-energy",
+        "threshold-frequency",
+        "kinetic-energy"
+      ],
+      "graphIds": [
+        "energy-balance",
+        "collector-sweep"
+      ],
+      "overlayIds": [
+        "thresholdGate",
+        "energyBudget"
+      ]
+    },
+    {
+      "id": "intensity",
+      "symbol": "I",
+      "label": "Intensity",
+      "param": "intensity",
+      "tone": "amber",
+      "description": "Changes photon flux and available current without changing the energy carried by each photon.",
+      "equationIds": [
+        "current-intensity"
+      ],
+      "graphIds": [
+        "intensity-sweep",
+        "collector-sweep"
+      ],
+      "overlayIds": [
+        "intensityFlux",
+        "stoppingField"
+      ]
+    },
+    {
+      "id": "workFunctionEv",
+      "symbol": "\\phi",
+      "label": "Work function",
+      "param": "workFunctionEv",
+      "tone": "coral",
+      "description": "Raises or lowers the energy barrier that electrons must clear to escape the metal.",
+      "equationIds": [
+        "threshold-frequency",
+        "kinetic-energy"
+      ],
+      "graphIds": [
+        "energy-balance"
+      ],
+      "overlayIds": [
+        "thresholdGate",
+        "energyBudget"
+      ]
+    },
+    {
+      "id": "collectorVoltage",
+      "symbol": "V_c",
+      "label": "Collector voltage",
+      "param": "collectorVoltage",
+      "tone": "teal",
+      "description": "Helps collect emitted electrons when positive and retards them when negative.",
+      "equationIds": [
+        "stopping-potential"
+      ],
+      "graphIds": [
+        "collector-sweep",
+        "intensity-sweep"
+      ],
+      "overlayIds": [
+        "stoppingField"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "frequencyPHz": 0.95,
+      "intensity": 1,
+      "workFunctionEv": 2.3,
+      "collectorVoltage": 0.4,
+      "thresholdGate": true,
+      "intensityFlux": true,
+      "stoppingField": true,
+      "energyBudget": true
+    },
+    "ui": {
+      "initialGraphId": "energy-balance",
+      "primaryGraphIds": [
+        "energy-balance",
+        "intensity-sweep"
+      ],
+      "primaryControlIds": [
+        "frequencyPHz",
+        "intensity"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "frequencyPHz",
+        "kind": "slider",
+        "label": "Light frequency",
+        "param": "frequencyPHz",
+        "min": 0.3,
+        "max": 1.8,
+        "step": 0.01,
+        "unit": "PHz",
+        "description": "Sets the photon's energy and visible/UV band."
+      },
+      {
+        "id": "intensity",
+        "kind": "slider",
+        "label": "Intensity",
+        "param": "intensity",
+        "min": 0.2,
+        "max": 1.8,
+        "step": 0.05,
+        "unit": "arb.",
+        "description": "Changes photon flux and available current."
+      },
+      {
+        "id": "workFunctionEv",
+        "kind": "slider",
+        "label": "Work function",
+        "param": "workFunctionEv",
+        "min": 1.8,
+        "max": 4.6,
+        "step": 0.05,
+        "unit": "eV",
+        "description": "Changes the metal's threshold barrier."
+      },
+      {
+        "id": "collectorVoltage",
+        "kind": "slider",
+        "label": "Collector voltage",
+        "param": "collectorVoltage",
+        "min": -4.5,
+        "max": 1.5,
+        "step": 0.05,
+        "unit": "V",
+        "description": "Applies an aiding or retarding field across the plates."
+      }
+    ],
+    "presets": [
+      {
+        "id": "red-below-threshold",
+        "label": "Red below threshold",
+        "description": "Long-wavelength light that cannot eject electrons from this metal.",
+        "values": {
+          "frequencyPHz": 0.38,
+          "intensity": 0.7,
+          "workFunctionEv": 2.3,
+          "collectorVoltage": 0.4
+        }
+      },
+      {
+        "id": "bright-below-threshold",
+        "label": "Bright but still below threshold",
+        "description": "Raise intensity without crossing the threshold.",
+        "values": {
+          "frequencyPHz": 0.38,
+          "intensity": 1.6,
+          "workFunctionEv": 2.3,
+          "collectorVoltage": 0.4
+        }
+      },
+      {
+        "id": "violet-above-threshold",
+        "label": "Violet above threshold",
+        "description": "Shorter wavelength light now clears the work function.",
+        "values": {
+          "frequencyPHz": 1,
+          "intensity": 1,
+          "workFunctionEv": 2.3,
+          "collectorVoltage": 0.4
+        }
+      },
+      {
+        "id": "dim-above-threshold",
+        "label": "Dim but above threshold",
+        "description": "Keep electron energy but lower the emission rate.",
+        "values": {
+          "frequencyPHz": 1,
+          "intensity": 0.45,
+          "workFunctionEv": 2.3,
+          "collectorVoltage": 0.4
+        }
+      },
+      {
+        "id": "stopping-potential-cutoff",
+        "label": "Stopping-potential cutoff",
+        "description": "Use a retarding field near the stopping point.",
+        "values": {
+          "frequencyPHz": 1,
+          "intensity": 1,
+          "workFunctionEv": 2.3,
+          "collectorVoltage": -1.84
+        }
+      },
+      {
+        "id": "harder-metal-threshold",
+        "label": "Harder metal",
+        "description": "Raise the work function so the same light gets closer to threshold.",
+        "values": {
+          "frequencyPHz": 1,
+          "intensity": 1,
+          "workFunctionEv": 3.8,
+          "collectorVoltage": 0.4
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "thresholdGate",
+        "label": "Threshold gate",
+        "shortDescription": "Marks the frequency threshold and the work-function barrier together.",
+        "whatToNotice": [
+          "Emission turns on only when the frequency marker crosses f0 for the current metal."
+        ],
+        "whyItMatters": "It keeps the threshold idea visual instead of turning it into a detached formula.",
+        "relatedControls": [
+          "frequencyPHz",
+          "workFunctionEv"
+        ],
+        "relatedGraphTabs": [
+          "energy-balance"
+        ],
+        "relatedEquationVariables": [
+          "frequencyPHz",
+          "workFunctionEv"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "intensityFlux",
+        "label": "Intensity flux",
+        "shortDescription": "Shows that brightness changes the photon flow and current scale rather than the energy per photon.",
+        "whatToNotice": [
+          "Above threshold the packets get denser when intensity rises, but the energy budget card does not change unless frequency changes."
+        ],
+        "whyItMatters": "It separates electron count from electron energy.",
+        "relatedControls": [
+          "intensity"
+        ],
+        "relatedGraphTabs": [
+          "intensity-sweep",
+          "collector-sweep"
+        ],
+        "relatedEquationVariables": [
+          "intensity"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "stoppingField",
+        "label": "Stopping field",
+        "shortDescription": "Shows whether the collector voltage helps, trims, or fully stops the emitted electrons.",
+        "whatToNotice": [
+          "The stopping point depends on electron energy, not just on how bright the beam is."
+        ],
+        "whyItMatters": "It ties the collector graph to the same emission story on the stage.",
+        "relatedControls": [
+          "collectorVoltage"
+        ],
+        "relatedGraphTabs": [
+          "collector-sweep"
+        ],
+        "relatedEquationVariables": [
+          "collectorVoltage"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "energyBudget",
+        "label": "Energy budget",
+        "shortDescription": "Keeps hf, phi, and Kmax visible in one compact card near the stage.",
+        "whatToNotice": [
+          "Only the frequency and work function move the energy budget; intensity does not."
+        ],
+        "whyItMatters": "It is the cleanest bounded way to show why the effect challenged a purely classical brightness-first picture.",
+        "relatedControls": [
+          "frequencyPHz",
+          "workFunctionEv"
+        ],
+        "relatedGraphTabs": [
+          "energy-balance"
+        ],
+        "relatedEquationVariables": [
+          "frequencyPHz",
+          "workFunctionEv"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "energy-balance",
+      "label": "Energy budget vs frequency",
+      "xLabel": "frequency (PHz)",
+      "yLabel": "energy (eV)",
+      "series": [
+        "photon-energy",
+        "work-function",
+        "max-kinetic-energy"
+      ],
+      "description": "Compares photon energy, the work-function barrier, and the leftover kinetic energy on the same frequency axis."
+    },
+    {
+      "id": "collector-sweep",
+      "label": "Collected current vs collector voltage",
+      "xLabel": "collector voltage (V)",
+      "yLabel": "current (arb.)",
+      "series": [
+        "collector-current",
+        "saturation-current"
+      ],
+      "description": "Shows how a retarding field trims the collected current until the stopping point is reached."
+    },
+    {
+      "id": "intensity-sweep",
+      "label": "Current vs intensity",
+      "xLabel": "intensity (arb.)",
+      "yLabel": "current (arb.)",
+      "series": [
+        "emitted-rate",
+        "collected-rate"
+      ],
+      "description": "Keeps intensity tied to photon flux and current scale while the per-electron energy stays fixed."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use these prompts to separate threshold, intensity, and stopping-voltage ideas without leaving the same compact bench.",
+    "items": [
+      {
+        "id": "pe-notice-threshold",
+        "text": "Below threshold, the lamp can get brighter without producing a single collected electron. The missing ingredient is per-photon energy, not total brightness.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Switch from Red below threshold to Bright but still below threshold and keep the energy budget card in view.",
+        "whyItMatters": "It directly challenges a purely brightness-first wave story.",
+        "relatedControls": [
+          "frequencyPHz",
+          "intensity"
+        ],
+        "relatedGraphTabs": [
+          "energy-balance",
+          "intensity-sweep"
+        ],
+        "relatedOverlays": [
+          "thresholdGate",
+          "intensityFlux"
+        ]
+      },
+      {
+        "id": "pe-notice-intensity",
+        "text": "Once the frequency is above threshold, raising intensity mainly raises the current, not the maximum kinetic energy.",
+        "type": "try-this",
+        "priority": 4,
+        "tryThis": "Compare Violet above threshold with Dim but above threshold.",
+        "whyItMatters": "It separates electron count from electron energy.",
+        "relatedControls": [
+          "intensity"
+        ],
+        "relatedGraphTabs": [
+          "intensity-sweep",
+          "energy-balance"
+        ],
+        "relatedOverlays": [
+          "intensityFlux",
+          "energyBudget"
+        ]
+      },
+      {
+        "id": "pe-notice-stopping",
+        "text": "Making the collector voltage more negative trims the collected current, and the cutoff happens near the stopping potential shown in the readout.",
+        "type": "graph-reading",
+        "priority": 7,
+        "tryThis": "Open the collector-voltage sweep and hover near the current cutoff.",
+        "whyItMatters": "It turns the stopping-potential idea into a measurable quantity on the same bench.",
+        "relatedControls": [
+          "collectorVoltage"
+        ],
+        "relatedGraphTabs": [
+          "collector-sweep"
+        ],
+        "relatedOverlays": [
+          "stoppingField",
+          "energyBudget"
+        ]
+      },
+      {
+        "id": "pe-notice-compare",
+        "text": "Compare mode is strongest when one setup changes frequency and the other changes intensity. That keeps threshold and brightness from collapsing into one vague cause.",
+        "type": "compare",
+        "priority": 10,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Keep Setup A on Bright but still below threshold and Setup B on Violet above threshold.",
+        "whyItMatters": "The side-by-side comparison makes the modern-physics contrast immediate.",
+        "relatedControls": [
+          "frequencyPHz",
+          "intensity",
+          "workFunctionEv"
+        ],
+        "relatedGraphTabs": [
+          "energy-balance",
+          "intensity-sweep",
+          "collector-sweep"
+        ],
+        "relatedOverlays": [
+          "thresholdGate",
+          "intensityFlux",
+          "energyBudget"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Commit to the causal difference before you apply the change.",
+    "items": [
+      {
+        "id": "pe-pred-bright-red",
+        "prompt": "Start with Red below threshold and raise only the intensity. What should the bench do next?",
+        "scenarioLabel": "Raise intensity below threshold",
+        "changeLabel": "Intensity",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The beam looks brighter, but no electrons are emitted because each photon is still below threshold."
+          },
+          {
+            "id": "b",
+            "label": "Electrons begin to emerge slowly because the beam is now bright enough overall."
+          },
+          {
+            "id": "c",
+            "label": "The stopping potential rises because brighter light always gives faster electrons."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Intensity changes the photon flux. It does not raise the energy carried by each photon.",
+        "observationHint": "Watch the energy-budget card stay below the work-function barrier while the beam brightens.",
+        "apply": {
+          "presetId": "bright-below-threshold"
+        },
+        "highlightedControls": [
+          "intensity"
+        ],
+        "highlightedGraphs": [
+          "intensity-sweep",
+          "energy-balance"
+        ],
+        "highlightedOverlays": [
+          "thresholdGate",
+          "intensityFlux"
+        ]
+      },
+      {
+        "id": "pe-pred-frequency",
+        "prompt": "Keep intensity fixed but increase the frequency from red below threshold to violet above threshold. What must change together?",
+        "scenarioLabel": "Raise frequency through threshold",
+        "changeLabel": "Frequency",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Emission turns on, the maximum kinetic energy rises above zero, and the stopping potential becomes nonzero."
+          },
+          {
+            "id": "b",
+            "label": "Only the beam color changes because the intensity stayed fixed."
+          },
+          {
+            "id": "c",
+            "label": "The current rises, but the stopping potential stays the same because voltage belongs to the collector only."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Frequency changes the energy per photon. Crossing threshold is what turns emission on and creates a nonzero stopping potential.",
+        "observationHint": "Use the frequency rail and the energy-balance graph together.",
+        "apply": {
+          "presetId": "violet-above-threshold"
+        },
+        "highlightedControls": [
+          "frequencyPHz"
+        ],
+        "highlightedGraphs": [
+          "energy-balance",
+          "collector-sweep"
+        ],
+        "highlightedOverlays": [
+          "thresholdGate",
+          "energyBudget"
+        ]
+      },
+      {
+        "id": "pe-pred-retarding-field",
+        "prompt": "Keep the same above-threshold light but make the collector voltage more negative. Which statement stays honest?",
+        "scenarioLabel": "Add a retarding field",
+        "changeLabel": "Collector voltage",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The collected current drops toward zero, but the electrons leave the metal with the same Kmax."
+          },
+          {
+            "id": "b",
+            "label": "The retarding field lowers the photon's energy before it reaches the metal."
+          },
+          {
+            "id": "c",
+            "label": "The current stays unchanged because only frequency matters in the photoelectric effect."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The collector field changes which emitted electrons get through to the collector. It does not change the surface energy budget set by hf and phi.",
+        "observationHint": "Track the collector-sweep graph while the energy budget card stays fixed.",
+        "apply": {
+          "presetId": "stopping-potential-cutoff"
+        },
+        "highlightedControls": [
+          "collectorVoltage"
+        ],
+        "highlightedGraphs": [
+          "collector-sweep"
+        ],
+        "highlightedOverlays": [
+          "stoppingField",
+          "energyBudget"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the same emission bench for compact threshold and stopping-potential targets.",
+    "items": [
+      {
+        "id": "pe-ch-cutoff-voltage",
+        "title": "Find the stopping point",
+        "style": "target-setting",
+        "prompt": "Starting from Violet above threshold, make the collected current almost vanish without changing the frequency or work function.",
+        "successMessage": "You found the stopping region where the retarding field just cancels the fastest emitted electrons.",
+        "setup": {
+          "presetId": "violet-above-threshold",
+          "graphId": "collector-sweep",
+          "overlayIds": [
+            "stoppingField",
+            "energyBudget"
+          ],
+          "note": "Use the collector-voltage sweep and the stage together."
+        },
+        "requirements": {
+          "graphId": "collector-sweep",
+          "overlayIds": [
+            "stoppingField"
+          ]
+        },
+        "hints": [
+          "Do not change the light frequency. The emitted-electron energy should stay fixed.",
+          "The cutoff should happen near the displayed stopping potential."
+        ],
+        "targets": [
+          {
+            "param": "collectorVoltage",
+            "min": -1.95,
+            "max": -1.72,
+            "displayUnit": "V"
+          },
+          {
+            "metric": "maxKineticEnergyEv",
+            "min": 1.75,
+            "max": 1.92,
+            "displayUnit": "eV"
+          },
+          {
+            "metric": "collectorCurrent",
+            "min": 0,
+            "max": 0.05,
+            "displayUnit": "arb."
+          }
+        ]
+      },
+      {
+        "id": "pe-ch-brightness-not-enough",
+        "title": "Brightness is not enough",
+        "style": "target-setting",
+        "prompt": "Starting from Bright but still below threshold, keep the beam bright while proving the collector current can stay essentially zero.",
+        "successMessage": "You held a bright beam below threshold, so no photoelectrons reached the collector.",
+        "setup": {
+          "presetId": "bright-below-threshold",
+          "graphId": "intensity-sweep",
+          "overlayIds": [
+            "thresholdGate",
+            "intensityFlux"
+          ],
+          "note": "Use intensity as a distraction and check the threshold barrier instead."
+        },
+        "requirements": {
+          "graphId": "intensity-sweep",
+          "overlayIds": [
+            "thresholdGate"
+          ]
+        },
+        "hints": [
+          "Keep intensity high, but do not let the frequency cross the threshold marker.",
+          "The energy budget card should still show hf below phi."
+        ],
+        "targets": [
+          {
+            "param": "intensity",
+            "min": 1.45,
+            "max": 1.8,
+            "displayUnit": "arb."
+          },
+          {
+            "metric": "frequencyPHz",
+            "min": 0.3,
+            "max": 0.4,
+            "displayUnit": "PHz"
+          },
+          {
+            "metric": "collectorCurrent",
+            "min": 0,
+            "max": 0.02,
+            "displayUnit": "arb."
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live light-on-metal logic, not from disconnected slogans.",
+    "questions": [
+      {
+        "id": "pe-qt-bright-below-threshold",
+        "type": "reasoning",
+        "prompt": "Bright red light below threshold hits a metal surface. What should happen?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "No electrons are emitted because each photon still lacks the needed energy."
+          },
+          {
+            "id": "b",
+            "label": "A small current appears because the beam is bright enough overall."
+          },
+          {
+            "id": "c",
+            "label": "Electrons appear, but only after a noticeable delay while energy builds up."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The threshold story here is about energy per photon, not about waiting for enough total brightness.",
+        "selectedWrongExplanations": {
+          "b": "Brightness changes flux, not the energy carried by each photon.",
+          "c": "This bounded model does not use an energy-build-up delay below threshold."
+        },
+        "showMeAction": {
+          "label": "Show bright sub-threshold light",
+          "presetId": "bright-below-threshold",
+          "observationHint": "The beam is visibly brighter, but the current stays at zero.",
+          "highlightedControlIds": [
+            "intensity"
+          ],
+          "highlightedGraphIds": [
+            "intensity-sweep",
+            "energy-balance"
+          ],
+          "highlightedOverlayIds": [
+            "thresholdGate",
+            "intensityFlux"
+          ]
+        }
+      },
+      {
+        "id": "pe-qt-intensity-vs-energy",
+        "type": "compare-two-cases",
+        "prompt": "Two above-threshold beams hit the same metal. Beam A is brighter. Beam B has the higher frequency. Which statement is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Beam A can give more current, but Beam B can still produce faster electrons."
+          },
+          {
+            "id": "b",
+            "label": "Beam A gives both more current and faster electrons because it is brighter."
+          },
+          {
+            "id": "c",
+            "label": "Beam B gives more current and Beam A gives faster electrons because they trade roles."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Intensity mainly changes count or current. Frequency sets the per-photon energy and therefore the electron kinetic-energy budget.",
+        "selectedWrongExplanations": {
+          "b": "Brightness alone does not raise Kmax once the frequency is fixed.",
+          "c": "The roles do not swap. Frequency and intensity keep different jobs."
+        },
+        "showMeAction": {
+          "label": "Compare dim and bright above threshold",
+          "presetId": "dim-above-threshold",
+          "observationHint": "Now compare that with Violet above threshold and watch which readouts actually move.",
+          "highlightedControlIds": [
+            "intensity",
+            "frequencyPHz"
+          ],
+          "highlightedGraphIds": [
+            "intensity-sweep",
+            "energy-balance"
+          ],
+          "highlightedOverlayIds": [
+            "intensityFlux",
+            "energyBudget"
+          ]
+        }
+      },
+      {
+        "id": "pe-qt-stopping-potential",
+        "type": "graph-reading",
+        "prompt": "What does the stopping potential tell you in this setup?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It tells you the maximum kinetic energy of the emitted electrons."
+          },
+          {
+            "id": "b",
+            "label": "It tells you how bright the beam is at the metal surface."
+          },
+          {
+            "id": "c",
+            "label": "It tells you the threshold frequency directly without reference to the metal."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At cutoff, the retarding field removes exactly the energy of the fastest electrons, so eVstop = Kmax.",
+        "selectedWrongExplanations": {
+          "b": "Stopping potential is an energy readout, not a brightness gauge.",
+          "c": "Threshold depends on the work function and must still be inferred through the metal's barrier."
+        },
+        "showMeAction": {
+          "label": "Show the cutoff region",
+          "presetId": "stopping-potential-cutoff",
+          "observationHint": "The current nearly vanishes right around the displayed stopping potential.",
+          "highlightedControlIds": [
+            "collectorVoltage"
+          ],
+          "highlightedGraphIds": [
+            "collector-sweep"
+          ],
+          "highlightedOverlayIds": [
+            "stoppingField",
+            "energyBudget"
+          ]
+        }
+      },
+      {
+        "id": "pe-qt-classical-wave-challenge",
+        "type": "misconception-check",
+        "prompt": "Why does the photoelectric effect challenge a purely classical wave-brightness picture in this bounded module?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because frequency can decide whether emission happens at all, even when a lower-frequency beam is brighter."
+          },
+          {
+            "id": "b",
+            "label": "Because light stops behaving like a wave anywhere above the visible range."
+          },
+          {
+            "id": "c",
+            "label": "Because collector voltage creates the photons after they leave the lamp."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The tension comes from threshold behavior and stopping-potential evidence, not from abandoning every wave idea everywhere.",
+        "selectedWrongExplanations": {
+          "b": "This page stays bounded. It does not claim that wave ideas disappear; it shows that brightness alone is not enough to explain the emission data.",
+          "c": "Collector voltage only measures or filters the emitted electrons. It does not create the incoming light."
+        },
+        "showMeAction": {
+          "label": "Compare bright red with violet",
+          "patch": {
+            "frequencyPHz": 0.38,
+            "intensity": 1.6,
+            "workFunctionEv": 2.3,
+            "collectorVoltage": 0.4
+          },
+          "observationHint": "Use compare mode after this to place bright red beside violet above threshold.",
+          "highlightedControlIds": [
+            "frequencyPHz",
+            "intensity",
+            "workFunctionEv"
+          ],
+          "highlightedGraphIds": [
+            "energy-balance",
+            "collector-sweep"
+          ],
+          "highlightedOverlayIds": [
+            "thresholdGate",
+            "energyBudget"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a light-frequency rail across infrared, visible light, and ultraviolet, plus a compact lamp-to-metal bench with an emitter plate, a collector plate, and animated electron packets when emission occurs.",
+        "Optional overlays mark the threshold frequency, the intensity/current distinction, the retarding or aiding collector field, and a compact energy-budget card. The readout card summarizes band, photon energy, work function, maximum kinetic energy, stopping potential, available current, collected current, and collector voltage."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The energy-balance graph compares photon energy, work function, and maximum kinetic energy on one frequency axis. The collector-sweep graph shows collected current against collector voltage with the available current as a reference, and the intensity-sweep graph keeps intensity linked to current scale rather than to electron energy."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Photoelectric Effect | Open Model Lab",
+    "description": "Explore threshold frequency, stopping potential, work function, and the difference between light intensity and light frequency with a compact photoelectric-effect simulation.",
+    "keywords": [
+      "photoelectric effect simulation",
+      "threshold frequency",
+      "stopping potential",
+      "work function",
+      "light intensity vs frequency"
+    ]
+  }
+}

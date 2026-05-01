@@ -1,0 +1,407 @@
+{
+  "title": "連通律",
+  "shortTitle": "連通",
+  "summary": "保持一個穩流的管子在螢幕上，使用 Q = Av 將截面積、流速和透過窄和寬部分相同體積流量聯絡起來。",
+  "highlights": [
+    "Q = Av",
+    "較細代表較快",
+    "每部分的流動量相同"
+  ],
+  "topic": "流體",
+  "subtopic": "穩流與連通",
+  "recommendedNext": [
+    {
+      "slug": "bernoullis-principle",
+      "reasonLabel": "將速度變化轉換為壓力變化"
+    },
+    {
+      "slug": "pressure-and-hydrostatic-pressure",
+      "reasonLabel": "對比靜止和移動流體"
+    },
+    {
+      "slug": "buoyancy-and-archimedes-principle",
+      "reasonLabel": "回到壓力差異"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "連通律是穩態不可壓縮流動的帳簿規則。如果流體在一個管道內不積聚或留下空隙，那麼每個截面每秒必須透過相同的體積流量。這個共享的體積流量率寫作 $Q = Av$。",
+        "較小的部分並不會每秒產生更多的流體。它給了流體更少的空間移動，因此那裡的速度必須上升以保持相同的 $Q$。較大的部分則相反：相同的流動量可以透過那裡移動得更慢。",
+        "此頁面故意保持簡潔。舞台是一個變化的管道，帶有兩個標記的部分、動畫的示蹤物和緊湊的回應圖表。它不是一個完整的流體動力學引擎，但它忠實地維護了速度-截面積的故事，並為後來的伯努利橋奠定了基礎。"
+      ]
+    },
+    "keyIdeas": [
+      "對於穩態不可壓縮流動，每秒透過管道每個部分的體積流量保持相同，因此 $Q = A_A v_A = A_B v_B$。",
+      "如果一個部分的截面積較小，那麼那裡的流速必須更大以保持相同的流動量。",
+      "如果截面積變大，相同的流動量可以在那個部分移動得更慢。",
+      "連通是伯努利後來結合到移動流體中的壓力變化的速度-截面積帳簿層次。"
+    ],
+    "commonMisconception": {
+      "myth": "較細的部分每秒帶走更多的流體，因為流體透過它更快地流動。",
+      "correction": [
+        "對於穩態不可壓縮流動，在管道的每個部分中每秒的體積保持相同。",
+        "速度變化因為截面積變化。較快並不代表更大的 $Q$，除非截面積固定。"
+      ]
+    },
+    "workedExamples": {
+      "title": "實時流動檢查",
+      "intro": "使用實時管道。當前的流動量和部分截面積驅動所有示例。",
+      "items": [
+        {
+          "id": "current-section-speeds",
+          "title": "根據連通律計算當前流速",
+          "prompt": "對於當前流速 $Q = {{flowRateValue}}\\,\\mathrm{m^3/s}$, $A_A = {{entryAreaValue}}\\,\\mathrm{m^2}$ 和 $A_B = {{middleAreaValue}}\\,\\mathrm{m^2}$，連通律預測在部分 A 和 B 中的速度是多少？",
+          "variables": [
+            {
+              "id": "flowRate",
+              "label": "體積流量率"
+            },
+            {
+              "id": "entryArea",
+              "label": "入口截面A"
+            },
+            {
+              "id": "middleArea",
+              "label": "部分B截面積"
+            }
+          ],
+          "steps": [
+            {
+              "id": "section-a",
+              "label": "1. 在部分 A 使用 $v = Q/A$"
+            },
+            {
+              "id": "section-b",
+              "label": "2. 在部分 B 同樣使用 $Q$"
+            },
+            {
+              "id": "compare",
+              "label": "3. 比較兩部分"
+            }
+          ],
+          "resultLabel": "當前部分的速度",
+          "applyAction": {
+            "label": "顯示緊縮喉部",
+            "observationHint": "中間部分收縮，部分 B 的速度箭頭變長。"
+          }
+        },
+        {
+          "id": "same-time-flow-slices",
+          "title": "兩部分的同時截面",
+          "prompt": "對於當前流動，在部分 A 和 B 中，{{sliceDurationValue}} 液體片段各有多長？",
+          "variables": [
+            {
+              "id": "flowRate",
+              "label": "體積流量率"
+            },
+            {
+              "id": "entryArea",
+              "label": "入口截面A"
+            },
+            {
+              "id": "middleArea",
+              "label": "部分B截面積"
+            }
+          ],
+          "steps": [
+            {
+              "id": "slice-a",
+              "label": "1. 將部分 A 的速度轉換為同一時間長度"
+            },
+            {
+              "id": "slice-b",
+              "label": "2. 在部分 B 中做相同的操作"
+            },
+            {
+              "id": "meaning",
+              "label": "3. 閱讀這兩個長度的含義"
+            }
+          ],
+          "resultLabel": "同一時間片段長度",
+          "applyAction": {
+            "label": "顯示流動片段",
+            "observationHint": "同樣短的時間片段在較快的部分伸展得更長。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "一穩定期不可壓縮流體進入管道的一段，其截面積減小為原來的一半。在那段較小的截面上的速度會如何?",
+      "prediction": "決定速度是否保持不變、加倍或減半，當$Q$固定時。",
+      "answer": "速度加倍。",
+      "explanation": "連續性方程説$Q = Av$。如果$Q$固定且截面積減小為一半，速度必須增加兩倍。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "從管道回答，而不是 slogans。",
+    "questions": [
+      {
+        "id": "ce-qt-half-area",
+        "prompt": "在同一體積流率下，如果管段 B 的截面積減半，其速度會如何?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "加倍。"
+          },
+          {
+            "id": "b",
+            "label": "保持不變，因為同一種流體在移動。"
+          },
+          {
+            "id": "c",
+            "label": "減半，因為那段管道較小。"
+          }
+        ],
+        "explanation": "連續性方程説$v = Q/A$當同一種$Q$被保持。截面積減半會使速度加倍。",
+        "showMeAction": {
+          "label": "顯示緊喉",
+          "observationHint": "中間部分縮小，而 B 部分的速度箭頭增長。"
+        }
+      },
+      {
+        "id": "ce-qt-flow-balance",
+        "prompt": "這頁上的平坦流平衡圖表意味著什麼?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "A 和 B 部分保持相同的流率，即使速度有所改變。"
+          },
+          {
+            "id": "b",
+            "label": "管道中的速度在各處都相同。"
+          },
+          {
+            "id": "c",
+            "label": "一旦流體開始移動，截面積不再重要。"
+          }
+        ],
+        "explanation": "連續性方程保持$Q$在整個管道中匹配。速度和截面積可以改變，但流率保持不變。",
+        "showMeAction": {
+          "label": "開啟流平衡圖表",
+          "observationHint": "兩條$Q$線保持匹配，而速度箭頭仍然顯示不同部分的速度。"
+        }
+      },
+      {
+        "id": "ce-qt-bernoulli-bridge",
+        "prompt": "這頁上的哪個想法是伯努利後來建立速度帳簿的直接內容?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "當截面積改變時，速度會改變，同時保持相同的穩定流率。"
+          },
+          {
+            "id": "b",
+            "label": "當截面積改變時，每個部分獲得不同的流率。"
+          },
+          {
+            "id": "c",
+            "label": "速度可以改變而不與截面積有任何關係。"
+          }
+        ],
+        "explanation": "伯努利需要首先得到連續性結果：如果截面積改變，速度會以特定的方式改變，同時保持相同的穩定流率。",
+        "showMeAction": {
+          "label": "比較窄管和寬管設定",
+          "observationHint": "使用比較模式，保持相同的$Q$同時改變部分B。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一個穩定的流管，標有入口的部分A和中間的部分B。管道的高度代表截面積，動畫中的追蹤點顯示流體透過管道移動的情況，而部分速度箭頭則表明哪些區域更快或更慢。",
+        "讀出卡會顯示體積流量、兩段截面面積、兩段流速和流速比。比較模式會在同一個實驗台上以淡影顯示另一條管道形狀，讓兩個不同的連續方程狀態可以放在同一個模型內比較。",
+        "同時時間切片疊加標誌著每個部分中一段等長時間流體片段所佔的管道長度。這是一個視覺提示，表明相同的守恆流量率。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "部分速度圖表分離出入口截面積、中間截面積或流率如何改變兩個部分的速度。",
+        "流動平衡圖保持兩部分流率線匹配，這樣在其他地方進行速度調整時，連續性仍然明確。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "實時流動檢查"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "連續性檢查點"
+      },
+      {
+        "id": "readNext",
+        "title": "將此內容引入伯努利原理和流體分支"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "volume-flow-rate",
+      "label": "體積流量率",
+      "meaning": "流體每秒透過某一截面攜帶一定的體積。"
+    },
+    {
+      "id": "continuity-equation",
+      "label": "連續性方程",
+      "meaning": "對於穩定不可壓縮流動，同一管道的每一部分攜帶相同的流量率。"
+    },
+    {
+      "id": "speed-from-flow",
+      "label": "從流率和截面積計算速度",
+      "meaning": "在固定流率下，較小的截面積需要更大的速度。"
+    },
+    {
+      "id": "speed-ratio",
+      "label": "從截面積比計算速度比",
+      "meaning": "兩部分之間的速度變化是截面積變化的倒數。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "flowRate",
+      "label": "體積流量率",
+      "description": "提高或降低管道每秒攜帶的體積量。增加$Q$會同時提高兩個部分的速度。"
+    },
+    {
+      "id": "entryArea",
+      "label": "入口截面A",
+      "description": "改變入口部分。在相同的流率下，較大的部分A截面積使入口速度變小。"
+    },
+    {
+      "id": "middleArea",
+      "label": "部分B截面積",
+      "description": "改變中間部分。使其更小會加快那裡的流體；使其更大則會減慢那裡的流體。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "flowRate",
+        "label": "體積流量率"
+      },
+      {
+        "id": "entryArea",
+        "label": "入口截面A"
+      },
+      {
+        "id": "middleArea",
+        "label": "部分B截面積"
+      }
+    ],
+    "presets": [
+      {
+        "id": "baseline-stream",
+        "label": "基準流道",
+        "description": "一股穩定流體進入中段較窄的管道。"
+      }
+    ]
+  },
+  "noticePrompts": {
+    "items": [
+      {
+        "id": "bernoulli-bridge"
+      },
+      {
+        "id": "bernoulli-bridge"
+      },
+      {
+        "id": "bernoulli-bridge"
+      },
+      {
+        "id": "bernoulli-bridge",
+        "tryThis": "由基準流道開始，開啟比較模式，讓設定 A 保持不變，只調整設定 B 的中段截面，直到速度差異變得明顯，同時流量標籤仍然一致。"
+      }
+    ]
+  },
+  "predictionMode": {
+    "items": [
+      {
+        "id": "ce-predict-smaller-b",
+        "prompt": "由基準流道開始，在保持 section A 和相同 $Q$ 的情況下，把 section B 變窄。接下來會發生甚麼？"
+      },
+      {
+        "id": "ce-predict-higher-q",
+        "prompt": "由基準流道開始，在保持兩段截面面積不變的情況下，提高體積流量 $Q$。接下來會怎樣？"
+      },
+      {
+        "id": "ce-predict-wider-a",
+        "prompt": "由基準流道開始，在保持 section B 和 $Q$ 不變的情況下，把 section A 變寬。會發生甚麼？"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "利用同一條管道完成連續方程的直接目標與比較配對。檢查項目會讀取即時截面面積、流速與流量。",
+    "items": [
+      {
+        "id": "ce-ch-double-middle-speed",
+        "title": "令 B 段流速加倍",
+        "prompt": "從「均勻管道」開始，只調整 B 段，直到中段流速約為 section A 的兩倍，同時保持相同的基準流量。",
+        "successMessage": "你達成了連續方程目標。截面積改變了，流速比改變了，而流量仍保持不變。",
+        "setup": {
+          "note": "在只調整 B 段時，把流量和 section A 保持接近基準。"
+        },
+        "checks": [
+          {
+            "label": "打開中段面積與截面流速關係圖。"
+          },
+          {
+            "label": "保持流量守恆疊加層可見。"
+          },
+          {
+            "label": "保持基準流量。"
+          },
+          {
+            "label": "讓 section A 保持接近基準面積。"
+          },
+          {
+            "label": "把 section B 調到約為一半的面積。"
+          },
+          {
+            "label": "令 section B 約為兩倍流速。"
+          }
+        ]
+      },
+      {
+        "id": "ce-ch-same-flow-wider-b",
+        "title": "同樣流量下，較寬的截面較慢",
+        "prompt": "由「基準流道」開始，切換到比較模式，讓設定 A 保持不變，調整設定 B，令它在保持相同流量的同時，因中段加寬而令 B 段流速下降。",
+        "successMessage": "你建立了相同流量下的對比。設定 A 和設定 B 承載相同的 $Q$，但設定 B 因中段更寬而流得更慢。",
+        "setup": {
+          "note": "設定 A 保持為基準的狹窄中段；只修改設定 B。"
+        },
+        "checks": [
+          {
+            "label": "在修改設定 B 時保持於比較模式。"
+          },
+          {
+            "label": "打開流量平衡圖。"
+          },
+          {
+            "label": "保持流量守恆疊加層可見。"
+          },
+          {
+            "label": "讓設定 B 保持相同流量。"
+          },
+          {
+            "label": "讓設定 B 的 section A 面積接近原本數值。"
+          },
+          {
+            "label": "把設定 B 的中段加寬。"
+          },
+          {
+            "label": "令設定 B 的中段流速低於 section A。"
+          },
+          {
+            "label": "保持設定 B 承載相同流量。"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,239 @@
+{
+  "title": "反三角函式 / 從比值求角度",
+  "shortTitle": "反三角函式",
+  "summary": "保持一個極坐標點及其坐標符號可見，使反三角函式成為基於比值的角度推理，而不是僅依靠計算器。",
+  "highlights": [
+    "tan(θ) = y/x",
+    "主角度輸出",
+    "象限修正",
+    "atan2 作為安全的恢復方法"
+  ],
+  "topic": "複數和平面引數運動",
+  "subtopic": "從 x 和 y 恢復角度",
+  "recommendedNext": [
+    {
+      "slug": "parametric-curves-motion-from-equations",
+      "reasonLabel": "將相同的角度閱讀習慣應用於由 x(t) 和 y(t) 跟蹤的移動點"
+    },
+    {
+      "slug": "dot-product-angle-and-projection",
+      "reasonLabel": "在向量分支上重用角度恢復和投影推理"
+    },
+    {
+      "slug": "polar-coordinates-radius-and-angle",
+      "reasonLabel": "當你要再次使用 x-y 轉換幾何時，可以回到同一個半徑—角度工作台"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "反三角函式變得更易於信任，因為它保持在與建立比值的點同一平面。這個工作台上有一個極坐標點、對應的 x 和 y 坐標，以及一個角度恢復圖表，讓角度推理始終建立在幾何上，而不是先看計算機輸出。",
+        "對於不在 y 軸上的點，比值 y/x 給出 tan θ。但 arctan(y/x) 只返回有限範圍內的主角度。坐標符號仍然決定實際角度屬於第一、二、三或四象限。因此，atan2(y, x)，或等效的象限推理，是更安全的恢復規則。"
+      ]
+    },
+    "keyIdeas": [
+      "對於 x 不為零的點，tan θ = y / x。",
+      "純粹的 arctan(y/x) 輸出僅是一個主角度，不總是完整的極坐標方向。",
+      "坐標符號告訴你實際角度屬於哪個象限。",
+      "在固定角度下改變半徑不會改變恢復的方向。"
+    ],
+    "commonMisconception": {
+      "myth": "如果計算器返回 arctan(y/x)，那麼這個數字就是點的完整角度。",
+      "correction": [
+        "僅比值可能會忽略象限，因為相反的象限可以共享相同的正切值。",
+        "你仍然需要坐標符號或 atan2(y, x) 安全地恢復完整的方向。"
+      ]
+    },
+    "workedExamples": {
+      "title": "示例",
+      "intro": "使用第一象限點和第二象限警告案例，使主角度與完整角度之間的差異保持可見。",
+      "items": [
+        {
+          "id": "first-quadrant-recovery",
+          "title": "從比值恢復第一象限角度",
+          "prompt": "對於第一象限比值預設，y/x 會返回什麼角度？",
+          "variables": [
+            {
+              "id": "radius",
+              "label": "半徑"
+            },
+            {
+              "id": "angle",
+              "label": "角度"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-coordinates",
+              "label": "1. 讀取即時笛卡兒坐標"
+            },
+            {
+              "id": "form-the-ratio",
+              "label": "2. 形成正切比值"
+            },
+            {
+              "id": "recover-the-angle",
+              "label": "3. 套用反三角函式讀數"
+            }
+          ],
+          "resultLabel": "恢復的角度",
+          "applyAction": {
+            "label": "套用比值恢復視圖",
+            "observationHint": "保持坐標指南針開啟，以免 y / x 的實際點從此斷開。"
+          }
+        },
+        {
+          "id": "quadrant-two-warning",
+          "title": "在第二象限捕捉象限警告",
+          "prompt": "為何在第二象限警告預設中，原始反正切輸出單獨使用時會失敗？",
+          "steps": [
+            {
+              "id": "read-signs",
+              "label": "1. 説明 x 和 y 的符號"
+            },
+            {
+              "id": "notice-ratio",
+              "label": "2. 注意比值本身説了什麼"
+            },
+            {
+              "id": "restore-full-angle",
+              "label": "3. 恢復實際方向"
+            }
+          ],
+          "resultLabel": "修正後的象限角度",
+          "applyAction": {
+            "label": "套用象限警告視圖",
+            "observationHint": "注意主角度曲線如何下降到負範圍，而實際角度曲線則保持在第二象限。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "保持 y / x 負數，但移動點以確保實際角度確實位於第二象限而不是第四象限。",
+      "prediction": "首先決定是否需要 x 為正或負，以及 y 是否應該在 x 軸上方還是下方。",
+      "answer": "你需要 x 為負且 y 為正，因此實際角度落在第二象限。",
+      "explanation": "一個負的切線值可以屬於第二象限或第四象限。坐標符號決定哪一個是物理上正確的方向。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "根據即時點和角度恢復圖回答",
+    "questions": [
+      {
+        "id": "iatr-qt-quadrant-info",
+        "prompt": "什麼額外資訊告訴你一個負的切線比值屬於第二象限還是第四象限？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "x 和 y 的符號。"
+          },
+          {
+            "id": "b",
+            "label": "只有半徑。"
+          },
+          {
+            "id": "c",
+            "label": "一旦知道比值，其他任何事情都不重要。"
+          }
+        ],
+        "explanation": "一個負的切線值可以發生在兩個象限中，因此坐標符號決定實際方向。",
+        "showMeAction": {
+          "label": "顯示象限警告",
+          "observationHint": "注意點即使主角度曲線下降到負數範圍內仍保持在第二象限。"
+        }
+      },
+      {
+        "id": "iatr-qt-radius-effect",
+        "prompt": "如果半徑增加而角度固定，恢復的角度應該發生什麼變化？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它應該保持不變，因為點仍然位於同一射線上。"
+          },
+          {
+            "id": "b",
+            "label": "它總是移動到新的象限。"
+          },
+          {
+            "id": "c",
+            "label": "它應雙倍於半徑。"
+          }
+        ],
+        "explanation": "沿著一條射線縮放點會改變坐標大小但不會改變方向"
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一個笛卡爾坐標平面，包含一個點、一束半徑射線、一個角度弧度以及虛線坐標輔助線指向軸，並繪製了兩個圖表來比較實際極角與同一坐標下的主arctan輸出。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "第一個圖表比較實際角度和主arctan輸出，第二個圖表則保持x和y坐標掃描的可見性。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "ratio-recovery-view",
+        "label": "比例恢復",
+        "description": "開啟第一象限的點，並確保已經顯示了角度恢復圖表。",
+        "setup": {
+          "note": "使用此功能時，坐標比例和恢復的角度應與同一點保持一致。"
+        }
+      },
+      {
+        "id": "quadrant-warning-view",
+        "label": "象限警告",
+        "description": "開啟第二象限的點，其中主arctan輸出不再匹配實際角度。",
+        "setup": {
+          "note": "這使您可以看到象限修正，而不必離開相同的極坐標平台。"
+        }
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "tangent-ratio",
+      "label": "從坐標獲得正切",
+      "meaning": "對於離y軸較遠的點，射線的斜率給出了正切比例。"
+    },
+    {
+      "id": "principal-angle",
+      "label": "主arctan輸出",
+      "meaning": "arctan返回一個主角度，而不是總是完整的極方向。"
+    },
+    {
+      "id": "quadrant-safe-recovery",
+      "label": "象限安全的角度恢復",
+      "meaning": "同時使用兩個坐標可以保持正確的象限，即使比例本身是模稜兩可的。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "radius",
+      "label": "半徑",
+      "description": "沿同一射線一起縮放x和y，而不改變恢復的方向。"
+    },
+    {
+      "id": "angle",
+      "label": "角度",
+      "description": "改變點的方向並決定比例應該對映回哪個象限。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "radius",
+        "label": "半徑"
+      },
+      {
+        "id": "angle",
+        "label": "角度"
+      }
+    ]
+  }
+}

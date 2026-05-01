@@ -1,0 +1,221 @@
+{
+  "title": "從單位圓幾何學出正弦恆等式",
+  "shortTitle": "三角恆等式",
+  "summary": "保持一個旋轉點及其投影的可見性，使核心三角恆等式與幾何緊密聯絡，而不是脱離符號規則。",
+  "highlights": [
+    "cos^2 + sin^2 = 1",
+    "餘角交換",
+    "符號可以改變但恆等式保持不變",
+    "先從幾何開始"
+  ],
+  "topic": "複數和平面引數運動",
+  "subtopic": "平面上的三角幾何",
+  "recommendedNext": [
+    {
+      "slug": "inverse-trig-angle-from-ratio",
+      "reasonLabel": "在同一平面上恢復完整的角度，而不丟棄象限"
+    },
+    {
+      "slug": "parametric-curves-motion-from-equations",
+      "reasonLabel": "將相同的三角對應關係帶入由 x(t) 和 y(t) 計劃的運動中"
+    },
+    {
+      "slug": "derivative-as-slope-local-rate-of-change",
+      "reasonLabel": "當數學分支轉向區域性變化率時，重用相同的三角關係"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "三角恆等式更真實地停留在與旋轉點同一個單位圓平台上。此頁面保持點、其投影和平方投影圖形的可見性，使恆等式來自幾何而不是看起來像是脱離符號的把戲。",
+        "在單位圓上，半徑總是 1，所以每個活躍點都滿足 x^2 + y^2 = 1。一旦將同一個點讀作 (cos θ, sin θ)，畢氏恆等式就被影像所強制。餘角交換也是幾何上的：在第一象限，水平和垂直投影互換會使正弦和餘弦互換位置。"
+      ]
+    },
+    "keyIdeas": [
+      "由於單位圓的半徑為 1，每個活躍點都滿足 x^2 + y^2 = 1。",
+      "用 cos θ 替換 x 和 sin θ 替換 y 得到 cos^2 θ + sin^2 θ = 1。",
+      "原始的正弦和餘弦符號在象限之間可以改變，但平方和保持不變，因為從原點的距離不會改變。",
+      "在第一象限，水平和垂直投影互換，這就是為什麼正弦和餘弦會互換位置的原因。"
+    ],
+    "commonMisconception": {
+      "myth": "三角恆等式主要是符號代數，所以一旦公式被記住，單位圓影像就成為選項。",
+      "correction": [
+        "這些恆等式來自與活躍投影相同的幾何。",
+        "如果點停留在單位圓上，即使原始符號改變，平方投影仍然必須加起來為 1。"
+      ]
+    },
+    "workedExamples": {
+      "title": "示例",
+      "intro": "使用恆等式平衡預設，使點和平方圖形保持對齊。",
+      "items": [
+        {
+          "id": "read-the-three-four-five-point",
+          "title": "閱讀一個單位圓恆等式案例",
+          "prompt": "對於恆等式平衡預設，單位圓上的點關於核心恆等式説了什麼？",
+          "variables": [
+            {
+              "id": "angle",
+              "label": "起始角度"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-projections",
+              "label": "1. 閱讀活躍投影"
+            },
+            {
+              "id": "square-them",
+              "label": "2. 將相同的兩個投影平方"
+            },
+            {
+              "id": "add-the-squares",
+              "label": "3. 加上平方的部分"
+            }
+          ],
+          "resultLabel": "恆等式檢查",
+          "applyAction": {
+            "label": "應用恆等式的平衡檢視",
+            "observationHint": "保持平方圖和投影引導同時可見，讓幾何關係始終領先於符號表示。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "將點從第一象限移動到第二象限，而不改變其與原點的距離。什麼必須保持真實的平方投影？",
+      "prediction": "簽名變化的影響應該僅僅是原始餘弦符號還是隻影響平方和？",
+      "answer": "平方和仍然必須等於1。",
+      "explanation": "穿越第二象限會翻轉原始餘弦符號，但點仍在同一單位圓上，因此距離公式不變。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "從實時點和平方圖回答。",
+    "questions": [
+      {
+        "id": "tig-qt-identity-source",
+        "prompt": "在這個工作台上，最乾淨的幾何來源是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它是單位圓上一點的距離規則x^2 + y^2 = 1。"
+          },
+          {
+            "id": "b",
+            "label": "它只適用於特殊的角度，如30度、45度和60度。"
+          },
+          {
+            "id": "c",
+            "label": "它來自正弦和餘弦圖形的平均值。"
+          }
+        ],
+        "explanation": "這個恆等式只是單位圓距離規則用三角語言重新寫成的形式。",
+        "showMeAction": {
+          "label": "顯示恆等式的平衡",
+          "observationHint": "固定總和線來自點保持與原點的距離為1。"
+        }
+      },
+      {
+        "id": "tig-qt-sign-change",
+        "prompt": "當點從第一象限移動到第二象限時，什麼會首先改變？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "原始餘弦符號翻轉而平方和線仍然保持在1。"
+          },
+          {
+            "id": "b",
+            "label": "平方和線下降至1以下，因為餘弦變為負值。"
+          },
+          {
+            "id": "c",
+            "label": "原始正弦符號首先翻轉，但餘弦仍為正值。"
+          }
+        ],
+        "explanation": "穿越y軸時，水平投影符號會首先翻轉，但平方運算保持恆等式平衡。"
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一個單位圓，帶有一個旋轉點、水平和垂直投影引導、角度標記、象限符號圖表以及比較原始投影與其平方值的圖形。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "一個圖形顯示餘弦和正弦隨著時間變化，另一個圖形顯示餘弦平方、正弦平方及其總和保持固定在1。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "identity-balance-view",
+        "label": "恆等式平衡",
+        "description": "開啟第一象限的點，並已顯示平方投影圖。",
+        "setup": {
+          "note": "當單位圓上的點和平方投影圖必須緊密聯絡時使用。"
+        }
+      },
+      {
+        "id": "quadrant-two-balance-view",
+        "label": "第二象限平衡",
+        "description": "將點移動到y軸的左側，並觀看平方總和仍然固定。",
+        "setup": {
+          "note": "這保持了符號翻轉的可見性，同時不隱藏恆等式。"
+        }
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "unit-circle-distance",
+      "label": "單位圓上的距離規則",
+      "meaning": "單位圓上任何一點都恰好與原點相距一單位。"
+    },
+    {
+      "id": "pythagorean-identity",
+      "label": "畢氏恆等式",
+      "meaning": "將x = cos θ和y = sin θ代入單位圓距離規則，得到核心恆等式。"
+    },
+    {
+      "id": "complementary-swap",
+      "label": "補角互換",
+      "meaning": "在第一象限，補角會交換同一個直角三角形的水平和垂直投影。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "angular-speed",
+      "label": "角速度",
+      "description": "改變點掃過圓的速度而不改變身份本身。"
+    },
+    {
+      "id": "phase",
+      "label": "起始角度",
+      "description": "移動同一個單位圓上的點到新的象限，使得原始投影改變而身份保持不變。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "angular-speed",
+        "label": "角速度"
+      },
+      {
+        "id": "phase",
+        "label": "起始角度"
+      }
+    ],
+    "presets": [
+      {
+        "id": "identity-balance",
+        "label": "恆等式平衡"
+      },
+      {
+        "id": "quadrant-two-balance",
+        "label": "第二象限平衡"
+      }
+    ]
+  }
+}

@@ -1,0 +1,1389 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live pipe checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Boundary checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Keep the acoustics path going"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Compare open and closed pipe boundary conditions on one compact air column so standing-wave shapes, missing even harmonics, probe motion, and pressure cues stay tied to the same resonance state.",
+    "keyTakeaway": "Open ends behave like displacement antinodes and pressure nodes, while a closed end behaves like a displacement node and a pressure antinode.",
+    "whyItMatters": "Air-column resonance explains why flutes, organ pipes, and bottles choose particular notes, so the boundary rule is the bridge between a tube you can see and a pitch you can hear."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Air-column resonance is the sound-wave version of a standing-wave constraint. The tube length and the boundary conditions decide which standing-wave patterns can survive, so the allowed wavelengths and frequencies are not arbitrary.",
+        "This bench keeps one tube, one live probe parcel, and one authoritative resonance state in view. The tube picture, the displacement-shape graph, the harmonic ladder, and the probe trace all read from that same state, so open ends, closed ends, nodes, antinodes, and odd-only closed-pipe harmonics stay tied together."
+      ]
+    },
+    "keyIdeas": [
+      "Open ends behave like displacement antinodes and pressure nodes, while a closed end behaves like a displacement node and a pressure antinode.",
+      "Open-open tubes allow every integer harmonic, but closed-open tubes skip the even harmonics because one end must stay still while the other end breathes.",
+      "Changing tube length or boundary type changes the allowed wavelength first, and the resonance frequency follows from the same sound speed."
+    ],
+    "commonMisconception": {
+      "myth": "An open end should be a node because the air can move out of the tube there.",
+      "correction": [
+        "For parcel displacement, an open end is where the air can move most freely, so it behaves like a displacement antinode.",
+        "What becomes small at an open end is the pressure variation, which is why pressure nodes and displacement antinodes trade places."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "These examples read the current tube length, boundary condition, resonance order, and probe state directly from the live air column so the algebra stays attached to the same resonant pattern you are watching.",
+      "items": [
+        {
+          "id": "allowed-frequency",
+          "title": "Allowed wavelength and frequency",
+          "prompt": "For the current {{boundaryLabelValue}} with sound speed $v = {{waveSpeedValue}}\\,\\mathrm{m/s}$, what wavelength and resonance frequency are allowed?",
+          "variables": [
+            {
+              "id": "length",
+              "variableId": "length",
+              "symbol": "L",
+              "label": "Tube length",
+              "valueKey": "lengthValue",
+              "unit": "m"
+            },
+            {
+              "id": "resonance-order",
+              "variableId": "resonanceOrder",
+              "symbol": "m",
+              "label": "Resonance order",
+              "valueKey": "resonanceOrderValue"
+            },
+            {
+              "id": "harmonic-multiple",
+              "symbol": "n_{eff}",
+              "label": "Harmonic multiple",
+              "valueKey": "harmonicMultipleValue"
+            },
+            {
+              "id": "wave-speed",
+              "symbol": "v",
+              "label": "Sound speed",
+              "valueKey": "waveSpeedValue",
+              "unit": "m/s"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Start from the boundary rule",
+              "template": "For the current {{boundaryLabelValue}}, use ${{wavelengthRelation}}$ and ${{frequencyRelation}}$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the live tube",
+              "template": "Here the selected mode is the {{resonanceLabelValue}} and the {{harmonicLabelValue}}, so ${{substitutionLine}}$ with $L = {{lengthValue}}\\,\\mathrm{m}$ and $v = {{waveSpeedValue}}\\,\\mathrm{m/s}$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compute the allowed resonance",
+              "template": "That gives $\\lambda = {{wavelengthValue}}\\,\\mathrm{m}$ and $f = {{frequencyValue}}\\,\\mathrm{Hz}$, with {{harmonicSeriesValue}} for this boundary."
+            }
+          ],
+          "resultLabel": "Current resonance requirement",
+          "resultTemplate": "$\\lambda = {{wavelengthValue}}\\,\\mathrm{m}, \\quad f = {{frequencyValue}}\\,\\mathrm{Hz}$",
+          "interpretationTemplate": "{{resonanceInterpretation}}",
+          "applyAction": {
+            "label": "Show the closed-pipe third harmonic",
+            "presetId": "closed-open-third",
+            "observationHint": "Closing one end keeps the wall still, so the next allowed closed-pipe pattern jumps to the third harmonic instead of the second.",
+            "highlightedControlIds": [
+              "closedEnd",
+              "resonanceOrder",
+              "length"
+            ],
+            "highlightedGraphIds": [
+              "shape",
+              "ladder"
+            ],
+            "highlightedOverlayIds": [
+              "boundaryRules",
+              "motionNodes"
+            ]
+          }
+        },
+        {
+          "id": "probe-motion-vs-pressure",
+          "title": "Probe parcel motion vs pressure cue",
+          "prompt": "At the current probe position $x_p = {{probeXValue}}\\,\\mathrm{m}$ and time $t = {{timeValue}}\\,\\mathrm{s}$, what are the parcel displacement and the pressure cue there?",
+          "dependsOnTime": true,
+          "variables": [
+            {
+              "id": "time",
+              "symbol": "t",
+              "label": "Time",
+              "valueKey": "timeValue",
+              "unit": "s"
+            },
+            {
+              "id": "probe-position",
+              "variableId": "probeX",
+              "symbol": "x_p",
+              "label": "Probe position",
+              "valueKey": "probeXValue",
+              "unit": "m"
+            },
+            {
+              "id": "amplitude",
+              "variableId": "amplitude",
+              "symbol": "A",
+              "label": "Reference amplitude",
+              "valueKey": "amplitudeValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "envelopes",
+              "label": "1. Read the local envelopes",
+              "template": "At this probe, the parcel-motion envelope is $A_p = {{probeEnvelopeValue}}\\,\\mathrm{m}$ and the pressure-envelope cue is $P_p = {{probePressureEnvelopeValue}}$."
+            },
+            {
+              "id": "instant",
+              "label": "2. Read the current time slice",
+              "template": "At $t = {{timeValue}}\\,\\mathrm{s}$, the parcel displacement is $y = {{probeDisplacementValue}}\\,\\mathrm{m}$ and the pressure cue is ${{probePressureValue}}$."
+            },
+            {
+              "id": "classify",
+              "label": "3. Classify the probe role",
+              "template": "The probe is near a displacement {{probeRegionLabelValue}} and a pressure {{probePressureRegionLabelValue}}, so the two views should look complementary rather than identical."
+            }
+          ],
+          "resultLabel": "Current probe state",
+          "resultTemplate": "$y(x_p,t) = {{probeDisplacementValue}}\\,\\mathrm{m}, \\quad p_{cue}(x_p,t) = {{probePressureValue}}$",
+          "interpretationTemplate": "{{pressureInterpretation}}",
+          "applyAction": {
+            "label": "Move to the closed end",
+            "presetId": "closed-end-pressure",
+            "observationHint": "At the closed wall the parcel motion collapses, but the pressure cue becomes strongest there.",
+            "highlightedControlIds": [
+              "probeX",
+              "closedEnd"
+            ],
+            "highlightedGraphIds": [
+              "shape",
+              "displacement"
+            ],
+            "highlightedOverlayIds": [
+              "boundaryRules",
+              "pressureGuides"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "You want the same tube length but a lower fundamental resonance without changing the length. What is the most direct change?",
+      "prediction": "Decide whether you should close one end, raise the resonance order, or move the probe.",
+      "answer": "Close one end of the tube.",
+      "explanation": "Closing one end changes the boundary condition from a half-wave fundamental to a quarter-wave fundamental. That doubles the allowed wavelength from $2L$ to $4L$ and halves the fundamental frequency, while moving the probe only changes what you inspect and raising the resonance order moves to a higher mode instead."
+    }
+  },
+  "equations": [
+    {
+      "id": "open-open-displacement",
+      "latex": "y_n(x,t) = A\\cos\\!\\left(\\dfrac{n\\pi x}{L}\\right)\\cos(\\omega_n t)",
+      "label": "Open-open parcel displacement",
+      "meaning": "Both ends are displacement antinodes, so the parcel-motion shape uses the cosine pattern across the full tube.",
+      "notes": [
+        "Open ends let parcels move most freely.",
+        "Pressure variation is smallest at those open ends."
+      ]
+    },
+    {
+      "id": "closed-open-displacement",
+      "latex": "y_m(x,t) = A\\sin\\!\\left(\\dfrac{(2m-1)\\pi x}{2L}\\right)\\cos(\\omega_m t)",
+      "label": "Closed-open parcel displacement",
+      "meaning": "A closed wall forces a displacement node, so only odd harmonic multiples fit between the still wall and the open end."
+    },
+    {
+      "id": "open-open-resonance",
+      "latex": "\\lambda_n = \\dfrac{2L}{n}, \\qquad f_n = \\dfrac{nv}{2L}",
+      "label": "Open-open resonance ladder",
+      "meaning": "Open-open tubes allow every integer harmonic because both ends follow the same antinode boundary rule."
+    },
+    {
+      "id": "closed-open-resonance",
+      "latex": "\\lambda_m = \\dfrac{4L}{2m-1}, \\qquad f_m = \\dfrac{(2m-1)v}{4L}",
+      "label": "Closed-open resonance ladder",
+      "meaning": "Closed-open tubes keep only odd harmonic multiples because the wall and the mouth obey different boundary conditions."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "length",
+      "symbol": "L",
+      "label": "Tube length",
+      "param": "length",
+      "tone": "amber",
+      "description": "Changes how much room the standing pattern has, so every allowed wavelength and frequency shifts with it.",
+      "equationIds": [
+        "open-open-displacement",
+        "closed-open-displacement",
+        "open-open-resonance",
+        "closed-open-resonance"
+      ],
+      "graphIds": [
+        "shape",
+        "ladder",
+        "displacement"
+      ],
+      "overlayIds": [
+        "boundaryRules",
+        "motionNodes",
+        "pressureGuides"
+      ]
+    },
+    {
+      "id": "boundary",
+      "symbol": "\\text{BC}",
+      "label": "Boundary type",
+      "param": "closedEnd",
+      "tone": "ink",
+      "description": "Switches between open-open and closed-open rules, which changes the allowed harmonic family rather than just relabeling the same tube.",
+      "equationIds": [
+        "open-open-displacement",
+        "closed-open-displacement",
+        "open-open-resonance",
+        "closed-open-resonance"
+      ],
+      "graphIds": [
+        "shape",
+        "ladder"
+      ],
+      "overlayIds": [
+        "boundaryRules",
+        "pressureGuides"
+      ]
+    },
+    {
+      "id": "resonanceOrder",
+      "symbol": "m",
+      "label": "Resonance order",
+      "param": "resonanceOrder",
+      "tone": "teal",
+      "description": "Chooses which allowed pattern you are using, so the number of nodes, the harmonic multiple, and the resonance frequency move together.",
+      "equationIds": [
+        "open-open-displacement",
+        "closed-open-displacement",
+        "open-open-resonance",
+        "closed-open-resonance"
+      ],
+      "graphIds": [
+        "shape",
+        "ladder",
+        "displacement"
+      ],
+      "overlayIds": [
+        "motionNodes",
+        "pressureGuides"
+      ]
+    },
+    {
+      "id": "probeX",
+      "symbol": "x_p",
+      "label": "Probe position",
+      "param": "probeX",
+      "tone": "coral",
+      "description": "Moves the live measurement parcel so you can compare open-end breathing, wall stillness, and interior node positions without creating a second state.",
+      "equationIds": [
+        "open-open-displacement",
+        "closed-open-displacement"
+      ],
+      "graphIds": [
+        "shape",
+        "displacement"
+      ],
+      "overlayIds": [
+        "motionNodes",
+        "pressureGuides",
+        "boundaryRules"
+      ]
+    },
+    {
+      "id": "amplitude",
+      "symbol": "A",
+      "label": "Reference amplitude",
+      "param": "amplitude",
+      "tone": "sky",
+      "description": "Scales how large the parcel-motion and pressure cues can become without changing which resonances are allowed.",
+      "equationIds": [
+        "open-open-displacement",
+        "closed-open-displacement"
+      ],
+      "graphIds": [
+        "shape",
+        "displacement"
+      ],
+      "overlayIds": [
+        "motionNodes",
+        "pressureGuides"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "length": 1.2,
+      "closedEnd": false,
+      "resonanceOrder": 2,
+      "probeX": 0.6,
+      "amplitude": 0.12,
+      "boundaryRules": true,
+      "motionNodes": true,
+      "pressureGuides": false
+    },
+    "ui": {
+      "initialGraphId": "shape",
+      "primaryGraphIds": [
+        "shape"
+      ],
+      "primaryControlIds": [
+        "closedEnd",
+        "resonanceOrder"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "length",
+        "kind": "slider",
+        "label": "Tube length",
+        "param": "length",
+        "min": 0.6,
+        "max": 1.8,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Changes the resonating air-column length and therefore the allowed wavelengths."
+      },
+      {
+        "id": "closedEnd",
+        "kind": "toggle",
+        "label": "Close the left end",
+        "param": "closedEnd",
+        "description": "Switch between open-open and closed-open boundary conditions on the same tube."
+      },
+      {
+        "id": "resonanceOrder",
+        "kind": "slider",
+        "label": "Resonance order",
+        "param": "resonanceOrder",
+        "min": 1,
+        "max": 4,
+        "step": 1,
+        "unit": "mode",
+        "description": "Selects which allowed resonance pattern fits the current boundary condition."
+      },
+      {
+        "id": "probeX",
+        "kind": "slider",
+        "label": "Probe position",
+        "param": "probeX",
+        "min": 0,
+        "max": 1.8,
+        "step": 0.02,
+        "unit": "m",
+        "description": "Moves the live parcel probe along the tube. Values past the mouth clamp to the current tube length."
+      },
+      {
+        "id": "amplitude",
+        "kind": "slider",
+        "label": "Reference amplitude",
+        "param": "amplitude",
+        "min": 0.06,
+        "max": 0.18,
+        "step": 0.01,
+        "unit": "m",
+        "description": "Scales the displacement and pressure cue size without changing the allowed resonance family."
+      }
+    ],
+    "presets": [
+      {
+        "id": "open-open-fundamental",
+        "label": "Open tube fundamental",
+        "description": "Both ends breathe, so the tube fits half a wavelength.",
+        "values": {
+          "length": 1.2,
+          "closedEnd": false,
+          "resonanceOrder": 1,
+          "probeX": 0.3,
+          "amplitude": 0.12
+        }
+      },
+      {
+        "id": "open-open-second",
+        "label": "Open tube second harmonic",
+        "description": "A center displacement node appears while both ends still breathe.",
+        "values": {
+          "length": 1.2,
+          "closedEnd": false,
+          "resonanceOrder": 2,
+          "probeX": 0.6,
+          "amplitude": 0.12
+        }
+      },
+      {
+        "id": "closed-open-fundamental",
+        "label": "Closed pipe fundamental",
+        "description": "The wall stays still while the open mouth becomes the moving end.",
+        "values": {
+          "length": 1.2,
+          "closedEnd": true,
+          "resonanceOrder": 1,
+          "probeX": 0.4,
+          "amplitude": 0.12
+        }
+      },
+      {
+        "id": "closed-open-third",
+        "label": "Closed pipe third harmonic",
+        "description": "The next closed-pipe resonance jumps to the odd third harmonic.",
+        "values": {
+          "length": 1.2,
+          "closedEnd": true,
+          "resonanceOrder": 2,
+          "probeX": 0.4,
+          "amplitude": 0.12
+        }
+      },
+      {
+        "id": "closed-end-pressure",
+        "label": "Probe at the wall",
+        "description": "The probe sits almost at the closed wall where pressure is strongest and parcel motion is smallest.",
+        "values": {
+          "length": 1.2,
+          "closedEnd": true,
+          "resonanceOrder": 2,
+          "probeX": 0.02,
+          "amplitude": 0.12
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "boundaryRules",
+        "label": "Boundary rules",
+        "shortDescription": "Marks how the current tube ends constrain parcel motion and pressure variation.",
+        "whatToNotice": [
+          "Every open end lines up with large parcel motion but weak pressure variation, while a closed wall reverses that pairing."
+        ],
+        "whyItMatters": "It keeps the resonance family tied to a physical boundary condition instead of turning open and closed pipes into memorized formulas.",
+        "relatedControls": [
+          "closedEnd",
+          "length",
+          "resonanceOrder"
+        ],
+        "relatedGraphTabs": [
+          "shape",
+          "ladder"
+        ],
+        "relatedEquationVariables": [
+          "boundary",
+          "length",
+          "resonanceOrder"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "motionNodes",
+        "label": "Parcel nodes and antinodes",
+        "shortDescription": "Shows where parcels stay still and where they swing most in the current standing-wave pattern.",
+        "whatToNotice": [
+          "The node pattern is fixed by the resonance, even while the actual parcels keep moving back and forth in time."
+        ],
+        "whyItMatters": "It separates the standing-wave shape from one frozen instant of the parcel motion.",
+        "relatedControls": [
+          "resonanceOrder",
+          "probeX",
+          "length"
+        ],
+        "relatedGraphTabs": [
+          "shape",
+          "displacement"
+        ],
+        "relatedEquationVariables": [
+          "resonanceOrder",
+          "probeX",
+          "length"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "pressureGuides",
+        "label": "Pressure complements",
+        "shortDescription": "Adds the complementary pressure-node and pressure-antinode pattern to the same tube.",
+        "whatToNotice": [
+          "Where parcel motion is smallest, the pressure swing is often strongest, and where the mouth breathes most freely the pressure cue weakens."
+        ],
+        "whyItMatters": "It keeps parcel motion and pressure variation distinct without splitting them into disconnected models.",
+        "relatedControls": [
+          "closedEnd",
+          "probeX",
+          "resonanceOrder"
+        ],
+        "relatedGraphTabs": [
+          "shape",
+          "displacement"
+        ],
+        "relatedEquationVariables": [
+          "boundary",
+          "probeX",
+          "resonanceOrder"
+        ],
+        "defaultOn": false
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "shape",
+      "label": "Displacement shape",
+      "xLabel": "position in tube (m)",
+      "yLabel": "signed parcel-shift scale (m)",
+      "series": [
+        "mode-shape"
+      ],
+      "description": "Shows the signed parcel-motion shape of the current resonance, so open ends, closed walls, and interior nodes stay tied to one live tube."
+    },
+    {
+      "id": "displacement",
+      "label": "Probe motion",
+      "xLabel": "time (s)",
+      "yLabel": "parcel displacement (m)",
+      "series": [
+        "probe",
+        "upper-envelope",
+        "lower-envelope"
+      ],
+      "description": "Tracks one selected parcel in time while the local envelope stays linked to the same standing-wave pattern in the tube."
+    },
+    {
+      "id": "ladder",
+      "label": "Allowed harmonics",
+      "xLabel": "resonance order",
+      "yLabel": "frequency (Hz)",
+      "series": [
+        "resonances"
+      ],
+      "description": "Compares the allowed resonance frequencies for the current tube so open-open cases show every integer harmonic while closed-open cases skip the even multiples."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use one cue at a time. The best prompt should point you at a real resonance feature that the current tube, graph, or overlay is already showing.",
+    "items": [
+      {
+        "id": "air-column-notice-open-ends",
+        "text": "Notice that every open end lines up with the largest parcel motion, not a stuck point.",
+        "type": "observation",
+        "priority": 1,
+        "conditions": {
+          "overlayIds": [
+            "boundaryRules"
+          ]
+        },
+        "tryThis": "Leave the boundary overlay on and compare the open mouth with an interior node before you move the probe.",
+        "whyItMatters": "Open ends are displacement antinodes, so they do not follow the same motion rule as a closed wall.",
+        "relatedGraphTabs": [
+          "shape"
+        ],
+        "relatedOverlays": [
+          "boundaryRules"
+        ]
+      },
+      {
+        "id": "air-column-notice-closed-toggle",
+        "text": "Notice that closing the left end changes the whole allowed harmonic family, not just the label on the same pattern.",
+        "type": "try-this",
+        "priority": 3,
+        "conditions": {
+          "lastChangedControls": [
+            "closedEnd"
+          ]
+        },
+        "tryThis": "Keep the tube length fixed, toggle the wall on, and watch the harmonic ladder drop into the odd-only closed-pipe pattern.",
+        "whyItMatters": "Boundary conditions decide which wavelengths are allowed in the first place.",
+        "relatedControls": [
+          "closedEnd"
+        ],
+        "relatedGraphTabs": [
+          "ladder",
+          "shape"
+        ],
+        "relatedOverlays": [
+          "boundaryRules"
+        ]
+      },
+      {
+        "id": "air-column-notice-shape-link",
+        "text": "Notice that hovering the displacement-shape graph moves the live probe to the same tube position instead of inventing a second pipe state.",
+        "type": "graph-reading",
+        "priority": 4,
+        "conditions": {
+          "graphTabs": [
+            "shape"
+          ]
+        },
+        "tryThis": "Hover near the closed wall, then hover near the open mouth, and compare the probe-motion graph.",
+        "whyItMatters": "The graph and the tube are two views of the same standing-wave pattern.",
+        "relatedGraphTabs": [
+          "shape",
+          "displacement"
+        ],
+        "relatedControls": [
+          "probeX"
+        ]
+      },
+      {
+        "id": "air-column-notice-pressure",
+        "text": "Notice that the pressure guides swap roles with the parcel-motion guides: one view is strongest where the other is weakest.",
+        "type": "observation",
+        "priority": 5,
+        "conditions": {
+          "overlayIds": [
+            "pressureGuides"
+          ]
+        },
+        "tryThis": "Turn on pressure guides and compare the closed wall or the open mouth with the parcel-motion markers.",
+        "whyItMatters": "Air-column resonance needs both displacement and pressure language, but they should stay connected on one bench.",
+        "relatedOverlays": [
+          "pressureGuides",
+          "motionNodes"
+        ],
+        "relatedGraphTabs": [
+          "shape"
+        ]
+      },
+      {
+        "id": "air-column-notice-ladder",
+        "text": "Notice that the harmonic ladder is not evenly populated in a closed-open tube because the even harmonics are missing.",
+        "type": "graph-reading",
+        "priority": 6,
+        "conditions": {
+          "graphTabs": [
+            "ladder"
+          ]
+        },
+        "tryThis": "Keep the length fixed and compare open-open against closed-open while the ladder graph stays open.",
+        "whyItMatters": "The missing even harmonics are a direct boundary-condition consequence, not a separate acoustics trick.",
+        "relatedControls": [
+          "closedEnd",
+          "resonanceOrder"
+        ],
+        "relatedGraphTabs": [
+          "ladder"
+        ]
+      },
+      {
+        "id": "air-column-notice-inspect",
+        "text": "Notice that the time rail changes the instantaneous parcel motion, but the shape graph stays spatial because it represents the allowed standing pattern, not one frozen frame.",
+        "type": "graph-reading",
+        "priority": 7,
+        "conditions": {
+          "inspectState": "inspect"
+        },
+        "tryThis": "Pause, step once, and compare what changes in the tube with what stays fixed on the shape graph.",
+        "whyItMatters": "It separates the resonance pattern from the moment-by-moment oscillation inside that pattern.",
+        "relatedGraphTabs": [
+          "shape",
+          "displacement"
+        ]
+      },
+      {
+        "id": "air-column-notice-compare",
+        "text": "Notice which setup has the lower allowed frequency at the same length. That setup is the one with the longer allowed wavelength family.",
+        "type": "compare",
+        "priority": 8,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Clone the open tube into A and B, then close one end in Setup B and compare the harmonic ladder before reading the equations.",
+        "whyItMatters": "Compare mode makes the open-vs-closed resonance shift visible without hiding the shared tube length.",
+        "relatedControls": [
+          "closedEnd",
+          "length",
+          "resonanceOrder"
+        ],
+        "relatedGraphTabs": [
+          "ladder"
+        ],
+        "relatedOverlays": [
+          "boundaryRules"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Commit to the boundary-condition consequence before you test it. Each prompt changes one cause at a time and asks what the shared tube-and-probe state must do next.",
+    "items": [
+      {
+        "id": "air-column-predict-close-end",
+        "prompt": "The tube length stays fixed, and you close one end of an open tube while staying on the fundamental resonance. What must happen?",
+        "scenarioLabel": "Close one end",
+        "changeLabel": "Boundary type",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The allowed wavelength doubles and the fundamental frequency halves."
+          },
+          {
+            "id": "b",
+            "label": "The allowed wavelength stays the same because the tube length did not change."
+          },
+          {
+            "id": "c",
+            "label": "Only the pressure cue changes. The parcel-motion pattern should stay identical."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "An open-open fundamental fits half a wavelength across the tube, but a closed-open fundamental fits a quarter wavelength. That doubles the allowed wavelength from $2L$ to $4L$ and halves the fundamental frequency for the same sound speed.",
+        "observationHint": "Watch the ladder drop to a lower fundamental while the closed wall becomes a motion node.",
+        "apply": {
+          "presetId": "closed-open-fundamental"
+        },
+        "highlightedControls": [
+          "closedEnd"
+        ],
+        "highlightedGraphs": [
+          "shape",
+          "ladder"
+        ],
+        "highlightedOverlays": [
+          "boundaryRules"
+        ]
+      },
+      {
+        "id": "air-column-predict-wall-probe",
+        "prompt": "In a closed-open tube, you slide the probe to the closed wall. What should happen to the probe-motion graph and the pressure cue there?",
+        "scenarioLabel": "Probe at the wall",
+        "changeLabel": "Probe position",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The probe-motion graph should collapse near zero while the pressure cue becomes strongest."
+          },
+          {
+            "id": "b",
+            "label": "Both motion and pressure should vanish because the wall blocks the air."
+          },
+          {
+            "id": "c",
+            "label": "The probe-motion graph should double because reflections stack at the wall."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The closed wall is a displacement node and a pressure antinode. Parcels cannot move through the wall, but the compressions and rarefactions pile up there most strongly.",
+        "observationHint": "Use the pressure-guides overlay to confirm that the pressure cue peaks where the parcel motion collapses.",
+        "apply": {
+          "presetId": "closed-end-pressure"
+        },
+        "highlightedControls": [
+          "probeX"
+        ],
+        "highlightedGraphs": [
+          "shape",
+          "displacement"
+        ],
+        "highlightedOverlays": [
+          "boundaryRules",
+          "pressureGuides"
+        ]
+      },
+      {
+        "id": "air-column-predict-next-closed-mode",
+        "prompt": "A closed-open tube is already on its fundamental. You raise the resonance order from 1 to 2 without changing the tube length. What must the next allowed pattern be?",
+        "scenarioLabel": "Raise the closed-pipe mode",
+        "changeLabel": "Resonance order",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The tube should jump to the third harmonic, with a shorter wavelength and a higher frequency."
+          },
+          {
+            "id": "b",
+            "label": "The tube should move to the second harmonic because every resonance order adds the next integer harmonic."
+          },
+          {
+            "id": "c",
+            "label": "The wavelength should get longer because there are now more nodes."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Closed-open tubes skip the even harmonics. The next allowed mode after the fundamental is the odd third harmonic, so the wavelength shortens and the frequency rises.",
+        "observationHint": "The harmonic ladder skips straight from the first to the third harmonic family.",
+        "apply": {
+          "presetId": "closed-open-third"
+        },
+        "highlightedControls": [
+          "resonanceOrder"
+        ],
+        "highlightedGraphs": [
+          "shape",
+          "ladder",
+          "displacement"
+        ],
+        "highlightedOverlays": [
+          "motionNodes",
+          "boundaryRules"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the tube, overlays, and graphs to turn open-vs-closed boundary rules into compact resonance tasks.",
+    "items": [
+      {
+        "id": "acr-ch-closed-end-stillness",
+        "title": "Closed-end stillness",
+        "style": "visible-condition",
+        "prompt": "Starting from the closed-pipe third harmonic, move the probe onto the closed wall so parcel motion nearly disappears while the pressure cue stays strong.",
+        "successMessage": "You found the closed-wall displacement node. The parcels stay still there even while the pressure swing remains large.",
+        "setup": {
+          "presetId": "closed-open-third",
+          "graphId": "shape",
+          "note": "Use the boundary and pressure overlays together while you move the probe."
+        },
+        "hints": [
+          "A closed wall is a displacement node, not a pressure node.",
+          "This task is about the envelope, not one lucky instant. Keep the probe where the motion stays tiny across the full cycle."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Open the displacement-shape graph.",
+            "graphId": "shape"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the boundary overlay visible.",
+            "overlayId": "boundaryRules"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Turn on the pressure guides.",
+            "overlayId": "pressureGuides"
+          },
+          {
+            "type": "metric-range",
+            "label": "Make the parcel-motion envelope smaller than $0.015\\,\\mathrm{m}$.",
+            "metric": "probeEnvelope",
+            "min": 0,
+            "max": 0.015,
+            "displayUnit": "m"
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep the pressure envelope above $0.09$.",
+            "metric": "probePressureEnvelope",
+            "min": 0.09,
+            "max": 0.2
+          }
+        ]
+      },
+      {
+        "id": "acr-ch-open-vs-closed-second-mode",
+        "title": "Same slider, different harmonic family",
+        "style": "parameter-match",
+        "prompt": "Enter compare mode, keep both setups at the same tube length and the same resonance-order slider setting of 2, then make Setup B the closed-open tube so Setup A lands on the 2nd harmonic while Setup B lands on the 3rd harmonic at a lower frequency.",
+        "successMessage": "You matched the same slider value across two different boundary conditions. The open tube keeps the 2nd harmonic, while the closed-open tube shifts to the odd 3rd harmonic and a lower allowed frequency.",
+        "setup": {
+          "presetId": "open-open-second",
+          "interactionMode": "compare",
+          "graphId": "ladder",
+          "note": "Clone the open-tube second harmonic into A and B, then edit only Setup B."
+        },
+        "hints": [
+          "Do not change the tube length or the resonance-order slider between A and B.",
+          "The closed-open tube keeps the same slider setting but changes the harmonic multiple because the even harmonics are missing."
+        ],
+        "checks": [
+          {
+            "type": "compare-active",
+            "label": "Switch into compare mode and edit Setup B.",
+            "target": "b"
+          },
+          {
+            "type": "graph-active",
+            "label": "Keep the harmonic ladder graph open.",
+            "graphId": "ladder"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup A on the reference tube length.",
+            "setup": "a",
+            "param": "length",
+            "min": 1.15,
+            "max": 1.25
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup B on the same tube length.",
+            "setup": "b",
+            "param": "length",
+            "min": 1.15,
+            "max": 1.25
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup A on resonance-order setting 2.",
+            "setup": "a",
+            "param": "resonanceOrder",
+            "min": 1.6,
+            "max": 2.4
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup B on the same resonance-order setting.",
+            "setup": "b",
+            "param": "resonanceOrder",
+            "min": 1.6,
+            "max": 2.4
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup A should stay on the 2nd harmonic family.",
+            "setup": "a",
+            "metric": "harmonicMultiple",
+            "min": 1.9,
+            "max": 2.1
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B should shift to the odd 3rd harmonic family.",
+            "setup": "b",
+            "metric": "harmonicMultiple",
+            "min": 2.9,
+            "max": 3.1
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup A should stay near $28.3\\,\\mathrm{Hz}$.",
+            "setup": "a",
+            "metric": "frequency",
+            "min": 27.8,
+            "max": 28.8,
+            "displayUnit": "Hz"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B should drop near $21.3\\,\\mathrm{Hz}$.",
+            "setup": "b",
+            "metric": "frequency",
+            "min": 20.8,
+            "max": 21.8,
+            "displayUnit": "Hz"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Use the tube, graph, and boundary ideas together. These checks ask what the resonance pattern means physically, not which formula you memorized.",
+    "questions": [
+      {
+        "id": "air-column-qt-open-end",
+        "type": "misconception-check",
+        "prompt": "A student says, \"An open end must be a node because the air can just escape there.\" What is the best correction?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "An open end is a displacement antinode because parcels can move most freely there, while pressure variation is smallest."
+          },
+          {
+            "id": "b",
+            "label": "An open end is always a displacement node and a pressure antinode."
+          },
+          {
+            "id": "c",
+            "label": "Open ends do not affect resonance, so either description works."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Open ends are where parcel motion can be largest, so they behave like displacement antinodes. The quantity that falls toward zero there is the pressure variation, not the parcel motion.",
+        "selectedWrongExplanations": {
+          "b": "That is the closed-wall rule, not the open-end rule.",
+          "c": "Boundary conditions are exactly what decide which resonances are allowed."
+        },
+        "showMeAction": {
+          "label": "Show the open tube fundamental",
+          "presetId": "open-open-fundamental",
+          "observationHint": "Both open ends breathe while the pressure node sits at the mouth.",
+          "highlightedControlIds": [
+            "closedEnd"
+          ],
+          "highlightedGraphIds": [
+            "shape"
+          ],
+          "highlightedOverlayIds": [
+            "boundaryRules"
+          ]
+        }
+      },
+      {
+        "id": "air-column-qt-odd-only",
+        "type": "reasoning",
+        "prompt": "Why does a closed-open pipe skip the even harmonics?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because one end must be a displacement node and the other an antinode, so only odd quarter-wave counts can satisfy both rules at once."
+          },
+          {
+            "id": "b",
+            "label": "Because the sound speed is slower in a closed pipe, so the even harmonics disappear."
+          },
+          {
+            "id": "c",
+            "label": "Because reflection stops after the fundamental in a closed pipe."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The missing even harmonics are a geometry-and-boundary consequence. A node at one end and an antinode at the other means the tube must fit 1, 3, 5, ... quarter wavelengths, not every half-wave count.",
+        "selectedWrongExplanations": {
+          "b": "The sound speed was not changed. The boundary rules changed which wavelengths are allowed.",
+          "c": "Reflections are still part of every later closed-pipe resonance. The issue is which standing patterns satisfy the boundary conditions."
+        },
+        "showMeAction": {
+          "label": "Show the closed-pipe third harmonic",
+          "presetId": "closed-open-third",
+          "observationHint": "The ladder skips the even harmonic family and lands on the odd third harmonic instead.",
+          "highlightedControlIds": [
+            "closedEnd",
+            "resonanceOrder"
+          ],
+          "highlightedGraphIds": [
+            "ladder",
+            "shape"
+          ],
+          "highlightedOverlayIds": [
+            "boundaryRules"
+          ]
+        }
+      },
+      {
+        "id": "air-column-qt-wall-probe",
+        "type": "graph-reading",
+        "prompt": "If the probe is placed at the closed wall of a closed-open tube, what should the probe-motion graph show?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It should flatten near zero because the wall is a displacement node."
+          },
+          {
+            "id": "b",
+            "label": "It should show the largest oscillation because reflections pile up there."
+          },
+          {
+            "id": "c",
+            "label": "It should become random because the standing-wave formula no longer applies at the wall."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The closed wall is a parcel-motion node. The pressure swing can still be large there, but the parcel itself cannot oscillate through the wall.",
+        "selectedWrongExplanations": {
+          "b": "Large pressure variation does not mean large parcel displacement at a closed wall.",
+          "c": "The wall is one of the most constrained points in the standing-wave pattern, not an exception to it."
+        },
+        "showMeAction": {
+          "label": "Move to the closed wall",
+          "presetId": "closed-end-pressure",
+          "observationHint": "The pressure cue grows while the probe-motion trace collapses.",
+          "highlightedControlIds": [
+            "probeX"
+          ],
+          "highlightedGraphIds": [
+            "displacement"
+          ],
+          "highlightedOverlayIds": [
+            "boundaryRules",
+            "pressureGuides"
+          ]
+        }
+      },
+      {
+        "id": "air-column-qt-open-vs-closed",
+        "type": "compare-two-cases",
+        "prompt": "Two tubes have the same length and the same sound speed. Tube A is open at both ends and Tube B is closed at one end. Both are on the fundamental. What must be true?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Tube B has a longer allowed wavelength and a lower fundamental frequency than Tube A."
+          },
+          {
+            "id": "b",
+            "label": "Both tubes have the same wavelength and frequency because their lengths match."
+          },
+          {
+            "id": "c",
+            "label": "Tube B must have a higher frequency because the closed wall reflects more strongly."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The open-open fundamental fits half a wavelength, but the closed-open fundamental fits a quarter wavelength. That makes the closed-open wavelength longer and its fundamental frequency lower at the same length.",
+        "selectedWrongExplanations": {
+          "b": "Length alone does not decide resonance. The boundary conditions matter too.",
+          "c": "Stronger reflection is not the rule here. The lower frequency comes from the longer allowed wavelength."
+        },
+        "showMeAction": {
+          "label": "Show the closed-pipe fundamental",
+          "presetId": "closed-open-fundamental",
+          "observationHint": "The harmonic ladder drops to the lower closed-pipe fundamental without changing the tube length.",
+          "highlightedControlIds": [
+            "closedEnd",
+            "length"
+          ],
+          "highlightedGraphIds": [
+            "ladder"
+          ],
+          "highlightedOverlayIds": [
+            "boundaryRules"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one horizontal air column with a movable probe parcel inside the tube, a colored pressure ribbon, and a ruler underneath. The left end can switch between open and closed, the right end stays open, and optional overlays mark boundary rules, parcel-motion nodes and antinodes, and the complementary pressure pattern.",
+        "Changing tube length, boundary type, resonance order, probe position, or amplitude immediately updates the same tube view, displacement-shape graph, harmonic ladder, and probe-motion graph so the resonance state stays synchronized."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The displacement-shape graph plots signed parcel-motion scale against position in the tube, so zero crossings correspond to displacement nodes and the end behavior changes when the boundary condition changes.",
+        "The probe-motion graph plots one selected parcel in time together with its local envelope, while the harmonic ladder graph plots the allowed resonance frequencies for the current tube and makes the missing even harmonics in a closed-open pipe visible."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Resonance in Air Columns / Open and Closed Pipes | Open Model Lab",
+    "description": "Interactive air-column resonance with open and closed pipe boundary conditions, standing-wave patterns, harmonic ladders, pressure/displacement cues, prediction prompts, and challenge checks.",
+    "keywords": [
+      "air column resonance",
+      "open pipe",
+      "closed pipe",
+      "standing waves in tubes",
+      "harmonics",
+      "acoustics"
+    ]
+  },
+  "v2": {
+    "intuition": "A pipe does not accept every sound wave equally. The air column keeps the standing-wave patterns that fit its ends: open ends breathe, closed walls stay still, and pressure does the complementary thing.",
+    "whyItMatters": "Once you can read those end rules, open-pipe harmonics, closed-pipe odd harmonics, and lower closed-pipe fundamentals all follow from the same picture instead of separate formulas.",
+    "estimatedMinutes": 14,
+    "equationSnapshot": {
+      "title": "Pipe boundary snapshot",
+      "note": "Read the end condition first, then choose the wavelength family. Open-open tubes use half-wave counts; closed-open tubes use odd quarter-wave counts.",
+      "equationIds": [
+        "open-open-resonance",
+        "closed-open-resonance"
+      ]
+    },
+    "startSetup": {
+      "presetId": "open-open-fundamental",
+      "graphId": "shape",
+      "overlayIds": [
+        "boundaryRules",
+        "motionNodes"
+      ],
+      "note": "Begin with the open tube fundamental so both breathing ends are visible before closing one wall."
+    },
+    "guidedSteps": [
+      {
+        "id": "mark-the-end-rules",
+        "title": "Mark the end rules",
+        "goal": "Tell which end is free to move and which end is forced still.",
+        "doThis": "Start with the boundary overlay on, then toggle Close the left end while watching the tube ends and displacement-shape graph.",
+        "notice": "An open mouth is a displacement antinode, but a closed wall becomes a displacement node.",
+        "explain": "The end condition is the constraint that selects the standing wave. Open air can move, so displacement is large there; a wall blocks parcel motion, so displacement must drop to zero.",
+        "reveal": {
+          "controlIds": [
+            "closedEnd"
+          ],
+          "graphIds": [
+            "shape"
+          ],
+          "overlayIds": [
+            "boundaryRules",
+            "motionNodes"
+          ],
+          "toolHints": [
+            "Play / pause"
+          ]
+        },
+        "setup": {
+          "presetId": "open-open-fundamental",
+          "graphId": "shape",
+          "overlayIds": [
+            "boundaryRules",
+            "motionNodes"
+          ]
+        }
+      },
+      {
+        "id": "read-the-harmonic-family",
+        "title": "Read the harmonic family",
+        "goal": "Connect the boundary rule to the allowed wavelength and frequency ladder.",
+        "doThis": "Keep the length fixed, open the harmonic ladder, and compare the open tube with the closed-open third-harmonic preset.",
+        "notice": "The open tube can step through every harmonic, while the closed-open tube jumps through 1st, 3rd, 5th, and higher odd harmonics.",
+        "explain": "A closed-open pipe must fit a node at one end and an antinode at the other. That geometry accepts odd quarter-wave patterns, so the even harmonic family is missing.",
+        "reveal": {
+          "controlIds": [
+            "closedEnd",
+            "resonanceOrder",
+            "length"
+          ],
+          "graphIds": [
+            "ladder",
+            "shape"
+          ],
+          "overlayIds": [
+            "boundaryRules"
+          ]
+        },
+        "setup": {
+          "presetId": "closed-open-third",
+          "graphId": "ladder",
+          "overlayIds": [
+            "boundaryRules"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "air-column-predict-next-closed-mode"
+          ],
+          "questionIds": [
+            "air-column-qt-odd-only"
+          ]
+        }
+      },
+      {
+        "id": "separate-pressure-and-motion",
+        "title": "Separate pressure and motion",
+        "goal": "Use the probe to see why displacement nodes and pressure antinodes are not the same thing.",
+        "doThis": "Turn on pressure guides, move the probe to the closed wall, then compare the probe-motion graph with the pressure cue.",
+        "notice": "Near the closed wall, the parcel-motion trace flattens while the pressure cue stays strong.",
+        "explain": "Displacement describes parcel motion; pressure describes compression and rarefaction. In a standing sound wave they are complementary, so pressure can peak where parcel motion is constrained.",
+        "reveal": {
+          "controlIds": [
+            "probeX",
+            "closedEnd"
+          ],
+          "graphIds": [
+            "displacement",
+            "shape"
+          ],
+          "overlayIds": [
+            "boundaryRules",
+            "pressureGuides"
+          ]
+        },
+        "setup": {
+          "presetId": "closed-end-pressure",
+          "graphId": "displacement",
+          "overlayIds": [
+            "boundaryRules",
+            "pressureGuides"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "air-column-predict-wall-probe"
+          ],
+          "questionIds": [
+            "air-column-qt-wall-probe"
+          ]
+        }
+      },
+      {
+        "id": "predict-the-lower-fundamental",
+        "title": "Predict the lower fundamental",
+        "goal": "Use the same boundary rule to decide which tube has the lower first resonance.",
+        "doThis": "Compare the open-open and closed-open fundamentals at the same length, then read the wavelength and frequency values in the ladder.",
+        "notice": "Closing one end makes the fundamental wavelength longer and the fundamental frequency lower for the same tube length.",
+        "explain": "An open-open fundamental fits half a wavelength in the tube, while a closed-open fundamental fits a quarter wavelength. A longer allowed wavelength means a lower resonance frequency when sound speed is unchanged.",
+        "reveal": {
+          "controlIds": [
+            "closedEnd",
+            "length",
+            "resonanceOrder"
+          ],
+          "graphIds": [
+            "ladder",
+            "shape"
+          ],
+          "overlayIds": [
+            "boundaryRules"
+          ]
+        },
+        "setup": {
+          "presetId": "closed-open-fundamental",
+          "graphId": "ladder",
+          "overlayIds": [
+            "boundaryRules"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "air-column-predict-close-end"
+          ],
+          "questionIds": [
+            "air-column-qt-open-vs-closed"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Open ends are displacement antinodes and pressure nodes; closed walls are displacement nodes and pressure antinodes.",
+        "Open-open pipes allow every integer harmonic, while closed-open pipes keep the odd harmonic family.",
+        "At the same length, closing one end lowers the fundamental because the allowed wavelength becomes longer."
+      ],
+      "misconception": "Do not call an open end a displacement node just because air can leave; the free-moving mouth is where displacement can be largest.",
+      "workedExampleRefs": [
+        "allowed-frequency",
+        "probe-motion-vs-pressure"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "damping-resonance",
+          "reasonLabel": "Driven response"
+        },
+        {
+          "slug": "standing-waves",
+          "reasonLabel": "Back to node geometry"
+        }
+      ],
+      "freePlayPrompt": "Try matching a lower frequency by changing only the boundary type, then explain the result using wavelength before using the equation."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "quickTest",
+      "accessibility"
+    ]
+  }
+}

@@ -1,0 +1,1023 @@
+[
+  {
+    "id": "topic-oscillations",
+    "slug": "oscillations",
+    "title": "Oscillations",
+    "description": "Keep one oscillator in view while displacement, restoring force, energy exchange, damping, and driven resonance stay on the same bounded branch.",
+    "introduction": "Use this topic when you want the core oscillator story without turning it into a catch-all wave shelf. The branch starts with simple harmonic motion, reuses the same system for the energy view, and closes with damping and driven resonance so losses and frequency response stay tied to that same oscillator.",
+    "sequence": 20,
+    "conceptTopics": [
+      "Oscillations"
+    ],
+    "recommendedStarterTrackSlugs": [
+      "oscillations-and-energy"
+    ],
+    "featuredConceptSlugs": [
+      "simple-harmonic-motion",
+      "oscillation-energy"
+    ],
+    "conceptGroups": [
+      {
+        "id": "core-oscillator",
+        "title": "One oscillator, many views",
+        "description": "Start with the repeating motion itself, then keep the same system visible while the energy view explains where the motion stores and releases energy.",
+        "conceptSlugs": [
+          "simple-harmonic-motion",
+          "oscillation-energy"
+        ]
+      },
+      {
+        "id": "driven-response",
+        "title": "Driven response and resonance",
+        "description": "Finish with the case where the oscillator is pushed from the outside and losses matter, so resonance becomes visible instead of abstract.",
+        "conceptSlugs": [
+          "damping-resonance"
+        ]
+      }
+    ],
+    "subject": "Physics",
+    "relatedTopicSlugs": [
+      "waves",
+      "sound"
+    ]
+  },
+  {
+    "id": "topic-mechanics",
+    "slug": "mechanics",
+    "title": "Mechanics",
+    "description": "Use vectors, trajectories, circular motion, turning effects, momentum, and collisions to read motion and interactions on one compact simulation-first branch.",
+    "introduction": "Mechanics is the place to start when you want the language of motion and the interactions that reshape it, without mixing in the separate gravity branch. The page stays compact by grouping the catalog into motion-reading ideas, a bounded rotational branch, and momentum-driven interactions instead of asking you to scan every module cold.",
+    "sequence": 10,
+    "conceptTopics": [
+      "Mechanics"
+    ],
+    "recommendedStarterTrackSlugs": [
+      "motion-and-circular-motion",
+      "rotational-mechanics"
+    ],
+    "featuredConceptSlugs": [
+      "vectors-components",
+      "projectile-motion"
+    ],
+    "conceptGroups": [
+      {
+        "id": "motion-language",
+        "title": "Motion language and trajectories",
+        "description": "Build the coordinate and component language first, then use it in projectile motion and circular motion on the same mechanics branch.",
+        "conceptSlugs": [
+          "vectors-components",
+          "projectile-motion",
+          "uniform-circular-motion"
+        ]
+      },
+      {
+        "id": "turning-effects",
+        "title": "Turning effects and rotational response",
+        "description": "Stay with one compact rotational branch: turning effect, balance, rotational inertia, rolling motion, and angular momentum all stay on the same mechanics shelf.",
+        "conceptSlugs": [
+          "torque",
+          "static-equilibrium-centre-of-mass",
+          "rotational-inertia",
+          "rolling-motion",
+          "angular-momentum"
+        ]
+      },
+      {
+        "id": "momentum-interactions",
+        "title": "Momentum and interactions",
+        "description": "Keep force over time, system totals, and collision outcomes together so the interaction story stays causal instead of formula-by-formula.",
+        "conceptSlugs": [
+          "momentum-impulse",
+          "conservation-of-momentum",
+          "collisions"
+        ]
+      }
+    ],
+    "subject": "Physics"
+  },
+  {
+    "id": "topic-fluids",
+    "slug": "fluids",
+    "title": "Fluids",
+    "description": "Start with pressure as force per area, then keep the fluids story coherent through hydrostatic pressure, steady-flow continuity, Bernoulli's speed-pressure-height trade, buoyancy from displaced fluid, and resistive drag that settles into terminal speed.",
+    "introduction": "Use this topic page when you want the fluids path to stay bounded and causal. The branch starts with a surface load, keeps pressure honest as a force-per-area quantity, then adds the static-fluid story where pressure acts equally in all directions at one point while still increasing with depth. From there the moving-fluid branch stays compact: Continuity Equation keeps one stream honest by conserving volume flow rate through narrow and wide sections, Bernoulli's Principle turns that same speed bookkeeping into a pressure-and-height trade, buoyancy reuses pressure difference to explain displaced-fluid weight and floating height, and Drag and Terminal Velocity closes the loop with one falling-body bench where a real fluid pushback grows with speed until the forces balance. That keeps the topic coherent without turning into a giant fluids survey.",
+    "sequence": 35,
+    "conceptTopics": [
+      "Fluids"
+    ],
+    "relatedTopicSlugs": [
+      "mechanics",
+      "thermodynamics"
+    ],
+    "recommendedStarterTrackSlugs": [
+      "fluid-and-pressure"
+    ],
+    "featuredConceptSlugs": [
+      "pressure-and-hydrostatic-pressure",
+      "continuity-equation",
+      "bernoullis-principle",
+      "buoyancy-and-archimedes-principle",
+      "drag-and-terminal-velocity"
+    ],
+    "conceptGroups": [
+      {
+        "id": "pressure-and-statics",
+        "title": "Pressure in a resting fluid",
+        "description": "Build the force-per-area idea first, then keep the same tank while depth, density, and gravity explain why deeper points have higher pressure and why that later matters for buoyancy.",
+        "conceptSlugs": [
+          "pressure-and-hydrostatic-pressure"
+        ]
+      },
+      {
+        "id": "steady-flow-bookkeeping",
+        "title": "Steady flow, speed, and pressure",
+        "description": "Keep the same incompressible stream moving through one changing pipe. Continuity Equation explains where the speed change lives, and Bernoulli's Principle shows how that same speed change and throat height reshape the static pressure honestly.",
+        "conceptSlugs": [
+          "continuity-equation",
+          "bernoullis-principle"
+        ]
+      },
+      {
+        "id": "buoyancy-from-pressure",
+        "title": "Buoyancy from displaced fluid",
+        "description": "Keep the same fluid-statics language, then use pressure difference across an immersed block to explain displaced-fluid weight, floating height, and why full submersion deeper does not keep raising buoyant force.",
+        "conceptSlugs": [
+          "buoyancy-and-archimedes-principle"
+        ]
+      },
+      {
+        "id": "resistive-motion-through-fluid",
+        "title": "Resistive motion through fluid",
+        "description": "Keep one falling-body bench compact and honest while drag grows with speed, the net force shrinks, and terminal velocity appears once the fluid pushback matches the weight.",
+        "conceptSlugs": [
+          "drag-and-terminal-velocity"
+        ]
+      }
+    ],
+    "subject": "Physics"
+  },
+  {
+    "id": "topic-thermodynamics",
+    "slug": "thermodynamics",
+    "title": "Thermodynamics",
+    "description": "Separate temperature from total internal energy, bridge that microscopic story into gas pressure and the ideal-gas law, then follow how thermal energy crosses boundaries and shapes honest heating curves on one compact thermal branch.",
+    "introduction": "Use this topic page when you want the thermal story to stay causal instead of formula-first. Temperature and Internal Energy separates average microscopic motion from whole-sample energy, Ideal Gas Law and Kinetic Theory turns that same particle picture into pressure-volume-temperature reasoning, Heat Transfer follows energy across a boundary, and Specific Heat and Phase Change shows what that transferred energy does next inside the sample.",
+    "sequence": 40,
+    "conceptTopics": [
+      "Thermodynamics"
+    ],
+    "relatedTopicSlugs": [
+      "mechanics",
+      "electricity"
+    ],
+    "recommendedStarterTrackSlugs": [
+      "thermodynamics-and-kinetic-theory"
+    ],
+    "featuredConceptSlugs": [
+      "temperature-and-internal-energy",
+      "ideal-gas-law-and-kinetic-theory",
+      "heat-transfer",
+      "specific-heat-and-phase-change"
+    ],
+    "conceptGroups": [
+      {
+        "id": "thermal-bookkeeping-and-gases",
+        "title": "Temperature, internal energy, and gas pressure",
+        "description": "Start with the particle-energy bookkeeping, then reuse that same microscopic picture to explain why gas pressure changes when temperature, volume, or particle number changes.",
+        "conceptSlugs": [
+          "temperature-and-internal-energy",
+          "ideal-gas-law-and-kinetic-theory"
+        ]
+      },
+      {
+        "id": "thermal-transfer-and-response",
+        "title": "Heat flow and heating curves",
+        "description": "Once the particle picture is stable, follow how energy crosses a boundary and how specific heat and latent heat shape the thermal response inside the sample.",
+        "conceptSlugs": [
+          "heat-transfer",
+          "specific-heat-and-phase-change"
+        ]
+      }
+    ],
+    "subject": "Physics"
+  },
+  {
+    "id": "topic-electricity",
+    "slug": "electricity",
+    "title": "Electricity",
+    "description": "Focus on charges, electric fields, electric potential, and capacitor storage so source, voltage, and stored electric energy stay clear before the current-and-circuit branch takes over.",
+    "introduction": "Use this page when you want the electrostatics side of the electricity story first. The path starts with how source charges shape the field, turns that picture into electric potential, and then keeps the same voltage story visible while a bounded capacitor stores charge and electric energy.",
+    "sequence": 45,
+    "conceptTopics": [
+      "Electricity"
+    ],
+    "relatedTopicSlugs": [
+      "circuits",
+      "electromagnetism"
+    ],
+    "featuredConceptSlugs": [
+      "electric-fields",
+      "electric-potential",
+      "capacitance-and-stored-electric-energy"
+    ],
+    "conceptGroups": [
+      {
+        "id": "charges-fields-storage",
+        "title": "Fields, potential, and charge storage",
+        "description": "Keep the same source-charge picture visible while field direction, electric potential, and capacitor storage become the foundation for later voltage and circuit reasoning.",
+        "conceptSlugs": [
+          "electric-fields",
+          "electric-potential",
+          "capacitance-and-stored-electric-energy"
+        ]
+      }
+    ],
+    "subject": "Physics",
+    "recommendedStarterTrackSlugs": [
+      "electricity"
+    ]
+  },
+  {
+    "id": "topic-electromagnetism",
+    "slug": "electromagnetism",
+    "title": "Electromagnetism",
+    "description": "Use changing magnetic flux, Maxwell's four-law synthesis, and electromagnetic waves to see how time-varying fields couple and propagate.",
+    "introduction": "Use this page when the current-and-field story is already stable and you want the changing-field branch to stay coherent. The overview starts with induction from changing flux, then keeps Maxwell's source-and-circulation laws together before showing how the electric and magnetic fields propagate as a wave.",
+    "sequence": 60,
+    "conceptTopics": [
+      "Electromagnetism"
+    ],
+    "relatedTopicSlugs": [
+      "magnetism",
+      "electricity",
+      "optics"
+    ],
+    "recommendedStarterTrackSlugs": [
+      "magnetic-fields"
+    ],
+    "featuredConceptSlugs": [
+      "electromagnetic-induction",
+      "maxwells-equations-synthesis"
+    ],
+    "conceptGroups": [
+      {
+        "id": "induction-from-changing-flux",
+        "title": "Induction from changing flux",
+        "description": "Start with the case where changing flux linkage creates emf and the sign of the response matters.",
+        "conceptSlugs": [
+          "electromagnetic-induction"
+        ]
+      },
+      {
+        "id": "field-synthesis-and-propagation",
+        "title": "Field synthesis and propagation",
+        "description": "Then keep Maxwell's four laws and electromagnetic-wave propagation on one branch so the changing-field pair never feels detached.",
+        "conceptSlugs": [
+          "maxwells-equations-synthesis",
+          "electromagnetic-waves"
+        ]
+      }
+    ],
+    "subject": "Physics"
+  },
+  {
+    "id": "topic-optics",
+    "slug": "optics",
+    "title": "Optics",
+    "description": "Follow light as a wave through polarization, diffraction, double-slit interference, refraction, dispersion, and total internal reflection before image-forming systems split into their own branch.",
+    "introduction": "Optics stays easier to browse when the catalog starts with what light is, then shows how polarization makes transverse-wave orientation visible, and only then moves into diffraction, interference, refraction, dispersion, and total internal reflection. That keeps the wave-and-boundary story compact before mirrors and lenses take over as a separate imaging branch.",
+    "sequence": 65,
+    "conceptTopics": [
+      "Optics"
+    ],
+    "relatedTopicSlugs": [
+      "electromagnetism",
+      "waves",
+      "mirrors-and-lenses"
+    ],
+    "recommendedStarterTrackSlugs": [
+      "wave-optics"
+    ],
+    "featuredConceptSlugs": [
+      "light-spectrum-linkage",
+      "refraction-snells-law"
+    ],
+    "conceptGroups": [
+      {
+        "id": "light-as-wave",
+        "title": "Light as a wave",
+        "description": "Start by placing visible light inside the wider electromagnetic spectrum, then use polarization, diffraction, and the double-slit case to keep wave behavior visible.",
+        "conceptSlugs": [
+          "light-spectrum-linkage",
+          "polarization",
+          "diffraction",
+          "double-slit-interference"
+        ]
+      },
+      {
+        "id": "boundaries-and-bending",
+        "title": "Boundaries and bending",
+        "description": "Then follow what happens at boundaries while refractive index changes bend light, spread colors, and eventually force total internal reflection.",
+        "conceptSlugs": [
+          "refraction-snells-law",
+          "dispersion-refractive-index-color",
+          "total-internal-reflection"
+        ]
+      }
+    ],
+    "subject": "Physics"
+  },
+  {
+    "id": "topic-modern-physics",
+    "slug": "modern-physics",
+    "title": "Modern Physics",
+    "description": "Keep the modern-physics branch bounded with the photoelectric effect, atomic spectra, de Broglie matter waves, the Bohr model, and radioactivity / half-life so threshold emission, discrete lines, matter wavelength, quantized hydrogen levels, and probabilistic nuclear decay all stay tied to compact, visually honest benches instead of detached historical anecdotes.",
+    "introduction": "This topic stays intentionally compact for now. One module keeps the modern-physics turn anchored on a controllable lamp, metal surface, and collector so you can separate frequency from intensity, threshold from brightness, and stopping potential from emission rate. The next keeps an energy ladder and observed spectrum on one shared bench so discrete lines point toward quantized structure. de Broglie matter waves then add a compact momentum-to-wavelength bridge with one local spacing sketch and one fixed loop fit. The Bohr-model page specializes that evidence into hydrogen series, allowed transitions, and bounded historical orbit language while staying explicit that it is not the final quantum description. Radioactivity and Half-Life then keeps one bounded sample tray and linked decay curves in view so single-nucleus chance and large-sample regularity can be read honestly without turning the topic into a full nuclear-physics subsystem.",
+    "sequence": 69,
+    "conceptTopics": [
+      "Modern Physics"
+    ],
+    "relatedTopicSlugs": [
+      "optics",
+      "electromagnetism",
+      "waves"
+    ],
+    "featuredConceptSlugs": [
+      "photoelectric-effect",
+      "atomic-spectra",
+      "de-broglie-matter-waves",
+      "bohr-model",
+      "radioactivity-half-life"
+    ],
+    "conceptGroups": [
+      {
+        "id": "light-and-matter-thresholds",
+        "title": "Light and quantized matter",
+        "description": "Use one compact emission bench, one compact ladder-and-spectrum bench, one momentum-to-wavelength bridge, and one bounded hydrogen Bohr bench to connect threshold frequency, discrete spectral lines, matter-wave fits, and named series without widening into a full quantum platform.",
+        "conceptSlugs": [
+          "photoelectric-effect",
+          "atomic-spectra",
+          "de-broglie-matter-waves",
+          "bohr-model"
+        ]
+      },
+      {
+        "id": "nuclear-chance-and-decay",
+        "title": "Nuclear chance and decay curves",
+        "description": "Branch into one compact radioactivity bench where individual decays remain probabilistic, but large samples still produce a regular half-life pattern that can be compared honestly with the rest of the modern-physics evidence.",
+        "conceptSlugs": [
+          "radioactivity-half-life"
+        ]
+      }
+    ],
+    "subject": "Physics"
+  },
+  {
+    "id": "topic-functions",
+    "slug": "functions",
+    "subject": "Math",
+    "title": "Functions",
+    "description": "Use parent-curve moves, a shifted reciprocal family, and one exponential bench so graph moves, asymptotes, domain breaks, growth versus decay, and target-time questions stay tied to the same visual branch before the math path widens into local and accumulated change.",
+    "introduction": "This page stays deliberately compact, but it now points toward a fuller math slice. Graph Transformations keeps one parent curve, one transformed curve, and a small set of landmark points in view so horizontal and vertical shifts, vertical scale, and reflections can be read as actual motion on the graph before the symbols get abstract. Rational Functions / Asymptotes and Behavior then keeps one shifted reciprocal family bounded on the same graph so vertical and horizontal asymptotes, domain breaks, intercepts, and an optional removable hole stay honest. Exponential Change / Growth, Decay, and Logarithms keeps one start value, one rate, one target, and one logarithmic inverse question on the same bench so doubling, half-life, and target time do not drift into detached algebra.",
+    "sequence": 70,
+    "conceptTopics": [
+      "Functions"
+    ],
+    "recommendedStarterTrackSlugs": [
+      "functions-and-change"
+    ],
+    "relatedTopicSlugs": [
+      "calculus",
+      "vectors"
+    ],
+    "featuredConceptSlugs": [
+      "graph-transformations",
+      "rational-functions-asymptotes-and-behavior",
+      "exponential-change-growth-decay-logarithms"
+    ],
+    "conceptGroups": [
+      {
+        "id": "parent-curves-and-moves",
+        "title": "Parent curves and visible moves",
+        "description": "Start with one parent curve and keep the transformed version overlaid so every parameter change still reads as a specific move on the same graph.",
+        "conceptSlugs": [
+          "graph-transformations"
+        ]
+      },
+      {
+        "id": "rational-behavior-and-domain-breaks",
+        "title": "Rational behavior and domain breaks",
+        "description": "Keep one shifted reciprocal family on the same graph so the forbidden x-value, the horizontal level, intercepts, and an optional removable hole all stay visible together.",
+        "conceptSlugs": [
+          "rational-functions-asymptotes-and-behavior"
+        ]
+      },
+      {
+        "id": "exponential-change-and-inverse-time",
+        "title": "Exponential change and inverse time",
+        "description": "Then keep one start value, one rate, and one target on the same bench so growth, decay, and the logarithmic target question stay visually linked.",
+        "conceptSlugs": [
+          "exponential-change-growth-decay-logarithms"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "topic-calculus",
+    "slug": "calculus",
+    "subject": "Math",
+    "title": "Calculus",
+    "description": "Start from slope on the graph itself, use one constrained rectangle bench to make a real maximum visible, keep limit and continuity behavior available on one target point, and then widen into signed area and accumulation so rate and total change stay connected on one visual branch.",
+    "introduction": "This first calculus page stays on an honest graphing bench instead of splitting slope, limits, optimization, and accumulation into detached notation too early. Derivative as Slope / Local Rate of Change keeps the moving point, tangent line, secant line, and derivative graph linked so local steepness never drifts into symbols alone, Limits and Continuity / Approaching a Value keeps one-sided approach and continuity visible at a target point, Optimization / Maxima, Minima, and Constraints turns that local-slope language into one fixed-perimeter rectangle bench where the objective curve peaks at the square, and Integral as Accumulation / Area keeps the same graph-first language while the running total grows from signed area.",
+    "sequence": 72,
+    "conceptTopics": [
+      "Calculus"
+    ],
+    "recommendedStarterTrackSlugs": [
+      "functions-and-change"
+    ],
+    "relatedTopicSlugs": [
+      "functions",
+      "vectors"
+    ],
+    "featuredConceptSlugs": [
+      "derivative-as-slope-local-rate-of-change",
+      "limits-and-continuity-approaching-a-value",
+      "optimization-maxima-minima-and-constraints",
+      "integral-as-accumulation-area"
+    ],
+    "conceptGroups": [
+      {
+        "id": "local-slope-and-change",
+        "title": "Local slope, constrained maxima, visible limits, and accumulated change",
+        "description": "Keep one graph-first branch in view while the secant line collapses into the tangent, one fixed-perimeter rectangle turns that local-rate language into a real maximum, one target point keeps limit and continuity behavior visible, and signed area finally builds a running total on the same branch.",
+        "conceptSlugs": [
+          "derivative-as-slope-local-rate-of-change",
+          "limits-and-continuity-approaching-a-value",
+          "optimization-maxima-minima-and-constraints",
+          "integral-as-accumulation-area"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "topic-vectors",
+    "slug": "vectors",
+    "subject": "Math",
+    "title": "Vectors",
+    "description": "Use one 2D plane to read vectors as arrows, ordered pairs, matrix actions, alignment measures, and projections before the same language bridges into motion.",
+    "introduction": "This topic keeps vectors compact and product-native. Vectors in 2D starts with geometric and algebraic views of the same object on one coordinate plane, Matrix Transformations / Stretch, Shear, Reflection turns that same plane into a basis-and-grid action bench, Dot Product / Angle and Projection keeps the branch on the same vector language, and the starter path still carries that language into the existing motion-facing vectors bench so the subject boundary stays honest instead of artificial.",
+    "sequence": 74,
+    "conceptTopics": [
+      "Vectors"
+    ],
+    "recommendedStarterTrackSlugs": [
+      "vectors-and-motion-bridge"
+    ],
+    "relatedTopicSlugs": [
+      "functions",
+      "calculus",
+      "mechanics"
+    ],
+    "featuredConceptSlugs": [
+      "vectors-in-2d",
+      "matrix-transformations",
+      "dot-product-angle-and-projection"
+    ],
+    "conceptGroups": [
+      {
+        "id": "plane-components-and-combination",
+        "title": "Plane vectors and combination",
+        "description": "Start with one 2D plane where magnitude, direction, components, matrix actions, addition, subtraction, scalar multiplication, dot product sign, and projection all stay visible together before the same vector language crosses into mechanics.",
+        "conceptSlugs": [
+          "vectors-in-2d",
+          "matrix-transformations",
+          "dot-product-angle-and-projection"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "topic-complex-numbers-and-parametric-motion",
+    "slug": "complex-numbers-and-parametric-motion",
+    "subject": "Math",
+    "title": "Complex Numbers and Parametric Motion",
+    "description": "Use one bounded math branch where the complex plane, unit-circle rotation, polar coordinates, trig identities, inverse-angle reasoning, and motion traced from equations all stay tied to the same coordinate language.",
+    "introduction": "This topic deepens the math subject without exploding the curriculum tree. Complex Numbers on the Plane keeps real part, imaginary part, magnitude, argument, addition, and multiplication readable on one plane, Unit Circle / Sine and Cosine from Rotation turns that same plane into live projections, Polar Coordinates / Radius and Angle keeps one radius-angle point tied to the same x and y geometry, Trig Identities from Unit-Circle Geometry shows how the core identities are forced by the same point on the same circle, Inverse Trig / Angle from Ratio keeps ratio recovery and quadrant checks on that same plane, and Parametric Curves / Motion from Equations finally reuses the coordinate pair while a moving point traces a path from x(t) and y(t).",
+    "sequence": 75,
+    "conceptTopics": [
+      "Complex Numbers and Parametric Motion"
+    ],
+    "recommendedStarterTrackSlugs": [
+      "complex-and-parametric-motion"
+    ],
+    "relatedTopicSlugs": [
+      "vectors",
+      "calculus",
+      "mechanics"
+    ],
+    "featuredConceptSlugs": [
+      "complex-numbers-on-the-plane",
+      "unit-circle-sine-cosine-from-rotation",
+      "polar-coordinates-radius-and-angle",
+      "trig-identities-from-unit-circle-geometry",
+      "inverse-trig-angle-from-ratio",
+      "parametric-curves-motion-from-equations"
+    ],
+    "conceptGroups": [
+      {
+        "id": "complex-plane-geometry",
+        "title": "Complex plane geometry",
+        "description": "Start with one plane where complex numbers behave as both points and vectors, and where multiplication can be read as scale plus turn.",
+        "conceptSlugs": [
+          "complex-numbers-on-the-plane"
+        ]
+      },
+      {
+        "id": "rotation-and-projections",
+        "title": "Rotation and projections",
+        "description": "Then keep one rotating point and one radius-angle point on the same plane so cosine, sine, and polar coordinates all become one linked geometry.",
+        "conceptSlugs": [
+          "unit-circle-sine-cosine-from-rotation",
+          "polar-coordinates-radius-and-angle"
+        ]
+      },
+      {
+        "id": "trig-geometry-reasoning",
+        "title": "Trig geometry reasoning",
+        "description": "Once the point and its projections are stable, keep the same plane while the core identities and inverse-angle recovery come from the geometry instead of detached symbolic tricks.",
+        "conceptSlugs": [
+          "trig-identities-from-unit-circle-geometry",
+          "inverse-trig-angle-from-ratio"
+        ]
+      },
+      {
+        "id": "motion-from-coordinate-rules",
+        "title": "Motion from coordinate rules",
+        "description": "Finally keep the same plane while x(t) and y(t) drive one moving point and make the difference between path and traversal visible.",
+        "conceptSlugs": [
+          "parametric-curves-motion-from-equations"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "topic-rates-and-equilibrium",
+    "slug": "rates-and-equilibrium",
+    "subject": "Chemistry",
+    "title": "Rates and Equilibrium",
+    "description": "Use one compact chemistry branch where collision success explains reaction rate first, then the same particle language widens into reversible change and a new equilibrium mix.",
+    "introduction": "This chemistry topic is deliberately small, but it uses the same product seams as the physics and math branches. Reaction Rate / Collision Theory keeps a particle box, activation threshold, and successful-collision readout together so crowding and barrier-clearing success never drift apart, and Dynamic Equilibrium / Le Chatelier's Principle reuses that same chemistry bench language while forward and reverse change compete on the path to a new balance.",
+    "sequence": 76,
+    "conceptTopics": [
+      "Rates and Equilibrium"
+    ],
+    "recommendedStarterTrackSlugs": [
+      "rates-and-equilibrium"
+    ],
+    "relatedTopicSlugs": [
+      "stoichiometry-and-yield",
+      "thermodynamics"
+    ],
+    "featuredConceptSlugs": [
+      "reaction-rate-collision-theory",
+      "dynamic-equilibrium-le-chateliers-principle"
+    ],
+    "conceptGroups": [
+      {
+        "id": "successful-collisions-set-the-rate",
+        "title": "Successful collisions set the rate",
+        "description": "Start with one particle box where temperature, concentration, threshold, and catalysts all stay tied to the same collision story.",
+        "conceptSlugs": [
+          "reaction-rate-collision-theory"
+        ]
+      },
+      {
+        "id": "disturb-and-rebalance",
+        "title": "Disturbance and re-balance",
+        "description": "Carry that same chemistry language into a reversible system where the forward and reverse changes must come back into balance after each disturbance.",
+        "conceptSlugs": [
+          "dynamic-equilibrium-le-chateliers-principle"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "topic-stoichiometry-and-yield",
+    "slug": "stoichiometry-and-yield",
+    "subject": "Chemistry",
+    "title": "Stoichiometry and Yield",
+    "description": "Use one compact chemistry branch where a visible recipe bench connects stoichiometric ratios, limiting reagent, and percent yield without leaving the same particle-and-recipe language.",
+    "introduction": "This chemistry topic keeps one coherent recipe bench in view instead of splitting stoichiometry into detached worksheet pages. Stoichiometric Ratios and Recipe Batches fixes the idea of a complete reaction batch first, Limiting Reagent and Leftover Reactants turns the lower batch cap into a visible excess-versus-limiting story, and Percent Yield and Reaction Extent keeps the same theoretical marker and actual product tray together so yield remains tied to the same reaction run.",
+    "sequence": 77,
+    "conceptTopics": [
+      "Stoichiometry and Yield"
+    ],
+    "recommendedStarterTrackSlugs": [
+      "stoichiometry-and-yield"
+    ],
+    "relatedTopicSlugs": [
+      "rates-and-equilibrium",
+      "solutions-and-ph"
+    ],
+    "featuredConceptSlugs": [
+      "stoichiometric-ratios-and-recipe-batches",
+      "limiting-reagent-and-leftover-reactants",
+      "percent-yield-and-reaction-extent"
+    ],
+    "conceptGroups": [
+      {
+        "id": "recipe-batches-and-limits",
+        "title": "Recipe batches and limiting supplies",
+        "description": "Start with one visible batch recipe, then keep the lower cap line and leftover trays on the same bench so limiting reagent reads as a direct consequence of complete batches.",
+        "conceptSlugs": [
+          "stoichiometric-ratios-and-recipe-batches",
+          "limiting-reagent-and-leftover-reactants"
+        ]
+      },
+      {
+        "id": "theoretical-vs-actual-output",
+        "title": "Theoretical and actual output",
+        "description": "Keep the same recipe and limiting story, then compare the ideal product marker with the actual tray so percent yield stays attached to the same reaction run.",
+        "conceptSlugs": [
+          "percent-yield-and-reaction-extent"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "topic-solutions-and-ph",
+    "slug": "solutions-and-ph",
+    "subject": "Chemistry",
+    "title": "Solutions and pH",
+    "description": "Use one compact chemistry branch where concentration, solubility, acid-base balance, buffers, and pH all stay attached to the same bounded solution story.",
+    "introduction": "This topic broadens Chemistry beyond the rates-and-equilibrium pilot without inventing a giant chemistry engine. Concentration and Dilution keeps amount and volume visible together in one beaker, Solubility and Saturation adds the current dissolving limit and visible excess solid to that same beaker, Acid-Base / pH Intuition reuses the solution-first language for acid-base balance, and Buffers and Neutralization keeps the pH strip and reserve story attached to the same bounded mixture.",
+    "sequence": 78,
+    "conceptTopics": [
+      "Solutions and pH"
+    ],
+    "recommendedStarterTrackSlugs": [
+      "solutions-and-ph"
+    ],
+    "relatedTopicSlugs": [
+      "stoichiometry-and-yield",
+      "rates-and-equilibrium"
+    ],
+    "featuredConceptSlugs": [
+      "concentration-and-dilution",
+      "solubility-and-saturation",
+      "acid-base-ph-intuition",
+      "buffers-and-neutralization"
+    ],
+    "conceptGroups": [
+      {
+        "id": "concentration-and-crowding",
+        "title": "Concentration and crowding",
+        "description": "Start with one beaker where amount, volume, and the dissolving limit can all be changed honestly, so dilution and saturation do not collapse into the same story.",
+        "conceptSlugs": [
+          "concentration-and-dilution",
+          "solubility-and-saturation"
+        ]
+      },
+      {
+        "id": "acid-base-balance",
+        "title": "Acid-base balance",
+        "description": "Carry the same solution language into a pH story where acid character, base character, water, and buffer reserve all push on the same bounded system.",
+        "conceptSlugs": [
+          "acid-base-ph-intuition",
+          "buffers-and-neutralization"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "topic-algorithms-and-search",
+    "slug": "algorithms-and-search",
+    "subject": "Computer Science",
+    "title": "Algorithms and Search",
+    "description": "Use one bounded CS branch where visible list work grows into one coherent graph-traversal bench, so sorting, binary search, adjacency, BFS, DFS, and visited-state behavior stay on compact live surfaces.",
+    "introduction": "This topic stays deliberately bounded, but it now has a fuller process story. Sorting and Algorithmic Trade-offs keeps visible list work concrete first, Binary Search / Halving the Search Space reuses that same search language on ordered data, and the graph branch then moves into adjacency, breadth-first search, depth-first search, and frontier-versus-visited bookkeeping without pretending the site is becoming a full algorithms course.",
+    "sequence": 80,
+    "conceptTopics": [
+      "Algorithms and Search"
+    ],
+    "recommendedStarterTrackSlugs": [
+      "algorithms-and-search-foundations"
+    ],
+    "relatedTopicSlugs": [
+      "functions",
+      "complex-numbers-and-parametric-motion"
+    ],
+    "featuredConceptSlugs": [
+      "sorting-and-algorithmic-trade-offs",
+      "binary-search-halving-the-search-space",
+      "graph-representation-and-adjacency-intuition",
+      "breadth-first-search-and-layered-frontiers"
+    ],
+    "conceptGroups": [
+      {
+        "id": "sorting-as-visible-work",
+        "title": "Sorting as visible work",
+        "description": "Start with one live list where comparisons, writes, and remaining disorder stay visible together.",
+        "conceptSlugs": [
+          "sorting-and-algorithmic-trade-offs"
+        ]
+      },
+      {
+        "id": "halving-the-search-space",
+        "title": "Halving the search space",
+        "description": "Then reuse the same list language while low, mid, and high keep shrinking an ordered interval.",
+        "conceptSlugs": [
+          "binary-search-halving-the-search-space"
+        ]
+      },
+      {
+        "id": "graph-traversal-on-one-bench",
+        "title": "Graph traversal on one shared bench",
+        "description": "Then carry the branch into one bounded graph bench where adjacency, queue-frontier BFS, stack-frontier DFS, and frontier-versus-visited bookkeeping can all be compared without leaving the same live graph.",
+        "conceptSlugs": [
+          "graph-representation-and-adjacency-intuition",
+          "breadth-first-search-and-layered-frontiers",
+          "depth-first-search-and-backtracking-paths",
+          "frontier-and-visited-state-on-graphs"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "topic-gravity-and-orbits",
+    "slug": "gravity-and-orbits",
+    "title": "Gravity and Orbits",
+    "description": "Start with the gravitational field of one source mass, then keep the same model while potential wells, circular orbits, orbital periods, and escape speed stay tied together.",
+    "introduction": "Use this topic when gravity, orbital motion, and escape still feel like separate formulas. The page keeps one source-mass story visible: field strength sets the inward pull, potential describes the same well from an energy view, circular orbits use that same pull to fix speed and period, and escape asks when the motion stops being bound at all.",
+    "sequence": 15,
+    "conceptTopics": [
+      "Gravity and Orbits"
+    ],
+    "relatedTopicSlugs": [
+      "mechanics"
+    ],
+    "recommendedStarterTrackSlugs": [
+      "gravity-and-orbits"
+    ],
+    "featuredConceptSlugs": [
+      "gravitational-fields",
+      "circular-orbits-orbital-speed"
+    ],
+    "conceptGroups": [
+      {
+        "id": "field-and-potential",
+        "title": "Field and potential",
+        "description": "Start with the inward field itself, then reuse the same source-mass setup to read the potential well and gravitational energy.",
+        "conceptSlugs": [
+          "gravitational-fields",
+          "gravitational-potential-energy"
+        ]
+      },
+      {
+        "id": "bound-orbits",
+        "title": "Bound circular orbits",
+        "description": "Keep the same gravity law while circular speed and orbital period stay linked to radius instead of becoming detached formulas.",
+        "conceptSlugs": [
+          "circular-orbits-orbital-speed",
+          "keplers-third-law-orbital-periods"
+        ]
+      },
+      {
+        "id": "escape-threshold",
+        "title": "Leaving the system",
+        "description": "Finish with the threshold case where the motion stops being bound to the same source mass.",
+        "conceptSlugs": [
+          "escape-velocity"
+        ]
+      }
+    ],
+    "subject": "Physics"
+  },
+  {
+    "id": "topic-waves",
+    "slug": "waves",
+    "title": "Waves",
+    "description": "Move from one traveling wave into Doppler shifts, interference, and standing-wave patterns so wavelength, phase, and allowed modes stay visually connected.",
+    "introduction": "Use this topic when you want the non-sound wave story to stay compact. The branch starts with speed and wavelength on one moving wave, adds motion-caused frequency shifts, then turns path difference into interference and standing patterns on bounded systems.",
+    "sequence": 25,
+    "conceptTopics": [
+      "Waves"
+    ],
+    "relatedTopicSlugs": [
+      "oscillations",
+      "sound",
+      "optics"
+    ],
+    "recommendedStarterTrackSlugs": [
+      "waves"
+    ],
+    "featuredConceptSlugs": [
+      "wave-speed-wavelength",
+      "wave-interference"
+    ],
+    "conceptGroups": [
+      {
+        "id": "traveling-waves",
+        "title": "Traveling waves in motion",
+        "description": "Keep one traveling-wave model in view while wavelength, speed, timing, and motion-caused frequency shifts stay connected.",
+        "conceptSlugs": [
+          "wave-speed-wavelength",
+          "doppler-effect"
+        ]
+      },
+      {
+        "id": "superposition-and-patterns",
+        "title": "Superposition and standing patterns",
+        "description": "Then use overlapping waves to build interference and the fixed node patterns that come from bounded systems.",
+        "conceptSlugs": [
+          "wave-interference",
+          "standing-waves"
+        ]
+      }
+    ],
+    "subject": "Physics"
+  },
+  {
+    "id": "topic-sound",
+    "slug": "sound",
+    "title": "Sound",
+    "description": "Keep sound tied to a real medium while longitudinal motion, pitch and loudness, beats, and air-column resonance stay on one bounded acoustics branch.",
+    "introduction": "Use this topic when the sound story should stay separate from the broader wave shelf. The branch starts with compression and rarefaction in a medium, separates pitch from loudness, uses beats to make nearby-frequency superposition audible, and closes with air-column resonance where tube boundaries decide the allowed harmonics.",
+    "sequence": 30,
+    "conceptTopics": [
+      "Sound"
+    ],
+    "relatedTopicSlugs": [
+      "waves",
+      "oscillations"
+    ],
+    "recommendedStarterTrackSlugs": [
+      "sound-and-acoustics"
+    ],
+    "featuredConceptSlugs": [
+      "sound-waves-longitudinal-motion",
+      "pitch-frequency-loudness-intensity"
+    ],
+    "conceptGroups": [
+      {
+        "id": "sound-in-a-medium",
+        "title": "Sound in a medium",
+        "description": "Start with longitudinal motion in the medium itself, then keep pitch and loudness attached to the same bounded sound bench.",
+        "conceptSlugs": [
+          "sound-waves-longitudinal-motion",
+          "pitch-frequency-loudness-intensity"
+        ]
+      },
+      {
+        "id": "acoustic-patterns",
+        "title": "Acoustic patterns and resonance",
+        "description": "Then use nearby frequencies and tube boundaries to show how sound patterns and resonance become measurable.",
+        "conceptSlugs": [
+          "beats",
+          "resonance-air-columns-open-closed-pipes"
+        ]
+      }
+    ],
+    "subject": "Physics"
+  },
+  {
+    "id": "topic-circuits",
+    "slug": "circuits",
+    "title": "Circuits",
+    "description": "Use one bounded circuit branch to connect current, voltage, Kirchhoff balance, time response, non-ideal source behavior, power, and equivalent resistance without leaving the same battery-and-load language.",
+    "introduction": "Use this topic when you want the circuit story itself, not the earlier charge-field setup. The page starts with one simple loop, then keeps the same battery-and-load language while power and energy, series versus parallel structure, Kirchhoff loop and junction balance, RC charging and discharging, internal resistance, and equivalent resistance make larger circuits readable.",
+    "sequence": 50,
+    "conceptTopics": [
+      "Circuits"
+    ],
+    "relatedTopicSlugs": [
+      "electricity",
+      "magnetism"
+    ],
+    "recommendedStarterTrackSlugs": [
+      "electricity"
+    ],
+    "featuredConceptSlugs": [
+      "basic-circuits",
+      "series-parallel-circuits"
+    ],
+    "conceptGroups": [
+      {
+        "id": "first-loop-and-power",
+        "title": "One loop and power",
+        "description": "Start with the simplest closed path, then keep the same circuit language while power and accumulated energy become measurable.",
+        "conceptSlugs": [
+          "basic-circuits",
+          "power-energy-circuits"
+        ]
+      },
+      {
+        "id": "branches-balance-and-reduction",
+        "title": "Branches, Kirchhoff balance, and reduction",
+        "description": "Then compare how current and voltage behave across branches, write the loop and junction equations that balance them, and only then reduce the network to an equivalent resistance.",
+        "conceptSlugs": [
+          "series-parallel-circuits",
+          "kirchhoff-loop-and-junction-rules",
+          "equivalent-resistance"
+        ]
+      },
+      {
+        "id": "storage-and-time-response",
+        "title": "Storage and time response",
+        "description": "Close the branch with one resistor-capacitor loop so charging, discharging, and tau = RC connect capacitor storage to circuit timing.",
+        "conceptSlugs": [
+          "rc-charging-and-discharging"
+        ]
+      },
+      {
+        "id": "real-sources-under-load",
+        "title": "Real sources under load",
+        "description": "Finish by giving the source an internal resistance so emf, terminal voltage, and wasted power stay in one honest one-loop model.",
+        "conceptSlugs": [
+          "internal-resistance-and-terminal-voltage"
+        ]
+      }
+    ],
+    "subject": "Physics"
+  },
+  {
+    "id": "topic-magnetism",
+    "slug": "magnetism",
+    "title": "Magnetism",
+    "description": "Start with the magnetic field made by current, then use that same field to explain forces on moving charges and current-carrying wires.",
+    "introduction": "Use this topic when you want the bounded magnetic branch before induction and field synthesis widen the story. The page starts with field direction around current, then keeps that same B-field in view while moving charges and current segments respond to it.",
+    "sequence": 55,
+    "conceptTopics": [
+      "Magnetism"
+    ],
+    "relatedTopicSlugs": [
+      "circuits",
+      "electromagnetism"
+    ],
+    "recommendedStarterTrackSlugs": [
+      "magnetic-fields"
+    ],
+    "featuredConceptSlugs": [
+      "magnetic-fields",
+      "magnetic-force-moving-charges-currents"
+    ],
+    "conceptGroups": [
+      {
+        "id": "current-makes-the-field",
+        "title": "Current makes the field",
+        "description": "Start with the field pattern around current-carrying wires so direction stays visual instead of mnemonic-only.",
+        "conceptSlugs": [
+          "magnetic-fields"
+        ]
+      },
+      {
+        "id": "what-the-field-pushes",
+        "title": "What that field pushes",
+        "description": "Then reuse the same magnetic field to compare forces on moving charges and current-carrying segments.",
+        "conceptSlugs": [
+          "magnetic-force-moving-charges-currents"
+        ]
+      }
+    ],
+    "subject": "Physics"
+  },
+  {
+    "id": "topic-mirrors-and-lenses",
+    "slug": "mirrors-and-lenses",
+    "title": "Mirrors and Lenses",
+    "description": "Compare mirrors and lenses as image-forming systems, then use diffraction limits to understand why real instruments cannot resolve arbitrarily fine detail.",
+    "introduction": "Use this topic when you want image formation without the wider wave-optics branch. The page compares reflection-based and lens-based imaging first, then closes with the resolution limit that explains why apertures and wavelength still matter for real optical systems.",
+    "sequence": 68,
+    "conceptTopics": [
+      "Mirrors and Lenses"
+    ],
+    "relatedTopicSlugs": [
+      "optics"
+    ],
+    "featuredConceptSlugs": [
+      "mirrors",
+      "lens-imaging"
+    ],
+    "conceptGroups": [
+      {
+        "id": "image-formation",
+        "title": "Image formation with mirrors and lenses",
+        "description": "Compare reflected and refracted image formation first so the ray and image conventions stay visible together.",
+        "conceptSlugs": [
+          "mirrors",
+          "lens-imaging"
+        ]
+      },
+      {
+        "id": "resolution-limits",
+        "title": "Why image systems still blur",
+        "description": "Finish with the diffraction-limited resolution story that caps what real mirrors and lenses can separate.",
+        "conceptSlugs": [
+          "optical-resolution-imaging-limits"
+        ]
+      }
+    ],
+    "subject": "Physics"
+  }
+]

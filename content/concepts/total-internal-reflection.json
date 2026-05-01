@@ -1,0 +1,1223 @@
+{
+  "pageIntro": {
+    "definition": "Push a ray from a higher-index medium toward a lower-index boundary, watch the critical angle emerge, and see the same live diagram hand off from ordinary refraction to full internal reflection.",
+    "whyItMatters": "This is the fiber-optic turning point of Snell's law: once you can read the threshold, a mysterious internal bounce becomes a predictable boundary condition.",
+    "keyTakeaway": "Total internal reflection only becomes possible when light starts in the higher-index medium and tries to enter a lower-index medium, so n_1 must be larger than n_2 in the chosen travel direction."
+  },
+  "v2": {
+    "intuition": "Total internal reflection is the moment a higher-to-lower index boundary runs out of real refracted-ray angles, so the outgoing light has to stay in the first medium.",
+    "whyItMatters": "The same threshold explains why glass-air demonstrations, fiber-optic cores, and prism binoculars can guide light without a silvered mirror.",
+    "estimatedMinutes": 25,
+    "equationSnapshot": {
+      "title": "Critical-angle threshold",
+      "note": "Start with Snell's law, check that light is leaving the higher-index side, then compare theta_1 with theta_c.",
+      "equationIds": [
+        "snell-law",
+        "critical-angle",
+        "reflection-law"
+      ]
+    },
+    "startSetup": {
+      "presetId": "glass-to-air-above-critical",
+      "graphId": "transition-map",
+      "overlayIds": [
+        "normalGuide",
+        "criticalGuide",
+        "reflectionGuide"
+      ],
+      "note": "Begin just above the glass-to-air threshold so the missing transmitted branch and positive critical margin are visible immediately."
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-threshold-state",
+        "title": "Read the threshold state",
+        "goal": "Decide from the live boundary whether the ray can still refract or must stay inside medium 1.",
+        "doThis": "Use the Glass to air above critical setup, keep the critical-angle and reflection guides on, and compare theta_1 with theta_c in the readout.",
+        "notice": "The incident angle is larger than the critical angle, so theta_2 is gone and the reflected branch is the only outgoing ray.",
+        "explain": "Snell's law would require sin(theta_2) to be greater than 1. That impossible request is what turns ordinary refraction into total internal reflection.",
+        "setup": {
+          "presetId": "glass-to-air-above-critical",
+          "graphId": "transition-map",
+          "overlayIds": [
+            "normalGuide",
+            "criticalGuide",
+            "reflectionGuide"
+          ]
+        },
+        "reveal": {
+          "controlIds": [
+            "incidentAngle",
+            "n1",
+            "n2"
+          ],
+          "graphIds": [
+            "transition-map"
+          ],
+          "overlayIds": [
+            "normalGuide",
+            "criticalGuide",
+            "reflectionGuide"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Name the two conditions",
+          "questionIds": [
+            "tir-qt-condition"
+          ]
+        }
+      },
+      {
+        "id": "approach-from-below",
+        "title": "Approach from below",
+        "goal": "See the transmitted ray skim the boundary before it disappears.",
+        "doThis": "Switch to Glass to air near critical, then nudge the incident angle up and down while watching the critical margin and theta_2.",
+        "notice": "Just below threshold, theta_2 is still real but almost 90 degrees from the normal; just above it, the transmitted branch vanishes.",
+        "explain": "The critical angle is the edge case theta_2 = 90 degrees. Crossing it is a continuous threshold in the graph, not a separate magic reflection rule.",
+        "setup": {
+          "presetId": "glass-to-air-near-critical",
+          "graphId": "transition-map",
+          "overlayIds": [
+            "normalGuide",
+            "criticalGuide"
+          ]
+        },
+        "reveal": {
+          "controlIds": [
+            "incidentAngle"
+          ],
+          "graphIds": [
+            "transition-map",
+            "refraction-map"
+          ],
+          "overlayIds": [
+            "normalGuide",
+            "criticalGuide"
+          ]
+        },
+        "inlineCheck": {
+          "title": "What is true just below?",
+          "predictionIds": [
+            "tir-predict-cross-threshold"
+          ],
+          "questionIds": [
+            "tir-qt-below-threshold"
+          ]
+        }
+      },
+      {
+        "id": "change-the-index-contrast",
+        "title": "Change the index contrast",
+        "goal": "Explain why the same incident angle can switch back from TIR to ordinary refraction.",
+        "doThis": "Compare Glass to air above critical with Glass to water at the same incident angle, then lower n_2 back toward air.",
+        "notice": "Raising n_2 toward n_1 raises theta_c and can restore a real transmitted ray; lowering n_2 drops theta_c and makes TIR easier.",
+        "explain": "Because sin(theta_c) = n_2 / n_1, the media pair sets the threshold. The incident angle only tells you where the current ray sits relative to that threshold.",
+        "setup": {
+          "presetId": "glass-to-water",
+          "graphId": "transition-map",
+          "overlayIds": [
+            "criticalGuide",
+            "speedGuide"
+          ]
+        },
+        "reveal": {
+          "controlIds": [
+            "n2",
+            "n1",
+            "incidentAngle"
+          ],
+          "graphIds": [
+            "transition-map",
+            "refraction-map"
+          ],
+          "overlayIds": [
+            "criticalGuide",
+            "speedGuide"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Predict the contrast change",
+          "predictionIds": [
+            "tir-predict-weaker-contrast",
+            "tir-predict-stronger-contrast"
+          ],
+          "questionIds": [
+            "tir-qt-contrast"
+          ]
+        }
+      },
+      {
+        "id": "test-the-travel-direction",
+        "title": "Test the travel direction",
+        "goal": "Separate a steep incident angle from the higher-to-lower condition that makes TIR possible.",
+        "doThis": "Set n_1 lower than n_2 and use a large incident angle, then look for whether the critical-angle guide and transmitted ray behave like the glass-to-air case.",
+        "notice": "When light starts in the lower-index medium, this model keeps a transmitted ray instead of creating a critical cutoff.",
+        "explain": "Total internal reflection needs both ingredients: higher-to-lower travel direction and theta_1 above the critical angle. A large angle alone is not enough.",
+        "setup": {
+          "patch": {
+            "incidentAngle": 70,
+            "n1": 1,
+            "n2": 1.52
+          },
+          "graphId": "refraction-map",
+          "overlayIds": [
+            "normalGuide",
+            "speedGuide"
+          ]
+        },
+        "reveal": {
+          "controlIds": [
+            "incidentAngle",
+            "n1",
+            "n2"
+          ],
+          "graphIds": [
+            "refraction-map",
+            "transition-map"
+          ],
+          "overlayIds": [
+            "normalGuide",
+            "speedGuide",
+            "criticalGuide"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Check the direction condition",
+          "questionIds": [
+            "tir-qt-no-threshold"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Check the travel direction first: TIR only appears when light starts in the higher-index medium.",
+        "Use sin(theta_c) = n_2 / n_1 to find the boundary threshold for that media pair.",
+        "Read theta_1 - theta_c as the live margin between ordinary refraction and total internal reflection.",
+        "Explain why changing n_2 can move the same ray back across the threshold."
+      ],
+      "misconception": "Do not treat TIR as any steep ray bouncing off a surface. Without higher-to-lower travel, there is no critical-angle cutoff in this model.",
+      "workedExampleRefs": [
+        "solve-critical-angle",
+        "classify-boundary-state"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "dispersion-refractive-index-color",
+          "reasonLabel": "Use index changes with color"
+        },
+        {
+          "slug": "mirrors",
+          "reasonLabel": "Compare with ordinary reflection"
+        },
+        {
+          "slug": "lens-imaging",
+          "reasonLabel": "Build ray behavior into images"
+        }
+      ],
+      "freePlayPrompt": "Choose one incident angle, then change only n_2 until the critical margin crosses zero. Explain which side of the threshold still has a transmitted ray."
+    },
+    "referenceSections": [
+      "workedExamples",
+      "quickTest",
+      "miniChallenge",
+      "commonMisconception"
+    ]
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Total internal reflection is not a separate boundary law sitting beside refraction. It is the point where Snell's law stops giving a real transmitted angle because the light is trying to leave a higher-index medium for a lower-index one too steeply.",
+        "This concept keeps one compact boundary in charge. The incident angle, refractive-index contrast, critical-angle readout, reflected path, graph previews, prediction mode, compare mode, quick test, and worked examples all stay tied to the same live boundary state so the handoff from ordinary refraction to full internal reflection stays honest."
+      ]
+    },
+    "keyIdeas": [
+      "Total internal reflection only becomes possible when light starts in the higher-index medium and tries to enter a lower-index medium, so n_1 must be larger than n_2 in the chosen travel direction.",
+      "The critical angle satisfies sin(theta_c) = n_2 / n_1, so a larger index contrast lowers theta_c and makes internal reflection happen at smaller incident angles.",
+      "As theta_1 approaches theta_c from below, the transmitted ray opens until it skims along the boundary at theta_2 = 90 degrees. Above that limit there is no real transmitted angle.",
+      "Once the ray keeps reflecting inside the higher-index region, you have the same local event that fiber-optic guidance relies on, even though this page stays focused on one boundary."
+    ],
+    "commonMisconception": {
+      "myth": "Any large incident angle can give total internal reflection if the boundary is steep enough.",
+      "correction": [
+        "A large angle by itself is not enough. The light must be going from higher n to lower n so that a real critical angle exists in the first place.",
+        "If n_1 is not larger than n_2, Snell's law still gives a real transmitted angle no matter how far you raise theta_1 within this model's range."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked examples",
+      "intro": "Work from the boundary you are already editing. The substitutions pull from the live indices and incident angle, and the same state stays visible on the ray diagram and threshold graphs.",
+      "items": [
+        {
+          "id": "solve-critical-angle",
+          "title": "Solve the critical angle",
+          "prompt": "For the current media pair, what critical angle does this boundary allow?",
+          "variables": [
+            {
+              "id": "index-1",
+              "variableId": "index-medium-1",
+              "symbol": "n_1",
+              "label": "Incident-medium index",
+              "valueKey": "n1Value"
+            },
+            {
+              "id": "index-2",
+              "variableId": "index-medium-2",
+              "symbol": "n_2",
+              "label": "Transmitted-medium index",
+              "valueKey": "n2Value"
+            },
+            {
+              "id": "critical-angle",
+              "symbol": "\\theta_c",
+              "label": "Critical angle",
+              "valueKey": "criticalAngleValue",
+              "unit": "deg"
+            }
+          ],
+          "steps": [
+            {
+              "id": "condition",
+              "label": "1. Check the travel direction",
+              "template": "A critical angle only exists when light starts in the higher-index medium, so first compare $n_1 = {{n1Value}}$ with $n_2 = {{n2Value}}$."
+            },
+            {
+              "id": "relation",
+              "label": "2. Use the critical-angle relation",
+              "template": "When $n_1 > n_2$, use $\\sin(\\theta_c) = \\dfrac{n_2}{n_1}$."
+            },
+            {
+              "id": "result",
+              "label": "3. Evaluate the threshold",
+              "template": "{{criticalAngleResult}}"
+            }
+          ],
+          "resultLabel": "Critical-angle result",
+          "resultTemplate": "{{criticalAngleResult}}",
+          "interpretationTemplate": "{{criticalAngleInterpretation}}",
+          "applyAction": {
+            "label": "Apply near-critical glass to air",
+            "presetId": "glass-to-air-near-critical",
+            "observationHint": "The transition graph marks theta_c directly, and the stage shows the transmitted ray almost flattening along the boundary.",
+            "highlightedControlIds": [
+              "n1",
+              "n2"
+            ],
+            "highlightedGraphIds": [
+              "transition-map"
+            ],
+            "highlightedOverlayIds": [
+              "criticalGuide"
+            ]
+          }
+        },
+        {
+          "id": "classify-boundary-state",
+          "title": "Classify the current boundary state",
+          "prompt": "For the current incident angle, is the ray still refracting or has it crossed into total internal reflection?",
+          "variables": [
+            {
+              "id": "incident-angle",
+              "variableId": "incident-angle",
+              "symbol": "\\theta_1",
+              "label": "Incident angle",
+              "valueKey": "incidentAngleValue",
+              "unit": "deg"
+            },
+            {
+              "id": "critical-angle",
+              "symbol": "\\theta_c",
+              "label": "Critical angle",
+              "valueKey": "criticalAngleValue",
+              "unit": "deg"
+            },
+            {
+              "id": "critical-offset",
+              "symbol": "\\theta_1 - \\theta_c",
+              "label": "Critical margin",
+              "valueKey": "criticalOffsetValue",
+              "unit": "deg"
+            }
+          ],
+          "steps": [
+            {
+              "id": "compare",
+              "label": "1. Compare the live incident angle to the critical angle",
+              "template": "Use $\\theta_1 = {{incidentAngleValue}}^\\circ$ and $\\theta_c = {{criticalAngleValue}}^\\circ$."
+            },
+            {
+              "id": "margin",
+              "label": "2. Compute the margin from threshold",
+              "template": "{{criticalOffsetResult}}"
+            },
+            {
+              "id": "outcome",
+              "label": "3. Interpret the boundary outcome",
+              "template": "{{boundaryOutcomeStep}}"
+            }
+          ],
+          "resultLabel": "Boundary outcome",
+          "resultTemplate": "{{boundaryOutcomeResult}}",
+          "interpretationTemplate": "{{boundaryOutcomeInterpretation}}",
+          "applyAction": {
+            "label": "Apply above-critical glass to air",
+            "presetId": "glass-to-air-above-critical",
+            "observationHint": "The reflected branch takes over above theta_c and the stage shows the ray staying in medium 1.",
+            "highlightedControlIds": [
+              "incidentAngle"
+            ],
+            "highlightedGraphIds": [
+              "transition-map"
+            ],
+            "highlightedOverlayIds": [
+              "criticalGuide",
+              "reflectionGuide"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Keep the incident angle fixed above the glass-to-air critical angle, then raise n_2 closer to n_1. Before you test it, what should happen to the threshold?",
+      "prediction": "Decide whether theta_c rises or falls, and whether the same ray is more or less likely to keep reflecting internally.",
+      "answer": "The critical angle rises, so the same incident angle becomes less likely to stay in total internal reflection.",
+      "explanation": "Raising n_2 closer to n_1 reduces the index contrast, so n_2 / n_1 gets larger and theta_c increases. A setup that used to be above the threshold can drop back into ordinary refraction."
+    }
+  },
+  "equations": [
+    {
+      "id": "snell-law",
+      "latex": "n_1\\sin(\\theta_1) = n_2\\sin(\\theta_2)",
+      "label": "Snell's law",
+      "meaning": "The transmitted angle follows from the same relation used in ordinary refraction."
+    },
+    {
+      "id": "critical-angle",
+      "latex": "\\sin(\\theta_c) = \\frac{n_2}{n_1} \\quad (n_1 > n_2)",
+      "label": "Critical angle",
+      "meaning": "This threshold marks the last incident angle that still allows a real transmitted ray when light tries to leave the higher-index medium."
+    },
+    {
+      "id": "reflection-law",
+      "latex": "\\theta_r = \\theta_1",
+      "label": "Reflected angle",
+      "meaning": "Once the setup crosses into total internal reflection, the reflected ray stays in medium 1 and leaves at the same angle from the normal."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "incident-angle",
+      "symbol": "\\theta_1",
+      "label": "Incident angle",
+      "param": "incidentAngle",
+      "tone": "amber",
+      "description": "Sets how steeply the incoming ray approaches the normal. Raising it drives the live transition from ordinary refraction toward and then beyond the critical angle.",
+      "equationIds": [
+        "snell-law",
+        "critical-angle",
+        "reflection-law"
+      ],
+      "graphIds": [
+        "transition-map",
+        "refraction-map"
+      ],
+      "overlayIds": [
+        "normalGuide",
+        "criticalGuide",
+        "reflectionGuide"
+      ]
+    },
+    {
+      "id": "index-medium-1",
+      "symbol": "n_1",
+      "label": "Incident-medium index",
+      "param": "n1",
+      "tone": "sky",
+      "description": "Controls the medium the ray starts in. Raising n_1 at fixed n_2 lowers the critical angle and makes total internal reflection easier to reach.",
+      "equationIds": [
+        "snell-law",
+        "critical-angle"
+      ],
+      "graphIds": [
+        "transition-map",
+        "refraction-map"
+      ],
+      "overlayIds": [
+        "speedGuide",
+        "criticalGuide"
+      ]
+    },
+    {
+      "id": "index-medium-2",
+      "symbol": "n_2",
+      "label": "Transmitted-medium index",
+      "param": "n2",
+      "tone": "teal",
+      "description": "Controls the second medium. Lowering n_2 relative to n_1 increases the index contrast, lowers theta_c, and pushes the threshold to smaller incident angles.",
+      "equationIds": [
+        "snell-law",
+        "critical-angle"
+      ],
+      "graphIds": [
+        "transition-map",
+        "refraction-map"
+      ],
+      "overlayIds": [
+        "speedGuide",
+        "criticalGuide"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "incidentAngle": 46,
+      "n1": 1.52,
+      "n2": 1,
+      "normalGuide": true,
+      "criticalGuide": true,
+      "reflectionGuide": true,
+      "speedGuide": true
+    },
+    "ui": {
+      "initialGraphId": "transition-map",
+      "primaryGraphIds": [
+        "transition-map"
+      ],
+      "primaryControlIds": [
+        "incidentAngle",
+        "n1",
+        "n2"
+      ],
+      "primaryPresetIds": [
+        "glass-to-air-near-critical",
+        "glass-to-air-above-critical",
+        "glass-to-water"
+      ]
+    },
+    "controls": [
+      {
+        "id": "incidentAngle",
+        "kind": "slider",
+        "label": "Incident angle",
+        "param": "incidentAngle",
+        "min": 0,
+        "max": 80,
+        "step": 1,
+        "unit": "deg",
+        "description": "Changes how steeply the incoming ray meets the normal."
+      },
+      {
+        "id": "n1",
+        "kind": "slider",
+        "label": "Incident-medium index n1",
+        "param": "n1",
+        "min": 1,
+        "max": 2.2,
+        "step": 0.01,
+        "description": "Higher n means slower light in the incident medium."
+      },
+      {
+        "id": "n2",
+        "kind": "slider",
+        "label": "Transmitted-medium index n2",
+        "param": "n2",
+        "min": 1,
+        "max": 2.2,
+        "step": 0.01,
+        "description": "Lowering n2 against n1 makes the critical angle smaller."
+      }
+    ],
+    "presets": [
+      {
+        "id": "glass-to-air-below-critical",
+        "label": "Below critical",
+        "description": "Glass to air with a real transmitted ray still present.",
+        "values": {
+          "incidentAngle": 35,
+          "n1": 1.52,
+          "n2": 1
+        }
+      },
+      {
+        "id": "glass-to-air-near-critical",
+        "label": "Near critical",
+        "description": "The transmitted ray is almost skimming the boundary.",
+        "values": {
+          "incidentAngle": 40,
+          "n1": 1.52,
+          "n2": 1
+        }
+      },
+      {
+        "id": "glass-to-air-above-critical",
+        "label": "Above critical",
+        "description": "The incident angle is above theta_c, so the ray reflects internally.",
+        "values": {
+          "incidentAngle": 50,
+          "n1": 1.52,
+          "n2": 1
+        }
+      },
+      {
+        "id": "glass-to-water",
+        "label": "Glass to water",
+        "description": "A weaker contrast raises theta_c and restores ordinary refraction at the same angle.",
+        "values": {
+          "incidentAngle": 50,
+          "n1": 1.52,
+          "n2": 1.33
+        }
+      },
+      {
+        "id": "water-to-air-near-critical",
+        "label": "Water to air",
+        "description": "A milder index contrast produces a larger critical angle.",
+        "values": {
+          "incidentAngle": 48,
+          "n1": 1.33,
+          "n2": 1
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "normalGuide",
+        "label": "Normal and angle guide",
+        "shortDescription": "Shows the interface normal and the angle markers for the incident and transmitted branches.",
+        "whatToNotice": [
+          "Every angle on this page is measured from the normal, not from the surface itself."
+        ],
+        "whyItMatters": "TIR mistakes usually start with measuring the wrong angle.",
+        "relatedControls": [
+          "incidentAngle"
+        ],
+        "relatedGraphTabs": [
+          "transition-map",
+          "refraction-map"
+        ],
+        "relatedEquationVariables": [
+          "incident-angle"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "criticalGuide",
+        "label": "Critical-angle guide",
+        "shortDescription": "Marks the threshold where the transmitted ray would flatten along the boundary.",
+        "whatToNotice": [
+          "The threshold only appears when the light starts in the higher-index medium."
+        ],
+        "whyItMatters": "It keeps the transition from ordinary refraction to total internal reflection visible on the same boundary.",
+        "relatedControls": [
+          "incidentAngle",
+          "n1",
+          "n2"
+        ],
+        "relatedGraphTabs": [
+          "transition-map",
+          "refraction-map"
+        ],
+        "relatedEquationVariables": [
+          "incident-angle",
+          "index-medium-1",
+          "index-medium-2"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "reflectionGuide",
+        "label": "Reflected-angle guide",
+        "shortDescription": "Shows the equal-angle reflection cue once the boundary crosses into total internal reflection.",
+        "whatToNotice": [
+          "Above theta_c the ray stays in medium 1 and the reflected angle matches the incident angle."
+        ],
+        "whyItMatters": "It connects the TIR branch to the ordinary law of reflection without pretending there is still a transmitted ray.",
+        "relatedControls": [
+          "incidentAngle"
+        ],
+        "relatedGraphTabs": [
+          "transition-map"
+        ],
+        "relatedEquationVariables": [
+          "incident-angle"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "speedGuide",
+        "label": "Speed guide",
+        "shortDescription": "Shows the relative speeds implied by the current refractive indices.",
+        "whatToNotice": [
+          "The critical angle moves because changing the indices changes the speed contrast across the boundary."
+        ],
+        "whyItMatters": "TIR is still a speed-contrast story, not a mysterious extra bounce rule.",
+        "relatedControls": [
+          "n1",
+          "n2"
+        ],
+        "relatedGraphTabs": [
+          "transition-map"
+        ],
+        "relatedEquationVariables": [
+          "index-medium-1",
+          "index-medium-2"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "transition-map",
+      "label": "Threshold transition",
+      "xLabel": "incident angle theta_1 (deg)",
+      "yLabel": "angle from the normal (deg)",
+      "series": [
+        "refracted-angle",
+        "critical-angle-marker",
+        "reflected-angle"
+      ],
+      "description": "The transmitted branch rises toward 90 degrees at the critical angle. Beyond that threshold, the reflected branch takes over because the ray stays inside medium 1."
+    },
+    {
+      "id": "refraction-map",
+      "label": "Transmitted angle below threshold",
+      "xLabel": "incident angle theta_1 (deg)",
+      "yLabel": "refracted angle theta_2 (deg)",
+      "series": [
+        "refracted-angle"
+      ],
+      "description": "This branch exists only while Snell's law still gives a real transmitted angle. As theta_1 approaches theta_c from below, theta_2 approaches 90 degrees."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Stay with one boundary and one threshold. The point is to watch the refracted branch end honestly, then see why the reflected branch takes over.",
+    "items": [
+      {
+        "id": "tir-notice-direction",
+        "text": "Notice that total internal reflection only appears when the ray starts in the higher-index medium. Reverse the indices and the threshold disappears.",
+        "type": "misconception",
+        "priority": 8,
+        "tryThis": "Move from Glass to air to Glass to water, then keep sliding n_2 upward until n_1 is no longer larger.",
+        "whyItMatters": "A steep angle alone does not create TIR; the direction of travel across the index contrast matters first.",
+        "relatedControls": [
+          "n1",
+          "n2"
+        ],
+        "relatedOverlays": [
+          "criticalGuide"
+        ]
+      },
+      {
+        "id": "tir-notice-transition-map",
+        "text": "Notice that the threshold transition graph is not a time plot. Each point is a different incident angle for the same media pair.",
+        "type": "graph-reading",
+        "priority": 6,
+        "conditions": {
+          "graphTabs": [
+            "transition-map"
+          ]
+        },
+        "tryThis": "Hover from left to right and watch the stage jump through different incident angles instead of advancing later in time.",
+        "whyItMatters": "The graph is comparing boundary setups, which is why it can show the handoff from refraction to reflection on one curve family.",
+        "relatedGraphTabs": [
+          "transition-map"
+        ]
+      },
+      {
+        "id": "tir-notice-below-threshold",
+        "text": "Notice that just below theta_c the transmitted ray is still real, but it is flattening hard along the boundary as theta_2 approaches 90 degrees.",
+        "type": "try-this",
+        "priority": 9,
+        "conditions": {
+          "overlayIds": [
+            "criticalGuide"
+          ],
+          "controlRanges": [
+            {
+              "param": "incidentAngle",
+              "min": 38
+            }
+          ]
+        },
+        "tryThis": "Use Near critical and nudge theta_1 upward one degree at a time until the transmitted ray nearly skims the boundary.",
+        "whyItMatters": "That is the clean geometric limit you cross before the transmitted branch disappears.",
+        "relatedControls": [
+          "incidentAngle"
+        ],
+        "relatedGraphTabs": [
+          "refraction-map"
+        ],
+        "relatedOverlays": [
+          "criticalGuide"
+        ]
+      },
+      {
+        "id": "tir-notice-reflected-branch",
+        "text": "Notice that above theta_c the stage shows no real transmitted ray. The only outgoing branch left in the model is the reflected one in medium 1.",
+        "type": "observation",
+        "priority": 9,
+        "conditions": {
+          "overlayIds": [
+            "reflectionGuide"
+          ]
+        },
+        "tryThis": "Switch from Near critical to Above critical without changing the media pair and watch the reflected branch replace the transmitted one.",
+        "whyItMatters": "It keeps the transition honest instead of pretending the transmitted ray just bends more and more forever.",
+        "relatedGraphTabs": [
+          "transition-map"
+        ],
+        "relatedOverlays": [
+          "reflectionGuide"
+        ]
+      },
+      {
+        "id": "tir-notice-contrast",
+        "text": "Notice how index contrast moves theta_c. A stronger contrast lowers the threshold, so the same incident angle can flip from refraction into TIR.",
+        "type": "compare",
+        "priority": 7,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Clone Water to air into both setups, then raise only n_1 in Setup B and read the critical-margin row plus the transition graph.",
+        "whyItMatters": "Compare mode separates a bigger incident angle from a bigger index contrast without leaving the live page.",
+        "relatedControls": [
+          "n1",
+          "n2"
+        ],
+        "relatedGraphTabs": [
+          "transition-map"
+        ]
+      },
+      {
+        "id": "tir-notice-guidance",
+        "text": "Notice that once the ray keeps reflecting inside the higher-index side, you have the same local event used to guide light down a fiber-like core.",
+        "type": "observation",
+        "priority": 4,
+        "conditions": {
+          "overlayIds": [
+            "reflectionGuide"
+          ]
+        },
+        "tryThis": "Stay above theta_c and imagine the ray meeting another lower-index wall farther ahead. The same threshold event can repeat again and again.",
+        "whyItMatters": "It gives the concept one intuitive application without turning this page into a separate engineering module.",
+        "relatedOverlays": [
+          "reflectionGuide"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the threshold outcome first, then apply the change and check the stage, the critical-margin readout, and the transition graph together.",
+    "items": [
+      {
+        "id": "tir-predict-cross-threshold",
+        "prompt": "Starting from Glass to air near critical, what happens if you increase theta_1 a few degrees without changing the media pair?",
+        "scenarioLabel": "Raise theta_1 above theta_c",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The transmitted branch ends, and the ray stays in medium 1 as a totally internally reflected ray."
+          },
+          {
+            "id": "b",
+            "label": "The transmitted ray keeps opening away from the normal until it points straight down into medium 2."
+          },
+          {
+            "id": "c",
+            "label": "Nothing important changes because theta_c only depends on the indices."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Once theta_1 rises above theta_c for a higher-to-lower index boundary, Snell's law no longer gives a real theta_2. The reflected branch takes over and the ray stays in medium 1.",
+        "observationHint": "Watch the critical-margin row turn positive and the reflected branch become the only outgoing path on the stage.",
+        "apply": {
+          "presetId": "glass-to-air-above-critical"
+        },
+        "highlightedControls": [
+          "incidentAngle"
+        ],
+        "highlightedGraphs": [
+          "transition-map"
+        ],
+        "highlightedOverlays": [
+          "criticalGuide",
+          "reflectionGuide"
+        ]
+      },
+      {
+        "id": "tir-predict-weaker-contrast",
+        "prompt": "Starting from Glass to air above critical, what happens if you raise n_2 closer to n_1 by switching to Glass to water at the same incident angle?",
+        "scenarioLabel": "Raise n_2 toward n_1",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The critical angle rises, so the same 50 degree ray drops back into ordinary refraction."
+          },
+          {
+            "id": "b",
+            "label": "The critical angle falls even more, so the reflected branch becomes stronger."
+          },
+          {
+            "id": "c",
+            "label": "The outcome cannot change because theta_1 stayed fixed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Raising n_2 reduces the index contrast, which makes n_2 / n_1 larger and pushes theta_c upward. That can restore a real transmitted branch at the same incident angle.",
+        "observationHint": "Compare the positive critical margin in Glass to air with the negative margin in Glass to water.",
+        "apply": {
+          "presetId": "glass-to-water"
+        },
+        "highlightedControls": [
+          "n2"
+        ],
+        "highlightedGraphs": [
+          "transition-map",
+          "refraction-map"
+        ],
+        "highlightedOverlays": [
+          "criticalGuide"
+        ]
+      },
+      {
+        "id": "tir-predict-stronger-contrast",
+        "prompt": "Starting from Glass to water at 50 degrees, what happens if you keep theta_1 fixed but lower n_2 to air?",
+        "scenarioLabel": "Lower n_2",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The critical angle drops, so the same ray can cross into total internal reflection."
+          },
+          {
+            "id": "b",
+            "label": "The critical angle rises, so the transmitted branch becomes even easier to keep."
+          },
+          {
+            "id": "c",
+            "label": "Only the speed ratio changes. The threshold angle stays the same."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Lowering n_2 increases the contrast between the two media, which lowers theta_c. A setup that was below threshold can cross into TIR at the same incident angle.",
+        "observationHint": "Apply the air case and watch theta_c shift left on the graph while the reflected branch appears on the stage.",
+        "apply": {
+          "presetId": "glass-to-air-above-critical"
+        },
+        "highlightedControls": [
+          "n2"
+        ],
+        "highlightedGraphs": [
+          "transition-map"
+        ],
+        "highlightedOverlays": [
+          "criticalGuide",
+          "reflectionGuide"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the live threshold model rather than a detached puzzle. The checks read the same incident angle, index pair, and graph state you see on the stage.",
+    "items": [
+      {
+        "id": "tir-ch-land-below-threshold",
+        "title": "Land just below the threshold",
+        "style": "target-setting",
+        "prompt": "Starting from Glass to air near critical, tune the setup until the incident angle stays just below theta_c: keep theta_1 - theta_c between -2 and -0.4 degrees while theta_2 remains between 74 and 89 degrees.",
+        "successMessage": "You held the ray in ordinary refraction while staying visibly close to the threshold.",
+        "setup": {
+          "presetId": "glass-to-air-near-critical",
+          "graphId": "transition-map",
+          "overlayIds": [
+            "criticalGuide"
+          ],
+          "note": "Use the critical-margin row and the transition map together."
+        },
+        "hints": [
+          "You want a small negative critical margin, not a positive one.",
+          "If theta_2 is already gone, you crossed too far and need to come back below theta_c."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Open the threshold transition graph.",
+            "graphId": "transition-map"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the critical-angle guide visible.",
+            "overlayId": "criticalGuide"
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep theta_1 - theta_c slightly negative.",
+            "metric": "criticalOffset",
+            "min": -2,
+            "max": -0.4,
+            "displayUnit": "deg"
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep the transmitted angle steep but real.",
+            "metric": "refractedAngle",
+            "min": 74,
+            "max": 89,
+            "displayUnit": "deg"
+          }
+        ]
+      },
+      {
+        "id": "tir-ch-cross-threshold",
+        "title": "Cross into TIR cleanly",
+        "style": "target-setting",
+        "prompt": "Starting from Glass to air below critical, raise the setup until the boundary is clearly above threshold while staying on the same media pair.",
+        "successMessage": "You crossed the critical-angle limit and turned the same boundary into total internal reflection.",
+        "setup": {
+          "presetId": "glass-to-air-below-critical",
+          "graphId": "transition-map",
+          "overlayIds": [
+            "criticalGuide",
+            "reflectionGuide"
+          ],
+          "note": "Keep the glass-to-air pair and push the critical margin positive."
+        },
+        "hints": [
+          "The easiest move is to raise theta_1 while leaving n_1 and n_2 near the glass-to-air values.",
+          "A positive critical margin means you are above theta_c."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Open the threshold transition graph.",
+            "graphId": "transition-map"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the reflected-angle guide visible.",
+            "overlayId": "reflectionGuide"
+          },
+          {
+            "type": "param-range",
+            "label": "Keep the incident medium near glass.",
+            "param": "n1",
+            "min": 1.48,
+            "max": 1.56
+          },
+          {
+            "type": "param-range",
+            "label": "Keep the transmitted medium near air.",
+            "param": "n2",
+            "min": 0.99,
+            "max": 1.02
+          },
+          {
+            "type": "metric-range",
+            "label": "Make theta_1 - theta_c clearly positive.",
+            "metric": "criticalOffset",
+            "min": 4,
+            "max": 10,
+            "displayUnit": "deg"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Reason from the threshold, not from a slogan. Use the index contrast, the critical angle, and the branch that still exists on the live boundary.",
+    "questions": [
+      {
+        "id": "tir-qt-condition",
+        "type": "reasoning",
+        "prompt": "Which condition must be true before total internal reflection can happen at all?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The light must start in the higher-index medium and the incident angle must exceed the critical angle."
+          },
+          {
+            "id": "b",
+            "label": "The incident angle just needs to be larger than 45 degrees."
+          },
+          {
+            "id": "c",
+            "label": "The second medium must be denser than the first so it can push the ray back."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "TIR needs both pieces together: the light must try to leave the higher-index medium for a lower-index one, and theta_1 must exceed the critical angle for that media pair.",
+        "selectedWrongExplanations": {
+          "b": "There is no universal angle like 45 degrees. The threshold depends on n_1 and n_2.",
+          "c": "The direction is backwards. TIR happens when the light starts in the higher-index medium and tries to enter the lower-index one."
+        },
+        "showMeAction": {
+          "label": "Show the threshold crossing",
+          "presetId": "glass-to-air-above-critical",
+          "observationHint": "The readout shows a positive critical margin and the reflected branch replaces the transmitted one.",
+          "highlightedControlIds": [
+            "incidentAngle",
+            "n1",
+            "n2"
+          ],
+          "highlightedGraphIds": [
+            "transition-map"
+          ],
+          "highlightedOverlayIds": [
+            "criticalGuide",
+            "reflectionGuide"
+          ]
+        }
+      },
+      {
+        "id": "tir-qt-contrast",
+        "type": "variable-effect",
+        "prompt": "If n_1 stays fixed and n_2 gets smaller, what happens to the critical angle?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It gets smaller, so total internal reflection becomes easier to reach."
+          },
+          {
+            "id": "b",
+            "label": "It gets larger, so total internal reflection becomes harder to reach."
+          },
+          {
+            "id": "c",
+            "label": "It stays the same because theta_c only depends on theta_1."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Lowering n_2 makes n_2 / n_1 smaller, so theta_c = sin^-1(n_2 / n_1) also gets smaller. That lowers the threshold angle.",
+        "selectedWrongExplanations": {
+          "b": "A weaker second-medium index lowers the ratio n_2 / n_1, which lowers theta_c rather than raising it.",
+          "c": "The critical angle is set by the media pair, not by the current incident angle alone."
+        },
+        "showMeAction": {
+          "label": "Show the stronger contrast",
+          "presetId": "glass-to-air-above-critical",
+          "observationHint": "Compare it with Glass to water and watch theta_c shift left when n_2 drops.",
+          "highlightedControlIds": [
+            "n2"
+          ],
+          "highlightedGraphIds": [
+            "transition-map"
+          ],
+          "highlightedOverlayIds": [
+            "criticalGuide"
+          ]
+        }
+      },
+      {
+        "id": "tir-qt-below-threshold",
+        "type": "graph-reading",
+        "prompt": "What is true just below the critical angle?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The transmitted ray is still real, but it is approaching 90 degrees from the normal."
+          },
+          {
+            "id": "b",
+            "label": "The transmitted ray has already disappeared, so only the reflected branch remains."
+          },
+          {
+            "id": "c",
+            "label": "The reflected angle becomes smaller than the incident angle."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Just below theta_c, Snell's law still gives a real theta_2. The transmitted branch survives, but it is flattening toward the boundary as theta_2 approaches 90 degrees.",
+        "selectedWrongExplanations": {
+          "b": "That only happens after theta_1 crosses above theta_c, not before.",
+          "c": "The reflection law does not change the angle that way. Above threshold, theta_r still matches theta_1."
+        },
+        "showMeAction": {
+          "label": "Show near critical",
+          "presetId": "glass-to-air-near-critical",
+          "observationHint": "The transmitted branch is still there, but it is nearly horizontal and the critical margin is still slightly negative.",
+          "highlightedControlIds": [
+            "incidentAngle"
+          ],
+          "highlightedGraphIds": [
+            "refraction-map",
+            "transition-map"
+          ],
+          "highlightedOverlayIds": [
+            "criticalGuide"
+          ]
+        }
+      },
+      {
+        "id": "tir-qt-no-threshold",
+        "type": "misconception-check",
+        "prompt": "If the light goes from lower n to higher n, what should you conclude about total internal reflection in this travel direction?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It cannot happen because there is no critical-angle cutoff in that direction."
+          },
+          {
+            "id": "b",
+            "label": "It still happens once theta_1 passes 45 degrees."
+          },
+          {
+            "id": "c",
+            "label": "It happens more easily because the second medium is denser."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "When the light starts in the lower-index medium, Snell's law continues to give a real transmitted angle in this model's range. There is no TIR cutoff to cross in that direction.",
+        "selectedWrongExplanations": {
+          "b": "The threshold is not a universal number, and in this direction there is no critical angle at all.",
+          "c": "A denser second medium bends the ray toward the normal, but it does not create TIR for light that started in the lower-index side."
+        },
+        "showMeAction": {
+          "label": "Show the weaker-contrast refraction case",
+          "presetId": "glass-to-water",
+          "observationHint": "At 50 degrees the boundary is back in ordinary refraction because the threshold moved upward.",
+          "highlightedControlIds": [
+            "n2"
+          ],
+          "highlightedGraphIds": [
+            "transition-map"
+          ],
+          "highlightedOverlayIds": [
+            "criticalGuide"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a horizontal boundary between a top medium and a bottom medium, with a dashed normal line through the contact point. One incoming ray approaches from the upper left. Below the critical angle a transmitted ray leaves into the lower right, and above the critical angle the outgoing branch stays in the top medium as a reflected ray.",
+        "Optional overlays show the normal and angle markers, the critical-angle threshold, the equal-angle reflection cue used after the threshold, and the speed labels tied to the current refractive indices."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The threshold transition graph plots angle from the normal against incident angle for the current media pair. The transmitted branch rises toward 90 degrees at the critical angle, and beyond that point the reflected branch continues because the ray remains in the first medium.",
+        "The transmitted-angle graph isolates the ordinary-refraction branch below threshold, so hovering it previews another boundary setup rather than a later time."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Total Internal Reflection",
+    "description": "Interactive total internal reflection with live critical-angle readouts, index-contrast controls, threshold graphs, and a compact bridge from refraction to fiber-style guidance.",
+    "keywords": [
+      "total internal reflection",
+      "critical angle",
+      "snell's law",
+      "refractive index",
+      "optics"
+    ]
+  }
+}

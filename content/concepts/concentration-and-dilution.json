@@ -1,0 +1,676 @@
+{
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "crowded-small-beaker",
+        "label": "Crowded beaker",
+        "description": "Open a concentrated mixture with density cues visible.",
+        "setup": {
+          "presetId": "crowded-beaker",
+          "graphId": "concentration-vs-solvent",
+          "overlayIds": [
+            "densityCue",
+            "amountVolumeGuide"
+          ]
+        }
+      },
+      {
+        "id": "diluted-same-solute",
+        "label": "Dilute without losing solute",
+        "description": "Open the same solute amount in more liquid and compare the new concentration.",
+        "setup": {
+          "presetId": "diluted-same-solute",
+          "graphId": "concentration-vs-solvent",
+          "overlayIds": [
+            "densityCue",
+            "particleMotion"
+          ]
+        }
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Use one beaker to separate how concentration changes when you add solvent from how it changes when you add more solute.",
+    "keyTakeaway": "Concentration is about how much solute is present in how much liquid."
+  },
+  "v2": {
+    "intuition": "Use one beaker to separate what changes when you add solvent from what changes when you add more solute.",
+    "whyItMatters": "This is the foundational concentration story behind dilution, solution prep, and later equilibrium ideas, so the numerator-versus-denominator trade needs to be visible.",
+    "estimatedMinutes": 9,
+    "equationSnapshot": {
+      "equationIds": [
+        "concentration-rule",
+        "dilution-story"
+      ]
+    },
+    "startSetup": {
+      "presetId": "crowded-beaker",
+      "graphId": "concentration-vs-solvent",
+      "overlayIds": [
+        "densityCue",
+        "amountVolumeGuide"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-crowded-beaker",
+        "title": "Read one crowded beaker",
+        "goal": "Use a single beaker to read concentration as amount of solute per amount of liquid.",
+        "doThis": "Start with the crowded-beaker preset, keep the amount-versus-volume guide visible, and raise Solute amount once.",
+        "notice": "The particle picture gets denser and the concentration rises when more solute is packed into the same liquid volume.",
+        "explain": "Concentration compares how much solute is present with how much solution or solvent volume is available.",
+        "reveal": {
+          "controlIds": [
+            "solute-amount"
+          ],
+          "graphIds": [
+            "concentration-vs-solute",
+            "concentration-vs-solvent"
+          ],
+          "overlayIds": [
+            "densityCue",
+            "amountVolumeGuide"
+          ]
+        },
+        "setup": {
+          "presetId": "crowded-beaker",
+          "graphId": "concentration-vs-solvent",
+          "overlayIds": [
+            "densityCue",
+            "amountVolumeGuide"
+          ]
+        }
+      },
+      {
+        "id": "dilute-without-removing-solute",
+        "title": "Dilute without removing solute",
+        "goal": "See why adding solvent lowers concentration even when the solute amount stays the same.",
+        "doThis": "Apply the diluted-same-solute preset, then add more solvent without changing the solute amount.",
+        "notice": "The beaker looks less crowded and the concentration graph drops even though the amount of solute is unchanged.",
+        "explain": "Dilution changes the denominator. The same solute is spread through more liquid, so the concentration falls.",
+        "reveal": {
+          "controlIds": [
+            "solvent-volume"
+          ],
+          "graphIds": [
+            "concentration-vs-solvent"
+          ],
+          "overlayIds": [
+            "densityCue",
+            "particleMotion"
+          ]
+        },
+        "setup": {
+          "presetId": "diluted-same-solute",
+          "graphId": "concentration-vs-solvent",
+          "overlayIds": [
+            "densityCue",
+            "particleMotion"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "cd-predict-dilution"
+          ]
+        }
+      },
+      {
+        "id": "raise-solute-at-fixed-volume",
+        "title": "Raise solute at fixed volume",
+        "goal": "Separate adding solute from adding solvent so the two concentration changes do not blur together.",
+        "doThis": "Switch to the more-solute-same-volume preset and increase Solute amount while the liquid volume stays fixed.",
+        "notice": "Now the concentration rises because the numerator is growing instead of the denominator.",
+        "explain": "You only understand a concentration change when you can name which quantity changed: more solute, more liquid, or both.",
+        "reveal": {
+          "controlIds": [
+            "solute-amount",
+            "solvent-volume"
+          ],
+          "graphIds": [
+            "concentration-vs-solute",
+            "concentration-vs-solvent"
+          ],
+          "overlayIds": [
+            "amountVolumeGuide",
+            "densityCue"
+          ]
+        },
+        "setup": {
+          "presetId": "more-solute-same-volume",
+          "graphId": "concentration-vs-solute",
+          "overlayIds": [
+            "amountVolumeGuide",
+            "densityCue"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "cd-qt-solute-vs-solvent"
+          ]
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Concentration compares how much solute is present with how much liquid is available.",
+        "Adding solvent can lower concentration without removing any solute.",
+        "Adding solute at fixed volume raises concentration for a different reason than dilution lowers it."
+      ],
+      "misconception": "Dilution means the solute disappears or leaves the beaker.",
+      "workedExampleRefs": [
+        "read-the-current-concentration"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "solubility-and-saturation",
+          "title": "Solubility and Saturation",
+          "reasonLabel": "See when concentration hits a capacity limit"
+        },
+        {
+          "slug": "acid-base-ph-intuition",
+          "title": "Acid-Base / pH Intuition",
+          "reasonLabel": "Carry concentration ideas into acid strength and pH"
+        }
+      ],
+      "freePlayPrompt": "Build two different routes to the same concentration: one by adding solute and one by changing solvent volume."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "quickTest"
+    ]
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Concentration becomes easier to trust when the amount of solute and the amount of liquid stay visible together. This bench keeps one vessel, a concentration readout, and a particle view in the same frame so crowding and dilution do not turn into slogans.",
+        "The key distinction is that adding solvent changes concentration without adding solute, while adding solute changes concentration in a different way."
+      ]
+    },
+    "keyIdeas": [
+      "Concentration is about how much solute is present in how much liquid.",
+      "Dilution lowers concentration by increasing the amount of liquid while keeping the solute amount the same.",
+      "Adding solute and adding solvent can both change concentration, but for different reasons."
+    ],
+    "commonMisconception": {
+      "myth": "If the beaker looks fuller, that must mean there is more solute in it.",
+      "correction": [
+        "A fuller beaker can simply mean there is more solvent present.",
+        "Dilution changes concentration even when the solute amount does not change."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Use the current beaker state rather than a detached ratio problem.",
+      "items": [
+        {
+          "id": "read-the-current-concentration",
+          "title": "Read the current concentration",
+          "prompt": "For the current mixture, how concentrated is the beaker?",
+          "variables": [
+            {
+              "id": "solute-amount",
+              "variableId": "solute-amount",
+              "symbol": "n",
+              "label": "Solute amount",
+              "valueKey": "soluteAmountValue"
+            },
+            {
+              "id": "solvent-volume",
+              "variableId": "solvent-volume",
+              "symbol": "V",
+              "label": "Solvent volume",
+              "valueKey": "solventVolumeValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-amount",
+              "label": "1. Read how much solute is present",
+              "template": "The beaker currently holds {{soluteAmountValue}} units of solute."
+            },
+            {
+              "id": "read-volume",
+              "label": "2. Read how much liquid is present",
+              "template": "The same solute is spread through {{solventVolumeValue}} units of solvent."
+            },
+            {
+              "id": "read-concentration",
+              "label": "3. Read the concentration and density cue together",
+              "template": "That gives a concentration of about {{concentrationValue}}, with roughly {{particleCountValue}} visible particles in the beaker."
+            }
+          ],
+          "resultLabel": "Current concentration",
+          "resultTemplate": "$c \\approx {{concentrationValue}}$",
+          "interpretationTemplate": "{{dilutionInterpretation}}",
+          "applyAction": {
+            "label": "Apply the diluted case",
+            "presetId": "diluted-same-solute",
+            "observationHint": "The solute amount stays fixed while the particle view spreads out in the larger volume.",
+            "highlightedControlIds": [
+              "solventVolume"
+            ],
+            "highlightedGraphIds": [
+              "concentration-vs-solvent"
+            ],
+            "highlightedOverlayIds": [
+              "densityCue",
+              "amountVolumeGuide"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Make the beaker clearly less concentrated without removing any solute.",
+      "prediction": "Decide whether to change the amount of solute, the amount of solvent, or both before you try it.",
+      "answer": "You need to add solvent while keeping the solute amount fixed.",
+      "explanation": "That is the cleanest way to model dilution rather than simply making a different mixture."
+    }
+  },
+  "equations": [
+    {
+      "id": "concentration-rule",
+      "latex": "c = \\frac{n}{V}",
+      "label": "Concentration rule",
+      "meaning": "Keeps the beaker honest by relating amount of solute to amount of liquid."
+    },
+    {
+      "id": "dilution-story",
+      "latex": "n_{\\text{after}} = n_{\\text{before}}",
+      "label": "Dilution story",
+      "meaning": "Shows that dilution keeps the solute amount fixed while the liquid amount changes."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "solute-amount",
+      "symbol": "n",
+      "label": "Solute amount",
+      "param": "soluteAmount",
+      "tone": "teal",
+      "description": "Changes how much dissolved material is present in the beaker.",
+      "equationIds": [
+        "concentration-rule",
+        "dilution-story"
+      ],
+      "graphIds": [
+        "concentration-vs-solute"
+      ],
+      "overlayIds": [
+        "densityCue",
+        "particleMotion"
+      ]
+    },
+    {
+      "id": "solvent-volume",
+      "symbol": "V",
+      "label": "Solvent volume",
+      "param": "solventVolume",
+      "tone": "sky",
+      "description": "Changes how much liquid the same solute is spread through.",
+      "equationIds": [
+        "concentration-rule",
+        "dilution-story"
+      ],
+      "graphIds": [
+        "concentration-vs-solvent"
+      ],
+      "overlayIds": [
+        "densityCue",
+        "amountVolumeGuide"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "soluteAmount": 8,
+      "solventVolume": 1.4,
+      "densityCue": true,
+      "amountVolumeGuide": true,
+      "particleMotion": true
+    },
+    "ui": {
+      "initialGraphId": "concentration-vs-solute",
+      "primaryGraphIds": [
+        "concentration-vs-solute"
+      ],
+      "primaryControlIds": [
+        "solute-amount"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "solute-amount",
+        "kind": "slider",
+        "label": "Solute amount",
+        "param": "soluteAmount",
+        "min": 2,
+        "max": 16,
+        "step": 0.5
+      },
+      {
+        "id": "solvent-volume",
+        "kind": "slider",
+        "label": "Solvent volume",
+        "param": "solventVolume",
+        "min": 0.8,
+        "max": 2.8,
+        "step": 0.1
+      }
+    ],
+    "presets": [
+      {
+        "id": "crowded-beaker",
+        "label": "Crowded beaker",
+        "description": "A concentrated mixture in a smaller liquid volume.",
+        "values": {
+          "soluteAmount": 11,
+          "solventVolume": 1
+        }
+      },
+      {
+        "id": "diluted-same-solute",
+        "label": "Diluted same solute",
+        "description": "The same solute amount spread through more liquid.",
+        "values": {
+          "soluteAmount": 8,
+          "solventVolume": 2.4
+        }
+      },
+      {
+        "id": "more-solute-same-volume",
+        "label": "More solute, same volume",
+        "description": "A concentration change caused by adding more solute.",
+        "values": {
+          "soluteAmount": 13,
+          "solventVolume": 1.4
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "densityCue",
+        "label": "Density cue",
+        "shortDescription": "Show how crowded or sparse the particle view is.",
+        "whatToNotice": [
+          "The same number of particles can look more dilute when they occupy more volume."
+        ],
+        "whyItMatters": "It makes concentration visible rather than purely numerical.",
+        "relatedControls": [
+          "soluteAmount",
+          "solventVolume"
+        ],
+        "relatedGraphTabs": [
+          "concentration-vs-solvent",
+          "concentration-vs-solute"
+        ],
+        "relatedEquationVariables": [
+          "solute-amount",
+          "solvent-volume"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "amountVolumeGuide",
+        "label": "Amount-volume guide",
+        "shortDescription": "Keep amount and volume cues visible together.",
+        "whatToNotice": [
+          "Changing liquid volume and changing solute amount are not the same operation."
+        ],
+        "whyItMatters": "It keeps dilution distinct from simply adding more dissolved material.",
+        "relatedControls": [
+          "soluteAmount",
+          "solventVolume"
+        ],
+        "relatedGraphTabs": [
+          "concentration-vs-solvent"
+        ],
+        "relatedEquationVariables": [
+          "solute-amount",
+          "solvent-volume"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "particleMotion",
+        "label": "Particle motion",
+        "shortDescription": "Keep the particle drift visible inside the beaker.",
+        "whatToNotice": [
+          "The particles are still moving even when the concentration readout is steady."
+        ],
+        "whyItMatters": "It keeps the beaker feeling like a live mixture rather than a static picture.",
+        "relatedControls": [
+          "soluteAmount"
+        ],
+        "relatedGraphTabs": [
+          "concentration-vs-solute"
+        ],
+        "relatedEquationVariables": [
+          "solute-amount"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "concentration-vs-solvent",
+      "label": "Concentration vs solvent volume",
+      "xLabel": "solvent volume",
+      "yLabel": "concentration",
+      "series": [
+        "concentration-vs-solvent"
+      ]
+    },
+    {
+      "id": "concentration-vs-solute",
+      "label": "Concentration vs solute amount",
+      "xLabel": "solute amount",
+      "yLabel": "concentration",
+      "series": [
+        "concentration-vs-solute"
+      ]
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Keep the beaker and the concentration graph in view together.",
+    "items": [
+      {
+        "id": "cd-notice-dilution",
+        "text": "Adding solvent lowers concentration even when the solute amount has not changed.",
+        "type": "observation",
+        "relatedControls": [
+          "solventVolume"
+        ],
+        "relatedGraphTabs": [
+          "concentration-vs-solvent"
+        ],
+        "relatedOverlays": [
+          "densityCue",
+          "amountVolumeGuide"
+        ],
+        "relatedEquationVariables": [
+          "solvent-volume"
+        ]
+      },
+      {
+        "id": "cd-notice-more-solute",
+        "text": "Adding solute raises concentration for a different reason: there are simply more dissolved particles in the same amount of liquid.",
+        "type": "graph-reading",
+        "relatedControls": [
+          "soluteAmount"
+        ],
+        "relatedGraphTabs": [
+          "concentration-vs-solute"
+        ],
+        "relatedOverlays": [
+          "densityCue",
+          "particleMotion"
+        ],
+        "relatedEquationVariables": [
+          "solute-amount"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Predict",
+    "intro": "Predict how the beaker will change before you apply the new setup.",
+    "items": [
+      {
+        "id": "cd-predict-dilution",
+        "prompt": "If solvent volume increases while solute amount stays fixed, what should happen first?",
+        "scenarioLabel": "Dilute the beaker",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The concentration should drop because the same solute is spread through more liquid."
+          },
+          {
+            "id": "b",
+            "label": "The concentration should rise because the beaker is fuller."
+          },
+          {
+            "id": "c",
+            "label": "Nothing should change."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Dilution lowers concentration without changing solute amount.",
+        "observationHint": "Compare the density cue before and after the new solvent volume is applied.",
+        "apply": {
+          "presetId": "diluted-same-solute"
+        },
+        "highlightedControls": [
+          "solventVolume"
+        ],
+        "highlightedGraphs": [
+          "concentration-vs-solvent"
+        ],
+        "highlightedOverlays": [
+          "densityCue"
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live beaker story, not from a memorized slogan.",
+    "questions": [
+      {
+        "id": "cd-qt-dilution",
+        "type": "misconception-check",
+        "prompt": "What is the cleanest description of dilution on this bench?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Lowering concentration by adding more liquid while keeping solute amount fixed."
+          },
+          {
+            "id": "b",
+            "label": "Lowering concentration by removing solute first."
+          },
+          {
+            "id": "c",
+            "label": "Any change that makes the beaker look fuller."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Dilution is specifically about changing the amount of liquid around the same solute."
+      },
+      {
+        "id": "cd-qt-solute-vs-solvent",
+        "type": "compare-two-cases",
+        "prompt": "Which change raises concentration by a different mechanism from dilution?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Adding more solute while keeping the same liquid volume."
+          },
+          {
+            "id": "b",
+            "label": "Adding more solvent while keeping solute fixed."
+          },
+          {
+            "id": "c",
+            "label": "Keeping both values the same."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Adding solute changes how much dissolved material is present rather than how much liquid it is spread through."
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use dilution honestly: do not smuggle in a different solute amount.",
+    "items": [
+      {
+        "id": "cd-ch-dilute-without-losing-solute",
+        "title": "Dilute without losing solute",
+        "style": "visible-condition",
+        "prompt": "Starting from a fairly crowded beaker, lower the concentration clearly while keeping the solute amount near the same starting value.",
+        "successMessage": "You made the mixture more dilute without changing it into a different solute case. The concentration dropped because the same dissolved material occupied more liquid.",
+        "setup": {
+          "presetId": "crowded-beaker",
+          "graphId": "concentration-vs-solvent",
+          "overlayIds": [
+            "densityCue",
+            "amountVolumeGuide"
+          ]
+        },
+        "requirements": {
+          "graphId": "concentration-vs-solvent",
+          "overlayIds": [
+            "densityCue",
+            "amountVolumeGuide"
+          ]
+        },
+        "targets": [
+          {
+            "metric": "soluteAmount",
+            "min": 10.5,
+            "max": 11.5
+          },
+          {
+            "metric": "solventVolume",
+            "min": 1.8,
+            "max": 2.6
+          },
+          {
+            "metric": "concentration",
+            "min": 3.6,
+            "max": 5.6
+          }
+        ]
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a beaker with dissolved particles, a concentration readout, and controls for solute amount and solvent volume."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "One graph shows how concentration changes with solvent volume, and a second shows how concentration changes with solute amount."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Concentration and Dilution",
+    "description": "Explore concentration, dilution, and the difference between adding solute and adding solvent on a live chemistry beaker.",
+    "keywords": [
+      "concentration",
+      "dilution",
+      "chemistry",
+      "solutions"
+    ]
+  }
+}

@@ -1,0 +1,253 @@
+{
+"sections": {
+"explanation": {
+"paragraphs": [
+"Total internal reflection is not a separate rule that replaces refraction. It is the limiting case of Snell's law when light tries to go from a higher-index medium into a lower-index medium and the transmitted angle would have to be larger than 90°.",
+"Use one live boundary to watch that transition. As you raise the incident angle while $n_1 > n_2$, the transmitted ray bends farther away from the normal, reaches $\\theta_2 = 90^\\circ$ at the critical angle, and then disappears as a real transmitted ray above that threshold. The stage, readout, and graphs are all showing the same handoff from ordinary refraction to full internal reflection."
+]
+},
+"keyIdeas": [
+"Total internal reflection is only possible when light starts in the higher-index medium and tries to enter the lower-index medium.",
+"At the critical angle, the transmitted ray just skims along the boundary, so $\\theta_2 = 90^\\circ$.",
+"Above the critical angle, Snell's law gives no real transmitted angle, so the ray stays in medium 1 and reflects.",
+"A larger index contrast lowers $\\theta_c$, so the same incident angle is more likely to produce total internal reflection."
+],
+"commonMisconception": {
+"myth": "Any large incident angle can produce total internal reflection.",
+"correction": [
+"Angle alone is not enough. The light must be traveling from higher $n$ to lower $n$ so that a real critical angle exists.",
+"If $n_1 \\le n_2$, this model still gives a real transmitted angle even at very large incident angles, so there is no TIR threshold to cross."
+]
+},
+"workedExamples": {
+"title": "Live threshold checks",
+"intro": "Use the same indices and incident angle shown on the stage. The numbers you substitute are the same ones controlling the ray diagram and the threshold graphs.",
+"items": [
+{
+"id": "solve-critical-angle",
+"title": "Does this boundary have a critical angle?",
+"prompt": "For the current media pair, does a critical angle exist, and if it does, what is its value?",
+"steps": [
+{
+"id": "condition",
+"label": "1. Check whether the ray starts in the higher-index medium"
+},
+{
+"id": "relation",
+"label": "2. Use the critical-angle relation if it exists"
+},
+{
+"id": "result",
+"label": "3. Evaluate the threshold"
+}
+],
+"applyAction": {
+"label": "Try near-critical glass to air",
+"observationHint": "The transmitted ray is still real, but it is almost parallel to the boundary."
+}
+},
+{
+"id": "classify-boundary-state",
+"title": "Decide whether this setup is below or above threshold",
+"steps": [
+{
+"id": "compare",
+"label": "1. Compare $\\theta_1$ with $\\theta_c$"
+},
+{
+"id": "margin",
+"label": "2. Find how far the setup is from the threshold"
+},
+{
+"id": "outcome",
+"label": "3. Decide what outgoing ray can still exist"
+}
+],
+"applyAction": {
+"label": "Try above-critical glass to air",
+"observationHint": "Above $\\theta_c$, the transmitted branch is gone and only the reflected ray remains in medium 1."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Keep the incident angle fixed above the glass-to-air critical angle, then raise $n_2$ closer to $n_1$. Before you test it, what should happen to the critical angle and to the boundary outcome?",
+"explanation": "Raising $n_2$ toward $n_1$ weakens the index contrast. Since $n_2 / n_1$ becomes larger, $\\theta_c$ increases, and a setup that used to be above threshold can return to ordinary refraction."
+}
+},
+"equations": [
+{
+"id": "snell-law",
+"meaning": "This is the same refraction law used below threshold, and it is the law that stops giving a real $\\theta_2$ above the critical angle."
+},
+{
+"id": "critical-angle",
+"meaning": "This is the largest incident angle that still allows a real transmitted ray when light goes from higher $n$ to lower $n$."
+},
+{
+"id": "reflection-law",
+"meaning": "In total internal reflection, the ray remains in medium 1 and the reflected angle still equals the incident angle."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "incidentAngle",
+"description": "Measured from the normal. Increasing it pushes the setup toward, and then possibly beyond, the critical angle."
+},
+{
+"id": "n1",
+"description": "Changing $n_1$ changes the speed contrast. Higher $n_1$ relative to $n_2$ lowers the critical angle."
+},
+{
+"id": "n2",
+"description": "Changing $n_2$ moves the threshold. Raising $n_2$ toward $n_1$ raises $\\theta_c$; lowering it makes TIR easier to reach."
+}
+],
+"presets": [
+{
+"id": "glass-to-air-near-critical",
+"description": "The transmitted ray is still real but almost parallel to the boundary."
+},
+{
+"id": "glass-to-air-above-critical",
+"description": "The incident angle is above $\\theta_c$, so no real transmitted ray remains."
+},
+{
+"id": "glass-to-water",
+"description": "The weaker contrast raises $\\theta_c$, so the same 50° ray refracts again."
+},
+{
+"id": "water-to-air-near-critical",
+"description": "The milder contrast still allows TIR, but at a larger critical angle."
+}
+],
+"overlays": [
+{
+"id": "normalGuide",
+"shortDescription": "Shows the normal and the angle markers used on this page.",
+"whatToNotice": [
+"The incident and transmitted angles are measured from the normal, not from the surface."
+],
+"whyItMatters": "Many TIR mistakes come from measuring the wrong angle."
+},
+{
+"id": "criticalGuide",
+"shortDescription": "Marks the threshold where the transmitted ray would just run along the boundary.",
+"whatToNotice": [
+"The guide only exists when light starts in the higher-index medium."
+],
+"whyItMatters": "It keeps the change from refraction to TIR visible on the same boundary."
+},
+{
+"id": "reflectionGuide",
+"shortDescription": "Shows the equal-angle reflection that remains after the threshold is crossed.",
+"whatToNotice": [
+"Above $\\theta_c$, there is no real transmitted ray, so the reflected ray is the only outgoing branch in this model."
+],
+"whyItMatters": "It links TIR to the ordinary law of reflection without pretending refraction still survives."
+},
+{
+"id": "speedGuide",
+"shortDescription": "Shows the relative light speeds implied by $n_1$ and $n_2$.",
+"whatToNotice": [
+"Changing the index contrast changes the speed contrast, and that moves the critical angle."
+],
+"whyItMatters": "TIR comes from how the two media differ, not from a separate bounce rule."
+}
+]
+},
+"graphs": [
+{
+"id": "transition-map",
+"description": "Below $\\theta_c$, the refracted-angle branch climbs toward 90°. Above $\\theta_c$, no real transmitted branch remains, so only the reflected-angle branch continues."
+},
+{
+"id": "refraction-map",
+"description": "Shows only the refracted branch that exists below threshold. As $\\theta_1$ approaches $\\theta_c$ from below, $\\theta_2$ approaches 90°."
+}
+],
+"noticePrompts": {
+"intro": "Change one thing at a time. Use the stage and graphs together to see where the refracted branch ends and total internal reflection begins.",
+"items": [
+{
+"id": "tir-notice-direction",
+"text": "Notice that TIR only appears when the ray starts in the higher-index medium. If $n_1$ is not larger than $n_2$, the critical-angle threshold disappears.",
+"tryThis": "Start with Glass to air, then raise $n_2$ toward $n_1$ and watch the threshold move upward or disappear.",
+"whyItMatters": "A large angle alone is never enough. The travel direction across the index contrast matters first."
+},
+{
+"id": "tir-notice-transition-map",
+"text": "Notice that the threshold transition graph is not a time plot. Each point is a different incident-angle setup for the same two media.",
+"whyItMatters": "That is why the graph can show where the refracted branch ends and the reflected branch takes over."
+},
+{
+"id": "tir-notice-below-threshold",
+"text": "Notice that just below $\\theta_c$ the transmitted ray is still real, but it is nearly parallel to the boundary as $\\theta_2$ approaches 90°.",
+"whyItMatters": "That is the geometric limit you cross before TIR begins."
+},
+{
+"id": "tir-notice-reflected-branch",
+"whyItMatters": "It prevents the mistaken idea that the transmitted ray just keeps bending forever."
+},
+{
+"id": "tir-notice-guidance",
+"text": "Notice that repeated TIR at successive boundaries is the same local event used in fiber-optic guidance.",
+"whyItMatters": "It gives one concrete application of the boundary event without leaving the current concept."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict the threshold outcome first, then apply the change and compare the stage, the critical-angle readout, and the graphs.",
+"items": [
+{
+"id": "tir-predict-cross-threshold",
+"explanation": "At $\\theta_c$, the refracted ray reaches 90°. Above it, Snell's law no longer gives a real transmitted angle, so the ray stays in medium 1.",
+"observationHint": "Watch the critical margin turn positive as the reflected ray becomes the only outgoing branch."
+},
+{
+"id": "tir-predict-weaker-contrast",
+"explanation": "Raising $n_2$ toward $n_1$ weakens the contrast, raises $\\theta_c$, and can restore a real transmitted ray at the same $\\theta_1$."
+},
+{
+"id": "tir-predict-stronger-contrast",
+"explanation": "Lowering $n_2$ strengthens the contrast, lowers $\\theta_c$, and can move the same $\\theta_1$ from refraction into TIR."
+}
+]
+},
+"quickTest": {
+"intro": "Reason from the threshold, not from a slogan. Use the indices, the critical angle, and the outgoing branch that still exists.",
+"questions": [
+{
+"id": "tir-qt-condition",
+"explanation": "TIR needs both conditions together: the light must try to leave the higher-index medium, and $\\theta_1$ must be larger than the critical angle for that media pair."
+},
+{
+"id": "tir-qt-contrast",
+"explanation": "If $n_2$ gets smaller while $n_1$ stays fixed, the ratio $n_2 / n_1$ gets smaller, so $\\theta_c = \\sin^{-1}(n_2 / n_1)$ also gets smaller. The threshold is easier to exceed."
+},
+{
+"id": "tir-qt-below-threshold",
+"explanation": "Just below $\\theta_c$, Snell's law still gives a real $\\theta_2$. The transmitted ray survives, but it is nearly parallel to the boundary."
+},
+{
+"id": "tir-qt-no-threshold",
+"explanation": "When light starts in the lower-index medium, this model never reaches a critical-angle cutoff. The transmitted ray remains real."
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows one boundary between two media with a dashed normal at the contact point. One ray approaches from medium 1. Below threshold, a transmitted ray enters medium 2; above threshold, only a reflected ray remains in medium 1.",
+"Optional overlays show the angle markers, the critical-angle threshold, the equal-angle reflection cue, and speed information linked to the current refractive indices."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The threshold transition graph plots outgoing angle against incident angle for the current media pair. The refracted branch reaches 90° at $\\theta_c$, and beyond that only the reflected branch remains.",
+"The transmitted-angle graph isolates the ordinary-refraction branch below threshold, so hovering it previews different boundary setups rather than later times."
+]
+}
+}
+}

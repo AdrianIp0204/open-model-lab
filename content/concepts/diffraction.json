@@ -1,0 +1,1213 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live diffraction checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Spread-width checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Carry wave optics forward"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Watch a wave spread after one narrow opening, see why diffraction grows when wavelength competes with slit width, and build the wave-optics bridge toward double-slit interference.",
+    "keyTakeaway": "Diffraction becomes more noticeable when the wavelength is large relative to the slit width, so the central peak spreads out instead of staying narrow.",
+    "whyItMatters": "The same single-slit spread explains why double-slit fringes sit inside an envelope and why small openings limit imaging sharpness."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Diffraction is the spreading of a wave after it passes through a narrow opening or around an edge. A wide opening lets the outgoing wave stay relatively straight, but once the opening width and wavelength become comparable the wave no longer stays tightly collimated.",
+        "This page keeps the geometry intentionally bounded: one slit, one screen, and one movable probe. The same slit width, wavelength, and probe height drive the stage, the pattern graph, prediction mode, worked examples, and challenge checks so the pattern stays tied to one honest wave-optics story instead of a giant optics lab."
+      ]
+    },
+    "keyIdeas": [
+      "Diffraction becomes more noticeable when the wavelength is large relative to the slit width, so the central peak spreads out instead of staying narrow.",
+      "The screen pattern is not random blur. It follows a single-slit envelope with clear bright and dim regions set by the edge-to-edge path difference across the opening.",
+      "A double-slit pattern still depends on diffraction because each slit has its own spreading envelope before the two slits interfere with one another."
+    ],
+    "commonMisconception": {
+      "myth": "A narrower opening always makes the outgoing beam narrower because less of the wave gets through.",
+      "correction": [
+        "A narrower opening reduces the width of the source region, but it also increases the spreading of the outgoing wave.",
+        "That is why the central diffraction peak broadens when the opening gets smaller relative to the wavelength."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live diffraction checks",
+      "intro": "These examples read the current slit geometry directly from the live state, so the algebra stays attached to the same pattern you are seeing on the screen.",
+      "items": [
+        {
+          "id": "first-minimum-angle",
+          "title": "First minimum from lambda and slit width",
+          "prompt": "For the current slit width a = {{slitWidthValue}} and wavelength lambda = {{wavelengthValue}}, where should the first diffraction minimum appear?",
+          "variables": [
+            {
+              "id": "slit-width",
+              "variableId": "slitWidth",
+              "symbol": "a",
+              "label": "Slit width",
+              "valueKey": "slitWidthValue",
+              "unit": "m"
+            },
+            {
+              "id": "wavelength",
+              "variableId": "wavelength",
+              "symbol": "lambda",
+              "label": "Wavelength",
+              "valueKey": "wavelengthValue",
+              "unit": "m"
+            },
+            {
+              "id": "ratio",
+              "symbol": "lambda / a",
+              "label": "Wavelength-to-slit ratio",
+              "valueKey": "wavelengthToSlitRatioValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Start from the first-minimum condition",
+              "template": "Use the single-slit condition $\\sin(\\theta_1) \\approx \\lambda / a$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the live opening and wavelength",
+              "template": "$\\sin(\\theta_1) \\approx {{wavelengthValue}} / {{slitWidthValue}} = {{wavelengthToSlitRatioValue}}$."
+            },
+            {
+              "id": "interpret",
+              "label": "3. Read the geometric consequence",
+              "template": "{{firstMinimumStep}}"
+            }
+          ],
+          "resultLabel": "First-minimum result",
+          "resultTemplate": "{{firstMinimumResult}}",
+          "interpretationTemplate": "{{spreadInterpretation}}",
+          "applyAction": {
+            "label": "Show broad spreading",
+            "presetId": "wide-spread",
+            "observationHint": "The opening is no longer much wider than the wavelength, so the central peak spreads outward and the first minimum moves farther from the center.",
+            "highlightedControlIds": [
+              "wavelength",
+              "slitWidth"
+            ],
+            "highlightedGraphIds": [
+              "pattern"
+            ],
+            "highlightedOverlayIds": [
+              "slitWidthGuide",
+              "firstMinimumGuide"
+            ]
+          }
+        },
+        {
+          "id": "probe-intensity",
+          "title": "Probe intensity from the edge-path split",
+          "prompt": "At the current probe height y = {{probeYValue}}, what relative intensity should the screen have there?",
+          "variables": [
+            {
+              "id": "probe-height",
+              "variableId": "probeY",
+              "symbol": "y_p",
+              "label": "Probe height",
+              "valueKey": "probeYValue",
+              "unit": "m"
+            },
+            {
+              "id": "edge-path-difference",
+              "symbol": "Delta r_edge",
+              "label": "Edge path difference",
+              "valueKey": "edgePathDifferenceValue",
+              "unit": "m"
+            },
+            {
+              "id": "beta",
+              "symbol": "beta",
+              "label": "Envelope angle",
+              "valueKey": "betaValue",
+              "unit": "rad"
+            }
+          ],
+          "steps": [
+            {
+              "id": "beta",
+              "label": "1. Build the envelope angle",
+              "template": "Compute $\\beta = \\pi \\Delta r_{edge} / \\lambda = \\pi({{edgePathDifferenceValue}}) / {{wavelengthValue}} = {{betaValue}}$."
+            },
+            {
+              "id": "intensity",
+              "label": "2. Use the single-slit intensity law",
+              "template": "$I / I_0 = (\\sin\\beta / \\beta)^2 = {{intensityValue}}$."
+            },
+            {
+              "id": "meaning",
+              "label": "3. Connect it to the current screen point",
+              "template": "{{probeIntensityStep}}"
+            }
+          ],
+          "resultLabel": "Current probe intensity",
+          "resultTemplate": "$I / I_0 = {{intensityValue}}$",
+          "interpretationTemplate": "{{probeIntensityInterpretation}}",
+          "applyAction": {
+            "label": "Move to a dim band",
+            "presetId": "off-center-dim",
+            "observationHint": "The probe is moved close to the first minimum, so the edge-path difference is about one wavelength and the local intensity nearly vanishes.",
+            "highlightedControlIds": [
+              "probeY"
+            ],
+            "highlightedGraphIds": [
+              "pattern",
+              "displacement"
+            ],
+            "highlightedOverlayIds": [
+              "edgePaths",
+              "firstMinimumGuide"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "You want the central diffraction peak to spread out without moving the screen. Which control change is the most reliable move?",
+      "prediction": "Choose whether you should change the wavelength, the slit width, or the probe position.",
+      "answer": "Increase the wavelength or decrease the slit width so the ratio lambda / a gets larger.",
+      "explanation": "Probe position only samples a different part of the existing pattern. The actual spread changes when the wavelength becomes larger relative to the opening."
+    }
+  },
+  "equations": [
+    {
+      "id": "edge-path-difference",
+      "latex": "\\Delta r_{edge} \\approx a\\sin\\theta",
+      "label": "Edge-to-edge path difference",
+      "meaning": "The top and bottom of the slit feed the same screen point with slightly different path lengths.",
+      "notes": [
+        "The live stage keeps the exact edge paths visible while the equation gives the far-screen approximation."
+      ]
+    },
+    {
+      "id": "beta-definition",
+      "latex": "\\beta = \\frac{\\pi a\\sin\\theta}{\\lambda} \\approx \\frac{\\pi \\Delta r_{edge}}{\\lambda}",
+      "label": "Envelope angle",
+      "meaning": "Packages the opening-width and wavelength comparison into one quantity for the diffraction envelope."
+    },
+    {
+      "id": "single-slit-intensity",
+      "latex": "\\frac{I}{I_0} = \\left(\\frac{\\sin\\beta}{\\beta}\\right)^2",
+      "label": "Single-slit intensity",
+      "meaning": "The bright central region and weaker side regions come from the square of the diffraction envelope."
+    },
+    {
+      "id": "first-minimum",
+      "latex": "\\sin\\theta_1 \\approx \\frac{\\lambda}{a}",
+      "label": "First minimum",
+      "meaning": "The first dark point appears when the edge-to-edge path difference grows to one wavelength."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "wavelength",
+      "symbol": "lambda",
+      "label": "Wavelength",
+      "param": "wavelength",
+      "tone": "amber",
+      "description": "Longer wavelength increases the amount of spreading for the same opening width.",
+      "equationIds": [
+        "beta-definition",
+        "single-slit-intensity",
+        "first-minimum"
+      ],
+      "graphIds": [
+        "pattern",
+        "displacement"
+      ],
+      "overlayIds": [
+        "slitWidthGuide",
+        "firstMinimumGuide",
+        "edgePaths"
+      ]
+    },
+    {
+      "id": "slitWidth",
+      "symbol": "a",
+      "label": "Slit width",
+      "param": "slitWidth",
+      "tone": "teal",
+      "description": "A smaller opening increases the diffraction spread because the wave is launched from a tighter region.",
+      "equationIds": [
+        "edge-path-difference",
+        "beta-definition",
+        "first-minimum"
+      ],
+      "graphIds": [
+        "pattern"
+      ],
+      "overlayIds": [
+        "slitWidthGuide",
+        "firstMinimumGuide"
+      ]
+    },
+    {
+      "id": "probeY",
+      "symbol": "y_p",
+      "label": "Probe height",
+      "param": "probeY",
+      "tone": "coral",
+      "description": "Moves the sample point up or down the screen so you can read where the pattern is bright, dim, or near a minimum.",
+      "equationIds": [
+        "edge-path-difference",
+        "beta-definition",
+        "single-slit-intensity"
+      ],
+      "graphIds": [
+        "pattern",
+        "displacement"
+      ],
+      "overlayIds": [
+        "edgePaths",
+        "firstMinimumGuide"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "wavelength": 1,
+      "slitWidth": 2.4,
+      "probeY": 0.6,
+      "slitWidthGuide": true,
+      "edgePaths": true,
+      "firstMinimumGuide": false
+    },
+    "ui": {
+      "initialGraphId": "pattern",
+      "primaryGraphIds": [
+        "pattern",
+        "displacement"
+      ],
+      "primaryControlIds": [
+        "wavelength",
+        "slitWidth",
+        "probeY"
+      ],
+      "primaryPresetIds": [
+        "center-bright",
+        "wide-spread",
+        "off-center-dim"
+      ]
+    },
+    "controls": [
+      {
+        "id": "wavelength",
+        "kind": "slider",
+        "label": "Wavelength",
+        "param": "wavelength",
+        "min": 0.5,
+        "max": 2.4,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Longer wavelength makes the same opening spread the wave more strongly."
+      },
+      {
+        "id": "slitWidth",
+        "kind": "slider",
+        "label": "Slit width",
+        "param": "slitWidth",
+        "min": 0.5,
+        "max": 3.2,
+        "step": 0.05,
+        "unit": "m",
+        "description": "A narrower opening broadens the central diffraction peak."
+      },
+      {
+        "id": "probeY",
+        "kind": "slider",
+        "label": "Probe height",
+        "param": "probeY",
+        "min": -3.2,
+        "max": 3.2,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Moves the screen probe to a new point on the diffraction pattern."
+      }
+    ],
+    "presets": [
+      {
+        "id": "center-bright",
+        "label": "Center bright",
+        "description": "The probe sits at the center of the main diffraction peak.",
+        "values": {
+          "wavelength": 1,
+          "slitWidth": 2.4,
+          "probeY": 0
+        }
+      },
+      {
+        "id": "wide-slit",
+        "label": "Wide slit",
+        "description": "A wide opening keeps the spread relatively tight.",
+        "values": {
+          "wavelength": 0.8,
+          "slitWidth": 3.2,
+          "probeY": 0
+        }
+      },
+      {
+        "id": "wide-spread",
+        "label": "Broad spread",
+        "description": "Wavelength and opening are close enough that the outgoing wave spreads much more strongly.",
+        "values": {
+          "wavelength": 1.6,
+          "slitWidth": 2,
+          "probeY": 0
+        }
+      },
+      {
+        "id": "matched-opening",
+        "label": "Opening matches wavelength",
+        "description": "When lambda is about the same size as the opening, the pattern becomes very broad.",
+        "values": {
+          "wavelength": 1.8,
+          "slitWidth": 1.8,
+          "probeY": 0.4
+        }
+      },
+      {
+        "id": "off-center-dim",
+        "label": "Near first minimum",
+        "description": "The probe is placed close to the first dark band for the default opening and wavelength.",
+        "values": {
+          "wavelength": 1,
+          "slitWidth": 2.4,
+          "probeY": 2.55
+        }
+      },
+      {
+        "id": "tight-spread",
+        "label": "Tight spread",
+        "description": "Shorter wavelength with a wide opening keeps the central peak narrow.",
+        "values": {
+          "wavelength": 0.6,
+          "slitWidth": 3,
+          "probeY": 0.8
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "slitWidthGuide",
+        "label": "Slit-width guide",
+        "shortDescription": "Marks the opening width directly on the barrier.",
+        "whatToNotice": [
+          "The opening itself is part of the physics. Changing a changes how much of the wave launches the outgoing pattern."
+        ],
+        "whyItMatters": "It keeps the aperture size visible instead of treating diffraction as a disconnected graph effect.",
+        "relatedControls": [
+          "slitWidth"
+        ],
+        "relatedGraphTabs": [
+          "pattern"
+        ],
+        "relatedEquationVariables": [
+          "slitWidth"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "edgePaths",
+        "label": "Edge paths",
+        "shortDescription": "Draws the top and bottom slit-edge paths to the current probe point.",
+        "whatToNotice": [
+          "The screen pattern comes from how different parts of the same slit feed one point with slightly different path lengths."
+        ],
+        "whyItMatters": "This is the bounded geometry behind the diffraction envelope.",
+        "relatedControls": [
+          "probeY",
+          "wavelength"
+        ],
+        "relatedGraphTabs": [
+          "pattern",
+          "displacement"
+        ],
+        "relatedEquationVariables": [
+          "probeY",
+          "wavelength"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "firstMinimumGuide",
+        "label": "First-minimum guide",
+        "shortDescription": "Shows where the first dark points would sit when the current ratio lambda / a allows a finite minimum.",
+        "whatToNotice": [
+          "As lambda / a grows, the guide moves farther from the center and can leave the screen entirely."
+        ],
+        "whyItMatters": "It links the widening central peak to the first-minimum condition instead of a vague spreading slogan.",
+        "relatedControls": [
+          "wavelength",
+          "slitWidth"
+        ],
+        "relatedGraphTabs": [
+          "pattern"
+        ],
+        "relatedEquationVariables": [
+          "wavelength",
+          "slitWidth"
+        ],
+        "defaultOn": false
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "displacement",
+      "label": "Probe field",
+      "xLabel": "time (s)",
+      "yLabel": "field / displacement (a.u.)",
+      "series": [
+        "slit-center",
+        "probe-field",
+        "envelope-plus",
+        "envelope-minus"
+      ],
+      "description": "Tracks the slit-center oscillation, the current probe field, and the local diffraction envelope at that screen point."
+    },
+    {
+      "id": "pattern",
+      "label": "Screen pattern",
+      "xLabel": "screen height (m)",
+      "yLabel": "relative intensity",
+      "series": [
+        "pattern"
+      ],
+      "description": "Shows the spatial diffraction pattern across the screen rather than an instantaneous time trace."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use one prompt at a time so the spread pattern stays tied to the same slit geometry, screen strip, and graph.",
+    "items": [
+      {
+        "id": "diffraction-notice-central-peak",
+        "text": "Notice that the center of the pattern is not just bright. It is also the widest part of the single-slit envelope, and that width changes when lambda / a changes.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Start from Center bright, then compare Wide slit with Broad spread before reading the graph.",
+        "whyItMatters": "The main teaching target is spread, not only brightness.",
+        "relatedControls": [
+          "wavelength",
+          "slitWidth"
+        ],
+        "relatedGraphTabs": [
+          "pattern"
+        ],
+        "relatedOverlays": [
+          "slitWidthGuide"
+        ]
+      },
+      {
+        "id": "diffraction-notice-slit-change",
+        "text": "Notice that narrowing the slit makes the outgoing wave spread more, even though the opening itself became smaller.",
+        "type": "misconception",
+        "priority": 4,
+        "conditions": {
+          "lastChangedControls": [
+            "slitWidth"
+          ]
+        },
+        "tryThis": "Lower the slit width while holding wavelength fixed and compare how far the first-minimum guide moves.",
+        "whyItMatters": "This directly corrects the common beam-gets-narrower misconception.",
+        "relatedControls": [
+          "slitWidth"
+        ],
+        "relatedGraphTabs": [
+          "pattern"
+        ],
+        "relatedOverlays": [
+          "slitWidthGuide",
+          "firstMinimumGuide"
+        ],
+        "relatedEquationVariables": [
+          "slitWidth"
+        ]
+      },
+      {
+        "id": "diffraction-notice-wavelength-change",
+        "text": "Notice that raising the wavelength broadens the central region because the same edge-path split now counts as fewer wavelengths.",
+        "type": "try-this",
+        "priority": 5,
+        "conditions": {
+          "lastChangedControls": [
+            "wavelength"
+          ]
+        },
+        "tryThis": "Keep the slit fixed, raise lambda, and watch both the strip and the pattern graph spread outward.",
+        "whyItMatters": "It turns the ratio lambda / a into something spatially visible.",
+        "relatedControls": [
+          "wavelength"
+        ],
+        "relatedGraphTabs": [
+          "pattern"
+        ],
+        "relatedOverlays": [
+          "edgePaths",
+          "firstMinimumGuide"
+        ],
+        "relatedEquationVariables": [
+          "wavelength"
+        ]
+      },
+      {
+        "id": "diffraction-notice-time-vs-pattern",
+        "text": "Notice that the time rail changes the local probe field, but the pattern graph stays position-based because the diffraction pattern is an intensity map across space.",
+        "type": "graph-reading",
+        "priority": 6,
+        "conditions": {
+          "inspectState": "inspect"
+        },
+        "tryThis": "Pause on the probe-field graph, step once, and compare what changed at the probe with what stayed fixed on the pattern graph.",
+        "whyItMatters": "It separates local oscillation from the spatial pattern honestly.",
+        "relatedGraphTabs": [
+          "displacement",
+          "pattern"
+        ]
+      },
+      {
+        "id": "diffraction-notice-compare",
+        "text": "Compare mode is strongest when one setup changes lambda and the other changes a. That makes the ratio story visible without hiding which control caused it.",
+        "type": "compare",
+        "priority": 8,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Clone the live setup, widen the slit in one row, and lengthen the wavelength in the other row before reading the graph.",
+        "whyItMatters": "It stops wave optics from collapsing into a single vague spreading control.",
+        "relatedControls": [
+          "wavelength",
+          "slitWidth",
+          "probeY"
+        ],
+        "relatedGraphTabs": [
+          "pattern",
+          "displacement"
+        ],
+        "relatedOverlays": [
+          "slitWidthGuide",
+          "firstMinimumGuide"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Commit to the spread change before you test it. Each prompt changes one cause at a time.",
+    "items": [
+      {
+        "id": "diffraction-pred-narrower-slit",
+        "prompt": "Keep wavelength fixed and make the slit narrower. What should happen to the central diffraction peak?",
+        "scenarioLabel": "Narrow the slit",
+        "changeLabel": "Slit width",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It should broaden because the wave spreads more strongly when the opening is smaller relative to the wavelength."
+          },
+          {
+            "id": "b",
+            "label": "It should stay the same width because only wavelength matters for diffraction."
+          },
+          {
+            "id": "c",
+            "label": "It should get narrower because the opening is narrower."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Diffraction depends on the ratio lambda / a. Reducing a makes that ratio larger, so the spread increases.",
+        "observationHint": "Watch the central peak widen and the first minimum move outward.",
+        "apply": {
+          "presetId": "center-bright",
+          "patch": {
+            "slitWidth": 1.2
+          }
+        },
+        "highlightedControls": [
+          "slitWidth"
+        ],
+        "highlightedGraphs": [
+          "pattern"
+        ],
+        "highlightedOverlays": [
+          "slitWidthGuide",
+          "firstMinimumGuide"
+        ]
+      },
+      {
+        "id": "diffraction-pred-longer-wavelength",
+        "prompt": "Keep the slit fixed and increase the wavelength. What should happen to the pattern?",
+        "scenarioLabel": "Increase the wavelength",
+        "changeLabel": "Wavelength",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The pattern should spread out because the same opening is now small compared with the wavelength."
+          },
+          {
+            "id": "b",
+            "label": "The pattern should tighten because longer waves bend less."
+          },
+          {
+            "id": "c",
+            "label": "Only the probe-field graph should change. The screen pattern should stay fixed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Increasing lambda raises lambda / a, so the central peak broadens and the minima move farther from the center.",
+        "observationHint": "The graph spreads outward even before you move the probe.",
+        "apply": {
+          "presetId": "center-bright",
+          "patch": {
+            "wavelength": 1.6
+          }
+        },
+        "highlightedControls": [
+          "wavelength"
+        ],
+        "highlightedGraphs": [
+          "pattern"
+        ],
+        "highlightedOverlays": [
+          "edgePaths",
+          "firstMinimumGuide"
+        ]
+      },
+      {
+        "id": "diffraction-pred-move-probe",
+        "prompt": "Leave the slit and wavelength alone, but move the probe from the center toward the first dark band. What should happen locally?",
+        "scenarioLabel": "Move toward a dark band",
+        "changeLabel": "Probe height",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The probe-field envelope should shrink toward zero because the screen point approaches a diffraction minimum."
+          },
+          {
+            "id": "b",
+            "label": "The probe should keep the same envelope because only slit width sets intensity."
+          },
+          {
+            "id": "c",
+            "label": "The local field should grow because points farther from the center always receive more path difference."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Moving the probe changes the edge-path difference and therefore beta, so the local intensity can drop to a minimum without changing the whole pattern setup.",
+        "observationHint": "Watch the probe marker approach the first dark region on the strip and graph.",
+        "apply": {
+          "presetId": "off-center-dim"
+        },
+        "highlightedControls": [
+          "probeY"
+        ],
+        "highlightedGraphs": [
+          "pattern",
+          "displacement"
+        ],
+        "highlightedOverlays": [
+          "edgePaths",
+          "firstMinimumGuide"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Turn the spread pattern into small wave-optics hunts that stay tied to the same slit geometry.",
+    "items": [
+      {
+        "id": "diff-ch-set-first-minimum",
+        "title": "Set a clear spread angle",
+        "style": "target-setting",
+        "prompt": "Starting from Wide slit, tune the controls until the first minimum lands between 22 deg and 28 deg.",
+        "successMessage": "You tuned the spread by changing the wavelength-to-opening ratio, not by moving the probe. The pattern width now matches the first-minimum target honestly.",
+        "setup": {
+          "presetId": "wide-slit",
+          "graphId": "pattern",
+          "overlayIds": [
+            "firstMinimumGuide",
+            "slitWidthGuide"
+          ],
+          "note": "Use the first-minimum guide as the target while you adjust lambda and a."
+        },
+        "requirements": {
+          "graphId": "pattern",
+          "overlayIds": [
+            "firstMinimumGuide"
+          ]
+        },
+        "hints": [
+          "You need a larger ratio lambda / a than Wide slit currently has.",
+          "Increasing wavelength or decreasing slit width can move the first minimum outward."
+        ],
+        "targets": [
+          {
+            "metric": "firstMinimumAngleDeg",
+            "label": "Set the first minimum angle between 22 deg and 28 deg.",
+            "min": 22,
+            "max": 28,
+            "displayUnit": "deg"
+          }
+        ]
+      },
+      {
+        "id": "diff-ch-find-dark-band",
+        "title": "Find the first dark band",
+        "style": "visible-condition",
+        "prompt": "Starting from Center bright, move the probe onto the first dark band without changing the slit or wavelength.",
+        "successMessage": "You found the first minimum by changing only the sampled screen point. The edge-path split is about one wavelength and the local intensity has collapsed.",
+        "setup": {
+          "presetId": "center-bright",
+          "graphId": "pattern",
+          "overlayIds": [
+            "edgePaths",
+            "firstMinimumGuide"
+          ],
+          "note": "Drag the probe instead of changing the opening."
+        },
+        "requirements": {
+          "graphId": "pattern",
+          "overlayIds": [
+            "edgePaths"
+          ]
+        },
+        "hints": [
+          "You are looking for the first place where the edge-path difference is about one wavelength.",
+          "The pattern graph is the quickest way to steer the probe toward a dark point."
+        ],
+        "targets": [
+          {
+            "metric": "edgePathDifferenceInWavelengths",
+            "label": "Bring the edge-path split close to one wavelength.",
+            "min": 0.95,
+            "max": 1.05
+          },
+          {
+            "metric": "normalizedIntensity",
+            "label": "Drive the relative intensity below 0.08.",
+            "min": 0,
+            "max": 0.08
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live spread logic, not from isolated buzzwords.",
+    "questions": [
+      {
+        "id": "diffraction-qt-1",
+        "type": "variable-effect",
+        "prompt": "Which change makes diffraction more noticeable for the same screen distance?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Increase the wavelength or decrease the slit width so lambda / a gets larger."
+          },
+          {
+            "id": "b",
+            "label": "Increase the slit width so more of the wave gets through."
+          },
+          {
+            "id": "c",
+            "label": "Move the probe farther from the center while keeping the setup fixed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The spread depends on the ratio between wavelength and opening width. Probe position only samples the existing pattern.",
+        "selectedWrongExplanations": {
+          "b": "A wider opening usually reduces the spread because the outgoing wave stays more collimated.",
+          "c": "Moving the probe changes which part of the pattern you read, not the pattern itself."
+        },
+        "showMeAction": {
+          "label": "Show broad spreading",
+          "presetId": "wide-spread",
+          "observationHint": "The broad central peak comes from a larger lambda / a ratio.",
+          "highlightedControlIds": [
+            "wavelength",
+            "slitWidth"
+          ],
+          "highlightedGraphIds": [
+            "pattern"
+          ],
+          "highlightedOverlayIds": [
+            "slitWidthGuide",
+            "firstMinimumGuide"
+          ]
+        }
+      },
+      {
+        "id": "diffraction-qt-2",
+        "type": "reasoning",
+        "prompt": "A student says, \"A narrower slit should make a narrower outgoing beam because the opening is smaller.\" What is the best correction?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "A narrower slit usually increases spreading, so the main diffraction peak gets broader."
+          },
+          {
+            "id": "b",
+            "label": "A narrower slit keeps the same spread because only the wavelength matters."
+          },
+          {
+            "id": "c",
+            "label": "A narrower slit blocks diffraction completely because there is less wave left."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Reducing the opening increases lambda / a, which broadens the outgoing pattern instead of tightening it.",
+        "selectedWrongExplanations": {
+          "b": "Wavelength matters, but diffraction is set by the ratio lambda / a, so slit width matters too.",
+          "c": "A smaller opening can transmit less total energy, but the wave that gets through still diffracts."
+        },
+        "showMeAction": {
+          "label": "Show matched opening",
+          "presetId": "matched-opening",
+          "observationHint": "When lambda is about the same size as the opening, the spread becomes very broad.",
+          "highlightedControlIds": [
+            "slitWidth",
+            "wavelength"
+          ],
+          "highlightedGraphIds": [
+            "pattern"
+          ],
+          "highlightedOverlayIds": [
+            "slitWidthGuide"
+          ]
+        }
+      },
+      {
+        "id": "diffraction-qt-3",
+        "type": "compare-two-cases",
+        "prompt": "Case A and Case B use the same slit width, but Case B has the longer wavelength. What should be different?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Case B should have a broader central peak because the wavelength is larger relative to the same opening."
+          },
+          {
+            "id": "b",
+            "label": "Case B should have the same pattern because the slit is unchanged."
+          },
+          {
+            "id": "c",
+            "label": "Case B should have a narrower peak because longer waves bend less."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "With the same opening width, increasing wavelength increases lambda / a and therefore broadens the diffraction envelope.",
+        "selectedWrongExplanations": {
+          "b": "The slit width stayed fixed, but wavelength still changes the pattern.",
+          "c": "That intuition works against the actual single-slit result here. Longer wavelength produces more spread."
+        },
+        "showMeAction": {
+          "label": "Compare broad and tight spread",
+          "presetId": "tight-spread",
+          "observationHint": "Switch from Tight spread to Broad spread and compare the central peak width directly.",
+          "highlightedControlIds": [
+            "wavelength",
+            "slitWidth"
+          ],
+          "highlightedGraphIds": [
+            "pattern"
+          ],
+          "highlightedOverlayIds": [
+            "firstMinimumGuide"
+          ]
+        }
+      },
+      {
+        "id": "diffraction-qt-4",
+        "type": "graph-reading",
+        "prompt": "Why does the pattern graph stay fixed while you step through time on the probe-field graph?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because the pattern graph is a spatial intensity map across the screen, while the probe-field graph tracks one point in time."
+          },
+          {
+            "id": "b",
+            "label": "Because diffraction patterns do not involve time anywhere in the wave model."
+          },
+          {
+            "id": "c",
+            "label": "Because the screen pattern only changes if the probe is hidden."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The local field at one probe point oscillates in time, but the screen pattern graph is an intensity profile across position.",
+        "selectedWrongExplanations": {
+          "b": "The outgoing wave still oscillates in time. The graph stays fixed because it represents a different quantity.",
+          "c": "The probe is only a sample point. Hiding or showing it does not change the physical pattern."
+        },
+        "showMeAction": {
+          "label": "Show a dim band",
+          "presetId": "off-center-dim",
+          "observationHint": "Pause the probe field, then compare the unchanged position graph with the local time trace.",
+          "highlightedControlIds": [
+            "probeY"
+          ],
+          "highlightedGraphIds": [
+            "displacement",
+            "pattern"
+          ],
+          "highlightedOverlayIds": [
+            "edgePaths"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows incoming plane wavefronts reaching a barrier with one vertical slit. On the right side, curved outgoing wavefronts spread from the opening toward a screen strip that brightens or dims according to the diffraction intensity.",
+        "A movable probe marks one screen point. Optional overlays show the slit width, the top and bottom edge paths to the probe, and the first-minimum guide when the current ratio lambda / a gives a finite first minimum."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The probe-field graph shows the oscillation at the slit center and the current probe point, with dashed envelope lines marking the local diffraction amplitude.",
+        "The screen-pattern graph shows relative intensity against screen height, so it remains a spatial map while the time rail inspects the local probe field."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Diffraction",
+    "description": "Interactive single-slit diffraction with wavelength, slit width, probe height, live readouts, and a linked screen-pattern graph.",
+    "keywords": [
+      "diffraction",
+      "single slit diffraction",
+      "wave optics",
+      "wavelength and slit width",
+      "diffraction pattern"
+    ]
+  },
+  "v2": {
+    "intuition": "Treat the slit as a whole opening, not a pinhole: waves from its top and bottom edges travel slightly different distances to each screen point, and the ratio lambda / a decides how quickly those differences create dark bands.",
+    "whyItMatters": "This is the bridge from a single opening to later optics: double-slit fringes ride inside a diffraction envelope, and every real aperture has a spreading limit.",
+    "estimatedMinutes": 30,
+    "equationSnapshot": {
+      "title": "Single-slit spread",
+      "note": "Read the first minimum as the practical width marker, then use edge-path difference and intensity to explain why the graph gets bright or dim.",
+      "equationIds": [
+        "first-minimum",
+        "edge-path-difference",
+        "single-slit-intensity"
+      ]
+    },
+    "startSetup": {
+      "presetId": "center-bright",
+      "graphId": "pattern",
+      "overlayIds": [
+        "slitWidthGuide",
+        "edgePaths",
+        "firstMinimumGuide"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-slit-and-center-peak",
+        "title": "Read the slit and center peak",
+        "goal": "Connect the physical opening to the bright central region on the screen pattern.",
+        "doThis": "Start from Center bright, keep the Screen pattern graph visible, and compare the slit-width guide with the wavelength readout.",
+        "notice": "The center of the pattern is bright and broad, and the first-minimum guide marks where that central region will end for the current lambda / a ratio.",
+        "explain": "Diffraction is not random blur. Every screen point receives contributions from across the same slit, and the edge-to-edge path difference grows as you move away from the center.",
+        "reveal": {
+          "controlIds": [
+            "wavelength",
+            "slitWidth"
+          ],
+          "graphIds": [
+            "pattern"
+          ],
+          "overlayIds": [
+            "slitWidthGuide",
+            "edgePaths",
+            "firstMinimumGuide"
+          ]
+        },
+        "setup": {
+          "presetId": "center-bright",
+          "graphId": "pattern",
+          "overlayIds": [
+            "slitWidthGuide",
+            "edgePaths",
+            "firstMinimumGuide"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Name the ratio that controls spread",
+          "questionIds": [
+            "diffraction-qt-1"
+          ]
+        }
+      },
+      {
+        "id": "make-the-peak-wider",
+        "title": "Make the peak wider",
+        "goal": "See why a larger wavelength-to-slit ratio spreads the central diffraction peak.",
+        "doThis": "Compare Wide slit with Broad spread, then change either Wavelength or Slit width while watching the first-minimum guide.",
+        "notice": "Increasing wavelength or narrowing the slit pushes the first minimum farther from the center, so the central bright peak gets wider.",
+        "explain": "The first minimum follows sin(theta_1) approximately lambda / a. Larger lambda / a means the first dark band occurs at a larger angle.",
+        "reveal": {
+          "controlIds": [
+            "wavelength",
+            "slitWidth"
+          ],
+          "graphIds": [
+            "pattern"
+          ],
+          "overlayIds": [
+            "slitWidthGuide",
+            "firstMinimumGuide"
+          ]
+        },
+        "setup": {
+          "presetId": "wide-spread",
+          "graphId": "pattern",
+          "overlayIds": [
+            "slitWidthGuide",
+            "firstMinimumGuide"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Predict a broader pattern",
+          "predictionIds": [
+            "diffraction-pred-narrower-slit",
+            "diffraction-pred-longer-wavelength"
+          ],
+          "questionIds": [
+            "diffraction-qt-2"
+          ]
+        }
+      },
+      {
+        "id": "sample-a-dark-band",
+        "title": "Sample a dark band",
+        "goal": "Separate changing the whole pattern from moving the probe to a different part of it.",
+        "doThis": "Apply Near first minimum, then nudge Probe height while the Pattern and Probe field graphs are visible.",
+        "notice": "The local probe field shrinks near a dark band, but the pattern only changes when wavelength or slit width changes.",
+        "explain": "Probe height changes which screen point you sample. It changes edge-path difference and local intensity at that point without changing the slit geometry itself.",
+        "reveal": {
+          "controlIds": [
+            "probeY"
+          ],
+          "graphIds": [
+            "pattern",
+            "displacement"
+          ],
+          "overlayIds": [
+            "edgePaths",
+            "firstMinimumGuide"
+          ]
+        },
+        "setup": {
+          "presetId": "off-center-dim",
+          "graphId": "pattern",
+          "overlayIds": [
+            "edgePaths",
+            "firstMinimumGuide"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Probe versus pattern",
+          "predictionIds": [
+            "diffraction-pred-move-probe"
+          ],
+          "questionIds": [
+            "diffraction-qt-4"
+          ]
+        }
+      },
+      {
+        "id": "tune-a-target-minimum",
+        "title": "Tune a target minimum",
+        "goal": "Use the first-minimum guide as a measurable spread target instead of relying on a vague wider/narrower impression.",
+        "doThis": "Start from Wide slit and tune Wavelength and Slit width until the first minimum lands between about 22° and 28°.",
+        "notice": "Many control pairs can hit the same spread target if they make lambda / a land in the right range.",
+        "explain": "The challenge is a ratio hunt: the screen distance stays fixed, while wavelength and slit width set the angle of the first dark band.",
+        "reveal": {
+          "controlIds": [
+            "wavelength",
+            "slitWidth"
+          ],
+          "graphIds": [
+            "pattern"
+          ],
+          "overlayIds": [
+            "firstMinimumGuide",
+            "slitWidthGuide"
+          ]
+        },
+        "setup": {
+          "presetId": "wide-slit",
+          "graphId": "pattern",
+          "overlayIds": [
+            "firstMinimumGuide",
+            "slitWidthGuide"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Compare two cases",
+          "questionIds": [
+            "diffraction-qt-3"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Diffraction spread is controlled mainly by the wavelength-to-slit ratio lambda / a.",
+        "The first minimum gives a concrete marker for the width of the central bright region.",
+        "Moving the probe samples a different screen point; it does not by itself change the pattern.",
+        "Single-slit diffraction becomes the envelope that shapes later double-slit and imaging patterns."
+      ],
+      "misconception": "A narrower opening does not make the outgoing beam narrower; when a becomes smaller relative to lambda, the diffraction peak spreads wider.",
+      "workedExampleRefs": [
+        "first-minimum-angle",
+        "probe-intensity"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "double-slit-interference",
+          "reasonLabel": "Put interference fringes inside the envelope"
+        },
+        {
+          "slug": "optical-resolution-imaging-limits",
+          "reasonLabel": "Use aperture spread as an imaging limit"
+        },
+        {
+          "slug": "wave-interference",
+          "reasonLabel": "Review phase and path difference"
+        }
+      ],
+      "freePlayPrompt": "Try to make two different setups with nearly the same first-minimum angle: one by raising wavelength, one by narrowing the slit."
+    },
+    "referenceSections": [
+      "workedExamples",
+      "miniChallenge",
+      "readNext"
+    ]
+  }
+}

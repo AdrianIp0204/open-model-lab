@@ -1,0 +1,716 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "readNext",
+        "title": "Carry yield into the next chemistry branch"
+      }
+    ],
+    "featuredSetups": [
+      {
+        "id": "partial-yield-window",
+        "label": "75% yield run",
+        "description": "Open the run where the recipe is matched but the output tray stops short of the ideal marker.",
+        "setup": {
+          "presetId": "partial-yield",
+          "graphId": "yield-vs-percent",
+          "overlayIds": [
+            "recipeCard",
+            "yieldGap"
+          ]
+        }
+      },
+      {
+        "id": "full-yield-window",
+        "label": "Full-yield contrast",
+        "description": "Compare the same supplies at 100% yield so the ideal output is fully reached.",
+        "setup": {
+          "presetId": "matched-two-three",
+          "graphId": "yield-vs-percent",
+          "overlayIds": [
+            "recipeCard",
+            "yieldGap"
+          ]
+        }
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Compare actual output with the same theoretical recipe cap so percent yield stays visual and honest on one shared bench.",
+    "keyTakeaway": "Theoretical output comes from the limiting-reagent batch cap before yield is applied."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Percent yield stays honest when the ideal output marker and the actual product tray sit on the same recipe bench. This module keeps the limiting-reagent story, the theoretical product, and the actual finished batches together so yield never becomes detached algebra.",
+        "Reaction extent on this bench is the fraction of the theoretical recipe batches that actually finish. Lower yield does not change the recipe card or the limiting reagent. It changes how much of the possible output appears."
+      ]
+    },
+    "keyIdeas": [
+      "Theoretical output comes from the limiting-reagent batch cap before yield is applied.",
+      "Percent yield scales actual output relative to that theoretical cap.",
+      "If yield is below 100%, some of the possible output is missing and more reactant packets remain unused than in the full-yield case."
+    ],
+    "commonMisconception": {
+      "myth": "A 75% yield means the recipe itself changed to use only 75% of each packet from the start.",
+      "correction": [
+        "The recipe card stays the same. Yield changes how much of the possible output actually finishes.",
+        "The same starting supplies can have the same theoretical output while the actual product tray lands lower."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Use the actual tray and the ideal marker together.",
+      "items": [
+        {
+          "id": "read-a-seventy-five-percent-yield-run",
+          "title": "Read a 75% yield run",
+          "prompt": "With 12 A, 18 B, and a 2:3 recipe at 75% yield, how much product appears and how large is the yield gap?",
+          "variables": [
+            {
+              "id": "reactant-a-supply",
+              "variableId": "reactant-a-supply",
+              "symbol": "A",
+              "label": "Reactant A packets",
+              "valueKey": "reactantAAmountValue"
+            },
+            {
+              "id": "reactant-b-supply",
+              "variableId": "reactant-b-supply",
+              "symbol": "B",
+              "label": "Reactant B packets",
+              "valueKey": "reactantBAmountValue"
+            },
+            {
+              "id": "percent-yield",
+              "variableId": "percent-yield",
+              "symbol": "Y",
+              "label": "Percent yield",
+              "valueKey": "percentYieldValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-theoretical-output",
+              "label": "1. Read the theoretical batch cap first",
+              "template": "The current {{reactantAAmountValue}} A and {{reactantBAmountValue}} B run supports {{theoreticalBatchesValue}} theoretical batches on the {{recipeAValue}}:{{recipeBValue}} recipe."
+            },
+            {
+              "id": "apply-yield",
+              "label": "2. Scale the actual output by percent yield",
+              "template": "At {{percentYieldValue}}% yield, the actual tray reaches {{actualBatchesValue}} product batches."
+            },
+            {
+              "id": "read-the-gap",
+              "label": "3. Compare actual output with the ideal marker",
+              "template": "The yield gap is {{yieldGapValue}} batches, so the tray stops short of the theoretical marker."
+            }
+          ],
+          "resultLabel": "Actual output and gap",
+          "resultTemplate": "Actual output = {{actualBatchesValue}} batches; yield gap = {{yieldGapValue}} batches.",
+          "interpretationTemplate": "{{yieldInterpretation}}",
+          "applyAction": {
+            "label": "Show the 75% yield run",
+            "presetId": "partial-yield",
+            "observationHint": "The ideal marker stays at six batches while the actual tray lands lower at 4.5.",
+            "highlightedControlIds": [
+              "percentYield",
+              "reactantAAmount",
+              "reactantBAmount"
+            ],
+            "highlightedGraphIds": [
+              "yield-vs-percent"
+            ],
+            "highlightedOverlayIds": [
+              "recipeCard",
+              "yieldGap"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Hold the recipe fixed, then lower yield until the actual tray clearly stops short of the ideal marker.",
+      "prediction": "Decide which slider changes the actual output without changing the theoretical batch cap.",
+      "answer": "Percent yield changes the actual output while the theoretical batch cap stays set by the same recipe and limiting reagent.",
+      "explanation": "That keeps theoretical yield and actual yield separated on one bench instead of collapsing them into one number."
+    }
+  },
+  "equations": [
+    {
+      "id": "actual-from-theoretical",
+      "latex": "b_{\\text{actual}} = \\frac{Y}{100} \\, b_{\\text{theory}}",
+      "label": "Actual output from percent yield",
+      "meaning": "Percent yield scales the theoretical batch count down to the actual finished output."
+    },
+    {
+      "id": "reaction-extent",
+      "latex": "\\xi = \\frac{b_{\\text{actual}}}{b_{\\text{theory}}}",
+      "label": "Reaction extent",
+      "meaning": "The reaction extent on this bench is the fraction of the theoretical output that actually appears."
+    },
+    {
+      "id": "yield-gap",
+      "latex": "\\Delta b = b_{\\text{theory}} - b_{\\text{actual}}",
+      "label": "Yield gap",
+      "meaning": "The missing part of the output is the difference between the theoretical marker and the actual tray."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "reactant-a-supply",
+      "symbol": "A",
+      "label": "Reactant A packets",
+      "param": "reactantAAmount",
+      "tone": "teal",
+      "description": "Helps set the theoretical batch cap before yield changes the actual output.",
+      "equationIds": [
+        "actual-from-theoretical"
+      ],
+      "graphIds": [
+        "batches-vs-reactant-a",
+        "yield-vs-percent"
+      ],
+      "overlayIds": [
+        "recipeCard",
+        "yieldGap"
+      ]
+    },
+    {
+      "id": "reactant-b-supply",
+      "symbol": "B",
+      "label": "Reactant B packets",
+      "param": "reactantBAmount",
+      "tone": "amber",
+      "description": "Helps set the theoretical batch cap before yield changes the actual output.",
+      "equationIds": [
+        "actual-from-theoretical"
+      ],
+      "graphIds": [
+        "batches-vs-reactant-b",
+        "yield-vs-percent"
+      ],
+      "overlayIds": [
+        "recipeCard",
+        "yieldGap"
+      ]
+    },
+    {
+      "id": "percent-yield",
+      "symbol": "Y",
+      "label": "Percent yield",
+      "param": "percentYield",
+      "tone": "coral",
+      "description": "Changes how much of the theoretical output actually appears on the product tray.",
+      "equationIds": [
+        "actual-from-theoretical",
+        "reaction-extent",
+        "yield-gap"
+      ],
+      "graphIds": [
+        "yield-vs-percent"
+      ],
+      "overlayIds": [
+        "yieldGap"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "reactantAAmount": 12,
+      "reactantBAmount": 18,
+      "recipeA": 2,
+      "recipeB": 3,
+      "percentYield": 75,
+      "recipeCard": true,
+      "limitingCue": true,
+      "yieldGap": true
+    },
+    "ui": {
+      "initialGraphId": "yield-vs-percent",
+      "primaryGraphIds": [
+        "yield-vs-percent"
+      ],
+      "primaryControlIds": [
+        "percentYield"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "reactantAAmount",
+        "kind": "slider",
+        "label": "Reactant A packets",
+        "param": "reactantAAmount",
+        "min": 2,
+        "max": 18,
+        "step": 1,
+        "description": "Change how many A packets the current run starts with."
+      },
+      {
+        "id": "reactantBAmount",
+        "kind": "slider",
+        "label": "Reactant B packets",
+        "param": "reactantBAmount",
+        "min": 2,
+        "max": 18,
+        "step": 1,
+        "description": "Change how many B packets the current run starts with."
+      },
+      {
+        "id": "recipeA",
+        "kind": "slider",
+        "label": "A per batch",
+        "param": "recipeA",
+        "min": 1,
+        "max": 4,
+        "step": 1,
+        "description": "Set how much A one full recipe batch consumes."
+      },
+      {
+        "id": "recipeB",
+        "kind": "slider",
+        "label": "B per batch",
+        "param": "recipeB",
+        "min": 1,
+        "max": 4,
+        "step": 1,
+        "description": "Set how much B one full recipe batch consumes."
+      },
+      {
+        "id": "percentYield",
+        "kind": "slider",
+        "label": "Percent yield",
+        "param": "percentYield",
+        "min": 40,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "description": "Lower this to compare actual output with the fixed theoretical marker."
+      }
+    ],
+    "presets": [
+      {
+        "id": "matched-two-three",
+        "label": "Matched 2:3 recipe",
+        "description": "A and B scale together with the recipe card.",
+        "values": {
+          "reactantAAmount": 10,
+          "reactantBAmount": 15,
+          "recipeA": 2,
+          "recipeB": 3,
+          "percentYield": 100
+        }
+      },
+      {
+        "id": "a-limiting",
+        "label": "A limits first",
+        "description": "There are not enough A packets for the full B supply.",
+        "values": {
+          "reactantAAmount": 8,
+          "reactantBAmount": 15,
+          "recipeA": 2,
+          "recipeB": 3,
+          "percentYield": 100
+        }
+      },
+      {
+        "id": "b-limiting",
+        "label": "B limits first",
+        "description": "There are not enough B packets for the full A supply.",
+        "values": {
+          "reactantAAmount": 12,
+          "reactantBAmount": 9,
+          "recipeA": 2,
+          "recipeB": 3,
+          "percentYield": 100
+        }
+      },
+      {
+        "id": "partial-yield",
+        "label": "Partial yield",
+        "description": "Only part of the possible output tray is filled.",
+        "values": {
+          "reactantAAmount": 12,
+          "reactantBAmount": 18,
+          "recipeA": 2,
+          "recipeB": 3,
+          "percentYield": 75
+        }
+      },
+      {
+        "id": "three-to-two",
+        "label": "Three-to-two recipe",
+        "description": "The recipe card changes even when the supply bins stay modest.",
+        "values": {
+          "reactantAAmount": 12,
+          "reactantBAmount": 8,
+          "recipeA": 3,
+          "recipeB": 2,
+          "percentYield": 100
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "recipeCard",
+        "label": "Recipe card",
+        "shortDescription": "Keep the reaction recipe visible while the yield slider changes.",
+        "whatToNotice": [
+          "The recipe card and the limiting reagent stay the same even when percent yield lowers the actual tray."
+        ],
+        "whyItMatters": "It separates the theoretical recipe story from the later percent-yield adjustment.",
+        "relatedControls": [
+          "recipeA",
+          "recipeB"
+        ],
+        "relatedGraphTabs": [
+          "yield-vs-percent"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "limitingCue",
+        "label": "Limiting cue",
+        "shortDescription": "Keep the limiting supply visible while yield changes the output tray.",
+        "whatToNotice": [
+          "Lowering yield does not change which side set the theoretical batch cap."
+        ],
+        "whyItMatters": "It keeps yield attached to the limiting-reagent story instead of turning it into an unrelated percentage.",
+        "relatedControls": [
+          "reactantAAmount",
+          "reactantBAmount"
+        ],
+        "relatedGraphTabs": [
+          "yield-vs-percent"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "yieldGap",
+        "label": "Yield gap",
+        "shortDescription": "Keep the ideal marker visible beside the actual product tray.",
+        "whatToNotice": [
+          "The gap between actual and theoretical output grows as percent yield drops."
+        ],
+        "whyItMatters": "It makes percent yield a visible shortfall from the theoretical marker instead of an isolated percent label.",
+        "relatedControls": [
+          "percentYield"
+        ],
+        "relatedGraphTabs": [
+          "yield-vs-percent"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "batches-vs-reactant-a",
+      "label": "Possible batches vs A supply",
+      "xLabel": "reactant A packets",
+      "yLabel": "recipe batches",
+      "series": [
+        "possible-batches",
+        "reactant-b-cap"
+      ],
+      "description": "Watch the possible batch count rise until the fixed B supply becomes the cap."
+    },
+    {
+      "id": "batches-vs-reactant-b",
+      "label": "Possible batches vs B supply",
+      "xLabel": "reactant B packets",
+      "yLabel": "recipe batches",
+      "series": [
+        "possible-batches",
+        "reactant-a-cap"
+      ],
+      "description": "Watch the possible batch count rise until the fixed A supply becomes the cap."
+    },
+    {
+      "id": "yield-vs-percent",
+      "label": "Actual vs theoretical output",
+      "xLabel": "percent yield",
+      "yLabel": "product batches",
+      "series": [
+        "actual-product",
+        "theoretical-product"
+      ],
+      "description": "Keep the actual product tray against the ideal output marker while yield changes."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Keep the ideal marker and the actual output tray in view together.",
+    "items": [
+      {
+        "id": "pyre-notice-theoretical-stays-fixed",
+        "text": "The theoretical output stays fixed until you change the recipe or the limiting reagent; percent yield only changes how much of that output actually appears.",
+        "type": "observation",
+        "relatedControls": [
+          "reactantAAmount",
+          "reactantBAmount",
+          "percentYield"
+        ],
+        "relatedGraphTabs": [
+          "yield-vs-percent"
+        ],
+        "relatedOverlays": [
+          "recipeCard",
+          "yieldGap"
+        ],
+        "relatedEquationVariables": [
+          "reactant-a-supply",
+          "reactant-b-supply",
+          "percent-yield"
+        ]
+      },
+      {
+        "id": "pyre-notice-gap-grows",
+        "text": "Lowering yield widens the gap between actual output and the ideal marker, so more potential product is left unrealized.",
+        "type": "graph-reading",
+        "relatedControls": [
+          "percentYield"
+        ],
+        "relatedGraphTabs": [
+          "yield-vs-percent"
+        ],
+        "relatedOverlays": [
+          "yieldGap"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Predict",
+    "intro": "Predict what percent yield changes and what it does not.",
+    "items": [
+      {
+        "id": "pyre-predict-raise-yield",
+        "prompt": "If the matched 2:3 run stays the same but percent yield rises from 75% to 100%, what changes first?",
+        "scenarioLabel": "Raise percent yield only",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The actual product tray rises toward the same theoretical marker."
+          },
+          {
+            "id": "b",
+            "label": "The recipe card changes to a new stoichiometric ratio."
+          },
+          {
+            "id": "c",
+            "label": "The limiting reagent must switch sides."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Percent yield changes actual output, not the recipe card or the limiting side that set the theoretical cap.",
+        "observationHint": "Watch the actual-output curve rise while the dashed theoretical line stays flat.",
+        "apply": {
+          "patch": {
+            "reactantAAmount": 10,
+            "reactantBAmount": 15,
+            "recipeA": 2,
+            "recipeB": 3,
+            "percentYield": 100
+          }
+        },
+        "highlightedControls": [
+          "percentYield"
+        ],
+        "highlightedGraphs": [
+          "yield-vs-percent"
+        ],
+        "highlightedOverlays": [
+          "yieldGap"
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the theoretical marker and the actual tray together.",
+    "mode": "hybrid",
+    "isQuantitative": true,
+    "questionCount": 5,
+    "templates": [
+      {
+        "id": "percent-yield-run-template",
+        "kind": "worked-example-result",
+        "exampleId": "read-a-seventy-five-percent-yield-run"
+      }
+    ],
+    "questions": [
+      {
+        "id": "pyre-qt-percent-yield",
+        "type": "reasoning",
+        "prompt": "If a run has a theoretical output of 6 batches and a 75% yield, what actual output should the tray show?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "4.5 batches"
+          },
+          {
+            "id": "b",
+            "label": "6 batches"
+          },
+          {
+            "id": "c",
+            "label": "1.5 batches"
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Seventy-five percent of six batches is 4.5 actual batches.",
+        "selectedWrongExplanations": {
+          "b": "Six batches is still the theoretical marker, not the lower actual tray at 75% yield.",
+          "c": "1.5 batches is the missing yield gap, not the actual output."
+        },
+        "showMeAction": {
+          "label": "Show the 75% yield run",
+          "presetId": "partial-yield",
+          "observationHint": "The tray lands at 4.5 while the ideal marker stays at 6.",
+          "highlightedControlIds": [
+            "percentYield"
+          ],
+          "highlightedGraphIds": [
+            "yield-vs-percent"
+          ],
+          "highlightedOverlayIds": [
+            "yieldGap"
+          ]
+        }
+      },
+      {
+        "id": "pyre-qt-yield-keeps-recipe",
+        "type": "misconception-check",
+        "prompt": "Which statement best describes what percent yield changes?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It changes actual output relative to the same theoretical recipe run."
+          },
+          {
+            "id": "b",
+            "label": "It rewrites the stoichiometric ratio for one batch."
+          },
+          {
+            "id": "c",
+            "label": "It guarantees both reactants are fully consumed no matter what."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Percent yield scales the actual output against the same theoretical recipe cap.",
+        "selectedWrongExplanations": {
+          "b": "The recipe card stays the same. Yield changes the finished output, not the stoichiometric ratio.",
+          "c": "Lower yield often leaves more reactant unused because fewer batches actually finish."
+        },
+        "showMeAction": {
+          "label": "Compare 75% and 100%",
+          "presetId": "matched-two-three",
+          "observationHint": "The ideal marker stays the same while the actual tray changes when you move the yield slider.",
+          "highlightedControlIds": [
+            "percentYield",
+            "recipeA",
+            "recipeB"
+          ],
+          "highlightedGraphIds": [
+            "yield-vs-percent"
+          ],
+          "highlightedOverlayIds": [
+            "recipeCard",
+            "yieldGap"
+          ]
+        }
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Keep the recipe matched, then land the actual tray at a lower percent yield.",
+    "items": [
+      {
+        "id": "pyre-ch-hit-seventy-five-percent-yield",
+        "title": "Hit 75% yield on a matched run",
+        "style": "visible-condition",
+        "prompt": "Use the matched 2 A + 3 B run and set percent yield to 75% so the actual output lands at 3.75 batches.",
+        "successMessage": "You kept the recipe matched and lowered only the yield. The theoretical marker still sits at five batches while the actual tray lands at 3.75.",
+        "setup": {
+          "presetId": "matched-two-three",
+          "graphId": "yield-vs-percent",
+          "overlayIds": [
+            "recipeCard",
+            "yieldGap"
+          ]
+        },
+        "requirements": {
+          "graphId": "yield-vs-percent",
+          "overlayIds": [
+            "recipeCard",
+            "yieldGap"
+          ]
+        },
+        "hints": [
+          "A matched 10 A and 15 B run on a 2:3 recipe supports five theoretical batches.",
+          "Seventy-five percent of five batches is 3.75 actual batches."
+        ],
+        "targets": [
+          {
+            "param": "recipeA",
+            "label": "Keep A per batch at 2.",
+            "min": 2,
+            "max": 2
+          },
+          {
+            "param": "recipeB",
+            "label": "Keep B per batch at 3.",
+            "min": 3,
+            "max": 3
+          },
+          {
+            "param": "reactantAAmount",
+            "label": "Set A to 10 packets.",
+            "min": 10,
+            "max": 10
+          },
+          {
+            "param": "reactantBAmount",
+            "label": "Set B to 15 packets.",
+            "min": 15,
+            "max": 15
+          },
+          {
+            "param": "percentYield",
+            "label": "Set yield to 75%.",
+            "min": 75,
+            "max": 75
+          }
+        ]
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows two reactant supply bins, one product tray, and a recipe card that states how many packets of A and B one full batch needs.",
+        "A readout card reports the current recipe, the maximum possible batches, which supply is limiting, the actual output, and how much of each reactant is left after the run."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "One graph scans possible batches against the A supply, a second scans possible batches against the B supply, and a third compares actual product with the theoretical product as percent yield changes.",
+        "The ideal marker and the actual tray stay tied to the same recipe bench so percent yield reads as a visible shortfall from the theoretical output."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Percent Yield and Reaction Extent",
+    "description": "Explore percent yield through one recipe bench where the theoretical output marker, the actual product tray, and the yield gap stay visible together.",
+    "keywords": [
+      "percent yield",
+      "reaction extent",
+      "stoichiometry",
+      "chemistry",
+      "theoretical yield"
+    ]
+  }
+}

@@ -1,0 +1,276 @@
+{
+"sections": {
+"explanation": {
+"paragraphs": [
+"Simple harmonic motion is motion in which the acceleration always points back toward equilibrium and grows with displacement. Move the mass to one side and the restoring acceleration points toward the center, trying to pull it back.",
+"The mass does not stop at equilibrium because its speed is greatest there. It passes through the center, overshoots, and the same restoring rule slows it down, reverses it, and repeats the cycle.",
+"The stage and graphs show the same instant. At a turning point, displacement is largest, velocity is zero, and the restoring acceleration has its largest magnitude. At an equilibrium crossing, displacement and acceleration are zero while speed is largest.",
+"Use the controls one idea at a time. Amplitude sets the turning points and the energy scale, Angular frequency changes how quickly the cycle repeats, and Phase changes only the starting point in the cycle."
+]
+},
+"keyIdeas": [
+"At a turning point, displacement is maximum, velocity is zero, and the restoring acceleration has maximum magnitude.",
+"At an equilibrium crossing, displacement is zero, acceleration is zero, and speed is maximum.",
+"Amplitude sets the size of the motion, Angular frequency sets the timing, and Phase sets the starting point in the cycle."
+],
+"commonMisconception": {
+"myth": "If the mass is moving to the right, the acceleration must point to the right too.",
+"correction": [
+"In simple harmonic motion, acceleration is set by displacement, not by the current direction of motion.",
+"The mass can still be moving away from equilibrium while the acceleration already points back toward the center and slows it down."
+]
+},
+"workedExamples": {
+"title": "Worked example from the live state",
+"intro": "Use the live oscillator as evidence. First read displacement from the same amplitude, angular frequency, phase, and time used by the stage. Then use the current angular frequency to find the period and connect it to the spacing of peaks on the graph.",
+"items": [
+{
+"id": "current-displacement",
+"title": "Displacement at this instant",
+"prompt": "At $t = {{timeValue}}\\,\\mathrm{s}$, what is the oscillator's displacement?",
+"steps": [
+{
+"id": "relation",
+"label": "1. Write the displacement relation"
+},
+{
+"id": "substitute",
+"label": "2. Substitute the live values"
+},
+{
+"id": "compute",
+"label": "3. Evaluate the current displacement"
+}
+],
+"resultLabel": "Displacement at this time",
+"applyAction": {
+"label": "Try turning-point start",
+"observationHint": "This reference case makes it easier to connect the block position, the equilibrium line, and the displacement graph."
+}
+},
+{
+"id": "current-period",
+"title": "Period of the current oscillation",
+"prompt": "For the current angular frequency, how long does one full oscillation take?",
+"steps": [
+{
+"id": "relation",
+"label": "1. Write the period relation"
+},
+{
+"id": "substitute",
+"label": "2. Substitute the current angular frequency"
+},
+{
+"id": "compute",
+"label": "3. Calculate the cycle time"
+}
+],
+"resultLabel": "Period of one oscillation",
+"applyAction": {
+"label": "Try fast cycle",
+"observationHint": "The peaks bunch closer together because a larger angular frequency shortens the period without moving the turning points."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "If Amplitude stays fixed but Angular frequency doubles, what changes first on the stage and displacement graph?",
+"prediction": "Predict whether the turning points move, whether the center crossings happen sooner, or both.",
+"answer": "The center crossings and graph peaks happen sooner, but the turning points stay at the same displacement.",
+"explanation": "Angular frequency changes timing, not the size of the motion. The period shrinks and the graph compresses in time, while Amplitude still fixes the turning points."
+}
+},
+"equations": [
+{
+"id": "shm-velocity",
+"meaning": "The rate of change of displacement. Its magnitude is largest at equilibrium and zero at the turning points.",
+"notes": [
+"Velocity is a quarter cycle out of step with displacement."
+]
+},
+{
+"id": "shm-acceleration",
+"meaning": "The restoring acceleration is proportional to displacement and always points toward equilibrium.",
+"notes": [
+"Acceleration is zero at equilibrium and largest in magnitude at the turning points."
+]
+},
+{
+"id": "shm-energy",
+"meaning": "In the idealized model, total energy stays constant while kinetic and potential energy trade back and forth."
+}
+],
+"variableLinks": [
+{
+"id": "amplitude",
+"description": "Sets the turning points of the motion, so it changes the maximum displacement and the energy scale."
+},
+{
+"id": "omega",
+"description": "Sets how quickly the oscillator repeats its cycle, so the graphs compress or stretch in time."
+},
+{
+"id": "phase",
+"description": "Shifts the starting point of the cycle without changing the amplitude or the period."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "amplitude",
+"description": "Controls how far the oscillator moves from equilibrium."
+},
+{
+"id": "omega",
+"description": "Controls how quickly one full cycle repeats."
+},
+{
+"id": "phase",
+"description": "Shifts where the cycle starts without changing its size or period."
+}
+],
+"presets": [
+{
+"id": "calm-start",
+"label": "Turning-point start",
+"description": "Starts at maximum positive displacement with zero speed."
+},
+{
+"id": "fast-cycle",
+"description": "Keeps the swing modest but shortens the period noticeably."
+},
+{
+"id": "phase-shifted",
+"description": "Keeps the same oscillation size and repeat rate but starts from a different point in the cycle."
+}
+],
+"overlays": [
+{
+"id": "equilibriumLine",
+"shortDescription": "Marks the zero-displacement line.",
+"whatToNotice": [
+"Crossing this line means displacement is zero and the oscillator is moving through the center."
+],
+"whyItMatters": "It anchors the sign of displacement and helps you compare equilibrium crossings with turning points."
+},
+{
+"id": "motionTrail",
+"shortDescription": "Leaves a short history of recent positions.",
+"whatToNotice": [
+"Trail points bunch near the turning points because the mass is moving slowest there."
+],
+"whyItMatters": "It makes the changing speed visible on the stage, not just on the graph."
+},
+{
+"id": "velocityVector",
+"whatToNotice": [
+"The vector is longest near equilibrium and flips direction at the turning points."
+],
+"whyItMatters": "It links the live motion to the velocity graph and to the slope of the displacement curve."
+},
+{
+"id": "accelerationVector",
+"shortDescription": "Shows the restoring acceleration toward equilibrium.",
+"whatToNotice": [
+"The arrow always points opposite the displacement and becomes zero at equilibrium."
+],
+"whyItMatters": "It keeps the restoring-rule idea visible on the stage."
+}
+]
+},
+"graphs": [
+{
+"id": "displacement",
+"description": "Peaks mark turning points, while zero crossings mark passes through equilibrium."
+},
+{
+"id": "velocity",
+"description": "Velocity is zero at the turning points and largest in magnitude at equilibrium crossings."
+},
+{
+"id": "acceleration",
+"description": "Acceleration is opposite in sign to displacement and largest in magnitude at the turning points."
+},
+{
+"id": "energy",
+"description": "Kinetic energy is largest at equilibrium, potential energy is largest at the turning points, and the total stays constant in the ideal model."
+}
+],
+"noticePrompts": {
+"title": "What to notice in the oscillation",
+"intro": "Use one live cue at a time while you change the oscillator. The clearest thing to watch depends on whether you are comparing turning points, equilibrium crossings, or timing changes.",
+"items": [
+{
+"id": "shm-notice-equilibrium-speed",
+"text": "The mass is fastest as it passes equilibrium and slowest at the turning points.",
+"tryThis": "Watch the block cross the center, then compare that moment with the peak of the velocity graph.",
+"whyItMatters": "It separates position from speed. Maximum displacement and maximum speed do not happen together."
+},
+{
+"id": "shm-notice-velocity-graph",
+"text": "The velocity graph peaks when displacement crosses equilibrium, not at the turning points.",
+"tryThis": "Scrub the velocity graph and compare the marker with the block's position on the track.",
+"whyItMatters": "It makes the quarter-cycle offset between displacement and velocity visible."
+},
+{
+"id": "shm-notice-acceleration",
+"text": "Acceleration points back toward equilibrium even while the mass may still be moving away from it.",
+"tryThis": "Turn on the acceleration vector and pause just before a turning point. The mass can still be moving outward while the acceleration already points inward.",
+"whyItMatters": "That inward acceleration is what slows the mass, stops it, and reverses it."
+},
+{
+"id": "shm-notice-omega-change",
+"text": "Increasing Angular frequency squeezes the graphs in time without moving the turning points.",
+"tryThis": "Raise Angular frequency and compare the spacing between peaks before you touch Amplitude.",
+"whyItMatters": "Frequency changes timing, while Amplitude still sets the turning points."
+},
+{
+"id": "shm-notice-inspect",
+"text": "When you pause and scrub, the stage, graph marker, and current readout all describe the same instant.",
+"tryThis": "Pause, step once, and compare the block position with the displacement, velocity, and acceleration markers.",
+"whyItMatters": "It turns the equations into one inspectable state instead of separate facts."
+},
+{
+"id": "shm-notice-compare",
+"text": "The setup that reaches the same turning point sooner has the shorter period and the larger angular frequency.",
+"tryThis": "Keep Amplitude similar in A and B, then change only Angular frequency in one setup and compare when each trace reaches the next peak.",
+"whyItMatters": "Compare mode makes timing differences obvious without changing the spatial frame."
+}
+]
+},
+"predictionMode": {
+"title": "Predict the motion change",
+"intro": "Predict the motion before you move the controls, then test the change on the stage and graphs.",
+"items": [
+{
+"id": "shm-predict-1",
+"explanation": "Angular frequency changes how quickly the cycle repeats. The graph compresses in time, but the turning points stay at the same displacement when Amplitude is fixed.",
+"observationHint": "The peaks and zero crossings happen sooner, but the maximum displacement does not move."
+},
+{
+"id": "shm-predict-2",
+"explanation": "Phase changes where the cycle begins. It shifts the same pattern left or right in time without changing the amplitude or the period.",
+"observationHint": "The graphs keep the same height and spacing, but the motion starts from a different point in the cycle."
+}
+]
+},
+"quickTest": {
+"title": "Quick check",
+"intro": "Use the stage, vectors, and graphs together. These questions test whether you can explain what the oscillator is doing at the same instant."
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows one mass moving back and forth along a line through an equilibrium point. Optional overlays can show the equilibrium line, a short motion trail, the velocity vector, and the restoring acceleration vector.",
+"Changing Amplitude, Angular frequency, or Phase updates the same motion, readouts, and graphs together. The stage and graphs are synchronized views of one oscillator at the same live time."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The graphs show displacement, velocity, acceleration, and energy as different views of the same oscillation over time.",
+"Together they let you compare turning points, equilibrium crossings, timing changes, and the energy swap within one live cycle."
+]
+}
+}
+}

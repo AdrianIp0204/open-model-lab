@@ -1,0 +1,236 @@
+{
+  "title": "引數曲線 / 從方程式描述運動",
+  "shortTitle": "引數曲線",
+  "summary": "把 x(t)、y(t)、描出的路徑和移動點一起保持可見，讓形狀與行進軌跡都清楚可讀。",
+  "highlights": [
+    "x(t) 和 y(t) 的組合",
+    "平面上的路徑與軌跡",
+    "曲線上的移動點"
+  ],
+  "topic": "複數和平面引數運動",
+  "subtopic": "用方程描述平面上的運動",
+  "recommendedNext": [
+    {
+      "slug": "vectors-in-2d",
+      "reasonLabel": "把同一套平面語言帶到向量與方向的閱讀"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "當路徑和沿著該路徑的運動同時保持可見時，引數曲線就更容易建立直覺。這個試驗台會把 x(t)、y(t)、描出的曲線以及移動點，全都綁到同一個時間滑桿上。",
+        "重點是分清兩個常被混淆的概念：平面上畫出的形狀，以及點沿著那條形狀移動時的時間順序。"
+      ]
+    },
+    "keyIdeas": [
+      "x(t) 和 y(t) 會一起決定平面上的一個移動點。",
+      "改變振幅會改變描出的路徑大小，而改變頻率則會影響點沿路徑前進的節奏。",
+      "即使曲線的整體形狀一樣，點沿著它移動的速度也可以不同。"
+    ],
+    "commonMisconception": {
+      "myth": "如果兩條曲線看起來一樣，那麼沿著它們的運動一定也一樣。",
+      "correction": [
+        "描出的路徑和時間上的行進方式彼此相關，但並不是同一回事。",
+        "同一條曲線可以用不同的速度，或用不同的 x 與 y 時序來走過。"
+      ]
+    },
+    "workedExamples": {
+      "title": "即時例題",
+      "intro": "直接使用目前的引數工作台，而不是分離的代入題。",
+      "items": [
+        {
+          "id": "read-the-current-parametric-point",
+          "title": "從 x(t) 和 y(t) 讀出目前的點",
+          "prompt": "在目前時間，點在引數曲線上的哪個位置？",
+          "variables": [
+            {
+              "id": "x-amplitude",
+              "label": "x 振幅"
+            },
+            {
+              "id": "y-amplitude",
+              "label": "y 振幅"
+            },
+            {
+              "id": "phase-shift",
+              "label": "相位移"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-time",
+              "label": "1. 從目前時間開始"
+            },
+            {
+              "id": "read-coordinates",
+              "label": "2. 一起讀取 x(t) 和 y(t)"
+            },
+            {
+              "id": "read-point",
+              "label": "3. 把這一對數值放回平面"
+            }
+          ],
+          "resultLabel": "目前的點",
+          "applyAction": {
+            "label": "應用橢圓軌跡",
+            "observationHint": "把完整路徑保持開啟，這樣移動點就不會失去它的幾何脈絡。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "建立一條比它寬度更小、高度更大的曲線，然後在 y 軸附近捕捉一個仍然移動得很快的點。",
+      "prediction": "先判斷是振幅還是頻率在控制形狀，再分辨哪些設定主要影響速度。",
+      "answer": "振幅設定寬度和高度，而頻率和當前時間則幫助確定點在特定位置的移動速度。",
+      "explanation": "這正是同一個概念同時包含路徑形狀和行進故事的原因。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "根據實時曲線和運動提示回答。",
+    "questions": [
+      {
+        "id": "pcm-qt-path-vs-motion",
+        "prompt": "哪個陳述最能區分曲線與其上的運動？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "曲線是軌跡上所有點的集合，而運動描述了點如何隨著時間移動。"
+          },
+          {
+            "id": "b",
+            "label": "它們總是同一概念。"
+          },
+          {
+            "id": "c",
+            "label": "只有運動才重要；路徑無關緊要。"
+          }
+        ],
+        "explanation": "相同的路徑概念可以以不同的節奏行進。"
+      },
+      {
+        "id": "pcm-qt-amplitude",
+        "prompt": "增加 x 振幅最直接的影響是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "路徑向左右延伸得更遠。"
+          },
+          {
+            "id": "b",
+            "label": "路徑必須在各處移動得更快。"
+          },
+          {
+            "id": "c",
+            "label": "y 範圍自動加倍。"
+          }
+        ],
+        "explanation": "x 振幅首先控制水平範圍。"
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示引數曲線、移動點以及振幅、頻率和相位偏移的控制。點透過同一平面移動，而整個路徑在此處被繪製。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "一個圖表同時顯示 x(t) 和 y(t)，另一個圖表則顯示點的速度隨時間變化。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "ellipse-trace",
+        "label": "橢圓軌跡",
+        "description": "開啟一個單頻率的橢圓，讓完整路徑和時間軌跡都清楚可見。"
+      },
+      {
+        "id": "phase-shift-loop",
+        "label": "相位偏移迴圈",
+        "description": "開啟一個相位偏移的迴圈並比較繪製的路徑與移動的點。"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "x-of-t",
+      "label": "x 坐標規則",
+      "meaning": "設定水平運動為引數 t 的函式。"
+    },
+    {
+      "id": "y-of-t",
+      "label": "y 坐標規則",
+      "meaning": "設定垂直運動並允許相位偏移。"
+    },
+    {
+      "id": "speed-rule",
+      "label": "沿路徑的速度",
+      "meaning": "將點的運動與其偶然繪製的路徑分開。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "x-amplitude",
+      "label": "x 振幅",
+      "description": "設定路徑在水平方向上的延伸範圍。"
+    },
+    {
+      "id": "y-amplitude",
+      "label": "y 振幅",
+      "description": "設定路徑在垂直方向上的延伸範圍。"
+    },
+    {
+      "id": "x-frequency",
+      "label": "x 頻率",
+      "description": "控制 x 坐標的迴圈速度。"
+    },
+    {
+      "id": "y-frequency",
+      "label": "y 頻率",
+      "description": "控制 y 坐標旋轉的速度。"
+    },
+    {
+      "id": "phase-shift",
+      "label": "相位移",
+      "description": "將 y 運動相對於 x 運動偏移。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "x-amplitude",
+        "label": "x 振幅"
+      },
+      {
+        "id": "y-amplitude",
+        "label": "y 振幅"
+      },
+      {
+        "id": "x-frequency",
+        "label": "x 頻率"
+      },
+      {
+        "id": "y-frequency",
+        "label": "y 頻率"
+      },
+      {
+        "id": "phase-shift",
+        "label": "相位移"
+      }
+    ],
+    "presets": [
+      {
+        "id": "ellipse-trace",
+        "label": "橢圓軌跡"
+      },
+      {
+        "id": "phase-shift-loop",
+        "label": "相位偏移迴圈"
+      }
+    ]
+  }
+}

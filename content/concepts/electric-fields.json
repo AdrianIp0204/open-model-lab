@@ -1,0 +1,1200 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live field checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Charge-sign checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Keep the field story moving"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "See how source-charge sign, distance, and superposition set the electric field at one probe, then watch a test charge turn that field into a force without changing the field itself.",
+    "keyTakeaway": "Positive source charges send the field away from themselves, while negative source charges pull the field toward themselves."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "An electric field tells you what a positive test charge would feel at a point before you place that test charge there. Source-charge sign sets the field direction, source strength and distance set the field size, and the net field comes from vector addition at one shared location.",
+        "This module keeps two source charges on one bounded axis and one movable probe in charge. The same source signs, separation, probe position, and test-charge sign determine the stage arrows, scan graphs, worked examples, prediction prompts, and quick test so superposition never drifts into a detached worksheet."
+      ]
+    },
+    "keyIdeas": [
+      "Positive source charges send the field away from themselves, while negative source charges pull the field toward themselves.",
+      "Field strength grows with source charge and drops quickly with distance, so nearby sources dominate the local vector.",
+      "The test charge does not create the field in this model. It only turns the existing field into a force through F = q_test E."
+    ],
+    "commonMisconception": {
+      "myth": "If the test charge becomes negative, the electric field at the probe reverses.",
+      "correction": [
+        "The electric field is set by the source charges and the probe location, not by the sign of the test charge you use to read it.",
+        "A negative test charge reverses the force direction because F = q_test E, but the field arrows and source-contribution graphs stay the same until you change a source or the probe position."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Solve the current probe state directly from the live controls. The substitutions use the same source signs, separation, and probe point now on screen, and the force example updates instantly when you flip the test-charge sign.",
+      "items": [
+        {
+          "id": "current-net-field",
+          "title": "Current net field at the probe",
+          "prompt": "For the current source pair and probe point, what net field vector acts at the probe?",
+          "variables": [
+            {
+              "id": "sourceChargeA",
+              "variableId": "sourceChargeA",
+              "symbol": "q_A",
+              "label": "Source A charge",
+              "valueKey": "sourceChargeAValue",
+              "unit": "q"
+            },
+            {
+              "id": "sourceChargeB",
+              "variableId": "sourceChargeB",
+              "symbol": "q_B",
+              "label": "Source B charge",
+              "valueKey": "sourceChargeBValue",
+              "unit": "q"
+            },
+            {
+              "id": "sourceSeparation",
+              "variableId": "sourceSeparation",
+              "symbol": "s",
+              "label": "Source separation",
+              "valueKey": "sourceSeparationValue",
+              "unit": "m"
+            },
+            {
+              "id": "probeX",
+              "variableId": "probeX",
+              "symbol": "x_p",
+              "label": "Probe x-position",
+              "valueKey": "probeXValue",
+              "unit": "m"
+            },
+            {
+              "id": "probeY",
+              "variableId": "probeY",
+              "symbol": "y_p",
+              "label": "Probe y-position",
+              "valueKey": "probeYValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "source-positions",
+              "label": "1. Place the two sources on the shared axis",
+              "template": "With symmetric placement, $x_A = -s/2 = {{sourceAXValue}}\\,\\mathrm{m}$ and $x_B = +s/2 = {{sourceBXValue}}\\,\\mathrm{m}$."
+            },
+            {
+              "id": "probe-vectors",
+              "label": "2. Build the source-to-probe vectors",
+              "template": "$\\vec{r}_A = ({{rAxValue}}, {{rAyValue}})$ with $|\\vec{r}_A| = {{rAValue}}$, and $\\vec{r}_B = ({{rBxValue}}, {{rByValue}})$ with $|\\vec{r}_B| = {{rBValue}}$."
+            },
+            {
+              "id": "source-fields",
+              "label": "3. Evaluate each field contribution",
+              "template": "$\\vec{E}_A = q_A\\vec{r}_A/|\\vec{r}_A|^3 = ({{eAxValue}}, {{eAyValue}})$ and $\\vec{E}_B = q_B\\vec{r}_B/|\\vec{r}_B|^3 = ({{eBxValue}}, {{eByValue}})$."
+            },
+            {
+              "id": "add-fields",
+              "label": "4. Add the vectors at the same probe point",
+              "template": "$\\vec{E}_{\\text{net}} = \\vec{E}_A + \\vec{E}_B = ({{fieldXValue}}, {{fieldYValue}})$, so $|\\vec{E}| = {{fieldMagnitudeValue}}$."
+            }
+          ],
+          "resultLabel": "Net field",
+          "resultTemplate": "$\\vec{E}_{\\text{net}} = ({{fieldXValue}}, {{fieldYValue}}), \\quad |\\vec{E}| = {{fieldMagnitudeValue}}$",
+          "interpretationTemplate": "{{fieldInterpretation}}",
+          "applyAction": {
+            "label": "Show balanced like-charge arch",
+            "presetId": "like-charge-arch",
+            "observationHint": "Above the midpoint, each positive source contributes one upward field component and one horizontal component. The horizontal parts cancel while the upward parts add.",
+            "highlightedControlIds": [
+              "sourceChargeA",
+              "sourceChargeB",
+              "sourceSeparation",
+              "probeY"
+            ],
+            "highlightedGraphIds": [
+              "field-scan",
+              "direction-scan"
+            ],
+            "highlightedOverlayIds": [
+              "fieldGrid",
+              "fieldVectors",
+              "scanLine"
+            ]
+          }
+        },
+        {
+          "id": "current-test-charge-force",
+          "title": "Current force on the test charge",
+          "prompt": "For the current $q_{\\text{test}}$, what force vector follows from the net field?",
+          "variables": [
+            {
+              "id": "testCharge",
+              "variableId": "testCharge",
+              "symbol": "q_{\\text{test}}",
+              "label": "Test charge",
+              "valueKey": "testChargeValue",
+              "unit": "q"
+            }
+          ],
+          "steps": [
+            {
+              "id": "force-relation",
+              "label": "1. Start from the field-to-force relation",
+              "template": "Use $\\vec{F}_{\\text{test}} = q_{\\text{test}}\\vec{E}_{\\text{net}}$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the current test charge and net field",
+              "template": "$\\vec{F}_{\\text{test}} = {{testChargeValue}}\\,( {{fieldXValue}}, {{fieldYValue}} )$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compute the force components",
+              "template": "That gives $\\vec{F}_{\\text{test}} = ({{forceXValue}}, {{forceYValue}})$ and $|\\vec{F}| = {{forceMagnitudeValue}}$."
+            }
+          ],
+          "resultLabel": "Test-charge force",
+          "resultTemplate": "$\\vec{F}_{\\text{test}} = ({{forceXValue}}, {{forceYValue}}), \\quad |\\vec{F}| = {{forceMagnitudeValue}}$",
+          "interpretationTemplate": "{{forceInterpretation}}",
+          "applyAction": {
+            "label": "Flip to a negative test charge",
+            "presetId": "negative-test-charge",
+            "observationHint": "The field arrows and scan graphs stay put while the coral force arrow reverses, because only q_test changed.",
+            "highlightedControlIds": [
+              "testCharge"
+            ],
+            "highlightedGraphIds": [
+              "direction-scan"
+            ],
+            "highlightedOverlayIds": [
+              "fieldVectors",
+              "forceVector"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Keep both sources equal and positive, place the probe on the horizontal midpoint, then move the probe upward. What must happen to the horizontal contributions from the two sources, and why does the net field point straight up on that symmetry line?",
+      "prediction": "Predict which components cancel and which components reinforce before you drag the probe.",
+      "answer": "The horizontal contributions stay equal in size and opposite in direction, so they cancel. The vertical contributions point upward together, so the net field points straight up.",
+      "explanation": "Symmetry matters because both sources sit the same distance from the midpoint line. Equal distance and equal charge make equal-magnitude contributions there, so only the shared vertical direction survives the vector sum."
+    }
+  },
+  "equations": [
+    {
+      "id": "source-positions",
+      "latex": "x_A = -\\dfrac{s}{2}, \\quad x_B = +\\dfrac{s}{2}",
+      "label": "Symmetric source positions",
+      "meaning": "The shared separation control places Source A and Source B equally far from the origin on the horizontal axis."
+    },
+    {
+      "id": "field-from-source",
+      "latex": "\\vec{E}_i = k\\dfrac{q_i}{r_i^3}\\vec{r}_i",
+      "label": "Field from one source",
+      "meaning": "Each source contributes a radial field whose direction follows the sign of the source charge and whose size falls with distance.",
+      "notes": [
+        "Positive q_i pushes the field away from the source.",
+        "Negative q_i pulls the field toward the source."
+      ]
+    },
+    {
+      "id": "strength-trend",
+      "latex": "|\\vec{E}| \\propto \\dfrac{|q|}{r^2}",
+      "label": "Field-strength trend",
+      "meaning": "Doubling source charge doubles the field at the same point, while increasing distance quickly weakens it."
+    },
+    {
+      "id": "net-field",
+      "latex": "\\vec{E}_{\\text{net}} = \\vec{E}_A + \\vec{E}_B",
+      "label": "Superposition",
+      "meaning": "The net field at one probe point is the vector sum of all source contributions evaluated at that same point."
+    },
+    {
+      "id": "force-on-test-charge",
+      "latex": "\\vec{F}_{\\text{test}} = q_{\\text{test}}\\vec{E}_{\\text{net}}",
+      "label": "Force on the test charge",
+      "meaning": "A positive test charge follows the field direction, while a negative test charge reverses the force."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "sourceChargeA",
+      "symbol": "q_A",
+      "label": "Source A charge",
+      "param": "sourceChargeA",
+      "tone": "amber",
+      "description": "Changes the strength and sign of Source A, so its local field contribution can push away or pull toward the probe.",
+      "equationIds": [
+        "field-from-source",
+        "strength-trend",
+        "net-field"
+      ],
+      "graphIds": [
+        "field-scan",
+        "direction-scan"
+      ],
+      "overlayIds": [
+        "fieldGrid",
+        "fieldVectors"
+      ]
+    },
+    {
+      "id": "sourceChargeB",
+      "symbol": "q_B",
+      "label": "Source B charge",
+      "param": "sourceChargeB",
+      "tone": "sky",
+      "description": "Changes the strength and sign of Source B so the second contribution can reinforce, weaken, or reverse the net field at the probe.",
+      "equationIds": [
+        "field-from-source",
+        "strength-trend",
+        "net-field"
+      ],
+      "graphIds": [
+        "field-scan",
+        "direction-scan"
+      ],
+      "overlayIds": [
+        "fieldGrid",
+        "fieldVectors"
+      ]
+    },
+    {
+      "id": "sourceSeparation",
+      "symbol": "s",
+      "label": "Source separation",
+      "param": "sourceSeparation",
+      "tone": "ink",
+      "description": "Moves both source charges symmetrically on the axis, which changes the source-to-probe distances and therefore every field contribution.",
+      "equationIds": [
+        "source-positions",
+        "strength-trend",
+        "net-field"
+      ],
+      "graphIds": [
+        "field-scan",
+        "direction-scan"
+      ],
+      "overlayIds": [
+        "fieldGrid",
+        "scanLine"
+      ]
+    },
+    {
+      "id": "probeX",
+      "symbol": "x_p",
+      "label": "Probe x-position",
+      "param": "probeX",
+      "tone": "coral",
+      "description": "Moves the probe left or right along the stage and across the response graphs so the same local field can be read on screen and in the scan plots.",
+      "equationIds": [
+        "field-from-source",
+        "net-field"
+      ],
+      "graphIds": [
+        "field-scan",
+        "direction-scan"
+      ],
+      "overlayIds": [
+        "fieldVectors",
+        "scanLine"
+      ]
+    },
+    {
+      "id": "probeY",
+      "symbol": "y_p",
+      "label": "Probe y-position",
+      "param": "probeY",
+      "tone": "teal",
+      "description": "Moves the probe to a new horizontal scan line, which changes the source distances, field direction, and the exact slice shown in both graphs.",
+      "equationIds": [
+        "field-from-source",
+        "net-field"
+      ],
+      "graphIds": [
+        "field-scan",
+        "direction-scan"
+      ],
+      "overlayIds": [
+        "fieldVectors",
+        "scanLine"
+      ]
+    },
+    {
+      "id": "testCharge",
+      "symbol": "q_{\\text{test}}",
+      "label": "Test charge",
+      "param": "testCharge",
+      "tone": "coral",
+      "description": "Scales and possibly reverses the force arrow without changing the source-generated field itself.",
+      "equationIds": [
+        "force-on-test-charge"
+      ],
+      "graphIds": [
+        "direction-scan"
+      ],
+      "overlayIds": [
+        "forceVector"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "sourceChargeA": 2,
+      "sourceChargeB": -2,
+      "sourceSeparation": 2.4,
+      "probeX": 0,
+      "probeY": 1,
+      "testCharge": 1
+    },
+    "ui": {
+      "initialGraphId": "direction-scan",
+      "primaryGraphIds": [
+        "direction-scan"
+      ],
+      "primaryControlIds": [
+        "sourceChargeA",
+        "sourceChargeB"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "sourceChargeA",
+        "kind": "slider",
+        "label": "Source A charge",
+        "param": "sourceChargeA",
+        "min": -3,
+        "max": 3,
+        "step": 0.1,
+        "unit": "q",
+        "description": "Positive values push the field away from Source A and negative values pull it toward Source A."
+      },
+      {
+        "id": "sourceChargeB",
+        "kind": "slider",
+        "label": "Source B charge",
+        "param": "sourceChargeB",
+        "min": -3,
+        "max": 3,
+        "step": 0.1,
+        "unit": "q",
+        "description": "Changing Source B lets the second contribution reinforce, cancel, or reverse the net field."
+      },
+      {
+        "id": "sourceSeparation",
+        "kind": "slider",
+        "label": "Source separation",
+        "param": "sourceSeparation",
+        "min": 1,
+        "max": 4,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Moves both sources symmetrically along the horizontal axis without breaking the bounded layout."
+      },
+      {
+        "id": "probeX",
+        "kind": "slider",
+        "label": "Probe x-position",
+        "param": "probeX",
+        "min": -3.2,
+        "max": 3.2,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Moves the probe left or right across both the stage and the linked scan graphs."
+      },
+      {
+        "id": "probeY",
+        "kind": "slider",
+        "label": "Probe y-position",
+        "param": "probeY",
+        "min": -2.4,
+        "max": 2.4,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Moves the probe to a new horizontal scan line so the graphs sample a different field slice."
+      },
+      {
+        "id": "testCharge",
+        "kind": "slider",
+        "label": "Test charge",
+        "param": "testCharge",
+        "min": -3,
+        "max": 3,
+        "step": 0.1,
+        "unit": "q",
+        "description": "Changes only the force on the probe charge. It does not change the field created by the sources."
+      }
+    ],
+    "presets": [
+      {
+        "id": "dipole-reference",
+        "label": "Dipole reference",
+        "description": "Equal and opposite sources make the midpoint region a clean field-direction test.",
+        "values": {
+          "sourceChargeA": 2,
+          "sourceChargeB": -2,
+          "sourceSeparation": 2.4,
+          "probeX": 0,
+          "probeY": 1,
+          "testCharge": 1
+        }
+      },
+      {
+        "id": "like-charge-arch",
+        "label": "Like-charge arch",
+        "description": "Equal positive sources show horizontal cancellation and vertical reinforcement above the midpoint.",
+        "values": {
+          "sourceChargeA": 2,
+          "sourceChargeB": 2,
+          "sourceSeparation": 2,
+          "probeX": 0,
+          "probeY": 1,
+          "testCharge": 1
+        }
+      },
+      {
+        "id": "midpoint-cancel",
+        "label": "Midpoint cancel",
+        "description": "Equal positive sources cancel exactly at the midpoint on the source axis.",
+        "values": {
+          "sourceChargeA": 2,
+          "sourceChargeB": 2,
+          "sourceSeparation": 2,
+          "probeX": 0,
+          "probeY": 0,
+          "testCharge": 1
+        }
+      },
+      {
+        "id": "stronger-left-source",
+        "label": "Stronger left source",
+        "description": "A larger Source A tips the net field toward the left-source contribution.",
+        "values": {
+          "sourceChargeA": 3,
+          "sourceChargeB": 1,
+          "sourceSeparation": 2.4,
+          "probeX": 0.4,
+          "probeY": 0.8,
+          "testCharge": 1
+        }
+      },
+      {
+        "id": "single-source-reference",
+        "label": "Single-source reference",
+        "description": "Turning off Source B isolates the radial field of one positive source.",
+        "values": {
+          "sourceChargeA": 2,
+          "sourceChargeB": 0,
+          "sourceSeparation": 2.4,
+          "probeX": 1.2,
+          "probeY": 1,
+          "testCharge": 1
+        }
+      },
+      {
+        "id": "negative-test-charge",
+        "label": "Negative test charge",
+        "description": "The field stays fixed while the test-charge force reverses.",
+        "values": {
+          "sourceChargeA": 2,
+          "sourceChargeB": 2,
+          "sourceSeparation": 2,
+          "probeX": 0,
+          "probeY": 1,
+          "testCharge": -1
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "fieldGrid",
+        "label": "Field grid",
+        "shortDescription": "Shows a coarse sample of the field direction across the stage.",
+        "whatToNotice": [
+          "Each tiny arrow already includes both source contributions at that location."
+        ],
+        "whyItMatters": "It keeps superposition visible across the plane instead of only at the current probe.",
+        "relatedControls": [
+          "sourceChargeA",
+          "sourceChargeB",
+          "sourceSeparation"
+        ],
+        "relatedGraphTabs": [
+          "field-scan",
+          "direction-scan"
+        ],
+        "relatedEquationVariables": [
+          "sourceChargeA",
+          "sourceChargeB",
+          "sourceSeparation"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "fieldVectors",
+        "label": "Field vectors",
+        "shortDescription": "Draws the two source contributions and the net field at the probe.",
+        "whatToNotice": [
+          "The amber and sky arrows add tip-to-tail into the teal net arrow at one shared point."
+        ],
+        "whyItMatters": "It makes superposition a vector-sum claim about one probe point instead of a verbal rule.",
+        "relatedControls": [
+          "sourceChargeA",
+          "sourceChargeB",
+          "probeX",
+          "probeY"
+        ],
+        "relatedGraphTabs": [
+          "field-scan",
+          "direction-scan"
+        ],
+        "relatedEquationVariables": [
+          "sourceChargeA",
+          "sourceChargeB",
+          "probeX",
+          "probeY"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "forceVector",
+        "label": "Force vector",
+        "shortDescription": "Shows the force on the test charge without changing the source-generated field.",
+        "whatToNotice": [
+          "Changing only q_test can reverse the coral force arrow while the teal field arrow stays fixed."
+        ],
+        "whyItMatters": "Students often mix up field direction with force direction on negative charges.",
+        "relatedControls": [
+          "testCharge"
+        ],
+        "relatedGraphTabs": [
+          "direction-scan"
+        ],
+        "relatedEquationVariables": [
+          "testCharge"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "scanLine",
+        "label": "Graph scan line",
+        "shortDescription": "Marks the horizontal slice used by both response graphs.",
+        "whatToNotice": [
+          "Moving the probe up or down changes the entire graph because the graph is sampling a different y-level."
+        ],
+        "whyItMatters": "It keeps the graph-to-stage link honest instead of implying the graph came from a separate model.",
+        "relatedControls": [
+          "probeY",
+          "probeX"
+        ],
+        "relatedGraphTabs": [
+          "field-scan",
+          "direction-scan"
+        ],
+        "relatedEquationVariables": [
+          "probeX",
+          "probeY"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "field-scan",
+      "label": "Horizontal field scan",
+      "xLabel": "probe x-position (m)",
+      "yLabel": "horizontal field component",
+      "series": [
+        "source-a-ex",
+        "source-b-ex",
+        "net-ex"
+      ],
+      "description": "Shows each source's horizontal field contribution and their point-by-point sum along the current scan line. A zero crossing marks horizontal cancellation at that x-position."
+    },
+    {
+      "id": "direction-scan",
+      "label": "Vertical direction and strength",
+      "xLabel": "probe x-position (m)",
+      "yLabel": "field response",
+      "series": [
+        "net-ey",
+        "net-strength"
+      ],
+      "description": "Compares upward/downward field direction with total field strength along the same scan line, so peaks mean stronger fields and sign changes mean direction flips."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the current prompt as a compact investigation cue. Each one points at a pattern the stage and graphs already show in the live state.",
+    "items": [
+      {
+        "id": "ef-notice-source-sign",
+        "text": "Source sign sets direction first: positive charges send the field away, while negative charges pull the field toward themselves.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Set Source B to zero, then sweep Source A from positive to negative and watch the field arrow reverse without moving the probe.",
+        "whyItMatters": "Many field-direction mistakes come from treating charge sign as a small correction instead of the rule that chooses the radial direction.",
+        "relatedControls": [
+          "sourceChargeA",
+          "sourceChargeB"
+        ],
+        "relatedGraphTabs": [
+          "field-scan"
+        ],
+        "relatedOverlays": [
+          "fieldVectors",
+          "fieldGrid"
+        ],
+        "relatedEquationVariables": [
+          "sourceChargeA",
+          "sourceChargeB"
+        ]
+      },
+      {
+        "id": "ef-notice-scan-superposition",
+        "text": "The net scan curve is not a separate rule. It is the point-by-point sum of the amber and sky source curves on the same y-level.",
+        "type": "graph-reading",
+        "priority": 5,
+        "conditions": {
+          "graphTabs": [
+            "field-scan"
+          ]
+        },
+        "tryThis": "Open the horizontal scan graph and move the probe along the dashed scan line. The probe marker and the graph preview should stay synchronized.",
+        "whyItMatters": "It turns superposition into an observable graph relationship instead of a memorized slogan.",
+        "relatedControls": [
+          "probeX",
+          "probeY"
+        ],
+        "relatedGraphTabs": [
+          "field-scan"
+        ],
+        "relatedOverlays": [
+          "fieldVectors",
+          "scanLine"
+        ]
+      },
+      {
+        "id": "ef-notice-test-charge",
+        "text": "Changing only the test-charge sign flips the force arrow, not the field arrows or the scan graphs.",
+        "type": "misconception",
+        "priority": 7,
+        "conditions": {
+          "lastChangedControls": [
+            "testCharge"
+          ]
+        },
+        "tryThis": "Keep the sources and probe fixed, then drag q_test through zero and into the negative side.",
+        "whyItMatters": "This is the cleanest way to separate a source-generated field from the force experienced by one chosen test charge.",
+        "relatedControls": [
+          "testCharge"
+        ],
+        "relatedGraphTabs": [
+          "direction-scan"
+        ],
+        "relatedOverlays": [
+          "fieldVectors",
+          "forceVector"
+        ],
+        "relatedEquationVariables": [
+          "testCharge"
+        ]
+      },
+      {
+        "id": "ef-notice-compare-stronger-source",
+        "text": "Compare mode makes it easier to see which setup has the larger nearby contribution. The stronger or closer source bends the net field toward itself.",
+        "type": "compare",
+        "priority": 8,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Clone the current setup, then make Source A larger in Setup B and compare the probe arrows and response curves.",
+        "whyItMatters": "Comparing two honest superposition cases is more revealing than staring at one snapshot and guessing which source dominates.",
+        "relatedControls": [
+          "sourceChargeA",
+          "sourceChargeB",
+          "sourceSeparation"
+        ],
+        "relatedGraphTabs": [
+          "field-scan",
+          "direction-scan"
+        ],
+        "relatedOverlays": [
+          "fieldVectors",
+          "fieldGrid"
+        ]
+      },
+      {
+        "id": "ef-notice-separation",
+        "text": "Increasing source separation changes both source-to-probe distances, so the same probe point can switch from balanced contributions to one-source dominance.",
+        "type": "try-this",
+        "priority": 6,
+        "conditions": {
+          "lastChangedControls": [
+            "sourceSeparation"
+          ]
+        },
+        "tryThis": "Keep the probe above the midpoint and slowly widen the gap. Watch the dashed scan line and the graph peaks reshape together.",
+        "whyItMatters": "It shows that field strength depends on geometry as much as on charge size.",
+        "relatedControls": [
+          "sourceSeparation",
+          "probeY"
+        ],
+        "relatedGraphTabs": [
+          "field-scan",
+          "direction-scan"
+        ],
+        "relatedOverlays": [
+          "scanLine",
+          "fieldGrid"
+        ],
+        "relatedEquationVariables": [
+          "sourceSeparation",
+          "probeY"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the field response before you apply the change. Each scenario modifies one causal idea at a time so you can check the resulting arrows and linked graphs honestly.",
+    "items": [
+      {
+        "id": "ef-pred-sign-flip",
+        "prompt": "At one fixed probe point, what must happen if Source B flips from positive to negative while Source A stays positive?",
+        "scenarioLabel": "Flip Source B",
+        "changeLabel": "Source sign",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Source B's contribution reverses direction, so the net field can pivot sharply even though the probe did not move."
+          },
+          {
+            "id": "b",
+            "label": "Only the force changes because field direction does not depend on charge sign."
+          },
+          {
+            "id": "c",
+            "label": "The field magnitude stays the same everywhere because the charge size did not change."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Changing the sign of a source charge reverses that source's radial field direction. The probe stays at the same place, but one contribution now points the opposite way and the net vector can change dramatically.",
+        "observationHint": "Watch the blue contribution arrow reverse and the net field pivot when the source sign changes.",
+        "apply": {
+          "presetId": "dipole-reference"
+        },
+        "highlightedControls": [
+          "sourceChargeB"
+        ],
+        "highlightedGraphs": [
+          "field-scan",
+          "direction-scan"
+        ],
+        "highlightedOverlays": [
+          "fieldVectors",
+          "fieldGrid"
+        ]
+      },
+      {
+        "id": "ef-pred-stronger-source",
+        "prompt": "If Source A becomes stronger than Source B while the probe stays between them, which statement is most defensible?",
+        "scenarioLabel": "Strengthen Source A",
+        "changeLabel": "Source magnitude",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The net field leans more toward Source A's radial contribution because superposition weights the larger local source more strongly."
+          },
+          {
+            "id": "b",
+            "label": "The field must stay centered because the probe is still at the same position."
+          },
+          {
+            "id": "c",
+            "label": "Only the vertical component can change because the sources still sit on the horizontal axis."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Superposition adds the actual vector contributions, so a stronger source contributes a larger vector at the same probe point. That larger contribution can tip both the direction and the strength of the net field.",
+        "observationHint": "Compare the amber and sky arrows after the change. The larger source contribution should now dominate the local vector sum.",
+        "apply": {
+          "presetId": "stronger-left-source"
+        },
+        "highlightedControls": [
+          "sourceChargeA",
+          "sourceChargeB"
+        ],
+        "highlightedGraphs": [
+          "field-scan",
+          "direction-scan"
+        ],
+        "highlightedOverlays": [
+          "fieldVectors",
+          "scanLine"
+        ]
+      },
+      {
+        "id": "ef-pred-test-charge-flip",
+        "prompt": "If the sources and probe stay fixed but the test charge flips from positive to negative, what should happen?",
+        "scenarioLabel": "Flip q_test",
+        "changeLabel": "Test-charge sign",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The force reverses while the field stays the same because only q_test changed."
+          },
+          {
+            "id": "b",
+            "label": "Both field and force reverse because the probe charge defines the field direction."
+          },
+          {
+            "id": "c",
+            "label": "Nothing changes because the test charge is only a label."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The source charges generate the field. The test charge only converts that existing field into a force through F = q_test E, so flipping q_test reverses the force without altering the field.",
+        "observationHint": "The coral force arrow should flip while the teal field arrow and scan graphs remain unchanged.",
+        "apply": {
+          "presetId": "negative-test-charge"
+        },
+        "highlightedControls": [
+          "testCharge"
+        ],
+        "highlightedGraphs": [
+          "direction-scan"
+        ],
+        "highlightedOverlays": [
+          "fieldVectors",
+          "forceVector"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Tune the same two-charge stage into compact field targets. The checklist reads the live superposition state instead of a detached answer key.",
+    "items": [
+      {
+        "id": "ef-ch-build-upward-balance",
+        "title": "Build the upward field",
+        "style": "target-setting",
+        "prompt": "Starting from Dipole reference, turn the source pair into an equal positive arch so the horizontal field cancels while the net field still points upward.",
+        "successMessage": "You built a true symmetry case: the side-to-side contributions cancel at one probe point, but the shared upward pieces still add into one net field.",
+        "setup": {
+          "presetId": "dipole-reference",
+          "note": "Use the direction scan and the probe vectors together while you tune the source pair."
+        },
+        "requirements": {
+          "graphId": "direction-scan",
+          "overlayIds": [
+            "fieldVectors",
+            "scanLine"
+          ]
+        },
+        "hints": [
+          "The target is not a zero field. You want the left-right pieces to cancel while the upward pieces still reinforce.",
+          "Equal positive charges with a slightly tighter separation than the dipole reference make the upward symmetry case visible quickly."
+        ],
+        "targets": [
+          {
+            "param": "sourceChargeA",
+            "min": 1.9,
+            "max": 2.1,
+            "displayUnit": "q"
+          },
+          {
+            "param": "sourceChargeB",
+            "min": 1.9,
+            "max": 2.1,
+            "displayUnit": "q"
+          },
+          {
+            "param": "sourceSeparation",
+            "min": 1.95,
+            "max": 2.05,
+            "displayUnit": "m"
+          },
+          {
+            "metric": "fieldX",
+            "min": -0.08,
+            "max": 0.08
+          },
+          {
+            "metric": "fieldY",
+            "min": 1.35,
+            "max": 1.48
+          }
+        ]
+      },
+      {
+        "id": "ef-ch-flip-force-not-field",
+        "title": "Flip the force, keep the field",
+        "style": "target-setting",
+        "prompt": "Starting from Like-charge arch, reverse the force on the test charge while keeping the same upward field symmetry at the probe.",
+        "successMessage": "You changed the probe's response without rewriting the source-generated field: the teal field arrow still points up, but the coral force arrow now points down because q_test became negative.",
+        "setup": {
+          "presetId": "like-charge-arch",
+          "note": "Keep the graph on the field-only view and use the force overlay to verify that only the test-charge response changed."
+        },
+        "requirements": {
+          "graphId": "direction-scan",
+          "overlayIds": [
+            "fieldVectors",
+            "forceVector"
+          ]
+        },
+        "hints": [
+          "If the field should stay the same, do not move the sources or the probe off the symmetry case.",
+          "Only one control is allowed to flip the force without changing the scan graphs."
+        ],
+        "targets": [
+          {
+            "param": "testCharge",
+            "min": -1.1,
+            "max": -0.9,
+            "displayUnit": "q"
+          },
+          {
+            "metric": "fieldX",
+            "min": -0.08,
+            "max": 0.08
+          },
+          {
+            "metric": "fieldY",
+            "min": 1.35,
+            "max": 1.48
+          },
+          {
+            "metric": "forceX",
+            "min": -0.08,
+            "max": 0.08
+          },
+          {
+            "metric": "forceY",
+            "min": -1.48,
+            "max": -1.35
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from field logic, not from isolated formulas. Each question asks what the stage and graphs must mean about field direction, superposition, or force on a test charge.",
+    "questions": [
+      {
+        "id": "ef-qt-source-sign",
+        "type": "variable-effect",
+        "prompt": "A probe sits to the right of one isolated source charge. If the source changes from +2q to -2q at the same location, what must happen to the electric field at the probe?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The field reverses direction because the radial direction changes from away-from-source to toward-source."
+          },
+          {
+            "id": "b",
+            "label": "The field stays the same because only the sign changed, not the distance."
+          },
+          {
+            "id": "c",
+            "label": "The field disappears because positive and negative signs cancel inside one charge."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "For one source at one fixed distance, changing only the sign reverses the field direction while keeping the same inverse-square size trend.",
+        "selectedWrongExplanations": {
+          "b": "Distance sets the size trend, but charge sign chooses whether the field points away from or toward the source.",
+          "c": "A single negative charge does not cancel itself. It still creates a field, but the direction reverses compared with a positive source."
+        },
+        "showMeAction": {
+          "label": "Show one-source sign flip",
+          "presetId": "single-source-reference",
+          "observationHint": "Zero out Source B, then drag Source A through zero to see the field direction reverse at the same probe point.",
+          "highlightedControlIds": [
+            "sourceChargeA",
+            "sourceChargeB"
+          ],
+          "highlightedGraphIds": [
+            "field-scan"
+          ],
+          "highlightedOverlayIds": [
+            "fieldVectors",
+            "fieldGrid"
+          ]
+        }
+      },
+      {
+        "id": "ef-qt-midpoint-cancel",
+        "type": "reasoning",
+        "prompt": "Two equal positive charges sit symmetrically on the x-axis, and the probe is exactly halfway between them on that same axis. Which claim is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The net field is zero there because the two horizontal contributions are equal in size and opposite in direction."
+          },
+          {
+            "id": "b",
+            "label": "The net field points upward because both positive charges push away from themselves."
+          },
+          {
+            "id": "c",
+            "label": "The stronger cancellation happens only if the test charge is negative."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At the midpoint on the source axis, the geometry is perfectly symmetric. Each source contributes an equal horizontal field in the opposite direction, so the vector sum vanishes there.",
+        "selectedWrongExplanations": {
+          "b": "There is no vertical offset at that midpoint point, so neither source contributes an upward component there.",
+          "c": "Test-charge sign affects force, not the source-generated field. The cancellation is already present before any test charge is chosen."
+        },
+        "showMeAction": {
+          "label": "Show midpoint cancellation",
+          "presetId": "midpoint-cancel",
+          "observationHint": "At the midpoint on the axis, the field arrows collapse because the two equal positive-source contributions cancel exactly.",
+          "highlightedControlIds": [
+            "probeX",
+            "probeY",
+            "sourceChargeA",
+            "sourceChargeB"
+          ],
+          "highlightedGraphIds": [
+            "field-scan"
+          ],
+          "highlightedOverlayIds": [
+            "fieldVectors",
+            "scanLine"
+          ]
+        }
+      },
+      {
+        "id": "ef-qt-dipole-above-midpoint",
+        "type": "compare-two-cases",
+        "prompt": "A positive charge is on the left, an equal negative charge is on the right, and the probe is above the midpoint. Which description best matches the net field there?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It points mostly to the right because the left positive source pushes away and the right negative source pulls toward itself."
+          },
+          {
+            "id": "b",
+            "label": "It must point straight up because the probe is above both sources."
+          },
+          {
+            "id": "c",
+            "label": "It must be zero because the source charges have equal magnitude."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Above the midpoint of an equal dipole, both source contributions share a rightward component. Their vertical parts oppose, but the horizontal parts reinforce, so the net field points mostly right.",
+        "selectedWrongExplanations": {
+          "b": "That straight-up result belongs to two equal like charges above the midpoint, not to opposite-sign charges.",
+          "c": "Equal magnitude does not guarantee cancellation. Direction matters, and here the contributions do not oppose in the same way."
+        },
+        "showMeAction": {
+          "label": "Show dipole reference",
+          "presetId": "dipole-reference",
+          "observationHint": "Above the midpoint, the field bends strongly from the positive source toward the negative source.",
+          "highlightedControlIds": [
+            "sourceChargeA",
+            "sourceChargeB",
+            "probeY"
+          ],
+          "highlightedGraphIds": [
+            "field-scan",
+            "direction-scan"
+          ],
+          "highlightedOverlayIds": [
+            "fieldVectors",
+            "fieldGrid"
+          ]
+        }
+      },
+      {
+        "id": "ef-qt-test-charge-sign",
+        "type": "misconception-check",
+        "prompt": "A student says, \"A negative test charge means the electric field at that point points the other way.\" What is the best correction?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The field is unchanged by the test charge; only the force reverses because F = q_test E."
+          },
+          {
+            "id": "b",
+            "label": "The field reverses only when the test charge is stronger than the source charges."
+          },
+          {
+            "id": "c",
+            "label": "Both field and force disappear because negative charges cannot be used as probes."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Electric field is defined by the source charges and the location. A negative test charge experiences a force opposite the field, but it does not redefine the field itself.",
+        "selectedWrongExplanations": {
+          "b": "Probe strength only scales the force in this model. The field direction is not negotiated with the test charge.",
+          "c": "Negative charges are valid probes. They are useful precisely because they reveal that force can oppose the field direction."
+        },
+        "showMeAction": {
+          "label": "Show negative test charge",
+          "presetId": "negative-test-charge",
+          "observationHint": "The force arrow flips, but the field arrows and the response graphs stay fixed because the sources did not change.",
+          "highlightedControlIds": [
+            "testCharge"
+          ],
+          "highlightedGraphIds": [
+            "direction-scan"
+          ],
+          "highlightedOverlayIds": [
+            "fieldVectors",
+            "forceVector"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The stage keeps two source charges, one movable probe, field arrows, and the test-charge force arrow in one bounded view.",
+        "Drag the probe to sample a new point, drag either source to change the shared separation, or use the sliders for source signs, probe position, and test-charge sign. The same controls drive the stage and graphs.",
+        "Near a source, the arrows are capped for readability, but the trend remains: field strength rises quickly as distance shrinks."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The horizontal field-scan graph plots Source A, Source B, and net E_x along the current scan line. Where the net curve crosses zero, the horizontal contributions cancel.",
+        "The direction-and-strength graph plots net E_y and |E| on that same line. The force arrow can flip with q_test, but the graphs remain field-only readouts from the source charges."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Electric Fields | Open Model Lab",
+    "description": "Learn electric fields with a bounded two-charge lab that links source sign, superposition, force on a test charge, scan graphs, guided overlays, prediction prompts, and conceptual quick tests.",
+    "keywords": [
+      "electric fields",
+      "electric force",
+      "test charge",
+      "superposition",
+      "physics simulation"
+    ]
+  }
+}

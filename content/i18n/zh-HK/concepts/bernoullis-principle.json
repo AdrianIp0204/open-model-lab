@@ -1,0 +1,442 @@
+{
+  "title": "伯努利原理",
+  "shortTitle": "伯努利",
+  "summary": "沿著一條穩定的理想流管觀察，在同一個伯努利能量預算內，壓力、速度和高度如何彼此轉換，同時由連續方程確保流量故事前後一致。",
+  "highlights": [
+    "P + 1/2 ρ v^2 + ρ g y",
+    "連續方程加上伯努利",
+    "喉部壓力降低"
+  ],
+  "topic": "流體",
+  "subtopic": "穩定流動能量和壓力",
+  "recommendedNext": [
+    {
+      "slug": "buoyancy-and-archimedes-principle",
+      "reasonLabel": "流體中的壓力差異"
+    },
+    {
+      "slug": "pressure-and-hydrostatic-pressure",
+      "reasonLabel": "重溫靜態壓力"
+    },
+    {
+      "slug": "ideal-gas-law-and-kinetic-theory",
+      "reasonLabel": "比較由粒子運動引起的壓力"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "伯努利原理是關於一個理想不可壓縮流體單一流線的有界穩定流動能量故事。如果忽略黏性和泵，相同的流體會在靜態壓力、單位體積的動能和高度之間進行交易。因此簡寫為$P + \\tfrac{1}{2}\\rho v^2 + \\rho g y = \\text{constant}$。",
+        "本頁把這個概念維持得緊湊而具體。同一條管道上有入口截面 A 和抬高的喉部 B。連續方程先決定速度如何改變，因為同一體積流率必須透過兩個截面；接著伯努利方程再告訴你，當流體變快、升高，或兩者同時發生時，靜壓會如何變化。",
+        "重點不在於快速在每種流體情況下總是意味著低壓。重點更窄，這條單一流線的較高部分必須花費更多相同的伯努利預算在速度和高度上，因此那裡剩下的靜態壓力可以更低。"
+      ]
+    },
+    "keyIdeas": [
+      "對於這個理想流動實驗台上的這一穩定不可壓縮單一流線，在從截面A到喉部B的過程中，$P + \\tfrac{1}{2}\\rho v^2 + \\rho g y$幾乎保持不變。",
+      "連續方程先提供速度關係：如果喉部截面更小，為了維持相同的 $Q$，喉部速度就必須更大。",
+      "如果喉部更快，部分相同伯努利預算轉移到動能項，因此喉部靜態壓力可以下降。",
+      "如果喉部也更高，高度項佔用更多預算，所以喉部靜態壓力進一步下降。",
+      "伯努利方程補上了連續方程的部分。連續方程告訴你速度在哪裡改變；伯努利方程則説明同一個改變如何和壓力、高度彼此配合。"
+    ],
+    "commonMisconception": {
+      "myth": "伯努利意味著快速流動會神奇地導致各處低壓。",
+      "correction": [
+        "本頁面的喉部低壓來自具體的有界穩定流動模型，其中同一單一流線保持一個伯努利預算。",
+        "首先要看的是連續方程與管道幾何。速度改變，是因為相同的 $Q$ 必須透過不同截面；伯努利方程則解釋同一理想流動中對應的壓力交換。"
+      ]
+    },
+    "workedExamples": {
+      "title": "活躍的伯努利檢查",
+      "intro": "使用實時工作台。當前入口壓力、流速、喉部寬度和喉部高度驅動所有示例。",
+      "items": [
+        {
+          "id": "current-throat-state",
+          "title": "當前喉部速度和壓力",
+          "prompt": "對於當前的工作台，$P_A = {{entryPressureValue}}\\,\\mathrm{kPa}$，$Q = {{flowRateValue}}\\,\\mathrm{m^3/s}$，$A_A = {{entryAreaValue}}\\,\\mathrm{m^2}$，$A_B = {{throatAreaValue}}\\,\\mathrm{m^2}$ 和 $\\Delta y = {{throatHeightValue}}\\,\\mathrm{m}$，有界伯努利模型預測的喉部速度和喉部壓力是什麼？",
+          "variables": [
+            {
+              "id": "entryPressure",
+              "label": "截面 A 的壓力"
+            },
+            {
+              "id": "flowRate",
+              "label": "體積流量率"
+            },
+            {
+              "id": "entryArea",
+              "label": "入口截面A"
+            },
+            {
+              "id": "throatArea",
+              "label": "喉部截面"
+            },
+            {
+              "id": "throatHeight",
+              "label": "喉部上升"
+            }
+          ],
+          "steps": [
+            {
+              "id": "continuity",
+              "label": "1. 用連續方程求喉部速度"
+            },
+            {
+              "id": "dynamic",
+              "label": "2. 閱讀由速度驅動的壓力分額"
+            },
+            {
+              "id": "height",
+              "label": "3. 包含高度項"
+            },
+            {
+              "id": "result",
+              "label": "4. 閱讀剩餘的靜態壓力"
+            }
+          ],
+          "resultLabel": "當前喉部狀態",
+          "applyAction": {
+            "label": "顯示基準喉部",
+            "observationHint": "保留壓力計與速度箭頭，觀察抬高的喉部如何同時跑得更快、壓力更低。"
+          }
+        },
+        {
+          "id": "level-vs-raised-throat",
+          "title": "單獨改變喉部高度的效果",
+          "prompt": "保持當前入口壓力、流速和區域，但假設將喉部降低迴入口高度。節段 B 會恢復多少靜態壓力？",
+          "variables": [
+            {
+              "id": "flowRate",
+              "label": "體積流量率"
+            },
+            {
+              "id": "throatArea",
+              "label": "喉部截面"
+            }
+          ],
+          "steps": [
+            {
+              "id": "keep-speed",
+              "label": "1. 保持相同的連續方程條件"
+            },
+            {
+              "id": "remove-height",
+              "label": "2. 只移除高度項"
+            },
+            {
+              "id": "compare",
+              "label": "3. 閱讀恢復的喉部壓力"
+            }
+          ],
+          "resultLabel": "喉部靜壓平衡",
+          "applyAction": {
+            "label": "校正喉部",
+            "observationHint": "速度提示保持相似，但喉部壓力計上升因為高度項消失了。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "若入口壓力和流量率保持不變，但喉部同時變窄又升高，在這個封閉的伯努利模型中，喉部靜壓必須怎樣變化？",
+      "prediction": "決定喉部壓力是上升、保持不變還是下降。",
+      "answer": "它下降了。",
+      "explanation": "連續方程令較窄的喉部流得更快，因此動能項在那裡增加。把喉部抬高又會增加高度項，兩者都會令同一份伯努利預算中剩下的靜壓減少。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "從同一管道回答，而不是來自口號。",
+    "questions": [
+      {
+        "id": "bp-qt-narrower-throat",
+        "prompt": "在同一入口壓力、流量率和高度下，當喉部區域變小時會發生什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "喉部速度上升且喉部靜壓可以下降。"
+          },
+          {
+            "id": "b",
+            "label": "喉部速度和壓力都保持固定因為是同一流體在移動。"
+          },
+          {
+            "id": "c",
+            "label": "喉部速度降低因為開口更小。"
+          }
+        ],
+        "explanation": "連續方程令較小的喉部在相同 $Q$ 下流得更快；伯努利方程則表示，同一份能量預算中留給靜壓的部分會變少。",
+        "showMeAction": {
+          "label": "顯示基準文丘裡管",
+          "observationHint": "喉部速度箭頭更長且喉部壓力計比 A 部分低。"
+        }
+      },
+      {
+        "id": "bp-qt-height-term",
+        "prompt": "如果同一喉部被抬高而沒有改變區域或流量率，什麼新的原因使得喉部壓力降低？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "更多相同伯努利預算現在用於高度項。"
+          },
+          {
+            "id": "b",
+            "label": "入口壓力自動加倍。"
+          },
+          {
+            "id": "c",
+            "label": "連續性不再適用。"
+          }
+        ],
+        "explanation": "隨著相同的速度，額外的下降來自$\\rho g y$項。更高的喉部在 B 部分留下較少靜壓。",
+        "showMeAction": {
+          "label": "抬高喉部",
+          "observationHint": "能量條顯示高度佔比更大而喉部壓力計下降。"
+        }
+      },
+      {
+        "id": "bp-qt-continuity-bridge",
+        "prompt": "哪個陳述最能把連續方程與伯努利原理連結起來？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "連續方程決定速度如何因截面積改變而變化，而伯努利原理則把這些速度和高度的改變轉換成壓力變化。"
+          },
+          {
+            "id": "b",
+            "label": "伯努利原理會取代連續方程，所以一旦流體開始流動，截面積就不再重要。"
+          },
+          {
+            "id": "c",
+            "label": "只有各處壓力都相等時，連續方程才適用。"
+          }
+        ],
+        "explanation": "這兩個概念在同一模型中各司其職。連續方程告訴你哪一段會變快或變慢；伯努利原理則告訴你在同一個狀態下，壓力會如何回應。",
+        "showMeAction": {
+          "label": "比較窄喉和寬喉",
+          "observationHint": "開啟比較模式並僅擴大設定 B 的喉部。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一條穩定流動的管道，其中有入口截面 A 與抬高的喉部 B。管道厚度代表橫截面積，示蹤粒子顯示流體在管內流動，而速度箭頭則指出哪一段流得更快。",
+        "靜態壓力以靠近截面 A 和喉部 B 的緊湊儀表形式出現。伯努利預算條將每個狀態分成壓力、動能和高度的共享部分，以便保持壓力交易的可見性。",
+        "比較模式會以淡影顯示另一個管道狀態，讓兩個白努利設定可在同一個實驗台上讀取，而不需要切換到另一個脫節的模型。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "速度—喉部截面圖呈現了伯努利原理所依賴的連續方程速度變化。",
+        "壓力圖彙集了喉部寬度、流速和喉部高度如何重新塑造喉部壓力，同時同一個封閉的伯努利模型仍然有效。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "實時伯努利檢查"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "伯努利檢查點"
+      },
+      {
+        "id": "readNext",
+        "title": "將其帶到流體分支"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "continuity-equation",
+      "label": "同一股流體的連續方程",
+      "meaning": "同一股穩定、不可壓縮的流體必須以相同體積流率透過截面 A 和喉部 B。"
+    },
+    {
+      "id": "bernoulli-equation",
+      "label": "伯努利原理",
+      "meaning": "沿著一條理想的穩定軌道，靜態壓力、動能項和高度項在一個保守預算內互相交易。"
+    },
+    {
+      "id": "throat-pressure-form",
+      "label": "由截面 A 推得喉部壓力",
+      "meaning": "若喉部流得更快或位置更高，留在 B 處的靜壓就會更低。"
+    },
+    {
+      "id": "speed-ratio",
+      "label": "由連續方程看速度比",
+      "meaning": "速度的變化仍然來自於截面積的變化，在伯努利原理將其轉換為壓力變化之前。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "entryPressure",
+      "label": "截面 A 的壓力",
+      "description": "提高或降低整個伯努利預算在入口處。較大的起始壓力會提升喉部壓力，但不會抹去速度或高度的交易。"
+    },
+    {
+      "id": "flowRate",
+      "label": "體積流量率",
+      "description": "改變管道每秒輸送的液體體積。提高 $Q$ 會令流速上升，而喉部壓力通常會下降，因為動能項在喉部增長得更快。"
+    },
+    {
+      "id": "entryArea",
+      "label": "入口截面A",
+      "description": "設定較寬的入口橫截面。它改變伯努利與喉部狀態比較的速度。"
+    },
+    {
+      "id": "throatArea",
+      "label": "喉部截面",
+      "description": "改變喉部寬度。使其變小會加快流體在那裡的速度，通常會留下更少的靜壓在B點，而使其加寬則會減慢喉部速度並可能恢復壓力。"
+    },
+    {
+      "id": "throatHeight",
+      "label": "喉部上升",
+      "description": "提高或降低喉部相對於A段的位置。較高的喉部會使用相同的伯努利預算的一部分在高度上，因此即使速度保持不變，喉部壓力也可能進一步下降。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "entryPressure",
+        "label": "截面 A 的壓力"
+      },
+      {
+        "id": "flowRate",
+        "label": "體積流量率"
+      },
+      {
+        "id": "entryArea",
+        "label": "入口截面A"
+      },
+      {
+        "id": "throatArea",
+        "label": "喉部截面"
+      },
+      {
+        "id": "throatHeight",
+        "label": "喉部上升"
+      }
+    ],
+    "presets": [
+      {
+        "id": "baseline-venturi",
+        "label": "基準文氏管",
+        "description": "較窄而抬高的喉部，讓速度項與高度項都清楚可見。"
+      }
+    ]
+  },
+  "noticePrompts": {
+    "items": [
+      {
+        "id": "continuity-bernoulli-bridge"
+      },
+      {
+        "id": "continuity-bernoulli-bridge"
+      },
+      {
+        "id": "continuity-bernoulli-bridge"
+      },
+      {
+        "id": "continuity-bernoulli-bridge",
+        "tryThis": "由基準文氏管開始，開啟比較模式，讓設定 A 保持不變，只把設定 B 的喉部加寬，直到壓力差變得明顯。"
+      }
+    ]
+  },
+  "predictionMode": {
+    "items": [
+      {
+        "id": "bp-predict-narrower-throat",
+        "prompt": "由基準文氏管開始，在保持相同入口壓力、流量和喉部高度的情況下，把喉部變窄。會發生甚麼？",
+        "changeLabel": "喉部截面"
+      },
+      {
+        "id": "bp-predict-raised-throat",
+        "changeLabel": "喉部上升"
+      },
+      {
+        "id": "bp-predict-wider-throat",
+        "prompt": "由基準文氏管開始，在保持相同入口壓力、流量和高度的情況下，把喉部加寬。會發生甚麼？",
+        "changeLabel": "喉部截面"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "利用同一條管道完成伯努力目標與比較配對。檢查項目會從同一個有界模型讀取即時流速、喉部壓力與幾何。",
+    "items": [
+      {
+        "id": "bp-ch-hit-low-throat-pressure",
+        "title": "把喉部壓力調到 27 kPa",
+        "prompt": "從「平直文氏管」開始，只調整喉部寬度，直到喉部壓力約為 27.1 kPa，同時讓入口狀態保持接近基準值。",
+        "successMessage": "你達成了低喉部壓力目標。較窄的喉部流速更快，令 B 點只剩約 27 kPa 的靜壓。",
+        "setup": {
+          "note": "在只調整喉部面積時，請把流量、入口壓力和喉部高度都保持接近平直基準。"
+        },
+        "checks": [
+          {
+            "label": "打開喉部面積與壓力關係圖。"
+          },
+          {
+            "label": "保持壓力計可見。"
+          },
+          {
+            "label": "保持基準入口壓力。"
+          },
+          {
+            "label": "保持基準流量。"
+          },
+          {
+            "label": "保持喉部處於水平位置。"
+          },
+          {
+            "label": "把喉部調到接近 0.05 m^2。"
+          },
+          {
+            "label": "把喉部壓力調到接近 27.1 kPa。"
+          }
+        ]
+      },
+      {
+        "id": "bp-ch-wider-b-recovers-pressure",
+        "title": "同樣入口狀態下，較寬的 B 會恢復壓力",
+        "prompt": "由「基準文氏管」開始，切換到比較模式，讓設定 A 保持不變，調整設定 B，令它在保持相同入口壓力和流量的同時，只靠加寬喉部來恢復喉部壓力。",
+        "successMessage": "你建立了比較對照。設定 B 保持相同的入口狀態，但因喉部更寬、流速更慢，所以喉部壓力回升。",
+        "setup": {
+          "note": "設定 A 保持為基準的狹窄喉部；只修改設定 B。"
+        },
+        "checks": [
+          {
+            "label": "在修改設定 B 時保持於比較模式。"
+          },
+          {
+            "label": "打開喉部面積與壓力關係圖。"
+          },
+          {
+            "label": "保持壓力計可見。"
+          },
+          {
+            "label": "讓設定 B 保持相同入口壓力。"
+          },
+          {
+            "label": "讓設定 B 保持相同流量。"
+          },
+          {
+            "label": "讓設定 B 保持相同的抬高喉部高度。"
+          },
+          {
+            "label": "把設定 B 的喉部加寬到約 0.09 m^2。"
+          },
+          {
+            "label": "把喉部壓力回復至約 29.2 kPa。"
+          },
+          {
+            "label": "讓設定 B 的喉部流速降到接近 2 m/s。"
+          }
+        ]
+      }
+    ]
+  }
+}

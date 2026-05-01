@@ -1,0 +1,1359 @@
+{
+  "pageIntro": {
+    "definition": "Watch a spring-mass oscillator pass the same total energy between motion and spring stretch instead of treating the graph as a separate formula sheet.",
+    "whyItMatters": "Energy is the clean bridge from simple harmonic motion to standing waves, damping, and resonance: it tells you what changes the stored total and what only changes where the cycle starts.",
+    "keyTakeaway": "At turning points the energy is stored in the spring, at equilibrium it is carried by motion, and the total stays fixed in ideal SHM."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Oscillation energy is the same simple harmonic motion you already know, but viewed through what the system stores and releases. The mass never loses total energy in the ideal model; it keeps trading that energy between spring potential energy and kinetic energy.",
+        "That exchange is easiest to trust when the motion, the bars, and the graph stay locked together. The goal here is to see why turning points are pure potential-energy moments, why equilibrium is the kinetic-energy peak, and how amplitude and spring stiffness set the total-energy scale."
+      ]
+    },
+    "keyIdeas": [
+      "At the turning points, velocity is zero, so kinetic energy is zero and the spring stores all of the energy as potential energy.",
+      "At equilibrium, displacement is zero, so spring potential energy is minimal and the motion carries almost all of the energy as kinetic energy.",
+      "In ideal SHM, the total-energy line stays flat while kinetic and potential energy trade places.",
+      "Changing amplitude or spring constant changes the total stored energy, while changing phase only changes where the cycle starts."
+    ],
+    "commonMisconception": {
+      "myth": "If the mass stops for an instant at a turning point, the oscillator has no energy there.",
+      "correction": [
+        "The motion stops only because the energy is temporarily stored in the spring instead of in the mass's motion.",
+        "At the turning point, kinetic energy is zero but potential energy is at its maximum, so the total energy is still present and ready to pull the system back."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live energy checks",
+      "intro": "Solve the energy state that is actually on screen. Freeze it if you want a stable snapshot, or keep it live and let the example follow the motion.",
+      "items": [
+        {
+          "id": "current-energy-split",
+          "title": "Current energy split",
+          "prompt": "At $t = {{timeValue}}\\,\\mathrm{s}$, how is the oscillator's total energy split between kinetic and potential energy?",
+          "dependsOnTime": true,
+          "variables": [
+            {
+              "id": "time",
+              "symbol": "t",
+              "label": "Time",
+              "valueKey": "timeValue",
+              "unit": "s"
+            },
+            {
+              "id": "mass",
+              "variableId": "mass",
+              "symbol": "m",
+              "label": "Mass",
+              "valueKey": "massValue",
+              "unit": "kg"
+            },
+            {
+              "id": "springConstant",
+              "variableId": "springConstant",
+              "symbol": "k",
+              "label": "Spring constant",
+              "valueKey": "springConstantValue",
+              "unit": "N/m"
+            },
+            {
+              "id": "displacement",
+              "symbol": "x",
+              "label": "Current displacement",
+              "valueKey": "displacementValue",
+              "unit": "m"
+            },
+            {
+              "id": "velocity",
+              "symbol": "v",
+              "label": "Current velocity",
+              "valueKey": "velocityValue",
+              "unit": "m/s"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Write the two energy relations",
+              "template": "Use $K = \\tfrac{1}{2}mv^2$ and $U = \\tfrac{1}{2}kx^2$ for the same instant."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the live values",
+              "template": "$K = \\tfrac{1}{2}({{massValue}})({{velocityValue}})^2$ and $U = \\tfrac{1}{2}({{springConstantValue}})({{displacementValue}})^2$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compare the two parts",
+              "template": "That gives $K = {{kineticValue}}\\,\\mathrm{J}$ and $U = {{potentialValue}}\\,\\mathrm{J}$, so the total stays $E = {{totalEnergyValue}}\\,\\mathrm{J}$."
+            }
+          ],
+          "resultLabel": "Energy at this instant",
+          "resultTemplate": "$K = {{kineticValue}}\\,\\mathrm{J},\\; U = {{potentialValue}}\\,\\mathrm{J},\\; E = {{totalEnergyValue}}\\,\\mathrm{J}$",
+          "interpretationTemplate": "{{energySplitInterpretation}}",
+          "applyAction": {
+            "label": "Show equilibrium burst",
+            "presetId": "equilibrium-burst",
+            "observationHint": "At equilibrium the kinetic-energy bar fills, the potential-energy bar collapses, and the velocity graph reaches an extreme.",
+            "highlightedControlIds": [
+              "phase"
+            ],
+            "highlightedGraphIds": [
+              "energy",
+              "velocity"
+            ],
+            "highlightedOverlayIds": [
+              "energyBars",
+              "equilibriumLine",
+              "velocityVector"
+            ]
+          }
+        },
+        {
+          "id": "total-energy-scale",
+          "title": "Total energy from amplitude",
+          "prompt": "With amplitude ${{amplitudeValue}}\\,\\mathrm{m}$ and spring constant ${{springConstantValue}}\\,\\mathrm{N/m}$, what total energy is stored in this oscillator?",
+          "variables": [
+            {
+              "id": "amplitude",
+              "variableId": "amplitude",
+              "symbol": "A",
+              "label": "Amplitude",
+              "valueKey": "amplitudeValue",
+              "unit": "m"
+            },
+            {
+              "id": "springConstant",
+              "variableId": "springConstant",
+              "symbol": "k",
+              "label": "Spring constant",
+              "valueKey": "springConstantValue",
+              "unit": "N/m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Use the total-energy relation",
+              "template": "For ideal SHM, $E = \\tfrac{1}{2}kA^2$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the current scale values",
+              "template": "$E = \\tfrac{1}{2}({{springConstantValue}})({{amplitudeValue}})^2$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compute the stored energy",
+              "template": "The oscillator stores $E = {{totalEnergyValue}}\\,\\mathrm{J}$, and that total stays fixed while the motion redistributes it."
+            }
+          ],
+          "resultLabel": "Total stored energy",
+          "resultTemplate": "$E = {{totalEnergyValue}}\\,\\mathrm{J}$",
+          "interpretationTemplate": "{{totalEnergyInterpretation}}",
+          "applyAction": {
+            "label": "Show wide arc",
+            "presetId": "wide-arc",
+            "observationHint": "The turning points move outward and the flat total-energy line rises because total energy grows with $A^2$.",
+            "highlightedControlIds": [
+              "amplitude"
+            ],
+            "highlightedGraphIds": [
+              "energy",
+              "displacement"
+            ],
+            "highlightedOverlayIds": [
+              "turningPoints",
+              "energyBars"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Two oscillators have the same amplitude, mass, and spring constant. One starts at equilibrium and the other starts at a turning point. Which one has more total energy?",
+      "prediction": "Decide whether starting position changes the total energy or only changes how that same total is split between kinetic and potential energy.",
+      "answer": "They have the same total energy. The starting position only changes the split between kinetic and potential energy.",
+      "explanation": "Amplitude and spring constant set the total-energy scale in ideal SHM. Phase only changes where the cycle begins, so one oscillator can start as pure kinetic while the other starts as pure potential even though the total is the same."
+    }
+  },
+  "equations": [
+    {
+      "id": "energy-displacement",
+      "latex": "x(t) = A\\cos(\\omega t + \\phi)",
+      "label": "Displacement",
+      "meaning": "The oscillator's position in the cycle.",
+      "notes": [
+        "Turning points occur at plus or minus the amplitude.",
+        "Equilibrium is the moment when displacement is zero."
+      ]
+    },
+    {
+      "id": "energy-omega",
+      "latex": "\\omega = \\sqrt{\\tfrac{k}{m}}",
+      "label": "Natural angular frequency",
+      "meaning": "The spring constant and mass together set how quickly the energy exchange repeats."
+    },
+    {
+      "id": "energy-kinetic",
+      "latex": "K = \\tfrac{1}{2}mv^2",
+      "label": "Kinetic energy",
+      "meaning": "Energy carried by the moving mass."
+    },
+    {
+      "id": "energy-potential",
+      "latex": "U = \\tfrac{1}{2}kx^2",
+      "label": "Potential energy",
+      "meaning": "Energy stored in the stretched or compressed spring."
+    },
+    {
+      "id": "energy-total",
+      "latex": "E = K + U = \\tfrac{1}{2}kA^2",
+      "label": "Total energy",
+      "meaning": "In ideal SHM the total stays constant while kinetic and potential energy trade places."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "amplitude",
+      "symbol": "A",
+      "label": "Amplitude",
+      "param": "amplitude",
+      "tone": "teal",
+      "description": "Sets the turning points and the total-energy scale. Doubling amplitude makes the swing wider and raises total energy by a square-law effect.",
+      "equationIds": [
+        "energy-displacement",
+        "energy-total"
+      ],
+      "graphIds": [
+        "energy",
+        "displacement"
+      ],
+      "overlayIds": [
+        "turningPoints",
+        "energyBars"
+      ]
+    },
+    {
+      "id": "springConstant",
+      "symbol": "k",
+      "label": "Spring constant",
+      "param": "springConstant",
+      "tone": "amber",
+      "description": "Raises the potential-energy scale and speeds up the cycle because a stiffer spring pulls back more strongly.",
+      "equationIds": [
+        "energy-omega",
+        "energy-potential",
+        "energy-total"
+      ],
+      "graphIds": [
+        "energy",
+        "velocity"
+      ],
+      "overlayIds": [
+        "energyBars"
+      ]
+    },
+    {
+      "id": "mass",
+      "symbol": "m",
+      "label": "Mass",
+      "param": "mass",
+      "tone": "sky",
+      "description": "Changes how quickly the oscillator responds. With the same amplitude and spring constant, the total energy stays the same even though a larger mass stretches the period.",
+      "equationIds": [
+        "energy-omega",
+        "energy-kinetic"
+      ],
+      "graphIds": [
+        "velocity",
+        "energy"
+      ],
+      "overlayIds": [
+        "energyBars",
+        "velocityVector"
+      ]
+    },
+    {
+      "id": "phase",
+      "symbol": "\\phi",
+      "label": "Phase",
+      "param": "phase",
+      "tone": "coral",
+      "description": "Shifts where the cycle begins, so you can start at equilibrium, at a turning point, or anywhere between those extremes.",
+      "equationIds": [
+        "energy-displacement"
+      ],
+      "graphIds": [
+        "energy",
+        "displacement",
+        "velocity"
+      ],
+      "overlayIds": [
+        "equilibriumLine",
+        "turningPoints",
+        "velocityVector"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "amplitude": 1.4,
+      "springConstant": 3.2,
+      "mass": 1,
+      "phase": 0.9,
+      "equilibriumLine": true,
+      "turningPoints": true,
+      "energyBars": true,
+      "velocityVector": true,
+      "motionTrail": false
+    },
+    "ui": {
+      "initialGraphId": "energy",
+      "primaryGraphIds": [
+        "energy",
+        "velocity"
+      ],
+      "primaryControlIds": [
+        "amplitude",
+        "springConstant",
+        "phase"
+      ],
+      "primaryPresetIds": [
+        "baseline-mix",
+        "equilibrium-burst",
+        "turning-point",
+        "wide-arc",
+        "stiff-spring"
+      ]
+    },
+    "controls": [
+      {
+        "id": "amplitude",
+        "kind": "slider",
+        "label": "Amplitude",
+        "param": "amplitude",
+        "min": 0.6,
+        "max": 2.2,
+        "step": 0.1,
+        "unit": "m",
+        "description": "Changes the turning points and the total-energy scale."
+      },
+      {
+        "id": "springConstant",
+        "kind": "slider",
+        "label": "Spring constant",
+        "param": "springConstant",
+        "min": 0.8,
+        "max": 6,
+        "step": 0.1,
+        "unit": "N/m",
+        "description": "Changes how stiff the spring is, so it affects both the energy scale and the cycle speed."
+      },
+      {
+        "id": "mass",
+        "kind": "slider",
+        "label": "Mass",
+        "param": "mass",
+        "min": 0.5,
+        "max": 2.5,
+        "step": 0.1,
+        "unit": "kg",
+        "description": "Changes how quickly the oscillator responds without changing the total energy when amplitude and spring constant stay fixed."
+      },
+      {
+        "id": "phase",
+        "kind": "slider",
+        "label": "Phase",
+        "param": "phase",
+        "min": 0,
+        "max": 6.283185307179586,
+        "step": 0.01,
+        "unit": "rad",
+        "description": "Changes where the cycle begins."
+      }
+    ],
+    "presets": [
+      {
+        "id": "baseline-mix",
+        "label": "Mixed energy",
+        "description": "Starts between equilibrium and a turning point so both energy types are visible immediately.",
+        "values": {
+          "amplitude": 1.4,
+          "springConstant": 3.2,
+          "mass": 1,
+          "phase": 0.9
+        }
+      },
+      {
+        "id": "equilibrium-burst",
+        "label": "Equilibrium burst",
+        "description": "Starts at equilibrium where speed and kinetic energy are greatest.",
+        "values": {
+          "amplitude": 1.4,
+          "springConstant": 3.2,
+          "mass": 1,
+          "phase": 1.5707963267948966
+        }
+      },
+      {
+        "id": "turning-point",
+        "label": "Turning point",
+        "description": "Starts at the edge of the motion where the spring holds all of the energy.",
+        "values": {
+          "amplitude": 1.4,
+          "springConstant": 3.2,
+          "mass": 1,
+          "phase": 0
+        }
+      },
+      {
+        "id": "wide-arc",
+        "label": "Wide arc",
+        "description": "Raises amplitude so the turning points spread out and the total energy rises sharply.",
+        "values": {
+          "amplitude": 2.1,
+          "springConstant": 3.2,
+          "mass": 1,
+          "phase": 1.5707963267948966
+        }
+      },
+      {
+        "id": "stiff-spring",
+        "label": "Stiff spring",
+        "description": "Keeps the amplitude similar but raises the spring stiffness, so the energy scale and cycle speed both increase.",
+        "values": {
+          "amplitude": 1.4,
+          "springConstant": 5.2,
+          "mass": 1,
+          "phase": 1.5707963267948966
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "equilibriumLine",
+        "label": "Equilibrium line",
+        "shortDescription": "Marks the zero-displacement position where spring stretch is minimal.",
+        "whatToNotice": [
+          "Kinetic energy peaks as the mass passes this line in the ideal model."
+        ],
+        "whyItMatters": "It anchors the moment where the energy balance flips most strongly toward kinetic energy.",
+        "relatedControls": [
+          "phase"
+        ],
+        "relatedGraphTabs": [
+          "energy",
+          "displacement",
+          "velocity"
+        ],
+        "relatedEquationVariables": [
+          "phase"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "turningPoints",
+        "label": "Turning-point markers",
+        "shortDescription": "Marks the left and right turning points where the oscillator must reverse direction.",
+        "whatToNotice": [
+          "Potential energy reaches the total-energy line at these markers while kinetic energy falls to zero."
+        ],
+        "whyItMatters": "Turning points are the cleanest places to see where the stored spring energy takes over completely.",
+        "relatedControls": [
+          "amplitude",
+          "phase"
+        ],
+        "relatedGraphTabs": [
+          "energy",
+          "displacement"
+        ],
+        "relatedEquationVariables": [
+          "amplitude",
+          "phase"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "energyBars",
+        "label": "Energy bars",
+        "shortDescription": "Shows how kinetic and potential energy share the same total.",
+        "whatToNotice": [
+          "The two bars trade length while the total stays fixed in the ideal model."
+        ],
+        "whyItMatters": "It turns the graph into a stage-level readout, so the energy exchange stays visible even before you inspect the plot.",
+        "relatedControls": [
+          "amplitude",
+          "springConstant",
+          "mass",
+          "phase"
+        ],
+        "relatedGraphTabs": [
+          "energy"
+        ],
+        "relatedEquationVariables": [
+          "amplitude",
+          "springConstant",
+          "mass"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "velocityVector",
+        "label": "Velocity vector",
+        "shortDescription": "Shows why kinetic energy is largest near equilibrium.",
+        "whatToNotice": [
+          "A longer velocity arrow lines up with a taller kinetic-energy bar."
+        ],
+        "whyItMatters": "It keeps the connection between speed and kinetic energy visible instead of treating the graph as a separate surface.",
+        "relatedControls": [
+          "phase",
+          "mass",
+          "springConstant"
+        ],
+        "relatedGraphTabs": [
+          "velocity",
+          "energy"
+        ],
+        "relatedEquationVariables": [
+          "mass",
+          "phase"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "motionTrail",
+        "label": "Motion trail",
+        "shortDescription": "Leaves a short trace so you can judge where the oscillator lingers.",
+        "whatToNotice": [
+          "The motion lingers near the turning points even while speed drops toward zero."
+        ],
+        "whyItMatters": "It helps you relate the energy story to how the mass spends time in different parts of the track.",
+        "relatedControls": [
+          "amplitude",
+          "phase"
+        ],
+        "relatedGraphTabs": [
+          "displacement",
+          "energy"
+        ],
+        "relatedEquationVariables": [
+          "amplitude",
+          "phase"
+        ],
+        "defaultOn": false
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "energy",
+      "label": "Energy balance",
+      "xLabel": "time (s)",
+      "yLabel": "energy (J)",
+      "series": [
+        "kinetic",
+        "potential",
+        "total"
+      ],
+      "description": "Kinetic and potential energy trade places while the total stays flat in the ideal model."
+    },
+    {
+      "id": "displacement",
+      "label": "Displacement over time",
+      "xLabel": "time (s)",
+      "yLabel": "displacement (m)",
+      "series": [
+        "displacement"
+      ],
+      "description": "The turning points stay at plus and minus the amplitude while equilibrium sits at the center."
+    },
+    {
+      "id": "velocity",
+      "label": "Velocity over time",
+      "xLabel": "time (s)",
+      "yLabel": "velocity (m/s)",
+      "series": [
+        "velocity"
+      ],
+      "description": "Speed grows near equilibrium and collapses at the turning points, which is why kinetic energy behaves the same way."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use one cue at a time. The prompt changes when the current graph, mode, or control change makes a different energy pattern worth following.",
+    "items": [
+      {
+        "id": "energy-notice-equilibrium",
+        "text": "Notice how the mass is fastest as it crosses equilibrium, so the kinetic-energy bar is tallest there.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Apply Equilibrium burst, then watch the center crossing and the peak of the velocity graph at the same instant.",
+        "whyItMatters": "It separates energy from position. The center is not where the spring stores the most energy.",
+        "relatedControls": [
+          "phase"
+        ],
+        "relatedGraphTabs": [
+          "energy",
+          "velocity"
+        ],
+        "relatedOverlays": [
+          "equilibriumLine",
+          "energyBars",
+          "velocityVector"
+        ]
+      },
+      {
+        "id": "energy-notice-turning",
+        "text": "Notice that the mass pauses at the turning points even though the total-energy line stays flat.",
+        "type": "graph-reading",
+        "priority": 3,
+        "conditions": {
+          "graphTabs": [
+            "energy"
+          ]
+        },
+        "tryThis": "Freeze the motion near $+A$ or $-A$ and compare the displacement marker with the potential-energy peak.",
+        "whyItMatters": "A flat total-energy line means the energy has moved into the spring rather than disappearing.",
+        "relatedGraphTabs": [
+          "energy",
+          "displacement"
+        ],
+        "relatedOverlays": [
+          "turningPoints",
+          "energyBars"
+        ],
+        "relatedEquationVariables": [
+          "amplitude",
+          "springConstant"
+        ]
+      },
+      {
+        "id": "energy-notice-amplitude",
+        "text": "Notice that increasing amplitude raises the total-energy line much faster than it widens the track.",
+        "type": "try-this",
+        "priority": 4,
+        "conditions": {
+          "lastChangedControls": [
+            "amplitude"
+          ]
+        },
+        "tryThis": "Move Amplitude upward and compare how much the total-energy line lifts relative to how far the turning points move.",
+        "whyItMatters": "Total energy scales with $A^2$, so amplitude changes are more powerful than they first look.",
+        "relatedControls": [
+          "amplitude"
+        ],
+        "relatedGraphTabs": [
+          "energy",
+          "displacement"
+        ],
+        "relatedOverlays": [
+          "turningPoints",
+          "energyBars"
+        ],
+        "relatedEquationVariables": [
+          "amplitude"
+        ]
+      },
+      {
+        "id": "energy-notice-spring",
+        "text": "Notice that a stiffer spring lifts the energy scale and shortens the period even when the turning points stay at the same amplitude.",
+        "type": "try-this",
+        "priority": 5,
+        "conditions": {
+          "lastChangedControls": [
+            "springConstant"
+          ]
+        },
+        "tryThis": "Keep amplitude fixed, then raise Spring constant and compare the total-energy line with the spacing of the velocity peaks.",
+        "whyItMatters": "The same control changes both how much energy is stored and how quickly the exchange repeats.",
+        "relatedControls": [
+          "springConstant",
+          "mass"
+        ],
+        "relatedGraphTabs": [
+          "energy",
+          "velocity"
+        ],
+        "relatedEquationVariables": [
+          "springConstant",
+          "mass"
+        ]
+      },
+      {
+        "id": "energy-notice-inspect",
+        "text": "Notice how the stage, energy bars, and graph marker all describe the same instant once you pause and scrub.",
+        "type": "graph-reading",
+        "priority": 6,
+        "conditions": {
+          "inspectState": "inspect"
+        },
+        "tryThis": "Pause, step once, and track how the marker moves while the bars and the mass update together.",
+        "whyItMatters": "This is the clearest bridge between the motion on the track and the energy plot below it.",
+        "relatedGraphTabs": [
+          "energy",
+          "displacement",
+          "velocity"
+        ],
+        "relatedOverlays": [
+          "energyBars",
+          "turningPoints"
+        ]
+      },
+      {
+        "id": "energy-notice-compare",
+        "text": "Notice which setup carries the higher flat total-energy line. That setup stores more energy even if the masses cross equilibrium at the same time.",
+        "type": "compare",
+        "priority": 7,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Clone the setup, then change only Amplitude or Spring constant in Setup B and watch the total-energy lines separate.",
+        "whyItMatters": "Compare mode makes it obvious which changes alter the stored energy and which only change where the cycle starts.",
+        "relatedControls": [
+          "amplitude",
+          "springConstant"
+        ],
+        "relatedGraphTabs": [
+          "energy"
+        ],
+        "relatedOverlays": [
+          "energyBars",
+          "turningPoints"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the energy change before you move the controls, then test the prediction in the same live oscillator.",
+    "items": [
+      {
+        "id": "energy-predict-amplitude",
+        "prompt": "If amplitude doubles while $k$ stays fixed, what happens to the turning points and the total energy?",
+        "scenarioLabel": "Double amplitude",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The turning points double in distance and the total energy quadruples."
+          },
+          {
+            "id": "b",
+            "label": "The turning points stay fixed and the total energy only doubles."
+          },
+          {
+            "id": "c",
+            "label": "The total energy stays the same because the spring still pulls back."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Amplitude sets the turning-point distance directly, and the total energy follows $E = \\tfrac{1}{2}kA^2$, so the energy grows with the square of amplitude.",
+        "observationHint": "Watch the turning-point markers spread out while the flat total-energy line jumps upward.",
+        "apply": {
+          "presetId": "wide-arc"
+        },
+        "highlightedControls": [
+          "amplitude"
+        ],
+        "highlightedGraphs": [
+          "energy",
+          "displacement"
+        ],
+        "highlightedOverlays": [
+          "turningPoints",
+          "energyBars"
+        ]
+      },
+      {
+        "id": "energy-predict-phase",
+        "prompt": "If you start the same oscillator at equilibrium instead of at a turning point, what must be true at that instant?",
+        "scenarioLabel": "Start at equilibrium",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Potential energy is minimal and kinetic energy is maximal."
+          },
+          {
+            "id": "b",
+            "label": "Both energies are zero because the mass crosses the center."
+          },
+          {
+            "id": "c",
+            "label": "Potential energy is maximal because the spring is passing through its natural length."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At equilibrium the displacement is zero, so the spring stores almost no potential energy while the mass carries the full energy as motion.",
+        "observationHint": "The energy bars flip almost completely to kinetic at the same instant that the velocity graph reaches an extreme.",
+        "apply": {
+          "presetId": "equilibrium-burst"
+        },
+        "highlightedControls": [
+          "phase"
+        ],
+        "highlightedGraphs": [
+          "energy",
+          "velocity"
+        ],
+        "highlightedOverlays": [
+          "equilibriumLine",
+          "energyBars",
+          "velocityVector"
+        ]
+      },
+      {
+        "id": "energy-predict-mass",
+        "prompt": "If mass increases while amplitude and spring constant stay fixed, what changes first in the ideal model?",
+        "scenarioLabel": "Increase mass",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The total energy stays the same, but the period becomes longer."
+          },
+          {
+            "id": "b",
+            "label": "The total energy rises immediately because heavier masses store more spring energy."
+          },
+          {
+            "id": "c",
+            "label": "Both the total energy and the period stay exactly the same."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "With $E = \\tfrac{1}{2}kA^2$, total energy does not depend on mass when $A$ and $k$ stay fixed. But $\\omega = \\sqrt{k/m}$, so a larger mass makes the cycle slower.",
+        "observationHint": "The flat total-energy line stays put while the velocity graph stretches out in time.",
+        "apply": {
+          "patch": {
+            "mass": 2
+          }
+        },
+        "highlightedControls": [
+          "mass"
+        ],
+        "highlightedGraphs": [
+          "energy",
+          "velocity"
+        ],
+        "highlightedOverlays": [
+          "energyBars",
+          "velocityVector"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the live energy graph and inspect-time controls to turn the oscillator into a small energy-targeting task.",
+    "items": [
+      {
+        "id": "oe-ch-equal-split",
+        "title": "Equal split",
+        "style": "visible-condition",
+        "prompt": "Starting from Mixed energy, pause at a moment when kinetic and potential energy are nearly equal. Keep the energy graph visible so the balance is honest.",
+        "successMessage": "You found a state where the oscillator is sharing its total energy almost evenly between motion and spring stretch. That is the energy handoff made visible.",
+        "setup": {
+          "presetId": "baseline-mix",
+          "graphId": "energy",
+          "note": "Start from the mixed-energy case, then scrub until the two colored energy traces nearly match."
+        },
+        "hints": [
+          "This challenge requires inspect mode. Let the motion run, then pause near the middle of the swing.",
+          "Look for the point where kinetic and potential are closest, not for a turning point where one of them is forced to zero."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Open the energy graph.",
+            "graphId": "energy"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the energy bars visible.",
+            "overlayId": "energyBars"
+          },
+          {
+            "type": "time-source",
+            "label": "Pause into inspect mode.",
+            "source": "inspect"
+          },
+          {
+            "type": "metric-range",
+            "label": "Make the kinetic-potential gap smaller than $0.2\\,\\mathrm{J}$.",
+            "metric": "energyGap",
+            "min": 0,
+            "max": 0.2,
+            "displayUnit": "J"
+          }
+        ]
+      },
+      {
+        "id": "oe-ch-build-five-joules",
+        "title": "Build five joules",
+        "style": "target-setting",
+        "prompt": "From the mixed-energy baseline, raise the stored energy to about $5\\,\\mathrm{J}$ without making the oscillator heavier than about $1.2\\,\\mathrm{kg}$.",
+        "successMessage": "You increased the oscillator's energy scale by changing the spring or swing, not by hiding the effect inside a heavier mass. The graph still tells a physically honest story.",
+        "setup": {
+          "presetId": "baseline-mix",
+          "graphId": "energy",
+          "note": "Use the energy graph as the target readout while you adjust amplitude or spring stiffness."
+        },
+        "hints": [
+          "Total energy grows with both amplitude and spring constant.",
+          "Mass changes timing, but it does not directly set the ideal total-energy scale."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Keep the energy graph active.",
+            "graphId": "energy"
+          },
+          {
+            "type": "param-range",
+            "label": "Keep mass between $0.8$ and $1.2\\,\\mathrm{kg}$.",
+            "param": "mass",
+            "min": 0.8,
+            "max": 1.2,
+            "displayUnit": "kg"
+          },
+          {
+            "type": "metric-range",
+            "label": "Bring the total energy into the $4.8$ to $5.3\\,\\mathrm{J}$ window.",
+            "metric": "totalEnergy",
+            "min": 4.8,
+            "max": 5.3,
+            "displayUnit": "J"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the motion and the energy meaning together. These checks are about what must be true, not about plugging numbers into a formula by habit.",
+    "questions": [
+      {
+        "id": "energy-qt-1",
+        "type": "graph-reading",
+        "prompt": "At the instant the mass crosses equilibrium in this ideal oscillator, what must the energy graph show?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Kinetic energy is at a maximum, potential energy is near zero, and total energy stays unchanged."
+          },
+          {
+            "id": "b",
+            "label": "Potential energy is at a maximum, kinetic energy is zero, and total energy dips briefly."
+          },
+          {
+            "id": "c",
+            "label": "Both kinetic and potential energy are maximal because the motion is fastest there."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At equilibrium the spring is at its natural length, so potential energy is minimal. The mass is moving fastest there, so kinetic energy carries the fixed total.",
+        "selectedWrongExplanations": {
+          "b": "That description matches a turning point, not the center crossing. The total-energy line does not dip in the ideal model.",
+          "c": "Kinetic and potential energy do not peak together in ideal SHM. When one is largest, the other is smallest."
+        },
+        "showMeAction": {
+          "label": "Show equilibrium crossing",
+          "presetId": "equilibrium-burst",
+          "observationHint": "The kinetic bar fills as the mass reaches the center and the velocity graph hits its extreme.",
+          "highlightedControlIds": [
+            "phase"
+          ],
+          "highlightedGraphIds": [
+            "energy",
+            "velocity"
+          ],
+          "highlightedOverlayIds": [
+            "equilibriumLine",
+            "energyBars",
+            "velocityVector"
+          ]
+        }
+      },
+      {
+        "id": "energy-qt-2",
+        "type": "graph-reading",
+        "prompt": "At a turning point, which statement must be correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Velocity is zero, kinetic energy is zero, and potential energy equals the total energy."
+          },
+          {
+            "id": "b",
+            "label": "Velocity and kinetic energy are both maximal because the mass is about to reverse direction."
+          },
+          {
+            "id": "c",
+            "label": "Potential energy vanishes because the spring is no longer doing work."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A turning point is where the mass stops and reverses, so kinetic energy must momentarily be zero. The stored spring energy matches the constant total at that instant.",
+        "selectedWrongExplanations": {
+          "b": "Reversing direction does not require maximum speed. It happens because the speed has fallen to zero while the restoring pull is largest.",
+          "c": "The turning point is where the spring is stretched or compressed the most, so potential energy is actually maximal there."
+        },
+        "showMeAction": {
+          "label": "Show a turning point",
+          "presetId": "turning-point",
+          "observationHint": "The velocity vector collapses while the potential-energy bar reaches the full total.",
+          "highlightedControlIds": [
+            "phase"
+          ],
+          "highlightedGraphIds": [
+            "energy",
+            "displacement"
+          ],
+          "highlightedOverlayIds": [
+            "turningPoints",
+            "energyBars"
+          ]
+        }
+      },
+      {
+        "id": "energy-qt-3",
+        "type": "variable-effect",
+        "prompt": "If amplitude doubles while spring constant stays fixed, what must happen to the total energy?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It quadruples because total energy scales with $A^2$."
+          },
+          {
+            "id": "b",
+            "label": "It only doubles because amplitude enters the energy relation once."
+          },
+          {
+            "id": "c",
+            "label": "It stays the same because only the starting point changed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The total energy relation is $E = \\tfrac{1}{2}kA^2$, so doubling amplitude multiplies the energy by four when $k$ stays fixed.",
+        "selectedWrongExplanations": {
+          "b": "Amplitude is squared in the energy relation. A bigger swing changes the stored energy more strongly than a linear guess suggests.",
+          "c": "Changing amplitude changes the actual size of the oscillation, not just where it starts."
+        },
+        "showMeAction": {
+          "label": "Show the wider swing",
+          "presetId": "wide-arc",
+          "observationHint": "The turning points spread out and the flat total-energy line rises sharply.",
+          "highlightedControlIds": [
+            "amplitude"
+          ],
+          "highlightedGraphIds": [
+            "energy",
+            "displacement"
+          ],
+          "highlightedOverlayIds": [
+            "turningPoints",
+            "energyBars"
+          ]
+        }
+      },
+      {
+        "id": "energy-qt-4",
+        "type": "compare-two-cases",
+        "prompt": "Two oscillators have the same amplitude and spring constant, but one has a larger mass. What must be true in the ideal model?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "They store the same total energy, but the heavier mass oscillates more slowly."
+          },
+          {
+            "id": "b",
+            "label": "The heavier mass stores more total energy because its inertia is larger."
+          },
+          {
+            "id": "c",
+            "label": "The total energy stays the same and the period stays the same."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Total energy depends on $k$ and $A$, not on mass. But the period does depend on mass because $\\omega = \\sqrt{k/m}$.",
+        "selectedWrongExplanations": {
+          "b": "Mass changes the timing of the oscillation, not the total stored spring energy when $A$ and $k$ stay fixed.",
+          "c": "The timing must change because a larger mass lowers the natural angular frequency."
+        },
+        "showMeAction": {
+          "label": "Show a heavier mass",
+          "patch": {
+            "mass": 2
+          },
+          "observationHint": "The total-energy line stays put while the velocity peaks spread farther apart in time.",
+          "highlightedControlIds": [
+            "mass"
+          ],
+          "highlightedGraphIds": [
+            "energy",
+            "velocity"
+          ],
+          "highlightedOverlayIds": [
+            "energyBars",
+            "velocityVector"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a single oscillator moving back and forth across an equilibrium point. Optional markers show the turning points, and an energy card shows how the total energy is split between kinetic and spring potential energy at the current instant.",
+        "Changing amplitude, spring constant, mass, or phase updates the same motion, the same energy readout, and the same graph so the energy story stays tied to one physical state."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The energy graph shows kinetic, potential, and total energy as synchronized views of the same oscillation. The displacement and velocity graphs sit beside it so you can compare where the mass is, how fast it is moving, and which energy form is dominating.",
+        "Pausing or scrubbing the graph keeps the stage, the energy bars, and the marker locked to the same instant."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Oscillation Energy",
+    "description": "Interactive energy in simple harmonic motion with live kinetic and potential energy, turning points, and graph-linked motion.",
+    "keywords": [
+      "oscillation energy",
+      "simple harmonic motion energy",
+      "kinetic and potential energy",
+      "physics simulation"
+    ]
+  },
+  "v2": {
+    "intuition": "Follow one oscillator and ask a single question at every instant: is the energy sitting in motion, in spring stretch, or shared between both?",
+    "whyItMatters": "This energy view explains why amplitude and stiffness change how much an oscillator stores, while mass and phase mainly change timing or starting position.",
+    "estimatedMinutes": 25,
+    "equationSnapshot": {
+      "title": "Energy handoff snapshot",
+      "note": "Keep kinetic, spring potential, and total energy together so the bars and graph read like one live state.",
+      "equationIds": [
+        "energy-kinetic",
+        "energy-potential",
+        "energy-total"
+      ]
+    },
+    "startSetup": {
+      "presetId": "baseline-mix",
+      "graphId": "energy",
+      "overlayIds": [
+        "energyBars",
+        "turningPoints",
+        "equilibriumLine"
+      ],
+      "note": "Begin between equilibrium and a turning point so both kinetic and spring potential energy are visible immediately."
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-energy-split",
+        "title": "Read the energy split",
+        "goal": "Connect the moving mass, energy bars, and energy graph before changing any controls.",
+        "doThis": "Start from Mixed energy, keep the Energy balance graph open, and watch the kinetic and potential bars trade size for a few seconds.",
+        "notice": "The two colored energy parts change at the same instant as the mass moves, while the total-energy line stays flat.",
+        "explain": "Ideal SHM conserves total mechanical energy. The motion does not create or destroy energy; it swaps the same total between kinetic energy and spring potential energy.",
+        "setup": {
+          "presetId": "baseline-mix",
+          "graphId": "energy",
+          "overlayIds": [
+            "energyBars",
+            "turningPoints",
+            "equilibriumLine"
+          ]
+        },
+        "reveal": {
+          "controlIds": [
+            "phase",
+            "amplitude"
+          ],
+          "graphIds": [
+            "energy"
+          ],
+          "overlayIds": [
+            "energyBars",
+            "turningPoints",
+            "equilibriumLine"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Check the center crossing",
+          "questionIds": [
+            "energy-qt-1"
+          ]
+        }
+      },
+      {
+        "id": "compare-equilibrium-and-turning-points",
+        "title": "Compare key instants",
+        "goal": "Separate the equilibrium crossing from the turning points using energy, position, and velocity together.",
+        "doThis": "Switch between Equilibrium burst and Turning point, or scrub to each instant, while keeping velocity and energy cues visible.",
+        "notice": "At equilibrium the kinetic bar peaks and the spring potential bar nearly vanishes; at a turning point the velocity collapses and potential energy reaches the total.",
+        "explain": "Energy form depends on the instant in the cycle. Displacement controls spring potential energy, while speed controls kinetic energy.",
+        "setup": {
+          "presetId": "equilibrium-burst",
+          "graphId": "energy",
+          "overlayIds": [
+            "energyBars",
+            "velocityVector",
+            "turningPoints",
+            "equilibriumLine"
+          ]
+        },
+        "reveal": {
+          "controlIds": [
+            "phase"
+          ],
+          "graphIds": [
+            "energy",
+            "velocity",
+            "displacement"
+          ],
+          "overlayIds": [
+            "energyBars",
+            "velocityVector",
+            "turningPoints",
+            "equilibriumLine"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Name the turning-point energy",
+          "questionIds": [
+            "energy-qt-2"
+          ],
+          "predictionIds": [
+            "energy-predict-phase"
+          ]
+        }
+      },
+      {
+        "id": "change-the-energy-scale",
+        "title": "Change the energy scale",
+        "goal": "See which controls change the stored total energy instead of only moving the oscillator along the same cycle.",
+        "doThis": "Raise Amplitude, then try Stiff spring, and compare how the flat total-energy line changes each time.",
+        "notice": "Larger amplitude and larger spring constant both raise the total-energy line; amplitude has a squared effect, so a wider swing is powerful.",
+        "explain": "The total energy of ideal SHM is E = 1/2 k A^2. The stored total is set by spring stiffness and amplitude, not by where the cycle happens to start.",
+        "setup": {
+          "presetId": "wide-arc",
+          "graphId": "energy",
+          "overlayIds": [
+            "energyBars",
+            "turningPoints"
+          ]
+        },
+        "reveal": {
+          "controlIds": [
+            "amplitude",
+            "springConstant"
+          ],
+          "graphIds": [
+            "energy",
+            "displacement"
+          ],
+          "overlayIds": [
+            "energyBars",
+            "turningPoints"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Predict the wider swing",
+          "predictionIds": [
+            "energy-predict-amplitude"
+          ],
+          "questionIds": [
+            "energy-qt-3"
+          ]
+        }
+      },
+      {
+        "id": "separate-timing-from-energy",
+        "title": "Separate timing from energy",
+        "goal": "Explain why mass and phase can change what you see first without changing the total-energy scale.",
+        "doThis": "Increase Mass with amplitude and spring constant fixed, then change Phase and compare the energy graph with the velocity graph.",
+        "notice": "A heavier mass stretches the timing while the total-energy line stays in place; phase shifts the starting split between kinetic and potential energy.",
+        "explain": "Mass appears in the timing relation, and phase chooses a starting point. Neither changes E = 1/2 k A^2 when amplitude and spring constant are unchanged.",
+        "setup": {
+          "patch": {
+            "mass": 2,
+            "phase": 0.9
+          },
+          "graphId": "velocity",
+          "overlayIds": [
+            "energyBars",
+            "velocityVector",
+            "turningPoints"
+          ]
+        },
+        "reveal": {
+          "controlIds": [
+            "mass",
+            "phase"
+          ],
+          "graphIds": [
+            "energy",
+            "velocity"
+          ],
+          "overlayIds": [
+            "energyBars",
+            "velocityVector",
+            "turningPoints"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Use the mass checkpoint",
+          "predictionIds": [
+            "energy-predict-mass"
+          ],
+          "questionIds": [
+            "energy-qt-4"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Kinetic and spring potential energy trade places while total mechanical energy stays fixed in ideal SHM.",
+        "Equilibrium crossings are mostly kinetic-energy states; turning points are spring-potential-energy states.",
+        "Amplitude and spring constant set the stored total through E = 1/2 k A^2.",
+        "Mass changes timing and phase changes the starting split, but neither changes total energy when A and k stay fixed."
+      ],
+      "misconception": "Do not say the oscillator has no energy when it stops at a turning point. The energy has moved into spring stretch.",
+      "workedExampleRefs": [
+        "current-energy-split",
+        "total-energy-scale"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "damping-resonance",
+          "title": "Damping / Resonance",
+          "reasonLabel": "Watch energy leave or build up"
+        },
+        {
+          "slug": "standing-waves",
+          "title": "Standing Waves",
+          "reasonLabel": "Move from one oscillator to modes"
+        },
+        {
+          "slug": "wave-interference",
+          "title": "Wave Interference",
+          "reasonLabel": "Use phase in wave patterns"
+        }
+      ],
+      "freePlayPrompt": "Create two setups with the same amplitude but different mass, then explain why their timing changes while the flat total-energy line stays fixed."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "quickTest",
+      "accessibility"
+    ]
+  }
+}

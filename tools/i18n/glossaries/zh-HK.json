@@ -1,0 +1,23 @@
+{
+  "locale": "zh-HK",
+  "replacements": {
+    "amplitude": "振幅",
+    "angular momentum": "角動量",
+    "challenge": "挑戰",
+    "checkpoint": "檢查點",
+    "compare mode": "比較模式",
+    "electric field": "電場",
+    "frequency": "頻率",
+    "graph": "圖像",
+    "guided collection": "引導式學習集合",
+    "highlight": "重點",
+    "Open Model Lab": "Open Model Lab",
+    "phase": "相位",
+    "prediction mode": "預測模式",
+    "quick test": "快速測驗",
+    "simulation": "模擬",
+    "starter track": "入門學習路線",
+    "vector": "向量",
+    "velocity": "速度"
+  }
+}

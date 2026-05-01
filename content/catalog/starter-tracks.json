@@ -1,0 +1,1805 @@
+[
+  {
+    "id": "starter-track-motion-circular",
+    "slug": "motion-and-circular-motion",
+    "title": "Motion and Circular Motion",
+    "summary": "Start with vector components, move into projectile paths, and then use circular motion to understand how velocity can keep changing direction.",
+    "introduction": "Use this track when motion problems still feel like separate formulas instead of one connected story. The path keeps the same coordinate-language in view while the situations get more dynamic.",
+    "sequenceRationale": "Vector components come first because they are the bookkeeping system for every later step. Projectile motion keeps that horizontal and vertical split visible in a familiar path, and uniform circular motion finishes by showing that velocity can keep changing direction even when speed stays fixed.",
+    "sequence": 10,
+    "accent": "coral",
+    "highlights": [
+      "Components",
+      "Trajectories",
+      "Centripetal acceleration"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the motion foundations first",
+      "summary": "Reuse the vectors quick test and the projectile checkpoint to see whether the component split is already stable enough to enter at turning motion instead of replaying the full opening.",
+      "skipToConcept": "uniform-circular-motion",
+      "probes": [
+        {
+          "id": "motion-vectors-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "vectors-components",
+          "title": "Vectors quick test",
+          "summary": "Check whether horizontal and vertical components already feel like one coordinate-language system instead of two formulas."
+        },
+        {
+          "id": "motion-projectile-checkpoint-probe",
+          "kind": "challenge",
+          "conceptSlug": "projectile-motion",
+          "challengeId": "pm-ch-flat-far-shot",
+          "title": "Projectile checkpoint",
+          "summary": "Use the existing projectile challenge to verify that the component split still holds inside a real target-setting task."
+        }
+      ]
+    },
+    "checkpoints": [
+      {
+        "id": "motion-projectile-checkpoint",
+        "title": "Trajectory checkpoint",
+        "summary": "Use the vector-component language inside a real projectile target before the track moves on to direction-changing motion.",
+        "afterConcept": "projectile-motion",
+        "conceptSlugs": [
+          "vectors-components",
+          "projectile-motion"
+        ],
+        "challenge": {
+          "conceptSlug": "projectile-motion",
+          "challengeId": "pm-ch-flat-far-shot"
+        }
+      },
+      {
+        "id": "motion-circular-checkpoint",
+        "title": "Turning-motion checkpoint",
+        "summary": "Carry the same component thinking into a comparison where the timing stays aligned but the inward pull has to change.",
+        "afterConcept": "uniform-circular-motion",
+        "conceptSlugs": [
+          "vectors-components",
+          "uniform-circular-motion"
+        ],
+        "challenge": {
+          "conceptSlug": "uniform-circular-motion",
+          "challengeId": "ucm-ch-match-period-change-pull"
+        }
+      }
+    ],
+    "conceptSlugs": [
+      "vectors-components",
+      "projectile-motion",
+      "uniform-circular-motion"
+    ]
+  },
+  {
+    "id": "starter-track-rotational-mechanics",
+    "slug": "rotational-mechanics",
+    "title": "Rotational Mechanics",
+    "summary": "Start with torque as the turning effect of force, use centre of mass and support region for static balance, then carry the same rotational language into moment of inertia, rolling motion, and angular momentum.",
+    "introduction": "Use this track when the new rotational pages should feel like one coherent mechanics branch instead of separate shelves. The path starts with torque as the cause of turning, uses static equilibrium and centre of mass to keep that same torque language honest in balance problems, then returns to rotational response through moment of inertia, rolling without slipping, and angular momentum as the conserved rotational analogue of momentum.",
+    "sequenceRationale": "Torque comes first because every later rotational step depends on reading where a force acts and how that creates turning effect. Static Equilibrium / Centre of Mass keeps that same torque story visible in a supported object, Rotational Inertia / Moment of Inertia turns the branch back toward spin response, Rolling Motion makes that inertia visible in one gravity-driven race, and Angular Momentum closes by showing how radius and spin rate trade when the rotational momentum story has to stay coherent.",
+    "sequence": 12,
+    "discoveryHighlight": true,
+    "accent": "coral",
+    "highlights": [
+      "Torque and lever arms",
+      "Centre of mass",
+      "Moment of inertia",
+      "Rolling without slipping",
+      "Same L, different spin"
+    ],
+    "prerequisiteTrackSlugs": [
+      "motion-and-circular-motion"
+    ],
+    "recommendedNextTrackSlugs": [
+      "gravity-and-orbits"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the turning-to-balance bridge first",
+      "summary": "Reuse the torque bridge quick test and the heavy-load balance checkpoint to decide whether to start from turning-effect basics or jump straight into mass-distribution response.",
+      "skipToConcept": "rotational-inertia",
+      "probes": [
+        {
+          "id": "rotational-mechanics-torque-bridge-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "torque",
+          "title": "Torque bridge quick test",
+          "summary": "Check whether lever arm, perpendicular force, and turning effect already feel like one geometry story."
+        },
+        {
+          "id": "rotational-mechanics-balance-checkpoint-probe",
+          "kind": "challenge",
+          "conceptSlug": "static-equilibrium-centre-of-mass",
+          "challengeId": "secm-ch-balance-heavy-right-load",
+          "title": "Balance checkpoint",
+          "summary": "Use the support-region challenge to verify that centre of mass and torque balance still stay tied together before the path returns to spin response."
+        }
+      ]
+    },
+    "checkpoints": [
+      {
+        "id": "rotational-balance-checkpoint",
+        "title": "Balance checkpoint",
+        "summary": "Use the support-region bench to put torque balance and centre-of-mass placement on one stable plank before the path turns back toward spinning response.",
+        "afterConcept": "static-equilibrium-centre-of-mass",
+        "conceptSlugs": [
+          "torque",
+          "static-equilibrium-centre-of-mass"
+        ],
+        "challenge": {
+          "conceptSlug": "static-equilibrium-centre-of-mass",
+          "challengeId": "secm-ch-balance-heavy-right-load"
+        }
+      },
+      {
+        "id": "rotational-rolling-checkpoint",
+        "title": "Rolling-response checkpoint",
+        "summary": "Keep the same ramp and radius, then let shape alone separate the finish so rotational inertia becomes a visible rolling race instead of a formula shelf.",
+        "afterConcept": "rolling-motion",
+        "conceptSlugs": [
+          "rotational-inertia",
+          "rolling-motion"
+        ],
+        "challenge": {
+          "conceptSlug": "rolling-motion",
+          "challengeId": "rolling-motion-ch-compare-race"
+        }
+      },
+      {
+        "id": "rotational-angular-momentum-checkpoint",
+        "title": "Angular-momentum checkpoint",
+        "summary": "Finish by matching the same angular momentum across compact and wide layouts so the branch closes on one honest same-L comparison instead of memorized slogans.",
+        "afterConcept": "angular-momentum",
+        "conceptSlugs": [
+          "rotational-inertia",
+          "angular-momentum"
+        ],
+        "challenge": {
+          "conceptSlug": "angular-momentum",
+          "challengeId": "angular-momentum-ch-compare-same-l"
+        }
+      }
+    ],
+    "conceptSlugs": [
+      "torque",
+      "static-equilibrium-centre-of-mass",
+      "rotational-inertia",
+      "rolling-motion",
+      "angular-momentum"
+    ]
+  },
+  {
+    "id": "starter-track-gravity-and-orbits",
+    "slug": "gravity-and-orbits",
+    "title": "Gravity and Orbits",
+    "summary": "Start with one source mass creating a field and potential well, then use that same gravity model to explain circular speed, orbital periods, and the escape threshold.",
+    "introduction": "Use this track when gravity, orbit speed, orbital period, and escape still feel like separate formulas. The path stays inside one bounded gravity story: source mass sets the inward field, the same source creates the potential well, circular orbit balance fixes sideways speed and year length, and escape finishes by asking when the motion stops being bound at all.",
+    "sequenceRationale": "Gravitational Fields comes first because the orbit and energy ideas are harder to trust if the source-field picture is still fuzzy. Gravitational Potential and Potential Energy keeps the same one-mass model while turning the field into a well-depth story, Circular Orbits and Orbital Speed uses that same inward pull for stable sideways motion, Kepler's Third Law and Orbital Periods turns the circular case into honest year-length comparisons, and Escape Velocity closes by showing what changes when the launch is no longer bound.",
+    "sequence": 15,
+    "heroTrack": true,
+    "accent": "sky",
+    "highlights": [
+      "Inverse-square field",
+      "Potential well",
+      "Circular-year timing",
+      "Escape threshold"
+    ],
+    "prerequisiteTrackSlugs": [
+      "motion-and-circular-motion"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the gravity bridge before you enter orbits",
+      "summary": "Reuse the gravity-fields quick test and the existing field-to-potential checkpoint to decide whether to start from the source-mass field basics or jump straight into circular-orbit balance.",
+      "skipToConcept": "circular-orbits-orbital-speed",
+      "probes": [
+        {
+          "id": "gravity-fields-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "gravitational-fields",
+          "title": "Gravity-fields quick test",
+          "summary": "Check whether inward field direction, inverse-square drop, and source-versus-probe roles are already stable."
+        },
+        {
+          "id": "gravity-potential-bridge-probe",
+          "kind": "challenge",
+          "conceptSlug": "gravitational-potential-energy",
+          "challengeId": "gp-ch-half-potential-quarter-field",
+          "title": "Field-to-potential checkpoint",
+          "summary": "Use the existing doubled-distance challenge to verify that the field and potential ratios still stay connected on one gravity setup."
+        }
+      ]
+    },
+    "checkpoints": [
+      {
+        "id": "gravity-potential-bridge-checkpoint",
+        "title": "Field-to-potential checkpoint",
+        "summary": "Lock in the doubled-distance case where the potential well becomes half as deep while the field falls to one quarter before orbit balance takes over.",
+        "afterConcept": "gravitational-potential-energy",
+        "conceptSlugs": [
+          "gravitational-fields",
+          "gravitational-potential-energy"
+        ],
+        "challenge": {
+          "conceptSlug": "gravitational-potential-energy",
+          "challengeId": "gp-ch-half-potential-quarter-field"
+        }
+      },
+      {
+        "id": "gravity-kepler-year-checkpoint",
+        "title": "Circular-year checkpoint",
+        "summary": "Keep the source mass matched, then compare the inner and outer circular years honestly so the wider orbit stays slower and takes longer.",
+        "afterConcept": "keplers-third-law-orbital-periods",
+        "conceptSlugs": [
+          "circular-orbits-orbital-speed",
+          "keplers-third-law-orbital-periods"
+        ],
+        "challenge": {
+          "conceptSlug": "keplers-third-law-orbital-periods",
+          "challengeId": "ktl-ch-inner-vs-outer-years"
+        }
+      },
+      {
+        "id": "gravity-escape-threshold-checkpoint",
+        "title": "Escape-threshold checkpoint",
+        "summary": "Finish the track by separating the last bound launch from the threshold case where the turnaround disappears and the motion is no longer confined to the circular-year story.",
+        "afterConcept": "escape-velocity",
+        "conceptSlugs": [
+          "gravitational-potential-energy",
+          "circular-orbits-orbital-speed",
+          "keplers-third-law-orbital-periods",
+          "escape-velocity"
+        ],
+        "challenge": {
+          "conceptSlug": "escape-velocity",
+          "challengeId": "ev-ch-remove-turnaround"
+        }
+      }
+    ],
+    "conceptSlugs": [
+      "gravitational-fields",
+      "gravitational-potential-energy",
+      "circular-orbits-orbital-speed",
+      "keplers-third-law-orbital-periods",
+      "escape-velocity"
+    ]
+  },
+  {
+    "id": "starter-track-oscillations-energy",
+    "slug": "oscillations-and-energy",
+    "title": "Oscillations and Energy",
+    "summary": "Build from one clean oscillator to energy exchange and then to driven resonance, so the same system grows without changing its core ideas.",
+    "introduction": "Stay with one oscillator long enough that the force story, motion story, and energy story all feel like the same system viewed from different angles. This is the compact path for learners who want one model to deepen rather than jump topics too early.",
+    "sequenceRationale": "Simple harmonic motion establishes the restoring-force loop. Oscillation and energy then reuses that same motion to explain where energy sits and how it trades places, and damping and resonance closes by showing what changes when the oscillator is driven and losses matter.",
+    "sequence": 20,
+    "accent": "teal",
+    "highlights": [
+      "Restoring force",
+      "Energy exchange",
+      "Resonance"
+    ],
+    "entryDiagnostic": {
+      "title": "See whether the oscillator loop is already secure",
+      "summary": "Use one quick test on simple harmonic motion and the existing energy checkpoint challenge to decide whether to start from the restoring-force basics or jump ahead to driven resonance.",
+      "skipToConcept": "damping-resonance",
+      "probes": [
+        {
+          "id": "oscillations-shm-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "simple-harmonic-motion",
+          "title": "SHM quick test",
+          "summary": "Check whether displacement, restoring force, and phase in the core oscillator are already stable."
+        },
+        {
+          "id": "oscillations-energy-checkpoint-probe",
+          "kind": "challenge",
+          "conceptSlug": "oscillation-energy",
+          "challengeId": "oe-ch-equal-split",
+          "title": "Energy handoff checkpoint",
+          "summary": "Use the existing equal-split challenge to confirm that the motion and energy stories still match before resonance takes over."
+        }
+      ]
+    },
+    "checkpoints": [
+      {
+        "id": "oscillations-energy-checkpoint",
+        "title": "Energy handoff checkpoint",
+        "summary": "Pause the oscillator when the motion and the energy graph tell the same half-kinetic, half-potential story.",
+        "afterConcept": "oscillation-energy",
+        "conceptSlugs": [
+          "simple-harmonic-motion",
+          "oscillation-energy"
+        ],
+        "challenge": {
+          "conceptSlug": "oscillation-energy",
+          "challengeId": "oe-ch-equal-split"
+        }
+      },
+      {
+        "id": "oscillations-resonance-checkpoint",
+        "title": "Resonance checkpoint",
+        "summary": "Close the track by tuning a driven oscillator near resonance instead of treating damping and resonance as a separate formula shelf.",
+        "afterConcept": "damping-resonance",
+        "conceptSlugs": [
+          "simple-harmonic-motion",
+          "oscillation-energy",
+          "damping-resonance"
+        ],
+        "challenge": {
+          "conceptSlug": "damping-resonance",
+          "challengeId": "dr-ch-lock-near-resonance"
+        }
+      }
+    ],
+    "conceptSlugs": [
+      "simple-harmonic-motion",
+      "oscillation-energy",
+      "damping-resonance"
+    ]
+  },
+  {
+    "id": "starter-track-fluid-pressure",
+    "slug": "fluid-and-pressure",
+    "title": "Fluid and Pressure",
+    "summary": "Start with pressure in a resting fluid, then carry that same branch through continuity, Bernoulli, buoyancy, and drag-limited motion.",
+    "introduction": "Use this track when the fluids pages still feel like separate demos instead of one connected branch. The path stays bounded: Pressure and Hydrostatic Pressure fixes force per area and hydrostatic pressure, Continuity Equation keeps one stream's flow-rate bookkeeping honest, Bernoulli's Principle turns that same flow into a pressure-and-height trade, Buoyancy and Archimedes' Principle loops back to pressure differences in a resting fluid, and Drag and Terminal Velocity closes with one falling-body bench where the fluid's pushback grows until forces balance.",
+    "sequenceRationale": "Pressure and Hydrostatic Pressure comes first because the rest of the fluids branch is harder to trust if pressure itself still feels like a slogan. Continuity Equation then shows where the speed change lives in one steady stream. Bernoulli's Principle adds the matching pressure and height trade without leaving that same pipe. Buoyancy and Archimedes' Principle returns to pressure differences in a resting fluid so floating comes from the same hydrostatic story instead of a separate force shelf. Drag and Terminal Velocity closes by showing a different fluid interaction where resistive force grows with speed until the motion settles into terminal balance.",
+    "sequence": 25,
+    "discoveryHighlight": true,
+    "accent": "amber",
+    "highlights": [
+      "Pressure in fluids",
+      "Continuity and flow",
+      "Bernoulli trade",
+      "Buoyancy",
+      "Terminal speed"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the pressure-to-flow bridge before you open the full fluids path",
+      "summary": "Reuse the pressure quick test, the continuity quick test, and the Bernoulli compare challenge to decide whether to start from fluid statics or skip ahead to buoyancy.",
+      "skipToConcept": "buoyancy-and-archimedes-principle",
+      "probes": [
+        {
+          "id": "fluids-pressure-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "pressure-and-hydrostatic-pressure",
+          "title": "Pressure in fluids quick test",
+          "summary": "Check whether force per area, same-depth pressure, and the hydrostatic slope are already stable."
+        },
+        {
+          "id": "fluids-continuity-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "continuity-equation",
+          "title": "Continuity quick test",
+          "summary": "Check whether the same flow-rate story is already trustworthy before pressure trades are added."
+        },
+        {
+          "id": "fluids-bernoulli-bridge-probe",
+          "kind": "challenge",
+          "conceptSlug": "bernoullis-principle",
+          "challengeId": "bp-ch-wider-b-recovers-pressure",
+          "title": "Bernoulli bridge checkpoint",
+          "summary": "Use the compare challenge to verify that widening the same throat can recover pressure without changing the entry state."
+        }
+      ]
+    },
+    "checkpoints": [
+      {
+        "id": "fluids-hydrostatic-checkpoint",
+        "title": "Hydrostatic checkpoint",
+        "summary": "Lock in the pressure-depth story by hitting a target with depth alone before the track turns static pressure into moving-fluid bookkeeping.",
+        "afterConcept": "pressure-and-hydrostatic-pressure",
+        "conceptSlugs": [
+          "pressure-and-hydrostatic-pressure"
+        ],
+        "challenge": {
+          "conceptSlug": "pressure-and-hydrostatic-pressure",
+          "challengeId": "php-ch-hit-24-kpa-deep"
+        }
+      },
+      {
+        "id": "fluids-flow-pressure-checkpoint",
+        "title": "Flow-pressure checkpoint",
+        "summary": "Keep the same entry state, then widen the throat to recover pressure so continuity and Bernoulli stay tied to one bounded stream.",
+        "afterConcept": "bernoullis-principle",
+        "conceptSlugs": [
+          "pressure-and-hydrostatic-pressure",
+          "continuity-equation",
+          "bernoullis-principle"
+        ],
+        "challenge": {
+          "conceptSlug": "bernoullis-principle",
+          "challengeId": "bp-ch-wider-b-recovers-pressure"
+        }
+      },
+      {
+        "id": "fluids-terminal-speed-checkpoint",
+        "title": "Terminal-speed checkpoint",
+        "summary": "Finish by pausing near terminal speed so the fluid branch closes on force balance instead of a memorized speed cap.",
+        "afterConcept": "drag-and-terminal-velocity",
+        "conceptSlugs": [
+          "buoyancy-and-archimedes-principle",
+          "drag-and-terminal-velocity"
+        ],
+        "challenge": {
+          "conceptSlug": "drag-and-terminal-velocity",
+          "challengeId": "dtv-ch-freeze-near-terminal"
+        }
+      }
+    ],
+    "conceptSlugs": [
+      "pressure-and-hydrostatic-pressure",
+      "continuity-equation",
+      "bernoullis-principle",
+      "buoyancy-and-archimedes-principle",
+      "drag-and-terminal-velocity"
+    ]
+  },
+  {
+    "id": "starter-track-waves",
+    "slug": "waves",
+    "title": "Waves",
+    "summary": "Use oscillation as the entry point, lock down wave speed and wavelength, carry that into longitudinal sound and pitch-versus-loudness cues, add beats as the nearby-frequency superposition bridge, then move into Doppler shifts, interference, standing-wave patterns, and open-vs-closed air-column resonance without losing the live connection between motion and graph.",
+    "introduction": "This path uses one repeating motion as the anchor, then expands outward into traveling waves, longitudinal sound in a medium, pitch-versus-loudness reasoning on that same sound bench, beats from nearby frequencies on one bounded superposition bench, Doppler shifts from source and observer motion, standing patterns, and finally the tube-resonance branch where open and closed boundaries reshape the harmonic ladder. It works well if you want the wave ideas to stay visually tied to the oscillator that generates them.",
+    "sequenceRationale": "Simple harmonic motion is first because every later wave idea depends on reading repeated motion cleanly. Wave speed and wavelength turns that repeated motion into a traveling pattern, sound waves and longitudinal motion keeps that same timing honest inside a real medium, pitch and loudness separates frequency from amplitude before the branch gets more crowded, beats shows how two nearby sound frequencies create a slow envelope from superposition, Doppler effect adds the motion-caused pitch shift on that same sound model, interference generalizes the superposition picture, standing waves stabilize the node-and-antinode pattern, and air-column resonance closes by changing the boundary conditions on that same standing-wave logic.",
+    "sequence": 30,
+    "accent": "sky",
+    "highlights": [
+      "Oscillation link",
+      "Speed and wavelength",
+      "Longitudinal sound",
+      "Pitch vs loudness",
+      "Beats",
+      "Doppler shift",
+      "Interference",
+      "Standing patterns",
+      "Open vs closed pipes"
+    ],
+    "recommendedNextTrackSlugs": [
+      "sound-and-acoustics"
+    ],
+    "entryDiagnostic": {
+      "title": "Probe the wave bridge before you commit to the full path",
+      "summary": "Reuse the SHM and wave-speed quick tests plus the dark-band interference challenge to see whether the oscillator-to-wave bridge is already solid enough to jump straight into standing patterns.",
+      "skipToConcept": "standing-waves",
+      "probes": [
+        {
+          "id": "waves-shm-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "simple-harmonic-motion",
+          "title": "Oscillator quick test",
+          "summary": "Check whether the repeated-motion story is still clear before it becomes a traveling wave."
+        },
+        {
+          "id": "waves-speed-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "wave-speed-wavelength",
+          "title": "Wave-speed quick test",
+          "summary": "Check whether wavelength, period, and travel delay still read cleanly off the live wave system."
+        },
+        {
+          "id": "waves-interference-checkpoint-probe",
+          "kind": "challenge",
+          "conceptSlug": "wave-interference",
+          "challengeId": "wi-ch-find-dark-band",
+          "title": "Dark-band checkpoint",
+          "summary": "Use the existing interference challenge to see whether the wavelength and phase story is already robust enough for a later standing-wave entry."
+        }
+      ]
+    },
+    "checkpoints": [
+      {
+        "id": "waves-interference-checkpoint",
+        "title": "Interference checkpoint",
+        "summary": "Use the wavelength and timing story from the earlier wave steps to deliberately land on a dark interference band.",
+        "afterConcept": "wave-interference",
+        "conceptSlugs": [
+          "simple-harmonic-motion",
+          "wave-speed-wavelength",
+          "sound-waves-longitudinal-motion",
+          "pitch-frequency-loudness-intensity",
+          "beats",
+          "doppler-effect",
+          "wave-interference"
+        ],
+        "challenge": {
+          "conceptSlug": "wave-interference",
+          "challengeId": "wi-ch-find-dark-band"
+        }
+      },
+      {
+        "id": "waves-standing-checkpoint",
+        "title": "Standing-wave checkpoint",
+        "summary": "Finish the wave path by using the interference picture to place the probe on a true node in a standing-wave pattern.",
+        "afterConcept": "standing-waves",
+        "conceptSlugs": [
+          "wave-speed-wavelength",
+          "sound-waves-longitudinal-motion",
+          "pitch-frequency-loudness-intensity",
+          "beats",
+          "doppler-effect",
+          "wave-interference",
+          "standing-waves"
+        ],
+        "challenge": {
+          "conceptSlug": "standing-waves",
+          "challengeId": "sw-ch-probe-on-node"
+        }
+      }
+    ],
+    "conceptSlugs": [
+      "simple-harmonic-motion",
+      "wave-speed-wavelength",
+      "sound-waves-longitudinal-motion",
+      "pitch-frequency-loudness-intensity",
+      "beats",
+      "doppler-effect",
+      "wave-interference",
+      "standing-waves",
+      "resonance-air-columns-open-closed-pipes"
+    ]
+  },
+  {
+    "id": "starter-track-thermodynamics-kinetic-theory",
+    "slug": "thermodynamics-and-kinetic-theory",
+    "title": "Thermodynamics and Kinetic Theory",
+    "summary": "Start with temperature-versus-internal-energy bookkeeping, reuse that particle story for gas pressure, then follow energy transfer into heating curves and phase-change shelves.",
+    "introduction": "Use this track when thermal ideas still feel split between temperature, pressure, heat flow, and heating curves. The path stays bounded: Temperature and Internal Energy fixes the bookkeeping, Ideal Gas Law and Kinetic Theory reuses that same particle picture for pressure, Heat Transfer keeps energy crossing a boundary instead of turning into a stored substance, and Specific Heat and Phase Change closes by showing what the transferred energy does inside the sample.",
+    "sequenceRationale": "Temperature and Internal Energy comes first because the later thermal branch is harder to trust if average microscopic motion and whole-sample energy are still being treated as the same thing. Ideal Gas Law and Kinetic Theory then keeps that same particle picture but turns it into pressure, volume, and collision reasoning. Heat Transfer follows the energy across a boundary without leaving the same causal story, and Specific Heat and Phase Change closes by keeping the energy bookkeeping honest on both sloped heating segments and the flat shelf.",
+    "sequence": 35,
+    "accent": "coral",
+    "highlights": [
+      "Temperature vs U",
+      "Gas pressure from particles",
+      "Heat-flow pathways",
+      "Heating-curve shelf"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the thermal bookkeeping before you enter heat flow",
+      "summary": "Reuse the temperature quick test and the existing gas-pressure compare challenge to see whether the particle-energy story is already stable enough to jump straight into boundary heat flow.",
+      "skipToConcept": "heat-transfer",
+      "probes": [
+        {
+          "id": "thermo-temperature-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "temperature-and-internal-energy",
+          "title": "Temperature bookkeeping quick test",
+          "summary": "Check whether average microscopic motion, amount, and whole-sample internal energy are already staying distinct."
+        },
+        {
+          "id": "thermo-gas-pressure-bridge-probe",
+          "kind": "challenge",
+          "conceptSlug": "ideal-gas-law-and-kinetic-theory",
+          "challengeId": "igkt-ch-same-pressure-different-cause",
+          "title": "Gas-pressure bridge checkpoint",
+          "summary": "Use the compare challenge to verify that the same pressure can still come from a cooler denser gas instead of a hotter thinner one."
+        }
+      ]
+    },
+    "checkpoints": [
+      {
+        "id": "thermo-gas-bridge-checkpoint",
+        "title": "Gas-pressure bridge checkpoint",
+        "summary": "Match the same pressure with a cooler denser setup so the particle bookkeeping and the gas-state law stay tied to one microscopic story.",
+        "afterConcept": "ideal-gas-law-and-kinetic-theory",
+        "conceptSlugs": [
+          "temperature-and-internal-energy",
+          "ideal-gas-law-and-kinetic-theory"
+        ],
+        "challenge": {
+          "conceptSlug": "ideal-gas-law-and-kinetic-theory",
+          "challengeId": "igkt-ch-same-pressure-different-cause"
+        }
+      },
+      {
+        "id": "thermo-heat-flow-checkpoint",
+        "title": "Heat-flow checkpoint",
+        "summary": "Keep the same temperature contrast while slowing the loss so heat stays an energy-transfer story tied to the path rather than a stored substance.",
+        "afterConcept": "heat-transfer",
+        "conceptSlugs": [
+          "temperature-and-internal-energy",
+          "heat-transfer"
+        ],
+        "challenge": {
+          "conceptSlug": "heat-transfer",
+          "challengeId": "ht-ch-slower-same-contrast"
+        }
+      },
+      {
+        "id": "thermo-heating-curve-checkpoint",
+        "title": "Heating-curve checkpoint",
+        "summary": "Close the track by pausing on a true shelf where energy still moves while temperature stays nearly flat, so the whole thermal story remains internally consistent.",
+        "afterConcept": "specific-heat-and-phase-change",
+        "conceptSlugs": [
+          "temperature-and-internal-energy",
+          "heat-transfer",
+          "specific-heat-and-phase-change"
+        ],
+        "challenge": {
+          "conceptSlug": "specific-heat-and-phase-change",
+          "challengeId": "shpc-ch-catch-the-real-shelf"
+        }
+      }
+    ],
+    "conceptSlugs": [
+      "temperature-and-internal-energy",
+      "ideal-gas-law-and-kinetic-theory",
+      "heat-transfer",
+      "specific-heat-and-phase-change"
+    ]
+  },
+  {
+    "id": "starter-track-electricity",
+    "slug": "electricity",
+    "title": "Electricity",
+    "summary": "Start with source charges and voltage, then carry that same circuit story into current, power, branch behavior, and equivalent resistance.",
+    "introduction": "Use this track when electricity still feels split between field language, voltage language, and circuit rules. The path stays beginner-first: charges create fields, fields and potential explain voltage, basic circuits make that voltage usable, and the later steps reuse the same story for power, branches, and reduction.",
+    "sequenceRationale": "Electric fields comes first because source charges are the physical cause underneath every later voltage idea. Electric potential turns that into the scalar voltage story, basic circuits reuses voltage with current and resistance, power and energy in circuits keeps the same simple loop while introducing rate and total, series and parallel circuits then adds branch structure, and equivalent resistance closes by reducing that branched circuit honestly.",
+    "sequence": 40,
+    "accent": "sky",
+    "highlights": [
+      "Field cause",
+      "Voltage bridge",
+      "Power and energy",
+      "Branch reduction"
+    ],
+    "recommendedNextTrackSlugs": [
+      "magnetic-fields"
+    ],
+    "entryDiagnostic": {
+      "title": "Test the field-to-voltage bridge before entering circuits",
+      "summary": "Reuse the electric-fields quick test and the voltage-bridge checkpoint challenge to decide whether to start from source charges or jump straight into the first live circuit loop.",
+      "skipToConcept": "basic-circuits",
+      "probes": [
+        {
+          "id": "electricity-fields-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "electric-fields",
+          "title": "Electric-fields quick test",
+          "summary": "Check whether source charges and the probe-field picture are still stable before voltage takes over."
+        },
+        {
+          "id": "electricity-voltage-checkpoint-probe",
+          "kind": "challenge",
+          "conceptSlug": "electric-potential",
+          "challengeId": "ep-ch-positive-midpoint-plateau",
+          "title": "Voltage bridge checkpoint",
+          "summary": "Use the existing midpoint challenge to verify the field-to-potential bridge before the path widens into circuits."
+        }
+      ]
+    },
+    "checkpoints": [
+      {
+        "id": "electricity-voltage-bridge-checkpoint",
+        "title": "Voltage bridge checkpoint",
+        "summary": "Lock in the midpoint case where the field can vanish while the potential stays positive before you carry that voltage idea into live circuits.",
+        "afterConcept": "electric-potential",
+        "conceptSlugs": [
+          "electric-fields",
+          "electric-potential"
+        ],
+        "challenge": {
+          "conceptSlug": "electric-potential",
+          "challengeId": "ep-ch-positive-midpoint-plateau"
+        }
+      },
+      {
+        "id": "electricity-reduction-checkpoint",
+        "title": "Reduction checkpoint",
+        "summary": "After the single-loop power story and the branch comparison are in place, collapse the highlighted grouped pair honestly to finish the introduction.",
+        "afterConcept": "equivalent-resistance",
+        "conceptSlugs": [
+          "basic-circuits",
+          "power-energy-circuits",
+          "series-parallel-circuits",
+          "equivalent-resistance"
+        ],
+        "challenge": {
+          "conceptSlug": "equivalent-resistance",
+          "challengeId": "eqr-ch-parallel-group-collapse"
+        }
+      }
+    ],
+    "conceptSlugs": [
+      "electric-fields",
+      "electric-potential",
+      "basic-circuits",
+      "power-energy-circuits",
+      "series-parallel-circuits",
+      "equivalent-resistance"
+    ]
+  },
+  {
+    "id": "starter-track-magnetic-fields",
+    "slug": "magnetic-fields",
+    "title": "Magnetism",
+    "summary": "Start with current-made magnetic fields, turn changing flux into induced emf with Faraday and Lenz, and then reuse that same field direction story to explain magnetic force on charges and currents.",
+    "introduction": "Use this track when you want the current magnetism branch in one bounded pass instead of a detached rule list. Magnetic Fields fixes the circular field pattern around current, Faraday's Law and Lenz's Law turns changing linkage into induced emf on one compact magnet-and-coil stage, and Magnetic Force on Moving Charges and Currents closes by reusing that same field direction in a bounded force-and-curvature model.",
+    "sequenceRationale": "Magnetic Fields comes first because induction and force are harder to trust if the field direction still feels like a mnemonic. Once the current-made field pattern is stable, Faraday's Law and Lenz's Law can stay honest about changing flux, zero-emf turning points, and opposition to change on one compact moving-magnet setup. Magnetic Force on Moving Charges and Currents then closes the path by reusing that same B-field direction for both moving charges and current segments instead of pretending the branch has already turned into a full electromagnetism course.",
+    "sequence": 50,
+    "accent": "teal",
+    "highlights": [
+      "B-field patterns",
+      "Faraday / Lenz",
+      "Changing flux",
+      "Force direction"
+    ],
+    "prerequisiteTrackSlugs": [
+      "electricity"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the magnetic bridge before you skip into force",
+      "summary": "After the authored electricity prerequisite, reuse the magnetic-field and induction checkpoint challenges to see whether the field-direction story is already strong enough to enter at magnetic force.",
+      "skipToConcept": "magnetic-force-moving-charges-currents",
+      "probes": [
+        {
+          "id": "magnetic-fields-direction-probe",
+          "kind": "challenge",
+          "conceptSlug": "magnetic-fields",
+          "challengeId": "mf-ch-build-upward-bridge",
+          "title": "Field-direction checkpoint",
+          "summary": "Use the existing magnetic superposition challenge to confirm the right-hand-rule picture before the branch widens."
+        },
+        {
+          "id": "magnetic-induction-probe",
+          "kind": "challenge",
+          "conceptSlug": "electromagnetic-induction",
+          "challengeId": "emi-ch-high-flux-zero-emf",
+          "title": "Faraday/Lenz checkpoint",
+          "summary": "Use the existing induction challenge to verify that linked flux and zero-emf turning points are already secure."
+        }
+      ]
+    },
+    "checkpoints": [
+      {
+        "id": "magnetic-fields-superposition-checkpoint",
+        "title": "Magnetic superposition checkpoint",
+        "summary": "Pause before induction by building the midpoint-above case where the sideways pieces nearly cancel while the upward field survives as one net vector.",
+        "afterConcept": "magnetic-fields",
+        "conceptSlugs": [
+          "magnetic-fields"
+        ],
+        "challenge": {
+          "conceptSlug": "magnetic-fields",
+          "challengeId": "mf-ch-build-upward-bridge"
+        }
+      },
+      {
+        "id": "magnetic-induction-faraday-lenz-checkpoint",
+        "title": "Faraday/Lenz checkpoint",
+        "summary": "Use the centered-magnet pass to separate strong linked flux from near-zero emf before the path moves into magnetic force.",
+        "afterConcept": "electromagnetic-induction",
+        "conceptSlugs": [
+          "magnetic-fields",
+          "electromagnetic-induction"
+        ],
+        "challenge": {
+          "conceptSlug": "electromagnetic-induction",
+          "challengeId": "emi-ch-high-flux-zero-emf"
+        }
+      },
+      {
+        "id": "magnetic-force-direction-checkpoint",
+        "title": "Magnetic force direction checkpoint",
+        "summary": "Close the path by separating the moving-charge bend from the current-segment push while both still use the same field direction story.",
+        "afterConcept": "magnetic-force-moving-charges-currents",
+        "conceptSlugs": [
+          "magnetic-fields",
+          "electromagnetic-induction",
+          "magnetic-force-moving-charges-currents"
+        ],
+        "challenge": {
+          "conceptSlug": "magnetic-force-moving-charges-currents",
+          "challengeId": "mfmc-ch-charge-down-wire-up"
+        }
+      }
+    ],
+    "conceptSlugs": [
+      "magnetic-fields",
+      "electromagnetic-induction",
+      "magnetic-force-moving-charges-currents"
+    ]
+  },
+  {
+    "id": "starter-track-sound-acoustics",
+    "slug": "sound-and-acoustics",
+    "title": "Sound and Acoustics",
+    "summary": "Stay on the sound branch long enough that longitudinal motion, pitch-versus-loudness cues, beats, Doppler shifts, and open-vs-closed air-column resonance feel like one acoustics path instead of isolated pages.",
+    "introduction": "Use this track when the sound concepts already in the catalog need a tighter guided thread than the broader waves route. It starts with sound as compression in a medium, separates pitch from loudness on that same bench, uses beats to make nearby-frequency superposition audible, keeps motion-caused pitch shift honest with the Doppler bench, and closes with air-column resonance where boundary conditions reshape the allowed sound patterns.",
+    "sequenceRationale": "Sound Waves and Longitudinal Motion comes first because the rest of the acoustics branch is harder to trust if compression, rarefaction, and parcel motion still feel disconnected. Pitch, Frequency, and Loudness / Intensity then separates the two main sound cues before superposition and source motion crowd the picture. Beats shows how nearby steady frequencies create a slow envelope without changing the individual sources. Doppler Effect keeps pitch shift tied to real spacing changes from motion. Resonance in Air Columns / Open and Closed Pipes closes the branch by turning the sound story into a bounded resonance problem where the tube boundaries decide the allowed harmonics.",
+    "sequence": 55,
+    "discoveryHighlight": true,
+    "accent": "amber",
+    "highlights": [
+      "Longitudinal sound",
+      "Pitch vs loudness",
+      "Beats",
+      "Doppler shift",
+      "Open vs closed pipes"
+    ],
+    "prerequisiteTrackSlugs": [
+      "waves"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the sound bench before you jump deeper into acoustics",
+      "summary": "Reuse the longitudinal-sound quick test and the existing louder-same-pitch checkpoint to decide whether to start from compression in a medium or jump straight into beats.",
+      "skipToConcept": "beats",
+      "probes": [
+        {
+          "id": "sound-acoustics-longitudinal-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "sound-waves-longitudinal-motion",
+          "title": "Longitudinal sound quick test",
+          "summary": "Check whether compression, rarefaction, and parcel-versus-wave motion are already stable enough to move past the opening sound bench."
+        },
+        {
+          "id": "sound-acoustics-pitch-loudness-probe",
+          "kind": "challenge",
+          "conceptSlug": "pitch-frequency-loudness-intensity",
+          "challengeId": "pfli-ch-louder-same-pitch",
+          "title": "Pitch vs loudness checkpoint",
+          "summary": "Use the existing louder-same-pitch challenge to confirm that amplitude can rise without changing pitch before beats and Doppler are added."
+        }
+      ]
+    },
+    "checkpoints": [
+      {
+        "id": "sound-acoustics-pitch-checkpoint",
+        "title": "Pitch-versus-loudness checkpoint",
+        "summary": "Raise the loudness cue without raising pitch so the acoustics branch keeps amplitude and frequency separated before superposition arrives.",
+        "afterConcept": "pitch-frequency-loudness-intensity",
+        "conceptSlugs": [
+          "sound-waves-longitudinal-motion",
+          "pitch-frequency-loudness-intensity"
+        ],
+        "challenge": {
+          "conceptSlug": "pitch-frequency-loudness-intensity",
+          "challengeId": "pfli-ch-louder-same-pitch"
+        }
+      },
+      {
+        "id": "sound-acoustics-doppler-checkpoint",
+        "title": "Moving-source checkpoint",
+        "summary": "Keep the emitted tone matched while compare mode makes one listener hear a lower pitch behind and another hear a higher pitch ahead.",
+        "afterConcept": "doppler-effect",
+        "conceptSlugs": [
+          "sound-waves-longitudinal-motion",
+          "pitch-frequency-loudness-intensity",
+          "beats",
+          "doppler-effect"
+        ],
+        "challenge": {
+          "conceptSlug": "doppler-effect",
+          "challengeId": "de-ch-compare-low-vs-high"
+        }
+      },
+      {
+        "id": "sound-acoustics-air-column-checkpoint",
+        "title": "Air-column checkpoint",
+        "summary": "Finish by matching the same resonance-order slider across open and closed pipes so the acoustics branch closes on boundary-shaped harmonics instead of a memorized rule list.",
+        "afterConcept": "resonance-air-columns-open-closed-pipes",
+        "conceptSlugs": [
+          "sound-waves-longitudinal-motion",
+          "pitch-frequency-loudness-intensity",
+          "beats",
+          "doppler-effect",
+          "resonance-air-columns-open-closed-pipes"
+        ],
+        "challenge": {
+          "conceptSlug": "resonance-air-columns-open-closed-pipes",
+          "challengeId": "acr-ch-open-vs-closed-second-mode"
+        }
+      }
+    ],
+    "conceptSlugs": [
+      "sound-waves-longitudinal-motion",
+      "pitch-frequency-loudness-intensity",
+      "beats",
+      "doppler-effect",
+      "resonance-air-columns-open-closed-pipes"
+    ]
+  },
+  {
+    "id": "starter-track-wave-optics",
+    "slug": "wave-optics",
+    "title": "Wave Optics",
+    "summary": "Follow the bounded wave-optics branch from polarization into diffraction, double-slit interference, color-dependent refraction, and imaging limits so the newer optics pages read like one compact path instead of isolated stops.",
+    "introduction": "Use this track when the newer wave-optics pages already in the catalog should feel like one coherent bench sequence. The path starts by making transverse-wave orientation visible with polarization, then keeps single-aperture spreading and two-path interference on linked screen patterns before widening into wavelength-dependent refraction and closing on the finite-aperture limit that caps what a real imaging system can resolve.",
+    "sequenceRationale": "Polarization comes first because diffraction and interference are harder to trust if light still feels like a generic ray instead of a transverse wave with orientation. Diffraction then keeps one aperture honest before Double-Slit Interference asks the same wave story to compare two coherent paths on one screen. Dispersion / Refractive Index and Color widens the branch from pattern formation to wavelength-dependent bending, and Optical Resolution / Imaging Limits closes the path by turning diffraction from a pattern-making idea into the finite-aperture limit on real images.",
+    "sequence": 58,
+    "discoveryHighlight": true,
+    "accent": "sky",
+    "highlights": [
+      "Wave orientation",
+      "Single-slit spread",
+      "Two-slit fringes",
+      "Color-dependent bending",
+      "Resolution limit"
+    ],
+    "prerequisiteTrackSlugs": [
+      "waves"
+    ],
+    "recommendedNextTrackSlugs": [
+      "modern-physics"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the wave-pattern bench before you skip into color and imaging",
+      "summary": "Reuse the polarization quick test, the diffraction dark-band challenge, and the first-dark double-slit target to decide whether to start from wave orientation or jump straight into dispersion.",
+      "skipToConcept": "dispersion-refractive-index-color",
+      "probes": [
+        {
+          "id": "wave-optics-polarization-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "polarization",
+          "title": "Polarization quick test",
+          "summary": "Check whether transverse orientation, analyzer angle, and transmitted intensity already stay linked on the live optics bench."
+        },
+        {
+          "id": "wave-optics-diffraction-probe",
+          "kind": "challenge",
+          "conceptSlug": "diffraction",
+          "challengeId": "diff-ch-find-dark-band",
+          "title": "Single-slit checkpoint",
+          "summary": "Use the existing diffraction challenge to verify that slit width, wavelength, and first-dark geometry already stay connected before two-path interference arrives."
+        },
+        {
+          "id": "wave-optics-double-slit-probe",
+          "kind": "challenge",
+          "conceptSlug": "double-slit-interference",
+          "challengeId": "dsi-ch-find-first-dark",
+          "title": "Two-slit checkpoint",
+          "summary": "Use the double-slit dark-fringe target to confirm that path difference still maps cleanly onto bright and dark screen positions before you skip ahead."
+        }
+      ]
+    },
+    "checkpoints": [
+      {
+        "id": "wave-optics-diffraction-checkpoint",
+        "title": "Single-slit checkpoint",
+        "summary": "Lock in the first dark band after diffraction so the wave-optics branch keeps aperture width, wavelength, and screen spread tied together before the second slit is added.",
+        "afterConcept": "diffraction",
+        "conceptSlugs": [
+          "polarization",
+          "diffraction"
+        ],
+        "challenge": {
+          "conceptSlug": "diffraction",
+          "challengeId": "diff-ch-find-dark-band"
+        }
+      },
+      {
+        "id": "wave-optics-double-slit-checkpoint",
+        "title": "Interference checkpoint",
+        "summary": "Hold the first dark fringe in place so two coherent paths still add and cancel for a clear reason before the track widens into color-dependent bending and imaging limits.",
+        "afterConcept": "double-slit-interference",
+        "conceptSlugs": [
+          "diffraction",
+          "double-slit-interference"
+        ],
+        "challenge": {
+          "conceptSlug": "double-slit-interference",
+          "challengeId": "dsi-ch-find-first-dark"
+        }
+      },
+      {
+        "id": "wave-optics-resolution-checkpoint",
+        "title": "Resolution-limit checkpoint",
+        "summary": "Close the track by landing on the Rayleigh threshold so diffraction reappears as the finite-aperture limit on image separation instead of staying trapped inside a screen-pattern chapter.",
+        "afterConcept": "optical-resolution-imaging-limits",
+        "conceptSlugs": [
+          "diffraction",
+          "optical-resolution-imaging-limits"
+        ],
+        "challenge": {
+          "conceptSlug": "optical-resolution-imaging-limits",
+          "challengeId": "or-ch-hit-rayleigh-threshold"
+        }
+      }
+    ],
+    "conceptSlugs": [
+      "polarization",
+      "diffraction",
+      "double-slit-interference",
+      "dispersion-refractive-index-color",
+      "optical-resolution-imaging-limits"
+    ]
+  },
+  {
+    "id": "starter-track-modern-physics",
+    "slug": "modern-physics",
+    "title": "Modern Physics",
+    "summary": "Follow the bounded modern-physics branch from threshold emission into line spectra, matter waves, the Bohr hydrogen model, and half-life so the new concept set reads like one path instead of five isolated pages.",
+    "introduction": "Use this track when the new modern-physics pages already in the catalog should feel like one coherent evidence chain. The path starts with threshold emission on the photoelectric bench, keeps discrete line patterns tied to one ladder-and-spectrum view, adds de Broglie's momentum-to-wavelength bridge before specializing that evidence into the Bohr hydrogen model, and then closes on radioactivity and half-life where single-event chance and large-sample regularity stay visible on one compact decay bench.",
+    "sequenceRationale": "Photoelectric Effect comes first because the branch begins with the compact light-versus-threshold clue that brightness alone is not enough. Atomic Spectra follows by turning that same light story into discrete line evidence. de Broglie Matter Waves then bridges the catalog's wavelength language into quantized whole-number fits, so the Bohr Model arrives as a bounded hydrogen follow-up instead of a detached historical orbit story. Radioactivity and Half-Life closes the path by widening modern physics from quantized structure to probabilistic decay while still keeping the bench compact and conceptually honest.",
+    "sequence": 60,
+    "discoveryHighlight": true,
+    "accent": "sky",
+    "highlights": [
+      "Threshold frequency",
+      "Discrete spectral lines",
+      "Matter wavelength",
+      "Hydrogen series",
+      "Half-life curves"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the modern-physics evidence chain first",
+      "summary": "Reuse the photoelectric quick test, the existing spectra line-pattern challenge, and the matter-wave loop-fit challenge to decide whether to start from threshold emission or jump straight into the hydrogen model.",
+      "skipToConcept": "bohr-model",
+      "probes": [
+        {
+          "id": "modern-physics-photoelectric-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "photoelectric-effect",
+          "title": "Photoelectric quick test",
+          "summary": "Check whether threshold frequency, brightness, and stopping-potential language already stay separate on the live emission bench."
+        },
+        {
+          "id": "modern-physics-spectra-line-probe",
+          "kind": "challenge",
+          "conceptSlug": "atomic-spectra",
+          "challengeId": "as-ch-two-visible-emission",
+          "title": "Line-pattern checkpoint",
+          "summary": "Use the spectra challenge to confirm that allowed level gaps still map cleanly onto a bounded visible-line pattern before the branch moves into matter waves."
+        },
+        {
+          "id": "modern-physics-matter-wave-fit-probe",
+          "kind": "challenge",
+          "conceptSlug": "de-broglie-matter-waves",
+          "challengeId": "dbmw-ch-one-fit",
+          "title": "Matter-wave fit checkpoint",
+          "summary": "Use the loop-fit challenge to verify that momentum, wavelength, and whole-number fits already stay connected before you skip into Bohr's hydrogen model."
+        }
+      ]
+    },
+    "checkpoints": [
+      {
+        "id": "modern-physics-threshold-line-checkpoint",
+        "title": "Threshold-to-line checkpoint",
+        "summary": "Carry the threshold story into a bounded spectrum where only two visible emission lines survive, so discrete wavelengths stay tied to the same modern-physics turn instead of becoming a separate shelf.",
+        "afterConcept": "atomic-spectra",
+        "conceptSlugs": [
+          "photoelectric-effect",
+          "atomic-spectra"
+        ],
+        "challenge": {
+          "conceptSlug": "atomic-spectra",
+          "challengeId": "as-ch-two-visible-emission"
+        }
+      },
+      {
+        "id": "modern-physics-wave-fit-checkpoint",
+        "title": "Matter-wave fit checkpoint",
+        "summary": "Tune the loop until one wavelength fits cleanly, so the bridge from discrete line evidence into whole-number matter-wave fits is secure before the hydrogen model takes over.",
+        "afterConcept": "de-broglie-matter-waves",
+        "conceptSlugs": [
+          "atomic-spectra",
+          "de-broglie-matter-waves"
+        ],
+        "challenge": {
+          "conceptSlug": "de-broglie-matter-waves",
+          "challengeId": "dbmw-ch-one-fit"
+        }
+      },
+      {
+        "id": "modern-physics-half-life-checkpoint",
+        "title": "Chance-versus-curve checkpoint",
+        "summary": "Close the track by landing near one half-life so the expected smooth halving and the live noisy sample stay visible together instead of splitting modern physics into separate structure and decay stories.",
+        "afterConcept": "radioactivity-half-life",
+        "conceptSlugs": [
+          "bohr-model",
+          "radioactivity-half-life"
+        ],
+        "challenge": {
+          "conceptSlug": "radioactivity-half-life",
+          "challengeId": "rhl-ch-half-life-checkpoint"
+        }
+      }
+    ],
+    "conceptSlugs": [
+      "photoelectric-effect",
+      "atomic-spectra",
+      "de-broglie-matter-waves",
+      "bohr-model",
+      "radioactivity-half-life"
+    ]
+  },
+  {
+    "id": "starter-track-functions-and-change",
+    "slug": "functions-and-change",
+    "title": "Functions and Change",
+    "summary": "Keep the first math path compact: read parent-curve moves first, then rational asymptotes and domain breaks, then exponential growth and decay, local slope, visible limit behavior, and finally accumulation so change stays graph-first all the way through.",
+    "introduction": "Use this track when the growing math slice should feel like one coherent launch path instead of isolated pages. Start with one parent curve and its transformed version so shifts, reflections, and vertical scale stay visible on the graph, then keep one shifted reciprocal family honest so vertical and horizontal asymptotes, intercepts, domain breaks, and an optional removable hole stay tied to the same bench, then keep one exponential bench honest so growth, decay, doubling or half-life, and logarithmic target time stay tied to the same curve, then carry that same graph-reading habit into a moving point, secant line, tangent line, and derivative graph, pause on one target point to compare left-hand approach, right-hand approach, holes, jumps, and blow-up behavior, and finally widen into signed area and accumulation without leaving the same graph-first language.",
+    "sequenceRationale": "Graph Transformations comes first because it trains the eye to treat changes in an equation as visible changes on one shared graph. Rational Functions / Asymptotes and Behavior follows while that shift language is still fresh, so vertical and horizontal asymptotes stay attached to one shifted reciprocal family instead of becoming detached algebra. Exponential Change / Growth, Decay, and Logarithms then adds a second non-polynomial family while the graph-first habit is still active, so multiplicative change and inverse target time stay visual instead of symbolic. Derivative as Slope / Local Rate of Change builds on that same graph-reading habit by asking how the curve changes at one point. Limits and Continuity / Approaching a Value follows while that limiting language is already on the table, so one-sided approach, removable holes, jumps, and blow-up behavior stay attached to the same honest graph rather than turning into edge-case vocabulary. Integral as Accumulation / Area closes the path by turning local-rate and limit language into a running-total view, so slope, approach, and accumulation stay connected instead of becoming separate shelves.",
+    "sequence": 70,
+    "discoveryHighlight": true,
+    "accent": "amber",
+    "highlights": [
+      "Parent-curve moves",
+      "Shifts and reflections",
+      "Rational asymptotes and holes",
+      "Exponential growth and decay",
+      "Target time from logs",
+      "Tangent slope",
+      "One-sided limits and continuity",
+      "Local rate of change",
+      "Signed area and accumulation"
+    ],
+    "recommendedNextTrackSlugs": [
+      "complex-and-parametric-motion",
+      "vectors-and-motion-bridge"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the graph-reading bridge first",
+      "summary": "Reuse the graph-transformations quick test, the rational domain-break checkpoint, and the exponential target-time quick test to decide whether to start from parent-curve moves or jump straight into local slope.",
+      "skipToConcept": "derivative-as-slope-local-rate-of-change",
+      "probes": [
+        {
+          "id": "functions-change-graph-reading-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "graph-transformations",
+          "title": "Graph-transformation quick test",
+          "summary": "Check whether shifts, reflections, and landmark tracking already feel stable on the shared graph."
+        },
+        {
+          "id": "functions-change-rational-domain-probe",
+          "kind": "challenge",
+          "conceptSlug": "rational-functions-asymptotes-and-behavior",
+          "challengeId": "rf-ch-separate-hole-from-asymptote",
+          "title": "Rational domain-break checkpoint",
+          "summary": "Use the rational-functions challenge to verify that asymptotes, removable holes, and branch placement still stay tied to one graph family."
+        },
+        {
+          "id": "functions-change-exponential-target-probe",
+          "kind": "quick-test",
+          "conceptSlug": "exponential-change-growth-decay-logarithms",
+          "title": "Exponential target-time quick test",
+          "summary": "Check whether growth versus decay and the logarithmic target question already feel stable on the same curve."
+        }
+      ]
+    },
+    "checkpoints": [
+      {
+        "id": "functions-change-rational-checkpoint",
+        "title": "Domain-break checkpoint",
+        "summary": "Pause once the graph-language from parent curves still holds while the reciprocal family separates a true asymptote from a removable hole.",
+        "afterConcept": "rational-functions-asymptotes-and-behavior",
+        "conceptSlugs": [
+          "graph-transformations",
+          "rational-functions-asymptotes-and-behavior"
+        ],
+        "challenge": {
+          "conceptSlug": "rational-functions-asymptotes-and-behavior",
+          "challengeId": "rf-ch-separate-hole-from-asymptote"
+        }
+      },
+      {
+        "id": "functions-change-exponential-checkpoint",
+        "title": "Growth-and-decay checkpoint",
+        "summary": "Close the functions branch by landing a genuine target-time case where multiplicative change still reads off the same graph before calculus starts asking about local rate.",
+        "afterConcept": "exponential-change-growth-decay-logarithms",
+        "conceptSlugs": [
+          "graph-transformations",
+          "rational-functions-asymptotes-and-behavior",
+          "exponential-change-growth-decay-logarithms"
+        ],
+        "challenge": {
+          "conceptSlug": "exponential-change-growth-decay-logarithms",
+          "challengeId": "exp-ch-quarter-target-two-half-lives"
+        }
+      },
+      {
+        "id": "functions-change-derivative-checkpoint",
+        "title": "Slope checkpoint",
+        "summary": "Pause the path where the tangent is nearly flat and the secant has tightened around the same local rate before the track widens into accumulation.",
+        "afterConcept": "derivative-as-slope-local-rate-of-change",
+        "conceptSlugs": [
+          "graph-transformations",
+          "rational-functions-asymptotes-and-behavior",
+          "exponential-change-growth-decay-logarithms",
+          "derivative-as-slope-local-rate-of-change"
+        ],
+        "challenge": {
+          "conceptSlug": "derivative-as-slope-local-rate-of-change",
+          "challengeId": "ds-ch-catch-the-flat-tangent"
+        }
+      },
+      {
+        "id": "functions-change-limits-checkpoint",
+        "title": "Continuity checkpoint",
+        "summary": "Hold onto the difference between agreeing one-sided values and true continuity before the track widens into signed area and accumulation.",
+        "afterConcept": "limits-and-continuity-approaching-a-value",
+        "conceptSlugs": [
+          "derivative-as-slope-local-rate-of-change",
+          "limits-and-continuity-approaching-a-value"
+        ],
+        "challenge": {
+          "conceptSlug": "limits-and-continuity-approaching-a-value",
+          "challengeId": "lc-ch-agreeing-sides-broken-continuity"
+        }
+      },
+      {
+        "id": "functions-change-accumulation-checkpoint",
+        "title": "Accumulation checkpoint",
+        "summary": "Finish the path by holding onto the difference between local height and total accumulation when the source has turned negative but the running total still stays positive.",
+        "afterConcept": "integral-as-accumulation-area",
+        "conceptSlugs": [
+          "derivative-as-slope-local-rate-of-change",
+          "limits-and-continuity-approaching-a-value",
+          "integral-as-accumulation-area"
+        ],
+        "challenge": {
+          "conceptSlug": "integral-as-accumulation-area",
+          "challengeId": "ia-ch-negative-height-positive-total"
+        }
+      }
+    ],
+    "conceptSlugs": [
+      "graph-transformations",
+      "rational-functions-asymptotes-and-behavior",
+      "exponential-change-growth-decay-logarithms",
+      "derivative-as-slope-local-rate-of-change",
+      "limits-and-continuity-approaching-a-value",
+      "integral-as-accumulation-area"
+    ]
+  },
+  {
+    "id": "starter-track-vectors-and-motion-bridge",
+    "slug": "vectors-and-motion-bridge",
+    "title": "Vectors and Motion Bridge",
+    "summary": "Start with vectors as geometric objects on a 2D plane, then carry the same component language into the existing motion-facing vectors bench.",
+    "introduction": "Use this short bridge when the new math vectors concept should connect cleanly to the physics catalog instead of feeling like a separate subject island. The path starts with addition, subtraction, and scaling on a live 2D plane, then moves straight into Vectors and Components where the same ordered-pair language becomes motion-reading language.",
+    "sequenceRationale": "Vectors in 2D comes first because it keeps the vector itself visible as an arrow and an ordered pair before any motion story is layered on top. Vectors and Components follows by reusing that same component bookkeeping inside a moving-point bench, so the bridge into mechanics feels like a continuation rather than a reset.",
+    "sequence": 76,
+    "discoveryHighlight": true,
+    "accent": "sky",
+    "highlights": [
+      "Magnitude and direction",
+      "Addition and subtraction",
+      "Scalar multiplication",
+      "Bridge into motion"
+    ],
+    "recommendedNextTrackSlugs": [
+      "motion-and-circular-motion"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the vector bridge before you skip ahead",
+      "summary": "Reuse the 2D-vectors quick test, the motion-components quick test, and the equal-components checkpoint to decide whether to start from plane-based vector combination or jump straight into the motion-facing bench.",
+      "skipToConcept": "vectors-components",
+      "probes": [
+        {
+          "id": "vectors-bridge-2d-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "vectors-in-2d",
+          "title": "2D vectors quick test",
+          "summary": "Check whether vector arrows, components, subtraction, and scalar multiplication already stay tied together on the same plane."
+        },
+        {
+          "id": "vectors-bridge-motion-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "vectors-components",
+          "title": "Motion-components quick test",
+          "summary": "Check whether stage motion, the component graph, and the endpoint readout already stay tied together on the motion-facing bench."
+        },
+        {
+          "id": "vectors-bridge-motion-balance-probe",
+          "kind": "challenge",
+          "conceptSlug": "vectors-components",
+          "challengeId": "vc-ch-equal-components",
+          "title": "Equal-components checkpoint",
+          "summary": "Use the motion-facing vectors challenge to verify that the horizontal and vertical components already stay visibly matched before you skip the opening bridge."
+        }
+      ]
+    },
+    "checkpoints": [
+      {
+        "id": "vectors-bridge-combination-checkpoint",
+        "title": "Combination checkpoint",
+        "summary": "Lock in one honest cancellation case on the plane before the bridge shifts into motion-reading language.",
+        "afterConcept": "vectors-in-2d",
+        "conceptSlugs": [
+          "vectors-in-2d"
+        ],
+        "challenge": {
+          "conceptSlug": "vectors-in-2d",
+          "challengeId": "v2d-ch-near-zero-result"
+        }
+      },
+      {
+        "id": "vectors-bridge-components-checkpoint",
+        "title": "Component-match checkpoint",
+        "summary": "Pause on one honest equal-components case before the bridge asks for a full endpoint target on the motion bench.",
+        "afterConcept": "vectors-components",
+        "conceptSlugs": [
+          "vectors-in-2d",
+          "vectors-components"
+        ],
+        "challenge": {
+          "conceptSlug": "vectors-components",
+          "challengeId": "vc-ch-equal-components"
+        }
+      },
+      {
+        "id": "vectors-bridge-motion-checkpoint",
+        "title": "Motion bridge checkpoint",
+        "summary": "Finish by landing the endpoint target once the component match already feels stable, so the ordered-pair vector language carries cleanly from the math plane into the motion bench.",
+        "afterConcept": "vectors-components",
+        "conceptSlugs": [
+          "vectors-in-2d",
+          "vectors-components"
+        ],
+        "challenge": {
+          "conceptSlug": "vectors-components",
+          "challengeId": "vc-ch-hit-end-point"
+        }
+      }
+    ],
+    "conceptSlugs": [
+      "vectors-in-2d",
+      "vectors-components"
+    ]
+  },
+  {
+    "id": "starter-track-complex-and-parametric-motion",
+    "slug": "complex-and-parametric-motion",
+    "title": "Complex and Parametric Motion",
+    "summary": "Start with complex numbers as points on one plane, turn that plane into unit-circle and polar-coordinate geometry, deepen that same bench into trig identities and inverse-angle reasoning, then carry the coordinate language into motion traced from x(t) and y(t).",
+    "introduction": "Use this track when the broader math slice should widen beyond functions and calculus without losing the simulation-first style. The path starts with complex numbers as points, vectors, and rotations on one plane, then keeps one rotating point on the unit circle so cosine and sine become live projections, adds a polar-coordinate bench where radius and angle become x and y on that same plane, deepens the same geometry into trig identities and inverse-angle recovery from ratios, and finally moves into a parametric-motion bench where the same coordinate language explains a moving point, a traced curve, and the timing along that curve.",
+    "sequenceRationale": "Complex Numbers on the Plane comes first because it turns the plane itself into a richer mathematical object before any motion story is layered onto it. Unit Circle / Sine and Cosine from Rotation comes next because it keeps the same plane while turning x and y into live projections from one angle. Polar Coordinates / Radius and Angle then keeps that same angle language while making radius and Cartesian components readable together. Trig Identities from Unit-Circle Geometry uses that same point to justify the core identity without leaving the bench, Inverse Trig / Angle from Ratio keeps ratio recovery and quadrant checks on the same plane, and Parametric Curves / Motion from Equations finally reuses the same coordinate pair while separating the traced path from the motion along it.",
+    "sequence": 74,
+    "accent": "teal",
+    "highlights": [
+      "Complex points on a plane",
+      "Unit-circle and polar geometry",
+      "Trig identities from one point",
+      "Quadrant-aware inverse trig",
+      "Path vs traversal"
+    ],
+    "recommendedNextTrackSlugs": [
+      "vectors-and-motion-bridge"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the plane-to-rotation bridge first",
+      "summary": "Reuse the complex-plane quick test plus the unit-circle sign and polar x-y checkpoints to decide whether to start from plane geometry or jump straight to the trig-geometry deepening before motion.",
+      "skipToConcept": "trig-identities-from-unit-circle-geometry",
+      "probes": [
+        {
+          "id": "complex-parametric-complex-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "complex-numbers-on-the-plane",
+          "title": "Complex-plane quick test",
+          "summary": "Check whether points, vectors, magnitude, and argument already read as one object on the same plane."
+        },
+        {
+          "id": "complex-parametric-unit-circle-probe",
+          "kind": "challenge",
+          "conceptSlug": "unit-circle-sine-cosine-from-rotation",
+          "challengeId": "ucr-ch-quadrant-two-sign-read",
+          "title": "Unit-circle sign checkpoint",
+          "summary": "Use the unit-circle challenge to verify that cosine sign, sine sign, and axis crossing cues still stay tied to the same rotating point."
+        },
+        {
+          "id": "complex-parametric-polar-probe",
+          "kind": "challenge",
+          "conceptSlug": "polar-coordinates-radius-and-angle",
+          "challengeId": "polar-ch-second-quadrant-xy-bridge",
+          "title": "Polar x-y checkpoint",
+          "summary": "Use the polar challenge to verify that radius, angle, x, and y still stay readable as one point before the track jumps into motion."
+        }
+      ]
+    },
+    "checkpoints": [
+      {
+        "id": "complex-parametric-complex-checkpoint",
+        "title": "Complex-plane checkpoint",
+        "summary": "Lock in one genuine scale-and-turn multiplication case before the track widens into rotation, ratio, and motion on the same plane.",
+        "afterConcept": "complex-numbers-on-the-plane",
+        "conceptSlugs": [
+          "complex-numbers-on-the-plane"
+        ],
+        "challenge": {
+          "conceptSlug": "complex-numbers-on-the-plane",
+          "challengeId": "cnp-ch-rotate-to-positive-imaginary"
+        }
+      },
+      {
+        "id": "complex-parametric-unit-circle-checkpoint",
+        "title": "Unit-circle sign checkpoint",
+        "summary": "Lock in one honest Quadrant II reading before the track widens from pure rotation into ratio and radius-angle geometry.",
+        "afterConcept": "unit-circle-sine-cosine-from-rotation",
+        "conceptSlugs": [
+          "complex-numbers-on-the-plane",
+          "unit-circle-sine-cosine-from-rotation"
+        ],
+        "challenge": {
+          "conceptSlug": "unit-circle-sine-cosine-from-rotation",
+          "challengeId": "ucr-ch-quadrant-two-sign-read"
+        }
+      },
+      {
+        "id": "complex-parametric-inverse-angle-checkpoint",
+        "title": "Inverse-angle checkpoint",
+        "summary": "Pause where the ratio can suggest one principal angle while the quadrant signs force the full direction, before the track turns that same plane into motion from equations.",
+        "afterConcept": "inverse-trig-angle-from-ratio",
+        "conceptSlugs": [
+          "complex-numbers-on-the-plane",
+          "unit-circle-sine-cosine-from-rotation",
+          "polar-coordinates-radius-and-angle",
+          "trig-identities-from-unit-circle-geometry",
+          "inverse-trig-angle-from-ratio"
+        ],
+        "challenge": {
+          "conceptSlug": "inverse-trig-angle-from-ratio",
+          "challengeId": "iatr-ch-quadrant-two-ratio-recovery"
+        }
+      },
+      {
+        "id": "complex-parametric-motion-checkpoint",
+        "title": "Parametric-motion checkpoint",
+        "summary": "Finish by building a tall curve and catching the point near the axis while it is still moving quickly, so the branch closes on shape versus traversal after the trig-geometry deepening lands.",
+        "afterConcept": "parametric-curves-motion-from-equations",
+        "conceptSlugs": [
+          "complex-numbers-on-the-plane",
+          "unit-circle-sine-cosine-from-rotation",
+          "polar-coordinates-radius-and-angle",
+          "trig-identities-from-unit-circle-geometry",
+          "inverse-trig-angle-from-ratio",
+          "parametric-curves-motion-from-equations"
+        ],
+        "challenge": {
+          "conceptSlug": "parametric-curves-motion-from-equations",
+          "challengeId": "pcm-ch-tall-fast-near-axis"
+        }
+      }
+    ],
+    "conceptSlugs": [
+      "complex-numbers-on-the-plane",
+      "unit-circle-sine-cosine-from-rotation",
+      "polar-coordinates-radius-and-angle",
+      "trig-identities-from-unit-circle-geometry",
+      "inverse-trig-angle-from-ratio",
+      "parametric-curves-motion-from-equations"
+    ]
+  },
+  {
+    "id": "starter-track-rates-and-equilibrium",
+    "slug": "rates-and-equilibrium",
+    "title": "Rates and Equilibrium",
+    "summary": "Start with successful collisions setting reaction rate, then reuse the same chemistry language inside a reversible system that re-balances after a disturbance.",
+    "introduction": "Use this track when the chemistry pilot should feel like a real branch instead of two isolated pages in the catalog. The path starts with one collision box where temperature, concentration, threshold, and catalysts all stay tied to successful collisions, then carries that particle story into a reversible bench where forward and reverse change compete on the way to a new equilibrium mix.",
+    "sequenceRationale": "Reaction Rate / Collision Theory comes first because the forward-versus-successful collision distinction is the clearest foundation for the chemistry slice. Dynamic Equilibrium / Le Chatelier's Principle then reuses that same particle and rate language inside a reversible system, so the later equilibrium shift does not feel like a detached chemistry slogan.",
+    "sequence": 82,
+    "discoveryHighlight": true,
+    "accent": "teal",
+    "highlights": [
+      "Successful collisions",
+      "Temperature vs concentration",
+      "Dynamic equilibrium",
+      "Shift to a new balance"
+    ],
+    "recommendedNextTrackSlugs": [
+      "stoichiometry-and-yield",
+      "solutions-and-ph",
+      "thermodynamics-and-kinetic-theory"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the chemistry bridge before you skip ahead",
+      "summary": "Reuse the collision-theory quick test and the equilibrium rebalance challenge to decide whether to start from successful collisions or jump straight into the reversible bench.",
+      "skipToConcept": "dynamic-equilibrium-le-chateliers-principle",
+      "probes": [
+        {
+          "id": "chemistry-rates-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "reaction-rate-collision-theory",
+          "title": "Collision-theory quick test",
+          "summary": "Check whether crowding, heating, barrier-clearing success, and catalyst intuition already stay tied together on the same bench."
+        },
+        {
+          "id": "chemistry-equilibrium-rebalance-probe",
+          "kind": "challenge",
+          "conceptSlug": "dynamic-equilibrium-le-chateliers-principle",
+          "challengeId": "de-ch-disturb-then-rebalance",
+          "title": "Equilibrium rebalance checkpoint",
+          "summary": "Use the equilibrium challenge to confirm that forward and reverse balance still reads clearly after a disturbance before you skip the opening chemistry page."
+        }
+      ]
+    },
+    "checkpoints": [
+      {
+        "id": "chemistry-rate-checkpoint",
+        "title": "Successful-collision checkpoint",
+        "summary": "Pause once the chemistry story can raise the reaction rate without relying on a crowded box, so the collision-success distinction is stable before the reversible branch begins.",
+        "afterConcept": "reaction-rate-collision-theory",
+        "conceptSlugs": [
+          "reaction-rate-collision-theory"
+        ],
+        "challenge": {
+          "conceptSlug": "reaction-rate-collision-theory",
+          "challengeId": "rrct-ch-more-success-not-just-more-hits"
+        }
+      },
+      {
+        "id": "chemistry-equilibrium-checkpoint",
+        "title": "Rebalance checkpoint",
+        "summary": "Finish by building a product-favored equilibrium from a disturbed start and waiting for the forward and reverse changes to come back together honestly.",
+        "afterConcept": "dynamic-equilibrium-le-chateliers-principle",
+        "conceptSlugs": [
+          "reaction-rate-collision-theory",
+          "dynamic-equilibrium-le-chateliers-principle"
+        ],
+        "challenge": {
+          "conceptSlug": "dynamic-equilibrium-le-chateliers-principle",
+          "challengeId": "de-ch-disturb-then-rebalance"
+        }
+      }
+    ],
+    "conceptSlugs": [
+      "reaction-rate-collision-theory",
+      "dynamic-equilibrium-le-chateliers-principle"
+    ]
+  },
+  {
+    "id": "starter-track-stoichiometry-and-yield",
+    "slug": "stoichiometry-and-yield",
+    "title": "Stoichiometry and Yield",
+    "summary": "Start with one visible reaction recipe, use the lower batch cap to identify the limiting reagent, and then compare actual output with the same theoretical marker.",
+    "introduction": "Use this track when chemistry quantities still feel like disconnected worksheet steps. The path keeps one particle-and-recipe bench in view so stoichiometric ratios, limiting reagent, leftover reactant, and percent yield all read as different views of the same reaction run.",
+    "sequenceRationale": "Stoichiometric Ratios and Recipe Batches comes first because the whole branch depends on reading one complete recipe batch honestly. Limiting Reagent and Leftover Reactants then keeps the same recipe visible while the lower supply cap sets the theoretical output, and Percent Yield and Reaction Extent closes by holding that same theoretical marker steady while the actual tray lands lower.",
+    "sequence": 83,
+    "accent": "amber",
+    "highlights": [
+      "Recipe batches",
+      "Limiting reagent",
+      "Leftover reactant",
+      "Actual vs theoretical output"
+    ],
+    "recommendedNextTrackSlugs": [
+      "solutions-and-ph",
+      "rates-and-equilibrium"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the recipe-to-yield bridge first",
+      "summary": "Reuse the stoichiometric-ratio quick test and the limiting-reagent checkpoint to decide whether to start from complete recipe batches or jump straight to the yield end of the branch.",
+      "skipToConcept": "percent-yield-and-reaction-extent",
+      "probes": [
+        {
+          "id": "stoich-yield-ratio-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "stoichiometric-ratios-and-recipe-batches",
+          "title": "Recipe-ratio quick test",
+          "summary": "Check whether full recipe batches already feel more trustworthy than raw packet counts."
+        },
+        {
+          "id": "stoich-yield-limiting-probe",
+          "kind": "challenge",
+          "conceptSlug": "limiting-reagent-and-leftover-reactants",
+          "challengeId": "lr-ch-make-b-the-limiting-reagent",
+          "title": "Limiting-reagent checkpoint",
+          "summary": "Use the limiting-reagent challenge to verify that the lower batch cap and leftover reactant still stay tied together before you skip the opening concept."
+        }
+      ]
+    },
+    "checkpoints": [
+      {
+        "id": "stoich-limiting-checkpoint",
+        "title": "Limiting-reagent checkpoint",
+        "summary": "Pause once the lower batch cap and the leftover tray agree on which reactant runs out first and which one stays in excess.",
+        "afterConcept": "limiting-reagent-and-leftover-reactants",
+        "conceptSlugs": [
+          "stoichiometric-ratios-and-recipe-batches",
+          "limiting-reagent-and-leftover-reactants"
+        ],
+        "challenge": {
+          "conceptSlug": "limiting-reagent-and-leftover-reactants",
+          "challengeId": "lr-ch-make-b-the-limiting-reagent"
+        }
+      },
+      {
+        "id": "stoich-yield-checkpoint",
+        "title": "Percent-yield checkpoint",
+        "summary": "Finish by keeping the same matched recipe while the actual tray lands below the theoretical marker, so yield reads as a visible shortfall instead of a detached percentage.",
+        "afterConcept": "percent-yield-and-reaction-extent",
+        "conceptSlugs": [
+          "stoichiometric-ratios-and-recipe-batches",
+          "limiting-reagent-and-leftover-reactants",
+          "percent-yield-and-reaction-extent"
+        ],
+        "challenge": {
+          "conceptSlug": "percent-yield-and-reaction-extent",
+          "challengeId": "pyre-ch-hit-seventy-five-percent-yield"
+        }
+      }
+    ],
+    "conceptSlugs": [
+      "stoichiometric-ratios-and-recipe-batches",
+      "limiting-reagent-and-leftover-reactants",
+      "percent-yield-and-reaction-extent"
+    ]
+  },
+  {
+    "id": "starter-track-solutions-and-ph",
+    "slug": "solutions-and-ph",
+    "title": "Solutions and pH",
+    "summary": "Start with concentration in one beaker, add solubility limits and saturation, then reuse that same solution language to read pH, buffers, and neutralization.",
+    "introduction": "Use this track when Chemistry should feel broader than the original rates-and-equilibrium slice without turning into a giant curriculum tree. The path starts with how much solute sits in how much liquid, then adds the dissolving limit and visible excess solid before widening into pH, buffers, and neutralization on the same bounded solution model.",
+    "sequenceRationale": "Concentration and Dilution comes first because it stabilizes the amount-versus-volume story underneath every later solution bench. Solubility and Saturation then adds the idea that the beaker has a real dissolving capacity, Acid-Base / pH Intuition reuses that same solution language for live acid-base balance, and Buffers and Neutralization closes by showing why stable pH does not mean unchanged chemistry.",
+    "sequence": 84,
+    "accent": "sky",
+    "highlights": [
+      "Amount in volume",
+      "Dilution without losing solute",
+      "Solubility limit and excess solid",
+      "pH as a live scale",
+      "Buffer reserve and neutralization"
+    ],
+    "recommendedNextTrackSlugs": [
+      "stoichiometry-and-yield",
+      "rates-and-equilibrium",
+      "thermodynamics-and-kinetic-theory"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the solution-foundations bridge first",
+      "summary": "Reuse the concentration quick test and the saturation challenge to decide whether to start from dilution basics or jump straight into the pH and buffer end of the track.",
+      "skipToConcept": "acid-base-ph-intuition",
+      "probes": [
+        {
+          "id": "solutions-ph-concentration-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "concentration-and-dilution",
+          "title": "Concentration quick test",
+          "summary": "Check whether amount-versus-volume reasoning and dilution already stay separate on the same beaker."
+        },
+        {
+          "id": "solutions-ph-saturation-probe",
+          "kind": "challenge",
+          "conceptSlug": "solubility-and-saturation",
+          "challengeId": "ss-ch-dissolve-excess-without-removing-solute",
+          "title": "Saturation checkpoint",
+          "summary": "Use the saturation challenge to verify that dissolving capacity and visible excess already read cleanly before you skip the opening solution concepts."
+        }
+      ]
+    },
+    "checkpoints": [
+      {
+        "id": "solutions-ph-dilution-checkpoint",
+        "title": "Dilution checkpoint",
+        "summary": "Lock in a genuine dilution move where the beaker becomes less concentrated without turning it into a different solute case.",
+        "afterConcept": "concentration-and-dilution",
+        "conceptSlugs": [
+          "concentration-and-dilution"
+        ],
+        "challenge": {
+          "conceptSlug": "concentration-and-dilution",
+          "challengeId": "cd-ch-dilute-without-losing-solute"
+        }
+      },
+      {
+        "id": "solutions-ph-saturation-checkpoint",
+        "title": "Saturation checkpoint",
+        "summary": "Lock in the idea that the same solute can hit a real dissolving limit, so extra solid appears unless you increase the capacity.",
+        "afterConcept": "solubility-and-saturation",
+        "conceptSlugs": [
+          "concentration-and-dilution",
+          "solubility-and-saturation"
+        ],
+        "challenge": {
+          "conceptSlug": "solubility-and-saturation",
+          "challengeId": "ss-ch-dissolve-excess-without-removing-solute"
+        }
+      },
+      {
+        "id": "solutions-ph-neutral-checkpoint",
+        "title": "Near-neutral checkpoint",
+        "summary": "Finish by landing the mixture near neutral while acid and base character stay visibly close together on the same pH bench.",
+        "afterConcept": "acid-base-ph-intuition",
+        "conceptSlugs": [
+          "concentration-and-dilution",
+          "solubility-and-saturation",
+          "acid-base-ph-intuition"
+        ],
+        "challenge": {
+          "conceptSlug": "acid-base-ph-intuition",
+          "challengeId": "abph-ch-land-near-neutral"
+        }
+      },
+      {
+        "id": "solutions-ph-buffer-checkpoint",
+        "title": "Buffer checkpoint",
+        "summary": "Close the track by keeping the pH near neutral under an acid pulse while the reserve bar still shows that the chemistry is being used.",
+        "afterConcept": "buffers-and-neutralization",
+        "conceptSlugs": [
+          "acid-base-ph-intuition",
+          "buffers-and-neutralization"
+        ],
+        "challenge": {
+          "conceptSlug": "buffers-and-neutralization",
+          "challengeId": "bn-ch-hold-near-neutral-under-acid-pulse"
+        }
+      }
+    ],
+    "conceptSlugs": [
+      "concentration-and-dilution",
+      "solubility-and-saturation",
+      "acid-base-ph-intuition",
+      "buffers-and-neutralization"
+    ]
+  },
+  {
+    "id": "starter-track-algorithms-and-search-foundations",
+    "slug": "algorithms-and-search-foundations",
+    "title": "Algorithms and Search Foundations",
+    "summary": "Start with visible list work, reuse that search language for binary search, and then carry the branch into one live graph bench for adjacency, BFS, DFS, and visited-state behavior.",
+    "introduction": "Use this track when the computer-science slice should stay compact and simulation-first, but still grow beyond the original list-only pilot. The path starts with sorting as a visible process, carries that same bounded search language into binary search, and then reuses one shared graph bench so adjacency, frontier order, and cycle bookkeeping all stay honest instead of becoming syntax lessons.",
+    "sequenceRationale": "Sorting and Algorithmic Trade-offs comes first because it turns the list itself into a live object with visible cost and disorder. Binary Search / Halving the Search Space then reuses that list language while ordered data, low-mid-high markers, and interval shrinking explain why binary search is fast. Graph Representation and Adjacency Intuition widens the branch from lists into neighborhoods, Breadth-First Search and Layered Frontiers keeps that bench shallow and queue-based, Depth-First Search and Backtracking Paths gives the same graph a stack-based contrast, and Frontier and Visited State on Graphs closes by showing how cycles become manageable through clean bookkeeping.",
+    "sequence": 86,
+    "accent": "ink",
+    "highlights": [
+      "Visible sorting work",
+      "Comparisons and writes",
+      "Ordered-data search",
+      "Halving the interval",
+      "Graph frontiers",
+      "BFS vs DFS"
+    ],
+    "recommendedNextTrackSlugs": [
+      "functions-and-change"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the list-to-search bridge first",
+      "summary": "Reuse the sorting quick test and the binary-search challenge to decide whether to start from visible sorting work or jump ahead to the shared graph bench.",
+      "skipToConcept": "graph-representation-and-adjacency-intuition",
+      "probes": [
+        {
+          "id": "algorithms-search-sorting-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "sorting-and-algorithmic-trade-offs",
+          "title": "Sorting quick test",
+          "summary": "Check whether comparisons, writes, and input order already feel readable on the live list."
+        },
+        {
+          "id": "algorithms-search-binary-probe",
+          "kind": "challenge",
+          "conceptSlug": "binary-search-halving-the-search-space",
+          "challengeId": "bsh-ch-find-far-right-fast",
+          "title": "Binary-search checkpoint",
+          "summary": "Use the halving challenge to verify that ordered data and shrinking intervals already feel concrete before you skip the opening concept."
+        }
+      ]
+    },
+    "checkpoints": [
+      {
+        "id": "algorithms-search-sorting-checkpoint",
+        "title": "Sorting trade-off checkpoint",
+        "summary": "Pause once the list and the counters make it clear why a nearly sorted case can reward insertion differently from a heavier bubble run.",
+        "afterConcept": "sorting-and-algorithmic-trade-offs",
+        "conceptSlugs": [
+          "sorting-and-algorithmic-trade-offs"
+        ],
+        "challenge": {
+          "conceptSlug": "sorting-and-algorithmic-trade-offs",
+          "challengeId": "sat-ch-use-nearly-sorted-insertion"
+        }
+      },
+      {
+        "id": "algorithms-search-binary-checkpoint",
+        "title": "Binary-search checkpoint",
+        "summary": "Finish by finding a far-right target quickly enough that halving the interval feels different from scanning one by one.",
+        "afterConcept": "binary-search-halving-the-search-space",
+        "conceptSlugs": [
+          "sorting-and-algorithmic-trade-offs",
+          "binary-search-halving-the-search-space"
+        ],
+        "challenge": {
+          "conceptSlug": "binary-search-halving-the-search-space",
+          "challengeId": "bsh-ch-find-far-right-fast"
+        }
+      }
+    ],
+    "conceptSlugs": [
+      "sorting-and-algorithmic-trade-offs",
+      "binary-search-halving-the-search-space",
+      "graph-representation-and-adjacency-intuition",
+      "breadth-first-search-and-layered-frontiers",
+      "depth-first-search-and-backtracking-paths",
+      "frontier-and-visited-state-on-graphs"
+    ]
+  }
+]

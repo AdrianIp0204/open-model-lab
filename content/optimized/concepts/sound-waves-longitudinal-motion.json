@@ -1,0 +1,215 @@
+{
+"sections": {
+"explanation": {
+"paragraphs": [
+"Watch one parcel in the tube. It moves left and right parallel to the wave direction, then returns near its starting position. The sound disturbance still moves to the right because what travels onward is a pattern of compressions and rarefactions, not a clump of matter being carried down the tube.",
+"This bench keeps the piston, parcel row, pressure ribbon, and movable probe tied to the same wave. The displacement graph shows when the source parcel and probe parcel repeat their motion. The probe-pressure graph shows whether the local region is compressed or rarefied. Read both together, because parcel position alone does not tell you the full local sound state."
+]
+},
+"keyIdeas": [
+"In a longitudinal wave, parcels oscillate parallel to the direction the disturbance travels.",
+"A compression is a crowded region of the medium, while a rarefaction is a more spread-out region.",
+"The disturbance and its energy move onward through the medium even though each parcel mainly oscillates around its own equilibrium position."
+],
+"commonMisconception": {
+"myth": "If the sound wave moves to the right, the air itself must stream to the right with it.",
+"correction": [
+"The wave pattern and its energy move to the right, but each parcel mainly oscillates back and forth around equilibrium.",
+"Sound is passed onward by local pushes and pulls between neighboring parcels, not by one parcel traveling all the way down the tube."
+]
+},
+"workedExamples": {
+"intro": "These checks use the live source, probe, and compression state already shown on the stage and graphs, so the calculation stays tied to the same sound wave you are inspecting.",
+"items": [
+{
+"id": "sound-travel-timing",
+"title": "Frequency and probe delay from v_wave and λ",
+"steps": [
+{
+"id": "relation",
+"label": "1. Use the wave-speed and delay relations"
+},
+{
+"id": "substitute",
+"label": "2. Substitute the live values"
+},
+{
+"id": "compute",
+"label": "3. Interpret the timing at the source and probe"
+}
+],
+"applyAction": {
+"label": "Show a farther downstream probe",
+"observationHint": "The same compression pattern reaches the farther parcel later, even though each parcel still only oscillates locally."
+}
+},
+{
+"id": "local-compression-cue",
+"title": "Read compression at the probe",
+"prompt": "At the current probe position $x_p = {{probeXValue}}\\,\\mathrm{m}$ and time $t = {{timeValue}}\\,\\mathrm{s}$, what does the probe parcel tell you about the local sound state? Is the region compressed, rarefied, or near its resting spacing?",
+"steps": [
+{
+"id": "relation",
+"label": "1. Link parcel displacement to local spacing"
+},
+{
+"id": "substitute",
+"label": "2. Read the live probe parcel"
+},
+{
+"id": "compute",
+"label": "3. Interpret the local state"
+}
+],
+"applyAction": {
+"observationHint": "The probe parcel can be near its center position while the local compression cue is strongly positive."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "The medium stays the same, so the wave speed is fixed. What single change packs the compressions closer together while keeping the motion longitudinal?",
+"prediction": "Choose between increasing amplitude, shortening wavelength, and moving the probe farther right.",
+"explanation": "Compression spacing is set by wavelength. Shortening λ packs more compressions and rarefactions into the same distance without changing the back-and-forth nature of parcel motion."
+}
+},
+"equations": [
+{
+"id": "sound-displacement",
+"meaning": "Describes parcel motion along the tube. Each parcel oscillates around equilibrium instead of traveling across the whole medium."
+},
+{
+"id": "sound-wave-relation",
+"meaning": "Links the spacing between compressions to how quickly the source must oscillate."
+},
+{
+"id": "sound-travel-delay",
+"meaning": "A parcel farther from the source responds later because the disturbance needs time to travel there."
+},
+{
+"id": "sound-compression-cue",
+"meaning": "Positive values mean local crowding, while negative values mean local spreading. This is about neighboring parcel spacing, not just one parcel's position."
+}
+],
+"variableLinks": [
+{
+"id": "amplitude",
+"description": "Changes how far each parcel swings from equilibrium and how strong the compression and rarefaction cue becomes."
+},
+{
+"id": "waveSpeed",
+"description": "Changes how quickly the compression pattern and its energy reach downstream positions."
+},
+{
+"id": "wavelength",
+"description": "Changes the spacing from one compression to the next along the medium."
+},
+{
+"id": "probeX",
+"description": "Moves the tracked parcel so you can compare local motion, local crowding, and travel delay at different positions."
+}
+],
+"simulation": {
+"overlays": [
+{
+"id": "motionDirections",
+"shortDescription": "Shows back-and-forth parcel motion together with the right-moving disturbance.",
+"whatToNotice": [
+"The parcel arrows reverse left and right, but the disturbance arrow keeps pointing right."
+],
+"whyItMatters": "It separates local particle motion from wave propagation."
+},
+{
+"id": "compressionBands",
+"shortDescription": "Labels one local compression and one local rarefaction on the ribbon.",
+"whatToNotice": [
+"The ribbon marks crowded and spread-out regions of the medium, not just where one parcel happens to be."
+],
+"whyItMatters": "It ties sound to density changes in the medium instead of only to a sinusoidal graph."
+},
+{
+"id": "energyTransfer",
+"whatToNotice": [
+"Energy moves with the right-moving disturbance even though no parcel travels all the way down the tube."
+],
+"whyItMatters": "It distinguishes energy transfer from bulk matter flow."
+}
+]
+},
+"graphs": [
+{
+"id": "displacement",
+"description": "Compares source and probe parcel motion on the same time axis, so you can read the travel delay directly."
+},
+{
+"id": "probe-pressure",
+"description": "Compares one parcel's displacement with the local compression cue, so you can see that strongest compression does not necessarily happen when that parcel is farthest from equilibrium."
+}
+],
+"noticePrompts": {
+"intro": "Use one cue at a time and connect it to something visible on the stage or graph.",
+"items": [
+{
+"id": "sound-notice-direction-split",
+"text": "Notice that the parcel arrow is left-right while the disturbance arrow remains rightward. The parcels oscillate locally, but the wave pattern propagates through the medium.",
+"whyItMatters": "This is the core physical idea of a longitudinal sound wave."
+},
+{
+"id": "sound-notice-pressure-graph",
+"text": "Notice that the compression cue is often strongest when the probe parcel is near its center position, not when it is farthest left or right.",
+"whyItMatters": "Compression depends on local spacing between neighboring parcels, not on one parcel's displacement alone."
+},
+{
+"id": "sound-notice-wavelength",
+"whyItMatters": "Wavelength is a spacing in the medium, but it also sets the timing through the wave relation."
+},
+{
+"id": "sound-notice-wave-speed",
+"text": "Notice that increasing the wave speed shortens the probe delay, but the parcel motion is still back-and-forth rather than one-way drift."
+},
+{
+"id": "sound-notice-amplitude",
+"whyItMatters": "Bigger parcel swings do not automatically mean faster propagation."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict the consequence before you test it. Each prompt changes one cause at a time so you can connect parcel motion, compression spacing, and timing.",
+"items": [
+{
+"id": "sound-predict-faster-wave",
+"explanation": "With λ fixed, $v_{wave} = f\\lambda$ means a larger wave speed requires a larger frequency. At the same probe position, the larger speed also makes $\\Delta t = x / v_{wave}$ smaller.",
+"observationHint": "Watch the timing graph cycle faster while the same probe position is reached sooner."
+},
+{
+"id": "sound-predict-shorter-wavelength",
+"explanation": "A shorter wavelength means more compressions fit into each meter. With wave speed fixed, the source must oscillate faster to produce that tighter spacing."
+},
+{
+"id": "sound-predict-one-wavelength-farther",
+"explanation": "Moving the probe one wavelength farther adds one full cycle of lag. The arrival time increases, but the local phase relation repeats after a whole cycle."
+}
+]
+},
+"quickTest": {
+"intro": "Use the particle view and pressure view together. These checks are about what a longitudinal sound wave means physically.",
+"questions": [
+{
+"id": "sound-qt-direction",
+"explanation": "In a longitudinal sound wave, parcels oscillate around equilibrium while the disturbance and its energy are passed onward through local pushes and pulls."
+},
+{
+"id": "sound-qt-compression",
+"explanation": "Compression means neighboring parcels are crowded together. One parcel can be near equilibrium while the local compression cue is strongly positive."
+},
+{
+"id": "sound-qt-wavelength",
+"explanation": "At fixed wave speed, a shorter wavelength means more cycles per meter. That packs compressions closer together and raises the source frequency."
+},
+{
+"id": "sound-qt-one-wavelength-farther",
+"explanation": "Adding one wavelength adds one whole cycle of lag. The travel time grows, but the same phase relation repeats after every full cycle."
+}
+]
+}
+}

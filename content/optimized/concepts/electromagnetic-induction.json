@@ -1,0 +1,232 @@
+{
+"pageFramework": {
+"sections": [
+{
+"id": "workedExamples",
+"title": "Work from the live pass"
+},
+{
+"id": "readNext",
+"title": "Continue with related ideas"
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Electromagnetic induction is about change. A magnetic field through a loop is not enough by itself. The coil develops an emf only when the magnetic flux linkage through it changes, and Lenz's law fixes the sign so the induced response opposes the change that produced it.",
+"This module keeps one moving-magnet-and-coil picture in charge. One bar magnet passes one coil on one shared axis. The same magnet position, speed, pole orientation, coil turns, and coil area determine the stage, the galvanometer, the current arrows, the flux graph, and the induced-response graph, so Faraday's law and Lenz's law stay tied to one changing setup."
+]
+},
+"keyIdeas": [
+"Induced emf depends on changing flux linkage $\\lambda = N\\Phi$, not on magnetic field strength alone.",
+"A coil can link strong magnetic flux and still have zero induced emf if the flux linkage is not changing at that instant.",
+"More turns, larger coil area, stronger magnetic coupling, or faster relative motion can increase the induction signal because they increase the flux linkage or how quickly it changes.",
+"The sign of emf and current is a direction label: positive and negative mean opposite loop directions in the stage convention, and Lenz's law chooses the direction that opposes the current flux change.",
+"Reversing the motion direction or flipping which pole faces the coil reverses the sign of the induced emf and current, because Lenz's law makes the response oppose the change in flux."
+],
+"commonMisconception": {
+"myth": "If the magnetic field through the coil is large, the induced emf must also be large.",
+"correction": [
+"A large field can give a large flux linkage, but induction depends on the rate of change of flux linkage. A flat flux curve gives zero emf even when the field is strong.",
+"That is why the induced-response graph crosses zero when the magnet is centered in a symmetric pass: the flux linkage is momentarily at an extremum, so its slope is zero."
+]
+},
+"workedExamples": {
+"title": "Work from the live pass",
+"intro": "Use the live magnet pass directly. The same magnet position, speed, pole orientation, coil turns, and coil area set the stage, the galvanometer, the graphs, and the calculations below.",
+"items": [
+{
+"id": "current-flux-and-emf",
+"title": "Flux linkage, emf, and current right now",
+"prompt": "At this moment in the magnet pass, what are the coil's flux linkage, induced emf, and current?",
+"steps": [
+{
+"id": "read-motion",
+"label": "1. Read the magnet's current position and motion"
+},
+{
+"id": "field-at-coil",
+"label": "2. Find the signed field through the coil"
+},
+{
+"id": "flux-linkage",
+"label": "3. Calculate the linked flux"
+},
+{
+"id": "faraday-law",
+"label": "4. Use Faraday's law to find emf and current"
+}
+],
+"resultLabel": "Flux linkage, emf, and current",
+"applyAction": {
+"label": "Load fast pass",
+"observationHint": "The flux curve keeps the same basic shape, but a faster pass makes the emf peaks taller because the same flux change happens in less time."
+}
+},
+{
+"id": "flux-peak-versus-emf",
+"title": "Why a large flux can still give zero emf",
+"prompt": "At this moment, does a large flux linkage necessarily mean a large induced emf?",
+"steps": [
+{
+"id": "read-flux",
+"label": "1. Read the current flux linkage"
+},
+{
+"id": "check-slope",
+"label": "2. Check whether the flux linkage is changing"
+},
+{
+"id": "compare-response",
+"label": "3. Compare the flux linkage with the induced response"
+}
+],
+"resultLabel": "Flux linkage, change rate, and emf",
+"applyAction": {
+"label": "Load centered pause",
+"observationHint": "The field through the coil is still present, but the galvanometer settles near zero because the linked flux is no longer changing."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Suppose the magnet is centered in the coil and the coil is linking a strong field at that instant. Must the galvanometer show a large deflection? Answer using flux-change logic, not field-size intuition.",
+"prediction": "Predict what the induced-response graph should do when the flux curve reaches a maximum or minimum.",
+"answer": "No. The galvanometer can read zero even when the field and flux linkage are large if the flux linkage is not changing right then.",
+"explanation": "Faraday's law uses $d\\lambda/dt$, not just $\\lambda$. At the top or bottom of the flux curve, the slope is zero, so the induced emf and current are zero at that instant even though the field and linked flux can still be large."
+}
+},
+"equations": [
+{
+"id": "motion-position",
+"meaning": "The magnet's position along the shared axis is what changes the field through the coil during the pass."
+},
+{
+"id": "flux-linkage",
+"meaning": "More turns or larger coil area means more linked magnetic flux for the same field-through-coil snapshot."
+},
+{
+"id": "faraday-law",
+"meaning": "Induced emf depends on how quickly the linked flux changes, not on the flux value by itself."
+},
+{
+"id": "induced-current",
+"meaning": "With one fixed loop resistance in this model, the induced current has the same sign pattern as the emf and scales with it."
+}
+],
+"graphs": [
+{
+"id": "field-flux",
+"description": "The field-through-coil trace and the linked-flux trace come from the same magnet pass. The flux curve is the field story scaled by coil turns and area."
+},
+{
+"id": "induced-response",
+"description": "The emf and current traces come from how quickly the flux-linkage curve changes. Positive and negative values are opposite loop-current directions, and response peaks line up with steep flux slopes, not simply with the largest flux values."
+}
+],
+"noticePrompts": {
+"intro": "Use each prompt as a small investigation. Connect the magnet motion, the flux graph, and the galvanometer instead of reading only one value.",
+"items": [
+{
+"id": "emi-notice-centered-zero",
+"text": "A large linked flux can exist with zero induced emf. What matters is whether the flux-linkage curve is changing at that instant.",
+"tryThis": "Use the Paused at center preset and compare the visible field band with the almost flat induced-response graph.",
+"whyItMatters": "This breaks the common mistake of treating field size alone as the cause of induction."
+},
+{
+"id": "emi-notice-stationary-field",
+"text": "If the magnet stays fixed relative to the coil, the field and flux can remain nonzero while the induced current falls to zero.",
+"tryThis": "Set the speed to zero, then watch the galvanometer and current-loop arrows settle even though the field band remains visible.",
+"whyItMatters": "Induction is about relative change, not about a magnet merely being nearby."
+},
+{
+"id": "emi-notice-speed",
+"text": "A faster pass does not create a different flux story. It makes the same flux change happen in less time, so the emf peaks get taller.",
+"tryThis": "Compare Approach and pass with Fast pass while leaving every other control unchanged.",
+"whyItMatters": "This connects Faraday's law to the graph slopes on the same stage."
+},
+{
+"id": "emi-notice-area-turns",
+"text": "More coil area or more turns scales the linked-flux story upward without changing the magnet path itself.",
+"whyItMatters": "It separates geometric linkage factors from the motion factor."
+},
+{
+"id": "emi-notice-sign-reversal",
+"text": "Flip the pole or reverse the motion and the response sign flips. Treat the sign as a loop-direction label, then use Lenz's law to decide which direction opposes the changing flux.",
+"tryThis": "Keep the same pass and use Reverse pole. Watch the field band, meter sign, and current-loop arrows reverse together.",
+"whyItMatters": "It ties sign convention, current direction, and opposition to change into one shared picture."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict the induction response before you apply the change. Each scenario changes one cause at a time so the stage, the flux graph, and the galvanometer can confirm the same story.",
+"items": [
+{
+"id": "emi-pred-centered-zero",
+"explanation": "Faraday's law depends on the rate of change of linked flux. A centered pause can leave the coil linking field without changing that linkage in time.",
+"observationHint": "The flux trace can stay away from zero while the induced-response graph settles near the axis."
+},
+{
+"id": "emi-pred-fast-pass",
+"prompt": "If the magnet makes the same pass faster, with the same polarity and geometry, which graph change is best supported?",
+"explanation": "Speed changes how quickly the linked flux rises and falls. That steepens the time derivative and increases the emf magnitude even if the peak flux stays similar.",
+"observationHint": "Compare the slope of the flux-linkage curve with the height of the emf peaks."
+},
+{
+"id": "emi-pred-pole-flip",
+"explanation": "Changing which pole faces the coil flips the sign of the field through the coil. That flips the linked flux and the induced response while keeping the basic timing of the pass.",
+"observationHint": "Watch the meter sign and current-loop arrows reverse when the pole orientation flips."
+}
+]
+},
+"challengeMode": {
+"intro": "Use the same bounded magnet-and-coil pass to build target induction states. The checks come from the live flux and emf, not from a detached answer key.",
+"items": [
+{
+"id": "emi-ch-high-flux-zero-emf",
+"title": "Strong flux, almost zero emf",
+"prompt": "Starting from Approach and pass, hold the magnet near the coil center so the coil still links strong flux while the induced emf drops near zero.",
+"setup": {
+"note": "Use the field band and induced-response graph together. The goal is not zero field; it is nearly zero rate of change of flux linkage."
+}
+},
+{
+"id": "emi-ch-oppose-rising-flux",
+"title": "Catch the rising-flux Lenz response",
+"setup": {
+"note": "Start from the default pass, pause on the left approach, and read the current-loop arrow together with the field-flux graph."
+}
+}
+]
+},
+"quickTest": {
+"intro": "Answer from flux-change reasoning. Ask what is changing through the coil and what that means for the emf sign and size.",
+"questions": [
+{
+"id": "emi-qt-stationary-field",
+"explanation": "Induction requires changing flux linkage. A steady magnetic condition can leave the coil linking field without producing emf."
+},
+{
+"id": "emi-qt-flux-peak",
+"explanation": "A maximum flux value does not mean a maximum derivative. At the peak of the flux curve, the slope is zero, so the induced emf is zero at that instant."
+},
+{
+"id": "emi-qt-sign-flip",
+"explanation": "The emf sign tracks the direction of change in linked flux under the stage's chosen positive loop direction. Flipping pole orientation or reversing motion reverses that change, so the emf and current signs reverse too."
+},
+{
+"id": "emi-qt-turns-scale",
+"explanation": "With the same pass, more turns means more linked flux and a larger flux-change rate in the coil model, so the induced response scales upward."
+}
+]
+},
+"accessibility": {
+"graphSummary": {
+"paragraphs": [
+"The first graph compares the field through the coil with the linked flux. The flux curve has the same basic shape as the field curve, but it is scaled by coil turns and area.",
+"The second graph compares induced emf with loop current over the same time axis. The key point is that this response follows how quickly the flux linkage changes, not whether the field or flux is merely large at one instant."
+]
+}
+}
+}

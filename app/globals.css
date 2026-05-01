@@ -1,0 +1,412 @@
+@import "tailwindcss" source(none);
+@source "../app";
+@source "../components";
+@source "../content";
+@source "../hooks";
+@source "../lib";
+
+:root {
+  --font-space-grotesk: "Bahnschrift", "Aptos", "Segoe UI Variable Display", "Segoe UI", sans-serif;
+  --font-ibm-plex-mono: "Cascadia Mono", "Consolas", "Liberation Mono", monospace;
+  --color-white: #fffdf7;
+  --paper: #f3efe6;
+  --paper-elevated: #f8f4ec;
+  --paper-strong: #fffdf8;
+  --ink-950: #0f1c24;
+  --ink-800: #1f3340;
+  --ink-700: #315063;
+  --ink-600: #496576;
+  --ink-500: #5f7787;
+  --line: rgba(18, 40, 51, 0.11);
+  --teal-500: #178c91;
+  --teal-600: #106f73;
+  --amber-500: #f0ab3c;
+  --amber-600: #c47e18;
+  --coral-500: #f16659;
+  --coral-600: #ce4b42;
+  --sky-500: #4ea6df;
+  --surface-shadow: 0 20px 60px rgba(15, 28, 36, 0.06);
+  --surface-shadow-hover: 0 24px 70px rgba(15, 28, 36, 0.1);
+  --motion-duration-fast: 180ms;
+  --motion-duration-medium: 260ms;
+  --motion-duration-enter: 540ms;
+  --motion-duration-page: 420ms;
+  --motion-ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-ease-press: cubic-bezier(0.32, 0, 0.2, 1);
+  --motion-distance-tight: 8px;
+  --motion-distance-default: 14px;
+  --motion-distance-soft: 20px;
+  --grid-pattern:
+    linear-gradient(to right, rgba(15, 28, 36, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 28, 36, 0.05) 1px, transparent 1px);
+}
+
+@theme inline {
+  --color-white: var(--paper-strong);
+  --color-paper: var(--paper);
+  --color-paper-elevated: var(--paper-elevated);
+  --color-paper-strong: var(--paper-strong);
+  --color-ink-950: var(--ink-950);
+  --color-ink-800: var(--ink-800);
+  --color-ink-700: var(--ink-700);
+  --color-ink-600: var(--ink-600);
+  --color-ink-500: var(--ink-500);
+  --color-line: var(--line);
+  --color-teal-500: var(--teal-500);
+  --color-teal-600: var(--teal-600);
+  --color-amber-500: var(--amber-500);
+  --color-amber-600: var(--amber-600);
+  --color-coral-500: var(--coral-500);
+  --color-coral-600: var(--coral-600);
+  --color-sky-500: var(--sky-500);
+  --font-sans: var(--font-space-grotesk);
+  --font-mono: var(--font-ibm-plex-mono);
+  --shadow-surface: var(--surface-shadow);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  color-scheme: light;
+  scroll-padding-top: 6rem;
+  background:
+    radial-gradient(circle at top left, rgba(23, 140, 145, 0.1), transparent 34%),
+    radial-gradient(circle at 82% 18%, rgba(240, 171, 60, 0.08), transparent 26%),
+    radial-gradient(circle at 50% 100%, rgba(78, 166, 223, 0.06), transparent 28%),
+    var(--paper);
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: clip;
+  color: var(--ink-950);
+  font-family: var(--font-space-grotesk), sans-serif;
+  background-color: transparent;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+::selection {
+  background: rgba(30, 166, 162, 0.2);
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, var(--motion-distance-tight), 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes ui-reveal {
+  from {
+    opacity: 0;
+    transform: translate3d(0, var(--motion-distance, var(--motion-distance-default)), 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Keep the anchor reset in the base layer so CTA utility classes can override it. */
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  summary:focus-visible,
+  main:focus-visible,
+  [role="tab"]:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 3px solid rgba(18, 126, 131, 0.78);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 5px rgba(30, 166, 162, 0.14);
+  }
+}
+
+@layer utilities {
+  .bg-ink-950 {
+    color: var(--paper-strong);
+  }
+
+  .lab-panel {
+    @apply rounded-[28px] border border-line bg-paper-strong/96 shadow-surface;
+    transition:
+      border-color var(--motion-duration-medium) var(--motion-ease-standard),
+      background-color var(--motion-duration-medium) var(--motion-ease-standard),
+      box-shadow var(--motion-duration-medium) var(--motion-ease-standard);
+  }
+
+  .lab-panel-compact {
+    @apply rounded-[22px] border border-line bg-paper-strong/94 shadow-surface;
+    transition:
+      border-color var(--motion-duration-medium) var(--motion-ease-standard),
+      background-color var(--motion-duration-medium) var(--motion-ease-standard),
+      box-shadow var(--motion-duration-medium) var(--motion-ease-standard);
+  }
+
+  .lab-label {
+    @apply font-mono text-[0.76rem] font-semibold uppercase tracking-[0.18em] text-ink-500;
+  }
+
+  .lab-grid {
+    background-image: linear-gradient(to right, rgba(15, 28, 36, 0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(15, 28, 36, 0.035) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .lab-dot {
+    background-image: radial-gradient(circle, rgba(15, 28, 36, 0.12) 1px, transparent 1px);
+    background-size: 14px 14px;
+  }
+
+  .control-accent {
+    @apply accent-teal-500;
+  }
+
+  .page-enter {
+    animation: page-enter var(--motion-duration-page) var(--motion-ease-standard) backwards;
+  }
+
+  .motion-enter {
+    --motion-delay: 0ms;
+    --motion-distance: var(--motion-distance-default);
+    animation: ui-reveal var(--motion-duration-enter) var(--motion-ease-standard) backwards;
+    animation-delay: var(--motion-delay);
+  }
+
+  .motion-enter-tight {
+    --motion-distance: var(--motion-distance-tight);
+  }
+
+  .motion-enter-soft {
+    --motion-distance: var(--motion-distance-soft);
+  }
+
+  .motion-card {
+    transition:
+      transform var(--motion-duration-medium) var(--motion-ease-press),
+      border-color var(--motion-duration-medium) var(--motion-ease-standard),
+      background-color var(--motion-duration-medium) var(--motion-ease-standard),
+      box-shadow var(--motion-duration-medium) var(--motion-ease-standard),
+      color var(--motion-duration-fast) var(--motion-ease-standard);
+    will-change: transform;
+  }
+
+  .motion-card:hover {
+    transform: translate3d(0, -4px, 0);
+    box-shadow: var(--surface-shadow-hover);
+  }
+
+  .motion-card:active {
+    transform: translate3d(0, -1px, 0) scale(0.992);
+  }
+
+  .motion-button-solid,
+  .motion-button-outline,
+  .motion-nav-pill,
+  .motion-chip,
+  .motion-link {
+    transition:
+      transform var(--motion-duration-fast) var(--motion-ease-press),
+      border-color var(--motion-duration-medium) var(--motion-ease-standard),
+      background-color var(--motion-duration-medium) var(--motion-ease-standard),
+      box-shadow var(--motion-duration-medium) var(--motion-ease-standard),
+      color var(--motion-duration-fast) var(--motion-ease-standard),
+      opacity var(--motion-duration-fast) var(--motion-ease-standard);
+    will-change: transform;
+  }
+
+  .motion-button-solid.bg-ink-950 {
+    color: var(--paper-strong);
+  }
+
+  .motion-button-solid:hover,
+  .motion-button-outline:hover,
+  .motion-nav-pill:hover {
+    transform: translate3d(0, -2px, 0);
+  }
+
+  .motion-chip:hover,
+  .motion-link:hover {
+    transform: translate3d(0, -1px, 0);
+  }
+
+  .motion-button-solid:hover,
+  .motion-button-outline:hover {
+    box-shadow: 0 14px 34px rgba(15, 28, 36, 0.1);
+  }
+
+  .motion-button-solid:active,
+  .motion-button-outline:active,
+  .motion-nav-pill:active,
+  .motion-chip:active,
+  .motion-link:active {
+    transform: translate3d(0, 0, 0) scale(0.985);
+  }
+
+  .page-hero-surface {
+    @apply relative overflow-hidden rounded-[32px] border border-line bg-paper-strong/96 shadow-surface;
+  }
+
+  .page-band {
+    @apply rounded-[28px] border border-line bg-paper-strong/94 shadow-surface;
+  }
+
+  .feature-card {
+    @apply relative overflow-hidden rounded-[28px] border border-line bg-paper-strong/96 p-5 shadow-surface sm:p-6;
+  }
+
+  .list-row-card {
+    @apply rounded-[24px] border border-line bg-paper-strong/96 p-4 shadow-surface;
+  }
+
+  .progress-pill {
+    @apply inline-flex items-center rounded-full border border-line bg-paper px-3 py-1 text-sm font-medium text-ink-700;
+  }
+
+  .filter-panel {
+    @apply rounded-[28px] border border-line bg-paper-strong/96 p-5 shadow-surface;
+  }
+
+  .filter-group {
+    @apply space-y-3 rounded-[22px] border border-line bg-paper px-4 py-4;
+  }
+
+  .filter-option {
+    @apply flex min-h-11 items-center justify-between gap-3 rounded-[18px] border border-line bg-paper-strong px-4 py-2.5 text-sm font-medium text-ink-800 transition;
+  }
+
+  .filter-option[data-active="true"] {
+    @apply border-ink-950 bg-ink-950 text-paper-strong shadow-sm;
+  }
+
+  .section-kicker {
+    @apply text-sm font-semibold tracking-[0.01em] text-ink-600;
+  }
+
+  .cta-primary {
+    @apply inline-flex min-h-12 items-center justify-center rounded-full bg-ink-950 px-5 py-3 text-sm font-semibold text-paper-strong shadow-[0_14px_34px_rgba(15,28,36,0.12)];
+  }
+
+  .cta-secondary {
+    @apply inline-flex min-h-12 items-center justify-center rounded-full border border-line bg-paper-strong px-5 py-3 text-sm font-semibold text-ink-950;
+  }
+
+  .progress-track {
+    @apply h-2 overflow-hidden rounded-full bg-ink-950/8;
+  }
+
+  .progress-value {
+    @apply h-full rounded-full bg-teal-500;
+  }
+}
+
+.katex {
+  color: var(--ink-950);
+  font-size: 1.02em;
+  max-width: 100%;
+}
+
+.katex-display {
+  margin: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.1rem 0;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.math-inline {
+  display: inline-flex;
+  max-width: 100%;
+  min-width: 0;
+  vertical-align: baseline;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.math-block {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.math-inline > .katex,
+.math-block > .katex,
+.katex-display > .katex {
+  max-width: 100%;
+}
+
+.math-block > .katex,
+.katex-display > .katex {
+  display: inline-block;
+  min-width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .hover\:-translate-y-0\.5:hover,
+  .group:hover .group-hover\:-translate-y-0\.5,
+  .page-enter,
+  .motion-enter,
+  .motion-card,
+  .motion-button-solid,
+  .motion-button-outline,
+  .motion-nav-pill,
+  .motion-chip,
+  .motion-link {
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

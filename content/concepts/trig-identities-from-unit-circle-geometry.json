@@ -1,0 +1,773 @@
+{
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "identity-balance-view",
+        "label": "Identity balance",
+        "description": "Open a first-quadrant point with the squared-projection graph already in view.",
+        "setup": {
+          "presetId": "identity-balance",
+          "graphId": "identity-balance",
+          "overlayIds": [
+            "projectionGuides",
+            "angleMarker",
+            "rotationTrail"
+          ],
+          "note": "Use this when the unit-circle point and the squared-projection graph should stay tied together."
+        }
+      },
+      {
+        "id": "quadrant-two-balance-view",
+        "label": "Quadrant II balance",
+        "description": "Move the point left of the y-axis and watch the squared sum stay fixed anyway.",
+        "setup": {
+          "presetId": "quadrant-two-balance",
+          "graphId": "identity-balance",
+          "overlayIds": [
+            "projectionGuides",
+            "quadrantSigns",
+            "rotationTrail"
+          ],
+          "note": "This keeps the sign flip visible without hiding the identity."
+        }
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Keep one rotating point and its projections visible so the core trig identities stay tied to geometry instead of detached symbol rules.",
+    "keyTakeaway": "Because the unit-circle radius is 1, every live point satisfies x^2 + y^2 = 1.",
+    "whyItMatters": "The same picture explains the Pythagorean identity, complementary-angle swaps, and quadrant sign changes, so identities become geometry you can check instead of formulas to memorize."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Trig identities land more honestly when they stay on the same unit-circle bench as the rotating point. This page keeps the point, its projections, and a squared-projection graph visible together so the identities come from geometry instead of looking like detached symbol tricks.",
+        "On the unit circle the radius is always 1, so every live point satisfies x^2 + y^2 = 1. Once the same point is read as (cos theta, sin theta), the Pythagorean identity is forced by the picture. Complementary-angle swaps are geometric too: in the first quadrant, swapping the horizontal and vertical shadows swaps cosine and sine."
+      ]
+    },
+    "keyIdeas": [
+      "Because the unit-circle radius is 1, every live point satisfies x^2 + y^2 = 1.",
+      "Replacing x with cos theta and y with sin theta gives cos^2 theta + sin^2 theta = 1.",
+      "Raw sine and cosine signs can change across quadrants, but the squared sum stays fixed because the distance from the origin does not change.",
+      "Complementary angles swap the horizontal and vertical projections in the first quadrant, which is why sine and cosine trade places."
+    ],
+    "commonMisconception": {
+      "myth": "Trig identities are mostly symbolic algebra, so the unit-circle picture is optional once the formulas are memorized.",
+      "correction": [
+        "The identities come from the same geometry as the live projections.",
+        "If the point stays on the unit circle, the squared projections must still add to 1 even when the raw signs change."
+      ]
+    },
+    "workedExamples": {
+      "title": "Worked example",
+      "intro": "Use the identity-balance preset so the point and the squared graph stay aligned.",
+      "items": [
+        {
+          "id": "read-the-three-four-five-point",
+          "title": "Read one unit-circle identity case",
+          "prompt": "For the identity-balance preset, what does the unit-circle point say about the core identity?",
+          "variables": [
+            {
+              "id": "angle",
+              "variableId": "phase",
+              "symbol": "\\theta",
+              "label": "Starting angle",
+              "valueKey": "53.1",
+              "unit": "deg"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-projections",
+              "label": "1. Read the live projections",
+              "template": "At about 53.1 deg, the unit-circle point is close to (0.60, 0.80), so cos theta is about 0.60 and sin theta is about 0.80."
+            },
+            {
+              "id": "square-them",
+              "label": "2. Square the same two projections",
+              "template": "That gives cos^2 theta \\approx 0.36 and sin^2 theta \\approx 0.64."
+            },
+            {
+              "id": "add-the-squares",
+              "label": "3. Add the squared pieces",
+              "template": "The squared-projection graph shows the same result numerically: 0.36 + 0.64 = 1.00."
+            }
+          ],
+          "resultLabel": "Identity check",
+          "resultTemplate": "\\cos^2\\theta + \\sin^2\\theta = 1",
+          "interpretationTemplate": "The identity is not a separate algebra trick. It is the distance formula for one point that never leaves the unit circle.",
+          "applyAction": {
+            "label": "Apply the identity balance view",
+            "presetId": "identity-balance",
+            "observationHint": "Keep the squared graph and the projection guides visible together so the geometry stays ahead of the notation.",
+            "highlightedControlIds": [
+              "phase"
+            ],
+            "highlightedGraphIds": [
+              "identity-balance"
+            ],
+            "highlightedOverlayIds": [
+              "projectionGuides",
+              "angleMarker"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Move the point from Quadrant I into Quadrant II without changing its distance from the origin. What has to stay true about the squared projections?",
+      "prediction": "Decide whether the sign change should affect the squared sum or only the raw cosine sign.",
+      "answer": "The squared sum still has to stay equal to 1.",
+      "explanation": "Crossing into Quadrant II flips the raw cosine sign, but the point is still on the same unit circle, so the distance formula does not change."
+    }
+  },
+  "equations": [
+    {
+      "id": "unit-circle-distance",
+      "latex": "x^2 + y^2 = 1",
+      "label": "Distance rule on the unit circle",
+      "meaning": "Any point on the unit circle stays exactly one unit from the origin."
+    },
+    {
+      "id": "pythagorean-identity",
+      "latex": "\\cos^2\\theta + \\sin^2\\theta = 1",
+      "label": "Pythagorean identity",
+      "meaning": "Substituting x = cos theta and y = sin theta into the unit-circle distance rule gives the core identity."
+    },
+    {
+      "id": "complementary-swap",
+      "latex": "\\sin\\theta = \\cos(90^\\circ - \\theta), \\qquad \\cos\\theta = \\sin(90^\\circ - \\theta)",
+      "label": "Complementary-angle swap",
+      "meaning": "In the first quadrant, complementary angles swap the horizontal and vertical projections of the same right-triangle geometry."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "angular-speed",
+      "symbol": "\\omega",
+      "label": "Angular speed",
+      "param": "angularSpeed",
+      "tone": "teal",
+      "description": "Changes how quickly the point sweeps through the circle without changing the identity itself.",
+      "equationIds": [
+        "unit-circle-distance",
+        "pythagorean-identity"
+      ],
+      "graphIds": [
+        "projection-history",
+        "identity-balance"
+      ],
+      "overlayIds": [
+        "rotationTrail",
+        "angleMarker"
+      ]
+    },
+    {
+      "id": "phase",
+      "symbol": "\\theta",
+      "label": "Starting angle",
+      "param": "phase",
+      "tone": "amber",
+      "description": "Moves the same unit-circle point through new quadrants so the raw projections change while the identity stays fixed.",
+      "equationIds": [
+        "pythagorean-identity",
+        "complementary-swap"
+      ],
+      "graphIds": [
+        "projection-history",
+        "identity-balance"
+      ],
+      "overlayIds": [
+        "projectionGuides",
+        "quadrantSigns",
+        "angleMarker"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "angularSpeed": 1,
+      "phase": 0.93,
+      "projectionGuides": true,
+      "angleMarker": true,
+      "quadrantSigns": true,
+      "rotationTrail": true
+    },
+    "ui": {
+      "initialGraphId": "identity-balance",
+      "primaryGraphIds": [
+        "identity-balance"
+      ],
+      "primaryControlIds": [
+        "phase"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "angular-speed",
+        "kind": "slider",
+        "label": "Angular speed",
+        "param": "angularSpeed",
+        "min": 0.6,
+        "max": 1.6,
+        "step": 0.05,
+        "unit": "rad/s",
+        "description": "Controls how quickly the point rotates around the unit circle."
+      },
+      {
+        "id": "phase",
+        "kind": "slider",
+        "label": "Starting angle",
+        "param": "phase",
+        "min": 0,
+        "max": 6.283185307179586,
+        "step": 0.01,
+        "unit": "rad",
+        "description": "Sets where the point starts before the live rotation begins."
+      }
+    ],
+    "presets": [
+      {
+        "id": "identity-balance",
+        "label": "Identity balance",
+        "description": "A first-quadrant point near the classic 3-4-5 triangle ratios.",
+        "values": {
+          "angularSpeed": 1,
+          "phase": 0.93
+        }
+      },
+      {
+        "id": "complementary-pair",
+        "label": "Complementary pair",
+        "description": "A shallower first-quadrant angle that swaps which projection is larger.",
+        "values": {
+          "angularSpeed": 1,
+          "phase": 0.64
+        }
+      },
+      {
+        "id": "quadrant-two-balance",
+        "label": "Quadrant II balance",
+        "description": "A second-quadrant point shows the raw sign flip while the squared sum stays fixed.",
+        "values": {
+          "angularSpeed": 1,
+          "phase": 2.21
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "projectionGuides",
+        "label": "Projection guides",
+        "shortDescription": "Project the current point back to the x and y axes.",
+        "whatToNotice": [
+          "The same horizontal and vertical shadows become the quantities being squared on the identity graph."
+        ],
+        "whyItMatters": "It keeps the identity attached to the visible geometry.",
+        "relatedControls": [
+          "phase"
+        ],
+        "relatedGraphTabs": [
+          "projection-history",
+          "identity-balance"
+        ],
+        "relatedEquationVariables": [
+          "phase"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "angleMarker",
+        "label": "Angle marker",
+        "shortDescription": "Show the current swept angle from the positive x-axis.",
+        "whatToNotice": [
+          "Changing theta moves the same point without changing the unit-circle radius."
+        ],
+        "whyItMatters": "It keeps complementary-angle reasoning geometric.",
+        "relatedControls": [
+          "angularSpeed",
+          "phase"
+        ],
+        "relatedGraphTabs": [
+          "projection-history",
+          "identity-balance"
+        ],
+        "relatedEquationVariables": [
+          "angular-speed",
+          "phase"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "quadrantSigns",
+        "label": "Quadrant sign map",
+        "shortDescription": "Keep the quadrant sign pattern visible while the point moves.",
+        "whatToNotice": [
+          "Raw cosine and sine signs can flip even while the squared sum stays flat."
+        ],
+        "whyItMatters": "It separates sign changes from the identity itself.",
+        "relatedControls": [
+          "phase"
+        ],
+        "relatedGraphTabs": [
+          "projection-history",
+          "identity-balance"
+        ],
+        "relatedEquationVariables": [
+          "phase"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "rotationTrail",
+        "label": "Rotation trail",
+        "shortDescription": "Show the swept arc from the positive x-axis to the current point.",
+        "whatToNotice": [
+          "The point is always moving on the same radius-1 circle even while the projections trade size."
+        ],
+        "whyItMatters": "It keeps the fixed distance from the origin visible.",
+        "relatedControls": [
+          "angularSpeed"
+        ],
+        "relatedGraphTabs": [
+          "identity-balance"
+        ],
+        "relatedEquationVariables": [
+          "angular-speed"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "identity-balance",
+      "label": "Squared projections and their sum",
+      "xLabel": "time",
+      "yLabel": "value",
+      "series": [
+        "cosine-square",
+        "sine-square",
+        "pythagorean-sum"
+      ],
+      "description": "Square the current cosine and sine projections over the same rotation so the identity stays visible while the raw signs change."
+    },
+    {
+      "id": "projection-history",
+      "label": "Cosine and sine traces",
+      "xLabel": "time",
+      "yLabel": "projection value",
+      "series": [
+        "cosine-projection",
+        "sine-projection"
+      ],
+      "description": "Keep the raw projections nearby so the squared graph never turns into detached algebra."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Keep the circle and the identity graph visible together.",
+    "items": [
+      {
+        "id": "tig-notice-pythagorean-balance",
+        "text": "The cosine-square and sine-square traces trade size, but their sum stays pinned at 1 because the point never leaves the unit circle.",
+        "type": "observation",
+        "relatedControls": [
+          "phase"
+        ],
+        "relatedGraphTabs": [
+          "identity-balance"
+        ],
+        "relatedOverlays": [
+          "projectionGuides",
+          "rotationTrail"
+        ],
+        "relatedEquationVariables": [
+          "phase"
+        ]
+      },
+      {
+        "id": "tig-notice-sign-vs-square",
+        "text": "Crossing into Quadrant II flips the raw cosine sign first, but squaring removes that sign while keeping the geometry honest.",
+        "type": "graph-reading",
+        "relatedControls": [
+          "phase"
+        ],
+        "relatedGraphTabs": [
+          "projection-history",
+          "identity-balance"
+        ],
+        "relatedOverlays": [
+          "quadrantSigns",
+          "projectionGuides"
+        ],
+        "relatedEquationVariables": [
+          "phase"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Predict",
+    "intro": "Predict the identity outcome before you move the point into a new quadrant.",
+    "items": [
+      {
+        "id": "tig-predict-quadrant-two",
+        "prompt": "If the point moves into Quadrant II while staying on the unit circle, what should happen to cos^2 theta + sin^2 theta?",
+        "scenarioLabel": "Move the point into Quadrant II",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It should stay equal to 1."
+          },
+          {
+            "id": "b",
+            "label": "It should become less than 1 because cosine turns negative."
+          },
+          {
+            "id": "c",
+            "label": "It should become greater than 1 because sine stays positive."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The point is still one unit from the origin, so the squared projections still add to 1 even though the raw cosine sign changes.",
+        "observationHint": "Watch the raw projection traces and the squared-sum line together.",
+        "apply": {
+          "presetId": "quadrant-two-balance"
+        },
+        "highlightedControls": [
+          "phase"
+        ],
+        "highlightedGraphs": [
+          "identity-balance"
+        ],
+        "highlightedOverlays": [
+          "quadrantSigns",
+          "projectionGuides"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the unit-circle point, the projection guides, and the squared graph together. This checkpoint is about building a concrete identity case from one live angle instead of quoting the formula cold.",
+    "items": [
+      {
+        "id": "tig-ch-three-four-five-balance",
+        "title": "Three-four-five identity checkpoint",
+        "style": "parameter-match",
+        "prompt": "Start in Quadrant I and set the point so cosine is near 0.6 while sine is near 0.8. Keep the squared-projection graph open so the identity line stays in view while you tune the angle.",
+        "successMessage": "You built a clean 3-4-5-style unit-circle case. The raw projections now sit near 0.6 and 0.8, and the squared graph still locks their sum at 1.",
+        "setup": {
+          "presetId": "complementary-pair",
+          "note": "Aim for a first-quadrant point a little steeper than 45 degrees."
+        },
+        "requirements": {
+          "graphId": "identity-balance",
+          "overlayIds": [
+            "projectionGuides",
+            "angleMarker",
+            "rotationTrail"
+          ]
+        },
+        "hints": [
+          "The point should stay in Quadrant I, so both raw projections must remain positive.",
+          "You want an angle closer to 60 degrees than to 30 degrees."
+        ],
+        "targets": [
+          {
+            "param": "phase",
+            "label": "Set the starting angle between about 0.89 and 0.96 rad so the projections land near 0.6 and 0.8.",
+            "min": 0.89,
+            "max": 0.96,
+            "displayUnit": "rad"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live point and the squared graph.",
+    "questions": [
+      {
+        "id": "tig-qt-identity-source",
+        "type": "misconception-check",
+        "prompt": "What is the cleanest geometric source of cos^2 theta + sin^2 theta = 1 on this bench?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It is the distance rule x^2 + y^2 = 1 for one point on the unit circle."
+          },
+          {
+            "id": "b",
+            "label": "It only works at special angles like 30, 45, and 60 degrees."
+          },
+          {
+            "id": "c",
+            "label": "It comes from averaging the sine and cosine graphs."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The identity is just the unit-circle distance formula rewritten in trig language.",
+        "showMeAction": {
+          "label": "Show the identity balance",
+          "presetId": "identity-balance",
+          "observationHint": "The fixed sum line comes from the point staying one unit from the origin.",
+          "highlightedControlIds": [
+            "phase"
+          ],
+          "highlightedGraphIds": [
+            "identity-balance"
+          ],
+          "highlightedOverlayIds": [
+            "projectionGuides",
+            "rotationTrail"
+          ]
+        }
+      },
+      {
+        "id": "tig-qt-sign-change",
+        "type": "graph-reading",
+        "prompt": "If the point crosses from Quadrant I into Quadrant II, what changes first?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The raw cosine sign flips while the squared-sum line stays at 1."
+          },
+          {
+            "id": "b",
+            "label": "The squared-sum line drops below 1 because cosine becomes negative."
+          },
+          {
+            "id": "c",
+            "label": "The raw sine sign flips first while cosine stays positive."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Crossing the y-axis flips the horizontal projection sign first, but squaring keeps the identity balanced."
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a unit circle with one rotating point, horizontal and vertical projection guides, an angle marker, a quadrant sign map, and graphs that compare the raw projections with their squared values."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "One graph shows cosine and sine changing over time, and a second graph shows cosine squared, sine squared, and their sum staying fixed at 1."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Trig Identities from Unit-Circle Geometry",
+    "description": "Use one rotating unit-circle point and its squared projections to see why the core trig identities come from geometry instead of detached symbol rules.",
+    "keywords": [
+      "trig identities",
+      "unit circle",
+      "cos squared plus sin squared equals 1",
+      "trigonometry",
+      "math"
+    ]
+  },
+  "v2": {
+    "intuition": "Trig identities are distance facts about one point: cosine is the horizontal projection, sine is the vertical projection, and the squared projections must add back to the fixed radius.",
+    "whyItMatters": "When the circle, projections, signs, and squared graph stay linked, you can explain why an identity survives angle changes instead of relying on symbol rules alone.",
+    "estimatedMinutes": 16,
+    "equationSnapshot": {
+      "equationIds": [
+        "unit-circle-distance",
+        "pythagorean-identity",
+        "complementary-swap"
+      ],
+      "note": "Read x^2 + y^2 = 1 from the radius first, substitute x = cos θ and y = sin θ second, then use first-quadrant projection swaps for complementary-angle identities."
+    },
+    "startSetup": {
+      "presetId": "identity-balance",
+      "graphId": "identity-balance",
+      "overlayIds": [
+        "projectionGuides",
+        "angleMarker",
+        "rotationTrail"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-squared-projections",
+        "title": "Read squared projections",
+        "goal": "Tie the Pythagorean identity to one visible unit-circle point before moving the angle.",
+        "doThis": "Apply Identity balance, keep Projection guides and Rotation trail visible, and compare the point near (0.60, 0.80) with the squared-projection graph.",
+        "notice": "Cosine and sine are the two shadows of the same radius-1 point. Squaring the shadows gives about 0.36 and 0.64, and the sum line stays at 1.",
+        "explain": "The identity starts as the distance rule x^2 + y^2 = 1. Reading the same point as (cos θ, sin θ) turns that distance rule into cos^2 θ + sin^2 θ = 1.",
+        "reveal": {
+          "controlIds": [
+            "phase"
+          ],
+          "graphIds": [
+            "identity-balance"
+          ],
+          "overlayIds": [
+            "projectionGuides",
+            "angleMarker",
+            "rotationTrail"
+          ]
+        },
+        "setup": {
+          "presetId": "identity-balance",
+          "graphId": "identity-balance",
+          "overlayIds": [
+            "projectionGuides",
+            "angleMarker",
+            "rotationTrail"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "tig-qt-identity-source"
+          ]
+        }
+      },
+      {
+        "id": "move-into-quadrant-two",
+        "title": "Separate sign from square",
+        "goal": "See why a raw sign flip does not break the squared identity.",
+        "doThis": "Switch to Quadrant II balance, keep the Quadrant sign map on, and watch raw cosine become negative while the squared-sum graph remains pinned at 1.",
+        "notice": "Crossing the y-axis changes the sign of the horizontal projection first, but the distance from the origin and the squared sum do not change.",
+        "explain": "Squaring removes the raw sign while preserving projection length. The identity depends on the fixed radius, not on which quadrant supplies the signs.",
+        "reveal": {
+          "controlIds": [
+            "phase"
+          ],
+          "graphIds": [
+            "projection-history",
+            "identity-balance"
+          ],
+          "overlayIds": [
+            "quadrantSigns",
+            "projectionGuides",
+            "angleMarker"
+          ]
+        },
+        "setup": {
+          "presetId": "quadrant-two-balance",
+          "graphId": "identity-balance",
+          "overlayIds": [
+            "quadrantSigns",
+            "projectionGuides",
+            "angleMarker"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "tig-predict-quadrant-two"
+          ]
+        }
+      },
+      {
+        "id": "swap-complementary-angles",
+        "title": "Swap complementary angles",
+        "goal": "Use first-quadrant geometry to explain why sine and cosine trade places for complementary angles.",
+        "doThis": "Use Complementary pair, then move Starting angle within Quadrant I and compare which projection is longer before and after the angle is made shallower or steeper.",
+        "notice": "In a right-triangle view of the same radius, the horizontal leg for one acute angle becomes the vertical leg for its complement.",
+        "explain": "Complementary-angle identities are not new facts to memorize. They come from the same two projection lengths being read from opposite acute angles in the first quadrant.",
+        "reveal": {
+          "controlIds": [
+            "phase"
+          ],
+          "graphIds": [
+            "projection-history",
+            "identity-balance"
+          ],
+          "overlayIds": [
+            "projectionGuides",
+            "angleMarker"
+          ]
+        },
+        "setup": {
+          "presetId": "complementary-pair",
+          "graphId": "projection-history",
+          "overlayIds": [
+            "projectionGuides",
+            "angleMarker"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "tig-qt-sign-change"
+          ]
+        }
+      },
+      {
+        "id": "build-an-identity-case",
+        "title": "Build an identity case",
+        "goal": "Synthesize the point, graph, signs, and formula in one concrete angle check.",
+        "doThis": "Use the quick checks, then open Challenge mode and tune the first-quadrant point until cosine is near 0.6 and sine is near 0.8.",
+        "notice": "A complete explanation names the point, its two projections, the squared pieces, and the fixed radius-1 sum.",
+        "explain": "The formula becomes reliable when every part of the page agrees: the circle gives the point, the guides give cosine and sine, and the squared graph checks the distance rule.",
+        "reveal": {
+          "controlIds": [
+            "phase"
+          ],
+          "graphIds": [
+            "identity-balance"
+          ],
+          "overlayIds": [
+            "projectionGuides",
+            "angleMarker",
+            "rotationTrail"
+          ]
+        },
+        "setup": {
+          "presetId": "identity-balance",
+          "graphId": "identity-balance",
+          "overlayIds": [
+            "projectionGuides",
+            "angleMarker",
+            "rotationTrail"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "tig-qt-identity-source",
+            "tig-qt-sign-change"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Every point on the unit circle satisfies x^2 + y^2 = 1 because the radius is fixed at 1.",
+        "Reading that same point as (cos θ, sin θ) gives cos^2 θ + sin^2 θ = 1.",
+        "Raw sine or cosine signs can flip across quadrants, but the squared identity survives because the distance from the origin is unchanged.",
+        "Complementary first-quadrant angles swap horizontal and vertical projections, so sine and cosine trade roles."
+      ],
+      "misconception": "Do not treat trig identities as detached algebra rules. Keep the point, projections, and radius visible so each identity has a geometric reason.",
+      "workedExampleRefs": [
+        "read-the-three-four-five-point"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "inverse-trig-angle-from-ratio",
+          "title": "Inverse Trig / Angle from Ratio",
+          "reasonLabel": "Recover angles from ratios while keeping the quadrant signs that made the identity honest."
+        },
+        {
+          "slug": "parametric-curves-motion-from-equations",
+          "title": "Parametric Curves / Motion from Equations",
+          "reasonLabel": "Carry sine and cosine projections into motion where x(t) and y(t) trace a curve."
+        },
+        {
+          "slug": "derivative-as-slope-local-rate-of-change",
+          "title": "Derivative as Slope / Local Rate of Change",
+          "reasonLabel": "Reuse trig relationships when changing quantities become local rates."
+        }
+      ],
+      "freePlayPrompt": "Pick any quadrant, predict which raw projection signs should change, then move Starting angle and use the squared graph to check that the identity still adds to 1."
+    }
+  }
+}

@@ -1,0 +1,274 @@
+{
+"pageFramework": {
+"sections": [
+{
+"id": "workedExamples",
+"title": "Solve the live escape state"
+},
+{
+"id": "miniChallenge",
+"title": "Test the escape threshold"
+},
+{
+"id": "readNext",
+"title": "Keep building the gravity-launch story"
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Escape velocity is the minimum outward launch speed from a chosen radius that makes the total specific energy exactly zero. At that threshold, gravity still pulls inward and keeps slowing the launch, but there is no finite turnaround radius. Below that threshold, even a very long outward trip is still bound and must eventually return.",
+"This lab keeps one source mass, one launch radius, one speed factor, and one live radial path on the same state. That lets you compare three ideas students often mix up: the local circular speed, the local escape speed, and the sign of the total specific energy. Going far from the source is not enough by itself. Escape is the case with no finite turnaround radius."
+]
+},
+"keyIdeas": [
+"Escape is decided by total specific energy, not by distance alone.",
+"With displayed units using $G = 1$, the escape speed from launch radius $r_0$ is $v_{\\text{esc}} = \\sqrt{2M/r_0}$. A heavier source raises the threshold, while a larger launch radius lowers it.",
+"The local circular speed is useful for comparison, but a launch can be faster than circular and still remain bound if its total specific energy stays negative."
+],
+"commonMisconception": {
+"myth": "If a launch gets far enough from the source, it must have escaped, and escape means gravity has mostly stopped acting.",
+"correction": [
+"Distance alone does not decide escape. The deciding quantity is the sign of $E/m$. Zero or positive total specific energy means there is no finite turnaround radius, while negative total specific energy means the launch is still bound.",
+"Gravity keeps acting after escape. It still points inward and continues reducing the outward speed. The difference is that the object no longer needs to reverse direction."
+]
+},
+"workedExamples": {
+"title": "Worked example from the live launch",
+"intro": "Use the current source mass, launch radius, and speed factor as evidence. First find the threshold launch speed. Then read the live kinetic, potential, and total specific energies to decide whether the launch must escape or eventually turn around.",
+"items": [
+{
+"id": "required-escape-speed",
+"title": "Escape speed from this launch point",
+"steps": [
+{
+"id": "set-threshold",
+"label": "1. Set the total specific energy to zero"
+},
+{
+"id": "solve",
+"label": "2. Solve for the threshold speed"
+},
+{
+"id": "compute",
+"label": "3. Compare the live escape and circular speeds"
+}
+],
+"resultLabel": "Escape speed at launch",
+"applyAction": {
+"label": "Try wider launch threshold",
+"observationHint": "Starting farther out lowers the threshold speed because the launch begins in a shallower part of the well."
+}
+},
+{
+"id": "current-energy-check",
+"title": "Energy verdict right now",
+"steps": [
+{
+"id": "read-state",
+"label": "1. Read the live radius and speed"
+},
+{
+"id": "compute-energy-parts",
+"label": "2. Compute the specific kinetic and potential terms"
+},
+{
+"id": "add-and-interpret",
+"label": "3. Add them and decide the outcome"
+}
+],
+"resultLabel": "Specific-energy verdict",
+"applyAction": {
+"label": "Try high but bound",
+"observationHint": "A launch can climb far outward while the total-energy line stays negative, so a finite turnaround still exists."
+}
+}
+]
+},
+"miniChallenge": {
+"prediction": "Predict what must happen to the total-energy line and the turnaround marker when the launch just reaches the escape threshold.",
+"explanation": "At fixed source mass and launch radius, only the launch speed changes the starting kinetic term. The threshold case is the point where $E/m = v_0^2/2 - M/r_0 = 0$."
+}
+},
+"equations": [
+{
+"id": "specific-total-energy",
+"meaning": "The sign of this quantity decides the outcome: negative is bound, zero is threshold, and positive escapes."
+},
+{
+"id": "escape-threshold",
+"meaning": "This is the boundary between bound and escaping launches at the chosen starting radius."
+},
+{
+"id": "escape-speed",
+"meaning": "A deeper well needs a larger threshold speed, while a shallower starting point needs a smaller one."
+},
+{
+"id": "circular-speed-comparison",
+"meaning": "Local circular speed is a useful benchmark, but exceeding it alone does not guarantee escape."
+},
+{
+"id": "turnaround-radius",
+"meaning": "When $E < 0$, this gives the maximum radius before the bound launch must turn around."
+}
+],
+"variableLinks": [
+{
+"id": "sourceMass",
+"description": "Deepens the gravity well, so both the local escape speed and the local circular-speed comparison rise."
+},
+{
+"id": "launchRadius",
+"description": "Starting farther out means the potential is less negative, so less launch speed is needed to reach the threshold."
+},
+{
+"id": "speedFactor",
+"description": "Changes only the launch kinetic term relative to the escape threshold, so it directly controls whether the start is bound, threshold, or escaping."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "sourceMass",
+"description": "Changes the depth of the gravity well and therefore the local escape threshold."
+},
+{
+"id": "launchRadius",
+"description": "Sets how far from the source the outward launch begins. A larger starting radius means a shallower well at launch."
+},
+{
+"id": "speedFactor",
+"description": "1.00 means the launch speed exactly matches the escape threshold for the current source mass and launch radius. Below 1 is bound; above 1 escapes."
+}
+],
+"overlays": [
+{
+"id": "launchMarker",
+"shortDescription": "Marks the starting radius used by the threshold equations and the trail.",
+"whatToNotice": [
+"Moving the launch point outward lowers the threshold speed immediately because the starting potential is less negative."
+],
+"whyItMatters": "It keeps $r_0$ visible as the launch condition."
+},
+{
+"id": "turnaroundMarker",
+"shortDescription": "Shows the predicted finite turnaround radius for bound launches.",
+"whatToNotice": [
+"This marker appears only when the total specific energy is negative.",
+"At threshold or above, there is no finite turnaround radius to mark."
+],
+"whyItMatters": "It separates a long outward trip from a true escape."
+},
+{
+"id": "velocityVector",
+"whatToNotice": [
+"A large outward speed at one instant is not enough to prove escape.",
+"The energy sign still decides whether the launch must reverse later."
+],
+"whyItMatters": "It keeps the speed comparison tied to the same moving state."
+},
+{
+"id": "gravityVector",
+"whatToNotice": [
+"Gravity keeps pointing inward even for threshold and escape launches."
+],
+"whyItMatters": "It corrects the idea that escape means gravity disappears."
+},
+{
+"id": "trail",
+"whatToNotice": [
+"A long outward trail is not proof of escape. Bound launches can travel far before turning back."
+],
+"whyItMatters": "It lets the motion and the energy graph tell the same story."
+}
+]
+},
+"graphs": [
+{
+"id": "radius-history",
+"description": "Shows whether the launch keeps moving outward or approaches a finite maximum radius before turning back."
+},
+{
+"id": "speed-thresholds",
+"description": "Compares the live speed with the local escape-speed and circular-speed benchmarks at the same radius."
+},
+{
+"id": "specific-energy",
+"description": "Shows whether the total specific energy stays below zero, reaches zero, or becomes positive."
+}
+],
+"noticePrompts": {
+"title": "What to notice about escape",
+"intro": "Use these prompts to separate three ideas that are easy to mix up: going far from the source, being above circular speed, and actually escaping.",
+"items": [
+{
+"id": "ev-notice-energy-sign",
+"text": "The total-energy line gives the verdict: below zero is bound, zero is threshold, and above zero escapes.",
+"tryThis": "Switch between Threshold launch, High but bound, and Clear escape with the specific-energy graph open.",
+"whyItMatters": "It keeps escape tied to the energy sign instead of to distance alone."
+},
+{
+"id": "ev-notice-high-bound",
+"text": "A launch can be above the local circular-speed curve and still remain bound if it stays below escape speed and keeps negative total specific energy.",
+"tryThis": "Apply High but bound and compare the speed-threshold graph with the specific-energy graph before deciding whether the launch truly escapes.",
+"whyItMatters": "It separates the local circular benchmark from the actual escape threshold."
+},
+{
+"id": "ev-notice-heavier-source",
+"text": "At the same launch radius, increasing source mass deepens the well and raises the threshold speed.",
+"tryThis": "Use Heavier source threshold and watch the launch-speed readout rise with the escape-speed curve while the total-energy line stays on zero.",
+"whyItMatters": "It ties the threshold directly to the depth of the gravity well."
+},
+{
+"id": "ev-notice-wider-launch",
+"text": "Launching farther from the source lowers the threshold speed because the starting point sits higher in the gravitational well.",
+"tryThis": "Use Wider launch threshold and compare the new launch marker with the lower threshold speed and the less-negative starting potential energy.",
+"whyItMatters": "It turns the radius dependence into an energy-depth story instead of a memorized formula."
+}
+]
+},
+"predictionMode": {
+"title": "Predict the escape outcome",
+"intro": "Predict the energy verdict before you apply the preset. Then use the speed-threshold and specific-energy graphs to check the result.",
+"items": [
+{
+"id": "ev-pred-heavier-source-threshold",
+"explanation": "With speed factor fixed at 1.00, the actual launch speed updates with the new escape threshold. A heavier source makes the well deeper and raises $v_{\text{esc}}$, but the total specific energy still stays at zero.",
+"observationHint": "The launch-speed readout rises with the escape-speed curve, while the total-energy line stays on zero."
+},
+{
+"id": "ev-pred-wider-launch-threshold",
+"explanation": "Increasing $r_0$ makes the starting potential less negative, so less launch speed is needed to reach the zero-energy threshold. At speed factor 1.00 the total specific energy still stays at zero.",
+"observationHint": "The launch marker moves outward, the threshold speed drops, and the total-energy line stays near zero."
+},
+{
+"id": "ev-pred-high-bound-not-escape",
+"explanation": "Escape depends on the sign of $E/m$, not on whether the launch exceeds the local circular-speed comparison. In this page the motion is radial, not a sideways orbit.",
+"observationHint": "The speed-threshold graph can show the launch above circular speed while the specific-energy graph still stays below zero."
+}
+]
+},
+"challengeMode": {
+"intro": "Use the same one-source launch bench to build bound, threshold, and escaping cases from the live energy logic."
+},
+"quickTest": {
+"title": "Quick check",
+"intro": "Answer from the live launch-and-energy logic. The key question is not how far the object goes, but whether its total specific energy is negative, zero, or positive."
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows one source mass and one launched object moving along a radial line away from or back toward the source. Optional overlays can mark the launch radius, the predicted turnaround radius for bound cases, the current velocity, the inward gravity vector, and the visited trail.",
+"Changing source mass, launch radius, or speed factor updates the same motion, readouts, and graphs together. Compare mode adds a second launch on a separate dashed track without changing the underlying gravity model.",
+"The displayed units use a one-source model with $G = 1$. The stage has a finite visible range, so bound launches with turnaround beyond that range are labeled instead of being forced into view."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The radius-history graph compares the live radius with the starting launch radius over time so you can see whether the launch keeps expanding or approaches a finite turning point. Hovering or scrubbing previews the same instant on the stage.",
+"The speed-thresholds graph compares the live speed with the local escape and circular speeds, and the specific-energy graph shows the kinetic, potential, and total specific energies together with the zero-energy line."
+]
+}
+}
+}

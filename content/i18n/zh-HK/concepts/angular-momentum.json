@@ -1,0 +1,321 @@
+{
+  "title": "角動量",
+  "shortTitle": "角動量",
+  "summary": "把角動量看成旋轉版的動量，直接觀察質量半徑與角速度如何在同一組讀數、圖表與守恆情境下互相配合。",
+  "highlights": [
+    "L = I ω",
+    "相同的L，不同的自轉",
+    "半徑變化"
+  ],
+  "topic": "力學",
+  "subtopic": "旋轉動量和守恆",
+  "recommendedNext": [
+    {
+      "slug": "conservation-of-momentum",
+      "reasonLabel": "系統總體守恆"
+    },
+    {
+      "slug": "momentum-impulse",
+      "reasonLabel": "線性類比"
+    },
+    {
+      "slug": "uniform-circular-motion",
+      "reasonLabel": "重溫自轉語言"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "角動量是線性動量的旋轉類比。線性動量跟蹤如何用$p = mv$來改變直線運動，而角動量則用$L = I\\omega$來跟蹤旋轉運動。",
+        "這個工作台故意保持在一個限定範圍內。六個相同的質量繞著同一軸旋轉，同時你只可以改變質量半徑和自轉速率。這樣可以使角動量的兩個組成部分變得清晰，而不會進入到巨大的剛體或軌道力學系統。"
+      ]
+    },
+    "keyIdeas": [
+      "角動量透過$L = I\\omega$結合了旋轉慣性和自轉速率。一個旋轉器可以因為快速自轉、質量遠離軸心或者兩者同時發生而具有大的角動量。",
+      "旋轉慣性是這個設定中質量的旋轉類比。將相同的質量向外移動會提高$I$，所以相同的角動量可以透過較小的自轉速率來實現。",
+      "守恆的角動量解釋了顯著的自轉變化。如果外力矩可忽略不計且$I$下降，則$\\omega$必須上升以使$L$保持不變。"
+    ],
+    "commonMisconception": {
+      "myth": "轉得比較快的物體一定比轉得較慢的物體具有更多角動量。",
+      "correction": [
+        "角動量取決於$I$和$\\omega$。一個寬而慢的旋轉器可以攜帶與緊湊且快速的旋轉器相同的角動量。",
+        "如果你固定自轉速率並移動質量向外，則角動量會增加因為旋轉慣性增加了。這不是守恆；它意味著某些外部力矩或功必須改變狀態。"
+      ]
+    },
+    "workedExamples": {
+      "title": "即時示範例題",
+      "intro": "直接使用你眼前的轉子。第一題計算目前的轉動慣量與角動量；第二題則問，如果把同一個角動量帶到較緊湊的參考半徑，需要多大的角速度。",
+      "items": [
+        {
+          "id": "current-angular-momentum",
+          "title": "當前的角動量",
+          "prompt": "對於當前設定，旋轉器具有哪些旋轉慣性和角動量？",
+          "variables": [
+            {
+              "id": "massRadius",
+              "label": "質量半徑"
+            },
+            {
+              "id": "angularSpeed",
+              "label": "角速度"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 建立當前慣性"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 插入活躍半徑"
+            },
+            {
+              "id": "compute",
+              "label": "3. 乘以活躍自轉速率"
+            }
+          ],
+          "resultLabel": "目前的轉動慣量與角動量",
+          "applyAction": {
+            "label": "套用寬半徑同轉速狀態",
+            "observationHint": "把角速度維持不變，觀察轉動慣量增加時，角動量讀數和圖表如何一起上升。"
+          }
+        },
+        {
+          "id": "compact-reference-spin",
+          "title": "緊湊參考下的同角動量轉速",
+          "prompt": "如果把目前的角動量帶到緊湊參考半徑，該參考佈局需要多大的角速度？",
+          "variables": [
+            {
+              "id": "angularMomentum",
+              "label": "當前的角動量"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 保持角動量固定"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 計算緊湊參考慣性矩"
+            },
+            {
+              "id": "compute",
+              "label": "3. 解決相同-L旋轉速率"
+            }
+          ],
+          "resultLabel": "緊湊參考下的同角動量轉速",
+          "applyAction": {
+            "label": "套用寬半徑同 L 狀態",
+            "observationHint": "配合同 L 響應圖與緊湊參考覆蓋層一起看：半徑變大時，系統仍可維持近似相同的角動量，但角速度會明顯下降。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "當質量移向外側後，旋轉器能否以較慢的速度旋轉但仍保持相同的角動量?",
+      "prediction": "在回答之前嘗試匹配相同-L的緊湊和廣泛預設。注意$I$和$\\omega$是否可以互相交易。",
+      "answer": "是的。當質量移向外側時，如果慣性矩增加，角速度可以減少而產品$I\\omega$幾乎保持不變。",
+      "explanation": "角動量守恆是一種動量故事，而不是單一變數的故事。更寬的佈局可以用更大的慣性矩攜帶相同的$L$並以較慢的速度旋轉。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "這些檢查問的是你能否用角動量作為旋轉動量來推理，而不僅僅是重複守恆這句話。",
+    "questions": [
+      {
+        "id": "angular-momentum-qt-same-l",
+        "prompt": "兩個旋轉器攜帶相同的角動量。旋轉器A保持質量靠近軸心，而旋轉器B則將其遠離軸心。哪個陳述正確?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "轉子 A 應該轉得更快，因為較小的轉動慣量必須靠較大的角速度來平衡。"
+          },
+          {
+            "id": "b",
+            "label": "轉子 B 應該轉得更快，因為質量離軸更遠。"
+          },
+          {
+            "id": "c",
+            "label": "他們必須以相同的速率旋轉，因為他們的角動量匹配。"
+          }
+        ],
+        "explanation": "對於相同的 $L$，轉動慣量較小的轉子必須具有更大的 $\\omega$。",
+        "selectedWrongExplanations": {
+          "b": "質量離軸更遠會提高 $I$，因此可以透過減慢旋轉速度來保持相同的 $L$.",
+          "c": "匹配的角動量只匹配乘積 $I\\omega$, 而不是每個因數分別。"
+        },
+        "showMeAction": {
+          "label": "顯示相同-L對比",
+          "observationHint": "比較寬的相同-L預設和緊湊的相同-L預設，並一起觀看角速度和角動量讀數。"
+        }
+      },
+      {
+        "id": "angular-momentum-qt-same-speed",
+        "prompt": "轉子保持相同的角速度，其質量向外滑動。它的角動量應該發生什麼變化？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它應該增加，因為慣性矩增加了而角速度固定不變。"
+          },
+          {
+            "id": "b",
+            "label": "它應該保持不變，因為角速度固定不變。"
+          },
+          {
+            "id": "c",
+            "label": "它應該減少，因為寬轉子看起來更慢。"
+          }
+        ],
+        "explanation": "對於相同的 $L = I\\omega$, 在保持 $\\omega$ 不變的情況下增加 $I$ 會使 $L$ 增大。",
+        "selectedWrongExplanations": {
+          "b": "角速度只是角動量的一個因素。",
+          "c": "如果角速度真的固定不變，寬佈局實際上會攜帶更多的角動量，而不是更少。"
+        },
+        "showMeAction": {
+          "label": "顯示相同速度變化",
+          "observationHint": "比較角動量圖上的基線和寬的相同速度預設。"
+        }
+      },
+      {
+        "id": "angular-momentum-qt-conservation",
+        "prompt": "為什麼滑冰員在忽略外力偶的情況下將手臂收攏時會旋轉得更快？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "將質量向內拉低了慣性矩，因此角速度必須上升以保持角動量幾乎不變。"
+          },
+          {
+            "id": "b",
+            "label": "將質量向內拉可以自動從無處產生額外的角動量。"
+          },
+          {
+            "id": "c",
+            "label": "角動量並不是依賴於質量分佈，而是依賴於角速度。"
+          }
+        ],
+        "explanation": "這就是守恆定律的一句話：如果 $L$ 基本保持不變而 $I$ 下降，$\\omega$ 必須上升。",
+        "selectedWrongExplanations": {
+          "b": "重點是滑冰員不需要新的外力偶來解釋速度的增加。",
+          "c": "質量分佈正是改變慣性矩的因素。"
+        },
+        "showMeAction": {
+          "label": "顯示緊湊參考邏輯",
+          "observationHint": "使用相同的-L參考覆層，然後將半徑內移。緊湊參考旋轉立即上升。"
+        }
+      },
+      {
+        "id": "angular-momentum-qt-analogue",
+        "prompt": "為什麼角動量是線性動量的旋轉類比？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "因為它配對了一個類似慣性的量與運動速率，並且當外部扭轉效應可以忽略時，它是守恆量。"
+          },
+          {
+            "id": "b",
+            "label": "因為它只是用新符號寫出的角速度。"
+          },
+          {
+            "id": "c",
+            "label": "因為它只適用於行星而不適用於簡單實驗室旋轉器。"
+          }
+        ],
+        "explanation": "線性動量由質量和速度決定；角動量則由轉動慣量和角速度決定。當外力矩可忽略時，兩者都會成為守恆量。",
+        "selectedWrongExplanations": {
+          "b": "角速度只是$L = I\\omega$中的其中一個組成部分。",
+          "c": "這個旋轉台已經足夠展示相同的守恆邏輯。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一個正面的旋轉器，六個等質量附著在繞中央軸心的輻條上。這些質量可以一起向內或向外移動，同時旋轉器以可調節的角速度旋轉，在軸心中間附近的一個曲線箭頭標記旋轉方向。",
+        "可選覆層可以顯示當前半徑、一個切線速度箭頭在一個質量上、等質量標籤，以及報告在該處所需角速度的緊湊參考環。連線的讀數和圖表報告慣性矩、角動量、輪緣速度以及同一-L旋轉反應在同一台上的資料。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "轉角對時間圖在固定設定下會呈線性，因為整段片段都維持同一個角速度。轉得越快，直線斜率越大；寬半徑但同 L 的慢速設定，則會在同一時間內掃過較小的角度。",
+        "當角速度固定時，角動量隨著半徑增加而上升，因為慣性矩增加。保持角動量固定的同一-L旋轉圖則隨著半徑增大而下降，因為需要較低的角速度來在更大的半徑上維持相同的角動量。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "實時角動量檢查"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "守恆檢查點"
+      },
+      {
+        "id": "readNext",
+        "title": "將旋轉動量前移"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "rotational-analogue",
+      "label": "旋轉動量的線性類比",
+      "meaning": "線性動量配對質量與直線速度。角動量配對慣性矩與角速度。"
+    },
+    {
+      "id": "equal-mass-rotor",
+      "label": "等質量旋轉子模型",
+      "meaning": "在這個實驗台上，移動的質量始終分佈在同一個環上，因此把質量向外移會透過改變轉動慣量來改變角動量。"
+    },
+    {
+      "id": "angular-momentum-definition",
+      "label": "此旋轉器的角動量",
+      "meaning": "角動量隨著較大的旋轉慣性或較大的角速度而增加。"
+    },
+    {
+      "id": "same-l-spin",
+      "label": "守恆旋轉關係",
+      "meaning": "若角動量保持不變而慣性矩改變，則角速度必須反比地變化。"
+    },
+    {
+      "id": "tangential-speed-link",
+      "label": "輪緣速度連結",
+      "meaning": "切線速度有助於顯示改變半徑和旋轉速率也會改變物體在空間中的移動速度。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "massRadius",
+      "label": "質量半徑",
+      "description": "把相同的質量向外移會大幅提高轉動慣量，因此同樣大小的角動量可以由較慢的轉動來承擔。"
+    },
+    {
+      "id": "angularSpeed",
+      "label": "角速度",
+      "description": "角速度只是角動量的一部份。匹配旋轉速率並不保證在質量佈局改變時匹配角動量。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "massRadius",
+        "label": "質量半徑"
+      },
+      {
+        "id": "angularSpeed",
+        "label": "角速度"
+      }
+    ]
+  },
+  "challengeMode": {
+    "items": [
+      {
+        "id": "angular-momentum-ch-compare-same-l",
+        "title": "相同的L，不同的自轉"
+      }
+    ]
+  }
+}

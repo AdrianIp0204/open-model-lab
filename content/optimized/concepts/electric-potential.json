@@ -1,0 +1,368 @@
+{
+"pageFramework": {
+"sections": [
+{
+"id": "workedExamples",
+"title": "Work from the live setup"
+},
+{
+"id": "miniChallenge",
+"title": "Potential vs field checkpoint"
+},
+{
+"id": "readNext",
+"title": "Continue with related ideas"
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Electric potential tells you how much electric potential energy a positive test charge would have per unit charge at a location. Positive source charges raise the potential, negative source charges lower it, and nearby sources change it more strongly than distant ones.",
+"Because potential is a scalar, you add signed values, not directions. That is why the midpoint between two equal positive charges can have zero electric field but still positive potential. Along the current scan line, the electric field is linked to the potential graph by slope: where V falls as x increases, E_x points in the positive x-direction."
+]
+},
+"keyIdeas": [
+"Electric potential is a scalar, so source contributions add by signed value rather than by vector direction.",
+"A zero electric field means the local slope of potential is zero there. It does not automatically mean the potential itself is zero.",
+"Along a horizontal scan line, the electric field depends on how quickly the potential changes with position: a steeper downhill slope means a stronger field."
+],
+"commonMisconception": {
+"correction": [
+"Field and potential are related, but they are not the same quantity. A zero field means the potential has zero local slope there, not that the potential value must be zero.",
+"At the midpoint between two equal positive charges, the field cancels because the two field vectors are equal and opposite, but the potential stays positive because both scalar contributions are positive."
+]
+},
+"workedExamples": {
+"title": "Work from the live setup",
+"intro": "Read the values from the setup now on screen, then solve that exact case. The same source signs, distances, and test-charge sign drive the potential map, the linked graphs, and the numerical results below.",
+"items": [
+{
+"id": "current-net-potential",
+"title": "Potential at the current probe point",
+"prompt": "Using the current source pair and probe position, what net electric potential is present at the probe?",
+"steps": [
+{
+"id": "source-positions",
+"label": "1. Read the two source positions from the separation"
+},
+{
+"id": "source-distances",
+"label": "2. Measure the probe's distance from each source"
+},
+{
+"id": "signed-contributions",
+"label": "3. Compute each signed potential contribution"
+},
+{
+"id": "add-scalars",
+"label": "4. Add the scalar contributions"
+}
+],
+"applyAction": {
+"label": "Load the like-charge midpoint case",
+"observationHint": "At the midpoint between two equal positive charges, the field arrow can vanish while the map stays warm and V remains positive."
+}
+},
+{
+"id": "current-potential-energy",
+"title": "Potential energy of the current test charge",
+"prompt": "Using the current $q_{\text{test}}$ and the net potential, what potential energy does the test charge have at the probe?",
+"steps": [
+{
+"id": "energy-relation",
+"label": "1. Start with the energy relation"
+},
+{
+"id": "substitute",
+"label": "2. Substitute the live test charge and potential"
+},
+{
+"id": "compute",
+"label": "3. Compute the potential energy"
+}
+],
+"applyAction": {
+"label": "Flip only the test-charge sign",
+"observationHint": "The potential map and V graph stay fixed when only q_test changes, but U changes sign immediately."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Two equal positive charges sit symmetrically on the x-axis, and the probe is exactly halfway between them on that same axis. Why can the potential there stay positive while the net electric field is zero?",
+"prediction": "Before opening the midpoint preset, decide which quantity is controlled by scalar addition and which is controlled by vector cancellation.",
+"answer": "The potential stays positive because both source contributions are positive scalars, but the electric field is zero because the two equal field vectors point in opposite directions and cancel.",
+"explanation": "This midpoint is the cleanest place to separate potential from field without changing the geometry. Potential adds by signed value, while field adds by vector direction."
+}
+},
+"equations": [
+{
+"id": "potential-from-source",
+"meaning": "Each source contributes a signed scalar potential. Positive charges raise V, negative charges lower V, and the magnitude decreases with distance."
+},
+{
+"id": "net-potential",
+"label": "Scalar superposition of potential",
+"meaning": "At one point, net potential is the signed sum of the source contributions."
+},
+{
+"id": "field-from-potential",
+"meaning": "The electric field points in the direction of the steepest decrease in potential."
+},
+{
+"id": "scan-line-slope",
+"meaning": "Along the current horizontal slice, the x-component of the field is the negative slope of the potential graph."
+},
+{
+"id": "potential-energy",
+"meaning": "Changing the sign of the test charge changes the sign of U without changing the potential set by the source charges."
+}
+],
+"variableLinks": [
+{
+"id": "sourceSeparation",
+"description": "Moves both sources symmetrically on the axis, changing the source-to-probe distances and the slope of the potential landscape."
+},
+{
+"id": "probeX",
+"description": "Moves the probe left or right and moves the graph preview to that same x-location on the current scan line."
+},
+{
+"id": "probeY",
+"description": "Moves the probe to a new horizontal slice, so the map, contours, and graphs all sample a different y-level."
+},
+{
+"id": "testCharge",
+"description": "Changes only the potential energy through U = qV. It does not change the potential map, contours, or field graph."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "sourceSeparation",
+"description": "Moves both sources symmetrically, changing distances and reshaping the potential landscape."
+},
+{
+"id": "probeX",
+"description": "Moves the probe left or right across both the stage and the linked scan graphs."
+},
+{
+"id": "probeY",
+"description": "Moves the probe to a different horizontal scan line, so the graphs sample a new y-level."
+},
+{
+"id": "testCharge",
+"description": "Changes only the potential energy U = qV, not the potential map or the field graph."
+}
+],
+"presets": [
+{
+"id": "like-charge-midpoint",
+"description": "Equal positive charges show that the field can be zero at the midpoint while the potential stays positive."
+},
+{
+"id": "zero-potential-midpoint",
+"description": "Equal and opposite charges make the midpoint a clean check that zero potential does not imply zero field."
+},
+{
+"id": "negative-test-energy",
+"description": "The source-generated potential stays fixed while the test charge makes the potential energy change sign."
+}
+],
+"overlays": [
+{
+"id": "potentialMap",
+"shortDescription": "Shows signed potential across the stage, with warm colors for positive V and cool colors for negative V.",
+"whatToNotice": [
+"Each point on the map already includes both source contributions."
+],
+"whyItMatters": "It turns potential difference into a visible change across one shared landscape instead of a detached number."
+},
+{
+"id": "equipotentialContours",
+"shortDescription": "Draws lines of equal potential across the stage.",
+"whatToNotice": [
+"The field arrow crosses these contours instead of pointing along them."
+],
+"whyItMatters": "It helps you see that the field comes from the slope of the potential, not from a separate unrelated rule."
+},
+{
+"id": "fieldArrow",
+"shortDescription": "Shows the net electric field at the probe as the downhill direction on the potential map.",
+"whatToNotice": [
+"At a balance point, the field arrow can vanish even while the potential readout stays nonzero."
+],
+"whyItMatters": "It keeps the link E = -grad V tied to the same live probe state."
+},
+{
+"id": "scanLine",
+"shortDescription": "Marks the horizontal slice used by the linked graphs.",
+"whatToNotice": [
+"Graph hover and stage preview refer to the same x-location on this line."
+],
+"whyItMatters": "It keeps the graph tied to one real spatial slice through the map."
+}
+]
+},
+"graphs": [
+{
+"id": "potential-scan",
+"label": "Potential along the scan line",
+"xLabel": "probe x-position on scan line (m)",
+"description": "Source A, Source B, and the net potential are sampled along the same horizontal scan line. The vertical gap between two x-positions is a potential difference."
+},
+{
+"id": "field-link",
+"label": "Field-slope link",
+"xLabel": "probe x-position on scan line (m)",
+"description": "Along the current horizontal slice, the net horizontal field matches the negative slope of the potential graph. Hovering previews that same x-location on the stage."
+}
+],
+"noticePrompts": {
+"intro": "Treat each prompt as a small investigation. Make the named change, then connect what you see on the map to what changes in the readout and graphs.",
+"items": [
+{
+"id": "ep-notice-sign-map",
+"text": "Source sign decides whether a nearby region is positive or negative potential before distance decides how large the value is.",
+"tryThis": "Turn Source B off, then drag Source A from positive to negative and watch the warm hill switch to a cool well.",
+"whyItMatters": "Potential-sign mistakes often come from forgetting that a negative source lowers V instead of making a smaller positive value."
+},
+{
+"id": "ep-notice-potential-difference",
+"text": "Potential difference is the vertical gap between two points on the same V(x) curve, not a separate object.",
+"tryThis": "Hover two x-locations on the potential graph and compare the stage preview, the readout, and the height difference on the curve.",
+"whyItMatters": "Voltage becomes easier to read when you treat it as a change between two positions on one shared graph."
+},
+{
+"id": "ep-notice-field-slope",
+"text": "The field arrow points downhill on the potential map. Along this horizontal slice, the E_x curve follows the negative slope of V(x).",
+"whyItMatters": "This is the key bridge between the scalar potential picture and the vector field picture."
+},
+{
+"id": "ep-notice-midpoint-balance",
+"text": "At the midpoint between equal positive charges, the field can be zero while the potential stays positive.",
+"tryThis": "Use the like-charge midpoint preset and compare the warm map color, the positive V readout, and the vanished field arrow.",
+"whyItMatters": "It separates scalar superposition from vector cancellation in one clean setup."
+},
+{
+"id": "ep-notice-test-charge",
+"text": "Changing only q_test flips the sign of potential energy, not the potential map or the field-link graph.",
+"whyItMatters": "It separates source-set potential from the energy of one chosen test charge."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict first, then apply the change. Each scenario changes one cause at a time so you can test what the map, contours, and graphs should do.",
+"items": [
+{
+"id": "ep-pred-sign-flip",
+"prompt": "At one fixed probe point, what changes if Source B flips from positive to negative while Source A stays positive?",
+"choices": [
+{
+"id": "a",
+"label": "Source B's contribution changes sign, so the net potential can shift sharply and the nearby map can switch from warm to cool."
+},
+{
+"id": "b",
+"label": "Only the field changes because potential does not depend on source sign."
+},
+{
+"id": "c",
+"label": "Nothing changes because the source stayed the same distance from the probe."
+}
+],
+"explanation": "Potential is signed. Flipping a source charge changes that source's contribution from positive to negative or vice versa, so the net potential can change strongly even when the geometry stays fixed.",
+"observationHint": "Watch the region near Source B flip sign when the blue source changes sign."
+},
+{
+"id": "ep-pred-midpoint-balance",
+"prompt": "If both sources are equal and positive, then the probe moves to the exact midpoint on the source axis, which statement is best supported?",
+"scenarioLabel": "Like-charge midpoint",
+"explanation": "At the midpoint, the two positive-source fields are equal and opposite, so they cancel. But the two potentials are both positive scalars, so they add and leave a positive V.",
+"observationHint": "This is the cleanest place to see a warm map, a positive V readout, and a vanished field arrow at the same time."
+},
+{
+"id": "ep-pred-test-charge-flip",
+"prompt": "If the sources and probe stay fixed but the test charge flips from positive to negative, what should happen?",
+"scenarioLabel": "Flip the test charge",
+"explanation": "The source charges set V and E. The test charge only multiplies that existing potential to produce U = qV, so flipping q_test changes the energy sign without changing the map.",
+"observationHint": "The potential-energy readout changes sign while the map and graphs stay fixed."
+}
+]
+},
+"challengeMode": {
+"intro": "Use the live controls to build a specific potential-field situation. Success depends on reading both the map and the field link from the same setup.",
+"items": [
+{
+"id": "ep-ch-positive-midpoint-plateau",
+"title": "Build a positive midpoint with zero field",
+"prompt": "Starting from Dipole reference, adjust the setup until the midpoint has almost zero field but still clearly positive potential.",
+"successMessage": "You found the clean midpoint case where vector cancellation makes the field vanish while scalar addition keeps the potential positive.",
+"setup": {
+"note": "Use the field-link graph, the field arrow, and the potential map together while you tune the midpoint."
+},
+"hints": [
+"You need the midpoint between two equal positive charges, not the midpoint of a dipole.",
+"A nearly zero field means the local slope is almost flat. The map can still remain positive there."
+]
+}
+]
+},
+"quickTest": {
+"intro": "Answer from the live potential picture, not from detached formulas. Use the map, graphs, and field-potential link to decide what must be true.",
+"questions": [
+{
+"id": "ep-qt-positive-source-distance",
+"explanation": "For one positive source, V = kq/r stays positive while moving the probe farther away makes the value smaller in magnitude.",
+"showMeAction": {
+"observationHint": "Move the probe farther from the positive source and watch the warm colors fade while the potential curve flattens toward zero."
+}
+},
+{
+"id": "ep-qt-midpoint-like-charges",
+"explanation": "The two positive-source fields cancel as vectors at that midpoint, but the two positive potentials add as scalars.",
+"showMeAction": {
+"observationHint": "The field arrow disappears while the map and V readout stay positive."
+}
+},
+{
+"id": "ep-qt-zero-potential-not-zero-field",
+"explanation": "At the midpoint of an equal dipole, the positive and negative potentials cancel, but the field contributions both point from the positive source toward the negative source and therefore add.",
+"showMeAction": {
+"observationHint": "The readout shows V near zero while the field arrow still points from the positive source toward the negative source."
+}
+},
+{
+"id": "ep-qt-slope-to-field",
+"explanation": "A downward slope means dV/dx is negative, so the minus sign in E_x = -dV/dx makes E_x positive.",
+"selectedWrongExplanations": {
+"b": "Smooth change does not mean zero slope. Only a flat graph would make E_x vanish along that slice.",
+"c": "The field is the negative slope, not the slope itself."
+}
+},
+{
+"id": "ep-qt-test-charge-energy",
+"explanation": "The source charges set the potential. The test charge only tells you what potential energy one chosen charge would have there.",
+"showMeAction": {
+"observationHint": "The map and graphs stay fixed while the potential-energy readout changes sign."
+}
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows two source charges on a horizontal axis, a movable probe inside a bounded potential region, and optional overlays for a signed potential map, equipotential contours, a field arrow at the probe, and the horizontal scan line used by the graphs.",
+"Dragging the probe changes the sampled location directly on the stage, while dragging either source marker changes the shared source separation symmetrically. Sliders provide the same controls for source-charge sign and size, separation, probe position, and test-charge sign.",
+"Color saturation in the potential map is clipped near a source for readability, but the readout and graphs still preserve the correct trend that the potential magnitude grows rapidly as the probe approaches a charge."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The potential-scan graph plots Source A's contribution, Source B's contribution, and the net potential along the current horizontal scan line. Hovering the graph previews that same x-location on the stage.",
+"The field-link graph plots the net horizontal field and the matching negative slope of the potential graph along that same scan line. The test-charge sign changes the potential-energy readout, but the graphs remain source-only views of V and E."
+]
+}
+}
+}

@@ -1,0 +1,1005 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live polarization checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Transverse-wave checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Carry wave orientation deeper into optics"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Use one compact polarizer bench to see polarization as the orientation story of transverse waves, how angle mismatch sets transmitted light, and why one ideal polarizer makes unpolarized light emerge with one chosen axis.",
+    "keyTakeaway": "Polarization is an orientation property of transverse waves, not a separate kind of intensity control."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Polarization is the compact wave-optics idea that only makes sense when the oscillation has an orientation across the beam. On this page, the beam still travels to the right, but the active question is what direction the electric-field oscillation points in the transverse cross-section.",
+        "One shared bench keeps the input orientation, the polarizer axis, the transmitted output, and the detector brightness tied to the same bounded model. That makes polarization a projection story instead of a memorized slogan: the axis keeps the component aligned with it, blocks the perpendicular part, and leaves the transmitted light polarized along the axis."
+      ]
+    },
+    "keyIdeas": [
+      "Polarization is an orientation property of transverse waves, not a separate kind of intensity control.",
+      "For linearly polarized input, the transmitted field is the projection onto the polarizer axis, so the detector fraction follows Malus's law: I_out / I_0 = cos^2(delta theta).",
+      "For an ideal first polarizer with unpolarized input, the transmitted intensity averages to one half and the output becomes linearly polarized along the axis.",
+      "This is why polarization distinguishes transverse-wave behavior cleanly: a longitudinal compression wave does not bring one sideways oscillation direction for a polarizer to select."
+    ],
+    "commonMisconception": {
+      "myth": "A polarizer is just a dimmer, so any wave should pass through it the same way if the source is strong enough.",
+      "correction": [
+        "An ideal polarizer does not ask how strong the wave is first. It asks how much of the transverse oscillation points along its axis.",
+        "That is why polarization is a useful contrast with longitudinal waves such as sound in air. There is no single sideways oscillation direction there for the filter to project onto."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live polarization checks",
+      "intro": "Read the current input state, axis projection, and detector fraction directly from the same live bench.",
+      "items": [
+        {
+          "id": "current-output-state",
+          "title": "Current transmitted output",
+          "prompt": "For the current bench state, what output leaves the polarizer and what fraction of the incoming intensity reaches the detector?",
+          "variables": [
+            {
+              "id": "input-state",
+              "symbol": "\\mathrm{state}_{in}",
+              "label": "Input state",
+              "valueKey": "inputStateValue"
+            },
+            {
+              "id": "input-angle",
+              "variableId": "inputAngle",
+              "symbol": "\\theta_{in}",
+              "label": "Input angle",
+              "valueKey": "inputAngleValue",
+              "unit": "deg"
+            },
+            {
+              "id": "polarizer-angle",
+              "variableId": "polarizerAngle",
+              "symbol": "\\theta_p",
+              "label": "Polarizer angle",
+              "valueKey": "polarizerAngleValue",
+              "unit": "deg"
+            },
+            {
+              "id": "delta-angle",
+              "symbol": "\\Delta\\theta",
+              "label": "Relative angle",
+              "valueKey": "angleDifferenceValue",
+              "unit": "deg"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-state",
+              "label": "1. Read the live state",
+              "template": "The input is {{inputStateValue}} and the polarizer axis is set to {{polarizerAngleValue}}, so the bench treats the transmission as an orientation match problem."
+            },
+            {
+              "id": "project-field",
+              "label": "2. Keep only the axis-aligned part",
+              "template": "{{projectionStepText}} That gives a transmitted field amplitude of {{transmittedFieldValue}}."
+            },
+            {
+              "id": "detector",
+              "label": "3. Read the detector and output axis",
+              "template": "The detector receives {{transmittedIntensityPercentValue}} of the incoming intensity, and the output leaves linearly polarized along {{outputAngleValue}}."
+            }
+          ],
+          "resultLabel": "Current transmitted output",
+          "resultTemplate": "$E_{out} = {{transmittedFieldValue}}, \\quad I/I_0 = {{transmittedIntensityValue}}, \\quad \\theta_{out} = {{outputAngleValue}}$",
+          "interpretationTemplate": "{{outputInterpretation}}",
+          "applyAction": {
+            "label": "Show a half-power projection",
+            "presetId": "half-power-linear",
+            "observationHint": "At 45 degrees of mismatch, the field keeps only the cosine projection and the detector settles near half power.",
+            "highlightedControlIds": [
+              "inputAngle",
+              "polarizerAngle"
+            ],
+            "highlightedGraphIds": [
+              "power-split",
+              "field-projection"
+            ],
+            "highlightedOverlayIds": [
+              "projectionGuide",
+              "intensityGuide"
+            ]
+          }
+        },
+        {
+          "id": "current-blocked-share",
+          "title": "Current blocked share",
+          "prompt": "For the current bench state, how much of the wave is blocked and what does that reveal about polarization?",
+          "variables": [
+            {
+              "id": "output-state",
+              "symbol": "\\mathrm{state}_{out}",
+              "label": "Output state",
+              "valueKey": "outputStateValue"
+            },
+            {
+              "id": "blocked-field",
+              "symbol": "E_\\perp",
+              "label": "Blocked field component",
+              "valueKey": "blockedFieldValue",
+              "unit": "arb."
+            },
+            {
+              "id": "blocked-share",
+              "symbol": "I_{blocked}/I_0",
+              "label": "Blocked intensity fraction",
+              "valueKey": "blockedIntensityValue"
+            },
+            {
+              "id": "blocked-angle",
+              "symbol": "\\theta_\\perp",
+              "label": "Blocked direction",
+              "valueKey": "blockedAngleValue",
+              "unit": "deg"
+            }
+          ],
+          "steps": [
+            {
+              "id": "separate-components",
+              "label": "1. Identify the rejected part",
+              "template": "{{blockedStepText}}"
+            },
+            {
+              "id": "compare-shares",
+              "label": "2. Compare transmitted and blocked intensity",
+              "template": "Right now {{transmittedIntensityPercentValue}} is transmitted and {{blockedIntensityPercentValue}} is blocked."
+            },
+            {
+              "id": "name-output",
+              "label": "3. Name the new output state",
+              "template": "After the filter, the surviving light is {{outputStateValue}}, so the axis has selected one transverse orientation out of the incoming possibilities."
+            }
+          ],
+          "resultLabel": "Current blocked share",
+          "resultTemplate": "$E_\\perp = {{blockedFieldValue}}, \\quad I_{blocked}/I_0 = {{blockedIntensityValue}}$",
+          "interpretationTemplate": "{{blockedInterpretation}}",
+          "applyAction": {
+            "label": "Show unpolarized input",
+            "presetId": "unpolarized-half",
+            "observationHint": "The detector fraction stays near one half even though the axis angle changes, because the input no longer starts with one preferred direction.",
+            "highlightedControlIds": [
+              "unpolarized",
+              "polarizerAngle"
+            ],
+            "highlightedGraphIds": [
+              "power-split"
+            ],
+            "highlightedOverlayIds": [
+              "projectionGuide",
+              "intensityGuide"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "A student says, \"If sound is also a wave, one ideal polarizer should just pick the right sound direction too.\" What is the missing ingredient in that argument?",
+      "prediction": "Answer from the bench picture of transverse orientation, not from a memorized definition.",
+      "answer": "A longitudinal sound wave in air does not bring one sideways oscillation direction for the polarizer to project onto.",
+      "explanation": "The bench works because the oscillation lives in the transverse cross-section and can be resolved into axis-aligned and perpendicular components. A longitudinal compression wave oscillates mainly along the propagation direction instead, so this kind of orientation filter does not apply in the same way."
+    }
+  },
+  "equations": [
+    {
+      "id": "field-projection",
+      "latex": "E_{out} = E_0\\cos(\\Delta\\theta)",
+      "label": "Field projection onto the axis",
+      "meaning": "The transmitted field is the component of the incoming transverse oscillation along the polarizer axis."
+    },
+    {
+      "id": "malus-law",
+      "latex": "I_{out} = I_0\\cos^2(\\Delta\\theta)",
+      "label": "Malus's law",
+      "meaning": "Detector brightness depends on the squared projection because intensity follows the square of field amplitude."
+    },
+    {
+      "id": "crossed-axes",
+      "latex": "\\Delta\\theta = 90^\\circ \\Rightarrow I_{out} \\approx 0",
+      "label": "Crossed polarizers",
+      "meaning": "If the incoming linear polarization is perpendicular to the axis, an ideal polarizer blocks it almost completely."
+    },
+    {
+      "id": "unpolarized-half",
+      "latex": "I_{out} = \\tfrac{1}{2} I_0",
+      "label": "Unpolarized first-pass average",
+      "meaning": "An ideal first polarizer sends an unpolarized beam into one linearly polarized output with half the original intensity on average."
+    },
+    {
+      "id": "output-axis",
+      "latex": "\\hat{e}_{out} \\parallel \\hat{e}_{polarizer}",
+      "label": "Output orientation",
+      "meaning": "Whatever survives leaves aligned with the polarizer axis."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "inputAmplitude",
+      "symbol": "E_0",
+      "label": "Input field amplitude",
+      "param": "inputAmplitude",
+      "tone": "teal",
+      "description": "Changes the absolute size of the incoming and transmitted field without changing the relative transmission curve.",
+      "equationIds": [
+        "field-projection",
+        "malus-law"
+      ],
+      "graphIds": [
+        "power-split",
+        "field-projection"
+      ],
+      "overlayIds": [
+        "intensityGuide"
+      ]
+    },
+    {
+      "id": "inputAngle",
+      "symbol": "\\theta_{in}",
+      "label": "Input orientation",
+      "param": "inputAngle",
+      "tone": "sky",
+      "description": "Rotates the incoming linear polarization direction across the same transverse cross-section.",
+      "equationIds": [
+        "field-projection",
+        "malus-law",
+        "crossed-axes"
+      ],
+      "graphIds": [
+        "power-split",
+        "field-projection"
+      ],
+      "overlayIds": [
+        "transverseGuide",
+        "projectionGuide"
+      ]
+    },
+    {
+      "id": "polarizerAngle",
+      "symbol": "\\theta_p",
+      "label": "Polarizer axis",
+      "param": "polarizerAngle",
+      "tone": "amber",
+      "description": "Sets the axis that defines which transverse component survives the filter.",
+      "equationIds": [
+        "field-projection",
+        "malus-law",
+        "crossed-axes",
+        "output-axis"
+      ],
+      "graphIds": [
+        "power-split",
+        "field-projection"
+      ],
+      "overlayIds": [
+        "projectionGuide",
+        "intensityGuide"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "inputAmplitude": 1.1,
+      "inputAngle": 20,
+      "polarizerAngle": 50,
+      "unpolarized": false,
+      "transverseGuide": true,
+      "projectionGuide": true,
+      "intensityGuide": true
+    },
+    "ui": {
+      "initialGraphId": "power-split",
+      "primaryGraphIds": [
+        "power-split",
+        "field-projection"
+      ],
+      "primaryControlIds": [
+        "inputAngle",
+        "polarizerAngle"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "inputAmplitude",
+        "kind": "slider",
+        "label": "Input amplitude",
+        "param": "inputAmplitude",
+        "min": 0.7,
+        "max": 1.4,
+        "step": 0.05,
+        "unit": "arb.",
+        "description": "Scales the incoming field height without changing the orientation geometry."
+      },
+      {
+        "id": "inputAngle",
+        "kind": "slider",
+        "label": "Input angle",
+        "param": "inputAngle",
+        "min": 0,
+        "max": 180,
+        "step": 1,
+        "unit": "deg",
+        "description": "Rotates the incoming linear polarization direction."
+      },
+      {
+        "id": "polarizerAngle",
+        "kind": "slider",
+        "label": "Polarizer angle",
+        "param": "polarizerAngle",
+        "min": 0,
+        "max": 180,
+        "step": 1,
+        "unit": "deg",
+        "description": "Rotates the transmission axis of the ideal polarizer."
+      },
+      {
+        "id": "unpolarized",
+        "kind": "toggle",
+        "label": "Unpolarized input",
+        "param": "unpolarized",
+        "description": "Switch from one fixed input orientation to a mixed transverse input with no preferred axis."
+      }
+    ],
+    "presets": [
+      {
+        "id": "baseline-linear",
+        "label": "Baseline linear",
+        "description": "A partially misaligned linear input so both transmitted and blocked components stay visible.",
+        "values": {
+          "inputAmplitude": 1.1,
+          "inputAngle": 20,
+          "polarizerAngle": 50,
+          "unpolarized": false
+        }
+      },
+      {
+        "id": "aligned-pass",
+        "label": "Aligned pass",
+        "description": "Input and axis match, so the detector stays bright.",
+        "values": {
+          "inputAmplitude": 1.1,
+          "inputAngle": 30,
+          "polarizerAngle": 30,
+          "unpolarized": false
+        }
+      },
+      {
+        "id": "half-power-linear",
+        "label": "Half power",
+        "description": "A 45 degree mismatch leaves half the intensity on the detector.",
+        "values": {
+          "inputAmplitude": 1.1,
+          "inputAngle": 0,
+          "polarizerAngle": 45,
+          "unpolarized": false
+        }
+      },
+      {
+        "id": "crossed-dark",
+        "label": "Crossed axes",
+        "description": "A 90 degree mismatch suppresses the transmitted intensity almost completely.",
+        "values": {
+          "inputAmplitude": 1.1,
+          "inputAngle": 30,
+          "polarizerAngle": 120,
+          "unpolarized": false
+        }
+      },
+      {
+        "id": "unpolarized-half",
+        "label": "Unpolarized first pass",
+        "description": "A mixed transverse input leaves half the intensity on average but exits polarized along the axis.",
+        "values": {
+          "inputAmplitude": 1.1,
+          "inputAngle": 30,
+          "polarizerAngle": 70,
+          "unpolarized": true
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "transverseGuide",
+        "label": "Transverse cross-section",
+        "shortDescription": "Separates the beam direction from the sideways oscillation orientation.",
+        "whatToNotice": [
+          "The beam still travels to the right while the active polarization question lives in the cross-section perpendicular to that motion."
+        ],
+        "whyItMatters": "It keeps polarization tied to transverse-wave geometry instead of treating it as a brightness-only effect.",
+        "relatedControls": [
+          "inputAngle",
+          "polarizerAngle"
+        ],
+        "relatedGraphTabs": [
+          "field-projection"
+        ],
+        "relatedEquationVariables": [
+          "inputAngle"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "projectionGuide",
+        "label": "Projection guide",
+        "shortDescription": "Shows the axis-aligned part that survives and the perpendicular part that is rejected.",
+        "whatToNotice": [
+          "Rotating the mismatch changes how much of the transverse oscillation lies along the axis, not the beam direction."
+        ],
+        "whyItMatters": "It turns Malus's law back into a geometry story you can see.",
+        "relatedControls": [
+          "inputAngle",
+          "polarizerAngle",
+          "unpolarized"
+        ],
+        "relatedGraphTabs": [
+          "field-projection",
+          "power-split"
+        ],
+        "relatedEquationVariables": [
+          "inputAngle",
+          "polarizerAngle"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "intensityGuide",
+        "label": "Detector split",
+        "shortDescription": "Keeps transmitted and blocked shares visible next to the detector.",
+        "whatToNotice": [
+          "The detector fraction follows the orientation match, and an unpolarized first pass stays near one half regardless of axis angle."
+        ],
+        "whyItMatters": "It keeps the readout honest when you compare aligned, crossed, and unpolarized cases.",
+        "relatedControls": [
+          "inputAmplitude",
+          "polarizerAngle",
+          "unpolarized"
+        ],
+        "relatedGraphTabs": [
+          "power-split"
+        ],
+        "relatedEquationVariables": [
+          "inputAmplitude",
+          "polarizerAngle"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "power-split",
+      "label": "Power split vs polarizer angle",
+      "xLabel": "polarizer angle (deg)",
+      "yLabel": "relative intensity",
+      "series": [
+        "transmitted-power",
+        "blocked-power"
+      ],
+      "description": "Sweeps the polarizer axis to compare transmitted and blocked intensity fractions on the same response curve."
+    },
+    {
+      "id": "field-projection",
+      "label": "Field projection vs polarizer angle",
+      "xLabel": "polarizer angle (deg)",
+      "yLabel": "field fraction",
+      "series": [
+        "axis-field",
+        "blocked-field"
+      ],
+      "description": "Shows how the axis-aligned and perpendicular field components trade off as the polarizer rotates."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use one prompt at a time so the orientation story stays compact and readable.",
+    "items": [
+      {
+        "id": "polarization-notice-aligned",
+        "text": "When the input and axis line up, the detector stays bright because almost the whole transverse oscillation already points along the axis.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Start from Baseline linear, then rotate the axis until it matches the input angle.",
+        "whyItMatters": "It shows that a polarizer keeps a component; it does not invent one from nowhere.",
+        "relatedControls": [
+          "inputAngle",
+          "polarizerAngle"
+        ],
+        "relatedGraphTabs": [
+          "power-split",
+          "field-projection"
+        ],
+        "relatedOverlays": [
+          "projectionGuide",
+          "intensityGuide"
+        ]
+      },
+      {
+        "id": "polarization-notice-crossed",
+        "text": "A crossed setting is not a different beam direction. It is a near-zero projection onto the axis, so the detector goes dark even though the axis marker is still there.",
+        "type": "misconception",
+        "priority": 4,
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "polarizerAngle",
+              "min": 105,
+              "max": 135
+            }
+          ]
+        },
+        "tryThis": "Use the Crossed axes preset and compare the detector badge with the projection callout.",
+        "whyItMatters": "It keeps zero transmission tied to orientation mismatch rather than to the beam somehow stopping or turning.",
+        "relatedControls": [
+          "polarizerAngle"
+        ],
+        "relatedGraphTabs": [
+          "power-split",
+          "field-projection"
+        ],
+        "relatedOverlays": [
+          "projectionGuide",
+          "intensityGuide"
+        ]
+      },
+      {
+        "id": "polarization-notice-unpolarized",
+        "text": "Switching to unpolarized input removes the single starting axis. One ideal first polarizer still creates a linearly polarized output, but the detector fraction settles near one half.",
+        "type": "try-this",
+        "priority": 6,
+        "conditions": {
+          "lastChangedControls": [
+            "unpolarized"
+          ]
+        },
+        "tryThis": "Turn on Unpolarized input and rotate the axis through several angles.",
+        "whyItMatters": "It separates a mixed input state from the linearly polarized output created by the filter.",
+        "relatedControls": [
+          "unpolarized",
+          "polarizerAngle"
+        ],
+        "relatedGraphTabs": [
+          "power-split"
+        ],
+        "relatedOverlays": [
+          "projectionGuide",
+          "intensityGuide"
+        ]
+      },
+      {
+        "id": "polarization-notice-compare",
+        "text": "Compare mode is strongest when one setup changes only the relative angle while the other changes the input state from linear to unpolarized.",
+        "type": "compare",
+        "priority": 9,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Keep Setup A on Half power and switch Setup B to Unpolarized first pass.",
+        "whyItMatters": "That separates a cosine-projection story from the half-intensity average story without widening the bench.",
+        "relatedControls": [
+          "inputAngle",
+          "polarizerAngle",
+          "unpolarized"
+        ],
+        "relatedGraphTabs": [
+          "power-split",
+          "field-projection"
+        ],
+        "relatedOverlays": [
+          "projectionGuide",
+          "intensityGuide"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Commit to the orientation consequence before you apply the change.",
+    "items": [
+      {
+        "id": "polarization-pred-crossed",
+        "prompt": "Start from Aligned pass and rotate the polarizer to 90 degrees away from the input. What should happen to the detector?",
+        "scenarioLabel": "Rotate to crossed axes",
+        "changeLabel": "Polarizer angle",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The detector should go nearly dark because the input has almost no component along the new axis."
+          },
+          {
+            "id": "b",
+            "label": "The detector should stay equally bright because the input amplitude has not changed."
+          },
+          {
+            "id": "c",
+            "label": "The beam should bend toward the new axis while keeping the same detector fraction."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "With a 90 degree mismatch, an ideal linear input has essentially zero projection onto the axis, so the transmitted intensity collapses.",
+        "observationHint": "Watch the detector fraction and the blocked component together.",
+        "apply": {
+          "presetId": "crossed-dark"
+        },
+        "highlightedControls": [
+          "polarizerAngle"
+        ],
+        "highlightedGraphs": [
+          "power-split",
+          "field-projection"
+        ],
+        "highlightedOverlays": [
+          "projectionGuide",
+          "intensityGuide"
+        ]
+      },
+      {
+        "id": "polarization-pred-half-power",
+        "prompt": "Leave the input linear, but rotate the axis until the mismatch is 45 degrees. Which detector result should appear?",
+        "scenarioLabel": "Rotate to 45 degrees",
+        "changeLabel": "Relative angle",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The detector should read about half the incoming intensity because cos squared 45 degrees is one half."
+          },
+          {
+            "id": "b",
+            "label": "The detector should read zero because any mismatch blocks the beam."
+          },
+          {
+            "id": "c",
+            "label": "The detector should stay fully bright because the output always follows the axis."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At 45 degrees, the field projection is reduced by cos 45 degrees and the intensity therefore drops to about one half.",
+        "observationHint": "Watch the field-projection graph and the detector split together.",
+        "apply": {
+          "presetId": "half-power-linear"
+        },
+        "highlightedControls": [
+          "inputAngle",
+          "polarizerAngle"
+        ],
+        "highlightedGraphs": [
+          "field-projection",
+          "power-split"
+        ],
+        "highlightedOverlays": [
+          "projectionGuide",
+          "intensityGuide"
+        ]
+      },
+      {
+        "id": "polarization-pred-unpolarized",
+        "prompt": "Switch the input from one fixed linear orientation to an unpolarized beam while leaving the axis alone. What should stay true on this ideal first-polarizer bench?",
+        "scenarioLabel": "Switch to unpolarized input",
+        "changeLabel": "Input state",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The detector should settle near half intensity and the output should leave polarized along the axis."
+          },
+          {
+            "id": "b",
+            "label": "The detector should go completely dark because the input no longer has one angle."
+          },
+          {
+            "id": "c",
+            "label": "The output should remain unpolarized because one polarizer cannot create an orientation."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "An ideal first polarizer can create a linearly polarized output from an unpolarized beam, but it does so by averaging the transmitted intensity to one half.",
+        "observationHint": "Rotate the axis after switching input state and notice what changes and what does not.",
+        "apply": {
+          "presetId": "unpolarized-half"
+        },
+        "highlightedControls": [
+          "unpolarized",
+          "polarizerAngle"
+        ],
+        "highlightedGraphs": [
+          "power-split"
+        ],
+        "highlightedOverlays": [
+          "projectionGuide",
+          "intensityGuide"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the same compact bench for small polarization hunts instead of separate worksheets.",
+    "items": [
+      {
+        "id": "pol-ch-half-power",
+        "title": "Set a half-power case",
+        "style": "target-setting",
+        "prompt": "Starting from Aligned pass, tune the bench until the detector reads about one half of the incoming intensity for a linear input.",
+        "successMessage": "You found the 45 degree projection case. The detector fraction is now set by orientation alone, not by changing the beam type.",
+        "setup": {
+          "presetId": "aligned-pass",
+          "graphId": "power-split",
+          "overlayIds": [
+            "projectionGuide",
+            "intensityGuide"
+          ],
+          "note": "Use the power-split graph to steer the detector fraction toward one half."
+        },
+        "requirements": {
+          "graphId": "power-split",
+          "overlayIds": [
+            "projectionGuide"
+          ]
+        },
+        "hints": [
+          "You need a clear but not complete mismatch between the input and the axis.",
+          "The half-power point happens when the relative angle is close to 45 degrees."
+        ],
+        "targets": [
+          {
+            "metric": "transmittedIntensityFraction",
+            "label": "Set the detector fraction between 0.46 and 0.54.",
+            "min": 0.46,
+            "max": 0.54
+          },
+          {
+            "metric": "angleDifference",
+            "label": "Keep the relative angle between 42 deg and 48 deg.",
+            "min": 42,
+            "max": 48,
+            "displayUnit": "deg"
+          }
+        ]
+      },
+      {
+        "id": "pol-ch-unpolarized-half",
+        "title": "Create a half-bright first polarizer",
+        "style": "visible-condition",
+        "prompt": "Starting from Crossed axes, switch the bench to an unpolarized first-pass case that still leaves the detector near half brightness.",
+        "successMessage": "You turned the crossed linear case into an unpolarized first-polarizer case. The detector is back near one half because the input state changed, not because the axes re-aligned.",
+        "setup": {
+          "presetId": "crossed-dark",
+          "graphId": "power-split",
+          "overlayIds": [
+            "projectionGuide",
+            "intensityGuide"
+          ],
+          "note": "Change the input state rather than chasing alignment."
+        },
+        "requirements": {
+          "graphId": "power-split",
+          "overlayIds": [
+            "intensityGuide"
+          ]
+        },
+        "hints": [
+          "The key move is not rotating back to alignment.",
+          "A mixed input state can still give about half intensity through one ideal polarizer."
+        ],
+        "targets": [
+          {
+            "metric": "unpolarizedFlag",
+            "label": "Turn on the unpolarized input state.",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "metric": "transmittedIntensityFraction",
+            "label": "Keep the detector fraction between 0.48 and 0.52.",
+            "min": 0.48,
+            "max": 0.52
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live orientation logic, not from isolated vocabulary.",
+    "questions": [
+      {
+        "id": "polarization-qt-transverse",
+        "type": "reasoning",
+        "prompt": "Why is polarization a useful signature of transverse-wave behavior?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because a polarizer selects one sideways oscillation component, which only makes sense when the wave has a transverse orientation to project."
+          },
+          {
+            "id": "b",
+            "label": "Because polarized waves always travel faster than unpolarized waves."
+          },
+          {
+            "id": "c",
+            "label": "Because any wave with a large enough amplitude can be sorted into a polarization direction."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The filter works by selecting a transverse component aligned with its axis. That geometric selection is what makes polarization a clean transverse-wave clue.",
+        "selectedWrongExplanations": {
+          "b": "Polarization changes orientation bookkeeping, not the propagation speed on this page.",
+          "c": "Amplitude alone does not create a transverse orientation for the filter to select."
+        },
+        "showMeAction": {
+          "label": "Highlight the transverse bench",
+          "highlightedControlIds": [
+            "inputAngle",
+            "polarizerAngle"
+          ],
+          "highlightedGraphIds": [
+            "field-projection"
+          ],
+          "highlightedOverlayIds": [
+            "transverseGuide",
+            "projectionGuide"
+          ]
+        }
+      },
+      {
+        "id": "polarization-qt-crossed",
+        "type": "compare-two-cases",
+        "prompt": "Which linear-input comparison is correct for an ideal polarizer?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Aligned axes transmit the most, while crossed axes transmit almost none."
+          },
+          {
+            "id": "b",
+            "label": "Crossed axes transmit the most because the input must rotate through the largest angle."
+          },
+          {
+            "id": "c",
+            "label": "Any nonzero mismatch transmits exactly half the intensity."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Transmission depends on the projection onto the axis. Alignment keeps the full component, while a 90 degree mismatch removes it.",
+        "selectedWrongExplanations": {
+          "b": "Rotation angle by itself does not add transmission. Projection onto the axis sets the result.",
+          "c": "Half intensity is a special 45 degree case, not every mismatch."
+        },
+        "showMeAction": {
+          "label": "Show crossed axes",
+          "presetId": "crossed-dark",
+          "observationHint": "Compare Crossed axes with Aligned pass and watch the detector split.",
+          "highlightedControlIds": [
+            "polarizerAngle"
+          ],
+          "highlightedGraphIds": [
+            "power-split",
+            "field-projection"
+          ],
+          "highlightedOverlayIds": [
+            "projectionGuide",
+            "intensityGuide"
+          ]
+        }
+      },
+      {
+        "id": "polarization-qt-unpolarized",
+        "type": "misconception-check",
+        "prompt": "An unpolarized beam passes through one ideal polarizer. What should the bench show next?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "About half the intensity is transmitted and the output leaves linearly polarized along the axis."
+          },
+          {
+            "id": "b",
+            "label": "All the intensity is transmitted because the input includes every possible angle."
+          },
+          {
+            "id": "c",
+            "label": "The output stays unpolarized because one filter cannot create a preferred direction."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The filter creates a preferred transverse direction by selecting the axis-aligned part of the mixed input, and the ideal first-pass average is one half intensity.",
+        "selectedWrongExplanations": {
+          "b": "Including many angles does not mean every component matches the axis at once.",
+          "c": "One ideal polarizer can create a linearly polarized output from an unpolarized beam."
+        },
+        "showMeAction": {
+          "label": "Show unpolarized first pass",
+          "presetId": "unpolarized-half",
+          "observationHint": "Rotate the axis after switching input state and keep an eye on the detector fraction.",
+          "highlightedControlIds": [
+            "unpolarized",
+            "polarizerAngle"
+          ],
+          "highlightedGraphIds": [
+            "power-split"
+          ],
+          "highlightedOverlayIds": [
+            "projectionGuide",
+            "intensityGuide"
+          ]
+        }
+      },
+      {
+        "id": "polarization-qt-amplitude",
+        "type": "variable-effect",
+        "prompt": "If you raise the input amplitude while keeping the same input angle and polarizer angle, what stays unchanged on this page?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The relative transmission curve and the output axis stay the same."
+          },
+          {
+            "id": "b",
+            "label": "The relative intensity fraction rises because stronger waves align better."
+          },
+          {
+            "id": "c",
+            "label": "The output axis rotates away from the polarizer axis because the field is larger."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Amplitude changes the absolute field size, but the orientation geometry still sets the same transmission fraction and the same output axis.",
+        "selectedWrongExplanations": {
+          "b": "Projection geometry, not wave strength, sets the relative fraction I_out / I_0 here.",
+          "c": "The output remains aligned with the polarizer axis regardless of amplitude."
+        },
+        "showMeAction": {
+          "label": "Highlight amplitude only",
+          "highlightedControlIds": [
+            "inputAmplitude"
+          ],
+          "highlightedGraphIds": [
+            "power-split",
+            "field-projection"
+          ],
+          "highlightedOverlayIds": [
+            "intensityGuide"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a compact transverse cross-section bench with three circular stations: the input, the polarizer, and the detector. A beam-direction guide points horizontally to the right while orientation lines inside the circles show the incoming polarization, the polarizer axis, and the transmitted output.",
+        "Optional overlays can call out the transverse cross-section, the axis projection, and the transmitted-versus-blocked detector split. The readout card summarizes the input state, input angle, polarizer angle, relative angle, transmitted field amplitude, and relative detector intensity."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The power-split graph sweeps the polarizer angle and compares transmitted and blocked relative intensity. The field-projection graph sweeps the same angle and compares the axis-aligned and perpendicular field components."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Polarization | Open Model Lab",
+    "description": "Learn polarization as a transverse-wave orientation story with one compact polarizer bench, live field projections, detector readouts, and wave-optics links.",
+    "keywords": [
+      "polarization",
+      "polarizer",
+      "transverse waves",
+      "Malus law",
+      "wave optics"
+    ]
+  }
+}

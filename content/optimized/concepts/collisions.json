@@ -1,0 +1,399 @@
+{
+"pageFramework": {
+"sections": [
+{
+"id": "workedExamples",
+"title": "Solve the collision you see"
+},
+{
+"id": "miniChallenge",
+"title": "Test a collision outcome"
+},
+{
+"id": "readNext",
+"title": "Keep building the momentum story"
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"In a collision, each cart can change velocity very quickly, so the motion may look as if it changes all at once. But if the two-cart system is isolated, the total momentum cannot jump at contact even when the individual cart velocities do.",
+"Here you change only mass, incoming speed, and elasticity, then watch the same collision on the track and on the linked velocity, momentum, and energy graphs. That makes it easier to separate three ideas: momentum of the whole system, how the motion is split between the carts, and whether kinetic energy is preserved or lost."
+]
+},
+"keyIdeas": [
+"Read momentum conservation on the momentum graph: the cart momentum lines jump at contact, but the total-momentum line stays flat.",
+"Elasticity controls the relative speed after contact. Lower elasticity means less separation speed and more kinetic energy lost.",
+"Mass changes how the same momentum transfer appears as a velocity change, so a heavier cart usually changes speed less."
+],
+"commonMisconception": {
+"myth": "If momentum is conserved, then the collision should keep the same total kinetic energy and produce basically the same rebound every time.",
+"correction": [
+"Momentum conservation fixes the system total, not the total kinetic energy. In an inelastic collision, the total momentum can stay the same while the total kinetic energy decreases.",
+"Changing mass or elasticity can produce very different outcomes. The carts might rebound, move off together, or one cart might reverse direction, all while total momentum is still conserved."
+]
+},
+"workedExamples": {
+"title": "Worked example from the live setup",
+"intro": "Use the current setup as evidence. First find the system's total momentum at the instant shown on the stage. Then use the same masses, incoming speeds, and elasticity to predict the velocities just after contact and compare that result with the stage and graphs.",
+"items": [
+{
+"id": "current-total-momentum",
+"title": "Total momentum at this instant",
+"prompt": "At $t = {{timeValue}}\\,\\mathrm{s}$, what is the total momentum of the two-cart system?",
+"variables": [
+{
+"id": "velocityA",
+"label": "Velocity of cart A"
+},
+{
+"id": "velocityB",
+"label": "Velocity of cart B"
+}
+],
+"steps": [
+{
+"id": "relation",
+"label": "1. Write the system-momentum relation"
+},
+{
+"id": "substitute",
+"label": "2. Insert the live masses and velocities"
+},
+{
+"id": "compute",
+"label": "3. Evaluate the sum"
+}
+],
+"resultLabel": "System total momentum",
+"applyAction": {
+"label": "Try moving target",
+"observationHint": "Both carts are already moving, but the total-momentum graph still stays flat through contact."
+}
+},
+{
+"id": "final-velocity-split",
+"title": "Velocities just after contact",
+"prompt": "For the current masses, incoming speeds, and elasticity, what should each cart's velocity be immediately after contact?",
+"variables": [
+{
+"id": "incomingVelocityA",
+"label": "Incoming velocity of cart A"
+},
+{
+"id": "incomingVelocityB",
+"label": "Incoming velocity of cart B"
+}
+],
+"steps": [
+{
+"id": "relations",
+"label": "1. Use momentum conservation and restitution"
+},
+{
+"id": "substitute",
+"label": "2. Insert the current values"
+},
+{
+"id": "compute",
+"label": "3. Solve for the two final velocities"
+}
+],
+"resultLabel": "Predicted post-collision velocities",
+"applyAction": {
+"label": "Try sticky collision",
+"observationHint": "In the sticky case, both carts leave with one shared velocity. The momentum total stays flat, but the energy graph drops at contact."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Can you make cart A rebound to the left while the system's total momentum still points to the right?",
+"prediction": "Try a light cart A, a heavier cart B, and high elasticity. Predict whether B can carry enough rightward momentum after contact to keep the total positive even though A reverses.",
+"answer": "Yes. Cart A can rebound left if cart B leaves with enough rightward momentum for the system total to remain positive.",
+"explanation": "Momentum conservation constrains the sum, not the direction of each cart separately. A light cart can reverse while a heavier cart carries most of the rightward momentum after the collision."
+}
+},
+"equations": [
+{
+"id": "object-momentum",
+"meaning": "This gives one cart's momentum from its mass and velocity."
+},
+{
+"id": "momentum-conservation",
+"meaning": "If no external horizontal force acts on the two-cart system, the total momentum before contact must equal the total momentum after contact."
+},
+{
+"id": "restitution",
+"meaning": "This compares the separation speed after contact with the closing speed before contact."
+},
+{
+"id": "kinetic-energy",
+"meaning": "Use kinetic energy to distinguish elastic and inelastic collisions. Total kinetic energy stays the same only in an elastic collision."
+}
+],
+"variableLinks": [
+{
+"id": "massA",
+"description": "Changing A's mass changes how strongly a given momentum exchange changes A's velocity at contact."
+},
+{
+"id": "massB",
+"description": "Changing B's mass changes how much B's velocity responds even though the same system momentum rule still applies."
+},
+{
+"id": "speedA",
+"description": "Sets how fast cart A approaches from the left and how much it contributes to the initial system momentum."
+},
+{
+"id": "speedB",
+"description": "Sets how fast cart B approaches from the right and how much it contributes to the initial system momentum."
+},
+{
+"id": "elasticity",
+"description": "Sets how much of the closing speed is recovered as separation speed after contact. Lower values mean less bounce and more kinetic-energy loss."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "massA",
+"description": "Increase or decrease A's mass and watch how the same collision changes A's velocity jump."
+},
+{
+"id": "massB",
+"description": "Change B's mass and compare how its post-collision speed changes on the velocity and momentum views."
+},
+{
+"id": "speedA",
+"description": "Set how fast cart A approaches the contact point from the left."
+},
+{
+"id": "speedB",
+"description": "Set how fast cart B approaches from the right. Zero means B starts at rest."
+},
+{
+"id": "elasticity",
+"description": "Lower values make the carts separate less after contact. Zero means perfectly inelastic; one means perfectly elastic."
+}
+],
+"presets": [
+{
+"id": "elastic-equal-masses",
+"description": "A classic elastic case where motion transfers from A to B."
+},
+{
+"id": "sticky-collision",
+"description": "A perfectly inelastic case where the carts move together after contact."
+},
+{
+"id": "light-into-heavy",
+"description": "A light cart A hits a heavy cart B and is more likely to rebound."
+},
+{
+"id": "heavy-into-light",
+"description": "A heavy cart A keeps moving forward while a lighter cart B speeds away."
+},
+{
+"id": "moving-target",
+"description": "Both carts are already moving, so you can test momentum conservation without a stationary target."
+}
+],
+"overlays": [
+{
+"id": "collisionZone",
+"shortDescription": "Marks the position and instant of contact so you can line up the stage with the graph jumps.",
+"whatToNotice": [
+"The jump in velocity and momentum happens at one instant, exactly when the carts meet.",
+"Use this marker to align the stage with the step or jump you see on the graphs."
+],
+"whyItMatters": "It helps you connect the physical contact on the track to the sudden changes on the velocity, momentum, and energy graphs."
+},
+{
+"id": "centerOfMass",
+"shortDescription": "Shows the system's center of mass as the carts approach, collide, and separate.",
+"whatToNotice": [
+"The center of mass keeps one steady drift through the collision even when the carts' individual velocities jump.",
+"When the total momentum is close to zero, the center of mass stays nearly fixed."
+],
+"whyItMatters": "A steady center-of-mass motion is a compact visual check that the system total momentum has not changed."
+},
+{
+"id": "relativeSpeed",
+"shortDescription": "Compares the closing speed before contact with the separation speed after contact.",
+"whatToNotice": [
+"Changing elasticity does not alter the closing speed before impact in the same setup, but it does change the separation speed after impact.",
+"At elasticity zero, the separation speed becomes zero because the carts leave together."
+],
+"whyItMatters": "This makes the restitution equation visible as a before-and-after speed comparison instead of just a symbol."
+},
+{
+"id": "momentumBars",
+"shortDescription": "Shows cart A, cart B, and total momentum on one shared scale.",
+"whatToNotice": [
+"The two cart bars can change sharply at contact while the total bar stays fixed.",
+"Changing mass changes how the system momentum is split between the carts, even when the total is unchanged."
+],
+"whyItMatters": "It keeps the system total visible while you compare the two individual outcomes."
+}
+]
+},
+"graphs": [
+{
+"id": "velocity",
+"description": "Shows each cart's velocity changing at contact and the steady center-of-mass speed that reflects the system total momentum."
+},
+{
+"id": "momentum",
+"description": "Shows momentum being exchanged between the carts while the system total stays constant."
+},
+{
+"id": "energy",
+"description": "Shows whether total kinetic energy is preserved or reduced at the collision instant."
+}
+],
+"noticePrompts": {
+"title": "What to notice in the collision",
+"intro": "Use these prompts while you change one control at a time. Each one should help you connect what the carts do on the track to what the graphs and overlays show.",
+"items": [
+{
+"id": "col-total-flat",
+"text": "Notice that the total-momentum line stays flat while the individual cart momentum lines jump at contact.",
+"tryThis": "Pause just before and just after contact, or scrub across it. The cart lines jump, but the total line should stay level.",
+"whyItMatters": "This is the clearest graph sign that momentum conservation applies to the whole system, not to each cart separately."
+},
+{
+"id": "col-energy-drop",
+"text": "Notice that lowering elasticity can make the energy graph step downward at contact even while the total-momentum line stays flat.",
+"tryThis": "Lower elasticity, then compare the energy and momentum graphs at the same contact instant.",
+"whyItMatters": "It separates two ideas students often merge: momentum can be conserved even when kinetic energy is not."
+},
+{
+"id": "col-heavy-target",
+"text": "Notice that a heavier cart changes speed less, even though the same collision still obeys the momentum rule.",
+"tryThis": "Make cart B much heavier, then compare the size of B's velocity jump with A's.",
+"whyItMatters": "Momentum change and velocity change are not the same thing. Mass controls how much a given momentum transfer changes speed."
+},
+{
+"id": "col-elasticity-speed-ratio",
+"text": "Notice that elasticity changes the separation speed after contact, not the closing speed before contact.",
+"tryThis": "Turn on the relative-speed overlay, then lower elasticity from 1 toward 0 and watch only the after-collision value change.",
+"whyItMatters": "Elasticity is a ratio of before-and-after relative speeds, so the overlay helps you read what the equation means."
+},
+{
+"id": "col-center-of-mass",
+"text": "Notice that the center-of-mass marker keeps one smooth drift even though the individual cart velocities jump at contact.",
+"tryThis": "Scrub through the collision with the center-of-mass overlay on. The marker should keep the same smooth motion.",
+"whyItMatters": "A smooth center-of-mass motion is another sign that the system total momentum stays constant."
+},
+{
+"id": "col-compare-energy",
+"text": "Notice that two setups can have the same total momentum but very different total kinetic energy after contact.",
+"tryThis": "Compare the elastic equal-mass case with the sticky collision. The momentum totals match, but the energy graphs do not.",
+"whyItMatters": "Compare mode helps separate what momentum conservation guarantees from what elasticity changes."
+}
+]
+},
+"predictionMode": {
+"title": "Predict before you test",
+"intro": "Make the prediction first, then test it on the stage and graphs. Use momentum conservation together with mass and elasticity rather than guessing from memory.",
+"items": [
+{
+"id": "col-predict-equal-mass-elastic",
+"prompt": "Equal-mass carts collide elastically and cart B starts at rest. What should happen immediately after contact?",
+"scenarioLabel": "Equal masses, elastic",
+"choices": [
+{
+"id": "a",
+"label": "Cart A stops, and cart B leaves with A's original speed."
+},
+{
+"id": "b",
+"label": "Both carts move right together with the same speed."
+},
+{
+"id": "c",
+"label": "The total momentum becomes zero because one cart started at rest."
+}
+],
+"explanation": "With equal masses in an elastic collision, the moving cart transfers its speed to the cart that was at rest. The total momentum stays the same throughout.",
+"observationHint": "Watch the velocity graph right after contact: A drops to zero while B rises to A's original speed."
+},
+{
+"id": "col-predict-sticky",
+"prompt": "If you keep the same equal-mass setup but set elasticity to zero, what should happen after contact?",
+"scenarioLabel": "Equal masses, perfectly inelastic",
+"changeLabel": "Make the collision sticky",
+"explanation": "In a perfectly inelastic collision, the carts share one final velocity. Momentum is still conserved, but total kinetic energy decreases.",
+"observationHint": "Watch the carts leave together and compare the flat momentum total with the step down in total energy."
+},
+{
+"id": "col-predict-light-into-heavy",
+"prompt": "A light cart A hits a much heavier cart B in a fairly elastic collision. What outcome is most likely?",
+"scenarioLabel": "Light A into heavy B",
+"changeLabel": "Large mass difference",
+"explanation": "A heavier cart needs more momentum change to get the same speed change, so B usually speeds up only a little while the lighter cart can rebound.",
+"observationHint": "Compare the size and direction of the two post-collision velocity changes."
+}
+]
+},
+"quickTest": {
+"title": "Quick check",
+"intro": "Use the stage, overlays, and graphs together. These questions test whether you can explain the collision, not just name a rule.",
+"questions": [
+{
+"id": "col-qt-1",
+"prompt": "For this isolated two-cart system, which quantity must be the same before and after the collision?",
+"explanation": "Momentum conservation applies to the whole isolated system. Total kinetic energy stays the same only in elastic collisions, and the individual cart velocities can change a lot.",
+"selectedWrongExplanations": {
+"b": "Total kinetic energy can decrease in an inelastic collision even while total momentum stays fixed.",
+"c": "A collision changes the individual cart velocities at contact; conservation does not mean each cart keeps the same velocity."
+},
+"showMeAction": {
+"label": "Run the sticky collision",
+"observationHint": "Even when the carts stick and move together, the total-momentum line stays flat."
+}
+},
+{
+"id": "col-qt-2",
+"prompt": "If the total-momentum line stays flat but the total-energy line drops at contact, what kind of collision is it?",
+"explanation": "That pattern means momentum is conserved but some kinetic energy is lost, so the collision is inelastic.",
+"showMeAction": {
+"label": "Run the energy-drop case",
+"observationHint": "Line up the contact instant with the flat momentum total and the downward step in energy."
+}
+},
+{
+"id": "col-qt-3",
+"explanation": "A heavier cart usually changes speed less because the same momentum transfer produces a smaller velocity change.",
+"showMeAction": {
+"label": "Run light into heavy",
+"observationHint": "The heavier cart does move, but its velocity changes much less than the lighter cart's."
+}
+},
+{
+"id": "col-qt-4",
+"explanation": "Changing elasticity changes the rebound and the energy loss, but it does not change the total momentum of the isolated two-cart system.",
+"showMeAction": {
+"label": "Run the elastic case",
+"observationHint": "Now compare it with the sticky case to see that momentum stays the same while the final relative speed and energy do not."
+}
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows two carts moving along one fixed horizontal track toward a single collision point. Each cart has a mass label and a horizontal velocity arrow, and optional overlays can mark the collision zone, center of mass, momentum bars, and the relative speed before and after contact.",
+"Changing mass, incoming speed, or elasticity updates the same stage, readouts, and linked graphs without changing the track scale. When elasticity is zero, the carts leave together; with higher elasticity, they separate more strongly after contact."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The velocity graph shows each cart's velocity changing at contact and includes a steady center-of-mass velocity line. The momentum graph shows the cart momentum lines changing while the total momentum line stays flat.",
+"The energy graph shows whether total kinetic energy is preserved or drops at contact, which is the main visual difference here between elastic and inelastic collisions."
+]
+}
+}
+}

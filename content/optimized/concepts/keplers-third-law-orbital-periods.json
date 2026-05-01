@@ -1,0 +1,197 @@
+{
+"pageFramework": {
+"sections": [
+{
+"id": "workedExamples",
+"title": "Solve the live orbit period"
+},
+{
+"id": "miniChallenge",
+"title": "Test Kepler's third law"
+},
+{
+"id": "readNext",
+"title": "Carry the orbit-period idea forward"
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Kepler's third law is the timing consequence of the same circular-orbit balance you met in orbital speed. A larger circular orbit takes longer not just because the path is longer, but also because the allowed circular speed is smaller at larger radius.",
+"This lab keeps one source mass, one chosen reference orbit, and one live path on the same state. That lets you connect the period law to what the simulation is showing: gravity sets the circular speed, and that speed sets the time for one full circular orbit. The law applies only when the speed factor stays at the circular match."
+]
+},
+"keyIdeas": [
+"For circular orbits around one source mass, the period follows $T_c = 2\\pi\\sqrt{r^3/M}$ in the displayed units with $G = 1$.",
+"At fixed source mass, a larger circular orbit has both a longer circumference and a lower circular speed, so the period grows faster than radius alone.",
+"Kepler's third law describes the circular-match case. If the speed factor moves away from 1.00, the path is no longer the circular orbit whose period the law describes."
+],
+"workedExamples": {
+"title": "Worked example from the live circular case",
+"intro": "Use the current source mass and reference orbit as evidence. First find the circular period for the chosen radius. Then compare the circular speed and period at $r$ and $2r$ so you can see why a wider circular orbit takes much longer.",
+"items": [
+{
+"id": "current-circular-period",
+"title": "Period of the chosen circular orbit",
+"steps": [
+{
+"id": "speed",
+"label": "1. Recall the circular speed at this radius"
+},
+{
+"id": "period-relation",
+"label": "2. Turn that speed into one full-orbit time"
+},
+{
+"id": "compute",
+"label": "3. Compute the live circular period"
+}
+],
+"resultLabel": "Circular period at this radius",
+"applyAction": {
+"label": "Try outer long-year orbit",
+"observationHint": "At the same source mass, the wider circular orbit is slower and takes much longer to complete."
+}
+},
+{
+"id": "radius-doubling-ratio",
+"title": "How doubling the radius changes the year",
+"steps": [
+{
+"id": "period-ratio",
+"label": "1. Use the period scaling"
+},
+{
+"id": "speed-ratio",
+"label": "2. Use the speed scaling"
+},
+{
+"id": "compute",
+"label": "3. Translate the ratios into the current live case"
+}
+],
+"resultLabel": "Doubling-radius comparison",
+"applyAction": {
+"label": "Try inner vs outer circular orbits",
+"observationHint": "Compare the two circular cases: the wider orbit has the lower speed curve and the much longer period."
+}
+}
+]
+},
+"miniChallenge": {
+"prediction": "Answer before you try the inner and outer circular presets: does the longer year come only from more distance around, or from both more distance and lower circular speed?",
+"explanation": "A larger circular orbit is not just a bigger circle. The allowed circular speed is also lower at larger radius, so the period scales as $r^{3/2}$ rather than directly as $r$."
+}
+},
+"equations": [
+{
+"id": "circular-speed",
+"meaning": "This is the sideways speed that makes gravity exactly match the turning requirement at the chosen radius."
+},
+{
+"id": "circular-period",
+"meaning": "The circular year grows strongly with radius because wider orbits are both farther around and slower."
+},
+{
+"id": "kepler-third-law",
+"meaning": "At fixed source mass, every circular orbit in this one-source model shares the same $T_c^2/r^3$ ratio."
+}
+],
+"variableLinks": [
+{
+"id": "sourceMass",
+"description": "A heavier source strengthens inward gravity, so the circular speed rises and the circular year gets shorter at the same radius."
+},
+{
+"id": "orbitRadius",
+"description": "A larger circular orbit is farther around and slower, so its period increases strongly."
+},
+{
+"id": "speedFactor",
+"description": "Kepler's third law here describes only the circular-match case. At 1.00 the live path is the circular orbit; away from 1.00 the path stops being the orbit whose circular period the law predicts."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "sourceMass",
+"description": "Changes the central mass and therefore the gravity that sets the circular speed."
+},
+{
+"id": "orbitRadius",
+"description": "Sets the dashed circular target whose speed and period are being compared."
+},
+{
+"id": "speedFactor",
+"description": "1.00 means the live speed matches the circular speed. Away from 1.00, the path stops being the circular orbit whose period the law predicts."
+}
+],
+"overlays": [
+{
+"id": "referenceOrbit",
+"shortDescription": "Shows the dashed circle for the chosen circular orbit whose period is being discussed.",
+"whatToNotice": [
+"Kepler's law here is about staying on this dashed circular path, not about paths that peel away from it."
+],
+"whyItMatters": "It keeps the chosen circular year separate from cases that are too slow or too fast to remain circular."
+},
+{
+"id": "velocityVector",
+"whatToNotice": [
+"Wider circular orbits have shorter velocity vectors because the allowed circular speed is lower."
+],
+"whyItMatters": "It makes the slower-part of the longer-year story visible instead of hiding it in a formula only."
+},
+{
+"id": "gravityVector",
+"shortDescription": "Shows the inward gravitational acceleration that sets the circular speed.",
+"whatToNotice": [
+"This same inward gravity is what makes wider circular orbits slower and heavier-source circular orbits faster."
+],
+"whyItMatters": "It keeps the timing law tied to the actual force picture instead of making period feel detached from gravity."
+},
+{
+"id": "trail",
+"whatToNotice": [
+"At the circular match, the trail keeps tracing one stable circle. Away from that match, the path is no longer the circular orbit whose period Kepler's law describes."
+],
+"whyItMatters": "It shows whether you are still looking at the circular case or have already left it."
+}
+]
+},
+"graphs": [
+{
+"id": "radius-history",
+"description": "Use this graph to confirm whether you are still looking at the circular orbit whose period the law describes."
+},
+{
+"id": "speed-history",
+"description": "Wider circular orbits are slower, so this graph helps explain why their periods are longer."
+},
+{
+"id": "acceleration-balance",
+"description": "Kepler's law is the timing consequence of this same gravity-versus-turning balance when the orbit remains circular."
+}
+],
+"noticePrompts": {
+"title": "What to notice about orbital period",
+"intro": "Use these prompts to keep the timing law tied to the orbit you are actually watching. The key question is whether you are still looking at an honest circular orbit or a path that has already left the circular case."
+},
+"predictionMode": {
+"title": "Predict the timing change",
+"intro": "Predict what the circular year should do before you apply the preset. Then use the speed and radius graphs to check whether the path is still circular."
+},
+"quickTest": {
+"title": "Quick check",
+"intro": "These questions test whether you can explain why larger circular orbits take longer and when Kepler's law does not apply."
+},
+"accessibility": {
+"graphSummary": {
+"paragraphs": [
+"The radius-history graph shows whether the live path stays on the chosen circular reference radius or drifts inward or outward. The speed-history graph compares the actual speed with the circular speed required at the current radius.",
+"The acceleration-balance graph compares inward gravity with the turning requirement $v^2/r$ on the same live path. Kepler's third law applies here only when those match in the circular case."
+]
+}
+}
+}

@@ -1,0 +1,956 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "readNext",
+        "title": "Carry the capped recipe into real output"
+      }
+    ],
+    "featuredSetups": [
+      {
+        "id": "a-limiting-window",
+        "label": "A caps first",
+        "description": "Open the run where A sets the batch cap and B is left over.",
+        "setup": {
+          "presetId": "a-limiting",
+          "graphId": "batches-vs-reactant-a",
+          "overlayIds": [
+            "recipeCard",
+            "limitingCue"
+          ]
+        }
+      },
+      {
+        "id": "b-limiting-window",
+        "label": "B caps first",
+        "description": "Flip to a run where B runs out first and A stays on the bench.",
+        "setup": {
+          "presetId": "b-limiting",
+          "graphId": "batches-vs-reactant-b",
+          "overlayIds": [
+            "recipeCard",
+            "limitingCue"
+          ]
+        }
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Use one recipe bench to see which reactant caps the output first and why the other reactant can remain in excess.",
+    "keyTakeaway": "Each reactant supply supports its own possible batch count when you divide by the recipe packets required per batch.",
+    "whyItMatters": "Limiting reagent becomes predictable when you compare recipe-supported batch caps before asking what is left over."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Limiting reagent makes more sense when the lower recipe-supported cap stays visible beside the actual supply trays. This bench keeps both reactant bins, the recipe card, and the leftover readout together so the limiting step never turns into hidden algebra.",
+        "The limiting reagent is just the reactant that can support fewer complete recipe batches. The other reactant is excess, so some of it remains once the last full batch finishes."
+      ]
+    },
+    "keyIdeas": [
+      "Each reactant supply supports its own possible batch count when you divide by the recipe packets required per batch.",
+      "The smaller batch count sets the theoretical output because the reaction cannot finish more full batches than that.",
+      "Leftover reactant belongs to the excess side, not to the limiting side."
+    ],
+    "commonMisconception": {
+      "myth": "The reactant with the smaller raw packet count must always be the limiting reagent.",
+      "correction": [
+        "Limiting depends on the recipe card as well as the raw supply counts.",
+        "A larger raw count can still be limiting if each batch consumes that reactant more heavily."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Read the lower cap directly from the recipe bench.",
+      "items": [
+        {
+          "id": "read-an-a-limiting-run",
+          "title": "Read an A-limiting 2:3 run",
+          "prompt": "Which supply is limiting in the 8 A, 15 B run, and what remains after the full-yield reaction?",
+          "variables": [
+            {
+              "id": "reactant-a-supply",
+              "variableId": "reactant-a-supply",
+              "symbol": "A",
+              "label": "Reactant A packets",
+              "valueKey": "reactantAAmountValue"
+            },
+            {
+              "id": "reactant-b-supply",
+              "variableId": "reactant-b-supply",
+              "symbol": "B",
+              "label": "Reactant B packets",
+              "valueKey": "reactantBAmountValue"
+            },
+            {
+              "id": "recipe-b",
+              "variableId": "recipe-b",
+              "symbol": "b",
+              "label": "B per batch",
+              "valueKey": "recipeBValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "compare-batch-caps",
+              "label": "1. Convert each supply into possible batches",
+              "template": "A can support {{reactantAAmountValue}} / {{recipeAValue}} = {{maxBatchesFromAValue}} full batches, while B can support {{reactantBAmountValue}} / {{recipeBValue}} = {{maxBatchesFromBValue}}."
+            },
+            {
+              "id": "name-the-limiting-side",
+              "label": "2. Read the lower cap as the limiting reagent",
+              "template": "Because {{theoreticalBatchesValue}} batches is the smaller cap, {{limitingReagentValue}} is the limiting reagent."
+            },
+            {
+              "id": "read-the-leftover",
+              "label": "3. Spend the recipe and read what stays behind",
+              "template": "After the full-yield run, {{leftoverValue}} packets of {{excessReagentValue}} remain while {{limitingReagentValue}} is fully used."
+            }
+          ],
+          "resultLabel": "Limiting side",
+          "resultTemplate": "{{limitingReagentValue}} limits; {{leftoverValue}} {{excessReagentValue}} packets remain.",
+          "interpretationTemplate": "{{limitingInterpretation}}",
+          "applyAction": {
+            "label": "Show the A-limiting run",
+            "presetId": "a-limiting",
+            "observationHint": "The lower cap line belongs to A, and the B tray still shows packets left after the run.",
+            "highlightedControlIds": [
+              "reactantAAmount",
+              "reactantBAmount",
+              "recipeA",
+              "recipeB"
+            ],
+            "highlightedGraphIds": [
+              "batches-vs-reactant-a",
+              "batches-vs-reactant-b"
+            ],
+            "highlightedOverlayIds": [
+              "recipeCard",
+              "limitingCue"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Make one reactant cap the recipe while the other clearly stays in excess.",
+      "prediction": "Decide which supply must have the lower recipe-supported batch count before you move the sliders.",
+      "answer": "The limiting reagent is whichever side supports fewer complete batches on the recipe card.",
+      "explanation": "Once you compare both batch caps on the same bench, the leftover story follows automatically from the excess side."
+    }
+  },
+  "equations": [
+    {
+      "id": "reactant-caps",
+      "latex": "b_A = \\frac{A}{a}, \\quad b_B = \\frac{B}{b}",
+      "label": "Reactant-supported batch counts",
+      "meaning": "Each supply supports its own number of complete batches once you divide by the packets required per batch."
+    },
+    {
+      "id": "theoretical-output",
+      "latex": "b_{\\text{theory}} = \\min\\!\\left(b_A, b_B\\right)",
+      "label": "Theoretical batch cap",
+      "meaning": "The smaller of the two reactant-supported batch counts sets the theoretical output."
+    },
+    {
+      "id": "leftover-reactant",
+      "latex": "L_{\\text{excess}} = N_{\\text{excess}} - b_{\\text{theory}} n_{\\text{recipe}}",
+      "label": "Leftover excess reactant",
+      "meaning": "The excess side keeps whatever packets are not spent in the completed theoretical batches."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "reactant-a-supply",
+      "symbol": "A",
+      "label": "Reactant A packets",
+      "param": "reactantAAmount",
+      "tone": "teal",
+      "description": "Sets how many full batches A can support before it runs out.",
+      "equationIds": [
+        "reactant-caps",
+        "theoretical-output"
+      ],
+      "graphIds": [
+        "batches-vs-reactant-a"
+      ],
+      "overlayIds": [
+        "recipeCard",
+        "limitingCue"
+      ]
+    },
+    {
+      "id": "reactant-b-supply",
+      "symbol": "B",
+      "label": "Reactant B packets",
+      "param": "reactantBAmount",
+      "tone": "amber",
+      "description": "Sets how many full batches B can support before it runs out.",
+      "equationIds": [
+        "reactant-caps",
+        "theoretical-output",
+        "leftover-reactant"
+      ],
+      "graphIds": [
+        "batches-vs-reactant-b"
+      ],
+      "overlayIds": [
+        "recipeCard",
+        "limitingCue"
+      ]
+    },
+    {
+      "id": "recipe-a",
+      "symbol": "a",
+      "label": "A per batch",
+      "param": "recipeA",
+      "tone": "sky",
+      "description": "Changes how quickly A is consumed once each full batch finishes.",
+      "equationIds": [
+        "reactant-caps",
+        "theoretical-output"
+      ],
+      "graphIds": [
+        "batches-vs-reactant-a",
+        "batches-vs-reactant-b"
+      ],
+      "overlayIds": [
+        "recipeCard"
+      ]
+    },
+    {
+      "id": "recipe-b",
+      "symbol": "b",
+      "label": "B per batch",
+      "param": "recipeB",
+      "tone": "coral",
+      "description": "Changes how quickly B is consumed once each full batch finishes.",
+      "equationIds": [
+        "reactant-caps",
+        "theoretical-output",
+        "leftover-reactant"
+      ],
+      "graphIds": [
+        "batches-vs-reactant-a",
+        "batches-vs-reactant-b"
+      ],
+      "overlayIds": [
+        "recipeCard"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "reactantAAmount": 8,
+      "reactantBAmount": 15,
+      "recipeA": 2,
+      "recipeB": 3,
+      "percentYield": 100,
+      "recipeCard": true,
+      "limitingCue": true,
+      "yieldGap": true
+    },
+    "ui": {
+      "initialGraphId": "batches-vs-reactant-a",
+      "primaryGraphIds": [
+        "batches-vs-reactant-a",
+        "batches-vs-reactant-b"
+      ],
+      "primaryControlIds": [
+        "reactantAAmount",
+        "reactantBAmount",
+        "recipeA",
+        "recipeB"
+      ],
+      "primaryPresetIds": [
+        "a-limiting",
+        "b-limiting",
+        "matched-two-three"
+      ]
+    },
+    "controls": [
+      {
+        "id": "reactantAAmount",
+        "kind": "slider",
+        "label": "Reactant A packets",
+        "param": "reactantAAmount",
+        "min": 2,
+        "max": 18,
+        "step": 1,
+        "description": "Change how many A packets the current run starts with."
+      },
+      {
+        "id": "reactantBAmount",
+        "kind": "slider",
+        "label": "Reactant B packets",
+        "param": "reactantBAmount",
+        "min": 2,
+        "max": 18,
+        "step": 1,
+        "description": "Change how many B packets the current run starts with."
+      },
+      {
+        "id": "recipeA",
+        "kind": "slider",
+        "label": "A per batch",
+        "param": "recipeA",
+        "min": 1,
+        "max": 4,
+        "step": 1,
+        "description": "Set how much A one full recipe batch consumes."
+      },
+      {
+        "id": "recipeB",
+        "kind": "slider",
+        "label": "B per batch",
+        "param": "recipeB",
+        "min": 1,
+        "max": 4,
+        "step": 1,
+        "description": "Set how much B one full recipe batch consumes."
+      },
+      {
+        "id": "percentYield",
+        "kind": "slider",
+        "label": "Percent yield",
+        "param": "percentYield",
+        "min": 40,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "description": "Keep this at 100% here so the limiting-reagent story stays isolated."
+      }
+    ],
+    "presets": [
+      {
+        "id": "matched-two-three",
+        "label": "Matched 2:3 recipe",
+        "description": "A and B scale together with the recipe card.",
+        "values": {
+          "reactantAAmount": 10,
+          "reactantBAmount": 15,
+          "recipeA": 2,
+          "recipeB": 3,
+          "percentYield": 100
+        }
+      },
+      {
+        "id": "a-limiting",
+        "label": "A limits first",
+        "description": "There are not enough A packets for the full B supply.",
+        "values": {
+          "reactantAAmount": 8,
+          "reactantBAmount": 15,
+          "recipeA": 2,
+          "recipeB": 3,
+          "percentYield": 100
+        }
+      },
+      {
+        "id": "b-limiting",
+        "label": "B limits first",
+        "description": "There are not enough B packets for the full A supply.",
+        "values": {
+          "reactantAAmount": 12,
+          "reactantBAmount": 9,
+          "recipeA": 2,
+          "recipeB": 3,
+          "percentYield": 100
+        }
+      },
+      {
+        "id": "partial-yield",
+        "label": "Partial yield",
+        "description": "Only part of the possible output tray is filled.",
+        "values": {
+          "reactantAAmount": 12,
+          "reactantBAmount": 18,
+          "recipeA": 2,
+          "recipeB": 3,
+          "percentYield": 75
+        }
+      },
+      {
+        "id": "three-to-two",
+        "label": "Three-to-two recipe",
+        "description": "The recipe card changes even when the supply bins stay modest.",
+        "values": {
+          "reactantAAmount": 12,
+          "reactantBAmount": 8,
+          "recipeA": 3,
+          "recipeB": 2,
+          "percentYield": 100
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "recipeCard",
+        "label": "Recipe card",
+        "shortDescription": "Keep the reaction recipe visible while the supply bins change.",
+        "whatToNotice": [
+          "Limiting reagent only makes sense relative to the recipe card, not raw counts alone."
+        ],
+        "whyItMatters": "It keeps the limiting-reagent decision attached to one visible recipe instead of a detached arithmetic trick.",
+        "relatedControls": [
+          "recipeA",
+          "recipeB"
+        ],
+        "relatedGraphTabs": [
+          "batches-vs-reactant-a",
+          "batches-vs-reactant-b"
+        ],
+        "relatedEquationVariables": [
+          "recipe-a",
+          "recipe-b"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "limitingCue",
+        "label": "Limiting cue",
+        "shortDescription": "Highlight which supply caps the current batch count.",
+        "whatToNotice": [
+          "The highlighted tray is the side that runs out first once full batches are counted."
+        ],
+        "whyItMatters": "It turns limiting reagent into one visible cap line and one highlighted tray.",
+        "relatedControls": [
+          "reactantAAmount",
+          "reactantBAmount"
+        ],
+        "relatedGraphTabs": [
+          "batches-vs-reactant-a",
+          "batches-vs-reactant-b"
+        ],
+        "relatedEquationVariables": [
+          "reactant-a-supply",
+          "reactant-b-supply"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "yieldGap",
+        "label": "Yield gap",
+        "shortDescription": "Keep the ideal output marker available for the next concept.",
+        "whatToNotice": [
+          "For this concept, leave yield at 100% so leftover reactant comes only from the excess side."
+        ],
+        "whyItMatters": "It keeps the percent-yield extension nearby without changing the limiting-reagent logic yet.",
+        "relatedControls": [
+          "percentYield"
+        ],
+        "relatedGraphTabs": [
+          "yield-vs-percent"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "batches-vs-reactant-a",
+      "label": "Possible batches vs A supply",
+      "xLabel": "reactant A packets",
+      "yLabel": "recipe batches",
+      "series": [
+        "possible-batches",
+        "reactant-b-cap"
+      ],
+      "description": "Watch the possible batch count rise until the fixed B supply becomes the cap."
+    },
+    {
+      "id": "batches-vs-reactant-b",
+      "label": "Possible batches vs B supply",
+      "xLabel": "reactant B packets",
+      "yLabel": "recipe batches",
+      "series": [
+        "possible-batches",
+        "reactant-a-cap"
+      ],
+      "description": "Watch the possible batch count rise until the fixed A supply becomes the cap."
+    },
+    {
+      "id": "yield-vs-percent",
+      "label": "Actual vs theoretical output",
+      "xLabel": "percent yield",
+      "yLabel": "product batches",
+      "series": [
+        "actual-product",
+        "theoretical-product"
+      ],
+      "description": "Keep the actual product tray against the ideal output marker while yield changes."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Keep the lower cap line and the leftover tray readout in view together.",
+    "items": [
+      {
+        "id": "lr-notice-lower-cap",
+        "text": "The limiting reagent is the side with the lower recipe-supported batch cap, not the side with the smaller raw count.",
+        "type": "observation",
+        "relatedControls": [
+          "reactantAAmount",
+          "reactantBAmount",
+          "recipeA",
+          "recipeB"
+        ],
+        "relatedGraphTabs": [
+          "batches-vs-reactant-a",
+          "batches-vs-reactant-b"
+        ],
+        "relatedOverlays": [
+          "recipeCard",
+          "limitingCue"
+        ],
+        "relatedEquationVariables": [
+          "reactant-a-supply",
+          "reactant-b-supply"
+        ]
+      },
+      {
+        "id": "lr-notice-leftover",
+        "text": "Leftover reactant belongs to the excess side because the limiting side is fully spent by the last complete batch.",
+        "type": "graph-reading",
+        "relatedControls": [
+          "reactantAAmount",
+          "reactantBAmount"
+        ],
+        "relatedGraphTabs": [
+          "batches-vs-reactant-a",
+          "batches-vs-reactant-b"
+        ],
+        "relatedOverlays": [
+          "limitingCue"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Predict",
+    "intro": "Predict which side will cap the run before you move the bench.",
+    "items": [
+      {
+        "id": "lr-predict-b-limits",
+        "prompt": "If the recipe stays 2 A + 3 B, A stays at 12 packets, and B drops to 9 packets, which supply becomes limiting?",
+        "scenarioLabel": "Reduce B while A stays high",
+        "choices": [
+          {
+            "id": "a",
+            "label": "B becomes limiting because it now supports fewer full recipe batches."
+          },
+          {
+            "id": "b",
+            "label": "A still limits because it has the same raw count it had before."
+          },
+          {
+            "id": "c",
+            "label": "Neither side can be limiting if the recipe card stays the same."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "With A = 12 and B = 9 on a 2:3 recipe, A supports six batches while B supports only three, so B caps the run.",
+        "observationHint": "Watch the amber tray gain the lower cap and leave A packets behind.",
+        "apply": {
+          "presetId": "b-limiting"
+        },
+        "highlightedControls": [
+          "reactantAAmount",
+          "reactantBAmount"
+        ],
+        "highlightedGraphs": [
+          "batches-vs-reactant-b"
+        ],
+        "highlightedOverlays": [
+          "limitingCue"
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the visible batch caps and leftovers, not from a memorized slogan.",
+    "mode": "hybrid",
+    "isQuantitative": true,
+    "questionCount": 5,
+    "templates": [
+      {
+        "id": "limiting-reagent-run-template",
+        "kind": "worked-example-result",
+        "exampleId": "read-an-a-limiting-run"
+      }
+    ],
+    "questions": [
+      {
+        "id": "lr-qt-a-limits",
+        "type": "reasoning",
+        "prompt": "On a 2:3 recipe with 8 A and 15 B, which supply is limiting?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "A is limiting because it supports only four batches while B supports five."
+          },
+          {
+            "id": "b",
+            "label": "B is limiting because it has the larger coefficient in the recipe."
+          },
+          {
+            "id": "c",
+            "label": "Neither side is limiting because both trays still contain packets."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The limiting reagent is the smaller recipe-supported batch count, not the larger coefficient or the tray that looks fuller.",
+        "selectedWrongExplanations": {
+          "b": "A larger recipe coefficient does not make a reactant limiting by itself. The current supply still matters.",
+          "c": "The trays can both start non-empty, but one side still runs out first once the recipe spends complete batches."
+        },
+        "showMeAction": {
+          "label": "Show the A-limiting run",
+          "presetId": "a-limiting",
+          "observationHint": "A supports only four batches while B could support five, so A is the cap.",
+          "highlightedControlIds": [
+            "reactantAAmount",
+            "reactantBAmount"
+          ],
+          "highlightedGraphIds": [
+            "batches-vs-reactant-a",
+            "batches-vs-reactant-b"
+          ],
+          "highlightedOverlayIds": [
+            "limitingCue"
+          ]
+        }
+      },
+      {
+        "id": "lr-qt-leftover-belongs-to-excess",
+        "type": "misconception-check",
+        "prompt": "Which statement about leftover reactant is the most accurate?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Leftover reactant belongs to the excess side because the limiting side is spent first."
+          },
+          {
+            "id": "b",
+            "label": "The limiting side should always have the largest leftover because it matters most."
+          },
+          {
+            "id": "c",
+            "label": "If anything is left over, then no reactant was actually limiting."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The limiting reagent is used up by the last complete batch, so leftovers appear on the excess side.",
+        "selectedWrongExplanations": {
+          "b": "The limiting side is the one that runs out first, so it cannot also be the side that keeps the largest leftover.",
+          "c": "A limiting reagent can still exist while the excess side keeps packets left over after the run."
+        },
+        "showMeAction": {
+          "label": "Flip to B-limiting",
+          "presetId": "b-limiting",
+          "observationHint": "B runs out first, and the A tray is the one that still shows packets left after the run.",
+          "highlightedControlIds": [
+            "reactantAAmount",
+            "reactantBAmount"
+          ],
+          "highlightedGraphIds": [
+            "batches-vs-reactant-b"
+          ],
+          "highlightedOverlayIds": [
+            "limitingCue"
+          ]
+        }
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Build a run where B is limiting and A is clearly left over.",
+    "items": [
+      {
+        "id": "lr-ch-make-b-the-limiting-reagent",
+        "title": "Make B limit first",
+        "style": "visible-condition",
+        "prompt": "Keep the 2 A + 3 B recipe, but set the supplies so B is limiting and 3 A packets remain after the full-yield run.",
+        "successMessage": "You built a genuine B-limiting run. The bench now spends all the B packets first and leaves exactly 3 A packets behind on the excess side.",
+        "setup": {
+          "presetId": "matched-two-three",
+          "graphId": "batches-vs-reactant-b",
+          "overlayIds": [
+            "recipeCard",
+            "limitingCue"
+          ]
+        },
+        "requirements": {
+          "graphId": "batches-vs-reactant-b",
+          "overlayIds": [
+            "recipeCard",
+            "limitingCue"
+          ]
+        },
+        "hints": [
+          "Three full 2:3 batches spend 6 A packets and all 9 B packets.",
+          "If 3 A packets must remain, start A at 9 while keeping B at 9."
+        ],
+        "targets": [
+          {
+            "param": "recipeA",
+            "label": "Keep A per batch at 2.",
+            "min": 2,
+            "max": 2
+          },
+          {
+            "param": "recipeB",
+            "label": "Keep B per batch at 3.",
+            "min": 3,
+            "max": 3
+          },
+          {
+            "param": "reactantAAmount",
+            "label": "Set A to 9 packets.",
+            "min": 9,
+            "max": 9
+          },
+          {
+            "param": "reactantBAmount",
+            "label": "Set B to 9 packets.",
+            "min": 9,
+            "max": 9
+          },
+          {
+            "param": "percentYield",
+            "label": "Keep yield at 100% so the leftover comes only from excess reactant.",
+            "min": 100,
+            "max": 100
+          }
+        ]
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows two reactant supply bins, one product tray, and a recipe card that states how many packets of A and B one full batch needs.",
+        "A readout card reports the current recipe, the maximum possible batches, which supply is limiting, the actual output, and how much of each reactant is left after the run."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "One graph scans possible batches against the A supply, a second scans possible batches against the B supply, and a third keeps actual output against the theoretical product marker as percent yield changes.",
+        "The limiting cue and leftover readout stay tied to the same recipe bench instead of leaving the particle view."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Limiting Reagent and Leftover Reactants",
+    "description": "Explore limiting reagent through one recipe bench where the lower batch cap, the leftover reactant, and the finished product tray stay visible together.",
+    "keywords": [
+      "limiting reagent",
+      "stoichiometry",
+      "leftover reactant",
+      "chemistry",
+      "excess reactant"
+    ]
+  },
+  "v2": {
+    "intuition": "Each reactant supply gets its own batch cap. The limiting reagent is simply the side with the smaller recipe-supported cap, and the leftover packets belong to the other side.",
+    "whyItMatters": "This turns a common stoichiometry pain point into one visible comparison: convert each supply to possible batches, pick the lower cap, then read the excess leftover.",
+    "estimatedMinutes": 24,
+    "equationSnapshot": {
+      "title": "Limiting-reagent snapshot",
+      "note": "Convert both supplies into possible recipe batches first; the smaller cap sets theoretical output and decides which side can have leftovers.",
+      "equationIds": [
+        "reactant-caps",
+        "theoretical-output",
+        "leftover-reactant"
+      ]
+    },
+    "startSetup": {
+      "presetId": "a-limiting",
+      "graphId": "batches-vs-reactant-a",
+      "overlayIds": [
+        "recipeCard",
+        "limitingCue"
+      ],
+      "note": "Begin with 8 A and 15 B on the 2:3 recipe so A supports four batches while B supports five."
+    },
+    "guidedSteps": [
+      {
+        "id": "compare-recipe-supported-caps",
+        "title": "Compare recipe-supported caps",
+        "goal": "Convert each supply into the number of complete batches it can support.",
+        "doThis": "Use the A-limiting preset and keep the 2 A + 3 B recipe card beside both supply bins.",
+        "notice": "A supports 8 ÷ 2 = 4 full batches, while B supports 15 ÷ 3 = 5 full batches.",
+        "explain": "The limiting reagent is not chosen from raw packet counts. It is the reactant with the lower possible-batch cap after the recipe is applied.",
+        "reveal": {
+          "controlIds": [
+            "reactantAAmount",
+            "reactantBAmount",
+            "recipeA",
+            "recipeB"
+          ],
+          "graphIds": [
+            "batches-vs-reactant-a",
+            "batches-vs-reactant-b"
+          ],
+          "overlayIds": [
+            "recipeCard",
+            "limitingCue"
+          ]
+        },
+        "setup": {
+          "presetId": "a-limiting",
+          "graphId": "batches-vs-reactant-a",
+          "overlayIds": [
+            "recipeCard",
+            "limitingCue"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Name the lower cap",
+          "questionIds": [
+            "lr-qt-a-limits"
+          ]
+        }
+      },
+      {
+        "id": "read-the-excess-leftover",
+        "title": "Read the excess leftover",
+        "goal": "Connect the limiting side running out to leftover packets on the excess side.",
+        "doThis": "Stay on the A-limiting run and read the leftover tray after four complete batches finish.",
+        "notice": "A is fully spent at the fourth batch; B started with enough for five batches, so B is the side that remains in excess.",
+        "explain": "Leftover reactant belongs to the side that could have supported more batches. The limiting side cannot keep leftovers because it is the side that runs out first.",
+        "reveal": {
+          "controlIds": [
+            "reactantAAmount",
+            "reactantBAmount"
+          ],
+          "graphIds": [
+            "batches-vs-reactant-a"
+          ],
+          "overlayIds": [
+            "limitingCue",
+            "recipeCard"
+          ]
+        },
+        "setup": {
+          "presetId": "a-limiting",
+          "graphId": "batches-vs-reactant-a",
+          "overlayIds": [
+            "recipeCard",
+            "limitingCue"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Place the leftover",
+          "questionIds": [
+            "lr-qt-leftover-belongs-to-excess"
+          ]
+        }
+      },
+      {
+        "id": "flip-which-side-limits",
+        "title": "Flip which side limits",
+        "goal": "See that the limiting side can change when one supply cap drops below the other.",
+        "doThis": "Switch to the B-limiting preset, where A is high and B drops to 9 packets.",
+        "notice": "A now supports six batches, but B supports only three, so B sets the output cap and A is left over.",
+        "explain": "Changing a supply changes its batch cap. The limiting reagent is always the smaller cap, even when the other tray has a larger-looking raw count.",
+        "reveal": {
+          "controlIds": [
+            "reactantAAmount",
+            "reactantBAmount"
+          ],
+          "graphIds": [
+            "batches-vs-reactant-b"
+          ],
+          "overlayIds": [
+            "limitingCue",
+            "recipeCard"
+          ]
+        },
+        "setup": {
+          "presetId": "b-limiting",
+          "graphId": "batches-vs-reactant-b",
+          "overlayIds": [
+            "recipeCard",
+            "limitingCue"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Predict the flip",
+          "predictionIds": [
+            "lr-predict-b-limits"
+          ]
+        }
+      },
+      {
+        "id": "build-a-target-leftover",
+        "title": "Build a target leftover",
+        "goal": "Choose supplies that make B limiting while leaving exactly three A packets.",
+        "doThis": "Keep the 2:3 recipe, then adjust supplies until B supports three batches and A has three packets left after those batches.",
+        "notice": "Three batches spend 6 A and 9 B. Starting with 9 A and 9 B makes B run out and leaves 3 A behind.",
+        "explain": "A target-leftover problem works backward from the limiting cap: decide the completed batch count, spend the recipe, then add the desired excess leftover.",
+        "reveal": {
+          "controlIds": [
+            "recipeA",
+            "recipeB",
+            "reactantAAmount",
+            "reactantBAmount",
+            "percentYield"
+          ],
+          "graphIds": [
+            "batches-vs-reactant-b"
+          ],
+          "overlayIds": [
+            "recipeCard",
+            "limitingCue"
+          ]
+        },
+        "setup": {
+          "presetId": "matched-two-three",
+          "graphId": "batches-vs-reactant-b",
+          "overlayIds": [
+            "recipeCard",
+            "limitingCue"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Try the B-limiting challenge",
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Each reactant supply has its own recipe-supported batch cap.",
+        "The smaller cap is the limiting reagent and sets the theoretical output.",
+        "Leftover packets belong to the excess side because the limiting side is spent first.",
+        "Target-leftover questions can be built by choosing a batch cap, spending the recipe, and adding the desired excess."
+      ],
+      "misconception": "Do not pick the limiting reagent from raw packet counts or from the larger coefficient alone; compare possible complete batches from every supply.",
+      "workedExampleRefs": [
+        "read-an-a-limiting-run"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "percent-yield-and-reaction-extent",
+          "reasonLabel": "Lower actual output below the limiting cap."
+        },
+        {
+          "slug": "concentration-and-dilution",
+          "reasonLabel": "Carry amount bookkeeping into solutions."
+        }
+      ],
+      "freePlayPrompt": "Create one A-limiting run and one B-limiting run, then say which tray should still show leftover packets before you check the readout."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "commonMisconception",
+      "workedExamples",
+      "quickTest"
+    ]
+  }
+}

@@ -1,0 +1,852 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "readNext",
+        "title": "Keep the chemistry branch moving"
+      }
+    ],
+    "featuredSetups": [
+      {
+        "id": "crowded-but-cool-collision-box",
+        "label": "Crowded but cool",
+        "description": "Open the busy box and compare collision attempts with successful collisions.",
+        "setup": {
+          "presetId": "crowded-but-cool",
+          "graphId": "rate-temperature",
+          "overlayIds": [
+            "energyCue",
+            "thresholdGate"
+          ],
+          "note": "Use this when you want the collision story before the rate graph gets more abstract."
+        }
+      },
+      {
+        "id": "catalyzed-threshold-bench",
+        "label": "Catalyzed threshold",
+        "description": "Open the lower-barrier setup and see success rise without simply heating the mixture.",
+        "setup": {
+          "presetId": "catalyzed-threshold",
+          "graphId": "success-temperature",
+          "overlayIds": [
+            "thresholdGate"
+          ],
+          "note": "Use this to separate the barrier story from the crowding story."
+        }
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Use collision theory to predict whether a rate change comes from more particle meetings, more barrier-clearing hits, or both.",
+    "whyItMatters": "It lets you explain temperature, concentration, and catalysts with one visible cause-and-effect model instead of memorized rate slogans.",
+    "keyTakeaway": "A reaction speeds up only when collision attempts increase, the successful fraction increases, or both happen together."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Reaction rate becomes easier to trust when the collision story stays visible. This module keeps one particle box, one activation threshold, and one live rate readout together so temperature, concentration, and the barrier all stay attached to the same cause-and-effect bench.",
+        "The key distinction is that more collisions are not automatically more reaction. Concentration mostly changes how often particles meet, while temperature and barrier changes decide how many of those meetings are energetic enough to succeed."
+      ]
+    },
+    "keyIdeas": [
+      "Reaction rate depends on successful collisions, not just on how often particles hit each other.",
+      "Raising temperature increases both how often particles collide and how likely those collisions are to clear the barrier.",
+      "A catalyst changes the barrier story without having to make the particles hotter."
+    ],
+    "commonMisconception": {
+      "myth": "If concentration increases, then the reaction must speed up because every extra collision is automatically a successful one.",
+      "correction": [
+        "Higher concentration mainly creates more collision attempts.",
+        "Whether those attempts become reactions still depends on how many collisions clear the activation threshold."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked examples",
+      "intro": "Use the current chemistry bench instead of a detached worksheet. The same controls drive the particle box, the response graphs, and these substitutions.",
+      "items": [
+        {
+          "id": "successful-versus-total-collisions",
+          "title": "Separate all collisions from successful ones",
+          "prompt": "For the current mixture, how do all collisions and successful collisions differ?",
+          "variables": [
+            {
+              "id": "temperature",
+              "variableId": "temperature",
+              "symbol": "T",
+              "label": "Temperature",
+              "valueKey": "temperatureValue"
+            },
+            {
+              "id": "concentration",
+              "variableId": "concentration",
+              "symbol": "c",
+              "label": "Concentration",
+              "valueKey": "concentrationValue"
+            },
+            {
+              "id": "activation-energy",
+              "variableId": "activation-energy",
+              "symbol": "E_a",
+              "label": "Activation threshold",
+              "valueKey": "activationEnergyValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-attempt-rate",
+              "label": "1. Read how often the particles collide",
+              "template": "At the current temperature and concentration, the box makes about {{attemptRateValue}} collision attempts each second."
+            },
+            {
+              "id": "read-success-share",
+              "label": "2. Read how many of those hits clear the threshold",
+              "template": "Only about {{successPercentValue}}% of those collisions clear the effective barrier."
+            },
+            {
+              "id": "convert-to-rate",
+              "label": "3. Turn that into a reaction rate",
+              "template": "That leaves about {{successfulCollisionRateValue}} successful collisions each second and about {{unsuccessfulCollisionRateValue}} unsuccessful ones."
+            }
+          ],
+          "resultLabel": "Current successful-collision rate",
+          "resultTemplate": "$\\text{rate} \\approx {{successfulCollisionRateValue}}\\text{ successful collisions/s}$",
+          "interpretationTemplate": "{{collisionInterpretation}}",
+          "applyAction": {
+            "label": "Apply a crowded but cool case",
+            "presetId": "crowded-but-cool",
+            "observationHint": "The box gets busy quickly, but the successful share still stays limited because many hits do not clear the barrier.",
+            "highlightedControlIds": [
+              "concentration",
+              "temperature"
+            ],
+            "highlightedGraphIds": [
+              "rate-temperature",
+              "success-temperature"
+            ],
+            "highlightedOverlayIds": [
+              "thresholdGate",
+              "successfulCollisions"
+            ]
+          }
+        },
+        {
+          "id": "lower-the-barrier-without-heating",
+          "title": "Lower the barrier without heating the mixture",
+          "prompt": "What changes when the catalyst is used in the current setup?",
+          "variables": [
+            {
+              "id": "activation-energy",
+              "variableId": "activation-energy",
+              "symbol": "E_a",
+              "label": "Activation threshold",
+              "valueKey": "activationEnergyValue"
+            },
+            {
+              "id": "catalyst",
+              "variableId": "catalyst",
+              "symbol": "cat",
+              "label": "Catalyst",
+              "valueKey": "catalystStateValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-barrier",
+              "label": "1. Start from the stated barrier",
+              "template": "The current threshold is $E_a = {{activationEnergyValue}}$, and the catalyst is {{catalystStateValue}}."
+            },
+            {
+              "id": "read-effective-barrier",
+              "label": "2. Read the effective barrier against the same particle energy",
+              "template": "That makes the effective barrier about {{effectiveActivationEnergyValue}} while the average particle energy stays about {{averageEnergyValue}}."
+            },
+            {
+              "id": "read-new-success-share",
+              "label": "3. Read what changes in the success story",
+              "template": "The collision attempts stay tied mostly to temperature and concentration, but the successful share changes to about {{successPercentValue}}%."
+            }
+          ],
+          "resultLabel": "Current barrier story",
+          "resultTemplate": "$E_{\\text{eff}} = {{effectiveActivationEnergyValue}}, \\quad \\text{success} \\approx {{successPercentValue}}\\%$",
+          "interpretationTemplate": "{{catalystInterpretation}}",
+          "applyAction": {
+            "label": "Apply the catalyzed threshold case",
+            "presetId": "catalyzed-threshold",
+            "observationHint": "The particles are not much hotter here. The rate rises because the barrier is easier to clear, not because the box became more crowded.",
+            "highlightedControlIds": [
+              "activationEnergy",
+              "catalyst"
+            ],
+            "highlightedGraphIds": [
+              "success-temperature"
+            ],
+            "highlightedOverlayIds": [
+              "thresholdGate"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Make the reaction noticeably faster without relying on a very crowded box.",
+      "prediction": "Decide whether you should change the collision frequency, the barrier, or the successful fraction before you try it.",
+      "answer": "You need a setup where a decent share of collisions clears the barrier even though concentration stays moderate.",
+      "explanation": "That is the cleanest way to separate more collisions from more successful collisions. The rate rises because the successful fraction improves, not because the box is simply packed."
+    }
+  },
+  "equations": [
+    {
+      "id": "rate-story",
+      "latex": "\\text{reaction rate} \\approx \\text{collision attempts} \\times \\text{successful fraction}",
+      "label": "Rate story",
+      "meaning": "Keeps the chemistry bench honest by separating how often particles meet from how often those meetings actually react."
+    },
+    {
+      "id": "threshold-story",
+      "latex": "\\text{successful fraction} \\uparrow \\text{ when particle energy is large relative to the barrier}",
+      "label": "Threshold story",
+      "meaning": "Explains why heating the mixture can raise the successful share even before concentration changes."
+    },
+    {
+      "id": "catalyst-story",
+      "latex": "E_{\\text{eff}} = E_a - \\text{catalyst effect}",
+      "label": "Catalyst story",
+      "meaning": "Shows that a catalyst changes the barrier side of the story instead of simply heating the particles."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "temperature",
+      "symbol": "T",
+      "label": "Temperature",
+      "param": "temperature",
+      "tone": "coral",
+      "description": "Changes how energetic and active the particles are inside the same collision box.",
+      "equationIds": [
+        "rate-story",
+        "threshold-story"
+      ],
+      "graphIds": [
+        "rate-temperature",
+        "success-temperature"
+      ],
+      "overlayIds": [
+        "energyCue",
+        "successfulCollisions"
+      ]
+    },
+    {
+      "id": "concentration",
+      "symbol": "c",
+      "label": "Concentration",
+      "param": "concentration",
+      "tone": "teal",
+      "description": "Changes how crowded the box is, which mostly changes how often particles get a chance to collide.",
+      "equationIds": [
+        "rate-story"
+      ],
+      "graphIds": [
+        "rate-concentration"
+      ],
+      "overlayIds": [
+        "successfulCollisions"
+      ]
+    },
+    {
+      "id": "activation-energy",
+      "symbol": "E_a",
+      "label": "Activation threshold",
+      "param": "activationEnergy",
+      "tone": "amber",
+      "description": "Sets how hard it is for a collision to become a reaction.",
+      "equationIds": [
+        "threshold-story",
+        "catalyst-story"
+      ],
+      "graphIds": [
+        "success-temperature"
+      ],
+      "overlayIds": [
+        "thresholdGate"
+      ]
+    },
+    {
+      "id": "catalyst",
+      "symbol": "cat",
+      "label": "Catalyst",
+      "param": "catalyst",
+      "tone": "sky",
+      "description": "Lowers the effective barrier without making the particles hotter.",
+      "equationIds": [
+        "catalyst-story"
+      ],
+      "graphIds": [
+        "success-temperature"
+      ],
+      "overlayIds": [
+        "thresholdGate"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "temperature": 3.1,
+      "concentration": 1.4,
+      "activationEnergy": 2.8,
+      "catalyst": false,
+      "energyCue": true,
+      "thresholdGate": true,
+      "successfulCollisions": true
+    },
+    "ui": {
+      "initialGraphId": "rate-temperature",
+      "primaryGraphIds": [
+        "rate-temperature"
+      ],
+      "primaryControlIds": [
+        "temperature",
+        "concentration"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "temperature",
+        "kind": "slider",
+        "label": "Temperature",
+        "param": "temperature",
+        "min": 1.4,
+        "max": 5.4,
+        "step": 0.1,
+        "description": "Raise or lower how energetic the particles are."
+      },
+      {
+        "id": "concentration",
+        "kind": "slider",
+        "label": "Concentration",
+        "param": "concentration",
+        "min": 0.8,
+        "max": 2.2,
+        "step": 0.05,
+        "description": "Change how crowded the collision box is."
+      },
+      {
+        "id": "activation-energy",
+        "kind": "slider",
+        "label": "Activation threshold",
+        "param": "activationEnergy",
+        "min": 1.6,
+        "max": 4.4,
+        "step": 0.1,
+        "description": "Raise or lower the energy barrier that collisions must clear."
+      },
+      {
+        "id": "catalyst",
+        "kind": "toggle",
+        "label": "Use catalyst",
+        "param": "catalyst",
+        "description": "Lower the effective barrier without heating the mixture."
+      }
+    ],
+    "presets": [
+      {
+        "id": "baseline",
+        "label": "Baseline mixture",
+        "description": "A balanced starting point with moderate crowding and no catalyst.",
+        "values": {
+          "temperature": 3.1,
+          "concentration": 1.4,
+          "activationEnergy": 2.8,
+          "catalyst": false
+        }
+      },
+      {
+        "id": "crowded-but-cool",
+        "label": "Crowded but cool",
+        "description": "Many collision attempts, but not many energetic hits.",
+        "values": {
+          "temperature": 2.1,
+          "concentration": 2,
+          "activationEnergy": 3.1,
+          "catalyst": false
+        }
+      },
+      {
+        "id": "hot-and-dilute",
+        "label": "Hot and dilute",
+        "description": "Fewer particles, but more of the collisions clear the barrier.",
+        "values": {
+          "temperature": 4.3,
+          "concentration": 1,
+          "activationEnergy": 2.8,
+          "catalyst": false
+        }
+      },
+      {
+        "id": "catalyzed-threshold",
+        "label": "Catalyzed threshold",
+        "description": "The barrier drops without changing the crowding.",
+        "values": {
+          "temperature": 3.1,
+          "concentration": 1.35,
+          "activationEnergy": 2.8,
+          "catalyst": true
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "energyCue",
+        "label": "Energy cue",
+        "shortDescription": "Show particle streaks so the temperature change stays visible in the box.",
+        "whatToNotice": [
+          "Heating the mixture makes the particles move more vigorously before you ever read the graph."
+        ],
+        "whyItMatters": "It keeps the temperature story visual instead of turning it into a hidden parameter.",
+        "relatedControls": [
+          "temperature"
+        ],
+        "relatedGraphTabs": [
+          "rate-temperature",
+          "success-temperature"
+        ],
+        "relatedEquationVariables": [
+          "temperature"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "thresholdGate",
+        "label": "Threshold cue",
+        "shortDescription": "Keep the barrier and above-threshold share visible.",
+        "whatToNotice": [
+          "The successful fraction can change even when the box is not especially crowded."
+        ],
+        "whyItMatters": "It separates energetic success from collision count.",
+        "relatedControls": [
+          "activationEnergy",
+          "catalyst"
+        ],
+        "relatedGraphTabs": [
+          "success-temperature"
+        ],
+        "relatedEquationVariables": [
+          "activation-energy",
+          "catalyst"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "successfulCollisions",
+        "label": "Collision pulses",
+        "shortDescription": "Separate all hits from successful ones directly in the vessel.",
+        "whatToNotice": [
+          "The amber pulses can stay busy while the coral successful pulses remain limited."
+        ],
+        "whyItMatters": "It makes the difference between more collisions and more reaction unmistakable.",
+        "relatedControls": [
+          "temperature",
+          "concentration"
+        ],
+        "relatedGraphTabs": [
+          "rate-temperature",
+          "rate-concentration"
+        ],
+        "relatedEquationVariables": [
+          "temperature",
+          "concentration"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "rate-temperature",
+      "label": "Rate vs temperature",
+      "xLabel": "Temperature scale",
+      "yLabel": "Collisions per second",
+      "series": [
+        "successful-rate",
+        "attempt-rate"
+      ],
+      "description": "Compare all collision attempts with the successful ones as temperature changes."
+    },
+    {
+      "id": "rate-concentration",
+      "label": "Rate vs concentration",
+      "xLabel": "Concentration scale",
+      "yLabel": "Collisions per second",
+      "series": [
+        "successful-rate",
+        "attempt-rate"
+      ],
+      "description": "Shows how crowding changes the rate story."
+    },
+    {
+      "id": "success-temperature",
+      "label": "Successful fraction",
+      "xLabel": "Temperature scale",
+      "yLabel": "Successful share",
+      "series": [
+        "success-fraction"
+      ],
+      "description": "Shows how the share of barrier-clearing collisions changes with temperature."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the live box and the rate graphs together. These prompts are trying to keep the chemistry visual before it turns into slogans.",
+    "items": [
+      {
+        "id": "rr-notice-crowding-vs-success",
+        "text": "The amber all-collision cue can grow faster than the coral successful-collision cue. More hits and more reaction are not the same claim.",
+        "type": "observation",
+        "priority": 10,
+        "conditions": {
+          "graphTabs": [
+            "rate-concentration"
+          ]
+        },
+        "whyItMatters": "Concentration mostly changes opportunity, not guaranteed success.",
+        "relatedControls": [
+          "concentration"
+        ],
+        "relatedGraphTabs": [
+          "rate-concentration"
+        ],
+        "relatedOverlays": [
+          "successfulCollisions"
+        ]
+      },
+      {
+        "id": "rr-notice-threshold",
+        "text": "Watch the threshold cue: heating helps because more collisions clear the barrier, not just because particles bump more often.",
+        "type": "graph-reading",
+        "priority": 9,
+        "conditions": {
+          "graphTabs": [
+            "success-temperature"
+          ]
+        },
+        "relatedControls": [
+          "temperature",
+          "activationEnergy"
+        ],
+        "relatedOverlays": [
+          "thresholdGate"
+        ]
+      },
+      {
+        "id": "rr-notice-catalyst",
+        "text": "A catalyst changes the barrier story without making the particles hotter. Look for the successful fraction to rise even when the motion cue barely changes.",
+        "type": "misconception",
+        "priority": 8,
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "temperature",
+              "max": 3.4
+            }
+          ]
+        },
+        "relatedControls": [
+          "catalyst",
+          "activationEnergy"
+        ],
+        "relatedOverlays": [
+          "energyCue",
+          "thresholdGate"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the chemistry before you test it. The goal is to decide whether the next change alters crowding, barrier-clearing success, or both.",
+    "items": [
+      {
+        "id": "rr-predict-hotter",
+        "prompt": "From the baseline mixture, you raise the temperature but keep concentration and barrier fixed. What should change most honestly?",
+        "scenarioLabel": "Raise the temperature",
+        "changeLabel": "Temperature up, same crowding",
+        "choices": [
+          {
+            "id": "a",
+            "label": "All collisions and the successful share should both rise."
+          },
+          {
+            "id": "b",
+            "label": "Only concentration should matter, so the rate should stay the same."
+          },
+          {
+            "id": "c",
+            "label": "The successful share should fall because particles move too quickly."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Higher temperature makes particles more active and also makes barrier-clearing collisions more common, so both the attempt rate and the successful share can rise together.",
+        "observationHint": "Watch the motion cue and the successful-fraction graph together after the change.",
+        "apply": {
+          "presetId": "hot-and-dilute"
+        },
+        "highlightedControls": [
+          "temperature"
+        ],
+        "highlightedGraphs": [
+          "rate-temperature",
+          "success-temperature"
+        ],
+        "highlightedOverlays": [
+          "energyCue",
+          "thresholdGate"
+        ]
+      },
+      {
+        "id": "rr-predict-catalyst",
+        "prompt": "You turn on the catalyst while keeping the box at the same moderate temperature. Which explanation is most honest?",
+        "scenarioLabel": "Switch on the catalyst",
+        "changeLabel": "Same particle energy, lower barrier",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The successful share should rise because the barrier is lower."
+          },
+          {
+            "id": "b",
+            "label": "The particles must be hotter, so the motion cue should show most of the change."
+          },
+          {
+            "id": "c",
+            "label": "Only the concentration graph should move."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The catalyst changes the barrier story rather than the temperature story, so the successful share rises without needing the particles to move faster.",
+        "observationHint": "Look for the threshold cue to change more than the motion cue.",
+        "apply": {
+          "presetId": "catalyzed-threshold"
+        },
+        "highlightedControls": [
+          "catalyst",
+          "activationEnergy"
+        ],
+        "highlightedGraphs": [
+          "success-temperature"
+        ],
+        "highlightedOverlays": [
+          "thresholdGate"
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live chemistry story, not from a memorized slogan.",
+    "questions": [
+      {
+        "id": "rr-qt-collision-vs-success",
+        "type": "misconception-check",
+        "prompt": "Which statement is the most honest one?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "More collisions can still leave the reaction slow if most of them fail the barrier test."
+          },
+          {
+            "id": "b",
+            "label": "Every extra collision is automatically a successful reaction."
+          },
+          {
+            "id": "c",
+            "label": "Temperature only matters after concentration is already very large."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Collision count and successful fraction are different parts of the same story. A busy box can still react slowly if most hits are unsuccessful.",
+        "selectedWrongExplanations": {
+          "b": "That erases the activation-threshold idea. Collision attempts and successful reactions are not the same quantity.",
+          "c": "Temperature can matter even in a moderately crowded or dilute box because it changes how many collisions clear the barrier."
+        },
+        "showMeAction": {
+          "label": "Show a busy but slow case",
+          "presetId": "crowded-but-cool",
+          "observationHint": "The all-collision cue stays busy while the successful fraction remains limited.",
+          "highlightedControlIds": [
+            "concentration",
+            "temperature"
+          ],
+          "highlightedGraphIds": [
+            "rate-concentration",
+            "success-temperature"
+          ],
+          "highlightedOverlayIds": [
+            "successfulCollisions",
+            "thresholdGate"
+          ]
+        }
+      },
+      {
+        "id": "rr-qt-heating",
+        "type": "reasoning",
+        "prompt": "If you heat the same mixture without changing concentration, what is the cleanest expectation?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The successful share should usually rise because more collisions clear the barrier."
+          },
+          {
+            "id": "b",
+            "label": "The successful share should stay fixed because only concentration affects the rate."
+          },
+          {
+            "id": "c",
+            "label": "The barrier should automatically disappear."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Heating does not remove the barrier, but it does make more collisions energetic enough to cross it.",
+        "selectedWrongExplanations": {
+          "b": "Concentration is not the only factor. Temperature changes both the motion cue and the barrier-clearing fraction.",
+          "c": "Heating helps particles cross the barrier more often, but it does not make the barrier vanish."
+        },
+        "showMeAction": {
+          "label": "Show the hotter case",
+          "presetId": "hot-and-dilute",
+          "observationHint": "The particles are livelier, and the successful fraction is higher than in the cool case.",
+          "highlightedControlIds": [
+            "temperature"
+          ],
+          "highlightedGraphIds": [
+            "rate-temperature",
+            "success-temperature"
+          ],
+          "highlightedOverlayIds": [
+            "energyCue",
+            "thresholdGate"
+          ]
+        }
+      },
+      {
+        "id": "rr-qt-catalyst",
+        "type": "graph-reading",
+        "prompt": "What does the catalyst change most directly in this bench?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The effective barrier that collisions must clear."
+          },
+          {
+            "id": "b",
+            "label": "The concentration of particles in the box."
+          },
+          {
+            "id": "c",
+            "label": "The graph axes themselves."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The catalyst changes the barrier story without having to change the crowding or redraw the box.",
+        "selectedWrongExplanations": {
+          "b": "The number of particles does not have to change for a catalyst to help.",
+          "c": "The axes stay the same. What changes is how the setup moves through the same graphs."
+        },
+        "showMeAction": {
+          "label": "Turn on the catalyst",
+          "patch": {
+            "catalyst": true
+          },
+          "observationHint": "The threshold cue changes even if the particle motion cue is not dramatically different.",
+          "highlightedControlIds": [
+            "catalyst",
+            "activationEnergy"
+          ],
+          "highlightedGraphIds": [
+            "success-temperature"
+          ],
+          "highlightedOverlayIds": [
+            "thresholdGate"
+          ]
+        }
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the chemistry bench honestly: make the reaction meaningfully faster without simply cramming the box full of particles.",
+    "items": [
+      {
+        "id": "rrct-ch-more-success-not-just-more-hits",
+        "title": "More success, not just more hits",
+        "style": "visible-condition",
+        "prompt": "Build a setup where the reaction is clearly active even though concentration stays modest. Keep the threshold cue and collision pulses on so the rate story stays visible.",
+        "successMessage": "You raised the successful-collision story without leaning on a crowded box. The chemistry now reads as barrier-clearing success, not just busy motion.",
+        "setup": {
+          "presetId": "baseline",
+          "graphId": "rate-temperature",
+          "overlayIds": [
+            "thresholdGate",
+            "successfulCollisions"
+          ],
+          "note": "Stay with a fairly moderate concentration. The point is to improve success honestly rather than by crowding."
+        },
+        "requirements": {
+          "graphId": "rate-temperature",
+          "overlayIds": [
+            "thresholdGate",
+            "successfulCollisions"
+          ]
+        },
+        "hints": [
+          "Keep concentration near the baseline instead of solving the task by packing in more particles.",
+          "Temperature and the barrier story are the cleanest ways to raise the successful-collision rate here."
+        ],
+        "targets": [
+          {
+            "param": "concentration",
+            "label": "Keep concentration modest, between 0.9 and 1.15.",
+            "min": 0.9,
+            "max": 1.15
+          },
+          {
+            "metric": "successfulCollisionRate",
+            "label": "Raise the successful-collision rate into the 12 to 15 range.",
+            "min": 12,
+            "max": 15
+          },
+          {
+            "metric": "successFraction",
+            "label": "Make the successful share clearly strong, between 48% and 62%.",
+            "min": 0.48,
+            "max": 0.62
+          }
+        ]
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a particle box with reactants moving inside it, plus visible cues for all collisions, successful collisions, and the barrier-clearing share. Sliders change temperature, concentration, and activation threshold, and a toggle applies a catalyst.",
+        "A readout card reports the current temperature, concentration, threshold, successful share, and successful-collision rate so the learner can compare the visual box with the graph response."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "One graph compares all collision attempts with successful collisions as temperature changes, a second does the same for concentration, and a third shows the successful fraction against temperature.",
+        "Graph hover, compare mode, and the shared overlays all stay tied to the same chemistry bench instead of opening a separate view."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Reaction Rate / Collision Theory",
+    "description": "Explore how temperature, concentration, activation threshold, and catalysts reshape reaction rate through successful collisions on a live chemistry bench.",
+    "keywords": [
+      "reaction rate",
+      "collision theory",
+      "activation energy",
+      "catalyst",
+      "chemistry"
+    ]
+  }
+}

@@ -1,0 +1,261 @@
+{
+"pageFramework": {
+"sections": [
+{
+"id": "workedExamples",
+"title": "Solve the live rotor"
+},
+{
+"id": "miniChallenge",
+"title": "Test the same-L idea"
+},
+{
+"id": "readNext",
+"title": "Carry angular-momentum ideas forward"
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Angular momentum is rotational motion packaged into one quantity: $L = I\\omega$. Just as linear momentum uses mass and speed, angular momentum uses rotational inertia and angular speed.",
+"On this bench, the total moving mass stays the same while you change only two things: how far the masses sit from the axis and how fast the rotor spins. That makes two key comparisons visible: keeping the same spin does not always keep the same angular momentum, and keeping the same angular momentum does not always mean keeping the same spin."
+]
+},
+"keyIdeas": [
+"Angular momentum combines rotational inertia and angular speed through $L = I\\omega$. A rotor can have large angular momentum because it spins quickly, because its mass sits far from the axis, or because both happen together.",
+"Moving the same mass outward raises $I$, so the same angular momentum can be carried with a smaller angular speed.",
+"If external torque is negligible and $I$ decreases, $\\omega$ must increase so that $L$ stays the same."
+],
+"commonMisconception": {
+"myth": "A faster-spinning rotor must always have more angular momentum than a slower one.",
+"correction": [
+"Angular momentum depends on both $I$ and $\\omega$. A wide, slow rotor can carry the same angular momentum as a compact, fast rotor.",
+"Holding angular speed fixed while moving mass outward does not conserve angular momentum. It creates a new, larger $L$ because the moment of inertia increased."
+]
+},
+"workedExamples": {
+"title": "Worked example from the live rotor",
+"intro": "Use the current rotor state as evidence. First compute the moment of inertia and angular momentum from the live radius and spin rate. Then ask what spin rate a compact reference layout would need to carry that same angular momentum.",
+"items": [
+{
+"id": "current-angular-momentum",
+"title": "Angular momentum of the current rotor",
+"steps": [
+{
+"id": "relation",
+"label": "1. Build the current moment of inertia"
+},
+{
+"id": "substitute",
+"label": "2. Insert the live radius"
+},
+{
+"id": "compute",
+"label": "3. Multiply by the live angular speed"
+}
+],
+"resultLabel": "Current moment of inertia and angular momentum",
+"applyAction": {
+"label": "Try wide, same speed",
+"observationHint": "Keep angular speed fixed and move the masses outward. The angular-momentum map rises because the moment of inertia rises."
+}
+},
+{
+"id": "compact-reference-spin",
+"title": "Compact layout carrying the same angular momentum",
+"prompt": "If the current angular momentum were carried by the compact reference layout, what angular speed would that layout need?",
+"steps": [
+{
+"id": "relation",
+"label": "1. Keep the current angular momentum fixed"
+},
+{
+"id": "substitute",
+"label": "2. Find the compact-reference inertia"
+},
+{
+"id": "compute",
+"label": "3. Solve for the matching spin rate"
+}
+],
+"resultLabel": "Compact-reference angular speed for the same angular momentum",
+"applyAction": {
+"label": "Try wide, same L",
+"observationHint": "Use the same-L overlay and response map together. The wide layout can keep nearly the same angular momentum while spinning much more slowly."
+}
+}
+]
+},
+"miniChallenge": {
+"prediction": "Compare the compact same-L and wide same-L presets before you answer. Predict whether a wider layout can trade larger moment of inertia for smaller angular speed.",
+"answer": "Yes. If moving the mass outward increases $I$, then $\\omega$ can decrease while the product $I\\omega$ stays the same.",
+"explanation": "Conservation of angular momentum is a product story, not a speed story. A wider layout can carry the same $L$ with less spin because its moment of inertia is larger."
+}
+},
+"equations": [
+{
+"id": "rotational-analogue",
+"meaning": "Linear momentum pairs mass with speed. Angular momentum pairs rotational inertia with angular speed."
+},
+{
+"id": "equal-mass-rotor",
+"meaning": "On this bench the same moving mass stays on one ring, so sliding the masses outward changes angular momentum by changing the moment of inertia."
+},
+{
+"id": "angular-momentum-definition",
+"meaning": "Angular momentum becomes larger when either the moment of inertia or the angular speed becomes larger."
+},
+{
+"id": "same-l-spin",
+"meaning": "If angular momentum stays fixed while moment of inertia changes, angular speed must change in the opposite way."
+},
+{
+"id": "tangential-speed-link",
+"meaning": "Rim speed helps you compare the straight-line speed of one mass with the rotor's angular speed, but it is not the same thing as angular momentum."
+}
+],
+"variableLinks": [
+{
+"id": "massRadius",
+"description": "Moving the same masses outward raises the moment of inertia sharply, so the same angular momentum can be carried with a smaller angular speed."
+},
+{
+"id": "angularSpeed",
+"description": "Angular speed is only one part of angular momentum. Two rotors can spin at the same rate and still have different angular momentum if their mass layouts differ."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "massRadius",
+"description": "Slide the same six equal masses inward or outward while total mass stays fixed. This changes the moment of inertia even before you change the spin rate."
+},
+{
+"id": "angularSpeed",
+"description": "Set the spin rate so you can compare same-speed changes with same-angular-momentum changes."
+}
+],
+"overlays": [
+{
+"id": "radiusGuide",
+"shortDescription": "Shows the current distance of the equal masses from the axis.",
+"whatToNotice": [
+"The total mass is unchanged while the radius changes.",
+"That changing radius is why compact and wide same-L states can need very different spin rates."
+],
+"whyItMatters": "It makes the inertia change visible instead of leaving it as an abstract variable."
+},
+{
+"id": "tangentialSpeed",
+"shortDescription": "Shows the straight-line speed of one mass at the rim.",
+"whatToNotice": [
+"Rim speed depends on both radius and angular speed.",
+"A faster spin in angular terms does not automatically mean a larger rim speed or a larger angular momentum."
+],
+"whyItMatters": "It keeps straight-line speed from being confused with angular momentum."
+},
+{
+"id": "equalMassMarkers",
+"whatToNotice": [
+"The rotor is not gaining extra mass when the pucks move outward.",
+"A change in angular momentum can come from changing the moment of inertia, not only from changing angular speed."
+],
+"whyItMatters": "This keeps the cause tied to mass distribution instead of extra mass."
+},
+{
+"id": "sameLReference",
+"shortDescription": "Adds a compact reference ring and shows the spin rate that would carry the same angular momentum there.",
+"whatToNotice": [
+"The same angular momentum can require a very different spin rate at a different radius.",
+"The compact reference is not a second simulation. It is the same $L$ translated to a different moment of inertia."
+],
+"whyItMatters": "It turns conservation of angular momentum into a live comparison you can read directly."
+}
+]
+},
+"graphs": [
+{
+"id": "momentum-map",
+"description": "At the current angular speed, moving the same masses outward increases the moment of inertia and therefore increases angular momentum."
+},
+{
+"id": "conserved-spin-map",
+"description": "For the current angular momentum, this curve shows how angular speed would have to change if mass radius changed while angular momentum stayed fixed."
+}
+],
+"noticePrompts": {
+"title": "What to notice about angular momentum",
+"intro": "Use these prompts to separate two different stories: holding angular speed fixed, and holding angular momentum fixed.",
+"items": [
+{
+"id": "angular-momentum-notice-same-l-compare",
+"text": "In compare mode, two rotors can carry nearly the same angular momentum even while the compact one spins much faster.",
+"tryThis": "Start from the compact same-L preset, clone it, then move only Setup B outward until the angular-momentum badges still match but the angular-speed badges separate sharply.",
+"whyItMatters": "This is the clearest same-L comparison on the page: same angular momentum, different moment of inertia, different spin."
+},
+{
+"id": "angular-momentum-notice-same-speed",
+"text": "Holding angular speed fixed while moving the masses outward creates a larger angular momentum. That is not conservation.",
+"tryThis": "Apply the wide same-speed preset and compare it with the baseline. The angular speed readout stays the same, but the angular-momentum map jumps upward.",
+"whyItMatters": "It shows that changing radius changes the moment of inertia and therefore changes $L$ even when $\\omega$ is unchanged."
+},
+{
+"id": "angular-momentum-notice-conserved-spin-map",
+"text": "On the same-L map, angular speed falls as radius grows because the same angular momentum is being carried by a larger moment of inertia.",
+"whyItMatters": "This is the conservation relationship in graph form."
+},
+{
+"id": "angular-momentum-notice-momentum-map",
+"text": "On the angular-momentum map, a wider rotor at the same angular speed carries more angular momentum.",
+"tryThis": "Keep the angular speed slider fixed and drag across the momentum map. The current marker should climb as radius increases.",
+"whyItMatters": "It separates same-speed comparisons from same-angular-momentum comparisons."
+},
+{
+"id": "angular-momentum-notice-rim-speed",
+"text": "Rim speed and angular momentum are different ideas. Both depend on radius and angular speed, but only angular momentum includes the full inertia story.",
+"whyItMatters": "It stops straight-line speed cues from replacing the actual $L = I\\omega$ idea."
+},
+{
+"id": "angular-momentum-notice-reference",
+"text": "The same-L compact-reference label updates immediately from the current live state.",
+"tryThis": "Turn on the same-L reference overlay and move the radius slider slowly. The compact-reference speed changes right away because it is being computed from the same live angular momentum.",
+"whyItMatters": "It makes conservation a live comparison instead of a separate imagined example."
+}
+]
+},
+"predictionMode": {
+"title": "Predict the same-L tradeoff",
+"intro": "Predict whether a change is a same-speed change or a same-angular-momentum change before you apply it. Then compare the stage, readouts, and maps.",
+"items": [
+{
+"id": "angular-momentum-predict-wide-same-l",
+"explanation": "If $L$ stays fixed while $I$ increases, $\\omega$ must decrease. A wide same-L rotor therefore spins more slowly than a compact same-L rotor.",
+"observationHint": "Watch the same-L response map and the angular-speed badges together. The wide same-L state should trade larger inertia for slower spin."
+},
+{
+"id": "angular-momentum-predict-wide-same-speed",
+"explanation": "Holding $\\omega$ fixed does not conserve the old angular momentum. It creates a new, larger $L$ because the wider layout has a larger moment of inertia.",
+"observationHint": "Watch the angular-momentum map and the same-L map together. One shows the new larger $L$, while the other shows what conserving the old $L$ would have required."
+}
+]
+},
+"quickTest": {
+"title": "Quick check",
+"intro": "These questions test whether you can reason with angular momentum as the product $I\\omega$, not just use the word conservation."
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows a face-on rotor with six equal masses attached to spokes around a central hub. The masses can move inward or outward together, and the rotor spins at an adjustable angular speed while a curved arrow near the hub marks the direction of rotation.",
+"Optional overlays can show the current radius, a tangential-speed arrow on one mass, equal-mass labels, and a compact reference ring that reports the angular speed needed to carry the same angular momentum there. The same live state drives the readout and the graphs."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The rotation-angle graph is linear in time because each fixed setup keeps one constant angular speed through the clip. Faster setups make steeper lines, while slower wide same-L setups sweep out less angle in the same time.",
+"The angular-momentum map rises with radius when angular speed is held fixed because the moment of inertia increases. The same-L spin map falls with radius because keeping angular momentum fixed requires lower angular speed at larger radius."
+]
+}
+}
+}

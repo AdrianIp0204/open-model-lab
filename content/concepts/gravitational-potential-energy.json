@@ -1,0 +1,1428 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live potential-well checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Potential-well checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Connect fields, energy, and orbits"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "See one source mass create a negative potential well, compare how potential and potential energy change with distance, and connect the downhill slope of phi to the gravitational field on the same live model.",
+    "keyTakeaway": "Gravitational potential phi is a scalar set by the source mass and distance, not by the probe mass."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Gravitational potential describes how much gravitational potential energy one kilogram of probe mass would have at a point relative to zero at infinity. For one source mass in this bounded lab, the potential is always negative, becomes more negative near the source, and rises back toward zero as the probe moves farther away.",
+        "This concept keeps the same one-source geometry as Gravitational Fields so the potential map, contour circles, live readout, scan graphs, worked examples, prediction prompts, and challenge checks all stay tied to one honest model. The field is not a separate rule pasted on top afterward: along the current scan line, the horizontal field component is the downhill slope of the potential graph."
+      ]
+    },
+    "keyIdeas": [
+      "Gravitational potential phi is a scalar set by the source mass and distance, not by the probe mass.",
+      "With zero defined at infinity, one isolated source mass produces negative potential everywhere in this bounded lab, and the well gets deeper as r gets smaller.",
+      "Potential energy uses U = m_test phi, so changing only the probe mass rescales U and the force without changing phi or the source-set field."
+    ],
+    "commonMisconception": {
+      "myth": "A negative gravitational potential means gravity is pointing outward or \"backward.\"",
+      "correction": [
+        "The negative sign comes from the reference choice that potential is zero infinitely far away. Closer to the source, the potential is lower than that reference, so phi is negative.",
+        "The field still points inward because gravity follows the downhill direction of the potential landscape. A more negative potential means the probe sits deeper in the same inward gravity well, not that the force flips direction."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Solve the current probe state directly from the live controls. The same source mass, probe location, and probe mass already on screen drive the map, contour circles, scan graphs, and the substitutions below.",
+      "items": [
+        {
+          "id": "current-gravitational-potential",
+          "title": "Current gravitational potential at the probe",
+          "prompt": "For the current source mass and probe position, what gravitational potential exists at the probe relative to zero at infinity?",
+          "variables": [
+            {
+              "id": "sourceMass",
+              "variableId": "sourceMass",
+              "symbol": "M",
+              "label": "Source mass",
+              "valueKey": "sourceMassValue",
+              "unit": "kg"
+            },
+            {
+              "id": "probeX",
+              "variableId": "probeX",
+              "symbol": "x_p",
+              "label": "Probe x-position",
+              "valueKey": "probeXValue",
+              "unit": "m"
+            },
+            {
+              "id": "probeY",
+              "variableId": "probeY",
+              "symbol": "y_p",
+              "label": "Probe y-position",
+              "valueKey": "probeYValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "measure-distance",
+              "label": "1. Measure the live source-to-probe distance",
+              "template": "From the origin to the probe, $r = \\\\sqrt{x_p^2 + y_p^2} = {{distanceValue}}\\\\,\\\\mathrm{m}$."
+            },
+            {
+              "id": "apply-potential-relation",
+              "label": "2. Apply the one-mass potential relation",
+              "template": "With $G = 1$ in the displayed units, $\\\\phi = -M/r = -{{sourceMassValue}} / {{distanceValue}}$."
+            },
+            {
+              "id": "compute-potential",
+              "label": "3. Compute the current potential",
+              "template": "That gives $\\\\phi = {{potentialValue}}$ at the probe."
+            }
+          ],
+          "resultLabel": "Gravitational potential",
+          "resultTemplate": "$\\\\phi = {{potentialValue}}$",
+          "interpretationTemplate": "{{potentialInterpretation}}",
+          "applyAction": {
+            "label": "Show the doubled-distance axis case",
+            "presetId": "axis-two-meters",
+            "observationHint": "Compare the same source at 1 m and 2 m. The potential magnitude should halve while the field magnitude drops more steeply.",
+            "highlightedControlIds": [
+              "probeX",
+              "probeY"
+            ],
+            "highlightedGraphIds": [
+              "potential-energy-scan",
+              "field-link"
+            ],
+            "highlightedOverlayIds": [
+              "distanceRings",
+              "scanLine",
+              "fieldArrow"
+            ]
+          }
+        },
+        {
+          "id": "current-gravitational-potential-energy",
+          "title": "Current potential energy of the probe mass",
+          "prompt": "For the current positive probe mass, what potential energy follows from the live gravitational potential?",
+          "variables": [
+            {
+              "id": "testMass",
+              "variableId": "testMass",
+              "symbol": "m_{\\\\text{test}}",
+              "label": "Probe mass",
+              "valueKey": "testMassValue",
+              "unit": "kg"
+            },
+            {
+              "id": "potentialValue",
+              "symbol": "\\\\phi",
+              "label": "Gravitational potential",
+              "valueKey": "potentialValue",
+              "unit": "phi"
+            }
+          ],
+          "steps": [
+            {
+              "id": "energy-relation",
+              "label": "1. Start from the potential-energy relation",
+              "template": "Use $U = m_{\\\\text{test}}\\\\phi$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the current probe mass and potential",
+              "template": "$U = {{testMassValue}}\\\\times {{potentialValue}}$."
+            },
+            {
+              "id": "compute-energy",
+              "label": "3. Compute the potential energy",
+              "template": "That gives $U = {{potentialEnergyValue}}$."
+            }
+          ],
+          "resultLabel": "Potential energy",
+          "resultTemplate": "$U = {{potentialEnergyValue}}$",
+          "interpretationTemplate": "{{potentialEnergyInterpretation}}",
+          "applyAction": {
+            "label": "Double the probe mass",
+            "presetId": "heavy-probe",
+            "observationHint": "The potential well and field stay fixed when only the probe mass changes, but U and the force on the probe both scale immediately.",
+            "highlightedControlIds": [
+              "testMass"
+            ],
+            "highlightedGraphIds": [
+              "potential-energy-scan"
+            ],
+            "highlightedOverlayIds": [
+              "forceArrow",
+              "fieldArrow"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Start from Axis 1 m, then move the probe to Axis 2 m while keeping the source mass and probe mass fixed. Before you drag, predict what should happen to phi, U, and |g|.",
+      "prediction": "Say the ratios first: which quantities should halve in magnitude, and which should fall to one quarter?",
+      "answer": "At twice the distance, the gravitational potential and the potential energy both drop to about half their original magnitude while staying negative, and the field magnitude drops to about one quarter.",
+      "explanation": "For one source mass, $\\\\phi \\\\propto -1/r$ and $U = m_{\\\\text{test}}\\\\phi$, so doubling $r$ halves both potential magnitudes. But $|\\\\vec{g}| \\\\propto 1/r^2$, so the field falls more steeply to one quarter."
+    }
+  },
+  "equations": [
+    {
+      "id": "distance-relation",
+      "latex": "r = \\\\sqrt{x_p^2 + y_p^2}",
+      "label": "Source-to-probe distance",
+      "meaning": "The current probe distance from the source mass sets the depth of the potential well and the field strength."
+    },
+    {
+      "id": "gravitational-potential",
+      "latex": "\\\\phi = -G\\\\dfrac{M}{r}",
+      "label": "Potential from one source mass",
+      "meaning": "The one-mass potential is negative when zero is defined at infinity, and its magnitude falls with distance.",
+      "notes": [
+        "This bounded lab fixes G = 1 in the displayed units so the readouts emphasize sign, scaling, and geometry."
+      ]
+    },
+    {
+      "id": "potential-energy",
+      "latex": "U = m_{\\\\text{test}}\\\\phi",
+      "label": "Potential energy of the probe mass",
+      "meaning": "The probe mass scales the potential energy without changing the potential set by the source."
+    },
+    {
+      "id": "field-from-potential",
+      "latex": "\\\\vec{g} = -\\\\nabla \\\\phi",
+      "label": "Field from potential",
+      "meaning": "The gravitational field points downhill on the potential landscape."
+    },
+    {
+      "id": "scan-line-slope",
+      "latex": "g_x = -\\\\dfrac{d\\\\phi}{dx}",
+      "label": "Horizontal scan-line link",
+      "meaning": "Along the current horizontal slice, the x-component of the field is the negative slope of the potential graph."
+    },
+    {
+      "id": "inverse-square",
+      "latex": "|\\\\vec{g}| = G\\\\dfrac{M}{r^2}",
+      "label": "Inverse-square field trend",
+      "meaning": "Potential weakens like 1/r, but field magnitude weakens faster like 1/r^2."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "sourceMass",
+      "symbol": "M",
+      "label": "Source mass",
+      "param": "sourceMass",
+      "tone": "ink",
+      "description": "Changes the source creating the well, so the potential, field, force, and energy curves all scale from the same mass.",
+      "equationIds": [
+        "gravitational-potential",
+        "inverse-square",
+        "potential-energy"
+      ],
+      "graphIds": [
+        "potential-energy-scan",
+        "field-link"
+      ],
+      "overlayIds": [
+        "potentialMap",
+        "potentialContours",
+        "fieldArrow"
+      ]
+    },
+    {
+      "id": "probeX",
+      "symbol": "x_p",
+      "label": "Probe x-position",
+      "param": "probeX",
+      "tone": "coral",
+      "description": "Moves the probe left or right across the stage and the linked scan graphs so the same x-location is sampled in both places.",
+      "equationIds": [
+        "distance-relation",
+        "gravitational-potential",
+        "scan-line-slope"
+      ],
+      "graphIds": [
+        "potential-energy-scan",
+        "field-link"
+      ],
+      "overlayIds": [
+        "fieldArrow",
+        "scanLine",
+        "distanceRings"
+      ]
+    },
+    {
+      "id": "probeY",
+      "symbol": "y_p",
+      "label": "Probe y-position",
+      "param": "probeY",
+      "tone": "sky",
+      "description": "Moves the probe to a different horizontal slice so the well, contour circles, and scan graphs all sample a new part of the same potential landscape.",
+      "equationIds": [
+        "distance-relation",
+        "gravitational-potential",
+        "field-from-potential"
+      ],
+      "graphIds": [
+        "potential-energy-scan",
+        "field-link"
+      ],
+      "overlayIds": [
+        "potentialMap",
+        "potentialContours",
+        "scanLine"
+      ]
+    },
+    {
+      "id": "testMass",
+      "symbol": "m_{\\\\text{test}}",
+      "label": "Probe mass",
+      "param": "testMass",
+      "tone": "amber",
+      "description": "Changes only the probe response, so U and the force on the probe scale while phi and g stay fixed at the same point.",
+      "equationIds": [
+        "potential-energy"
+      ],
+      "graphIds": [
+        "potential-energy-scan"
+      ],
+      "overlayIds": [
+        "forceArrow"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "sourceMass": 2,
+      "probeX": 1.6,
+      "probeY": 1.2,
+      "testMass": 1
+    },
+    "ui": {
+      "initialGraphId": "potential-energy-scan",
+      "primaryGraphIds": [
+        "potential-energy-scan"
+      ],
+      "primaryControlIds": [
+        "probeX",
+        "probeY"
+      ],
+      "primaryPresetIds": [
+        "baseline-diagonal",
+        "axis-one-meter",
+        "axis-two-meters",
+        "heavy-source",
+        "heavy-probe"
+      ]
+    },
+    "controls": [
+      {
+        "id": "sourceMass",
+        "kind": "slider",
+        "label": "Source mass",
+        "param": "sourceMass",
+        "min": 0.5,
+        "max": 5,
+        "step": 0.1,
+        "unit": "kg",
+        "description": "Changes the source mass creating the well, so both phi and |g| scale from the same cause."
+      },
+      {
+        "id": "probeX",
+        "kind": "slider",
+        "label": "Probe x-position",
+        "param": "probeX",
+        "min": -3.2,
+        "max": 3.2,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Moves the probe left or right across both the stage and the linked scan graphs."
+      },
+      {
+        "id": "probeY",
+        "kind": "slider",
+        "label": "Probe y-position",
+        "param": "probeY",
+        "min": -2.4,
+        "max": 2.4,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Moves the probe to a different horizontal scan line so the graphs sample a different slice through the well."
+      },
+      {
+        "id": "testMass",
+        "kind": "slider",
+        "label": "Probe mass",
+        "param": "testMass",
+        "min": 0.5,
+        "max": 4,
+        "step": 0.1,
+        "unit": "kg",
+        "description": "Changes the potential energy and probe force without changing the source-set potential or field."
+      }
+    ],
+    "presets": [
+      {
+        "id": "baseline-diagonal",
+        "label": "Baseline diagonal",
+        "description": "A diagonal probe location makes the well depth, inward field, and force all easy to compare on one clean reference state.",
+        "values": {
+          "sourceMass": 2,
+          "probeX": 1.6,
+          "probeY": 1.2,
+          "testMass": 1
+        }
+      },
+      {
+        "id": "axis-one-meter",
+        "label": "Axis 1 m",
+        "description": "A 1 m on-axis probe makes the potential and field ratios easy to compare against later distance changes.",
+        "values": {
+          "sourceMass": 2,
+          "probeX": 1,
+          "probeY": 0,
+          "testMass": 1
+        }
+      },
+      {
+        "id": "axis-two-meters",
+        "label": "Axis 2 m",
+        "description": "At 2 m on the same axis, phi and U should halve in magnitude while |g| falls to one quarter of the 1 m case.",
+        "values": {
+          "sourceMass": 2,
+          "probeX": 2,
+          "probeY": 0,
+          "testMass": 1
+        }
+      },
+      {
+        "id": "heavy-source",
+        "label": "Heavier source",
+        "description": "Doubling the source mass deepens the well and strengthens the field at the same probe point.",
+        "values": {
+          "sourceMass": 4,
+          "probeX": 1.6,
+          "probeY": 1.2,
+          "testMass": 1
+        }
+      },
+      {
+        "id": "heavy-probe",
+        "label": "Heavier probe",
+        "description": "A larger probe mass changes U and the force while the potential well stays fixed.",
+        "values": {
+          "sourceMass": 2,
+          "probeX": 1.6,
+          "probeY": 1.2,
+          "testMass": 2
+        }
+      },
+      {
+        "id": "overhead-well",
+        "label": "Overhead well",
+        "description": "A point directly above the source makes the contour circles and downhill field direction especially easy to read.",
+        "values": {
+          "sourceMass": 2,
+          "probeX": 0,
+          "probeY": 2,
+          "testMass": 1
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "potentialMap",
+        "label": "Potential map",
+        "shortDescription": "Shows the gravitational well as a bounded scalar map that grows darker and deeper near the source mass.",
+        "whatToNotice": [
+          "Farther from the source, the map lightens because phi rises back toward zero."
+        ],
+        "whyItMatters": "It makes the sign and depth of potential visible on one shared stage instead of leaving phi as an isolated number.",
+        "relatedControls": [
+          "sourceMass",
+          "probeX",
+          "probeY"
+        ],
+        "relatedGraphTabs": [
+          "potential-energy-scan"
+        ],
+        "relatedEquationVariables": [
+          "sourceMass",
+          "probeX",
+          "probeY"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "potentialContours",
+        "label": "Potential contours",
+        "shortDescription": "Draws equal-potential circles around the source mass for several negative phi values.",
+        "whatToNotice": [
+          "The field arrow cuts across the contour circles because it points downhill rather than along a contour."
+        ],
+        "whyItMatters": "Contour circles make it easier to read potential as one scalar landscape and to connect that landscape to the field direction.",
+        "relatedControls": [
+          "probeX",
+          "probeY"
+        ],
+        "relatedGraphTabs": [
+          "potential-energy-scan",
+          "field-link"
+        ],
+        "relatedEquationVariables": [
+          "probeX",
+          "probeY"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "distanceRings",
+        "label": "Distance rings",
+        "shortDescription": "Marks equal-distance circles around the source so 1/r and 1/r^2 comparisons stay geometric instead of abstract.",
+        "whatToNotice": [
+          "The 1 m, 2 m, and 3 m rings let you compare potential and field changes at matching radial steps."
+        ],
+        "whyItMatters": "Distance rings make the difference between halving phi and quartering |g| much easier to see before you calculate.",
+        "relatedControls": [
+          "probeX",
+          "probeY"
+        ],
+        "relatedGraphTabs": [
+          "potential-energy-scan",
+          "field-link"
+        ],
+        "relatedEquationVariables": [
+          "probeX",
+          "probeY"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "fieldArrow",
+        "label": "Field arrow",
+        "shortDescription": "Shows the local gravitational field as the downhill direction on the potential landscape.",
+        "whatToNotice": [
+          "The field arrow always points toward more negative phi and therefore toward the source mass."
+        ],
+        "whyItMatters": "It keeps the relation between field and potential attached to the same probe state instead of treating them like separate topics.",
+        "relatedControls": [
+          "probeX",
+          "probeY"
+        ],
+        "relatedGraphTabs": [
+          "field-link"
+        ],
+        "relatedEquationVariables": [
+          "probeX",
+          "probeY"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "forceArrow",
+        "label": "Force arrow",
+        "shortDescription": "Shows the force on the chosen positive probe mass without redefining the well itself.",
+        "whatToNotice": [
+          "Changing only the probe mass rescales this arrow while the potential map and field arrow stay fixed."
+        ],
+        "whyItMatters": "It separates the source-generated potential from the response of one chosen object placed in that potential well.",
+        "relatedControls": [
+          "testMass"
+        ],
+        "relatedGraphTabs": [
+          "potential-energy-scan"
+        ],
+        "relatedEquationVariables": [
+          "testMass"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "scanLine",
+        "label": "Graph scan line",
+        "shortDescription": "Marks the horizontal slice used by both scan graphs.",
+        "whatToNotice": [
+          "Changing the probe height changes the graph because the graph samples a new horizontal slice through the same well."
+        ],
+        "whyItMatters": "It keeps the graph-stage link honest so the potential and slope curves clearly come from one sampled slice on the stage.",
+        "relatedControls": [
+          "probeX",
+          "probeY"
+        ],
+        "relatedGraphTabs": [
+          "potential-energy-scan",
+          "field-link"
+        ],
+        "relatedEquationVariables": [
+          "probeX",
+          "probeY"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "potential-energy-scan",
+      "label": "Potential and energy on the scan line",
+      "xLabel": "probe x-position (m)",
+      "yLabel": "potential / potential energy",
+      "series": [
+        "gravitational-potential",
+        "gravitational-potential-energy"
+      ],
+      "description": "Shows how gravitational potential and the chosen probe's potential energy change along the current horizontal scan line."
+    },
+    {
+      "id": "field-link",
+      "label": "Field-slope link on the scan line",
+      "xLabel": "probe x-position (m)",
+      "yLabel": "field component / slope",
+      "series": [
+        "field-gx",
+        "negative-dphi-dx"
+      ],
+      "description": "Compares the horizontal field component with the negative slope of the potential graph on the same slice."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the current prompt as a compact investigation cue. Each one points at one honest feature of the same source mass, probe location, and scan line already on screen.",
+    "items": [
+      {
+        "id": "gp-notice-deeper-well",
+        "text": "Moving the probe inward makes phi more negative quickly. The well deepens faster than it first looks near the source.",
+        "type": "try-this",
+        "priority": 1,
+        "conditions": {
+          "lastChangedControls": [
+            "probeX",
+            "probeY"
+          ]
+        },
+        "tryThis": "Start on Axis 2 m and drag inward to Axis 1 m. Watch the readout, map, and scan curve deepen together.",
+        "whyItMatters": "Potential only falls like 1/r, but that still makes the near-source region much deeper than the far region.",
+        "relatedControls": [
+          "probeX",
+          "probeY"
+        ],
+        "relatedGraphTabs": [
+          "potential-energy-scan"
+        ],
+        "relatedOverlays": [
+          "potentialMap",
+          "distanceRings"
+        ],
+        "relatedEquationVariables": [
+          "probeX",
+          "probeY"
+        ]
+      },
+      {
+        "id": "gp-notice-zero-at-infinity",
+        "text": "Farther from the source, phi rises toward zero while staying negative because this model defines zero infinitely far away.",
+        "type": "misconception",
+        "priority": 2,
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "probeX",
+              "min": 1.8,
+              "max": 3.2
+            }
+          ]
+        },
+        "tryThis": "Use the Axis 2 m preset, then move even farther out and watch the readout approach zero from below.",
+        "whyItMatters": "It clarifies that the sign of potential comes from a reference choice, not from a reversed force direction.",
+        "relatedControls": [
+          "probeX"
+        ],
+        "relatedGraphTabs": [
+          "potential-energy-scan"
+        ],
+        "relatedOverlays": [
+          "potentialMap",
+          "potentialContours"
+        ]
+      },
+      {
+        "id": "gp-notice-field-slope",
+        "text": "Along this horizontal slice, the g_x curve follows the negative slope of phi(x), so the field is the downhill direction on the potential graph.",
+        "type": "graph-reading",
+        "priority": 3,
+        "conditions": {
+          "graphTabs": [
+            "field-link"
+          ]
+        },
+        "tryThis": "Find a place where phi increases with x. The slope there is positive, so the g_x curve should sit below zero.",
+        "whyItMatters": "This is the clean bridge between the scalar potential picture and the vector field picture.",
+        "relatedControls": [
+          "probeX",
+          "probeY"
+        ],
+        "relatedGraphTabs": [
+          "field-link"
+        ],
+        "relatedOverlays": [
+          "fieldArrow",
+          "scanLine"
+        ],
+        "relatedEquationVariables": [
+          "probeX",
+          "probeY"
+        ]
+      },
+      {
+        "id": "gp-notice-test-mass",
+        "text": "Changing only m_test leaves phi and g alone but rescales U and the force on the probe immediately.",
+        "type": "misconception",
+        "priority": 4,
+        "conditions": {
+          "lastChangedControls": [
+            "testMass"
+          ]
+        },
+        "tryThis": "Keep the probe fixed, then drag the probe-mass slider upward. Watch U change while the potential map and field-link graph stay put.",
+        "whyItMatters": "It cleanly separates the source-generated well from the response of one chosen object placed in that well.",
+        "relatedControls": [
+          "testMass"
+        ],
+        "relatedGraphTabs": [
+          "potential-energy-scan"
+        ],
+        "relatedOverlays": [
+          "forceArrow",
+          "fieldArrow"
+        ],
+        "relatedEquationVariables": [
+          "testMass"
+        ]
+      },
+      {
+        "id": "gp-notice-compare-ratios",
+        "text": "Compare mode is most revealing when one setup doubles the distance and the other doubles the probe mass. One changes phi and g; the other changes only U and F.",
+        "type": "compare",
+        "priority": 5,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Keep Setup A on Axis 1 m, make Setup B either Axis 2 m or Heavier probe, and compare the stage readouts with the two graphs.",
+        "whyItMatters": "It makes the difference between geometry changes and probe-response changes visible without leaving the same compact model.",
+        "relatedControls": [
+          "probeX",
+          "probeY",
+          "testMass"
+        ],
+        "relatedGraphTabs": [
+          "potential-energy-scan",
+          "field-link"
+        ],
+        "relatedOverlays": [
+          "distanceRings",
+          "forceArrow",
+          "fieldArrow"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the potential response before you apply the change. Each scenario isolates one causal idea so the potential well, energy readout, and field link can be checked against the same live geometry.",
+    "items": [
+      {
+        "id": "gp-pred-double-distance",
+        "prompt": "Starting from Axis 1 m, what should happen if the probe moves to 2 m on the same horizontal line while the masses stay fixed?",
+        "scenarioLabel": "Double the distance",
+        "changeLabel": "Distance",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The magnitudes of phi and U fall to about one half, while the field magnitude falls to about one quarter."
+          },
+          {
+            "id": "b",
+            "label": "The magnitudes of phi, U, and |g| all fall to one half because the distance doubled."
+          },
+          {
+            "id": "c",
+            "label": "Only the field changes because potential depends on source mass but not on distance."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "For one source mass, phi scales like -1/r, so doubling r halves the potential magnitude. With the same probe mass, U halves too. But the field follows 1/r^2, so |g| falls to one quarter.",
+        "observationHint": "Use the distance rings and compare the potential scan with the field-link graph together.",
+        "apply": {
+          "presetId": "axis-two-meters"
+        },
+        "highlightedControls": [
+          "probeX",
+          "probeY"
+        ],
+        "highlightedGraphs": [
+          "potential-energy-scan",
+          "field-link"
+        ],
+        "highlightedOverlays": [
+          "distanceRings",
+          "scanLine"
+        ]
+      },
+      {
+        "id": "gp-pred-heavy-source",
+        "prompt": "At one fixed probe point, what must happen if the source mass doubles while the probe mass and geometry stay fixed?",
+        "scenarioLabel": "Double the source mass",
+        "changeLabel": "Source mass",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The well gets deeper, so phi and U become twice as negative in magnitude and the field magnitude doubles."
+          },
+          {
+            "id": "b",
+            "label": "Only the field doubles because potential ignores source mass."
+          },
+          {
+            "id": "c",
+            "label": "The sign of phi flips because the source mass got larger."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Source mass sets the scale of the whole one-mass model. Doubling M doubles phi, U, and |g| in magnitude at the same point while keeping the same negative-sign and inward-direction meanings.",
+        "observationHint": "The map deepens, the readout becomes more negative, and the field arrow grows without changing its inward direction.",
+        "apply": {
+          "presetId": "heavy-source"
+        },
+        "highlightedControls": [
+          "sourceMass"
+        ],
+        "highlightedGraphs": [
+          "potential-energy-scan",
+          "field-link"
+        ],
+        "highlightedOverlays": [
+          "potentialMap",
+          "fieldArrow"
+        ]
+      },
+      {
+        "id": "gp-pred-heavy-probe",
+        "prompt": "If only the probe mass doubles at the same point, which statement is most defensible?",
+        "scenarioLabel": "Double the probe mass",
+        "changeLabel": "Probe mass",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The potential and field stay the same, but U and the force on the probe double in magnitude."
+          },
+          {
+            "id": "b",
+            "label": "The potential well deepens because there is now more total mass in the interaction."
+          },
+          {
+            "id": "c",
+            "label": "The field direction flips because the probe is now heavier."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The source mass and distance define phi and g. Changing only m_test multiplies the existing potential to make U and multiplies the existing field to make force, but it does not rewrite the source-generated well.",
+        "observationHint": "The potential map and field-link graph stay fixed while the U curve and force readout grow.",
+        "apply": {
+          "presetId": "heavy-probe"
+        },
+        "highlightedControls": [
+          "testMass"
+        ],
+        "highlightedGraphs": [
+          "potential-energy-scan"
+        ],
+        "highlightedOverlays": [
+          "forceArrow",
+          "fieldArrow"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Tune the same one-mass gravity well into compact targets. The checks read the live potential, energy, and field state instead of a detached answer sheet.",
+    "items": [
+      {
+        "id": "gp-ch-half-potential-quarter-field",
+        "title": "Half the potential, quarter the field",
+        "style": "target-setting",
+        "prompt": "Starting from Axis 1 m, move the probe to the doubled-distance case on the same horizontal line so phi is about half as deep and the field magnitude is about one quarter as large.",
+        "successMessage": "You kept the one-mass model honest: doubling the distance halved the depth of the potential well while the inverse-square field fell to about one quarter.",
+        "setup": {
+          "presetId": "axis-one-meter",
+          "graphId": "potential-energy-scan",
+          "overlayIds": [
+            "distanceRings",
+            "scanLine"
+          ],
+          "note": "Keep the source mass and probe mass fixed. Use the rings, the potential scan, and the field-link graph together."
+        },
+        "requirements": {
+          "graphId": "potential-energy-scan",
+          "overlayIds": [
+            "distanceRings",
+            "scanLine"
+          ]
+        },
+        "hints": [
+          "Stay on the horizontal axis so the comparison is only about distance, not about a new probe direction.",
+          "Potential follows 1/r, but the field follows 1/r^2. Do not aim for the same ratio on both readouts."
+        ],
+        "targets": [
+          {
+            "param": "probeX",
+            "min": 1.95,
+            "max": 2.05,
+            "displayUnit": "m"
+          },
+          {
+            "param": "probeY",
+            "min": -0.05,
+            "max": 0.05,
+            "displayUnit": "m"
+          },
+          {
+            "metric": "potential",
+            "min": -1.05,
+            "max": -0.95
+          },
+          {
+            "metric": "potentialEnergy",
+            "min": -1.05,
+            "max": -0.95
+          },
+          {
+            "metric": "fieldMagnitude",
+            "min": 0.48,
+            "max": 0.52
+          }
+        ]
+      },
+      {
+        "id": "gp-ch-double-energy-not-potential",
+        "title": "Double the energy, not the potential",
+        "style": "target-setting",
+        "prompt": "Starting from Baseline diagonal, change only the probe mass so the potential energy doubles in magnitude while the potential and field stay fixed.",
+        "successMessage": "You changed the probe response without rewriting the well: U became more negative in proportion to m_test while phi and g stayed fixed.",
+        "setup": {
+          "presetId": "baseline-diagonal",
+          "graphId": "potential-energy-scan",
+          "overlayIds": [
+            "forceArrow",
+            "fieldArrow"
+          ],
+          "note": "Leave the source mass and probe position alone. Only the probe mass should move."
+        },
+        "requirements": {
+          "graphId": "potential-energy-scan",
+          "overlayIds": [
+            "forceArrow",
+            "fieldArrow"
+          ]
+        },
+        "hints": [
+          "If phi should stay fixed, do not touch the source mass or the probe coordinates.",
+          "Use U = m_test phi. Doubling m_test doubles the energy magnitude at the same point."
+        ],
+        "targets": [
+          {
+            "param": "testMass",
+            "min": 1.95,
+            "max": 2.05,
+            "displayUnit": "kg"
+          },
+          {
+            "metric": "potential",
+            "min": -1.01,
+            "max": -0.99
+          },
+          {
+            "metric": "potentialEnergy",
+            "min": -2.02,
+            "max": -1.98
+          },
+          {
+            "metric": "fieldMagnitude",
+            "min": 0.49,
+            "max": 0.51
+          },
+          {
+            "metric": "forceMagnitude",
+            "min": 0.99,
+            "max": 1.01
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live potential-well logic, not from detached formulas. Each question asks what the map, contours, or scan graphs must mean about gravitational potential and energy.",
+    "questions": [
+      {
+        "id": "gp-qt-distance-potential",
+        "type": "variable-effect",
+        "prompt": "A probe moves from 1 m to 2 m away from one source mass on the same axis while the masses stay fixed. What must happen to the gravitational potential?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It stays negative but moves closer to zero, with about half the original magnitude."
+          },
+          {
+            "id": "b",
+            "label": "It becomes positive because the probe moved farther away."
+          },
+          {
+            "id": "c",
+            "label": "It stays exactly the same because the source mass did not change."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "For one source mass, phi = -GM/r. Doubling r halves the magnitude of phi while keeping the same negative sign when zero is defined at infinity.",
+        "selectedWrongExplanations": {
+          "b": "Changing distance changes the size of the potential, not the reference choice that keeps one-source gravity negative in this model.",
+          "c": "Source mass matters, but distance matters too. Larger r raises phi toward zero."
+        },
+        "showMeAction": {
+          "label": "Show the 2 m case",
+          "presetId": "axis-two-meters",
+          "observationHint": "Compare it mentally with Axis 1 m: the readout is less negative and the map is visibly shallower.",
+          "highlightedControlIds": [
+            "probeX",
+            "probeY"
+          ],
+          "highlightedGraphIds": [
+            "potential-energy-scan"
+          ],
+          "highlightedOverlayIds": [
+            "potentialMap",
+            "distanceRings"
+          ]
+        }
+      },
+      {
+        "id": "gp-qt-negative-potential-meaning",
+        "type": "misconception-check",
+        "prompt": "A student says, \"Because gravitational potential is negative near the source, the gravitational field there must point outward.\" What is the best correction?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Negative phi means the point is below the zero-at-infinity reference, while the field still points inward as the downhill direction of the well."
+          },
+          {
+            "id": "b",
+            "label": "Negative phi means the source mass is actually repelling the probe."
+          },
+          {
+            "id": "c",
+            "label": "Negative phi means both the field and the force are zero there."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The sign of potential comes from the reference choice, not from a flipped force. Gravity still points inward because the field follows the downhill direction on the potential landscape.",
+        "selectedWrongExplanations": {
+          "b": "That would reverse the meaning of gravity in this model. The source mass still attracts the probe.",
+          "c": "A negative potential does not erase the field. Near the source, the field is usually stronger, not zero."
+        },
+        "showMeAction": {
+          "label": "Show the overhead well",
+          "presetId": "overhead-well",
+          "observationHint": "The readout is negative, but the field arrow still points toward the source mass.",
+          "highlightedControlIds": [
+            "probeX",
+            "probeY"
+          ],
+          "highlightedGraphIds": [
+            "field-link"
+          ],
+          "highlightedOverlayIds": [
+            "potentialContours",
+            "fieldArrow"
+          ]
+        }
+      },
+      {
+        "id": "gp-qt-probe-mass",
+        "type": "reasoning",
+        "prompt": "At one fixed point, the probe mass doubles while the source mass and probe position stay fixed. Which claim is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The potential and field stay the same, but the potential energy doubles in magnitude."
+          },
+          {
+            "id": "b",
+            "label": "The potential well becomes twice as deep because there is more total mass in the interaction."
+          },
+          {
+            "id": "c",
+            "label": "The field direction reverses because the probe is heavier."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The source mass and the geometry set phi and g. Changing only the probe mass rescales U = m_test phi and the probe force without changing the source-generated well.",
+        "selectedWrongExplanations": {
+          "b": "In this bounded lab, the source mass creates the well. The probe mass responds to it but does not redefine it.",
+          "c": "Changing probe mass changes size of the response, not the direction of the source-generated field."
+        },
+        "showMeAction": {
+          "label": "Show the heavier probe",
+          "presetId": "heavy-probe",
+          "observationHint": "The U readout and force grow, but the potential map and field-link graph stay fixed.",
+          "highlightedControlIds": [
+            "testMass"
+          ],
+          "highlightedGraphIds": [
+            "potential-energy-scan"
+          ],
+          "highlightedOverlayIds": [
+            "forceArrow",
+            "fieldArrow"
+          ]
+        }
+      },
+      {
+        "id": "gp-qt-slope-link",
+        "type": "graph-reading",
+        "prompt": "Along the current horizontal scan line, the potential graph rises as x increases through a region. What must be true about g_x there?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "g_x is negative there because g_x = -dphi/dx and the slope is positive."
+          },
+          {
+            "id": "b",
+            "label": "g_x is zero there because the potential is changing smoothly."
+          },
+          {
+            "id": "c",
+            "label": "g_x is positive there because the potential graph is going upward."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A rising graph has positive slope, so the negative sign in g_x = -dphi/dx makes the horizontal field component negative there.",
+        "selectedWrongExplanations": {
+          "b": "Smooth change does not mean zero slope. Only a flat graph would make g_x vanish along that slice.",
+          "c": "The field uses the negative slope, not the slope itself."
+        },
+        "showMeAction": {
+          "label": "Show the slope-field link",
+          "presetId": "baseline-diagonal",
+          "observationHint": "Hover the field-link graph and compare the sign of the phi slope with the sign of g_x.",
+          "highlightedControlIds": [
+            "probeX",
+            "probeY"
+          ],
+          "highlightedGraphIds": [
+            "field-link"
+          ],
+          "highlightedOverlayIds": [
+            "fieldArrow",
+            "scanLine"
+          ]
+        }
+      },
+      {
+        "id": "gp-qt-source-mass",
+        "type": "compare-two-cases",
+        "prompt": "At the same probe point, Setup A uses a 2 kg source mass and Setup B uses a 4 kg source mass, while the probe mass is 1 kg in both cases. Which statement is best?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Setup B has twice the magnitude of phi and twice the field magnitude, while both still keep the same sign and direction meanings."
+          },
+          {
+            "id": "b",
+            "label": "Only the field magnitude changes because potential ignores source mass."
+          },
+          {
+            "id": "c",
+            "label": "The heavier source makes phi positive because the well is deeper."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "For one source mass at a fixed point, both phi and |g| scale directly with M. Doubling the source mass deepens the negative potential well and strengthens the inward field by the same factor.",
+        "selectedWrongExplanations": {
+          "b": "Potential is still source-set, so changing M changes phi as well as |g|.",
+          "c": "A deeper well means phi becomes more negative, not positive, when zero is defined at infinity."
+        },
+        "showMeAction": {
+          "label": "Show the heavier source",
+          "presetId": "heavy-source",
+          "observationHint": "The map deepens and the field arrow strengthens at the same point when M doubles.",
+          "highlightedControlIds": [
+            "sourceMass"
+          ],
+          "highlightedGraphIds": [
+            "potential-energy-scan",
+            "field-link"
+          ],
+          "highlightedOverlayIds": [
+            "potentialMap",
+            "fieldArrow"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one source mass fixed at the origin, a movable positive probe mass in a bounded two-dimensional gravity well, and optional overlays for a potential map, equal-potential contour circles, equal-distance rings, the local field arrow, the force arrow on the probe mass, and the horizontal scan line used by the graphs.",
+        "Dragging the probe changes the sampled location directly on the stage. The focused probe handle also responds to arrow keys for small position changes, and sliders provide the same controls for source mass, probe position, and probe mass.",
+        "Very near the source mass, the display uses a minimum sampling radius so the well depth, arrows, and graphs stay finite and readable. This keeps the visualization bounded while preserving the correct trend that potential becomes more negative and the field grows rapidly near the source."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The potential-energy-scan graph plots gravitational potential and the chosen probe's potential energy along the current horizontal scan line. Hovering the graph previews the same x-location on the stage.",
+        "The field-link graph plots the horizontal gravitational field component and the matching negative slope of the potential graph along that same scan line. Changing the probe mass rescales the energy curve, but the field-link graph remains a source-mass and geometry readout."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Gravitational Potential and Potential Energy | Open Model Lab",
+    "description": "Learn gravitational potential and potential energy with a compact one-mass lab that links negative potential wells, energy-versus-distance reasoning, downhill field direction, prediction prompts, and conceptual quick tests.",
+    "keywords": [
+      "gravitational potential",
+      "gravitational potential energy",
+      "gravity well",
+      "inverse square law",
+      "physics simulation"
+    ]
+  },
+  "v2": {
+    "intuition": "Gravitational potential is the shape of the well before you choose a particular object to drop into it: the source mass and distance set phi, then probe mass turns that same phi into potential energy.",
+    "whyItMatters": "This gives the energy version of the gravitational-field story. The same geometry explains why potential changes like 1/r, field strength changes like 1/r², and a heavier probe changes U without changing the well.",
+    "estimatedMinutes": 16,
+    "equationSnapshot": {
+      "equationIds": [
+        "gravitational-potential",
+        "potential-energy",
+        "field-from-potential"
+      ],
+      "note": "Read these as one chain: the source sets the potential well, the probe mass converts that well into U, and the field points downhill on the same landscape."
+    },
+    "startSetup": {
+      "presetId": "baseline-diagonal",
+      "graphId": "potential-energy-scan",
+      "overlayIds": [
+        "potentialMap",
+        "potentialContours",
+        "distanceRings",
+        "fieldArrow",
+        "scanLine"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-potential-well",
+        "title": "Read the well",
+        "goal": "Treat phi as a scalar well depth at the probe point before thinking about force.",
+        "doThis": "Start from Baseline diagonal with the potential map, contours, field arrow, and scan line visible. Move the probe a little and watch the readout and scan graph move together.",
+        "notice": "The potential stays negative and becomes less negative farther from the source. The arrow gives direction, but phi itself is just the local well depth.",
+        "explain": "With zero at infinity, one source mass makes phi = -M/r in this scaled lab. Distance and source mass set the well; probe mass is not part of phi.",
+        "reveal": {
+          "controlIds": [
+            "probeX",
+            "probeY"
+          ],
+          "graphIds": [
+            "potential-energy-scan"
+          ],
+          "overlayIds": [
+            "potentialMap",
+            "potentialContours",
+            "fieldArrow",
+            "scanLine"
+          ]
+        },
+        "setup": {
+          "presetId": "baseline-diagonal",
+          "graphId": "potential-energy-scan",
+          "overlayIds": [
+            "potentialMap",
+            "potentialContours",
+            "fieldArrow",
+            "scanLine"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "gp-qt-negative-potential-meaning"
+          ]
+        }
+      },
+      {
+        "id": "double-the-distance",
+        "title": "Double distance",
+        "goal": "Separate the 1/r potential pattern from the 1/r² field pattern using one clean comparison.",
+        "doThis": "Switch between Axis 1 m and Axis 2 m while the distance rings, potential scan, and field-link graph are available.",
+        "notice": "At 2 m, phi and U are about half as deep as at 1 m, but the field magnitude is only about one quarter as large.",
+        "explain": "Potential is an energy-per-kilogram quantity that follows 1/r. Field strength is the downhill rate of change, so around one source it falls faster, like 1/r².",
+        "reveal": {
+          "controlIds": [
+            "probeX",
+            "probeY"
+          ],
+          "graphIds": [
+            "potential-energy-scan",
+            "field-link"
+          ],
+          "overlayIds": [
+            "distanceRings",
+            "scanLine",
+            "fieldArrow"
+          ]
+        },
+        "setup": {
+          "presetId": "axis-one-meter",
+          "graphId": "potential-energy-scan",
+          "overlayIds": [
+            "distanceRings",
+            "scanLine",
+            "fieldArrow"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "gp-pred-double-distance"
+          ]
+        }
+      },
+      {
+        "id": "separate-source-from-probe",
+        "title": "Source vs probe",
+        "goal": "Decide which changes rewrite the gravitational well and which only change this probe’s response.",
+        "doThis": "Compare Heavier source with Heavier probe at the same location. Keep the potential-energy scan open and watch which curves and arrows change.",
+        "notice": "A heavier source deepens the well and strengthens the field. A heavier probe leaves phi and g alone but doubles U and the force on that probe.",
+        "explain": "The source mass belongs in phi and g. The probe mass enters afterward through U = m_test phi and F = m_test g.",
+        "reveal": {
+          "controlIds": [
+            "sourceMass",
+            "testMass"
+          ],
+          "graphIds": [
+            "potential-energy-scan",
+            "field-link"
+          ],
+          "overlayIds": [
+            "potentialMap",
+            "fieldArrow",
+            "forceArrow"
+          ]
+        },
+        "setup": {
+          "presetId": "heavy-probe",
+          "graphId": "potential-energy-scan",
+          "overlayIds": [
+            "potentialMap",
+            "fieldArrow",
+            "forceArrow"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "gp-pred-heavy-source",
+            "gp-pred-heavy-probe"
+          ]
+        }
+      },
+      {
+        "id": "check-the-slope-story",
+        "title": "Check the slope",
+        "goal": "Use the potential graph to explain the field direction instead of memorizing it separately.",
+        "doThis": "Open the field-link graph from Baseline diagonal and compare the sign of the potential slope with the horizontal field component.",
+        "notice": "Where the potential graph rises as x increases, g_x is negative. The field points downhill, so it uses the negative slope of phi.",
+        "explain": "Potential and field are two views of the same landscape: phi is the height/depth value, and g is the downhill direction and steepness.",
+        "reveal": {
+          "controlIds": [
+            "probeX",
+            "probeY"
+          ],
+          "graphIds": [
+            "field-link"
+          ],
+          "overlayIds": [
+            "fieldArrow",
+            "potentialContours",
+            "scanLine"
+          ]
+        },
+        "setup": {
+          "presetId": "baseline-diagonal",
+          "graphId": "field-link",
+          "overlayIds": [
+            "fieldArrow",
+            "potentialContours",
+            "scanLine"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "gp-qt-slope-link",
+            "gp-qt-probe-mass"
+          ]
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Gravitational potential is a scalar well depth set by source mass and distance, with zero defined at infinity in this model.",
+        "Potential energy is U = m_test phi, so changing only the probe mass changes U without changing the potential well.",
+        "Doubling distance halves the magnitude of phi and U for a fixed probe, while the field magnitude falls to one quarter.",
+        "The gravitational field points downhill on the potential landscape, matching the negative slope of phi on a scan line."
+      ],
+      "misconception": "A negative potential does not mean gravity points outward or disappears. It means the point sits below the zero-at-infinity reference; the field still points downhill toward the source.",
+      "workedExampleRefs": [
+        "current-gravitational-potential",
+        "current-gravitational-potential-energy"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "circular-orbits-orbital-speed",
+          "title": "Circular Orbits and Orbital Speed",
+          "reasonLabel": "Use the same gravity model to set a circular-orbit speed."
+        },
+        {
+          "slug": "escape-velocity",
+          "title": "Escape Velocity",
+          "reasonLabel": "Turn negative energy into the threshold for leaving the well."
+        },
+        {
+          "slug": "electric-potential",
+          "title": "Electric Potential",
+          "reasonLabel": "Compare gravitational and electric potential language."
+        }
+      ],
+      "freePlayPrompt": "Build a three-case comparison: double distance, double source mass, then double only probe mass. Say which quantities changed because the well changed and which changed because the probe response changed."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "accessibility"
+    ]
+  }
+}

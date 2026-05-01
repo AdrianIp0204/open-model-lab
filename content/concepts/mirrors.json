@@ -1,0 +1,1207 @@
+{
+  "pageIntro": {
+    "definition": "Use plane, concave, and convex mirrors to track equal-angle reflection, signed image distance, and magnification on the same live ray diagram.",
+    "keyTakeaway": "Mirror image behavior is not a list of separate cases: equal-angle reflection sets the rays, the sign of d_i tells real versus virtual side, and the sign and size of m tell orientation and scale.",
+    "whyItMatters": "Mirrors turn one equal-angle rule into very different image outcomes, so reading the rays and signs together helps you predict what a bathroom mirror, makeup mirror, or security mirror will do."
+  },
+  "v2": {
+    "intuition": "Start with one object arrow and one mirror, then watch where the reflected rays actually meet—or only appear to meet when you extend them backward.",
+    "whyItMatters": "Plane, concave, and convex mirrors are easier to predict when you connect the ray picture, signed image distance, and magnification instead of memorizing three disconnected case lists.",
+    "estimatedMinutes": 25,
+    "startSetup": {
+      "presetId": "concave-real",
+      "graphId": "image-map",
+      "overlayIds": [
+        "equalAngles",
+        "principalRays",
+        "focusMarkers"
+      ],
+      "note": "Begin with a concave mirror where the reflected rays meet in front of the mirror, then compare each later case against this real-image reference."
+    },
+    "equationSnapshot": {
+      "note": "Use equal-angle reflection to draw the rays, then use the mirror equation and magnification signs to name the image side, orientation, and size.",
+      "equationIds": [
+        "law-of-reflection",
+        "mirror-equation",
+        "magnification"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-ray-meeting-point",
+        "title": "Read the ray meeting point",
+        "goal": "Decide whether the current image is real or virtual from the ray diagram before using a formula.",
+        "doThis": "Keep the concave real-image preset on, show Principal rays and Equal-angle cue, and look for where the reflected rays meet.",
+        "notice": "The real image sits in front of the mirror because the reflected rays physically cross there, and the image arrow is inverted.",
+        "explain": "A real image is screen-ready because light actually passes through the image point. The formula sign should agree with that visible ray crossing.",
+        "setup": {
+          "presetId": "concave-real",
+          "graphId": "image-map",
+          "overlayIds": [
+            "equalAngles",
+            "principalRays",
+            "focusMarkers"
+          ],
+          "note": "Use the real-image reference as the baseline for the rest of the lesson."
+        },
+        "reveal": {
+          "controlIds": [
+            "curved",
+            "concave",
+            "objectDistance"
+          ],
+          "graphIds": [
+            "image-map"
+          ],
+          "overlayIds": [
+            "equalAngles",
+            "principalRays",
+            "focusMarkers"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Can this image land on a screen?",
+          "questionIds": [
+            "mi-qt-screen"
+          ]
+        }
+      },
+      {
+        "id": "connect-signs-to-image-behavior",
+        "title": "Connect signs to behavior",
+        "goal": "Use d_i and m as a compact description of side, orientation, and size.",
+        "doThis": "Open the Object to image map and Magnification graphs, then move Object distance while the mirror stays concave.",
+        "notice": "Outside F, positive d_i pairs with negative m: the image is real, in front of the mirror, and inverted.",
+        "explain": "The mirror equation gives the signed image distance, while m = -d_i/d_o translates that same location into orientation and size.",
+        "reveal": {
+          "controlIds": [
+            "objectDistance",
+            "focalLength"
+          ],
+          "graphIds": [
+            "image-map",
+            "magnification"
+          ],
+          "overlayIds": [
+            "focusMarkers",
+            "principalRays",
+            "distanceGuide"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Predict the sign pair",
+          "predictionIds": [
+            "mi-predict-plane-to-concave"
+          ]
+        }
+      },
+      {
+        "id": "cross-the-focal-point",
+        "title": "Cross the focal point",
+        "goal": "See why a concave mirror flips from real inverted to virtual upright inside F.",
+        "doThis": "Start from Concave real image, slide the object inward past F, and compare the ray diagram with both graphs.",
+        "notice": "Near F the image distance grows dramatically; inside F the rays no longer meet in front, so backward extensions define a virtual upright image behind the mirror.",
+        "explain": "Crossing F changes the sign of d_i and m together. That shared sign flip is the signal that the image side and orientation both changed.",
+        "setup": {
+          "presetId": "concave-real",
+          "graphId": "image-map",
+          "overlayIds": [
+            "focusMarkers",
+            "principalRays",
+            "distanceGuide"
+          ],
+          "note": "Move only the object distance so the focal crossing stays easy to see."
+        },
+        "reveal": {
+          "controlIds": [
+            "objectDistance"
+          ],
+          "graphIds": [
+            "image-map",
+            "magnification"
+          ],
+          "overlayIds": [
+            "focusMarkers",
+            "principalRays",
+            "distanceGuide"
+          ]
+        },
+        "inlineCheck": {
+          "title": "What changes inside F?",
+          "predictionIds": [
+            "mi-predict-cross-focus"
+          ],
+          "questionIds": [
+            "mi-qt-cross-focus"
+          ]
+        }
+      },
+      {
+        "id": "compare-plane-concave-and-convex",
+        "title": "Compare the three mirrors",
+        "goal": "Separate what stays the same—the reflection law—from what changes in image type and magnification.",
+        "doThis": "Try Plane mirror, Concave real image, Concave inside focus, and Convex mirror presets, keeping the image-map graph visible.",
+        "notice": "The equal-angle rule stays true in every case, but plane and convex mirrors stay virtual while concave mirrors can switch branches.",
+        "explain": "Mirror type changes how reflected rays combine after they obey the same reflection law. The graph branch and m sign are the quick check on your ray reading.",
+        "reveal": {
+          "controlIds": [
+            "curved",
+            "concave",
+            "objectDistance",
+            "focalLength"
+          ],
+          "graphIds": [
+            "image-map",
+            "magnification"
+          ],
+          "overlayIds": [
+            "equalAngles",
+            "principalRays",
+            "distanceGuide"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Use the live targets",
+          "predictionIds": [
+            "mi-predict-convex"
+          ],
+          "questionIds": [
+            "mi-qt-plane",
+            "mi-qt-convex"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Use equal-angle reflection as the common rule behind every mirror on the page.",
+        "Read real versus virtual image type from where reflected rays meet or only appear to meet.",
+        "Use the signs of d_i and m to name image side, orientation, and size change.",
+        "Predict how plane, concave, and convex mirrors differ without memorizing separate rule lists."
+      ],
+      "misconception": "A virtual image is not fake; it is a consistent apparent location found by extending reflected rays backward.",
+      "workedExampleRefs": [
+        "solve-image-distance",
+        "solve-image-height"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "lens-imaging",
+          "reasonLabel": "Apply signed imaging to lenses"
+        },
+        {
+          "slug": "refraction-snells-law",
+          "reasonLabel": "Trace rays across boundaries"
+        },
+        {
+          "slug": "wave-interference",
+          "reasonLabel": "Contrast ray and wave optics"
+        }
+      ],
+      "freePlayPrompt": "Pick one image target, predict the sign of d_i and m first, then move only one mirror control until the ray diagram and graph agree."
+    },
+    "referenceSections": [
+      "explanation",
+      "workedExamples",
+      "quickTest",
+      "accessibility"
+    ]
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Mirror imaging starts from one compact rule: the angle of incidence equals the angle of reflection. Once that geometric rule is applied consistently, the reflected rays either meet in front of the mirror to make a real image or only appear to meet behind the mirror to make a virtual image.",
+        "This module keeps the stage deliberately bounded. You switch between plane, concave, and convex mirrors, then change focal-length magnitude, object distance, and object height. The ray diagram, signed mirror equation, magnification, worked examples, prediction mode, compare mode, and response graphs all stay tied to that same mirror geometry."
+      ]
+    },
+    "keyIdeas": [
+      "A plane mirror keeps the image virtual, upright, and the same size, with the image the same distance behind the mirror as the object is in front.",
+      "A concave mirror can make a real inverted image in front of the mirror when the object is outside the focal length, but it flips to a virtual upright image behind the mirror when the object moves inside the focal length.",
+      "A convex mirror always makes a virtual upright reduced image, and the signed mirror equation plus magnification explain that behavior without needing a separate rulebook."
+    ],
+    "commonMisconception": {
+      "myth": "A virtual image is fake because no light actually goes there, so it does not count as an image.",
+      "correction": [
+        "A virtual image is still a real geometric result. The reflected rays do not cross there physically, but their backward extensions do meet there consistently.",
+        "That is why your eye still receives the reflected light in a way that makes the image appear at a definite location behind the mirror."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked examples",
+      "intro": "Solve the current mirror, not a detached worksheet. The substitutions follow the live controls, and the same signed values stay visible on the stage and in the graphs.",
+      "items": [
+        {
+          "id": "solve-image-distance",
+          "title": "Solve the image distance",
+          "prompt": "For the current {{mirrorFamilyValue}} mirror, what signed image distance follows from the mirror equation?",
+          "variables": [
+            {
+              "id": "focal-length",
+              "variableId": "focal-length",
+              "symbol": "f",
+              "label": "Signed focal length",
+              "valueKey": "signedFocalLengthValue",
+              "unit": "m"
+            },
+            {
+              "id": "object-distance",
+              "variableId": "object-distance",
+              "symbol": "d_o",
+              "label": "Object distance",
+              "valueKey": "objectDistanceValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Start from the mirror relation",
+              "template": "Use $\\dfrac{1}{f} = \\dfrac{1}{d_o} + \\dfrac{1}{d_i}$."
+            },
+            {
+              "id": "rearrange",
+              "label": "2. Rearrange for the signed image distance",
+              "template": "$\\dfrac{1}{d_i} = \\dfrac{1}{f} - \\dfrac{1}{d_o} = {{reciprocalFValue}} - {{reciprocalObjectValue}} = {{reciprocalImageValue}}$."
+            },
+            {
+              "id": "result",
+              "label": "3. Invert the result",
+              "template": "So $d_i = {{imageDistanceValue}}\\,\\mathrm{m}$."
+            }
+          ],
+          "resultLabel": "Signed image distance",
+          "resultTemplate": "$d_i = {{imageDistanceValue}}\\,\\mathrm{m}$",
+          "interpretationTemplate": "{{imageDistanceInterpretation}}",
+          "applyAction": {
+            "label": "Apply plane mirror",
+            "presetId": "plane-reference",
+            "observationHint": "The plane mirror makes the signed focal length effectively infinite, so the result collapses to equal-distance geometry behind the mirror.",
+            "highlightedControlIds": [
+              "curved",
+              "objectDistance"
+            ],
+            "highlightedGraphIds": [
+              "image-map"
+            ],
+            "highlightedOverlayIds": [
+              "distanceGuide",
+              "principalRays"
+            ]
+          }
+        },
+        {
+          "id": "solve-image-height",
+          "title": "Solve the image height",
+          "prompt": "For the current mirror, what does magnification predict for the image height?",
+          "variables": [
+            {
+              "id": "object-distance",
+              "variableId": "object-distance",
+              "symbol": "d_o",
+              "label": "Object distance",
+              "valueKey": "objectDistanceValue",
+              "unit": "m"
+            },
+            {
+              "id": "object-height",
+              "variableId": "object-height",
+              "symbol": "h_o",
+              "label": "Object height",
+              "valueKey": "objectHeightValue",
+              "unit": "m"
+            },
+            {
+              "id": "image-distance",
+              "symbol": "d_i",
+              "label": "Image distance",
+              "valueKey": "imageDistanceValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Use the magnification relation",
+              "template": "Start from $m = -\\dfrac{d_i}{d_o} = \\dfrac{h_i}{h_o}$."
+            },
+            {
+              "id": "compute-m",
+              "label": "2. Compute the signed magnification",
+              "template": "$m = -\\dfrac{{{imageDistanceValue}}}{{{objectDistanceValue}}} = {{magnificationValue}}$."
+            },
+            {
+              "id": "compute-hi",
+              "label": "3. Solve for image height",
+              "template": "$h_i = m h_o = {{magnificationValue}}\\cdot {{objectHeightValue}} = {{imageHeightValue}}\\,\\mathrm{m}$."
+            }
+          ],
+          "resultLabel": "Image height",
+          "resultTemplate": "$h_i = {{imageHeightValue}}\\,\\mathrm{m}$",
+          "interpretationTemplate": "{{imageHeightInterpretation}}",
+          "applyAction": {
+            "label": "Apply concave inside focus",
+            "presetId": "concave-inside-focus",
+            "observationHint": "The positive magnification keeps the image upright, and the magnitude above one explains why the virtual image is enlarged.",
+            "highlightedControlIds": [
+              "objectDistance",
+              "objectHeight",
+              "concave"
+            ],
+            "highlightedGraphIds": [
+              "magnification"
+            ],
+            "highlightedOverlayIds": [
+              "distanceGuide"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "A concave mirror currently has the object outside the focal point. Before you drag the object inward past $F$, what should happen to the image type and orientation?",
+      "prediction": "Decide when the real image disappears and what replaces it after the object crosses inside the focal point.",
+      "answer": "The real inverted image runs farther away as the object approaches $F$, then flips to a virtual upright image behind the mirror once the object crosses inside $F$.",
+      "explanation": "Outside $F$, the reflected rays still meet in front of the mirror. At the focal limit the image distance blows up, and inside $F$ the reflected rays separate so only their backward extensions meet behind the mirror."
+    }
+  },
+  "equations": [
+    {
+      "id": "law-of-reflection",
+      "latex": "\\theta_i = \\theta_r",
+      "label": "Law of reflection",
+      "meaning": "At the reflecting surface, the incident and reflected rays make equal angles with the normal."
+    },
+    {
+      "id": "mirror-equation",
+      "latex": "\\frac{1}{f} = \\frac{1}{d_o} + \\frac{1}{d_i}",
+      "label": "Mirror equation",
+      "meaning": "Relates signed focal length, object distance, and image distance for the paraxial mirror cases shown here.",
+      "notes": [
+        "For a plane mirror, the focal length is effectively infinite, so the relation reduces to $d_i = -d_o$."
+      ]
+    },
+    {
+      "id": "magnification",
+      "latex": "m = \\frac{h_i}{h_o} = -\\frac{d_i}{d_o}",
+      "label": "Magnification",
+      "meaning": "Gives the size ratio and the orientation sign of the image."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "focal-length",
+      "symbol": "f",
+      "label": "Focal length",
+      "param": "focalLength",
+      "tone": "sky",
+      "description": "Sets how strongly a curved mirror redirects the principal rays. In this module, concave uses positive $f$ and convex uses negative $f$.",
+      "equationIds": [
+        "mirror-equation"
+      ],
+      "graphIds": [
+        "image-map",
+        "magnification"
+      ],
+      "overlayIds": [
+        "focusMarkers",
+        "principalRays"
+      ]
+    },
+    {
+      "id": "object-distance",
+      "symbol": "d_o",
+      "label": "Object distance",
+      "param": "objectDistance",
+      "tone": "amber",
+      "description": "Moves the object relative to the mirror. That shifts the reflected-ray geometry, the signed image distance, and the magnification together.",
+      "equationIds": [
+        "mirror-equation",
+        "magnification"
+      ],
+      "graphIds": [
+        "image-map",
+        "magnification"
+      ],
+      "overlayIds": [
+        "equalAngles",
+        "principalRays",
+        "distanceGuide"
+      ]
+    },
+    {
+      "id": "object-height",
+      "symbol": "h_o",
+      "label": "Object height",
+      "param": "objectHeight",
+      "tone": "teal",
+      "description": "Scales the object arrow directly, so the image height changes by the same magnification factor without changing the image distance.",
+      "equationIds": [
+        "magnification"
+      ],
+      "graphIds": [
+        "magnification"
+      ],
+      "overlayIds": [
+        "distanceGuide"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "curved": true,
+      "concave": true,
+      "focalLength": 0.8,
+      "objectDistance": 2.4,
+      "objectHeight": 1,
+      "equalAngles": true,
+      "focusMarkers": true,
+      "principalRays": true,
+      "distanceGuide": false
+    },
+    "ui": {
+      "initialGraphId": "image-map",
+      "primaryGraphIds": [
+        "image-map",
+        "magnification"
+      ],
+      "primaryControlIds": [
+        "curved",
+        "concave",
+        "objectDistance",
+        "focalLength"
+      ],
+      "primaryPresetIds": [
+        "plane-reference",
+        "concave-real",
+        "concave-inside-focus",
+        "convex-reference"
+      ]
+    },
+    "controls": [
+      {
+        "id": "curved",
+        "kind": "toggle",
+        "label": "Curved mirror",
+        "param": "curved",
+        "description": "Turn this off for a plane mirror. Leave it on for concave or convex mirror behavior."
+      },
+      {
+        "id": "concave",
+        "kind": "toggle",
+        "label": "Concave mirror",
+        "param": "concave",
+        "description": "With Curved mirror on, turn this off to switch to a convex mirror with the same focal-length magnitude."
+      },
+      {
+        "id": "focalLength",
+        "kind": "slider",
+        "label": "Focal-length magnitude",
+        "param": "focalLength",
+        "min": 0.4,
+        "max": 1.8,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Controls where $F$ and $C$ sit for the curved-mirror cases."
+      },
+      {
+        "id": "objectDistance",
+        "kind": "slider",
+        "label": "Object distance",
+        "param": "objectDistance",
+        "min": 0.35,
+        "max": 4,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Moves the object along the principal axis."
+      },
+      {
+        "id": "objectHeight",
+        "kind": "slider",
+        "label": "Object height",
+        "param": "objectHeight",
+        "min": 0.6,
+        "max": 1.8,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Changes the object size so the image-height comparison stays visible."
+      }
+    ],
+    "presets": [
+      {
+        "id": "plane-reference",
+        "label": "Plane mirror",
+        "description": "A same-size virtual image behind the mirror.",
+        "values": {
+          "curved": false,
+          "concave": true,
+          "focalLength": 0.8,
+          "objectDistance": 1.4,
+          "objectHeight": 1
+        }
+      },
+      {
+        "id": "concave-real",
+        "label": "Concave real image",
+        "description": "A concave mirror with the object outside the focal length.",
+        "values": {
+          "curved": true,
+          "concave": true,
+          "focalLength": 0.8,
+          "objectDistance": 2.4,
+          "objectHeight": 1
+        }
+      },
+      {
+        "id": "concave-inside-focus",
+        "label": "Inside focus",
+        "description": "A concave mirror with the object inside the focal length.",
+        "values": {
+          "curved": true,
+          "concave": true,
+          "focalLength": 0.8,
+          "objectDistance": 0.55,
+          "objectHeight": 1
+        }
+      },
+      {
+        "id": "convex-reference",
+        "label": "Convex mirror",
+        "description": "A convex mirror with a virtual upright reduced image.",
+        "values": {
+          "curved": true,
+          "concave": false,
+          "focalLength": 0.8,
+          "objectDistance": 1.8,
+          "objectHeight": 1
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "equalAngles",
+        "label": "Equal-angle cue",
+        "shortDescription": "Shows the normal at the pole and reminds you that the incident and reflected angles match there.",
+        "whatToNotice": [
+          "The pole ray always reflects symmetrically about the principal axis."
+        ],
+        "whyItMatters": "It keeps the law of reflection visible instead of turning the ray diagram into a memorized sketch.",
+        "relatedControls": [
+          "curved",
+          "objectDistance"
+        ],
+        "relatedEquationVariables": [
+          "object-distance"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "focusMarkers",
+        "label": "F and C markers",
+        "shortDescription": "Shows the focal point and center of curvature for the curved mirrors.",
+        "whatToNotice": [
+          "For a concave mirror, crossing $F$ changes the image from real to virtual."
+        ],
+        "whyItMatters": "Those markers anchor the standard mirror-regime language directly on the stage.",
+        "relatedControls": [
+          "curved",
+          "concave",
+          "focalLength",
+          "objectDistance"
+        ],
+        "relatedGraphTabs": [
+          "image-map"
+        ],
+        "relatedEquationVariables": [
+          "focal-length",
+          "object-distance"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "principalRays",
+        "label": "Principal rays",
+        "shortDescription": "Shows the construction rays that locate the image point.",
+        "whatToNotice": [
+          "Real images come from reflected rays that really meet, while virtual images come from backward extensions."
+        ],
+        "whyItMatters": "It ties the sign of $d_i$ directly to the reflected-ray geometry instead of to a detached sign convention.",
+        "relatedControls": [
+          "curved",
+          "concave",
+          "focalLength",
+          "objectDistance"
+        ],
+        "relatedGraphTabs": [
+          "image-map"
+        ],
+        "relatedEquationVariables": [
+          "focal-length",
+          "object-distance"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "distanceGuide",
+        "label": "Distance and height guide",
+        "shortDescription": "Shows the signed distances and the object/image height comparison used in magnification.",
+        "whatToNotice": [
+          "The sign of $m$ tells you orientation, while $|m|$ tells you how much the image size has scaled."
+        ],
+        "whyItMatters": "It links the stage directly to the ratio form of magnification instead of treating image size as a separate fact.",
+        "relatedControls": [
+          "objectDistance",
+          "objectHeight"
+        ],
+        "relatedGraphTabs": [
+          "magnification"
+        ],
+        "relatedEquationVariables": [
+          "object-distance",
+          "object-height"
+        ],
+        "defaultOn": false
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "image-map",
+      "label": "Object to image map",
+      "xLabel": "object distance d_o (m)",
+      "yLabel": "signed image distance d_i (m)",
+      "series": [
+        "plane-line",
+        "virtual-branch",
+        "real-branch"
+      ],
+      "description": "Shows how the signed image distance responds when you move the object while keeping the same mirror type and focal-length magnitude."
+    },
+    {
+      "id": "magnification",
+      "label": "Magnification",
+      "xLabel": "object distance d_o (m)",
+      "yLabel": "magnification m",
+      "series": [
+        "same-size-line",
+        "upright-branch",
+        "inverted-branch"
+      ],
+      "description": "Shows the sign and magnitude of magnification for the current mirror, so upright versus inverted behavior is easy to compare."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the live prompt to connect equal-angle reflection, the ray construction, and the graph branch that the current mirror lives on.",
+    "items": [
+      {
+        "id": "mi-notice-equal-angles",
+        "text": "Notice that the pole ray reflects symmetrically because the incident and reflected angles match at the mirror surface.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Toggle between plane and concave mirrors, then watch the pole ray keep the same equal-angle rule while the second principal ray changes.",
+        "whyItMatters": "The mirror-type differences do not replace the law of reflection. They emerge from that same law on different surfaces.",
+        "relatedControls": [
+          "curved",
+          "concave",
+          "objectDistance"
+        ],
+        "relatedOverlays": [
+          "equalAngles",
+          "principalRays"
+        ],
+        "relatedEquationVariables": [
+          "object-distance"
+        ]
+      },
+      {
+        "id": "mi-notice-graph-preview",
+        "text": "Notice that the mirror graphs are object-distance based, not time based: hovering a point previews a different geometry immediately, not a later moment.",
+        "type": "graph-reading",
+        "priority": 4,
+        "conditions": {
+          "graphTabs": [
+            "image-map"
+          ]
+        },
+        "tryThis": "Hover the image map and watch the object jump to the matching position while the reflected-ray geometry updates in one step.",
+        "whyItMatters": "It keeps the graph honest: you are comparing families of setups, not stepping through time.",
+        "relatedGraphTabs": [
+          "image-map"
+        ],
+        "relatedOverlays": [
+          "principalRays"
+        ]
+      },
+      {
+        "id": "mi-notice-concave-sign-flip",
+        "text": "Notice that when a concave-mirror object crosses inside $F$, both $d_i$ and $m$ change sign together.",
+        "type": "try-this",
+        "priority": 5,
+        "conditions": {
+          "lastChangedControls": [
+            "objectDistance"
+          ]
+        },
+        "tryThis": "Start from the concave real-image preset, then slide the object inward past $F$ and compare the image-map and magnification branches.",
+        "whyItMatters": "That shared sign flip is the clean signal that the image has moved from real inverted to virtual upright.",
+        "relatedControls": [
+          "objectDistance",
+          "focalLength"
+        ],
+        "relatedGraphTabs": [
+          "image-map",
+          "magnification"
+        ],
+        "relatedOverlays": [
+          "focusMarkers",
+          "principalRays"
+        ]
+      },
+      {
+        "id": "mi-notice-plane-distance",
+        "text": "Notice that a plane mirror does not hide the image inside the surface. The backward extensions place it the same distance behind the mirror as the object is in front.",
+        "type": "misconception",
+        "priority": 3,
+        "conditions": {
+          "lastChangedControls": [
+            "curved"
+          ]
+        },
+        "tryThis": "Turn Curved mirror off, then use the distance guide to compare $d_o$ and $d_i$ directly.",
+        "whyItMatters": "It separates the geometric image location from the physical glass or metal that happens to be holding the reflective surface.",
+        "relatedControls": [
+          "curved",
+          "objectDistance"
+        ],
+        "relatedOverlays": [
+          "distanceGuide",
+          "principalRays"
+        ],
+        "relatedEquationVariables": [
+          "object-distance"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the branch or orientation change first, then apply the setup and check the mirror diagram and graph together.",
+    "items": [
+      {
+        "id": "mi-predict-plane-to-concave",
+        "prompt": "Starting from the plane-mirror preset, what happens if you switch to a concave mirror with the same object distance and a focal-length magnitude of 0.8 m?",
+        "scenarioLabel": "Switch plane to concave",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The image becomes real, inverted, and forms in front of the mirror."
+          },
+          {
+            "id": "b",
+            "label": "The image stays virtual, upright, and exactly the same size."
+          },
+          {
+            "id": "c",
+            "label": "The image disappears because the reflected rays now curve."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At this object distance, the concave mirror is outside the focal length, so the reflected rays meet in front of the mirror and form a real inverted image.",
+        "observationHint": "Watch the image-map point jump from the plane-mirror line to the real branch.",
+        "apply": {
+          "patch": {
+            "curved": true,
+            "concave": true,
+            "focalLength": 0.8,
+            "objectDistance": 1.4,
+            "objectHeight": 1
+          }
+        },
+        "highlightedControls": [
+          "curved",
+          "concave",
+          "focalLength"
+        ],
+        "highlightedGraphs": [
+          "image-map",
+          "magnification"
+        ],
+        "highlightedOverlays": [
+          "principalRays",
+          "focusMarkers"
+        ]
+      },
+      {
+        "id": "mi-predict-cross-focus",
+        "prompt": "What changes if the concave-mirror object crosses from outside $F$ to inside $F$?",
+        "scenarioLabel": "Cross inside F",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The image becomes virtual, upright, and enlarged behind the mirror."
+          },
+          {
+            "id": "b",
+            "label": "The image stays real, inverted, and simply moves closer to the mirror."
+          },
+          {
+            "id": "c",
+            "label": "The mirror stops producing any image point."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Inside $F$, the reflected rays no longer meet in front of the mirror. Their backward extensions meet behind the mirror instead, so the image becomes virtual and upright.",
+        "observationHint": "The dashed backward extensions replace the real ray intersection, and both $d_i$ and $m$ flip sign.",
+        "apply": {
+          "presetId": "concave-inside-focus"
+        },
+        "highlightedControls": [
+          "objectDistance",
+          "concave"
+        ],
+        "highlightedGraphs": [
+          "image-map",
+          "magnification"
+        ],
+        "highlightedOverlays": [
+          "focusMarkers",
+          "principalRays"
+        ]
+      },
+      {
+        "id": "mi-predict-convex",
+        "prompt": "If you switch from the concave real-image reference to a convex mirror with the same focal-length magnitude, what should happen?",
+        "scenarioLabel": "Switch to convex",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The image becomes virtual, upright, and reduced behind the mirror."
+          },
+          {
+            "id": "b",
+            "label": "The image stays real because curved mirrors always focus reflected rays."
+          },
+          {
+            "id": "c",
+            "label": "The image must stay the same size because only the sign of $f$ changed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A convex mirror always sends the image to the virtual side for a real object and keeps the image upright with a magnification below one.",
+        "observationHint": "Compare the virtual branch and the positive magnification that stays below one.",
+        "apply": {
+          "presetId": "convex-reference"
+        },
+        "highlightedControls": [
+          "concave",
+          "focalLength"
+        ],
+        "highlightedGraphs": [
+          "image-map",
+          "magnification"
+        ],
+        "highlightedOverlays": [
+          "principalRays",
+          "distanceGuide"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the real mirror controls and graphs to hit image targets. The checks read the live signed distances and magnification instead of a separate puzzle state.",
+    "items": [
+      {
+        "id": "mi-ch-real-image-target",
+        "title": "Real-image target",
+        "style": "target-setting",
+        "prompt": "Starting from the concave real-image preset, tune the setup until the image distance lands between 1.0 and 1.2 m and the magnification lands between -1.4 and -1.1.",
+        "successMessage": "You matched a real inverted image by steering the object onto the correct branch instead of guessing by eye.",
+        "setup": {
+          "presetId": "concave-real",
+          "graphId": "image-map",
+          "overlayIds": [
+            "principalRays"
+          ],
+          "note": "Use the image map and the reflected-ray intersection together."
+        },
+        "hints": [
+          "Keep the mirror concave and the object outside the focal point.",
+          "The magnification should stay negative because the image is still inverted."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Open the object-image map.",
+            "graphId": "image-map"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the principal rays visible.",
+            "overlayId": "principalRays"
+          },
+          {
+            "type": "metric-range",
+            "label": "Make $d_i$ land between 1.0 and 1.2 m.",
+            "metric": "imageDistance",
+            "min": 1,
+            "max": 1.2,
+            "displayUnit": "m"
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep magnification between -1.4 and -1.1.",
+            "metric": "magnification",
+            "min": -1.4,
+            "max": -1.1
+          }
+        ]
+      },
+      {
+        "id": "mi-ch-virtual-image-target",
+        "title": "Virtual-image target",
+        "style": "target-setting",
+        "prompt": "Starting from the inside-focus preset, make a virtual upright image with $d_i$ between -0.90 and -0.75 m and magnification between 2.2 and 2.6.",
+        "successMessage": "You used the signed graph honestly: the image stayed virtual and upright while the enlarged magnification set the final size.",
+        "setup": {
+          "presetId": "concave-inside-focus",
+          "graphId": "magnification",
+          "overlayIds": [
+            "distanceGuide"
+          ],
+          "note": "Use the magnification graph and the distance guide together."
+        },
+        "hints": [
+          "The object must stay inside the focal point for the image to remain virtual.",
+          "A positive magnification above one means the image is upright and enlarged."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Open the magnification graph.",
+            "graphId": "magnification"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the distance and height guide visible.",
+            "overlayId": "distanceGuide"
+          },
+          {
+            "type": "metric-range",
+            "label": "Make $d_i$ land between -0.90 and -0.75 m.",
+            "metric": "imageDistance",
+            "min": -0.9,
+            "max": -0.75,
+            "displayUnit": "m"
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep magnification between 2.2 and 2.6.",
+            "metric": "magnification",
+            "min": 2.2,
+            "max": 2.6
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Use the ray behavior, the sign of $d_i$, and the sign of $m$ together. The goal is to reason from the live mirror model, not to recite isolated slogans.",
+    "questions": [
+      {
+        "id": "mi-qt-plane",
+        "type": "reasoning",
+        "prompt": "Which statement best describes the image in a plane mirror?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It is virtual, upright, and the same size, with the image the same distance behind the mirror as the object is in front."
+          },
+          {
+            "id": "b",
+            "label": "It is real and upright because the reflected rays actually meet behind the mirror."
+          },
+          {
+            "id": "c",
+            "label": "It must be reduced because the mirror surface is flat."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A plane mirror gives a virtual image found by backward extension. The geometry is symmetric, so the image is upright, the same size, and equally far behind the mirror.",
+        "selectedWrongExplanations": {
+          "b": "The rays do not physically meet behind the mirror. Your eye traces them backward to that location, which is why the image is virtual rather than real.",
+          "c": "Flatness does not force reduction. The equal-distance symmetry keeps the image the same size as the object."
+        },
+        "showMeAction": {
+          "label": "Show the plane-mirror case",
+          "presetId": "plane-reference",
+          "observationHint": "The backward extensions meet behind the mirror, and the distance guide shows equal object and image distances.",
+          "highlightedControlIds": [
+            "curved",
+            "objectDistance"
+          ],
+          "highlightedGraphIds": [
+            "image-map",
+            "magnification"
+          ],
+          "highlightedOverlayIds": [
+            "distanceGuide",
+            "principalRays"
+          ]
+        }
+      },
+      {
+        "id": "mi-qt-screen",
+        "type": "compare-two-cases",
+        "prompt": "Which setup can place the image on a screen in front of the mirror?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "A concave mirror with the object outside the focal length."
+          },
+          {
+            "id": "b",
+            "label": "A plane mirror with any ordinary object in front of it."
+          },
+          {
+            "id": "c",
+            "label": "A convex mirror with any ordinary object in front of it."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Only a real image can land on a screen, and the concave mirror produces that when the object is outside $F$. The plane and convex cases stay virtual.",
+        "selectedWrongExplanations": {
+          "b": "The plane mirror image is always virtual, so it appears behind the mirror rather than forming on a screen.",
+          "c": "A convex mirror keeps the image virtual and upright for a real object in front of it."
+        },
+        "showMeAction": {
+          "label": "Show the screen-ready case",
+          "presetId": "concave-real",
+          "observationHint": "The reflected rays really meet in front of the mirror, and the image-map point sits on the positive $d_i$ branch.",
+          "highlightedControlIds": [
+            "concave",
+            "objectDistance"
+          ],
+          "highlightedGraphIds": [
+            "image-map"
+          ],
+          "highlightedOverlayIds": [
+            "principalRays"
+          ]
+        }
+      },
+      {
+        "id": "mi-qt-cross-focus",
+        "type": "compare-two-cases",
+        "prompt": "For a concave mirror, what changes when the object crosses from just outside $F$ to just inside $F$?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The image changes from real inverted to virtual upright."
+          },
+          {
+            "id": "b",
+            "label": "The image stays real but becomes smaller."
+          },
+          {
+            "id": "c",
+            "label": "The image disappears because the reflected rays no longer define any image point."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Crossing inside $F$ changes the reflected-ray geometry. The rays after reflection no longer meet in front of the mirror, and the backward extensions meet behind the mirror instead.",
+        "selectedWrongExplanations": {
+          "b": "Crossing inside $F$ is not a gentle size change on the same branch. It changes both the sign of $d_i$ and the sign of $m$.",
+          "c": "The image point still exists. It just becomes virtual and must be found by extending the reflected rays backward."
+        },
+        "showMeAction": {
+          "label": "Show the inside-focus case",
+          "presetId": "concave-inside-focus",
+          "observationHint": "The image arrow moves behind the mirror and the dashed extensions replace the real reflected-ray intersection.",
+          "highlightedControlIds": [
+            "objectDistance"
+          ],
+          "highlightedGraphIds": [
+            "image-map",
+            "magnification"
+          ],
+          "highlightedOverlayIds": [
+            "principalRays",
+            "focusMarkers"
+          ]
+        }
+      },
+      {
+        "id": "mi-qt-convex",
+        "type": "misconception-check",
+        "prompt": "Which statement best describes a convex mirror for a real object in front of it?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It makes a virtual upright reduced image behind the mirror."
+          },
+          {
+            "id": "b",
+            "label": "It makes a real inverted image if the object is far enough away."
+          },
+          {
+            "id": "c",
+            "label": "It cannot make any image because the reflected rays spread apart."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A convex mirror always leaves the real object on the virtual branch in this setup. The reflected rays spread apart, but their backward extensions still meet at an upright reduced image.",
+        "selectedWrongExplanations": {
+          "b": "Changing the object distance does not move a real object in front of a convex mirror onto a real-image branch.",
+          "c": "The image is still well defined. You find it by extending the reflected rays backward rather than by catching them on a screen."
+        },
+        "showMeAction": {
+          "label": "Show the convex branch",
+          "presetId": "convex-reference",
+          "observationHint": "The image stays on the virtual side, and the magnification stays positive but below one.",
+          "highlightedControlIds": [
+            "concave",
+            "focalLength"
+          ],
+          "highlightedGraphIds": [
+            "image-map",
+            "magnification"
+          ],
+          "highlightedOverlayIds": [
+            "principalRays",
+            "distanceGuide"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a mirror at the center of the principal axis, an object arrow on the left, and an image arrow that moves according to the selected mirror type. Depending on the setup, the image arrow appears in front of the mirror as a real inverted image or behind the mirror as a virtual upright image.",
+        "Optional overlays show the equal-angle cue at the pole, the focal markers for curved mirrors, the principal rays, and the distance-and-height guide used in magnification."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The object-image graph plots signed image distance against object distance for the current mirror family and focal-length magnitude.",
+        "The magnification graph plots $m$ against object distance, so the sign and magnitude of the image scaling are visible without leaving the ray diagram."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Mirrors",
+    "description": "Interactive mirror ray diagrams for plane, concave, and convex mirrors with equal-angle reflection, signed image distance, and magnification.",
+    "keywords": [
+      "mirrors",
+      "law of reflection",
+      "ray diagram",
+      "concave mirror",
+      "convex mirror",
+      "image formation"
+    ]
+  }
+}

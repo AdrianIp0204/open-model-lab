@@ -1,0 +1,277 @@
+{
+  "title": "動態平衡 / 賴柴萊原理",
+  "shortTitle": "動態平衡",
+  "summary": "觀看一個可逆的化學實驗台在微觀層面上不斷變化，同時混合物在每次擾動後會向新的平衡狀態調整。",
+  "highlights": [
+    "動態而非靜止",
+    "正反應與反反應的平衡",
+    "轉移到新的平衡狀態"
+  ],
+  "topic": "速率與平衡",
+  "subtopic": "平衡的移動",
+  "recommendedNext": [
+    {
+      "slug": "ideal-gas-law-and-kinetic-theory",
+      "reasonLabel": "在熱力學實驗台上重用粒子碰撞影像"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "動態平衡變得更易信賴，因為即使混合物看似穩定， PARTICLE 區域仍會不斷變化。此模組在同一共享化學實驗台上顯示反應物、生成物、正向變換、反向變換和通往新平衡的時間路徑。",
+        "動態平衡的主要思想是平衡並非停止，而是正向與反向變化的力量相等，因此即使微觀交換繼續進行，混合物仍可保持穩定。"
+      ]
+    },
+    "keyIdeas": [
+      "在動態平衡下，正向和反向變化仍在發生，但彼此相互抵消。",
+      "改變混合物或生成物有利的條件會打亂平衡並使系統朝新的平衡狀態調整。",
+      "賴柴萊原理最易信賴時，擾動和重新平衡的路徑保持在同一視野中。"
+    ],
+    "commonMisconception": {
+      "myth": "如果數量不再變化，反應本身必須已經停止。",
+      "correction": [
+        "數量可以穩定因為正向和反向變化的速度相等。",
+        "即使混合物看起來已穩定，微觀交換仍可繼續進行。"
+      ]
+    },
+    "workedExamples": {
+      "title": "例項工作",
+      "intro": "使用當前的化學實驗台而不是一個分離的表格。相同的控制項驅動粒子場景、時間歷史和這些替換。",
+      "items": [
+        {
+          "id": "read-the-current-balance",
+          "title": "閱讀當前的正反向平衡",
+          "prompt": "在當前時間，正向與反向變化的平衡是什麼？",
+          "variables": [
+            {
+              "id": "reactant-amount",
+              "label": "初始反應物數量"
+            },
+            {
+              "id": "product-amount",
+              "label": "初始產品數量"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-current-mix",
+              "label": "1. 閱讀當前混合物"
+            },
+            {
+              "id": "read-current-rates",
+              "label": "2. 閱讀競爭速率"
+            },
+            {
+              "id": "read-gap",
+              "label": "3. 閱讀系統接近平衡的程度"
+            }
+          ],
+          "resultLabel": "當前的平衡",
+          "applyAction": {
+            "label": "應用生成物豐富的開始",
+            "observationHint": "混合物可能從生成物側面開始，但平衡條顯示反向變化的需要是否需要追上。"
+          }
+        },
+        {
+          "id": "read-the-new-settled-mix",
+          "title": "閱讀新的穩定混合物",
+          "prompt": "對於當前生成物有利的設定，系統應該朝什麼混合物安定下來？",
+          "variables": [
+            {
+              "id": "product-favor",
+              "label": "產品傾斜設定"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-current-share",
+              "label": "1. 閱讀當前產品份額"
+            },
+            {
+              "id": "read-target-share",
+              "label": "2. 閱讀這些條件下的穩定目標"
+            },
+            {
+              "id": "connect-shift",
+              "label": "3. 將當前混合物連線到新目標"
+            }
+          ],
+          "resultLabel": "穩定的產品份額",
+          "applyAction": {
+            "label": "應用有利於產品的情況",
+            "observationHint": "穩定目標會朝向更多產品移動，隨著時間推移，濃度歷史將彎曲向新的混合。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "擾亂混合物，然後等待直到速率幾乎匹配再次出現，同時穩定的混合物明顯有利於產品側。",
+      "prediction": "決定是否需要更改起始混合物、偏好設定或兩者。",
+      "answer": "你需要一個能夠推動系統離開其舊平衡並有利於產品側的強烈足夠擾動，以便新的平衡落在那裡。",
+      "explanation": "這同時展示了兩個方面：平衡是動態的因為交換繼續進行，而勒夏特列原理是關於在擾動後達到新平衡的路徑。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "根據實時平衡的故事回答，而不是來自反應已經完成的口號。",
+    "questions": [
+      {
+        "id": "de-qt-dynamic",
+        "prompt": "什麼是最乾淨的描述動態平衡？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "正向和反向變化仍然發生，但相互抵消。"
+          },
+          {
+            "id": "b",
+            "label": "根本沒有任何事情發生。"
+          },
+          {
+            "id": "c",
+            "label": "只有正向反應持續進行。"
+          }
+        ],
+        "explanation": "穩定的混合物來自速率匹配，而不是來自微觀上的無活動。",
+        "selectedWrongExplanations": {
+          "b": "這消除了脈衝提示和平衡條的想法。即使數量不再變化，交換也可以繼續。",
+          "c": "如果只有正向變化持續進行，混合物會不斷漂移而不是穩定下來。"
+        },
+        "showMeAction": {
+          "label": "展示穩定的交換",
+          "observationHint": "平衡條可以幾乎匹配而脈衝提示仍然活躍。"
+        }
+      },
+      {
+        "id": "de-qt-disturbance",
+        "prompt": "如果當前混合物在新的穩定產品份額之下，接下來應該發生什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "混合物應朝向更多產品移動，直到速率再次匹配。"
+          },
+          {
+            "id": "b",
+            "label": "混合物應該凍結在這裡因為平衡已經發生過一次。"
+          },
+          {
+            "id": "c",
+            "label": "系統總是會朝向更少的產品。"
+          }
+        ],
+        "explanation": "如果當前混合物在新的目標之下，正向側有空間佔主導地位直到穩定份額達到。",
+        "selectedWrongExplanations": {
+          "b": "平衡可以移動。新的擾動建立一個新的目標混合。",
+          "c": "方向取決於擾動和新目標，而不是關於產品的固定規則"
+        },
+        "showMeAction": {
+          "label": "顯示產品為主的移動",
+          "observationHint": "目標份額位於當前混合物之上，因此產品會增長直到速率再次匹配。"
+        }
+      },
+      {
+        "id": "de-qt-forward-reverse",
+        "prompt": "哪個圖表提示最真實地告訴你係統接近平衡？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "正向和逆向速率曲線幾乎重疊。"
+          },
+          {
+            "id": "b",
+            "label": "當前的數量都非零。"
+          },
+          {
+            "id": "c",
+            "label": "產品線位於反應物線之上。"
+          }
+        ],
+        "explanation": "正向和逆向速率相等或接近相等是實際的平衡測試。",
+        "selectedWrongExplanations": {
+          "b": "兩種物質的存在並不保證達到平衡。",
+          "c": "即使速率尚未平衡，產品也可以超過反應物。"
+        },
+        "showMeAction": {
+          "label": "顯示近平衡區域",
+          "observationHint": "在執行的末期，兩個速率曲線幾乎相遇，儘管它們仍然明顯非零。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬展示一個可逆化學反應台，同時可以看到反應物和產品，還包括正向和逆向變化以及平衡指標來顯示當前速率。滑塊可以調整初始數量和產品傾斜設定。",
+        "讀出卡片報告當前的反應物數量、產品數量、正向速率、逆向速率以及穩定後的產品份額，以便學習者比較移動中的台子與圖表。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "一個圖表顯示反應物和產品隨時間的數量變化，另一個圖表比較正向和逆向速率隨時間的變化，第三個圖表則顯示穩定後的產品份額對應於產品傾斜設定。",
+        "圖表懸停、比較模式以及共享覆蓋層都附著在同一個化學反應台上，不會開啟一個獨立的僅限化學的檢視。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "readNext",
+        "title": "將平衡帶入下一分支"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "net-change",
+      "label": "淨變化規則",
+      "meaning": "透過直接比較正向和逆向傾向來保持時間軸的真實性。"
+    },
+    {
+      "id": "dynamic-equilibrium",
+      "label": "動態平衡",
+      "meaning": "顯示等同的正向和逆向速率是真正的平衡條件，而不是停止反應。"
+    },
+    {
+      "id": "new-balance",
+      "label": "移動至平衡規則",
+      "meaning": "總結勒夏特列原理而不假裝台子是一個完整的化學引擎。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "reactant-amount",
+      "label": "初始反應物數量",
+      "description": "設定反應台在可逆交換開始前的初始反應物數量。"
+    },
+    {
+      "id": "product-amount",
+      "label": "初始產品數量",
+      "description": "設定反應台在交換開始前的初始產品數量。"
+    },
+    {
+      "id": "product-favor",
+      "label": "產品傾斜設定",
+      "description": "一旦系統有時間重新平衡，就向產品或反應物傾斜穩定後的混合物。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "product-favor",
+        "label": "產品傾斜設定"
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "rate-balance",
+      "yLabel": "速率"
+    },
+    {
+      "id": "equilibrium-share",
+      "label": "穩定的產品份額",
+      "xLabel": "產品傾斜設定",
+      "yLabel": "穩定的產品份額"
+    }
+  ]
+}

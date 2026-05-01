@@ -1,0 +1,297 @@
+{
+"pageFramework": {
+"sections": [
+{
+"id": "readNext",
+"title": "Keep frontier and visited separate when cycles appear"
+}
+],
+"featuredSetups": [
+{
+"id": "bridge-cycle-bfs",
+"description": "Use a cyclic graph where you can see that nodes waiting in the frontier are not the same as nodes already fully expanded."
+},
+{
+"id": "bridge-cycle-dfs",
+"description": "Run the same cyclic graph in DFS so you can compare the same bookkeeping under a branch-first search."
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"On a graph with cycles, frontier and visited state answer different questions. The frontier shows discovered nodes still waiting to be expanded. The visited state shows nodes whose neighborhoods have already been checked.",
+"That separation turns a loop from a trap into a bookkeeping event. When an edge points back to a visited node, the search records a repeat skip instead of reopening that node, while the remaining frontier keeps the run moving forward."
+]
+},
+"keyIdeas": [
+"Frontier means discovered and waiting, not finished.",
+"Visited means expanded already, so an edge back to that node becomes a repeat skip instead of new work.",
+"Cycles stay manageable when the current node, waiting frontier, and finished visited set stay visually separate."
+],
+"commonMisconception": {
+"myth": "Frontier and visited state are just two names for the same set of nodes.",
+"correction": [
+"A frontier node has already been discovered, but its neighbors may not have been checked yet.",
+"A visited node has already been expanded, so edges back to it can be skipped instead of reopening the same cycle."
+]
+},
+"workedExamples": {
+"title": "Worked example: separate frontier from visited",
+"intro": "Use the bridge-cycle graph to name what is waiting, what is finished, and what should happen when an edge points backward.",
+"items": [
+{
+"id": "separate-frontier-from-visited",
+"title": "Separate the frontier from the visited set",
+"prompt": "On the bridge-cycle graph, how can you tell whether a node belongs in the frontier, the visited set, or neither?",
+"variables": [
+{
+"id": "graph-layout",
+"label": "Chosen graph"
+},
+{
+"id": "frontier-label",
+"label": "Frontier meaning"
+},
+{
+"id": "visited-label",
+"label": "Visited meaning"
+}
+],
+"steps": [
+{
+"id": "name-the-frontier-role",
+"label": "1. Find the waiting work"
+},
+{
+"id": "name-the-visited-role",
+"label": "2. Mark finished expansions"
+},
+{
+"id": "connect-to-cycle-control",
+"label": "3. Read the repeat edge"
+}
+],
+"resultLabel": "Frontier-versus-visited rule",
+"applyAction": {
+"label": "Open bridge-cycle BFS",
+"observationHint": "Open bridge-cycle BFS, then pause at the first repeat skip: name one node that is waiting in the frontier and one node that is already visited."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Create a run where a repeat skip happens while at least one other node is still waiting in the frontier.",
+"prediction": "Before you switch presets, predict which graph shape makes a backward edge appear before the frontier is empty.",
+"answer": "Use the bridge-cycle graph, then watch for a backward edge into a visited node while another discovered node is still waiting.",
+"explanation": "That moment shows the two jobs working together: visited prevents the loop from reopening, and the frontier preserves the useful work that remains."
+}
+},
+"equations": [
+{
+"id": "frontier-visited-update",
+"meaning": "Expanding the current node adds it to visited, while only newly discovered neighbors join the waiting frontier."
+},
+{
+"id": "repeat-skip-count",
+"meaning": "Counts neighbor checks that point to already handled work instead of producing a new discovery."
+}
+],
+"variableLinks": [
+{
+"id": "graph-layout",
+"description": "Switch graph scenes so you can compare cleaner graphs with cyclic ones on the same bench."
+},
+{
+"id": "start-node",
+"description": "Move the launch point and watch when repeat edges appear from different parts of the graph."
+},
+{
+"id": "target-node",
+"description": "Marks which node the traversal is trying to reach while the frontier and visited bookkeeping continue."
+},
+{
+"id": "traversal-mode",
+"description": "Lets you compare the same frontier-versus-visited story under BFS and DFS."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "graph-index",
+"description": "Switch graph scenes and compare cleaner graphs with cyclic ones without leaving the same bench."
+},
+{
+"id": "start-node",
+"description": "Choose where the traversal begins, then watch when repeat edges appear from that part of the graph."
+},
+{
+"id": "target-node",
+"description": "Mark the node the search is trying to reach while the frontier and visited bookkeeping continue."
+},
+{
+"id": "traversal-mode",
+"description": "Compare how BFS and DFS use the same frontier-versus-visited bookkeeping."
+}
+],
+"presets": [
+{
+"id": "bridge-cycle-bfs",
+"description": "A cyclic graph where discovered-but-waiting nodes must stay separate from already expanded nodes."
+},
+{
+"id": "bridge-cycle-dfs",
+"description": "The same cyclic graph in DFS mode, useful for comparing the same bookkeeping under a branch-first search."
+},
+{
+"id": "layered-campus-bfs",
+"description": "A cleaner graph where repeat skips matter much less, useful as a contrast."
+},
+{
+"id": "hub-detours-dfs",
+"description": "A branch-first contrast where the frontier stays narrower and cycle bookkeeping is less prominent."
+}
+],
+"overlays": [
+{
+"id": "adjacencyCue",
+"shortDescription": "Keep the current node's neighbor list visible.",
+"whatToNotice": [
+"A repeat skip only makes sense when you can see which neighbor points back to earlier work."
+],
+"whyItMatters": "It ties cycle handling to actual edges from the current node."
+},
+{
+"id": "frontierCue",
+"shortDescription": "Show which discovered nodes are still waiting to be expanded.",
+"whatToNotice": [
+"Being on the frontier means discovered and waiting, not finished."
+],
+"whyItMatters": "It keeps waiting work separate from completed work on graphs with cycles."
+},
+{
+"id": "visitedCue",
+"shortDescription": "Mark which nodes have already been fully expanded.",
+"whatToNotice": [
+"Edges back to these nodes become repeat skips instead of new discoveries."
+],
+"whyItMatters": "It makes cycle control visible on the graph itself."
+}
+]
+},
+"graphs": [
+{
+"id": "visited-frontier-history",
+"description": "Compare how many nodes are already expanded with how many discovered nodes are still waiting."
+},
+{
+"id": "depth-history",
+"description": "Track whether the active node stays shallow or goes deeper while the frontier and visited sets continue to change."
+},
+{
+"id": "neighbor-check-history",
+"description": "Separate genuine new discoveries from checks that point back to already expanded nodes."
+}
+],
+"noticePrompts": {
+"intro": "Keep the graph and one history graph visible together, then compare who is still waiting with who is already done.",
+"items": [
+{
+"id": "fvsg-notice-frontier-is-waiting-work",
+"text": "The frontier is a waiting line of discovered nodes, not a list of finished nodes."
+},
+{
+"id": "fvsg-notice-repeat-skips-mark-cycles",
+"text": "Repeat skips appear when a cycle points back to a node whose neighborhood has already been expanded."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict what a backward edge should do before you advance the search.",
+"items": [
+{
+"id": "fvsg-predict-repeat-skip",
+"prompt": "On the bridge-cycle graph, what should happen when the current node has an edge back to a node that has already been visited?",
+"scenarioLabel": "Backward edge in a cycle",
+"choices": [
+{
+"id": "a",
+"label": "That edge should count as a repeat skip, and the search should keep the current frontier instead of reopening the old node."
+},
+{
+"id": "b",
+"label": "The old node should go back onto the frontier every time that edge appears."
+},
+{
+"id": "c",
+"label": "The traversal should restart from the start node."
+}
+],
+"explanation": "Visited state stops the search from reopening already expanded nodes, so the backward edge becomes a repeat skip instead of new frontier work.",
+"observationHint": "Run bridge-cycle BFS and pause when an edge points back into visited work; the old node should stay closed while the frontier keeps its waiting nodes."
+}
+]
+},
+"quickTest": {
+"intro": "Answer from the visible frontier, visited nodes, and repeat-skip graph, not from memorized vocabulary.",
+"questions": [
+{
+"id": "fvsg-qt-frontier-vs-visited",
+"prompt": "Which statement best separates the frontier from the visited state?",
+"choices": [
+{
+"id": "a",
+"label": "Frontier nodes are discovered and waiting to be expanded, while visited nodes have already had their neighborhoods checked."
+},
+{
+"id": "b",
+"label": "Frontier and visited always mean the same set of nodes."
+},
+{
+"id": "c",
+"label": "Visited nodes are the only nodes that still need work."
+}
+],
+"explanation": "That waiting-versus-expanded difference is what lets the search skip repeats without losing unfinished work."
+},
+{
+"id": "fvsg-qt-repeat-skip",
+"prompt": "Why are repeat skips useful on the bridge-cycle graph?",
+"choices": [
+{
+"id": "a",
+"label": "They stop the traversal from reopening the same looped nodes over and over."
+},
+{
+"id": "b",
+"label": "They force the traversal to ignore adjacency completely."
+},
+{
+"id": "c",
+"label": "They remove the need for a frontier."
+}
+],
+"explanation": "Without repeat skips, a cycle could reopen old nodes again and again instead of letting the frontier continue."
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows one labeled graph. The current node, frontier nodes, and visited nodes are highlighted differently so you can tell what is being processed now, what is waiting next, and what is already expanded.",
+"A readout card reports the traversal mode, current node, frontier size, visited count, and target, while a cue panel shows the frontier order and the current node's neighbor list."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"One graph compares visited count with frontier size, a second tracks current depth against deepest reached depth, and a third compares new discoveries with repeat skips.",
+"Together they show why cyclic graph traversal needs frontier and visited state to play different roles."
+]
+}
+},
+"pageIntro": {
+"definition": "Use one cyclic graph to track the current node, frontier nodes waiting their turn, and visited nodes whose neighbors are already checked.",
+"whyItMatters": "That bookkeeping keeps graph search from circling forever or counting the same work twice.",
+"keyTakeaway": "Frontier means discovered and waiting; visited means already expanded, so repeat edges can be skipped honestly."
+}
+}

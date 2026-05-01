@@ -1,0 +1,359 @@
+{
+  "title": "德布羅意物質波",
+  "shortTitle": "物質波",
+  "summary": "使用一個緊湊的物質波工作台，瞭解粒子動量如何決定波長，為什麼較重或較快的粒子會有較短的波長，以及整數倍迴圈如何形成通往早期量子行為的橋樑。",
+  "highlights": [
+    "動量決定波長",
+    "質量或速度可以縮短波長",
+    "整數倍迴圈匹配"
+  ],
+  "topic": "現代物理",
+  "subtopic": "物質波與量子橋樑",
+  "recommendedNext": [
+    {
+      "slug": "bohr-model",
+      "reasonLabel": "整數倍迴圈橋樑至玻爾"
+    },
+    {
+      "slug": "atomic-spectra",
+      "reasonLabel": "重新連線線據證據"
+    },
+    {
+      "slug": "wave-speed-wavelength",
+      "reasonLabel": "重新探討波長作為間隔"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "德布羅意的提案透過粒子的動量賦予其波長。在這個限定頁面中，僅使用波的概念作為橋樑：較快或較重的粒子具有更大的動量，因此其波長變短而不是變長。",
+        "工作台保持緊湊而且視覺上誠實。一個面板顯示局部物質波間隔，另一個固定迴圈則問同一路徑可以容納多少個波長。這樣已足夠把波長間隔和早期量子行為連起來，而不必假裝這一頁是完整的量子力學解法。"
+      ]
+    },
+    "keyIdeas": [
+      "物質波透過\\(\\lambda = h / p\\)與動量相關聯，因此關鍵的逆關係是波長與動量之間的關係，而不是波長與每秒移動距離之間的關係。",
+      "對於這裡的非相對論性模型，\\(p = mv\\)，所以提高質量或速度會使波長變短。",
+      "當一個固定迴圈剛好容納整數個波長時，就會出現一個乾淨的閉合匹配。這個整數倍迴圈提示，是通往量子化行為與玻爾分支的一道有用橋樑，即使它不是完整的現代量子圖景。"
+    ],
+    "commonMisconception": {
+      "myth": "較快的粒子應該具有更長的波長，因為它每秒覆蓋更多的距離。",
+      "correction": [
+        "德布羅意波長並非由一秒內移動的距離決定。它是透過動量決定的，所以更大的動量意味著更短的波長。",
+        "這個頁面也不像小水波那樣處理粒子。它使用波長作為通往波概念與量子行為之間橋樑的限定範圍。"
+      ]
+    },
+    "workedExamples": {
+      "title": "實時物質波檢查",
+      "intro": "直接從實時工作台獲取當前粒子質量和速度。相同的設定驅動區域性間隔草圖、迴圈-fit 規則以及響應圖表。",
+      "items": [
+        {
+          "id": "current-wavelength-from-momentum",
+          "title": "當前動量和波長",
+          "prompt": "對於當前粒子質量\\({{massMultipleValue}}\\,m_e\\)和速度\\({{speedValue}}\\,\\mathrm{Mm/s}\\)，從\\(p = mv\\)和\\(\\lambda = h / p\\)推匯出什麼動量和德布羅意波長？",
+          "variables": [
+            {
+              "id": "massMultiple",
+              "label": "粒子質量"
+            },
+            {
+              "id": "speedMms",
+              "label": "速度"
+            },
+            {
+              "id": "momentum",
+              "label": "動量"
+            }
+          ],
+          "steps": [
+            {
+              "id": "momentum-link",
+              "label": "1. 將質量和速度合併成一個動量"
+            },
+            {
+              "id": "wavelength-link",
+              "label": "2. 使用德布羅意關係式"
+            },
+            {
+              "id": "read-stage",
+              "label": "3. 如實地使用工作台"
+            }
+          ],
+          "resultLabel": "當前物質的波長",
+          "applyAction": {
+            "label": "顯示較短波長的情況",
+            "observationHint": "當地間距變得更緊密，迴圈計數同時上升，因為兩種觀測方式都在讀取同一個較小的波長。"
+          }
+        },
+        {
+          "id": "current-loop-fit",
+          "title": "當前整數迴圈匹配",
+          "prompt": "隨著固定的迴圈周長\\(L = {{loopCircumferenceValue}}\\,\\mathrm{nm}\\)，現在有多少個波長能圍繞迴圈，並且這個值接近一個整數匹配嗎？",
+          "steps": [
+            {
+              "id": "fit-relation",
+              "label": "1. 使用迴圈匹配關係式"
+            },
+            {
+              "id": "fit-substitute",
+              "label": "2. 代入實時值"
+            },
+            {
+              "id": "fit-interpret",
+              "label": "3. 與最近的整數進行比較"
+            }
+          ],
+          "resultLabel": "當前迴圈匹配",
+          "applyAction": {
+            "label": "顯示接近一個匹配的情況",
+            "observationHint": "觀察迴圈接縫如何清理，當匹配計數接近一個完整波長時。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "兩個電子使用相同的固定迴圈。電子 B 的移動速度約為電子 A 的兩倍，而質量保持不變。哪個電子更接近於圍繞迴圈多出完整的波長，為什麼？",
+      "prediction": "首先從動量和波長來回答，而不是根據路徑的長度。",
+      "answer": "電子 B 更接近於圍繞迴圈多出完整的波長，因為較大的速度導致更大的動量，而更大的動量意味著更短的德布羅意波長。",
+      "explanation": "迴圈長度保持固定，所以減小\\(\\lambda\\)會增加\\(N = L / \\lambda\\)。因此較快的電子在相同路徑上能繞著更多波長。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "回答來自實時動量-波長連結，而非鬆散的波類比。",
+    "questions": [
+      {
+        "id": "dbmw-qt-faster-shorter",
+        "prompt": "對於相同的粒子質量，你增加速度。接下來應該發生什麼?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "動量增加，所以波長變短且迴圈中的波數上升。"
+          },
+          {
+            "id": "b",
+            "label": "波長變長因為粒子每秒行進更遠。"
+          },
+          {
+            "id": "c",
+            "label": "沒有變化，因為德布羅意波長僅依賴於質量。"
+          }
+        ],
+        "explanation": "在固定質量下，速度提高動量。較大的動量意味著較小的\\(\\lambda\\)，因此固定的迴圈能包含更多波。",
+        "selectedWrongExplanations": {
+          "b": "每秒行進距離不是這裡的直接規則。是動量。",
+          "c": "質量很重要，但速度也很重要因為兩者都透過\\(p = mv\\)進入。"
+        },
+        "showMeAction": {
+          "label": "顯示較快的電子",
+          "observationHint": "當地間距收緊且迴圈數一起上升。"
+        }
+      },
+      {
+        "id": "dbmw-qt-heavier-shorter",
+        "prompt": "以相同的速度，在此頁面上較重的粒子應該有:",
+        "choices": [
+          {
+            "id": "a",
+            "label": "較短的波長因為它的動量更大。"
+          },
+          {
+            "id": "b",
+            "label": "相同的波長因為只有速度才重要。"
+          },
+          {
+            "id": "c",
+            "label": "較長的波長因為較重的粒子需要更寬的波。"
+          }
+        ],
+        "explanation": "質量也改變著動量。以\\(p = mv\\)，在同一速度下較重的粒子具有更大的動量且因此擁有更短的\\(\\lambda\\)。",
+        "selectedWrongExplanations": {
+          "b": "這會忽略動量內的質量因子。",
+          "c": "模型説相反：較大的動量意味著較短的波長。"
+        },
+        "showMeAction": {
+          "label": "顯示較重的粒子以相同的速度",
+          "observationHint": "速度幾乎沒有變化，但動量和迴圈數有。"
+        }
+      },
+      {
+        "id": "dbmw-qt-same-momentum",
+        "prompt": "案例A使用\\(m = 1\\,m_e\\)和\\(v = 2.2\\,\\mathrm{Mm/s}\\)。案例B使用\\(m = 2\\,m_e\\)和\\(v = 1.1\\,\\mathrm{Mm/s}\\)。哪個陳述正確?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "因為動量差不多，所以他們擁有約相同的波長。"
+          },
+          {
+            "id": "b",
+            "label": "案例B有較短的波長因為粒子更重。"
+          },
+          {
+            "id": "c",
+            "label": "案例A有較短的波長因為粒子更快。"
+          }
+        ],
+        "explanation": "這兩個質量-速度配對約給出相同的乘積 \\(mv\\)，所以它們在 \\(\\lambda\\) 過於 \\(p\\) 曲線上的位置大致相同。",
+        "selectedWrongExplanations": {
+          "b": "單獨的質量是不夠的。較慢的速度在此處進行補償。",
+          "c": "單獨的速度也是不夠的。較輕的質量在相反方向進行補償。"
+        },
+        "showMeAction": {
+          "label": "顯示相同的動量交換",
+          "observationHint": "與近似一配電子的情況比較。波長應該保持相近。"
+        }
+      },
+      {
+        "id": "dbmw-qt-whole-number-fit",
+        "prompt": "在環形擬合面板上，\\(N = 2\\) 是什麼意思？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "兩個波長可以圍繞固定環形路徑完全吻合，因此纏繞的圖案在兩次迴圈後閉合。"
+          },
+          {
+            "id": "b",
+            "label": "粒子每秒繞環行路徑執行兩圈。"
+          },
+          {
+            "id": "c",
+            "label": "波長是環形路徑周長的兩倍。"
+          }
+        ],
+        "explanation": "環形擬合計數是一個空間比率 \\(N = L / \\lambda\\)。它表示多少個波長可以圍繞路徑纏繞，而不是粒子每秒繞行次數。",
+        "selectedWrongExplanations": {
+          "b": "這裡圖表不是在測量軌道頻率。它是在測量固定路徑上的波長計數。",
+          "c": "如果 \\(N = 2\\)，環形路徑周長是波長的兩倍，反之則不然。"
+        },
+        "showMeAction": {
+          "label": "顯示近似兩配電子的情況",
+          "observationHint": "環形接縫在大約兩個波長後接近閉合。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬展示了一個緊湊的德布羅意物質波台，左側有一個區域性間距條帶，右側有一個固定環。條帶顯示沿短路徑段的當前物質波長，而環則顯示多少個波長可以圍繞一個類似玻爾的固定周長。",
+        "可選疊加標記一條波長在條帶上，質量與速度之間的動量連結，以及完整的環形擬合。讀數卡片總結了質量、速度、動量、波長、固定的環長度和當前擬合計數。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "波長-動量圖表直接顯示了德布羅意關係的倒數。環形擬合圖表展示了固定環如何隨著動量增加而容納更多波長。懸停在任一圖表上可以預覽該動量下的相同台架。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "實時物質波檢查"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "整數擬合檢查點"
+      },
+      {
+        "id": "readNext",
+        "title": "繼續推進波動量子橋樑"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "momentum",
+      "label": "非相對論性動量",
+      "meaning": "在這個有界頁面中，質量和速度結合成一個動量，它決定了物質波長。"
+    },
+    {
+      "id": "de-broglie",
+      "label": "德布羅意關係",
+      "meaning": "隨著動量增加，物質波長減小。"
+    },
+    {
+      "id": "mass-speed-wavelength",
+      "label": "質量-速度形式",
+      "meaning": "對於同一種粒子，速度越高則波長越短。對於相同的速度，較重的粒子也具有較短的波長。"
+    },
+    {
+      "id": "loop-fit",
+      "label": "整數圈環契合",
+      "meaning": "當整數個波長能夠完美地圍繞固定路徑時，就會出現清潔的圈環接合。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "massMultiple",
+      "label": "粒子質量",
+      "description": "在同一速度下，較重的粒子具有更大的動量，因此其物質波長變短。"
+    },
+    {
+      "id": "speedMms",
+      "label": "速度",
+      "description": "在這個有界模型中，速度越快的粒子具有更大的動量，所以區域性波的間距縮小，更多個波長能夠圍繞圈環。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "massMultiple",
+        "label": "粒子質量"
+      },
+      {
+        "id": "speedMms",
+        "label": "速度"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "momentumLink",
+        "label": "動量連結"
+      }
+    ]
+  },
+  "predictionMode": {
+    "items": [
+      {
+        "id": "dbmw-pred-faster-same-mass",
+        "changeLabel": "速度"
+      },
+      {
+        "id": "dbmw-pred-heavier-same-speed",
+        "changeLabel": "粒子質量"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "沿用同一個有邊界的物質波工作台完成整數擬合目標，不切換到另一個量子工具。",
+    "items": [
+      {
+        "id": "dbmw-ch-one-fit",
+        "title": "找出單圈擬合電子",
+        "prompt": "由「慢速電子」開始，在不改變粒子質量下只調整速度，令固定圓環接近剛好容納一個波長。",
+        "successMessage": "你找到了接近單圈擬合的情況：圓環幾乎剛好等於一個波長。",
+        "setup": {
+          "note": "把圓環擬合圖和接縫提示一起看。"
+        },
+        "hints": [
+          "把質量維持在電子的基準值。",
+          "你的目標是 $N \\approx 1$，而不只是把波長調短。"
+        ]
+      },
+      {
+        "id": "dbmw-ch-heavy-shorter-wave",
+        "title": "做出較重但同速的粒子",
+        "prompt": "由「接近單圈擬合電子」開始，保持速度接近原值，但把粒子加重到大約能讓兩個波長繞滿整個圓環。",
+        "successMessage": "你清楚示範了質量效應：速度相近，但動量更大、波長更短，而且圓環擬合數接近二。",
+        "setup": {
+          "note": "把質量當成主要控制桿，速度則盡量維持在原本單圈擬合案例附近。"
+        },
+        "hints": [
+          "把速度保持在接近單圈擬合電子的水平。",
+          "你的目標是透過增加質量提升動量，從而把波長縮短。"
+        ]
+      }
+    ]
+  }
+}

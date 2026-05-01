@@ -1,0 +1,219 @@
+{
+"pageFramework": {
+"featuredSetups": [
+{
+"id": "crowded-small-beaker",
+"description": "Open a concentrated case and notice many solute particles packed into a small solvent volume."
+},
+{
+"id": "diluted-same-solute",
+"description": "Open the same solute amount in more liquid and compare how the particles spread out as concentration falls."
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Concentration is not just about how full the beaker looks. It tells you how much solute is present for a given amount of liquid. This bench keeps the particle view, amount-volume guide, and concentration readout together so you can connect the number to what the mixture looks like.",
+"Dilution means adding more solvent while keeping the solute amount the same. That spreads the same dissolved particles through more liquid, so concentration falls. Adding solute can also change concentration, but for a different reason: there is more dissolved material, not just more liquid around it."
+]
+},
+"keyIdeas": [
+"Concentration compares solute amount with liquid volume.",
+"Dilution lowers concentration by increasing solvent volume while keeping the solute amount fixed.",
+"Adding solute can also change concentration, but that is not the same process as dilution."
+],
+"commonMisconception": {
+"myth": "If the beaker looks fuller, it must contain more solute.",
+"correction": [
+"A fuller beaker can simply contain more solvent, so the same solute is spread out more.",
+"To tell whether concentration changed, you have to check both solute amount and solvent volume."
+]
+},
+"workedExamples": {
+"title": "Worked example: read the beaker first",
+"intro": "Use the live beaker to decide what is changing: solute amount, solvent volume, or both.",
+"items": [
+{
+"id": "read-the-current-concentration",
+"title": "Read what makes this mixture concentrated or dilute",
+"prompt": "For the current mixture, what makes the concentration high or low?",
+"variables": [
+{
+"id": "solute-amount",
+"label": "Amount of solute"
+},
+{
+"id": "solvent-volume",
+"label": "Volume of solvent"
+}
+],
+"steps": [
+{
+"id": "read-amount",
+"label": "1. Read the solute amount"
+},
+{
+"id": "read-volume",
+"label": "2. Read the solvent volume"
+},
+{
+"id": "read-concentration",
+"label": "3. Use both to read the concentration"
+}
+],
+"resultLabel": "Beaker concentration",
+"applyAction": {
+"label": "Apply the same-solute dilution",
+"observationHint": "The solute amount stays the same, but the particles spread through more liquid and the concentration readout falls."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Make the beaker clearly less concentrated without removing any solute.",
+"prediction": "Before you change anything, decide whether dilution means changing solute amount, solvent volume, or both.",
+"answer": "Add solvent while keeping the solute amount fixed.",
+"explanation": "That lowers concentration by spreading the same dissolved particles through more liquid."
+}
+},
+"equations": [
+{
+"id": "concentration-rule",
+"label": "Concentration from amount and volume",
+"meaning": "Use it as a reading rule: the same solute is less concentrated when it is spread through more liquid."
+},
+{
+"id": "dilution-story",
+"label": "Dilution keeps solute fixed",
+"meaning": "During dilution, the solute amount stays the same while the solvent volume increases."
+}
+],
+"variableLinks": [
+{
+"id": "solute-amount",
+"description": "Changes how much dissolved material is in the beaker. More solute in the same volume means higher concentration."
+},
+{
+"id": "solvent-volume",
+"description": "Changes how much liquid the solute is spread through. More solvent with the same solute means lower concentration."
+}
+],
+"simulation": {
+"presets": [
+{
+"id": "crowded-beaker",
+"description": "Lots of solute packed into a smaller solvent volume."
+},
+{
+"id": "diluted-same-solute",
+"description": "The same solute amount spread through more liquid, so the concentration is lower."
+},
+{
+"id": "more-solute-same-volume",
+"description": "A higher concentration caused by adding more solute to the same liquid volume."
+}
+],
+"overlays": [
+{
+"id": "densityCue",
+"shortDescription": "Show how crowded the same solute looks in different volumes.",
+"whatToNotice": [
+"When the solute amount stays the same, adding more solvent makes the particles look more spread out."
+],
+"whyItMatters": "It connects the concentration number to how crowded the dissolved particles really are."
+},
+{
+"id": "amountVolumeGuide",
+"shortDescription": "Keep solute amount and solvent volume visible side by side.",
+"whatToNotice": [
+"Adding solvent and adding solute can both change concentration, but they change different parts of the mixture."
+],
+"whyItMatters": "It helps you see why dilution means changing volume, not changing the amount of solute."
+}
+]
+},
+"noticePrompts": {
+"title": "What to notice in the beaker",
+"intro": "Keep the beaker, the amount-volume guide, and a concentration graph visible together.",
+"items": [
+{
+"id": "cd-notice-dilution",
+"text": "Increase solvent volume while keeping solute amount fixed. The concentration should fall because the same particles are spread through more liquid."
+},
+{
+"id": "cd-notice-more-solute",
+"text": "Increase solute amount while keeping solvent volume fixed. The concentration rises because there is more dissolved material in the same amount of liquid."
+}
+]
+},
+"predictionMode": {
+"title": "Predict before you dilute",
+"intro": "Predict what the concentration will do before you add solvent or solute.",
+"items": [
+{
+"id": "cd-predict-dilution",
+"prompt": "If solvent volume increases while solute amount stays fixed, what should happen to the concentration?",
+"scenarioLabel": "Add solvent only",
+"choices": [
+{
+"id": "a",
+"label": "The concentration should drop because the same solute is now spread through more liquid."
+},
+{
+"id": "b",
+"label": "The concentration should rise because the beaker is fuller."
+},
+{
+"id": "c",
+"label": "Nothing should change."
+}
+],
+"explanation": "Dilution lowers concentration because the same solute is spread through a larger volume of liquid.",
+"observationHint": "Watch the concentration readout fall while the particle view looks more spread out."
+}
+]
+},
+"quickTest": {
+"title": "Quick check",
+"intro": "Answer from the beaker, the amount-volume guide, and the concentration graphs.",
+"questions": [
+{
+"id": "cd-qt-dilution",
+"prompt": "What does dilution mean on this bench?",
+"explanation": "Dilution means adding more liquid so the same solute is spread through a larger volume."
+},
+{
+"id": "cd-qt-solute-vs-solvent",
+"prompt": "Which change raises concentration because there is more solute, not because the volume changed?",
+"explanation": "Adding solute raises concentration by increasing the amount of dissolved material rather than by changing the amount of liquid."
+}
+]
+},
+"challengeMode": {
+"title": "Challenge: dilute without losing solute",
+"intro": "Use dilution honestly: lower concentration by adding solvent, not by quietly changing to a different solute amount.",
+"items": [
+{
+"id": "cd-ch-dilute-without-losing-solute",
+"title": "Lower concentration by adding solvent",
+"prompt": "Start from a crowded beaker and make it clearly less concentrated while keeping the solute amount close to the starting value.",
+"successMessage": "You diluted the mixture without switching to a different solute case. The concentration fell because the same dissolved material occupied more liquid."
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows a beaker with dissolved particles, a concentration readout, and controls for solute amount and solvent volume.",
+"The overlays help the learner compare how much solute is present with how much liquid it is spread through."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"One graph shows how concentration changes with solvent volume, and a second shows how concentration changes with solute amount.",
+"Comparing the two graphs helps separate dilution from simply adding more solute."
+]
+}
+}
+}

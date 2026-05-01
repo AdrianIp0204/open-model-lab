@@ -1,0 +1,74 @@
+name: Content correction
+description: Report incorrect, unclear, or stale educational content.
+title: "[Content]: "
+labels:
+  - "type: content"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for educational content corrections. Include evidence when possible and avoid pasting copyrighted material beyond short excerpts.
+  - type: input
+    id: concept-topic-page
+    attributes:
+      label: Concept, topic, or page
+      description: Include the route or content path if known.
+    validations:
+      required: true
+  - type: dropdown
+    id: subject-area
+    attributes:
+      label: Subject area
+      options:
+        - Physics
+        - Chemistry
+        - Biology
+        - Mathematics
+        - General science
+        - Other / not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: locale
+    attributes:
+      label: Language or locale
+      options:
+        - English
+        - zh-HK
+        - Other / not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: correction-type
+    attributes:
+      label: Type of correction
+      options:
+        - Factual accuracy
+        - Wording clarity
+        - Typo or grammar
+        - Pedagogy or sequencing
+        - Broken example or exercise
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: incorrect-content
+    attributes:
+      label: Incorrect or unclear content
+      description: Quote only the minimum needed to identify the issue.
+    validations:
+      required: true
+  - type: textarea
+    id: suggested-correction
+    attributes:
+      label: Suggested correction
+      description: What should it say or do instead?
+    validations:
+      required: false
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Source or evidence
+      description: Link textbooks, papers, standards, or reliable references if available.
+    validations:
+      required: false

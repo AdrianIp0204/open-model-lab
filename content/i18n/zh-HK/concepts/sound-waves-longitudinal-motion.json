@@ -1,0 +1,475 @@
+{
+  "title": "聲波與縱向運動",
+  "shortTitle": "聲波",
+  "summary": "透過同一個簡潔的介質實驗台，把粒子往復運動、壓縮與疏鬆、探測器計時和能量傳遞連在一起，理解聲波為何是縱波。",
+  "highlights": [
+    "壓縮與疏鬆",
+    "粒子運動與波的傳播",
+    "透過介質傳遞能量"
+  ],
+  "topic": "聲音",
+  "subtopic": "介質中的聲波",
+  "recommendedNext": [
+    {
+      "slug": "pitch-frequency-loudness-intensity",
+      "reasonLabel": "音調與音量"
+    },
+    {
+      "slug": "beats",
+      "reasonLabel": "相近音調"
+    },
+    {
+      "slug": "doppler-effect",
+      "reasonLabel": "移動引起的音調"
+    },
+    {
+      "slug": "wave-interference",
+      "reasonLabel": "雙源疊加"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "聲波在氣體或液體中屬於縱波。擾動會穿過介質向前傳播，但介質中的粒子不會一路跟著聲波移動；它們只是在各自的平衡位置附近來回振動，而壓縮與疏鬆區域沿著管道前進。",
+        "這個實驗台把聲源活塞、一排粒子、壓力帶和可移動探測器放在同一個畫面。聲源與探測器的計時、局部壓縮訊號，以及向右傳播的擾動都來自同一個位移場，所以模型保持視覺上真實，同時仍然足夠簡潔。"
+      ]
+    },
+    "keyIdeas": [
+      "在縱波中，粒子的振動方向與擾動傳播方向平行，而不是垂直。",
+      "壓縮是鄰近粒子比平常更接近的區域；疏鬆是鄰近粒子比平常更分開的區域。",
+      "聲波透過介質傳遞能量：每個粒子推動鄰近粒子，使擾動和能量向前傳播，即使每個粒子只在平衡位置附近振動。"
+    ],
+    "commonMisconception": {
+      "myth": "如果聲波向右前進，每個空氣粒子也一定會穩定地向右漂移。",
+      "correction": [
+        "擾動向右移動，但每個粒子主要圍繞自己的平衡位置來回振動。",
+        "沿著管道前進的是壓縮與疏鬆的模式，以及介質中的能量傳遞；不是一整團物質被搬到右邊。"
+      ]
+    },
+    "workedExamples": {
+      "title": "例題演練",
+      "intro": "這些檢查讀取實驗台和圖表已經顯示的同一個聲源、探測器和壓縮狀態，所以代數始終連回縱波圖像。",
+      "items": [
+        {
+          "id": "sound-travel-timing",
+          "title": "聲源計時和探測器延遲",
+          "prompt": "對於目前的聲波，v_wave = {{waveSpeedValue}} m/s，λ = {{wavelengthValue}} m，而探測器在 x_p = {{probeXValue}} m。需要甚麼聲源頻率？擾動要多久才會到達探測器？",
+          "variables": [
+            {
+              "id": "wave-speed",
+              "label": "波速"
+            },
+            {
+              "id": "wavelength",
+              "label": "波長"
+            },
+            {
+              "id": "probe-position",
+              "label": "探測器位置"
+            },
+            {
+              "id": "frequency",
+              "label": "頻率"
+            },
+            {
+              "id": "travel-delay",
+              "label": "行進延遲"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 從波的計時關係開始"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 代入目前的波速、間距和探測器位置"
+            },
+            {
+              "id": "compute",
+              "label": "3. 解釋聲源和探測器的結果"
+            }
+          ],
+          "resultLabel": "目前聲波的計時",
+          "applyAction": {
+            "label": "顯示更遠的探測器",
+            "observationHint": "即使每個粒子仍然只在自己的平衡位置附近振動，同一個縱向模式也會較晚到達下游位置。"
+          }
+        },
+        {
+          "id": "local-compression-cue",
+          "title": "局部壓縮來自粒子運動",
+          "prompt": "在目前探測器位置 x_p = {{probeXValue}} m 和時間 t = {{timeValue}} s，粒子的位置告訴你局部介質狀態如何？",
+          "variables": [
+            {
+              "id": "probe-position",
+              "label": "探測器位置"
+            },
+            {
+              "id": "particle-amplitude",
+              "label": "粒子振幅"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 把位移連到局部間距"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 讀取目前探測器附近的粒子"
+            },
+            {
+              "id": "compute",
+              "label": "3. 如實解釋局部狀態"
+            }
+          ],
+          "resultLabel": "目前局部狀態",
+          "applyAction": {
+            "label": "顯示強烈的壓縮",
+            "observationHint": "高亮粒子接近自己的中心位置，而壓縮提示達到正峰值。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "介質保持不變，所以波速固定。哪一個單一改變可以讓壓縮區排列得更密，同時粒子運動仍沿著管道縱向進行？",
+      "prediction": "判斷應該增加振幅、縮短波長，還是把探測器移到更右邊。",
+      "answer": "縮短波長。",
+      "explanation": "壓縮區的間距跟隨波長。縮短 λ 可以在相同距離內放入更多壓縮與疏鬆區，但每個粒子仍然只沿著管道縱向振動。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "使用連在一起的粒子和壓力視圖，而不要只靠記憶。這些檢查集中在縱向聲波的物理意義。",
+    "questions": [
+      {
+        "id": "sound-qt-direction",
+        "prompt": "哪個敘述最能描述此聲波模型中，介質粒子的運動和波的傳播有甚麼不同？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "粒子只在局部來回振動，而擾動和能量透過介質向前傳播。"
+          },
+          {
+            "id": "b",
+            "label": "粒子會隨著聲波穩定向右漂移，所以擾動才會向前移動。"
+          },
+          {
+            "id": "c",
+            "label": "粒子垂直於擾動運動，因為所有波都應該這樣繪畫。"
+          }
+        ],
+        "explanation": "縱向聲波透過局部推拉把擾動傳遞到介質中。物質本身主要在平衡位置附近振動。",
+        "selectedWrongExplanations": {
+          "b": "這會把介質當成穩定漂流的流體，而不是由局部振動傳遞能量。",
+          "c": "垂直粒子運動屬於橫波模型，不屬於這個聲波實驗台。"
+        },
+        "showMeAction": {
+          "label": "突出兩種方向",
+          "observationHint": "運動疊加層會同時顯示粒子的來回方向，以及向右移動的擾動。"
+        }
+      },
+      {
+        "id": "sound-qt-compression",
+        "prompt": "在探測器的壓力圖上，強烈的壓縮提示代表甚麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "探測器附近位於壓縮區，鄰近粒子被擠得更接近。"
+          },
+          {
+            "id": "b",
+            "label": "粒子必定位於最右邊，所以局部間距自動最大。"
+          },
+          {
+            "id": "c",
+            "label": "聲波已經停止移動，因為提示不再改變正負號。"
+          }
+        ],
+        "explanation": "壓縮描述的是介質中的局部擠壓。粒子可以接近其平衡位置，而壓縮提示仍然很大且為正。",
+        "selectedWrongExplanations": {
+          "b": "單一粒子的位移和局部壓縮提示不是同一個量。壓縮取決於附近粒子之間的間距。",
+          "c": "同一個行進擾動不斷經過探測器時，提示會隨時間改變。"
+        },
+        "showMeAction": {
+          "label": "顯示強烈的壓縮",
+          "observationHint": "比較粒子位移與同一時刻的壓縮曲線。"
+        }
+      },
+      {
+        "id": "sound-qt-wavelength",
+        "prompt": "波速保持固定，但波長被縮短。這代表甚麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "壓縮區排列得更密，而聲源頻率增加。"
+          },
+          {
+            "id": "b",
+            "label": "粒子的振幅必須減少，因為壓縮區更密。"
+          },
+          {
+            "id": "c",
+            "label": "探測器延遲變長，因為同一距離內放入更多壓縮區。"
+          }
+        ],
+        "explanation": "在固定波速下，較短的波長代表每米有更多週期。壓縮區之間會更接近，聲源頻率也會提高。",
+        "selectedWrongExplanations": {
+          "b": "振幅和波長是這個模型中的不同控制項。改變其中一個，不會自動迫使另一個改變。",
+          "c": "探測器延遲取決於探測器距離和波速，而不是同一距離內有多少個壓縮區。"
+        },
+        "showMeAction": {
+          "label": "顯示更緊密的壓縮",
+          "observationHint": "壓力帶在相同管長內顯示更多重複圖樣，而聲源標記也會加快。"
+        }
+      },
+      {
+        "id": "sound-qt-one-wavelength-farther",
+        "prompt": "設定 B 只把探測器放到比設定 A 再下游一個完整波長的位置，其餘條件都不變。哪個敘述正確？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "設定 B 會重複同一個局部相位關係，但會晚整整一個週期。"
+          },
+          {
+            "id": "b",
+            "label": "設定 B 必定會變成相反相位，因為它距離更遠。"
+          },
+          {
+            "id": "c",
+            "label": "設定 B 的壓縮圖樣會消失，因為擾動已經擴散開。"
+          }
+        ],
+        "explanation": "增加一個波長會增加一整個週期的延遲。行進時間變長，但每隔完整週期，重複的相位關係會回到原來狀態。",
+        "selectedWrongExplanations": {
+          "b": "相反相位會在半個波長後發生，而不是在一整個波長後發生。",
+          "c": "在這個有邊界的模型中，下游仍然有同一個行進壓縮模式。"
+        },
+        "showMeAction": {
+          "label": "顯示多一個波長",
+          "observationHint": "探測器訊號在額外一個週期的延遲後，會與同一相位關係對齊。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一條水平管道，左側有聲源活塞，管內有一排粒子標記，以及一個可移動的探測器粒子。管內的彩色帶標記局部壓縮與疏鬆區域，選項疊加標籤則顯示粒子移動方向、壓縮圖樣和向右能量傳遞的提示。",
+        "改變粒子振幅、波速、波長或探測器位置，會同步更新同一個舞台、探測器圖表和讀數卡，讓粒子運動、壓縮狀態和行進延遲保持一致。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "第一個圖表比較聲源和探測器粒子的位移隨時間變化，用來把下游延遲連回即時聲波實驗台。",
+        "第二個圖表比較探測器粒子的標準化位移與局部壓縮提示，幫助學習者分辨單一粒子的位置，以及其周圍介質的局部擠壓狀態。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "實時聲音檢查"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "壓縮檢查點"
+      },
+      {
+        "id": "readNext",
+        "title": "帶入後續波概念"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "sound-displacement",
+      "label": "縱向粒子位移",
+      "meaning": "每個粒子沿著擾動行進的同一條線來回運動，而不是橫向穿過介質。"
+    },
+    {
+      "id": "sound-wave-relation",
+      "label": "波的時間與間距關係",
+      "meaning": "波速把聲源的振動時間和壓縮區之間的距離連在一起。"
+    },
+    {
+      "id": "sound-travel-delay",
+      "label": "行進延遲",
+      "meaning": "離聲源更遠的粒子會較晚反應，因為擾動需要時間穿過介質。"
+    },
+    {
+      "id": "sound-compression-cue",
+      "label": "壓縮與疏鬆提示",
+      "meaning": "正提示代表鄰近粒子被擠得更接近；負提示代表它們分得更開。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "amplitude",
+      "label": "粒子振幅",
+      "description": "改變每個粒子離開平衡位置的擺動距離，因此影響壓縮與疏鬆提示的強度。"
+    },
+    {
+      "id": "waveSpeed",
+      "label": "波速",
+      "description": "設定壓縮模式及其能量在介質中傳播的速度。"
+    },
+    {
+      "id": "wavelength",
+      "label": "波長",
+      "description": "設定壓縮與疏鬆沿著介質重複出現的間距。"
+    },
+    {
+      "id": "probeX",
+      "label": "探測器位置",
+      "description": "把探測器向下游移動，讓你比較同一個聲波在不同位置的局部運動、局部壓縮和行進延遲。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "amplitude",
+        "label": "粒子振幅",
+        "description": "控制每個粒子相對平衡位置左右擺動的距離，並影響壓縮與疏鬆提示的強弱。"
+      },
+      {
+        "id": "waveSpeed",
+        "label": "波速",
+        "description": "控制擾動和能量沿介質前進的速度。"
+      },
+      {
+        "id": "wavelength",
+        "label": "波長",
+        "description": "控制相鄰壓縮區之間的距離，並在固定波速下改變頻率。"
+      },
+      {
+        "id": "probeX",
+        "label": "探測器位置",
+        "description": "移動探測器以比較同一個聲波模式在不同位置的延遲與局部壓縮狀態。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "baseline",
+        "label": "基準設定",
+        "description": "一個中等強度的聲波，探測器離聲源有一段距離，但目前不在最大壓縮點。"
+      }
+    ]
+  },
+  "noticePrompts": {
+    "items": [
+      {
+        "id": "sound-notice-compare"
+      },
+      {
+        "id": "sound-notice-compare"
+      },
+      {
+        "id": "sound-notice-compare"
+      },
+      {
+        "id": "sound-notice-compare"
+      },
+      {
+        "id": "sound-notice-compare"
+      },
+      {
+        "id": "sound-notice-compare"
+      },
+      {
+        "id": "sound-notice-compare",
+        "whyItMatters": "比較模式可以把間距改變和時間延遲改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。"
+      }
+    ]
+  },
+  "predictionMode": {
+    "items": [
+      {
+        "id": "sound-predict-faster-wave",
+        "changeLabel": "波速"
+      },
+      {
+        "id": "sound-predict-shorter-wavelength",
+        "changeLabel": "波長"
+      },
+      {
+        "id": "sound-predict-one-wavelength-farther",
+        "changeLabel": "探測器位置"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "利用同一個連結粒子實驗台與探測器圖表，把縱波概念轉化成緊湊而具體的定位任務。",
+    "items": [
+      {
+        "id": "swl-ch-find-compression",
+        "title": "找出明顯壓縮區",
+        "prompt": "由基準設定開始，移動探測器，直到它位於一個明顯壓縮區內，同時保持探測器壓力圖和壓縮疊加層可見。",
+        "successMessage": "你把探測器放到了鄰近粒子明顯擠在一起的位置。該粒子本身不是沿管道一路飛走，而只是處於介質被強烈壓縮的區域。",
+        "setup": {
+          "note": "移動探測器時，請同時參考壓力標記與探測器圖表。"
+        },
+        "hints": [
+          "強烈壓縮代表標準化壓縮指標應接近 +1。",
+          "即使同一時刻粒子的位移接近零，也仍可能處於壓縮區。壓縮描述的是局部間距，而不只是某個粒子離中心多遠。"
+        ],
+        "checks": [
+          {
+            "label": "打開探測器位移與壓縮圖。"
+          },
+          {
+            "label": "保持壓縮疊加層可見。"
+          },
+          {
+            "label": "令標準化壓縮指標明顯為正。"
+          },
+          {
+            "label": "讓探測器粒子接近其中心位置。"
+          }
+        ]
+      },
+      {
+        "id": "swl-ch-one-wavelength-later",
+        "title": "晚一個完整波長",
+        "prompt": "進入比較模式，令設定 B 比設定 A 沿下游遠一個完整波長，讓兩個探測器保持相同相位關係，但設定 B 會晚一個週期到達。",
+        "successMessage": "設定 B 比設定 A 再下游遠一個波長。局部相位會重複，但傳播延遲和週期滯後都會多出整整一個週期。",
+        "setup": {
+          "note": "把基準設定複製到 A 和 B，然後只修改設定 B。"
+        },
+        "hints": [
+          "不要改變兩個設定之間的波長或波速。",
+          "多出一個完整波長，會多出一整個週期的延遲，但不會改變重複出現的相位關係。"
+        ],
+        "checks": [
+          {
+            "label": "切換到比較模式，並編輯設定 B。"
+          },
+          {
+            "label": "保持聲源與探測器運動圖開啟。"
+          },
+          {
+            "label": "把設定 A 保持在基準波速。"
+          },
+          {
+            "label": "把設定 B 保持在相同波速。"
+          },
+          {
+            "label": "把設定 A 保持在基準波長。"
+          },
+          {
+            "label": "把設定 B 保持在相同波長。"
+          },
+          {
+            "label": "設定 A 應保持在接近 1.25 個週期的滯後。"
+          },
+          {
+            "label": "設定 B 應位於再下游約一整個週期的位置。"
+          }
+        ]
+      }
+    ]
+  }
+}

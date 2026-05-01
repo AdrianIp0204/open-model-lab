@@ -1,0 +1,310 @@
+{
+"pageFramework": {
+"featuredSetups": [
+{
+"id": "matched-two-three-recipe",
+"description": "Open a run where the supplies form exact copies of the 2:3 recipe, so both sides finish together."
+},
+{
+"id": "three-to-two-recipe",
+"description": "Switch the recipe card to 3:2 and watch the same supply story produce a different batch count."
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Treat the stoichiometric ratio as a recipe for one full batch. If the card says 2 A + 3 B, one batch forms only when those packets are used together. This bench keeps the recipe card, supply bins, and product tray in one view so the ratio stays tied to what the reaction is actually doing.",
+"To read the bench, count how many complete copies of the recipe fit into the current supplies. When the supply ratio matches the recipe ratio, both bins support the same number of full batches. When the recipe changes, the same supplies can support a different number of batches."
+]
+},
+"keyIdeas": [
+"A stoichiometric ratio tells you how many packets of each reactant belong together in one full batch.",
+"Count complete copies of the recipe, not isolated packets on their own.",
+"Changing the recipe card changes what counts as one batch, so the same supplies can support a different output."
+],
+"commonMisconception": {
+"myth": "The larger number in the ratio must mean that reactant always makes more product.",
+"correction": [
+"The ratio numbers tell you how many packets are needed together for one full batch.",
+"Product depends on how many complete copies of the whole recipe fit into the supplies, not on which number in the ratio is larger."
+]
+},
+"workedExamples": {
+"title": "Worked example: count full batches",
+"intro": "Use the live recipe bench to count complete recipe copies instead of doing a detached proportion drill.",
+"items": [
+{
+"id": "count-full-batches-from-a-matched-recipe",
+"title": "Count batches in the matched 2:3 run",
+"prompt": "How many full batches can 10 A and 15 B make when one batch needs 2 A and 3 B?",
+"variables": [
+{
+"id": "reactant-a-supply",
+"label": "A packets available"
+},
+{
+"id": "reactant-b-supply",
+"label": "B packets available"
+},
+{
+"id": "recipe-a",
+"label": "A needed per batch"
+}
+],
+"steps": [
+{
+"id": "read-the-recipe",
+"label": "1. Read one full batch from the recipe card"
+},
+{
+"id": "count-copies",
+"label": "2. Count how many copies of the recipe fit"
+},
+{
+"id": "connect-to-output",
+"label": "3. Connect those copies to the product tray"
+}
+],
+"resultLabel": "Maximum full batches",
+"applyAction": {
+"label": "Apply the matched 2:3 run",
+"observationHint": "Both cap lines land on the same batch count because the supplies match the recipe ratio."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Adjust the bench so the supplies match the recipe and neither side caps the run first.",
+"prediction": "Before you move the sliders, decide which supply ratio would make both batch caps land together.",
+"answer": "The supply ratio must match the recipe ratio shown on the card.",
+"explanation": "When both bins support the same number of complete batches, neither reactant runs out first."
+}
+},
+"equations": [
+{
+"id": "ratio-match",
+"label": "Supply ratio matches recipe ratio",
+"meaning": "Both bins support the same number of full batches only when the supply ratio matches the recipe ratio."
+},
+{
+"id": "batch-cap",
+"label": "Maximum full batches",
+"meaning": "The reaction can finish only as many full batches as the smaller recipe-supported supply allows."
+}
+],
+"variableLinks": [
+{
+"id": "reactant-a-supply",
+"description": "Changing A changes how many complete recipe copies the A bin can support."
+},
+{
+"id": "reactant-b-supply",
+"description": "Changing B changes how many complete recipe copies the B bin can support."
+},
+{
+"id": "recipe-a",
+"description": "Changing this redefines one full batch by changing how much A each batch needs."
+},
+{
+"id": "recipe-b",
+"description": "Changing this redefines one full batch by changing how much B each batch needs."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "percentYield",
+"description": "Keep this at 100% here so the page stays focused on recipe batches before yield is introduced."
+}
+],
+"presets": [
+{
+"id": "matched-two-three",
+"description": "10 A and 15 B make exact copies of the 2:3 recipe, so neither side caps the run early."
+},
+{
+"id": "three-to-two",
+"description": "A new recipe changes what one batch needs, so the same idea leads to a different batch count."
+}
+],
+"overlays": [
+{
+"id": "recipeCard",
+"shortDescription": "Keep the batch recipe visible while the supplies change.",
+"whatToNotice": [
+"The same supplies can support a different number of batches when the recipe card changes."
+],
+"whyItMatters": "It makes the stoichiometric ratio a visible batch recipe instead of a detached ratio rule."
+},
+{
+"id": "limitingCue",
+"label": "Batch cap cue",
+"shortDescription": "Highlight which supply currently sets the batch cap.",
+"whatToNotice": [
+"When the supplies match the recipe, neither side becomes the lower cap before the other."
+],
+"whyItMatters": "It lets you compare matched and mismatched runs by watching the cap directly."
+},
+{
+"id": "yieldGap",
+"shortDescription": "Keep the ideal output marker visible for later comparisons.",
+"whatToNotice": [
+"On this page, leave yield at 100% so the main story stays about recipe batches, not missing product."
+],
+"whyItMatters": "It keeps the next idea nearby without mixing it into the main ratio story."
+}
+]
+},
+"graphs": [
+{
+"id": "batches-vs-reactant-a",
+"label": "Possible batches vs A packets",
+"xLabel": "A packets",
+"yLabel": "full recipe batches",
+"description": "Increase A and watch the batch count stop rising once the fixed B supply becomes the cap."
+},
+{
+"id": "batches-vs-reactant-b",
+"label": "Possible batches vs B packets",
+"xLabel": "B packets",
+"yLabel": "full recipe batches",
+"description": "Increase B and watch the batch count stop rising once the fixed A supply becomes the cap."
+},
+{
+"id": "yield-vs-percent",
+"label": "Actual and theoretical output",
+"description": "Useful later: here, keep yield at 100% so actual output matches the recipe-supported batch count."
+}
+],
+"noticePrompts": {
+"title": "What to notice when counting batches",
+"intro": "Keep the recipe card and a batch graph visible, then change one thing at a time.",
+"items": [
+{
+"id": "srb-notice-ratio-match",
+"text": "When the supply ratio matches the recipe ratio, both sides support the same number of full batches."
+},
+{
+"id": "srb-notice-recipe-change",
+"text": "Changing the recipe card changes what counts as one batch, so the same bins can support a different number of full batches."
+}
+]
+},
+"predictionMode": {
+"title": "Predict the batch graph",
+"intro": "Predict what the batch cap will do before you change the supplies.",
+"items": [
+{
+"id": "srb-predict-fixed-b-cap",
+"prompt": "If B stays fixed while A increases on a 2:3 recipe, what should happen after the batch count reaches the B cap?",
+"scenarioLabel": "Increase A while B stays fixed",
+"choices": [
+{
+"id": "a",
+"label": "The possible batch count should flatten because fixed B now limits how many complete batches can form."
+},
+{
+"id": "b",
+"label": "The possible batch count should keep rising because adding A always makes more product."
+},
+{
+"id": "c",
+"label": "The recipe card should stop mattering once A is large enough."
+}
+],
+"explanation": "Once the fixed B supply supports fewer full 2:3 batches than the growing A supply, extra A cannot make extra complete batches on its own.",
+"observationHint": "Watch the graph rise and then flatten when the B cap takes over."
+}
+]
+},
+"quickTest": {
+"title": "Quick check",
+"intro": "Answer from the recipe card and batch caps, not from memorized ratio tricks.",
+"questions": [
+{
+"id": "srb-qt-ratio-match",
+"prompt": "Which statement is the best reading of a stoichiometric ratio?",
+"choices": [
+{
+"id": "a",
+"label": "The recipe ratio tells you how many packets of each reactant are needed together for one full batch."
+},
+{
+"id": "b",
+"label": "The larger raw supply always makes more product, no matter what the recipe card says."
+},
+{
+"id": "c",
+"label": "The recipe ratio matters only after percent yield changes."
+}
+],
+"explanation": "Stoichiometric ratios define one complete batch before limiting reagent or percent yield enters the story.",
+"selectedWrongExplanations": {
+"b": "Raw counts alone do not set the output. Complete batches still have to satisfy the recipe card.",
+"c": "Percent yield matters later. The recipe ratio already matters when you count possible full batches."
+},
+"showMeAction": {
+"label": "Apply the matched 2:3 run",
+"observationHint": "The recipe card and both cap lines point to the same batch count."
+}
+},
+{
+"id": "srb-qt-recipe-change",
+"prompt": "If the recipe changes from 2:3 to 3:2 while the supply bins stay similar, what should change first?",
+"choices": [
+{
+"id": "a",
+"label": "The number of full batches can change because each batch now uses different packets."
+},
+{
+"id": "b",
+"label": "Nothing changes because the supply bins did not move."
+},
+{
+"id": "c",
+"label": "Only percent yield changes."
+}
+],
+"explanation": "Changing the recipe changes what one full batch uses, so the maximum batch count can change even before you move the supplies.",
+"selectedWrongExplanations": {
+"b": "The supply bins matter together with the recipe card, not by themselves.",
+"c": "Percent yield is a separate idea. The batch recipe changes first."
+},
+"showMeAction": {
+"label": "Apply the 3:2 recipe",
+"observationHint": "The new recipe changes the batch cap story even before the supply bins change much."
+}
+}
+]
+},
+"challengeMode": {
+"intro": "Build a matched run for a new recipe instead of only matching raw totals.",
+"items": [
+{
+"id": "srb-ch-build-a-three-to-two-recipe",
+"title": "Match the 3:2 recipe",
+"prompt": "Set the bench to a 3 A + 2 B recipe and choose supplies that finish four full batches together.",
+"successMessage": "You matched the new recipe correctly. Both supplies support four full 3:2 batches, so neither side caps the run early.",
+"hints": [
+"Change the recipe card first, then choose supplies that are exact copies of 3:2.",
+"Four full batches of 3:2 need 12 A packets and 8 B packets."
+]
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows two reactant supply bins, a product tray, and a recipe card that states how many packets of A and B make one full batch.",
+"A readout reports the current recipe, the maximum full batches, which supply is capping the run, the actual output, and any leftover reactant."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"One graph shows maximum full batches against the A supply, a second shows maximum full batches against the B supply, and a third compares actual product with theoretical product as percent yield changes.",
+"Use the first two graphs to see when a fixed supply becomes the cap and when both sides land on the same batch count."
+]
+}
+}
+}

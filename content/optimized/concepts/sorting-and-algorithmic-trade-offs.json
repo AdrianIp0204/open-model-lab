@@ -1,0 +1,261 @@
+{
+"pageFramework": {
+"featuredSetups": [
+{
+"id": "insertion-nearly-sorted",
+"description": "Open a nearly sorted case and watch insertion fix short local mistakes with very few writes.",
+"setup": {
+"note": "Use this to connect the small changes in the list to the low write count on the graph."
+}
+},
+{
+"id": "reverse-bubble",
+"description": "Open a reverse-order case and watch bubble make repeated sweeps and swaps before the list settles.",
+"setup": {
+"note": "Use this when you want the repeated passes and rising cost to stay easy to see."
+}
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Sorting is not just a before-and-after result. It is a step-by-step process of comparisons and writes that gradually removes disorder. This bench keeps the live list, active markers, and running costs visible so you can read what each algorithm is doing.",
+"Start by comparing traces, not by memorizing a complexity table. The same sorted output can come from very different local decisions, and changing the input order shows why some algorithms do much less work than others."
+]
+},
+"keyIdeas": [
+"Sorting removes disorder step by step through comparisons and writes.",
+"Different algorithms can produce the same sorted output while following different local patterns and costs.",
+"Input order matters because some algorithms can exploit nearly sorted data much better than others."
+],
+"commonMisconception": {
+"myth": "If two algorithms finish with the same sorted list, they must have done roughly the same work.",
+"correction": [
+"The same final answer can hide very different comparison patterns, write counts, and marker motion.",
+"That is why the live list, overlays, and counters need to be read together."
+]
+},
+"workedExamples": {
+"title": "Worked example: read a live run",
+"intro": "Use the current list, counters, and disorder readout to describe the run before changing anything.",
+"items": [
+{
+"id": "read-the-current-sorting-trace",
+"title": "Read one sorting trace",
+"prompt": "From the live trace, what kind of work is this run doing?",
+"variables": [
+{
+"id": "algorithm",
+"label": "Selected algorithm"
+},
+{
+"id": "pattern",
+"label": "Starting pattern"
+}
+],
+"steps": [
+{
+"id": "name-the-setup",
+"label": "1. Identify the current setup"
+},
+{
+"id": "read-the-counters",
+"label": "2. Read the cost counters"
+},
+{
+"id": "read-the-disorder",
+"label": "3. Check how much disorder remains"
+}
+],
+"resultLabel": "Run summary",
+"applyAction": {
+"label": "Try insertion on a nearly sorted list",
+"observationHint": "Watch the next key move only a short distance, then compare the small rise in writes with the fast drop in disorder."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Build a list that is almost sorted, then choose an algorithm that still wastes work by making repeated full sweeps across the interval.",
+"prediction": "Before touching the controls, decide whether the expensive part should come from the algorithm, the starting order, or both.",
+"answer": "Keep the list nearly sorted, but choose an algorithm that does not use short local fixes efficiently.",
+"explanation": "A nearly sorted list reduces the disorder, but the algorithm still determines whether that disorder is removed with short fixes or repeated passes."
+}
+},
+"equations": [
+{
+"id": "comparison-count",
+"meaning": "Counts how many item-to-item checks have happened so far."
+},
+{
+"id": "write-count",
+"meaning": "Counts how many times the algorithm has rewritten or moved values in the list."
+},
+{
+"id": "disorder-count",
+"meaning": "Counts the out-of-order pairs that still remain."
+}
+],
+"variableLinks": [
+{
+"id": "algorithm-index",
+"description": "Changes the rule the bench uses to sort the same list, so you can compare different local strategies."
+},
+{
+"id": "pattern-index",
+"description": "Changes the starting order, which changes the initial disorder even though the final sorted answer is the same."
+},
+{
+"id": "array-size",
+"description": "Changes how many items must be organized, which changes how much work can build up."
+}
+],
+"simulation": {
+"presets": [
+{
+"id": "bubble-shuffled",
+"description": "A useful baseline case where repeated scans, swaps, and rising cost are easy to follow."
+},
+{
+"id": "insertion-nearly-sorted",
+"description": "A low-disorder case where insertion usually fixes short local mistakes with very few writes."
+},
+{
+"id": "reverse-bubble",
+"description": "A high-disorder case where bubble must make many passes before the list settles."
+}
+],
+"overlays": [
+{
+"id": "intervalWindow",
+"shortDescription": "Highlight the part of the list the algorithm is still actively working through.",
+"whatToNotice": [
+"Watch whether the unsolved region shrinks from the left or the right as the run progresses."
+],
+"whyItMatters": "It helps you connect the moving markers to which part of the list is still contributing to the cost."
+},
+{
+"id": "settledRegion",
+"shortDescription": "Mark the items the current algorithm already treats as fixed.",
+"whatToNotice": [
+"Insertion usually grows a settled prefix, while bubble usually grows a settled suffix."
+],
+"whyItMatters": "It makes each algorithm's local strategy visible on the list itself."
+},
+{
+"id": "pointerMarkers",
+"shortDescription": "Show the current scan positions on the live list.",
+"whatToNotice": [
+"The markers move differently because each algorithm asks a different comparison question at each step."
+],
+"whyItMatters": "They reveal the decision process directly on the list instead of hiding it behind pseudocode."
+}
+]
+},
+"noticePrompts": {
+"intro": "Keep the live list and one graph visible together, then change only one control at a time.",
+"items": [
+{
+"id": "sat-notice-pattern-matters",
+"text": "With the same list size, a nearly sorted input can make insertion look efficient, while reverse order makes bubble do repeated sweeps and swaps."
+},
+{
+"id": "sat-notice-same-answer-different-trace",
+"text": "All three algorithms reach the same sorted list, but the marker motion and counter lines reveal very different paths and costs."
+}
+]
+},
+"predictionMode": {
+"intro": "Before switching setups, predict which cost pattern should stay lower and why.",
+"items": [
+{
+"id": "sat-predict-nearly-sorted",
+"prompt": "If the list starts nearly sorted, which algorithm should usually produce the fewest writes on this bench?",
+"scenarioLabel": "Nearly sorted start",
+"choices": [
+{
+"id": "a",
+"label": "Insertion sort, because most items are already close to where they belong."
+},
+{
+"id": "b",
+"label": "Bubble sort, because settling the right edge first should remove most of the work."
+},
+{
+"id": "c",
+"label": "Selection sort, because fewer comparisons automatically means fewer writes."
+}
+],
+"explanation": "Insertion sort can exploit short local fixes on a nearly sorted list, so it often reaches the same result with fewer writes.",
+"observationHint": "Open the nearly sorted insertion preset, then watch the write count rise slowly while the disorder line drops quickly."
+}
+]
+},
+"quickTest": {
+"intro": "Answer from what the bench shows, not from memorized slogans.",
+"questions": [
+{
+"id": "sat-qt-same-result",
+"prompt": "Why is it useful to compare several sorting algorithms on the same list?",
+"choices": [
+{
+"id": "a",
+"label": "Because the same sorted result can come from different step patterns and different costs."
+},
+{
+"id": "b",
+"label": "Because each algorithm must produce a different final order."
+},
+{
+"id": "c",
+"label": "Because sorting only matters when the list is already sorted."
+}
+],
+"explanation": "What matters here is not only the final order but how the algorithm gets there and how much work it uses."
+},
+{
+"id": "sat-qt-input-order",
+"prompt": "If two runs use the same algorithm and the same list size, what can still change the visible cost a lot?",
+"choices": [
+{
+"id": "a",
+"label": "The starting order of the list."
+},
+{
+"id": "b",
+"label": "Almost nothing, because list size alone determines the whole cost pattern."
+},
+{
+"id": "c",
+"label": "Only the graph styling."
+}
+],
+"explanation": "The starting order changes the initial disorder, so the same algorithm may do much more or much less work."
+}
+]
+},
+"challengeMode": {
+"intro": "Build a low-cost run for a reason, not by luck. Use the list and graph together.",
+"items": [
+{
+"id": "sat-ch-use-nearly-sorted-insertion",
+"title": "Make insertion pay off",
+"prompt": "Create a run where insertion sort finishes a nearly sorted list with very few writes.",
+"successMessage": "You built the kind of case insertion sort handles well. Because the list began close to sorted, most items needed only short moves, so the write count stayed low."
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows a list as bars. Markers indicate the current comparisons, highlighted regions show which part of the list is still active or already settled, and the readout reports comparisons, writes, and remaining disorder."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"One graph shows comparisons and writes increasing during the run. Another shows inversions remaining alongside settled items, and a third shows the fraction of disorder left falling toward zero."
+]
+}
+}
+}

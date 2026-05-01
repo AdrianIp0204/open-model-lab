@@ -1,0 +1,345 @@
+{
+  "title": "溶解度與飽和",
+  "shortTitle": "溶解度",
+  "summary": "把溶質、溶劑容量與可見過剩固體放在同一個燒杯內一起看，讓你直接分清楚甚麼是溶解度上限、甚麼是飽和，以及濃度如何跟容量互相配合。",
+  "highlights": [
+    "溶解至上限",
+    "過剩固體保持可見",
+    "容量與濃度"
+  ],
+  "topic": "溶液和pH值",
+  "subtopic": "溶解限度",
+  "recommendedNext": [
+    {
+      "slug": "acid-base-ph-intuition",
+      "reasonLabel": "將燒杯語言帶入酸鹼平衡和 pH"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "溶解度是指在當前條件下能保持溶解的最大量。飽和狀態是當達到這個上限時，多餘的物質必須保持可見而非悄悄溶解。",
+        "此實驗台保持溶解量、過剩固體及容量在同一燒杯中，使濃度與溶解度保持聯絡而不會淪為同一概念。"
+      ]
+    },
+    "keyIdeas": [
+      "濃度描述的是每單位溶劑已溶解了多少物質。",
+      "溶解度描述的是在當前條件下能保持溶解的最大量。",
+      "一旦燒杯飽和，新增更多溶質會使過剩堆積物增加而溶解量幾乎不變。"
+    ],
+    "commonMisconception": {
+      "myth": "如果看到更多的固體，溶液一定更濃。",
+      "correction": [
+        "可見的固體可以簡單地表示系統已飽和且沒有更多的溶解能力。",
+        "一個飽和的燒杯可以在總溶質不斷增加的情況下保持相同的溶解量。"
+      ]
+    },
+    "workedExamples": {
+      "title": "即時例題",
+      "intro": "閱讀目前燒杯的狀態，而不是脱離情境的表格。",
+      "items": [
+        {
+          "id": "read-the-current-capacity",
+          "title": "閱讀目前容量",
+          "prompt": "對於當前混合物，多少溶質可以在燒杯飽和之前保持溶解？",
+          "variables": [
+            {
+              "id": "solute-amount",
+              "label": "溶質量"
+            },
+            {
+              "id": "solvent-volume",
+              "label": "溶劑體積"
+            },
+            {
+              "id": "solubility-limit",
+              "label": "溶解度上限"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-limit",
+              "label": "1. 閱讀目前限制"
+            },
+            {
+              "id": "read-capacity",
+              "label": "2. 用溶劑體積找出目前容量"
+            },
+            {
+              "id": "read-excess",
+              "label": "3. 將總溶質與容量進行比較"
+            }
+          ],
+          "resultLabel": "當前容量",
+          "applyAction": {
+            "label": "應用接近飽和的情況",
+            "observationHint": "溶解量應該接近當前容量，而過剩堆積物開始變得可見。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "在不從燒杯中移除任何溶質的情況下使過剩固體消失。",
+      "prediction": "決定是新增溶劑還是提高溶解度上限之前先做出判斷。",
+      "answer": "你可以加入更多溶劑，或提高溶解度上限，讓更多同一種物質保持溶解。",
+      "explanation": "兩者都會增加容量。移除溶質則是另一種化學故事。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "根據實時燒瓶的故事回答，而不是背誦的口號。",
+    "questions": [
+      {
+        "id": "ss-qt-saturation-meaning",
+        "prompt": "飽和最直接的意思是在這張工作台上指什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "溶解量已達到當前容量，因此額外溶質會保持未溶解。"
+          },
+          {
+            "id": "b",
+            "label": "任何有可見顆粒的燒瓶都自動是飽和狀態。"
+          },
+          {
+            "id": "c",
+            "label": "飽和只描述溶解部分的濃度。"
+          }
+        ],
+        "explanation": "飽和是指當前可以保持溶解的最大限度。"
+      },
+      {
+        "id": "ss-qt-solubility-vs-concentration",
+        "prompt": "哪個想法告訴你在當前條件下能保持溶解的最大量？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "溶解度上限"
+          },
+          {
+            "id": "b",
+            "label": "濃度"
+          },
+          {
+            "id": "c",
+            "label": "過剩固體"
+          }
+        ],
+        "explanation": "濃度描述已經溶解的部分。溶解度則告訴你容量。"
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一個溶液燒瓶、一個飽和計量器以及一個可見的過剩固體提示，並附有控制溶質量、溶劑體積和當前溶解度上限的控制元件。",
+        "讀卡機報告總溶質、當前容量、溶解量、過剩固體和濃度，讓學習者將視覺工作台與數字摘要聯絡起來。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "一個圖表顯示隨著總溶質增加溶解量如何變化，另一個圖表則顯示飽和後過剩固體如何增長，還有兩個圖表分別顯示溶劑體積和溶解度上限如何影響容量。",
+        "圖表懸停和比較模式附著在同一個化學工作台上而不是開啟一個獨立的化學檢視。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "room-to-dissolve",
+        "label": "溶解空間",
+        "description": "開啟一個仍然有更多溶質溶解空間的燒瓶。"
+      },
+      {
+        "id": "at-the-limit",
+        "label": "飽和狀態",
+        "description": "開啟一個有可見過剩固體的飽和燒瓶。"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "capacity-rule",
+      "label": "容量規則",
+      "meaning": "容量取決於當前溶解度上限和溶劑量。"
+    },
+    {
+      "id": "dissolved-rule",
+      "label": "溶解量",
+      "meaning": "溶解量不能超過當前容量。"
+    },
+    {
+      "id": "excess-rule",
+      "label": "過剩固體",
+      "meaning": "任何超出當前容量的溶質都會保持未溶解狀態。"
+    },
+    {
+      "id": "concentration-rule",
+      "label": "濃度",
+      "meaning": "濃度只計數實際溶解在溶劑中的物質。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "solute-amount",
+      "label": "溶質量",
+      "description": "改變燒瓶想要溶解的材料量。"
+    },
+    {
+      "id": "solvent-volume",
+      "label": "溶劑體積",
+      "description": "改變可用於溶解溶質的液體量。"
+    },
+    {
+      "id": "solubility-limit",
+      "label": "溶解度上限",
+      "description": "改變當前條件下能保持溶解的最大限度。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "solute-amount",
+        "label": "溶質量"
+      },
+      {
+        "id": "solvent-volume",
+        "label": "溶劑體積"
+      },
+      {
+        "id": "solubility-limit",
+        "label": "溶解度上限"
+      }
+    ],
+    "presets": [
+      {
+        "id": "room-to-dissolve",
+        "label": "仍有溶解空間",
+        "description": "已溶解的量仍低於目前容量。"
+      },
+      {
+        "id": "near-saturation",
+        "label": "接近飽和",
+        "description": "已溶解的量差不多到達目前上限。"
+      },
+      {
+        "id": "at-the-limit",
+        "label": "到達上限",
+        "description": "燒杯已飽和，並能看見過剩固體。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "saturationGauge",
+        "label": "飽和指標",
+        "shortDescription": "顯示目前容量以及燒杯距離飽和還有多遠。",
+        "whatToNotice": [
+          "即使總溶質繼續增加，已溶解的部分也可能停止上升。"
+        ],
+        "whyItMatters": "它把溶解度上限變成真實可見的容量，而不是一句口號。"
+      },
+      {
+        "id": "dissolvedCue",
+        "label": "已溶解提示",
+        "shortDescription": "讓真正已溶解在溶液中的部分保持清楚。",
+        "whatToNotice": [
+          "已溶解的量和剩餘未溶固體不是同一回事。"
+        ],
+        "whyItMatters": "它讓濃度重新對準已溶解部分，而不是工作台上的總物料。"
+      },
+      {
+        "id": "excessPile",
+        "label": "過剩堆積",
+        "shortDescription": "當燒杯飽和時，保留未溶解多餘固體的可見線索。",
+        "whatToNotice": [
+          "當容量滿了之後，再加的溶質不會憑空消失。"
+        ],
+        "whyItMatters": "它顯示為甚麼飽和不同於單純增加濃度。"
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "dissolved-vs-solute",
+      "label": "已溶解量對溶質量",
+      "xLabel": "溶質量",
+      "yLabel": "已溶解量"
+    },
+    {
+      "id": "excess-vs-solute",
+      "label": "過剩量對溶質量",
+      "xLabel": "溶質量",
+      "yLabel": "過剩固體"
+    },
+    {
+      "id": "capacity-vs-solvent",
+      "label": "容量對溶劑體積",
+      "xLabel": "溶劑體積",
+      "yLabel": "容量"
+    },
+    {
+      "id": "saturation-vs-limit",
+      "label": "飽和程度對溶解度上限",
+      "xLabel": "溶解度上限",
+      "yLabel": "飽和比"
+    }
+  ],
+  "noticePrompts": {
+    "title": "觀察重點",
+    "intro": "把燒杯和飽和指標一起看。",
+    "items": [
+      {
+        "id": "ss-notice-limit",
+        "text": "留意那一刻：已溶解量不再上升，而過剩堆積開始出現。",
+        "tryThis": "從「仍有溶解空間」開始，慢慢增加溶質量，直到第一次看見多餘固體。",
+        "whyItMatters": "這就是在目前條件下溶液達到飽和的時刻。"
+      },
+      {
+        "id": "ss-notice-capacity",
+        "text": "改變溶解度上限，改變的是整個系統的容量，而不只是濃度讀數。",
+        "tryThis": "把溶解度上限提高，觀察同一個燒杯如何離飽和線更遠。",
+        "whyItMatters": "它讓你把溶解度和濃度清楚分開。"
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "先預測容量如何變，再把改動套到燒杯上驗證。",
+    "items": [
+      {
+        "id": "ss-pred-raise-limit",
+        "prompt": "如果在保持同一個溶質量和溶劑體積不變的情況下，提高溶解度上限，最合理會發生甚麼？",
+        "scenarioLabel": "提高容量",
+        "changeLabel": "增加溶解度上限",
+        "choices": [
+          {
+            "id": "a",
+            "label": "同一份溶質可以有更多保持溶解，所以過剩堆積會縮小或消失。"
+          },
+          {
+            "id": "b",
+            "label": "已溶解量一定不變，因為總溶質量沒有改變。"
+          },
+          {
+            "id": "c",
+            "label": "因為上限更高，所以燒杯會變得更飽和。"
+          }
+        ],
+        "explanation": "較高的溶解度上限代表較大的容量，所以同樣總量的溶質可以有更多部分維持在溶解狀態。",
+        "observationHint": "調高上限後，同時留意飽和指標和過剩堆積。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "用容量的想法來解題，不要靠偷偷拿走造成飽和的溶質。",
+    "items": [
+      {
+        "id": "ss-ch-dissolve-excess-without-removing-solute",
+        "title": "不減溶質，讓過剩消失",
+        "prompt": "從一個已飽和的燒杯開始，在保持總溶質量不變的前提下，令過剩堆積消失。",
+        "successMessage": "你增加了容量，令同一份總溶質都能留在溶液中，而不是偷偷把物料移走。"
+      }
+    ]
+  }
+}

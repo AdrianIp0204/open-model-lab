@@ -1,0 +1,1107 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live Kirchhoff checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Loop-balance checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Use these rules to simplify next"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Use one small circuit to see the two Kirchhoff habits: currents balance at a split, and voltage rises and drops balance around every closed path.",
+    "keyTakeaway": "Kirchhoff's rules are conservation checks: charge does not pile up at a junction, and each loop spends exactly the voltage the battery gives it."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Kirchhoff's rules are conservation habits for reading one real circuit. At a junction, charge cannot pile up, so the incoming current must match the outgoing currents. Around a closed loop, each battery rise is spent by resistor drops, so the signed voltage changes add to zero.",
+        "This module keeps the setting small: one outer resistor and one highlighted two-resistor group. In the parallel case, that group creates one visible split node and two branch loops. In the series case, the split disappears and the same current crosses every resistor. That is enough to practice current balance, loop balance, and sign convention without turning the page into a general circuit solver."
+      ]
+    },
+    "keyIdeas": [
+      "At a split node, charge does not pile up: the incoming current equals the outgoing branch currents, so the live parallel case obeys I_total = I_2 + I_3.",
+      "Around a closed loop, choose one walking direction and sign convention; the battery rise and resistor drops then add to zero.",
+      "Kirchhoff's rules do not replace Ohm's law. They work with V = IR to turn the same live currents and drops into solvable equations."
+    ],
+    "commonMisconception": {
+      "myth": "Kirchhoff's rules are separate formulas you memorize after the circuit already makes sense.",
+      "correction": [
+        "The rules are conservation statements for the same live circuit you can already see: current does not disappear at a node, and energy per charge does not appear from nowhere around a closed loop.",
+        "What still matters is sign convention. If you walk around the same loop in the opposite direction, every sign flips, but the balanced sum still equals zero."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Use the exact grouped circuit on screen. First read the split-node currents, then trace one loop with a single sign convention so the numbers and equations stay connected.",
+      "items": [
+        {
+          "id": "junction-balance-current",
+          "title": "Junction balance and the missing branch current",
+          "prompt": "For the current grouped circuit, what current-balance equation does the active node obey, and what current passes through R3?",
+          "variables": [
+            {
+              "id": "voltage",
+              "variableId": "voltage",
+              "symbol": "V",
+              "label": "Battery voltage",
+              "valueKey": "voltageValue",
+              "unit": "V"
+            },
+            {
+              "id": "resistance2",
+              "variableId": "resistance2",
+              "symbol": "R_2",
+              "label": "Grouped resistor 2",
+              "valueKey": "resistance2Value",
+              "unit": "ohm"
+            },
+            {
+              "id": "resistance3",
+              "variableId": "resistance3",
+              "symbol": "R_3",
+              "label": "Grouped resistor 3",
+              "valueKey": "resistance3Value",
+              "unit": "ohm"
+            }
+          ],
+          "steps": [
+            {
+              "id": "identify-current-rule",
+              "label": "1. Start from the live path structure",
+              "template": "{{currentRuleIntroValue}}"
+            },
+            {
+              "id": "write-current-equation",
+              "label": "2. Write the current-balance equation",
+              "template": "${{junctionRuleValue}}$."
+            },
+            {
+              "id": "substitute-current-equation",
+              "label": "3. Substitute the live current values",
+              "template": "${{junctionSubstitutionValue}}$."
+            },
+            {
+              "id": "solve-branch-current",
+              "label": "4. Read or solve the R3 branch current",
+              "template": "That leaves $I_3 = {{resistor3CurrentValue}}$."
+            }
+          ],
+          "resultLabel": "Junction balance",
+          "resultTemplate": "${{junctionRuleValue}}, \\quad I_3 = {{resistor3CurrentValue}}$",
+          "interpretationTemplate": "{{junctionInterpretation}}",
+          "applyAction": {
+            "label": "Show the clean split",
+            "presetId": "parallel-clean-split",
+            "observationHint": "The split node shows one incoming current and two outgoing branch currents that add back together cleanly.",
+            "highlightedControlIds": [
+              "groupParallel",
+              "resistance3"
+            ],
+            "highlightedGraphIds": [
+              "current-map"
+            ],
+            "highlightedOverlayIds": [
+              "currentFlow",
+              "nodeGuide"
+            ]
+          }
+        },
+        {
+          "id": "loop-balance-around-r3",
+          "title": "Loop balance around the R3 branch",
+          "prompt": "For the current grouped circuit, what voltage-balance equation does the highlighted loop obey, and what does that imply about the R3 drop?",
+          "variables": [
+            {
+              "id": "voltage",
+              "variableId": "voltage",
+              "symbol": "V",
+              "label": "Battery voltage",
+              "valueKey": "voltageValue",
+              "unit": "V"
+            },
+            {
+              "id": "resistance1",
+              "variableId": "resistance1",
+              "symbol": "R_1",
+              "label": "Outer resistor",
+              "valueKey": "resistance1Value",
+              "unit": "ohm"
+            },
+            {
+              "id": "resistance3",
+              "variableId": "resistance3",
+              "symbol": "R_3",
+              "label": "Grouped resistor 3",
+              "valueKey": "resistance3Value",
+              "unit": "ohm"
+            }
+          ],
+          "steps": [
+            {
+              "id": "choose-loop-direction",
+              "label": "1. Choose one loop direction and sign convention",
+              "template": "{{loopDirectionValue}}"
+            },
+            {
+              "id": "write-loop-equation",
+              "label": "2. Write the loop equation",
+              "template": "${{loopRuleValue}}$."
+            },
+            {
+              "id": "substitute-loop-equation",
+              "label": "3. Substitute the live voltage values",
+              "template": "${{loopSubstitutionValue}}$."
+            },
+            {
+              "id": "read-r3-drop",
+              "label": "4. Read the branch drop that keeps the loop balanced",
+              "template": "The R3 branch drop is $V_3 = {{resistor3VoltageValue}}$, and the algebraic loop sum stays at {{loopBalanceValue}}."
+            }
+          ],
+          "resultLabel": "Loop balance",
+          "resultTemplate": "${{loopRuleValue}}, \\quad V_3 = {{resistor3VoltageValue}}$",
+          "interpretationTemplate": "{{loopInterpretation}}",
+          "applyAction": {
+            "label": "Show the clean series loop",
+            "presetId": "series-clean-loop",
+            "observationHint": "Switching to the series case removes the split, but the same sign convention still makes the full-loop balance close on zero.",
+            "highlightedControlIds": [
+              "groupParallel",
+              "resistance3"
+            ],
+            "highlightedGraphIds": [
+              "voltage-share"
+            ],
+            "highlightedOverlayIds": [
+              "voltageLabels",
+              "loopGuide"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "In the clean split preset, why can the top and bottom branch loops both satisfy a balanced Kirchhoff loop equation even though the two branch currents are different?",
+      "prediction": "Before inspecting the voltage labels, decide which quantity is shared by both branch loops and which quantity is allowed to differ between branches.",
+      "answer": "Both branch loops balance because they share the same battery rise, the same outer-resistor drop, and the same grouped-node voltage. The branch currents can differ because each branch can have a different resistance; equal loop voltage does not require equal branch current.",
+      "explanation": "The junction rule controls current conservation at the split node. The loop rule controls algebraic voltage balance around each closed path. The two ideas work together, but they are not the same statement."
+    }
+  },
+  "equations": [
+    {
+      "id": "junction-rule",
+      "latex": "\\sum I_{\\text{in}} = \\sum I_{\\text{out}}",
+      "label": "Junction rule",
+      "meaning": "Charge does not disappear at a node, so incoming current must match outgoing current."
+    },
+    {
+      "id": "parallel-junction",
+      "latex": "I_{\\text{total}} = I_2 + I_3",
+      "label": "Current split at the grouped node",
+      "meaning": "In the parallel grouped case, the source current splits into the two branch currents and recombines later."
+    },
+    {
+      "id": "loop-rule",
+      "latex": "\\sum \\Delta V = 0",
+      "label": "Loop rule",
+      "meaning": "Around any closed loop, voltage rises and drops must add to zero when one sign convention is used consistently."
+    },
+    {
+      "id": "resistor-drop",
+      "latex": "V_R = IR",
+      "label": "Resistor drop from Ohm's law",
+      "meaning": "Kirchhoff's rules still need the live resistor relation to turn the same currents into voltage drops."
+    },
+    {
+      "id": "series-current",
+      "latex": "I_1 = I_2 = I_3",
+      "label": "Same current in one series path",
+      "meaning": "When the grouped pair is switched back to series, the split disappears and the same current crosses every resistor."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "voltage",
+      "symbol": "V",
+      "label": "Battery voltage",
+      "param": "voltage",
+      "tone": "teal",
+      "description": "Sets the source rise that each loop must balance against the resistor drops.",
+      "equationIds": [
+        "loop-rule",
+        "resistor-drop"
+      ],
+      "graphIds": [
+        "current-map",
+        "voltage-share"
+      ],
+      "overlayIds": [
+        "voltageLabels",
+        "loopGuide"
+      ]
+    },
+    {
+      "id": "resistance1",
+      "symbol": "R_1",
+      "label": "Outer resistor",
+      "param": "resistance1",
+      "tone": "coral",
+      "description": "Stays outside the highlighted group, so its drop appears in every loop equation on this bench.",
+      "equationIds": [
+        "loop-rule",
+        "resistor-drop"
+      ],
+      "graphIds": [
+        "current-map",
+        "voltage-share"
+      ],
+      "overlayIds": [
+        "voltageLabels",
+        "loopGuide"
+      ]
+    },
+    {
+      "id": "resistance2",
+      "symbol": "R_2",
+      "label": "Grouped resistor 2",
+      "param": "resistance2",
+      "tone": "amber",
+      "description": "Changes one branch or one grouped resistor so the junction balance and loop drops can be compared on the same circuit.",
+      "equationIds": [
+        "parallel-junction",
+        "resistor-drop",
+        "series-current"
+      ],
+      "graphIds": [
+        "current-map",
+        "voltage-share"
+      ],
+      "overlayIds": [
+        "currentFlow",
+        "nodeGuide",
+        "loopGuide"
+      ]
+    },
+    {
+      "id": "resistance3",
+      "symbol": "R_3",
+      "label": "Grouped resistor 3",
+      "param": "resistance3",
+      "tone": "sky",
+      "description": "Drives the live branch-current split and branch-voltage drop so both Kirchhoff rules stay readable as one parameter changes.",
+      "equationIds": [
+        "parallel-junction",
+        "loop-rule",
+        "resistor-drop",
+        "series-current"
+      ],
+      "graphIds": [
+        "current-map",
+        "voltage-share"
+      ],
+      "overlayIds": [
+        "currentFlow",
+        "nodeGuide",
+        "loopGuide"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "voltage": 12,
+      "resistance1": 4,
+      "resistance2": 6,
+      "resistance3": 12,
+      "groupParallel": true
+    },
+    "controls": [
+      {
+        "id": "voltage",
+        "kind": "slider",
+        "label": "Battery voltage",
+        "param": "voltage",
+        "min": 4,
+        "max": 18,
+        "step": 0.5,
+        "unit": "V",
+        "description": "Sets the source rise for each loop without changing the circuit structure."
+      },
+      {
+        "id": "resistance1",
+        "kind": "slider",
+        "label": "Outer resistor R1",
+        "param": "resistance1",
+        "min": 2,
+        "max": 18,
+        "step": 0.5,
+        "unit": "ohm",
+        "description": "This resistor stays outside the highlighted group, so its drop appears in every loop equation."
+      },
+      {
+        "id": "resistance2",
+        "kind": "slider",
+        "label": "Grouped resistor R2",
+        "param": "resistance2",
+        "min": 2,
+        "max": 18,
+        "step": 0.5,
+        "unit": "ohm",
+        "description": "Changes the upper grouped branch or grouped series resistor."
+      },
+      {
+        "id": "resistance3",
+        "kind": "slider",
+        "label": "Grouped resistor R3",
+        "param": "resistance3",
+        "min": 2,
+        "max": 18,
+        "step": 0.5,
+        "unit": "ohm",
+        "description": "Changes the lower grouped branch or the second resistor in the grouped series path."
+      },
+      {
+        "id": "groupParallel",
+        "kind": "toggle",
+        "label": "Use a parallel grouped pair",
+        "param": "groupParallel",
+        "description": "On gives a real split node and two branch loops. Off removes the split and leaves one full series loop."
+      }
+    ],
+    "presets": [
+      {
+        "id": "parallel-clean-split",
+        "label": "Clean split",
+        "description": "A parallel grouped pair with neat current numbers for the junction rule.",
+        "values": {
+          "voltage": 12,
+          "resistance1": 4,
+          "resistance2": 6,
+          "resistance3": 12,
+          "groupParallel": true
+        }
+      },
+      {
+        "id": "parallel-balanced",
+        "label": "Balanced parallel pair",
+        "description": "Matching grouped branches make the split symmetric while the junction rule still stays visible.",
+        "values": {
+          "voltage": 12,
+          "resistance1": 4,
+          "resistance2": 6,
+          "resistance3": 6,
+          "groupParallel": true
+        }
+      },
+      {
+        "id": "series-clean-loop",
+        "label": "Clean series loop",
+        "description": "A series grouped pair with neat resistor drops for the loop rule.",
+        "values": {
+          "voltage": 12,
+          "resistance1": 4,
+          "resistance2": 4,
+          "resistance3": 8,
+          "groupParallel": false
+        }
+      },
+      {
+        "id": "series-balanced",
+        "label": "Balanced series group",
+        "description": "A single-loop reference where the grouped drops match before one resistor is changed.",
+        "values": {
+          "voltage": 12,
+          "resistance1": 4,
+          "resistance2": 4,
+          "resistance3": 4,
+          "groupParallel": false
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "currentFlow",
+        "label": "Current flow",
+        "shortDescription": "Shows live current arrows and charge counters through the grouped circuit.",
+        "whatToNotice": [
+          "In the parallel case, one incoming current becomes two outgoing branch currents at the split node."
+        ],
+        "whyItMatters": "It makes the junction rule visible before you write it symbolically.",
+        "relatedControls": [
+          "groupParallel",
+          "resistance2",
+          "resistance3"
+        ],
+        "relatedGraphTabs": [
+          "current-map"
+        ],
+        "relatedEquationVariables": [
+          "resistance2",
+          "resistance3"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "voltageLabels",
+        "label": "Voltage labels",
+        "shortDescription": "Marks the battery rise and the live resistor drops around the loop.",
+        "whatToNotice": [
+          "The same source rise must be balanced by the resistor drops on whatever loop you trace."
+        ],
+        "whyItMatters": "It makes loop balance visible before it turns into a sign exercise.",
+        "relatedControls": [
+          "voltage",
+          "resistance1",
+          "resistance3"
+        ],
+        "relatedGraphTabs": [
+          "voltage-share"
+        ],
+        "relatedEquationVariables": [
+          "voltage",
+          "resistance1",
+          "resistance3"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "nodeGuide",
+        "label": "Node guide",
+        "shortDescription": "Highlights the split and recombine points and shows the current-balance cue there.",
+        "whatToNotice": [
+          "When the group is parallel, the split and recombine points create the current-conservation equation."
+        ],
+        "whyItMatters": "It turns the junction rule into a live node-reading task instead of a memorized slogan.",
+        "relatedControls": [
+          "groupParallel",
+          "resistance2",
+          "resistance3"
+        ],
+        "relatedGraphTabs": [
+          "current-map"
+        ],
+        "relatedEquationVariables": [
+          "resistance2",
+          "resistance3"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "loopGuide",
+        "label": "Loop guide",
+        "shortDescription": "Draws the active loop paths and writes a voltage-balance cue on them.",
+        "whatToNotice": [
+          "Walking the same loop with one consistent sign convention makes the algebraic sum close on zero."
+        ],
+        "whyItMatters": "It makes sign convention and loop balance visible on the bench instead of only in the text.",
+        "relatedControls": [
+          "groupParallel",
+          "voltage",
+          "resistance1",
+          "resistance3"
+        ],
+        "relatedGraphTabs": [
+          "voltage-share"
+        ],
+        "relatedEquationVariables": [
+          "voltage",
+          "resistance1",
+          "resistance3"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "reductionGuide",
+        "label": "Reduction guide",
+        "shortDescription": "Shows how the same circuit can later be collapsed into a grouped equivalent and then a total equivalent.",
+        "whatToNotice": [
+          "Kirchhoff balance and equivalent reduction are different views of the same bounded circuit."
+        ],
+        "whyItMatters": "It sets up the next concept without turning this page into a reduction lesson first.",
+        "relatedControls": [
+          "groupParallel"
+        ],
+        "relatedGraphTabs": [
+          "current-map",
+          "voltage-share"
+        ],
+        "relatedEquationVariables": [
+          "resistance2",
+          "resistance3"
+        ],
+        "defaultOn": false
+      }
+    ],
+    "ui": {
+      "initialGraphId": "current-map",
+      "primaryGraphIds": [
+        "current-map"
+      ],
+      "primaryControlIds": [
+        "groupParallel",
+        "resistance3",
+        "voltage"
+      ],
+      "primaryPresetIds": [
+        "parallel-clean-split",
+        "series-clean-loop",
+        "parallel-balanced"
+      ],
+      "starterExploreTasks": [
+        "Open the clean split preset and read the three current values before you write the junction equation.",
+        "Turn on the loop guide and voltage labels, then trace one branch loop all the way around with one sign convention.",
+        "Switch to the clean series loop and compare what disappears from the node story while the loop balance still stays valid."
+      ]
+    }
+  },
+  "graphs": [
+    {
+      "id": "current-map",
+      "label": "Current balance while R3 changes",
+      "xLabel": "grouped resistor R3 (ohm)",
+      "yLabel": "current (A)",
+      "series": [
+        "total-current",
+        "r2-current",
+        "r3-current"
+      ],
+      "description": "The source current and the two grouped currents stay on one graph so the junction balance remains visible while R3 changes."
+    },
+    {
+      "id": "voltage-share",
+      "label": "Loop drops while R3 changes",
+      "xLabel": "grouped resistor R3 (ohm)",
+      "yLabel": "voltage drop (V)",
+      "series": [
+        "r1-voltage",
+        "group-voltage",
+        "r3-voltage"
+      ],
+      "description": "Use the same R3 sweep to compare the outer-resistor drop, the grouped-block drop, and the live R3 drop that appears in the loop equation."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the same bounded grouped circuit to keep current conservation and loop balance visible together.",
+    "items": [
+      {
+        "id": "kjr-notice-junction",
+        "text": "At the split node, the total current does not disappear. It becomes the two branch currents, so the live node cue should read I_total = I_2 + I_3.",
+        "type": "observation",
+        "priority": 2,
+        "conditions": {
+          "overlayIds": [
+            "nodeGuide"
+          ]
+        },
+        "tryThis": "Open the clean split preset and compare the amber and blue branch currents with the teal total current.",
+        "whyItMatters": "It makes current conservation visible before you write the equation.",
+        "relatedControls": [
+          "groupParallel",
+          "resistance3"
+        ],
+        "relatedGraphTabs": [
+          "current-map"
+        ],
+        "relatedOverlays": [
+          "currentFlow",
+          "nodeGuide"
+        ]
+      },
+      {
+        "id": "kjr-notice-loop",
+        "text": "Use one loop direction consistently. The battery rise counts with one sign, the resistor drops count with the opposite sign, and the algebraic sum closes on zero.",
+        "type": "graph-reading",
+        "priority": 4,
+        "conditions": {
+          "overlayIds": [
+            "loopGuide"
+          ]
+        },
+        "tryThis": "Turn on voltage labels and the loop guide, then read the same top or full loop once without changing direction halfway around.",
+        "whyItMatters": "It turns sign convention into a reading habit instead of a memorized warning.",
+        "relatedControls": [
+          "groupParallel",
+          "voltage",
+          "resistance3"
+        ],
+        "relatedGraphTabs": [
+          "voltage-share"
+        ],
+        "relatedOverlays": [
+          "voltageLabels",
+          "loopGuide"
+        ]
+      },
+      {
+        "id": "kjr-notice-series-special-case",
+        "text": "When the grouped pair is switched back to series, the split node disappears. The junction rule becomes the simpler same-current statement I_1 = I_2 = I_3.",
+        "type": "compare",
+        "priority": 5,
+        "conditions": {
+          "lastChangedControls": [
+            "groupParallel"
+          ]
+        },
+        "tryThis": "Switch between the clean split and clean series loop presets without changing the battery voltage.",
+        "whyItMatters": "It shows that Kirchhoff balance changes with path structure, not with a new chapter of formulas.",
+        "relatedControls": [
+          "groupParallel"
+        ],
+        "relatedGraphTabs": [
+          "current-map",
+          "voltage-share"
+        ],
+        "relatedOverlays": [
+          "nodeGuide",
+          "loopGuide"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the balance before you apply the change. Each scenario changes one circuit idea at a time so the same grouped bench stays readable.",
+    "items": [
+      {
+        "id": "kjr-pred-switch-to-parallel",
+        "prompt": "Starting from the clean series loop, what changes when the highlighted group is switched to parallel?",
+        "scenarioLabel": "Create the split node",
+        "changeLabel": "Group mode",
+        "choices": [
+          {
+            "id": "a",
+            "label": "A true junction appears, the source current can split into I_2 and I_3, and each branch loop still has to balance the source rise against resistor drops."
+          },
+          {
+            "id": "b",
+            "label": "The current can split, but loop balance no longer applies because there are now two loops instead of one."
+          },
+          {
+            "id": "c",
+            "label": "Nothing important changes because the same three resistors are still present."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Changing the grouped pair from series to parallel creates one real split node and two real branch loops. The junction rule and the loop rule both stay valid on that new structure.",
+        "observationHint": "Watch the node guide and loop guide appear together when the split is created.",
+        "apply": {
+          "presetId": "parallel-clean-split"
+        },
+        "highlightedControls": [
+          "groupParallel"
+        ],
+        "highlightedGraphs": [
+          "current-map",
+          "voltage-share"
+        ],
+        "highlightedOverlays": [
+          "nodeGuide",
+          "loopGuide"
+        ]
+      },
+      {
+        "id": "kjr-pred-raise-r3-parallel",
+        "prompt": "In the clean split preset, what happens if R3 increases while the battery and the other resistors stay fixed?",
+        "scenarioLabel": "Increase R3",
+        "changeLabel": "Resistance",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The R3 branch current falls, the total current falls, and the junction rule still balances the split."
+          },
+          {
+            "id": "b",
+            "label": "The R3 branch current rises because the larger resistor stores more current."
+          },
+          {
+            "id": "c",
+            "label": "The loop rule breaks because the two branch currents are no longer equal."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A larger branch resistance weakens that branch current. The total current then falls too, but the split still obeys I_total = I_2 + I_3.",
+        "observationHint": "The blue branch current shrinks on the current graph while the topological rule itself stays unchanged.",
+        "apply": {
+          "patch": {
+            "voltage": 12,
+            "resistance1": 4,
+            "resistance2": 6,
+            "resistance3": 16,
+            "groupParallel": true
+          }
+        },
+        "highlightedControls": [
+          "resistance3"
+        ],
+        "highlightedGraphs": [
+          "current-map"
+        ],
+        "highlightedOverlays": [
+          "currentFlow",
+          "nodeGuide"
+        ]
+      },
+      {
+        "id": "kjr-pred-raise-voltage-series",
+        "prompt": "In the clean series loop, what happens if the battery voltage rises while the resistor values stay fixed?",
+        "scenarioLabel": "Raise the source",
+        "changeLabel": "Battery voltage",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The loop current increases and every resistor drop increases, but the full loop still balances to zero with the same sign convention."
+          },
+          {
+            "id": "b",
+            "label": "Only the battery changes. The resistor drops stay fixed because the resistors did not change."
+          },
+          {
+            "id": "c",
+            "label": "The loop rule fails because the battery is now larger than the resistor drops."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "With one fixed loop resistance, a higher battery voltage gives a larger loop current. The resistor drops all rise with that current, so the loop still balances consistently.",
+        "observationHint": "The loop guide keeps the same sign structure even as every magnitude grows.",
+        "apply": {
+          "patch": {
+            "voltage": 16,
+            "resistance1": 4,
+            "resistance2": 4,
+            "resistance3": 8,
+            "groupParallel": false
+          }
+        },
+        "highlightedControls": [
+          "voltage"
+        ],
+        "highlightedGraphs": [
+          "voltage-share"
+        ],
+        "highlightedOverlays": [
+          "voltageLabels",
+          "loopGuide"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the same grouped circuit for compact Kirchhoff targets. The checklist reads the live currents and voltage drops from the real bench.",
+    "items": [
+      {
+        "id": "kjr-ch-clean-split",
+        "title": "Build the clean current split",
+        "style": "target-setting",
+        "prompt": "Starting from the balanced parallel pair, change only R3 until the split reads about I_total = 1.5 A, I_2 = 1.0 A, and I_3 = 0.5 A.",
+        "successMessage": "You created the clean junction case where the total current splits into two branch currents that add back together exactly.",
+        "setup": {
+          "presetId": "parallel-balanced",
+          "graphId": "current-map",
+          "overlayIds": [
+            "currentFlow",
+            "nodeGuide"
+          ],
+          "note": "Keep the battery and the other resistors fixed. Only R3 should move."
+        },
+        "requirements": {
+          "graphId": "current-map",
+          "overlayIds": [
+            "currentFlow",
+            "nodeGuide"
+          ]
+        },
+        "hints": [
+          "You are building the clean split case, not changing the topology itself.",
+          "The branch current in the larger resistor should end up smaller."
+        ],
+        "targets": [
+          {
+            "param": "resistance3",
+            "min": 11.8,
+            "max": 12.2,
+            "displayUnit": "ohm"
+          },
+          {
+            "metric": "totalCurrent",
+            "min": 1.48,
+            "max": 1.52,
+            "displayUnit": "A"
+          },
+          {
+            "metric": "resistor2Current",
+            "min": 0.98,
+            "max": 1.02,
+            "displayUnit": "A"
+          },
+          {
+            "metric": "resistor3Current",
+            "min": 0.48,
+            "max": 0.52,
+            "displayUnit": "A"
+          }
+        ]
+      },
+      {
+        "id": "kjr-ch-clean-loop",
+        "title": "Build the clean loop balance",
+        "style": "target-setting",
+        "prompt": "Starting from the balanced series group, change only R3 until the full loop reads about V_1 = 3 V, V_2 = 3 V, and V_3 = 6 V with one consistent loop equation.",
+        "successMessage": "You built the clean series-loop case where the resistor drops add back to the battery rise with one stable sign convention.",
+        "setup": {
+          "presetId": "series-balanced",
+          "graphId": "voltage-share",
+          "overlayIds": [
+            "voltageLabels",
+            "loopGuide"
+          ],
+          "note": "Keep the battery and the other resistors fixed. Only R3 should move."
+        },
+        "requirements": {
+          "graphId": "voltage-share",
+          "overlayIds": [
+            "voltageLabels",
+            "loopGuide"
+          ]
+        },
+        "hints": [
+          "The target is a single-loop case, not the parallel split.",
+          "If the current is the same through the full loop, the larger resistor must take the larger drop."
+        ],
+        "targets": [
+          {
+            "param": "resistance3",
+            "min": 7.8,
+            "max": 8.2,
+            "displayUnit": "ohm"
+          },
+          {
+            "metric": "totalCurrent",
+            "min": 0.73,
+            "max": 0.77,
+            "displayUnit": "A"
+          },
+          {
+            "metric": "resistor1Voltage",
+            "min": 2.9,
+            "max": 3.1,
+            "displayUnit": "V"
+          },
+          {
+            "metric": "resistor2Voltage",
+            "min": 2.9,
+            "max": 3.1,
+            "displayUnit": "V"
+          },
+          {
+            "metric": "resistor3Voltage",
+            "min": 5.9,
+            "max": 6.1,
+            "displayUnit": "V"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live grouped circuit, not from detached formulas.",
+    "questions": [
+      {
+        "id": "kjr-qt-junction",
+        "type": "reasoning",
+        "prompt": "In the clean split preset, which current equation is correct at the junction?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "I_total = I_2 + I_3"
+          },
+          {
+            "id": "b",
+            "label": "I_2 = I_3 = I_total only because there are three resistors total"
+          },
+          {
+            "id": "c",
+            "label": "I_total = I_2 - I_3 because one branch current must cancel the other"
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At the split node, current is conserved. The source current becomes the two outgoing branch currents and recombines later.",
+        "selectedWrongExplanations": {
+          "b": "Equal current is the series special case, not the general split-node rule.",
+          "c": "The branch currents add back together at the junction rather than canceling."
+        },
+        "showMeAction": {
+          "label": "Show the clean split",
+          "presetId": "parallel-clean-split",
+          "observationHint": "The node guide shows one incoming current and two outgoing currents that add back together.",
+          "highlightedControlIds": [
+            "groupParallel"
+          ],
+          "highlightedGraphIds": [
+            "current-map"
+          ],
+          "highlightedOverlayIds": [
+            "currentFlow",
+            "nodeGuide"
+          ]
+        }
+      },
+      {
+        "id": "kjr-qt-loop-signs",
+        "type": "misconception-check",
+        "prompt": "Using the clean split preset and walking clockwise around the lower loop, which loop equation is consistent with one sign convention?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "+V - V_1 - V_3 = 0"
+          },
+          {
+            "id": "b",
+            "label": "+V + V_1 + V_3 = 0"
+          },
+          {
+            "id": "c",
+            "label": "V = V_1 - V_3"
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Treat the battery as a rise and the resistor drops as negative while you keep the same direction all the way around the loop.",
+        "selectedWrongExplanations": {
+          "b": "That mixes the sign convention by treating the resistor drops like rises.",
+          "c": "That does not represent the full loop balance around the closed path."
+        },
+        "showMeAction": {
+          "label": "Show the loop guide",
+          "presetId": "parallel-clean-split",
+          "observationHint": "The lower-loop guide writes the same rise-and-drop balance directly on the stage.",
+          "highlightedControlIds": [
+            "groupParallel"
+          ],
+          "highlightedGraphIds": [
+            "voltage-share"
+          ],
+          "highlightedOverlayIds": [
+            "voltageLabels",
+            "loopGuide"
+          ]
+        }
+      },
+      {
+        "id": "kjr-qt-series-current",
+        "type": "compare-two-cases",
+        "prompt": "When the grouped pair is switched from the clean split to the clean series loop, which statement is best?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The junction split disappears, so the same current crosses every resistor while the full loop still balances in voltage."
+          },
+          {
+            "id": "b",
+            "label": "The loop rule disappears because there is no longer a branch."
+          },
+          {
+            "id": "c",
+            "label": "Current conservation stops mattering once the circuit becomes series."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Removing the split node changes the current rule to the one-current series case, but the same loop-balance idea still applies around the whole circuit.",
+        "selectedWrongExplanations": {
+          "b": "Loop balance is still valid in a single-loop circuit.",
+          "c": "Current conservation is still true. It just appears as the same current everywhere in the loop."
+        },
+        "showMeAction": {
+          "label": "Show the clean series loop",
+          "presetId": "series-clean-loop",
+          "observationHint": "The node cue turns into a same-current cue while the loop guide still closes on zero.",
+          "highlightedControlIds": [
+            "groupParallel"
+          ],
+          "highlightedGraphIds": [
+            "current-map",
+            "voltage-share"
+          ],
+          "highlightedOverlayIds": [
+            "nodeGuide",
+            "loopGuide"
+          ]
+        }
+      },
+      {
+        "id": "kjr-qt-raise-r3",
+        "type": "variable-effect",
+        "prompt": "In the clean split preset, what happens if R3 is increased while the battery and the other resistors stay fixed?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "I_3 falls, I_total falls, and the junction rule still balances the split."
+          },
+          {
+            "id": "b",
+            "label": "I_3 rises because the larger resistance forces more current into that branch."
+          },
+          {
+            "id": "c",
+            "label": "The loop rule stops applying because the branch currents no longer match."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The larger resistance weakens the R3 branch current. The total current then falls too, but the same current-conservation equation still holds at the split node.",
+        "selectedWrongExplanations": {
+          "b": "At the same branch voltage, a larger resistor draws less current, not more.",
+          "c": "Loop balance still applies around each branch loop even when the branch currents differ."
+        },
+        "showMeAction": {
+          "label": "Increase R3 in the split",
+          "presetId": "parallel-clean-split",
+          "observationHint": "Raise R3 and watch the blue branch current shrink while the node equation still balances.",
+          "highlightedControlIds": [
+            "resistance3"
+          ],
+          "highlightedGraphIds": [
+            "current-map"
+          ],
+          "highlightedOverlayIds": [
+            "currentFlow",
+            "nodeGuide"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one battery on the left, one outer resistor R1 on the top path, and a highlighted two-resistor group on the right. The group can appear either as two parallel branches with a real split node or as one series path with no split node.",
+        "Overlays can show current arrows, voltage labels, a node guide, a loop guide, and the reduction cue. The readout card and graphs update from the same grouped circuit."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The current graph shows total current together with the R2 and R3 branch currents as R3 changes. The voltage-share graph shows the R1 drop, the grouped-block drop, and the live R3 drop for the same sweep. Use them as response summaries of the same grouped circuit rather than as a second model."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Kirchhoff Loop and Junction Rules | Open Model Lab",
+    "description": "Learn Kirchhoff's loop and junction rules with one bounded grouped circuit that keeps current balance, loop voltage balance, sign convention, and live branch drops on the same bench.",
+    "keywords": [
+      "Kirchhoff's laws",
+      "junction rule",
+      "loop rule",
+      "current conservation",
+      "voltage balance",
+      "circuit simulation"
+    ]
+  }
+}

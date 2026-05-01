@@ -1,0 +1,212 @@
+{
+  "title": "排序與演算法權衡",
+  "shortTitle": "排序權衡",
+  "summary": "觀看排序過程中的實時列表，以便輸入順序、比較和寫入保持具體，而不是簡化為最終答案。",
+  "highlights": [
+    "排序作為一個過程",
+    "比較和寫入",
+    "輸入順序很重要"
+  ],
+  "topic": "演演算法與搜尋",
+  "subtopic": "排序作為可見的工作",
+  "recommendedNext": [
+    {
+      "slug": "binary-search-halving-the-search-space",
+      "reasonLabel": "使用相同的列表語言來理解有序搜尋"
+    },
+    {
+      "slug": "graph-representation-and-adjacency-intuition",
+      "reasonLabel": "將可見的搜尋工作帶入一個共享圖表基準"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "排序應該像一個可見的過程，而不是一個從前到後的跳躍。這個基準保持了實時列表、活躍的比較和執行成本一起，讓每個演算法都留下可讀的痕跡。",
+        "重點不在於首先記住複雜性表。重點是觀看同一個排序輸出透過不同的區域性決策到達的方式，並看到為什麼輸入順序會改變故事。"
+      ]
+    },
+    "keyIdeas": [
+      "排序是一系列比較和移動。",
+      "不同的演算法可以透過不同的區域性模式達到相同的排序輸出。",
+      "輸入順序很重要，因為它改變了演算法實際需要做的工作量。"
+    ],
+    "commonMisconception": {
+      "myth": "如果兩個演算法以相同的有序列表結束，那麼他們必須基本上以相同的方式行為。",
+      "correction": [
+        "相同的最終答案可以隱藏非常不同的步進模式和成本。",
+        "這就是為什麼列表檢視和計數器一起保持可見的原因。"
+      ]
+    },
+    "workedExamples": {
+      "title": "示例",
+      "intro": "直接從基準中閱讀當前的排序痕跡。",
+      "items": [
+        {
+          "id": "read-the-current-sorting-trace",
+          "title": "閱讀當前的排序痕跡",
+          "prompt": "當前執行實際在做什麼樣的工作？",
+          "variables": [
+            {
+              "id": "pattern",
+              "label": "輸入模式"
+            }
+          ],
+          "steps": [
+            {
+              "id": "name-the-setup",
+              "label": "1. 設定活躍狀態"
+            },
+            {
+              "id": "read-the-counters",
+              "label": "2. 閱讀可見的成本"
+            },
+            {
+              "id": "read-the-disorder",
+              "label": "3. 閱讀還剩多少混亂"
+            }
+          ],
+          "resultLabel": "當前權衡讀取",
+          "applyAction": {
+            "label": "在近乎有序的列表上應用插入排序",
+            "observationHint": "觀看當下一鍵已經接近應屬位置時，列表實際上需要移動多少。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "構建一個案例，在這個案例中，列表幾乎是有序的，但演算法仍然浪費工作，反覆掃描整個區間",
+      "prediction": "在觸碰控制之前，決定是否應該更改演算法、輸入順序或兩者。",
+      "answer": "保持列表幾乎排序，但使用不會立即利用這些短區域性修正的演算法。",
+      "explanation": "輸入順序很重要，但最終還是由演算法決定如何高效地利用這種順序。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "根據可見的軌跡作答，而不是記憶中的格言。",
+    "questions": [
+      {
+        "id": "sat-qt-same-result",
+        "prompt": "為什麼要在同一列表上比較多種排序演算法？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "因為即使最終排好序的輸出相同，步進模式和成本也可能不同。"
+          },
+          {
+            "id": "b",
+            "label": "因為每種演算法必須產生不同的最終順序。"
+          },
+          {
+            "id": "c",
+            "label": "因為只有當列表已經排序時，排序才會有意義。"
+          }
+        ],
+        "explanation": "有趣的部分是到達排好序的列表的過程和成本，而不僅僅是最終答案。"
+      },
+      {
+        "id": "sat-qt-input-order",
+        "prompt": "如果兩次執行使用相同的演算法和相同大小的列表，什麼還能顯著改變可見的成本？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "列表的起始順序。"
+          },
+          {
+            "id": "b",
+            "label": "沒有重要的變化，因為列表大小本身就固定了整個故事。"
+          },
+          {
+            "id": "c",
+            "label": "只有圖表顏色。"
+          }
+        ],
+        "explanation": "輸入順序改變了演算法在列表安定前實際需要做的工作量。"
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一組條形圖。當前排序演算法的活動區間、已安定區域和指標標記顯示其正在進行的操作，而讀出卡則報告比較次數、寫入次數以及剩餘無序度。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "一個圖表跟蹤時間上的比較次數和寫入次數。另一個圖表跟蹤已安定專案數與剩餘逆序對的關係，第三個圖表則顯示剩餘無序度的比例。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "insertion-nearly-sorted",
+        "label": "近乎排序列表上的插入",
+        "description": "開啟一個情況，讓插入幾乎不需要移動任何東西。",
+        "setup": {
+          "note": "使用這個來觀察輸入順序和可見成本之間的一個乾淨的權衡。"
+        }
+      },
+      {
+        "id": "reverse-bubble",
+        "label": "逆序冒泡執行",
+        "description": "開啟一個更難的情況，讓冒泡不斷掃描並交換。",
+        "setup": {
+          "note": "使用這個來保持成本故事的清晰。"
+        }
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "comparison-count",
+      "label": "比較次數",
+      "meaning": "跟蹤演算法到目前為止已經需要進行多少對比檢查。"
+    },
+    {
+      "id": "write-count",
+      "label": "寫入次數",
+      "meaning": "跟蹤演算法實際重寫列表的次數。"
+    },
+    {
+      "id": "disorder-count",
+      "label": "無序度計數",
+      "meaning": "計算仍然存在的無序對數。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "algorithm-index",
+      "label": "演算法選擇",
+      "description": "在同一檢視中切換有界排序策略。"
+    },
+    {
+      "id": "pattern-index",
+      "label": "輸入模式",
+      "description": "改變起始順序而不改變最終的排好序的答案。"
+    },
+    {
+      "id": "array-size",
+      "label": "陣列大小",
+      "description": "設定演算法需要組織的專案數量。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "pattern-index",
+        "label": "輸入模式"
+      },
+      {
+        "id": "array-size",
+        "label": "陣列大小"
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "operations-history",
+      "label": "比較和寫入"
+    }
+  ]
+}

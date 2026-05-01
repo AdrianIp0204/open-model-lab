@@ -1,0 +1,280 @@
+{
+"pageFramework": {
+"sections": [
+{
+"id": "workedExamples",
+"title": "Work from the live reduction"
+},
+{
+"id": "miniChallenge",
+"title": "Reduction-order checkpoint"
+},
+{
+"id": "readNext",
+"title": "Continue with related ideas"
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Equivalent resistance answers a practical question: what single resistor would make the battery behave the same way as this whole resistor group? If the source voltage is unchanged and the total current is unchanged, the replacement is honest.",
+"In this module, R1 always stays outside a highlighted two-resistor group. Reduce that group first, then combine it with R1. That small structure is enough to show why reduction order matters, how series and parallel groups behave differently inside the same circuit, and how the final equivalent resistance changes the total current everywhere."
+]
+},
+"keyIdeas": [
+"Equivalent resistance is not just a shorter expression. It is the one-number load that gives the same battery voltage and the same total current as the original circuit.",
+"Reduce the highlighted group first. Only after that group becomes one resistor should you combine it with the outer resistor R1.",
+"A series group is identified by one shared current path, while a parallel group is identified by two shared nodes and one shared group voltage."
+],
+"commonMisconception": {
+"myth": "Equivalent resistance is only an algebra shortcut, so it does not tell you anything physically real about the original circuit.",
+"correction": [
+"Equivalent resistance is defined by matching what the source experiences: the same voltage across the circuit and the same total current through it.",
+"What can go wrong is the grouping, not the idea itself. You must first identify a pair that truly shares one series path or the same two nodes before replacing it."
+]
+},
+"workedExamples": {
+"title": "Work from the live reduction",
+"intro": "Use the exact circuit on screen. The same resistor values, group mode, inspected time, overlays, and graphs drive the reduction steps below, so every calculation matches the live stage.",
+"items": [
+{
+"id": "group-then-total-equivalent",
+"title": "Reduce the group, then the whole circuit",
+"prompt": "For the current circuit, what does the highlighted pair reduce to, what total equivalent resistance does the battery see, and what total current follows?",
+"steps": [
+{
+"id": "identify-group",
+"label": "1. Identify whether the highlighted pair is series or parallel"
+},
+{
+"id": "reduce-group",
+"label": "2. Reduce the highlighted pair first"
+},
+{
+"id": "add-outer-resistor",
+"label": "3. Combine the reduced group with the outer resistor R1"
+},
+{
+"id": "find-total-current",
+"label": "4. Use the final equivalent resistance to find the total current"
+}
+],
+"applyAction": {
+"label": "Load balanced parallel group",
+"observationHint": "Reduce the highlighted pair first. Its equivalent resistance drops sharply in parallel, and only then do you add R1 to get the full-circuit result."
+}
+},
+{
+"id": "group-voltage-and-r3-charge",
+"title": "Group voltage, R3 current, and charge passed",
+"prompt": "For the current setup and inspected time, what voltage is across the highlighted group, what current flows through R3, and how much charge has passed through R3 by this time?",
+"steps": [
+{
+"id": "group-voltage",
+"label": "1. Use the reduced block to find the group voltage drop"
+},
+{
+"id": "r3-current-rule",
+"label": "2. Choose the correct rule for current inside the highlighted group"
+},
+{
+"id": "r3-current-substitute",
+"label": "3. Substitute the live values to find I_3 and V_3"
+},
+{
+"id": "r3-charge",
+"label": "4. Use the inspected time to find the charge through R3"
+}
+],
+"applyAction": {
+"label": "Load unequal parallel group",
+"observationHint": "In the parallel group, R3 shares the full group voltage with R2, but its current and charge counter stay smaller because R3 is the larger resistance."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "The highlighted pair starts as two 6 ohm resistors in series with R1 = 4 ohm on the same 12 V battery. If you switch only the highlighted pair to parallel, why does the total current increase so strongly?",
+"prediction": "Before you switch the group mode, decide which part of the circuit changes: R1, the highlighted pair, or both.",
+"answer": "Only the highlighted pair changes. It goes from 12 ohm in series to 3 ohm in parallel, while R1 stays at 4 ohm. That makes the total equivalent resistance much smaller, so the same battery drives a much larger total current.",
+"explanation": "Equivalent resistance matters because it changes the real source current. Here the big jump comes from changing the grouped pair before R1 is added, not from changing the battery or the outer resistor."
+}
+},
+"equations": [
+{
+"id": "group-series",
+"meaning": "Use direct addition only when the highlighted pair lies on one unbranched path and carries the same current."
+},
+{
+"id": "group-parallel",
+"meaning": "Use the parallel rule only when the highlighted pair connects across the same two group nodes and shares one group voltage."
+},
+{
+"id": "total-equivalent",
+"meaning": "After you reduce the highlighted group to one resistor, R1 still adds in series with that reduced block."
+},
+{
+"id": "group-voltage",
+"meaning": "The reduced group still has one definite voltage drop in the full circuit, and that drop becomes the shared branch voltage if the group is parallel."
+}
+],
+"variableLinks": [
+{
+"id": "resistance1",
+"description": "R1 stays outside the highlighted pair, so it is never part of the first reduction step."
+},
+{
+"id": "resistance3",
+"description": "Changing R3 reshapes the grouped equivalent, the live branch behavior, and every response graph that depends on the highlighted group."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "resistance1",
+"description": "This resistor always stays in series with the reduced group."
+},
+{
+"id": "groupParallel",
+"description": "Off keeps the highlighted pair in series. On makes the highlighted pair parallel before it is combined with R1."
+}
+],
+"presets": [
+{
+"id": "parallel-group-balanced",
+"description": "The same resistor values now reduce through the parallel rule first, giving a much smaller grouped equivalent before R1 is added."
+},
+{
+"id": "parallel-group-unequal",
+"description": "Both grouped branches share the same group voltage, but the lower-resistance branch draws more current and charge per second."
+}
+],
+"overlays": [
+{
+"id": "currentFlow",
+"whatToNotice": [
+"R1 always carries the total current. The highlighted pair only splits that current when the pair is parallel."
+],
+"whyItMatters": "The simplified circuit should still agree with the live charge flow you can see."
+},
+{
+"id": "reductionGuide",
+"shortDescription": "Highlights the only pair you should reduce first and shows its live grouped equivalent.",
+"whatToNotice": [
+"The highlighted pair is reduced first. R1 is not combined until that group has already become one resistor."
+],
+"whyItMatters": "This makes reduction order visible instead of turning it into a symbol trick."
+},
+{
+"id": "nodeGuide",
+"whyItMatters": "The shared-node picture explains both the parallel reduction rule and the live branch behavior inside the group."
+}
+]
+},
+"graphs": [
+{
+"id": "equivalent-map",
+"description": "Sweep only R3 while keeping the battery, R1, R2, and the group mode fixed. First read the grouped-equivalent curve, then add the fixed outer resistor R1 to understand the total-equivalent curve."
+},
+{
+"id": "current-map",
+"description": "Sweep only R3 while keeping the rest of the circuit fixed. In a series group, all currents stay locked together. In a parallel group, R2 and R3 split the grouped current while R1 still carries the total current."
+},
+{
+"id": "voltage-share",
+"description": "Sweep only R3 while keeping the source, R1, R2, and the group mode fixed. The outer-resistor drop and the grouped-block drop always add to the battery voltage. In a parallel group, R3 gets the full group voltage; in a series group, it gets only part of that drop."
+}
+],
+"noticePrompts": {
+"intro": "Keep one eye on the highlighted pair and one on the full circuit. The important question is always: what changes when that group is reduced honestly?",
+"items": [
+{
+"id": "eqr-notice-reduce-first",
+"text": "Start with the highlighted pair, not the whole circuit. Reduce only a group that truly shares one current path or one pair of nodes.",
+"whyItMatters": "Reduction order is the main new skill in this concept."
+},
+{
+"id": "eqr-notice-equivalent-map",
+"text": "The total-equivalent curve stays a fixed amount above the grouped curve because R1 is added only after the highlighted pair has been reduced.",
+"whyItMatters": "The graph turns a two-step symbolic process into something you can see."
+},
+{
+"id": "eqr-notice-current-split",
+"text": "The current graph is the honesty check. In a series group, all currents match. In a parallel group, only the branch currents split while R1 still carries the total.",
+"whyItMatters": "Equivalent resistance should agree with the visible current flow, not replace it."
+},
+{
+"id": "eqr-notice-time-charge",
+"text": "Charge counters show the time consequence of the group rule. In a series group, Q2 and Q3 rise together. In a parallel group, they separate because the branch currents differ.",
+"whyItMatters": "The reduction step changes a real time-based outcome, not just a static number."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict the honest reduction before you switch the circuit. Each scenario changes one group feature at a time so the cause stays visible.",
+"items": [
+{
+"id": "eqr-pred-switch-group-to-parallel",
+"explanation": "Only the highlighted pair changes. Switching it from series to parallel makes the grouped equivalent much smaller, so the final total equivalent drops and the battery current rises.",
+"observationHint": "Watch the grouped equivalent change first, then the total-current badge and graph respond."
+},
+{
+"id": "eqr-pred-raise-r3-series",
+"explanation": "In a series group, increasing R3 increases the grouped equivalent and the final total equivalent. The same current still flows through both grouped resistors, so the larger R3 also gets a larger share of the group voltage.",
+"observationHint": "The current falls everywhere, while the blue share of the grouped voltage grows."
+},
+{
+"id": "eqr-pred-raise-r3-parallel",
+"explanation": "In a parallel group, increasing R3 makes that branch weaker and increases the grouped equivalent. The whole circuit draws less total current, and the R3 branch current falls even though R3 still sees the group voltage.",
+"observationHint": "The blue branch current and blue charge counter shrink, even while the branch still shares the group's voltage."
+}
+]
+},
+"challengeMode": {
+"intro": "Use the same grouped circuit to hit reduction targets. The checks come from the live reduction card, current response, and voltage behavior, not from a separate answer sheet.",
+"items": [
+{
+"id": "eqr-ch-parallel-group-collapse",
+"title": "Build the 3 ohm parallel group",
+"prompt": "Starting from the balanced series group, change only the grouped connection until the highlighted pair is about 3 ohm and the full circuit is about 7 ohm.",
+"setup": {
+"note": "Use the reduction guide and the equivalent sweep together while you change only the grouped-pair mode."
+},
+"hints": [
+"Keep the resistor values unchanged. The target comes from changing the grouped relationship, not the resistor sizes.",
+"The grouped equivalent should drop below either grouped resistor before R1 is added back in series."
+]
+}
+]
+},
+"quickTest": {
+"intro": "Answer from the live grouped circuit, not from detached formulas. Ask what the stage, reduction card, and graphs must all be saying at the same time.",
+"questions": [
+{
+"id": "eqr-qt-reduce-first",
+"explanation": "The highlighted pair is the legitimate first reduction step in this module. Only after it becomes one resistor should R1 be added."
+},
+{
+"id": "eqr-qt-switch-to-parallel",
+"explanation": "The highlighted pair changes from 12 ohm in series to 3 ohm in parallel, while R1 remains 4 ohm. That lowers the total equivalent resistance and raises the total current."
+},
+{
+"id": "eqr-qt-series-charge",
+"explanation": "In the unequal series group, the same current still passes through both grouped resistors. A larger voltage drop across R3 does not mean more charge per second passes through it."
+},
+{
+"id": "eqr-qt-total-equivalent",
+"explanation": "The graph is plotting equivalent resistance. The vertical gap stays equal to the fixed contribution from R1."
+}
+]
+},
+"accessibility": {
+"graphSummary": {
+"paragraphs": [
+"All three graphs sweep only R3 while the battery, R1, R2, and the grouped-pair mode stay fixed. The reduction sweep shows the grouped equivalent and the final total equivalent, the current graph shows total current together with the grouped-resistor currents, and the voltage-share graph shows how the outer drop, grouped-block drop, and R3 drop change as R3 varies.",
+"The time rail does not change the graph sweep. It lets the learner inspect one moment on the stage so the grouped charge counters can be compared without changing the response curves."
+]
+}
+}
+}

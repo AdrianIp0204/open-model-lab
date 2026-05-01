@@ -1,0 +1,1296 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live torque checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Turning-effect checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Carry turning ideas forward"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Push on one pivoted bar and see how lever arm distance, force direction, and turning effect stay tied to the same compact rotational bench.",
+    "keyTakeaway": "Torque depends on both distance from the pivot and the perpendicular part of the force: $\\tau = rF\\sin\\phi = rF_\\perp$.",
+    "whyItMatters": "Torque is the door-handle idea behind rotational motion: it explains why where you push and how you aim the force matters before you study equilibrium, moment of inertia, or angular momentum."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Torque is the turning effect of a force about a pivot. The same push can twist hard, twist gently, or barely twist at all depending on where you push and how much of the force points perpendicular to the lever arm.",
+        "This bench keeps one fixed bar and one fixed rotational inertia so the turning story stays honest without turning into a giant rigid-body engine. The force angle is defined relative to the bar itself, which lets the same live controls show lever arm distance, force direction, torque, and the resulting spin on one compact surface."
+      ]
+    },
+    "keyIdeas": [
+      "Torque depends on both distance from the pivot and the perpendicular part of the force: $\\tau = rF\\sin\\phi = rF_\\perp$.",
+      "A force aimed straight through the pivot can be large and still produce almost no torque because its line of action has almost no moment arm.",
+      "Torque is the rotational side of force. Later it becomes the bridge to angular momentum change, and in static-equilibrium problems the same turning bookkeeping explains why weights acting at the centre of mass matter."
+    ],
+    "commonMisconception": {
+      "myth": "The biggest force always creates the biggest turning effect.",
+      "correction": [
+        "Force size alone is not enough. A smaller force far from the pivot can out-twist a bigger force applied close to the pivot.",
+        "Direction matters just as much as distance. Only the perpendicular part of the force contributes to torque, so a large force aimed through the pivot can still give almost zero turning effect."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Solve the turning effect you are actually watching. The first example reads the current geometry, and the second follows the same fixed-torque setup forward through the current inspected time.",
+      "items": [
+        {
+          "id": "current-torque",
+          "title": "Current torque",
+          "prompt": "For the current setup, what torque does the force create and what angular acceleration follows on this fixed-inertia bench?",
+          "variables": [
+            {
+              "id": "distance",
+              "variableId": "leverArm",
+              "symbol": "r",
+              "label": "Lever arm distance",
+              "valueKey": "applicationDistanceValue",
+              "unit": "m"
+            },
+            {
+              "id": "force",
+              "variableId": "forceMagnitude",
+              "symbol": "F",
+              "label": "Force magnitude",
+              "valueKey": "forceMagnitudeValue",
+              "unit": "N"
+            },
+            {
+              "id": "angle",
+              "variableId": "forceAngle",
+              "symbol": "\\phi",
+              "label": "Force angle",
+              "valueKey": "forceAngleValue",
+              "unit": "deg"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Start from the turning relation",
+              "template": "Use $\\tau = rF\\sin\\phi = rF_\\perp$ and then $\\alpha = \\tau/I$. On this bench the rotational inertia stays fixed at $I = 7\\,\\mathrm{kg\\,m^2}$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Find the perpendicular part of the force",
+              "template": "With $r = {{applicationDistanceValue}}\\,\\mathrm{m}$, $F = {{forceMagnitudeValue}}\\,\\mathrm{N}$, and $\\phi = {{forceAngleValue}}^\\circ$, the perpendicular part is $F_\\perp = {{forcePerpendicularValue}}\\,\\mathrm{N}$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compute torque and angular acceleration",
+              "template": "So $\\tau = {{torqueValue}}\\,\\mathrm{N\\,m}$ and $\\alpha = {{angularAccelerationValue}}\\,\\mathrm{rad/s^2}$."
+            }
+          ],
+          "resultLabel": "Current torque and angular acceleration",
+          "resultTemplate": "$\\tau = {{torqueValue}}\\,\\mathrm{N\\,m}, \\quad \\alpha = {{angularAccelerationValue}}\\,\\mathrm{rad/s^2}$",
+          "interpretationTemplate": "{{torqueInterpretation}}",
+          "applyAction": {
+            "label": "Apply line-through-pivot push",
+            "presetId": "line-through-pivot",
+            "observationHint": "Keep the line of action and moment-arm overlays visible. The force is still large, but the turning effect should collapse.",
+            "highlightedControlIds": [
+              "forceAngle",
+              "applicationDistance"
+            ],
+            "highlightedGraphIds": [
+              "torque",
+              "direction-map"
+            ],
+            "highlightedOverlayIds": [
+              "lineOfAction",
+              "momentArm"
+            ]
+          }
+        },
+        {
+          "id": "current-turning-state",
+          "title": "Current turning state",
+          "prompt": "At $t = {{timeValue}}\\,\\mathrm{s}$, what angular speed and rotation angle has this setup reached?",
+          "dependsOnTime": true,
+          "variables": [
+            {
+              "id": "time",
+              "symbol": "t",
+              "label": "Time",
+              "valueKey": "timeValue",
+              "unit": "s"
+            },
+            {
+              "id": "torque",
+              "symbol": "\\tau",
+              "label": "Torque",
+              "valueKey": "torqueValue",
+              "unit": "N m"
+            },
+            {
+              "id": "acceleration",
+              "symbol": "\\alpha",
+              "label": "Angular acceleration",
+              "valueKey": "angularAccelerationValue",
+              "unit": "rad/s^2"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Use the constant-torque motion rules",
+              "template": "Because the bar starts from rest and this bounded bench keeps $\\tau$ constant for a fixed setup, use $\\omega = \\alpha t$ and $\\theta = \\tfrac{1}{2}\\alpha t^2$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the current live values",
+              "template": "With $\\alpha = {{angularAccelerationValue}}\\,\\mathrm{rad/s^2}$ at $t = {{timeValue}}\\,\\mathrm{s}$, compute both $\\omega$ and $\\theta$ from the same state."
+            },
+            {
+              "id": "compute",
+              "label": "3. Read the turning response",
+              "template": "That gives $\\omega = {{angularSpeedValue}}\\,\\mathrm{rad/s}$ and $\\theta = {{rotationAngleValue}}\\,\\mathrm{rad}$."
+            }
+          ],
+          "resultLabel": "Current angular speed and rotation",
+          "resultTemplate": "$\\omega = {{angularSpeedValue}}\\,\\mathrm{rad/s}, \\quad \\theta = {{rotationAngleValue}}\\,\\mathrm{rad}$",
+          "interpretationTemplate": "{{turningInterpretation}}",
+          "applyAction": {
+            "label": "Apply clockwise push",
+            "presetId": "clockwise-push",
+            "observationHint": "Pause near the end of the clip and compare the sign of torque, angular speed, and rotation angle.",
+            "highlightedControlIds": [
+              "forceAngle",
+              "forceMagnitude"
+            ],
+            "highlightedGraphIds": [
+              "angular-speed",
+              "rotation-angle"
+            ],
+            "highlightedOverlayIds": [
+              "perpendicularComponent"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Can you cut the lever arm roughly in half but keep the same turning effect?",
+      "prediction": "Try shortening the application distance, then predict what has to happen to the perpendicular part of the force if torque is going to stay the same.",
+      "answer": "Yes. If $r$ gets smaller, then $F_\\perp$ must get larger in just the right way so that the product $rF_\\perp$ stays unchanged.",
+      "explanation": "This is the core torque trade. The turning effect is not owned by distance alone or force alone. It belongs to the product of the lever arm and the perpendicular component of the force."
+    }
+  },
+  "equations": [
+    {
+      "id": "torque-sine",
+      "latex": "\\tau = rF\\sin\\phi",
+      "label": "Torque from force geometry",
+      "meaning": "Torque grows when the force is applied farther from the pivot and when more of the force points perpendicular to the lever arm."
+    },
+    {
+      "id": "torque-perpendicular",
+      "latex": "\\tau = rF_\\perp",
+      "label": "Torque from the perpendicular part",
+      "meaning": "Only the perpendicular component of the force contributes to turning."
+    },
+    {
+      "id": "angular-acceleration",
+      "latex": "\\alpha = \\dfrac{\\tau}{I}",
+      "label": "Rotational response",
+      "meaning": "For a fixed rotational inertia, larger torque produces larger angular acceleration."
+    },
+    {
+      "id": "constant-angular-motion",
+      "latex": "\\omega = \\alpha t, \\quad \\theta = \\tfrac{1}{2}\\alpha t^2",
+      "label": "Bounded constant-torque motion",
+      "meaning": "On this bench the bar starts from rest and keeps one constant torque for each fixed setup, so angular speed grows linearly while angle curves."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "leverArm",
+      "symbol": "r",
+      "label": "Lever arm distance",
+      "param": "applicationDistance",
+      "tone": "teal",
+      "description": "Moving the same push farther from the pivot increases the turning effect because the same perpendicular force now has a longer lever arm.",
+      "equationIds": [
+        "torque-sine",
+        "torque-perpendicular"
+      ],
+      "graphIds": [
+        "torque",
+        "direction-map"
+      ],
+      "overlayIds": [
+        "momentArm",
+        "lineOfAction"
+      ]
+    },
+    {
+      "id": "forceMagnitude",
+      "symbol": "F",
+      "label": "Force magnitude",
+      "param": "forceMagnitude",
+      "tone": "coral",
+      "description": "A bigger push can raise torque, but only the part that stays perpendicular to the bar actually twists the pivot.",
+      "equationIds": [
+        "torque-sine",
+        "torque-perpendicular"
+      ],
+      "graphIds": [
+        "torque",
+        "angular-speed",
+        "rotation-angle",
+        "direction-map"
+      ],
+      "overlayIds": [
+        "perpendicularComponent"
+      ]
+    },
+    {
+      "id": "forceAngle",
+      "symbol": "\\phi",
+      "label": "Force angle",
+      "param": "forceAngle",
+      "tone": "amber",
+      "description": "Changing the angle changes how much of the force is perpendicular to the bar, so it can strengthen, weaken, or even reverse the torque without moving the hand.",
+      "equationIds": [
+        "torque-sine",
+        "torque-perpendicular"
+      ],
+      "graphIds": [
+        "torque",
+        "direction-map"
+      ],
+      "overlayIds": [
+        "perpendicularComponent",
+        "lineOfAction",
+        "momentArm"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "forceMagnitude": 2,
+      "forceAngle": 90,
+      "applicationDistance": 1.6
+    },
+    "ui": {
+      "initialGraphId": "torque",
+      "primaryGraphIds": [
+        "torque",
+        "rotation-angle"
+      ],
+      "primaryControlIds": [
+        "forceMagnitude",
+        "forceAngle",
+        "applicationDistance"
+      ],
+      "primaryPresetIds": [
+        "handle-right-angle",
+        "near-hinge-right-angle",
+        "line-through-pivot"
+      ]
+    },
+    "controls": [
+      {
+        "id": "forceMagnitude",
+        "kind": "slider",
+        "label": "Force magnitude",
+        "param": "forceMagnitude",
+        "min": 0.5,
+        "max": 5,
+        "step": 0.1,
+        "unit": "N",
+        "description": "Set the size of the push without changing where or how it is applied."
+      },
+      {
+        "id": "forceAngle",
+        "kind": "slider",
+        "label": "Force angle",
+        "param": "forceAngle",
+        "min": -180,
+        "max": 180,
+        "step": 5,
+        "unit": "deg",
+        "description": "Angle is measured relative to the bar. Positive angles twist counterclockwise, negative angles twist clockwise."
+      },
+      {
+        "id": "applicationDistance",
+        "kind": "slider",
+        "label": "Application point",
+        "param": "applicationDistance",
+        "min": 0.2,
+        "max": 1.6,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Move the same push closer to the pivot or farther toward the handle."
+      }
+    ],
+    "presets": [
+      {
+        "id": "handle-right-angle",
+        "label": "Handle right-angle push",
+        "description": "A moderate perpendicular push at the handle gives $\\tau = 3.2\\,\\mathrm{N\\,m}$.",
+        "values": {
+          "forceMagnitude": 2,
+          "forceAngle": 90,
+          "applicationDistance": 1.6
+        }
+      },
+      {
+        "id": "near-hinge-right-angle",
+        "label": "Near-hinge same push",
+        "description": "The same perpendicular force, applied halfway in, gives only half the torque.",
+        "values": {
+          "forceMagnitude": 2,
+          "forceAngle": 90,
+          "applicationDistance": 0.8
+        }
+      },
+      {
+        "id": "shallow-strong-push",
+        "label": "Shallow but stronger",
+        "description": "A stronger $30^\\circ$ push at the handle keeps $F_\\perp$ and torque matched to the reference case.",
+        "values": {
+          "forceMagnitude": 4,
+          "forceAngle": 30,
+          "applicationDistance": 1.6
+        }
+      },
+      {
+        "id": "line-through-pivot",
+        "label": "Line through pivot",
+        "description": "A large force aimed back along the bar has almost no turning effect because its line of action passes through the pivot.",
+        "values": {
+          "forceMagnitude": 4,
+          "forceAngle": 180,
+          "applicationDistance": 1.6
+        }
+      },
+      {
+        "id": "clockwise-push",
+        "label": "Clockwise push",
+        "description": "Flip the perpendicular component so the same bench twists clockwise instead.",
+        "values": {
+          "forceMagnitude": 2,
+          "forceAngle": -90,
+          "applicationDistance": 1.2
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "perpendicularComponent",
+        "label": "Perpendicular component",
+        "shortDescription": "Separates the twisting part of the force from the part that merely pushes along the bar.",
+        "whatToNotice": [
+          "The amber arrow is the part of the force that actually creates torque.",
+          "A large parallel component can still look dramatic while contributing almost nothing to the turning effect."
+        ],
+        "whyItMatters": "Torque belongs to $F_\\perp$, not to the full force blindly.",
+        "relatedControls": [
+          "forceMagnitude",
+          "forceAngle"
+        ],
+        "relatedGraphTabs": [
+          "torque",
+          "direction-map"
+        ],
+        "relatedEquationVariables": [
+          "forceMagnitude",
+          "forceAngle"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "lineOfAction",
+        "label": "Line of action",
+        "shortDescription": "Extends the force direction to show whether it misses the pivot or passes through it.",
+        "whatToNotice": [
+          "When this line passes through the pivot, torque collapses even if the force is large.",
+          "Changing angle can move the same line of action from a strong turning case to a zero-turn case."
+        ],
+        "whyItMatters": "The turning effect depends on the perpendicular distance from the pivot to the force line, not on the drawn arrow alone.",
+        "relatedControls": [
+          "forceAngle",
+          "applicationDistance"
+        ],
+        "relatedGraphTabs": [
+          "direction-map"
+        ],
+        "relatedEquationVariables": [
+          "forceAngle",
+          "leverArm"
+        ],
+        "defaultOn": false
+      },
+      {
+        "id": "momentArm",
+        "label": "Moment arm",
+        "shortDescription": "Marks the shortest distance from the pivot to the line of action.",
+        "whatToNotice": [
+          "A longer moment arm means the same perpendicular force produces more torque.",
+          "The moment arm can shrink to nearly zero without moving the hand all the way to the pivot."
+        ],
+        "whyItMatters": "This makes the geometry behind $r\\sin\\phi$ visible instead of leaving it as a memorized formula.",
+        "relatedControls": [
+          "applicationDistance",
+          "forceAngle"
+        ],
+        "relatedGraphTabs": [
+          "torque",
+          "direction-map"
+        ],
+        "relatedEquationVariables": [
+          "leverArm",
+          "forceAngle"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "torque",
+      "label": "Torque vs time",
+      "xLabel": "time (s)",
+      "yLabel": "torque (N m)",
+      "series": [
+        "torque"
+      ],
+      "description": "For a fixed setup on this bounded bench, the same lever-arm geometry keeps the torque level steady through the clip."
+    },
+    {
+      "id": "angular-speed",
+      "label": "Angular speed vs time",
+      "xLabel": "time (s)",
+      "yLabel": "angular speed (rad/s)",
+      "series": [
+        "angular-speed"
+      ],
+      "description": "With constant torque and one fixed inertia, angular speed grows linearly from rest."
+    },
+    {
+      "id": "rotation-angle",
+      "label": "Rotation angle vs time",
+      "xLabel": "time (s)",
+      "yLabel": "rotation angle (rad)",
+      "series": [
+        "rotation-angle"
+      ],
+      "description": "Angle curves because the bar is still gaining angular speed while it turns."
+    },
+    {
+      "id": "direction-map",
+      "label": "Torque vs force angle",
+      "xLabel": "force angle (deg)",
+      "yLabel": "torque (N m)",
+      "series": [
+        "torque-angle-map",
+        "current-angle-marker"
+      ],
+      "description": "For the current force size and application distance, this response curve shows why perpendicular pushes matter most and line-through-pivot pushes vanish."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the live prompt to keep the turning story focused on one thing at a time: where the force acts, how it is aimed, and what that does to the bar.",
+    "items": [
+      {
+        "id": "torque-notice-distance",
+        "text": "Notice that the same perpendicular push twists much harder at the handle than near the pivot.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Switch between the handle right-angle push and the near-hinge version. The force arrow stays the same, but the torque and the end-of-clip angle should drop by about half.",
+        "whyItMatters": "This is the cleanest lever-arm effect: same force direction, different distance, different turning effect.",
+        "relatedControls": [
+          "applicationDistance"
+        ],
+        "relatedGraphTabs": [
+          "torque",
+          "rotation-angle"
+        ],
+        "relatedOverlays": [
+          "momentArm"
+        ],
+        "relatedEquationVariables": [
+          "leverArm"
+        ]
+      },
+      {
+        "id": "torque-notice-angle-graph",
+        "text": "Notice on the angle map that torque peaks near $\\pm 90^\\circ$ and collapses near $0^\\circ$ or $180^\\circ$.",
+        "type": "graph-reading",
+        "priority": 4,
+        "conditions": {
+          "graphTabs": [
+            "direction-map"
+          ]
+        },
+        "tryThis": "Scrub across the sine-shaped response curve. Positive and negative angles flip the torque sign, while line-through-pivot angles sit near zero.",
+        "whyItMatters": "This separates force direction from force size and makes the $\\sin\\phi$ factor visible.",
+        "relatedControls": [
+          "forceAngle"
+        ],
+        "relatedGraphTabs": [
+          "direction-map"
+        ],
+        "relatedOverlays": [
+          "perpendicularComponent",
+          "lineOfAction"
+        ],
+        "relatedEquationVariables": [
+          "forceAngle"
+        ]
+      },
+      {
+        "id": "torque-notice-line-of-action",
+        "text": "Notice that a large force can still make almost no torque when its line of action passes through the pivot.",
+        "type": "misconception",
+        "priority": 6,
+        "conditions": {
+          "overlayIds": [
+            "lineOfAction"
+          ]
+        },
+        "tryThis": "Turn on the line of action, then aim the force back along the bar. The moment arm should collapse even though the force readout stays large.",
+        "whyItMatters": "It breaks the lazy rule that a bigger force automatically means a bigger turning effect.",
+        "relatedControls": [
+          "forceAngle",
+          "applicationDistance"
+        ],
+        "relatedGraphTabs": [
+          "torque",
+          "direction-map"
+        ],
+        "relatedOverlays": [
+          "lineOfAction",
+          "momentArm"
+        ],
+        "relatedEquationVariables": [
+          "forceAngle",
+          "leverArm"
+        ]
+      },
+      {
+        "id": "torque-notice-same-torque-compare",
+        "text": "Notice in compare mode that different geometries can still land on the same torque if $rF_\\perp$ matches.",
+        "type": "compare",
+        "priority": 7,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Keep Setup A at the handle, shorten Setup B toward the pivot, then raise the perpendicular part of the push until the torque graph lines up again.",
+        "whyItMatters": "Torque is a product, so there are multiple honest ways to build the same turning effect.",
+        "relatedControls": [
+          "applicationDistance",
+          "forceMagnitude",
+          "forceAngle"
+        ],
+        "relatedGraphTabs": [
+          "torque",
+          "direction-map"
+        ],
+        "relatedOverlays": [
+          "momentArm",
+          "perpendicularComponent"
+        ],
+        "relatedEquationVariables": [
+          "leverArm",
+          "forceMagnitude",
+          "forceAngle"
+        ]
+      },
+      {
+        "id": "torque-notice-angle-change",
+        "text": "Notice that changing force angle can weaken, remove, or reverse the torque without moving the hand.",
+        "type": "try-this",
+        "priority": 5,
+        "conditions": {
+          "lastChangedControls": [
+            "forceAngle"
+          ]
+        },
+        "tryThis": "Slide the angle from $90^\\circ$ through $0^\\circ$ to $-90^\\circ$. Watch the perpendicular component cross through zero and then flip sign.",
+        "whyItMatters": "Direction is not a side detail. It decides both the size and the sign of the turning effect.",
+        "relatedControls": [
+          "forceAngle"
+        ],
+        "relatedGraphTabs": [
+          "torque",
+          "direction-map"
+        ],
+        "relatedOverlays": [
+          "perpendicularComponent",
+          "lineOfAction"
+        ],
+        "relatedEquationVariables": [
+          "forceAngle"
+        ]
+      },
+      {
+        "id": "torque-notice-distance-change",
+        "text": "Notice that moving the application point changes torque immediately even when the force arrow itself hardly changes.",
+        "type": "try-this",
+        "priority": 5,
+        "conditions": {
+          "lastChangedControls": [
+            "applicationDistance"
+          ]
+        },
+        "tryThis": "Keep the same right-angle push and slide the application point inward. The moment arm and the torque graph should shrink together.",
+        "whyItMatters": "This is why a door opens more easily at the handle than near the hinge.",
+        "relatedControls": [
+          "applicationDistance"
+        ],
+        "relatedGraphTabs": [
+          "torque",
+          "rotation-angle"
+        ],
+        "relatedOverlays": [
+          "momentArm"
+        ],
+        "relatedEquationVariables": [
+          "leverArm"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the turning effect first, then apply the change and compare the stage, the readouts, and the linked graphs.",
+    "items": [
+      {
+        "id": "torque-predict-distance",
+        "prompt": "If the same $2\\,\\mathrm{N}$ perpendicular push moves from the handle to the middle of the bar, what should happen?",
+        "scenarioLabel": "Same push, shorter lever arm",
+        "changeLabel": "Half the distance",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Torque and the end-of-clip rotation should both drop because the lever arm is shorter."
+          },
+          {
+            "id": "b",
+            "label": "Torque should stay the same because the force direction is still perpendicular."
+          },
+          {
+            "id": "c",
+            "label": "The bar should rotate more because the push is now closer to the pivot."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Keeping the same perpendicular force while cutting $r$ in half cuts the torque in half, so the bar gains angular speed more slowly and turns less by the end of the clip.",
+        "observationHint": "Watch the torque graph and the end-of-clip angle together when the application point moves inward.",
+        "apply": {
+          "presetId": "near-hinge-right-angle"
+        },
+        "highlightedControls": [
+          "applicationDistance"
+        ],
+        "highlightedGraphs": [
+          "torque",
+          "rotation-angle"
+        ],
+        "highlightedOverlays": [
+          "momentArm"
+        ]
+      },
+      {
+        "id": "torque-predict-same-product",
+        "prompt": "If you replace the handle right-angle push with a stronger but shallower handle push that keeps $F_\\perp$ the same, what should stay nearly unchanged?",
+        "scenarioLabel": "Different geometry, same torque",
+        "changeLabel": "Trade force for angle",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The torque and the end-of-clip turning should stay nearly the same even though the force arrow changes."
+          },
+          {
+            "id": "b",
+            "label": "The torque must get much larger because the total force is larger."
+          },
+          {
+            "id": "c",
+            "label": "The torque must vanish because the force is no longer perpendicular."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Torque depends on the perpendicular component, not on total force alone. If $F_\\perp$ and $r$ stay matched, the turning effect stays matched too.",
+        "observationHint": "Compare the torque graph and the final angle for the shallow but stronger push against the reference handle push.",
+        "apply": {
+          "presetId": "shallow-strong-push"
+        },
+        "highlightedControls": [
+          "forceMagnitude",
+          "forceAngle"
+        ],
+        "highlightedGraphs": [
+          "torque",
+          "rotation-angle",
+          "direction-map"
+        ],
+        "highlightedOverlays": [
+          "perpendicularComponent"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the same live bench to prove that you can reason about lever arm distance, force direction, and matched turning effects without hiding behind memorized formulas.",
+    "items": [
+      {
+        "id": "torque-ch-zero-turn",
+        "title": "Zero turn at the handle",
+        "style": "visible-condition",
+        "prompt": "Keep the push point near the handle but make the bar feel almost no turning effect.",
+        "successMessage": "You kept the long lever arm and still removed the twist by aiming the force so its line of action passes through the pivot.",
+        "setup": {
+          "presetId": "handle-right-angle",
+          "graphId": "direction-map",
+          "note": "Turn on the line of action and use the torque-angle map together."
+        },
+        "requirements": {
+          "graphId": "direction-map",
+          "overlayIds": [
+            "lineOfAction"
+          ]
+        },
+        "hints": [
+          "Do not solve this by sliding all the way to the pivot. Keep the distance long and change the direction instead.",
+          "The target is not a small force. It is a small moment arm."
+        ],
+        "targets": [
+          {
+            "param": "applicationDistance",
+            "label": "Keep the application point between $1.35$ and $1.6\\,\\mathrm{m}$.",
+            "min": 1.35,
+            "max": 1.6,
+            "displayUnit": "m"
+          },
+          {
+            "metric": "torque",
+            "label": "Make the torque land between $-0.12$ and $0.12\\,\\mathrm{N\\,m}$.",
+            "min": -0.12,
+            "max": 0.12,
+            "displayUnit": "N m"
+          }
+        ]
+      },
+      {
+        "id": "torque-ch-same-torque-new-geometry",
+        "title": "Same torque, shorter lever arm",
+        "style": "visible-condition",
+        "prompt": "Open compare mode and make Setup B twist just as hard as Setup A even though Setup B pushes much closer to the pivot.",
+        "successMessage": "You matched the turning effect across two different geometries, which means you compensated through the perpendicular part of the force instead of relying on distance alone.",
+        "setup": {
+          "presetId": "handle-right-angle",
+          "note": "Clone the handle push, then shorten only Setup B while keeping the torque graph aligned."
+        },
+        "requirements": {
+          "graphId": "torque",
+          "overlayIds": [
+            "momentArm"
+          ],
+          "compareTarget": "b"
+        },
+        "hints": [
+          "Setup A can stay at the handle. Shorten only Setup B, then rebuild the same torque by changing the perpendicular part of the push.",
+          "You do not need identical arrows. You need the same value of $rF_\\perp$."
+        ],
+        "targets": [
+          {
+            "setup": "a",
+            "param": "applicationDistance",
+            "label": "Keep Setup A near the handle between $1.55$ and $1.6\\,\\mathrm{m}$.",
+            "min": 1.55,
+            "max": 1.6,
+            "displayUnit": "m"
+          },
+          {
+            "setup": "a",
+            "metric": "torque",
+            "label": "Keep Setup A torque between $3.15$ and $3.25\\,\\mathrm{N\\,m}$.",
+            "min": 3.15,
+            "max": 3.25,
+            "displayUnit": "N m"
+          },
+          {
+            "setup": "b",
+            "param": "applicationDistance",
+            "label": "Move Setup B closer to the pivot between $0.75$ and $0.85\\,\\mathrm{m}$.",
+            "min": 0.75,
+            "max": 0.85,
+            "displayUnit": "m"
+          },
+          {
+            "setup": "b",
+            "metric": "torque",
+            "label": "Bring Setup B torque back between $3.15$ and $3.25\\,\\mathrm{N\\,m}$.",
+            "min": 3.15,
+            "max": 3.25,
+            "displayUnit": "N m"
+          }
+        ]
+      },
+      {
+        "id": "torque-ch-clockwise-finish",
+        "title": "Clockwise finish",
+        "style": "target-setting",
+        "prompt": "Pause at the end of the clip and tune a clean clockwise twist.",
+        "successMessage": "You built a steady clockwise torque and let it accumulate into the matching end-of-clip speed and angle.",
+        "setup": {
+          "presetId": "clockwise-push",
+          "graphId": "rotation-angle",
+          "overlayIds": [
+            "perpendicularComponent"
+          ],
+          "inspectTime": 2.4,
+          "note": "Use the end-of-clip inspect state so the speed and angle readouts refer to the same moment."
+        },
+        "requirements": {
+          "graphId": "rotation-angle",
+          "overlayIds": [
+            "perpendicularComponent"
+          ],
+          "timeSource": "inspect",
+          "timeRange": {
+            "min": 2.35,
+            "max": 2.4,
+            "label": "Keep the inspection cursor at the end of the clip."
+          }
+        },
+        "hints": [
+          "A clockwise twist needs negative torque, so the perpendicular component must point the opposite way.",
+          "Once torque is in range, angular speed and angle should fall into place because the bench inertia stays fixed."
+        ],
+        "targets": [
+          {
+            "metric": "torque",
+            "label": "Keep torque between $-2.55$ and $-2.25\\,\\mathrm{N\\,m}$.",
+            "min": -2.55,
+            "max": -2.25,
+            "displayUnit": "N m"
+          },
+          {
+            "metric": "angularSpeed",
+            "label": "Make angular speed land between $-0.9$ and $-0.76\\,\\mathrm{rad/s}$.",
+            "min": -0.9,
+            "max": -0.76,
+            "displayUnit": "rad/s"
+          },
+          {
+            "metric": "rotationAngle",
+            "label": "Make rotation angle land between $-1.08$ and $-0.9\\,\\mathrm{rad}$.",
+            "min": -1.08,
+            "max": -0.9,
+            "displayUnit": "rad"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "These checks ask whether you can reason with torque, not just repeat the formula. Use lever arm, force direction, and the live bar response together.",
+    "questions": [
+      {
+        "id": "torque-qt-handle-vs-hinge",
+        "type": "compare-two-cases",
+        "prompt": "The same $2\\,\\mathrm{N}$ force is applied at $90^\\circ$ in two places: once $1.6\\,\\mathrm{m}$ from the pivot and once $0.8\\,\\mathrm{m}$ from the pivot. Which statement is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The $1.6\\,\\mathrm{m}$ case creates twice the torque because the same perpendicular force acts through twice the lever arm."
+          },
+          {
+            "id": "b",
+            "label": "Both cases create the same torque because the force size and angle match."
+          },
+          {
+            "id": "c",
+            "label": "The $0.8\\,\\mathrm{m}$ case creates more torque because it is closer to the pivot."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "With the same perpendicular force, torque scales directly with distance from the pivot. Doubling $r$ doubles $\\tau$.",
+        "selectedWrongExplanations": {
+          "b": "Matching force size and angle is not enough. Torque still depends on where that force acts.",
+          "c": "Being closer to the pivot shortens the lever arm and weakens the turning effect."
+        },
+        "showMeAction": {
+          "label": "Show the shorter lever arm",
+          "presetId": "near-hinge-right-angle",
+          "observationHint": "Compare the moment arm and the torque graph with the handle-right-angle reference.",
+          "highlightedControlIds": [
+            "applicationDistance"
+          ],
+          "highlightedGraphIds": [
+            "torque",
+            "rotation-angle"
+          ],
+          "highlightedOverlayIds": [
+            "momentArm"
+          ]
+        }
+      },
+      {
+        "id": "torque-qt-line-through-pivot",
+        "type": "misconception-check",
+        "prompt": "Why can a large force still create almost zero torque?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because its line of action can pass through the pivot, leaving almost no moment arm."
+          },
+          {
+            "id": "b",
+            "label": "Because torque ignores direction and only cares about mass."
+          },
+          {
+            "id": "c",
+            "label": "Because any force aimed along the bar automatically disappears."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A force does not have to be small to have small torque. If the perpendicular distance to the pivot is near zero, the turning effect is near zero too.",
+        "selectedWrongExplanations": {
+          "b": "Direction is essential in torque. It decides both the size and the sign of the perpendicular component.",
+          "c": "The force is still real. What disappears is the turning effect about that pivot, not the force itself."
+        },
+        "showMeAction": {
+          "label": "Show the line through the pivot",
+          "presetId": "line-through-pivot",
+          "observationHint": "Turn on the line of action and watch the moment arm collapse while the force arrow stays large.",
+          "highlightedControlIds": [
+            "forceAngle"
+          ],
+          "highlightedGraphIds": [
+            "torque",
+            "direction-map"
+          ],
+          "highlightedOverlayIds": [
+            "lineOfAction",
+            "momentArm"
+          ]
+        }
+      },
+      {
+        "id": "torque-qt-same-product",
+        "type": "reasoning",
+        "prompt": "Which statement best explains why the handle right-angle push and the shallow but stronger handle push can produce nearly the same turning effect?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The stronger push makes up for the shallower angle so that the perpendicular component stays matched."
+          },
+          {
+            "id": "b",
+            "label": "Any stronger force always guarantees more torque no matter what the angle is."
+          },
+          {
+            "id": "c",
+            "label": "Torque depends only on angle, so the bigger force is irrelevant."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Torque depends on $rF_\\perp$. If the application point stays at the handle and $F_\\perp$ stays matched, the torque stays matched too.",
+        "selectedWrongExplanations": {
+          "b": "A stronger total force does not help if its perpendicular component does not grow in the right way.",
+          "c": "Angle matters, but force magnitude still matters because it sets how large the perpendicular component can be."
+        },
+        "showMeAction": {
+          "label": "Show the matched-torque case",
+          "presetId": "shallow-strong-push",
+          "observationHint": "Compare the torque and rotation-angle graphs with the handle-right-angle reference.",
+          "highlightedControlIds": [
+            "forceMagnitude",
+            "forceAngle"
+          ],
+          "highlightedGraphIds": [
+            "torque",
+            "rotation-angle",
+            "direction-map"
+          ],
+          "highlightedOverlayIds": [
+            "perpendicularComponent"
+          ]
+        }
+      },
+      {
+        "id": "torque-qt-bridge",
+        "type": "reasoning",
+        "prompt": "Why is torque the right bridge into later ideas like angular momentum change and static equilibrium with centre-of-mass reasoning?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because those later problems still depend on where forces act, so the turning effect about a pivot or support cannot be replaced by force size alone."
+          },
+          {
+            "id": "b",
+            "label": "Because torque matters only after an object has already completed one full turn."
+          },
+          {
+            "id": "c",
+            "label": "Because centre of mass and torque both ignore geometry."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Angular momentum change tracks rotational cause-and-effect, and static equilibrium checks whether torques balance. In both cases, where the force acts is as important as how large it is.",
+        "selectedWrongExplanations": {
+          "b": "Torque is the cause of rotational change from the very start; it does not wait for a full turn.",
+          "c": "Geometry is exactly what makes torque useful. The centre of mass matters because weight acts there and can create torque about a support."
+        },
+        "showMeAction": {
+          "label": "Show the handle push",
+          "presetId": "handle-right-angle",
+          "observationHint": "Use the moment arm and line of action to keep the geometry of the turning effect visible.",
+          "highlightedControlIds": [
+            "applicationDistance",
+            "forceAngle"
+          ],
+          "highlightedGraphIds": [
+            "torque",
+            "direction-map"
+          ],
+          "highlightedOverlayIds": [
+            "momentArm",
+            "lineOfAction"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a single bar pivoted at its left end. A force arrow is attached somewhere along the bar, and the bar rotates from rest according to the torque from the current force magnitude, force angle, and application distance.",
+        "Optional overlays can separate the perpendicular force component, extend the line of action, and show the moment arm from the pivot. The linked readout and graphs report torque, angular speed, and rotation angle on the same fixed bench."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The torque graph stays flat for a fixed setup because the bounded bench keeps the same lever-arm geometry relative to the bar throughout the clip. The angular-speed graph is linear and the rotation-angle graph is curved because the bar starts from rest under constant angular acceleration.",
+        "The torque-versus-force-angle response graph shows a sine-like shape for the current force size and application distance, with the largest positive and negative turning effects near plus or minus ninety degrees and near-zero torque when the line of action passes through the pivot."
+      ]
+    }
+  },
+  "seo": {
+    "description": "Interactive torque lesson with a pivoted bar, adjustable lever arm distance and force direction, compare mode, guided overlays, prediction prompts, and conceptual quick tests.",
+    "keywords": [
+      "torque",
+      "lever arm",
+      "moment arm",
+      "turning effect of force",
+      "rotational dynamics",
+      "physics simulation"
+    ]
+  },
+  "v2": {
+    "intuition": "Use one pivoted bar to connect lever arm distance, force direction, and turning effect on the same live bench.",
+    "whyItMatters": "Torque is the clean bridge from straight-line force to rotational change, so seeing the turning picture clearly makes later angular-momentum and equilibrium ideas easier to trust.",
+    "estimatedMinutes": 10,
+    "equationSnapshot": {
+      "equationIds": [
+        "torque-sine",
+        "torque-perpendicular",
+        "angular-acceleration"
+      ]
+    },
+    "startSetup": {
+      "presetId": "handle-right-angle",
+      "graphId": "torque",
+      "overlayIds": [
+        "momentArm",
+        "perpendicularComponent"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-clear-push",
+        "title": "Read one clear push",
+        "goal": "Use a right-angle push to read torque and angular acceleration from one picture.",
+        "doThis": "Start with the handle-right-angle preset, keep the torque graph visible, and raise Force magnitude once.",
+        "notice": "The torque readout and the angular-acceleration response rise together when the perpendicular push gets larger.",
+        "explain": "With the distance fixed, the perpendicular part of the force controls the turning effect, so a stronger perpendicular push creates a stronger twist.",
+        "reveal": {
+          "controlIds": [
+            "forceMagnitude"
+          ],
+          "graphIds": [
+            "torque"
+          ],
+          "overlayIds": [
+            "perpendicularComponent",
+            "momentArm"
+          ],
+          "toolHints": [
+            "graph-preview",
+            "timeline"
+          ]
+        },
+        "setup": {
+          "presetId": "handle-right-angle",
+          "graphId": "torque",
+          "overlayIds": [
+            "perpendicularComponent",
+            "momentArm"
+          ]
+        }
+      },
+      {
+        "id": "move-the-same-push-closer",
+        "title": "Move the same push closer",
+        "goal": "See why the same right-angle force twists less when it acts nearer the pivot.",
+        "doThis": "Switch to the near-hinge-right-angle preset and compare it with the earlier handle push.",
+        "notice": "The force can stay strong while the torque shrinks because the moment arm is shorter.",
+        "explain": "Torque depends on the product rF_perp, so shortening r lowers the turning effect even when the direction stays favorable.",
+        "reveal": {
+          "controlIds": [
+            "applicationDistance"
+          ],
+          "graphIds": [
+            "torque",
+            "direction-map"
+          ],
+          "overlayIds": [
+            "momentArm",
+            "lineOfAction"
+          ]
+        },
+        "setup": {
+          "presetId": "near-hinge-right-angle",
+          "graphId": "direction-map",
+          "overlayIds": [
+            "momentArm",
+            "lineOfAction"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "torque-qt-handle-vs-hinge"
+          ]
+        }
+      },
+      {
+        "id": "aim-through-the-pivot",
+        "title": "Aim through the pivot",
+        "goal": "Separate force size from turning effect by lining the push up with the pivot.",
+        "doThis": "Apply the line-through-pivot preset, then adjust Force angle until the line of action passes almost through the hinge.",
+        "notice": "The torque graph collapses even though the force arrow is still present on the bar.",
+        "explain": "Only the perpendicular component creates torque. If the line of action passes through the pivot, the moment arm is almost zero and the turning effect disappears.",
+        "reveal": {
+          "controlIds": [
+            "forceAngle",
+            "applicationDistance"
+          ],
+          "graphIds": [
+            "torque",
+            "direction-map"
+          ],
+          "overlayIds": [
+            "lineOfAction",
+            "momentArm",
+            "perpendicularComponent"
+          ]
+        },
+        "setup": {
+          "presetId": "line-through-pivot",
+          "graphId": "direction-map",
+          "overlayIds": [
+            "lineOfAction",
+            "momentArm",
+            "perpendicularComponent"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "torque-qt-line-through-pivot"
+          ]
+        }
+      },
+      {
+        "id": "match-the-same-torque",
+        "title": "Match torque another way",
+        "goal": "Trade force size and angle against distance so two different setups produce the same turning effect.",
+        "doThis": "Switch to the shallow-but-stronger preset, then compare it with the handle right-angle push before shortening the lever arm in the challenge.",
+        "notice": "The force arrow can look different while the torque and end-of-clip rotation stay nearly matched.",
+        "explain": "The page is testing the product $rF_\\perp$. If one factor changes, another can compensate, but only when the perpendicular part is rebuilt deliberately.",
+        "reveal": {
+          "controlIds": [
+            "forceMagnitude",
+            "forceAngle",
+            "applicationDistance"
+          ],
+          "graphIds": [
+            "torque",
+            "rotation-angle",
+            "direction-map"
+          ],
+          "overlayIds": [
+            "perpendicularComponent",
+            "momentArm"
+          ]
+        },
+        "setup": {
+          "presetId": "shallow-strong-push",
+          "graphId": "rotation-angle",
+          "overlayIds": [
+            "perpendicularComponent",
+            "momentArm"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "torque-qt-same-product"
+          ],
+          "includeMiniChallenge": true,
+          "title": "Can you keep the same torque?",
+          "note": "Now shorten the lever arm and compensate with the perpendicular part of the force so the turning effect stays roughly unchanged."
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Torque depends on both lever arm distance and the perpendicular part of the force.",
+        "A large force aimed through the pivot can still create almost no turning effect.",
+        "For this fixed-inertia bench, larger torque means larger angular acceleration."
+      ],
+      "misconception": "The biggest force always gives the biggest turning effect.",
+      "workedExampleRefs": [
+        "current-torque"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "rotational-inertia",
+          "title": "Rotational Inertia / Moment of Inertia",
+          "reasonLabel": "Keep the same twist and change where the mass sits."
+        },
+        {
+          "slug": "angular-momentum",
+          "title": "Angular Momentum",
+          "reasonLabel": "Carry the same rotational cause-and-effect into momentum that can be conserved."
+        }
+      ],
+      "freePlayPrompt": "Build two visibly different setups that still give nearly the same torque."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "quickTest"
+    ]
+  }
+}

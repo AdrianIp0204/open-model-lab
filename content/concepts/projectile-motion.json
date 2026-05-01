@@ -1,0 +1,1273 @@
+{
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "earth-shot-trajectory",
+        "label": "Earth shot",
+        "description": "Open the balanced Earth launch with the trajectory and velocity vector visible.",
+        "setup": {
+          "presetId": "earth-shot",
+          "graphId": "trajectory",
+          "overlayIds": [
+            "velocityVector",
+            "componentVectors"
+          ],
+          "note": "Start with the cleanest arc and watch how the launch components shape the flight."
+        }
+      },
+      {
+        "id": "moon-hop-velocity",
+        "label": "Moon hop",
+        "description": "Open the low-gravity launch and compare the stretched arc with the component graph.",
+        "setup": {
+          "presetId": "moon-hop",
+          "graphId": "velocity",
+          "overlayIds": [
+            "velocityVector",
+            "componentVectors"
+          ],
+          "note": "Use the lower gravity case to see how the same launch speed travels farther."
+        }
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Launch a projectile and read the same flight as two motions: steady horizontal travel plus vertical motion shaped by gravity.",
+    "keyTakeaway": "After launch, horizontal motion stays uniform while gravity changes only the vertical component.",
+    "whyItMatters": "This component view explains why launch angle, speed, and gravity trade off range, height, and airtime instead of changing the whole arc by guesswork."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Projectile motion is what happens when an object gets an initial push and then gravity takes over. The horizontal and vertical parts of the motion separate cleanly, which makes the path predictable.",
+        "That separation is what makes the module useful. You can change launch speed, angle, and gravity, then watch the trajectory and its component graphs update together."
+      ]
+    },
+    "keyIdeas": [
+      "The horizontal speed stays constant when drag is turned off.",
+      "A 45 degree launch gives a long range only when the launch and landing heights match.",
+      "Gravity changes the flight time and the arc, even if the launch speed stays fixed."
+    ],
+    "commonMisconception": {
+      "myth": "A steeper launch angle always gives a longer range.",
+      "correction": [
+        "Range depends on both horizontal and vertical components, not angle alone.",
+        "At the same launch speed, very steep angles waste horizontal speed and very shallow angles shorten flight time."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Solve the launch you are actually viewing. The givens and substitutions follow the real controls, and time-based examples follow the current inspected time unless you freeze them.",
+      "items": [
+        {
+          "id": "predicted-range",
+          "title": "Predicted range",
+          "prompt": "For the current launch settings, what horizontal range does the equal-height formula predict?",
+          "variables": [
+            {
+              "id": "speed",
+              "variableId": "speed",
+              "symbol": "v_0",
+              "label": "Launch speed",
+              "valueKey": "speedValue",
+              "unit": "m/s"
+            },
+            {
+              "id": "angle",
+              "variableId": "angle",
+              "symbol": "\\theta",
+              "label": "Launch angle",
+              "valueKey": "angleValue",
+              "unit": "deg"
+            },
+            {
+              "id": "gravity",
+              "variableId": "gravity",
+              "symbol": "g",
+              "label": "Gravity",
+              "valueKey": "gravityValue",
+              "unit": "m/s^2"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Identify the relation",
+              "template": "For equal launch and landing height, use $R = \\dfrac{v_0^2\\sin(2\\theta)}{g}$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the current launch values",
+              "template": "$R = \\dfrac{({{speedValue}})^2\\sin(2\\cdot {{angleValue}}^\\circ)}{{gravityValue}}$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compute the range",
+              "template": "With $\\sin(2\\theta) = {{sinDoubleAngleValue}}$, the predicted range becomes $R = {{rangeValue}}\\,\\mathrm{m}$."
+            }
+          ],
+          "resultLabel": "Predicted range",
+          "resultTemplate": "$R = {{rangeValue}}\\,\\mathrm{m}$",
+          "interpretationTemplate": "{{rangeInterpretation}}",
+          "applyAction": {
+            "label": "Apply Earth shot",
+            "presetId": "earth-shot",
+            "observationHint": "Compare the range marker on the stage with the computed range, then notice how the graph uses the same launch settings.",
+            "highlightedControlIds": [
+              "speed",
+              "angle",
+              "gravity"
+            ],
+            "highlightedGraphIds": [
+              "trajectory"
+            ],
+            "highlightedOverlayIds": [
+              "rangeMarker"
+            ]
+          }
+        },
+        {
+          "id": "current-velocity-components",
+          "title": "Velocity components at the current time",
+          "prompt": "At $t = {{timeValue}}\\,\\mathrm{s}$, what are the horizontal and vertical velocity components?",
+          "dependsOnTime": true,
+          "variables": [
+            {
+              "id": "time",
+              "symbol": "t",
+              "label": "Time",
+              "valueKey": "timeValue",
+              "unit": "s"
+            },
+            {
+              "id": "speed",
+              "variableId": "speed",
+              "symbol": "v_0",
+              "label": "Launch speed",
+              "valueKey": "speedValue",
+              "unit": "m/s"
+            },
+            {
+              "id": "angle",
+              "variableId": "angle",
+              "symbol": "\\theta",
+              "label": "Launch angle",
+              "valueKey": "angleValue",
+              "unit": "deg"
+            },
+            {
+              "id": "gravity",
+              "variableId": "gravity",
+              "symbol": "g",
+              "label": "Gravity",
+              "valueKey": "gravityValue",
+              "unit": "m/s^2"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Identify the component relations",
+              "template": "Use $v_x = v_0\\cos(\\theta)$ and $v_y = v_0\\sin(\\theta) - gt$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the current values",
+              "template": "$v_x = {{speedValue}}\\cos({{angleValue}}^\\circ)$ and $v_y = {{speedValue}}\\sin({{angleValue}}^\\circ) - {{gravityValue}}\\cdot {{timeValue}}$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compute each component",
+              "template": "That gives $v_x = {{vxValue}}\\,\\mathrm{m/s}$ and $v_y = {{vyValue}}\\,\\mathrm{m/s}$."
+            }
+          ],
+          "resultLabel": "Current velocity components",
+          "resultTemplate": "$v_x = {{vxValue}}\\,\\mathrm{m/s}, \\quad v_y = {{vyValue}}\\,\\mathrm{m/s}$",
+          "interpretationTemplate": "{{velocityInterpretation}}",
+          "applyAction": {
+            "label": "Apply shallow arc",
+            "presetId": "shallow-arc",
+            "observationHint": "The horizontal component stays steady while the vertical component changes sign as the projectile rises and falls.",
+            "highlightedControlIds": [
+              "speed",
+              "angle"
+            ],
+            "highlightedGraphIds": [
+              "velocity",
+              "components"
+            ],
+            "highlightedOverlayIds": [
+              "componentVectors",
+              "velocityVector"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "If you keep speed fixed and lower the launch angle, what happens to the trajectory and the flight time?",
+      "prediction": "Predict whether the arc gets taller or flatter.",
+      "answer": "The arc gets flatter and the flight time usually decreases.",
+      "explanation": "A smaller angle sends more of the launch speed sideways and less upward, so gravity brings the object back down sooner."
+    }
+  },
+  "equations": [
+    {
+      "id": "x-position",
+      "latex": "x(t) = v_0\\cos(\\theta) t",
+      "label": "Horizontal position",
+      "meaning": "Horizontal motion with constant velocity when drag is ignored."
+    },
+    {
+      "id": "y-position",
+      "latex": "y(t) = v_0\\sin(\\theta)t - \\tfrac{1}{2}gt^2",
+      "label": "Vertical position",
+      "meaning": "Vertical motion pulled downward by gravity."
+    },
+    {
+      "id": "flight-time",
+      "latex": "T = \\dfrac{2v_0\\sin(\\theta)}{g}",
+      "label": "Flight time",
+      "meaning": "The time before the projectile returns to the launch height."
+    },
+    {
+      "id": "range",
+      "latex": "R = \\dfrac{v_0^2\\sin(2\\theta)}{g}",
+      "label": "Range",
+      "meaning": "The horizontal distance traveled when launch and landing heights are the same."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "speed",
+      "symbol": "v_0",
+      "label": "Launch speed",
+      "param": "speed",
+      "tone": "amber",
+      "description": "Sets the size of the initial push, so the arc stretches farther and the velocity components start larger.",
+      "equationIds": [
+        "x-position",
+        "y-position",
+        "flight-time",
+        "range"
+      ],
+      "graphIds": [
+        "trajectory",
+        "components",
+        "velocity"
+      ],
+      "overlayIds": [
+        "velocityVector",
+        "componentVectors"
+      ]
+    },
+    {
+      "id": "angle",
+      "symbol": "\\theta",
+      "label": "Launch angle",
+      "param": "angle",
+      "tone": "coral",
+      "description": "Splits the launch speed between horizontal and vertical motion, which changes the shape of the arc and the time in the air.",
+      "equationIds": [
+        "x-position",
+        "y-position",
+        "flight-time",
+        "range"
+      ],
+      "graphIds": [
+        "trajectory",
+        "components",
+        "velocity"
+      ],
+      "overlayIds": [
+        "apexMarker",
+        "rangeMarker"
+      ]
+    },
+    {
+      "id": "gravity",
+      "symbol": "g",
+      "label": "Gravity",
+      "param": "gravity",
+      "tone": "sky",
+      "description": "Controls the downward pull, so the vertical curve bends more sharply and the total flight time shortens or lengthens.",
+      "equationIds": [
+        "y-position",
+        "flight-time",
+        "range"
+      ],
+      "graphIds": [
+        "trajectory",
+        "components",
+        "velocity"
+      ],
+      "overlayIds": [
+        "apexMarker",
+        "rangeMarker"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "speed": 18,
+      "angle": 45,
+      "gravity": 9.8,
+      "velocityVector": true,
+      "componentVectors": true,
+      "apexMarker": true,
+      "rangeMarker": true
+    },
+    "ui": {
+      "initialGraphId": "components",
+      "primaryGraphIds": [
+        "components",
+        "trajectory",
+        "velocity"
+      ],
+      "primaryControlIds": [
+        "speed",
+        "angle",
+        "gravity"
+      ],
+      "primaryPresetIds": [
+        "earth-shot",
+        "shallow-arc",
+        "moon-hop"
+      ]
+    },
+    "controls": [
+      {
+        "id": "speed",
+        "kind": "slider",
+        "label": "Launch speed",
+        "param": "speed",
+        "min": 5,
+        "max": 30,
+        "step": 0.5,
+        "unit": "m/s",
+        "description": "Controls the size of the initial push."
+      },
+      {
+        "id": "angle",
+        "kind": "slider",
+        "label": "Launch angle",
+        "param": "angle",
+        "min": 5,
+        "max": 85,
+        "step": 1,
+        "unit": "deg",
+        "description": "Controls how much of the launch speed points upward."
+      },
+      {
+        "id": "gravity",
+        "kind": "slider",
+        "label": "Gravity",
+        "param": "gravity",
+        "min": 1.6,
+        "max": 12,
+        "step": 0.1,
+        "unit": "m/s^2",
+        "description": "Controls how strongly the projectile falls back down."
+      }
+    ],
+    "presets": [
+      {
+        "id": "earth-shot",
+        "label": "Earth shot",
+        "description": "A balanced launch on Earth-like gravity.",
+        "values": {
+          "speed": 18,
+          "angle": 45,
+          "gravity": 9.8
+        }
+      },
+      {
+        "id": "shallow-arc",
+        "label": "Shallow arc",
+        "description": "Long horizontal motion with a lower flight time.",
+        "values": {
+          "speed": 18,
+          "angle": 28,
+          "gravity": 9.8
+        }
+      },
+      {
+        "id": "moon-hop",
+        "label": "Moon hop",
+        "description": "Lower gravity stretches the arc and the range.",
+        "values": {
+          "speed": 18,
+          "angle": 45,
+          "gravity": 1.6
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "velocityVector",
+        "label": "Velocity vector",
+        "shortDescription": "Shows the projectile's instantaneous velocity.",
+        "whatToNotice": [
+          "The vector tilts downward as gravity bends the path."
+        ],
+        "whyItMatters": "It links the launch settings to the moving projectile.",
+        "relatedControls": [
+          "speed",
+          "angle"
+        ],
+        "relatedGraphTabs": [
+          "trajectory",
+          "velocity"
+        ],
+        "relatedEquationVariables": [
+          "speed",
+          "angle"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "componentVectors",
+        "label": "Component vectors",
+        "shortDescription": "Splits the launch into horizontal and vertical parts.",
+        "whatToNotice": [
+          "The sideways part stays steady while the vertical part changes under gravity."
+        ],
+        "whyItMatters": "It makes the two-component model easier to compare on screen.",
+        "relatedControls": [
+          "speed",
+          "angle",
+          "gravity"
+        ],
+        "relatedGraphTabs": [
+          "components",
+          "velocity"
+        ],
+        "relatedEquationVariables": [
+          "speed",
+          "angle",
+          "gravity"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "apexMarker",
+        "label": "Apex marker",
+        "shortDescription": "Marks the highest point of the arc.",
+        "whatToNotice": [
+          "The apex moves when launch angle, speed, or gravity changes."
+        ],
+        "whyItMatters": "It shows how high the projectile gets before falling back down.",
+        "relatedControls": [
+          "speed",
+          "angle",
+          "gravity"
+        ],
+        "relatedGraphTabs": [
+          "trajectory"
+        ],
+        "relatedEquationVariables": [
+          "speed",
+          "angle",
+          "gravity"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "rangeMarker",
+        "label": "Range marker",
+        "shortDescription": "Marks the landing distance from launch.",
+        "whatToNotice": [
+          "The range grows when launch speed or flight time increases."
+        ],
+        "whyItMatters": "It connects the launch settings to the distance covered.",
+        "relatedControls": [
+          "speed",
+          "angle",
+          "gravity"
+        ],
+        "relatedGraphTabs": [
+          "trajectory"
+        ],
+        "relatedEquationVariables": [
+          "speed",
+          "angle",
+          "gravity"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "trajectory",
+      "label": "Trajectory",
+      "xLabel": "horizontal distance (m)",
+      "yLabel": "height (m)",
+      "series": [
+        "trajectory"
+      ],
+      "description": "Shows the full path of the projectile through space."
+    },
+    {
+      "id": "components",
+      "label": "Component motion",
+      "xLabel": "time (s)",
+      "yLabel": "position (m)",
+      "series": [
+        "xPosition",
+        "yPosition"
+      ],
+      "description": "Shows the horizontal and vertical parts of the motion separately."
+    },
+    {
+      "id": "velocity",
+      "label": "Velocity components",
+      "xLabel": "time (s)",
+      "yLabel": "velocity (m/s)",
+      "series": [
+        "vx",
+        "vy"
+      ],
+      "description": "Shows the horizontal component staying steady while the vertical component changes under gravity."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the live prompt as a short guide while you change the launch. The strongest prompt should point you toward a pattern that the current stage or graph can actually show.",
+    "items": [
+      {
+        "id": "pm-notice-components",
+        "text": "Notice that horizontal and vertical motion behave differently even though they belong to the same launch.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Keep the same launch speed, then compare the steady horizontal motion with the changing vertical motion as gravity bends the path.",
+        "whyItMatters": "Projectile motion becomes much easier once you stop treating the flight as one mysterious curved action.",
+        "relatedControls": [
+          "speed",
+          "angle",
+          "gravity"
+        ],
+        "relatedGraphTabs": [
+          "components",
+          "velocity"
+        ],
+        "relatedOverlays": [
+          "componentVectors"
+        ]
+      },
+      {
+        "id": "pm-notice-trajectory-link",
+        "text": "Notice that the trajectory graph and the stage are the same path shown in two representations.",
+        "type": "graph-reading",
+        "priority": 4,
+        "conditions": {
+          "graphTabs": [
+            "trajectory"
+          ]
+        },
+        "tryThis": "Hover or scrub the trajectory graph and watch the projectile move to the matching point in the stage.",
+        "whyItMatters": "It turns the graph from an appendix into a spatial description of the same flight.",
+        "relatedGraphTabs": [
+          "trajectory"
+        ],
+        "relatedOverlays": [
+          "apexMarker",
+          "rangeMarker"
+        ]
+      },
+      {
+        "id": "pm-notice-angle-change",
+        "text": "Notice that changing launch angle redistributes the same launch speed between upward height and forward reach.",
+        "type": "try-this",
+        "priority": 5,
+        "conditions": {
+          "lastChangedControls": [
+            "angle"
+          ]
+        },
+        "tryThis": "Raise Launch angle and compare how the apex rises while the horizontal reach stops improving once the shot gets too steep.",
+        "whyItMatters": "It guards against the common mistake that a steeper angle must always travel farther.",
+        "relatedControls": [
+          "angle",
+          "speed"
+        ],
+        "relatedGraphTabs": [
+          "trajectory",
+          "components"
+        ],
+        "relatedOverlays": [
+          "apexMarker",
+          "rangeMarker"
+        ],
+        "relatedEquationVariables": [
+          "angle",
+          "speed"
+        ]
+      },
+      {
+        "id": "pm-notice-apex-inspection",
+        "text": "Notice that the projectile is highest when the vertical velocity has dropped to zero, not when the horizontal motion stops.",
+        "type": "graph-reading",
+        "priority": 6,
+        "conditions": {
+          "inspectState": "inspect"
+        },
+        "tryThis": "Pause and scrub near the top of the arc, then compare the apex marker with the vertical velocity on the graph.",
+        "whyItMatters": "The apex is a statement about the vertical component only. The projectile still keeps moving horizontally.",
+        "relatedGraphTabs": [
+          "velocity",
+          "trajectory"
+        ],
+        "relatedOverlays": [
+          "apexMarker",
+          "componentVectors"
+        ]
+      },
+      {
+        "id": "pm-notice-velocity-graph",
+        "text": "Notice that $v_x$ stays steady while $v_y$ changes linearly under gravity.",
+        "type": "graph-reading",
+        "priority": 4,
+        "conditions": {
+          "graphTabs": [
+            "velocity"
+          ]
+        },
+        "tryThis": "Switch to Velocity components and watch the horizontal line stay flat while the vertical line slopes downward.",
+        "whyItMatters": "It shows exactly why the path curves even though one part of the motion is uniform.",
+        "relatedGraphTabs": [
+          "velocity"
+        ],
+        "relatedOverlays": [
+          "velocityVector",
+          "componentVectors"
+        ],
+        "relatedEquationVariables": [
+          "gravity",
+          "speed",
+          "angle"
+        ]
+      },
+      {
+        "id": "pm-notice-compare",
+        "text": "Notice how Setup A and Setup B trade height and range differently when you keep speed fixed but change angle.",
+        "type": "compare",
+        "priority": 7,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Keep the same Launch speed in both setups, change only Launch angle, and compare the apex and landing markers.",
+        "whyItMatters": "Compare mode makes the angle tradeoff visible without changing the underlying scale.",
+        "relatedControls": [
+          "speed",
+          "angle"
+        ],
+        "relatedGraphTabs": [
+          "trajectory"
+        ],
+        "relatedOverlays": [
+          "apexMarker",
+          "rangeMarker"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the launch first, then apply the change and compare the live arc with your expectation.",
+    "items": [
+      {
+        "id": "pm-predict-1",
+        "prompt": "If launch angle increases while speed stays fixed, what happens to the trajectory?",
+        "scenarioLabel": "Increase launch angle",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The arc gets taller first, then the range starts to shrink if the angle gets too steep."
+          },
+          {
+            "id": "b",
+            "label": "The range always increases and the height stays fixed."
+          },
+          {
+            "id": "c",
+            "label": "Gravity stops acting on the projectile."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A larger angle sends more of the launch speed upward, which raises the arc and changes the balance between height and range.",
+        "observationHint": "Watch the apex rise while the horizontal reach changes in the trajectory graph.",
+        "apply": {
+          "patch": {
+            "angle": 60
+          }
+        },
+        "highlightedControls": [
+          "angle"
+        ],
+        "highlightedGraphs": [
+          "trajectory",
+          "components",
+          "velocity"
+        ],
+        "highlightedOverlays": [
+          "apexMarker",
+          "rangeMarker"
+        ]
+      },
+      {
+        "id": "pm-predict-2",
+        "prompt": "If launch speed increases while angle stays fixed, what changes most directly?",
+        "scenarioLabel": "Increase launch speed",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The whole path stretches farther and higher."
+          },
+          {
+            "id": "b",
+            "label": "The angle changes automatically."
+          },
+          {
+            "id": "c",
+            "label": "The projectile falls slower because its mass changes."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Launch speed sets the size of both velocity components, so the projectile travels farther and reaches a higher apex when the angle stays fixed.",
+        "observationHint": "Compare the total path length and the component graphs after the speed increase.",
+        "apply": {
+          "patch": {
+            "speed": 24
+          }
+        },
+        "highlightedControls": [
+          "speed"
+        ],
+        "highlightedGraphs": [
+          "trajectory",
+          "components",
+          "velocity"
+        ],
+        "highlightedOverlays": [
+          "velocityVector",
+          "componentVectors"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Turn the same launch controls and time rail into compact aiming tasks. The checklist reads the real trajectory, not a separate answer key.",
+    "items": [
+      {
+        "id": "pm-ch-flat-far-shot",
+        "title": "Flat long shot",
+        "style": "target-setting",
+        "prompt": "Starting from Earth shot, stretch the landing point into the $35$ to $38\\,\\mathrm{m}$ range while keeping the apex below about $10\\,\\mathrm{m}$.",
+        "successMessage": "You found a launch that travels farther without turning into a very tall arc. That is the angle-height-range tradeoff made concrete.",
+        "setup": {
+          "presetId": "earth-shot",
+          "note": "Use the trajectory graph and landing marker together while you tune the shot."
+        },
+        "requirements": {
+          "graphId": "trajectory",
+          "overlayIds": [
+            "rangeMarker"
+          ]
+        },
+        "hints": [
+          "A slightly shallower launch can push the range outward without wasting too much speed upward.",
+          "If the apex climbs above the target band, you pushed too much of the launch speed into the vertical component."
+        ],
+        "targets": [
+          {
+            "metric": "range",
+            "label": "Make the range land between $35$ and $38\\,\\mathrm{m}$.",
+            "min": 35,
+            "max": 38,
+            "displayUnit": "m"
+          },
+          {
+            "metric": "maxHeight",
+            "label": "Keep maximum height between $7$ and $10\\,\\mathrm{m}$.",
+            "min": 7,
+            "max": 10,
+            "displayUnit": "m"
+          }
+        ]
+      },
+      {
+        "id": "pm-ch-apex-freeze",
+        "title": "Freeze the apex",
+        "style": "visible-condition",
+        "prompt": "From Earth shot, pause exactly at the top of the arc where the vertical velocity has dropped to zero but the projectile is still high above the ground.",
+        "successMessage": "You used inspect time correctly: the apex is the instant where $v_y = 0$, not the instant where the whole motion stops.",
+        "setup": {
+          "presetId": "earth-shot",
+          "note": "Pause the motion and scrub until the vertical-velocity curve crosses zero."
+        },
+        "requirements": {
+          "graphId": "velocity",
+          "timeSource": "inspect"
+        },
+        "hints": [
+          "The apex is easier to find on the velocity graph than on the trajectory alone.",
+          "You are looking for zero vertical velocity while the height is still close to the maximum, not for zero total speed."
+        ],
+        "targets": [
+          {
+            "metric": "vy",
+            "label": "Bring $v_y$ close to $0\\,\\mathrm{m/s}$.",
+            "min": -0.25,
+            "max": 0.25,
+            "displayUnit": "m/s"
+          },
+          {
+            "metric": "y",
+            "label": "Keep the projectile height between $8.0$ and $8.6\\,\\mathrm{m}$.",
+            "min": 8,
+            "max": 8.6,
+            "displayUnit": "m"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Use the trajectory, the component graphs, and the launch variables together. Each question is meant to check whether you can explain the motion, not just name a formula.",
+    "questions": [
+      {
+        "id": "pm-qt-1",
+        "type": "compare-two-cases",
+        "prompt": "At the same launch speed with equal launch and landing height, how do $30^\\circ$ and $60^\\circ$ launches compare?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "They can have the same range, but the $60^\\circ$ shot rises higher and stays in the air longer."
+          },
+          {
+            "id": "b",
+            "label": "The $60^\\circ$ shot must always travel farther because its apex is higher."
+          },
+          {
+            "id": "c",
+            "label": "The $30^\\circ$ shot rises higher because more speed points forward."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "For complementary launch angles like $30^\\circ$ and $60^\\circ$, the range can match when launch and landing heights are the same. The steeper launch trades more speed upward, so it climbs higher and stays in the air longer.",
+        "selectedWrongExplanations": {
+          "b": "A higher apex does not guarantee a longer range. The steeper shot also gives up horizontal speed, so the extra airtime can balance out rather than extend the range.",
+          "c": "Forward speed does not make the projectile rise higher. Height depends on the upward component of launch speed, which is larger for the steeper launch."
+        },
+        "showMeAction": {
+          "label": "Show the steeper case",
+          "patch": {
+            "speed": 18,
+            "angle": 60,
+            "gravity": 9.8
+          },
+          "observationHint": "The arc climbs higher and stays aloft longer, but the range does not automatically keep growing just because the angle is steeper.",
+          "highlightedControlIds": [
+            "angle"
+          ],
+          "highlightedGraphIds": [
+            "trajectory",
+            "components"
+          ],
+          "highlightedOverlayIds": [
+            "apexMarker",
+            "rangeMarker"
+          ]
+        }
+      },
+      {
+        "id": "pm-qt-2",
+        "type": "graph-reading",
+        "prompt": "At the apex, which statement must be true in the stage and the velocity graph?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The vertical velocity is zero there, but the horizontal velocity is still nonzero."
+          },
+          {
+            "id": "b",
+            "label": "Both velocity components are zero because the projectile stops at the top."
+          },
+          {
+            "id": "c",
+            "label": "The horizontal velocity becomes largest only at the apex."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At the apex, the projectile has finished moving upward for that instant, so the vertical component crosses zero. The horizontal component keeps going because gravity does not act sideways in this ideal model.",
+        "selectedWrongExplanations": {
+          "b": "The projectile is not frozen at the top. Only the vertical component reaches zero there; the horizontal component keeps carrying it forward.",
+          "c": "The horizontal component stays steady throughout flight when drag is ignored. The apex is special because the vertical component changes sign there."
+        },
+        "showMeAction": {
+          "label": "Show the apex",
+          "presetId": "earth-shot",
+          "observationHint": "Watch the apex marker and the velocity components: $v_y$ crosses zero there while $v_x$ stays steady.",
+          "highlightedControlIds": [
+            "angle"
+          ],
+          "highlightedGraphIds": [
+            "trajectory",
+            "velocity"
+          ],
+          "highlightedOverlayIds": [
+            "apexMarker",
+            "componentVectors"
+          ]
+        }
+      },
+      {
+        "id": "pm-qt-3",
+        "type": "misconception-check",
+        "prompt": "Which explanation best corrects the claim that a steeper launch angle always gives a longer range?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "A steeper launch gains airtime, but it also gives up horizontal speed, so the range can shrink again."
+          },
+          {
+            "id": "b",
+            "label": "A steeper launch always wins because height and range are the same thing."
+          },
+          {
+            "id": "c",
+            "label": "Only gravity decides the range, so angle is mostly cosmetic."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Range comes from a tradeoff between horizontal speed and time in the air. Steeper launches raise the arc, but beyond a point they waste too much horizontal speed to keep increasing the landing distance.",
+        "selectedWrongExplanations": {
+          "b": "Height and range are related but not identical. A shot can go much higher while actually landing closer if too little speed remains in the horizontal direction.",
+          "c": "Gravity matters, but the launch angle decides how the initial speed is split between horizontal and vertical motion, which directly affects the range."
+        },
+        "showMeAction": {
+          "label": "Try an overly steep case",
+          "patch": {
+            "angle": 75
+          },
+          "observationHint": "The apex rises, but the range marker stops moving outward the way a naive 'steeper is farther' story would predict.",
+          "highlightedControlIds": [
+            "angle"
+          ],
+          "highlightedGraphIds": [
+            "trajectory"
+          ],
+          "highlightedOverlayIds": [
+            "apexMarker",
+            "rangeMarker"
+          ]
+        }
+      },
+      {
+        "id": "pm-qt-4",
+        "type": "reasoning",
+        "prompt": "If gravity decreases while launch speed and angle stay fixed, what must the component graphs show?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The horizontal motion keeps the same straight-line trend, while the vertical motion bends less sharply and lasts longer."
+          },
+          {
+            "id": "b",
+            "label": "The horizontal velocity starts increasing because lower gravity pulls less downward."
+          },
+          {
+            "id": "c",
+            "label": "The launch angle changes automatically because the projectile is lighter."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Changing gravity only changes the vertical acceleration. The sideways motion stays uniform, but the projectile spends more time in the air and the vertical curve bends downward more gently.",
+        "selectedWrongExplanations": {
+          "b": "Gravity acts vertically in this model, so lowering it does not create sideways acceleration. The horizontal component still stays steady.",
+          "c": "The launch angle is a chosen initial condition, not something gravity rewrites after launch."
+        },
+        "showMeAction": {
+          "label": "Show low gravity",
+          "presetId": "moon-hop",
+          "observationHint": "The horizontal component keeps the same straight-line character while the vertical motion bends more gently and the range stretches outward.",
+          "highlightedControlIds": [
+            "gravity"
+          ],
+          "highlightedGraphIds": [
+            "trajectory",
+            "components",
+            "velocity"
+          ],
+          "highlightedOverlayIds": [
+            "componentVectors",
+            "rangeMarker"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a projectile launched from a point on the ground and traced through the air by gravity alone. The vector overlays can show the current velocity and its horizontal and vertical pieces.",
+        "Changing speed, launch angle, or gravity immediately reshapes the flight path, the landing point, and the component graphs."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The trajectory graph shows the curved flight path from launch to landing.",
+        "The component graphs show that horizontal motion stays steady while vertical motion bends under gravity."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Projectile Motion",
+    "description": "Interactive projectile motion with live trajectory graphs, vector overlays, and clear controls for launch speed, angle, and gravity.",
+    "keywords": [
+      "projectile motion",
+      "trajectory",
+      "mechanics",
+      "physics simulation"
+    ]
+  },
+  "v2": {
+    "intuition": "Projectile motion becomes predictable when you split one curved flight into two linked stories: horizontal motion that keeps going steadily and vertical motion that gravity bends downward.",
+    "whyItMatters": "The same component split lets you explain aiming, sports arcs, fountains, and orbital launch intuition without treating a curved path as a mysterious single motion.",
+    "estimatedMinutes": 25,
+    "equationSnapshot": {
+      "title": "Component motion snapshot",
+      "note": "Use x(t) for the steady sideways part and y(t) for the gravity-bent vertical part, then connect their combination to the range formula.",
+      "equationIds": [
+        "x-position",
+        "y-position",
+        "range"
+      ]
+    },
+    "startSetup": {
+      "presetId": "earth-shot",
+      "graphId": "components",
+      "overlayIds": [
+        "velocityVector",
+        "componentVectors",
+        "apexMarker",
+        "rangeMarker"
+      ],
+      "note": "Start from a balanced Earth launch so the component split, apex, and landing marker are all visible at once."
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-component-split",
+        "title": "Read the component split",
+        "goal": "See the launch as horizontal and vertical components before judging the arc.",
+        "doThis": "Start with Earth shot, keep the component graph open, and compare the velocity arrow with its horizontal and vertical pieces.",
+        "notice": "The projectile follows one curved path, but the sideways part and upward part can be read separately on the stage and graph.",
+        "explain": "The launch velocity is split into v_x and v_y. With drag off, v_x starts the sideways motion while v_y starts the upward motion that gravity will later reduce.",
+        "reveal": {
+          "controlIds": [
+            "speed",
+            "angle",
+            "gravity"
+          ],
+          "graphIds": [
+            "components"
+          ],
+          "overlayIds": [
+            "velocityVector",
+            "componentVectors"
+          ],
+          "toolHints": [
+            "timeline",
+            "graph-preview"
+          ]
+        },
+        "setup": {
+          "presetId": "earth-shot",
+          "graphId": "components",
+          "overlayIds": [
+            "velocityVector",
+            "componentVectors"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Predict the split",
+          "predictionIds": [
+            "pm-predict-1"
+          ],
+          "questionIds": [
+            "pm-qt-1"
+          ]
+        }
+      },
+      {
+        "id": "watch-gravity-bend-vertical-motion",
+        "title": "Watch gravity bend vertical motion",
+        "goal": "Separate what gravity changes from what it leaves alone.",
+        "doThis": "Switch to the velocity graph, let the Earth shot run, and follow v_x and v_y through the same flight.",
+        "notice": "The horizontal velocity stays flat while the vertical velocity slopes downward, crosses zero, and becomes negative.",
+        "explain": "Gravity acts vertically, so it changes v_y every second but does not create sideways acceleration in this ideal model.",
+        "reveal": {
+          "controlIds": [
+            "gravity"
+          ],
+          "graphIds": [
+            "velocity"
+          ],
+          "overlayIds": [
+            "velocityVector",
+            "componentVectors"
+          ],
+          "toolHints": [
+            "timeline"
+          ]
+        },
+        "setup": {
+          "presetId": "earth-shot",
+          "graphId": "velocity",
+          "overlayIds": [
+            "velocityVector",
+            "componentVectors"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Check the apex cue",
+          "questionIds": [
+            "pm-qt-2"
+          ]
+        }
+      },
+      {
+        "id": "compare-angle-tradeoffs",
+        "title": "Compare angle tradeoffs",
+        "goal": "Use launch angle as a tradeoff between height, airtime, and horizontal reach.",
+        "doThis": "Try the shallow-arc preset, then raise the angle toward a steep launch while watching the apex and range markers.",
+        "notice": "A steeper launch can climb higher and stay aloft longer, but too much angle gives up horizontal speed and can shorten the landing range.",
+        "explain": "Range comes from horizontal speed multiplied by time in the air. Angle changes both at once, so height and range do not always increase together.",
+        "reveal": {
+          "controlIds": [
+            "angle",
+            "speed"
+          ],
+          "graphIds": [
+            "trajectory",
+            "components"
+          ],
+          "overlayIds": [
+            "apexMarker",
+            "rangeMarker",
+            "componentVectors"
+          ]
+        },
+        "setup": {
+          "presetId": "shallow-arc",
+          "graphId": "trajectory",
+          "overlayIds": [
+            "apexMarker",
+            "rangeMarker",
+            "componentVectors"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Correct the steep-angle myth",
+          "questionIds": [
+            "pm-qt-3"
+          ],
+          "predictionIds": [
+            "pm-predict-1"
+          ]
+        }
+      },
+      {
+        "id": "judge-a-launch-from-evidence",
+        "title": "Judge a launch from evidence",
+        "goal": "Use graphs, markers, and equations together before attempting the aiming challenge.",
+        "doThis": "Compare Earth shot with Moon hop, then open the challenge and tune a flatter long shot while keeping the apex in range.",
+        "notice": "Lower gravity stretches flight time without changing the chosen launch components, and a successful aim must satisfy both range and height evidence.",
+        "explain": "A strong projectile explanation names the component split first, then uses gravity and time to justify the observed range, apex, and velocity graph.",
+        "reveal": {
+          "controlIds": [
+            "speed",
+            "angle",
+            "gravity"
+          ],
+          "graphIds": [
+            "trajectory",
+            "velocity",
+            "components"
+          ],
+          "overlayIds": [
+            "apexMarker",
+            "rangeMarker",
+            "velocityVector",
+            "componentVectors"
+          ],
+          "toolHints": [
+            "challenge-mode",
+            "timeline"
+          ]
+        },
+        "setup": {
+          "presetId": "moon-hop",
+          "graphId": "trajectory",
+          "overlayIds": [
+            "apexMarker",
+            "rangeMarker",
+            "velocityVector",
+            "componentVectors"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Can you use the evidence?",
+          "questionIds": [
+            "pm-qt-2",
+            "pm-qt-4"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "A projectile can be modeled as horizontal motion plus vertical motion under gravity.",
+        "With drag off, horizontal velocity stays constant while vertical velocity changes steadily downward.",
+        "At the apex, vertical velocity is zero for an instant but horizontal motion continues.",
+        "Range depends on both horizontal speed and airtime, so a steeper launch is not automatically farther."
+      ],
+      "misconception": "Do not treat the curved path as one all-purpose motion or assume the projectile stops at the top; only the vertical component reaches zero there.",
+      "workedExampleRefs": [
+        "predicted-range",
+        "current-velocity-components"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "momentum-impulse",
+          "title": "Momentum and Impulse",
+          "reasonLabel": "Connect launch changes to impulse and momentum."
+        },
+        {
+          "slug": "vectors-components",
+          "title": "Vectors and Components",
+          "reasonLabel": "Review the component split behind the flight."
+        },
+        {
+          "slug": "gravitational-fields",
+          "title": "Gravitational Fields",
+          "reasonLabel": "Replace constant g with a field picture."
+        }
+      ],
+      "freePlayPrompt": "Build two launches with similar range but different peak height, then explain the match using horizontal speed and airtime."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "quickTest"
+    ]
+  }
+}

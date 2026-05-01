@@ -1,0 +1,428 @@
+{
+  "title": "多普勒效應",
+  "shortTitle": "多普勒效應",
+  "summary": "觀看移動的聲源如何在前方壓縮波前、在後方拉伸波前，然後看看聲源和觀察者的運動如何結合起來改變所聽到的音高。",
+  "highlights": [
+    "壓縮的波前",
+    "移動的觀察者",
+    "觀察到的音高偏移"
+  ],
+  "topic": "波動",
+  "subtopic": "帶有運動的聲波",
+  "recommendedNext": [
+    {
+      "slug": "wave-interference",
+      "reasonLabel": "結合不同的聲源"
+    },
+    {
+      "slug": "standing-waves",
+      "reasonLabel": "共振模式"
+    },
+    {
+      "slug": "sound-waves-longitudinal-motion",
+      "reasonLabel": "回顧介質模型"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "多普勒效應並不是聲源改變其發射頻率，而是當聲源運動或觀察者運動改變聆聽路徑上的間距與到達時間時，觀察者會以不同速率接收到波前。",
+        "這個有界的實驗台保持一個古典聲介質、一個向前移動的聲源，以及一個可以在前方或後方聆聽並於所選側面移動的觀察者。波前圓圈、間距指南和聽到頻率的軌跡都來自同一模型，因此前方波前被壓縮、後方波前被拉伸的物理連線會一直對準音高提示。"
+      ]
+    },
+    "keyIdeas": [
+      "移動的聲源在前方壓縮波前，在後方拉伸波前。",
+      "觀察者的運動改變了波前到達的速度，但並未重寫介質中已經設定的間距。",
+      "在這個古典聲介質模型中，更高的聽到音高意味著波峰到達得更頻繁，而不是聲源改變其發射頻率。"
+    ],
+    "commonMisconception": {
+      "myth": "當聲源移向你時，它實際上必須發出更高頻率的聲音。",
+      "correction": [
+        "發射頻率保持固定。變化的是沿觀察者路徑的間距和到達時間。",
+        "聲源運動改變介質中的前後間距。觀察者的運動改變已經存在的波前被遇到的速度。"
+      ]
+    },
+    "workedExamples": {
+      "title": "示例",
+      "intro": "這些檢查使用舞台和圖表中的同一個移動聲源模型，因此每條公式都連回同一個清楚的經過設定。",
+      "items": [
+        {
+          "id": "front-vs-rear-spacing",
+          "title": "前方間距對比後方間距",
+          "prompt": "對於這個移動聲源設定：$v_{wave} = {{waveSpeedValue}}\\,\\mathrm{m/s}$、$f_s = {{sourceFrequencyValue}}\\,\\mathrm{Hz}$、$v_s = {{sourceSpeedValue}}\\,\\mathrm{m/s}$，聲源在前方與後方發出的波前間距是多少？",
+          "variables": [
+            {
+              "id": "wave-speed",
+              "label": "波速"
+            },
+            {
+              "id": "source-frequency",
+              "label": "聲源頻率"
+            },
+            {
+              "id": "source-speed",
+              "label": "聲源速度"
+            },
+            {
+              "id": "front-spacing",
+              "label": "前方間距"
+            },
+            {
+              "id": "rear-spacing",
+              "label": "後方間距"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 使用移動聲源間距關係"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 代入設定中的聲源數值"
+            },
+            {
+              "id": "compute",
+              "label": "3. 讀出前後間距差"
+            }
+          ],
+          "resultLabel": "間距結果",
+          "resultTemplate": "前方間距 = {{frontSpacingValue}} m，後方間距 = {{backSpacingValue}} m",
+          "applyAction": {
+            "label": "顯示更快的透過",
+            "observationHint": "觀看前方標記緊湊在一起，後方標記則散開。"
+          }
+        },
+        {
+          "id": "heard-frequency-from-motion",
+          "title": "選擇側面聽到的頻率",
+          "prompt": "在這個設定的{{sideLabelValue}}側，若聲源頻率為 $f_s = {{sourceFrequencyValue}}\\,\\mathrm{Hz}$，而觀察者速度為 $v_o = {{observerSpeedValue}}\\,\\mathrm{m/s}$（正值代表朝向聲源），觀察者會聽到多少頻率？",
+          "variables": [
+            {
+              "id": "source-frequency",
+              "label": "聲源頻率"
+            },
+            {
+              "id": "observer-speed",
+              "label": "觀察者速度（朝向為正）"
+            },
+            {
+              "id": "selected-spacing",
+              "label": "所選側面的間距"
+            },
+            {
+              "id": "observed-frequency",
+              "label": "觀察到的頻率"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 從所選側面的關係開始"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 代入設定中的數值"
+            },
+            {
+              "id": "compute",
+              "label": "3. 比較聽到的音高與發射的音高"
+            }
+          ],
+          "resultLabel": "聽到音高的結果",
+          "applyAction": {
+            "label": "在聲源後方聆聽",
+            "observationHint": "轉換到後方側會降低到達率，因為觀察者現在取樣拉長的波前間距。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "你想讓同一個警報器在不改變發射頻率的情況下聽起來更低。你應該在哪裡聆聽？",
+      "prediction": "選擇留在聲源前方或在其後方聆聽。",
+      "answer": "在聲源後方聆聽。",
+      "explanation": "在聲源後方，波前間距被拉長而不是被壓縮。較大的間距意味著較低的到達率，因此在這個有界古典模型中會聽到更低的音高。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "使用移動聲源設定，而不是只靠記憶。這些檢查會分清介質中的波前間距變化，以及觀察者接收波峰的到達率變化。",
+    "questions": [
+      {
+        "id": "de-qt-observer-motion",
+        "prompt": "聲源設定保持不變，但觀察者在所選側面朝聲源移動。哪個陳述是正確的？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "聽見的頻率上升，但介質中的前後間距保持不變。"
+          },
+          {
+            "id": "b",
+            "label": "前方間距因為觀察者迎向波峰而縮小。"
+          },
+          {
+            "id": "c",
+            "label": "沒有變化，因為只有聲源運動才重要。"
+          }
+        ],
+        "explanation": "觀察者的運動會改變波峰到達率，但不會改寫已經發射到介質中的波前間距。",
+        "selectedWrongExplanations": {
+          "b": "介質中的間距由聲源運動和發射頻率決定，而不是由觀察者追逐波峰決定。",
+          "c": "觀察者的運動是古典多普勒效應的一部分，因為它改變了觀察者遇到波峰的頻率。"
+        },
+        "showMeAction": {
+          "label": "顯示觀察者的運動",
+          "observationHint": "間距標記保持不變，而觀察者響應圖會向上移動。"
+        }
+      },
+      {
+        "id": "de-qt-behind-source",
+        "prompt": "聲源向前移動，而觀察者在它後方聆聽。這時必然會發生什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "後方間距大於前方間距，所以聽到的音高比在前方低。"
+          },
+          {
+            "id": "b",
+            "label": "聲源必須在其後方發射較低頻率。"
+          },
+          {
+            "id": "c",
+            "label": "後方間距不變，因為聲源頻率保持固定。"
+          }
+        ],
+        "explanation": "在移動聲源的後方，每個波峰都從比前一個更晚、更前的位置開始，所以後方間距被拉長，聽到的音高也會下降。",
+        "selectedWrongExplanations": {
+          "b": "這裡沒有改變發射頻率；改變的是波前間距和到達時間。",
+          "c": "固定的發射頻率不能阻止聲源運動拉長後方間距。"
+        },
+        "showMeAction": {
+          "label": "顯示後方",
+          "observationHint": "比較拉長的後方標記與較低的觀察者軌跡。"
+        }
+      },
+      {
+        "id": "de-qt-ahead-vs-behind",
+        "prompt": "設定 A 在同一個移動聲源前方收聽，設定 B 則在後方收聽。若觀察者速度其餘相同，哪個設定會聽到較高的音高？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "設定 A"
+          },
+          {
+            "id": "b",
+            "label": "設定 B"
+          },
+          {
+            "id": "c",
+            "label": "兩個設定聽到相同的音高，因為發射頻率相同。"
+          }
+        ],
+        "explanation": "在聲源前方，波前間距被壓縮，所以觀察者每秒遇到的波峰比在後方更多。",
+        "selectedWrongExplanations": {
+          "b": "在聲源後方，間距被拉長而不是被壓縮。",
+          "c": "發射頻率相同，但到達率取決於觀察者在哪個側面取樣移動聲源。"
+        },
+        "showMeAction": {
+          "label": "比較前方和後方",
+          "observationHint": "使用比較模式保持聲源匹配，而只改變聆聽側。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一個聲源沿著水平介質向前移動，並有一個觀察者位於聲源前方或後方。延伸的圓形波前、前後間距標記和到達時間標籤都固定在同一工作台上。",
+        "改變聲源速度會壓縮前方間距並拉伸後方間距。改變觀察者速度會移動到達率提示，而不改變已經在介質中定下的間距。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "第一個圖表比較了發射的聲源訊號與觀察者訊號隨時間的變化。第二個圖表掃描聲源速度以顯示前後間距，而第三個圖表掃描觀察者速度以顯示聽到的頻率對比發射頻率基線。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "即時多普勒檢查"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "聲源通過模擬"
+      },
+      {
+        "id": "readNext",
+        "title": "保持聲波故事進行"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "rest-spacing",
+      "label": "靜止波長",
+      "meaning": "如果聲源不通過介質移動，這是每個週期發射的波峰間距。"
+    },
+    {
+      "id": "front-spacing",
+      "label": "前方聲源的間距",
+      "meaning": "在聲源前方，每個新的波峰從一個較晚、更遠的位置開始，因此間距縮小。"
+    },
+    {
+      "id": "rear-spacing",
+      "label": "後方聲源的間距",
+      "meaning": "在聲源後方，每個新的波峰從一個較遠的位置開始，所以間距拉伸。"
+    },
+    {
+      "id": "observed-frequency",
+      "label": "介質中觀察到的頻率",
+      "meaning": "正$v_o$意味著觀察者朝選擇的一側向聲源移動，而$d = +1$代表聽前方，$d = -1$代表聽後方。",
+      "notes": [
+        "此頁面使用有界古典聲波模型，其中聲源速度低於波速且無衝擊波或相對論效應。"
+      ]
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "sourceFrequency",
+      "label": "聲源頻率",
+      "description": "設定聲源在任何運動改變其間距或到達率之前每週期發射新波峰的次數。"
+    },
+    {
+      "id": "sourceSpeed",
+      "label": "聲源速度",
+      "description": "改變聲源如何緊密地包裝前方波前並如何拉伸後方波前。"
+    },
+    {
+      "id": "observerSpeed",
+      "label": "觀察者速度",
+      "description": "正數值意味著觀察者朝選擇的一側向聲源移動，這會改變到達時間而不重寫介質中已經存在的間距。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "sourceFrequency",
+        "label": "聲源頻率"
+      },
+      {
+        "id": "sourceSpeed",
+        "label": "聲源速度"
+      },
+      {
+        "id": "observerSpeed",
+        "label": "觀察者速度"
+      }
+    ]
+  },
+  "noticePrompts": {
+    "items": [
+      {
+        "id": "doppler-notice-compare"
+      },
+      {
+        "id": "doppler-notice-compare"
+      },
+      {
+        "id": "doppler-notice-compare"
+      },
+      {
+        "id": "doppler-notice-compare",
+        "text": "留意哪個設定改變了介質中的波峰間距，哪個設定只改變觀察者接收到波峰的速率。比較模式能把這兩個原因清楚分開。"
+      }
+    ]
+  },
+  "predictionMode": {
+    "items": [
+      {
+        "id": "de-predict-faster-source",
+        "changeLabel": "聲源速度"
+      },
+      {
+        "id": "de-predict-moving-observer",
+        "changeLabel": "觀察者速度"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "利用同一個掠過式實驗台，把介質中的波前間距變化與觀察者接收頻率的改變分開理解。",
+    "items": [
+      {
+        "id": "de-ch-higher-pitch-ahead",
+        "title": "前方聽到更高音高",
+        "prompt": "把發射音保持在接近 1.1 Hz，並調整即時設定，讓觀察者在移動聲源的實驗台上清楚聽到更高的音高。",
+        "successMessage": "觀察者正取樣前方被壓縮的波前間距，因此在不改變發射頻率的情況下，接收到更高的到達頻率與音高。",
+        "setup": {
+          "note": "從「城市掠過」開始，並保持相同的經典介質。"
+        },
+        "hints": [
+          "若想聽到更高音高，觀察者必須位於被壓縮的前方一側，或在取樣的一側向聲源移動。",
+          "請用觀察者響應圖調整到達頻率，而不要只靠舞台畫面猜測。"
+        ],
+        "checks": [
+          {
+            "label": "打開觀察者響應圖。"
+          },
+          {
+            "label": "保持前後間距疊加層開啟。"
+          },
+          {
+            "label": "讓聲源頻率保持接近目標音高。"
+          },
+          {
+            "label": "讓聲源明顯向前移動。"
+          },
+          {
+            "label": "使用被壓縮的取樣側間距。"
+          },
+          {
+            "label": "令觀察到的頻率高於發射頻率。"
+          }
+        ]
+      },
+      {
+        "id": "de-ch-compare-low-vs-high",
+        "title": "後方較低、前方較高",
+        "prompt": "進入比較模式，讓設定 A 聽到比發射頻率更低的音高，同時讓設定 B 聽到更高的音高，且兩個聲源都保持相同的發射頻率。",
+        "successMessage": "設定 A 接收到較慢的到達頻率故事，而設定 B 接收到較快的到達頻率故事，儘管兩者的發射頻率相同。",
+        "setup": {
+          "note": "先把「城市掠過」複製到 A 和 B，然後只改變聆聽側的條件。"
+        },
+        "hints": [
+          "讓 A 和 B 保持相同發射頻率，這樣音高差異才真正來自運動和取樣側的選擇。",
+          "利用觀察者響應圖，讓其中一個設定落在 1.1 Hz 以下，另一個落在 1.1 Hz 以上。"
+        ],
+        "checks": [
+          {
+            "label": "切換到比較模式，並編輯設定 B。"
+          },
+          {
+            "label": "保持觀察者響應圖開啟。"
+          },
+          {
+            "label": "把設定 A 保持在共同的發射頻率。"
+          },
+          {
+            "label": "把設定 B 保持在相同的發射頻率。"
+          },
+          {
+            "label": "讓設定 A 維持在移動聲源掠過的情境。"
+          },
+          {
+            "label": "讓設定 B 維持相近的移動聲源速度。"
+          },
+          {
+            "label": "令設定 A 聽到比發射頻率更低的音高。"
+          },
+          {
+            "label": "令設定 B 聽到比發射頻率更高的音高。"
+          }
+        ]
+      }
+    ]
+  }
+}

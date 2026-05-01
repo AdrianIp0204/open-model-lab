@@ -1,0 +1,367 @@
+{
+  "title": "空氣柱共振 / 開口和封閉管",
+  "shortTitle": "空氣柱共振",
+  "summary": "比較開口和封閉管邊界條件在同一緊湊空氣柱上的影響，使駐波形狀、缺失的偶數諧波、探針運動和壓力提示保持與同一共振狀態一致。",
+  "highlights": [
+    "開口對比封閉端",
+    "封閉管中的奇數-only 諧波",
+    "壓力對比包絡運動"
+  ],
+  "topic": "聲音",
+  "subtopic": "空氣柱共振",
+  "recommendedNext": [
+    {
+      "slug": "damping-resonance",
+      "reasonLabel": "受迫響應"
+    },
+    {
+      "slug": "pitch-frequency-loudness-intensity",
+      "reasonLabel": "聲波提示總結"
+    },
+    {
+      "slug": "standing-waves",
+      "reasonLabel": "弦至管橋接"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "空氣柱共振是駐波約束的聲波版本。管長和邊界條件決定了哪些駐波模式可以生存，因此允許的波長和頻率並非隨意的。",
+        "這個實驗台保持一根管子、一個活動探針包絡和一個權威的共振狀態在同一視野中。管子影像、位移形狀圖、諧波等級和探針軌跡都從同一狀態讀取，因此開口端、封閉端、節點、反節點和封閉管奇數-only 諧波保持一致。"
+      ]
+    },
+    "keyIdeas": [
+      "開口端行為類似於位移反節點和壓力節點，而封閉端行為類似於位移節點和壓力反節點。",
+      "開口-開口管允許每個整數諧波，但開口-封閉管跳過偶數諧波，因為一端必須保持靜止而另一端呼吸。",
+      "改變管長或邊界型別首先改變允許的波長，然後共振頻率從相同的聲速中跟隨。"
+    ],
+    "commonMisconception": {
+      "myth": "開口端應該是節點，因為空氣可以在那裡自由流出。",
+      "correction": [
+        "對於包絡位移，開口端是空氣可以最自由運動的地方，因此它行為類似於位移反節點。",
+        "在開口端變小的是壓力變化，這就是為什麼壓力節點和位移反節點互換位置的原因。"
+      ]
+    },
+    "workedExamples": {
+      "title": "示例",
+      "intro": "這些示例直接從活躍的空氣柱讀取當前管長、邊界條件、共振次數和探針狀態，使代數保持與您正在觀看的同一共振模式一致。",
+      "items": [
+        {
+          "id": "allowed-frequency",
+          "title": "允許的波長和頻率",
+          "prompt": "對於目前的{{boundaryLabelValue}}並使用聲速 $v = {{waveSpeedValue}}\\,\\mathrm{m/s}$，哪些波長和共振頻率是允許的？",
+          "variables": [
+            {
+              "id": "length",
+              "label": "管長"
+            },
+            {
+              "id": "resonance-order",
+              "label": "共振順序"
+            },
+            {
+              "id": "harmonic-multiple",
+              "label": "有效諧波倍數"
+            },
+            {
+              "id": "wave-speed",
+              "label": "聲速"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. 開始從邊界規則出發"
+            },
+            {
+              "id": "substitute",
+              "label": "2. 代入活躍的管子"
+            },
+            {
+              "id": "compute",
+              "label": "3. 計算允許的共振"
+            }
+          ],
+          "resultLabel": "當前的共振要求",
+          "applyAction": {
+            "label": "顯示封閉管第三諧波",
+            "observationHint": "封閉一端使牆壁保持靜止，因此下一個允許的封閉管模式跳到第三諧波而不是第二。"
+          }
+        },
+        {
+          "id": "probe-motion-vs-pressure",
+          "title": "探針包絡運動對比壓力提示",
+          "prompt": "在當前探針位置 $x_p = {{probeXValue}}\\,\\mathrm{m}$ 和時間 $t = {{timeValue}}\\,\\mathrm{s}$，那裡的包移位和壓力訊號分別是多少？",
+          "variables": [
+            {
+              "id": "probe-position",
+              "label": "探測器位置"
+            },
+            {
+              "id": "amplitude",
+              "label": "參考振幅"
+            }
+          ],
+          "steps": [
+            {
+              "id": "envelopes",
+              "label": "1. 閱讀區域性封包"
+            },
+            {
+              "id": "instant",
+              "label": "2. 閱讀當前時間切片"
+            },
+            {
+              "id": "classify",
+              "label": "3. 分類探針角色"
+            }
+          ],
+          "resultLabel": "當前探針狀態",
+          "applyAction": {
+            "label": "移動到封閉端",
+            "observationHint": "在封閉牆壁處，包運動消失，但壓力訊號最強。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "如果你想保持相同的管長度但降低基頻共振而不改變長度，最直接的變更方式是什麼？",
+      "prediction": "決定是否應該封閉一端、提高共振階數或移動探針。",
+      "answer": "封閉管的一端。",
+      "explanation": "封閉一端會將邊界條件從半波基頻變為四分之一波基頻。這將允許的波長從 $2L$ 增加到 $4L$，同時將基本頻率減半，而移動探針僅改變檢測內容，提高共振階數則轉移到更高模式。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "結合使用管子、影像和邊界概念。這些檢查問的是共振模式的物理意義，而不是你記住了哪個公式。",
+    "questions": [
+      {
+        "id": "air-column-qt-open-end",
+        "prompt": "一名學生説：「開放端必須是一個節點，因為那裡的空氣可以自由逸出。」最好的糾正方式是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "開放端是一個移位反節點，因為那裡的包可以最自由地運動，而壓力變動最小。"
+          },
+          {
+            "id": "b",
+            "label": "開放端總是移位節點和壓力反節點。"
+          },
+          {
+            "id": "c",
+            "label": "開放端不影響共振，所以兩種描述都正確。"
+          }
+        ],
+        "explanation": "開放端是包運動可以最大的地方，因此它們表現為移位反節點。那裡減少的是壓力變動，而不是包運動。",
+        "selectedWrongExplanations": {
+          "b": "這是封閉牆壁規則，不是開放端規則。",
+          "c": "邊界條件正是決定哪些共振被允許的。"
+        },
+        "showMeAction": {
+          "label": "顯示開放管基頻",
+          "observationHint": "兩個開放端都在呼吸，而壓力節點位於口部。"
+        }
+      },
+      {
+        "id": "air-column-qt-odd-only",
+        "prompt": "為什麼封閉-開放管會跳過偶數諧波？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "因為一端必須是移位節點，另一端是反節點，所以只有奇數四分之一波計數才能同時滿足兩個規則。"
+          },
+          {
+            "id": "b",
+            "label": "因為封閉管中的聲速較慢，所以偶數諧波消失。"
+          },
+          {
+            "id": "c",
+            "label": "因為封閉管中反射在基頻後停止。"
+          }
+        ],
+        "explanation": "缺失的偶數諧波是幾何和邊界條件的結果。一端節點另一端反節點意味著管子必須適合 1, 3, 5, ... 四分之一波長，而不是每個半波計數。",
+        "selectedWrongExplanations": {
+          "b": "聲速並未改變。邊界規則改變了哪些波長被允許。",
+          "c": "反射仍然構成封閉管中每一個後續共振的一部分。問題在於哪種駐波模式滿足邊界條件。"
+        },
+        "showMeAction": {
+          "label": "顯示閉管第三諧波",
+          "observationHint": "梯子跳過偶數諧波家族，直接落在奇數第三諧波上。"
+        }
+      },
+      {
+        "id": "air-column-qt-wall-probe",
+        "prompt": "如果探針放置在開口管的封閉端，影像應該顯示什麼樣的探針運動圖？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它應該接近零因為牆壁是一個位移節點。"
+          },
+          {
+            "id": "b",
+            "label": "它應該顯示最大的振動因為反射在此累積。"
+          },
+          {
+            "id": "c",
+            "label": "它不會變得隨機，因為駐波公式在牆壁處仍然適用。"
+          }
+        ],
+        "explanation": "封閉端是流體運動節點。雖然那裡的壓力波動可以很大，但流體本身不能透過牆壁振動。",
+        "selectedWrongExplanations": {
+          "b": "大壓力變動不意味著在封閉端有大的流體位移。",
+          "c": "牆壁正是駐波模式中最受約束的位置之一，而不是例外。"
+        },
+        "showMeAction": {
+          "label": "移至封閉端",
+          "observationHint": "壓力提示增加而探針運動跡線收縮。"
+        }
+      },
+      {
+        "id": "air-column-qt-open-vs-closed",
+        "prompt": "兩根管子長度相同且聲速相同。管A在兩端開口，管B在一端封閉。兩者都在基頻上。那麼必須成立的是？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "管B允許的波長更長且基頻更低。"
+          },
+          {
+            "id": "b",
+            "label": "兩根管子具有相同的波長和頻率因為它們的長度匹配。"
+          },
+          {
+            "id": "c",
+            "label": "管B必須有更高的頻率因為封閉端反射更強。"
+          }
+        ],
+        "explanation": "開口-開口基頻適合半個波長，但閉口-開口基頻適合四分之一波長。因此，在相同長度下，閉口-開口的波長更長且其基頻更低。",
+        "selectedWrongExplanations": {
+          "b": "僅靠管子的長度不能決定共振。邊界條件也很重要。",
+          "c": "更強的反射不是這裡的規則。較低的頻率來自於允許的波長更長。"
+        },
+        "showMeAction": {
+          "label": "顯示閉管基頻",
+          "observationHint": "諧波梯子在不改變管長度的情況下跳到較低的閉管基頻。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一個水平氣柱，內部有一個可移動探針流體塊、彩色壓力帶和底部的尺子。左端可以切換為開或閉，右端保持開放，並且可選疊加標記邊界規則、流體運動節點和反節點以及互補的壓力模式。",
+        "改變管長度、邊界型別、共振階數、探針位置或振幅會立即更新同一管子檢視、位移形狀圖、諧波梯形圖和探針運動圖，使共振狀態保持同步。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "位移形狀圖繪製了流體塊的位移尺度與管內位置的關係，因此零點對應於位移節點，並且當邊界條件改變時端部行為會變化。",
+        "探針運動圖繪製了一個選定的流體塊在時間上的運動及其區域性包絡，而諧波梯形圖則繪製了當前管子允許的共振頻率並使閉口-開口管道中的缺失偶數諧波可見。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "實時管檢查"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "邊界檢查點"
+      },
+      {
+        "id": "readNext",
+        "title": "保持聲學路徑暢通"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "open-open-displacement",
+      "label": "開口-開口流體位移",
+      "meaning": "兩端都是位移反節點，因此流體運動形狀使用了全管範圍的餘弦模式。",
+      "notes": [
+        "開口端允許流體塊自由移動。",
+        "在這些開放端壓力變化最小。"
+      ]
+    },
+    {
+      "id": "closed-open-displacement",
+      "label": "開口-閉口流體位移",
+      "meaning": "封閉的牆壁會迫使位移節點，因此只有奇數諧波倍數能在兩端之間適配。"
+    },
+    {
+      "id": "open-open-resonance",
+      "label": "開放-開放共振梯級",
+      "meaning": "開放-開放管子允許所有整數諧波，因為兩端遵循相同的反節點邊界規則。"
+    },
+    {
+      "id": "closed-open-resonance",
+      "label": "開放-封閉共振梯級",
+      "meaning": "開放-封閉管子只保留奇數諧波倍數，因為牆壁和口部遵守不同的邊界條件。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "length",
+      "label": "管長",
+      "description": "改變了駐波模式的空間大小，因此每種允許的波長和頻率都會隨著它而移動。"
+    },
+    {
+      "id": "boundary",
+      "label": "邊界型別",
+      "description": "在開放-開放和封閉-開放規則之間切換，這會改變允許的諧波家族而不是僅僅重新標籤同一根管子。"
+    },
+    {
+      "id": "resonanceOrder",
+      "label": "共振順序",
+      "description": "選擇正在使用的允許模式，因此節點數量、諧波倍數和共振頻率會一起移動。"
+    },
+    {
+      "id": "probeX",
+      "label": "探測器位置",
+      "description": "移動活體測量包件以便比較開放端呼吸、牆壁靜止和內部節點位置，而不必建立第二個狀態。"
+    },
+    {
+      "id": "amplitude",
+      "label": "參考振幅",
+      "description": "調整包件運動和壓力提示的大小範圍，而不改變允許的共振模式。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "length",
+        "label": "管長"
+      },
+      {
+        "id": "resonanceOrder",
+        "label": "共振順序"
+      },
+      {
+        "id": "probeX",
+        "label": "探測器位置"
+      },
+      {
+        "id": "amplitude",
+        "label": "參考振幅"
+      }
+    ]
+  },
+  "predictionMode": {
+    "items": [
+      {
+        "id": "air-column-predict-close-end",
+        "changeLabel": "邊界型別"
+      },
+      {
+        "id": "air-column-predict-wall-probe",
+        "changeLabel": "探測器位置"
+      },
+      {
+        "id": "air-column-predict-next-closed-mode",
+        "changeLabel": "共振順序"
+      }
+    ]
+  }
+}

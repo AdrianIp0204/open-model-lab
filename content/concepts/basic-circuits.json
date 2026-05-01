@@ -1,0 +1,1281 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live circuit checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Current-split checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Keep the electricity story moving"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Keep one battery and two resistors in view while current, voltage, resistance, Ohm's law, and the contrast between series and parallel all stay tied to one honest circuit.",
+    "keyTakeaway": "For one fixed circuit, Ohm's law means current scales linearly with voltage and inversely with equivalent resistance.",
+    "whyItMatters": "This is the base model for every later circuit idea: once you can read one battery, two resistors, equivalent resistance, and branch current together, voltage dividers and circuit power feel much less mysterious."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "A basic circuit needs only a source of voltage, a path for charge to move, and resistance that limits how much current the source can drive. Ohm's law connects those three ideas with one compact rule: more voltage pushes more current, and more resistance holds that current back.",
+        "This module stays intentionally bounded. One battery drives two resistors, and the only topology change is whether those resistors sit in one series loop or in two parallel branches. That is enough to teach current, voltage, equivalent resistance, and the intuition behind Ohm's law without turning the page into an electronics workbench."
+      ]
+    },
+    "keyIdeas": [
+      "For one fixed circuit, Ohm's law means current scales linearly with voltage and inversely with equivalent resistance.",
+      "In series, the same current flows through every resistor because there is only one loop, so resistances add and the source voltage is shared across the resistors.",
+      "In parallel, each branch sees the full battery voltage, so branch currents depend on branch resistance and the total current is the sum of those branch currents."
+    ],
+    "commonMisconception": {
+      "myth": "Current gets used up by the first resistor, so less current reaches the second resistor in a series loop.",
+      "correction": [
+        "Current is the rate of charge flow through one continuous loop. In a steady series circuit, the same amount of charge per second passes every point in that loop.",
+        "What changes across a resistor is voltage, not the amount of current that remains. The resistor creates a voltage drop while the loop current stays the same."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Solve the circuit that is on screen right now. The same battery value, resistor values, and topology drive the stage, the readout card, the overlays, and the graphs.",
+      "items": [
+        {
+          "id": "equivalent-resistance-and-current",
+          "title": "Equivalent resistance and total current",
+          "prompt": "For the current circuit, what one-number equivalent resistance does the battery feel, and what total current follows from that load?",
+          "variables": [
+            {
+              "id": "voltage",
+              "variableId": "voltage",
+              "symbol": "V",
+              "label": "Battery voltage",
+              "valueKey": "voltageValue",
+              "unit": "V"
+            },
+            {
+              "id": "resistanceA",
+              "variableId": "resistanceA",
+              "symbol": "R_A",
+              "label": "Resistor A",
+              "valueKey": "resistanceAValue",
+              "unit": "ohm"
+            },
+            {
+              "id": "resistanceB",
+              "variableId": "resistanceB",
+              "symbol": "R_B",
+              "label": "Resistor B",
+              "valueKey": "resistanceBValue",
+              "unit": "ohm"
+            }
+          ],
+          "steps": [
+            {
+              "id": "topology-rule",
+              "label": "1. Start with the live topology",
+              "template": "This setup uses {{topologyLabelValue}}, so ${{equivalentRuleValue}}$."
+            },
+            {
+              "id": "substitute-live-values",
+              "label": "2. Substitute the resistor values now on screen",
+              "template": "With $R_A = {{resistanceAValue}}$ and $R_B = {{resistanceBValue}}$, ${{equivalentSubstitutionValue}}$, so $R_{\\text{eq}} = {{equivalentResistanceValue}}$."
+            },
+            {
+              "id": "whole-circuit-ohms-law",
+              "label": "3. Use Ohm's law on the whole circuit",
+              "template": "$I_{\\text{total}} = \\dfrac{V}{R_{\\text{eq}}} = \\dfrac{{voltageValue}}{ {{equivalentResistanceValue}} }$."
+            },
+            {
+              "id": "total-current-result",
+              "label": "4. Compute the total current",
+              "template": "That gives $I_{\\text{total}} = {{totalCurrentValue}}$."
+            }
+          ],
+          "resultLabel": "Equivalent resistance and total current",
+          "resultTemplate": "$R_{\\text{eq}} = {{equivalentResistanceValue}}, \\quad I_{\\text{total}} = {{totalCurrentValue}}$",
+          "interpretationTemplate": "{{equivalentInterpretation}}",
+          "applyAction": {
+            "label": "Show uneven series divider",
+            "presetId": "uneven-series-divider",
+            "observationHint": "The loop current stays the same through both resistors, but the larger resistor takes the larger share of the source voltage.",
+            "highlightedControlIds": [
+              "resistanceA",
+              "resistanceB",
+              "parallelMode"
+            ],
+            "highlightedGraphIds": [
+              "current-map",
+              "voltage-share"
+            ],
+            "highlightedOverlayIds": [
+              "currentArrows",
+              "voltageDrops"
+            ]
+          }
+        },
+        {
+          "id": "branch-b-current-and-voltage",
+          "title": "Branch B current and voltage",
+          "prompt": "For the current setup, what current passes through resistor B, and what voltage appears across that resistor or branch?",
+          "variables": [
+            {
+              "id": "voltage",
+              "variableId": "voltage",
+              "symbol": "V",
+              "label": "Battery voltage",
+              "valueKey": "voltageValue",
+              "unit": "V"
+            },
+            {
+              "id": "resistanceB",
+              "variableId": "resistanceB",
+              "symbol": "R_B",
+              "label": "Resistor B",
+              "valueKey": "resistanceBValue",
+              "unit": "ohm"
+            },
+            {
+              "id": "totalCurrent",
+              "symbol": "I_{\\text{total}}",
+              "label": "Total current",
+              "valueKey": "totalCurrentValue",
+              "unit": "A"
+            }
+          ],
+          "steps": [
+            {
+              "id": "branch-current-rule",
+              "label": "1. Use the live topology rule for resistor B current",
+              "template": "${{branchCurrentRuleValue}}$"
+            },
+            {
+              "id": "branch-current-substitute",
+              "label": "2. Substitute the live values",
+              "template": "${{branchCurrentSubstitutionValue}}$, so $I_B = {{branchBCurrentValue}}$."
+            },
+            {
+              "id": "branch-voltage-rule",
+              "label": "3. Write the matching voltage relation",
+              "template": "${{branchVoltageRuleValue}}$"
+            },
+            {
+              "id": "branch-voltage-substitute",
+              "label": "4. Finish the branch-B voltage",
+              "template": "${{branchVoltageSubstitutionValue}}$, so $V_B = {{branchBVoltageValue}}$."
+            }
+          ],
+          "resultLabel": "Branch B current and voltage",
+          "resultTemplate": "$I_B = {{branchBCurrentValue}}, \\quad V_B = {{branchBVoltageValue}}$",
+          "interpretationTemplate": "{{branchBInterpretation}}",
+          "applyAction": {
+            "label": "Show branch split",
+            "presetId": "branch-split",
+            "observationHint": "In parallel, the blue branch keeps the full battery voltage but carries less current because its resistance is larger.",
+            "highlightedControlIds": [
+              "resistanceB",
+              "parallelMode"
+            ],
+            "highlightedGraphIds": [
+              "current-map",
+              "voltage-share"
+            ],
+            "highlightedOverlayIds": [
+              "currentArrows",
+              "nodeGuide"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Use the matched-resistor presets. Why does the total current become larger in the parallel circuit than in the series circuit even though the same battery and the same two resistors are still present?",
+      "prediction": "Predict whether the battery is seeing more resistance or less resistance before you switch the topology.",
+      "answer": "The parallel circuit gives the battery a smaller equivalent resistance because the charge has two paths instead of one long path. With the same battery voltage, Ohm's law then gives a larger total current.",
+      "explanation": "Series adds resistances directly, so two 6 ohm resistors become 12 ohm. Parallel combines them into 3 ohm, which is a much lighter load on the same battery. Lower equivalent resistance means higher total current."
+    }
+  },
+  "equations": [
+    {
+      "id": "ohms-law",
+      "latex": "I = \\dfrac{V}{R}",
+      "label": "Ohm's law",
+      "meaning": "For one fixed resistance, current grows in direct proportion to voltage."
+    },
+    {
+      "id": "series-equivalent",
+      "latex": "R_{\\text{eq}} = R_A + R_B",
+      "label": "Series equivalent resistance",
+      "meaning": "Two series resistors act like one larger resistor because the same loop current must pass through both."
+    },
+    {
+      "id": "parallel-equivalent",
+      "latex": "R_{\\text{eq}} = \\dfrac{R_A R_B}{R_A + R_B}",
+      "label": "Parallel equivalent resistance",
+      "meaning": "Two parallel branches lower the one-number load because charge has two paths across the same battery."
+    },
+    {
+      "id": "series-current",
+      "latex": "I_A = I_B = I_{\\text{total}}",
+      "label": "Same current in series",
+      "meaning": "A steady series loop carries one current everywhere around the loop."
+    },
+    {
+      "id": "parallel-current",
+      "latex": "I_{\\text{total}} = I_A + I_B",
+      "label": "Current splits and recombines",
+      "meaning": "In parallel, branch currents add back together at the junction."
+    },
+    {
+      "id": "voltage-drop",
+      "latex": "V_{\\text{drop}} = IR",
+      "label": "Resistor voltage drop",
+      "meaning": "Voltage across one resistor depends on the current through that resistor and the resistance of that element."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "voltage",
+      "symbol": "V",
+      "label": "Battery voltage",
+      "param": "voltage",
+      "tone": "teal",
+      "description": "Raises or lowers every current in the circuit without changing the resistor values themselves.",
+      "equationIds": [
+        "ohms-law",
+        "voltage-drop"
+      ],
+      "graphIds": [
+        "current-map",
+        "voltage-share"
+      ],
+      "overlayIds": [
+        "currentArrows",
+        "voltageDrops"
+      ]
+    },
+    {
+      "id": "resistanceA",
+      "symbol": "R_A",
+      "label": "Resistor A",
+      "param": "resistanceA",
+      "tone": "amber",
+      "description": "Changes both the one-number equivalent resistance and the current or voltage distribution that follows from the chosen topology.",
+      "equationIds": [
+        "series-equivalent",
+        "parallel-equivalent",
+        "voltage-drop"
+      ],
+      "graphIds": [
+        "current-map",
+        "voltage-share"
+      ],
+      "overlayIds": [
+        "currentArrows",
+        "voltageDrops",
+        "nodeGuide"
+      ]
+    },
+    {
+      "id": "resistanceB",
+      "symbol": "R_B",
+      "label": "Resistor B",
+      "param": "resistanceB",
+      "tone": "sky",
+      "description": "Changes the current and voltage on the blue path while also changing the full-circuit load seen by the battery.",
+      "equationIds": [
+        "series-equivalent",
+        "parallel-equivalent",
+        "voltage-drop"
+      ],
+      "graphIds": [
+        "current-map",
+        "voltage-share"
+      ],
+      "overlayIds": [
+        "currentArrows",
+        "voltageDrops",
+        "nodeGuide"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "voltage": 12,
+      "resistanceA": 6,
+      "resistanceB": 6,
+      "parallelMode": false
+    },
+    "ui": {
+      "initialGraphId": "current-map",
+      "primaryGraphIds": [
+        "current-map",
+        "voltage-share"
+      ],
+      "primaryControlIds": [
+        "voltage",
+        "parallelMode",
+        "resistanceB"
+      ],
+      "primaryPresetIds": [
+        "matched-series",
+        "matched-parallel",
+        "branch-split",
+        "low-voltage-check"
+      ]
+    },
+    "controls": [
+      {
+        "id": "voltage",
+        "kind": "slider",
+        "label": "Battery voltage",
+        "param": "voltage",
+        "min": 3,
+        "max": 18,
+        "step": 0.5,
+        "unit": "V",
+        "description": "Increase the push from the battery without changing the resistor values."
+      },
+      {
+        "id": "resistanceA",
+        "kind": "slider",
+        "label": "Resistor A",
+        "param": "resistanceA",
+        "min": 2,
+        "max": 20,
+        "step": 0.5,
+        "unit": "ohm",
+        "description": "Sets the amber resistance in either the series loop or the upper parallel branch."
+      },
+      {
+        "id": "resistanceB",
+        "kind": "slider",
+        "label": "Resistor B",
+        "param": "resistanceB",
+        "min": 2,
+        "max": 20,
+        "step": 0.5,
+        "unit": "ohm",
+        "description": "Sets the blue resistance and lets you test both unequal series division and unequal parallel current splits."
+      },
+      {
+        "id": "parallelMode",
+        "kind": "toggle",
+        "label": "Use parallel branches",
+        "param": "parallelMode",
+        "description": "Off keeps one series loop. On splits the load into two branches across the same battery."
+      }
+    ],
+    "presets": [
+      {
+        "id": "matched-series",
+        "label": "Matched series pair",
+        "description": "Two equal resistors in one loop make the current and voltage sharing easy to read.",
+        "values": {
+          "voltage": 12,
+          "resistanceA": 6,
+          "resistanceB": 6,
+          "parallelMode": false
+        }
+      },
+      {
+        "id": "matched-parallel",
+        "label": "Matched parallel pair",
+        "description": "The same two resistors now sit in parallel so each branch sees the full battery voltage.",
+        "values": {
+          "voltage": 12,
+          "resistanceA": 6,
+          "resistanceB": 6,
+          "parallelMode": true
+        }
+      },
+      {
+        "id": "uneven-series-divider",
+        "label": "Uneven series divider",
+        "description": "One small and one large series resistor show equal current but unequal voltage drops.",
+        "values": {
+          "voltage": 12,
+          "resistanceA": 4,
+          "resistanceB": 12,
+          "parallelMode": false
+        }
+      },
+      {
+        "id": "branch-split",
+        "label": "Branch split",
+        "description": "Unequal parallel branches keep the same voltage but pull different currents.",
+        "values": {
+          "voltage": 12,
+          "resistanceA": 4,
+          "resistanceB": 12,
+          "parallelMode": true
+        }
+      },
+      {
+        "id": "low-voltage-check",
+        "label": "Low-voltage check",
+        "description": "A smaller battery makes the same matched series pair pull half as much current.",
+        "values": {
+          "voltage": 6,
+          "resistanceA": 6,
+          "resistanceB": 6,
+          "parallelMode": false
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "currentArrows",
+        "label": "Current arrows",
+        "shortDescription": "Shows the total current and the branch currents directly on the circuit.",
+        "whatToNotice": [
+          "Series shows one loop current everywhere, while parallel shows one total current that splits into branch currents and recombines."
+        ],
+        "whyItMatters": "Current direction and current sharing stay tied to one honest circuit instead of drifting into disconnected numbers.",
+        "relatedControls": [
+          "voltage",
+          "resistanceA",
+          "resistanceB",
+          "parallelMode"
+        ],
+        "relatedGraphTabs": [
+          "current-map"
+        ],
+        "relatedEquationVariables": [
+          "voltage",
+          "resistanceA",
+          "resistanceB"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "voltageDrops",
+        "label": "Voltage drops",
+        "shortDescription": "Labels the battery voltage and the resistor or branch voltages on the stage.",
+        "whatToNotice": [
+          "In series the source voltage is shared, but in parallel each branch keeps the full battery voltage."
+        ],
+        "whyItMatters": "Voltage becomes a real difference around the circuit rather than a detached symbol.",
+        "relatedControls": [
+          "voltage",
+          "resistanceA",
+          "resistanceB",
+          "parallelMode"
+        ],
+        "relatedGraphTabs": [
+          "voltage-share"
+        ],
+        "relatedEquationVariables": [
+          "voltage",
+          "resistanceA",
+          "resistanceB"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "nodeGuide",
+        "label": "Node guide",
+        "shortDescription": "Marks the shared node voltages that explain equal branch voltage in parallel and the internal node in series.",
+        "whatToNotice": [
+          "Both parallel resistors connect across the same top and bottom nodes, so they must share the same branch voltage."
+        ],
+        "whyItMatters": "Node thinking helps voltage feel like a location-to-location difference instead of a mysterious property attached to one resistor.",
+        "relatedControls": [
+          "parallelMode",
+          "resistanceA",
+          "resistanceB"
+        ],
+        "relatedGraphTabs": [
+          "voltage-share"
+        ],
+        "relatedEquationVariables": [
+          "resistanceA",
+          "resistanceB"
+        ],
+        "defaultOn": false
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "current-map",
+      "label": "Ohm's law current map",
+      "xLabel": "battery voltage (V)",
+      "yLabel": "current (A)",
+      "series": [
+        "total-current",
+        "branch-a-current",
+        "branch-b-current"
+      ],
+      "description": "Sweep the battery voltage while keeping the resistor values and topology fixed. Straight lines show how Ohm's law turns one fixed resistance setup into a linear current response."
+    },
+    {
+      "id": "voltage-share",
+      "label": "Voltage share vs resistor B",
+      "xLabel": "resistor B (ohm)",
+      "yLabel": "voltage across resistor or branch (V)",
+      "series": [
+        "branch-a-voltage",
+        "branch-b-voltage"
+      ],
+      "description": "Sweep only resistor B while keeping the battery and resistor A fixed. In series the source voltage is shared by ratio, while in parallel both branch voltages stay flat at the battery value."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the current prompt as a compact investigation cue. Each one points at a pattern the circuit and graphs already show in the live state.",
+    "items": [
+      {
+        "id": "bc-notice-ohms-law-line",
+        "text": "With one fixed topology and resistance setup, the current map stays linear because current is proportional to voltage.",
+        "type": "graph-reading",
+        "priority": 1,
+        "conditions": {
+          "graphTabs": [
+            "current-map"
+          ]
+        },
+        "tryThis": "Open the current map, hover a lower voltage and then a higher voltage, and compare how every current label on the stage scales with the same straight-line trend.",
+        "whyItMatters": "This is the cleanest visual form of Ohm's law before extra circuit complexity is added.",
+        "relatedControls": [
+          "voltage"
+        ],
+        "relatedGraphTabs": [
+          "current-map"
+        ],
+        "relatedOverlays": [
+          "currentArrows"
+        ],
+        "relatedEquationVariables": [
+          "voltage"
+        ]
+      },
+      {
+        "id": "bc-notice-series-current",
+        "text": "In series mode, the same loop current crosses both resistors. Changing either resistor changes that same current everywhere in the loop.",
+        "type": "observation",
+        "priority": 5,
+        "conditions": {
+          "lastChangedControls": [
+            "resistanceA",
+            "resistanceB"
+          ]
+        },
+        "tryThis": "Stay in the matched series preset, then drag only resistor B upward and watch both current labels shrink together.",
+        "whyItMatters": "It prevents the common mistake of treating current like a quantity that gets partly consumed by the first resistor.",
+        "relatedControls": [
+          "resistanceA",
+          "resistanceB",
+          "parallelMode"
+        ],
+        "relatedGraphTabs": [
+          "current-map"
+        ],
+        "relatedOverlays": [
+          "currentArrows"
+        ],
+        "relatedEquationVariables": [
+          "resistanceA",
+          "resistanceB"
+        ]
+      },
+      {
+        "id": "bc-notice-parallel-voltage",
+        "text": "In parallel mode, both branches connect across the same two nodes, so each branch keeps the full battery voltage even when the branch currents are different.",
+        "type": "graph-reading",
+        "priority": 6,
+        "conditions": {
+          "graphTabs": [
+            "voltage-share"
+          ]
+        },
+        "tryThis": "Switch to the branch-split preset and compare the flat voltage-share lines with the unequal current arrows on the stage.",
+        "whyItMatters": "Parallel circuits only become intuitive once equal branch voltage and unequal branch current can coexist in the same picture.",
+        "relatedControls": [
+          "parallelMode",
+          "resistanceB"
+        ],
+        "relatedGraphTabs": [
+          "voltage-share"
+        ],
+        "relatedOverlays": [
+          "voltageDrops",
+          "nodeGuide"
+        ],
+        "relatedEquationVariables": [
+          "voltage",
+          "resistanceB"
+        ]
+      },
+      {
+        "id": "bc-notice-topology-switch",
+        "text": "Switching from series to parallel does not add more battery voltage. It changes the equivalent resistance the battery sees.",
+        "type": "misconception",
+        "priority": 7,
+        "conditions": {
+          "lastChangedControls": [
+            "parallelMode"
+          ]
+        },
+        "tryThis": "Toggle only the topology while the battery and resistor values stay fixed. Watch the readout card: the battery stays the same, but R_eq and I_total jump immediately.",
+        "whyItMatters": "Many beginner errors come from blaming the current increase on a stronger source instead of on a smaller equivalent resistance.",
+        "relatedControls": [
+          "parallelMode"
+        ],
+        "relatedGraphTabs": [
+          "current-map",
+          "voltage-share"
+        ],
+        "relatedOverlays": [
+          "currentArrows",
+          "nodeGuide"
+        ]
+      },
+      {
+        "id": "bc-notice-compare-mode",
+        "text": "Compare mode is most useful here when both setups keep the same battery and resistor values but use different topologies.",
+        "type": "compare",
+        "priority": 8,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Clone a matched series setup into Setup B, switch only Setup B to parallel, and compare the ghost circuit, readout badges, and dashed graph lines.",
+        "whyItMatters": "This isolates topology as the causal change instead of mixing topology changes with resistor changes at the same time.",
+        "relatedControls": [
+          "parallelMode"
+        ],
+        "relatedGraphTabs": [
+          "current-map",
+          "voltage-share"
+        ],
+        "relatedOverlays": [
+          "currentArrows",
+          "voltageDrops"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the circuit response before you apply the change. Each scenario changes one causal idea at a time so current, voltage, and equivalent resistance stay honest.",
+    "items": [
+      {
+        "id": "bc-pred-raise-voltage",
+        "prompt": "From the low-voltage series check, if the battery rises from 6 V to 12 V while both resistors stay at 6 ohm in series, what must happen?",
+        "scenarioLabel": "Raise the battery voltage",
+        "changeLabel": "Voltage",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The total current doubles because the same 12 ohm series load now has twice the voltage across it."
+          },
+          {
+            "id": "b",
+            "label": "The total current stays the same because the resistors did not change."
+          },
+          {
+            "id": "c",
+            "label": "Only the voltage-share graph changes because current depends only on resistance."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "For one fixed resistance, Ohm's law is linear. Doubling the battery voltage doubles the current everywhere in the same series loop.",
+        "observationHint": "The lines on the current map keep the same slope family, and the live current labels jump from 0.5 A to 1 A.",
+        "apply": {
+          "presetId": "matched-series"
+        },
+        "highlightedControls": [
+          "voltage"
+        ],
+        "highlightedGraphs": [
+          "current-map"
+        ],
+        "highlightedOverlays": [
+          "currentArrows"
+        ]
+      },
+      {
+        "id": "bc-pred-switch-parallel",
+        "prompt": "If the same 6 ohm and 6 ohm pair switches from series to parallel at 12 V, which statement is most defensible?",
+        "scenarioLabel": "Switch to parallel",
+        "changeLabel": "Topology",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Equivalent resistance drops, total current rises, and each branch keeps the full 12 V."
+          },
+          {
+            "id": "b",
+            "label": "Equivalent resistance stays the same, but the battery voltage is split in half between the branches."
+          },
+          {
+            "id": "c",
+            "label": "Total current falls because there are now two resistors instead of one loop."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Parallel branches reduce the equivalent resistance seen by the battery. The same source voltage now drives a larger total current, and each branch still spans the full battery voltage.",
+        "observationHint": "Compare the matched series and matched parallel presets: the battery value is unchanged while R_eq and I_total are not.",
+        "apply": {
+          "presetId": "matched-parallel"
+        },
+        "highlightedControls": [
+          "parallelMode"
+        ],
+        "highlightedGraphs": [
+          "current-map",
+          "voltage-share"
+        ],
+        "highlightedOverlays": [
+          "currentArrows",
+          "nodeGuide"
+        ]
+      },
+      {
+        "id": "bc-pred-raise-rb-series",
+        "prompt": "In series mode with V = 12 V and R_A = 4 ohm, what happens if R_B increases from 4 ohm to 12 ohm?",
+        "scenarioLabel": "Increase resistor B",
+        "changeLabel": "Resistance",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Total current drops, and resistor B takes a larger share of the source voltage."
+          },
+          {
+            "id": "b",
+            "label": "Total current rises because resistor B now stores more charge."
+          },
+          {
+            "id": "c",
+            "label": "The current stays fixed, but resistor A takes the larger voltage share."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Raising one series resistor raises the equivalent resistance, so the same battery drives less loop current. With the same current through both resistors, the larger resistor gets the larger voltage drop.",
+        "observationHint": "The current arrows shrink together, and the blue voltage tag grows larger than the amber one.",
+        "apply": {
+          "presetId": "uneven-series-divider"
+        },
+        "highlightedControls": [
+          "resistanceB",
+          "parallelMode"
+        ],
+        "highlightedGraphs": [
+          "current-map",
+          "voltage-share"
+        ],
+        "highlightedOverlays": [
+          "currentArrows",
+          "voltageDrops"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the same compact battery-resistor model for honest circuit targets. The checklist reads the live branch voltages and total current from the actual stage.",
+    "items": [
+      {
+        "id": "bc-ch-full-voltage-parallel-pair",
+        "title": "Full-voltage parallel pair",
+        "style": "target-setting",
+        "prompt": "Starting from the matched series pair, change only the circuit structure needed to give each branch the full battery voltage and make the total current land near 4 A.",
+        "successMessage": "You turned one shared series loop into a true parallel pair. The branch voltage stayed at the battery value while the lighter equivalent resistance raised the total current.",
+        "setup": {
+          "presetId": "matched-series",
+          "note": "Use the voltage-share graph and the node guide together while you rewire the equal pair."
+        },
+        "requirements": {
+          "graphId": "voltage-share",
+          "overlayIds": [
+            "currentArrows",
+            "nodeGuide"
+          ]
+        },
+        "hints": [
+          "Keep the resistor values matched. The target comes from changing topology, not from changing the load values.",
+          "If each branch keeps the full battery voltage, the total current should jump above the series-loop value."
+        ],
+        "targets": [
+          {
+            "param": "resistanceA",
+            "min": 5.8,
+            "max": 6.2,
+            "displayUnit": "ohm"
+          },
+          {
+            "param": "resistanceB",
+            "min": 5.8,
+            "max": 6.2,
+            "displayUnit": "ohm"
+          },
+          {
+            "metric": "equivalentResistance",
+            "min": 2.9,
+            "max": 3.1,
+            "displayUnit": "ohm"
+          },
+          {
+            "metric": "totalCurrent",
+            "min": 3.9,
+            "max": 4.1,
+            "displayUnit": "A"
+          },
+          {
+            "metric": "branchBVoltage",
+            "min": 11.8,
+            "max": 12.2,
+            "displayUnit": "V"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live circuit logic, not from detached rules. Each question asks what the stage, readout, or graphs must mean.",
+    "questions": [
+      {
+        "id": "bc-qt-series-current",
+        "type": "reasoning",
+        "prompt": "A battery drives two resistors in one steady series loop. Which statement about the current is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The same current flows through both resistors because there is only one loop path."
+          },
+          {
+            "id": "b",
+            "label": "The first resistor gets the larger current because it is closer to the battery."
+          },
+          {
+            "id": "c",
+            "label": "The current splits equally between the two resistors because there are two components."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "In a steady series circuit there is one path, so the rate of charge flow is the same through every element in that loop.",
+        "selectedWrongExplanations": {
+          "b": "Distance from the battery is not what sets current in an ideal series loop. One loop means one current.",
+          "c": "Current only splits when the path splits into branches. Two series components still make one path."
+        },
+        "showMeAction": {
+          "label": "Show matched series pair",
+          "presetId": "matched-series",
+          "observationHint": "Both current labels match because there is only one loop current.",
+          "highlightedControlIds": [
+            "parallelMode"
+          ],
+          "highlightedGraphIds": [
+            "current-map"
+          ],
+          "highlightedOverlayIds": [
+            "currentArrows"
+          ]
+        }
+      },
+      {
+        "id": "bc-qt-parallel-branch-current",
+        "type": "compare-two-cases",
+        "prompt": "Two parallel branches see the same 12 V battery. Branch A is 4 ohm and Branch B is 12 ohm. Which branch current must be larger?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Branch A, because the lower-resistance branch draws more current at the same branch voltage."
+          },
+          {
+            "id": "b",
+            "label": "Branch B, because the higher resistance stores more energy and therefore pulls more current."
+          },
+          {
+            "id": "c",
+            "label": "They must be equal because both branches share the same battery voltage."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Equal branch voltage does not force equal branch current. Ohm's law says the lower-resistance branch draws the larger current.",
+        "selectedWrongExplanations": {
+          "b": "Higher resistance limits current more strongly; it does not pull more current at the same voltage.",
+          "c": "Equal voltage only means both branches have the same push across them. Different resistances still create different currents."
+        },
+        "showMeAction": {
+          "label": "Show branch split",
+          "presetId": "branch-split",
+          "observationHint": "Both branches show 12 V, but the amber branch current is larger because 4 ohm is smaller than 12 ohm.",
+          "highlightedControlIds": [
+            "resistanceA",
+            "resistanceB",
+            "parallelMode"
+          ],
+          "highlightedGraphIds": [
+            "current-map",
+            "voltage-share"
+          ],
+          "highlightedOverlayIds": [
+            "currentArrows",
+            "nodeGuide"
+          ]
+        }
+      },
+      {
+        "id": "bc-qt-series-voltage-share",
+        "type": "graph-reading",
+        "prompt": "In a 12 V series circuit, resistor A is 4 ohm and resistor B is 12 ohm. Which resistor gets the larger voltage drop?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Resistor B, because the same series current crosses both resistors and the larger resistance takes the larger drop."
+          },
+          {
+            "id": "b",
+            "label": "Resistor A, because it is first in the loop and sees the battery sooner."
+          },
+          {
+            "id": "c",
+            "label": "They must split the source voltage evenly because there are two resistors."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Equal series current means voltage drop tracks resistance. The 12 ohm resistor takes three times the drop of the 4 ohm resistor.",
+        "selectedWrongExplanations": {
+          "b": "Order in the loop does not decide the drop. Resistance and current do.",
+          "c": "Equal sharing only happens when the series resistances are equal."
+        },
+        "showMeAction": {
+          "label": "Show uneven series divider",
+          "presetId": "uneven-series-divider",
+          "observationHint": "The blue voltage tag is much larger than the amber one while the current labels stay matched.",
+          "highlightedControlIds": [
+            "resistanceA",
+            "resistanceB",
+            "parallelMode"
+          ],
+          "highlightedGraphIds": [
+            "voltage-share"
+          ],
+          "highlightedOverlayIds": [
+            "voltageDrops",
+            "currentArrows"
+          ]
+        }
+      },
+      {
+        "id": "bc-qt-current-used-up",
+        "type": "misconception-check",
+        "prompt": "A student says, \"Current gets used up by the first resistor, so the second resistor sees less current.\" What is the best correction for a steady series circuit?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Current stays the same around the series loop; voltage drops across the resistors instead."
+          },
+          {
+            "id": "b",
+            "label": "Current does get used up, but the battery replaces it instantly at the next resistor."
+          },
+          {
+            "id": "c",
+            "label": "The statement is true only when the resistors have different values."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A steady series loop carries one current everywhere. What changes across each resistor is voltage, not the amount of current still available.",
+        "selectedWrongExplanations": {
+          "b": "That treats current like a material that disappears and reappears. In an ideal steady loop, the same charge flow rate is already present everywhere.",
+          "c": "Different resistor values change the voltage shares, not whether the same loop current exists everywhere."
+        },
+        "showMeAction": {
+          "label": "Show matched series current",
+          "presetId": "matched-series",
+          "observationHint": "The current arrows stay identical all around the loop while the voltage tags tell the story of what changed across each resistor.",
+          "highlightedControlIds": [
+            "parallelMode"
+          ],
+          "highlightedGraphIds": [
+            "current-map",
+            "voltage-share"
+          ],
+          "highlightedOverlayIds": [
+            "currentArrows",
+            "voltageDrops"
+          ]
+        }
+      },
+      {
+        "id": "bc-qt-ohms-law-graph",
+        "type": "variable-effect",
+        "prompt": "On the Ohm's law current map, the resistance setup stays fixed while the battery voltage doubles. What must happen to the matching point on the total-current line?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It moves to twice the current on the same straight-line relationship."
+          },
+          {
+            "id": "b",
+            "label": "It stays at the same current because resistance did not change."
+          },
+          {
+            "id": "c",
+            "label": "It drops to half the current because the line gets flatter at higher voltage."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "For one fixed resistance setup, current is proportional to voltage, so doubling V doubles I on the same line.",
+        "selectedWrongExplanations": {
+          "b": "Resistance stays fixed, but voltage is the other half of Ohm's law and it directly scales the current.",
+          "c": "The line slope is set by resistance. If resistance is fixed, the line does not flatten just because the voltage value is larger."
+        },
+        "showMeAction": {
+          "label": "Show low-voltage check",
+          "presetId": "low-voltage-check",
+          "observationHint": "Start from the lower-voltage point, then compare it mentally with the matched-series point at double the voltage.",
+          "highlightedControlIds": [
+            "voltage"
+          ],
+          "highlightedGraphIds": [
+            "current-map"
+          ],
+          "highlightedOverlayIds": [
+            "currentArrows"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one battery on the left and two resistor blocks arranged either in one series loop or in two parallel branches. A readout card on the right reports the live battery voltage, resistor values, equivalent resistance, total current, branch currents, and branch voltages.",
+        "Optional overlays add current arrows on the wires, voltage labels on the battery and resistors, and node markers that show when two branches share the same top and bottom nodes. Compare mode adds a dashed ghost circuit for the second setup so topology or resistor changes stay visible without changing the main stage.",
+        "The stage is intentionally bounded to one battery and two resistors. There are no capacitors, switches, or symbolic solvers, so every displayed change stays tied to the same beginner-friendly current, voltage, and resistance logic."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The Ohm's law current map plots total current, branch A current, and branch B current against battery voltage for the current resistor setup and topology. Hovering the graph previews a different battery voltage on the stage without changing the actual controls.",
+        "The voltage-share graph sweeps only resistor B while holding the battery and resistor A fixed. In series it shows how the source voltage is divided, and in parallel it shows that both branches stay pinned to the full battery voltage even as the branch currents differ."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Basic Circuits | Open Model Lab",
+    "description": "Learn current, voltage, resistance, Ohm's law, and the difference between series and parallel circuits with one bounded battery-and-resistor lab, guided overlays, prediction prompts, and conceptual quick tests.",
+    "keywords": [
+      "basic circuits",
+      "ohm's law",
+      "series circuit",
+      "parallel circuit",
+      "voltage and current"
+    ]
+  },
+  "v2": {
+    "intuition": "A basic circuit is a closed path where the battery sets the electrical push and the equivalent resistance sets how much current can flow. Series gives charge one path; parallel gives it multiple paths across the same battery.",
+    "whyItMatters": "If you can keep voltage, current, resistance, and topology tied to one live picture, later circuit ideas become variations on a model you already trust instead of separate formulas to memorize.",
+    "estimatedMinutes": 15,
+    "equationSnapshot": {
+      "equationIds": [
+        "ohms-law",
+        "series-equivalent",
+        "parallel-equivalent"
+      ],
+      "note": "Start with the topology to find the one-number resistance the battery sees, then use Ohm's law to connect that load to total current."
+    },
+    "startSetup": {
+      "presetId": "matched-series",
+      "graphId": "current-map",
+      "overlayIds": [
+        "currentArrows",
+        "voltageDrops"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-series-loop",
+        "title": "Read one series loop",
+        "goal": "Connect the battery, equivalent resistance, and one shared loop current before changing anything.",
+        "doThis": "Start from the matched series pair, keep the current arrows and voltage-drop labels on, and read the battery voltage, equivalent resistance, and total current together.",
+        "notice": "Both resistors carry the same current because there is only one path, while the battery voltage is shared across the two drops.",
+        "explain": "In series, resistances add into one larger load, so Ohm's law uses that equivalent resistance to set the single loop current.",
+        "reveal": {
+          "controlIds": [
+            "voltage",
+            "resistanceA",
+            "resistanceB",
+            "parallelMode"
+          ],
+          "graphIds": [
+            "current-map"
+          ],
+          "overlayIds": [
+            "currentArrows",
+            "voltageDrops"
+          ]
+        },
+        "setup": {
+          "presetId": "matched-series",
+          "graphId": "current-map",
+          "overlayIds": [
+            "currentArrows",
+            "voltageDrops"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "bc-qt-series-current"
+          ]
+        }
+      },
+      {
+        "id": "change-the-push",
+        "title": "Change the push",
+        "goal": "Use the current map to see Ohm's law as a proportional relationship for one fixed circuit.",
+        "doThis": "Load the low-voltage check, then compare it with the matched series pair at the same resistor values but a larger battery voltage.",
+        "notice": "The loop stays the same, so the current labels scale with the battery voltage instead of changing shape randomly.",
+        "explain": "For a fixed equivalent resistance, Ohm's law is linear: doubling the battery voltage doubles the current everywhere in that same loop.",
+        "reveal": {
+          "controlIds": [
+            "voltage"
+          ],
+          "graphIds": [
+            "current-map"
+          ],
+          "overlayIds": [
+            "currentArrows"
+          ]
+        },
+        "setup": {
+          "presetId": "low-voltage-check",
+          "graphId": "current-map",
+          "overlayIds": [
+            "currentArrows"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "bc-pred-raise-voltage"
+          ]
+        }
+      },
+      {
+        "id": "split-into-branches",
+        "title": "Split into branches",
+        "goal": "Separate the effect of topology from the effect of changing resistor values.",
+        "doThis": "Switch from the matched series pair to the matched parallel pair while leaving the battery and resistor values unchanged. Open the voltage-share graph and node guide.",
+        "notice": "Each branch keeps the full battery voltage, and the total current rises because the equivalent resistance became smaller.",
+        "explain": "Parallel branches do not divide up the source voltage like series resistors. They create multiple paths between the same two nodes, so branch currents add to a larger total current.",
+        "reveal": {
+          "controlIds": [
+            "parallelMode"
+          ],
+          "graphIds": [
+            "current-map",
+            "voltage-share"
+          ],
+          "overlayIds": [
+            "currentArrows",
+            "voltageDrops",
+            "nodeGuide"
+          ]
+        },
+        "setup": {
+          "presetId": "matched-parallel",
+          "graphId": "voltage-share",
+          "overlayIds": [
+            "currentArrows",
+            "voltageDrops",
+            "nodeGuide"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "bc-pred-switch-parallel"
+          ],
+          "questionIds": [
+            "bc-qt-parallel-branch-current"
+          ]
+        }
+      },
+      {
+        "id": "judge-the-circuit-story",
+        "title": "Judge the circuit story",
+        "goal": "Explain whether a circuit change affected voltage sharing, current sharing, equivalent resistance, or more than one of those at once.",
+        "doThis": "Compare the uneven series divider with the branch split, then try the challenge: keep the resistor values matched and make the branches each get the full battery voltage.",
+        "notice": "The same two resistor values can mean very different total current and voltage labels once the topology changes.",
+        "explain": "A useful circuit explanation starts with topology, names the equivalent resistance the battery sees, and then uses Ohm's law plus branch rules to interpret the labels.",
+        "reveal": {
+          "controlIds": [
+            "voltage",
+            "resistanceA",
+            "resistanceB",
+            "parallelMode"
+          ],
+          "graphIds": [
+            "current-map",
+            "voltage-share"
+          ],
+          "overlayIds": [
+            "currentArrows",
+            "voltageDrops",
+            "nodeGuide"
+          ]
+        },
+        "setup": {
+          "presetId": "branch-split",
+          "graphId": "voltage-share",
+          "overlayIds": [
+            "currentArrows",
+            "voltageDrops",
+            "nodeGuide"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "bc-qt-series-voltage-share",
+            "bc-qt-current-used-up"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Ohm's law connects battery voltage, equivalent resistance, and total current for the live circuit.",
+        "Series resistors share one loop current and split the source voltage across their drops.",
+        "Parallel branches each span the full battery voltage while their branch currents add to the total current.",
+        "Changing topology can change equivalent resistance even when the battery and resistor values stay the same."
+      ],
+      "misconception": "Do not treat current as something that gets used up by each resistor. In a steady series loop the current is the same everywhere; voltage drops tell the energy-per-charge story.",
+      "workedExampleRefs": [
+        "equivalent-resistance-and-current",
+        "branch-b-current-and-voltage"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "series-parallel-circuits",
+          "title": "Series-Parallel Circuits",
+          "reasonLabel": "Extend the one-loop and two-branch ideas to mixed resistor networks."
+        },
+        {
+          "slug": "equivalent-resistance",
+          "title": "Equivalent Resistance",
+          "reasonLabel": "Practice reducing circuit structure to the one-number load the source sees."
+        },
+        {
+          "slug": "power-energy-circuits",
+          "title": "Power and Energy in Circuits",
+          "reasonLabel": "Use the same voltage and current readings to reason about energy transfer."
+        }
+      ],
+      "freePlayPrompt": "Before touching a control, predict whether your change will affect the battery push, the equivalent resistance, the current sharing, or the voltage sharing."
+    },
+    "referenceSections": [
+      "workedExamples"
+    ]
+  }
+}

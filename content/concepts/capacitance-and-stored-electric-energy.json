@@ -1,0 +1,1150 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live capacitor checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Charge-storage checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Carry stored charge into circuits"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Keep one parallel-plate capacitor on screen so geometry, stored charge, field strength, and stored electric energy stay tied to the same bounded battery-and-plates model.",
+    "keyTakeaway": "In the displayed units (epsilon = 1), capacitance grows with plate area and shrinks with separation: C = A / d.",
+    "whyItMatters": "Capacitors are the bridge from electric fields to real circuit timing, so reading geometry, charge, and stored energy together makes RC circuits much less mysterious."
+  },
+  "v2": {
+    "intuition": "A capacitor stores energy by separating opposite charge on two nearby plates. Geometry sets how much charge one volt can separate before the battery voltage decides the actual stored charge and energy.",
+    "whyItMatters": "The same storage model explains why a capacitor can smooth a circuit, power a flash, or create a time delay once a resistor is added.",
+    "estimatedMinutes": 25,
+    "equationSnapshot": {
+      "equationIds": [
+        "capacitance-rule",
+        "stored-charge-rule",
+        "stored-energy-rule"
+      ],
+      "note": "Read C = A / d as the geometry rule first; then use Q = CV and U = 1/2 C V^2 to turn that capacitance into charge and energy."
+    },
+    "startSetup": {
+      "presetId": "compact-starter",
+      "graphId": "voltage-response",
+      "overlayIds": [
+        "geometryGuide",
+        "chargeDensityCue"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-capacitance-from-geometry",
+        "title": "Read geometry first",
+        "goal": "See capacitance as a property of plate area and separation before changing the battery.",
+        "doThis": "Open Compact starter, keep the voltage fixed, and read plate area, separation, and capacitance from the state card.",
+        "notice": "Area and gap decide C first; the battery has not changed yet, but the capacitor already has a storage capacity.",
+        "explain": "In this bounded parallel-plate model, larger facing plates increase C while a wider gap decreases C, so geometry is the cause of storage capacity.",
+        "reveal": {
+          "controlIds": [
+            "plateArea",
+            "plateSeparation"
+          ],
+          "graphIds": [
+            "voltage-response"
+          ],
+          "overlayIds": [
+            "geometryGuide",
+            "chargeDensityCue"
+          ]
+        },
+        "setup": {
+          "presetId": "compact-starter",
+          "graphId": "voltage-response",
+          "overlayIds": [
+            "geometryGuide",
+            "chargeDensityCue"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "cee-pred-area-increase"
+          ]
+        }
+      },
+      {
+        "id": "change-area-and-gap",
+        "title": "Change the plates",
+        "goal": "Predict how plate area or separation changes C, Q, field strength, and stored energy at the same battery voltage.",
+        "doThis": "Compare Compact starter with Large area, close gap, then switch to Wide-gap reference while watching the geometry guide and charge cue.",
+        "notice": "The same 6 V battery can store different charge because the plate geometry changed the capacitance first.",
+        "explain": "Q = CV means a fixed voltage still stores more charge when C is larger; E ≈ V / d also makes a smaller gap strengthen the field.",
+        "reveal": {
+          "controlIds": [
+            "plateArea",
+            "plateSeparation",
+            "batteryVoltage"
+          ],
+          "graphIds": [
+            "voltage-response"
+          ],
+          "overlayIds": [
+            "geometryGuide",
+            "fieldRegion",
+            "chargeDensityCue"
+          ]
+        },
+        "setup": {
+          "presetId": "close-high-area",
+          "graphId": "voltage-response",
+          "overlayIds": [
+            "geometryGuide",
+            "fieldRegion",
+            "chargeDensityCue"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "cee-pred-gap-increase"
+          ],
+          "questionIds": [
+            "cee-qt-same-voltage-myth"
+          ]
+        }
+      },
+      {
+        "id": "separate-charge-from-energy",
+        "title": "Separate charge and energy",
+        "goal": "Use the graph to distinguish the linear charge story from the quadratic energy story.",
+        "doThis": "Keep one geometry fixed, move from Low-voltage reference to Higher-voltage storage, and compare the charge curve with the energy curve.",
+        "notice": "Stored charge follows the voltage steadily, but stored energy rises faster because voltage is squared.",
+        "explain": "For fixed C, Q = CV doubles when V doubles, while U = 1/2 C V^2 becomes four times as large.",
+        "reveal": {
+          "controlIds": [
+            "batteryVoltage"
+          ],
+          "graphIds": [
+            "voltage-response"
+          ],
+          "overlayIds": [
+            "energyStore",
+            "chargeDensityCue",
+            "fieldRegion"
+          ]
+        },
+        "setup": {
+          "presetId": "low-voltage-reference",
+          "graphId": "voltage-response",
+          "overlayIds": [
+            "energyStore",
+            "chargeDensityCue",
+            "fieldRegion"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "cee-pred-voltage-double"
+          ],
+          "questionIds": [
+            "cee-qt-voltage-doubling"
+          ]
+        }
+      },
+      {
+        "id": "check-storage-targets",
+        "title": "Hit a storage target",
+        "goal": "Decide whether a target should be reached by changing geometry or by changing the battery.",
+        "doThis": "Try one challenge: double storage by area, then explain why the voltage-only challenge changes energy faster than charge.",
+        "notice": "Geometry changes C and carries Q and U with it; voltage leaves C fixed but makes U grow with V squared.",
+        "explain": "Capacitor reasoning is strongest when you name the first cause—geometry or voltage—before calculating charge, field, and energy.",
+        "reveal": {
+          "controlIds": [
+            "plateArea",
+            "plateSeparation",
+            "batteryVoltage"
+          ],
+          "graphIds": [
+            "voltage-response"
+          ],
+          "overlayIds": [
+            "geometryGuide",
+            "chargeDensityCue",
+            "energyStore"
+          ]
+        },
+        "setup": {
+          "presetId": "compact-starter",
+          "graphId": "voltage-response",
+          "overlayIds": [
+            "geometryGuide",
+            "chargeDensityCue",
+            "energyStore"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "cee-qt-area-effect"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Plate area and plate separation set capacitance before the battery voltage is applied.",
+        "At fixed voltage, a larger capacitance stores more charge and more electric energy.",
+        "For fixed geometry, stored charge grows linearly with voltage while stored energy grows with voltage squared.",
+        "The same battery voltage can lead to different stored charge when the capacitor geometry changes."
+      ],
+      "misconception": "Do not treat voltage as the whole capacitor story. Geometry sets C first, and the battery then turns that capacitance into Q and U.",
+      "workedExampleRefs": [
+        "current-capacitance",
+        "current-stored-energy"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "rc-charging-and-discharging",
+          "title": "RC Charging and Discharging",
+          "reasonLabel": "Turn stored charge into a time response."
+        },
+        {
+          "slug": "basic-circuits",
+          "title": "Basic Circuits",
+          "reasonLabel": "Carry the storage idea into a live loop."
+        },
+        {
+          "slug": "power-energy-circuits",
+          "title": "Power and Energy in Circuits",
+          "reasonLabel": "Connect stored energy to power over time."
+        }
+      ],
+      "freePlayPrompt": "Before moving a slider, say whether you are changing capacitance through geometry or changing charge and energy through voltage."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "accessibility"
+    ]
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Capacitance tells you how much charge a capacitor stores for each volt across it. This bench keeps one battery attached to one bounded pair of parallel plates so geometry, stored charge, field strength, and stored electric energy stay tied to the same setup.",
+        "The capacitor story stays geometric first. Plate area and plate separation set the capacitance, then the battery voltage determines how much charge builds on the plates and how much electric energy is stored in the field between them."
+      ]
+    },
+    "keyIdeas": [
+      "For this bounded model with epsilon = 1 in displayed units, capacitance follows C = A / d.",
+      "At fixed voltage, stored charge follows Q = CV.",
+      "Stored electric energy follows U = 1/2 C V^2, so energy grows faster with voltage than charge does."
+    ],
+    "commonMisconception": {
+      "myth": "If two capacitors use the same battery voltage, they must store the same charge and energy.",
+      "correction": [
+        "Voltage alone does not determine storage. Geometry still sets the capacitance first.",
+        "Two capacitors at the same voltage can store different charge and energy if their plate area or separation differs."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Use the current plate geometry and battery setting directly from the bench.",
+      "items": [
+        {
+          "id": "current-capacitance",
+          "title": "Current capacitance",
+          "prompt": "For the current plate area and separation, what capacitance does this capacitor have?",
+          "variables": [
+            {
+              "id": "plateArea",
+              "variableId": "plateArea",
+              "symbol": "A",
+              "label": "Plate area",
+              "valueKey": "plateAreaValue",
+              "unit": "area"
+            },
+            {
+              "id": "plateSeparation",
+              "variableId": "plateSeparation",
+              "symbol": "d",
+              "label": "Plate separation",
+              "valueKey": "plateSeparationValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "start-capacitance-rule",
+              "label": "1. Start from the bounded plate rule",
+              "template": "Use $C = A / d$ because this bench keeps $\\\\varepsilon = 1$ in the displayed units."
+            },
+            {
+              "id": "substitute-geometry",
+              "label": "2. Substitute the current geometry",
+              "template": "$C = {{plateAreaValue}} / {{plateSeparationValue}}$."
+            },
+            {
+              "id": "compute-capacitance",
+              "label": "3. Compute the capacitance",
+              "template": "That gives $C = {{capacitanceValue}}$."
+            }
+          ],
+          "resultLabel": "Capacitance",
+          "resultTemplate": "$C = {{capacitanceValue}}$",
+          "interpretationTemplate": "{{capacitanceInterpretation}}",
+          "applyAction": {
+            "label": "Show large-area close plates",
+            "presetId": "close-high-area",
+            "observationHint": "Larger facing plates and the smaller gap raise the capacitance together.",
+            "highlightedControlIds": [
+              "plateArea",
+              "plateSeparation"
+            ],
+            "highlightedGraphIds": [
+              "voltage-response"
+            ],
+            "highlightedOverlayIds": [
+              "geometryGuide",
+              "chargeDensityCue"
+            ]
+          }
+        },
+        {
+          "id": "current-stored-energy",
+          "title": "Current stored electric energy",
+          "prompt": "For the current capacitance and battery voltage, how much electric energy is stored?",
+          "variables": [
+            {
+              "id": "capacitanceValue",
+              "symbol": "C",
+              "label": "Capacitance",
+              "valueKey": "capacitanceValue",
+              "unit": "C"
+            },
+            {
+              "id": "batteryVoltage",
+              "variableId": "batteryVoltage",
+              "symbol": "V",
+              "label": "Battery voltage",
+              "valueKey": "batteryVoltageValue",
+              "unit": "V"
+            }
+          ],
+          "steps": [
+            {
+              "id": "start-energy-rule",
+              "label": "1. Start from the energy relation",
+              "template": "Use $U = \\\\tfrac{1}{2} C V^2$."
+            },
+            {
+              "id": "substitute-capacitance-voltage",
+              "label": "2. Substitute the current capacitance and voltage",
+              "template": "$U = \\\\tfrac{1}{2} \\\\times {{capacitanceValue}} \\\\times ({{batteryVoltageValue}})^2$."
+            },
+            {
+              "id": "compute-energy",
+              "label": "3. Compute the stored energy",
+              "template": "That gives $U = {{storedEnergyValue}}$."
+            }
+          ],
+          "resultLabel": "Stored energy",
+          "resultTemplate": "$U = {{storedEnergyValue}}$",
+          "interpretationTemplate": "{{storedEnergyInterpretation}}",
+          "applyAction": {
+            "label": "Show higher-voltage storage",
+            "presetId": "high-voltage-storage",
+            "observationHint": "Charge rises with V, but the energy cue and the graph bend upward faster because voltage is squared.",
+            "highlightedControlIds": [
+              "batteryVoltage"
+            ],
+            "highlightedGraphIds": [
+              "voltage-response"
+            ],
+            "highlightedOverlayIds": [
+              "fieldRegion",
+              "energyStore"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Two capacitors use the same plate area and the same battery, but one has half the plate separation. Predict what happens to C, Q, E, and U.",
+      "prediction": "Say which quantities double before you touch the controls.",
+      "answer": "Halving the separation doubles the capacitance, doubles the stored charge, doubles the field strength, and doubles the stored energy.",
+      "explanation": "In this bounded model, geometry changes C first. The same battery then turns that new capacitance into more stored charge and more stored energy."
+    }
+  },
+  "equations": [
+    {
+      "id": "capacitance-rule",
+      "latex": "C = \\\\varepsilon \\\\dfrac{A}{d}",
+      "label": "Parallel-plate capacitance",
+      "meaning": "Capacitance grows with facing area and shrinks with separation.",
+      "notes": [
+        "This bounded lab uses \\\\varepsilon = 1 in the displayed units so geometry stays central."
+      ]
+    },
+    {
+      "id": "stored-charge-rule",
+      "latex": "Q = C V",
+      "label": "Stored charge",
+      "meaning": "At fixed voltage, a larger capacitance stores more opposite charge on the plates."
+    },
+    {
+      "id": "field-rule",
+      "latex": "E \\\\approx \\\\dfrac{V}{d}",
+      "label": "Field between the plates",
+      "meaning": "The same voltage across a smaller gap gives a stronger field."
+    },
+    {
+      "id": "stored-energy-rule",
+      "latex": "U = \\\\tfrac{1}{2} C V^2 = \\\\tfrac{1}{2} Q V",
+      "label": "Stored electric energy",
+      "meaning": "Stored energy depends on geometry through C and grows quadratically with voltage."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "plateArea",
+      "symbol": "A",
+      "label": "Plate area",
+      "param": "plateArea",
+      "tone": "amber",
+      "description": "Changes the facing plate size, so the same battery can store more or less charge without changing the gap.",
+      "equationIds": [
+        "capacitance-rule",
+        "stored-charge-rule",
+        "stored-energy-rule"
+      ],
+      "graphIds": [
+        "voltage-response"
+      ],
+      "overlayIds": [
+        "geometryGuide",
+        "chargeDensityCue"
+      ]
+    },
+    {
+      "id": "plateSeparation",
+      "symbol": "d",
+      "label": "Plate separation",
+      "param": "plateSeparation",
+      "tone": "sky",
+      "description": "Changes the gap between the plates, which changes capacitance first and then changes both field strength and stored energy.",
+      "equationIds": [
+        "capacitance-rule",
+        "field-rule",
+        "stored-energy-rule"
+      ],
+      "graphIds": [
+        "voltage-response"
+      ],
+      "overlayIds": [
+        "geometryGuide",
+        "fieldRegion"
+      ]
+    },
+    {
+      "id": "batteryVoltage",
+      "symbol": "V",
+      "label": "Battery voltage",
+      "param": "batteryVoltage",
+      "tone": "coral",
+      "description": "Changes the voltage across the same geometry, so charge rises linearly while stored energy rises more steeply.",
+      "equationIds": [
+        "stored-charge-rule",
+        "field-rule",
+        "stored-energy-rule"
+      ],
+      "graphIds": [
+        "voltage-response"
+      ],
+      "overlayIds": [
+        "fieldRegion",
+        "energyStore"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "plateArea": 2.4,
+      "plateSeparation": 1.4,
+      "batteryVoltage": 6
+    },
+    "controls": [
+      {
+        "id": "plateArea",
+        "kind": "slider",
+        "label": "Plate area",
+        "param": "plateArea",
+        "min": 1,
+        "max": 5,
+        "step": 0.1,
+        "unit": "area",
+        "description": "Larger facing plates raise capacitance because more opposite charge can build across the same gap."
+      },
+      {
+        "id": "plateSeparation",
+        "kind": "slider",
+        "label": "Plate separation",
+        "param": "plateSeparation",
+        "min": 0.6,
+        "max": 3,
+        "step": 0.05,
+        "unit": "m",
+        "description": "A smaller gap raises capacitance and strengthens the field for the same battery voltage."
+      },
+      {
+        "id": "batteryVoltage",
+        "kind": "slider",
+        "label": "Battery voltage",
+        "param": "batteryVoltage",
+        "min": 2,
+        "max": 10,
+        "step": 0.1,
+        "unit": "V",
+        "description": "Raises stored charge linearly but stored energy more steeply because voltage is squared in U = 1/2 C V^2."
+      }
+    ],
+    "presets": [
+      {
+        "id": "compact-starter",
+        "label": "Compact starter",
+        "description": "A moderate starter setup that keeps geometry and voltage easy to compare.",
+        "values": {
+          "plateArea": 2,
+          "plateSeparation": 2,
+          "batteryVoltage": 4
+        }
+      },
+      {
+        "id": "close-high-area",
+        "label": "Large area, close gap",
+        "description": "A larger area and smaller gap make the storage visibly stronger at the same battery voltage.",
+        "values": {
+          "plateArea": 4.4,
+          "plateSeparation": 0.9,
+          "batteryVoltage": 6
+        }
+      },
+      {
+        "id": "wide-gap",
+        "label": "Wide-gap reference",
+        "description": "Widening the gap lowers both capacitance and field strength for the same plate area and voltage.",
+        "values": {
+          "plateArea": 2.4,
+          "plateSeparation": 2.6,
+          "batteryVoltage": 6
+        }
+      },
+      {
+        "id": "high-voltage-storage",
+        "label": "Higher-voltage storage",
+        "description": "Raising the voltage on the same geometry makes stored energy rise much faster than stored charge.",
+        "values": {
+          "plateArea": 2.4,
+          "plateSeparation": 1.4,
+          "batteryVoltage": 9
+        }
+      },
+      {
+        "id": "low-voltage-reference",
+        "label": "Low-voltage reference",
+        "description": "A lower-voltage case makes the linear-versus-quadratic comparison easier before the energy curve bends upward.",
+        "values": {
+          "plateArea": 2.4,
+          "plateSeparation": 1.2,
+          "batteryVoltage": 3
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "fieldRegion",
+        "label": "Field region",
+        "shortDescription": "Shows the near-uniform field between the plates.",
+        "whatToNotice": [
+          "Keeping the same voltage across a narrower gap makes the field arrows stronger."
+        ],
+        "whyItMatters": "It keeps the stored-energy story attached to the electric field between the plates.",
+        "relatedControls": [
+          "plateSeparation",
+          "batteryVoltage"
+        ],
+        "relatedGraphTabs": [
+          "voltage-response"
+        ],
+        "relatedEquationVariables": [
+          "plateSeparation",
+          "batteryVoltage"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "chargeDensityCue",
+        "label": "Charge-density cue",
+        "shortDescription": "Shows opposite charge building on the two plates.",
+        "whatToNotice": [
+          "Larger capacitance lets the same battery move more opposite charge onto the plates."
+        ],
+        "whyItMatters": "It makes Q = CV feel visible.",
+        "relatedControls": [
+          "plateArea",
+          "batteryVoltage"
+        ],
+        "relatedGraphTabs": [
+          "voltage-response"
+        ],
+        "relatedEquationVariables": [
+          "plateArea",
+          "batteryVoltage"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "geometryGuide",
+        "label": "Geometry guide",
+        "shortDescription": "Marks the plate area cue and the gap between the plates.",
+        "whatToNotice": [
+          "Capacitance changes when the geometry changes, even before the battery voltage moves."
+        ],
+        "whyItMatters": "It keeps geometry as the cause of capacitance.",
+        "relatedControls": [
+          "plateArea",
+          "plateSeparation"
+        ],
+        "relatedGraphTabs": [
+          "voltage-response"
+        ],
+        "relatedEquationVariables": [
+          "plateArea",
+          "plateSeparation"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "energyStore",
+        "label": "Energy-store cue",
+        "shortDescription": "Shows a compact stored-energy bar for the current state.",
+        "whatToNotice": [
+          "The energy store grows faster with voltage than the charge cue does."
+        ],
+        "whyItMatters": "It makes the quadratic V dependence in U = 1/2 C V^2 feel visible.",
+        "relatedControls": [
+          "batteryVoltage"
+        ],
+        "relatedGraphTabs": [
+          "voltage-response"
+        ],
+        "relatedEquationVariables": [
+          "batteryVoltage"
+        ],
+        "defaultOn": true
+      }
+    ],
+    "ui": {
+      "initialGraphId": "voltage-response",
+      "primaryGraphIds": [
+        "voltage-response"
+      ],
+      "primaryControlIds": [
+        "plateArea",
+        "plateSeparation",
+        "batteryVoltage"
+      ],
+      "primaryPresetIds": [
+        "compact-starter",
+        "close-high-area",
+        "high-voltage-storage"
+      ],
+      "starterExploreTasks": [
+        "Open the compact starter preset and read the current capacitance before you touch the battery voltage.",
+        "Raise only the battery voltage and compare how the stored-charge badge and the stored-energy cue change.",
+        "Reset, then reduce the plate separation and watch the field region and energy cue respond together."
+      ]
+    }
+  },
+  "graphs": [
+    {
+      "id": "voltage-response",
+      "label": "Charge and energy vs voltage",
+      "xLabel": "battery voltage V (V)",
+      "yLabel": "response (arb. units)",
+      "series": [
+        "stored-charge",
+        "stored-energy"
+      ],
+      "description": "For the current plate area and separation, stored charge grows linearly with voltage while stored energy curves upward because voltage is squared."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the same bounded capacitor bench to keep geometry, stored charge, field, and stored energy in one story.",
+    "items": [
+      {
+        "id": "cee-notice-geometry-first",
+        "text": "Capacitance changes before the battery does anything else. Geometry decides how much charge the same voltage can store.",
+        "type": "observation",
+        "priority": 2,
+        "conditions": {
+          "lastChangedControls": [
+            "plateArea",
+            "plateSeparation"
+          ]
+        },
+        "tryThis": "Change only the plate area first, then only the separation.",
+        "whyItMatters": "It keeps geometry as the cause and stored charge as the consequence.",
+        "relatedControls": [
+          "plateArea",
+          "plateSeparation"
+        ],
+        "relatedGraphTabs": [
+          "voltage-response"
+        ],
+        "relatedOverlays": [
+          "geometryGuide",
+          "chargeDensityCue"
+        ]
+      },
+      {
+        "id": "cee-notice-voltage-quadratic",
+        "text": "When only the battery voltage changes, stored charge follows the voltage linearly but stored energy rises faster because voltage is squared.",
+        "type": "graph-reading",
+        "priority": 4,
+        "conditions": {
+          "lastChangedControls": [
+            "batteryVoltage"
+          ]
+        },
+        "tryThis": "Move the voltage from about 3 V to about 6 V and compare the charge cue with the energy cue.",
+        "whyItMatters": "It separates the charge story from the energy story before circuits reuse both.",
+        "relatedControls": [
+          "batteryVoltage"
+        ],
+        "relatedGraphTabs": [
+          "voltage-response"
+        ],
+        "relatedOverlays": [
+          "energyStore",
+          "chargeDensityCue"
+        ]
+      },
+      {
+        "id": "cee-notice-same-voltage-myth",
+        "text": "The same battery voltage does not guarantee the same stored charge. Geometry still decides how large C is first.",
+        "type": "misconception",
+        "priority": 6,
+        "tryThis": "Keep the voltage fixed and compare the compact starter setup with the large-area close-gap setup.",
+        "whyItMatters": "It prevents voltage from swallowing the whole storage story.",
+        "relatedControls": [
+          "plateArea",
+          "plateSeparation",
+          "batteryVoltage"
+        ],
+        "relatedGraphTabs": [
+          "voltage-response"
+        ],
+        "relatedOverlays": [
+          "chargeDensityCue",
+          "geometryGuide"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict what the capacitor will store before you apply the change.",
+    "items": [
+      {
+        "id": "cee-pred-area-increase",
+        "prompt": "At the same gap and battery voltage, what should happen if the plate area increases?",
+        "scenarioLabel": "Increase area",
+        "changeLabel": "Geometry",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Capacitance, stored charge, and stored energy all increase because a larger facing area raises C first."
+          },
+          {
+            "id": "b",
+            "label": "Only the field changes because the battery voltage is the same."
+          },
+          {
+            "id": "c",
+            "label": "Nothing changes because plate area does not affect an ideal capacitor."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "In this parallel-plate model, C = A / d. With the same gap and battery voltage, a larger area means larger capacitance, which then means more stored charge and more stored energy.",
+        "observationHint": "Compare the geometry guide and charge cue before and after the larger-area setup loads.",
+        "apply": {
+          "patch": {
+            "plateArea": 4.4,
+            "plateSeparation": 1.4,
+            "batteryVoltage": 6
+          }
+        },
+        "highlightedControls": [
+          "plateArea"
+        ],
+        "highlightedGraphs": [
+          "voltage-response"
+        ],
+        "highlightedOverlays": [
+          "geometryGuide",
+          "chargeDensityCue"
+        ]
+      },
+      {
+        "id": "cee-pred-gap-increase",
+        "prompt": "If the same plates are pulled farther apart while the battery voltage stays fixed, which statement is best?",
+        "scenarioLabel": "Widen the gap",
+        "changeLabel": "Geometry",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Capacitance, stored charge, field strength, and stored energy all decrease."
+          },
+          {
+            "id": "b",
+            "label": "Stored charge stays the same because the battery is unchanged."
+          },
+          {
+            "id": "c",
+            "label": "The field gets stronger because there is more room between the plates."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Wider separation lowers both C = A / d and E = V / d when the same battery voltage is kept across the plates.",
+        "observationHint": "Watch the field arrows and the energy cue both shrink in the wide-gap setup.",
+        "apply": {
+          "presetId": "wide-gap"
+        },
+        "highlightedControls": [
+          "plateSeparation"
+        ],
+        "highlightedGraphs": [
+          "voltage-response"
+        ],
+        "highlightedOverlays": [
+          "fieldRegion",
+          "geometryGuide",
+          "energyStore"
+        ]
+      },
+      {
+        "id": "cee-pred-voltage-double",
+        "prompt": "For one fixed capacitor geometry, what should happen when the battery voltage is doubled?",
+        "scenarioLabel": "Raise the voltage",
+        "changeLabel": "Battery voltage",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Stored charge doubles, but stored energy becomes four times as large."
+          },
+          {
+            "id": "b",
+            "label": "Stored charge and stored energy both just double."
+          },
+          {
+            "id": "c",
+            "label": "Stored energy stays fixed because capacitance is unchanged."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At fixed geometry, Q = CV is linear in V while U = 1/2 C V^2 is quadratic in V.",
+        "observationHint": "Use the low-voltage and higher-voltage presets back to back and compare the graph curvature with the energy cue.",
+        "apply": {
+          "presetId": "high-voltage-storage"
+        },
+        "highlightedControls": [
+          "batteryVoltage"
+        ],
+        "highlightedGraphs": [
+          "voltage-response"
+        ],
+        "highlightedOverlays": [
+          "energyStore",
+          "chargeDensityCue"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the same bounded capacitor bench to hit compact storage targets.",
+    "items": [
+      {
+        "id": "cee-ch-double-storage-with-area",
+        "title": "Double the storage with area",
+        "style": "target-setting",
+        "prompt": "Starting from Compact starter, change only the plate area until the stored charge and stored energy are both doubled while the battery voltage and gap stay fixed.",
+        "successMessage": "You raised the capacitance geometrically, so the same battery now stores twice the charge and twice the energy.",
+        "setup": {
+          "presetId": "compact-starter",
+          "graphId": "voltage-response",
+          "overlayIds": [
+            "geometryGuide",
+            "chargeDensityCue"
+          ],
+          "note": "Leave the battery voltage and plate separation unchanged. Only the plate area should move."
+        },
+        "requirements": {
+          "graphId": "voltage-response",
+          "overlayIds": [
+            "geometryGuide",
+            "chargeDensityCue"
+          ]
+        },
+        "hints": [
+          "If voltage must stay fixed, do not touch the battery slider.",
+          "Doubling area doubles capacitance when the separation stays fixed."
+        ],
+        "targets": [
+          {
+            "param": "plateArea",
+            "min": 3.95,
+            "max": 4.05,
+            "displayUnit": "area"
+          },
+          {
+            "param": "plateSeparation",
+            "min": 1.95,
+            "max": 2.05,
+            "displayUnit": "m"
+          },
+          {
+            "param": "batteryVoltage",
+            "min": 3.95,
+            "max": 4.05,
+            "displayUnit": "V"
+          },
+          {
+            "metric": "chargeMagnitude",
+            "min": 7.8,
+            "max": 8.2
+          },
+          {
+            "metric": "storedEnergy",
+            "min": 15.6,
+            "max": 16.4
+          }
+        ]
+      },
+      {
+        "id": "cee-ch-quadruple-energy-with-voltage",
+        "title": "Quadruple the energy with voltage",
+        "style": "target-setting",
+        "prompt": "Starting from Low-voltage reference, change only the battery voltage until the stored energy is about four times larger while the geometry stays fixed.",
+        "successMessage": "You kept the geometry fixed and used the battery alone, so the energy rose by about a factor of four while the stored charge only doubled.",
+        "setup": {
+          "presetId": "low-voltage-reference",
+          "graphId": "voltage-response",
+          "overlayIds": [
+            "fieldRegion",
+            "energyStore"
+          ],
+          "note": "Leave the plate area and separation alone. Only the battery voltage should move."
+        },
+        "requirements": {
+          "graphId": "voltage-response",
+          "overlayIds": [
+            "fieldRegion",
+            "energyStore"
+          ]
+        },
+        "hints": [
+          "At fixed geometry, doubling the battery voltage doubles Q but quadruples U.",
+          "The target needs the same capacitor with a stronger battery, not a new geometry."
+        ],
+        "targets": [
+          {
+            "param": "plateArea",
+            "min": 2.35,
+            "max": 2.45,
+            "displayUnit": "area"
+          },
+          {
+            "param": "plateSeparation",
+            "min": 1.15,
+            "max": 1.25,
+            "displayUnit": "m"
+          },
+          {
+            "param": "batteryVoltage",
+            "min": 5.95,
+            "max": 6.05,
+            "displayUnit": "V"
+          },
+          {
+            "metric": "chargeMagnitude",
+            "min": 11.8,
+            "max": 12.2
+          },
+          {
+            "metric": "storedEnergy",
+            "min": 35.4,
+            "max": 36.6
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live capacitor story, not from detached formulas.",
+    "questions": [
+      {
+        "id": "cee-qt-area-effect",
+        "type": "variable-effect",
+        "prompt": "At the same gap and battery voltage, what must happen if the plate area increases?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Capacitance, stored charge, and stored energy all increase."
+          },
+          {
+            "id": "b",
+            "label": "Only the field changes because the voltage is the same."
+          },
+          {
+            "id": "c",
+            "label": "Nothing changes because ideal capacitors ignore plate area."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "In the bounded parallel-plate model, C = A / d. A larger area raises capacitance first, so the same battery stores more charge and more energy.",
+        "selectedWrongExplanations": {
+          "b": "At fixed V and d, the field does not need to change first. Geometry changes capacitance and therefore storage.",
+          "c": "Plate area is one of the main geometric causes of capacitance in this model."
+        },
+        "showMeAction": {
+          "label": "Show the large-area setup",
+          "presetId": "close-high-area",
+          "observationHint": "The charge cue and readout both rise because the larger plate area raises capacitance.",
+          "highlightedControlIds": [
+            "plateArea"
+          ],
+          "highlightedGraphIds": [
+            "voltage-response"
+          ],
+          "highlightedOverlayIds": [
+            "geometryGuide",
+            "chargeDensityCue"
+          ]
+        }
+      },
+      {
+        "id": "cee-qt-voltage-doubling",
+        "type": "reasoning",
+        "prompt": "For one fixed capacitor geometry, the battery voltage doubles. Which claim is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Stored charge doubles, but stored energy becomes four times as large."
+          },
+          {
+            "id": "b",
+            "label": "Stored charge and stored energy both just double."
+          },
+          {
+            "id": "c",
+            "label": "Stored energy stays fixed because capacitance is unchanged."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At fixed geometry, Q = CV is linear in V while U = 1/2 C V^2 is quadratic in V.",
+        "selectedWrongExplanations": {
+          "b": "Energy is not linear in voltage here.",
+          "c": "Capacitance staying fixed does not freeze the energy. Voltage still enters squared."
+        },
+        "showMeAction": {
+          "label": "Show the higher-voltage setup",
+          "presetId": "high-voltage-storage",
+          "observationHint": "The energy cue jumps more strongly than the charge cue.",
+          "highlightedControlIds": [
+            "batteryVoltage"
+          ],
+          "highlightedGraphIds": [
+            "voltage-response"
+          ],
+          "highlightedOverlayIds": [
+            "energyStore",
+            "chargeDensityCue"
+          ]
+        }
+      },
+      {
+        "id": "cee-qt-same-voltage-myth",
+        "type": "misconception-check",
+        "prompt": "A student says, \"If two capacitors are attached to the same 6 V battery, they must store the same amount of charge.\" What is the best correction?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "No. Geometry still decides capacitance, so the same battery can store different charge on different capacitors."
+          },
+          {
+            "id": "b",
+            "label": "Yes. Battery voltage is the only thing that matters."
+          },
+          {
+            "id": "c",
+            "label": "No. Capacitors connected to batteries cannot store charge at all."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The same battery voltage does not erase the geometric role of capacitance. Different C values mean different Q = CV values.",
+        "selectedWrongExplanations": {
+          "b": "Voltage matters, but it works through the capacitance of the geometry already on the bench.",
+          "c": "The whole point of the capacitor is to store opposite charge on the plates."
+        },
+        "showMeAction": {
+          "label": "Show the compact starter",
+          "presetId": "compact-starter",
+          "observationHint": "Compare this state mentally with the large-area close-gap state. The same voltage does not force the same stored charge.",
+          "highlightedControlIds": [
+            "plateArea",
+            "plateSeparation"
+          ],
+          "highlightedGraphIds": [
+            "voltage-response"
+          ],
+          "highlightedOverlayIds": [
+            "chargeDensityCue",
+            "geometryGuide"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one parallel-plate capacitor connected to one battery. Sliders change the effective plate area, the gap between the plates, and the battery voltage while overlays can show the field region, opposite charge building on the plates, the geometry guide, and a stored-energy cue.",
+        "The capacitor picture, readout card, and voltage-response graph all update from the same controls so geometry and voltage changes stay tied to one bounded setup."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The voltage-response graph plots stored charge and stored electric energy for the current capacitor geometry as battery voltage changes. The charge curve is linear while the energy curve bends upward because voltage is squared in the energy relation."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Capacitance and Stored Electric Energy | Open Model Lab",
+    "description": "Learn capacitance and stored electric energy with a bounded parallel-plate capacitor bench that keeps geometry, stored charge, field strength, and energy on one live stage.",
+    "keywords": [
+      "capacitance",
+      "capacitor",
+      "stored electric energy",
+      "parallel plate capacitor",
+      "physics simulation"
+    ]
+  }
+}

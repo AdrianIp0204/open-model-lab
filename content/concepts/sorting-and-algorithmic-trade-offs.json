@@ -1,0 +1,901 @@
+{
+  "pageFramework": {
+    "entryGuidance": {
+      "firstAction": "Switch the algorithm, keep Comparisons and writes open, and rerun the same list shape.",
+      "watchFor": "Watch the same unsorted list drive different comparison and write traces before the final sorted order matches."
+    },
+    "featuredSetups": [
+      {
+        "id": "insertion-nearly-sorted",
+        "label": "Insertion on a nearly sorted list",
+        "description": "Open a case where insertion barely has to move anything.",
+        "setup": {
+          "presetId": "insertion-nearly-sorted",
+          "graphId": "operations-history",
+          "overlayIds": [
+            "pointerMarkers",
+            "settledRegion"
+          ],
+          "note": "Use this to see one clean trade-off between input order and observed cost."
+        }
+      },
+      {
+        "id": "reverse-bubble",
+        "label": "Reverse-order bubble run",
+        "description": "Open a harder case where bubble keeps sweeping and swapping.",
+        "setup": {
+          "presetId": "reverse-bubble",
+          "graphId": "disorder-history",
+          "overlayIds": [
+            "intervalWindow",
+            "pointerMarkers"
+          ],
+          "note": "Use this when you want the cost story to stay obvious."
+        }
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Watch sorting as visible work on a live list so input order, comparisons, and writes stay concrete instead of collapsing into one final answer.",
+    "keyTakeaway": "The best sorting choice depends on the input pattern and on which cost—comparisons or writes—you care about.",
+    "whyItMatters": "That turns “which algorithm is fastest?” into a visible trade-off you can reason about before you memorize Big-O tables."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Sorting should feel like a visible process, not a before-and-after jump. This bench keeps the live list, the active comparisons, and the running costs together so each algorithm leaves a readable trace.",
+        "The point is not to memorize a complexity table first. The point is to watch the same sorted output arrive through different local decisions, and to see why input order changes the story."
+      ]
+    },
+    "keyIdeas": [
+      "Sorting is a sequence of comparisons and moves.",
+      "Different algorithms can reach the same sorted output through different local patterns.",
+      "Input order matters because it changes how much work the algorithm actually has to do."
+    ],
+    "commonMisconception": {
+      "myth": "If two algorithms end with the same sorted list, they must have behaved in basically the same way.",
+      "correction": [
+        "The same final answer can hide very different step patterns and costs.",
+        "This is why the list view and the counters stay visible together."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Read the current sorting trace directly from the bench.",
+      "items": [
+        {
+          "id": "read-the-current-sorting-trace",
+          "title": "Read the current sorting trace",
+          "prompt": "What kind of work is the current run actually doing?",
+          "variables": [
+            {
+              "id": "algorithm",
+              "variableId": "algorithm-index",
+              "symbol": "A",
+              "label": "Current algorithm",
+              "valueKey": "algorithmLabelValue"
+            },
+            {
+              "id": "pattern",
+              "variableId": "pattern-index",
+              "symbol": "P",
+              "label": "Input pattern",
+              "valueKey": "patternLabelValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "name-the-setup",
+              "label": "1. Name the live setup",
+              "template": "The bench is running {{algorithmLabelValue}} on a {{patternLabelValue}} list."
+            },
+            {
+              "id": "read-the-counters",
+              "label": "2. Read the visible cost",
+              "template": "So far the trace has used {{comparisonsValue}} comparisons and {{writeCountValue}} writes."
+            },
+            {
+              "id": "read-the-disorder",
+              "label": "3. Read how much disorder is left",
+              "template": "There are {{inversionsRemainingValue}} inversions still left, so {{sortingInterpretation}}"
+            }
+          ],
+          "resultLabel": "Current trade-off read",
+          "resultTemplate": "$A = {{algorithmLabelValue}}, C = {{comparisonsValue}}, W = {{writeCountValue}}$",
+          "interpretationTemplate": "{{statusLineValue}}",
+          "applyAction": {
+            "label": "Apply insertion on a nearly sorted list",
+            "presetId": "insertion-nearly-sorted",
+            "observationHint": "Watch how little the list has to move when the next key is already close to where it belongs.",
+            "highlightedControlIds": [
+              "algorithmIndex",
+              "patternIndex",
+              "arraySize"
+            ],
+            "highlightedGraphIds": [
+              "operations-history"
+            ],
+            "highlightedOverlayIds": [
+              "pointerMarkers",
+              "settledRegion"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Build a case where the list is almost sorted but the algorithm still wastes work by repeatedly sweeping across the whole interval.",
+      "prediction": "Decide whether you should change the algorithm, the input order, or both before you touch the controls.",
+      "answer": "Keep the list nearly sorted but use an algorithm that does not immediately exploit those short local fixes.",
+      "explanation": "Input order matters, but the algorithm still decides how efficiently that order gets used."
+    }
+  },
+  "equations": [
+    {
+      "id": "comparison-count",
+      "latex": "C = \\text{comparisons}",
+      "label": "Comparison count",
+      "meaning": "Tracks how many pair checks the algorithm has needed so far."
+    },
+    {
+      "id": "write-count",
+      "latex": "W = \\text{writes}",
+      "label": "Write count",
+      "meaning": "Tracks how much the algorithm has actually rewritten the list."
+    },
+    {
+      "id": "disorder-count",
+      "latex": "D = \\text{inversions remaining}",
+      "label": "Disorder count",
+      "meaning": "Counts how many out-of-order pairs still remain."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "algorithm-index",
+      "symbol": "A",
+      "label": "Algorithm choice",
+      "param": "algorithmIndex",
+      "tone": "amber",
+      "description": "Switches among the bounded sorting strategies on the same list view.",
+      "equationIds": [
+        "comparison-count",
+        "write-count"
+      ],
+      "graphIds": [
+        "operations-history",
+        "disorder-history"
+      ],
+      "overlayIds": [
+        "pointerMarkers"
+      ]
+    },
+    {
+      "id": "pattern-index",
+      "symbol": "P",
+      "label": "Input pattern",
+      "param": "patternIndex",
+      "tone": "coral",
+      "description": "Changes the starting order without changing the final sorted answer.",
+      "equationIds": [
+        "disorder-count"
+      ],
+      "graphIds": [
+        "disorder-history",
+        "disorder-share"
+      ],
+      "overlayIds": [
+        "intervalWindow",
+        "settledRegion"
+      ]
+    },
+    {
+      "id": "array-size",
+      "symbol": "n",
+      "label": "Array size",
+      "param": "arraySize",
+      "tone": "sky",
+      "description": "Sets how many items the algorithm has to organize.",
+      "equationIds": [
+        "comparison-count",
+        "write-count",
+        "disorder-count"
+      ],
+      "graphIds": [
+        "operations-history",
+        "disorder-history"
+      ],
+      "overlayIds": [
+        "intervalWindow",
+        "pointerMarkers"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "algorithmIndex": 0,
+      "patternIndex": 0,
+      "arraySize": 9,
+      "intervalWindow": true,
+      "settledRegion": true,
+      "pointerMarkers": true
+    },
+    "ui": {
+      "initialGraphId": "operations-history",
+      "primaryGraphIds": [
+        "operations-history",
+        "disorder-history"
+      ],
+      "primaryControlIds": [
+        "algorithm-index",
+        "pattern-index",
+        "array-size"
+      ],
+      "primaryPresetIds": [
+        "bubble-shuffled",
+        "insertion-nearly-sorted",
+        "reverse-bubble"
+      ]
+    },
+    "controls": [
+      {
+        "id": "algorithm-index",
+        "kind": "slider",
+        "label": "Algorithm",
+        "param": "algorithmIndex",
+        "min": 0,
+        "max": 2,
+        "step": 1,
+        "displayValueLabels": [
+          {
+            "value": 0,
+            "label": "Bubble"
+          },
+          {
+            "value": 1,
+            "label": "Selection"
+          },
+          {
+            "value": 2,
+            "label": "Insertion"
+          }
+        ]
+      },
+      {
+        "id": "pattern-index",
+        "kind": "slider",
+        "label": "Input pattern",
+        "param": "patternIndex",
+        "min": 0,
+        "max": 2,
+        "step": 1,
+        "displayValueLabels": [
+          {
+            "value": 0,
+            "label": "Shuffled"
+          },
+          {
+            "value": 1,
+            "label": "Nearly sorted"
+          },
+          {
+            "value": 2,
+            "label": "Reverse order"
+          }
+        ]
+      },
+      {
+        "id": "array-size",
+        "kind": "slider",
+        "label": "Array size",
+        "param": "arraySize",
+        "min": 6,
+        "max": 12,
+        "step": 1
+      }
+    ],
+    "presets": [
+      {
+        "id": "bubble-shuffled",
+        "label": "Bubble on shuffled",
+        "description": "A readable default case where the scan and swaps are easy to follow.",
+        "values": {
+          "algorithmIndex": 0,
+          "patternIndex": 0,
+          "arraySize": 9
+        }
+      },
+      {
+        "id": "insertion-nearly-sorted",
+        "label": "Insertion on nearly sorted",
+        "description": "A low-move case where insertion mostly slides one key into place.",
+        "values": {
+          "algorithmIndex": 2,
+          "patternIndex": 1,
+          "arraySize": 9
+        }
+      },
+      {
+        "id": "reverse-bubble",
+        "label": "Bubble on reverse order",
+        "description": "A heavier case where bubble has to keep pushing large values across the list.",
+        "values": {
+          "algorithmIndex": 0,
+          "patternIndex": 2,
+          "arraySize": 10
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "intervalWindow",
+        "label": "Active interval",
+        "shortDescription": "Highlight the part of the list the algorithm is still working on.",
+        "whatToNotice": [
+          "Some algorithms lock down a prefix, while others lock down a suffix."
+        ],
+        "whyItMatters": "It shows which part of the list is still expensive and which part is already resolved.",
+        "relatedControls": [
+          "algorithmIndex",
+          "patternIndex",
+          "arraySize"
+        ],
+        "relatedGraphTabs": [
+          "disorder-history"
+        ],
+        "relatedEquationVariables": [
+          "pattern-index",
+          "array-size"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "settledRegion",
+        "label": "Settled region",
+        "shortDescription": "Mark the items that the current algorithm has already locked into place.",
+        "whatToNotice": [
+          "Bubble settles a right edge, while insertion grows a settled prefix."
+        ],
+        "whyItMatters": "It makes the different local strategies visible without needing code.",
+        "relatedControls": [
+          "algorithmIndex",
+          "patternIndex"
+        ],
+        "relatedGraphTabs": [
+          "disorder-history"
+        ],
+        "relatedEquationVariables": [
+          "algorithm-index",
+          "pattern-index"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "pointerMarkers",
+        "label": "Pointer markers",
+        "shortDescription": "Show the active scan markers on the live list.",
+        "whatToNotice": [
+          "The marker pattern changes because each algorithm asks a different local question."
+        ],
+        "whyItMatters": "It keeps the algorithm learner-facing instead of burying it in pseudocode.",
+        "relatedControls": [
+          "algorithmIndex"
+        ],
+        "relatedGraphTabs": [
+          "operations-history"
+        ],
+        "relatedEquationVariables": [
+          "algorithm-index"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "operations-history",
+      "label": "Comparisons and writes",
+      "xLabel": "time",
+      "yLabel": "running count",
+      "series": [
+        "comparisons-history",
+        "writes-history"
+      ]
+    },
+    {
+      "id": "disorder-history",
+      "label": "Disorder versus settled items",
+      "xLabel": "time",
+      "yLabel": "items",
+      "series": [
+        "inversions-remaining",
+        "sorted-items"
+      ]
+    },
+    {
+      "id": "disorder-share",
+      "label": "Fraction of disorder left",
+      "xLabel": "time",
+      "yLabel": "fraction",
+      "series": [
+        "disorder-share"
+      ]
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Keep the live list and one graph visible together.",
+    "items": [
+      {
+        "id": "sat-notice-pattern-matters",
+        "text": "A nearly sorted list can make insertion look gentle while a reverse-order list makes bubble keep sweeping and swapping.",
+        "type": "observation",
+        "relatedControls": [
+          "algorithmIndex",
+          "patternIndex"
+        ],
+        "relatedGraphTabs": [
+          "operations-history",
+          "disorder-history"
+        ],
+        "relatedOverlays": [
+          "pointerMarkers",
+          "settledRegion"
+        ],
+        "relatedEquationVariables": [
+          "algorithm-index",
+          "pattern-index"
+        ]
+      },
+      {
+        "id": "sat-notice-same-answer-different-trace",
+        "text": "All three algorithms still end at the same sorted list, but the counter lines and the active markers reveal a different path to get there.",
+        "type": "compare",
+        "relatedControls": [
+          "algorithmIndex"
+        ],
+        "relatedGraphTabs": [
+          "operations-history"
+        ],
+        "relatedOverlays": [
+          "pointerMarkers"
+        ],
+        "relatedEquationVariables": [
+          "algorithm-index"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Predict",
+    "intro": "Predict the cost pattern before you switch the setup.",
+    "items": [
+      {
+        "id": "sat-predict-nearly-sorted",
+        "prompt": "If the list is already nearly sorted, which algorithm should usually need the fewest writes here?",
+        "scenarioLabel": "Nearly sorted input",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Insertion sort, because most keys are already close to where they belong."
+          },
+          {
+            "id": "b",
+            "label": "Bubble sort, because it always settles the right edge first."
+          },
+          {
+            "id": "c",
+            "label": "Selection sort, because it always uses the fewest comparisons."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Insertion sort can take advantage of short local fixes when the list is already close to sorted, so it often rewrites less.",
+        "observationHint": "Open the nearly sorted insertion preset and watch how quickly the disorder line collapses without many writes.",
+        "apply": {
+          "presetId": "insertion-nearly-sorted"
+        },
+        "highlightedControls": [
+          "algorithmIndex",
+          "patternIndex"
+        ],
+        "highlightedGraphs": [
+          "operations-history",
+          "disorder-history"
+        ],
+        "highlightedOverlays": [
+          "pointerMarkers",
+          "settledRegion"
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the visible trace, not from memorized slogans.",
+    "questions": [
+      {
+        "id": "sat-qt-same-result",
+        "type": "reasoning",
+        "prompt": "Why compare multiple sorting algorithms on the same list bench?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because the same sorted output can still come from different step patterns and costs."
+          },
+          {
+            "id": "b",
+            "label": "Because each algorithm must produce a different final order."
+          },
+          {
+            "id": "c",
+            "label": "Because sorting only matters when the list is already sorted."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The interesting part is the process and cost of getting to the sorted list, not just the final answer."
+      },
+      {
+        "id": "sat-qt-input-order",
+        "type": "misconception-check",
+        "prompt": "If two runs use the same algorithm and the same list size, what can still change the visible cost a lot?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The starting order of the list."
+          },
+          {
+            "id": "b",
+            "label": "Nothing important, because list size alone fixes the whole story."
+          },
+          {
+            "id": "c",
+            "label": "Only the graph colors."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Input order changes how much work the algorithm actually has to do before the list is settled."
+      },
+      {
+        "id": "sat-qt-nearly-sorted",
+        "type": "compare-two-cases",
+        "prompt": "Why can insertion sort look much cheaper on a nearly sorted list than on a reversed list?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because most items are already close to their final positions, so fewer writes are needed."
+          },
+          {
+            "id": "b",
+            "label": "Because insertion sort ignores all comparisons on nearly sorted inputs."
+          },
+          {
+            "id": "c",
+            "label": "Because a reversed list is already sorted for insertion sort."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Insertion sort benefits when only short local repairs are needed instead of long shifts through the whole list.",
+        "selectedWrongExplanations": {
+          "b": "The algorithm still compares items; it just often needs less movement.",
+          "c": "A reversed list is one of the hardest visible cases, not an already-finished one."
+        }
+      },
+      {
+        "id": "sat-qt-cost-metrics",
+        "type": "graph-reading",
+        "prompt": "Why keep both comparisons and writes visible in the graphs instead of tracking only one number?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because two algorithms can sort the same list with different trade-offs between checking and rewriting."
+          },
+          {
+            "id": "b",
+            "label": "Because comparisons and writes are always forced to match exactly."
+          },
+          {
+            "id": "c",
+            "label": "Because the final sorted list depends only on the graph axes."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The whole point of this bench is that the same final order can come from different cost patterns.",
+        "selectedWrongExplanations": {
+          "b": "The counts can diverge a lot depending on the algorithm and the input order.",
+          "c": "The graphs report the process; they do not create the sorted list."
+        }
+      },
+      {
+        "id": "sat-qt-settled-region",
+        "type": "reasoning",
+        "prompt": "What does the settled region help you see during a run?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Which part of the list is already in its finished place and which part is still active work."
+          },
+          {
+            "id": "b",
+            "label": "Which bars are taller than the graph axes allow."
+          },
+          {
+            "id": "c",
+            "label": "Which algorithm the benchmark will choose next by itself."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The settled region is a visual separation between finished positions and the still-changing active segment.",
+        "selectedWrongExplanations": {
+          "b": "The settled cue is about algorithm progress, not chart limits.",
+          "c": "The benchmark does not auto-switch algorithms just because a region is marked settled."
+        }
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Build a genuinely low-cost case rather than just landing on the right final order.",
+    "items": [
+      {
+        "id": "sat-ch-use-nearly-sorted-insertion",
+        "title": "Use insertion where it pays off",
+        "style": "visible-condition",
+        "prompt": "Build a case where insertion sort finishes a nearly sorted list with very few writes.",
+        "successMessage": "You matched the kind of case insertion sort is meant to exploit. The list was already close to ordered, so the key mostly slid into place instead of forcing heavy rewrites.",
+        "setup": {
+          "presetId": "insertion-nearly-sorted",
+          "graphId": "operations-history",
+          "overlayIds": [
+            "pointerMarkers",
+            "settledRegion"
+          ]
+        },
+        "requirements": {
+          "graphId": "operations-history",
+          "overlayIds": [
+            "pointerMarkers",
+            "settledRegion"
+          ]
+        },
+        "targets": [
+          {
+            "metric": "algorithmIndex",
+            "min": 2,
+            "max": 2
+          },
+          {
+            "metric": "patternIndex",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "metric": "completed",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "metric": "writeCount",
+            "min": 0,
+            "max": 10
+          }
+        ]
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows an array of bars. The active interval, settled region, and pointer markers show what the current sorting algorithm is doing, while a readout card reports comparisons, writes, and remaining disorder."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "One graph tracks comparisons and writes over time. A second graph tracks inversions remaining versus settled items, and a third graph shows the fraction of disorder left."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Sorting and Algorithmic Trade-offs",
+    "description": "Watch sorting algorithms step through the same list and compare how input order changes comparisons, writes, and remaining disorder.",
+    "keywords": [
+      "sorting",
+      "algorithms",
+      "bubble sort",
+      "selection sort",
+      "insertion sort",
+      "computer science"
+    ]
+  },
+  "v2": {
+    "intuition": "Sorting is easier to compare when you watch the same list being repaired: markers show local decisions, counters show cost, and the final order is only the last frame.",
+    "whyItMatters": "This gives you a practical way to choose or explain a sorting algorithm: ask what the input already looks like, then read the cost trace instead of trusting a slogan.",
+    "estimatedMinutes": 13,
+    "equationSnapshot": {
+      "equationIds": [
+        "comparison-count",
+        "write-count",
+        "disorder-count"
+      ],
+      "note": "Read comparisons, writes, and remaining disorder together: each tells a different part of the trade-off story."
+    },
+    "startSetup": {
+      "presetId": "bubble-shuffled",
+      "graphId": "operations-history",
+      "overlayIds": [
+        "pointerMarkers",
+        "settledRegion"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-first-trace",
+        "title": "Read the first trace",
+        "goal": "See sorting as repeated local work, not as an instant before-and-after result.",
+        "doThis": "Start with Bubble on shuffled, keep Comparisons and writes open, and step the run slowly for a few comparisons.",
+        "notice": "The list changes one local comparison at a time while the counters climb even before the final sorted order appears.",
+        "explain": "A sorting algorithm is a rule for choosing the next local comparison or move. The trace is the evidence for how that rule spends work.",
+        "reveal": {
+          "controlIds": [
+            "algorithm-index",
+            "pattern-index"
+          ],
+          "graphIds": [
+            "operations-history"
+          ],
+          "overlayIds": [
+            "pointerMarkers",
+            "settledRegion"
+          ]
+        },
+        "setup": {
+          "presetId": "bubble-shuffled",
+          "graphId": "operations-history",
+          "overlayIds": [
+            "pointerMarkers",
+            "settledRegion"
+          ]
+        }
+      },
+      {
+        "id": "compare-same-list-different-rule",
+        "title": "Change the rule, not the goal",
+        "goal": "Compare algorithms while the learner-facing goal stays the same: sort the list.",
+        "doThis": "Keep the same input shape, then switch Algorithm between Bubble, Selection, and Insertion while watching the markers and the cost graph.",
+        "notice": "The final order is the same, but the marker motion, settled region, comparisons, and writes leave different traces.",
+        "explain": "Algorithm choice changes the local question being asked at each step. That is why two correct algorithms can spend work in different places.",
+        "reveal": {
+          "controlIds": [
+            "algorithm-index"
+          ],
+          "graphIds": [
+            "operations-history",
+            "disorder-history"
+          ],
+          "overlayIds": [
+            "pointerMarkers",
+            "settledRegion"
+          ]
+        },
+        "setup": {
+          "presetId": "bubble-shuffled",
+          "graphId": "operations-history",
+          "overlayIds": [
+            "pointerMarkers",
+            "settledRegion"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "sat-qt-same-result"
+          ]
+        }
+      },
+      {
+        "id": "exploit-nearly-sorted-input",
+        "title": "Exploit an easy input",
+        "goal": "See why input order can matter as much as the algorithm name.",
+        "doThis": "Apply Insertion on nearly sorted, then compare the low write count with a reverse-order run on the same graph.",
+        "notice": "When items start close to their final positions, insertion can repair short local mistakes without rewriting much of the list.",
+        "explain": "Nearly sorted data has little disorder left. An algorithm that uses short local repairs can turn that advantage into a lower visible cost.",
+        "reveal": {
+          "controlIds": [
+            "algorithm-index",
+            "pattern-index",
+            "array-size"
+          ],
+          "graphIds": [
+            "operations-history",
+            "disorder-history"
+          ],
+          "overlayIds": [
+            "pointerMarkers",
+            "settledRegion"
+          ]
+        },
+        "setup": {
+          "presetId": "insertion-nearly-sorted",
+          "graphId": "operations-history",
+          "overlayIds": [
+            "pointerMarkers",
+            "settledRegion"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "sat-predict-nearly-sorted"
+          ]
+        }
+      },
+      {
+        "id": "judge-the-trade-off",
+        "title": "Judge the trade-off",
+        "goal": "Turn the trace into a defensible algorithm choice.",
+        "doThis": "Use the quick checks, then build one low-write case and one high-work case before opening the challenge.",
+        "notice": "A good answer names the input pattern and the cost metric, not just the algorithm label.",
+        "explain": "Trade-off thinking means saying what you are optimizing for. Here, comparisons, writes, and disorder can point to different strengths.",
+        "reveal": {
+          "controlIds": [
+            "algorithm-index",
+            "pattern-index",
+            "array-size"
+          ],
+          "graphIds": [
+            "operations-history",
+            "disorder-history",
+            "disorder-share"
+          ],
+          "overlayIds": [
+            "pointerMarkers",
+            "settledRegion",
+            "intervalWindow"
+          ]
+        },
+        "setup": {
+          "presetId": "insertion-nearly-sorted",
+          "graphId": "operations-history",
+          "overlayIds": [
+            "pointerMarkers",
+            "settledRegion"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "sat-qt-input-order"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "A sorted output can hide very different comparison, write, and marker traces.",
+        "Input order changes the initial disorder, so the same algorithm can feel cheap or expensive.",
+        "A useful sorting explanation names both the algorithm and the cost metric being optimized."
+      ],
+      "misconception": "Do not judge a sorting algorithm only by the final sorted list. The process trace is where the trade-off becomes visible.",
+      "workedExampleRefs": [
+        "read-the-current-sorting-trace"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "binary-search-halving-the-search-space",
+          "title": "Binary Search / Halving the Search Space",
+          "reasonLabel": "Reuse ordered-list thinking to see why search can discard half the possibilities at each step."
+        },
+        {
+          "slug": "graph-representation-and-adjacency-intuition",
+          "title": "Graph Representation and Adjacency Intuition",
+          "reasonLabel": "Carry visible algorithm traces into graph search and neighborhood structure."
+        }
+      ],
+      "freePlayPrompt": "Stay on the bench and make a case where writes stay low, then a case where comparisons keep climbing. Explain which control made the cost change."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "accessibility"
+    ]
+  }
+}

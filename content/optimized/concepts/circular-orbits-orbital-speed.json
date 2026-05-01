@@ -1,0 +1,165 @@
+{
+"pageFramework": {
+"sections": [
+{
+"id": "workedExamples",
+"title": "Solve the live orbit"
+},
+{
+"id": "miniChallenge",
+"title": "Test the orbit balance"
+},
+{
+"id": "readNext",
+"title": "Carry orbit ideas forward"
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"A circular orbit is not a place where gravity disappears. It is continuous free fall: gravity keeps pulling inward, and the sideways speed is exactly right so the object keeps missing the central mass at the same radius.",
+"This lab lets you change the source mass, the chosen reference radius, and the launch speed as a fraction of the circular value. Then you compare the live path with the radius, speed, and acceleration-balance graphs. The assumptions stay visible: one central source, circular-orbit targets, displayed G = 1 units, and no atmosphere or other forces. The key check is simple: for a circular orbit, gravity must exactly match the inward acceleration needed to keep turning at that radius."
+]
+},
+"keyIdeas": [
+"For a circular orbit at radius $r$, gravity itself provides the centripetal acceleration: $M/r^2 = v^2/r$ in the displayed units where $G = 1$.",
+"At one chosen radius, a speed below the circular value makes gravity stronger than the turning requirement, so the path bends inward. A speed above the circular value makes the turning requirement larger than gravity, so the path opens outward.",
+"At fixed radius, a heavier source needs a larger circular speed. At fixed source mass, a larger circular orbit needs a smaller speed by a square-root factor and a much longer period."
+],
+"commonMisconception": {
+"myth": "A satellite stays in orbit because gravity is almost absent there.",
+"correction": [
+"Gravity is still acting all the time in orbit. It is the inward acceleration that keeps the path curved instead of straight.",
+"What makes one orbit circular is not the absence of gravity, but the correct sideways speed at that radius."
+]
+},
+"workedExamples": {
+"title": "Worked example from the live orbit",
+"intro": "Use the stage and graphs as evidence. First find the circular speed for the chosen reference circle. Then compare the live gravity with the turning requirement v^2/r to decide whether the path should stay circular, bend inward, or open outward. Watch the scaling: doubling radius gives 1/sqrt(2) of the circular speed, not half.",
+"items": [
+{
+"id": "required-circular-speed",
+"title": "Circular speed at the chosen radius",
+"steps": [
+{
+"id": "relation",
+"label": "1. Match gravity to the turning requirement"
+},
+{
+"id": "solve",
+"label": "2. Solve for the circular speed"
+},
+{
+"id": "compute",
+"label": "3. Calculate the live circular speed, angular speed, and period"
+}
+],
+"applyAction": {
+"label": "Try heavier source",
+"observationHint": "Keep the reference circle and gravity vector visible. At the same radius, a heavier source needs a larger circular speed and gives a shorter period."
+}
+},
+{
+"id": "current-orbit-balance",
+"title": "Gravity versus turning requirement right now",
+"steps": [
+{
+"id": "measure",
+"label": "1. Read the live radius and speed"
+},
+{
+"id": "gravity",
+"label": "2. Calculate the inward gravity"
+},
+{
+"id": "turning",
+"label": "3. Calculate $v^2/r$ and compare the two"
+}
+],
+"applyAction": {
+"label": "Try too-slow orbit",
+"observationHint": "When the speed factor is below 1, the gravity curve sits above the turning-requirement curve and the trail bends inside the dashed reference circle."
+}
+}
+]
+},
+"miniChallenge": {
+"prediction": "Answer before you run the too-slow case: is gravity now stronger than the turning requirement, weaker than it, or exactly matched?",
+"explanation": "At a fixed radius, lowering the speed lowers $v^2/r$. Gravity is then larger than the inward acceleration needed for a circular turn, so the path curves inward."
+}
+},
+"equations": [
+{
+"id": "gravity-acceleration",
+"meaning": "In the displayed units with $G = 1$, this gives the inward gravitational acceleration from the source mass at radius $r$."
+},
+{
+"id": "centripetal-requirement",
+"meaning": "Any path with speed $v$ at radius $r$ needs this inward acceleration to keep turning at that radius."
+},
+{
+"id": "circular-speed",
+"meaning": "This is the one speed that makes gravity and the turning requirement match at the chosen radius."
+},
+{
+"id": "circular-angular-speed",
+"meaning": "Once the circular speed is fixed, this gives how quickly the orbit moves around the circle."
+},
+{
+"id": "circular-period",
+"meaning": "Wider circular orbits take much longer to complete, while heavier source mass shortens the period."
+}
+],
+"variableLinks": [
+{
+"id": "sourceMass",
+"description": "A larger source mass makes gravity stronger at every radius, so the circular speed rises and the circular period falls for the same reference circle."
+},
+{
+"id": "orbitRadius",
+"description": "Sets the dashed reference circle. A larger circular orbit needs a smaller speed but a much longer period."
+},
+{
+"id": "speedFactor",
+"description": "Sets the actual launch speed relative to the circular value. At 1.00 the path can stay circular, below 1 it bends inward, and above 1 it opens outward."
+}
+],
+"graphs": [
+{
+"id": "radius-history",
+"description": "Shows whether the live path stays on the chosen circular radius or drifts inward or outward over time."
+},
+{
+"id": "speed-history",
+"description": "Compares the actual speed with the circular speed required at the current radius."
+},
+{
+"id": "acceleration-balance",
+"description": "Shows directly whether gravity matches, exceeds, or falls short of the turning requirement $v^2/r$."
+}
+],
+"noticePrompts": {
+"intro": "Use these prompts to compare the live path with the dashed reference circle. The central question is always the same: does gravity match the turning requirement at the current radius?"
+},
+"predictionMode": {
+"intro": "Predict what the path will do before you run the case. Then use the stage and the balance graph to check whether gravity matches the turning requirement. For radius changes, remember the speed change is square-root scaling, not a direct half-or-double change."
+},
+"quickTest": {
+"intro": "Use the stage and the linked graphs together. These questions test whether you can explain circular-orbit balance, including the square-root radius scaling, not just recite formulas."
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows one source mass at the center, one moving satellite launched from the right side of the chosen reference circle, and optional overlays for the dashed reference orbit, the current radius line, the tangent velocity vector, the inward gravity vector, and the trajectory trail.",
+"Changing source mass, reference radius, or speed factor updates the same orbit path, readouts, and graphs together. The main comparison is whether the live path stays on the reference circle or peels inside or outside it because gravity and the turning requirement no longer match."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The radius-history graph shows whether the live orbit stays on the chosen reference radius or drifts inward or outward. The speed-history graph compares the actual speed with the circular speed required at the current radius.",
+"The acceleration-balance graph compares the inward gravity with the turning requirement $v^2/r$ on the same live path. A circular orbit is the case where those two curves match."
+]
+}
+}
+}

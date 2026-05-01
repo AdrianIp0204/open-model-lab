@@ -1,0 +1,1249 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live Doppler checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Passing-source checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Keep the sound story moving"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Watch a moving sound source compress wavefronts ahead and stretch them behind, then see how source motion and observer motion combine to change the heard pitch on one bounded classical bench.",
+    "keyTakeaway": "A moving source packs wavefronts closer together ahead of itself and spreads them farther apart behind itself."
+  },
+  "v2": {
+    "intuition": "Use one moving siren to see why the pitch sounds higher in front and lower behind, even though the source keeps emitting the same tone.",
+    "whyItMatters": "This is the pattern behind passing sirens, radar speed checks, and any wave measured by a moving source or observer.",
+    "estimatedMinutes": 25,
+    "equationSnapshot": {
+      "equationIds": [
+        "front-spacing",
+        "rear-spacing",
+        "observed-frequency"
+      ],
+      "note": "Read the spacing equations first, then use the observed-frequency equation to add observer motion."
+    },
+    "startSetup": {
+      "presetId": "city-pass",
+      "graphId": "source-spacing",
+      "overlayIds": [
+        "frontBackSpacing",
+        "motionVectors"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-front-and-rear-spacing",
+        "title": "Read the spacing split",
+        "goal": "Connect a moving source to compressed wavefronts ahead and stretched wavefronts behind.",
+        "doThis": "Start from City pass and keep the front-and-rear spacing overlay visible.",
+        "notice": "The front markers are closer together while the rear markers are farther apart, even though the emitted frequency is still fixed.",
+        "explain": "The source moves between emissions. Each new crest starts farther forward, which squeezes the spacing in front and opens the spacing behind.",
+        "reveal": {
+          "controlIds": [
+            "sourceSpeed"
+          ],
+          "graphIds": [
+            "source-spacing"
+          ],
+          "overlayIds": [
+            "frontBackSpacing",
+            "motionVectors"
+          ],
+          "toolHints": [
+            "timeline",
+            "graph-preview"
+          ]
+        },
+        "setup": {
+          "presetId": "city-pass",
+          "graphId": "source-spacing",
+          "overlayIds": [
+            "frontBackSpacing",
+            "motionVectors"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "de-predict-faster-source"
+          ]
+        }
+      },
+      {
+        "id": "separate-observer-motion",
+        "title": "Separate observer motion",
+        "goal": "See that observer speed changes the arrival rate without redrawing the spacing already in the medium.",
+        "doThis": "Apply Observer moves in, then sweep observer speed through zero while watching the observer-response graph.",
+        "notice": "The heard-frequency trace moves, but the front and rear spacing markers stay tied to the source speed.",
+        "explain": "Observer motion changes how often the listener meets existing crests. It does not change where the source launched those crests.",
+        "reveal": {
+          "controlIds": [
+            "observerSpeed"
+          ],
+          "graphIds": [
+            "observer-response"
+          ],
+          "overlayIds": [
+            "arrivalTiming",
+            "frontBackSpacing"
+          ]
+        },
+        "setup": {
+          "presetId": "approaching-listener",
+          "graphId": "observer-response",
+          "overlayIds": [
+            "arrivalTiming",
+            "frontBackSpacing"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "de-predict-moving-observer"
+          ],
+          "questionIds": [
+            "de-qt-observer-motion"
+          ]
+        }
+      },
+      {
+        "id": "compare-ahead-and-behind",
+        "title": "Compare ahead and behind",
+        "goal": "Use the listener side to predict whether the same source sounds higher or lower.",
+        "doThis": "Switch to Behind the source, then toggle between listening ahead and behind without changing the emitted frequency.",
+        "notice": "Ahead samples the compressed spacing and sounds higher; behind samples the stretched spacing and sounds lower.",
+        "explain": "The emitted tone is the same on both sides. The pitch shift comes from which spacing the observer samples and how quickly those crests arrive.",
+        "reveal": {
+          "controlIds": [
+            "observerAhead",
+            "sourceSpeed"
+          ],
+          "graphIds": [
+            "displacement",
+            "source-spacing"
+          ],
+          "overlayIds": [
+            "frontBackSpacing",
+            "arrivalTiming"
+          ]
+        },
+        "setup": {
+          "presetId": "behind-trailing",
+          "graphId": "displacement",
+          "overlayIds": [
+            "frontBackSpacing",
+            "arrivalTiming"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "de-predict-behind-source"
+          ],
+          "questionIds": [
+            "de-qt-ahead-vs-behind"
+          ]
+        }
+      },
+      {
+        "id": "solve-the-pass-by-check",
+        "title": "Solve the pass-by check",
+        "goal": "Turn the spacing story into a practical choice for making a siren sound lower.",
+        "doThis": "Use the live worked examples, then open the challenge and make the lower-behind story explicit.",
+        "notice": "A lower heard pitch needs fewer crest arrivals per second, which the rear side provides for the same moving source.",
+        "explain": "Behind the source, larger spacing means a lower arrival rate. That is why listening behind the same siren makes the pitch drop without changing the emitted frequency.",
+        "reveal": {
+          "controlIds": [
+            "observerAhead",
+            "observerSpeed"
+          ],
+          "graphIds": [
+            "observer-response",
+            "source-spacing"
+          ],
+          "overlayIds": [
+            "arrivalTiming",
+            "frontBackSpacing"
+          ]
+        },
+        "setup": {
+          "presetId": "behind-trailing",
+          "graphId": "observer-response",
+          "overlayIds": [
+            "arrivalTiming",
+            "frontBackSpacing"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "de-qt-behind-source"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Source motion changes wavefront spacing in the medium: compressed ahead and stretched behind.",
+        "Observer motion changes the arrival rate at the listener without changing the emitted frequency.",
+        "A higher or lower heard pitch is a crest-arrival-rate change, not proof that the source changed its tone."
+      ],
+      "misconception": "A moving siren must emit a different frequency in front than behind.",
+      "workedExampleRefs": [
+        "front-vs-rear-spacing",
+        "heard-frequency-from-motion"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "wave-interference",
+          "title": "Wave Interference",
+          "reasonLabel": "Combine waves after you can track one moving source"
+        },
+        {
+          "slug": "standing-waves",
+          "title": "Standing Waves",
+          "reasonLabel": "Turn spacing and frequency into resonance patterns"
+        },
+        {
+          "slug": "sound-waves-longitudinal-motion",
+          "title": "Sound Waves and Longitudinal Motion",
+          "reasonLabel": "Review what actually moves in the medium"
+        }
+      ],
+      "freePlayPrompt": "Keep the source frequency fixed, then tune source speed, observer side, and observer speed until you can make the heard pitch rise and fall on purpose."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "quickTest",
+      "accessibility"
+    ]
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "The Doppler effect is not about the source changing how often it emits. It is about the observer meeting wavefronts at a different rate when source motion or observer motion changes the spacing and arrival timing along the listening path.",
+        "This bounded bench keeps one classical sound medium, one source moving forward, and one observer who can listen ahead or behind while moving toward or away on that chosen side. Wavefront circles, spacing guides, and the heard-frequency trace all come from that same model, so compressed front spacing and stretched rear spacing stay physically connected to the pitch cue."
+      ]
+    },
+    "keyIdeas": [
+      "A moving source packs wavefronts closer together ahead of itself and spreads them farther apart behind itself.",
+      "Observer motion changes how quickly wavefronts arrive, but it does not rewrite the spacing already set in the medium.",
+      "In this classical sound model, a higher heard pitch means crests are arriving more often, not that the source changed its emitted frequency."
+    ],
+    "commonMisconception": {
+      "myth": "The source must actually emit a higher frequency when it moves toward you.",
+      "correction": [
+        "The emitted frequency stays fixed here. What changes is the spacing and arrival timing along the observer's path.",
+        "Source motion changes the front and rear spacing in the medium. Observer motion changes how quickly those already-existing wavefronts are encountered."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "These checks read the same moving-source model used by the stage and graphs, so each formula stays attached to one honest pass-by setup.",
+      "items": [
+        {
+          "id": "front-vs-rear-spacing",
+          "title": "Front spacing versus rear spacing",
+          "prompt": "For this moving-source setup with $v_{wave} = {{waveSpeedValue}}\\,\\mathrm{m/s}$, $f_s = {{sourceFrequencyValue}}\\,\\mathrm{Hz}$, and $v_s = {{sourceSpeedValue}}\\,\\mathrm{m/s}$, what front and rear wavefront spacings does the source launch?",
+          "variables": [
+            {
+              "id": "wave-speed",
+              "symbol": "v_{wave}",
+              "label": "Wave speed",
+              "valueKey": "waveSpeedValue",
+              "unit": "m/s"
+            },
+            {
+              "id": "source-frequency",
+              "variableId": "sourceFrequency",
+              "symbol": "f_s",
+              "label": "Source frequency",
+              "valueKey": "sourceFrequencyValue",
+              "unit": "Hz"
+            },
+            {
+              "id": "source-speed",
+              "variableId": "sourceSpeed",
+              "symbol": "v_s",
+              "label": "Source speed",
+              "valueKey": "sourceSpeedValue",
+              "unit": "m/s"
+            },
+            {
+              "id": "front-spacing",
+              "symbol": "\\lambda_{ahead}",
+              "label": "Front spacing",
+              "valueKey": "frontSpacingValue",
+              "unit": "m"
+            },
+            {
+              "id": "rear-spacing",
+              "symbol": "\\lambda_{behind}",
+              "label": "Rear spacing",
+              "valueKey": "backSpacingValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Use the moving-source spacing relations",
+              "template": "Use $\\lambda_{ahead} = \\dfrac{v_{wave} - v_s}{f_s}$ and $\\lambda_{behind} = \\dfrac{v_{wave} + v_s}{f_s}$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the setup source values",
+              "template": "$\\lambda_{ahead} = \\dfrac{ {{waveSpeedValue}} - {{sourceSpeedValue}} }{ {{sourceFrequencyValue}} } = {{frontSpacingValue}}\\,\\mathrm{m}$ and $\\lambda_{behind} = \\dfrac{ {{waveSpeedValue}} + {{sourceSpeedValue}} }{ {{sourceFrequencyValue}} } = {{backSpacingValue}}\\,\\mathrm{m}$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Read the spacing split",
+              "template": "The source is launching each later crest from a farther-forward position, so the front spacing becomes {{frontSpacingValue}} m while the rear spacing stretches to {{backSpacingValue}} m."
+            }
+          ],
+          "resultLabel": "Spacing result",
+          "resultTemplate": "$\\lambda_{ahead} = {{frontSpacingValue}}\\,\\mathrm{m}, \\quad \\lambda_{behind} = {{backSpacingValue}}\\,\\mathrm{m}$",
+          "interpretationTemplate": "{{spacingInterpretation}}",
+          "applyAction": {
+            "label": "Show a faster pass-by",
+            "presetId": "city-pass",
+            "observationHint": "Watch the front markers bunch together while the rear markers spread apart.",
+            "highlightedControlIds": [
+              "sourceSpeed"
+            ],
+            "highlightedGraphIds": [
+              "source-spacing"
+            ],
+            "highlightedOverlayIds": [
+              "frontBackSpacing"
+            ]
+          }
+        },
+        {
+          "id": "heard-frequency-from-motion",
+          "title": "Heard frequency on the chosen side",
+          "prompt": "On the {{sideLabelValue}} side of this setup, what observed frequency follows when $f_s = {{sourceFrequencyValue}}\\,\\mathrm{Hz}$ and observer speed is $v_o = {{observerSpeedValue}}\\,\\mathrm{m/s}$, with positive values meaning toward the source?",
+          "variables": [
+            {
+              "id": "source-frequency",
+              "variableId": "sourceFrequency",
+              "symbol": "f_s",
+              "label": "Source frequency",
+              "valueKey": "sourceFrequencyValue",
+              "unit": "Hz"
+            },
+            {
+              "id": "observer-speed",
+              "variableId": "observerSpeed",
+              "symbol": "v_o",
+              "label": "Observer speed (toward +)",
+              "valueKey": "observerSpeedValue",
+              "unit": "m/s"
+            },
+            {
+              "id": "selected-spacing",
+              "symbol": "\\lambda_{side}",
+              "label": "Chosen-side spacing",
+              "valueKey": "selectedSpacingValue",
+              "unit": "m"
+            },
+            {
+              "id": "observed-frequency",
+              "symbol": "f_{obs}",
+              "label": "Observed frequency",
+              "valueKey": "observedFrequencyValue",
+              "unit": "Hz"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Start from the chosen-side relation",
+              "template": "For this listening side, use ${{observedRelation}}$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the setup values",
+              "template": "$f_{obs} = {{observedFrequencyValue}}\\,\\mathrm{Hz}$, so the arrival period is $T_{obs} = {{observedPeriodValue}}\\,\\mathrm{s}$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compare heard pitch with emitted pitch",
+              "template": "The observer is hearing about {{pitchRatioValue}} times the emitted frequency on the {{sideLabelValue}} side."
+            }
+          ],
+          "resultLabel": "Heard-pitch result",
+          "resultTemplate": "$f_{obs} = {{observedFrequencyValue}}\\,\\mathrm{Hz}, \\quad T_{obs} = {{observedPeriodValue}}\\,\\mathrm{s}$",
+          "interpretationTemplate": "{{pitchInterpretation}}",
+          "applyAction": {
+            "label": "Listen behind the source",
+            "presetId": "behind-trailing",
+            "observationHint": "Switching to the rear side drops the arrival rate because the observer now samples the stretched wavefront spacing.",
+            "highlightedControlIds": [
+              "observerAhead"
+            ],
+            "highlightedGraphIds": [
+              "observer-response"
+            ],
+            "highlightedOverlayIds": [
+              "arrivalTiming"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "You want the same siren to sound lower without changing the emitted frequency. Where should you listen?",
+      "prediction": "Choose between staying ahead of the moving source or listening behind it.",
+      "answer": "Listen behind the source.",
+      "explanation": "Behind the source, the wavefront spacing is stretched rather than compressed. That larger spacing means a lower arrival rate and therefore a lower heard pitch in this bounded classical model."
+    }
+  },
+  "equations": [
+    {
+      "id": "rest-spacing",
+      "latex": "\\lambda_0 = \\dfrac{v_{wave}}{f_s}",
+      "label": "Rest wavelength",
+      "meaning": "If the source is not moving through the medium, this is the crest spacing launched each cycle."
+    },
+    {
+      "id": "front-spacing",
+      "latex": "\\lambda_{ahead} = \\dfrac{v_{wave} - v_s}{f_s}",
+      "label": "Spacing ahead of the moving source",
+      "meaning": "Ahead of the source, each new crest starts from a later, farther-forward position, so the spacing shrinks."
+    },
+    {
+      "id": "rear-spacing",
+      "latex": "\\lambda_{behind} = \\dfrac{v_{wave} + v_s}{f_s}",
+      "label": "Spacing behind the moving source",
+      "meaning": "Behind the source, each new crest starts farther from the older ones, so the spacing stretches."
+    },
+    {
+      "id": "observed-frequency",
+      "latex": "f_{obs} = f_s\\dfrac{v_{wave} + v_o}{v_{wave} - d v_s}",
+      "label": "Observed frequency in one medium",
+      "meaning": "Positive $v_o$ means the observer moves toward the source on the chosen side, and $d = +1$ for listening ahead while $d = -1$ for listening behind.",
+      "notes": [
+        "This page uses a bounded classical sound model with source speed below wave speed and no shock-wave or relativity effects."
+      ]
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "sourceFrequency",
+      "symbol": "f_s",
+      "label": "Source frequency",
+      "param": "sourceFrequency",
+      "tone": "teal",
+      "description": "Sets how often the source emits new crests before any motion changes their spacing or arrival rate.",
+      "equationIds": [
+        "rest-spacing",
+        "front-spacing",
+        "rear-spacing",
+        "observed-frequency"
+      ],
+      "graphIds": [
+        "displacement",
+        "observer-response"
+      ],
+      "overlayIds": [
+        "arrivalTiming"
+      ]
+    },
+    {
+      "id": "sourceSpeed",
+      "symbol": "v_s",
+      "label": "Source speed",
+      "param": "sourceSpeed",
+      "tone": "coral",
+      "description": "Changes how tightly the source packs wavefronts ahead and how much it stretches them behind.",
+      "equationIds": [
+        "front-spacing",
+        "rear-spacing",
+        "observed-frequency"
+      ],
+      "graphIds": [
+        "source-spacing",
+        "observer-response"
+      ],
+      "overlayIds": [
+        "frontBackSpacing",
+        "motionVectors"
+      ]
+    },
+    {
+      "id": "observerSpeed",
+      "symbol": "v_o",
+      "label": "Observer speed",
+      "param": "observerSpeed",
+      "tone": "amber",
+      "description": "Positive values mean the observer moves toward the source on the chosen side, which changes arrival timing without rewriting the spacing already in the medium.",
+      "equationIds": [
+        "observed-frequency"
+      ],
+      "graphIds": [
+        "observer-response"
+      ],
+      "overlayIds": [
+        "arrivalTiming",
+        "motionVectors"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "sourceFrequency": 1.1,
+      "waveSpeed": 3.2,
+      "sourceSpeed": 0.45,
+      "observerSpeed": 0,
+      "observerAhead": true,
+      "motionVectors": true,
+      "frontBackSpacing": true,
+      "arrivalTiming": true
+    },
+    "ui": {
+      "initialGraphId": "source-spacing",
+      "primaryGraphIds": [
+        "source-spacing"
+      ],
+      "primaryControlIds": [
+        "sourceSpeed"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "sourceFrequency",
+        "kind": "slider",
+        "label": "Source frequency",
+        "param": "sourceFrequency",
+        "min": 0.7,
+        "max": 1.8,
+        "step": 0.05,
+        "unit": "Hz",
+        "description": "Sets how often the source emits wavefronts."
+      },
+      {
+        "id": "sourceSpeed",
+        "kind": "slider",
+        "label": "Source speed",
+        "param": "sourceSpeed",
+        "min": 0,
+        "max": 0.8,
+        "step": 0.05,
+        "unit": "m/s",
+        "description": "Moves the source forward through the medium so the front spacing compresses and the rear spacing stretches."
+      },
+      {
+        "id": "observerSpeed",
+        "kind": "slider",
+        "label": "Observer speed",
+        "param": "observerSpeed",
+        "min": -0.8,
+        "max": 0.8,
+        "step": 0.05,
+        "unit": "m/s",
+        "description": "Positive values move the observer toward the source on the chosen side; negative values move away."
+      },
+      {
+        "id": "observerAhead",
+        "kind": "toggle",
+        "label": "Listen ahead",
+        "param": "observerAhead",
+        "description": "Switch between the compressed front side and the stretched rear side of the moving source."
+      }
+    ],
+    "presets": [
+      {
+        "id": "steady-siren",
+        "label": "Steady siren",
+        "description": "A stationary source gives the same spacing on both sides.",
+        "values": {
+          "sourceFrequency": 1.1,
+          "waveSpeed": 3.2,
+          "sourceSpeed": 0,
+          "observerSpeed": 0,
+          "observerAhead": true
+        }
+      },
+      {
+        "id": "city-pass",
+        "label": "City pass",
+        "description": "A forward-moving source compresses the front spacing while leaving the observer stationary.",
+        "values": {
+          "sourceFrequency": 1.1,
+          "waveSpeed": 3.2,
+          "sourceSpeed": 0.55,
+          "observerSpeed": 0,
+          "observerAhead": true
+        }
+      },
+      {
+        "id": "approaching-listener",
+        "label": "Observer moves in",
+        "description": "The observer moves toward the source on the front side to further raise the heard pitch.",
+        "values": {
+          "sourceFrequency": 1.1,
+          "waveSpeed": 3.2,
+          "sourceSpeed": 0.45,
+          "observerSpeed": 0.25,
+          "observerAhead": true
+        }
+      },
+      {
+        "id": "behind-trailing",
+        "label": "Behind the source",
+        "description": "The observer listens on the stretched rear side of the moving source.",
+        "values": {
+          "sourceFrequency": 1.1,
+          "waveSpeed": 3.2,
+          "sourceSpeed": 0.45,
+          "observerSpeed": 0,
+          "observerAhead": false
+        }
+      },
+      {
+        "id": "listener-away",
+        "label": "Observer moves away",
+        "description": "The observer backs away on the front side, reducing the arrival rate even though the source still moves forward.",
+        "values": {
+          "sourceFrequency": 1.1,
+          "waveSpeed": 3.2,
+          "sourceSpeed": 0.45,
+          "observerSpeed": -0.25,
+          "observerAhead": true
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "motionVectors",
+        "label": "Motion vectors",
+        "shortDescription": "Marks the source and observer motion directions on the same pass-by bench.",
+        "whatToNotice": [
+          "Source motion and observer motion play different roles in the Doppler story even though both affect the heard pitch."
+        ],
+        "whyItMatters": "It prevents spacing changes in the medium from being confused with changes in how fast the observer meets the same wavefronts.",
+        "relatedControls": [
+          "sourceSpeed",
+          "observerSpeed",
+          "observerAhead"
+        ],
+        "relatedGraphTabs": [
+          "observer-response"
+        ],
+        "relatedEquationVariables": [
+          "sourceSpeed",
+          "observerSpeed"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "frontBackSpacing",
+        "label": "Front and rear spacing",
+        "shortDescription": "Shows one crest-to-crest spacing ahead of the source and one behind it at the same instant.",
+        "whatToNotice": [
+          "The front spacing shrinks while the rear spacing grows as soon as the source moves forward through the medium."
+        ],
+        "whyItMatters": "It ties the heard pitch shift to an honest geometric change in the wavefront spacing, not to a hidden formula-only trick.",
+        "relatedControls": [
+          "sourceSpeed",
+          "observerAhead"
+        ],
+        "relatedGraphTabs": [
+          "source-spacing"
+        ],
+        "relatedEquationVariables": [
+          "sourceSpeed"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "arrivalTiming",
+        "label": "Arrival timing",
+        "shortDescription": "Labels the current heard frequency and arrival period on the observer's side.",
+        "whatToNotice": [
+          "Observer motion changes the arrival rate even when the chosen-side spacing in the medium has not changed."
+        ],
+        "whyItMatters": "It separates a spacing story from an arrival-rate story without breaking the one-medium model.",
+        "relatedControls": [
+          "observerSpeed",
+          "observerAhead",
+          "sourceFrequency"
+        ],
+        "relatedGraphTabs": [
+          "displacement",
+          "observer-response"
+        ],
+        "relatedEquationVariables": [
+          "sourceFrequency",
+          "observerSpeed"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "displacement",
+      "label": "Source and observer signals",
+      "xLabel": "time (s)",
+      "yLabel": "normalized signal",
+      "series": [
+        "source",
+        "observer"
+      ],
+      "description": "Compares the emitted oscillation with what the observer receives, so the heard pitch shift stays tied to one live source and one live listener."
+    },
+    {
+      "id": "source-spacing",
+      "label": "Source speed and wavefront spacing",
+      "xLabel": "source speed (m/s)",
+      "yLabel": "spacing in medium (m)",
+      "series": [
+        "front-spacing",
+        "rear-spacing"
+      ],
+      "description": "Shows how increasing source speed compresses the front spacing and stretches the rear spacing while the emitted frequency stays fixed."
+    },
+    {
+      "id": "observer-response",
+      "label": "Observer motion and heard frequency",
+      "xLabel": "observer speed toward source (m/s)",
+      "yLabel": "frequency (Hz)",
+      "series": [
+        "observed-frequency",
+        "emitted-frequency"
+      ],
+      "description": "Shows how moving toward or away changes the arrival rate on the chosen side compared with the emitted frequency."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use one cause at a time. The strongest prompt should point at a spacing or timing change already visible on the live pass-by bench.",
+    "items": [
+      {
+        "id": "doppler-notice-front-spacing",
+        "text": "Notice that increasing source speed compresses the front markers and stretches the rear markers at the same time. The source is still emitting at the same frequency; the spacing split comes from motion through the medium.",
+        "type": "observation",
+        "priority": 1,
+        "conditions": {
+          "lastChangedControls": [
+            "sourceSpeed"
+          ]
+        },
+        "tryThis": "Start from Steady siren, then move to City pass without changing the source frequency.",
+        "whyItMatters": "The Doppler shift starts with an honest geometric change in the wavefront spacing ahead and behind the moving source.",
+        "relatedControls": [
+          "sourceSpeed"
+        ],
+        "relatedGraphTabs": [
+          "source-spacing"
+        ],
+        "relatedOverlays": [
+          "frontBackSpacing"
+        ],
+        "relatedEquationVariables": [
+          "sourceSpeed"
+        ]
+      },
+      {
+        "id": "doppler-notice-observer-motion",
+        "text": "Notice that changing observer speed moves the heard-frequency trace even though the front and rear spacing markers do not shift. The observer is changing the arrival rate, not rewriting the medium.",
+        "type": "graph-reading",
+        "priority": 3,
+        "conditions": {
+          "lastChangedControls": [
+            "observerSpeed"
+          ]
+        },
+        "tryThis": "Keep the source settings fixed and sweep the observer speed through zero while watching the observer-response graph.",
+        "whyItMatters": "It separates source-caused spacing changes from observer-caused arrival-rate changes.",
+        "relatedControls": [
+          "observerSpeed"
+        ],
+        "relatedGraphTabs": [
+          "observer-response"
+        ],
+        "relatedOverlays": [
+          "arrivalTiming"
+        ],
+        "relatedEquationVariables": [
+          "observerSpeed"
+        ]
+      },
+      {
+        "id": "doppler-notice-ahead-behind",
+        "text": "Notice that switching from ahead to behind flips which spacing the observer samples. The front side sounds higher because it is compressed; the rear side sounds lower because it is stretched.",
+        "type": "misconception",
+        "priority": 5,
+        "conditions": {
+          "lastChangedControls": [
+            "observerAhead"
+          ]
+        },
+        "tryThis": "Keep the same source speed and observer speed, then toggle between listening ahead and listening behind.",
+        "whyItMatters": "It keeps the pitch change tied to which side of the moving source the observer is sampling.",
+        "relatedControls": [
+          "observerAhead",
+          "sourceSpeed"
+        ],
+        "relatedGraphTabs": [
+          "displacement",
+          "source-spacing"
+        ],
+        "relatedOverlays": [
+          "frontBackSpacing",
+          "arrivalTiming"
+        ]
+      },
+      {
+        "id": "doppler-notice-compare",
+        "text": "Notice which setup changed the spacing in the medium and which setup only changed the observer's arrival rate. Compare mode makes those two causes stop blending together.",
+        "type": "compare",
+        "priority": 6,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Clone City pass, then make one setup trail behind and the other move toward the source on the front side.",
+        "whyItMatters": "The compare surface shows that two different motion stories can produce different pitch shifts on the same classical bench.",
+        "relatedControls": [
+          "sourceSpeed",
+          "observerSpeed",
+          "observerAhead"
+        ],
+        "relatedGraphTabs": [
+          "source-spacing",
+          "observer-response"
+        ],
+        "relatedOverlays": [
+          "frontBackSpacing",
+          "arrivalTiming"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Commit to the spacing and pitch consequence before you test it.",
+    "items": [
+      {
+        "id": "de-predict-faster-source",
+        "prompt": "The source keeps the same emitted frequency, but its forward speed increases while the observer stays ahead and stationary. What should happen?",
+        "scenarioLabel": "Faster moving source",
+        "changeLabel": "Source speed",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The front spacing shrinks and the observer hears a higher pitch."
+          },
+          {
+            "id": "b",
+            "label": "The emitted frequency rises, so the source itself changes its tone."
+          },
+          {
+            "id": "c",
+            "label": "Only the rear spacing changes because the observer is in front."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Forward source motion compresses the front spacing and increases the arrival rate for an observer ahead, even though the emitted frequency itself stays fixed.",
+        "observationHint": "Watch the front markers pack together and the observer trace cycle faster.",
+        "apply": {
+          "presetId": "city-pass"
+        },
+        "highlightedControls": [
+          "sourceSpeed"
+        ],
+        "highlightedGraphs": [
+          "source-spacing",
+          "displacement"
+        ],
+        "highlightedOverlays": [
+          "frontBackSpacing"
+        ]
+      },
+      {
+        "id": "de-predict-moving-observer",
+        "prompt": "The source settings stay fixed, but the observer moves toward the source on the chosen side. What should happen?",
+        "scenarioLabel": "Observer moves toward",
+        "changeLabel": "Observer speed",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The heard pitch rises, but the spacing already in the medium does not change."
+          },
+          {
+            "id": "b",
+            "label": "The front and rear spacing both change because the observer is moving."
+          },
+          {
+            "id": "c",
+            "label": "Nothing changes because only the source can produce Doppler shifts."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Observer motion changes how quickly crests are encountered. It does not change the spacing that the source already launched into the medium.",
+        "observationHint": "Keep the spacing markers fixed and watch only the observer-response graph move.",
+        "apply": {
+          "presetId": "approaching-listener"
+        },
+        "highlightedControls": [
+          "observerSpeed"
+        ],
+        "highlightedGraphs": [
+          "observer-response"
+        ],
+        "highlightedOverlays": [
+          "arrivalTiming"
+        ]
+      },
+      {
+        "id": "de-predict-behind-source",
+        "prompt": "The source keeps moving forward, but the observer switches from listening ahead to listening behind. What should happen to the heard pitch?",
+        "scenarioLabel": "Switch to behind",
+        "changeLabel": "Observer side",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The heard pitch drops because the observer now samples the stretched rear spacing."
+          },
+          {
+            "id": "b",
+            "label": "The heard pitch stays the same because the source frequency did not change."
+          },
+          {
+            "id": "c",
+            "label": "The heard pitch rises because the observer is farther from the source."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Behind the source, the observer samples the stretched rear wavefront spacing, so the arrival rate drops below the emitted frequency.",
+        "observationHint": "Toggle to the rear side and compare the source-spacing graph with the observer trace.",
+        "apply": {
+          "presetId": "behind-trailing"
+        },
+        "highlightedControls": [
+          "observerAhead"
+        ],
+        "highlightedGraphs": [
+          "source-spacing",
+          "displacement"
+        ],
+        "highlightedOverlays": [
+          "frontBackSpacing",
+          "arrivalTiming"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the same pass-by bench to separate spacing changes in the medium from arrival-rate changes at the observer.",
+    "items": [
+      {
+        "id": "de-ch-higher-pitch-ahead",
+        "title": "Higher pitch ahead",
+        "style": "target-setting",
+        "prompt": "Keep the emitted tone near 1.1 Hz and tune the live setup so the observer clearly hears a higher pitch on the moving-source bench.",
+        "successMessage": "The observer is sampling a compressed front-side spacing and a higher arrival rate, so the heard pitch is higher without changing the emitted tone.",
+        "setup": {
+          "presetId": "city-pass",
+          "graphId": "observer-response",
+          "note": "Start from City pass and keep the same classical medium."
+        },
+        "hints": [
+          "A higher heard pitch needs the observer on the compressed front side or moving toward the source on the sampled side.",
+          "Use the observer-response graph to tune the arrival rate instead of guessing from the stage alone."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Open the observer-response graph.",
+            "graphId": "observer-response"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the front-and-rear spacing overlay on.",
+            "overlayId": "frontBackSpacing"
+          },
+          {
+            "type": "param-range",
+            "label": "Keep the source frequency near the target tone.",
+            "param": "sourceFrequency",
+            "min": 1.05,
+            "max": 1.15
+          },
+          {
+            "type": "param-range",
+            "label": "Keep the source moving clearly forward.",
+            "param": "sourceSpeed",
+            "min": 0.5,
+            "max": 0.6
+          },
+          {
+            "type": "metric-range",
+            "label": "Use the compressed chosen-side spacing.",
+            "metric": "selectedSpacing",
+            "min": 2.3,
+            "max": 2.45,
+            "displayUnit": "m"
+          },
+          {
+            "type": "metric-range",
+            "label": "Raise the observed frequency above the emitted tone.",
+            "metric": "observedFrequency",
+            "min": 1.35,
+            "max": 1.6,
+            "displayUnit": "Hz"
+          }
+        ]
+      },
+      {
+        "id": "de-ch-compare-low-vs-high",
+        "title": "Lower behind, higher ahead",
+        "style": "parameter-match",
+        "prompt": "Enter compare mode and make Setup A hear a lower pitch than emitted while Setup B hears a higher pitch, with both sources keeping the same emitted frequency.",
+        "successMessage": "Setup A is sampling a slower arrival story while Setup B is sampling a faster one, even though the emitted frequency stays matched.",
+        "setup": {
+          "presetId": "city-pass",
+          "interactionMode": "compare",
+          "graphId": "observer-response",
+          "note": "Clone City pass into both setups, then change only the listening story."
+        },
+        "hints": [
+          "Keep the emitted frequency matched in A and B so the heard difference really comes from motion and side choice.",
+          "Use the observer-response graph to place one setup below 1.1 Hz and the other above it."
+        ],
+        "checks": [
+          {
+            "type": "compare-active",
+            "label": "Switch into compare mode and edit Setup B.",
+            "target": "b"
+          },
+          {
+            "type": "graph-active",
+            "label": "Keep the observer-response graph open.",
+            "graphId": "observer-response"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup A on the shared emitted frequency.",
+            "setup": "a",
+            "param": "sourceFrequency",
+            "min": 1.05,
+            "max": 1.15
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup B on the same emitted frequency.",
+            "setup": "b",
+            "param": "sourceFrequency",
+            "min": 1.05,
+            "max": 1.15
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup A on a moving-source pass-by.",
+            "setup": "a",
+            "param": "sourceSpeed",
+            "min": 0.4,
+            "max": 0.6
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup B on a similar moving-source speed.",
+            "setup": "b",
+            "param": "sourceSpeed",
+            "min": 0.4,
+            "max": 0.6
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Make Setup A hear a lower pitch than emitted.",
+            "setup": "a",
+            "metric": "observedFrequency",
+            "min": 0.9,
+            "max": 1.02,
+            "displayUnit": "Hz"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Make Setup B hear a higher pitch than emitted.",
+            "setup": "b",
+            "metric": "observedFrequency",
+            "min": 1.35,
+            "max": 1.6,
+            "displayUnit": "Hz"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Use the moving-source setup, not memory alone. These checks separate spacing changes in the medium from arrival-rate changes at the observer.",
+    "questions": [
+      {
+        "id": "de-qt-observer-motion",
+        "type": "variable-effect",
+        "prompt": "The source settings stay fixed, but the observer moves toward the source on the chosen side. Which statement is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The heard frequency rises, but the front and rear spacing in the medium stay the same."
+          },
+          {
+            "id": "b",
+            "label": "The front spacing shrinks because the observer is moving into it."
+          },
+          {
+            "id": "c",
+            "label": "Nothing changes because only source motion matters."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Observer motion changes the arrival rate. It does not rewrite the wavefront spacing already launched into the medium.",
+        "selectedWrongExplanations": {
+          "b": "Spacing in the medium is set by the source motion and emitted frequency, not by the observer chasing the crests.",
+          "c": "Observer motion is part of the classical Doppler effect because it changes how often the observer meets crests."
+        },
+        "showMeAction": {
+          "label": "Show observer motion",
+          "presetId": "approaching-listener",
+          "observationHint": "The spacing markers stay put while the observer-response graph shifts upward.",
+          "highlightedControlIds": [
+            "observerSpeed"
+          ],
+          "highlightedGraphIds": [
+            "observer-response"
+          ],
+          "highlightedOverlayIds": [
+            "arrivalTiming"
+          ]
+        }
+      },
+      {
+        "id": "de-qt-behind-source",
+        "type": "misconception-check",
+        "prompt": "The source moves forward and the observer listens behind it. What must be true?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The rear spacing is larger than the front spacing, so the heard pitch is lower than ahead."
+          },
+          {
+            "id": "b",
+            "label": "The source must be emitting a lower frequency behind itself."
+          },
+          {
+            "id": "c",
+            "label": "The rear spacing is unchanged because the source frequency stayed fixed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Behind the moving source, each crest starts from a later, farther-forward position than the previous one, so the rear spacing stretches and the heard pitch drops.",
+        "selectedWrongExplanations": {
+          "b": "The emitted frequency is not changing here. The spacing and arrival timing are.",
+          "c": "A fixed emitted frequency does not prevent source motion from stretching the rear spacing."
+        },
+        "showMeAction": {
+          "label": "Show the rear side",
+          "presetId": "behind-trailing",
+          "observationHint": "Compare the stretched rear markers with the lower observer trace.",
+          "highlightedControlIds": [
+            "observerAhead"
+          ],
+          "highlightedGraphIds": [
+            "source-spacing",
+            "displacement"
+          ],
+          "highlightedOverlayIds": [
+            "frontBackSpacing"
+          ]
+        }
+      },
+      {
+        "id": "de-qt-ahead-vs-behind",
+        "type": "compare-two-cases",
+        "prompt": "Setup A listens ahead of the same moving source, and Setup B listens behind it. Which setup hears the higher pitch if observer speeds are otherwise matched?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Setup A"
+          },
+          {
+            "id": "b",
+            "label": "Setup B"
+          },
+          {
+            "id": "c",
+            "label": "Both setups hear the same pitch because the emitted frequency is the same."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Ahead of the source, the wavefront spacing is compressed, so the observer encounters more crests per second than behind the source.",
+        "selectedWrongExplanations": {
+          "b": "Behind the source, the spacing is stretched rather than compressed.",
+          "c": "The emitted frequency is the same, but the arrival rate depends on which side of the moving source the observer samples."
+        },
+        "showMeAction": {
+          "label": "Compare ahead and behind",
+          "patch": {
+            "sourceSpeed": 0.45,
+            "observerSpeed": 0,
+            "sourceFrequency": 1.1
+          },
+          "observationHint": "Use compare mode to keep the source matched while only the listening side changes.",
+          "highlightedControlIds": [
+            "observerAhead"
+          ],
+          "highlightedGraphIds": [
+            "displacement",
+            "source-spacing"
+          ],
+          "highlightedOverlayIds": [
+            "frontBackSpacing",
+            "arrivalTiming"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one sound source moving forward through a horizontal medium and one observer on either the front or rear side. Expanding circular wavefronts, front and rear spacing markers, and arrival-timing labels all stay on the same bench.",
+        "Changing source speed compresses the front spacing and stretches the rear spacing. Changing observer speed moves the arrival-rate cue without changing the spacing already laid down in the medium."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The first graph compares the emitted source signal with the observer signal over time. The second graph sweeps source speed to show front and rear spacing, and the third graph sweeps observer speed to show the heard frequency against the emitted frequency baseline."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Doppler Effect | Open Model Lab",
+    "description": "Learn why a moving sound source compresses wavefronts ahead, stretches them behind, and changes the heard pitch for a moving or stationary observer.",
+    "keywords": [
+      "doppler effect",
+      "sound waves",
+      "moving source",
+      "observed frequency",
+      "pitch shift"
+    ]
+  }
+}

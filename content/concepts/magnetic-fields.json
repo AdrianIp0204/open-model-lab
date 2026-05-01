@@ -1,0 +1,1427 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live magnetic checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Right-hand-rule checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Keep the source-field story moving"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "See how current direction, wire spacing, distance, and superposition set the magnetic field around one or two long straight wires, with the stage arrows and scan graphs tied to the same live source pattern.",
+    "keyTakeaway": "Positive current in this model means out of the page and produces a counterclockwise magnetic-field circulation. Negative current means into the page and produces a clockwise circulation.",
+    "whyItMatters": "Magnetic fields turn electric currents into direction-sensitive effects, so the right-hand rule, distance, and vector addition need to feel connected before induction and magnetic force."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "A magnetic field around a long straight wire circles the wire instead of pointing along it. Current direction sets the circulation sense through the right-hand rule, current size sets how strong that local swirl is, and distance still matters because the field weakens as you move farther from the wire.",
+        "This module keeps one bounded two-wire stage, one movable probe, and one linked scan line. The same current directions, current sizes, wire spacing, and probe position drive the field loops, probe vectors, worked examples, prediction prompts, quick test, and compare mode so magnetic-field patterns stay tied to their source instead of turning into a detached rule sheet."
+      ]
+    },
+    "keyIdeas": [
+      "Positive current in this model means out of the page and produces a counterclockwise magnetic-field circulation. Negative current means into the page and produces a clockwise circulation.",
+      "At one fixed distance from a wire, stronger current gives a stronger magnetic field. At one fixed current, moving farther away weakens the field.",
+      "The net magnetic field at the probe is the vector sum of both wire contributions evaluated at that same location."
+    ],
+    "commonMisconception": {
+      "myth": "If current goes to the right through a wire, the magnetic field near that wire also points to the right.",
+      "correction": [
+        "For a long straight wire, the magnetic field wraps around the wire in circles. It is tangent to those circles, not aligned with the wire itself.",
+        "Current direction matters because it chooses clockwise or counterclockwise circulation through the right-hand rule. The probe direction still depends on where the probe sits around the wire."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Solve the current probe state directly from the live controls. The same wire currents, spacing, and probe point now on screen determine the stage arrows, scan graphs, and explanations below.",
+      "items": [
+        {
+          "id": "current-net-field",
+          "title": "Current net magnetic field at the probe",
+          "prompt": "For the current wire pair and probe point, what net magnetic field vector acts at the probe?",
+          "variables": [
+            {
+              "id": "currentA",
+              "variableId": "currentA",
+              "symbol": "I_A",
+              "label": "Wire A current",
+              "valueKey": "currentAValue",
+              "unit": "A"
+            },
+            {
+              "id": "currentB",
+              "variableId": "currentB",
+              "symbol": "I_B",
+              "label": "Wire B current",
+              "valueKey": "currentBValue",
+              "unit": "A"
+            },
+            {
+              "id": "sourceSeparation",
+              "variableId": "sourceSeparation",
+              "symbol": "s",
+              "label": "Wire separation",
+              "valueKey": "sourceSeparationValue",
+              "unit": "m"
+            },
+            {
+              "id": "probeX",
+              "variableId": "probeX",
+              "symbol": "x_p",
+              "label": "Probe x-position",
+              "valueKey": "probeXValue",
+              "unit": "m"
+            },
+            {
+              "id": "probeY",
+              "variableId": "probeY",
+              "symbol": "y_p",
+              "label": "Probe y-position",
+              "valueKey": "probeYValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "wire-positions",
+              "label": "1. Place the two wires on the shared axis",
+              "template": "With symmetric placement, $x_A = -s/2 = {{sourceAXValue}}\\,\\mathrm{m}$ and $x_B = +s/2 = {{sourceBXValue}}\\,\\mathrm{m}$."
+            },
+            {
+              "id": "probe-vectors",
+              "label": "2. Build the wire-to-probe position vectors",
+              "template": "$\\vec{r}_A = ({{rAxValue}}, {{rAyValue}})$ with $|\\vec{r}_A| = {{rAValue}}$, and $\\vec{r}_B = ({{rBxValue}}, {{rByValue}})$ with $|\\vec{r}_B| = {{rBValue}}$."
+            },
+            {
+              "id": "wire-fields",
+              "label": "3. Evaluate each tangential magnetic-field contribution",
+              "template": "$\\vec{B}_A = I_A(-\\Delta y_A, \\Delta x_A)/r_A^2 = ({{bAxValue}}, {{bAyValue}})$ and $\\vec{B}_B = I_B(-\\Delta y_B, \\Delta x_B)/r_B^2 = ({{bBxValue}}, {{bByValue}})$."
+            },
+            {
+              "id": "add-fields",
+              "label": "4. Add the vectors at the same probe point",
+              "template": "$\\vec{B}_{\\text{net}} = \\vec{B}_A + \\vec{B}_B = ({{fieldXValue}}, {{fieldYValue}})$, so $|\\vec{B}| = {{fieldMagnitudeValue}}$."
+            }
+          ],
+          "resultLabel": "Net magnetic field",
+          "resultTemplate": "$\\vec{B}_{\\text{net}} = ({{fieldXValue}}, {{fieldYValue}}), \\quad |\\vec{B}| = {{fieldMagnitudeValue}}$",
+          "interpretationTemplate": "{{fieldInterpretation}}",
+          "applyAction": {
+            "label": "Show opposite-current lift",
+            "presetId": "opposite-currents-lift",
+            "observationHint": "Above the midpoint, opposite current directions can cancel the sideways pieces while the upward pieces add.",
+            "highlightedControlIds": [
+              "currentA",
+              "currentB",
+              "probeY"
+            ],
+            "highlightedGraphIds": [
+              "field-scan",
+              "direction-scan"
+            ],
+            "highlightedOverlayIds": [
+              "fieldLoops",
+              "fieldVectors",
+              "scanLine"
+            ]
+          }
+        },
+        {
+          "id": "current-source-comparison",
+          "title": "Current source comparison at the probe",
+          "prompt": "For the current wire pair, which wire contributes more strongly at the probe, and what direction should the net field point?",
+          "variables": [
+            {
+              "id": "currentA-compare",
+              "variableId": "currentA",
+              "symbol": "I_A",
+              "label": "Wire A current",
+              "valueKey": "currentAValue",
+              "unit": "A"
+            },
+            {
+              "id": "currentB-compare",
+              "variableId": "currentB",
+              "symbol": "I_B",
+              "label": "Wire B current",
+              "valueKey": "currentBValue",
+              "unit": "A"
+            },
+            {
+              "id": "probeX-compare",
+              "variableId": "probeX",
+              "symbol": "x_p",
+              "label": "Probe x-position",
+              "valueKey": "probeXValue",
+              "unit": "m"
+            },
+            {
+              "id": "probeY-compare",
+              "variableId": "probeY",
+              "symbol": "y_p",
+              "label": "Probe y-position",
+              "valueKey": "probeYValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "sense",
+              "label": "1. Read the circulation sense from current direction",
+              "template": "Wire A is {{sourceADirectionValue}} and Wire B is {{sourceBDirectionValue}}, so each contribution must be tangent to its local circular field line."
+            },
+            {
+              "id": "magnitudes",
+              "label": "2. Compare the contribution magnitudes",
+              "template": "$|\\vec{B}_A| = {{sourceAContributionMagnitudeValue}}$ and $|\\vec{B}_B| = {{sourceBContributionMagnitudeValue}}$, so the larger local contribution should bend the net field more strongly."
+            },
+            {
+              "id": "net-direction",
+              "label": "3. Read the final net direction from the vector sum",
+              "template": "With $\\vec{B}_{\\text{net}} = ({{fieldXValue}}, {{fieldYValue}})$, the probe field angle is about $\\theta_B = {{fieldAngleValue}}^\\circ$."
+            }
+          ],
+          "resultLabel": "Contribution comparison",
+          "resultTemplate": "$|\\vec{B}_A| = {{sourceAContributionMagnitudeValue}}, \\quad |\\vec{B}_B| = {{sourceBContributionMagnitudeValue}}, \\quad \\theta_B = {{fieldAngleValue}}^\\circ$",
+          "interpretationTemplate": "{{circulationInterpretation}}",
+          "applyAction": {
+            "label": "Show same-current midpoint cancel",
+            "presetId": "same-current-cancel",
+            "observationHint": "On the midpoint between equal same-direction currents, the two tangential directions oppose exactly and the net field collapses.",
+            "highlightedControlIds": [
+              "currentA",
+              "currentB",
+              "probeX",
+              "probeY"
+            ],
+            "highlightedGraphIds": [
+              "field-scan",
+              "direction-scan"
+            ],
+            "highlightedOverlayIds": [
+              "fieldLoops",
+              "fieldVectors"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Keep both currents equal and out of the page, then place the probe exactly halfway between the wires on the same horizontal axis. What must happen to the two magnetic-field contributions there, and why can the net field vanish even though each wire still makes a nonzero field on its own?",
+      "prediction": "Predict which tangential directions oppose before you move the probe onto the midpoint.",
+      "answer": "The two contributions are equal in size and opposite in direction at that midpoint, so they cancel and the net field is zero there.",
+      "explanation": "The midpoint sits the same distance from both wires, so equal currents create equal-magnitude fields there. Because the probe lies on the shared axis between the wires, the two tangential directions point opposite ways, and the vector sum vanishes."
+    }
+  },
+  "equations": [
+    {
+      "id": "source-positions",
+      "latex": "x_A = -\\dfrac{s}{2}, \\quad x_B = +\\dfrac{s}{2}",
+      "label": "Symmetric wire positions",
+      "meaning": "The shared separation control places Wire A and Wire B equally far from the origin on the horizontal axis."
+    },
+    {
+      "id": "current-sense",
+      "latex": "I > 0 \\Rightarrow \\vec{B}\\text{ circles CCW}, \\quad I < 0 \\Rightarrow \\vec{B}\\text{ circles CW}",
+      "label": "Current sets circulation sense",
+      "meaning": "Positive current means out of the page in this model and negative current means into the page, so the right-hand rule chooses counterclockwise or clockwise circulation."
+    },
+    {
+      "id": "field-from-wire",
+      "latex": "\\vec{B}_i = k\\dfrac{I_i}{r_i^2}(-\\Delta y_i, \\Delta x_i)",
+      "label": "Field from one long straight wire",
+      "meaning": "Each wire contributes a tangential field whose circulation sense comes from current direction.",
+      "notes": [
+        "Changing the sign of I_i reverses the local tangent direction.",
+        "The field stays perpendicular to the radial line from the wire to the probe."
+      ]
+    },
+    {
+      "id": "strength-trend",
+      "latex": "|\\vec{B}| \\propto \\dfrac{|I|}{r}",
+      "label": "Field-strength trend",
+      "meaning": "Doubling current doubles the field at the same point, while moving farther from the wire weakens the field."
+    },
+    {
+      "id": "net-field",
+      "latex": "\\vec{B}_{\\text{net}} = \\vec{B}_A + \\vec{B}_B",
+      "label": "Superposition",
+      "meaning": "The net magnetic field at one probe point is the vector sum of both wire contributions evaluated at that same location."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "currentA",
+      "symbol": "I_A",
+      "label": "Wire A current",
+      "param": "currentA",
+      "tone": "amber",
+      "description": "Changes the size and sign of Wire A's current, which changes both the local field strength and whether its circulation is counterclockwise or clockwise.",
+      "equationIds": [
+        "current-sense",
+        "field-from-wire",
+        "strength-trend",
+        "net-field"
+      ],
+      "graphIds": [
+        "field-scan",
+        "direction-scan"
+      ],
+      "overlayIds": [
+        "fieldLoops",
+        "fieldVectors",
+        "fieldGrid"
+      ]
+    },
+    {
+      "id": "currentB",
+      "symbol": "I_B",
+      "label": "Wire B current",
+      "param": "currentB",
+      "tone": "sky",
+      "description": "Changes Wire B's local contribution so the second swirl can reinforce, weaken, or reverse the net magnetic field at the probe.",
+      "equationIds": [
+        "current-sense",
+        "field-from-wire",
+        "strength-trend",
+        "net-field"
+      ],
+      "graphIds": [
+        "field-scan",
+        "direction-scan"
+      ],
+      "overlayIds": [
+        "fieldLoops",
+        "fieldVectors",
+        "fieldGrid"
+      ]
+    },
+    {
+      "id": "sourceSeparation",
+      "symbol": "s",
+      "label": "Wire separation",
+      "param": "sourceSeparation",
+      "tone": "ink",
+      "description": "Moves both wires symmetrically on the axis, which changes the probe distance to each source and therefore the balance between the two tangential contributions.",
+      "equationIds": [
+        "source-positions",
+        "strength-trend",
+        "net-field"
+      ],
+      "graphIds": [
+        "field-scan",
+        "direction-scan"
+      ],
+      "overlayIds": [
+        "fieldLoops",
+        "fieldGrid",
+        "scanLine"
+      ]
+    },
+    {
+      "id": "probeX",
+      "symbol": "x_p",
+      "label": "Probe x-position",
+      "param": "probeX",
+      "tone": "coral",
+      "description": "Moves the probe left or right across both the stage and the linked scan graphs so the same local field can be read in both places.",
+      "equationIds": [
+        "field-from-wire",
+        "net-field"
+      ],
+      "graphIds": [
+        "field-scan",
+        "direction-scan"
+      ],
+      "overlayIds": [
+        "fieldVectors",
+        "scanLine"
+      ]
+    },
+    {
+      "id": "probeY",
+      "symbol": "y_p",
+      "label": "Probe y-position",
+      "param": "probeY",
+      "tone": "teal",
+      "description": "Moves the probe to a new horizontal scan line, which changes the field pattern sampled across the graphs and the relative contribution from each wire.",
+      "equationIds": [
+        "field-from-wire",
+        "net-field"
+      ],
+      "graphIds": [
+        "field-scan",
+        "direction-scan"
+      ],
+      "overlayIds": [
+        "fieldVectors",
+        "scanLine"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "currentA": 2,
+      "currentB": -2,
+      "sourceSeparation": 2.4,
+      "probeX": 0,
+      "probeY": 1
+    },
+    "ui": {
+      "initialGraphId": "direction-scan",
+      "primaryGraphIds": [
+        "direction-scan",
+        "field-scan"
+      ],
+      "primaryControlIds": [
+        "currentA",
+        "currentB",
+        "probeY"
+      ],
+      "primaryPresetIds": [
+        "opposite-currents-lift",
+        "same-current-cancel",
+        "single-wire-reference"
+      ]
+    },
+    "controls": [
+      {
+        "id": "currentA",
+        "kind": "slider",
+        "label": "Wire A current",
+        "param": "currentA",
+        "min": -3,
+        "max": 3,
+        "step": 0.1,
+        "unit": "A",
+        "description": "Positive values mean out of the page and negative values mean into the page, so changing the sign reverses Wire A's circulation sense."
+      },
+      {
+        "id": "currentB",
+        "kind": "slider",
+        "label": "Wire B current",
+        "param": "currentB",
+        "min": -3,
+        "max": 3,
+        "step": 0.1,
+        "unit": "A",
+        "description": "Changing Wire B lets the second swirl reinforce, cancel, or reverse the net magnetic field."
+      },
+      {
+        "id": "sourceSeparation",
+        "kind": "slider",
+        "label": "Wire separation",
+        "param": "sourceSeparation",
+        "min": 1,
+        "max": 4,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Moves both wires symmetrically along the horizontal axis without breaking the bounded layout."
+      },
+      {
+        "id": "probeX",
+        "kind": "slider",
+        "label": "Probe x-position",
+        "param": "probeX",
+        "min": -3.2,
+        "max": 3.2,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Moves the probe left or right across the stage and the linked scan graphs."
+      },
+      {
+        "id": "probeY",
+        "kind": "slider",
+        "label": "Probe y-position",
+        "param": "probeY",
+        "min": -2.4,
+        "max": 2.4,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Moves the probe to a new horizontal scan line so the graphs sample a different field slice."
+      }
+    ],
+    "presets": [
+      {
+        "id": "opposite-currents-lift",
+        "label": "Opposite-current lift",
+        "description": "Equal and opposite wire currents make the midpoint-above case a clean magnetic-direction test.",
+        "values": {
+          "currentA": 2,
+          "currentB": -2,
+          "sourceSeparation": 2.4,
+          "probeX": 0,
+          "probeY": 1
+        }
+      },
+      {
+        "id": "same-current-cancel",
+        "label": "Same-current midpoint cancel",
+        "description": "Equal out-of-page currents cancel exactly at the midpoint on the shared axis.",
+        "values": {
+          "currentA": 2,
+          "currentB": 2,
+          "sourceSeparation": 2,
+          "probeX": 0,
+          "probeY": 0
+        }
+      },
+      {
+        "id": "same-current-sweep",
+        "label": "Same-current sweep",
+        "description": "Equal out-of-page currents above the midpoint show strong horizontal reinforcement.",
+        "values": {
+          "currentA": 2,
+          "currentB": 2,
+          "sourceSeparation": 2.4,
+          "probeX": 0,
+          "probeY": 1
+        }
+      },
+      {
+        "id": "single-wire-reference",
+        "label": "Single-wire reference",
+        "description": "Turning off Wire B isolates the circular field around one out-of-page current.",
+        "values": {
+          "currentA": 2,
+          "currentB": 0,
+          "sourceSeparation": 2.4,
+          "probeX": 1.2,
+          "probeY": 1
+        }
+      },
+      {
+        "id": "stronger-left-wire",
+        "label": "Stronger left wire",
+        "description": "A larger Wire A current tilts the net field toward Wire A's local tangent.",
+        "values": {
+          "currentA": 3,
+          "currentB": -1.5,
+          "sourceSeparation": 2.4,
+          "probeX": 0.2,
+          "probeY": 0.9
+        }
+      },
+      {
+        "id": "reversed-opposite-pair",
+        "label": "Reverse both currents",
+        "description": "Flipping both wire directions keeps the same geometry but reverses every tangent direction.",
+        "values": {
+          "currentA": -2,
+          "currentB": 2,
+          "sourceSeparation": 2.4,
+          "probeX": 0,
+          "probeY": 1
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "fieldLoops",
+        "label": "Field loops",
+        "shortDescription": "Shows circular guide loops around each wire to make the right-hand-rule pattern visible.",
+        "whatToNotice": [
+          "Dot markers pair with counterclockwise loop arrows, while cross markers pair with clockwise loop arrows."
+        ],
+        "whyItMatters": "It ties the visible field pattern directly to the source instead of leaving current direction as an isolated rule.",
+        "relatedControls": [
+          "currentA",
+          "currentB"
+        ],
+        "relatedGraphTabs": [
+          "field-scan",
+          "direction-scan"
+        ],
+        "relatedEquationVariables": [
+          "currentA",
+          "currentB"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "fieldGrid",
+        "label": "Field grid",
+        "shortDescription": "Shows a coarse sample of the net magnetic-field direction across the stage.",
+        "whatToNotice": [
+          "Each tiny arrow already includes both wire contributions at that location."
+        ],
+        "whyItMatters": "It keeps superposition visible across the plane instead of only at the current probe.",
+        "relatedControls": [
+          "currentA",
+          "currentB",
+          "sourceSeparation"
+        ],
+        "relatedGraphTabs": [
+          "field-scan",
+          "direction-scan"
+        ],
+        "relatedEquationVariables": [
+          "currentA",
+          "currentB",
+          "sourceSeparation"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "fieldVectors",
+        "label": "Field vectors",
+        "shortDescription": "Draws the two wire contributions and the net magnetic field at the probe.",
+        "whatToNotice": [
+          "The amber and sky arrows add tip-to-tail into the teal net arrow at one shared probe point."
+        ],
+        "whyItMatters": "It turns magnetic-field superposition into a visible vector-sum claim instead of a verbal summary.",
+        "relatedControls": [
+          "currentA",
+          "currentB",
+          "probeX",
+          "probeY"
+        ],
+        "relatedGraphTabs": [
+          "field-scan",
+          "direction-scan"
+        ],
+        "relatedEquationVariables": [
+          "currentA",
+          "currentB",
+          "probeX",
+          "probeY"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "scanLine",
+        "label": "Graph scan line",
+        "shortDescription": "Marks the horizontal slice used by both response graphs.",
+        "whatToNotice": [
+          "Moving the probe up or down changes the entire graph because the graph is sampling a different y-level."
+        ],
+        "whyItMatters": "It keeps the graph-to-stage link honest instead of implying the graph came from a separate model.",
+        "relatedControls": [
+          "probeY",
+          "probeX"
+        ],
+        "relatedGraphTabs": [
+          "field-scan",
+          "direction-scan"
+        ],
+        "relatedEquationVariables": [
+          "probeX",
+          "probeY"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "field-scan",
+      "label": "Horizontal field scan",
+      "xLabel": "probe x-position (m)",
+      "yLabel": "horizontal magnetic-field component",
+      "series": [
+        "source-a-bx",
+        "source-b-bx",
+        "net-bx"
+      ],
+      "description": "Shows how each wire contributes to B_x and how those contributions add along the current horizontal scan line."
+    },
+    {
+      "id": "direction-scan",
+      "label": "Vertical direction and strength",
+      "xLabel": "probe x-position (m)",
+      "yLabel": "magnetic-field response",
+      "series": [
+        "net-by",
+        "net-strength"
+      ],
+      "description": "Compares the vertical net component with the total magnetic-field strength along the same scan line."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the current prompt as a compact investigation cue. Each one points at a magnetic-field pattern the stage and graphs already show in the live state.",
+    "items": [
+      {
+        "id": "mf-notice-current-sense",
+        "text": "Current direction sets circulation first: out-of-page current produces a counterclockwise field and into-page current produces a clockwise field.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Set Wire B to zero, then sweep Wire A from positive to negative and watch the loop arrows and probe vector reverse without moving the probe.",
+        "whyItMatters": "Many magnetic-field mistakes come from mixing up current direction with field direction instead of using the right-hand rule to choose the circulation sense first.",
+        "relatedControls": [
+          "currentA",
+          "currentB"
+        ],
+        "relatedGraphTabs": [
+          "field-scan",
+          "direction-scan"
+        ],
+        "relatedOverlays": [
+          "fieldLoops",
+          "fieldVectors"
+        ],
+        "relatedEquationVariables": [
+          "currentA",
+          "currentB"
+        ]
+      },
+      {
+        "id": "mf-notice-scan-superposition",
+        "text": "The net scan curve is not a separate rule. It is the point-by-point sum of the amber and sky source curves on the same y-level.",
+        "type": "graph-reading",
+        "priority": 5,
+        "conditions": {
+          "graphTabs": [
+            "field-scan"
+          ]
+        },
+        "tryThis": "Open the horizontal scan graph and move the probe along the dashed scan line. The probe marker and the graph preview should stay synchronized.",
+        "whyItMatters": "It turns magnetic superposition into an observable graph relationship instead of a memorized slogan.",
+        "relatedControls": [
+          "probeX",
+          "probeY"
+        ],
+        "relatedGraphTabs": [
+          "field-scan"
+        ],
+        "relatedOverlays": [
+          "fieldVectors",
+          "scanLine"
+        ]
+      },
+      {
+        "id": "mf-notice-opposite-currents",
+        "text": "Above the midpoint, opposite current directions can cancel the horizontal pieces while the vertical pieces reinforce into one upward or downward net field.",
+        "type": "observation",
+        "priority": 4,
+        "tryThis": "Use Opposite-current lift and keep the probe on the symmetry line. Watch the sideways parts disappear while the vertical graph stays strong.",
+        "whyItMatters": "This is the compact symmetry case that makes magnetic-field direction feel deduced rather than guessed.",
+        "relatedControls": [
+          "currentA",
+          "currentB",
+          "probeY"
+        ],
+        "relatedGraphTabs": [
+          "field-scan",
+          "direction-scan"
+        ],
+        "relatedOverlays": [
+          "fieldLoops",
+          "fieldVectors",
+          "scanLine"
+        ],
+        "relatedEquationVariables": [
+          "currentA",
+          "currentB",
+          "probeY"
+        ]
+      },
+      {
+        "id": "mf-notice-compare-stronger-wire",
+        "text": "Compare mode makes it easier to see which setup has the larger nearby contribution. The stronger or closer wire bends the net field toward its tangent direction.",
+        "type": "compare",
+        "priority": 8,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Clone the current setup, then make Wire A larger in Setup B and compare the probe arrows and response curves.",
+        "whyItMatters": "Comparing two honest current-source cases is more revealing than staring at one snapshot and guessing which wire dominates.",
+        "relatedControls": [
+          "currentA",
+          "currentB",
+          "sourceSeparation"
+        ],
+        "relatedGraphTabs": [
+          "field-scan",
+          "direction-scan"
+        ],
+        "relatedOverlays": [
+          "fieldVectors",
+          "fieldGrid"
+        ]
+      },
+      {
+        "id": "mf-notice-separation",
+        "text": "Increasing wire separation changes both wire-to-probe distances, so the same probe point can switch from balanced contributions to one-wire dominance.",
+        "type": "try-this",
+        "priority": 6,
+        "conditions": {
+          "lastChangedControls": [
+            "sourceSeparation"
+          ]
+        },
+        "tryThis": "Keep the probe above the midpoint and slowly widen the gap. Watch the dashed scan line and the graph peaks reshape together.",
+        "whyItMatters": "It shows that magnetic-field strength depends on geometry as much as on current size.",
+        "relatedControls": [
+          "sourceSeparation",
+          "probeY"
+        ],
+        "relatedGraphTabs": [
+          "field-scan",
+          "direction-scan"
+        ],
+        "relatedOverlays": [
+          "scanLine",
+          "fieldGrid"
+        ],
+        "relatedEquationVariables": [
+          "sourceSeparation",
+          "probeY"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the magnetic-field response before you apply the change. Each scenario changes one causal idea at a time so the stage and graphs can confirm or correct the prediction honestly.",
+    "items": [
+      {
+        "id": "mf-pred-current-flip",
+        "prompt": "At one fixed probe point, what must happen if Wire B flips from out of the page to into the page while Wire A stays out of the page?",
+        "scenarioLabel": "Flip Wire B",
+        "changeLabel": "Current direction",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Wire B's contribution reverses tangent direction, so the net magnetic field can pivot sharply even though the probe did not move."
+          },
+          {
+            "id": "b",
+            "label": "Only the field strength changes because magnetic direction does not depend on current sign."
+          },
+          {
+            "id": "c",
+            "label": "Nothing important changes because both wires are still the same distance from the probe."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Changing the sign of one current reverses that wire's circulation sense. The probe stays at the same place, but one contribution now points the opposite way and the net vector can change dramatically.",
+        "observationHint": "Watch the blue contribution arrow and the local loop arrows reverse when Wire B changes sign.",
+        "apply": {
+          "presetId": "opposite-currents-lift"
+        },
+        "highlightedControls": [
+          "currentB"
+        ],
+        "highlightedGraphs": [
+          "field-scan",
+          "direction-scan"
+        ],
+        "highlightedOverlays": [
+          "fieldLoops",
+          "fieldVectors"
+        ]
+      },
+      {
+        "id": "mf-pred-stronger-wire",
+        "prompt": "If Wire A becomes stronger than Wire B while the probe stays between them, which statement is most defensible?",
+        "scenarioLabel": "Strengthen Wire A",
+        "changeLabel": "Current magnitude",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The net field leans more toward Wire A's tangent contribution because superposition weights the larger local source more strongly."
+          },
+          {
+            "id": "b",
+            "label": "The net field must stay centered because the probe position did not change."
+          },
+          {
+            "id": "c",
+            "label": "Only the field strength can change because both wires still sit on the same axis."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Superposition adds the actual local vectors, so a stronger current contributes a larger tangent field at the same probe point. That larger contribution can tip both the direction and the strength of the net field.",
+        "observationHint": "Compare the amber and sky arrows after the change. The larger source contribution should now dominate the local vector sum.",
+        "apply": {
+          "presetId": "stronger-left-wire"
+        },
+        "highlightedControls": [
+          "currentA",
+          "currentB"
+        ],
+        "highlightedGraphs": [
+          "field-scan",
+          "direction-scan"
+        ],
+        "highlightedOverlays": [
+          "fieldVectors",
+          "scanLine"
+        ]
+      },
+      {
+        "id": "mf-pred-reverse-both",
+        "prompt": "If both wire currents reverse direction together while the geometry stays fixed, what should happen at the probe?",
+        "scenarioLabel": "Reverse both currents",
+        "changeLabel": "Current direction",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The field direction reverses while the strength stays the same because each wire contribution flips sign at the same distance."
+          },
+          {
+            "id": "b",
+            "label": "Only the field strength changes because reversing both currents keeps the same circulation sense."
+          },
+          {
+            "id": "c",
+            "label": "The field disappears because the two reversals cancel each other."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Each wire contribution is proportional to current. Reversing both currents multiplies both contributions by -1, so the net vector reverses direction while keeping the same magnitude at the same probe point.",
+        "observationHint": "The probe arrow should flip direction while the readout for |B| stays essentially unchanged.",
+        "apply": {
+          "presetId": "reversed-opposite-pair"
+        },
+        "highlightedControls": [
+          "currentA",
+          "currentB"
+        ],
+        "highlightedGraphs": [
+          "direction-scan"
+        ],
+        "highlightedOverlays": [
+          "fieldLoops",
+          "fieldVectors"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Tune the same two-wire stage into compact magnetic-field targets. The checklist reads the live superposition state instead of a detached answer key.",
+    "items": [
+      {
+        "id": "mf-ch-build-upward-bridge",
+        "title": "Build the upward magnetic field",
+        "style": "target-setting",
+        "prompt": "Starting from Same-current sweep, reverse Wire B so the sideways contributions nearly cancel while the net magnetic field points strongly upward above the midpoint.",
+        "successMessage": "You built the symmetry case: the side-to-side pieces cancel at one probe point, but the upward pieces still add into one net magnetic field.",
+        "setup": {
+          "presetId": "same-current-sweep",
+          "note": "Use the direction scan and the probe vectors together while you tune the wire pair."
+        },
+        "requirements": {
+          "graphId": "direction-scan",
+          "overlayIds": [
+            "fieldVectors",
+            "scanLine"
+          ]
+        },
+        "hints": [
+          "The target is not a zero field. You want the left-right pieces to cancel while the vertical pieces still reinforce.",
+          "Equal currents with opposite signs above the midpoint make the upward symmetry case visible quickly."
+        ],
+        "targets": [
+          {
+            "param": "currentA",
+            "min": 1.9,
+            "max": 2.1,
+            "displayUnit": "A"
+          },
+          {
+            "param": "currentB",
+            "min": -2.1,
+            "max": -1.9,
+            "displayUnit": "A"
+          },
+          {
+            "metric": "fieldX",
+            "min": -0.08,
+            "max": 0.08
+          },
+          {
+            "metric": "fieldY",
+            "min": 1.85,
+            "max": 2.05
+          }
+        ]
+      },
+      {
+        "id": "mf-ch-compare-lift-and-cancel",
+        "title": "Lift versus cancel",
+        "style": "visible-condition",
+        "prompt": "Open compare mode from Opposite-current lift. Keep Setup A on the upward above-midpoint bridge, but turn Setup B into the midpoint-cancel case where the net field nearly vanishes even though the current magnitudes still match.",
+        "successMessage": "You separated two common symmetry stories: opposite currents above the midpoint can reinforce into an upward field, while equal same-direction currents at the midpoint can cancel almost completely.",
+        "setup": {
+          "presetId": "opposite-currents-lift",
+          "note": "Open compare mode from the lift case, then edit Setup B only."
+        },
+        "requirements": {
+          "graphId": "direction-scan",
+          "overlayIds": [
+            "fieldVectors"
+          ],
+          "compareTarget": "b"
+        },
+        "hints": [
+          "Setup A should stay on the lifted symmetry line above the midpoint.",
+          "For Setup B, change only what the midpoint-cancel story needs: same current sign and the probe back on the shared axis."
+        ],
+        "targets": [
+          {
+            "setup": "a",
+            "metric": "fieldY",
+            "label": "Keep Setup A on the upward bridge with B_y between 1.8 and 2.1 field units.",
+            "min": 1.8,
+            "max": 2.1
+          },
+          {
+            "setup": "b",
+            "param": "currentB",
+            "label": "Reverse Setup B so Wire B matches Wire A at about +2 A.",
+            "min": 1.9,
+            "max": 2.1,
+            "displayUnit": "A"
+          },
+          {
+            "setup": "b",
+            "param": "probeY",
+            "label": "Slide Setup B back onto the shared axis near y = 0 m.",
+            "min": -0.05,
+            "max": 0.05,
+            "displayUnit": "m"
+          },
+          {
+            "setup": "b",
+            "metric": "fieldMagnitude",
+            "label": "Make Setup B's net field collapse below 0.08 field units at the midpoint.",
+            "min": 0,
+            "max": 0.08
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from field logic, not from isolated mnemonics. Each question asks what the stage and graphs must mean about circulation sense, superposition, or field strength around current-carrying wires.",
+    "questions": [
+      {
+        "id": "mf-qt-current-sign",
+        "type": "variable-effect",
+        "prompt": "A probe sits to the right of one isolated wire. If the current changes from +2 A to -2 A at the same location, what must happen to the magnetic field at the probe?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The field reverses direction because the circulation sense flips from counterclockwise to clockwise."
+          },
+          {
+            "id": "b",
+            "label": "The field stays the same because only the sign changed, not the distance."
+          },
+          {
+            "id": "c",
+            "label": "The field disappears because positive and negative current signs cancel inside one wire."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At one fixed distance from one wire, changing only the current sign reverses the tangent direction while keeping the same strength trend.",
+        "selectedWrongExplanations": {
+          "b": "Distance sets the strength trend, but current sign chooses whether the field circulates clockwise or counterclockwise.",
+          "c": "A single negative current does not cancel itself. It still creates a field, but the circulation reverses compared with a positive current."
+        },
+        "showMeAction": {
+          "label": "Show one-wire sign flip",
+          "presetId": "single-wire-reference",
+          "observationHint": "Zero out Wire B, then drag Wire A through zero to see the field direction reverse at the same probe point.",
+          "highlightedControlIds": [
+            "currentA",
+            "currentB"
+          ],
+          "highlightedGraphIds": [
+            "field-scan"
+          ],
+          "highlightedOverlayIds": [
+            "fieldLoops",
+            "fieldVectors"
+          ]
+        }
+      },
+      {
+        "id": "mf-qt-midpoint-cancel",
+        "type": "reasoning",
+        "prompt": "Two equal out-of-page currents sit symmetrically on the x-axis, and the probe is exactly halfway between them on that same axis. Which claim is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The net field is zero there because the two tangential contributions are equal in size and opposite in direction."
+          },
+          {
+            "id": "b",
+            "label": "The net field points upward because both currents are out of the page."
+          },
+          {
+            "id": "c",
+            "label": "The stronger cancellation happens only if one wire current is negative."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At the midpoint on the shared axis, the geometry is perfectly symmetric. Each wire contributes an equal tangential field in the opposite direction, so the vector sum vanishes there.",
+        "selectedWrongExplanations": {
+          "b": "That upward result belongs to the above-midpoint opposite-current case, not to the midpoint between equal same-direction currents.",
+          "c": "The cancellation here comes from symmetry, equal current size, and opposite tangential directions at that location."
+        },
+        "showMeAction": {
+          "label": "Show midpoint cancellation",
+          "presetId": "same-current-cancel",
+          "observationHint": "At the midpoint on the axis, the magnetic-field arrows collapse because the two equal same-direction wire contributions cancel exactly.",
+          "highlightedControlIds": [
+            "probeX",
+            "probeY",
+            "currentA",
+            "currentB"
+          ],
+          "highlightedGraphIds": [
+            "field-scan"
+          ],
+          "highlightedOverlayIds": [
+            "fieldVectors",
+            "fieldLoops"
+          ]
+        }
+      },
+      {
+        "id": "mf-qt-opposite-above-midpoint",
+        "type": "compare-two-cases",
+        "prompt": "Wire A carries current out of the page, Wire B carries an equal current into the page, and the probe is above the midpoint. Which description best matches the net magnetic field there?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It points straight up because the horizontal contributions cancel while the vertical contributions reinforce."
+          },
+          {
+            "id": "b",
+            "label": "It must point left because both field loops curve around the wires."
+          },
+          {
+            "id": "c",
+            "label": "It must be zero because the currents have equal magnitude."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Above the midpoint of an equal opposite-current pair, the sideways pieces cancel on the symmetry line while the upward pieces add, so the net field points straight up.",
+        "selectedWrongExplanations": {
+          "b": "Equal same-direction currents above the midpoint give the sideways reinforcement case, not opposite-sign currents.",
+          "c": "Equal magnitude does not guarantee cancellation. Direction matters, and here the two contributions reinforce vertically."
+        },
+        "showMeAction": {
+          "label": "Show opposite-current lift",
+          "presetId": "opposite-currents-lift",
+          "observationHint": "Above the midpoint, the probe arrow points upward because the horizontal parts cancel while the vertical parts add.",
+          "highlightedControlIds": [
+            "currentA",
+            "currentB",
+            "probeY"
+          ],
+          "highlightedGraphIds": [
+            "field-scan",
+            "direction-scan"
+          ],
+          "highlightedOverlayIds": [
+            "fieldVectors",
+            "fieldLoops"
+          ]
+        }
+      },
+      {
+        "id": "mf-qt-current-strength",
+        "type": "misconception-check",
+        "prompt": "A student says, \"A stronger current just makes more circles around the wire, not a stronger field at the same distance.\" What is the best correction?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "At the same distance, a stronger current produces a stronger magnetic field because the field magnitude scales with current."
+          },
+          {
+            "id": "b",
+            "label": "Current size only changes the field if the probe is exactly on the wire."
+          },
+          {
+            "id": "c",
+            "label": "Current size changes the field direction but not its strength."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "For a long straight wire, field strength grows with current and weakens with distance. Current direction chooses the circulation sense, while current size scales the field magnitude.",
+        "selectedWrongExplanations": {
+          "b": "The scaling with current applies at every nonzero distance in this model, not just right on the wire.",
+          "c": "Direction and strength are different roles: sign chooses clockwise or counterclockwise, while size scales how strong the field is."
+        },
+        "showMeAction": {
+          "label": "Show stronger left wire",
+          "presetId": "stronger-left-wire",
+          "observationHint": "Compare the two contribution arrows. The larger current produces the larger local tangent contribution at the same probe point.",
+          "highlightedControlIds": [
+            "currentA",
+            "currentB"
+          ],
+          "highlightedGraphIds": [
+            "direction-scan"
+          ],
+          "highlightedOverlayIds": [
+            "fieldVectors",
+            "fieldGrid"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows two long straight wires on a horizontal axis, a movable probe inside a bounded magnetic-field region, and optional overlays for circular guide loops around each wire, a field-sample grid, source-contribution arrows, the net magnetic-field arrow at the probe, and the horizontal scan line used by the graphs.",
+        "A dot marker means current out of the page and a cross marker means current into the page. Dragging the probe changes the sampled field location directly on the stage, while dragging either wire marker changes the shared wire separation symmetrically. Sliders provide the same controls for current size and sign, separation, and probe position.",
+        "Very near a wire marker, the field display uses a minimum sampling radius so the drawn arrows stay finite and readable. This keeps the visualization bounded while still preserving the correct trend that magnetic field strength grows rapidly near a wire."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The horizontal field-scan graph plots Wire A's horizontal contribution, Wire B's horizontal contribution, and the net horizontal magnetic field along the current scan line. Hovering the graph previews the same x-location on the stage.",
+        "The direction-and-strength graph plots the net vertical component and the total magnetic-field strength along that same scan line. Both graphs remain field-only readouts generated by the wire currents and the current probe location."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Magnetic Fields | Open Model Lab",
+    "description": "Learn magnetic fields with a bounded two-wire lab that links current direction, right-hand-rule circulation, superposition, scan graphs, guided overlays, prediction prompts, and conceptual quick tests.",
+    "keywords": [
+      "magnetic fields",
+      "current-carrying wire",
+      "right-hand rule",
+      "magnetic field direction",
+      "physics simulation"
+    ]
+  },
+  "v2": {
+    "intuition": "Treat each current-carrying wire as a source of circular field arrows, then add the two local tangent arrows at the probe instead of guessing from the picture alone.",
+    "whyItMatters": "This is the bridge from electric-field superposition to induction, motors, and charged-particle motion: current direction sets circulation, while geometry decides which contributions cancel or reinforce.",
+    "estimatedMinutes": 10,
+    "equationSnapshot": {
+      "equationIds": [
+        "current-sense",
+        "field-from-wire",
+        "net-field"
+      ]
+    },
+    "startSetup": {
+      "presetId": "opposite-currents-lift",
+      "graphId": "direction-scan",
+      "overlayIds": [
+        "fieldLoops",
+        "fieldVectors",
+        "scanLine"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-wire-circulation",
+        "title": "Read one wire first",
+        "goal": "Connect current sign to clockwise or counterclockwise field circulation before adding a second source.",
+        "doThis": "Load the single-wire reference, keep the field loops and probe vectors visible, then drag Wire A through zero without moving the probe.",
+        "notice": "The loop arrows and probe contribution reverse direction when the current sign flips, while the probe location stays fixed.",
+        "explain": "For a straight wire, the field is tangent to circles around the wire. Current sign chooses the circulation sense; distance and current size set the strength.",
+        "reveal": {
+          "controlIds": [
+            "currentA",
+            "currentB"
+          ],
+          "graphIds": [
+            "field-scan"
+          ],
+          "overlayIds": [
+            "fieldLoops",
+            "fieldVectors"
+          ]
+        },
+        "setup": {
+          "presetId": "single-wire-reference",
+          "graphId": "field-scan",
+          "overlayIds": [
+            "fieldLoops",
+            "fieldVectors"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "mf-qt-current-sign"
+          ]
+        }
+      },
+      {
+        "id": "build-opposite-current-lift",
+        "title": "Build the upward bridge",
+        "goal": "Use symmetry to see when sideways magnetic-field pieces cancel while vertical pieces reinforce.",
+        "doThis": "Apply Opposite-current lift, keep the probe above the midpoint, and compare the amber and sky contribution arrows at the same point.",
+        "notice": "The horizontal pieces cancel on the symmetry line, but both contribution arrows share an upward component, so the net arrow points up.",
+        "explain": "Equal magnitude alone does not guarantee cancellation. You have to compare the two tangent directions at the probe and add their components.",
+        "reveal": {
+          "controlIds": [
+            "currentA",
+            "currentB",
+            "probeY"
+          ],
+          "graphIds": [
+            "direction-scan",
+            "field-scan"
+          ],
+          "overlayIds": [
+            "fieldVectors",
+            "fieldLoops",
+            "scanLine"
+          ]
+        },
+        "setup": {
+          "presetId": "opposite-currents-lift",
+          "graphId": "direction-scan",
+          "overlayIds": [
+            "fieldVectors",
+            "fieldLoops",
+            "scanLine"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "mf-pred-current-flip"
+          ],
+          "questionIds": [
+            "mf-qt-opposite-above-midpoint"
+          ]
+        }
+      },
+      {
+        "id": "compare-strength-and-distance",
+        "title": "Compare source weight",
+        "goal": "Separate current size and distance from current direction when deciding which wire dominates the net field.",
+        "doThis": "Switch to Stronger left wire, then move the probe slightly left and right while watching the contribution arrows and scan graphs.",
+        "notice": "The closer or stronger wire bends the vector sum toward its local tangent direction, and the graph peaks reshape with the same geometry.",
+        "explain": "Superposition adds actual local vectors. A larger current or shorter wire-to-probe distance gives that source more weight in the net field.",
+        "reveal": {
+          "controlIds": [
+            "currentA",
+            "currentB",
+            "sourceSeparation",
+            "probeX",
+            "probeY"
+          ],
+          "graphIds": [
+            "field-scan",
+            "direction-scan"
+          ],
+          "overlayIds": [
+            "fieldVectors",
+            "fieldGrid",
+            "scanLine"
+          ]
+        },
+        "setup": {
+          "presetId": "stronger-left-wire",
+          "graphId": "field-scan",
+          "overlayIds": [
+            "fieldVectors",
+            "fieldGrid",
+            "scanLine"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "mf-pred-stronger-wire"
+          ],
+          "questionIds": [
+            "mf-qt-current-strength"
+          ]
+        }
+      },
+      {
+        "id": "test-midpoint-cancel",
+        "title": "Test midpoint cancel",
+        "goal": "Contrast the upward opposite-current case with the zero-field same-current midpoint case.",
+        "doThis": "Load Same-current midpoint cancel and place the probe exactly between the wires on the shared axis.",
+        "notice": "Each wire still contributes a nonzero field, but the two tangent arrows are equal and opposite at that one point, so the net arrow collapses.",
+        "explain": "Cancellation is a local vector-sum result. Move the probe off the midpoint and the same two currents no longer balance perfectly.",
+        "reveal": {
+          "controlIds": [
+            "currentA",
+            "currentB",
+            "probeX",
+            "probeY"
+          ],
+          "graphIds": [
+            "field-scan",
+            "direction-scan"
+          ],
+          "overlayIds": [
+            "fieldVectors",
+            "fieldLoops",
+            "scanLine"
+          ]
+        },
+        "setup": {
+          "presetId": "same-current-cancel",
+          "graphId": "field-scan",
+          "overlayIds": [
+            "fieldVectors",
+            "fieldLoops",
+            "scanLine"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "mf-qt-midpoint-cancel"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Current sign sets clockwise or counterclockwise magnetic-field circulation around a wire.",
+        "Current size and distance set how strongly one wire contributes at the probe.",
+        "The net magnetic field is the vector sum of both local tangent contributions, so symmetry can create reinforcement or cancellation."
+      ],
+      "misconception": "The magnetic field points along the current-carrying wire or cancels whenever the two currents have equal size.",
+      "workedExampleRefs": [
+        "current-net-field",
+        "current-source-comparison"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "electromagnetic-induction",
+          "title": "Faraday's Law and Lenz's Law",
+          "reasonLabel": "Turn changing magnetic fields into emf"
+        },
+        {
+          "slug": "magnetic-force-moving-charges-currents",
+          "title": "Magnetic Force on Moving Charges / Currents",
+          "reasonLabel": "Use B to predict force direction"
+        },
+        {
+          "slug": "maxwells-equations-synthesis",
+          "title": "Maxwell's Equations Synthesis",
+          "reasonLabel": "Place magnetic fields inside the four-law picture"
+        }
+      ],
+      "freePlayPrompt": "Build two setups with the same current magnitudes: one where the probe field points upward and one where the net field nearly vanishes."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "quickTest"
+    ]
+  }
+}

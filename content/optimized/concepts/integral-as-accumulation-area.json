@@ -1,0 +1,206 @@
+{
+"sections": {
+"explanation": {
+"paragraphs": [
+"This bench treats an integral as a running total, not a frozen shaded picture. As you move the upper bound, the signed area on the source graph and the matching point on the accumulation graph update together, so you can watch the total build, level off, or fall.",
+"The key distinction is local height versus accumulated amount. The source value f(x) tells you whether the next thin slice adds or subtracts right now. The accumulation A(x) remembers all signed area from 0 to the current bound, so it can stay positive even after the source curve has dropped below the axis."
+]
+},
+"keyIdeas": [
+"A(x) is the signed area from 0 to the current upper bound, so moving the bound changes the running total rather than creating a separate static picture.",
+"When f(x) is above the axis, new slices add to A(x); when f(x) is below the axis, new slices subtract from A(x).",
+"Because A'(x) = f(x), the current source height gives the local slope of the accumulation graph, but that slope is not the same thing as the total accumulated so far."
+],
+"commonMisconception": {
+"myth": "If f(x) is negative at a bound, then A(x) must already be negative there.",
+"correction": [
+"A negative source height only tells you that the running total is decreasing at that moment.",
+"Earlier positive signed area may still keep A(x) above zero, which is why the source graph and accumulation graph have to be read together."
+]
+},
+"workedExamples": {
+"title": "Read the running total live",
+"intro": "Use the upper-bound slider, the signed-area shading, and the accumulation point together. First read the source height at the current bound, then read the total that has been built so far.",
+"items": [
+{
+"id": "current-accumulated-amount",
+"title": "Read the accumulated total",
+"resultLabel": "Current running total",
+"applyAction": {
+"label": "Try a near-cancel case",
+"observationHint": "The running total is close to zero because earlier positive area and later negative area are nearly balancing, not because the current source height is near zero."
+}
+},
+{
+"id": "height-versus-total",
+"title": "Separate height from total",
+"prompt": "At the current bound, how do the source height and the accumulated total represent different information?",
+"resultLabel": "Current height and total",
+"applyAction": {
+"label": "Try a negative-tail case",
+"observationHint": "Here f(x) is below zero, so the accumulation graph slopes downward locally. But the total A(x) can still stay positive because of earlier positive area."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Move the bound to a place where the source curve is below the axis, but the running total has not fallen below zero yet.",
+"prediction": "Before you drag, decide whether you need a point just after the source crosses below the axis or much farther into the negative region.",
+"answer": "You need a bound where the curve has already dropped below the axis but the earlier positive signed area has not been fully cancelled yet.",
+"explanation": "This is the clearest way to separate local change from total accumulation. New slices are negative, but the earlier positive area has not been fully cancelled yet."
+}
+},
+"equations": [
+{
+"id": "accumulation-rule",
+"meaning": "Defines A(x) as the signed area collected from 0 to the current bound x."
+},
+{
+"id": "ftc-link",
+"meaning": "The local slope of the accumulation graph at x is exactly the current source height f(x)."
+},
+{
+"id": "small-change",
+"meaning": "Over a small step in x, the change in the running total is approximately height times width."
+}
+],
+"variableLinks": [
+{
+"id": "upper-bound",
+"description": "Moves the endpoint on both graphs, changing how much signed area has been accumulated from 0 and where the matching point sits on A(x)."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "upper-bound",
+"description": "Move the endpoint x that determines how much signed area has been accumulated from 0."
+}
+],
+"overlays": [
+{
+"id": "signedArea",
+"shortDescription": "Shade the signed area collected from 0 to the current bound.",
+"whatToNotice": [
+"Area above the axis adds to the total, while area below the axis subtracts from it."
+],
+"whyItMatters": "It makes the integral visible as accumulation, not just as notation."
+},
+{
+"id": "boundGuide",
+"shortDescription": "Mark the current upper bound on the source graph.",
+"whatToNotice": [
+"The source height at this x-value tells you how the running total is changing right now."
+],
+"whyItMatters": "It separates the current source value from the whole accumulated amount."
+},
+{
+"id": "accumulationPoint",
+"shortDescription": "Mark the matching point on the accumulation graph.",
+"whatToNotice": [
+"The y-value is the running total, and the local slope there is set by the current source height."
+],
+"whyItMatters": "It makes the link A'(x) = f(x) visible on the graph."
+}
+]
+},
+"graphs": [
+{
+"id": "source-function",
+"description": "Shows the source curve that supplies the signed area being accumulated."
+},
+{
+"id": "accumulation-function",
+"description": "Shows the running total built from the signed area between 0 and x."
+}
+],
+"noticePrompts": {
+"intro": "Use the same x-value on both graphs. One graph tells you what the next slice is doing now, and the other tells you how much has been collected so far.",
+"items": [
+{
+"id": "ia-notice-positive-growth",
+"text": "While the source curve stays above the axis, moving the bound to the right adds positive slices and makes the running total rise."
+},
+{
+"id": "ia-notice-negative-slope",
+"text": "Once the source drops below the axis, the accumulation graph can still sit above zero even while its local slope turns negative."
+},
+{
+"id": "ia-notice-height-vs-total",
+"text": "Compare f(x) with A(x) directly: one is the current height at the bound, and the other is the total signed area collected up to that bound."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict whether the running total should rise, flatten, or fall before you move the bound.",
+"items": [
+{
+"id": "ia-predict-positive-region",
+"explanation": "If the source height stays positive, each extra thin slice adds positive signed area, so the running total increases.",
+"observationHint": "Use the shaded area and the accumulation point as the same event shown on two graphs."
+},
+{
+"id": "ia-predict-negative-region",
+"explanation": "Because A'(x) = f(x), a negative source height means the accumulation graph slopes downward at that x-value, even if A(x) is still above zero.",
+"observationHint": "Keep the graph's current height and its local slope separate."
+}
+]
+},
+"quickTest": {
+"intro": "Use the source graph, the shaded area, and the accumulation graph together. These questions are really checking whether you can separate current height from total accumulation.",
+"questions": [
+{
+"id": "ia-qt-slope-link",
+"explanation": "Because A'(x) = f(x), a zero source height means the accumulation graph is locally flat there.",
+"showMeAction": {
+"observationHint": "The source height is near zero, so the accumulation graph is nearly flat at the matching x-value even though A(x) itself is not zero."
+}
+},
+{
+"id": "ia-qt-height-vs-total",
+"showMeAction": {
+"label": "Show a negative height but a positive total",
+"observationHint": "The source height is negative there, but the total A(x) depends on all the signed area collected earlier too."
+}
+},
+{
+"id": "ia-qt-signed-area",
+"explanation": "Area below the axis counts negatively, so extending the bound through that region subtracts from the running total.",
+"showMeAction": {
+"observationHint": "The source curve is below the axis, so each new slice subtracts from A(x)."
+}
+}
+]
+},
+"challengeMode": {
+"intro": "Use the two graphs together. The goal is to keep local height and total accumulation separate, even when the signs tempt you to treat them as the same thing.",
+"items": [
+{
+"id": "ia-ch-negative-height-positive-total",
+"prompt": "Move the bound to a place where the source height is negative, but the running total is still positive.",
+"successMessage": "You found the key split between local rate and accumulated amount. The source is subtracting locally, but the earlier positive area still keeps the running total above zero.",
+"setup": {
+"note": "Watch the current height on the source graph and the total on the accumulation graph at the same x-value."
+},
+"hints": [
+"Move past the right-hand zero of the source curve, but not so far that the earlier positive area has been fully cancelled.",
+"The accumulation graph can stay above zero even while its local slope turns negative."
+]
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows a source curve with a movable upper bound. The signed area from 0 to that bound is shaded on the source graph, and a second graph shows the corresponding accumulated amount A(x).",
+"Moving the bound updates the current source height, the shaded area, and the matching point on the accumulation graph together, so local height and running total can be compared directly."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The source-function graph shows whether the next slice adds or subtracts from the total. The accumulation graph shows the running total built from all signed area between 0 and x.",
+"The two graphs share the same x-value: the source height sets the local slope of the accumulation graph, while the y-value on the accumulation graph gives the total collected so far."
+]
+}
+}
+}

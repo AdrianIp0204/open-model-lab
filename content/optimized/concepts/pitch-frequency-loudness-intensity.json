@@ -1,0 +1,141 @@
+{
+"sections": {
+"explanation": {
+"paragraphs": [
+"Pitch and loudness are different sound ideas. Pitch comes from frequency: higher frequency means more cycles each second, a shorter period, and tighter compression spacing at fixed sound speed. Loudness comes from amplitude and this bench's intensity cue, so a sound can get louder without getting higher in pitch.",
+"Use the bench one knob at a time. Raise frequency to hear and see a pitch change, raise amplitude to strengthen the loudness cue, and move the probe only to change delay at the listening point."
+]
+},
+"keyIdeas": [
+"Pitch is set by frequency and period, not by amplitude.",
+"At fixed medium speed, higher frequency means a shorter wavelength and more closely packed compressions.",
+"Loudness follows amplitude and the intensity cue, while moving the probe changes delay rather than the pitch or loudness produced by the source."
+],
+"commonMisconception": {
+"myth": "A taller sound wave must have a higher pitch because the graph looks bigger.",
+"correction": [
+"Amplitude changes how strong the motion is, not how many cycles happen each second.",
+"Frequency changes pitch. Amplitude changes the loudness / intensity cue."
+]
+},
+"workedExamples": {
+"title": "Live pitch and loudness checks",
+"intro": "These checks use the same sound-bench relationships from the lesson, so the numbers stay tied to one coherent setup instead of a detached worksheet.",
+"items": [
+{
+"id": "pitch-from-frequency",
+"title": "Wavelength and period from frequency",
+"prompt": "For a generated sound setup with $v_{wave} = {{waveSpeedValue}}\\,\\mathrm{m/s}$ and $f = {{frequencyValue}}\\,\\mathrm{Hz}$, what wavelength and period go with that pitch?",
+"steps": [
+{
+"id": "relation",
+"label": "1. Use the pitch relations"
+},
+{
+"id": "substitute",
+"label": "2. Substitute the setup values"
+},
+{
+"id": "compute",
+"label": "3. Connect the result to the sound you hear"
+}
+],
+"resultLabel": "Generated pitch quantities",
+"applyAction": {
+"observationHint": "The traces cycle faster and the compression spacing gets tighter while amplitude stays fixed."
+}
+},
+{
+"id": "loudness-from-amplitude",
+"title": "Intensity cue from amplitude",
+"prompt": "For a generated sound setup with amplitude $A = {{amplitudeValue}}\\,\\mathrm{m}$, what intensity cue does this bench use, and what does that mean for loudness if frequency stays fixed?",
+"steps": [
+{
+"id": "relation",
+"label": "1. Start from the loudness cue"
+},
+{
+"id": "substitute",
+"label": "2. Substitute the setup amplitude"
+},
+{
+"id": "compute",
+"label": "3. Connect it to loudness without changing pitch"
+}
+],
+"resultLabel": "Generated intensity cue",
+"applyAction": {
+"observationHint": "Amplitude and the intensity-response graph rise while the frequency readout stays the same."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "You want the same pitch but a louder sound. What single change should you make?",
+"prediction": "Choose between raising amplitude, raising frequency, and moving the probe farther downstream.",
+"explanation": "Keeping the pitch the same means keeping frequency fixed. Raising amplitude increases the loudness / intensity cue without changing pitch."
+}
+},
+"equations": [
+{
+"id": "sound-displacement",
+"meaning": "Amplitude sets the size of the parcel motion, while frequency sets how quickly that motion repeats."
+},
+{
+"id": "sound-period",
+"meaning": "Higher frequency means more cycles each second, a shorter period, and a higher pitch."
+},
+{
+"id": "sound-wavelength",
+"meaning": "At fixed medium speed, a higher frequency means a shorter wavelength and more closely packed compressions."
+},
+{
+"id": "sound-intensity-cue",
+"meaning": "This bench uses amplitude squared as a loudness cue, so larger amplitude means a stronger loudness cue without changing pitch by itself."
+}
+],
+"variableLinks": [
+{
+"id": "amplitude",
+"description": "Changes how strong the parcel motion and loudness cue are without changing pitch by itself."
+},
+{
+"id": "frequency",
+"description": "Sets how many cycles happen each second, so it controls pitch and, at fixed medium speed, the spacing between compressions."
+},
+{
+"id": "probeX",
+"description": "Moves the tracked parcel downstream so you can compare delay without changing the pitch or loudness produced by the source."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "amplitude",
+"description": "Changes how strong the loudness / intensity cue is without changing pitch by itself."
+},
+{
+"id": "frequency",
+"description": "Controls pitch while the medium speed stays fixed, so higher frequency also packs the compression pattern closer together."
+},
+{
+"id": "probeX",
+"description": "Moves the tracked parcel without changing the sound produced by the source."
+}
+]
+},
+"graphs": [
+{
+"id": "displacement",
+"description": "Shows how quickly the sound repeats at the source and probe, so pitch stays tied to frequency and period."
+},
+{
+"id": "probe-pressure",
+"description": "Separates one parcel's displacement from the local compression state of the medium."
+},
+{
+"id": "intensity-response",
+"description": "Shows the amplitude-squared loudness cue so amplitude can be separated from pitch."
+}
+]
+}

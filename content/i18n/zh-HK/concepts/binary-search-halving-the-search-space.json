@@ -1,0 +1,224 @@
+{
+  "title": "二分搜尋 / 將搜尋空間減半",
+  "shortTitle": "二分搜尋",
+  "summary": "把有序列表、低中高標記和收縮中的區間一起保持可見，讓二分搜尋讀起來更像幾何上的減半，而不是死記程式。",
+  "highlights": [
+    "有序資料的重要性",
+    "低中高",
+    "收縮區間"
+  ],
+  "topic": "演演算法與搜尋",
+  "subtopic": "收縮有序區間",
+  "recommendedNext": [
+    {
+      "slug": "graph-representation-and-adjacency-intuition",
+      "reasonLabel": "從有序區間轉入圖形鄰域和活躍前沿"
+    },
+    {
+      "slug": "sorting-and-algorithmic-trade-offs",
+      "reasonLabel": "回到同一個列表工作台，比較搜尋與排序的成本"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "二分搜尋只在有序資料上才有意義。一旦列表被排序，每次中點檢查可以刪除一半的可能性，而不是逐一檢查。",
+        "這個工作台把 low、mid、high 和收縮中的區間一起保持可見，因此速度來自搜尋空間的幾何縮減，而不是背程式口訣。"
+      ]
+    },
+    "keyIdeas": [
+      "二分搜尋之所以有效，因為資料是有序的。",
+      "中點很重要，因為一次比較就能刪去剩下區間的一半。",
+      "low、mid、high 共同定義目前仍然活躍的搜尋空間。"
+    ],
+    "commonMisconception": {
+      "myth": "二分搜尋只是更快地檢查一個專案的方法。",
+      "correction": [
+        "重點不在於稍微更好的掃描，而在於每次中點檢查後刪除一半的可能性。",
+        "這只在列表已經有序的情況下才有效。"
+      ]
+    },
+    "workedExamples": {
+      "title": "即時例題",
+      "intro": "直接從目前的搜尋場景讀出當前區間。",
+      "items": [
+        {
+          "id": "read-the-current-search-interval",
+          "title": "讀取當前搜尋區間",
+          "prompt": "當前二分搜尋步驟告訴你什麼？",
+          "variables": [
+            {
+              "id": "array-size",
+              "label": "陣列大小"
+            },
+            {
+              "id": "target-position",
+              "label": "目標位置"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-the-interval",
+              "label": "1. 閱讀活躍區間"
+            },
+            {
+              "id": "read-the-midpoint",
+              "label": "2. 閱讀中點檢查"
+            },
+            {
+              "id": "compare-to-linear",
+              "label": "3. 比較搜尋成本"
+            }
+          ],
+          "resultLabel": "當前搜尋讀取",
+          "applyAction": {
+            "label": "應用遠端目標設定",
+            "observationHint": "觀看如何透過極少數次中點檢查就能找到一個遠端目標。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "建立一個案例，目標值位於大型列表的遠端邊緣，但二分搜尋仍然能在幾個中點檢查後找到它。",
+      "prediction": "在改變控制之前，決定目標值應該靠近中間還是靠近邊緣。",
+      "answer": "把目標值放到大型列表的邊緣，然後讓二分搜尋一路把區間減半。",
+      "explanation": "即使目標值位於遠處，只要區間不斷縮小一半，也能快速找到它。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "根據實時搜尋圖表回答問題，而不是依靠記憶中的詞彙。",
+    "questions": [
+      {
+        "id": "bsh-qt-ordered-data",
+        "prompt": "為什麼二分搜尋需要有序資料？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "因為這樣才能透過一次中點比較來決定捨棄哪一半。"
+          },
+          {
+            "id": "b",
+            "label": "因為有序資料使得每個中點都等於目標值。"
+          },
+          {
+            "id": "c",
+            "label": "因為排序會改變陣列的大小。"
+          }
+        ],
+        "explanation": "沒有秩序，中點給不出任何合理的理由來捨棄剩下的位置的一半。"
+      },
+      {
+        "id": "bsh-qt-halving",
+        "prompt": "二分搜尋在這個工作台上看起來快，最清楚的原因是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "活躍區間每次中點檢查後都會縮小一半。"
+          },
+          {
+            "id": "b",
+            "label": "它其實一次檢查了所有專案。"
+          },
+          {
+            "id": "c",
+            "label": "它甚至能在無序資料上表現得更好。"
+          }
+        ],
+        "explanation": "速度來自於每次中點檢查後都大幅減少搜尋空間。"
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬會顯示一個有序陣列，並標出 low、mid、high 三個位置。活躍區間會一直被高亮，而可選的幽靈車道則顯示在相同次數檢查下，逐項掃描會走到多遠。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "一個圖表追蹤區間寬度，另一個圖表追蹤低、中、高位置，第三個圖表比較二分搜尋檢查與線性搜尋檢查。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "far-right-target",
+        "label": "遠端目標",
+        "description": "開啟一個大型有序列表，其中目標值位於遠端邊緣。",
+        "setup": {
+          "note": "使用這個案例來觀察即使目標值離初始中點很遠，區間也能如何快速縮小。"
+        }
+      },
+      {
+        "id": "middle-target",
+        "label": "中間目標",
+        "description": "開啟一個簡單的案例，其中中點能很快擊中目標。",
+        "setup": {
+          "note": "使用這個案例來獲得對低、中、高位置的第一個簡潔觀看。"
+        }
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "midpoint-rule",
+      "label": "中點規則",
+      "meaning": "從當前活躍區間選擇下一個要檢查的索引。"
+    },
+    {
+      "id": "interval-width",
+      "label": "區間寬度",
+      "meaning": "計算每次二分後還剩多少位置。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "array-size",
+      "label": "陣列大小",
+      "description": "設定搜尋需要處理的有序值數量。"
+    },
+    {
+      "id": "target-index",
+      "label": "目標位置",
+      "description": "在保持陣列本身有序的前提下，移動目標值在有序列表中的位置。"
+    },
+    {
+      "id": "linear-contrast",
+      "label": "線性對比",
+      "description": "顯示一個個掃描如何在同一有序列表中進行。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "array-size",
+        "label": "陣列大小"
+      },
+      {
+        "id": "target-index",
+        "label": "目標位置"
+      },
+      {
+        "id": "linear-contrast",
+        "label": "線性對比"
+      }
+    ],
+    "presets": [
+      {
+        "id": "middle-target",
+        "label": "中間目標"
+      },
+      {
+        "id": "far-right-target",
+        "label": "遠端目標"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "把有序列表、低中高標記和收縮中的區間一起保持可見，讓二分搜尋讀起來更像幾何上的減半，而不是死記程式。",
+    "whyItMatters": "二分搜尋只在有序資料上才有意義。一旦列表被排序，每次中點檢查可以刪除一半的可能性，而不是逐一檢查。",
+    "keyTakeaway": "二分搜尋之所以有效，因為資料是有序的。"
+  }
+}

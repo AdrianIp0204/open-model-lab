@@ -1,0 +1,1165 @@
+{
+  "pageIntro": {
+    "whyItMatters": "It explains why swings fade in real machines, why bridges and instruments can build large motion, and why engineers tune damping instead of only avoiding resonance.",
+    "definition": "Explore how damping removes energy, how driving frequency changes amplitude, and why resonance becomes dramatic near the natural frequency.",
+    "keyTakeaway": "Damping controls how fast energy leaks away; resonance controls how efficiently a driver feeds energy back in. The biggest response happens when a lightly damped system is driven near its natural frequency."
+  },
+  "v2": {
+    "intuition": "Treat the oscillator like a swing: damping is the drain that steals a little energy each cycle, while the driver is a timed push that can replace that energy most effectively near the natural rhythm.",
+    "whyItMatters": "The same tradeoff explains musical instruments, vehicle suspension, building vibration, and why engineers often add damping rather than pretending resonance will never be reached.",
+    "estimatedMinutes": 30,
+    "equationSnapshot": {
+      "title": "Energy in, energy out",
+      "note": "Keep the damping term, natural frequency, and response-amplitude formula visible while you compare the time trace with the resonance curve.",
+      "equationIds": ["damped-oscillator", "natural-frequency", "resonance-response"]
+    },
+    "guidedSteps": [
+      {
+        "id": "watch-energy-leak-away",
+        "title": "Watch energy leak away",
+        "goal": "First read damping as energy loss in one motion through time.",
+        "doThis": "Start in the damped-motion graph, keep the response envelope visible, and raise Damping ratio once.",
+        "notice": "The early swings can still be large, but the envelope collapses faster as damping increases.",
+        "explain": "Damping does not move the equilibrium line. It removes mechanical energy, so later cycles have less amplitude than earlier cycles.",
+        "reveal": {
+          "controlIds": ["dampingRatio"],
+          "graphIds": ["transient"],
+          "overlayIds": ["responseEnvelope"],
+          "toolHints": ["playback", "inspect"]
+        },
+        "inlineCheck": {
+          "title": "Check what damping really changes",
+          "questionIds": ["dr-qt-3"]
+        }
+      },
+      {
+        "id": "separate-time-from-response",
+        "title": "Separate time from response",
+        "goal": "Stop confusing the response curve with a later part of the same motion.",
+        "doThis": "Switch on Resonance response and compare the graph axes before moving any sliders.",
+        "notice": "The horizontal axis changes from time to driving frequency, so each point on the curve is a different operating condition.",
+        "explain": "The transient graph follows one oscillator as seconds pass. The response graph asks how large the eventual motion would be for many possible driving frequencies.",
+        "reveal": {
+          "controlIds": ["responseMode", "driveFrequency"],
+          "graphIds": ["transient", "response"],
+          "overlayIds": ["peakMarker", "forcingArrow"]
+        },
+        "inlineCheck": {
+          "title": "Read the axes before answering",
+          "questionIds": ["dr-qt-4"]
+        }
+      },
+      {
+        "id": "tune-toward-resonance",
+        "title": "Tune toward resonance",
+        "goal": "Use the response curve to see why matching frequencies makes the driven motion grow.",
+        "doThis": "Apply Near resonance, then move Driving frequency slightly away from and back toward the peak marker.",
+        "notice": "The response is strongest near the natural frequency and falls when the driver stops lining up with that preferred rhythm.",
+        "explain": "Near resonance, each push arrives in step with the oscillator, so energy transfer is efficient. Away from resonance, the pushes partly work against the motion.",
+        "reveal": {
+          "controlIds": ["naturalFrequency", "driveFrequency", "responseMode"],
+          "graphIds": ["response"],
+          "overlayIds": ["peakMarker", "forcingArrow"]
+        },
+        "inlineCheck": {
+          "title": "Predict the off-resonance response",
+          "predictionIds": ["dr-predict-2"]
+        }
+      },
+      {
+        "id": "use-damping-to-control-the-peak",
+        "title": "Control the peak",
+        "goal": "Connect the time-decay story back to the height and width of the resonance peak.",
+        "doThis": "Keep the response graph open and increase Damping ratio from a light value to a heavier value.",
+        "notice": "The peak becomes shorter and broader rather than disappearing all at once.",
+        "explain": "More damping drains energy during every cycle, so the oscillator cannot build as much steady-state amplitude and becomes less picky about one exact frequency.",
+        "reveal": {
+          "controlIds": ["dampingRatio", "responseMode"],
+          "graphIds": ["response", "transient"],
+          "overlayIds": ["responseEnvelope", "peakMarker"]
+        },
+        "inlineCheck": {
+          "title": "Use the damping-resonance tradeoff",
+          "questionIds": ["dr-qt-1", "dr-qt-2"],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Damping removes energy, so one free motion loses amplitude over time without moving the equilibrium line.",
+        "The response graph compares steady-state amplitude across driving frequencies, not seconds in one run.",
+        "Resonance is strongest near the natural frequency, and damping lowers and broadens the peak instead of simply deleting it."
+      ],
+      "misconception": "A tall response peak is not an unlimited time spike; it is the finite steady-state response of a damped system driven near its natural frequency.",
+      "workedExampleRefs": ["Current operating displacement", "Steady-state response amplitude"],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "simple-harmonic-motion",
+          "title": "Simple Harmonic Motion",
+          "reasonLabel": "Review the oscillator base"
+        },
+        {
+          "slug": "wave-interference",
+          "title": "Wave Interference",
+          "reasonLabel": "Next wave pattern"
+        }
+      ],
+      "freePlayPrompt": "Pick one graph view, change only damping or only driving frequency, and say whether you changed energy loss, frequency matching, or both."
+    },
+    "referenceSections": ["explanation", "keyIdeas", "accessibility"]
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Damping and resonance are the two forces that make oscillators feel realistic. Damping drains motion away, while a driver can keep feeding energy into the system and build a larger response.",
+        "This module keeps both stories visible. In one mode you watch the motion fade. In the other you sweep driving frequency and see the response rise and fall around resonance."
+      ]
+    },
+    "keyIdeas": [
+      "Higher damping makes the transient motion die out more quickly.",
+      "The strongest response happens when the driving frequency is close to the natural frequency.",
+      "A little damping softens the resonance peak instead of removing it entirely."
+    ],
+    "commonMisconception": {
+      "myth": "Resonance always means an unlimited amplitude spike.",
+      "correction": [
+        "Real systems lose energy, so damping keeps the amplitude finite.",
+        "The exact shape of the peak depends on how strongly the system is damped."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Use the current drive settings and, when relevant, the current inspected time. The math follows the same mode and parameters as the live oscillator.",
+      "items": [
+        {
+          "id": "current-displacement",
+          "title": "Current operating displacement",
+          "prompt": "At $t = {{timeValue}}\\,\\mathrm{s}$, what displacement does the oscillator have in the current mode?",
+          "dependsOnTime": true,
+          "variables": [
+            {
+              "id": "time",
+              "symbol": "t",
+              "label": "Time",
+              "valueKey": "timeValue",
+              "unit": "s"
+            },
+            {
+              "id": "damping",
+              "variableId": "dampingRatio",
+              "symbol": "\\beta",
+              "label": "Damping ratio",
+              "valueKey": "dampingValue"
+            },
+            {
+              "id": "naturalFrequency",
+              "variableId": "naturalFrequency",
+              "symbol": "\\omega_0",
+              "label": "Natural frequency",
+              "valueKey": "naturalFrequencyValue",
+              "unit": "rad/s"
+            },
+            {
+              "id": "driveFrequency",
+              "variableId": "driveFrequency",
+              "symbol": "\\omega_d",
+              "label": "Driving frequency",
+              "valueKey": "driveFrequencyValue",
+              "unit": "rad/s"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Identify the current-mode relation",
+              "template": "In {{modeLabel}}, use ${{modeFormula}}$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the current values",
+              "template": "$x({{timeValue}}) = {{substitutionFormula}}$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compute the displacement",
+              "template": "That gives $x = {{displacementValue}}$ in the current mode."
+            }
+          ],
+          "resultLabel": "Current displacement",
+          "resultTemplate": "$x({{timeValue}}) = {{displacementValue}}$",
+          "interpretationTemplate": "{{displacementInterpretation}}",
+          "applyAction": {
+            "label": "Apply free swing",
+            "presetId": "free-swing",
+            "observationHint": "In transient mode the envelope shrinks over time, so the same formula gives smaller displacements later in the motion.",
+            "highlightedControlIds": [
+              "dampingRatio",
+              "driveFrequency",
+              "responseMode"
+            ],
+            "highlightedGraphIds": [
+              "transient"
+            ],
+            "highlightedOverlayIds": [
+              "responseEnvelope"
+            ]
+          }
+        },
+        {
+          "id": "response-amplitude",
+          "title": "Steady-state response amplitude",
+          "prompt": "For the current drive settings, what steady-state response amplitude does the resonance formula predict?",
+          "variables": [
+            {
+              "id": "driveAmplitude",
+              "variableId": "driveAmplitude",
+              "symbol": "F_0",
+              "label": "Drive amplitude",
+              "valueKey": "driveAmplitudeValue",
+              "unit": "a.u."
+            },
+            {
+              "id": "damping",
+              "variableId": "dampingRatio",
+              "symbol": "\\beta",
+              "label": "Damping ratio",
+              "valueKey": "dampingValue"
+            },
+            {
+              "id": "naturalFrequency",
+              "variableId": "naturalFrequency",
+              "symbol": "\\omega_0",
+              "label": "Natural frequency",
+              "valueKey": "naturalFrequencyValue",
+              "unit": "rad/s"
+            },
+            {
+              "id": "driveFrequency",
+              "variableId": "driveFrequency",
+              "symbol": "\\omega_d",
+              "label": "Driving frequency",
+              "valueKey": "driveFrequencyValue",
+              "unit": "rad/s"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Identify the response relation",
+              "template": "Use $A(\\omega_d) = \\dfrac{F_0}{\\sqrt{(\\omega_0^2-\\omega_d^2)^2 + (2\\beta\\omega_d)^2}}$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the current drive values",
+              "template": "$A = \\dfrac{{driveAmplitudeValue}}{\\sqrt{({{naturalFrequencyValue}}^2-{{driveFrequencyValue}}^2)^2 + (2\\cdot{{dampingValue}}\\cdot{{driveFrequencyValue}})^2}}$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compute the response amplitude",
+              "template": "The predicted steady-state amplitude is $A = {{responseAmplitudeValue}}$."
+            }
+          ],
+          "resultLabel": "Steady-state amplitude",
+          "resultTemplate": "$A(\\omega_d) = {{responseAmplitudeValue}}$",
+          "interpretationTemplate": "{{responseInterpretation}}",
+          "applyAction": {
+            "label": "Apply near resonance",
+            "presetId": "near-resonance",
+            "observationHint": "Switch to the response curve and compare the current drive frequency with the peak marker. The amplitude grows when the driver sits close to resonance.",
+            "highlightedControlIds": [
+              "naturalFrequency",
+              "driveFrequency",
+              "responseMode"
+            ],
+            "highlightedGraphIds": [
+              "response"
+            ],
+            "highlightedOverlayIds": [
+              "peakMarker"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "If you increase damping but keep the drive frequency unchanged, what happens to the resonance peak?",
+      "prediction": "Predict whether the peak gets taller, wider, or both.",
+      "answer": "The peak gets shorter and broader.",
+      "explanation": "Damping removes energy more quickly, so the system cannot build as much amplitude. The response also becomes less selective about the exact driving frequency."
+    }
+  },
+  "equations": [
+    {
+      "id": "damped-oscillator",
+      "latex": "m\\ddot{x} + b\\dot{x} + kx = F_0\\sin(\\omega_d t)",
+      "label": "Driven damped oscillator",
+      "meaning": "The restoring force, damping force, and external driver act on the same system.",
+      "notes": [
+        "The damping term removes energy.",
+        "The driving term adds energy at a chosen frequency."
+      ]
+    },
+    {
+      "id": "natural-frequency",
+      "latex": "\\omega_0 = \\sqrt{\\tfrac{k}{m}}",
+      "label": "Natural frequency",
+      "meaning": "The frequency the system prefers when no driver is forcing it.",
+      "notes": [
+        "This is the reference frequency for resonance."
+      ]
+    },
+    {
+      "id": "resonance-response",
+      "latex": "A(\\omega_d) \\approx \\dfrac{F_0/m}{\\sqrt{(\\omega_0^2-\\omega_d^2)^2 + (2\\beta\\omega_d)^2}}",
+      "label": "Response amplitude",
+      "meaning": "A simplified amplitude curve that peaks near the natural frequency and depends on damping.",
+      "notes": [
+        "Larger damping lowers the peak and broadens the response."
+      ]
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "dampingRatio",
+      "symbol": "\\beta",
+      "label": "Damping ratio",
+      "param": "dampingRatio",
+      "tone": "coral",
+      "description": "Controls how fast energy is removed, which shortens the transient and lowers the resonance peak.",
+      "equationIds": [
+        "damped-oscillator",
+        "resonance-response"
+      ],
+      "graphIds": [
+        "transient",
+        "response"
+      ],
+      "overlayIds": [
+        "responseEnvelope"
+      ]
+    },
+    {
+      "id": "naturalFrequency",
+      "symbol": "\\omega_0",
+      "label": "Natural frequency",
+      "param": "naturalFrequency",
+      "tone": "teal",
+      "description": "Sets the system's preferred oscillation rate, which becomes the reference point for resonance.",
+      "equationIds": [
+        "natural-frequency",
+        "resonance-response"
+      ],
+      "graphIds": [
+        "transient",
+        "response"
+      ],
+      "overlayIds": [
+        "peakMarker"
+      ]
+    },
+    {
+      "id": "driveFrequency",
+      "symbol": "\\omega_d",
+      "label": "Driving frequency",
+      "param": "driveFrequency",
+      "tone": "amber",
+      "description": "Moves the external push rate, so the response curve shifts relative to the natural frequency and the driven motion changes character.",
+      "equationIds": [
+        "damped-oscillator",
+        "resonance-response"
+      ],
+      "graphIds": [
+        "transient",
+        "response"
+      ],
+      "overlayIds": [
+        "forcingArrow",
+        "peakMarker"
+      ]
+    },
+    {
+      "id": "driveAmplitude",
+      "symbol": "F_0",
+      "label": "Drive amplitude",
+      "param": "driveAmplitude",
+      "tone": "sky",
+      "description": "Controls how strong the external driver is, so the oscillation and response amplitude scale up or down together.",
+      "equationIds": [
+        "damped-oscillator",
+        "resonance-response"
+      ],
+      "graphIds": [
+        "transient",
+        "response"
+      ],
+      "overlayIds": [
+        "forcingArrow"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "dampingRatio": 0.12,
+      "naturalFrequency": 2,
+      "driveFrequency": 1.85,
+      "driveAmplitude": 1,
+      "responseMode": false,
+      "forcingArrow": true,
+      "responseEnvelope": true,
+      "peakMarker": false
+    },
+    "ui": {
+      "initialGraphId": "transient",
+      "primaryGraphIds": [
+        "transient",
+        "response"
+      ],
+      "primaryControlIds": [
+        "dampingRatio",
+        "driveFrequency",
+        "naturalFrequency"
+      ],
+      "primaryPresetIds": [
+        "free-swing",
+        "near-resonance"
+      ],
+      "starterExploreTasks": [
+        "Raise damping in the damped-motion view and watch the envelope collapse faster.",
+        "Switch to the response graph and move the driving frequency toward the peak marker.",
+        "Compare light and heavy damping to see the resonance peak become taller/narrower or shorter/broader."
+      ]
+    },
+    "controls": [
+      {
+        "id": "dampingRatio",
+        "kind": "slider",
+        "label": "Damping ratio",
+        "param": "dampingRatio",
+        "min": 0,
+        "max": 1.2,
+        "step": 0.02,
+        "description": "Controls how quickly energy is lost from the motion."
+      },
+      {
+        "id": "naturalFrequency",
+        "kind": "slider",
+        "label": "Natural frequency",
+        "param": "naturalFrequency",
+        "min": 0.5,
+        "max": 4,
+        "step": 0.05,
+        "unit": "rad/s",
+        "description": "Sets the system's preferred oscillation rate."
+      },
+      {
+        "id": "driveFrequency",
+        "kind": "slider",
+        "label": "Driving frequency",
+        "param": "driveFrequency",
+        "min": 0.5,
+        "max": 4,
+        "step": 0.05,
+        "unit": "rad/s",
+        "description": "Controls how quickly the external force pushes the system."
+      },
+      {
+        "id": "driveAmplitude",
+        "kind": "slider",
+        "label": "Drive amplitude",
+        "param": "driveAmplitude",
+        "min": 0.2,
+        "max": 2,
+        "step": 0.05,
+        "unit": "a.u.",
+        "description": "Controls how strong the driver is."
+      },
+      {
+        "id": "responseMode",
+        "kind": "toggle",
+        "label": "Resonance response",
+        "param": "responseMode",
+        "description": "Switch between a damped time-history view and a frequency-response view."
+      }
+    ],
+    "presets": [
+      {
+        "id": "free-swing",
+        "label": "Free swing",
+        "description": "Low drive and gentle damping for a clear transient decay.",
+        "values": {
+          "dampingRatio": 0.08,
+          "naturalFrequency": 2,
+          "driveFrequency": 1.5,
+          "driveAmplitude": 0.8,
+          "responseMode": false
+        }
+      },
+      {
+        "id": "near-resonance",
+        "label": "Near resonance",
+        "description": "The driving frequency sits close to the natural frequency.",
+        "values": {
+          "dampingRatio": 0.12,
+          "naturalFrequency": 2,
+          "driveFrequency": 1.95,
+          "driveAmplitude": 1,
+          "responseMode": true
+        }
+      },
+      {
+        "id": "heavily-damped",
+        "label": "Heavily damped",
+        "description": "The system loses energy quickly and the response stays controlled.",
+        "values": {
+          "dampingRatio": 0.45,
+          "naturalFrequency": 2,
+          "driveFrequency": 2,
+          "driveAmplitude": 1,
+          "responseMode": false
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "forcingArrow",
+        "label": "Driving force",
+        "shortDescription": "Shows the external driver feeding energy into the system.",
+        "whatToNotice": [
+          "The arrow follows the chosen drive, not the natural motion."
+        ],
+        "whyItMatters": "It separates the source of motion from the response.",
+        "relatedControls": [
+          "driveFrequency",
+          "driveAmplitude"
+        ],
+        "relatedGraphTabs": [
+          "transient",
+          "response"
+        ],
+        "relatedEquationVariables": [
+          "driveFrequency",
+          "driveAmplitude"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "responseEnvelope",
+        "label": "Response envelope",
+        "shortDescription": "Outlines the decaying or driven amplitude.",
+        "whatToNotice": [
+          "Stronger damping tightens the envelope and lowers the response."
+        ],
+        "whyItMatters": "It makes energy loss easier to read on the time graph.",
+        "relatedControls": [
+          "dampingRatio",
+          "responseMode"
+        ],
+        "relatedGraphTabs": [
+          "transient",
+          "response"
+        ],
+        "relatedEquationVariables": [
+          "dampingRatio",
+          "naturalFrequency"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "peakMarker",
+        "label": "Resonance marker",
+        "shortDescription": "Marks where the response is strongest or closest to resonance.",
+        "whatToNotice": [
+          "The marker sits near the peak when the drive and natural frequency line up."
+        ],
+        "whyItMatters": "It helps show how the peak shifts with damping and drive frequency.",
+        "relatedControls": [
+          "naturalFrequency",
+          "driveFrequency",
+          "responseMode"
+        ],
+        "relatedGraphTabs": [
+          "response"
+        ],
+        "relatedEquationVariables": [
+          "naturalFrequency",
+          "driveFrequency",
+          "dampingRatio"
+        ],
+        "defaultOn": false
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "transient",
+      "label": "Damped motion",
+      "xLabel": "time (s)",
+      "yLabel": "relative displacement (a.u.)",
+      "series": [
+        "displacement",
+        "envelope"
+      ],
+      "description": "Shows the motion fading when damping is stronger."
+    },
+    {
+      "id": "response",
+      "label": "Amplitude response",
+      "xLabel": "driving frequency (rad/s)",
+      "yLabel": "response amplitude (a.u.)",
+      "series": [
+        "response"
+      ],
+      "description": "Shows the resonance peak and how damping changes its height and width."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Treat the prompt as a live cue about the current representation. Some cues belong to the time trace, while others belong to the response curve.",
+    "items": [
+      {
+        "id": "dr-notice-transient-decay",
+        "text": "Notice that damping removes energy, so the motion envelope shrinks even when the oscillator is still cycling.",
+        "type": "observation",
+        "priority": 2,
+        "conditions": {
+          "responseMode": false
+        },
+        "tryThis": "Stay in the damped-motion view and compare the first swings with the later ones instead of looking only at one instant.",
+        "whyItMatters": "This is the difference between a repeating oscillation and one that is gradually losing energy.",
+        "relatedControls": [
+          "dampingRatio"
+        ],
+        "relatedGraphTabs": [
+          "transient"
+        ],
+        "relatedOverlays": [
+          "responseEnvelope"
+        ]
+      },
+      {
+        "id": "dr-notice-damping-change",
+        "text": "Notice that changing damping changes how quickly the motion settles and how sharply the response can peak.",
+        "type": "try-this",
+        "priority": 5,
+        "conditions": {
+          "lastChangedControls": [
+            "dampingRatio"
+          ]
+        },
+        "tryThis": "Increase Damping ratio, then compare the tighter transient envelope or the lower, broader response peak.",
+        "whyItMatters": "Damping changes energy loss, not the equilibrium position of the oscillator.",
+        "relatedControls": [
+          "dampingRatio",
+          "responseMode"
+        ],
+        "relatedGraphTabs": [
+          "transient",
+          "response"
+        ],
+        "relatedOverlays": [
+          "responseEnvelope",
+          "peakMarker"
+        ]
+      },
+      {
+        "id": "dr-notice-response-graph",
+        "text": "Notice that the amplitude-response graph is not a time trace. Each point represents a different driving frequency, not a later moment in the same motion.",
+        "type": "misconception",
+        "priority": 7,
+        "conditions": {
+          "graphTabs": [
+            "response"
+          ],
+          "responseMode": true
+        },
+        "tryThis": "Switch between the stage and the response curve and ask whether you are following time or scanning operating conditions.",
+        "whyItMatters": "If you confuse the response curve with time, resonance starts to look like a mysterious animation trick instead of a frequency-dependent effect.",
+        "relatedControls": [
+          "driveFrequency",
+          "responseMode"
+        ],
+        "relatedGraphTabs": [
+          "response"
+        ],
+        "relatedOverlays": [
+          "peakMarker"
+        ]
+      },
+      {
+        "id": "dr-notice-near-resonance",
+        "text": "Notice how the response grows when the driving frequency sits close to the natural frequency.",
+        "type": "graph-reading",
+        "priority": 6,
+        "conditions": {
+          "responseMode": true,
+          "controlRanges": [
+            {
+              "param": "driveFrequency",
+              "min": 1.8,
+              "max": 2.1
+            }
+          ]
+        },
+        "tryThis": "Move the drive frequency toward the peak and watch how the stage response and the response-curve marker strengthen together.",
+        "whyItMatters": "Resonance is efficient energy transfer near a matching frequency, not just 'big motion' for any reason.",
+        "relatedControls": [
+          "naturalFrequency",
+          "driveFrequency"
+        ],
+        "relatedGraphTabs": [
+          "response"
+        ],
+        "relatedOverlays": [
+          "peakMarker",
+          "forcingArrow"
+        ],
+        "relatedEquationVariables": [
+          "naturalFrequency",
+          "driveFrequency",
+          "dampingRatio"
+        ]
+      },
+      {
+        "id": "dr-notice-inspect",
+        "text": "Notice how the paused stage and the graph marker refer to the same sampled moment in the motion, even though the envelope is still shrinking.",
+        "type": "graph-reading",
+        "priority": 6,
+        "conditions": {
+          "inspectState": "inspect",
+          "responseMode": false
+        },
+        "tryThis": "Pause late in the motion and compare the smaller displacement with the earlier swings you saw in live playback.",
+        "whyItMatters": "Stepping through time makes damping visible as a change in amplitude over successive cycles.",
+        "relatedGraphTabs": [
+          "transient"
+        ],
+        "relatedOverlays": [
+          "responseEnvelope"
+        ]
+      },
+      {
+        "id": "dr-notice-compare",
+        "text": "Notice which setup holds a taller response or a slower decay; the difference usually comes from damping or how close the drive is to resonance.",
+        "type": "compare",
+        "priority": 7,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Keep one setup as the baseline, then change only Damping ratio or Drive frequency in the other setup and compare the response markers.",
+        "whyItMatters": "Compare mode makes resonance and damping tradeoffs readable without switching away from the live module.",
+        "relatedControls": [
+          "dampingRatio",
+          "driveFrequency",
+          "naturalFrequency"
+        ],
+        "relatedGraphTabs": [
+          "transient",
+          "response"
+        ],
+        "relatedOverlays": [
+          "responseEnvelope",
+          "peakMarker"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict how the driven system will respond, then apply the change and watch the curve move.",
+    "items": [
+      {
+        "id": "dr-predict-1",
+        "prompt": "If damping is reduced while the drive stays near resonance, what happens to the response peak?",
+        "scenarioLabel": "Reduce damping near resonance",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The peak gets taller and narrower."
+          },
+          {
+            "id": "b",
+            "label": "The peak disappears entirely."
+          },
+          {
+            "id": "c",
+            "label": "The natural frequency changes."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Lower damping lets the oscillator keep more of the energy it receives, so resonance becomes stronger and more selective.",
+        "observationHint": "In response mode, compare the height and width of the curve after reducing damping.",
+        "apply": {
+          "patch": {
+            "dampingRatio": 0.04,
+            "responseMode": true
+          }
+        },
+        "highlightedControls": [
+          "dampingRatio",
+          "responseMode"
+        ],
+        "highlightedGraphs": [
+          "response"
+        ],
+        "highlightedOverlays": [
+          "responseEnvelope",
+          "peakMarker"
+        ]
+      },
+      {
+        "id": "dr-predict-2",
+        "prompt": "If the driving frequency moves away from the natural frequency, what happens to the response?",
+        "scenarioLabel": "Move off resonance",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The response drops because the driver and system stop lining up as well."
+          },
+          {
+            "id": "b",
+            "label": "The response becomes infinite."
+          },
+          {
+            "id": "c",
+            "label": "Damping disappears."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Resonance depends on the forcing staying in step with the system. Moving away from the natural frequency weakens that energy transfer.",
+        "observationHint": "The response curve should fall and the time-history motion should look less amplified.",
+        "apply": {
+          "patch": {
+            "driveFrequency": 1.4,
+            "responseMode": true
+          }
+        },
+        "highlightedControls": [
+          "driveFrequency",
+          "responseMode"
+        ],
+        "highlightedGraphs": [
+          "transient",
+          "response"
+        ],
+        "highlightedOverlays": [
+          "forcingArrow",
+          "peakMarker"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the same response curve and inspect-time tools to tune a driven oscillator instead of passively watching it.",
+    "items": [
+      {
+        "id": "dr-ch-lock-near-resonance",
+        "title": "Lock near resonance",
+        "style": "target-setting",
+        "prompt": "Starting from Free swing, switch into the response view and tune the driver until it sits very close to resonance with a strong steady-state response.",
+        "successMessage": "You tuned the driver onto the resonance peak instead of merely increasing amplitude blindly. The response curve and stage are now telling the same frequency story.",
+        "setup": {
+          "presetId": "free-swing",
+          "graphId": "response",
+          "note": "Turn on the response view, then move the drive toward the peak marker."
+        },
+        "hints": [
+          "The goal is not just a large response. The drive frequency also has to sit close to the peak frequency.",
+          "A little damping still leaves a peak, but you have to line the driver up with it."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Open the amplitude-response graph.",
+            "graphId": "response"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the resonance marker visible.",
+            "overlayId": "peakMarker"
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep the drive within $0.08\\,\\mathrm{rad/s}$ of the peak frequency.",
+            "metric": "resonanceOffset",
+            "min": 0,
+            "max": 0.08,
+            "displayUnit": "rad/s"
+          },
+          {
+            "type": "metric-range",
+            "label": "Reach a response amplitude between $1.7$ and $2.2$.",
+            "metric": "responseAmplitude",
+            "min": 1.7,
+            "max": 2.2,
+            "displayUnit": "a.u."
+          }
+        ]
+      },
+      {
+        "id": "dr-ch-late-small-motion",
+        "title": "Late small motion",
+        "style": "visible-condition",
+        "prompt": "From Free swing, make the transient decay quickly enough that a late inspected sample shows only a very small displacement.",
+        "successMessage": "You used damping to control the later motion honestly. The oscillator still exists, but the envelope has collapsed to a small late-time response.",
+        "setup": {
+          "presetId": "free-swing",
+          "graphId": "transient",
+          "note": "Raise damping, then pause later in the motion to inspect the remaining amplitude."
+        },
+        "hints": [
+          "This task needs inspect mode. Pause well after the first few swings, not near the launch.",
+          "If the envelope is still broad, the damping ratio is too small."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Keep the damped-motion graph active.",
+            "graphId": "transient"
+          },
+          {
+            "type": "time-source",
+            "label": "Pause into inspect mode.",
+            "source": "inspect"
+          },
+          {
+            "type": "time-range",
+            "label": "Inspect a late sample between $4$ and $6\\,\\mathrm{s}$.",
+            "min": 4,
+            "max": 6,
+            "displayUnit": "s"
+          },
+          {
+            "type": "param-range",
+            "label": "Raise damping ratio into the $0.4$ to $0.6$ band.",
+            "param": "dampingRatio",
+            "min": 0.4,
+            "max": 0.6
+          },
+          {
+            "type": "metric-range",
+            "label": "Make the remaining displacement amplitude smaller than $0.15$.",
+            "metric": "amplitude",
+            "min": 0,
+            "max": 0.15,
+            "displayUnit": "a.u."
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Pick the explanation that best matches the motion, the transient, or the response curve. The point is to reason from the physics, not just spot a definition.",
+    "mode": "hybrid",
+    "isQuantitative": true,
+    "questionCount": 5,
+    "templates": [
+      {
+        "id": "damping-response-amplitude-template",
+        "kind": "worked-example-result",
+        "exampleId": "response-amplitude"
+      }
+    ],
+    "questions": [
+      {
+        "id": "dr-qt-1",
+        "type": "compare-two-cases",
+        "prompt": "Two response curves have the same natural frequency and drive amplitude. One peak is lower and broader. What most likely changed?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The damping became larger."
+          },
+          {
+            "id": "b",
+            "label": "The natural frequency moved, but damping stayed the same."
+          },
+          {
+            "id": "c",
+            "label": "The system stopped losing energy altogether."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Stronger damping removes energy faster, so the oscillator cannot build such a large response. The peak becomes shorter and less sharply tuned, which makes it look broader.",
+        "selectedWrongExplanations": {
+          "b": "Moving the natural frequency would shift the peak left or right. It would not by itself explain a lower, broader shape centered in the same place.",
+          "c": "No energy loss would make the response more extreme, not more controlled. A lower, broader peak is the signature of more damping, not none."
+        },
+        "showMeAction": {
+          "label": "Show heavier damping",
+          "patch": {
+            "dampingRatio": 0.45,
+            "responseMode": true
+          },
+          "observationHint": "Compare the shorter, broader peak with the lightly damped case and notice that the strongest response is less dramatic.",
+          "highlightedControlIds": [
+            "dampingRatio",
+            "responseMode"
+          ],
+          "highlightedGraphIds": [
+            "response"
+          ],
+          "highlightedOverlayIds": [
+            "responseEnvelope",
+            "peakMarker"
+          ]
+        }
+      },
+      {
+        "id": "dr-qt-2",
+        "type": "graph-reading",
+        "prompt": "Why does the response tend to be largest near the natural frequency on the amplitude-response graph?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Gravity disappears at that exact frequency."
+          },
+          {
+            "id": "b",
+            "label": "The driver and the oscillator stay in step more effectively."
+          },
+          {
+            "id": "c",
+            "label": "Damping becomes exactly zero only at that one frequency."
+          }
+        ],
+        "correctChoiceId": "b",
+        "explanation": "Near the natural frequency, the forcing adds energy at almost the same pace the system wants to oscillate, so each push reinforces the motion more effectively and the amplitude can build.",
+        "selectedWrongExplanations": {
+          "a": "Gravity is not what creates the resonance peak in this model. The peak comes from efficient energy transfer between the driver and the oscillator.",
+          "c": "Damping is a property of the system, not something that vanishes at one special frequency. The driver becomes more effective near resonance, but losses are still present."
+        },
+        "showMeAction": {
+          "label": "Show near resonance",
+          "presetId": "near-resonance",
+          "observationHint": "Watch the peak marker sit near the natural frequency while the response grows much larger than it does away from resonance.",
+          "highlightedControlIds": [
+            "naturalFrequency",
+            "driveFrequency",
+            "responseMode"
+          ],
+          "highlightedGraphIds": [
+            "response"
+          ],
+          "highlightedOverlayIds": [
+            "peakMarker"
+          ]
+        }
+      },
+      {
+        "id": "dr-qt-3",
+        "type": "misconception-check",
+        "prompt": "Which statement best corrects the idea that damping shifts the equilibrium position of the oscillator?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Damping mainly removes energy, so it changes how quickly motion decays and how large the response becomes."
+          },
+          {
+            "id": "b",
+            "label": "Damping moves the zero-displacement line to a new location."
+          },
+          {
+            "id": "c",
+            "label": "Damping matters only in response mode, not in time-based motion."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Damping changes energy loss, not the location of equilibrium. In the transient view it shortens the motion, and in the response view it lowers and broadens the resonance peak.",
+        "selectedWrongExplanations": {
+          "b": "Equilibrium is the reference position of the oscillator. Damping can make motion settle faster without moving that center point.",
+          "c": "Damping matters in both views. It shapes the transient decay in time and also limits the steady response near resonance."
+        },
+        "showMeAction": {
+          "label": "Show stronger damping in time",
+          "patch": {
+            "dampingRatio": 0.45,
+            "responseMode": false
+          },
+          "observationHint": "The motion dies out more quickly, but the center line of the oscillator does not move.",
+          "highlightedControlIds": [
+            "dampingRatio"
+          ],
+          "highlightedGraphIds": [
+            "transient"
+          ],
+          "highlightedOverlayIds": [
+            "responseEnvelope"
+          ]
+        }
+      },
+      {
+        "id": "dr-qt-4",
+        "type": "reasoning",
+        "prompt": "What is the honest difference between the transient graph and the response graph in this module?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "They both show the same time history, but one is simply zoomed out."
+          },
+          {
+            "id": "b",
+            "label": "The response graph is a hidden position graph taken from one frozen instant."
+          },
+          {
+            "id": "c",
+            "label": "The transient graph follows one motion through time, while the response graph compares steady-state amplitude across many driving frequencies."
+          }
+        ],
+        "correctChoiceId": "c",
+        "explanation": "The transient view is a time story of one oscillator. The response graph is not a time trace at all. It compares how large the steady response would be at different driving frequencies.",
+        "selectedWrongExplanations": {
+          "a": "The response graph is not a zoomed time history. Its horizontal axis is driving frequency, so it answers a different question altogether.",
+          "b": "A point on the response curve is an operating condition, not a snapshot of position in one cycle."
+        },
+        "showMeAction": {
+          "label": "Show the response view",
+          "patch": {
+            "responseMode": true,
+            "driveFrequency": 1.95
+          },
+          "observationHint": "Notice that the stage can still be inspected through time, but the response graph itself is about how amplitude changes across frequencies.",
+          "highlightedControlIds": [
+            "responseMode",
+            "driveFrequency"
+          ],
+          "highlightedGraphIds": [
+            "response"
+          ],
+          "highlightedOverlayIds": [
+            "peakMarker"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation alternates between two views of the same system: a time-based damped motion and a frequency-response view that sweeps the driver across different frequencies.",
+        "The controls make the physical meaning explicit so the user can tell whether they are changing damping, the natural frequency, or the strength and rate of the external driver."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The transient graph shows how quickly the motion settles after energy is removed by damping.",
+        "The response graph shows how close the driver is to resonance and how damping changes the shape of the peak."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Damping and Resonance",
+    "description": "Interactive damping and resonance with a time view, a response curve, and clear controls for natural frequency, drive frequency, and damping.",
+    "keywords": [
+      "damping",
+      "resonance",
+      "driven oscillator",
+      "physics simulation"
+    ]
+  }
+}

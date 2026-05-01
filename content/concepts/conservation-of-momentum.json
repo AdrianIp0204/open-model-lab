@@ -1,0 +1,1064 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live conservation checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "System-total checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Keep momentum reasoning moving"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Use two carts to see the conservation rule in action: with no outside push, the system's total momentum stays fixed even while each cart's momentum and speed change.",
+    "keyTakeaway": "Momentum conservation applies to the whole isolated system, not to each object separately."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Conservation of momentum is the system version of the impulse story. If no external impulse acts on the two-cart system, the total momentum of the carts together stays constant even while the carts shove, pull, or collide internally.",
+        "This module keeps that idea bounded with two carts on one track and one internal interaction window. You can change the masses, the shared system drift, and the internal force pair, then watch the individual momenta redistribute while the total momentum and center-of-mass motion stay honest."
+      ]
+    },
+    "keyIdeas": [
+      "Momentum conservation applies to the whole isolated system, not to each object separately.",
+      "Internal forces come in equal and opposite pairs, so they change the objects' momenta in opposite directions without changing the system total.",
+      "Equal momentum changes do not imply equal velocity changes. The lighter cart usually changes speed more because $p = mv$."
+    ],
+    "commonMisconception": {
+      "myth": "If two objects push on each other, the larger force winner keeps more of the system momentum.",
+      "correction": [
+        "Inside an isolated system there is no momentum winner. The internal force pair changes the objects' momenta by equal and opposite amounts, so the system total stays fixed.",
+        "Mass changes how the shared momentum redistribution shows up as velocity. A heavier object can keep a smaller speed change while still taking part in the same opposite momentum exchange."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Solve the redistribution you are actually watching. Time-based checks follow the inspected moment, and the final-split check stays tied to the current masses, shared system speed, and internal interaction pair.",
+      "items": [
+        {
+          "id": "current-total-momentum",
+          "title": "Current system total",
+          "prompt": "At $t = {{timeValue}}\\,\\mathrm{s}$, what is the system's total momentum?",
+          "dependsOnTime": true,
+          "variables": [
+            {
+              "id": "time",
+              "symbol": "t",
+              "label": "Time",
+              "valueKey": "timeValue",
+              "unit": "s"
+            },
+            {
+              "id": "momentumA",
+              "symbol": "p_A",
+              "label": "Momentum of A",
+              "valueKey": "momentumAValue",
+              "unit": "kg m/s"
+            },
+            {
+              "id": "momentumB",
+              "symbol": "p_B",
+              "label": "Momentum of B",
+              "valueKey": "momentumBValue",
+              "unit": "kg m/s"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Add the object momenta",
+              "template": "Use $p_{\\mathrm{tot}} = p_A + p_B$ for the same instant shown on the stage."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the live values",
+              "template": "$p_{\\mathrm{tot}} = {{momentumAValue}} + {{momentumBValue}}$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compute the total",
+              "template": "So $p_{\\mathrm{tot}} = {{totalMomentumValue}}\\,\\mathrm{kg\\,m/s}$."
+            }
+          ],
+          "resultLabel": "Current total momentum",
+          "resultTemplate": "$p_{\\mathrm{tot}} = {{totalMomentumValue}}\\,\\mathrm{kg\\,m/s}$",
+          "interpretationTemplate": "{{totalMomentumInterpretation}}",
+          "applyAction": {
+            "label": "Show moving system",
+            "presetId": "moving-system",
+            "observationHint": "Watch the flat total-momentum line and the center-of-mass marker stay in step while the carts split apart.",
+            "highlightedControlIds": [
+              "systemVelocity",
+              "interactionForce",
+              "interactionDuration"
+            ],
+            "highlightedGraphIds": [
+              "momenta",
+              "velocity"
+            ],
+            "highlightedOverlayIds": [
+              "centerOfMass",
+              "systemBoundary"
+            ]
+          }
+        },
+        {
+          "id": "final-momentum-split",
+          "title": "Final momentum split",
+          "prompt": "For the current internal interaction, what final momenta should carts A and B end with?",
+          "variables": [
+            {
+              "id": "initialMomentumA",
+              "symbol": "p_{A,i}",
+              "label": "Initial momentum of A",
+              "valueKey": "initialMomentumAValue",
+              "unit": "kg m/s"
+            },
+            {
+              "id": "initialMomentumB",
+              "symbol": "p_{B,i}",
+              "label": "Initial momentum of B",
+              "valueKey": "initialMomentumBValue",
+              "unit": "kg m/s"
+            },
+            {
+              "id": "interactionForce",
+              "variableId": "interactionForce",
+              "symbol": "F_{\\mathrm{int}}",
+              "label": "Internal force magnitude",
+              "valueKey": "interactionForceValue",
+              "unit": "N"
+            },
+            {
+              "id": "interactionDuration",
+              "variableId": "interactionDuration",
+              "symbol": "\\Delta t",
+              "label": "Interaction duration",
+              "valueKey": "interactionDurationValue",
+              "unit": "s"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Use equal-and-opposite momentum changes",
+              "template": "For one isolated interaction, $\\Delta p_A = -F_{\\mathrm{int}}\\Delta t$ and $\\Delta p_B = +F_{\\mathrm{int}}\\Delta t$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Add those changes to the initial split",
+              "template": "$p_{A,f} = {{initialMomentumAValue}} + ({{deltaMomentumAValue}})$ and $p_{B,f} = {{initialMomentumBValue}} + ({{deltaMomentumBValue}})$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compute the final momenta",
+              "template": "That gives $p_{A,f} = {{finalMomentumAValue}}\\,\\mathrm{kg\\,m/s}$ and $p_{B,f} = {{finalMomentumBValue}}\\,\\mathrm{kg\\,m/s}$."
+            }
+          ],
+          "resultLabel": "Final momentum split",
+          "resultTemplate": "$p_{A,f} = {{finalMomentumAValue}}\\,\\mathrm{kg\\,m/s}, \\quad p_{B,f} = {{finalMomentumBValue}}\\,\\mathrm{kg\\,m/s}$",
+          "interpretationTemplate": "{{redistributionInterpretation}}",
+          "applyAction": {
+            "label": "Apply long gentle split",
+            "presetId": "long-gentle-split",
+            "observationHint": "Compare the lower, wider force pair with the same final momentum split.",
+            "highlightedControlIds": [
+              "interactionForce",
+              "interactionDuration"
+            ],
+            "highlightedGraphIds": [
+              "forces",
+              "momenta"
+            ],
+            "highlightedOverlayIds": [
+              "forcePair",
+              "momentumBars"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Can you make cart A reverse direction while the system total momentum stays positive?",
+      "prediction": "Try giving the whole system a rightward drift, then strengthen the internal push until cart A turns around.",
+      "answer": "Yes. A rightward-moving system can keep positive total momentum even if cart A ends up moving left after the internal interaction.",
+      "explanation": "Momentum conservation constrains the sum, not each object's direction. Cart B can keep enough rightward momentum that the total stays positive while cart A reverses."
+    }
+  },
+  "equations": [
+    {
+      "id": "object-momentum",
+      "latex": "p = mv",
+      "label": "Momentum of one object",
+      "meaning": "Each cart's momentum comes from its own mass and velocity."
+    },
+    {
+      "id": "system-total",
+      "latex": "p_{\\mathrm{tot}} = p_A + p_B",
+      "label": "Total momentum",
+      "meaning": "The system total is the vector sum of the object momenta. In this one-dimensional lab the signs carry the direction."
+    },
+    {
+      "id": "internal-redistribution",
+      "latex": "\\Delta p_A = -\\Delta p_B",
+      "label": "Equal-and-opposite redistribution",
+      "meaning": "Internal interactions move momentum from one object to the other by equal and opposite amounts."
+    },
+    {
+      "id": "conservation-law",
+      "latex": "p_{\\mathrm{tot},i} = p_{\\mathrm{tot},f}",
+      "label": "Conservation of momentum",
+      "meaning": "If the net external impulse is zero, the system total momentum stays constant."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "massA",
+      "symbol": "m_A",
+      "label": "Mass of A",
+      "param": "massA",
+      "tone": "teal",
+      "description": "Changing A's mass changes how much its velocity responds to the shared momentum exchange.",
+      "equationIds": [
+        "object-momentum",
+        "internal-redistribution"
+      ],
+      "graphIds": [
+        "velocity",
+        "momenta"
+      ],
+      "overlayIds": [
+        "momentumBars"
+      ]
+    },
+    {
+      "id": "massB",
+      "symbol": "m_B",
+      "label": "Mass of B",
+      "param": "massB",
+      "tone": "coral",
+      "description": "Changing B's mass changes its speed response without changing the equal-and-opposite momentum rule.",
+      "equationIds": [
+        "object-momentum",
+        "internal-redistribution"
+      ],
+      "graphIds": [
+        "velocity",
+        "momenta"
+      ],
+      "overlayIds": [
+        "momentumBars"
+      ]
+    },
+    {
+      "id": "systemVelocity",
+      "symbol": "v_{\\mathrm{sys}}",
+      "label": "System velocity",
+      "param": "systemVelocity",
+      "tone": "sky",
+      "description": "Sets the shared center-of-mass drift before the carts start redistributing momentum internally.",
+      "equationIds": [
+        "object-momentum",
+        "system-total",
+        "conservation-law"
+      ],
+      "graphIds": [
+        "velocity",
+        "momenta"
+      ],
+      "overlayIds": [
+        "centerOfMass",
+        "systemBoundary"
+      ]
+    },
+    {
+      "id": "interactionForce",
+      "symbol": "F_{\\mathrm{int}}",
+      "label": "Internal force magnitude",
+      "param": "interactionForce",
+      "tone": "amber",
+      "description": "Sets how quickly momentum is exchanged between the carts during the interaction window.",
+      "equationIds": [
+        "internal-redistribution"
+      ],
+      "graphIds": [
+        "forces",
+        "momenta"
+      ],
+      "overlayIds": [
+        "forcePair"
+      ]
+    },
+    {
+      "id": "interactionDuration",
+      "symbol": "\\Delta t",
+      "label": "Interaction duration",
+      "param": "interactionDuration",
+      "tone": "ink",
+      "description": "Sets how long the internal force pair acts, so it controls the total momentum transferred between the carts.",
+      "equationIds": [
+        "internal-redistribution"
+      ],
+      "graphIds": [
+        "forces",
+        "momenta"
+      ],
+      "overlayIds": [
+        "forcePair"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "massA": 1.2,
+      "massB": 2.4,
+      "systemVelocity": 0,
+      "interactionForce": 2,
+      "interactionDuration": 0.4
+    },
+    "ui": {
+      "initialGraphId": "momenta",
+      "primaryGraphIds": [
+        "momenta"
+      ],
+      "primaryControlIds": [
+        "interactionForce",
+        "systemVelocity"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "massA",
+        "kind": "slider",
+        "label": "Mass of A",
+        "param": "massA",
+        "min": 1,
+        "max": 4,
+        "step": 0.1,
+        "unit": "kg",
+        "description": "Change cart A without changing the shared interaction pair."
+      },
+      {
+        "id": "massB",
+        "kind": "slider",
+        "label": "Mass of B",
+        "param": "massB",
+        "min": 1,
+        "max": 4,
+        "step": 0.1,
+        "unit": "kg",
+        "description": "Change cart B and compare how the same momentum exchange appears in its velocity."
+      },
+      {
+        "id": "systemVelocity",
+        "kind": "slider",
+        "label": "System velocity",
+        "param": "systemVelocity",
+        "min": -1,
+        "max": 1,
+        "step": 0.05,
+        "unit": "m/s",
+        "description": "Give the whole isolated system a leftward or rightward drift before the internal push begins."
+      },
+      {
+        "id": "interactionForce",
+        "kind": "slider",
+        "label": "Internal force",
+        "param": "interactionForce",
+        "min": -2.4,
+        "max": 2.4,
+        "step": 0.1,
+        "unit": "N",
+        "description": "Positive values push A left and B right. Negative values swap those directions."
+      },
+      {
+        "id": "interactionDuration",
+        "kind": "slider",
+        "label": "Interaction duration",
+        "param": "interactionDuration",
+        "min": 0.3,
+        "max": 0.8,
+        "step": 0.05,
+        "unit": "s",
+        "description": "Set how long the internal force pair acts during the fixed interaction window."
+      }
+    ],
+    "presets": [
+      {
+        "id": "short-strong-split",
+        "label": "Short strong split",
+        "description": "A stronger, shorter interaction from rest.",
+        "values": {
+          "massA": 1.2,
+          "massB": 2.4,
+          "systemVelocity": 0,
+          "interactionForce": 2,
+          "interactionDuration": 0.4
+        }
+      },
+      {
+        "id": "long-gentle-split",
+        "label": "Long gentle split",
+        "description": "A weaker, longer interaction with the same total momentum transfer.",
+        "values": {
+          "massA": 1.2,
+          "massB": 2.4,
+          "systemVelocity": 0,
+          "interactionForce": 1,
+          "interactionDuration": 0.8
+        }
+      },
+      {
+        "id": "equal-mass-rest",
+        "label": "Equal masses at rest",
+        "description": "A symmetric split from zero total momentum.",
+        "values": {
+          "massA": 1.5,
+          "massB": 1.5,
+          "systemVelocity": 0,
+          "interactionForce": 1.8,
+          "interactionDuration": 0.5
+        }
+      },
+      {
+        "id": "heavy-right-cart",
+        "label": "Heavy cart B",
+        "description": "Cart B is much heavier, so the same momentum exchange changes its speed less.",
+        "values": {
+          "massA": 1.2,
+          "massB": 3.4,
+          "systemVelocity": 0,
+          "interactionForce": 1.8,
+          "interactionDuration": 0.5
+        }
+      },
+      {
+        "id": "moving-system",
+        "label": "Moving system",
+        "description": "The whole isolated system drifts right before the internal interaction begins.",
+        "values": {
+          "massA": 1.2,
+          "massB": 2.4,
+          "systemVelocity": 0.5,
+          "interactionForce": 1.6,
+          "interactionDuration": 0.5
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "systemBoundary",
+        "label": "System boundary",
+        "shortDescription": "Marks the two-cart system that is being treated as isolated.",
+        "whatToNotice": [
+          "The boundary contains both carts at once, so the conservation statement applies to their combined momentum.",
+          "Changing what happens inside the boundary does not by itself create an external impulse."
+        ],
+        "whyItMatters": "Momentum conservation is a system-level statement. The boundary reminds you which objects belong in the total.",
+        "relatedControls": [
+          "systemVelocity"
+        ],
+        "relatedGraphTabs": [
+          "momenta",
+          "velocity"
+        ],
+        "relatedEquationVariables": [
+          "systemVelocity"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "forcePair",
+        "label": "Force pair",
+        "shortDescription": "Shows the equal and opposite internal force arrows during the interaction window.",
+        "whatToNotice": [
+          "The arrows appear at the same time and with the same magnitude, but they point in opposite directions.",
+          "The force graph shows the same pair: one line is the negative of the other."
+        ],
+        "whyItMatters": "Equal and opposite internal forces are the local reason the momentum changes cancel in the system total.",
+        "relatedControls": [
+          "interactionForce",
+          "interactionDuration"
+        ],
+        "relatedGraphTabs": [
+          "forces",
+          "momenta"
+        ],
+        "relatedEquationVariables": [
+          "interactionForce",
+          "interactionDuration"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "centerOfMass",
+        "label": "Center of mass",
+        "shortDescription": "Tracks the center-of-mass position while the carts redistribute momentum.",
+        "whatToNotice": [
+          "The center of mass keeps moving at a steady speed even while the individual carts speed up or slow down.",
+          "If the total momentum is zero, the center of mass stays fixed even while the carts move apart."
+        ],
+        "whyItMatters": "A steady center-of-mass motion is another honest sign that the net external force on the system is zero.",
+        "relatedControls": [
+          "systemVelocity"
+        ],
+        "relatedGraphTabs": [
+          "velocity",
+          "momenta"
+        ],
+        "relatedEquationVariables": [
+          "systemVelocity"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "momentumBars",
+        "label": "Momentum bars",
+        "shortDescription": "Compares the signed momenta of cart A, cart B, and the total on one centered scale.",
+        "whatToNotice": [
+          "The object bars change in opposite directions while the total bar stays fixed.",
+          "Equal object momentum changes can still produce unequal velocity changes when the masses differ."
+        ],
+        "whyItMatters": "The bars make redistribution visible without letting the total momentum drift out of view.",
+        "relatedControls": [
+          "massA",
+          "massB"
+        ],
+        "relatedGraphTabs": [
+          "momenta",
+          "velocity"
+        ],
+        "relatedEquationVariables": [
+          "massA",
+          "massB"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "forces",
+      "label": "Internal forces vs time",
+      "xLabel": "time (s)",
+      "yLabel": "force (N)",
+      "series": [
+        "force-a",
+        "force-b",
+        "net-external-force"
+      ],
+      "description": "Shows the equal and opposite internal force pair during the interaction window and the zero external-force baseline."
+    },
+    {
+      "id": "momenta",
+      "label": "Object and total momentum",
+      "xLabel": "time (s)",
+      "yLabel": "momentum (kg m/s)",
+      "series": [
+        "momentum-a",
+        "momentum-b",
+        "momentum-total"
+      ],
+      "description": "Shows the carts' individual momentum lines changing in opposite directions while the total momentum line stays flat."
+    },
+    {
+      "id": "velocity",
+      "label": "Velocities and center-of-mass speed",
+      "xLabel": "time (s)",
+      "yLabel": "velocity (m/s)",
+      "series": [
+        "velocity-a",
+        "velocity-b",
+        "velocity-cm"
+      ],
+      "description": "Shows how the same momentum exchange can produce different speed changes while the center-of-mass speed stays constant."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the live prompt as a short guide while you change the masses and internal interaction. The best prompt should point at something the stage and the current graph already show honestly.",
+    "items": [
+      {
+        "id": "cm-notice-total-flat",
+        "text": "Notice that the total-momentum line stays flat even while the individual momentum lines tilt in opposite directions.",
+        "type": "graph-reading",
+        "priority": 1,
+        "conditions": {
+          "graphTabs": [
+            "momenta"
+          ]
+        },
+        "tryThis": "Scrub through the interaction window and compare the flat total line with the moving p_A and p_B lines.",
+        "whyItMatters": "Conservation of momentum is about the system total, not the individual lines staying unchanged.",
+        "relatedGraphTabs": [
+          "momenta"
+        ],
+        "relatedOverlays": [
+          "momentumBars"
+        ],
+        "relatedEquationVariables": [
+          "systemVelocity"
+        ]
+      },
+      {
+        "id": "cm-notice-force-pair",
+        "text": "Notice that the force graph shows an equal and opposite pair, not one force winning over the other.",
+        "type": "observation",
+        "priority": 2,
+        "conditions": {
+          "graphTabs": [
+            "forces"
+          ]
+        },
+        "tryThis": "Watch the force arrows on the stage and the force graph together. One line should always mirror the other.",
+        "whyItMatters": "Those equal and opposite internal forces are why the system total momentum does not change.",
+        "relatedControls": [
+          "interactionForce",
+          "interactionDuration"
+        ],
+        "relatedGraphTabs": [
+          "forces",
+          "momenta"
+        ],
+        "relatedOverlays": [
+          "forcePair"
+        ],
+        "relatedEquationVariables": [
+          "interactionForce",
+          "interactionDuration"
+        ]
+      },
+      {
+        "id": "cm-notice-heavy-cart",
+        "text": "Notice that making one cart heavier changes the velocity split more than the momentum split.",
+        "type": "misconception",
+        "priority": 6,
+        "conditions": {
+          "lastChangedControls": [
+            "massA",
+            "massB"
+          ]
+        },
+        "tryThis": "Raise only cart B's mass. The momentum bars still change by equal and opposite amounts, but the velocity graph bends less for B.",
+        "whyItMatters": "Students often mix up momentum change with speed change. The heavier cart usually gets the smaller speed change.",
+        "relatedControls": [
+          "massA",
+          "massB"
+        ],
+        "relatedGraphTabs": [
+          "velocity",
+          "momenta"
+        ],
+        "relatedOverlays": [
+          "momentumBars"
+        ],
+        "relatedEquationVariables": [
+          "massA",
+          "massB"
+        ]
+      },
+      {
+        "id": "cm-notice-moving-system",
+        "text": "Notice that a moving system can keep positive total momentum even while one cart ends up going left.",
+        "type": "try-this",
+        "priority": 5,
+        "conditions": {
+          "lastChangedControls": [
+            "systemVelocity"
+          ]
+        },
+        "tryThis": "Give the whole system a rightward drift, then strengthen the internal push until cart A reverses.",
+        "whyItMatters": "Conservation constrains the sum. It does not require every object to move in the same direction.",
+        "relatedControls": [
+          "systemVelocity",
+          "interactionForce"
+        ],
+        "relatedGraphTabs": [
+          "momenta",
+          "velocity"
+        ],
+        "relatedOverlays": [
+          "centerOfMass",
+          "systemBoundary"
+        ],
+        "relatedEquationVariables": [
+          "systemVelocity"
+        ]
+      },
+      {
+        "id": "cm-notice-center-of-mass",
+        "text": "Notice that the center-of-mass marker keeps a steady drift even while the carts speed up and slow down around it.",
+        "type": "observation",
+        "priority": 3,
+        "conditions": {
+          "overlayIds": [
+            "centerOfMass"
+          ]
+        },
+        "tryThis": "Leave the center-of-mass overlay on while you watch the carts separate. The CM marker should move at one steady speed.",
+        "whyItMatters": "The center of mass gives another compact check that the system has no net external force.",
+        "relatedGraphTabs": [
+          "velocity",
+          "momenta"
+        ],
+        "relatedOverlays": [
+          "centerOfMass"
+        ],
+        "relatedEquationVariables": [
+          "systemVelocity"
+        ]
+      },
+      {
+        "id": "cm-notice-equal-impulse-compare",
+        "text": "Notice that a shorter stronger interaction and a longer gentler interaction can produce the same final momentum split.",
+        "type": "compare",
+        "priority": 7,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Compare the short strong split with the long gentle split. The force graph shapes differ even when the final momentum bars match.",
+        "whyItMatters": "This keeps the language from Momentum and Impulse alive inside a two-object system.",
+        "relatedControls": [
+          "interactionForce",
+          "interactionDuration"
+        ],
+        "relatedGraphTabs": [
+          "forces",
+          "momenta"
+        ],
+        "relatedOverlays": [
+          "forcePair",
+          "momentumBars"
+        ],
+        "relatedEquationVariables": [
+          "interactionForce",
+          "interactionDuration"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict what the system total, object momentum split, and center-of-mass motion should do before you test the change on the live stage.",
+    "items": [
+      {
+        "id": "cm-predict-heavy-cart",
+        "prompt": "If cart B becomes much heavier while the system still starts from rest, what should happen after the same internal push?",
+        "scenarioLabel": "Heavy cart B from rest",
+        "changeLabel": "Same momentum exchange, different masses",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The total momentum stays zero, the momentum changes stay equal and opposite, and cart B changes speed less."
+          },
+          {
+            "id": "b",
+            "label": "The heavier cart must take more total momentum because it has more mass."
+          },
+          {
+            "id": "c",
+            "label": "The total momentum becomes positive because the heavier cart dominates the system."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Internal forces still give equal and opposite momentum changes. The heavier cart simply converts that same momentum change into a smaller speed change.",
+        "observationHint": "Watch the velocity graph and the momentum bars together after the heavy-right-cart preset is applied.",
+        "apply": {
+          "presetId": "heavy-right-cart"
+        },
+        "highlightedControls": [
+          "massB",
+          "interactionForce",
+          "interactionDuration"
+        ],
+        "highlightedGraphs": [
+          "velocity",
+          "momenta"
+        ],
+        "highlightedOverlays": [
+          "momentumBars",
+          "centerOfMass"
+        ]
+      },
+      {
+        "id": "cm-predict-moving-system",
+        "prompt": "If the whole system already drifts right before the carts push on each other, what should the total momentum and center of mass do during the interaction?",
+        "scenarioLabel": "Moving isolated system",
+        "changeLabel": "Nonzero system drift",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The total momentum stays positive and the center of mass keeps moving right at a steady speed."
+          },
+          {
+            "id": "b",
+            "label": "The internal push forces the total momentum back to zero by the end of the window."
+          },
+          {
+            "id": "c",
+            "label": "The center of mass must stop while the carts exchange momentum."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Internal forces can redistribute momentum, but they do not change the total momentum of the isolated system. The center of mass therefore keeps the same drift.",
+        "observationHint": "Watch the flat total-momentum line and the steady CM marker after the moving-system preset is applied.",
+        "apply": {
+          "presetId": "moving-system"
+        },
+        "highlightedControls": [
+          "systemVelocity"
+        ],
+        "highlightedGraphs": [
+          "momenta",
+          "velocity"
+        ],
+        "highlightedOverlays": [
+          "systemBoundary",
+          "centerOfMass"
+        ]
+      },
+      {
+        "id": "cm-predict-equal-impulse",
+        "prompt": "If you switch from the short strong split to the long gentle split on the same carts, what should stay the same?",
+        "scenarioLabel": "Long gentle equal-transfer interaction",
+        "changeLabel": "Same interaction impulse, different shape",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The final momentum split stays the same even though the force graph becomes lower and wider."
+          },
+          {
+            "id": "b",
+            "label": "The final momentum split must shrink because the peak force is lower."
+          },
+          {
+            "id": "c",
+            "label": "Nothing changes because internal forces never affect object momentum."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The internal interaction transfers the same signed momentum in both cases, so the final momentum split stays the same even though the force-time shape changes.",
+        "observationHint": "Compare the end of the momentum graph and the final momentum bars after the long gentle split is applied.",
+        "apply": {
+          "presetId": "long-gentle-split"
+        },
+        "highlightedControls": [
+          "interactionForce",
+          "interactionDuration"
+        ],
+        "highlightedGraphs": [
+          "forces",
+          "momenta"
+        ],
+        "highlightedOverlays": [
+          "forcePair",
+          "momentumBars"
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Use the live force pair, the momentum split, and the center-of-mass motion together. These checks are about reasoning with an isolated system, not just reciting a slogan.",
+    "questions": [
+      {
+        "id": "cm-qt-1",
+        "type": "reasoning",
+        "prompt": "Which statement best describes momentum conservation in this two-cart lab?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The system total momentum stays constant when only internal forces act."
+          },
+          {
+            "id": "b",
+            "label": "Each cart keeps the same momentum throughout the interaction."
+          },
+          {
+            "id": "c",
+            "label": "The heavier cart automatically keeps all of the total momentum."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Conservation applies to the combined system. The object momenta can change a lot as long as their sum stays fixed.",
+        "selectedWrongExplanations": {
+          "b": "The carts do change momentum. What stays fixed is the sum of their momenta.",
+          "c": "Mass changes the velocity response, but it does not let one cart keep the whole system total by itself."
+        },
+        "showMeAction": {
+          "label": "Show equal masses at rest",
+          "presetId": "equal-mass-rest",
+          "observationHint": "The carts gain opposite momentum while the total line stays at zero.",
+          "highlightedControlIds": [
+            "massA",
+            "massB"
+          ],
+          "highlightedGraphIds": [
+            "momenta"
+          ],
+          "highlightedOverlayIds": [
+            "momentumBars",
+            "systemBoundary"
+          ]
+        }
+      },
+      {
+        "id": "cm-qt-2",
+        "type": "variable-effect",
+        "prompt": "If cart B gets heavier while the same internal interaction acts from rest, what changes most directly?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Cart B's speed change gets smaller even though the opposite momentum changes stay equal in size."
+          },
+          {
+            "id": "b",
+            "label": "The total momentum becomes nonzero because the heavier cart dominates."
+          },
+          {
+            "id": "c",
+            "label": "Cart A stops changing momentum because cart B is harder to move."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The momentum changes remain equal and opposite. The heavier cart just turns that same momentum change into a smaller velocity change.",
+        "selectedWrongExplanations": {
+          "b": "The system still starts from zero total momentum, so it stays at zero while the carts split apart.",
+          "c": "Cart A still changes momentum by the same magnitude because the internal force pair acts on both carts."
+        },
+        "showMeAction": {
+          "label": "Show heavy cart B",
+          "presetId": "heavy-right-cart",
+          "observationHint": "The velocity graph bends less for B even though the momentum bars still change by equal and opposite amounts.",
+          "highlightedControlIds": [
+            "massB"
+          ],
+          "highlightedGraphIds": [
+            "velocity",
+            "momenta"
+          ],
+          "highlightedOverlayIds": [
+            "momentumBars"
+          ]
+        }
+      },
+      {
+        "id": "cm-qt-3",
+        "type": "graph-reading",
+        "prompt": "During the interaction window, what should the momentum graph show for an isolated system?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The total momentum line stays flat while the object momentum lines tilt in opposite directions."
+          },
+          {
+            "id": "b",
+            "label": "All three lines tilt together because both carts are accelerating."
+          },
+          {
+            "id": "c",
+            "label": "The total line resets to zero as soon as the internal force turns on."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Internal forces redistribute momentum between the carts, so the object lines change while the total line stays fixed.",
+        "selectedWrongExplanations": {
+          "b": "The carts accelerate in different directions, so their momentum changes cancel in the total.",
+          "c": "There is no reason for the total line to reset. Conservation says it stays at the system value it started with."
+        },
+        "showMeAction": {
+          "label": "Show the short strong split",
+          "presetId": "short-strong-split",
+          "observationHint": "Focus on the flat total line while p_A and p_B tilt away from one another.",
+          "highlightedControlIds": [
+            "interactionForce",
+            "interactionDuration"
+          ],
+          "highlightedGraphIds": [
+            "momenta"
+          ],
+          "highlightedOverlayIds": [
+            "momentumBars"
+          ]
+        }
+      },
+      {
+        "id": "cm-qt-4",
+        "type": "misconception-check",
+        "prompt": "Which explanation best corrects the claim that a moving system must come to rest after the carts push on each other?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Internal forces can change the split between the carts, but only an external impulse can change the system total or stop the center of mass."
+          },
+          {
+            "id": "b",
+            "label": "The center of mass always stops whenever one cart reverses direction."
+          },
+          {
+            "id": "c",
+            "label": "The heavier cart always forces the total momentum back to zero."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A moving isolated system keeps its total momentum. Internal pushes can send one cart left and the other right, but they do not stop the center of mass.",
+        "selectedWrongExplanations": {
+          "b": "One cart can reverse while the center of mass still drifts because the other cart can keep enough momentum to preserve the system total.",
+          "c": "Mass affects the speed split, not whether the system total momentum disappears."
+        },
+        "showMeAction": {
+          "label": "Show the moving system",
+          "presetId": "moving-system",
+          "observationHint": "Track the CM marker and the flat total-momentum line while cart A turns around.",
+          "highlightedControlIds": [
+            "systemVelocity",
+            "interactionForce"
+          ],
+          "highlightedGraphIds": [
+            "momenta",
+            "velocity"
+          ],
+          "highlightedOverlayIds": [
+            "centerOfMass",
+            "systemBoundary"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows two carts on one horizontal track with a fixed time window for an internal interaction. Each cart has a mass label, a velocity arrow, and optional force arrows that appear in equal and opposite directions during the interaction window.",
+        "Optional overlays can draw an isolated-system boundary around both carts, a center-of-mass marker, and centered momentum bars for cart A, cart B, and the system total. Changing the masses, system velocity, internal force, or interaction duration updates the carts, readouts, and linked graphs without changing the underlying track scale."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The force graph shows equal and opposite internal force lines during the interaction window plus a zero external-force baseline. The momentum graph shows the carts' individual momentum lines changing in opposite directions while the total line stays flat.",
+        "The velocity graph shows how the same momentum exchange can create different speed changes for different masses, while the center-of-mass speed stays constant for the whole isolated system."
+      ]
+    }
+  },
+  "seo": {
+    "description": "Interactive conservation of momentum lesson showing why a two-cart system keeps the same total momentum when no external impulse acts, even as the carts exchange momentum.",
+    "keywords": [
+      "conservation of momentum",
+      "isolated system",
+      "internal forces",
+      "center of mass",
+      "physics simulation"
+    ]
+  }
+}

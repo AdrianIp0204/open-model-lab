@@ -1,0 +1,1349 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live balance checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Support-region checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Carry balance ideas forward"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Shift one support region under one loaded plank and see how centre of mass, support reactions, and torque balance decide whether the object stays stable or tips.",
+    "keyTakeaway": "The combined centre of mass is the point where the total weight can be treated as acting: $x_{\\mathrm{CM}} = \\dfrac{\\sum m_i x_i}{\\sum m_i}$.",
+    "whyItMatters": "It is the bridge between torque equations and everyday stability judgments: where the combined weight acts decides whether a bench, shelf, crane load, or person leaning over a ledge can stay supported."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Static equilibrium means two things are true at once: the upward and downward forces balance, and the torques about any point balance as well. For supported objects, those two conditions are easiest to read by tracking where the combined weight acts.",
+        "This bench stays bounded on purpose. One plank has its own weight, one movable cargo block shifts the mass distribution, and one adjustable support region can move or narrow. The same live state drives the stage, support reactions, response graphs, worked examples, challenge checks, and quick test, so centre-of-mass reasoning never drifts away from the torque language introduced in Torque."
+      ]
+    },
+    "keyIdeas": [
+      "The combined centre of mass is the point where the total weight can be treated as acting: $x_{\\mathrm{CM}} = \\dfrac{\\sum m_i x_i}{\\sum m_i}$.",
+      "Static equilibrium needs both $\\sum F_y = 0$ and $\\sum \\tau = 0$. On this bench the support reactions and the weight must balance without any leftover turning tendency.",
+      "Stability depends on support region, not on support point alone. If the vertical line through the combined centre of mass falls outside the support region, one required reaction would have to become negative and the plank tips.",
+      "Changing support width does not move the centre of mass by itself. It changes the safety margin before tipping."
+    ],
+    "commonMisconception": {
+      "myth": "If the total upward force equals the total downward force, the object must be stable.",
+      "correction": [
+        "Force balance alone is not enough. Equal and opposite forces can still leave a net torque that makes the object start rotating.",
+        "For a supported object, the combined centre of mass must also project inside the support region. Otherwise the reactions needed to keep the plank flat are not physically possible."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Use the live plank state you are actually looking at. The first example builds the combined centre of mass from the current mass placement, and the second checks whether the current support region can actually hold that weight in static equilibrium.",
+      "items": [
+        {
+          "id": "current-centre-of-mass",
+          "title": "Current combined centre of mass",
+          "prompt": "For the current plank and cargo, where is the combined centre of mass and what total weight does the support need to hold?",
+          "variables": [
+            {
+              "id": "cargoMass",
+              "variableId": "cargoMass",
+              "symbol": "m_c",
+              "label": "Cargo mass",
+              "valueKey": "cargoMassValue",
+              "unit": "kg"
+            },
+            {
+              "id": "cargoPosition",
+              "variableId": "cargoPosition",
+              "symbol": "x_c",
+              "label": "Cargo position",
+              "valueKey": "cargoPositionValue",
+              "unit": "m"
+            },
+            {
+              "id": "plankMass",
+              "symbol": "m_{\\mathrm{plank}}",
+              "label": "Plank mass",
+              "valueKey": "plankMassValue",
+              "unit": "kg"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Start from the weighted-average centre-of-mass rule",
+              "template": "Use $x_{\\mathrm{CM}} = \\dfrac{m_{\\mathrm{plank}}x_{\\mathrm{plank}} + m_c x_c}{m_{\\mathrm{plank}} + m_c}$ with the plank midpoint at $x_{\\mathrm{plank}} = 0$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the live masses and cargo position",
+              "template": "With $m_{\\mathrm{plank}} = {{plankMassValue}}\\,\\mathrm{kg}$, $m_c = {{cargoMassValue}}\\,\\mathrm{kg}$, and $x_c = {{cargoPositionValue}}\\,\\mathrm{m}$, the total mass is ${{totalMassValue}}\\,\\mathrm{kg}$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Read the combined weight location",
+              "template": "That gives $x_{\\mathrm{CM}} = {{centerOfMassXValue}}\\,\\mathrm{m}$. The total supported weight is then $W = Mg = {{totalWeightValue}}\\,\\mathrm{N}$."
+            }
+          ],
+          "resultLabel": "Combined centre of mass and total weight",
+          "resultTemplate": "$x_{\\mathrm{CM}} = {{centerOfMassXValue}}\\,\\mathrm{m}, \\quad W = {{totalWeightValue}}\\,\\mathrm{N}$",
+          "interpretationTemplate": "{{centerOfMassInterpretation}}",
+          "applyAction": {
+            "label": "Apply heavy right load",
+            "presetId": "tips-right",
+            "observationHint": "Keep the combined centre-of-mass and support-region overlays on. The cargo pulls the combined weight line to the right of the support region.",
+            "highlightedControlIds": [
+              "cargoMass",
+              "cargoPosition"
+            ],
+            "highlightedGraphIds": [
+              "cargo-stability",
+              "support-torque"
+            ],
+            "highlightedOverlayIds": [
+              "combinedCenterOfMass",
+              "supportRegion"
+            ]
+          }
+        },
+        {
+          "id": "current-support-check",
+          "title": "Current support check",
+          "prompt": "For the current support region, can the plank stay in static equilibrium, and what support reactions follow if it can?",
+          "variables": [
+            {
+              "id": "supportCenter",
+              "variableId": "supportCenter",
+              "symbol": "x_s",
+              "label": "Support centre",
+              "valueKey": "supportCenterValue",
+              "unit": "m"
+            },
+            {
+              "id": "supportWidth",
+              "variableId": "supportWidth",
+              "symbol": "w",
+              "label": "Support width",
+              "valueKey": "supportWidthValue",
+              "unit": "m"
+            },
+            {
+              "id": "centerOfMass",
+              "symbol": "x_{\\mathrm{CM}}",
+              "label": "Combined centre of mass",
+              "valueKey": "centerOfMassXValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "edges",
+              "label": "1. Locate the support region",
+              "template": "With $x_s = {{supportCenterValue}}\\,\\mathrm{m}$ and $w = {{supportWidthValue}}\\,\\mathrm{m}$, the support edges are $x_L = {{supportLeftEdgeValue}}\\,\\mathrm{m}$ and $x_R = {{supportRightEdgeValue}}\\,\\mathrm{m}$."
+            },
+            {
+              "id": "force-and-torque",
+              "label": "2. Check the reaction forces needed for balance",
+              "template": "Static equilibrium needs both $\\sum F_y = 0$ and $\\sum \\tau = 0$. For this live state the required reactions are $R_L = {{requiredLeftReactionValue}}\\,\\mathrm{N}$ and $R_R = {{requiredRightReactionValue}}\\,\\mathrm{N}$. {{supportFeasibilityValue}}"
+            },
+            {
+              "id": "margin",
+              "label": "3. Read the stability margin",
+              "template": "The current margin to the nearest edge is {{stabilityMarginValue}}\\,\\mathrm{m}, so {{supportResultSummary}}"
+            }
+          ],
+          "resultLabel": "Support verdict",
+          "resultTemplate": "{{supportResultSummary}}",
+          "interpretationTemplate": "{{supportInterpretation}}",
+          "applyAction": {
+            "label": "Apply barely stable setup",
+            "presetId": "narrow-near-edge",
+            "observationHint": "Turn on support reactions and support region together. The plank is still stable, but the centre-of-mass line is only just inside the right edge.",
+            "highlightedControlIds": [
+              "supportCenter",
+              "supportWidth"
+            ],
+            "highlightedGraphIds": [
+              "support-reactions",
+              "cargo-stability"
+            ],
+            "highlightedOverlayIds": [
+              "supportRegion",
+              "supportReactions"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Can you make the support region narrower without changing the total weight or the centre of mass, but still keep the plank stable?",
+      "prediction": "Shrink the support width while keeping the same cargo and support centre. Predict what changes first: the total weight, the centre of mass, or just the margin before tipping.",
+      "answer": "Yes, as long as the combined centre of mass still lands inside the support region. Narrowing the support region does not change total weight or the centre of mass by itself; it only reduces the margin before tipping.",
+      "explanation": "Static stability is a geometry question built on top of force and torque balance. The total weight line can stay exactly where it was while the allowed support region around it shrinks."
+    }
+  },
+  "equations": [
+    {
+      "id": "centre-of-mass",
+      "latex": "x_{\\mathrm{CM}} = \\dfrac{\\sum m_i x_i}{\\sum m_i}",
+      "label": "Combined centre of mass",
+      "meaning": "The total weight can be treated as acting through the weighted-average position of the mass distribution."
+    },
+    {
+      "id": "vertical-force-balance",
+      "latex": "R_L + R_R = W",
+      "label": "Vertical force balance",
+      "meaning": "The support reactions together must hold up the total weight."
+    },
+    {
+      "id": "torque-balance",
+      "latex": "\\sum \\tau = 0",
+      "label": "Torque balance for static equilibrium",
+      "meaning": "Even if the forces add to zero, the supported object is not in static equilibrium unless the torques also cancel."
+    },
+    {
+      "id": "support-region-rule",
+      "latex": "x_L \\le x_{\\mathrm{CM}} \\le x_R",
+      "label": "Support-region stability rule",
+      "meaning": "The combined centre-of-mass line must fall inside the support region if both reactions are going to stay upward and physically possible."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "cargoMass",
+      "symbol": "m_c",
+      "label": "Cargo mass",
+      "param": "cargoMass",
+      "tone": "coral",
+      "description": "Heavier cargo pulls the combined centre of mass more strongly toward its own position and raises the total supported weight.",
+      "equationIds": [
+        "centre-of-mass",
+        "vertical-force-balance"
+      ],
+      "graphIds": [
+        "support-torque",
+        "cargo-stability"
+      ],
+      "overlayIds": [
+        "weightLines",
+        "combinedCenterOfMass"
+      ]
+    },
+    {
+      "id": "cargoPosition",
+      "symbol": "x_c",
+      "label": "Cargo position",
+      "param": "cargoPosition",
+      "tone": "sky",
+      "description": "Sliding the same cargo shifts the combined centre of mass and changes both the support reactions and the tipping margin.",
+      "equationIds": [
+        "centre-of-mass",
+        "torque-balance",
+        "support-region-rule"
+      ],
+      "graphIds": [
+        "support-torque",
+        "cargo-stability"
+      ],
+      "overlayIds": [
+        "combinedCenterOfMass",
+        "torqueArms",
+        "supportRegion"
+      ]
+    },
+    {
+      "id": "supportCenter",
+      "symbol": "x_s",
+      "label": "Support centre",
+      "param": "supportCenter",
+      "tone": "teal",
+      "description": "Moving the support region left or right changes the torque balance and redistributes the reaction forces without changing the total weight or centre of mass.",
+      "equationIds": [
+        "vertical-force-balance",
+        "torque-balance",
+        "support-region-rule"
+      ],
+      "graphIds": [
+        "support-torque",
+        "support-reactions"
+      ],
+      "overlayIds": [
+        "supportRegion",
+        "supportReactions",
+        "torqueArms"
+      ]
+    },
+    {
+      "id": "supportWidth",
+      "symbol": "w",
+      "label": "Support width",
+      "param": "supportWidth",
+      "tone": "amber",
+      "description": "Changing support width changes the allowed support region and the tipping margin, but it does not move the combined centre of mass by itself.",
+      "equationIds": [
+        "support-region-rule",
+        "vertical-force-balance"
+      ],
+      "graphIds": [
+        "support-reactions",
+        "cargo-stability"
+      ],
+      "overlayIds": [
+        "supportRegion",
+        "supportReactions"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "cargoMass": 3,
+      "cargoPosition": 0.8,
+      "supportCenter": 0.3,
+      "supportWidth": 1.4
+    },
+    "ui": {
+      "initialGraphId": "cargo-stability",
+      "primaryGraphIds": [
+        "cargo-stability"
+      ],
+      "primaryControlIds": [
+        "cargoPosition"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "cargoMass",
+        "kind": "slider",
+        "label": "Cargo mass",
+        "param": "cargoMass",
+        "min": 0,
+        "max": 6,
+        "step": 0.1,
+        "unit": "kg",
+        "description": "Changes how strongly the movable block shifts the combined centre of mass and the total supported weight."
+      },
+      {
+        "id": "cargoPosition",
+        "kind": "slider",
+        "label": "Cargo position",
+        "param": "cargoPosition",
+        "min": -1.65,
+        "max": 1.65,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Slide the cargo left or right along the plank to shift the combined centre of mass."
+      },
+      {
+        "id": "supportCenter",
+        "kind": "slider",
+        "label": "Support centre",
+        "param": "supportCenter",
+        "min": -1.3,
+        "max": 1.3,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Move the support region left or right under the plank without changing the weight distribution."
+      },
+      {
+        "id": "supportWidth",
+        "kind": "slider",
+        "label": "Support width",
+        "param": "supportWidth",
+        "min": 0.6,
+        "max": 2.4,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Narrow or widen the support region to change the stability margin before tipping."
+      }
+    ],
+    "presets": [
+      {
+        "id": "balanced-shifted-support",
+        "label": "Balanced shifted support",
+        "description": "The support is moved under the combined centre of mass, so the reactions are close to matched even though the cargo sits right of center.",
+        "values": {
+          "cargoMass": 3,
+          "cargoPosition": 0.8,
+          "supportCenter": 0.34,
+          "supportWidth": 1.4
+        }
+      },
+      {
+        "id": "bare-plank",
+        "label": "Bare plank",
+        "description": "With no added cargo, the plank's own mass stays centered and the stability question is controlled entirely by the support region.",
+        "values": {
+          "cargoMass": 0,
+          "cargoPosition": 0,
+          "supportCenter": 0,
+          "supportWidth": 1.4
+        }
+      },
+      {
+        "id": "support-under-load",
+        "label": "Support under load",
+        "description": "A heavier cargo is placed right of center, but the support is shifted directly under the combined centre of mass.",
+        "values": {
+          "cargoMass": 4,
+          "cargoPosition": 1.2,
+          "supportCenter": 0.6,
+          "supportWidth": 1
+        }
+      },
+      {
+        "id": "narrow-near-edge",
+        "label": "Barely stable",
+        "description": "The same heavy right load is still stable, but the centre-of-mass line is only just inside the right support edge.",
+        "values": {
+          "cargoMass": 4,
+          "cargoPosition": 1.2,
+          "supportCenter": 0.25,
+          "supportWidth": 0.8
+        }
+      },
+      {
+        "id": "tips-right",
+        "label": "Tips right",
+        "description": "The combined centre of mass has crossed the right support edge, so the plank can no longer stay flat.",
+        "values": {
+          "cargoMass": 4,
+          "cargoPosition": 1.2,
+          "supportCenter": 0,
+          "supportWidth": 1
+        }
+      },
+      {
+        "id": "heavier-inboard-load",
+        "label": "Heavier but closer in",
+        "description": "A heavier cargo can still create the same combined centre of mass if it sits closer to the middle.",
+        "values": {
+          "cargoMass": 5,
+          "cargoPosition": 1.08,
+          "supportCenter": 0.6,
+          "supportWidth": 1
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "weightLines",
+        "label": "Weight lines",
+        "shortDescription": "Shows the plank weight and cargo weight separately before combining them into one effective weight line.",
+        "whatToNotice": [
+          "The separate weight arrows explain why mass placement matters before you collapse them into one combined centre of mass.",
+          "Heavier cargo does two things at once: it raises the total weight and pulls the combined weight line toward itself."
+        ],
+        "whyItMatters": "Static-equilibrium reasoning is cleaner when you can see where the total weight came from instead of treating the centre of mass like magic.",
+        "relatedControls": [
+          "cargoMass",
+          "cargoPosition"
+        ],
+        "relatedGraphTabs": [
+          "support-torque",
+          "cargo-stability"
+        ],
+        "relatedEquationVariables": [
+          "cargoMass",
+          "cargoPosition"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "combinedCenterOfMass",
+        "label": "Combined centre of mass",
+        "shortDescription": "Draws the single weight line that replaces the separate mass distribution in the balance check.",
+        "whatToNotice": [
+          "If this line moves, the support-center balance point moves with it.",
+          "Nothing about support width changes the combined centre of mass by itself."
+        ],
+        "whyItMatters": "The combined centre-of-mass line is the bridge between mass distribution and torque balance.",
+        "relatedControls": [
+          "cargoMass",
+          "cargoPosition"
+        ],
+        "relatedGraphTabs": [
+          "support-torque",
+          "cargo-stability"
+        ],
+        "relatedEquationVariables": [
+          "cargoMass",
+          "cargoPosition"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "supportRegion",
+        "label": "Support region",
+        "shortDescription": "Highlights the left and right support edges and the current margin from the centre-of-mass line to the nearest edge.",
+        "whatToNotice": [
+          "The plank stays stable only while the combined centre-of-mass line falls between the support edges.",
+          "The margin can shrink even when the total weight and centre of mass stay unchanged."
+        ],
+        "whyItMatters": "This is the geometric stability rule that turns force-and-torque balance into a tipping judgment.",
+        "relatedControls": [
+          "supportCenter",
+          "supportWidth"
+        ],
+        "relatedGraphTabs": [
+          "support-torque",
+          "cargo-stability"
+        ],
+        "relatedEquationVariables": [
+          "supportCenter",
+          "supportWidth"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "supportReactions",
+        "label": "Support reactions",
+        "shortDescription": "Shows the upward reactions at the support edges and whether one side would need to go negative.",
+        "whatToNotice": [
+          "When the centre of mass sits over the support centre, the two reactions match.",
+          "Once the centre-of-mass line crosses an edge, one required reaction would have to go negative and that side can no longer stay in contact."
+        ],
+        "whyItMatters": "This overlay ties the support-region rule directly back to force balance instead of leaving stability as a purely visual slogan.",
+        "relatedControls": [
+          "supportCenter",
+          "supportWidth"
+        ],
+        "relatedGraphTabs": [
+          "support-reactions"
+        ],
+        "relatedEquationVariables": [
+          "supportCenter",
+          "supportWidth"
+        ],
+        "defaultOn": false
+      },
+      {
+        "id": "torqueArms",
+        "label": "Torque arm",
+        "shortDescription": "Marks the horizontal offset from the support centre to the combined centre-of-mass line.",
+        "whatToNotice": [
+          "This is the same torque language from Torque, now applied to a weight acting through the combined centre of mass.",
+          "When the arm shrinks to zero, the torque about the support centre vanishes."
+        ],
+        "whyItMatters": "It keeps static equilibrium connected to the turning-effect story instead of treating stability as a disconnected new topic.",
+        "relatedControls": [
+          "cargoPosition",
+          "supportCenter"
+        ],
+        "relatedGraphTabs": [
+          "support-torque"
+        ],
+        "relatedEquationVariables": [
+          "cargoPosition",
+          "supportCenter"
+        ],
+        "defaultOn": false
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "support-torque",
+      "label": "Torque about the support centre",
+      "xLabel": "support centre x (m)",
+      "yLabel": "torque about support centre (N m)",
+      "series": [
+        "support-torque-curve",
+        "support-torque-marker"
+      ],
+      "description": "For the current cargo mass, cargo position, and support width, this response curve shows where the support centre makes the weight torque vanish."
+    },
+    {
+      "id": "support-reactions",
+      "label": "Required support reactions",
+      "xLabel": "support centre x (m)",
+      "yLabel": "required reaction (N)",
+      "series": [
+        "required-left-reaction",
+        "required-right-reaction",
+        "left-reaction-marker",
+        "right-reaction-marker"
+      ],
+      "description": "Shows the left and right reactions needed for static equilibrium. A negative required value means that side would have to pull downward, so the plank would tip instead."
+    },
+    {
+      "id": "cargo-stability",
+      "label": "Stability margin vs cargo position",
+      "xLabel": "cargo position x (m)",
+      "yLabel": "stability margin (m)",
+      "series": [
+        "stability-margin-curve",
+        "stability-margin-marker"
+      ],
+      "description": "Tracks how far the combined centre-of-mass line stays inside the support region for the current support geometry. Negative margin means tipping."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the live prompt to keep the balance story disciplined. Each prompt points at the same static model from a different angle: centre of mass, torque balance, support reactions, or support-region geometry.",
+    "items": [
+      {
+        "id": "secm-notice-inside-region",
+        "text": "Notice that the stability verdict is really a geometry check: the combined centre-of-mass line must fall inside the support region.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Keep the combined centre-of-mass and support-region overlays on while you slide the cargo block.",
+        "whyItMatters": "This turns the tipping question into one visible condition instead of a memorized slogan.",
+        "relatedControls": [
+          "cargoPosition",
+          "supportCenter",
+          "supportWidth"
+        ],
+        "relatedGraphTabs": [
+          "cargo-stability"
+        ],
+        "relatedOverlays": [
+          "combinedCenterOfMass",
+          "supportRegion"
+        ],
+        "relatedEquationVariables": [
+          "cargoPosition",
+          "supportCenter",
+          "supportWidth"
+        ]
+      },
+      {
+        "id": "secm-notice-zero-torque",
+        "text": "Notice on the support-torque graph that the zero crossing happens when the support centre sits under the combined centre of mass.",
+        "type": "graph-reading",
+        "priority": 5,
+        "conditions": {
+          "graphTabs": [
+            "support-torque"
+          ]
+        },
+        "tryThis": "Hover across the response curve, then drag the support centre until the marker lands on the zero line.",
+        "whyItMatters": "It keeps static equilibrium tied directly to the torque language you already used on the pivoted bar.",
+        "relatedControls": [
+          "supportCenter"
+        ],
+        "relatedGraphTabs": [
+          "support-torque"
+        ],
+        "relatedOverlays": [
+          "combinedCenterOfMass",
+          "torqueArms"
+        ],
+        "relatedEquationVariables": [
+          "supportCenter",
+          "cargoPosition"
+        ]
+      },
+      {
+        "id": "secm-notice-width-margin",
+        "text": "Changing support width changes the margin before tipping, but it does not move the combined centre of mass.",
+        "type": "misconception",
+        "priority": 7,
+        "conditions": {
+          "lastChangedControls": [
+            "supportWidth"
+          ]
+        },
+        "tryThis": "Keep the cargo and support centre fixed, then narrow the support width. Watch the support region shrink around the same centre-of-mass line.",
+        "whyItMatters": "It separates mass-distribution thinking from support-geometry thinking.",
+        "relatedControls": [
+          "supportWidth"
+        ],
+        "relatedGraphTabs": [
+          "cargo-stability",
+          "support-reactions"
+        ],
+        "relatedOverlays": [
+          "supportRegion",
+          "supportReactions"
+        ],
+        "relatedEquationVariables": [
+          "supportWidth"
+        ]
+      },
+      {
+        "id": "secm-notice-negative-reaction",
+        "text": "When one required reaction would have to go negative, the plank tips instead of staying in static equilibrium.",
+        "type": "graph-reading",
+        "priority": 8,
+        "conditions": {
+          "graphTabs": [
+            "support-reactions"
+          ]
+        },
+        "tryThis": "Move the support centre away from the combined centre-of-mass line and watch one required-reaction curve cross below zero.",
+        "whyItMatters": "This is the force-balance side of the same support-region rule.",
+        "relatedControls": [
+          "supportCenter"
+        ],
+        "relatedGraphTabs": [
+          "support-reactions"
+        ],
+        "relatedOverlays": [
+          "supportReactions",
+          "supportRegion"
+        ],
+        "relatedEquationVariables": [
+          "supportCenter",
+          "supportWidth"
+        ]
+      },
+      {
+        "id": "secm-notice-same-com-compare",
+        "text": "In compare mode, different cargo masses and positions can still land on the same combined centre of mass and the same balance point.",
+        "type": "compare",
+        "priority": 9,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Keep Setup A on Support under load, then turn Setup B into Heavier but closer in. Compare the centre-of-mass line and support-torque zero crossing.",
+        "whyItMatters": "It shows that centre of mass is a weighted-average story, not just a visual midpoint.",
+        "relatedControls": [
+          "cargoMass",
+          "cargoPosition"
+        ],
+        "relatedGraphTabs": [
+          "support-torque",
+          "cargo-stability"
+        ],
+        "relatedOverlays": [
+          "combinedCenterOfMass",
+          "supportRegion"
+        ],
+        "relatedEquationVariables": [
+          "cargoMass",
+          "cargoPosition"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict what balance, reactions, and stability should do before you apply the change. Each scenario isolates one idea from the same live support-and-centre-of-mass bench.",
+    "items": [
+      {
+        "id": "secm-predict-shift-support",
+        "prompt": "Starting from the tipping-right setup, what should happen if you slide the support centre directly under the combined centre of mass while keeping the cargo fixed?",
+        "scenarioLabel": "Support moved under the weight line",
+        "changeLabel": "Support centre",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The torque about the support centre should drop toward zero and the plank should become statically stable."
+          },
+          {
+            "id": "b",
+            "label": "The torque should stay the same because the cargo mass and cargo position did not change."
+          },
+          {
+            "id": "c",
+            "label": "Only the total weight changes because the support has moved."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Moving the support centre does not change the total weight or the centre of mass, but it does change the torque arm. When the support centre lines up with the combined centre of mass, the torque about that support centre vanishes.",
+        "observationHint": "Watch the support-torque marker move to the zero line and the reaction arrows become physically possible again.",
+        "apply": {
+          "presetId": "support-under-load"
+        },
+        "highlightedControls": [
+          "supportCenter"
+        ],
+        "highlightedGraphs": [
+          "support-torque",
+          "support-reactions"
+        ],
+        "highlightedOverlays": [
+          "combinedCenterOfMass",
+          "supportReactions",
+          "torqueArms"
+        ]
+      },
+      {
+        "id": "secm-predict-narrow-support",
+        "prompt": "Starting from the support-under-load setup, what should happen if you narrow the support region while leaving the cargo and support centre fixed?",
+        "scenarioLabel": "Same centre of mass, narrower support",
+        "changeLabel": "Support width",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The centre of mass and total weight stay the same, but the stability margin shrinks."
+          },
+          {
+            "id": "b",
+            "label": "The centre of mass shifts outward because the support region is narrower."
+          },
+          {
+            "id": "c",
+            "label": "Both reactions must become equal because the support is narrower."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Support width changes only the allowed support region. It does not move the mass distribution or change the total weight, so the main effect is a smaller margin before tipping.",
+        "observationHint": "Keep the support-region overlay on and compare the stability margin before and after narrowing the support.",
+        "apply": {
+          "presetId": "narrow-near-edge"
+        },
+        "highlightedControls": [
+          "supportWidth"
+        ],
+        "highlightedGraphs": [
+          "cargo-stability",
+          "support-reactions"
+        ],
+        "highlightedOverlays": [
+          "supportRegion",
+          "supportReactions"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the same static bench to prove that you can read centre of mass, torque balance, and support reactions together instead of as separate rules.",
+    "items": [
+      {
+        "id": "secm-ch-balance-heavy-right-load",
+        "title": "Balance the heavy right load",
+        "style": "target-setting",
+        "prompt": "Starting from Tips right, move the support centre until the heavy right load is back in static equilibrium.",
+        "successMessage": "You put the support centre under the combined centre of mass, so the torque about the support centre vanished and both support reactions became physically possible again.",
+        "setup": {
+          "presetId": "tips-right",
+          "graphId": "support-torque",
+          "overlayIds": [
+            "combinedCenterOfMass",
+            "supportRegion",
+            "torqueArms"
+          ],
+          "note": "Use the support-torque zero crossing and the support-region overlay together."
+        },
+        "requirements": {
+          "graphId": "support-torque",
+          "overlayIds": [
+            "combinedCenterOfMass",
+            "supportRegion"
+          ]
+        },
+        "hints": [
+          "Do not move the cargo. Fix the balance by changing the support geometry.",
+          "The balance point is where the support-torque marker reaches zero."
+        ],
+        "targets": [
+          {
+            "param": "supportCenter",
+            "label": "Move the support centre under the combined centre of mass.",
+            "min": 0.55,
+            "max": 0.65,
+            "displayUnit": "m"
+          },
+          {
+            "metric": "torqueAboutSupportCenter",
+            "label": "Make the torque about the support centre essentially zero.",
+            "min": -0.6,
+            "max": 0.6,
+            "displayUnit": "N m"
+          },
+          {
+            "metric": "stabilityMargin",
+            "label": "Bring the plank clearly back inside the support region.",
+            "min": 0.35,
+            "max": 0.55,
+            "displayUnit": "m"
+          }
+        ]
+      },
+      {
+        "id": "secm-ch-barely-stable",
+        "title": "Barely stable, not tipping",
+        "style": "target-setting",
+        "prompt": "Starting from Support under load, shift the support region left until the plank is only just stable but not yet tipping.",
+        "successMessage": "You kept the combined centre of mass inside the support region, but only by a small margin. That is the edge-of-stability case.",
+        "setup": {
+          "presetId": "support-under-load",
+          "graphId": "cargo-stability",
+          "overlayIds": [
+            "supportRegion",
+            "supportReactions"
+          ],
+          "note": "Leave the heavy cargo where it is. Use support centre and the stability-margin graph together."
+        },
+        "requirements": {
+          "graphId": "cargo-stability",
+          "overlayIds": [
+            "supportRegion"
+          ]
+        },
+        "hints": [
+          "A small positive margin is the goal. Zero means the centre-of-mass line is exactly on the edge, and negative means it has tipped.",
+          "Keep the support width fixed so the challenge stays about the support-center shift."
+        ],
+        "targets": [
+          {
+            "param": "supportWidth",
+            "label": "Keep the support width at the original 1.0 m.",
+            "min": 0.95,
+            "max": 1.05,
+            "displayUnit": "m"
+          },
+          {
+            "param": "supportCenter",
+            "label": "Shift the support region left but not too far.",
+            "min": 0.12,
+            "max": 0.18,
+            "displayUnit": "m"
+          },
+          {
+            "metric": "stabilityMargin",
+            "label": "Keep only a small positive margin to the nearest edge.",
+            "min": 0.03,
+            "max": 0.08,
+            "displayUnit": "m"
+          }
+        ]
+      },
+      {
+        "id": "secm-ch-same-com-compare",
+        "title": "Same centre of mass, different cargo",
+        "style": "visible-condition",
+        "prompt": "Open compare mode. Keep Setup A on Support under load, then tune Setup B so a heavier cargo placed closer in lands on the same combined centre of mass.",
+        "successMessage": "You matched the combined centre of mass across two different mass distributions, so the support-torque balance point stayed the same for both setups.",
+        "setup": {
+          "presetId": "support-under-load",
+          "graphId": "support-torque",
+          "note": "Clone Setup A into compare mode, then make Setup B heavier but closer in.",
+          "overlayIds": [
+            "combinedCenterOfMass",
+            "supportRegion"
+          ]
+        },
+        "requirements": {
+          "graphId": "support-torque",
+          "overlayIds": [
+            "combinedCenterOfMass",
+            "supportRegion"
+          ],
+          "compareTarget": "b"
+        },
+        "hints": [
+          "Heavier cargo does not have to sit as far out to pull the same weighted average.",
+          "You are matching x_CM, not just making the two cargo blocks look visually similar."
+        ],
+        "targets": [
+          {
+            "setup": "a",
+            "metric": "centerOfMassX",
+            "label": "Keep Setup A on the reference centre-of-mass position.",
+            "min": 0.58,
+            "max": 0.62,
+            "displayUnit": "m"
+          },
+          {
+            "setup": "b",
+            "param": "cargoMass",
+            "label": "Make Setup B clearly heavier than Setup A.",
+            "min": 4.8,
+            "max": 5.2,
+            "displayUnit": "kg"
+          },
+          {
+            "setup": "b",
+            "param": "cargoPosition",
+            "label": "Move the heavier cargo closer to the middle.",
+            "min": 1.04,
+            "max": 1.12,
+            "displayUnit": "m"
+          },
+          {
+            "setup": "b",
+            "metric": "centerOfMassX",
+            "label": "Match Setup B to the same combined centre of mass.",
+            "min": 0.58,
+            "max": 0.62,
+            "displayUnit": "m"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the same centre-of-mass and support-region logic the bench is using. These questions check whether you can separate mass distribution, support geometry, force balance, and torque balance cleanly.",
+    "questions": [
+      {
+        "id": "secm-qt-outside-support",
+        "type": "reasoning",
+        "prompt": "The combined centre-of-mass line falls just to the right of the support region. Which statement is best defended?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The plank tips right because one required support reaction would have to become negative."
+          },
+          {
+            "id": "b",
+            "label": "The plank stays stable because the total upward force can still equal the total downward force."
+          },
+          {
+            "id": "c",
+            "label": "The plank must tip left because the right edge is still closer to the cargo."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Once the combined centre-of-mass line crosses the support edge, the reactions needed to keep the plank flat are no longer both upward and physically possible. Static equilibrium fails and the plank tips in that direction.",
+        "selectedWrongExplanations": {
+          "b": "Force balance alone is not enough. The leftover torque is the problem.",
+          "c": "Tipping direction follows the side where the combined centre-of-mass line lies outside the support region."
+        },
+        "showMeAction": {
+          "label": "Show the tipping case",
+          "presetId": "tips-right",
+          "observationHint": "Turn on support reactions and watch the combined centre-of-mass line cross the right edge.",
+          "highlightedControlIds": [
+            "cargoPosition",
+            "supportCenter"
+          ],
+          "highlightedGraphIds": [
+            "support-reactions",
+            "cargo-stability"
+          ],
+          "highlightedOverlayIds": [
+            "supportRegion",
+            "supportReactions"
+          ]
+        }
+      },
+      {
+        "id": "secm-qt-narrow-support",
+        "type": "misconception-check",
+        "prompt": "A student says, \"If I make the support region narrower, the centre of mass moves outward and that is why the plank gets less stable.\" What is the best correction?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The centre of mass does not move just because the support gets narrower; the support region shrinks around the same weight line."
+          },
+          {
+            "id": "b",
+            "label": "The centre of mass always moves to the nearest support edge when the support gets narrower."
+          },
+          {
+            "id": "c",
+            "label": "Narrowing the support region changes the total weight, so the centre of mass has to move too."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Support geometry and mass distribution are different ideas. Narrowing the support region changes the allowed stability window, not the location of the combined centre of mass.",
+        "selectedWrongExplanations": {
+          "b": "That confuses a support edge with a weighted-average mass position.",
+          "c": "The total weight depends on the masses, not on where the support sits."
+        },
+        "showMeAction": {
+          "label": "Show the barely stable setup",
+          "presetId": "narrow-near-edge",
+          "observationHint": "Watch the support region shrink around nearly the same centre-of-mass line.",
+          "highlightedControlIds": [
+            "supportWidth"
+          ],
+          "highlightedGraphIds": [
+            "cargo-stability"
+          ],
+          "highlightedOverlayIds": [
+            "combinedCenterOfMass",
+            "supportRegion"
+          ]
+        }
+      },
+      {
+        "id": "secm-qt-same-com",
+        "type": "compare-two-cases",
+        "prompt": "Case A uses a lighter cargo farther out. Case B uses a heavier cargo closer in, and both cases give the same combined centre of mass. Which statement is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Both cases share the same balance point because the weighted-average position of the total mass is the same."
+          },
+          {
+            "id": "b",
+            "label": "Case B must always tip sooner because a heavier cargo automatically means a farther-out centre of mass."
+          },
+          {
+            "id": "c",
+            "label": "Case A and Case B cannot have the same centre of mass unless the cargo masses are equal."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Centre of mass is a weighted-average quantity. A heavier mass can sit closer in and still produce the same combined centre of mass as a lighter mass placed farther out.",
+        "selectedWrongExplanations": {
+          "b": "Heavier cargo matters, but so does position. The two factors trade against each other.",
+          "c": "Equal masses are not required. Matching the weighted average is what matters."
+        },
+        "showMeAction": {
+          "label": "Show the heavier inboard match",
+          "presetId": "heavier-inboard-load",
+          "observationHint": "Compare this setup against Support under load in compare mode and match the centre-of-mass line.",
+          "highlightedControlIds": [
+            "cargoMass",
+            "cargoPosition"
+          ],
+          "highlightedGraphIds": [
+            "support-torque",
+            "cargo-stability"
+          ],
+          "highlightedOverlayIds": [
+            "combinedCenterOfMass"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a horizontal plank with its own weight and one movable cargo block. A support region sits under the plank and can move left or right or become narrower or wider. Optional overlays can draw separate weight lines, one combined centre-of-mass line, the support region and stability margin, support reactions, and the torque arm from the support centre to the combined centre of mass.",
+        "Changing cargo mass, cargo position, support centre, or support width updates the plank drawing, the reaction readout, the response graphs, the prediction prompts, the worked examples, and the challenge checks from the same static-equilibrium model."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The support-torque graph is a response sweep against support centre and shows where the torque about the support centre crosses zero for the current cargo state. The support-reactions graph sweeps support centre again and plots the left and right reactions required for static equilibrium, including when one would need to go negative.",
+        "The cargo-stability graph sweeps cargo position for the current support geometry and reports the margin to the nearest support edge. Positive margin means the combined centre-of-mass line is inside the support region, and negative margin means tipping."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Static Equilibrium and Centre of Mass",
+    "description": "Interactive static equilibrium lesson with a support-region bench, centre-of-mass reasoning, support reactions, torque balance, prediction prompts, challenge mode, and conceptual quick tests.",
+    "keywords": [
+      "static equilibrium",
+      "centre of mass",
+      "center of mass",
+      "torque balance",
+      "support region",
+      "stability"
+    ]
+  },
+  "v2": {
+    "intuition": "Treat all the weight as one downward line, then ask whether the support region can sit under that line without needing an impossible upward pull from the air.",
+    "whyItMatters": "This turns static-equilibrium calculations into a visible stability rule for benches, shelves, scaffolds, cranes, and anything that can tip when its centre of mass moves outside its base.",
+    "estimatedMinutes": 25,
+    "equationSnapshot": {
+      "title": "Balance and support window",
+      "note": "Keep the weighted-average centre of mass, force balance, and support-region rule visible while you move the load.",
+      "equationIds": [
+        "centre-of-mass",
+        "vertical-force-balance",
+        "support-region-rule"
+      ]
+    },
+    "startSetup": {
+      "presetId": "balanced-shifted-support",
+      "graphId": "cargo-stability",
+      "overlayIds": [
+        "weightLines",
+        "combinedCenterOfMass",
+        "supportRegion"
+      ],
+      "note": "Start with the combined centre-of-mass line and support region visible so the stability verdict is read from geometry before numbers."
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-weight-line",
+        "title": "Read the weight line",
+        "goal": "Collapse the plank and cargo into one combined centre-of-mass line before judging stability.",
+        "doThis": "Keep Weight lines and Combined centre of mass on, then slide Cargo position left and right once.",
+        "notice": "The separate plank and cargo weights combine into one line; moving the cargo moves that line even though the support region has not changed.",
+        "explain": "Centre of mass is a weighted average of where the masses sit, so heavier or farther-out cargo pulls the total weight line toward itself.",
+        "setup": {
+          "presetId": "balanced-shifted-support",
+          "graphId": "cargo-stability",
+          "overlayIds": [
+            "weightLines",
+            "combinedCenterOfMass",
+            "supportRegion"
+          ]
+        },
+        "reveal": {
+          "controlIds": [
+            "cargoPosition",
+            "cargoMass"
+          ],
+          "graphIds": [
+            "cargo-stability"
+          ],
+          "overlayIds": [
+            "weightLines",
+            "combinedCenterOfMass",
+            "supportRegion"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Predict the weight-line move",
+          "questionIds": [
+            "secm-qt-same-com"
+          ]
+        }
+      },
+      {
+        "id": "place-support-under-weight",
+        "title": "Place support under weight",
+        "goal": "Use torque balance to recover a tipped setup by moving the support centre under the combined weight line.",
+        "doThis": "Apply Tips right, switch to the Support torque graph, and drag Support centre until the marker reaches the zero line.",
+        "notice": "The cargo has not moved, but the torque arm shrinks as the support centre approaches the combined centre of mass.",
+        "explain": "Force balance is not enough for a plank to stay still. The torque from the total weight must also vanish or be balanced by possible support reactions.",
+        "setup": {
+          "presetId": "tips-right",
+          "graphId": "support-torque",
+          "overlayIds": [
+            "combinedCenterOfMass",
+            "supportRegion",
+            "torqueArms"
+          ],
+          "note": "Start from an unstable case so the zero-torque target has a visible purpose."
+        },
+        "reveal": {
+          "controlIds": [
+            "supportCenter"
+          ],
+          "graphIds": [
+            "support-torque",
+            "support-reactions"
+          ],
+          "overlayIds": [
+            "combinedCenterOfMass",
+            "supportRegion",
+            "supportReactions",
+            "torqueArms"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Predict the rescue move",
+          "predictionIds": [
+            "secm-predict-shift-support"
+          ]
+        }
+      },
+      {
+        "id": "shrink-the-support-window",
+        "title": "Shrink the support window",
+        "goal": "Separate mass distribution from support geometry by narrowing the support without moving the centre of mass.",
+        "doThis": "Start from Support under load, leave the cargo fixed, and narrow Support width while watching the stability-margin graph.",
+        "notice": "The centre-of-mass line stays in the same place, but the support edges move inward and the margin to the nearest edge gets smaller.",
+        "explain": "Support width changes the allowed stability window, not the weighted-average mass position. A narrower base can tip sooner even with the same total weight.",
+        "setup": {
+          "presetId": "support-under-load",
+          "graphId": "cargo-stability",
+          "overlayIds": [
+            "combinedCenterOfMass",
+            "supportRegion",
+            "supportReactions"
+          ]
+        },
+        "reveal": {
+          "controlIds": [
+            "supportWidth",
+            "supportCenter"
+          ],
+          "graphIds": [
+            "cargo-stability",
+            "support-reactions"
+          ],
+          "overlayIds": [
+            "combinedCenterOfMass",
+            "supportRegion",
+            "supportReactions"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Catch the width misconception",
+          "predictionIds": [
+            "secm-predict-narrow-support"
+          ],
+          "questionIds": [
+            "secm-qt-narrow-support"
+          ]
+        }
+      },
+      {
+        "id": "prove-the-edge-case",
+        "title": "Prove the edge case",
+        "goal": "Use reactions and margin together to decide when static equilibrium stops being physically possible.",
+        "doThis": "Turn on Support reactions, compare Barely stable with Tips right, and explain which reaction would have to become negative after the edge is crossed.",
+        "notice": "Inside the support region both reactions can stay upward. Outside it, one required reaction drops below zero, so the plank cannot remain in contact and tips.",
+        "explain": "The support-region rule is the force-and-torque conditions written as a practical contact condition: both support reactions must be physically possible upward pushes.",
+        "setup": {
+          "presetId": "narrow-near-edge",
+          "graphId": "support-reactions",
+          "overlayIds": [
+            "supportRegion",
+            "supportReactions",
+            "combinedCenterOfMass"
+          ],
+          "note": "Use the barely-stable state first, then compare it against the tipping preset."
+        },
+        "reveal": {
+          "controlIds": [
+            "supportCenter",
+            "supportWidth"
+          ],
+          "graphIds": [
+            "support-reactions",
+            "cargo-stability"
+          ],
+          "overlayIds": [
+            "supportRegion",
+            "supportReactions",
+            "combinedCenterOfMass"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Check the tipping verdict",
+          "questionIds": [
+            "secm-qt-outside-support"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "The combined centre of mass is the single line where the total weight can be treated as acting.",
+        "Static equilibrium needs both vertical force balance and torque balance; equal total up and down forces are not enough by themselves.",
+        "A support region can hold the plank only while the combined centre-of-mass line falls between its edges.",
+        "Narrowing or shifting the support changes the stability margin, not the centre of mass by itself."
+      ],
+      "misconception": "Force balance alone does not guarantee stability; a leftover torque or an impossible negative reaction means the plank tips.",
+      "workedExampleRefs": [
+        "Current combined centre of mass",
+        "Current support check"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "rotational-inertia",
+          "reasonLabel": "Mass-distribution response"
+        },
+        {
+          "slug": "rolling-motion",
+          "reasonLabel": "Support-to-contact bridge"
+        },
+        {
+          "slug": "angular-momentum",
+          "reasonLabel": "Carry rotational ideas forward"
+        }
+      ],
+      "freePlayPrompt": "Try making a heavy load stable in two different ways: move the support centre under the weight line, then widen the support region without moving the cargo."
+    },
+    "referenceSections": [
+      "workedExamples",
+      "miniChallenge",
+      "readNext"
+    ]
+  }
+}

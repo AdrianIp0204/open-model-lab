@@ -1,0 +1,1226 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live force checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Charge-to-current checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Keep electricity and magnetism connected"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "See why a magnetic field bends a moving charge sideways, why faster charges can make wider arcs, and how the same cross-product direction rule pushes a current-carrying wire.",
+    "keyTakeaway": "Magnetic force points sideways to the motion: in this perpendicular-field lab q v x B changes the charge heading without directly changing its speed, while I L x B gives the matching force on a 1 m current segment."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "A magnetic field does not push a resting charge, and it does not push a moving charge along the field the way an electric field can. In this lab the velocity lies in the page and the field points into or out of the page, so the magnetic part of the Lorentz force, q v x B, is sideways to the motion.",
+        "That sideways force changes the heading rather than directly changing the speed. The stage therefore connects three ideas at once: the force arrow stays perpendicular to velocity, the orbit guide uses r = mv / (|q|B), and the force graph keeps |F_q| tied to speed and field strength.",
+        "The same setup also shows a 1 m current segment using F_wire = I L x B. Keeping the charge path and wire panel on one bounded stage makes the difference clear: a charge-sign flip reverses only q v x B, while a field flip reverses both the moving-charge force and the wire force."
+      ]
+    },
+    "keyIdeas": [
+      "In this module the charge velocity is perpendicular to the magnetic field, so |F_q| = |q|vB and the force lies in the page at right angles to the velocity.",
+      "Because the magnetic force is perpendicular to the motion, it changes direction without directly changing speed; a velocity parallel to the field would not curve in this simplified setup.",
+      "Flipping either the charge sign or the magnetic-field direction reverses the moving-charge force. Flipping both together restores the original bend direction.",
+      "At fixed magnetic field, increasing speed makes the magnetic force larger and also makes the circular path radius larger, because the faster charge is harder to turn.",
+      "A current segment uses I L x B. If the segment points the same way as a positive moving charge, the force direction matches the positive-charge case."
+    ],
+    "commonMisconception": {
+      "myth": "A magnetic force must slow a charge down because it is always pushing on the charge.",
+      "correction": [
+        "In this ideal uniform-field setup the magnetic force is perpendicular to the velocity, so it changes direction without doing work on the charge. The speed can stay constant while the path curves.",
+        "What changes is the heading, not the kinetic-energy scale. That is why the force graph rotates through x and y components while the speed readout stays fixed."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Solve both representations from the current live state. The charge motion, wire panel, force graph, and orbit guide all read the same field sign, direction angle, and control values.",
+      "items": [
+        {
+          "id": "current-charge-force",
+          "title": "Current moving-charge force and curvature",
+          "prompt": "For the current moving charge, what magnetic force acts now, and what radius does that imply for the path?",
+          "dependsOnTime": true,
+          "variables": [
+            {
+              "id": "charge-sign",
+              "variableId": "chargeSign",
+              "symbol": "q",
+              "label": "Charge sign",
+              "valueKey": "chargeLabelValue"
+            },
+            {
+              "id": "field-strength",
+              "variableId": "fieldStrength",
+              "symbol": "B",
+              "label": "Field strength",
+              "valueKey": "fieldStrengthValue",
+              "unit": "T"
+            },
+            {
+              "id": "speed",
+              "variableId": "speed",
+              "symbol": "v",
+              "label": "Speed",
+              "valueKey": "speedValue",
+              "unit": "m/s"
+            },
+            {
+              "id": "direction-angle",
+              "variableId": "directionAngle",
+              "symbol": "\\theta",
+              "label": "Launch angle",
+              "valueKey": "directionAngleValue",
+              "unit": "deg"
+            }
+          ],
+          "steps": [
+            {
+              "id": "direction-baseline",
+              "label": "1. Start from the positive-charge right-hand-rule baseline",
+              "template": "{{chargeDirectionStepValue}}"
+            },
+            {
+              "id": "magnitude",
+              "label": "2. Use the live speed and field size for |F_q|",
+              "template": "{{chargeMagnitudeStepValue}}"
+            },
+            {
+              "id": "radius",
+              "label": "3. Translate the same state into curvature",
+              "template": "{{radiusStepValue}}"
+            }
+          ],
+          "resultLabel": "Charge force and radius",
+          "resultTemplate": "{{chargeForceResultValue}}",
+          "interpretationTemplate": "{{chargeForceInterpretation}}",
+          "applyAction": {
+            "label": "Show field-flip reversal",
+            "presetId": "field-flips-up",
+            "observationHint": "Keep the launch angle fixed and flip only the field sign. The force arrow and bend direction reverse together.",
+            "highlightedControlIds": [
+              "fieldStrength",
+              "directionAngle"
+            ],
+            "highlightedGraphIds": [
+              "force",
+              "position"
+            ],
+            "highlightedOverlayIds": [
+              "fieldMarkers",
+              "motionVectors",
+              "orbitGuide"
+            ]
+          }
+        },
+        {
+          "id": "current-wire-force",
+          "title": "Current wire-segment force from the same field",
+          "prompt": "For the current 1 m wire segment pointing in the same in-page direction, what magnetic force acts on it, and how does it compare with the charge case?",
+          "variables": [
+            {
+              "id": "current",
+              "variableId": "current",
+              "symbol": "I",
+              "label": "Current",
+              "valueKey": "currentValue",
+              "unit": "A"
+            },
+            {
+              "id": "field-strength-wire",
+              "variableId": "fieldStrength",
+              "symbol": "B",
+              "label": "Field strength",
+              "valueKey": "fieldStrengthValue",
+              "unit": "T"
+            },
+            {
+              "id": "direction-angle-wire",
+              "variableId": "directionAngle",
+              "symbol": "\\theta",
+              "label": "Segment angle",
+              "valueKey": "directionAngleValue",
+              "unit": "deg"
+            },
+            {
+              "id": "charge-sign-wire",
+              "variableId": "chargeSign",
+              "symbol": "q",
+              "label": "Charge sign",
+              "valueKey": "chargeLabelValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "wire-direction",
+              "label": "1. Reuse the same field sense and segment direction",
+              "template": "{{wireDirectionStepValue}}"
+            },
+            {
+              "id": "wire-magnitude",
+              "label": "2. Use IBL for the 1 m segment",
+              "template": "{{wireMagnitudeStepValue}}"
+            },
+            {
+              "id": "wire-compare",
+              "label": "3. Compare the wire force with the charge force",
+              "template": "{{wireComparisonStepValue}}"
+            }
+          ],
+          "resultLabel": "Wire-segment force",
+          "resultTemplate": "{{wireForceResultValue}}",
+          "interpretationTemplate": "{{wireForceInterpretation}}",
+          "applyAction": {
+            "label": "Show charge-down wire-up split",
+            "presetId": "charge-down-wire-up",
+            "observationHint": "The negative charge flips only the moving-charge force. The wire panel still follows I L x B.",
+            "highlightedControlIds": [
+              "negativeCharge",
+              "fieldStrength",
+              "current"
+            ],
+            "highlightedGraphIds": [
+              "force"
+            ],
+            "highlightedOverlayIds": [
+              "motionVectors",
+              "wireForcePanel"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "If the magnetic field stays fixed, why can a faster charge feel a larger magnetic force and still trace a wider circle instead of a tighter one?",
+      "prediction": "Decide what happens to both |F_q| and r before you raise the speed slider.",
+      "answer": "Because |F_q| grows with v, but the circular-motion radius also scales like v / |B|. A faster charge needs a larger turning radius even while the magnetic force magnitude increases.",
+      "explanation": "The force is bigger because qvB is bigger, but the charge also has more momentum to redirect. In this uniform-field model the resulting radius grows with speed, so the orbit becomes wider rather than tighter."
+    }
+  },
+  "equations": [
+    {
+      "id": "charge-force-vector",
+      "latex": "\\vec{F}_q = q\\,\\vec{v} \\times \\vec{B}",
+      "label": "Magnetic force on a moving charge",
+      "meaning": "The direction comes from the cross product, so the force is perpendicular to both the velocity and the magnetic field."
+    },
+    {
+      "id": "charge-force-magnitude",
+      "latex": "|\\vec{F}_q| = |q|vB",
+      "label": "Perpendicular-force magnitude",
+      "meaning": "Because the velocity stays perpendicular to the field in this module, the sine factor is 1 and the force scale is set by charge sign, speed, and field size."
+    },
+    {
+      "id": "charge-radius",
+      "latex": "r = \\dfrac{mv}{|q|B}",
+      "label": "Radius of curved motion",
+      "meaning": "A stronger field tightens the path, while a faster charge widens the path in the same field.",
+      "notes": [
+        "The live charge motion uses normalized m = 1 and |q| = 1, so the stage radius scales like v / |B|.",
+        "Zero field means no finite magnetic radius because the path becomes straight."
+      ]
+    },
+    {
+      "id": "wire-force-vector",
+      "latex": "\\vec{F}_{wire} = I\\,\\vec{L} \\times \\vec{B}",
+      "label": "Magnetic force on a current segment",
+      "meaning": "A current-carrying wire segment in the field uses the same cross-product direction idea as the positive-charge case."
+    },
+    {
+      "id": "wire-force-magnitude",
+      "latex": "|\\vec{F}_{wire}| = I L B",
+      "label": "1 m perpendicular wire-segment force",
+      "meaning": "For the 1 m segment in this lab, the wire force grows with current and field strength while the cross product sets the force side."
+    },
+    {
+      "id": "direction-reversal",
+      "latex": "q \\to -q \\text{ or } \\vec{B} \\to -\\vec{B} \\Rightarrow \\vec{F} \\to -\\vec{F}",
+      "label": "One sign flip reverses the force",
+      "meaning": "Changing the charge sign or the field direction by itself reverses the force direction. Changing both together restores the original side."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "fieldStrength",
+      "symbol": "B",
+      "label": "Field strength",
+      "param": "fieldStrength",
+      "tone": "teal",
+      "description": "Sets the size and sign of the uniform magnetic field. Positive means out of the page and negative means into the page.",
+      "equationIds": [
+        "charge-force-vector",
+        "charge-force-magnitude",
+        "charge-radius",
+        "wire-force-vector",
+        "direction-reversal",
+        "wire-force-magnitude"
+      ],
+      "graphIds": [
+        "position",
+        "force"
+      ],
+      "overlayIds": [
+        "fieldMarkers",
+        "motionVectors",
+        "orbitGuide",
+        "wireForcePanel"
+      ]
+    },
+    {
+      "id": "speed",
+      "symbol": "v",
+      "label": "Charge speed",
+      "param": "speed",
+      "tone": "coral",
+      "description": "Changes both the magnetic-force magnitude and the radius of the charge path in the same field.",
+      "equationIds": [
+        "charge-force-vector",
+        "charge-force-magnitude",
+        "charge-radius"
+      ],
+      "graphIds": [
+        "position",
+        "force"
+      ],
+      "overlayIds": [
+        "motionVectors",
+        "orbitGuide"
+      ]
+    },
+    {
+      "id": "directionAngle",
+      "symbol": "\\theta",
+      "label": "In-page direction",
+      "param": "directionAngle",
+      "tone": "amber",
+      "description": "Rotates the launch direction for the charge and the matching current-segment direction in the wire panel.",
+      "equationIds": [
+        "charge-force-vector",
+        "wire-force-vector",
+        "direction-reversal",
+        "wire-force-magnitude"
+      ],
+      "graphIds": [
+        "position",
+        "force"
+      ],
+      "overlayIds": [
+        "motionVectors",
+        "orbitGuide",
+        "wireForcePanel"
+      ]
+    },
+    {
+      "id": "chargeSign",
+      "symbol": "q",
+      "label": "Charge sign",
+      "param": "negativeCharge",
+      "tone": "sky",
+      "description": "Flips the moving-charge force without changing the current-segment rule, which is the clean bridge between single charges and current in a wire.",
+      "equationIds": [
+        "charge-force-vector",
+        "direction-reversal"
+      ],
+      "overlayIds": [
+        "motionVectors",
+        "wireForcePanel"
+      ]
+    },
+    {
+      "id": "current",
+      "symbol": "I",
+      "label": "Wire current",
+      "param": "current",
+      "tone": "ink",
+      "description": "Scales the current-segment force in the wire panel while keeping the same direction angle and field sense.",
+      "equationIds": [
+        "wire-force-vector",
+        "wire-force-magnitude"
+      ],
+      "overlayIds": [
+        "wireForcePanel"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "fieldStrength": 1.6,
+      "speed": 4.5,
+      "directionAngle": 0,
+      "negativeCharge": false,
+      "current": 2
+    },
+    "ui": {
+      "initialGraphId": "force",
+      "primaryGraphIds": [
+        "force"
+      ],
+      "primaryControlIds": [
+        "negativeCharge"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "fieldStrength",
+        "kind": "slider",
+        "label": "Field strength",
+        "param": "fieldStrength",
+        "min": -2.4,
+        "max": 2.4,
+        "step": 0.1,
+        "unit": "T",
+        "description": "Positive values mean the field points out of the page and negative values mean into the page."
+      },
+      {
+        "id": "speed",
+        "kind": "slider",
+        "label": "Charge speed",
+        "param": "speed",
+        "min": 1,
+        "max": 7,
+        "step": 0.1,
+        "unit": "m/s",
+        "description": "Sets the charge speed before the magnetic field bends the path."
+      },
+      {
+        "id": "directionAngle",
+        "kind": "slider",
+        "label": "In-page direction",
+        "param": "directionAngle",
+        "min": -180,
+        "max": 180,
+        "step": 1,
+        "unit": "deg",
+        "description": "Rotates the shared launch or current direction inside the page."
+      },
+      {
+        "id": "negativeCharge",
+        "kind": "toggle",
+        "label": "Negative charge",
+        "param": "negativeCharge",
+        "description": "Flips only the moving-charge force. The wire panel still follows the current-segment rule."
+      },
+      {
+        "id": "current",
+        "kind": "slider",
+        "label": "Wire current",
+        "param": "current",
+        "min": 0,
+        "max": 4,
+        "step": 0.1,
+        "unit": "A",
+        "description": "Scales the current-segment force in the comparison panel."
+      }
+    ],
+    "presets": [
+      {
+        "id": "positive-bends-down",
+        "label": "Positive bends down",
+        "description": "A positive charge moving right in an out-of-page field bends downward, and the wire segment points to the same side.",
+        "values": {
+          "fieldStrength": 1.6,
+          "speed": 4.5,
+          "directionAngle": 0,
+          "negativeCharge": false,
+          "current": 2
+        }
+      },
+      {
+        "id": "field-flips-up",
+        "label": "Flip the field",
+        "description": "Reversing the magnetic field flips the charge force and wire force together.",
+        "values": {
+          "fieldStrength": -1.6,
+          "speed": 4.5,
+          "directionAngle": 0,
+          "negativeCharge": false,
+          "current": 2
+        }
+      },
+      {
+        "id": "negative-charge-same-direction",
+        "label": "Negative charge",
+        "description": "Changing only the charge sign reverses the moving-charge force while the wire panel keeps the same side.",
+        "values": {
+          "fieldStrength": 1.6,
+          "speed": 4.5,
+          "directionAngle": 0,
+          "negativeCharge": true,
+          "current": 2
+        }
+      },
+      {
+        "id": "faster-same-direction",
+        "label": "Faster charge",
+        "description": "A faster charge feels a larger magnetic force but also takes a wider circular path in the same field.",
+        "values": {
+          "fieldStrength": 1.6,
+          "speed": 6.4,
+          "directionAngle": 0,
+          "negativeCharge": false,
+          "current": 2
+        }
+      },
+      {
+        "id": "angled-launch",
+        "label": "Angled launch",
+        "description": "Rotate the shared direction to see both the charge path and the wire force pivot together in the plane.",
+        "values": {
+          "fieldStrength": 1.4,
+          "speed": 4.5,
+          "directionAngle": 35,
+          "negativeCharge": false,
+          "current": 2.2
+        }
+      },
+      {
+        "id": "charge-down-wire-up",
+        "label": "Charge down, wire up",
+        "description": "A negative charge in an into-page field can bend opposite the same-direction current segment.",
+        "values": {
+          "fieldStrength": -1.6,
+          "speed": 4.5,
+          "directionAngle": 0,
+          "negativeCharge": true,
+          "current": 2
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "fieldMarkers",
+        "label": "Field markers",
+        "shortDescription": "Shows the uniform magnetic-field sense across the stage with dots or crosses.",
+        "whatToNotice": [
+          "Dots mark field out of the page, and crosses mark field into the page."
+        ],
+        "whyItMatters": "The field sense decides which side the right-hand rule should choose before the charge sign or current comparison is applied.",
+        "relatedControls": [
+          "fieldStrength"
+        ],
+        "relatedGraphTabs": [
+          "force"
+        ],
+        "relatedEquationVariables": [
+          "fieldStrength"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "motionVectors",
+        "label": "Charge vectors",
+        "shortDescription": "Shows the moving charge with the live velocity arrow and magnetic-force arrow.",
+        "whatToNotice": [
+          "The force arrow stays perpendicular to the velocity arrow at every inspected moment."
+        ],
+        "whyItMatters": "This is the compact visual reason the path curves without the force doing work on the charge.",
+        "relatedControls": [
+          "speed",
+          "directionAngle",
+          "negativeCharge",
+          "fieldStrength"
+        ],
+        "relatedGraphTabs": [
+          "position",
+          "force"
+        ],
+        "relatedEquationVariables": [
+          "speed",
+          "directionAngle",
+          "chargeSign",
+          "fieldStrength"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "orbitGuide",
+        "label": "Orbit guide",
+        "shortDescription": "Shows the predicted curved path and the instantaneous orbit center for the live charge state.",
+        "whatToNotice": [
+          "A stronger field tightens the orbit, while a faster charge widens it even though the force magnitude also grows."
+        ],
+        "whyItMatters": "It prevents the common mistake of treating larger magnetic force as automatically meaning tighter curvature.",
+        "relatedControls": [
+          "speed",
+          "fieldStrength"
+        ],
+        "relatedGraphTabs": [
+          "position"
+        ],
+        "relatedEquationVariables": [
+          "speed",
+          "fieldStrength"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "wireForcePanel",
+        "label": "Wire-force panel",
+        "shortDescription": "Shows the 1 m current segment using the same direction control and the magnetic force that acts on it.",
+        "whatToNotice": [
+          "A positive charge and a same-direction current segment agree on force side, but a negative charge reverses only the moving-charge force."
+        ],
+        "whyItMatters": "It keeps the charge-to-current bridge visible without inventing a separate disconnected page layout.",
+        "relatedControls": [
+          "current",
+          "directionAngle",
+          "fieldStrength",
+          "negativeCharge"
+        ],
+        "relatedEquationVariables": [
+          "current",
+          "directionAngle",
+          "fieldStrength",
+          "chargeSign"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "position",
+      "label": "Charge position vs time",
+      "xLabel": "Time (s)",
+      "yLabel": "Position (m)",
+      "series": [
+        "charge-x",
+        "charge-y"
+      ],
+      "description": "Tracks the charge coordinates while the stage shows the same moving point and orbit guide."
+    },
+    {
+      "id": "force",
+      "label": "Magnetic force vs time",
+      "xLabel": "Time (s)",
+      "yLabel": "Force (scaled)",
+      "series": [
+        "charge-force-x",
+        "charge-force-y",
+        "charge-force-magnitude"
+      ],
+      "description": "Shows how the in-plane charge-force components rotate while the force magnitude stays set by speed and field size."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use these prompts to read the same force story from the stage, wire panel, and graphs before you reach for a memorized hand rule.",
+    "items": [
+      {
+        "id": "mfmc-notice-positive-baseline",
+        "text": "With a positive charge and an out-of-page field, a rightward launch bends downward. The wire panel points to that same side because it uses the positive-charge current rule.",
+        "type": "observation",
+        "priority": 2,
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "fieldStrength",
+              "min": 0.2
+            },
+            {
+              "param": "directionAngle",
+              "min": -15,
+              "max": 15
+            }
+          ]
+        },
+        "tryThis": "Start from Positive bends down, then toggle Negative charge without changing any other control.",
+        "whyItMatters": "This is the clean baseline that makes later sign flips feel deduced rather than guessed.",
+        "relatedControls": [
+          "fieldStrength",
+          "directionAngle",
+          "negativeCharge"
+        ],
+        "relatedGraphTabs": [
+          "force"
+        ],
+        "relatedOverlays": [
+          "fieldMarkers",
+          "motionVectors",
+          "wireForcePanel"
+        ],
+        "relatedEquationVariables": [
+          "fieldStrength",
+          "directionAngle",
+          "chargeSign"
+        ]
+      },
+      {
+        "id": "mfmc-notice-sign-flip",
+        "text": "One sign flip reverses the moving-charge force. A charge-sign flip changes qv x B, while a field-sign flip reverses both the charge force and the wire force together.",
+        "type": "misconception",
+        "priority": 3,
+        "conditions": {
+          "lastChangedControls": [
+            "negativeCharge",
+            "fieldStrength"
+          ]
+        },
+        "tryThis": "Compare Negative charge with Flip the field and notice that both can reverse the charge bend, but only the field flip also reverses the wire-force side.",
+        "whyItMatters": "It separates the role of the moving charge from the role of the magnetic field instead of treating every reversal as the same mnemonic.",
+        "relatedControls": [
+          "negativeCharge",
+          "fieldStrength"
+        ],
+        "relatedGraphTabs": [
+          "force"
+        ],
+        "relatedOverlays": [
+          "motionVectors",
+          "wireForcePanel"
+        ],
+        "relatedEquationVariables": [
+          "chargeSign",
+          "fieldStrength"
+        ]
+      },
+      {
+        "id": "mfmc-notice-speed-radius",
+        "text": "When you raise speed in the same field, the charge-force magnitude increases but the orbit radius also increases. Bigger force does not mean tighter curvature here.",
+        "type": "try-this",
+        "priority": 4,
+        "conditions": {
+          "lastChangedControls": [
+            "speed"
+          ]
+        },
+        "tryThis": "Move between Positive bends down and Faster charge while keeping the orbit guide visible.",
+        "whyItMatters": "This is the counterintuitive part of magnetic curvature that many learners miss on a first pass.",
+        "relatedControls": [
+          "speed",
+          "fieldStrength"
+        ],
+        "relatedGraphTabs": [
+          "position",
+          "force"
+        ],
+        "relatedOverlays": [
+          "motionVectors",
+          "orbitGuide"
+        ],
+        "relatedEquationVariables": [
+          "speed",
+          "fieldStrength"
+        ]
+      },
+      {
+        "id": "mfmc-notice-force-graph",
+        "text": "On the force graph, F_q,x and F_q,y rotate through positive and negative values while |F_q| stays fixed for one setup. The graph is tracking the same sideways force arrow you see on the stage.",
+        "type": "graph-reading",
+        "priority": 5,
+        "conditions": {
+          "graphTabs": [
+            "force"
+          ]
+        },
+        "tryThis": "Pause, scrub through one curved turn, and watch the stage arrow and graph marker move together.",
+        "whyItMatters": "It turns the graph into a force-reading tool instead of a separate disconnected plot.",
+        "relatedControls": [
+          "fieldStrength",
+          "speed",
+          "directionAngle"
+        ],
+        "relatedGraphTabs": [
+          "force"
+        ],
+        "relatedOverlays": [
+          "motionVectors"
+        ],
+        "relatedEquationVariables": [
+          "fieldStrength",
+          "speed",
+          "directionAngle"
+        ]
+      },
+      {
+        "id": "mfmc-notice-compare",
+        "text": "Compare mode is strongest when you hold the launch angle fixed and change only one sign or one speed. That makes the difference between force direction and curvature scale much easier to read honestly.",
+        "type": "compare",
+        "priority": 7,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Keep Setup A on Positive bends down and turn Setup B into Charge down, wire up.",
+        "whyItMatters": "It exposes what changed physically instead of turning the stage into two unrelated pictures.",
+        "relatedControls": [
+          "fieldStrength",
+          "negativeCharge",
+          "speed"
+        ],
+        "relatedGraphTabs": [
+          "position",
+          "force"
+        ],
+        "relatedOverlays": [
+          "motionVectors",
+          "wireForcePanel",
+          "orbitGuide"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the force response before you apply the change. Each scenario changes one causal idea at a time so the stage and graphs can confirm or correct the reasoning honestly.",
+    "items": [
+      {
+        "id": "mfmc-pred-field-flip",
+        "prompt": "If the launch direction and charge sign stay fixed but the magnetic field flips from out of the page to into the page, what must happen?",
+        "scenarioLabel": "Flip the field",
+        "changeLabel": "Field direction",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Both the moving-charge force and the wire-segment force reverse direction."
+          },
+          {
+            "id": "b",
+            "label": "Only the moving-charge force reverses because the wire rule does not depend on field sign."
+          },
+          {
+            "id": "c",
+            "label": "The path gets tighter, but the force side stays the same."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The field vector is part of both cross products. Reversing B reverses the moving-charge force and the current-segment force together, so the bend direction flips on the stage and the wire panel flips too.",
+        "observationHint": "Watch the field markers, charge-force arrow, and wire-force arrow change side together.",
+        "apply": {
+          "presetId": "field-flips-up"
+        },
+        "highlightedControls": [
+          "fieldStrength"
+        ],
+        "highlightedGraphs": [
+          "force",
+          "position"
+        ],
+        "highlightedOverlays": [
+          "fieldMarkers",
+          "motionVectors",
+          "wireForcePanel"
+        ]
+      },
+      {
+        "id": "mfmc-pred-speed-up",
+        "prompt": "If the field and charge sign stay fixed but the charge speed increases, which statement is most defensible?",
+        "scenarioLabel": "Raise the speed",
+        "changeLabel": "Charge speed",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The magnetic-force magnitude increases and the orbit radius also increases."
+          },
+          {
+            "id": "b",
+            "label": "The magnetic-force magnitude stays fixed because only the field sets the force."
+          },
+          {
+            "id": "c",
+            "label": "A larger force must make the circle tighter, so the radius decreases."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "In this perpendicular setup |F_q| scales with vB, so a larger speed gives a larger force. But the radius also scales like v / |B|, so the faster charge curves more gently in the same field.",
+        "observationHint": "Use the orbit guide and the force graph together. The force scale rises while the path widens.",
+        "apply": {
+          "presetId": "faster-same-direction"
+        },
+        "highlightedControls": [
+          "speed"
+        ],
+        "highlightedGraphs": [
+          "force",
+          "position"
+        ],
+        "highlightedOverlays": [
+          "motionVectors",
+          "orbitGuide"
+        ]
+      },
+      {
+        "id": "mfmc-pred-charge-sign",
+        "prompt": "If the current segment keeps the same direction and the field stays fixed, what changes when the moving charge flips from positive to negative?",
+        "scenarioLabel": "Flip the charge sign",
+        "changeLabel": "Charge sign",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The moving-charge force reverses, but the current-segment force keeps the same side."
+          },
+          {
+            "id": "b",
+            "label": "Both forces reverse because the launch direction did not change."
+          },
+          {
+            "id": "c",
+            "label": "Nothing important changes because the field markers did not move."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Changing q reverses only qv x B. The wire segment still uses I L x B with the same current direction, so the wire-force side does not flip unless the field or current direction flips too.",
+        "observationHint": "The charge arrow changes side while the wire-force arrow stays put.",
+        "apply": {
+          "presetId": "negative-charge-same-direction"
+        },
+        "highlightedControls": [
+          "negativeCharge"
+        ],
+        "highlightedGraphs": [
+          "force"
+        ],
+        "highlightedOverlays": [
+          "motionVectors",
+          "wireForcePanel"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Tune the same bounded field-and-force model into direction targets that force you to separate charge sign from current direction instead of leaning on a memorized rule.",
+    "items": [
+      {
+        "id": "mfmc-ch-charge-down-wire-up",
+        "title": "Charge down, wire up",
+        "style": "target-setting",
+        "prompt": "Starting from Positive bends down, change the setup so the moving charge force points downward while the wire-segment force points upward for the same rightward direction.",
+        "successMessage": "You separated the two rules: the negative charge flipped qv x B, but the current segment still followed I L x B in the same field.",
+        "setup": {
+          "presetId": "positive-bends-down",
+          "graphId": "force",
+          "overlayIds": [
+            "motionVectors",
+            "wireForcePanel"
+          ],
+          "note": "Keep the launch angle near 0 deg so the vertical force split stays obvious."
+        },
+        "requirements": {
+          "graphId": "force",
+          "overlayIds": [
+            "motionVectors",
+            "wireForcePanel"
+          ]
+        },
+        "hints": [
+          "If the wire should point up while the charge still points down, one sign change has to affect the charge but not the wire.",
+          "The target is easiest to read when the shared direction stays nearly horizontal."
+        ],
+        "targets": [
+          {
+            "param": "directionAngle",
+            "min": -8,
+            "max": 8,
+            "displayUnit": "deg"
+          },
+          {
+            "metric": "chargeForceX",
+            "min": -0.12,
+            "max": 0.12
+          },
+          {
+            "metric": "chargeForceY",
+            "min": -2.2,
+            "max": -1.1
+          },
+          {
+            "metric": "wireForceX",
+            "min": -0.12,
+            "max": 0.12
+          },
+          {
+            "metric": "wireForceY",
+            "min": 1.1,
+            "max": 2.2
+          }
+        ]
+      },
+      {
+        "id": "mfmc-ch-faster-wider-arc",
+        "title": "Faster force, wider arc",
+        "style": "visible-condition",
+        "prompt": "Open compare mode from Positive bends down. Keep Setup A as the baseline, but make Setup B show the bigger moving-charge force and the wider orbit that go with a faster charge in the same field.",
+        "successMessage": "You kept the field story honest: Setup B now has the larger magnetic-force magnitude and the larger radius, so a faster charge can bend more gently even while the force grows.",
+        "setup": {
+          "presetId": "positive-bends-down",
+          "note": "Open compare mode from the baseline and raise only Setup B speed while keeping the orbit guide and wire panel visible."
+        },
+        "requirements": {
+          "graphId": "force",
+          "overlayIds": [
+            "orbitGuide",
+            "wireForcePanel"
+          ],
+          "compareTarget": "b"
+        },
+        "hints": [
+          "Leave Setup A near the preset and change only Setup B.",
+          "In this model, raising speed increases |F_q| and the radius at the same time, while the wire-panel force stays fixed if the current and field stay fixed."
+        ],
+        "targets": [
+          {
+            "setup": "a",
+            "metric": "chargeForceMagnitude",
+            "label": "Keep Setup A near the baseline moving-charge force of 7.2.",
+            "min": 7,
+            "max": 7.4
+          },
+          {
+            "setup": "a",
+            "metric": "radius",
+            "label": "Keep Setup A on the baseline radius near 2.8 m.",
+            "min": 2.75,
+            "max": 2.9,
+            "displayUnit": "m"
+          },
+          {
+            "setup": "b",
+            "param": "speed",
+            "label": "Raise Setup B speed into the 6.2 to 6.6 m/s band.",
+            "min": 6.2,
+            "max": 6.6,
+            "displayUnit": "m/s"
+          },
+          {
+            "setup": "b",
+            "metric": "chargeForceMagnitude",
+            "label": "Make Setup B's moving-charge force exceed 10.0.",
+            "min": 10,
+            "max": 10.5
+          },
+          {
+            "setup": "b",
+            "metric": "radius",
+            "label": "Make Setup B's orbit widen to a radius near 4.0 m.",
+            "min": 3.9,
+            "max": 4.1,
+            "displayUnit": "m"
+          },
+          {
+            "setup": "b",
+            "metric": "wireForceMagnitude",
+            "label": "Keep Setup B's wire-panel force near 3.2 so only the moving-charge speed changed.",
+            "min": 3.1,
+            "max": 3.3
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from force logic, not from a detached hand-rule chant. Each question asks what the live field, charge sign, speed, and current segment must imply together.",
+    "questions": [
+      {
+        "id": "mfmc-qt-positive-baseline",
+        "type": "reasoning",
+        "prompt": "A positive charge moves to the right in a magnetic field pointing out of the page. Which way is the magnetic force in this model?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Downward"
+          },
+          {
+            "id": "b",
+            "label": "Upward"
+          },
+          {
+            "id": "c",
+            "label": "To the right"
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Using the positive-charge right-hand rule with v to the right and B out of the page gives a downward magnetic force.",
+        "selectedWrongExplanations": {
+          "b": "Upward is what you would get if the field flipped into the page or if the charge sign flipped while the field stayed out of the page.",
+          "c": "The magnetic force is perpendicular to the velocity in this setup, so it cannot point along the motion."
+        },
+        "showMeAction": {
+          "label": "Show positive baseline",
+          "presetId": "positive-bends-down",
+          "observationHint": "The charge-force arrow points down while the velocity arrow still points right.",
+          "highlightedControlIds": [
+            "fieldStrength",
+            "directionAngle",
+            "negativeCharge"
+          ],
+          "highlightedGraphIds": [
+            "force"
+          ],
+          "highlightedOverlayIds": [
+            "fieldMarkers",
+            "motionVectors"
+          ]
+        }
+      },
+      {
+        "id": "mfmc-qt-charge-vs-current",
+        "type": "compare-two-cases",
+        "prompt": "The moving charge and the current segment point the same way in the same field. If the charge becomes negative while the wire current stays the same, what changes?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The moving-charge force reverses, but the wire-segment force keeps the same side."
+          },
+          {
+            "id": "b",
+            "label": "Both forces reverse because the launch direction did not change."
+          },
+          {
+            "id": "c",
+            "label": "Nothing changes because magnetic force ignores sign."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Changing the charge sign reverses qv x B. The wire panel still follows I L x B with the same current direction, so its force side stays the same.",
+        "selectedWrongExplanations": {
+          "b": "The field or current direction would have to change to reverse the wire-segment force.",
+          "c": "Magnetic-force direction depends on sign for a moving charge. That sign flip is the whole point of the comparison."
+        },
+        "showMeAction": {
+          "label": "Show negative charge split",
+          "presetId": "negative-charge-same-direction",
+          "observationHint": "The charge arrow flips while the wire arrow keeps its original side.",
+          "highlightedControlIds": [
+            "negativeCharge"
+          ],
+          "highlightedGraphIds": [
+            "force"
+          ],
+          "highlightedOverlayIds": [
+            "motionVectors",
+            "wireForcePanel"
+          ]
+        }
+      },
+      {
+        "id": "mfmc-qt-speed-radius",
+        "type": "variable-effect",
+        "prompt": "At fixed magnetic field, what happens when the charge speed increases?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The magnetic-force magnitude increases and the orbit radius increases."
+          },
+          {
+            "id": "b",
+            "label": "The magnetic-force magnitude stays the same because only the field matters."
+          },
+          {
+            "id": "c",
+            "label": "The magnetic-force magnitude increases and the orbit radius decreases."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The force scale is qvB, so it grows with speed. But the path radius scales like v / |B|, so a faster charge curves more gently in the same field.",
+        "selectedWrongExplanations": {
+          "b": "The magnetic field matters, but the speed is also part of qvB.",
+          "c": "That answer mixes up larger force with tighter curvature. In this specific magnetic case the faster charge needs a larger turning radius."
+        },
+        "showMeAction": {
+          "label": "Show faster charge",
+          "presetId": "faster-same-direction",
+          "observationHint": "The force graph rises, but the orbit guide widens at the same time.",
+          "highlightedControlIds": [
+            "speed"
+          ],
+          "highlightedGraphIds": [
+            "position",
+            "force"
+          ],
+          "highlightedOverlayIds": [
+            "motionVectors",
+            "orbitGuide"
+          ]
+        }
+      },
+      {
+        "id": "mfmc-qt-stronger-field",
+        "type": "misconception-check",
+        "prompt": "A student says, \"Doubling the magnetic field only doubles the force. It should not change the timing of the turn.\" What is the best correction?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "A stronger field makes the force larger and also shortens the turning period, so the path bends more quickly."
+          },
+          {
+            "id": "b",
+            "label": "The period stays the same because the speed did not change."
+          },
+          {
+            "id": "c",
+            "label": "The stronger field changes only the wire-segment force, not the charge motion."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A stronger field raises qvB and lowers the magnetic radius and period in this model, so the charge turns more quickly.",
+        "selectedWrongExplanations": {
+          "b": "Keeping speed fixed does not freeze the turning rate. The field still changes how quickly the heading rotates.",
+          "c": "The moving charge and the current segment both use the field vector, so both respond when B changes."
+        },
+        "showMeAction": {
+          "label": "Turn the field up",
+          "patch": {
+            "fieldStrength": 2.4,
+            "speed": 4.5,
+            "directionAngle": 0,
+            "negativeCharge": false,
+            "current": 2
+          },
+          "observationHint": "Use the force graph and orbit guide together. The force grows and the charge turns through the preview window more quickly.",
+          "highlightedControlIds": [
+            "fieldStrength"
+          ],
+          "highlightedGraphIds": [
+            "position",
+            "force"
+          ],
+          "highlightedOverlayIds": [
+            "motionVectors",
+            "orbitGuide",
+            "wireForcePanel"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a square stage with x and y axes, a launch point at the center, a draggable launch handle, a moving charge that follows a curved path through a uniform magnetic field, and a compact wire-force panel to the right. Dots indicate magnetic field out of the page, crosses indicate magnetic field into the page, and a gray hollow marker indicates nearly zero field.",
+        "The moving charge uses color to show sign: warm color for positive and cool color for negative. Optional overlays show field markers, the live velocity and force arrows on the charge, the orbit guide and orbit center, and the current-segment panel with its own force arrow.",
+        "The right panel uses the same in-page direction angle as the launch arrow but a separate current slider. Compare mode can add a dashed secondary path and secondary wire segment while the time rail, graph hover, and pause controls still inspect one synchronized time value."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The position graph plots the charge x-position and y-position against time for the current setup. Hovering or scrubbing the graph updates the same charge position on the stage.",
+        "The force graph plots the charge force x-component, charge force y-component, and charge force magnitude against the same time axis. The graph does not draw the wire force; the wire comparison stays in the live panel so the current-segment rule remains visually distinct from the moving-charge force."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Magnetic Force on Moving Charges and Currents | Open Model Lab",
+    "description": "Learn how a magnetic field bends a moving charge or pushes a current-carrying wire segment with one compact simulation-first lab that links force direction, curved motion, worked examples, prediction prompts, and conceptual quick tests.",
+    "keywords": [
+      "magnetic force",
+      "moving charge",
+      "current-carrying wire",
+      "q v cross B",
+      "physics simulation"
+    ]
+  }
+}

@@ -1,0 +1,715 @@
+{
+  "simple-harmonic-motion": {},
+  "oscillation-energy": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "oe-ch-equal-split",
+          "title": "Half kinetic, half potential",
+          "prompt": "Starting from Mixed start, pause at a moment when kinetic and potential energy are nearly equal. Keep the energy graph open so the balance stays honest."
+        },
+        {
+          "id": "oe-ch-build-five-joules",
+          "title": "Reach about 5 J",
+          "prompt": "From the Mixed start baseline, raise the stored energy to about $5\\,\\mathrm{J}$ without making the oscillator heavier than about $1.2\\,\\mathrm{kg}$."
+        }
+      ]
+    }
+  },
+  "wave-speed-wavelength": {},
+  "sound-waves-longitudinal-motion": {},
+  "pitch-frequency-loudness-intensity": {},
+  "beats": {},
+  "doppler-effect": {},
+  "wave-interference": {},
+  "standing-waves": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "sw-ch-probe-on-node",
+          "prompt": "Starting from the third harmonic, move the probe onto a node so its local envelope becomes almost zero."
+        },
+        {
+          "id": "sw-ch-center-zero-crossing",
+          "prompt": "From the fundamental mode, keep the probe at the center antinode and pause when that antinode crosses through zero displacement."
+        }
+      ]
+    }
+  },
+  "resonance-air-columns-open-closed-pipes": {},
+  "uniform-circular-motion": {},
+  "damping-resonance": {},
+  "vectors-components": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "vc-ch-equal-components",
+          "prompt": "Build a vector whose horizontal and vertical components are nearly the same size. Keep the component graph open so you can match the two lines, not just eyeball the angle."
+        },
+        {
+          "id": "vc-ch-hit-end-point",
+          "prompt": "At the end of the $4\\,\\mathrm{s}$ walk, make the point land near $(16\\,\\mathrm{m}, 12\\,\\mathrm{m})$."
+        }
+      ]
+    }
+  },
+  "torque": {},
+  "static-equilibrium-centre-of-mass": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "secm-ch-balance-heavy-right-load",
+          "title": "Recover equilibrium",
+          "prompt": "Starting from Tips right, move the support centre until the plank is stable again."
+        },
+        {
+          "id": "secm-ch-barely-stable",
+          "title": "Edge of stability",
+          "prompt": "Starting from Support under load, shift the support region left until the plank is only just stable."
+        },
+        {
+          "id": "secm-ch-same-com-compare",
+          "title": "Match the same centre of mass",
+          "prompt": "Open compare mode. Keep Setup A on Support under load, then tune Setup B so a heavier cargo placed closer in gives the same combined centre of mass."
+        }
+      ]
+    }
+  },
+  "rotational-inertia": {},
+  "rolling-motion": {},
+  "angular-momentum": {},
+  "momentum-impulse": {},
+  "conservation-of-momentum": {},
+  "collisions": {},
+  "projectile-motion": {},
+  "gravitational-fields": {},
+  "gravitational-potential-energy": {},
+  "pressure-and-hydrostatic-pressure": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "php-ch-hit-24-kpa-deep",
+          "title": "Reach 24 kPa by changing depth only",
+          "prompt": "Start from Water baseline and adjust only the probe depth until the total pressure is about 24 kPa while force, area, density, and gravity stay near baseline."
+        },
+        {
+          "id": "php-ch-match-total-lower-surface",
+          "title": "Match the total with less surface pressure",
+          "prompt": "Start from Water baseline, switch to compare mode, leave Setup A unchanged, and tune only Setup B until it reaches the same total pressure with a smaller surface-pressure part and a denser fluid."
+        }
+      ]
+    }
+  },
+  "continuity-equation": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "ce-ch-double-middle-speed",
+          "title": "Make section B about twice as fast",
+          "prompt": "Start from Uniform pipe. Adjust only section B until the middle speed is about twice section A's while the baseline flow rate stays unchanged."
+        },
+        {
+          "id": "ce-ch-same-flow-wider-b",
+          "title": "Same flow, slower wider middle section",
+          "prompt": "Start from Baseline stream, switch to compare mode, leave Setup A unchanged, and widen section B in Setup B until it keeps the same flow rate but runs slower there."
+        }
+      ]
+    }
+  },
+  "bernoullis-principle": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "bp-ch-hit-low-throat-pressure",
+          "title": "Build a 27 kPa throat",
+          "prompt": "Start from Level venturi. Adjust only the throat width until the throat pressure is about 27.1 kPa while the rest of the entry state stays near baseline."
+        },
+        {
+          "id": "bp-ch-wider-b-recovers-pressure",
+          "title": "Same entry state, wider throat recovers pressure",
+          "prompt": "Start from Baseline venturi, switch to compare mode, leave Setup A unchanged, and tune Setup B until it keeps the same entry pressure and flow rate but recovers the throat pressure by widening only the throat."
+        }
+      ]
+    }
+  },
+  "buoyancy-and-archimedes-principle": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "bap-ch-half-submerged-balance",
+          "title": "Make the block balance half submerged",
+          "prompt": "Adjust the block so it can float about half submerged without extra support."
+        },
+        {
+          "id": "bap-ch-less-submerged-in-brine",
+          "title": "Make the same block float higher in brine",
+          "prompt": "Start from Wood in water, switch to compare mode, leave Setup A alone, and tune only Setup B until the same block balances higher in denser fluid."
+        }
+      ]
+    }
+  },
+  "drag-and-terminal-velocity": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "dtv-ch-slow-the-fall",
+          "title": "Build a slower terminal-speed case",
+          "prompt": "Starting from Baseline drop, keep the mass near $2\\,\\mathrm{kg}$ and lower the terminal speed by increasing both area and drag strength."
+        },
+        {
+          "id": "dtv-ch-freeze-near-terminal",
+          "title": "Catch the near-terminal moment",
+          "prompt": "Starting from Draggy disk, pause when drag is almost equal to weight and the remaining net downward force is tiny."
+        }
+      ]
+    }
+  },
+  "temperature-and-internal-energy": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "tie-ch-same-temperature-more-total",
+          "title": "Same temperature, larger internal energy",
+          "prompt": "Start from the small warm sample, switch to compare mode, and edit only Setup B until it stays at about the same temperature as Setup A but clearly stores much more internal energy."
+        },
+        {
+          "id": "tie-ch-catch-the-shelf",
+          "title": "Find a true shelf state",
+          "prompt": "Start from Warming toward a shelf and pause at a moment when temperature is nearly flat even though energy is still entering the sample."
+        }
+      ]
+    }
+  },
+  "ideal-gas-law-and-kinetic-theory": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "igkt-ch-compress-doubles-pressure",
+          "title": "Double the pressure by compression",
+          "prompt": "Start from Room baseline and lower only the volume until the pressure is about double while temperature and particle count stay near the baseline values."
+        },
+        {
+          "id": "igkt-ch-same-pressure-different-cause",
+          "title": "Match the pressure with a different cause"
+        }
+      ]
+    }
+  },
+  "heat-transfer": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "ht-ch-slower-same-contrast",
+          "title": "Same gap, smaller total rate"
+        },
+        {
+          "id": "ht-ch-make-radiation-largest",
+          "title": "Make radiation the biggest path"
+        }
+      ]
+    }
+  },
+  "specific-heat-and-phase-change": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "shpc-ch-same-pulse-higher-c",
+          "title": "Same pulse, smaller temperature change",
+          "prompt": "Start from Low-c warm sample, switch to compare mode, and edit only Setup B until both setups receive the same 4 minute pulse but Setup B warms much less because its specific heat is larger."
+        },
+        {
+          "id": "shpc-ch-catch-the-real-shelf",
+          "title": "Find a genuine shelf state",
+          "prompt": "Starting from Warming toward the shelf, pause at a real shelf moment where temperature is near 0 degC but the phase fraction is still between fully solid and fully liquid."
+        }
+      ]
+    }
+  },
+  "circular-orbits-orbital-speed": {},
+  "keplers-third-law-orbital-periods": {},
+  "escape-velocity": {},
+  "basic-circuits": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "bc-ch-full-voltage-parallel-pair",
+          "title": "Build a full-voltage parallel pair",
+          "prompt": "Starting from the matched series pair, change only the circuit structure needed so each branch gets the full battery voltage and the total current is about 4 A."
+        }
+      ]
+    }
+  },
+  "series-parallel-circuits": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "spc-ch-blue-branch-full-voltage",
+          "title": "Give Load B full battery voltage",
+          "prompt": "Starting from Unequal series loads, rewire the circuit so Load B keeps the full battery voltage while its branch current stays around 1 A."
+        }
+      ]
+    }
+  },
+  "equivalent-resistance": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "eqr-ch-parallel-group-collapse",
+          "title": "Build the 3 ohm parallel group",
+          "prompt": "Starting from the balanced series group, change only the grouped connection until the highlighted pair is about 3 ohm and the full circuit is about 7 ohm."
+        }
+      ]
+    }
+  },
+  "power-energy-circuits": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "pec-ch-steady-eighteen-watt-load",
+          "title": "Build a steady 18 W load",
+          "prompt": "Starting from Gentle glow, keep the 8 ohm load and raise the source until the stage power bar is about 18 W."
+        }
+      ]
+    }
+  },
+  "electric-fields": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "ef-ch-build-upward-balance",
+          "title": "Build a straight-up field",
+          "prompt": "Starting from Dipole reference, adjust the source pair until the probe sees equal positive charges, zero horizontal field, and an upward net field."
+        },
+        {
+          "id": "ef-ch-flip-force-not-field",
+          "title": "Reverse the force only",
+          "prompt": "Starting from Like-charge arch, reverse the force on the test charge without changing the field at the probe."
+        }
+      ]
+    }
+  },
+  "electric-potential": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "ep-ch-positive-midpoint-plateau",
+          "title": "Build a positive midpoint with zero field",
+          "prompt": "Starting from Dipole reference, adjust the setup until the midpoint has almost zero field but still clearly positive potential."
+        }
+      ]
+    }
+  },
+  "magnetic-fields": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "mf-ch-build-upward-bridge",
+          "title": "Build a straight-up field",
+          "prompt": "Starting from Same-current sweep, reverse Wire B so the sideways parts nearly cancel while the net magnetic field points strongly upward above the midpoint."
+        },
+        {
+          "id": "mf-ch-compare-lift-and-cancel",
+          "title": "Compare upward lift and midpoint cancel",
+          "prompt": "Open compare mode from Opposite-current lift. Keep Setup A on the above-midpoint upward case, but turn Setup B into the midpoint-cancel case where the net field nearly vanishes even though the current magnitudes still match."
+        }
+      ]
+    }
+  },
+  "electromagnetic-induction": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "emi-ch-high-flux-zero-emf",
+          "title": "Strong flux, almost zero emf",
+          "prompt": "Starting from Approach and pass, hold the magnet near the coil center so the coil still links strong flux while the induced emf drops near zero."
+        },
+        {
+          "id": "emi-ch-oppose-rising-flux",
+          "title": "Catch the rising-flux Lenz response"
+        }
+      ]
+    }
+  },
+  "maxwells-equations-synthesis": {},
+  "electromagnetic-waves": {},
+  "light-spectrum-linkage": {},
+  "polarization": {},
+  "diffraction": {},
+  "double-slit-interference": {},
+  "magnetic-force-moving-charges-currents": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "mfmc-ch-charge-down-wire-up"
+        },
+        {
+          "id": "mfmc-ch-faster-wider-arc",
+          "title": "Stronger force, wider path",
+          "prompt": "Open compare mode from Positive bends down. Keep Setup A as the baseline, but make Setup B show both a larger moving-charge force and a wider orbit by changing only the speed."
+        }
+      ]
+    }
+  },
+  "refraction-snells-law": {},
+  "dispersion-refractive-index-color": {},
+  "total-internal-reflection": {},
+  "mirrors": {},
+  "lens-imaging": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "li-ch-real-image-target",
+          "title": "Build a real inverted image",
+          "prompt": "Starting from the converging reference, tune the setup until the image stays real with d_i between 1.0 and 1.2 m and m between -1.4 and -1.1."
+        },
+        {
+          "id": "li-ch-virtual-image-target",
+          "title": "Build a virtual upright image",
+          "prompt": "Starting from the diverging reference, tune the setup until the image stays virtual with d_i between -0.65 and -0.45 m and m between 0.3 and 0.5."
+        }
+      ]
+    }
+  },
+  "optical-resolution-imaging-limits": {},
+  "photoelectric-effect": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "pe-ch-cutoff-voltage"
+        },
+        {
+          "id": "pe-ch-brightness-not-enough",
+          "prompt": "Starting from Bright but still below threshold, keep the beam bright while showing that the collector current can still stay essentially zero."
+        }
+      ]
+    }
+  },
+  "atomic-spectra": {},
+  "de-broglie-matter-waves": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "dbmw-ch-one-fit",
+          "prompt": "Starting from Slow electron, tune only the speed until the fixed loop is close to one wavelength long without changing the particle mass."
+        },
+        {
+          "id": "dbmw-ch-heavy-shorter-wave",
+          "prompt": "Starting from Near one-fit electron, keep the speed nearly unchanged but increase the mass until roughly two wavelengths fit around the loop."
+        }
+      ]
+    }
+  },
+  "bohr-model": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "bm-ch-find-red-balmer",
+          "prompt": "Starting from Balmer beta, adjust the live state until the active transition is the classic red Balmer line and the page still shows emission."
+        },
+        {
+          "id": "bm-ch-ultraviolet-reverse",
+          "prompt": "Starting from Lyman alpha emission, switch to the matching reverse excitation from the ground level without changing the ultraviolet wavelength."
+        }
+      ]
+    }
+  },
+  "radioactivity-half-life": {},
+  "graph-transformations": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "gt-ch-reflect-land-vertex",
+          "title": "Land a reflected vertex",
+          "prompt": "Build a reflected graph whose transformed vertex lands near $(-1, 2.4)$. Keep the reference curve and shift guide on so the move stays tied to the base landmark."
+        }
+      ]
+    }
+  },
+  "rational-functions-asymptotes-and-behavior": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "rf-ch-separate-hole-from-asymptote",
+          "title": "Keep the true break and the removable break separate",
+          "prompt": "Build a reciprocal family where the true vertical asymptote sits near $x=-1$, the removable hole sits at a positive x-value, and the right branch stays below the horizontal asymptote."
+        }
+      ]
+    }
+  },
+  "exponential-change-growth-decay-logarithms": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "exp-ch-quarter-target-two-half-lives",
+          "title": "Make the target one quarter of the start",
+          "prompt": "Build a decay case where the target is about one quarter of the start, so the curve reaches it in about two half-lives."
+        }
+      ]
+    }
+  },
+  "derivative-as-slope-local-rate-of-change": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "ds-ch-catch-the-flat-tangent",
+          "title": "Match the near-flat slopes",
+          "prompt": "Move to the right-hand turning point so the tangent is almost flat, then shrink Δx until the secant slope is almost flat there too."
+        }
+      ]
+    }
+  },
+  "limits-and-continuity-approaching-a-value": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "lc-ch-agreeing-sides-broken-continuity",
+          "title": "Limit exists, continuity fails",
+          "prompt": "Switch to the case where the left-hand and right-hand values agree on one finite limit, but the function is still not continuous at $x = 0$."
+        }
+      ]
+    }
+  },
+  "optimization-maxima-minima-and-constraints": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "oc-ch-find-the-square-maximum",
+          "title": "Find the maximum-area rectangle",
+          "prompt": "Move the width until the rectangle reaches the maximum area and the local area slope is essentially zero."
+        }
+      ]
+    }
+  },
+  "integral-as-accumulation-area": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "ia-ch-negative-height-positive-total",
+          "prompt": "Move the bound to a place where the source height is negative, but the running total is still positive."
+        }
+      ]
+    }
+  },
+  "vectors-in-2d": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "v2d-ch-near-zero-result",
+          "prompt": "Adjust the vectors until the resultant lands very close to the origin, but keep the scaled first vector clearly nontrivial so the near-zero result comes from cancellation rather than from shrinking everything."
+        }
+      ]
+    }
+  },
+  "matrix-transformations": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "mt-ch-build-right-shear",
+          "title": "Build a right shear",
+          "prompt": "Start from the identity matrix and create a right shear that keeps $M e_1$ close to the x-axis while the unit square becomes a right-leaning parallelogram."
+        }
+      ]
+    }
+  },
+  "dot-product-angle-and-projection": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "dpp-ch-collapse-the-projection",
+          "title": "Make the projection nearly vanish"
+        }
+      ]
+    }
+  },
+  "complex-numbers-on-the-plane": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "cnp-ch-rotate-to-positive-imaginary",
+          "title": "Turn the product onto the positive imaginary axis",
+          "prompt": "In multiplication view, choose w so z · w lands almost on the positive imaginary axis while the multiplier magnitude stays close to 1."
+        }
+      ]
+    }
+  },
+  "unit-circle-sine-cosine-from-rotation": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "ucr-ch-quadrant-two-sign-read",
+          "title": "Catch the first sign flip",
+          "prompt": "Start from the axis-crossing view, then move just into Quadrant II so cosine is negative while sine is still clearly positive. Keep the guides and sign map on so you can see exactly why the signs differ."
+        }
+      ]
+    }
+  },
+  "polar-coordinates-radius-and-angle": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "polar-ch-second-quadrant-xy-bridge",
+          "title": "Quadrant II coordinate check",
+          "prompt": "Build a point in Quadrant II where the leftward x-projection has larger magnitude than the upward y-projection. Keep the coordinate guides on so r, θ, x, and y stay tied to the same point."
+        }
+      ]
+    }
+  },
+  "trig-identities-from-unit-circle-geometry": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "tig-ch-three-four-five-balance",
+          "title": "0.6-0.8 identity check",
+          "prompt": "Start in Quadrant I and adjust the point until cosine is near 0.6 and sine is near 0.8. Keep the squared-projection graph open so you can check that the sum stays at 1 while you tune the angle."
+        }
+      ]
+    }
+  },
+  "inverse-trig-angle-from-ratio": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "iatr-ch-quadrant-two-ratio-recovery",
+          "title": "Quadrant II recovery checkpoint",
+          "prompt": "Build a point with negative $y / x$ whose full angle is clearly in Quadrant II, not Quadrant IV. Keep the angle-recovery graph open so the principal-angle and actual-angle curves visibly disagree."
+        }
+      ]
+    }
+  },
+  "parametric-curves-motion-from-equations": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "pcm-ch-tall-fast-near-axis",
+          "title": "Catch a fast point on a tall curve",
+          "prompt": "Make the curve clearly taller than it is wide, then catch the point near the y-axis during a fast part of the motion."
+        }
+      ]
+    }
+  },
+  "reaction-rate-collision-theory": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "rrct-ch-more-success-not-just-more-hits",
+          "title": "Raise success, not just collision count",
+          "prompt": "Build a setup where the reaction is clearly fast even though concentration stays modest. Keep the threshold cue and collision pulses on so you can show that the rate rose because more collisions succeeded."
+        }
+      ]
+    }
+  },
+  "dynamic-equilibrium-le-chateliers-principle": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "de-ch-disturb-then-rebalance",
+          "title": "Create a shift, then let it rebalance",
+          "prompt": "Start from a reactant-heavy mixture, choose clearly product-favored conditions, and wait until the forward and reverse rates nearly match again while the mixture stays product-rich."
+        }
+      ]
+    }
+  },
+  "concentration-and-dilution": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "cd-ch-dilute-without-losing-solute",
+          "title": "Lower concentration by adding solvent",
+          "prompt": "Start from a crowded beaker and make it clearly less concentrated while keeping the solute amount close to the starting value."
+        }
+      ]
+    }
+  },
+  "solubility-and-saturation": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "ss-ch-dissolve-excess-without-removing-solute",
+          "title": "Make the excess pile disappear",
+          "prompt": "Starting from a saturated beaker, make the excess pile disappear while keeping the total solute amount the same."
+        }
+      ]
+    }
+  },
+  "acid-base-ph-intuition": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "abph-ch-land-near-neutral",
+          "title": "Bring the mixture near neutral",
+          "prompt": "Adjust the mixture until the pH sits near neutral and the acid and base bars stay close together."
+        }
+      ]
+    }
+  },
+  "buffers-and-neutralization": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "bn-ch-hold-near-neutral-under-acid-pulse",
+          "title": "Hold pH near neutral during an acid pulse",
+          "prompt": "Starting from the unbuffered acid pulse, add enough buffer reserve to bring pH near neutral while keeping the acid and base amounts in place and without relying on lots of extra water."
+        }
+      ]
+    }
+  },
+  "stoichiometric-ratios-and-recipe-batches": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "srb-ch-build-a-three-to-two-recipe",
+          "title": "Match the 3:2 recipe",
+          "prompt": "Set the bench to a 3 A + 2 B recipe and choose supplies that finish four full batches together."
+        }
+      ]
+    }
+  },
+  "limiting-reagent-and-leftover-reactants": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "lr-ch-make-b-the-limiting-reagent",
+          "title": "Make B the limiting reagent",
+          "prompt": "Keep the 2 A + 3 B recipe, but adjust the supplies so B limits the reaction and exactly 3 A packets remain after the full-yield run."
+        }
+      ]
+    }
+  },
+  "percent-yield-and-reaction-extent": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "pyre-ch-hit-seventy-five-percent-yield",
+          "title": "Set a matched run to 75% yield",
+          "prompt": "Use the matched 2 A + 3 B run and set percent yield to 75% so the actual output lands at 3.75 batches."
+        }
+      ]
+    }
+  },
+  "sorting-and-algorithmic-trade-offs": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "sat-ch-use-nearly-sorted-insertion",
+          "title": "Make insertion pay off",
+          "prompt": "Create a run where insertion sort finishes a nearly sorted list with very few writes."
+        }
+      ]
+    }
+  },
+  "binary-search-halving-the-search-space": {
+    "challengeMode": {
+      "items": [
+        {
+          "id": "bsh-ch-find-far-right-fast",
+          "title": "Find an edge target fast",
+          "prompt": "Create a large ordered list with the target near the far-right edge, but still find it in five checks or fewer."
+        }
+      ]
+    }
+  },
+  "graph-representation-and-adjacency-intuition": {},
+  "breadth-first-search-and-layered-frontiers": {},
+  "depth-first-search-and-backtracking-paths": {},
+  "frontier-and-visited-state-on-graphs": {}
+}

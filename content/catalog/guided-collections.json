@@ -1,0 +1,1017 @@
+[
+  {
+    "id": "guided-collection-waves-evidence-loop",
+    "slug": "waves-evidence-loop",
+    "format": "lesson-set",
+    "title": "Waves Evidence Loop",
+    "summary": "Use one topic page, one starter track, and one focused challenge so the wave story stays bounded for a teacher-led lesson block.",
+    "introduction": "This set is for the moment when learners need the oscillator-to-wave sequence to stay compact. It starts with the existing topic page for orientation, uses the authored waves starter track for the main order, then closes with challenge surfaces that are already part of the current concept pages.",
+    "sequenceRationale": "The topic page frames the branch first, the starter track preserves the authored order from oscillation through sound, pitch-versus-loudness cues, beats, and the Doppler shift into standing-pattern and air-column-resonance ideas, the interference challenge forces one concrete target, and filtered challenges keep extension work inside the same wave path.",
+    "educatorNote": "Best for a short lab block where everyone should share one sequence before branching into extension practice.",
+    "sequence": 10,
+    "accent": "sky",
+    "highlights": [
+      "Topic orientation",
+      "Wave starter track",
+      "Interference challenge",
+      "Filtered challenge follow-up"
+    ],
+    "entryDiagnostic": {
+      "title": "Check whether this lesson set should start at orientation or extension",
+      "summary": "Reuse the SHM quick test and the dark-band challenge to see whether the compact wave lesson should begin at the topic page or jump straight to extension practice.",
+      "skipToStepId": "waves-extension-hub",
+      "probes": [
+        {
+          "id": "waves-collection-shm-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "simple-harmonic-motion",
+          "title": "Oscillator quick test",
+          "summary": "Check whether the repeated-motion foundation is already stable enough for a shorter wave entry."
+        },
+        {
+          "id": "waves-collection-dark-band-probe",
+          "kind": "challenge",
+          "conceptSlug": "wave-interference",
+          "challengeId": "wi-ch-find-dark-band",
+          "title": "Dark-band challenge",
+          "summary": "Use the existing interference challenge to see whether the collection can open at extension instead of replaying the full bridge."
+        }
+      ]
+    },
+    "steps": [
+      {
+        "id": "waves-topic-route",
+        "kind": "surface",
+        "surfaceKind": "topic",
+        "href": "/concepts/topics/waves",
+        "title": "Orient with the waves topic page",
+        "summary": "Use the topic landing page to frame wavelength, Doppler shifts, interference, and standing patterns before the deeper ordered work starts.",
+        "purpose": "Give the lesson one shared map before learners branch into the authored sequence.",
+        "actionLabel": "Open topic page",
+        "completionMode": "any-progress",
+        "estimatedMinutes": 6,
+        "relatedConceptSlugs": [
+          "wave-speed-wavelength",
+          "doppler-effect",
+          "wave-interference",
+          "standing-waves"
+        ]
+      },
+      {
+        "id": "waves-starter-track",
+        "kind": "track",
+        "trackSlug": "waves",
+        "title": "Run the full waves starter track",
+        "summary": "Keep simple harmonic motion, wave speed, longitudinal sound, pitch-versus-loudness cues, beats, the Doppler shift, interference, standing waves, and air-column resonance in the existing authored order.",
+        "purpose": "Reuse the canonical track instead of rebuilding a separate lesson shell.",
+        "estimatedMinutes": 40
+      },
+      {
+        "id": "waves-dark-band-challenge",
+        "kind": "challenge",
+        "conceptSlug": "wave-interference",
+        "challengeId": "wi-ch-find-dark-band",
+        "title": "Close with the dark-band interference challenge",
+        "summary": "Ask learners to deliberately land on a destructive-interference band after the wavelength story is already in place.",
+        "purpose": "Turn the shared wave model into one concrete success condition.",
+        "estimatedMinutes": 10
+      },
+      {
+        "id": "waves-extension-hub",
+        "kind": "surface",
+        "surfaceKind": "challenge-hub",
+        "href": "/challenges?track=waves",
+        "title": "Keep extension work in filtered challenges",
+        "summary": "When some learners need another task and others need review, open the existing challenge browser already filtered to the waves path.",
+        "purpose": "Preserve the same branch and the same challenge-mode surfaces without hand-picking new links during class.",
+        "actionLabel": "Open wave challenges",
+        "completionMode": "all-complete",
+        "estimatedMinutes": 8,
+        "relatedConceptSlugs": [
+          "simple-harmonic-motion",
+          "wave-speed-wavelength",
+          "beats",
+          "wave-interference",
+          "standing-waves",
+          "resonance-air-columns-open-closed-pipes"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "guided-collection-electricity-bridge-lesson-set",
+    "slug": "electricity-bridge-lesson-set",
+    "format": "lesson-set",
+    "title": "Electricity Bridge Lesson Set",
+    "summary": "Move from field cause to voltage to the first full electricity track without leaving the current concept, topic, and challenge surfaces.",
+    "introduction": "This lesson set is meant for the moment when learners need the electricity branch to feel like one connected story rather than separate shelves. It uses the topic page for orientation, keeps the first two concepts explicit, then hands off to the authored starter track and a challenge checkpoint.",
+    "sequenceRationale": "The topic page keeps the branch visible, the field and potential concepts stay explicit so the voltage bridge is not skipped, the starter track carries the learner into circuits and reduction, and the closing challenge surfaces a single checkpoint from that same path.",
+    "educatorNote": "Useful when a teacher wants tighter control over the early field-to-voltage transition before letting the broader starter track carry the rest.",
+    "sequence": 20,
+    "accent": "sky",
+    "highlights": [
+      "Field cause",
+      "Voltage bridge",
+      "Electricity track",
+      "Challenge checkpoint"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the bridge before you replay the whole launch",
+      "summary": "Reuse the electric-fields quick test and the existing voltage checkpoint to decide whether this collection should start at the field cause or hand off directly to the full electricity track.",
+      "skipToStepId": "electricity-starter-track",
+      "probes": [
+        {
+          "id": "electricity-collection-fields-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "electric-fields",
+          "title": "Electric-fields quick test",
+          "summary": "Check whether source charges and field direction are still clean before voltage becomes the bridge."
+        },
+        {
+          "id": "electricity-collection-voltage-probe",
+          "kind": "challenge",
+          "conceptSlug": "electric-potential",
+          "challengeId": "ep-ch-positive-midpoint-plateau",
+          "title": "Voltage bridge challenge",
+          "summary": "Use the existing midpoint challenge to see whether this bridge can hand off straight into the broader electricity track."
+        }
+      ]
+    },
+    "steps": [
+      {
+        "id": "electricity-topic-route",
+        "kind": "surface",
+        "surfaceKind": "topic",
+        "href": "/concepts/topics/electricity",
+        "title": "Open the electricity topic page",
+        "summary": "Use the topic landing page to frame charges, fields, and potential before the sequence narrows into the bridge toward circuits.",
+        "purpose": "Anchor the lesson in the canonical field-and-potential branch before the circuit work opens.",
+        "actionLabel": "Open topic page",
+        "completionMode": "any-progress",
+        "estimatedMinutes": 6,
+        "relatedConceptSlugs": [
+          "electric-fields",
+          "electric-potential"
+        ]
+      },
+      {
+        "id": "electric-fields-concept",
+        "kind": "concept",
+        "conceptSlug": "electric-fields",
+        "title": "Start with source charges and electric fields",
+        "summary": "Use the live field stage first so the later voltage and circuit steps still feel tied to a real source.",
+        "purpose": "Make the physical cause explicit before the collection turns toward voltage.",
+        "estimatedMinutes": 12
+      },
+      {
+        "id": "electric-potential-concept",
+        "kind": "concept",
+        "conceptSlug": "electric-potential",
+        "title": "Bridge into electric potential",
+        "summary": "Keep the field picture nearby while voltage becomes the usable scalar story for the next circuit steps.",
+        "purpose": "Prevent voltage from feeling detached from the source-charge model.",
+        "estimatedMinutes": 12
+      },
+      {
+        "id": "electricity-starter-track",
+        "kind": "track",
+        "trackSlug": "electricity",
+        "title": "Use the full electricity starter track",
+        "summary": "Hand off to the authored sequence that carries voltage into single loops, power, branches, and equivalent resistance.",
+        "purpose": "Reuse the existing guided path for the broader branch once the first bridge is stable.",
+        "estimatedMinutes": 55
+      },
+      {
+        "id": "electricity-voltage-checkpoint",
+        "kind": "challenge",
+        "conceptSlug": "electric-potential",
+        "challengeId": "ep-ch-positive-midpoint-plateau",
+        "title": "Check the voltage bridge challenge",
+        "summary": "Use the midpoint case where the field can vanish while the potential stays positive before the collection widens into full circuits.",
+        "purpose": "Lock in the exact bridge case the later circuit sequence depends on.",
+        "estimatedMinutes": 10
+      },
+      {
+        "id": "electricity-filtered-hub",
+        "kind": "surface",
+        "surfaceKind": "challenge-hub",
+        "href": "/challenges?track=electricity",
+        "title": "Keep follow-up practice in filtered electricity challenges",
+        "summary": "Open the existing challenge browser already filtered to the electricity path when the class needs one more bounded task.",
+        "purpose": "Stay inside the current branch without inventing a second lesson catalog.",
+        "actionLabel": "Open electricity challenges",
+        "completionMode": "all-complete",
+        "estimatedMinutes": 8,
+        "relatedConceptSlugs": [
+          "electric-fields",
+          "electric-potential",
+          "basic-circuits",
+          "power-energy-circuits",
+          "series-parallel-circuits",
+          "equivalent-resistance"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "guided-collection-electricity-to-magnetism-bridge",
+    "slug": "electricity-to-magnetism-bridge",
+    "format": "playlist",
+    "title": "Electricity to Magnetism Bridge",
+    "summary": "Use the existing electricity recap, magnetic starter track, and Maxwell capstone surfaces to move into electromagnetism without turning the branch into a full LMS sequence.",
+    "introduction": "This playlist is for the moment when the class is leaving core electricity and beginning magnetism. It does not replace the existing track system. It just groups the recap, the magnetic starter track, one induction checkpoint, and a capstone concept into one compact bridge.",
+    "sequenceRationale": "The electricity recap reactivates the voltage and current story first, the magnetic starter track keeps field direction and induction in authored order, the induction challenge forces one clean Faraday/Lenz target, and the Maxwell synthesis page widens the branch toward the later wave story.",
+    "educatorNote": "Best used after the electricity track already exists in class memory but before the electromagnetism topic should open fully.",
+    "sequence": 30,
+    "accent": "teal",
+    "highlights": [
+      "Electricity recap",
+      "Magnetic starter track",
+      "Induction checkpoint",
+      "Maxwell synthesis"
+    ],
+    "entryDiagnostic": {
+      "title": "Check whether the bridge should stop at recap or jump to synthesis",
+      "summary": "Reuse the magnetic-field and induction checkpoints to decide whether this bridge should stay on the electricity recap and magnetic track or jump ahead to the Maxwell capstone.",
+      "skipToStepId": "maxwell-capstone",
+      "probes": [
+        {
+          "id": "bridge-magnetic-fields-probe",
+          "kind": "challenge",
+          "conceptSlug": "magnetic-fields",
+          "challengeId": "mf-ch-build-upward-bridge",
+          "title": "Magnetic-field checkpoint",
+          "summary": "Check whether current-made field direction already feels stable enough for a shorter bridge."
+        },
+        {
+          "id": "bridge-induction-probe",
+          "kind": "challenge",
+          "conceptSlug": "electromagnetic-induction",
+          "challengeId": "emi-ch-high-flux-zero-emf",
+          "title": "Induction checkpoint",
+          "summary": "Use the existing Faraday/Lenz challenge to see whether the bridge can widen directly into Maxwell synthesis."
+        }
+      ]
+    },
+    "steps": [
+      {
+        "id": "electricity-recap-reference",
+        "kind": "surface",
+        "surfaceKind": "reference",
+        "href": "/tracks/electricity?mode=recap",
+        "title": "Reopen the electricity track in recap mode",
+        "summary": "Use the existing recap view when the class needs a short voltage-and-circuit refresh before magnetic fields take over.",
+        "purpose": "Prepare the branch without replaying the full electricity track from the beginning.",
+        "actionLabel": "Open electricity recap",
+        "completionMode": "any-progress",
+        "estimatedMinutes": 8,
+        "relatedConceptSlugs": [
+          "electric-fields",
+          "electric-potential",
+          "basic-circuits",
+          "power-energy-circuits",
+          "series-parallel-circuits",
+          "equivalent-resistance"
+        ]
+      },
+      {
+        "id": "magnetic-fields-track",
+        "kind": "track",
+        "trackSlug": "magnetic-fields",
+        "title": "Run the magnetic fields starter track",
+        "summary": "Keep current-made magnetic fields, induction, and magnetic force in the authored order already built into the catalog.",
+        "purpose": "Reuse the compact magnetic branch without introducing a new course shell.",
+        "estimatedMinutes": 36
+      },
+      {
+        "id": "faraday-lenz-challenge",
+        "kind": "challenge",
+        "conceptSlug": "electromagnetic-induction",
+        "challengeId": "emi-ch-high-flux-zero-emf",
+        "title": "Use the Faraday/Lenz checkpoint challenge",
+        "summary": "Separate strong linked flux from near-zero emf in one centered-magnet pass before the class jumps toward broader field synthesis.",
+        "purpose": "Give the bridge one specific induction success condition.",
+        "estimatedMinutes": 10
+      },
+      {
+        "id": "maxwell-capstone",
+        "kind": "concept",
+        "conceptSlug": "maxwells-equations-synthesis",
+        "title": "Add Maxwell's four-law synthesis as the capstone concept",
+        "summary": "Use the compact four-law page to show how the magnetic branch widens toward the later electromagnetic-wave story.",
+        "purpose": "Close the bridge with one concept that connects the local magnetic story to the larger field picture.",
+        "estimatedMinutes": 14
+      },
+      {
+        "id": "electromagnetism-topic-route",
+        "kind": "surface",
+        "surfaceKind": "topic",
+        "href": "/concepts/topics/electromagnetism",
+        "title": "Finish on the electromagnetism topic page",
+        "summary": "Open the topic page when learners are ready to see how induction, force, Maxwell synthesis, and electromagnetic waves sit on one branch.",
+        "purpose": "Re-situate the collection inside the wider catalog without building a separate curriculum destination.",
+        "actionLabel": "Open electromagnetism topic",
+        "completionMode": "all-complete",
+        "estimatedMinutes": 6,
+        "relatedConceptSlugs": [
+          "magnetic-fields",
+          "electromagnetic-induction",
+          "magnetic-force-moving-charges-currents",
+          "maxwells-equations-synthesis",
+          "electromagnetic-waves"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "guided-collection-functions-and-change-lesson-set",
+    "slug": "functions-and-change-lesson-set",
+    "format": "lesson-set",
+    "title": "Functions and Change Lesson Set",
+    "summary": "Use the functions topic page, the existing graph-first starter track, one accumulation checkpoint, and the calculus topic page so the early math branch stays compact for a teacher-led lesson block.",
+    "introduction": "This lesson set is for the moment when the new math slice should feel like one real path instead of separate shelves. It starts with the functions topic page for orientation, uses the authored Functions and Change starter track for the main order, closes with the accumulation checkpoint already shipped inside that track, and then hands off to the calculus topic page so the next branch stays visible.",
+    "sequenceRationale": "The topic page frames the parent-curve, rational-behavior, and exponential-change branch first, the starter track preserves the authored order from graph moves into local slope and accumulation, the accumulation challenge forces one honest local-versus-total checkpoint, and the calculus topic page keeps the next branch explicit without inventing a second lesson platform.",
+    "educatorNote": "Best when a teacher wants one bounded graph-first math block before the broader calculus shelf opens.",
+    "sequence": 40,
+    "accent": "amber",
+    "highlights": [
+      "Functions topic page",
+      "Functions starter track",
+      "Accumulation checkpoint",
+      "Calculus handoff"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the graph-reading bridge before you replay the full math launch",
+      "summary": "Reuse the graph-transformations quick test, the rational domain-break checkpoint, and the exponential target-time quick test to decide whether this lesson set should start at the topic page or jump straight to the accumulation capstone.",
+      "skipToStepId": "functions-change-accumulation-checkpoint",
+      "probes": [
+        {
+          "id": "functions-collection-graph-reading-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "graph-transformations",
+          "title": "Graph-transformation quick test",
+          "summary": "Check whether shifts, reflections, and landmark tracking already feel stable on the shared graph."
+        },
+        {
+          "id": "functions-collection-rational-domain-probe",
+          "kind": "challenge",
+          "conceptSlug": "rational-functions-asymptotes-and-behavior",
+          "challengeId": "rf-ch-separate-hole-from-asymptote",
+          "title": "Rational domain-break checkpoint",
+          "summary": "Use the rational-functions challenge to verify that asymptotes, removable holes, and branch placement still stay tied to one graph family."
+        },
+        {
+          "id": "functions-collection-exponential-target-probe",
+          "kind": "quick-test",
+          "conceptSlug": "exponential-change-growth-decay-logarithms",
+          "title": "Exponential target-time quick test",
+          "summary": "Check whether growth versus decay and the logarithmic target question already feel stable on the same curve."
+        }
+      ]
+    },
+    "steps": [
+      {
+        "id": "functions-topic-route",
+        "kind": "surface",
+        "surfaceKind": "topic",
+        "href": "/concepts/topics/functions",
+        "title": "Open the functions topic page",
+        "summary": "Use the topic page to frame parent curves, rational behavior, and exponential change before the collection narrows into the full graph-first sequence.",
+        "purpose": "Anchor the lesson in the canonical math branch before local-rate and accumulation work begins.",
+        "actionLabel": "Open topic page",
+        "completionMode": "any-progress",
+        "estimatedMinutes": 6,
+        "relatedConceptSlugs": [
+          "graph-transformations",
+          "rational-functions-asymptotes-and-behavior",
+          "exponential-change-growth-decay-logarithms"
+        ]
+      },
+      {
+        "id": "functions-change-track",
+        "kind": "track",
+        "trackSlug": "functions-and-change",
+        "title": "Run the Functions and Change starter track",
+        "summary": "Keep graph transformations, rational asymptotes, exponential change, local slope, limits, and accumulation in the authored order already shipped in the catalog.",
+        "purpose": "Reuse the canonical starter-track layer instead of restitching the same graph-first branch by hand."
+      },
+      {
+        "id": "functions-change-accumulation-checkpoint",
+        "kind": "challenge",
+        "conceptSlug": "integral-as-accumulation-area",
+        "challengeId": "ia-ch-negative-height-positive-total",
+        "title": "Close with the accumulation checkpoint challenge",
+        "summary": "Finish on the existing accumulation challenge where local height can be negative while the running total stays positive.",
+        "purpose": "Turn the graph-first branch into one honest local-versus-total success condition.",
+        "estimatedMinutes": 10
+      },
+      {
+        "id": "calculus-topic-route",
+        "kind": "surface",
+        "surfaceKind": "topic",
+        "href": "/concepts/topics/calculus",
+        "title": "Keep the next branch visible on the calculus topic page",
+        "summary": "Open the calculus topic page once the accumulation checkpoint lands so slope, limits, optimization, and area stay situated inside the same math shelf.",
+        "purpose": "Show the next branch honestly without pretending the lesson set is a separate course shell.",
+        "actionLabel": "Open calculus topic",
+        "completionMode": "all-complete",
+        "estimatedMinutes": 6,
+        "relatedConceptSlugs": [
+          "derivative-as-slope-local-rate-of-change",
+          "limits-and-continuity-approaching-a-value",
+          "optimization-maxima-minima-and-constraints",
+          "integral-as-accumulation-area"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "guided-collection-vectors-to-mechanics-bridge",
+    "slug": "vectors-to-mechanics-bridge",
+    "format": "lesson-set",
+    "title": "Vectors to Mechanics Bridge",
+    "summary": "Use the vectors topic page, the short bridge track, one endpoint checkpoint, and the mechanics topic page so the math-to-motion handoff stays compact and teacher-usable.",
+    "introduction": "This lesson set is for the moment when the new math vectors branch should hand off cleanly into mechanics without feeling like a separate mini-subject. It starts with the vectors topic page for orientation, uses the authored Vectors and Motion Bridge track for the main sequence, closes with the endpoint challenge already attached to that bridge, and then reopens mechanics so the next branch is visible.",
+    "sequenceRationale": "The vectors topic page frames plane vectors first, the short bridge track preserves the authored handoff into the motion-facing vectors bench, the endpoint challenge forces one concrete motion target, and the mechanics topic page shows where the same vector language widens next.",
+    "educatorNote": "Best when a class needs one compact vector handoff from math into mechanics before opening the broader motion shelf.",
+    "sequence": 44,
+    "accent": "sky",
+    "highlights": [
+      "Vectors topic page",
+      "Bridge starter track",
+      "Endpoint checkpoint",
+      "Mechanics handoff"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the vector bridge before you replay the full handoff",
+      "summary": "Reuse the 2D-vectors quick test, the motion-components quick test, and the equal-components checkpoint to decide whether this collection should start at the topic page or jump straight to the endpoint bridge challenge.",
+      "skipToStepId": "vectors-mechanics-motion-checkpoint",
+      "probes": [
+        {
+          "id": "vectors-collection-2d-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "vectors-in-2d",
+          "title": "2D vectors quick test",
+          "summary": "Check whether vector arrows, components, subtraction, and scalar multiplication already stay tied together on the same plane."
+        },
+        {
+          "id": "vectors-collection-motion-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "vectors-components",
+          "title": "Motion-components quick test",
+          "summary": "Check whether stage motion, the component graph, and the endpoint readout already stay tied together on the motion-facing bench."
+        },
+        {
+          "id": "vectors-collection-balance-probe",
+          "kind": "challenge",
+          "conceptSlug": "vectors-components",
+          "challengeId": "vc-ch-equal-components",
+          "title": "Equal-components checkpoint",
+          "summary": "Use the motion-facing vectors challenge to verify that the horizontal and vertical components already stay visibly matched before you skip the opening bridge."
+        }
+      ]
+    },
+    "steps": [
+      {
+        "id": "vectors-topic-route",
+        "kind": "surface",
+        "surfaceKind": "topic",
+        "href": "/concepts/topics/vectors",
+        "title": "Open the vectors topic page",
+        "summary": "Use the topic page to frame plane vectors, matrix actions, and projection language before the collection narrows into the motion bridge.",
+        "purpose": "Anchor the lesson in the canonical vectors branch before the mechanics handoff starts.",
+        "actionLabel": "Open topic page",
+        "completionMode": "any-progress",
+        "estimatedMinutes": 6,
+        "relatedConceptSlugs": [
+          "vectors-in-2d",
+          "matrix-transformations",
+          "dot-product-angle-and-projection"
+        ]
+      },
+      {
+        "id": "vectors-mechanics-track",
+        "kind": "track",
+        "trackSlug": "vectors-and-motion-bridge",
+        "title": "Run the Vectors and Motion Bridge starter track",
+        "summary": "Keep 2D vector combination and the existing motion-facing vectors bench in the authored order already built into the catalog.",
+        "purpose": "Reuse the compact bridge instead of stitching together separate vector and mechanics links by hand."
+      },
+      {
+        "id": "vectors-mechanics-motion-checkpoint",
+        "kind": "challenge",
+        "conceptSlug": "vectors-components",
+        "challengeId": "vc-ch-hit-end-point",
+        "title": "Land the endpoint bridge challenge",
+        "summary": "Finish on the existing endpoint target once the same ordered-pair language already survives the handoff into motion.",
+        "purpose": "Turn the bridge into one concrete motion-facing success condition.",
+        "estimatedMinutes": 8
+      },
+      {
+        "id": "mechanics-topic-route",
+        "kind": "surface",
+        "surfaceKind": "topic",
+        "href": "/concepts/topics/mechanics",
+        "title": "Open mechanics once the vector language feels stable",
+        "summary": "Use the mechanics topic page when the same vector language should widen into trajectories, turning effects, and later momentum ideas.",
+        "purpose": "Show where the bridge opens next without inventing a separate mini-curriculum for vectors.",
+        "actionLabel": "Open mechanics topic",
+        "completionMode": "all-complete",
+        "estimatedMinutes": 6,
+        "relatedConceptSlugs": [
+          "vectors-components",
+          "projectile-motion",
+          "torque",
+          "angular-momentum"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "guided-collection-complex-and-parametric-motion-lesson-set",
+    "slug": "complex-and-parametric-motion-lesson-set",
+    "format": "lesson-set",
+    "title": "Complex and Parametric Motion Lesson Set",
+    "summary": "Use the complex-and-parametric topic page, the authored starter track, one parametric-motion checkpoint, and the vectors topic page so the plane-based math branch stays compact and teacher-usable.",
+    "introduction": "This lesson set is for the moment when the math shelf should widen beyond graph transformations without losing the product's compact bench language. It starts with the complex-and-parametric topic page for orientation, uses the authored starter track for the main order, closes with the parametric-motion checkpoint already shipped inside that track, and then points to the vectors topic page so the next branch stays visible.",
+    "sequenceRationale": "The topic page frames the complex-plane and motion-from-equations branch first, the starter track preserves the authored order from complex numbers into unit-circle rotation, polar coordinates, trig identities, inverse-angle recovery, and parametric motion, the closing challenge forces one honest path-versus-traversal checkpoint, and the vectors topic page shows where the same plane habits can widen next.",
+    "educatorNote": "Best when learners should deepen the math slice beyond graph transformations without jumping straight into full mechanics.",
+    "sequence": 46,
+    "accent": "teal",
+    "highlights": [
+      "Complex-plane topic page",
+      "Starter track",
+      "Parametric-motion checkpoint",
+      "Vectors next step"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the plane-to-motion bridge before you replay the whole branch",
+      "summary": "Reuse the complex-plane quick test plus the unit-circle sign and polar x-y checkpoints to decide whether this lesson set should start at the topic page or jump straight to the parametric-motion capstone.",
+      "skipToStepId": "complex-parametric-motion-checkpoint",
+      "probes": [
+        {
+          "id": "complex-collection-complex-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "complex-numbers-on-the-plane",
+          "title": "Complex-plane quick test",
+          "summary": "Check whether points, vectors, magnitude, and argument already read as one object on the same plane."
+        },
+        {
+          "id": "complex-collection-unit-circle-probe",
+          "kind": "challenge",
+          "conceptSlug": "unit-circle-sine-cosine-from-rotation",
+          "challengeId": "ucr-ch-quadrant-two-sign-read",
+          "title": "Unit-circle sign checkpoint",
+          "summary": "Use the unit-circle challenge to verify that cosine sign, sine sign, and axis crossing cues still stay tied to the same rotating point."
+        },
+        {
+          "id": "complex-collection-polar-probe",
+          "kind": "challenge",
+          "conceptSlug": "polar-coordinates-radius-and-angle",
+          "challengeId": "polar-ch-second-quadrant-xy-bridge",
+          "title": "Polar x-y checkpoint",
+          "summary": "Use the polar challenge to verify that radius, angle, x, and y still stay readable as one point before the collection jumps into motion."
+        }
+      ]
+    },
+    "steps": [
+      {
+        "id": "complex-parametric-topic-route",
+        "kind": "surface",
+        "surfaceKind": "topic",
+        "href": "/concepts/topics/complex-numbers-and-parametric-motion",
+        "title": "Open the complex-and-parametric topic page",
+        "summary": "Use the topic page to frame complex-plane geometry, rotation, polar coordinates, and motion from equations before the collection narrows into the authored order.",
+        "purpose": "Anchor the lesson in the canonical plane-based math branch before the deeper sequence starts.",
+        "actionLabel": "Open topic page",
+        "completionMode": "any-progress",
+        "estimatedMinutes": 6,
+        "relatedConceptSlugs": [
+          "complex-numbers-on-the-plane",
+          "unit-circle-sine-cosine-from-rotation",
+          "polar-coordinates-radius-and-angle",
+          "trig-identities-from-unit-circle-geometry",
+          "inverse-trig-angle-from-ratio",
+          "parametric-curves-motion-from-equations"
+        ]
+      },
+      {
+        "id": "complex-parametric-track",
+        "kind": "track",
+        "trackSlug": "complex-and-parametric-motion",
+        "title": "Run the Complex and Parametric Motion starter track",
+        "summary": "Keep complex numbers, unit-circle rotation, polar coordinates, and parametric motion in the authored order already shipped in the catalog.",
+        "purpose": "Reuse the compact starter-track layer instead of rebuilding the same plane-to-motion branch by hand."
+      },
+      {
+        "id": "complex-parametric-motion-checkpoint",
+        "kind": "challenge",
+        "conceptSlug": "parametric-curves-motion-from-equations",
+        "challengeId": "pcm-ch-tall-fast-near-axis",
+        "title": "Close with the parametric-motion checkpoint",
+        "summary": "Finish on the existing challenge where a tall traced curve and a fast-moving point have to be read together instead of as the same idea.",
+        "purpose": "Turn the plane-to-motion bridge into one specific path-versus-traversal success condition.",
+        "estimatedMinutes": 10
+      },
+      {
+        "id": "vectors-topic-route",
+        "kind": "surface",
+        "surfaceKind": "topic",
+        "href": "/concepts/topics/vectors",
+        "title": "Open the vectors topic once the plane language feels stable",
+        "summary": "Use the vectors topic page when the same coordinate habits should widen into addition, projection, and later mechanics.",
+        "purpose": "Show the honest next branch without leaving the new math slice isolated.",
+        "actionLabel": "Open vectors topic",
+        "completionMode": "all-complete",
+        "estimatedMinutes": 6,
+        "relatedConceptSlugs": [
+          "vectors-in-2d",
+          "matrix-transformations",
+          "dot-product-angle-and-projection"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "guided-collection-rates-and-equilibrium-lesson-set",
+    "slug": "rates-and-equilibrium-lesson-set",
+    "format": "lesson-set",
+    "title": "Rates and Equilibrium Lesson Set",
+    "summary": "Use the chemistry topic page, the compact starter track, one rebalance checkpoint, and the solutions-and-pH topic page so the chemistry branch feels packaged instead of isolated.",
+    "introduction": "This lesson set is for the moment when the chemistry slice should feel like one coherent branch instead of a pair of disconnected shelves. It starts with the rates-and-equilibrium topic page for orientation, uses the authored starter track for the main order, closes with the reversible-rebalance checkpoint already attached to that track, and then points to the solutions-and-pH topic page so the next chemistry branch stays visible.",
+    "sequenceRationale": "The topic page frames successful collisions and reversible change first, the starter track preserves the authored order from collision success into dynamic equilibrium, the rebalance challenge forces one honest forward-versus-reverse checkpoint, and the solutions-and-pH topic page shows where the same chemistry shelf widens next.",
+    "educatorNote": "Best when a teacher wants one compact chemistry launch that still hands off honestly into the broader chemistry shelf.",
+    "sequence": 48,
+    "accent": "teal",
+    "highlights": [
+      "Chemistry topic page",
+      "Starter track",
+      "Rebalance checkpoint",
+      "Solutions handoff"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the collision-to-equilibrium bridge before you replay the full launch",
+      "summary": "Reuse the collision-theory quick test and the successful-collision checkpoint to decide whether this lesson set should start at the topic page or jump straight to the rebalance capstone.",
+      "skipToStepId": "rates-equilibrium-rebalance-capstone",
+      "probes": [
+        {
+          "id": "rates-collection-collision-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "reaction-rate-collision-theory",
+          "title": "Collision-theory quick test",
+          "summary": "Check whether crowding, heating, barrier-clearing success, and catalyst intuition already stay tied together on the same chemistry bench."
+        },
+        {
+          "id": "rates-collection-successful-collision-probe",
+          "kind": "challenge",
+          "conceptSlug": "reaction-rate-collision-theory",
+          "challengeId": "rrct-ch-more-success-not-just-more-hits",
+          "title": "Successful-collision checkpoint",
+          "summary": "Use the existing rate challenge to verify that faster chemistry still reads as more successful collisions rather than just more crowded hits."
+        }
+      ]
+    },
+    "steps": [
+      {
+        "id": "rates-topic-route",
+        "kind": "surface",
+        "surfaceKind": "topic",
+        "href": "/concepts/topics/rates-and-equilibrium",
+        "title": "Open the rates-and-equilibrium topic page",
+        "summary": "Use the topic page to frame successful collisions and reversible re-balancing before the collection narrows into the authored chemistry order.",
+        "purpose": "Anchor the lesson in the canonical chemistry branch before the starter track takes over.",
+        "actionLabel": "Open topic page",
+        "completionMode": "any-progress",
+        "estimatedMinutes": 6,
+        "relatedConceptSlugs": [
+          "reaction-rate-collision-theory",
+          "dynamic-equilibrium-le-chateliers-principle"
+        ]
+      },
+      {
+        "id": "rates-track",
+        "kind": "track",
+        "trackSlug": "rates-and-equilibrium",
+        "title": "Run the Rates and Equilibrium starter track",
+        "summary": "Keep collision success and reversible re-balancing in the authored order already shipped in the chemistry catalog.",
+        "purpose": "Reuse the compact starter-track layer instead of rebuilding the same chemistry branch by hand."
+      },
+      {
+        "id": "rates-equilibrium-rebalance-capstone",
+        "kind": "challenge",
+        "conceptSlug": "dynamic-equilibrium-le-chateliers-principle",
+        "challengeId": "de-ch-disturb-then-rebalance",
+        "title": "Close with the rebalance checkpoint",
+        "summary": "Finish on the existing equilibrium challenge where a disturbed system has to settle back into a new balance honestly.",
+        "purpose": "Turn the chemistry launch into one specific forward-versus-reverse success condition.",
+        "estimatedMinutes": 10
+      },
+      {
+        "id": "rates-solutions-topic-handoff",
+        "kind": "surface",
+        "surfaceKind": "topic",
+        "href": "/concepts/topics/solutions-and-ph",
+        "title": "Keep the next chemistry branch visible on the solutions-and-pH topic page",
+        "summary": "Open the solutions-and-pH topic page once the rebalance checkpoint lands so the same chemistry shelf can widen into concentration, saturation, pH, and buffers.",
+        "purpose": "Show the next chemistry branch honestly without turning this lesson set into a separate mini-curriculum.",
+        "actionLabel": "Open next chemistry topic",
+        "completionMode": "all-complete",
+        "estimatedMinutes": 6,
+        "relatedConceptSlugs": [
+          "concentration-and-dilution",
+          "solubility-and-saturation",
+          "acid-base-ph-intuition",
+          "buffers-and-neutralization"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "guided-collection-stoichiometry-and-yield-lesson-set",
+    "slug": "stoichiometry-and-yield-lesson-set",
+    "format": "lesson-set",
+    "title": "Stoichiometry and Yield Lesson Set",
+    "summary": "Use the stoichiometry topic page, the compact starter track, one percent-yield checkpoint, and the solutions-and-pH topic page so chemistry quantities stay bounded and teacher-usable.",
+    "introduction": "This lesson set is for the moment when chemistry needs a tighter quantity-and-output branch without widening into a giant subsystem. It starts with the stoichiometry-and-yield topic page for orientation, uses the authored starter track for the main order, closes with the percent-yield checkpoint already attached to that track, and then points to the solutions-and-pH topic page so the next chemistry branch stays visible.",
+    "sequenceRationale": "The topic page frames recipe batches, limiting reagent, and actual-versus-theoretical output first, the starter track preserves the authored order from stoichiometric ratios into limiting reagent and percent yield, the closing challenge forces one honest actual-versus-theoretical checkpoint, and the solutions-and-pH topic page shows where the same chemistry shelf can widen next.",
+    "educatorNote": "Best when learners should get one compact stoichiometry path before the chemistry branch widens into solution quantities and pH.",
+    "sequence": 49,
+    "accent": "amber",
+    "highlights": [
+      "Stoichiometry topic page",
+      "Starter track",
+      "Yield checkpoint",
+      "Solutions handoff"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the recipe-to-yield bridge before you replay the full branch",
+      "summary": "Reuse the stoichiometric-ratio quick test and the limiting-reagent challenge to decide whether this lesson set should start at the topic page or jump straight to the yield checkpoint.",
+      "skipToStepId": "stoich-yield-capstone",
+      "probes": [
+        {
+          "id": "stoich-collection-ratio-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "stoichiometric-ratios-and-recipe-batches",
+          "title": "Recipe-ratio quick test",
+          "summary": "Check whether complete recipe batches already feel trustworthy before the collection opens with the full topic page."
+        },
+        {
+          "id": "stoich-collection-limiting-probe",
+          "kind": "challenge",
+          "conceptSlug": "limiting-reagent-and-leftover-reactants",
+          "challengeId": "lr-ch-make-b-the-limiting-reagent",
+          "title": "Limiting-reagent checkpoint",
+          "summary": "Use the limiting-reagent challenge to verify that the lower batch cap and leftover reactant still read together before the collection jumps to yield."
+        }
+      ]
+    },
+    "steps": [
+      {
+        "id": "stoich-topic-route",
+        "kind": "surface",
+        "surfaceKind": "topic",
+        "href": "/concepts/topics/stoichiometry-and-yield",
+        "title": "Open the stoichiometry-and-yield topic page",
+        "summary": "Use the topic page to frame recipe batches, limiting reagent, and actual-versus-theoretical output before the collection narrows into the authored chemistry order.",
+        "purpose": "Anchor the lesson in the canonical stoichiometry branch before the starter track takes over.",
+        "actionLabel": "Open topic page",
+        "completionMode": "any-progress",
+        "estimatedMinutes": 6,
+        "relatedConceptSlugs": [
+          "stoichiometric-ratios-and-recipe-batches",
+          "limiting-reagent-and-leftover-reactants",
+          "percent-yield-and-reaction-extent"
+        ]
+      },
+      {
+        "id": "stoich-track",
+        "kind": "track",
+        "trackSlug": "stoichiometry-and-yield",
+        "title": "Run the Stoichiometry and Yield starter track",
+        "summary": "Keep stoichiometric ratios, limiting reagent, and percent yield in the authored order already shipped in the chemistry catalog.",
+        "purpose": "Reuse the compact starter-track layer instead of rebuilding the same recipe branch by hand."
+      },
+      {
+        "id": "stoich-yield-capstone",
+        "kind": "challenge",
+        "conceptSlug": "percent-yield-and-reaction-extent",
+        "challengeId": "pyre-ch-hit-seventy-five-percent-yield",
+        "title": "Close with the percent-yield checkpoint",
+        "summary": "Finish on the existing yield challenge where the theoretical marker stays fixed while the actual tray lands at a lower percent yield.",
+        "purpose": "Turn the stoichiometry branch into one concrete actual-versus-theoretical success condition.",
+        "estimatedMinutes": 10
+      },
+      {
+        "id": "stoich-solutions-topic-handoff",
+        "kind": "surface",
+        "surfaceKind": "topic",
+        "href": "/concepts/topics/solutions-and-ph",
+        "title": "Keep the next chemistry branch visible on the solutions-and-pH topic page",
+        "summary": "Open the solutions-and-pH topic page once the yield checkpoint lands so the same chemistry shelf can widen into concentration, solubility, pH, and buffers.",
+        "purpose": "Show the next chemistry branch honestly without turning this lesson set into a separate stoichiometry mini-course.",
+        "actionLabel": "Open next chemistry topic",
+        "completionMode": "all-complete",
+        "estimatedMinutes": 6,
+        "relatedConceptSlugs": [
+          "concentration-and-dilution",
+          "solubility-and-saturation",
+          "acid-base-ph-intuition",
+          "buffers-and-neutralization"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "guided-collection-solutions-and-ph-lesson-set",
+    "slug": "solutions-and-ph-lesson-set",
+    "format": "lesson-set",
+    "title": "Solutions and pH Lesson Set",
+    "summary": "Use the solutions-and-pH topic page, the authored starter track, one buffer checkpoint, and the rates-and-equilibrium topic page so the broader chemistry branch stays compact and teacher-usable.",
+    "introduction": "This lesson set is for the moment when chemistry should widen beyond the first rates-and-equilibrium pair without drifting into a giant curriculum tree. It starts with the solutions-and-pH topic page for orientation, uses the authored starter track for the main order, closes with the buffer checkpoint already shipped inside that track, and then points back to the rates-and-equilibrium topic page so the neighboring chemistry branch stays visible.",
+    "sequenceRationale": "The topic page frames concentration, solubility, pH, and buffer reserve first, the starter track preserves the authored beaker-first order, the buffer challenge forces one honest neutral-under-pulse checkpoint, and the rates-and-equilibrium topic page shows where the same chemistry shelf can widen next.",
+    "educatorNote": "Best when learners should get one bounded solutions branch before they move into reversible-reaction chemistry.",
+    "sequence": 50,
+    "accent": "sky",
+    "highlights": [
+      "Solutions topic page",
+      "Starter track",
+      "Buffer checkpoint",
+      "Rates handoff"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the beaker-to-buffer bridge before you replay the whole branch",
+      "summary": "Reuse the concentration quick test and the saturation checkpoint to decide whether this lesson set should start from dilution basics or jump straight to the buffer capstone.",
+      "skipToStepId": "solutions-buffer-capstone",
+      "probes": [
+        {
+          "id": "solutions-collection-concentration-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "concentration-and-dilution",
+          "title": "Concentration quick test",
+          "summary": "Check whether amount-versus-volume reasoning and dilution already stay separate on the same beaker."
+        },
+        {
+          "id": "solutions-collection-saturation-probe",
+          "kind": "challenge",
+          "conceptSlug": "solubility-and-saturation",
+          "challengeId": "ss-ch-dissolve-excess-without-removing-solute",
+          "title": "Saturation checkpoint",
+          "summary": "Use the saturation challenge to verify that dissolving capacity and visible excess already read cleanly before the collection jumps to the buffer end of the branch."
+        }
+      ]
+    },
+    "steps": [
+      {
+        "id": "solutions-topic-route",
+        "kind": "surface",
+        "surfaceKind": "topic",
+        "href": "/concepts/topics/solutions-and-ph",
+        "title": "Open the solutions-and-pH topic page",
+        "summary": "Use the topic page to frame dilution, saturation, pH, and buffers before the collection narrows into the authored chemistry order.",
+        "purpose": "Anchor the lesson in the canonical solutions branch before the starter track takes over.",
+        "actionLabel": "Open topic page",
+        "completionMode": "any-progress",
+        "estimatedMinutes": 6,
+        "relatedConceptSlugs": [
+          "concentration-and-dilution",
+          "solubility-and-saturation",
+          "acid-base-ph-intuition",
+          "buffers-and-neutralization"
+        ]
+      },
+      {
+        "id": "solutions-track",
+        "kind": "track",
+        "trackSlug": "solutions-and-ph",
+        "title": "Run the Solutions and pH starter track",
+        "summary": "Keep concentration, solubility, acid-base balance, and buffers in the authored order already shipped in the chemistry catalog.",
+        "purpose": "Reuse the compact starter-track layer instead of restitching the same solutions branch by hand."
+      },
+      {
+        "id": "solutions-buffer-capstone",
+        "kind": "challenge",
+        "conceptSlug": "buffers-and-neutralization",
+        "challengeId": "bn-ch-hold-near-neutral-under-acid-pulse",
+        "title": "Close with the buffer checkpoint",
+        "summary": "Finish on the existing buffer challenge where the pH has to stay near neutral while the reserve bar still shows the chemistry being used.",
+        "purpose": "Turn the wider chemistry branch into one specific stable-pH-without-frozen-chemistry success condition.",
+        "estimatedMinutes": 10
+      },
+      {
+        "id": "solutions-rates-topic-handoff",
+        "kind": "surface",
+        "surfaceKind": "topic",
+        "href": "/concepts/topics/rates-and-equilibrium",
+        "title": "Keep the neighboring chemistry branch visible on the rates-and-equilibrium topic page",
+        "summary": "Open the rates-and-equilibrium topic page once the buffer checkpoint lands so the same chemistry shelf can widen into collision success and reversible change.",
+        "purpose": "Show the next chemistry branch honestly instead of leaving the broader solutions path isolated.",
+        "actionLabel": "Open next chemistry topic",
+        "completionMode": "all-complete",
+        "estimatedMinutes": 6,
+        "relatedConceptSlugs": [
+          "reaction-rate-collision-theory",
+          "dynamic-equilibrium-le-chateliers-principle"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "guided-collection-algorithms-and-search-playlist",
+    "slug": "algorithms-and-search-playlist",
+    "format": "playlist",
+    "title": "Algorithms and Search Playlist",
+    "summary": "Use the algorithms-and-search topic page, the compact starter track, one focused graph-traversal revisit, and filtered challenges so the CS branch stays bounded and extension-ready.",
+    "introduction": "This playlist is for the moment when the computer-science slice should feel like one coherent route without pretending to be a full coding course. It starts with the algorithms-and-search topic page for orientation, uses the authored starter track for the main order, adds one focused revisit on the new graph-traversal bench, and then keeps extension work in filtered challenges.",
+    "sequenceRationale": "The topic page frames visible sorting work, ordered search, and graph traversal first, the starter track preserves the authored order from sorting into binary search and then into the shared graph bench, the focused revisit keeps frontier and visited-state behavior explicit after the full run, and filtered challenges keep extension work inside the same bounded branch.",
+    "educatorNote": "Best when a teacher wants one compact CS route with a clear extension surface instead of sending learners into generic site search.",
+    "sequence": 52,
+    "accent": "ink",
+    "highlights": [
+      "Algorithms topic page",
+      "Starter track",
+      "Graph-traversal revisit",
+      "Filtered challenge follow-up"
+    ],
+    "entryDiagnostic": {
+      "title": "Check the sorting-to-search bridge before you replay the full launch",
+      "summary": "Reuse the sorting quick test and the sorting trade-off checkpoint to decide whether this playlist should start at the topic page or jump straight to the graph-traversal revisit.",
+      "skipToStepId": "algorithms-graph-traversal-revisit",
+      "probes": [
+        {
+          "id": "algorithms-collection-sorting-quick-test",
+          "kind": "quick-test",
+          "conceptSlug": "sorting-and-algorithmic-trade-offs",
+          "title": "Sorting quick test",
+          "summary": "Check whether comparisons, writes, and input order already feel readable on the live list."
+        },
+        {
+          "id": "algorithms-collection-sorting-probe",
+          "kind": "challenge",
+          "conceptSlug": "sorting-and-algorithmic-trade-offs",
+          "challengeId": "sat-ch-use-nearly-sorted-insertion",
+          "title": "Sorting trade-off checkpoint",
+          "summary": "Use the sorting challenge to verify that a nearly sorted case can still be read as a visible trade-off before the collection jumps to ordered search."
+        }
+      ]
+    },
+    "steps": [
+      {
+        "id": "algorithms-topic-route",
+        "kind": "surface",
+        "surfaceKind": "topic",
+        "href": "/concepts/topics/algorithms-and-search",
+        "title": "Open the algorithms-and-search topic page",
+        "summary": "Use the topic page to frame sorting and ordered search before the playlist narrows into the authored CS order.",
+        "purpose": "Anchor the lesson in the canonical computer-science branch before the starter track takes over.",
+        "actionLabel": "Open topic page",
+        "completionMode": "any-progress",
+        "estimatedMinutes": 6,
+        "relatedConceptSlugs": [
+          "sorting-and-algorithmic-trade-offs",
+          "binary-search-halving-the-search-space",
+          "graph-representation-and-adjacency-intuition",
+          "breadth-first-search-and-layered-frontiers",
+          "depth-first-search-and-backtracking-paths",
+          "frontier-and-visited-state-on-graphs"
+        ]
+      },
+      {
+        "id": "algorithms-track",
+        "kind": "track",
+        "trackSlug": "algorithms-and-search-foundations",
+        "title": "Run the Algorithms and Search Foundations track",
+        "summary": "Keep visible sorting work, binary search, and the shared graph-traversal bench in the authored order already shipped in the CS catalog.",
+        "purpose": "Reuse the compact starter-track layer instead of rebuilding the same list-language branch by hand."
+      },
+      {
+        "id": "algorithms-graph-traversal-revisit",
+        "kind": "concept",
+        "conceptSlug": "frontier-and-visited-state-on-graphs",
+        "title": "Revisit frontier and visited state on the shared graph bench",
+        "summary": "Reopen the graph-traversal concept that makes waiting frontier nodes, visited bookkeeping, and repeat skips visible together after the full track has landed.",
+        "purpose": "Keep the new graph branch explicit without inventing a separate CS assignment system.",
+        "estimatedMinutes": 10
+      },
+      {
+        "id": "algorithms-extension-hub",
+        "kind": "surface",
+        "surfaceKind": "challenge-hub",
+        "href": "/challenges?track=algorithms-and-search-foundations",
+        "title": "Keep follow-up practice in filtered algorithms challenges",
+        "summary": "When some learners need one more task and others need review, open the existing challenge browser already filtered to the algorithms-and-search track.",
+        "purpose": "Preserve the same branch and the same challenge-mode surfaces without inventing a second CS assignment system.",
+        "actionLabel": "Open algorithms challenges",
+        "completionMode": "all-complete",
+        "estimatedMinutes": 8,
+        "relatedConceptSlugs": [
+          "sorting-and-algorithmic-trade-offs",
+          "binary-search-halving-the-search-space",
+          "graph-representation-and-adjacency-intuition",
+          "breadth-first-search-and-layered-frontiers",
+          "depth-first-search-and-backtracking-paths",
+          "frontier-and-visited-state-on-graphs"
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,985 @@
+{
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "continuous-match",
+        "label": "Continuous match",
+        "description": "Open the case where both sides and the actual point land on the same height.",
+        "setup": {
+          "presetId": "continuous-match",
+          "graphId": "one-sided-approach",
+          "overlayIds": [
+            "sampleMarkers",
+            "limitGuide",
+            "actualPoint"
+          ],
+          "note": "Use this to anchor the clean continuity case before comparing holes, jumps, and blow-up behavior."
+        }
+      },
+      {
+        "id": "removable-hole",
+        "label": "Removable hole",
+        "description": "Open the same finite limit with the actual point moved away from it.",
+        "setup": {
+          "presetId": "removable-hole",
+          "graphId": "one-sided-approach",
+          "overlayIds": [
+            "sampleMarkers",
+            "limitGuide",
+            "actualPoint"
+          ],
+          "note": "Use this to separate nearby approach from the actual function value at the target."
+        }
+      },
+      {
+        "id": "jump-split",
+        "label": "Jump split",
+        "description": "Open the case where the left-hand and right-hand sides settle toward different heights.",
+        "setup": {
+          "presetId": "jump-split",
+          "graphId": "one-sided-approach",
+          "overlayIds": [
+            "sampleMarkers",
+            "actualPoint"
+          ],
+          "note": "Use this to keep one-sided limits honest when the graph breaks into two different landing heights."
+        }
+      },
+      {
+        "id": "vertical-blow-up",
+        "label": "Blow-up",
+        "description": "Open the asymptote-like case where the nearby values do not settle to any finite height.",
+        "setup": {
+          "presetId": "vertical-blow-up",
+          "graphId": "one-sided-approach",
+          "overlayIds": [
+            "sampleMarkers"
+          ],
+          "note": "Use this to compare a true no-finite-limit case with the removable hole and jump cases."
+        }
+      }
+    ],
+    "sections": [
+      {
+        "id": "readNext",
+        "title": "Continue through the calculus branch"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Move one target-distance slider inward from both sides, compare the finite-limit guide with the actual point, and separate continuous, removable-hole, jump, and blow-up behavior on one graph-first bench.",
+    "keyTakeaway": "Read the left-hand and right-hand markers separately first; a two-sided limit is only allowed after those one-sided stories agree.",
+    "whyItMatters": "Limits are the language behind derivatives, integrals, and continuity checks, so this page makes “approaching” visible before the notation starts to feel abstract."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "A limit becomes teachable when the bench lets you watch approach happen instead of declaring it after the fact. Here the target stays fixed at x = 0 while the behavior-case slider, the distance-to-target control, and the one-sided markers show whether the left and right traces are settling toward one shared height, splitting apart, or blowing up.",
+        "Continuity is the follow-up decision, not the starting one. After you read the one-sided story, compare that limiting height with the actual plotted point: a continuous match keeps them together, a removable hole separates them, and jump or blow-up behavior fails even earlier because there is no single finite value to match."
+      ]
+    },
+    "keyIdeas": [
+      "Read the left-hand and right-hand markers separately first; a two-sided limit is only allowed after those one-sided stories agree.",
+      "The finite-limit guide can look the same in the continuous and removable-hole cases, so the actual plotted point is what settles the continuity question.",
+      "Jump behavior fails because the two sides settle toward different heights, while blow-up behavior fails because the graph never settles to any finite height at all."
+    ],
+    "commonMisconception": {
+      "myth": "If the graph shows a filled point at the target, that point decides the limit automatically.",
+      "correction": [
+        "The limit is about what nearby x-values are doing as they approach the target, not about whether one plotted point happens to be filled.",
+        "A removable hole is the bench case that exposes this cleanly: the nearby values can agree on one finite height while the actual function value is still somewhere else."
+      ]
+    },
+    "workedExamples": {
+      "title": "Bench worked examples",
+      "intro": "Use the live behavior case, the distance-to-target slider, and the one-sided graph together. These walkthroughs are meant to sound like the bench you just touched, not like a second worksheet.",
+      "items": [
+        {
+          "id": "compare-the-one-sided-values",
+          "title": "Compare the left-hand and right-hand values",
+          "prompt": "For the current {{caseLabelValue}} case with $h = {{hValue}}$, what are the left-hand and right-hand markers telling you about the limit?",
+          "variables": [
+            {
+              "id": "case",
+              "variableId": "case-mode",
+              "symbol": "C",
+              "label": "Behavior case",
+              "valueKey": "caseLabelValue"
+            },
+            {
+              "id": "distance",
+              "variableId": "approach-distance",
+              "symbol": "h",
+              "label": "Approach distance",
+              "valueKey": "hValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-case",
+              "label": "1. Read the active case and distance",
+              "template": "The bench is set to the {{caseLabelValue}} case with sample markers at distance $h = {{hValue}}$ from $x = 0$."
+            },
+            {
+              "id": "read-sides",
+              "label": "2. Read the two one-sided values",
+              "template": "From the graph, the left-hand sample is about {{leftValueValue}} and the right-hand sample is about {{rightValueValue}}."
+            },
+            {
+              "id": "decide-limit-story",
+              "label": "3. Decide what that says about the limit story",
+              "template": "{{twoSidedDecision}}"
+            }
+          ],
+          "resultLabel": "One-sided approach read",
+          "resultTemplate": "$f(0^-) \\approx {{leftValueValue}}, \\quad f(0^+) \\approx {{rightValueValue}}$",
+          "interpretationTemplate": "{{oneSidedInterpretation}}",
+          "applyAction": {
+            "label": "Apply the removable-hole case",
+            "presetId": "removable-hole",
+            "observationHint": "The two sides are already closing in on the same height even though the filled point sits somewhere else.",
+            "highlightedControlIds": [
+              "caseIndex",
+              "approachDistance"
+            ],
+            "highlightedGraphIds": [
+              "one-sided-approach"
+            ],
+            "highlightedOverlayIds": [
+              "sampleMarkers",
+              "limitGuide"
+            ]
+          }
+        },
+        {
+          "id": "limit-versus-the-actual-point",
+          "title": "Compare the limiting value with the plotted point",
+          "prompt": "In the current {{caseLabelValue}} case, does the actual point agree with the limiting value at $x = 0$?",
+          "variables": [
+            {
+              "id": "case",
+              "variableId": "case-mode",
+              "symbol": "C",
+              "label": "Behavior case",
+              "valueKey": "caseLabelValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-limit",
+              "label": "1. Read the limiting value",
+              "template": "The two-sided limit read is {{twoSidedLimitSentence}}."
+            },
+            {
+              "id": "read-point",
+              "label": "2. Read the actual point at the target",
+              "template": "At $x = 0$, the graph shows {{actualPointSentence}}."
+            },
+            {
+              "id": "decide-continuity",
+              "label": "3. Decide the continuity status",
+              "template": "{{continuityDecisionSentence}}"
+            }
+          ],
+          "resultLabel": "Limit versus point",
+          "resultTemplate": "$L = {{twoSidedLimitValueMath}}, \\quad f(0) = {{actualPointValueMath}}$",
+          "interpretationTemplate": "{{continuityInterpretation}}",
+          "applyAction": {
+            "label": "Apply the jump case",
+            "presetId": "jump-split",
+            "observationHint": "The left and right sides settle toward different heights, so there is no single two-sided limit for the filled point to match.",
+            "highlightedControlIds": [
+              "caseIndex"
+            ],
+            "highlightedGraphIds": [
+              "one-sided-approach"
+            ],
+            "highlightedOverlayIds": [
+              "sampleMarkers",
+              "actualPoint"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Land on the case where the one-sided markers agree on one finite height, but the graph still is not continuous at the target.",
+      "prediction": "Before you switch cases, decide whether the failure should come from disagreeing sides, no finite height, or a mismatched actual point.",
+      "answer": "You need the removable-hole case: the limit guide stays honest, the one-sided markers agree, and only the actual point breaks the match.",
+      "explanation": "This is the most diagnostic continuity split on the bench. Nearby values can behave perfectly well while the plotted point still tells a different story."
+    }
+  },
+  "equations": [
+    {
+      "id": "one-sided-limits",
+      "latex": "\\lim_{x \\to a^-} f(x), \\quad \\lim_{x \\to a^+} f(x)",
+      "label": "One-sided limits",
+      "meaning": "Read what the graph approaches from the left and from the right of the target."
+    },
+    {
+      "id": "two-sided-limit",
+      "latex": "\\lim_{x \\to a} f(x) = L",
+      "label": "Two-sided limit",
+      "meaning": "A finite two-sided limit exists only when both one-sided values settle toward the same number L."
+    },
+    {
+      "id": "continuity-at-a",
+      "latex": "\\lim_{x \\to a} f(x) = f(a)",
+      "label": "Continuity at a point",
+      "meaning": "A function is continuous at the target only when the limiting value matches the actual function value there."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "case-mode",
+      "symbol": "C",
+      "label": "Behavior case",
+      "param": "caseIndex",
+      "tone": "teal",
+      "description": "Switches between a continuous graph, a removable hole, a jump, and an asymptote-like blow-up while keeping the same target x-value.",
+      "equationIds": [
+        "one-sided-limits",
+        "two-sided-limit",
+        "continuity-at-a"
+      ],
+      "graphIds": [
+        "one-sided-approach"
+      ],
+      "overlayIds": [
+        "sampleMarkers",
+        "limitGuide",
+        "actualPoint"
+      ]
+    },
+    {
+      "id": "approach-distance",
+      "symbol": "h",
+      "label": "Approach distance",
+      "param": "approachDistance",
+      "tone": "sky",
+      "description": "Moves the left-hand and right-hand sample points inward or outward so you can see whether both sides settle toward the same height.",
+      "equationIds": [
+        "one-sided-limits",
+        "two-sided-limit"
+      ],
+      "graphIds": [
+        "one-sided-approach"
+      ],
+      "overlayIds": [
+        "sampleMarkers",
+        "limitGuide"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "caseIndex": 0,
+      "approachDistance": 0.6,
+      "sampleMarkers": true,
+      "limitGuide": true,
+      "actualPoint": true
+    },
+    "ui": {
+      "initialGraphId": "one-sided-approach",
+      "primaryGraphIds": [
+        "one-sided-approach"
+      ],
+      "primaryControlIds": [
+        "case-mode",
+        "approach-distance"
+      ],
+      "primaryPresetIds": [
+        "continuous-match",
+        "removable-hole",
+        "jump-split",
+        "vertical-blow-up"
+      ],
+      "starterExploreTasks": [
+        "Start with the continuous match and shrink h so both markers settle toward the same height.",
+        "Switch to the removable hole and compare the finite-limit guide with the actual point.",
+        "Try the jump split to see why two one-sided stories must agree before a two-sided limit exists.",
+        "Finish with blow-up and notice the difference between “large nearby values” and one finite landing height."
+      ]
+    },
+    "controls": [
+      {
+        "id": "case-mode",
+        "kind": "slider",
+        "label": "Behavior case",
+        "param": "caseIndex",
+        "min": 0,
+        "max": 3,
+        "step": 1,
+        "description": "Switch between a continuous graph, a removable hole, a jump, and an asymptote-like blow-up.",
+        "displayValueLabels": [
+          {
+            "value": 0,
+            "label": "Continuous"
+          },
+          {
+            "value": 1,
+            "label": "Removable hole"
+          },
+          {
+            "value": 2,
+            "label": "Jump"
+          },
+          {
+            "value": 3,
+            "label": "Blow-up"
+          }
+        ]
+      },
+      {
+        "id": "approach-distance",
+        "kind": "slider",
+        "label": "Distance to target",
+        "param": "approachDistance",
+        "min": 0.08,
+        "max": 1.8,
+        "step": 0.02,
+        "description": "Move the left-hand and right-hand sample points closer to or farther from x = 0."
+      }
+    ],
+    "presets": [
+      {
+        "id": "continuous-match",
+        "label": "Continuous match",
+        "description": "Both sides and the actual point line up at the target.",
+        "values": {
+          "caseIndex": 0,
+          "approachDistance": 0.55
+        }
+      },
+      {
+        "id": "removable-hole",
+        "label": "Removable hole",
+        "description": "Both sides approach one height, but the filled point is moved elsewhere.",
+        "values": {
+          "caseIndex": 1,
+          "approachDistance": 0.16
+        }
+      },
+      {
+        "id": "jump-split",
+        "label": "Jump split",
+        "description": "The left-hand and right-hand sides settle toward different heights.",
+        "values": {
+          "caseIndex": 2,
+          "approachDistance": 0.18
+        }
+      },
+      {
+        "id": "vertical-blow-up",
+        "label": "Blow-up",
+        "description": "Both sides run hard toward opposite signs near the target.",
+        "values": {
+          "caseIndex": 3,
+          "approachDistance": 0.1
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "sampleMarkers",
+        "label": "Approach markers",
+        "shortDescription": "Show the left-hand and right-hand sample points together with their guide lines.",
+        "whatToNotice": [
+          "Moving the markers inward makes the one-sided behavior easier to compare honestly."
+        ],
+        "whyItMatters": "It keeps limits tied to visible nearby values rather than to a slogan about x reaching the point.",
+        "relatedControls": [
+          "approachDistance"
+        ],
+        "relatedGraphTabs": [
+          "one-sided-approach"
+        ],
+        "relatedEquationVariables": [
+          "approach-distance"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "limitGuide",
+        "label": "Finite-limit guide",
+        "shortDescription": "Show the shared limiting height when the case has one.",
+        "whatToNotice": [
+          "A removable hole can still have the same finite limit line as a continuous graph."
+        ],
+        "whyItMatters": "It separates the idea of approaching one value from the separate question of whether the actual point agrees.",
+        "relatedControls": [
+          "caseIndex",
+          "approachDistance"
+        ],
+        "relatedGraphTabs": [
+          "one-sided-approach"
+        ],
+        "relatedEquationVariables": [
+          "case-mode",
+          "approach-distance"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "actualPoint",
+        "label": "Actual point",
+        "shortDescription": "Show the filled point at x = 0, or show that no point is defined there.",
+        "whatToNotice": [
+          "Continuity depends on this point matching the limiting value when a finite limit exists."
+        ],
+        "whyItMatters": "It keeps the actual function value distinct from the nearby approach behavior.",
+        "relatedControls": [
+          "caseIndex"
+        ],
+        "relatedGraphTabs": [
+          "one-sided-approach"
+        ],
+        "relatedEquationVariables": [
+          "case-mode"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "one-sided-approach",
+      "label": "One-sided approach",
+      "xLabel": "distance to target",
+      "yLabel": "value",
+      "series": [
+        "left-approach",
+        "right-approach",
+        "finite-limit",
+        "actual-value"
+      ],
+      "description": "Shows how the left-hand and right-hand values behave as the sample points move inward toward the target."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the live prompts to keep one-sided approach, finite limit, and continuity on the same graph story.",
+    "items": [
+      {
+        "id": "lc-notice-same-height-different-point",
+        "text": "Switch between the continuous and removable-hole cases. The nearby values can approach the same height in both cases even though only one keeps the filled point in the same place.",
+        "type": "compare",
+        "relatedControls": [
+          "caseIndex"
+        ],
+        "relatedGraphTabs": [
+          "one-sided-approach"
+        ],
+        "relatedOverlays": [
+          "limitGuide",
+          "actualPoint"
+        ],
+        "relatedEquationVariables": [
+          "case-mode"
+        ]
+      },
+      {
+        "id": "lc-notice-one-sided-split",
+        "text": "In the jump case, shrinking h does not make the two sides agree. The left-hand and right-hand values are settling toward different heights for a visible reason.",
+        "type": "graph-reading",
+        "relatedControls": [
+          "caseIndex",
+          "approachDistance"
+        ],
+        "relatedGraphTabs": [
+          "one-sided-approach"
+        ],
+        "relatedOverlays": [
+          "sampleMarkers"
+        ],
+        "relatedEquationVariables": [
+          "case-mode",
+          "approach-distance"
+        ]
+      },
+      {
+        "id": "lc-notice-blow-up",
+        "text": "In the blow-up case, the graph does not settle toward a finite height at all. The nearby values keep growing in magnitude instead of landing on one honest number.",
+        "type": "try-this",
+        "relatedControls": [
+          "caseIndex",
+          "approachDistance"
+        ],
+        "relatedGraphTabs": [
+          "one-sided-approach"
+        ],
+        "relatedOverlays": [
+          "sampleMarkers"
+        ],
+        "relatedEquationVariables": [
+          "case-mode",
+          "approach-distance"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Predict",
+    "intro": "Predict what the graph should do before you change the case or drag the sample points inward.",
+    "items": [
+      {
+        "id": "lc-predict-removable",
+        "prompt": "If both sides are heading toward the same finite height but the filled point sits somewhere else, what kind of behavior should you expect?",
+        "scenarioLabel": "Same nearby height, different point",
+        "choices": [
+          {
+            "id": "a",
+            "label": "A removable discontinuity."
+          },
+          {
+            "id": "b",
+            "label": "A jump discontinuity."
+          },
+          {
+            "id": "c",
+            "label": "Automatic continuity."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "That is the signature of a removable hole: the approach behavior is well behaved, but the actual function value does not match it.",
+        "observationHint": "Keep the finite-limit guide and the actual point visible at the same time.",
+        "apply": {
+          "presetId": "removable-hole"
+        },
+        "highlightedControls": [
+          "caseIndex"
+        ],
+        "highlightedGraphs": [
+          "one-sided-approach"
+        ],
+        "highlightedOverlays": [
+          "limitGuide",
+          "actualPoint"
+        ]
+      },
+      {
+        "id": "lc-predict-jump",
+        "prompt": "If the left-hand and right-hand values settle toward different heights as h shrinks, what should happen to the two-sided limit?",
+        "scenarioLabel": "Sides disagree",
+        "choices": [
+          {
+            "id": "a",
+            "label": "There is no single two-sided limit."
+          },
+          {
+            "id": "b",
+            "label": "The two-sided limit must equal the average of the two heights."
+          },
+          {
+            "id": "c",
+            "label": "The two-sided limit automatically equals the filled point."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A two-sided limit needs the left-hand and right-hand values to agree. If they head toward different heights, no single limit is available there.",
+        "observationHint": "Use a small h so the one-sided split stays obvious.",
+        "apply": {
+          "presetId": "jump-split"
+        },
+        "highlightedControls": [
+          "caseIndex",
+          "approachDistance"
+        ],
+        "highlightedGraphs": [
+          "one-sided-approach"
+        ],
+        "highlightedOverlays": [
+          "sampleMarkers"
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the one-sided markers, the finite-limit guide, and the actual point. The bench gives you all three pieces.",
+    "questions": [
+      {
+        "id": "lc-qt-one-sided",
+        "type": "graph-reading",
+        "prompt": "Which bench reading is enough to justify a finite two-sided limit at x = a?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Both one-sided values settle toward the same finite height."
+          },
+          {
+            "id": "b",
+            "label": "There is a filled point at x = a."
+          },
+          {
+            "id": "c",
+            "label": "The graph stays above the x-axis near a."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "That is the core visual test for a finite two-sided limit. The graph has to approach one shared number from both sides.",
+        "selectedWrongExplanations": {
+          "b": "A filled point alone does not force the nearby values to approach that same number.",
+          "c": "Sign alone is not the issue. The question is whether the two sides agree on one finite height."
+        },
+        "showMeAction": {
+          "label": "Show the continuous match",
+          "presetId": "continuous-match",
+          "observationHint": "Both sides are lining up on the same height while the point also lands there.",
+          "highlightedControlIds": [
+            "caseIndex",
+            "approachDistance"
+          ],
+          "highlightedGraphIds": [
+            "one-sided-approach"
+          ],
+          "highlightedOverlayIds": [
+            "sampleMarkers",
+            "limitGuide"
+          ]
+        }
+      },
+      {
+        "id": "lc-qt-continuity",
+        "type": "misconception-check",
+        "prompt": "Which statement gives the full continuity check at the target?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The finite limit and the actual function value match at that point."
+          },
+          {
+            "id": "b",
+            "label": "Any finite limit means the graph is continuous there."
+          },
+          {
+            "id": "c",
+            "label": "Any filled point means the graph is continuous there."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Continuity needs both pieces: a finite limit and an actual point that lands on that same value.",
+        "selectedWrongExplanations": {
+          "b": "A removable hole shows why that is incomplete. The limit can exist while the point still misses it.",
+          "c": "A filled point can still sit away from the nearby approach behavior."
+        },
+        "showMeAction": {
+          "label": "Show the removable hole",
+          "presetId": "removable-hole",
+          "observationHint": "The limit guide stays put while the actual point is moved away from it.",
+          "highlightedControlIds": [
+            "caseIndex"
+          ],
+          "highlightedGraphIds": [
+            "one-sided-approach"
+          ],
+          "highlightedOverlayIds": [
+            "limitGuide",
+            "actualPoint"
+          ]
+        }
+      },
+      {
+        "id": "lc-qt-blow-up",
+        "type": "reasoning",
+        "prompt": "If shrinking h never makes the values settle to one finite height, what is the honest conclusion?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "There is no finite two-sided limit there."
+          },
+          {
+            "id": "b",
+            "label": "The limit must be zero because the point is missing."
+          },
+          {
+            "id": "c",
+            "label": "The graph is still continuous because both sides are steep."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A blow-up case does not settle to one honest finite height, so the finite two-sided limit fails.",
+        "selectedWrongExplanations": {
+          "b": "A missing point does not force the limit to be zero. The nearby values are the deciding factor.",
+          "c": "Steepness is not the continuity test. Matching nearby values and the actual point are."
+        },
+        "showMeAction": {
+          "label": "Show the blow-up case",
+          "presetId": "vertical-blow-up",
+          "observationHint": "The nearby values run off with opposite signs instead of landing on one finite height.",
+          "highlightedControlIds": [
+            "caseIndex",
+            "approachDistance"
+          ],
+          "highlightedGraphIds": [
+            "one-sided-approach"
+          ],
+          "highlightedOverlayIds": [
+            "sampleMarkers"
+          ]
+        }
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the one-sided approach graph as a classification bench. The goal is to catch the difference between agreeing on a limit and actually being continuous at the target.",
+    "items": [
+      {
+        "id": "lc-ch-agreeing-sides-broken-continuity",
+        "title": "Continuity classification checkpoint",
+        "style": "visible-condition",
+        "prompt": "Switch to the case where both one-sided values nearly agree, but the graph still is not continuous at $x=0$.",
+        "successMessage": "You found the removable-hole classification cleanly. The one-sided values agree on one finite limit, but the actual point still breaks continuity for a visible reason.",
+        "setup": {
+          "presetId": "continuous-match",
+          "note": "Start from the fully continuous case, then change only what is needed to make the limit survive while continuity fails."
+        },
+        "requirements": {
+          "graphId": "one-sided-approach",
+          "overlayIds": [
+            "sampleMarkers",
+            "limitGuide",
+            "actualPoint"
+          ]
+        },
+        "hints": [
+          "A jump makes the two sides disagree, so it is not the right classification here.",
+          "You want the case where the finite limit line stays honest while the filled point is moved away from it."
+        ],
+        "targets": [
+          {
+            "param": "caseIndex",
+            "label": "Select the removable-hole case by moving the behavior case to the band between $0.9$ and $1.1$.",
+            "min": 0.9,
+            "max": 1.1
+          },
+          {
+            "param": "approachDistance",
+            "label": "Shrink the sample distance into the close-reading band from $0.1$ to $0.18$.",
+            "min": 0.1,
+            "max": 0.18
+          }
+        ]
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one coordinate graph with a dashed target line at x = 0, a function curve, and two movable sample points approaching the target from the left and the right. Depending on the selected case, the graph can stay continuous, show a removable hole with a separate filled point, split into a jump, or rise and fall sharply on opposite sides like a vertical asymptote.",
+        "A side card reports the current left-hand value, right-hand value, limit read, and actual function value at the target. Optional guides mark the sample points, the finite limiting height when one exists, and the actual point or undefined status at x = 0."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The one-sided-approach graph plots value against distance to the target, so the left-hand and right-hand traces show whether the two sides are converging to the same finite number, separating into a jump, or blowing up without bound.",
+        "Optional horizontal guides keep the finite limit and the actual function value visible as separate objects, which makes removable holes and true continuity easy to compare."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Limits and Continuity / Approaching a Value",
+    "description": "Explore one-sided limits, finite limits, holes, jumps, blow-up behavior, and continuity with a compact graph-first calculus bench.",
+    "keywords": [
+      "limits",
+      "continuity",
+      "one-sided limits",
+      "removable discontinuity",
+      "calculus"
+    ]
+  },
+  "v2": {
+    "intuition": "Move two sample points toward x = 0 from opposite sides so the limit becomes a visible landing story instead of a definition to memorize.",
+    "whyItMatters": "Continuity is the first calculus checkpoint: after the one-sided approaches agree, the actual point still has to match that limiting height.",
+    "estimatedMinutes": 12,
+    "equationSnapshot": {
+      "equationIds": [
+        "one-sided-limits",
+        "two-sided-limit",
+        "continuity-at-a"
+      ]
+    },
+    "startSetup": {
+      "presetId": "continuous-match",
+      "graphId": "one-sided-approach",
+      "overlayIds": [
+        "sampleMarkers",
+        "limitGuide",
+        "actualPoint"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-one-sided-approach",
+        "title": "Read both sides",
+        "goal": "Treat the left-hand and right-hand markers as separate evidence before naming a two-sided limit.",
+        "doThis": "Start from the continuous match, keep the markers and finite-limit guide visible, and shrink h toward the target.",
+        "notice": "Both markers move toward the same height, so the two-sided limit is allowed in this case.",
+        "explain": "A limit is not decided by the point at x = 0. It is decided by the nearby values as they approach from each side.",
+        "reveal": {
+          "controlIds": [
+            "approach-distance"
+          ],
+          "graphIds": [
+            "one-sided-approach"
+          ],
+          "overlayIds": [
+            "sampleMarkers",
+            "limitGuide"
+          ],
+          "toolHints": [
+            "graph-preview"
+          ]
+        },
+        "setup": {
+          "presetId": "continuous-match",
+          "graphId": "one-sided-approach",
+          "overlayIds": [
+            "sampleMarkers",
+            "limitGuide",
+            "actualPoint"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "lc-qt-one-sided"
+          ]
+        }
+      },
+      {
+        "id": "separate-limit-from-point",
+        "title": "Separate point from limit",
+        "goal": "See why a graph can have a finite limit but still fail continuity at the target.",
+        "doThis": "Switch to the removable-hole preset and compare the finite-limit guide with the actual point at x = 0.",
+        "notice": "The one-sided markers still agree, but the actual point no longer lands on that limiting height.",
+        "explain": "Continuity asks for both facts at once: the finite limit must exist and the function value must equal it.",
+        "reveal": {
+          "controlIds": [
+            "case-mode"
+          ],
+          "graphIds": [
+            "one-sided-approach"
+          ],
+          "overlayIds": [
+            "limitGuide",
+            "actualPoint"
+          ]
+        },
+        "setup": {
+          "presetId": "removable-hole",
+          "graphId": "one-sided-approach",
+          "overlayIds": [
+            "sampleMarkers",
+            "limitGuide",
+            "actualPoint"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "lc-predict-removable"
+          ],
+          "questionIds": [
+            "lc-qt-continuity"
+          ]
+        }
+      },
+      {
+        "id": "catch-a-one-sided-split",
+        "title": "Catch a split",
+        "goal": "Use a jump case to decide when the two-sided limit fails before continuity can even be checked.",
+        "doThis": "Open the jump split, shrink h, and compare the left-hand and right-hand marker heights.",
+        "notice": "Making h smaller does not make the two sides agree; they settle toward different levels.",
+        "explain": "A two-sided limit needs one shared landing height. Averaging or choosing the filled point would hide the one-sided disagreement.",
+        "reveal": {
+          "controlIds": [
+            "case-mode",
+            "approach-distance"
+          ],
+          "graphIds": [
+            "one-sided-approach"
+          ],
+          "overlayIds": [
+            "sampleMarkers"
+          ]
+        },
+        "setup": {
+          "presetId": "jump-split",
+          "graphId": "one-sided-approach",
+          "overlayIds": [
+            "sampleMarkers",
+            "actualPoint"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "lc-predict-jump"
+          ]
+        }
+      },
+      {
+        "id": "classify-the-continuity-story",
+        "title": "Classify the story",
+        "goal": "Sort continuous, removable-hole, jump, and blow-up behavior by the evidence each one breaks.",
+        "doThis": "Use the four presets as a classification deck, then set up the case where the limit exists but continuity fails.",
+        "notice": "Continuous matches everything, removable holes break only the actual point, jumps break side agreement, and blow-up loses any finite landing height.",
+        "explain": "This order keeps the reasoning clean: read left and right, decide whether a finite limit exists, then compare that limit with f(0).",
+        "reveal": {
+          "controlIds": [
+            "case-mode",
+            "approach-distance"
+          ],
+          "graphIds": [
+            "one-sided-approach"
+          ],
+          "overlayIds": [
+            "sampleMarkers",
+            "limitGuide",
+            "actualPoint"
+          ]
+        },
+        "setup": {
+          "presetId": "removable-hole",
+          "graphId": "one-sided-approach",
+          "overlayIds": [
+            "sampleMarkers",
+            "limitGuide",
+            "actualPoint"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "lc-qt-blow-up"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Read left-hand and right-hand approach as separate evidence before naming a two-sided limit.",
+        "Explain why a removable hole can keep the same finite limit while failing continuity.",
+        "Distinguish a jump from blow-up by asking whether the nearby values settle to one finite height.",
+        "Use the continuity test in order: finite limit first, matching actual value second."
+      ],
+      "misconception": "A filled point at the target does not decide the limit by itself; nearby approach behavior decides the limit, and the point only enters the continuity check.",
+      "freePlayPrompt": "Choose each preset once, shrink h, and say which evidence fails: side agreement, finite landing height, or the actual point match.",
+      "workedExampleRefs": [
+        "compare-the-one-sided-values",
+        "limit-versus-the-actual-point"
+      ],
+      "nextConcepts": [
+        {
+          "slug": "derivative-as-slope-local-rate-of-change",
+          "title": "Derivative as Slope / Local Rate of Change",
+          "reasonLabel": "Use the same approaching-language to turn secant slopes into a local derivative."
+        },
+        {
+          "slug": "integral-as-accumulation-area",
+          "title": "Integral as Accumulation / Area",
+          "reasonLabel": "Then connect changing bounds to accumulation once limits feel visual."
+        }
+      ]
+    }
+  }
+}

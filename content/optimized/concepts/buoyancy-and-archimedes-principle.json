@@ -1,0 +1,224 @@
+{
+"pageFramework": {
+"sections": [
+{
+"id": "workedExamples",
+"title": "Buoyancy worked examples"
+},
+{
+"id": "readNext",
+"title": "Connect buoyancy back to pressure"
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Buoyancy comes from a pressure difference, not from a separate mysterious upward force. In a fluid, pressure is larger at deeper points, so the bottom of an immersed object is pushed more strongly than the top. This page deliberately reuses the hydrostatic-pressure idea so buoyancy grows out of the same fluid-statics story.",
+"Archimedes' principle packages that pressure-difference story into one compact rule: the buoyant force equals the weight of the displaced fluid. On this bench, the displaced-fluid column, the buoyant-force arrow, and the graphs all come from the same submerged volume, so the equation stays tied to something the learner can see.",
+"Floating and sinking depend on density balance, not mass by itself. A large object can still float if its average density is below the fluid density, because both weight and buoyant force scale with volume. Once the whole block is submerged, moving it deeper raises the pressure everywhere on it but does not change the pressure difference between top and bottom, so the buoyant force stays the same."
+]
+},
+"keyIdeas": [
+"Archimedes' principle says the buoyant force equals the weight of the displaced fluid, so displaced volume is the key quantity to track.",
+"While the block is only partly submerged, pushing it deeper increases displaced volume and therefore increases the buoyant force.",
+"A freely floating block settles where weight and buoyant force balance, so the required submerged fraction is the density ratio $\\rho_{obj}/\\rho_f$.",
+"If $\\rho_{obj} > \\rho_f$, even full submersion cannot provide enough buoyant force, so the block sinks.",
+"Once the whole block is submerged in one uniform fluid, moving it deeper raises both the top and bottom pressures together but does not change their difference, so the buoyant force stays the same."
+],
+"commonMisconception": {
+"myth": "Heavy objects sink because buoyant force depends only on the object's mass.",
+"correction": [
+"Buoyant force depends on fluid density, gravity, and displaced volume, not on the object's mass alone.",
+"A heavy object can still float if it has enough volume to keep its average density below the fluid density."
+]
+},
+"workedExamples": {
+"title": "Buoyancy worked examples",
+"intro": "Use the live bench values. First find the buoyant force from displaced volume, then compare it with the block's weight to decide whether the current depth is a free-float balance.",
+"items": [
+{
+"id": "current-buoyant-force",
+"title": "Find the current buoyant force",
+"prompt": "For the current block with $\\rho_f = {{fluidDensityValue}}\\,\\mathrm{kg/m^3}$, $g = {{gravityValue}}\\,\\mathrm{m/s^2}$, and displaced volume $V_{\\mathrm{disp}} = {{displacedVolumeValue}}\\,\\mathrm{m^3}$, what buoyant force should Archimedes' principle predict?",
+"steps": [
+{
+"id": "read-submerged-volume",
+"label": "1. Read the displaced volume from the submerged part of the block"
+},
+{
+"id": "apply-archimedes",
+"label": "2. Use $F_b = \\rho_f g V_{\\mathrm{disp}}$"
+},
+{
+"id": "connect-to-fluid-weight",
+"label": "3. Interpret the result as the weight of the displaced fluid"
+}
+],
+"resultLabel": "Predicted buoyant force",
+"applyAction": {
+"observationHint": "Once the whole block is underwater, moving it deeper changes the pressure samples but not the buoyant-force arrow."
+}
+},
+{
+"id": "current-force-balance",
+"title": "Check whether the current depth is a free-float balance",
+"prompt": "For the current block with $\\rho_{obj} = {{objectDensityValue}}\\,\\mathrm{kg/m^3}$ and $V_{obj} = {{objectVolumeValue}}\\,\\mathrm{m^3}$, would the block stay at this depth without extra support?",
+"steps": [
+{
+"id": "compute-weight",
+"label": "1. Calculate the block's weight"
+},
+{
+"id": "compare-weight-and-buoyancy",
+"label": "2. Compare the weight with the current buoyant force"
+},
+{
+"id": "decide-balance",
+"label": "3. Decide whether the block would rise, sink, or stay here on its own"
+}
+],
+"resultLabel": "Current balance state",
+"applyAction": {
+"label": "Show the same block in brine",
+"observationHint": "The same block balances with less submerged height because each cubic meter of displaced brine weighs more."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "A uniform block is already fully submerged in a uniform fluid. You pull it 0.5 m deeper without changing the fluid or the block's volume. What happens to its buoyant force?",
+"prediction": "Decide whether deeper means more buoyancy once the whole block is already underwater.",
+"explanation": "The top and bottom pressures both increase, but their difference stays the same because the fluid density and the block's height are unchanged. The displaced volume also stays the same, so the buoyant force does not change."
+}
+},
+"variableLinks": [
+{
+"id": "objectDensity",
+"description": "Changes the block's weight without changing its size. A denser block needs a larger submerged fraction to float."
+},
+{
+"id": "fluidDensity",
+"description": "Sets the displaced-fluid weight per unit volume. Denser fluid gives a larger buoyant force for the same submerged volume."
+},
+{
+"id": "bottomDepth",
+"description": "Changes how much of the block is submerged. Once the whole block is underwater, moving it deeper changes pressure levels but not buoyant force."
+}
+],
+"graphs": [
+{
+"id": "force-depth",
+"description": "Weight stays fixed for the same block, while buoyant force rises with submerged volume and then becomes constant after full submersion."
+},
+{
+"id": "required-fraction-object-density",
+"description": "This curve shows the submerged fraction needed for floating balance. Values above 1 mean the block cannot float in that fluid."
+}
+],
+"noticePrompts": {
+"intro": "Track one idea at a time: displaced volume, density ratio, or the full-submersion plateau.",
+"items": [
+{
+"id": "bap-notice-more-submerged-more-buoyancy",
+"text": "While the block is still partly submerged, lowering it deeper increases displaced volume and lengthens the buoyant-force arrow.",
+"tryThis": "Start from Wood in water, then increase the bottom-depth slider toward 0.9 m.",
+"whyItMatters": "It shows that buoyant force follows displaced volume, not hidden mass inside the block."
+},
+{
+"id": "bap-notice-full-submersion-plateau",
+"text": "Once the whole block is underwater, the displaced-fluid column is already full. Moving it deeper raises both pressure samples but leaves the buoyant-force arrow unchanged.",
+"tryThis": "Switch to Fully submerged deeper, turn on Pressure difference, and compare the stage with the force-depth graph.",
+"whyItMatters": "It connects Archimedes' principle back to pressure difference instead of to absolute pressure alone."
+},
+{
+"id": "bap-notice-density-threshold",
+"text": "If the required-fraction curve rises above the full-submersion line, even a fully submerged block cannot get enough buoyant force to float.",
+"whyItMatters": "It replaces the shortcut 'heavy means sink' with the real density-ratio test."
+},
+{
+"id": "bap-notice-same-block-less-submerged",
+"text": "In compare mode, the same block floats higher in denser fluid because each cubic meter of displaced fluid weighs more.",
+"tryThis": "Compare Wood in water with Same block in brine and watch the submerged part shrink while the block's weight stays the same.",
+"whyItMatters": "It links floating height directly to the density ratio."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict from displaced volume and density balance first, then test the stage.",
+"items": [
+{
+"id": "bap-pred-denser-fluid",
+"prompt": "Starting from Wood in water, switch to Same block in brine. What changes at the new balance point?",
+"scenarioLabel": "Same block, denser fluid",
+"changeLabel": "Fluid density rises, so the balance depth becomes shallower.",
+"explanation": "The block's weight is unchanged, but denser fluid makes each displaced cubic meter weigh more. The block can therefore balance with less displaced volume and a shallower floating depth.",
+"observationHint": "Watch the submerged part shrink while the buoyant-force arrow still matches the same weight."
+},
+{
+"id": "bap-pred-deeper-full",
+"prompt": "Starting from Neutral block, move the already fully submerged block deeper. Which statement stays true?",
+"scenarioLabel": "Same block, deeper after full submersion",
+"changeLabel": "Bottom depth increases while the whole block stays underwater.",
+"explanation": "Deeper placement raises the top and bottom pressures together. In a uniform fluid, the pressure difference across the block stays fixed once the whole volume is already submerged, so the buoyant force stays the same.",
+"observationHint": "Turn on Pressure difference. The pressure samples rise together, but the buoyant-force arrow stays the same length."
+},
+{
+"id": "bap-pred-denser-object-same-depth",
+"explanation": "At the same depth, displaced volume is unchanged, so buoyant force is unchanged. Raising the object density increases the block's weight only, so it would need extra upward support or it would sink lower.",
+"observationHint": "The weight arrow grows while the displaced-fluid column stays the same size."
+}
+]
+},
+"challengeMode": {
+"intro": "Use the live bench to hit force-balance targets and compare how density changes floating height.",
+"items": [
+{
+"id": "bap-ch-half-submerged-balance",
+"title": "Make the block balance half submerged",
+"prompt": "Adjust the block so it can float about half submerged without extra support.",
+"successMessage": "The block now balances at about half its height submerged.",
+"setup": {
+"note": "Use density ratio and force balance, not trial and error alone."
+}
+},
+{
+"id": "bap-ch-less-submerged-in-brine",
+"title": "Make the same block float higher in brine",
+"prompt": "Start from Wood in water, switch to compare mode, leave Setup A alone, and tune only Setup B until the same block balances higher in denser fluid.",
+"successMessage": "Setup B balances the same block with less submerged volume in the denser fluid."
+}
+]
+},
+"quickTest": {
+"intro": "Use displaced volume, pressure difference, and density ratio. Do not guess from a 'heavy things sink' shortcut.",
+"questions": [
+{
+"id": "bap-qt-density-ratio",
+"showMeAction": {
+"label": "Show a 0.6 submerged case",
+"observationHint": "The equilibrium line and the submerged part of the block line up near 0.6 of the block's full height."
+}
+},
+{
+"id": "bap-qt-deeper-fully-submerged",
+"showMeAction": {
+"label": "Show the deeper fully submerged state"
+}
+},
+{
+"id": "bap-qt-archimedes-definition",
+"explanation": "Archimedes' principle says the buoyant force equals the weight of the displaced fluid: $F_b = \\rho_f g V_{\\mathrm{disp}}$.",
+"showMeAction": {
+"label": "Show displaced fluid and buoyant force"
+}
+},
+{
+"id": "bap-qt-equal-volume-different-density",
+"showMeAction": {
+"label": "Show a denser block at the same depth"
+}
+}
+]
+}
+}

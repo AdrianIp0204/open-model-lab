@@ -1,0 +1,358 @@
+{
+"sections": {
+"explanation": {
+"paragraphs": [
+"Specific heat tells you how much energy each kilogram of a material needs for a 1 degC temperature change. On this bench, the same power input makes a low-c sample warm quickly and a high-c sample warm slowly because the same incoming energy is being spread across different thermal capacities.",
+"Phase change adds a second idea. A sample can keep absorbing or releasing energy while its temperature stays nearly flat if that energy is changing phase fraction instead of temperature. That is why the heating curve can have a real flat shelf even while energy is still being transferred.",
+"Watch the stage, the heating curve, and the energy bars together. Sloped parts of the curve show sensible energy changing temperature. The flat shelf shows latent energy changing phase. One energy bookkeeping explains both."
+]
+},
+"keyIdeas": [
+"The sample's thermal capacity is m c, so the same energy input changes temperature less when mass or specific heat is larger.",
+"Away from the phase-change shelf, temperature change follows Q_sensible = m c delta T.",
+"On the shelf, energy can still enter or leave while temperature stays near the phase-change temperature because the energy is changing phase fraction instead.",
+"Specific heat controls the slope away from the shelf, while latent heat controls how wide the shelf is in energy."
+],
+"commonMisconception": {
+"correction": [
+"A flat temperature line can still mean real energy transfer if the sample is on the phase-change shelf.",
+"In that case the transferred energy is changing phase fraction, so the latent-energy term changes while temperature stays near the phase-change temperature."
+]
+},
+"workedExamples": {
+"title": "Read the live energy bookkeeping",
+"intro": "Use the current bench state as your evidence. The stage, heating curve, and energy bars all come from the same sample, so each calculation can be checked against what you see.",
+"items": [
+{
+"id": "same-input-different-temperature-rise",
+"title": "Track where the input energy goes",
+"prompt": "At the current inspected time $t = {{timeValue}}\\,\\mathrm{min}$, how much energy has been transferred, and how much of it is changing temperature rather than phase for this sample?",
+"steps": [
+{
+"id": "read-total-input",
+"label": "1. Compute the total energy transferred"
+},
+{
+"id": "build-capacity",
+"label": "2. Work out the sample's thermal capacity"
+},
+{
+"id": "separate-sensible-and-latent",
+"label": "3. Split the energy into sensible and latent parts"
+}
+],
+"resultLabel": "Total input, sensible part, and temperature change",
+"applyAction": {
+"label": "Compare with the high-c sample",
+"observationHint": "The same power is still being supplied, but the larger specific heat makes the temperature rise more slowly on the sloped part of the curve."
+}
+},
+{
+"id": "reading-the-shelf",
+"title": "Read the flat shelf correctly",
+"prompt": "At the current inspected time $t = {{timeValue}}\\,\\mathrm{min}$, how far across the phase-change shelf is the sample, and what does the flat temperature mean right now?",
+"steps": [
+{
+"id": "read-shelf-width",
+"label": "1. Read the full shelf energy"
+},
+{
+"id": "read-current-progress",
+"label": "2. Read the current phase progress"
+},
+{
+"id": "interpret-flat-temperature",
+"label": "3. Explain the flat temperature"
+}
+],
+"resultLabel": "Shelf progress and latent-energy change",
+"applyAction": {
+"label": "Inspect the shelf state",
+"observationHint": "The temperature line can stay flat while the shelf bar and latent-energy readout continue to change."
+}
+}
+]
+},
+"miniChallenge": {
+"prediction": "Decide whether the same total energy input must produce the same temperature change.",
+"explanation": "The same total input does not force the same temperature change. Away from the shelf, the sample with the smaller thermal capacity m c changes temperature more."
+}
+},
+"equations": [
+{
+"id": "thermal-capacity",
+"label": "Sample thermal capacity",
+"meaning": "Mass and specific heat together tell you how much energy is needed for each 1 degC of temperature change."
+},
+{
+"id": "sensible-heating",
+"label": "Sensible energy change",
+"meaning": "Away from the shelf, transferred energy changes temperature in proportion to mass, specific heat, and temperature change."
+},
+{
+"id": "power-input",
+"label": "Energy transferred by constant power",
+"meaning": "With fixed power, the total transferred energy grows linearly with time."
+},
+{
+"id": "latent-heat",
+"label": "Latent energy for the whole sample",
+"meaning": "Crossing the full shelf requires energy that depends on both mass and the material's latent heat."
+},
+{
+"id": "energy-bookkeeping",
+"label": "Total energy bookkeeping",
+"meaning": "The same transferred energy must be split between temperature change and phase change.",
+"notes": [
+"On a sloped segment, most transferred energy is sensible.",
+"On the shelf, the latent term can keep changing while temperature stays nearly fixed."
+]
+}
+],
+"variableLinks": [
+{
+"id": "mass",
+"description": "Mass increases both m c and m L, so a larger sample usually warms or cools more slowly and needs more energy to finish the phase change."
+},
+{
+"id": "specificHeat",
+"description": "Specific heat controls how steep the sloped parts of the heating curve are. Larger c means more energy is needed for each degree of temperature change."
+},
+{
+"id": "heaterPower",
+"description": "Power sets how fast energy enters or leaves the sample. It changes how fast the sample moves along the heating curve."
+},
+{
+"id": "startingTemperature",
+"description": "Starting temperature decides whether the run begins below the shelf, on the shelf, or above it."
+},
+{
+"id": "latentHeat",
+"description": "Latent heat sets the shelf width in energy, not the slope away from the shelf."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "mass",
+"description": "Changes how much sample there is."
+},
+{
+"id": "specificHeat",
+"description": "Changes how much energy each kilogram needs for each degree of temperature change."
+},
+{
+"id": "heaterPower",
+"description": "Positive values heat the sample and negative values cool it."
+},
+{
+"id": "startingTemperature",
+"description": "Moves the starting point below the shelf, onto the shelf, or above it."
+},
+{
+"id": "latentHeat",
+"description": "Changes how much energy the shelf absorbs or releases before temperature starts changing again."
+}
+],
+"presets": [
+{
+"id": "low-c-liquid",
+"description": "Above the shelf with a low specific heat, so the same power produces a fast temperature rise."
+},
+{
+"id": "high-c-liquid",
+"description": "Same mass and power as the low-c sample, but the larger specific heat makes temperature rise more slowly."
+},
+{
+"id": "warming-toward-shelf",
+"description": "Starts below the phase-change temperature, warms up to it, and then begins moving across the shelf."
+},
+{
+"id": "melting-on-the-shelf",
+"description": "Starts on the flat shelf, so phase fraction changes while temperature stays near 0 degC."
+},
+{
+"id": "freezing-on-the-shelf",
+"description": "Starts on the shelf with cooling power, so phase fraction falls before temperature drops below 0 degC."
+}
+],
+"overlays": [
+{
+"id": "capacityCue",
+"shortDescription": "Shows the live m c value and temperature rate so you can connect specific heat to the slope of the curve.",
+"whatToNotice": [
+"A larger m c makes the sloped parts of the heating curve less steep under the same power."
+],
+"whyItMatters": "It ties specific heat to a visible rate of temperature change."
+},
+{
+"id": "shelfCue",
+"whatToNotice": [
+"The shelf bar can keep moving while the temperature marker stays near the phase-change temperature."
+],
+"whyItMatters": "It makes latent heat visible instead of leaving the flat part of the curve unexplained."
+},
+{
+"id": "energySplit",
+"whatToNotice": [
+"Total transferred energy can keep increasing even when most of the change is going into only the latent bar."
+],
+"whyItMatters": "It links the sloped parts and the flat shelf to one shared energy bookkeeping."
+},
+{
+"id": "curveGuide",
+"whatToNotice": [
+"Reaching the phase-change line does not always mean temperature changes right away. It can mean the run has entered the shelf."
+],
+"whyItMatters": "It keeps the stage and graph aligned so the flat part of the heating curve has a clear physical meaning."
+}
+]
+},
+"graphs": [
+{
+"id": "heating-curve",
+"description": "Compare the live temperature with the phase-change temperature. Sloped parts mean sensible heating or cooling, and the flat shelf means latent-energy change."
+},
+{
+"id": "energy-allocation",
+"description": "Compare total transferred energy with the sensible and latent parts. Use this graph to check whether a flat temperature really means the shelf is active."
+},
+{
+"id": "specific-heat-response",
+"description": "Change only the specific heat while keeping the current mass and power. The same 4 minute pulse gives a smaller temperature change when c is larger, unless the run is on the shelf."
+},
+{
+"id": "latent-response",
+"description": "Change only the latent heat. A larger latent heat makes the shelf wider in energy, so the sample can spend longer near constant temperature under the same power."
+}
+],
+"noticePrompts": {
+"intro": "Use one prompt at a time. Each one links one control change to the heating curve and the live energy split.",
+"items": [
+{
+"id": "shpc-notice-specific-heat",
+"text": "Changing only specific heat changes the steepness of the sloped parts, but it does not change the energy width of the shelf. That shows that c controls temperature response, not latent shelf energy.",
+"whyItMatters": "This connects Q = m c delta T to a visible temperature response."
+},
+{
+"id": "shpc-notice-mass",
+"text": "Mass changes both the m c chip and the m L shelf-width chip. A larger sample warms more slowly and also needs more energy to finish the phase change.",
+"whyItMatters": "It shows that mass affects both the sloped parts and the shelf."
+},
+{
+"id": "shpc-notice-shelf-flat",
+"text": "A flat shelf does not mean the heater stopped. Check the energy-bookkeeping graph and the shelf bar: latent energy can still be changing while temperature stays near the phase-change temperature.",
+"whyItMatters": "This is the key habit for reading a heating curve honestly."
+},
+{
+"id": "shpc-notice-latent-response",
+"text": "On the latent-response graph, increasing L makes the shelf wider in energy. Under the same power, the sample can spend longer near constant temperature.",
+"whyItMatters": "It separates a wide shelf from a large specific heat."
+},
+{
+"id": "shpc-notice-compare-mode",
+"text": "Compare mode works best when Setup A and Setup B keep the same mass and power but different specific heats. Then any temperature-change difference comes from m c, not from a hidden change in energy input."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict where the next bit of energy goes before you change the controls. Does it change temperature, phase fraction, or both?",
+"items": [
+{
+"id": "shpc-predict-higher-c",
+"explanation": "At fixed mass and power, a larger specific heat increases m c, so the same 4 minute pulse produces a smaller temperature change on the sloped part of the curve.",
+"observationHint": "For the same pulse, the higher-c setup climbs less on the sloped part of the heating curve."
+},
+{
+"id": "shpc-predict-shelf-heating",
+"explanation": "On the shelf, transferred energy changes phase fraction. Temperature can stay nearly flat even while the latent-energy term keeps changing.",
+"observationHint": "Watch the shelf bar and the latent-energy line first."
+},
+{
+"id": "shpc-predict-reverse-power",
+"prompt": "Starting from Cooling on the shelf, you keep removing energy. What changes first before temperature falls below the shelf?",
+"explanation": "Cooling reverses the same shelf logic: energy leaves the latent store first, so phase fraction falls before the sample drops below the phase-change temperature.",
+"observationHint": "The shelf fraction shrinks while the temperature marker stays near 0 degC."
+}
+]
+},
+"challengeMode": {
+"intro": "Use the same thermal bench for slope and shelf targets. The checks read the live temperature change, phase fraction, and graph state from one simulation.",
+"items": [
+{
+"id": "shpc-ch-same-pulse-higher-c",
+"title": "Same pulse, smaller temperature change",
+"prompt": "Start from Low-c warm sample, switch to compare mode, and edit only Setup B until both setups receive the same 4 minute pulse but Setup B warms much less because its specific heat is larger.",
+"successMessage": "You kept the same energy pulse but changed the thermal capacity. Setup B warmed less because its larger specific heat spread the same energy across a larger m c.",
+"hints": [
+"Keep the mass and power the same. Let specific heat do the explanatory work.",
+"The compare badges and the specific-heat-response graph should both show Setup B warming less."
+]
+},
+{
+"id": "shpc-ch-catch-the-real-shelf",
+"title": "Find a genuine shelf state",
+"prompt": "Starting from Warming toward the shelf, pause at a real shelf moment where temperature is near 0 degC but the phase fraction is still between fully solid and fully liquid.",
+"setup": {
+"note": "Let the run reach the shelf, then pause and fine-tune with inspect mode."
+},
+"hints": [
+"The sample reaches the shelf after several minutes, not immediately.",
+"Use the energy-bookkeeping graph or the shelf bar to confirm that latent energy is changing while temperature stays near the shelf."
+]
+}
+]
+},
+"quickTest": {
+"intro": "Answer from the energy bookkeeping, not from a slogan. Keep specific heat, latent heat, and heating-curve reading separate.",
+"questions": [
+{
+"id": "shpc-qt-higher-c-smaller-dt",
+"showMeAction": {
+"label": "Compare with the high-c sample"
+}
+},
+{
+"id": "shpc-qt-flat-shelf",
+"showMeAction": {
+"label": "Inspect the shelf"
+}
+},
+{
+"id": "shpc-qt-more-mass",
+"explanation": "For the same material, doubling mass doubles thermal capacity, so the same sensible-energy pulse produces only half the temperature change.",
+"showMeAction": {
+"label": "Increase the mass"
+}
+},
+{
+"id": "shpc-qt-cooling-shelf",
+"explanation": "Cooling reverses the same shelf logic: latent energy leaves first, so phase fraction can decrease while temperature stays near the shelf.",
+"showMeAction": {
+"label": "Inspect cooling on the shelf"
+}
+},
+{
+"id": "shpc-qt-latent-vs-c",
+"explanation": "Specific heat belongs to Q_sensible = m c delta T, while latent heat belongs to Q_phase = m L. One controls slope and the other controls shelf width.",
+"showMeAction": {
+"label": "Compare slope and shelf width"
+}
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows one sample, a heater-or-cooler energy stream, a thermometer, a phase-fraction bar, and a state card. The same mass, specific heat, power, starting temperature, latent heat, and phase fraction drive every visible part of the bench.",
+"Changing the controls updates the same live state for the stage, heating curve, energy-bookkeeping graph, response graphs, compare mode, prediction mode, and challenge checks."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The heating-curve graph compares the live temperature with the fixed phase-change temperature so the sloped stretches and the shelf stay aligned with the stage. The energy-bookkeeping graph compares total transferred energy with the sensible and latent parts on the same time axis.",
+"The specific-heat response graph changes only c, so it shows how the same pulse changes temperature less when thermal capacity is larger. The latent-response graph changes only L, so it shows how a larger latent heat widens the shelf in energy."
+]
+}
+}
+}

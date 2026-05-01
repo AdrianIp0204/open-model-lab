@@ -1,0 +1,362 @@
+{
+  "title": "影像變換",
+  "shortTitle": "影像變換",
+  "summary": "用同一組控制移動父函式影像，讓平移、垂直縮放與反射始終和同一條參考曲線及標誌點連在一起。",
+  "highlights": [
+    "左右平移",
+    "上下平移",
+    "反射和垂直比例"
+  ],
+  "topic": "函式",
+  "subtopic": "父函式移動",
+  "recommendedNext": [
+    {
+      "slug": "rational-functions-asymptotes-and-behavior",
+      "reasonLabel": "把相同的影像位移語言帶到垂直與水平漸近線的行為"
+    },
+    {
+      "slug": "exponential-change-growth-decay-logarithms",
+      "reasonLabel": "保留影像為主的視角，進入增長、衰減與目標時間"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "當一條參考影像始終保持可見，而且每次引數變化都作用在同一個形狀上時，影像變換就更容易建立直覺。這個模組會把基底曲線留在畫面上，再用水平位移、垂直位移、垂直縮放和可選的 y 軸反射，在同一個動態坐標平面裡重新塑造它。",
+        "目標不是記住關於向左或向右移動的一句格言。重點是觀察基底圖形上的已知標誌點在內部變更、外部變更和垂直比例共同作用後的位置。"
+      ]
+    },
+    "keyIdeas": [
+      "水平移動改變了圖形在 x 軸上的位置，然後才應用外側的垂直比例和垂直移動到 y 值。",
+      "垂直比例一次改變每個輸出值。負數會將圖形沿著 x 軸翻轉，而小於一的絕對值則會壓縮它。",
+      "對內部輸入進行 y 軸反射會先反轉基底圖形的左右方向，然後再放置它。"
+    ],
+    "commonMisconception": {
+      "myth": "正的水平移動總是應該將圖形向左移動，因為括號內的符號看起來是相反的。",
+      "correction": [
+        "清晰地閱讀它的方式是跟蹤基底圖形上的已知標誌點在內部輸入滿足條件後的位置。",
+        "在此模組中，基頂點開始於 $x = 1$。解決內部表示式以找到同一標誌點的位置，顯示轉換後的頂點實際落地的位置。"
+      ]
+    },
+    "workedExamples": {
+      "title": "即時例題",
+      "intro": "直接使用當前轉換，而不是分離的工作紙。相同的控制會同步驅動舞台、圖表標籤與這些代入。",
+      "items": [
+        {
+          "id": "track-the-vertex",
+          "title": "跟蹤轉換後的頂點",
+          "prompt": "基底圖形有一個頂點在 $( {{baseVertexXValue}}, {{baseVertexYValue}} )$。對於當前轉換，那個標誌點在哪裡落地？",
+          "variables": [
+            {
+              "id": "horizontal-shift",
+              "label": "水平移動"
+            },
+            {
+              "id": "vertical-shift",
+              "label": "垂直移動"
+            },
+            {
+              "id": "vertical-scale",
+              "label": "垂直比例"
+            }
+          ],
+          "steps": [
+            {
+              "id": "inside-change",
+              "label": "1. 對基底 x 位置應用內部變更"
+            },
+            {
+              "id": "horizontal-placement",
+              "label": "2. 使用水平移動放置該標誌點"
+            },
+            {
+              "id": "vertical-placement",
+              "label": "3. 對基底 y 值應用垂直比例和移動"
+            }
+          ],
+          "resultLabel": "當前轉換後的頂點",
+          "applyAction": {
+            "label": "應用向右翻轉的情況",
+            "observationHint": "觀看基底頂點先沿著 y 軸翻轉，然後向右移動，同時垂直比例將它拉到軸下。"
+          }
+        },
+        {
+          "id": "scale-and-reflect-the-height",
+          "title": "閱讀垂直效果",
+          "prompt": "當前的垂直比例和垂直位移如何改變基點高度？",
+          "variables": [
+            {
+              "id": "vertical-scale",
+              "label": "垂直比例"
+            },
+            {
+              "id": "vertical-shift",
+              "label": "垂直移動"
+            }
+          ],
+          "steps": [
+            {
+              "id": "start-base-height",
+              "label": "1. 開始於基點高度"
+            },
+            {
+              "id": "apply-scale",
+              "label": "2. 施加垂直比例"
+            },
+            {
+              "id": "apply-shift",
+              "label": "3. 施加外側垂直位移"
+            }
+          ],
+          "resultLabel": "當前頂點高度",
+          "applyAction": {
+            "label": "應用拉伸上移的情況",
+            "observationHint": "圖形向上開口得更尖，頂點高度圖表會顯示 $a$ 如何在目前的 $k$ 下提高或壓低這個標誌點。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "設定圖形使其轉換後的頂點位於 y 軸左側但 x 軸上方，並確保圖形已沿 x 軸對稱。",
+      "prediction": "決定哪些控制項需要變號。",
+      "answer": "你需要將轉換後的頂點 x 座標設為負數，y 座標設為正數，並且垂直比例需為負數以使圖形沿 x 軸對稱。",
+      "explanation": "水平位置取決於內部反射加上水平位移，而高度則取決於垂直比例和外側垂直位移。沿 x 軸對稱來自垂直比例的符號。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "從實時圖形和標誌公式一起推論。這些檢查關注的是圖形的位置，而不僅僅是符號匹配。",
+    "questions": [
+      {
+        "id": "gt-qt-shift",
+        "prompt": "哪種改變能使圖形向上移動而不改變其開口方向或左右位置？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "增加垂直位移 $k$。"
+          },
+          {
+            "id": "b",
+            "label": "增加水平位移 $h$。"
+          },
+          {
+            "id": "c",
+            "label": "開啟 y 軸反射。"
+          }
+        ],
+        "explanation": "僅改變 $k$ 就能使每個輸出值提升或降低，而不會改變圖形的左右位置或開口方向。",
+        "selectedWrongExplanations": {
+          "b": "改變 $h$ 使圖形水平移動而不是垂直移動。",
+          "c": "y 軸反射翻轉左右方向但不提升整個圖形。"
+        },
+        "showMeAction": {
+          "label": "顯示純粹的向上移動",
+          "observationHint": "轉換後的圖形保持相同的形狀和方向，而整個曲線則向上升起。"
+        }
+      },
+      {
+        "id": "gt-qt-negative-a",
+        "prompt": "一名學生説負的 $a$ 只會使圖形更陡峭。缺少什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "負的 $a$ 也會把影像沿 x 軸翻轉。"
+          },
+          {
+            "id": "b",
+            "label": "負的 $a$ 自動沿 y 軸對稱圖形。"
+          },
+          {
+            "id": "c",
+            "label": "負的 $a$ 強制頂點保持在原點。"
+          }
+        ],
+        "explanation": "$a$ 的符號決定輸出是保持向上，還是沿 x 軸翻轉；其絕對值則決定拉伸或壓縮程度。",
+        "selectedWrongExplanations": {
+          "b": "y 軸反射由內部輸入控制，而不是 $a$ 符號控制。",
+          "c": "頂點的位置仍然取決於內部標誌和垂直移動。"
+        },
+        "showMeAction": {
+          "label": "顯示反轉的情況",
+          "observationHint": "影像朝下開口，因為輸出已經沿 x 軸翻轉。"
+        }
+      },
+      {
+        "id": "gt-qt-mirror-y",
+        "prompt": "兩個設定具有相同的$h$、$k$和$a$，但只有其中一個啟用了y軸反轉。首先應該有何不同？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它們的左右方向應該不同。"
+          },
+          {
+            "id": "b",
+            "label": "它們的垂直比例應該不同。"
+          },
+          {
+            "id": "c",
+            "label": "它們的垂直位移量應該不同。"
+          }
+        ],
+        "explanation": "啟用 y 軸反轉只會改變內部輸入，因此最先出現的差異會是影像的左右方向。",
+        "selectedWrongExplanations": {
+          "b": "垂直比例仍然由 $a$ 控制，並沒有改變。",
+          "c": "垂直位移量仍然由 $k$ 控制，並沒有改變。"
+        },
+        "showMeAction": {
+          "label": "啟用 y 軸反轉",
+          "observationHint": "將反轉影像與參考曲線進行比較，並觀看標誌點首先移動到對側。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "坐標網格會同時顯示基底圖與變換後的影像。你可以直接拖動變換後的頂點，而滑桿與反轉開關則控制水平位移、垂直位移、垂直縮放和 y 軸反轉。",
+        "讀出卡片會報告目前的 h、k、a 值、變換後的頂點位置，以及 y 截距。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "第一個圖表面板比較基底和變換後的曲線在同一組坐標軸上。第二個圖表面板顯示當垂直比例變化時，當前的垂直移動如何改變變換後的頂點高度。",
+        "預測模式、比較模式以及引導式覆蓋層都與這些相同的影像關係保持聯絡。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "stretch-upward-vertex-map",
+        "label": "向上拉伸",
+        "description": "開啟變換後的影像，其中包含變換後的頂點和參考曲線。",
+        "setup": {
+          "note": "使用此設定來檢視外部比例和移動如何作用於同一個頂點高度。"
+        }
+      },
+      {
+        "id": "reflect-and-shift-right",
+        "label": "反轉並向右移動",
+        "description": "開啟反轉情況，觀看頂點在內部變更後的移動。",
+        "setup": {
+          "note": "使用此設定來追蹤 y 軸反轉，再觀察水平位移如何落點。"
+        }
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "transformation-rule",
+      "label": "變換規則",
+      "meaning": "保持一個參考影像顯示，同時內部變更、垂直比例和垂直移動作用於同一個基底形狀。"
+    },
+    {
+      "id": "vertex-x",
+      "label": "變換後的x標誌點",
+      "meaning": "追蹤基底圖中已知x位置在內部變更後的位置。"
+    },
+    {
+      "id": "vertex-y",
+      "label": "變換後的y標誌點",
+      "meaning": "追蹤垂直比例和垂直移動如何移動已知輸出值。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "horizontal-shift",
+      "label": "水平移動",
+      "description": "透過改變內部標誌條件滿足的位置來左右移動變換後的影像。"
+    },
+    {
+      "id": "vertical-shift",
+      "label": "垂直移動",
+      "description": "在垂直比例作用後，提升或降低每個輸出值。"
+    },
+    {
+      "id": "vertical-scale",
+      "label": "垂直比例",
+      "description": "伸展或壓縮輸出。負值還會使影像沿著 x 軸翻轉。"
+    },
+    {
+      "id": "mirror-input",
+      "label": "內部反射",
+      "description": "在水平移動之前，將 x-輸入沿 y 軸翻轉"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "horizontal-shift",
+        "label": "水平移動"
+      },
+      {
+        "id": "vertical-shift",
+        "label": "垂直移動"
+      },
+      {
+        "id": "vertical-scale",
+        "label": "垂直比例"
+      },
+      {
+        "id": "mirror-y",
+        "label": "沿y軸反射"
+      }
+    ],
+    "presets": [
+      {
+        "id": "stretched-up",
+        "label": "向上拉伸"
+      },
+      {
+        "id": "reflected-right",
+        "label": "反轉並向右移動"
+      }
+    ]
+  },
+  "predictionMode": {
+    "items": [
+      {
+        "id": "gt-predict-mirror-y",
+        "scenarioLabel": "沿y軸反射"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "把圖像當作地標配對實驗台：保持參考曲線可見，再誠實地放置一個經反射與縮放後的頂點，而不是只靠符號猜測。",
+    "items": [
+      {
+        "id": "gt-ch-reflect-land-vertex",
+        "title": "反射並把頂點落到指定位置",
+        "prompt": "建立一條經反射的圖像，使轉換後的頂點落在接近 $(-1, 2.4)$ 的位置。請保持參考曲線與位移指引開啟，讓整個移動過程一直扣緊基底地標。",
+        "successMessage": "你已把反射後的地標準確對齊，而且整個圖像仍然清楚地扣緊基底曲線。現在符號的正負不再只是技巧，而是能對應到可見移動。",
+        "setup": {
+          "note": "先從基底圖像開始，然後同時利用參考曲線、頂點標記與位移指引。"
+        },
+        "hints": [
+          "如果頂點要落在接近 $x=-1$ 而水平位移幾乎不變，表示內部輸入必須先做反射。",
+          "負的垂直比例會先把頂點高度翻轉，之後再由外部垂直位移完成最後定位。"
+        ],
+        "targets": [
+          {
+            "label": "讓水平位移保持接近 $0$，使左移主要來自反射，而不是大幅平移。"
+          },
+          {
+            "label": "把垂直比例設為負值，而且大小約為 $1.2$。"
+          },
+          {
+            "label": "讓轉換後的頂點 x 值落在 $-1.05$ 到 $-0.95$ 之間。"
+          },
+          {
+            "label": "讓轉換後的頂點 y 值落在 $2.25$ 到 $2.55$ 之間。"
+          }
+        ]
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "用同一組控制移動父函式影像，讓平移、垂直縮放與反射始終和同一條參考曲線及標誌點連在一起。",
+    "whyItMatters": "當一條參考影像始終保持可見，而且每次引數變化都作用在同一個形狀上時，影像變換就更容易建立直覺。這個模組會把基底曲線留在畫面上，再用水平位移、垂直位移、垂直縮放和可選的 y 軸反射，在同一個動態坐標平面裡重新塑造它。",
+    "keyTakeaway": "水平移動改變了圖形在 x 軸上的位置，然後才應用外側的垂直比例和垂直移動到 y 值。"
+  }
+}

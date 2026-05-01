@@ -1,0 +1,987 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "readNext",
+        "title": "Carry equilibrium into the next branch"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Watch a reversible chemistry bench keep changing microscopically while the mixture settles toward a new balance after each disturbance.",
+    "whyItMatters": "Le Chatelier's principle becomes much less memorized when you can see a disturbance create a rate imbalance and then watch the system rebalance.",
+    "keyTakeaway": "At dynamic equilibrium, forward and reverse changes are still happening, but they balance each other."
+  },
+  "v2": {
+    "intuition": "Equilibrium is a moving balance: the mixture can look steady because forward and reverse changes are matching, not because the particles have stopped changing.",
+    "whyItMatters": "Le Chatelier's principle becomes a cause-and-effect story when you can see each disturbance separate the rates and then watch the mixture move toward a new balance.",
+    "estimatedMinutes": 25,
+    "equationSnapshot": {
+      "title": "Rate balance snapshot",
+      "note": "Use the rate gap first, then read the direction of the shift from the current mixture versus the equilibrium target.",
+      "equationIds": [
+        "net-change",
+        "dynamic-equilibrium",
+        "new-balance"
+      ]
+    },
+    "startSetup": {
+      "presetId": "reactant-heavy-start",
+      "graphId": "concentration-history",
+      "overlayIds": [
+        "dynamicExchange",
+        "targetBand"
+      ],
+      "note": "Begin with a reactant-heavy mixture so the first shift toward balance is visible."
+    },
+    "guidedSteps": [
+      {
+        "id": "see-equilibrium-as-motion",
+        "title": "See equilibrium as motion",
+        "goal": "Separate a steady-looking mixture from a stopped reaction.",
+        "doThis": "Let the reactant-heavy start run with exchange pulses visible, then pause near the flat part of the amount curves.",
+        "notice": "The amounts can change slowly or look steady while both forward and reverse exchange cues still appear.",
+        "explain": "Dynamic equilibrium means the two directions keep happening at matching rates; it does not mean the microscopic reaction has stopped.",
+        "reveal": {
+          "graphIds": [
+            "concentration-history",
+            "rate-balance"
+          ],
+          "overlayIds": [
+            "dynamicExchange",
+            "balanceBars"
+          ],
+          "toolHints": [
+            "playback"
+          ]
+        },
+        "setup": {
+          "presetId": "reactant-heavy-start",
+          "graphId": "rate-balance",
+          "overlayIds": [
+            "dynamicExchange",
+            "balanceBars"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Check the moving-balance idea",
+          "questionIds": [
+            "de-qt-dynamic"
+          ]
+        }
+      },
+      {
+        "id": "disturb-the-current-mix",
+        "title": "Disturb the current mix",
+        "goal": "Read a disturbance as a mismatch between the current mixture and the target equilibrium mixture.",
+        "doThis": "Change Reactant amount once and compare the current product share with the equilibrium target band.",
+        "notice": "A disturbance matters when it pulls the current mix away from the target for the current conditions.",
+        "explain": "The mixture shifts only while the current state and the equilibrium target disagree; the rate gap shows which direction wins first.",
+        "reveal": {
+          "controlIds": [
+            "reactant-amount",
+            "product-amount"
+          ],
+          "graphIds": [
+            "concentration-history",
+            "equilibrium-share"
+          ],
+          "overlayIds": [
+            "targetBand"
+          ]
+        },
+        "setup": {
+          "presetId": "reactant-heavy-start",
+          "graphId": "concentration-history",
+          "overlayIds": [
+            "targetBand"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Predict the first shift",
+          "predictionIds": [
+            "de-predict-add-reactants"
+          ]
+        }
+      },
+      {
+        "id": "change-the-equilibrium-target",
+        "title": "Change the target balance",
+        "goal": "See Le Chatelier's principle as rebalancing toward a new equilibrium, not as an instant jump.",
+        "doThis": "Switch to product-favored conditions, then watch the rate bars separate before they come back together.",
+        "notice": "Changing the product-favor setting moves the target first; the mixture and rate bars catch up over time.",
+        "explain": "A condition change creates a new equilibrium target, so the system shifts until the forward and reverse rates match again under those conditions.",
+        "reveal": {
+          "controlIds": [
+            "product-favor"
+          ],
+          "graphIds": [
+            "rate-balance",
+            "equilibrium-share"
+          ],
+          "overlayIds": [
+            "balanceBars",
+            "targetBand"
+          ]
+        },
+        "setup": {
+          "presetId": "product-favored",
+          "graphId": "rate-balance",
+          "overlayIds": [
+            "balanceBars",
+            "targetBand"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Read the new target",
+          "predictionIds": [
+            "de-predict-lower-favor"
+          ],
+          "questionIds": [
+            "de-qt-disturbance"
+          ]
+        }
+      },
+      {
+        "id": "judge-the-new-equilibrium",
+        "title": "Judge the new equilibrium",
+        "goal": "Use rate matching, not equal amounts, to decide whether the new balance has been reached.",
+        "doThis": "Let the product-favored case run long enough for the rate gap to shrink, then compare the final rate bars with the product share.",
+        "notice": "The products can stay above the reactants while the most honest equilibrium cue is the near-match between forward and reverse rates.",
+        "explain": "Equilibrium composition and rate balance answer different questions: the mixture can be product-rich, but the balance condition is still r_f = r_r.",
+        "reveal": {
+          "graphIds": [
+            "rate-balance",
+            "concentration-history"
+          ],
+          "overlayIds": [
+            "dynamicExchange",
+            "balanceBars",
+            "targetBand"
+          ],
+          "toolHints": [
+            "playback"
+          ]
+        },
+        "setup": {
+          "presetId": "product-favored",
+          "graphId": "rate-balance",
+          "overlayIds": [
+            "dynamicExchange",
+            "balanceBars",
+            "targetBand"
+          ],
+          "inspectTime": 8
+        },
+        "inlineCheck": {
+          "title": "Check the equilibrium cue",
+          "questionIds": [
+            "de-qt-forward-reverse"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Dynamic equilibrium means ongoing forward and reverse changes with matching rates.",
+        "A disturbance matters when the current mixture no longer matches the equilibrium target for the conditions.",
+        "Le Chatelier's principle describes the shift toward a new equilibrium after that disturbance.",
+        "The best equilibrium cue is the forward-reverse rate match, not equal reactant and product amounts."
+      ],
+      "misconception": "Do not treat a flat amount graph as a stopped reaction or assume equilibrium requires equal amounts of reactants and products.",
+      "workedExampleRefs": [
+        "read-the-current-balance",
+        "read-the-new-settled-mix"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "ideal-gas-law-kinetic-theory",
+          "reasonLabel": "Reuse the moving-particle picture in a thermodynamics bench."
+        }
+      ],
+      "freePlayPrompt": "Try switching between product-favored and reactant-favored presets, then wait until the rate bars tell you the new balance is actually reached."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "commonMisconception",
+      "workedExamples",
+      "quickTest"
+    ]
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Dynamic equilibrium becomes easier to trust when the particles keep changing even after the mixture looks settled. This module keeps reactants, products, forward change, reverse change, and the time path toward a new balance on one shared chemistry bench.",
+        "The main idea is that equilibrium does not mean stopped. It means the forward and reverse changes have become equally strong, so the visible mixture can stay steady even though the microscopic swapping keeps going."
+      ]
+    },
+    "keyIdeas": [
+      "At dynamic equilibrium, forward and reverse changes are still happening, but they balance each other.",
+      "Changing the mixture or the product-favor conditions disturbs the balance and sends the system toward a new equilibrium.",
+      "Le Chatelier's principle is easiest to trust when the disturbance and the re-balancing path stay visible together."
+    ],
+    "commonMisconception": {
+      "myth": "If the amounts stop changing, the reaction itself must have stopped.",
+      "correction": [
+        "The amounts can stay steady because forward and reverse change match each other.",
+        "The microscopic exchange can continue even while the overall mixture looks settled."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked examples",
+      "intro": "Use the current chemistry bench instead of a detached table. The same controls drive the particle scene, the time history, and these substitutions.",
+      "items": [
+        {
+          "id": "read-the-current-balance",
+          "title": "Read the current forward-reverse balance",
+          "prompt": "At the current time, what is the balance between forward and reverse change?",
+          "variables": [
+            {
+              "id": "time",
+              "symbol": "t",
+              "label": "Time",
+              "valueKey": "timeValue"
+            },
+            {
+              "id": "reactant-amount",
+              "variableId": "reactant-amount",
+              "symbol": "R_0",
+              "label": "Starting reactant amount",
+              "valueKey": "reactantAmountValue"
+            },
+            {
+              "id": "product-amount",
+              "variableId": "product-amount",
+              "symbol": "P_0",
+              "label": "Starting product amount",
+              "valueKey": "productAmountValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-current-mix",
+              "label": "1. Read the current mixture",
+              "template": "At t = {{timeValue}} s, the bench shows about {{currentReactantValue}} reactant units and {{currentProductValue}} product units."
+            },
+            {
+              "id": "read-current-rates",
+              "label": "2. Read the competing rates",
+              "template": "The forward rate is about {{forwardRateValue}}/s while the reverse rate is about {{reverseRateValue}}/s."
+            },
+            {
+              "id": "read-gap",
+              "label": "3. Read how close the system is to balance",
+              "template": "That leaves a rate gap of about {{rateGapValue}}, which tells you how far the mixture still is from a balanced exchange."
+            }
+          ],
+          "resultLabel": "Current balance",
+          "resultTemplate": "$r_f \\approx {{forwardRateValue}}, \\quad r_r \\approx {{reverseRateValue}}$",
+          "interpretationTemplate": "{{balanceInterpretation}}",
+          "applyAction": {
+            "label": "Apply a product-heavy start",
+            "presetId": "product-heavy-start",
+            "observationHint": "The mixture may begin on the product side, but the balance bars show whether the reverse change now needs to catch up.",
+            "highlightedControlIds": [
+              "reactantAmount",
+              "productAmount"
+            ],
+            "highlightedGraphIds": [
+              "concentration-history",
+              "rate-balance"
+            ],
+            "highlightedOverlayIds": [
+              "dynamicExchange",
+              "balanceBars"
+            ]
+          }
+        },
+        {
+          "id": "read-the-new-settled-mix",
+          "title": "Read the new settled mix",
+          "prompt": "For the current product-favor setting, what mixture should the system settle toward?",
+          "variables": [
+            {
+              "id": "product-favor",
+              "variableId": "product-favor",
+              "symbol": "f",
+              "label": "Product-favor setting",
+              "valueKey": "productFavorValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-current-share",
+              "label": "1. Read the current product share",
+              "template": "Right now the mixture is about {{currentProductShareValue}}% products."
+            },
+            {
+              "id": "read-target-share",
+              "label": "2. Read the settled target for these conditions",
+              "template": "At the current favor setting, the system settles near {{equilibriumProductShareValue}}% products."
+            },
+            {
+              "id": "connect-shift",
+              "label": "3. Connect the current mix to the new target",
+              "template": "If the current share and the target differ, the forward and reverse rates stay unequal until the mixture moves toward that target."
+            }
+          ],
+          "resultLabel": "Settled product share",
+          "resultTemplate": "$\\text{settled product share} \\approx {{equilibriumProductShareValue}}\\%$",
+          "interpretationTemplate": "{{targetInterpretation}}",
+          "applyAction": {
+            "label": "Apply a product-favored case",
+            "presetId": "product-favored",
+            "observationHint": "The settled target moves toward more products, and the concentration history bends toward that new mix over time.",
+            "highlightedControlIds": [
+              "productFavor"
+            ],
+            "highlightedGraphIds": [
+              "equilibrium-share",
+              "concentration-history"
+            ],
+            "highlightedOverlayIds": [
+              "targetBand"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Disturb the mixture, then wait until the rates nearly match again while the settled mix is clearly product-favored.",
+      "prediction": "Decide whether you should change the starting mixture, the favor setting, or both before you test it.",
+      "answer": "You need a disturbance that pushes the system away from its old balance and conditions that favor the product side strongly enough for the new equilibrium to land there.",
+      "explanation": "That shows both halves of the idea at once: the equilibrium is dynamic because the exchange continues, and Le Chatelier's principle is about the path to a new balance after a disturbance."
+    }
+  },
+  "equations": [
+    {
+      "id": "net-change",
+      "latex": "r_{\\text{net}} = r_f - r_r",
+      "label": "Net-change rule",
+      "meaning": "Keeps the time path honest by comparing the forward and reverse tendencies directly."
+    },
+    {
+      "id": "dynamic-equilibrium",
+      "latex": "r_f = r_r \\Rightarrow \\text{dynamic equilibrium}",
+      "label": "Dynamic equilibrium",
+      "meaning": "Shows that equal forward and reverse rates are the real equilibrium condition, not a stopped reaction."
+    },
+    {
+      "id": "new-balance",
+      "latex": "\\text{new conditions} \\Rightarrow \\text{new equilibrium mix}",
+      "label": "Shift-to-balance rule",
+      "meaning": "Summarizes the Le Chatelier idea without pretending the bench is a full chemistry engine."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "reactant-amount",
+      "symbol": "R_0",
+      "label": "Starting reactant amount",
+      "param": "reactantAmount",
+      "tone": "teal",
+      "description": "Sets how much reactant the bench starts with before the reversible exchange begins.",
+      "equationIds": [
+        "net-change",
+        "dynamic-equilibrium"
+      ],
+      "graphIds": [
+        "concentration-history",
+        "rate-balance"
+      ],
+      "overlayIds": [
+        "targetBand",
+        "balanceBars"
+      ]
+    },
+    {
+      "id": "product-amount",
+      "symbol": "P_0",
+      "label": "Starting product amount",
+      "param": "productAmount",
+      "tone": "coral",
+      "description": "Sets how much product the bench starts with before the exchange begins.",
+      "equationIds": [
+        "net-change",
+        "dynamic-equilibrium"
+      ],
+      "graphIds": [
+        "concentration-history",
+        "rate-balance"
+      ],
+      "overlayIds": [
+        "targetBand",
+        "balanceBars"
+      ]
+    },
+    {
+      "id": "product-favor",
+      "symbol": "f",
+      "label": "Product-favor setting",
+      "param": "productFavor",
+      "tone": "sky",
+      "description": "Leans the settled mixture toward products or reactants once the system has time to rebalance.",
+      "equationIds": [
+        "dynamic-equilibrium",
+        "new-balance"
+      ],
+      "graphIds": [
+        "equilibrium-share",
+        "concentration-history"
+      ],
+      "overlayIds": [
+        "targetBand"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "reactantAmount": 14,
+      "productAmount": 4,
+      "productFavor": 1.12,
+      "dynamicExchange": true,
+      "balanceBars": false,
+      "targetBand": true
+    },
+    "ui": {
+      "initialGraphId": "concentration-history",
+      "primaryGraphIds": [
+        "concentration-history"
+      ],
+      "primaryControlIds": [
+        "reactant-amount"
+      ],
+      "primaryPresetIds": [],
+      "starterExploreTasks": [
+        "Let the system settle until the mixture changes slowly.",
+        "Increase the reactant amount and watch the mixture-over-time graph bend toward a new balance.",
+        "Use the exchange cue to confirm that the reaction is still active while the mixture rebalances.",
+        "Compare the new settled mix with the earlier equilibrium before you open more controls."
+      ]
+    },
+    "controls": [
+      {
+        "id": "reactant-amount",
+        "kind": "slider",
+        "label": "Reactant amount",
+        "param": "reactantAmount",
+        "min": 3,
+        "max": 18,
+        "step": 0.5,
+        "description": "Set how much reactant the system starts with."
+      },
+      {
+        "id": "product-amount",
+        "kind": "slider",
+        "label": "Product amount",
+        "param": "productAmount",
+        "min": 3,
+        "max": 18,
+        "step": 0.5,
+        "description": "Set how much product the system starts with."
+      },
+      {
+        "id": "product-favor",
+        "kind": "slider",
+        "label": "Product-favor setting",
+        "param": "productFavor",
+        "min": 0.75,
+        "max": 1.45,
+        "step": 0.01,
+        "description": "Lean the final equilibrium toward products or reactants."
+      }
+    ],
+    "presets": [
+      {
+        "id": "reactant-heavy-start",
+        "label": "Reactant-heavy start",
+        "description": "A disturbed mixture that still needs to move strongly toward products.",
+        "values": {
+          "reactantAmount": 14,
+          "productAmount": 4,
+          "productFavor": 1.12
+        }
+      },
+      {
+        "id": "product-heavy-start",
+        "label": "Product-heavy start",
+        "description": "A disturbed mixture that begins beyond the settled product share.",
+        "values": {
+          "reactantAmount": 4,
+          "productAmount": 14,
+          "productFavor": 1.12
+        }
+      },
+      {
+        "id": "product-favored",
+        "label": "Product-favored conditions",
+        "description": "Conditions that pull the system toward a more product-rich equilibrium.",
+        "values": {
+          "reactantAmount": 14,
+          "productAmount": 4,
+          "productFavor": 1.34
+        }
+      },
+      {
+        "id": "reactant-favored",
+        "label": "Reactant-favored conditions",
+        "description": "Conditions that pull the system back toward reactants.",
+        "values": {
+          "reactantAmount": 8,
+          "productAmount": 10,
+          "productFavor": 0.82
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "dynamicExchange",
+        "label": "Dynamic exchange",
+        "shortDescription": "Keep the forward and reverse pulse cues visible.",
+        "whatToNotice": [
+          "The pulse cues can keep firing even when the overall mixture stops changing much."
+        ],
+        "whyItMatters": "It makes dynamic equilibrium visible instead of leaving it as a sentence in the text.",
+        "relatedControls": [
+          "reactantAmount",
+          "productAmount"
+        ],
+        "relatedGraphTabs": [
+          "rate-balance"
+        ],
+        "relatedEquationVariables": [
+          "reactant-amount",
+          "product-amount"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "balanceBars",
+        "label": "Balance bars",
+        "shortDescription": "Show the forward and reverse rates side by side.",
+        "whatToNotice": [
+          "A steady-looking mixture is not enough. The real equilibrium cue is that the two rate bars have nearly matched."
+        ],
+        "whyItMatters": "It keeps the definition of equilibrium tied to forward and reverse rates.",
+        "relatedControls": [
+          "reactantAmount",
+          "productAmount"
+        ],
+        "relatedGraphTabs": [
+          "rate-balance"
+        ],
+        "relatedEquationVariables": [
+          "reactant-amount",
+          "product-amount"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "targetBand",
+        "label": "Target mix",
+        "shortDescription": "Keep the current mix and the settled target visible together.",
+        "whatToNotice": [
+          "The system only keeps moving while the current mixture still differs from the new target."
+        ],
+        "whyItMatters": "It makes the shift toward a new equilibrium visual instead of abstract.",
+        "relatedControls": [
+          "productFavor"
+        ],
+        "relatedGraphTabs": [
+          "concentration-history",
+          "equilibrium-share"
+        ],
+        "relatedEquationVariables": [
+          "product-favor"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "concentration-history",
+      "label": "Mixture over time",
+      "xLabel": "Time",
+      "yLabel": "Amount",
+      "series": [
+        "reactants",
+        "products"
+      ],
+      "description": "Shows how reactants and products move toward the settled mix."
+    },
+    {
+      "id": "rate-balance",
+      "label": "Forward vs reverse rate",
+      "xLabel": "Time",
+      "yLabel": "Rate",
+      "series": [
+        "forward-rate",
+        "reverse-rate"
+      ],
+      "description": "Shows when the forward and reverse tendencies come back into balance."
+    },
+    {
+      "id": "equilibrium-share",
+      "label": "Settled product share",
+      "xLabel": "Product-favor setting",
+      "yLabel": "Settled product share",
+      "series": [
+        "product-share"
+      ],
+      "description": "Shows how the equilibrium mix changes when the conditions favor products more or less strongly."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Stay with the same chemistry bench and read the rate bars, the current mix, and the settled target together.",
+    "items": [
+      {
+        "id": "de-notice-dynamic",
+        "text": "The mixture can look steady while both pulse directions are still active. Equilibrium here means balance, not stoppage.",
+        "type": "observation",
+        "priority": 10,
+        "conditions": {
+          "graphTabs": [
+            "rate-balance"
+          ]
+        },
+        "whyItMatters": "This is the core distinction between dynamic equilibrium and a stopped reaction.",
+        "relatedOverlays": [
+          "dynamicExchange",
+          "balanceBars"
+        ]
+      },
+      {
+        "id": "de-notice-disturbance",
+        "text": "A disturbance is only visible if the current mix and the settled target no longer match. Watch the target band and the time history together.",
+        "type": "graph-reading",
+        "priority": 9,
+        "conditions": {
+          "graphTabs": [
+            "concentration-history"
+          ]
+        },
+        "relatedControls": [
+          "reactantAmount",
+          "productAmount",
+          "productFavor"
+        ],
+        "relatedOverlays": [
+          "targetBand"
+        ]
+      },
+      {
+        "id": "de-notice-le-chatelier",
+        "text": "The system does not jump instantly to the new balance. First the rates separate, then the mixture moves, and only later do the rates match again.",
+        "type": "try-this",
+        "priority": 8,
+        "conditions": {
+          "graphTabs": [
+            "rate-balance"
+          ],
+          "modes": [
+            "explore"
+          ]
+        },
+        "tryThis": "Apply one preset, then switch to the opposite favor setting and watch the full re-balancing path before you change anything else.",
+        "relatedGraphTabs": [
+          "rate-balance",
+          "concentration-history"
+        ],
+        "relatedOverlays": [
+          "balanceBars",
+          "targetBand"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the direction of the shift before you test it. The question is always how the disturbance changes the current mix relative to the new target.",
+    "items": [
+      {
+        "id": "de-predict-add-reactants",
+        "prompt": "From the reactant-heavy start, you keep the same favor setting and add even more reactants. What should happen first?",
+        "scenarioLabel": "Add more reactants",
+        "changeLabel": "Bigger reactant disturbance",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The forward rate should pull ahead until the product side catches up."
+          },
+          {
+            "id": "b",
+            "label": "The reaction should stop because the mixture is too uneven."
+          },
+          {
+            "id": "c",
+            "label": "The reverse rate should dominate immediately."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "With extra reactants and the same favor setting, the forward change has more room to act first, so the system moves toward products until the rates match again.",
+        "observationHint": "Watch the forward bar separate first, then watch the products curve rise toward the settled mix.",
+        "apply": {
+          "patch": {
+            "reactantAmount": 17,
+            "productAmount": 4,
+            "productFavor": 1.12
+          }
+        },
+        "highlightedControls": [
+          "reactantAmount"
+        ],
+        "highlightedGraphs": [
+          "rate-balance",
+          "concentration-history"
+        ],
+        "highlightedOverlays": [
+          "balanceBars",
+          "targetBand"
+        ]
+      },
+      {
+        "id": "de-predict-lower-favor",
+        "prompt": "You switch from a product-favored setting to a reactant-favored one while keeping the same starting amounts. What should the settled mixture do?",
+        "scenarioLabel": "Lower the product-favor setting",
+        "changeLabel": "Shift the conditions toward reactants",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The settled product share should drop, and the reverse rate should lead during the shift."
+          },
+          {
+            "id": "b",
+            "label": "The settled product share should stay the same because the initial amounts have not changed."
+          },
+          {
+            "id": "c",
+            "label": "Both rates should instantly become zero."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Changing the favor setting changes the target equilibrium mix. The system then moves toward that new target, which means reverse change can lead until the new balance is reached.",
+        "observationHint": "Compare the target-share graph with the balance bars after the switch.",
+        "apply": {
+          "presetId": "reactant-favored"
+        },
+        "highlightedControls": [
+          "productFavor"
+        ],
+        "highlightedGraphs": [
+          "equilibrium-share",
+          "rate-balance"
+        ],
+        "highlightedOverlays": [
+          "balanceBars",
+          "targetBand"
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live equilibrium story, not from a slogan about the reaction being finished.",
+    "questions": [
+      {
+        "id": "de-qt-dynamic",
+        "type": "misconception-check",
+        "prompt": "What is the cleanest description of dynamic equilibrium?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Forward and reverse changes are still happening, but they balance."
+          },
+          {
+            "id": "b",
+            "label": "Nothing is happening at all."
+          },
+          {
+            "id": "c",
+            "label": "Only the forward reaction keeps going."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The steady mixture comes from matching rates, not from microscopic inactivity.",
+        "selectedWrongExplanations": {
+          "b": "That erases the pulse cues and the balance-bar idea. The exchange can continue even when the amounts stop changing.",
+          "c": "If only the forward change kept going, the mixture would keep drifting instead of settling."
+        },
+        "showMeAction": {
+          "label": "Show the steady-looking exchange",
+          "presetId": "product-favored",
+          "observationHint": "The balance bars can nearly match while the pulse cues still remain active.",
+          "highlightedGraphIds": [
+            "rate-balance"
+          ],
+          "highlightedOverlayIds": [
+            "dynamicExchange",
+            "balanceBars"
+          ]
+        }
+      },
+      {
+        "id": "de-qt-disturbance",
+        "type": "reasoning",
+        "prompt": "If the current mix is below the new settled product share, what should happen next?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The mixture should move toward more products until the rates match again."
+          },
+          {
+            "id": "b",
+            "label": "The mixture should freeze where it is because equilibrium has already happened once."
+          },
+          {
+            "id": "c",
+            "label": "The system should always move toward fewer products."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "If the current mix is below the new target, the forward side has room to dominate until the settled share is reached.",
+        "selectedWrongExplanations": {
+          "b": "Equilibrium can shift. A new disturbance creates a new target mix.",
+          "c": "The direction depends on the disturbance and the new target, not on a fixed rule about products."
+        },
+        "showMeAction": {
+          "label": "Show the product-favored shift",
+          "presetId": "product-favored",
+          "observationHint": "The target share sits above the current mix, so products grow until the rates match again.",
+          "highlightedGraphIds": [
+            "concentration-history",
+            "equilibrium-share"
+          ],
+          "highlightedOverlayIds": [
+            "targetBand"
+          ]
+        }
+      },
+      {
+        "id": "de-qt-forward-reverse",
+        "type": "graph-reading",
+        "prompt": "Which graph cue most honestly tells you the system is near equilibrium?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The forward and reverse rate curves are nearly on top of each other."
+          },
+          {
+            "id": "b",
+            "label": "The current amounts are both non-zero."
+          },
+          {
+            "id": "c",
+            "label": "The product line is above the reactant line."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Equal or nearly equal forward and reverse rates are the actual equilibrium test on this bench.",
+        "selectedWrongExplanations": {
+          "b": "Having both species present does not guarantee equilibrium.",
+          "c": "Products can be above reactants without the rates being balanced yet."
+        },
+        "showMeAction": {
+          "label": "Show the near-balance region",
+          "presetId": "reactant-heavy-start",
+          "observationHint": "Near the end of the run, the two rate curves nearly meet even though both are still clearly non-zero.",
+          "highlightedGraphIds": [
+            "rate-balance"
+          ],
+          "highlightedOverlayIds": [
+            "balanceBars"
+          ]
+        }
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Disturb the chemistry honestly, then wait for the system to rebalance instead of treating equilibrium as an instant switch.",
+    "items": [
+      {
+        "id": "de-ch-disturb-then-rebalance",
+        "title": "Disturb, then rebalance",
+        "style": "visible-condition",
+        "prompt": "Build a product-favored equilibrium from a reactant-heavy start, then let the forward and reverse rates come back together while the product share stays clearly above one-half.",
+        "successMessage": "You created a real shift and let the mixture settle into a new balance. The system is now product-favored, but the equilibrium cue is still the near-match between forward and reverse rates.",
+        "setup": {
+          "presetId": "reactant-heavy-start",
+          "graphId": "rate-balance",
+          "overlayIds": [
+            "dynamicExchange",
+            "balanceBars",
+            "targetBand"
+          ],
+          "note": "Change the favor setting or the starting mix, then give the bench time to rebalance."
+        },
+        "requirements": {
+          "graphId": "rate-balance",
+          "overlayIds": [
+            "dynamicExchange",
+            "balanceBars",
+            "targetBand"
+          ],
+          "timeSource": "live",
+          "timeRange": {
+            "min": 7.5,
+            "label": "Let the bench run long enough to approach the new balance."
+          }
+        },
+        "hints": [
+          "Start from a reactant-heavy mixture, then lean the conditions toward products so the new target share rises above one-half.",
+          "The challenge only counts once the system has had time to bring the forward and reverse rates close again."
+        ],
+        "targets": [
+          {
+            "metric": "productFavor",
+            "label": "Use a clearly product-favored setting between 1.28 and 1.4.",
+            "min": 1.28,
+            "max": 1.4
+          },
+          {
+            "metric": "productShare",
+            "label": "Keep the current product share between 58% and 70%.",
+            "min": 0.58,
+            "max": 0.7
+          },
+          {
+            "metric": "rateGap",
+            "label": "Bring the forward-reverse rate gap down below 0.14.",
+            "min": 0,
+            "max": 0.14
+          }
+        ]
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a reversible chemistry bench with reactants and products visible at the same time, plus pulse cues for forward and reverse change and balance bars for the current rates. Sliders change the starting amounts and the product-favor setting.",
+        "A readout card reports the current reactant amount, product amount, forward rate, reverse rate, and settled product share so the learner can compare the moving bench with the graphs."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "One graph shows the reactant and product amounts over time, a second compares the forward and reverse rates over time, and a third shows the settled product share against the product-favor setting.",
+        "Graph hover, compare mode, and the shared overlays all stay attached to the same chemistry bench and do not open a separate chemistry-only view."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Dynamic Equilibrium / Le Chatelier's Principle",
+    "description": "Explore dynamic equilibrium, forward and reverse rate balance, and visible shifts toward a new equilibrium on a live chemistry bench.",
+    "keywords": [
+      "dynamic equilibrium",
+      "Le Chatelier principle",
+      "chemical equilibrium",
+      "forward and reverse reaction",
+      "chemistry"
+    ]
+  }
+}

@@ -1,0 +1,274 @@
+{
+"pageFramework": {
+"sections": [
+{
+"id": "workedExamples",
+"title": "Work from the live state"
+},
+{
+"id": "miniChallenge",
+"title": "Speed and curvature checkpoint"
+},
+{
+"id": "readNext",
+"title": "Continue with related ideas"
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"A magnetic field does not push a resting charge, and it does not push a moving charge along the field the way an electric field can. In this lab the velocity lies in the page and the field points into or out of the page, so q v x B is sideways to the motion.",
+"That sideways force changes heading rather than directly changing speed. Use the force arrow, orbit guide, and force graph together: |F_q| grows with speed and field strength, while r = mv / (|q|B) explains why a faster charge can trace a wider arc.",
+"The same stage also shows a 1 m current segment using I L x B. A charge-sign flip reverses only q v x B, but a field flip reverses both the moving-charge force and the wire force."
+]
+},
+"keyIdeas": [
+"In this module the charge velocity is perpendicular to the magnetic field, so |F_q| = |q|vB and the force lies in the page at right angles to the velocity.",
+"Because the magnetic force is perpendicular to the motion, it changes direction without directly changing speed; a velocity parallel to the field would not curve in this simplified setup.",
+"Flipping either the charge sign or the magnetic-field direction reverses the moving-charge force. Flipping both together restores the original bend direction.",
+"At fixed field, increasing speed makes the magnetic force larger but also makes the circular path radius larger, because the faster charge is harder to turn.",
+"A current segment uses I L x B. If the segment points the same way as a positive moving charge, it gives the same force side."
+],
+"commonMisconception": {
+"correction": [
+"In this ideal uniform-field setup the magnetic force is perpendicular to the velocity, so it changes direction without directly changing the speed.",
+"What changes is the heading, not the kinetic-energy scale. That is why the force graph rotates through x and y components while the speed readout stays fixed."
+]
+},
+"workedExamples": {
+"title": "Work from the live state",
+"intro": "Use the current field sense, charge sign, direction angle, and speed directly from the stage. The charge path, wire-force panel, graphs, and orbit guide all read the same live setup.",
+"items": [
+{
+"id": "current-charge-force",
+"title": "Moving-charge force and turning radius",
+"prompt": "For the current moving charge, what magnetic force acts now, and what turning radius follows from that state?",
+"steps": [
+{
+"id": "direction-baseline",
+"label": "1. Set the force direction from the positive-charge baseline"
+},
+{
+"id": "magnitude",
+"label": "2. Use the live speed and field size for the force magnitude"
+},
+{
+"id": "radius",
+"label": "3. Convert that same state into the turning radius"
+}
+],
+"applyAction": {
+"label": "Flip only the field",
+"observationHint": "Keep the launch angle fixed and flip only the field sign. The force arrow and bend direction reverse together."
+}
+},
+{
+"id": "current-wire-force",
+"title": "Wire-segment force from the same field",
+"steps": [
+{
+"id": "wire-direction",
+"label": "1. Use the same field sense and segment direction"
+},
+{
+"id": "wire-magnitude",
+"label": "2. Calculate the 1 m segment force with I L x B"
+},
+{
+"id": "wire-compare",
+"label": "3. Compare the wire force with the charge case"
+}
+],
+"applyAction": {
+"label": "Load charge down, wire up",
+"observationHint": "The negative charge flips only the moving-charge force. The wire panel still follows I L x B."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "If the magnetic field stays fixed, why can a faster charge feel a larger magnetic force and still trace a wider circle rather than a tighter one?",
+"prediction": "Before you raise the speed slider, predict what happens to both |F_q| and r.",
+"answer": "Because |F_q| grows with speed, but the turning radius also grows with speed in the same field. The charge is pushed harder, but it is also harder to turn.",
+"explanation": "The field produces a larger sideways force on the faster charge, but the faster charge also has more momentum to redirect. In this uniform-field model that makes the path wider even while the force grows."
+}
+},
+"equations": [
+{
+"id": "charge-force-magnitude",
+"meaning": "In this module the velocity stays perpendicular to the field, so the force size is set by |q|, speed, and field strength."
+},
+{
+"id": "charge-radius",
+"meaning": "For the same |B|, a faster charge follows a larger-radius arc, while a stronger field makes the turn tighter."
+},
+{
+"id": "wire-force-vector",
+"meaning": "A 1 m current segment uses the same cross-product direction rule as a positive moving charge pointing the same way."
+},
+{
+"id": "wire-force-magnitude",
+"meaning": "For the 1 m segment in this lab, the wire force grows with current and field strength while the cross product sets the force side."
+}
+],
+"variableLinks": [
+{
+"id": "chargeSign",
+"description": "Flips only the moving-charge force. The wire panel is unchanged because it follows current direction, not charge sign."
+}
+],
+"simulation": {
+"ui": {
+"initialGraphId": "force",
+"primaryGraphIds": [
+"force"
+],
+"primaryControlIds": [
+"negativeCharge"
+],
+"primaryPresetIds": []
+},
+"controls": [
+{
+"id": "speed",
+"description": "Sets the charge speed before the magnetic field bends the path. In the same field, higher speed also means a larger turning radius."
+},
+{
+"id": "negativeCharge",
+"description": "Flips only the moving-charge force. The wire panel still follows the current-segment rule."
+}
+],
+"overlays": [
+{
+"id": "fieldMarkers",
+"shortDescription": "Shows whether the uniform magnetic field points out of or into the page using dots or crosses.",
+"whyItMatters": "You need the field sense before you can decide the force side."
+},
+{
+"id": "motionVectors",
+"whyItMatters": "This is why the path bends without the magnetic force changing the speed."
+},
+{
+"id": "orbitGuide",
+"shortDescription": "Shows the predicted circular path and the instantaneous orbit center for the live charge state.",
+"whatToNotice": [
+"A stronger field tightens the orbit, but a higher speed widens it even though the force is larger."
+],
+"whyItMatters": "It prevents the common mistake that a larger magnetic force must mean tighter curvature."
+},
+{
+"id": "wireForcePanel",
+"shortDescription": "Shows the 1 m current segment with the same direction angle and the magnetic force on it.",
+"whyItMatters": "It keeps the bridge from one moving charge to current in a wire visible on the same stage."
+}
+]
+},
+"graphs": [
+{
+"id": "position",
+"description": "Tracks the charge x- and y-coordinates while the stage shows the same orbit."
+},
+{
+"id": "force",
+"description": "Shows how the x- and y-components rotate while |F_q| stays fixed for one setup."
+}
+],
+"noticePrompts": {
+"intro": "Use these prompts to connect the same force story across the stage, wire panel, and graphs before reaching for a memorized hand rule.",
+"items": [
+{
+"id": "mfmc-notice-positive-baseline",
+"text": "For a positive charge moving right in an out-of-page field, the force points downward. A same-direction current segment points to the same side.",
+"tryThis": "Start from Positive bends down, then toggle Negative charge without changing any other control.",
+"whyItMatters": "This establishes the baseline before any sign flips."
+},
+{
+"id": "mfmc-notice-sign-flip",
+"text": "One sign flip reverses the moving-charge force. Flipping q changes only qv x B, while flipping B reverses both the charge force and the wire force.",
+"whyItMatters": "It separates the role of the moving charge from the role of the magnetic field instead of treating every reversal as the same rule."
+},
+{
+"id": "mfmc-notice-speed-radius",
+"text": "Raising speed in the same field makes |F_q| larger and the orbit wider. Bigger magnetic force does not automatically mean tighter curvature.",
+"whyItMatters": "This is the counterintuitive part of magnetic curvature that many learners miss on a first pass."
+},
+{
+"id": "mfmc-notice-force-graph",
+"text": "On the force graph, F_q,x and F_q,y rotate through positive and negative values while |F_q| stays fixed for one setup. The graph is tracking the same sideways force arrow shown on the stage.",
+"whyItMatters": "It turns the graph into a force-reading tool instead of a separate plot."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict the force response before you apply the change. Each scenario changes one cause at a time so you can separate field sign, charge sign, and speed.",
+"items": [
+{
+"id": "mfmc-pred-field-flip",
+"explanation": "The field vector is part of both cross products. Reversing B reverses the moving-charge force and the current-segment force together, so the bend direction flips on the stage and the wire panel flips too.",
+"observationHint": "Watch the field markers, charge-force arrow, and wire-force arrow change side together."
+},
+{
+"id": "mfmc-pred-speed-up",
+"explanation": "In this perpendicular setup |F_q| scales with speed, so a larger speed gives a larger force. But the radius also scales with speed in the same field, so the faster charge curves more gently.",
+"observationHint": "Use the orbit guide and the force graph together. The force scale rises while the path widens."
+},
+{
+"id": "mfmc-pred-charge-sign",
+"explanation": "Changing q reverses only qv x B. The wire segment still uses I L x B with the same current direction, so the wire-force side does not flip unless the field or current direction flips too.",
+"observationHint": "The charge arrow changes side while the wire-force arrow stays put."
+}
+]
+},
+"challengeMode": {
+"intro": "Use the same bounded field setup to build target force patterns. The goal is to separate charge-sign effects from current-direction effects instead of memorizing a single rule.",
+"items": [
+{
+"id": "mfmc-ch-charge-down-wire-up",
+"successMessage": "You separated the two rules correctly: changing the charge sign flipped q v x B for the moving charge, but the wire segment kept the I L x B direction in the same field.",
+"setup": {
+"note": "Keep the launch angle near 0 deg so the vertical force split is easy to read."
+},
+"hints": [
+"One change must affect the moving charge but not the wire panel.",
+"The target is easiest to see when the shared in-page direction stays nearly horizontal."
+]
+},
+{
+"id": "mfmc-ch-faster-wider-arc",
+"title": "Stronger force, wider path",
+"prompt": "Open compare mode from Positive bends down. Keep Setup A as the baseline, but make Setup B show both a larger moving-charge force and a wider orbit by changing only the speed.",
+"successMessage": "You kept the magnetic-curvature story honest: Setup B has the larger force and the larger radius, so a faster charge can bend more gently even while the force grows.",
+"hints": [
+"Leave Setup A unchanged and edit only Setup B.",
+"The wire-panel force should stay the same if only the charge speed changes."
+]
+}
+]
+},
+"quickTest": {
+"intro": "Answer from force logic, not from a memorized chant. Ask what the field direction, charge sign, speed, and current segment together imply.",
+"questions": [
+{
+"id": "mfmc-qt-positive-baseline",
+"explanation": "Using the positive-charge right-hand rule with velocity to the right and field out of the page gives a downward magnetic force."
+},
+{
+"id": "mfmc-qt-charge-vs-current",
+"explanation": "Changing the charge sign reverses qv x B. The wire panel still follows I L x B with the same current direction, so its force side stays the same."
+},
+{
+"id": "mfmc-qt-speed-radius",
+"explanation": "The force scale is qvB, so it grows with speed. But the path radius also grows with speed in the same field, so a faster charge curves more gently."
+},
+{
+"id": "mfmc-qt-stronger-field",
+"explanation": "A stronger field increases qvB and also makes the charge turn more quickly, because the radius becomes smaller in the same speed range.",
+"showMeAction": {
+"label": "Increase the field",
+"observationHint": "Use the force graph and orbit guide together. The force grows and the charge turns through the preview window more quickly."
+}
+}
+]
+}
+}

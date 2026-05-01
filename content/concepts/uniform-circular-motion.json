@@ -1,0 +1,1417 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live circular-motion examples"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Vector checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Follow this motion next"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Track one particle moving at constant speed around a circle, then connect its tangent velocity, inward acceleration, projections, and force requirement to the same live state.",
+    "whyItMatters": "It is the bridge from simple harmonic projections to orbits and centripetal-force questions: you learn to read direction change, not just speed.",
+    "keyTakeaway": "Constant speed does not mean constant velocity. The velocity is tangent, while the acceleration points inward to keep the path turning."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Uniform circular motion is the cleanest place to see why constant speed does not mean zero acceleration. The particle keeps turning, so its velocity changes direction even when the speed stays fixed.",
+        "Open Model Lab pairs the orbit, vectors, and time graphs so you can connect radius, angular speed, tangent velocity, and inward acceleration to the same live state instead of treating them as separate formulas."
+      ]
+    },
+    "keyIdeas": [
+      "Velocity is always tangent to the path, not pointed toward the center.",
+      "Centripetal acceleration points inward because the motion keeps turning, even when the speed stays constant.",
+      "The x and y projections of circular motion behave like oscillations, which is why uniform circular motion connects naturally to simple harmonic motion."
+    ],
+    "commonMisconception": {
+      "myth": "If the particle moves at constant speed, its acceleration must be zero.",
+      "correction": [
+        "Speed tells you how fast the particle moves, but velocity also includes direction.",
+        "In uniform circular motion the direction changes continuously, so there must be a nonzero inward acceleration even when the speed readout stays constant."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Use the current orbit and time state directly. In live mode the substitution updates from the real controls and inspected time.",
+      "items": [
+        {
+          "id": "current-x-projection",
+          "title": "Current x projection",
+          "prompt": "For the current state, what is the horizontal projection at $t = {{timeValue}}\\,\\mathrm{s}$?",
+          "dependsOnTime": true,
+          "variables": [
+            {
+              "id": "time",
+              "symbol": "t",
+              "label": "Time",
+              "valueKey": "timeValue",
+              "unit": "s"
+            },
+            {
+              "id": "radius",
+              "variableId": "radius",
+              "symbol": "R",
+              "label": "Radius",
+              "valueKey": "radiusValue",
+              "unit": "m"
+            },
+            {
+              "id": "omega",
+              "variableId": "omega",
+              "symbol": "\\omega",
+              "label": "Angular speed",
+              "valueKey": "omegaValue",
+              "unit": "rad/s"
+            },
+            {
+              "id": "phase",
+              "variableId": "phase",
+              "symbol": "\\phi",
+              "label": "Phase",
+              "valueKey": "phaseValue",
+              "unit": "rad"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Identify the projection relation",
+              "template": "Use the horizontal projection of circular motion: $x(t) = R\\cos(\\omega t + \\phi)$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the current values",
+              "template": "$x({{timeValue}}) = {{radiusValue}}\\cos({{omegaValue}}\\cdot {{timeValue}} + {{phaseValue}})$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compute the current projection",
+              "template": "The current angle is $\\theta = {{angleValue}}$, so the horizontal position is $x = {{xValue}}\\,\\mathrm{m}$."
+            }
+          ],
+          "resultLabel": "Current horizontal projection",
+          "resultTemplate": "$x({{timeValue}}) = {{xValue}}\\,\\mathrm{m}$",
+          "interpretationTemplate": "{{projectionInterpretation}}",
+          "applyAction": {
+            "label": "Show the projection link",
+            "presetId": "projection-link",
+            "observationHint": "Turn on the projection guides and compare the particle with the x(t) graph marker.",
+            "highlightedControlIds": [
+              "radius",
+              "omega",
+              "phase"
+            ],
+            "highlightedGraphIds": [
+              "projections"
+            ],
+            "highlightedOverlayIds": [
+              "projectionGuides",
+              "angleMarker"
+            ]
+          }
+        },
+        {
+          "id": "centripetal-acceleration",
+          "title": "Centripetal acceleration",
+          "prompt": "What centripetal acceleration is required for the current circular motion?",
+          "variables": [
+            {
+              "id": "radius",
+              "variableId": "radius",
+              "symbol": "R",
+              "label": "Radius",
+              "valueKey": "radiusValue",
+              "unit": "m"
+            },
+            {
+              "id": "omega",
+              "variableId": "omega",
+              "symbol": "\\omega",
+              "label": "Angular speed",
+              "valueKey": "omegaValue",
+              "unit": "rad/s"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Identify the inward-acceleration relation",
+              "template": "For uniform circular motion, $a_c = \\omega^2 R$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the current values",
+              "template": "$a_c = ({{omegaValue}})^2\\cdot {{radiusValue}}$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compute the inward acceleration",
+              "template": "That gives $a_c = {{centripetalAccelerationValue}}\\,\\mathrm{m/s^2}$."
+            }
+          ],
+          "resultLabel": "Current centripetal acceleration",
+          "resultTemplate": "$a_c = {{centripetalAccelerationValue}}\\,\\mathrm{m/s^2}$",
+          "interpretationTemplate": "{{centripetalInterpretation}}",
+          "applyAction": {
+            "label": "Show a tighter turn",
+            "presetId": "tight-turn",
+            "observationHint": "The inward arrow grows because a smaller turning circle at higher angular speed needs more centripetal acceleration.",
+            "highlightedControlIds": [
+              "radius",
+              "omega"
+            ],
+            "highlightedGraphIds": [
+              "velocity"
+            ],
+            "highlightedOverlayIds": [
+              "centripetalVector",
+              "velocityVector"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "At the very top of the circle, which direction must the velocity vector point, and which direction must the centripetal acceleration point?",
+      "prediction": "Decide before you turn on the vectors whether either arrow can point straight up at that instant.",
+      "answer": "At the top of the circle, the velocity must be tangent to the orbit, so it points sideways. The centripetal acceleration still points inward, so it points straight toward the center.",
+      "explanation": "Velocity follows the tangent, while centripetal acceleration follows the inward radius. They are perpendicular in uniform circular motion."
+    }
+  },
+  "equations": [
+    {
+      "id": "ucm-angle",
+      "latex": "\\theta(t) = \\omega t + \\phi",
+      "label": "Angle in time",
+      "meaning": "The angular position increases linearly when angular speed is constant.",
+      "notes": [
+        "\\omega sets how quickly the particle sweeps around the circle.",
+        "\\phi chooses the starting angle."
+      ]
+    },
+    {
+      "id": "ucm-x",
+      "latex": "x(t) = R\\cos(\\theta) = R\\cos(\\omega t + \\phi)",
+      "label": "Horizontal projection",
+      "meaning": "The horizontal component of the motion is a cosine projection of the circle."
+    },
+    {
+      "id": "ucm-y",
+      "latex": "y(t) = R\\sin(\\theta) = R\\sin(\\omega t + \\phi)",
+      "label": "Vertical projection",
+      "meaning": "The vertical component is the matching sine projection of the same circular motion."
+    },
+    {
+      "id": "ucm-speed",
+      "latex": "v = \\omega R",
+      "label": "Tangential speed",
+      "meaning": "The speed stays constant for uniform circular motion and depends on both radius and angular speed."
+    },
+    {
+      "id": "ucm-centripetal",
+      "latex": "a_c = \\omega^2 R = \\dfrac{v^2}{R}",
+      "label": "Centripetal acceleration",
+      "meaning": "The inward acceleration needed to keep the motion turning."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "radius",
+      "symbol": "R",
+      "label": "Radius",
+      "param": "radius",
+      "tone": "amber",
+      "description": "Sets the size of the orbit, so it changes the circle itself and the size of the x(t) and y(t) projections.",
+      "equationIds": [
+        "ucm-x",
+        "ucm-y",
+        "ucm-speed",
+        "ucm-centripetal"
+      ],
+      "graphIds": [
+        "projections",
+        "velocity"
+      ],
+      "overlayIds": [
+        "radiusVector",
+        "projectionGuides"
+      ]
+    },
+    {
+      "id": "omega",
+      "symbol": "\\omega",
+      "label": "Angular speed",
+      "param": "omega",
+      "tone": "teal",
+      "description": "Sets how quickly the particle turns, so the angle graph steepens and the tangent and inward vectors change size.",
+      "equationIds": [
+        "ucm-angle",
+        "ucm-speed",
+        "ucm-centripetal"
+      ],
+      "graphIds": [
+        "projections",
+        "velocity",
+        "angle"
+      ],
+      "overlayIds": [
+        "velocityVector",
+        "centripetalVector"
+      ]
+    },
+    {
+      "id": "phase",
+      "symbol": "\\phi",
+      "label": "Phase",
+      "param": "phase",
+      "tone": "coral",
+      "description": "Sets the starting angle on the circle, so it shifts where the particle begins without changing the orbit size or speed.",
+      "equationIds": [
+        "ucm-angle",
+        "ucm-x",
+        "ucm-y"
+      ],
+      "graphIds": [
+        "projections",
+        "angle"
+      ],
+      "overlayIds": [
+        "angleMarker",
+        "projectionGuides"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "radius": 1.2,
+      "omega": 1.4,
+      "phase": 0.3,
+      "radiusVector": true,
+      "velocityVector": true,
+      "centripetalVector": true,
+      "angleMarker": true,
+      "projectionGuides": false
+    },
+    "ui": {
+      "initialGraphId": "velocity",
+      "primaryGraphIds": [
+        "velocity",
+        "projections"
+      ],
+      "primaryControlIds": [
+        "omega",
+        "radius"
+      ],
+      "primaryPresetIds": [
+        "reference-orbit",
+        "fast-spin",
+        "projection-link"
+      ],
+      "starterExploreTasks": [
+        "Keep the velocity graph open and compare the tangent arrow with the inward acceleration arrow.",
+        "Raise Angular speed without changing the radius, then watch the period shrink and the inward arrow grow.",
+        "Turn on Projection guides to see x(t) and y(t) as axis views of the same circular motion."
+      ]
+    },
+    "controls": [
+      {
+        "id": "radius",
+        "kind": "slider",
+        "label": "Radius",
+        "param": "radius",
+        "min": 0.6,
+        "max": 1.8,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Controls the size of the orbit."
+      },
+      {
+        "id": "omega",
+        "kind": "slider",
+        "label": "Angular speed",
+        "param": "omega",
+        "min": 0.4,
+        "max": 3.2,
+        "step": 0.05,
+        "unit": "rad/s",
+        "description": "Controls how quickly the particle sweeps around the circle."
+      },
+      {
+        "id": "phase",
+        "kind": "slider",
+        "label": "Phase",
+        "param": "phase",
+        "min": 0,
+        "max": 6.283185307179586,
+        "step": 0.01,
+        "unit": "rad",
+        "description": "Sets the starting angle on the orbit."
+      }
+    ],
+    "presets": [
+      {
+        "id": "reference-orbit",
+        "label": "Reference orbit",
+        "description": "A balanced circular motion case with readable vectors.",
+        "values": {
+          "radius": 1.2,
+          "omega": 1.4,
+          "phase": 0.3
+        }
+      },
+      {
+        "id": "fast-spin",
+        "label": "Fast spin",
+        "description": "The orbit size stays moderate while the angular speed increases sharply.",
+        "values": {
+          "radius": 1.1,
+          "omega": 2.8,
+          "phase": 0.15
+        }
+      },
+      {
+        "id": "wide-orbit",
+        "label": "Wide orbit",
+        "description": "A larger radius makes the orbit and projection swings easier to compare.",
+        "values": {
+          "radius": 1.7,
+          "omega": 1.2,
+          "phase": 0.75
+        }
+      },
+      {
+        "id": "projection-link",
+        "label": "Projection link",
+        "description": "Turns on the geometry that makes the x and y projections easy to compare with the graphs.",
+        "values": {
+          "radius": 1.25,
+          "omega": 1.6,
+          "phase": 0.95
+        }
+      },
+      {
+        "id": "tight-turn",
+        "label": "Tight turn",
+        "description": "A smaller orbit with higher angular speed makes the inward acceleration grow.",
+        "values": {
+          "radius": 0.8,
+          "omega": 3.1,
+          "phase": 0.45
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "radiusVector",
+        "label": "Radius vector",
+        "shortDescription": "Shows the line from the center to the particle.",
+        "whatToNotice": [
+          "The centripetal acceleration always points back along this inward direction."
+        ],
+        "whyItMatters": "It anchors the geometric meaning of inward acceleration.",
+        "relatedControls": [
+          "radius",
+          "phase"
+        ],
+        "relatedGraphTabs": [
+          "projections",
+          "angle"
+        ],
+        "relatedEquationVariables": [
+          "radius",
+          "phase"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "velocityVector",
+        "label": "Velocity vector",
+        "shortDescription": "Shows the instantaneous tangent direction of motion.",
+        "whatToNotice": [
+          "The vector keeps turning even when the speed value stays constant."
+        ],
+        "whyItMatters": "It makes the difference between constant speed and changing velocity visible.",
+        "relatedControls": [
+          "omega",
+          "radius"
+        ],
+        "relatedGraphTabs": [
+          "velocity"
+        ],
+        "relatedEquationVariables": [
+          "omega",
+          "radius"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "centripetalVector",
+        "label": "Centripetal acceleration",
+        "shortDescription": "Shows the inward acceleration that keeps the path curved.",
+        "whatToNotice": [
+          "The arrow points inward even while the velocity arrow points tangent to the path."
+        ],
+        "whyItMatters": "It is the key reason constant speed can still involve acceleration.",
+        "relatedControls": [
+          "omega",
+          "radius"
+        ],
+        "relatedGraphTabs": [
+          "velocity"
+        ],
+        "relatedEquationVariables": [
+          "omega",
+          "radius"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "angleMarker",
+        "label": "Angle marker",
+        "shortDescription": "Marks the current angular position on the orbit.",
+        "whatToNotice": [
+          "The angle grows linearly in time when the angular speed stays constant."
+        ],
+        "whyItMatters": "It ties the live orbit to the angle graph and phase control.",
+        "relatedControls": [
+          "omega",
+          "phase"
+        ],
+        "relatedGraphTabs": [
+          "angle"
+        ],
+        "relatedEquationVariables": [
+          "omega",
+          "phase"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "projectionGuides",
+        "label": "Projection guides",
+        "shortDescription": "Projects the particle onto the x and y axes.",
+        "whatToNotice": [
+          "The projected x and y positions behave like oscillations viewed along each axis."
+        ],
+        "whyItMatters": "It makes the bridge to simple harmonic motion explicit without building a second simulation.",
+        "relatedControls": [
+          "radius",
+          "omega",
+          "phase"
+        ],
+        "relatedGraphTabs": [
+          "projections"
+        ],
+        "relatedEquationVariables": [
+          "radius",
+          "omega",
+          "phase"
+        ],
+        "defaultOn": false
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "projections",
+      "label": "x and y projections",
+      "xLabel": "time (s)",
+      "yLabel": "displacement (m)",
+      "series": [
+        "x-projection",
+        "y-projection"
+      ],
+      "description": "Shows the horizontal and vertical projections as sinusoidal views of the same rotation."
+    },
+    {
+      "id": "velocity",
+      "label": "Velocity components",
+      "xLabel": "time (s)",
+      "yLabel": "velocity component (m/s)",
+      "series": [
+        "vx",
+        "vy"
+      ],
+      "description": "Shows how the tangent velocity splits into changing x and y components."
+    },
+    {
+      "id": "angle",
+      "label": "Angle over time",
+      "xLabel": "time (s)",
+      "yLabel": "angle (rad)",
+      "series": [
+        "angle"
+      ],
+      "description": "Shows the angular position increasing linearly when angular speed stays constant."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the orbit, vectors, and graphs as one system. The prompt changes when a different representation becomes the clearest thing to watch.",
+    "items": [
+      {
+        "id": "ucm-notice-constant-speed",
+        "text": "Notice that the speed can stay constant while the velocity vector keeps changing direction.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Watch the tangent arrow complete a full turn without the speed value on the stage changing.",
+        "whyItMatters": "This is the cleanest way to separate speed from velocity.",
+        "relatedControls": [
+          "omega",
+          "radius"
+        ],
+        "relatedGraphTabs": [
+          "velocity"
+        ],
+        "relatedOverlays": [
+          "velocityVector"
+        ]
+      },
+      {
+        "id": "ucm-notice-inward-acceleration",
+        "text": "Notice that the centripetal acceleration points inward, not along the direction of motion.",
+        "type": "misconception",
+        "priority": 4,
+        "conditions": {
+          "overlayIds": [
+            "centripetalVector"
+          ]
+        },
+        "tryThis": "Pause at the top or side of the orbit and compare the inward arrow with the tangent velocity arrow.",
+        "whyItMatters": "The inward pull is what keeps the path curved instead of letting the particle fly off in a straight line.",
+        "relatedOverlays": [
+          "centripetalVector",
+          "velocityVector",
+          "radiusVector"
+        ],
+        "relatedEquationVariables": [
+          "radius",
+          "omega"
+        ]
+      },
+      {
+        "id": "ucm-notice-projection-link",
+        "text": "Notice that the x and y projections trace oscillations even though the particle itself moves in a circle.",
+        "type": "graph-reading",
+        "priority": 5,
+        "conditions": {
+          "graphTabs": [
+            "projections"
+          ]
+        },
+        "tryThis": "Turn on the projection guides, then scrub the graph so the marker and the projected coordinates stay synchronized.",
+        "whyItMatters": "This is the direct visual bridge from circular motion to simple harmonic motion.",
+        "relatedGraphTabs": [
+          "projections"
+        ],
+        "relatedOverlays": [
+          "projectionGuides"
+        ],
+        "relatedEquationVariables": [
+          "radius",
+          "omega",
+          "phase"
+        ]
+      },
+      {
+        "id": "ucm-notice-omega",
+        "text": "Notice that increasing angular speed makes the particle turn faster and steepens the angle graph without changing the orbit radius.",
+        "type": "try-this",
+        "priority": 6,
+        "conditions": {
+          "lastChangedControls": [
+            "omega"
+          ]
+        },
+        "tryThis": "Raise Angular speed and compare how much sooner the particle completes a full revolution.",
+        "whyItMatters": "Angular speed changes timing and vector magnitude, while radius still sets the circle size.",
+        "relatedControls": [
+          "omega",
+          "radius"
+        ],
+        "relatedGraphTabs": [
+          "angle",
+          "velocity"
+        ]
+      },
+      {
+        "id": "ucm-notice-inspect",
+        "text": "Notice how the orbit position, vector directions, and graph marker all describe the same instant once you pause and scrub.",
+        "type": "graph-reading",
+        "priority": 7,
+        "conditions": {
+          "inspectState": "inspect"
+        },
+        "tryThis": "Pause, step once, then compare the particle angle with the x and y projection values.",
+        "whyItMatters": "It turns the formulas into one inspectable state instead of separate facts.",
+        "relatedGraphTabs": [
+          "projections",
+          "velocity",
+          "angle"
+        ],
+        "relatedOverlays": [
+          "angleMarker",
+          "projectionGuides"
+        ]
+      },
+      {
+        "id": "ucm-notice-compare",
+        "text": "Notice which setup completes a revolution sooner. That setup has the larger angular speed.",
+        "type": "compare",
+        "priority": 8,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Keep the radius similar in A and B, then change only Angular speed in one setup.",
+        "whyItMatters": "Compare mode makes timing differences obvious without changing the spatial frame.",
+        "relatedControls": [
+          "omega"
+        ],
+        "relatedGraphTabs": [
+          "angle"
+        ],
+        "relatedOverlays": [
+          "angleMarker"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict what changes before you touch the orbit. Then test the same change in the live stage and graphs.",
+    "items": [
+      {
+        "id": "ucm-predict-1",
+        "prompt": "If radius stays fixed and angular speed increases, what must happen to the period and centripetal acceleration?",
+        "scenarioLabel": "Raise angular speed",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The period gets shorter and the centripetal acceleration increases."
+          },
+          {
+            "id": "b",
+            "label": "The period stays the same and the centripetal acceleration drops."
+          },
+          {
+            "id": "c",
+            "label": "The orbit radius increases automatically while the period stays fixed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A larger angular speed means more radians per second, so each revolution takes less time. Because $a_c = \\omega^2 R$, the inward acceleration also rises strongly when radius stays fixed.",
+        "observationHint": "Watch the angle graph steepen and the inward arrow grow while the circle itself stays the same size.",
+        "apply": {
+          "presetId": "fast-spin"
+        },
+        "highlightedControls": [
+          "omega"
+        ],
+        "highlightedGraphs": [
+          "angle",
+          "velocity"
+        ],
+        "highlightedOverlays": [
+          "velocityVector",
+          "centripetalVector"
+        ]
+      },
+      {
+        "id": "ucm-predict-2",
+        "prompt": "If angular speed stays fixed and radius increases, what changes most directly?",
+        "scenarioLabel": "Increase radius",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The orbit gets larger, the speed increases, and the period stays the same."
+          },
+          {
+            "id": "b",
+            "label": "The period doubles automatically while the speed stays fixed."
+          },
+          {
+            "id": "c",
+            "label": "The inward acceleration disappears because the path is less curved."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "With angular speed fixed, the period $T = 2\\pi/\\omega$ stays the same. But the particle has to cover a larger circle in the same time, so its speed rises and the inward acceleration also increases.",
+        "observationHint": "Watch the orbit widen while the angle graph keeps the same slope and the metric card shows a larger speed.",
+        "apply": {
+          "presetId": "wide-orbit"
+        },
+        "highlightedControls": [
+          "radius"
+        ],
+        "highlightedGraphs": [
+          "projections",
+          "angle"
+        ],
+        "highlightedOverlays": [
+          "radiusVector",
+          "projectionGuides"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode: centripetal force",
+    "intro": "Use this circular-motion lab for centripetal-force practice. These first tasks lock radius, speed, angular speed, period, and inward acceleration to the same live orbit before you branch into broader UCM targets.",
+    "items": [
+      {
+        "id": "ucm-ch-short-period-force-band",
+        "title": "Short-period force band",
+        "style": "target-setting",
+        "prompt": "Starting from the reference orbit, keep the radius close to the original circle but shorten the period to about $2.2\\,\\mathrm{s}$. Land the motion in the speed and centripetal-acceleration bands that go with that stronger centripetal-force requirement.",
+        "successMessage": "You changed the inward-force requirement through one honest orbit: the same live state fixed the period, tangential speed, and inward acceleration together.",
+        "setup": {
+          "presetId": "reference-orbit",
+          "note": "Use the angle graph for timing and the inward vector for the force requirement. Keep the radius near the reference orbit instead of solving it with a tiny circle."
+        },
+        "requirements": {
+          "graphId": "angle",
+          "overlayIds": [
+            "centripetalVector"
+          ]
+        },
+        "hints": [
+          "With the radius held near $1.2\\,\\mathrm{m}$, the target period means $\\omega$ should end up a little under $3\\,\\mathrm{rad/s}$.",
+          "Once the period is right, check whether the speed and inward-acceleration readouts still agree with that same orbit."
+        ],
+        "targets": [
+          {
+            "param": "radius",
+            "label": "Keep the radius between $1.15$ and $1.25\\,\\mathrm{m}$.",
+            "min": 1.15,
+            "max": 1.25,
+            "displayUnit": "m"
+          },
+          {
+            "metric": "period",
+            "label": "Make the period land between $2.15$ and $2.35\\,\\mathrm{s}$.",
+            "min": 2.15,
+            "max": 2.35,
+            "displayUnit": "s"
+          },
+          {
+            "metric": "speed",
+            "label": "Keep tangential speed between $3.2$ and $3.55\\,\\mathrm{m/s}$.",
+            "min": 3.2,
+            "max": 3.55,
+            "displayUnit": "m/s"
+          },
+          {
+            "metric": "centripetalAcceleration",
+            "label": "Make centripetal acceleration land between $8.6$ and $10.4\\,\\mathrm{m/s^2}$.",
+            "min": 8.6,
+            "max": 10.4,
+            "displayUnit": "m/s^2"
+          }
+        ]
+      },
+      {
+        "id": "ucm-ch-match-period-change-pull",
+        "title": "Same period, bigger inward pull",
+        "style": "visible-condition",
+        "prompt": "Open compare mode and keep Setup A and Setup B on nearly the same period, but make Setup B need the larger centripetal pull by giving it the wider orbit.",
+        "successMessage": "You kept the timing matched and changed the inward-force requirement through radius alone. Setup B now has the same period as Setup A but the larger speed and inward acceleration.",
+        "setup": {
+          "presetId": "reference-orbit",
+          "note": "Keep the angle graph active so the periods stay aligned, then widen only Setup B."
+        },
+        "requirements": {
+          "graphId": "angle",
+          "overlayIds": [
+            "radiusVector"
+          ],
+          "compareTarget": "b"
+        },
+        "hints": [
+          "Equal angular speed means equal period, so the two setups should keep almost the same $\\omega$.",
+          "A larger radius at the same $\\omega$ raises both $v = \\omega R$ and $a_c = \\omega^2 R$."
+        ],
+        "targets": [
+          {
+            "setup": "a",
+            "param": "radius",
+            "label": "Keep Setup A radius between $0.85$ and $0.95\\,\\mathrm{m}$.",
+            "min": 0.85,
+            "max": 0.95,
+            "displayUnit": "m"
+          },
+          {
+            "setup": "b",
+            "param": "radius",
+            "label": "Keep Setup B radius between $1.45$ and $1.55\\,\\mathrm{m}$.",
+            "min": 1.45,
+            "max": 1.55,
+            "displayUnit": "m"
+          },
+          {
+            "setup": "a",
+            "param": "omega",
+            "label": "Keep Setup A angular speed between $1.55$ and $1.65\\,\\mathrm{rad/s}$.",
+            "min": 1.55,
+            "max": 1.65,
+            "displayUnit": "rad/s"
+          },
+          {
+            "setup": "b",
+            "param": "omega",
+            "label": "Keep Setup B angular speed between $1.55$ and $1.65\\,\\mathrm{rad/s}$.",
+            "min": 1.55,
+            "max": 1.65,
+            "displayUnit": "rad/s"
+          },
+          {
+            "setup": "b",
+            "metric": "period",
+            "label": "Make Setup B period land between $3.85$ and $4.05\\,\\mathrm{s}$.",
+            "min": 3.85,
+            "max": 4.05,
+            "displayUnit": "s"
+          },
+          {
+            "setup": "b",
+            "metric": "speed",
+            "label": "Make Setup B tangential speed land between $2.3$ and $2.55\\,\\mathrm{m/s}$.",
+            "min": 2.3,
+            "max": 2.55,
+            "displayUnit": "m/s"
+          },
+          {
+            "setup": "b",
+            "metric": "centripetalAcceleration",
+            "label": "Make Setup B centripetal acceleration land between $3.6$ and $4.1\\,\\mathrm{m/s^2}$.",
+            "min": 3.6,
+            "max": 4.1,
+            "displayUnit": "m/s^2"
+          }
+        ]
+      },
+      {
+        "id": "ucm-ch-tight-inward-pull",
+        "title": "Tight inward pull",
+        "style": "target-setting",
+        "prompt": "Starting from the reference orbit, tune the motion until the inward acceleration sits in the $7$ to $8.5\\,\\mathrm{m/s^2}$ band while the tangential speed stays between $2.5$ and $3.1\\,\\mathrm{m/s}$.",
+        "successMessage": "You built a tighter turn without losing the link between radius, speed, and inward acceleration. The stage and velocity graph are still describing one consistent orbit.",
+        "setup": {
+          "presetId": "reference-orbit",
+          "graphId": "velocity",
+          "note": "Use the velocity graph and inward vector together while you tighten the orbit."
+        },
+        "hints": [
+          "A smaller radius and larger angular speed can raise inward acceleration together.",
+          "Watch both the vector length and the speed readout. A huge inward pull with a mismatched speed will miss the target band."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Open the velocity graph.",
+            "graphId": "velocity"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the centripetal-acceleration vector visible.",
+            "overlayId": "centripetalVector"
+          },
+          {
+            "type": "metric-range",
+            "label": "Make centripetal acceleration land between $7$ and $8.5\\,\\mathrm{m/s^2}$.",
+            "metric": "centripetalAcceleration",
+            "min": 7,
+            "max": 8.5,
+            "displayUnit": "m/s^2"
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep tangential speed between $2.5$ and $3.1\\,\\mathrm{m/s}$.",
+            "metric": "speed",
+            "min": 2.5,
+            "max": 3.1,
+            "displayUnit": "m/s"
+          }
+        ]
+      },
+      {
+        "id": "ucm-ch-compare-spin-rate",
+        "title": "Compare the spin",
+        "style": "visible-condition",
+        "prompt": "Open compare mode from the reference orbit and make Setup B complete turns noticeably faster than Setup A while both setups keep nearly the same radius.",
+        "successMessage": "You used compare mode to isolate angular-speed change from orbit size. The angle graph now shows a true timing contrast rather than a rescaled circle.",
+        "setup": {
+          "presetId": "reference-orbit",
+          "interactionMode": "compare",
+          "graphId": "angle",
+          "note": "Start both setups from the same reference state, then edit Setup B only."
+        },
+        "hints": [
+          "Keep Setup A near the original orbit and raise only Angular speed in Setup B.",
+          "If the radii drift apart too much, the comparison stops being about timing alone."
+        ],
+        "checks": [
+          {
+            "type": "compare-active",
+            "label": "Stay in compare mode while editing Setup B.",
+            "target": "b"
+          },
+          {
+            "type": "graph-active",
+            "label": "Keep the angle graph active.",
+            "graphId": "angle"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup A radius between $1.1$ and $1.3\\,\\mathrm{m}$.",
+            "setup": "a",
+            "param": "radius",
+            "min": 1.1,
+            "max": 1.3,
+            "displayUnit": "m"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup B radius between $1.1$ and $1.3\\,\\mathrm{m}$.",
+            "setup": "b",
+            "param": "radius",
+            "min": 1.1,
+            "max": 1.3,
+            "displayUnit": "m"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Raise Setup B angular speed above $2.6\\,\\mathrm{rad/s}$.",
+            "setup": "b",
+            "param": "omega",
+            "min": 2.6,
+            "max": 3.2,
+            "displayUnit": "rad/s"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Use the orbit, vectors, and graph meaning together. These questions check whether you can explain what must be true in uniform circular motion.",
+    "questions": [
+      {
+        "id": "ucm-qt-1",
+        "type": "misconception-check",
+        "prompt": "A particle moves around a circle at constant speed. Which statement must still be true?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Its velocity changes because the direction keeps changing, so there is an inward acceleration."
+          },
+          {
+            "id": "b",
+            "label": "Its acceleration is zero because the speed value never changes."
+          },
+          {
+            "id": "c",
+            "label": "Its velocity points inward because that is where the acceleration points."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Uniform circular motion keeps the speed constant, but not the velocity direction. The inward acceleration exists because the motion is continually turning.",
+        "selectedWrongExplanations": {
+          "b": "Zero acceleration would mean the velocity stays unchanged, including direction. Circular motion keeps bending the velocity, so acceleration cannot be zero.",
+          "c": "The inward vector is the acceleration, not the velocity. Velocity stays tangent to the circle."
+        },
+        "showMeAction": {
+          "label": "Show the turning vectors",
+          "presetId": "reference-orbit",
+          "observationHint": "The tangent velocity and inward acceleration stay perpendicular around the orbit.",
+          "highlightedControlIds": [
+            "omega",
+            "radius"
+          ],
+          "highlightedGraphIds": [
+            "velocity"
+          ],
+          "highlightedOverlayIds": [
+            "velocityVector",
+            "centripetalVector"
+          ]
+        }
+      },
+      {
+        "id": "ucm-qt-2",
+        "type": "graph-reading",
+        "prompt": "When the particle is at the far right of the circle, which combination best matches the stage and graphs?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "x is positive maximum, y is zero, velocity is vertical, and acceleration points left toward the center."
+          },
+          {
+            "id": "b",
+            "label": "x is zero, y is positive maximum, velocity points right, and acceleration is zero."
+          },
+          {
+            "id": "c",
+            "label": "x is positive maximum, y is zero, and both velocity and acceleration point outward."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At the far right, the radius points to positive x. The tangent direction is vertical there, while the inward acceleration points back left toward the center.",
+        "selectedWrongExplanations": {
+          "b": "That describes the top of the circle, not the rightmost point. The graphs and vectors would be shifted by a quarter turn.",
+          "c": "The acceleration never points outward in uniform circular motion. It always points inward toward the center."
+        },
+        "showMeAction": {
+          "label": "Show the rightmost point",
+          "patch": {
+            "phase": 0
+          },
+          "observationHint": "The x projection is at its peak while the inward arrow points back toward the center.",
+          "highlightedControlIds": [
+            "phase"
+          ],
+          "highlightedGraphIds": [
+            "projections",
+            "velocity"
+          ],
+          "highlightedOverlayIds": [
+            "radiusVector",
+            "centripetalVector"
+          ]
+        }
+      },
+      {
+        "id": "ucm-qt-3",
+        "type": "compare-two-cases",
+        "prompt": "Two setups have the same angular speed, but Setup B has the larger radius. What must be true?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Setup B has the same period but a larger tangential speed and larger centripetal acceleration."
+          },
+          {
+            "id": "b",
+            "label": "Setup B must have a longer period because the orbit is larger."
+          },
+          {
+            "id": "c",
+            "label": "Setup B has the same speed because angular speed did not change."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Angular speed fixes the period, so both setups complete a revolution in the same time. The larger radius means a larger speed $v = \\omega R$ and a larger inward acceleration $a_c = \\omega^2 R$.",
+        "selectedWrongExplanations": {
+          "b": "A larger orbit alone does not change the period if angular speed stays fixed. The setup covers more distance per turn by moving faster.",
+          "c": "Tangential speed depends on both angular speed and radius. A larger radius with the same angular speed means a larger speed."
+        },
+        "showMeAction": {
+          "label": "Show the wide orbit",
+          "presetId": "wide-orbit",
+          "observationHint": "The larger circle keeps the same angular timing, but the tangent velocity and inward acceleration both increase.",
+          "highlightedControlIds": [
+            "radius"
+          ],
+          "highlightedGraphIds": [
+            "angle",
+            "velocity"
+          ],
+          "highlightedOverlayIds": [
+            "radiusVector",
+            "velocityVector",
+            "centripetalVector"
+          ]
+        }
+      },
+      {
+        "id": "ucm-qt-4",
+        "type": "reasoning",
+        "prompt": "Why do the x(t) and y(t) graphs look like oscillations even though the particle moves in a circle?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "They are the horizontal and vertical projections of the same circular motion, so each coordinate varies sinusoidally in time."
+          },
+          {
+            "id": "b",
+            "label": "The particle secretly stops moving in a circle whenever the graph is shown."
+          },
+          {
+            "id": "c",
+            "label": "The graphs are unrelated approximations that only match at the starting point."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Uniform circular motion can be projected onto the x and y axes. Each coordinate follows a sine or cosine pattern even though the full motion remains circular.",
+        "selectedWrongExplanations": {
+          "b": "The stage and graph stay synchronized. The particle keeps moving on the circle while the graph shows one coordinate of that same motion.",
+          "c": "The graphs are not approximations here. They are direct coordinate views of the live orbit."
+        },
+        "showMeAction": {
+          "label": "Show the projection guides",
+          "presetId": "projection-link",
+          "observationHint": "The dashed projections onto the axes line up with the x(t) and y(t) graph values.",
+          "highlightedControlIds": [
+            "phase",
+            "omega"
+          ],
+          "highlightedGraphIds": [
+            "projections"
+          ],
+          "highlightedOverlayIds": [
+            "projectionGuides"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a particle moving around a circular path centered on visible x and y axes. Optional overlays can show the radius vector, tangent velocity, inward acceleration, angular marker, and axis projections.",
+        "When the user changes radius, angular speed, or phase, the orbit, graphs, vectors, and readouts all update together."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The graphs show the x and y projections, the velocity components, and the angular position over time.",
+        "They are different representations of the same live circular motion rather than separate datasets."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Uniform Circular Motion",
+    "description": "Interactive uniform circular motion with live vector overlays, projection graphs, and clear links to angular speed, period, and centripetal acceleration.",
+    "keywords": [
+      "uniform circular motion",
+      "centripetal acceleration",
+      "angular speed",
+      "physics simulation"
+    ]
+  },
+  "v2": {
+    "intuition": "A turn is a direction change. Use the orbit to watch the tangent velocity rotate while the acceleration keeps pointing inward toward the center.",
+    "whyItMatters": "Uniform circular motion is the common foundation under centripetal force, circular orbits, and the projection link to simple harmonic motion, so the vectors need to feel like one live story rather than separate formulas.",
+    "estimatedMinutes": 25,
+    "equationSnapshot": {
+      "title": "One turning state",
+      "note": "Keep the speed, inward-acceleration, and projection equations together so each formula points back to the same particle.",
+      "equationIds": [
+        "ucm-speed",
+        "ucm-centripetal",
+        "ucm-x"
+      ]
+    },
+    "startSetup": {
+      "presetId": "reference-orbit",
+      "graphId": "velocity",
+      "overlayIds": [
+        "radiusVector",
+        "velocityVector",
+        "centripetalVector"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-turning-vectors",
+        "title": "Read the turning vectors",
+        "goal": "Separate constant speed from changing velocity before you touch the controls.",
+        "doThis": "Start from Reference orbit, keep Velocity components open, and watch the tangent velocity arrow beside the inward acceleration arrow for a few seconds.",
+        "notice": "The speed value can stay steady while the velocity arrow keeps rotating and the acceleration arrow keeps aiming toward the center.",
+        "explain": "Acceleration means velocity is changing. In circular motion the size of velocity can stay fixed, but its direction changes continuously.",
+        "reveal": {
+          "controlIds": [
+            "omega",
+            "radius"
+          ],
+          "graphIds": [
+            "velocity"
+          ],
+          "overlayIds": [
+            "radiusVector",
+            "velocityVector",
+            "centripetalVector"
+          ]
+        },
+        "setup": {
+          "presetId": "reference-orbit",
+          "graphId": "velocity",
+          "overlayIds": [
+            "radiusVector",
+            "velocityVector",
+            "centripetalVector"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Check the constant-speed misconception",
+          "questionIds": [
+            "ucm-qt-1"
+          ]
+        }
+      },
+      {
+        "id": "change-angular-speed",
+        "title": "Change angular speed",
+        "goal": "See how angular speed changes timing and the inward acceleration without changing the circular path itself.",
+        "doThis": "Raise Angular speed or switch to Fast spin while the angle and velocity graphs stay visible.",
+        "notice": "The particle completes each revolution sooner, the angle graph gets steeper, and the inward acceleration grows strongly.",
+        "explain": "Angular speed fixes how quickly the angle changes. Because a_c = ω²R, a faster spin needs much more inward acceleration at the same radius.",
+        "reveal": {
+          "controlIds": [
+            "omega"
+          ],
+          "graphIds": [
+            "angle",
+            "velocity"
+          ],
+          "overlayIds": [
+            "velocityVector",
+            "centripetalVector",
+            "angleMarker"
+          ]
+        },
+        "setup": {
+          "presetId": "fast-spin",
+          "graphId": "angle",
+          "overlayIds": [
+            "velocityVector",
+            "centripetalVector",
+            "angleMarker"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Predict the faster spin",
+          "predictionIds": [
+            "ucm-predict-1"
+          ]
+        }
+      },
+      {
+        "id": "connect-the-projections",
+        "title": "Connect the projections",
+        "goal": "Use the same circular motion to explain why x(t) and y(t) look like oscillations.",
+        "doThis": "Switch to Projection link, open the x and y projections graph, and turn on the projection guides.",
+        "notice": "The dashed guides, the particle position, and the graph marker all describe the same instant from different views.",
+        "explain": "Each coordinate is just one axis projection of the circle, so the x and y values trace sine and cosine patterns while the full motion remains circular.",
+        "reveal": {
+          "controlIds": [
+            "radius",
+            "omega",
+            "phase"
+          ],
+          "graphIds": [
+            "projections"
+          ],
+          "overlayIds": [
+            "projectionGuides",
+            "angleMarker",
+            "radiusVector"
+          ]
+        },
+        "setup": {
+          "presetId": "projection-link",
+          "graphId": "projections",
+          "overlayIds": [
+            "projectionGuides",
+            "angleMarker",
+            "radiusVector"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Explain the graph link",
+          "questionIds": [
+            "ucm-qt-4"
+          ]
+        }
+      },
+      {
+        "id": "judge-one-instant",
+        "title": "Judge one instant",
+        "goal": "Read velocity, acceleration, and projection values at a single point on the circle.",
+        "doThis": "Pause or scrub to a side/top position, then compare the radius, tangent velocity, inward acceleration, and projection graph values before answering the checkpoint.",
+        "notice": "At each instant, the tangent and inward directions are perpendicular, while the graph values show the matching x and y projections.",
+        "explain": "A correct circular-motion answer must keep geometry and graphs synchronized: tangent for velocity, inward for acceleration, and axis projections for coordinates.",
+        "reveal": {
+          "controlIds": [
+            "phase"
+          ],
+          "graphIds": [
+            "projections",
+            "velocity"
+          ],
+          "overlayIds": [
+            "radiusVector",
+            "velocityVector",
+            "centripetalVector",
+            "projectionGuides"
+          ]
+        },
+        "setup": {
+          "presetId": "projection-link",
+          "graphId": "projections",
+          "overlayIds": [
+            "radiusVector",
+            "velocityVector",
+            "centripetalVector",
+            "projectionGuides"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Use the vector checkpoint",
+          "questionIds": [
+            "ucm-qt-2"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Constant speed can still mean acceleration when the velocity direction keeps changing.",
+        "Velocity points tangent to the circle, while centripetal acceleration points inward along the radius.",
+        "Angular speed controls the period, tangential speed, and inward acceleration together with radius.",
+        "The x(t) and y(t) graphs are projections of the same circular motion, not separate motions."
+      ],
+      "misconception": "Do not aim the velocity arrow toward the center. The inward arrow is acceleration; the velocity arrow stays tangent to the path.",
+      "workedExampleRefs": [
+        "Current x projection",
+        "Centripetal acceleration"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "circular-orbits-orbital-speed",
+          "title": "Circular Orbits / Orbital Speed",
+          "reasonLabel": "Let gravity supply the inward turn"
+        },
+        {
+          "slug": "simple-harmonic-motion",
+          "title": "Simple Harmonic Motion",
+          "reasonLabel": "Review the projection bridge"
+        },
+        {
+          "slug": "projectile-motion",
+          "title": "Projectile Motion",
+          "reasonLabel": "Compare changing directions in 2D"
+        }
+      ],
+      "freePlayPrompt": "Stay on the bench, create a slow wide orbit and a fast tight orbit, then explain which one needs the larger inward acceleration and why."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "accessibility"
+    ]
+  }
+}

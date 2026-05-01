@@ -1,0 +1,1201 @@
+{
+  "pageIntro": {
+    "definition": "Watch one light ray cross a boundary, connect refractive index to speed change, and see Snell's law set the refracted angle, bending direction, and critical-angle limit on the same live diagram.",
+    "keyTakeaway": "A larger refractive index means a lower wave speed in that medium, so entering the higher-index side bends the ray toward the normal.",
+    "whyItMatters": "This is the bridge from ray sketches to lenses, fibers, rainbows, and total internal reflection: once you can read speed change and angle change together, Snell's law stops being a memorized formula."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Refraction is a boundary story. Light reaches an interface, the wave speed changes because the refractive index changes, and the ray direction shifts just enough to keep the boundary geometry consistent on both sides.",
+        "This concept keeps one compact boundary-and-ray picture in charge. Incident angle, refractive indices, speed ratio, graph previews, prediction mode, compare mode, and the worked examples all read from the same interface state so the direction change never drifts away from Snell's law."
+      ]
+    },
+    "keyIdeas": [
+      "A larger refractive index means a lower wave speed in that medium, so entering the higher-index side bends the ray toward the normal.",
+      "Snell's law, n_1 sin(theta_1) = n_2 sin(theta_2), connects the two boundary angles quantitatively rather than by a memorized picture alone.",
+      "At normal incidence the speed can still change while the direction does not, and when light tries to go from higher n to lower n too steeply there is no real transmitted angle."
+    ],
+    "commonMisconception": {
+      "myth": "The boundary bends the ray because it gives the light a sideways push at the interface.",
+      "correction": [
+        "The directional change comes from the speed difference between the two media, not from a separate sideways force at the boundary.",
+        "That is why the same boundary can change the speed without changing the direction at normal incidence, and why a bigger index contrast changes the bend even when the interface itself stays fixed."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked examples",
+      "intro": "Solve the current boundary, not a detached worksheet. The substitutions track the live incident angle and refractive indices, and the same values stay visible on the ray diagram and graphs.",
+      "items": [
+        {
+          "id": "solve-refracted-angle",
+          "title": "Solve the refracted angle",
+          "prompt": "For the current interface, what transmitted angle follows from Snell's law?",
+          "variables": [
+            {
+              "id": "incident-angle",
+              "variableId": "incident-angle",
+              "symbol": "\\theta_1",
+              "label": "Incident angle",
+              "valueKey": "incidentAngleValue",
+              "unit": "deg"
+            },
+            {
+              "id": "index-1",
+              "variableId": "index-medium-1",
+              "symbol": "n_1",
+              "label": "Top-medium index",
+              "valueKey": "n1Value"
+            },
+            {
+              "id": "index-2",
+              "variableId": "index-medium-2",
+              "symbol": "n_2",
+              "label": "Bottom-medium index",
+              "valueKey": "n2Value"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Start from Snell's law",
+              "template": "Use $n_1\\sin(\\theta_1) = n_2\\sin(\\theta_2)$."
+            },
+            {
+              "id": "rearrange",
+              "label": "2. Rearrange for the transmitted sine",
+              "template": "$\\sin(\\theta_2) = \\dfrac{n_1}{n_2}\\sin(\\theta_1) = \\dfrac{{{n1Value}}}{{{n2Value}}}\\sin({{incidentAngleValue}}^\\circ) = {{sineTargetValue}}$."
+            },
+            {
+              "id": "result",
+              "label": "3. Interpret the result",
+              "template": "{{refractedAngleStep}}"
+            }
+          ],
+          "resultLabel": "Transmitted result",
+          "resultTemplate": "{{refractedAngleResult}}",
+          "interpretationTemplate": "{{refractionInterpretation}}",
+          "applyAction": {
+            "label": "Apply air to glass",
+            "presetId": "air-to-glass",
+            "observationHint": "The ray slows in the lower medium and bends toward the normal while the graph preview stays angle-based, not time-based.",
+            "highlightedControlIds": [
+              "incidentAngle",
+              "n1",
+              "n2"
+            ],
+            "highlightedGraphIds": [
+              "refraction-map"
+            ],
+            "highlightedOverlayIds": [
+              "normalGuide"
+            ]
+          }
+        },
+        {
+          "id": "compare-speed-ratio",
+          "title": "Compare the speed change",
+          "prompt": "For the current media pair, how much slower or faster is light after it crosses the boundary?",
+          "variables": [
+            {
+              "id": "index-1",
+              "variableId": "index-medium-1",
+              "symbol": "n_1",
+              "label": "Top-medium index",
+              "valueKey": "n1Value"
+            },
+            {
+              "id": "index-2",
+              "variableId": "index-medium-2",
+              "symbol": "n_2",
+              "label": "Bottom-medium index",
+              "valueKey": "n2Value"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Start from the index-speed relation",
+              "template": "Use $n = \\dfrac{c}{v}$ for each medium."
+            },
+            {
+              "id": "ratio",
+              "label": "2. Build the speed ratio",
+              "template": "$\\dfrac{v_2}{v_1} = \\dfrac{c / n_2}{c / n_1} = \\dfrac{n_1}{n_2} = \\dfrac{{{n1Value}}}{{{n2Value}}} = {{speedRatioValue}}$."
+            },
+            {
+              "id": "interpret",
+              "label": "3. Connect speed to the bend",
+              "template": "{{speedRatioStep}}"
+            }
+          ],
+          "resultLabel": "Speed ratio",
+          "resultTemplate": "$\\dfrac{v_2}{v_1} = {{speedRatioValue}}$",
+          "interpretationTemplate": "{{speedInterpretation}}",
+          "applyAction": {
+            "label": "Apply glass to air",
+            "presetId": "glass-to-air",
+            "observationHint": "The larger speed ratio means the lower medium is faster, so the transmitted ray opens away from the normal.",
+            "highlightedControlIds": [
+              "n1",
+              "n2"
+            ],
+            "highlightedGraphIds": [
+              "bend-map"
+            ],
+            "highlightedOverlayIds": [
+              "speedGuide",
+              "criticalGuide"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "A ray goes from air into glass at the same incident angle you see now. Before you adjust anything, what should happen to the transmitted ray?",
+      "prediction": "Decide whether the ray should move closer to the normal or farther away, and whether the speed should rise or fall.",
+      "answer": "It should slow down and bend toward the normal.",
+      "explanation": "A larger refractive index means a smaller speed. Snell's law then requires the transmitted angle to shrink relative to the normal, so the ray bends inward rather than outward."
+    }
+  },
+  "equations": [
+    {
+      "id": "snell-law",
+      "latex": "n_1\\sin(\\theta_1) = n_2\\sin(\\theta_2)",
+      "label": "Snell's law",
+      "meaning": "Relates the incident and transmitted angles to the refractive indices on each side of the boundary."
+    },
+    {
+      "id": "index-speed",
+      "latex": "n = \\frac{c}{v}",
+      "label": "Index and speed",
+      "meaning": "A larger refractive index means a lower light speed in that medium."
+    },
+    {
+      "id": "critical-angle",
+      "latex": "\\sin(\\theta_c) = \\frac{n_2}{n_1} \\quad (n_1 > n_2)",
+      "label": "Critical angle",
+      "meaning": "When light tries to go from higher n to lower n, this angle marks the limit where the transmitted ray would flatten along the boundary.",
+      "notes": [
+        "Beyond this limit there is no real transmitted angle, which is the entry point to total internal reflection."
+      ]
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "incident-angle",
+      "symbol": "\\theta_1",
+      "label": "Incident angle",
+      "param": "incidentAngle",
+      "tone": "amber",
+      "description": "Sets how steeply the incoming ray approaches the normal. Larger incident angles amplify the boundary contrast and can reach the critical-angle limit.",
+      "equationIds": [
+        "snell-law",
+        "critical-angle"
+      ],
+      "graphIds": [
+        "refraction-map",
+        "bend-map"
+      ],
+      "overlayIds": [
+        "normalGuide",
+        "criticalGuide"
+      ]
+    },
+    {
+      "id": "index-medium-1",
+      "symbol": "n_1",
+      "label": "Top-medium index",
+      "param": "n1",
+      "tone": "sky",
+      "description": "Controls the incoming medium's refractive index, so it sets the incident-side speed and whether a critical angle is even possible.",
+      "equationIds": [
+        "snell-law",
+        "index-speed",
+        "critical-angle"
+      ],
+      "graphIds": [
+        "refraction-map",
+        "bend-map"
+      ],
+      "overlayIds": [
+        "speedGuide",
+        "criticalGuide"
+      ]
+    },
+    {
+      "id": "index-medium-2",
+      "symbol": "n_2",
+      "label": "Bottom-medium index",
+      "param": "n2",
+      "tone": "teal",
+      "description": "Controls the transmitted medium's refractive index, which changes the outgoing speed and decides whether the ray bends toward or away from the normal.",
+      "equationIds": [
+        "snell-law",
+        "index-speed",
+        "critical-angle"
+      ],
+      "graphIds": [
+        "refraction-map",
+        "bend-map"
+      ],
+      "overlayIds": [
+        "speedGuide",
+        "criticalGuide"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "incidentAngle": 50,
+      "n1": 1,
+      "n2": 1.5,
+      "normalGuide": true,
+      "speedGuide": true,
+      "criticalGuide": false
+    },
+    "ui": {
+      "initialGraphId": "refraction-map",
+      "primaryGraphIds": [
+        "refraction-map"
+      ],
+      "primaryControlIds": [
+        "incidentAngle",
+        "n1",
+        "n2"
+      ],
+      "primaryPresetIds": [
+        "air-to-glass",
+        "glass-to-air",
+        "glass-to-air-above-critical",
+        "normal-incidence"
+      ]
+    },
+    "controls": [
+      {
+        "id": "incidentAngle",
+        "kind": "slider",
+        "label": "Incident angle",
+        "param": "incidentAngle",
+        "min": 0,
+        "max": 80,
+        "step": 1,
+        "unit": "deg",
+        "description": "Changes the angle between the incoming ray and the normal."
+      },
+      {
+        "id": "n1",
+        "kind": "slider",
+        "label": "Top-medium index n1",
+        "param": "n1",
+        "min": 1,
+        "max": 2.2,
+        "step": 0.01,
+        "description": "Higher n means slower light in the top medium."
+      },
+      {
+        "id": "n2",
+        "kind": "slider",
+        "label": "Bottom-medium index n2",
+        "param": "n2",
+        "min": 1,
+        "max": 2.2,
+        "step": 0.01,
+        "description": "Higher n means slower light in the bottom medium."
+      }
+    ],
+    "presets": [
+      {
+        "id": "air-to-glass",
+        "label": "Air to glass",
+        "description": "A slower lower medium bends the transmitted ray toward the normal.",
+        "values": {
+          "incidentAngle": 50,
+          "n1": 1,
+          "n2": 1.5
+        }
+      },
+      {
+        "id": "water-to-acrylic",
+        "label": "Water to acrylic",
+        "description": "A gentler index contrast gives a milder bend.",
+        "values": {
+          "incidentAngle": 55,
+          "n1": 1.33,
+          "n2": 1.49
+        }
+      },
+      {
+        "id": "glass-to-air",
+        "label": "Glass to air",
+        "description": "A faster lower medium bends the ray away from the normal.",
+        "values": {
+          "incidentAngle": 35,
+          "n1": 1.52,
+          "n2": 1
+        }
+      },
+      {
+        "id": "glass-to-air-above-critical",
+        "label": "Above critical angle",
+        "description": "The required transmitted sine would exceed one, so there is no real refracted ray.",
+        "values": {
+          "incidentAngle": 50,
+          "n1": 1.52,
+          "n2": 1
+        }
+      },
+      {
+        "id": "normal-incidence",
+        "label": "Normal incidence",
+        "description": "The speed changes, but the direction does not.",
+        "values": {
+          "incidentAngle": 0,
+          "n1": 1,
+          "n2": 1.7
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "normalGuide",
+        "label": "Normal and angle guide",
+        "shortDescription": "Shows the interface normal and the angle markers for the incoming and transmitted rays.",
+        "whatToNotice": [
+          "Both angles are measured from the normal, not from the surface."
+        ],
+        "whyItMatters": "Most sign and direction mistakes come from measuring the angle from the wrong reference line.",
+        "relatedControls": [
+          "incidentAngle"
+        ],
+        "relatedGraphTabs": [
+          "refraction-map",
+          "bend-map"
+        ],
+        "relatedEquationVariables": [
+          "incident-angle"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "speedGuide",
+        "label": "Speed guide",
+        "shortDescription": "Shows the medium labels and relative speeds implied by the current refractive indices.",
+        "whatToNotice": [
+          "The higher-index medium is always the slower medium, even if the ray direction barely changes."
+        ],
+        "whyItMatters": "It ties the geometric bend to the deeper cause: the speed change across the boundary.",
+        "relatedControls": [
+          "n1",
+          "n2"
+        ],
+        "relatedGraphTabs": [
+          "bend-map"
+        ],
+        "relatedEquationVariables": [
+          "index-medium-1",
+          "index-medium-2"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "criticalGuide",
+        "label": "Critical-angle guide",
+        "shortDescription": "Shows the threshold setup where the transmitted ray would flatten along the boundary.",
+        "whatToNotice": [
+          "The critical angle only exists when light tries to go from a higher index into a lower index."
+        ],
+        "whyItMatters": "It sets up the total-internal-reflection limit without turning this page into a separate optics subsystem.",
+        "relatedControls": [
+          "incidentAngle",
+          "n1",
+          "n2"
+        ],
+        "relatedGraphTabs": [
+          "refraction-map"
+        ],
+        "relatedEquationVariables": [
+          "incident-angle",
+          "index-medium-1",
+          "index-medium-2"
+        ],
+        "defaultOn": false
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "refraction-map",
+      "label": "Incident to refracted angle",
+      "xLabel": "incident angle theta_1 (deg)",
+      "yLabel": "refracted angle theta_2 (deg)",
+      "series": [
+        "refracted-angle"
+      ],
+      "description": "Shows how the transmitted angle changes as you vary the incident angle for the current pair of media."
+    },
+    {
+      "id": "bend-map",
+      "label": "Bend relative to the normal",
+      "xLabel": "incident angle theta_1 (deg)",
+      "yLabel": "theta_1 - theta_2 (deg)",
+      "series": [
+        "bend-angle"
+      ],
+      "description": "Positive values mean the ray bends toward the normal. Negative values mean it bends away."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Stay with one boundary at a time. The point is to connect the speed change, the ray direction, and the graph family before you move on.",
+    "items": [
+      {
+        "id": "rs-notice-slower-medium",
+        "text": "Notice that the ray bends toward the normal only when the second medium is slower, which means n2 is larger than n1.",
+        "type": "observation",
+        "priority": 6,
+        "tryThis": "Start from Air to glass, then switch to Glass to air without changing the incident angle and compare the outgoing side.",
+        "whyItMatters": "The direction change is a speed-change story, not a memorized shape."
+      },
+      {
+        "id": "rs-notice-angle-map",
+        "text": "Notice that this graph is a family of different boundary setups, not a time trace. Hovering previews a different incident angle immediately.",
+        "type": "graph-reading",
+        "priority": 4,
+        "conditions": {
+          "graphTabs": [
+            "refraction-map"
+          ]
+        },
+        "tryThis": "Hover farther to the right on the graph and watch the stage jump to the matching incident angle instead of advancing in time.",
+        "whyItMatters": "It keeps the graph honest: you are comparing setups at one boundary, not watching a later moment.",
+        "relatedGraphTabs": [
+          "refraction-map"
+        ]
+      },
+      {
+        "id": "rs-notice-bend-sign",
+        "text": "Notice the sign of theta_1 - theta_2: positive means toward the normal, negative means away from it.",
+        "type": "graph-reading",
+        "priority": 5,
+        "conditions": {
+          "graphTabs": [
+            "bend-map"
+          ]
+        },
+        "tryThis": "Switch between Air to glass and Glass to air while staying on the bend graph so you can see the sign flip.",
+        "whyItMatters": "One graph now tells you the direction and size of the bend at the same time.",
+        "relatedGraphTabs": [
+          "bend-map"
+        ],
+        "relatedEquationVariables": [
+          "incident-angle"
+        ]
+      },
+      {
+        "id": "rs-notice-normal-incidence",
+        "text": "Notice that normal incidence is not a no-effect case. The speed can change even when the direction does not.",
+        "type": "misconception",
+        "priority": 7,
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "incidentAngle",
+              "max": 2
+            }
+          ]
+        },
+        "tryThis": "Use the Normal incidence preset, then compare the speed readout with the fact that both angles stay at zero.",
+        "whyItMatters": "It separates speed change from directional bend instead of treating them as the same effect.",
+        "relatedControls": [
+          "incidentAngle",
+          "n1",
+          "n2"
+        ],
+        "relatedOverlays": [
+          "speedGuide"
+        ]
+      },
+      {
+        "id": "rs-notice-compare",
+        "text": "Notice how compare mode isolates the medium contrast. Keep one setup fixed, then change only n2 or the incident angle in the variant.",
+        "type": "compare",
+        "priority": 6,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Clone Air to glass into Setup A and Setup B, then raise only n2 in Setup B before you read the bend graph.",
+        "whyItMatters": "It lets you separate a stronger index contrast from a steeper incident angle without leaving the live page.",
+        "relatedGraphTabs": [
+          "bend-map"
+        ]
+      },
+      {
+        "id": "rs-notice-critical",
+        "text": "Notice the critical-angle threshold: as the incident angle approaches it from below, the transmitted ray flattens along the boundary.",
+        "type": "try-this",
+        "priority": 8,
+        "conditions": {
+          "overlayIds": [
+            "criticalGuide"
+          ],
+          "controlRanges": [
+            {
+              "param": "n1",
+              "min": 1.2
+            },
+            {
+              "param": "n2",
+              "max": 1.05
+            }
+          ]
+        },
+        "tryThis": "Turn on the critical-angle guide, use Glass to air, and slide the incident angle upward until the transmitted ray nearly runs along the interface.",
+        "whyItMatters": "That limit is the clean handoff from ordinary refraction into total internal reflection.",
+        "relatedControls": [
+          "incidentAngle",
+          "n1",
+          "n2"
+        ],
+        "relatedOverlays": [
+          "criticalGuide"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the direction first, then apply the change and check the stage, the speed readout, and the graph branch together.",
+    "items": [
+      {
+        "id": "rs-predict-denser-medium",
+        "prompt": "Starting from Air to glass, what happens if you keep the same incident angle but make the lower medium even denser by raising n2?",
+        "scenarioLabel": "Raise n2",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The transmitted ray bends closer to the normal and the lower-medium speed drops."
+          },
+          {
+            "id": "b",
+            "label": "The transmitted ray bends farther from the normal because the boundary pushes harder."
+          },
+          {
+            "id": "c",
+            "label": "Only the speed changes. The transmitted angle stays fixed because theta_1 stayed fixed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Raising n2 lowers v2 and increases the index contrast. Snell's law then requires a smaller transmitted angle, so the ray bends more toward the normal.",
+        "observationHint": "Watch theta_2 shrink on the stage and on the angle map while the speed ratio v2/v1 drops below the air-to-glass baseline.",
+        "apply": {
+          "patch": {
+            "incidentAngle": 50,
+            "n1": 1,
+            "n2": 1.8
+          }
+        },
+        "highlightedControls": [
+          "n2"
+        ],
+        "highlightedGraphs": [
+          "refraction-map",
+          "bend-map"
+        ],
+        "highlightedOverlays": [
+          "normalGuide",
+          "speedGuide"
+        ]
+      },
+      {
+        "id": "rs-predict-normal-incidence",
+        "prompt": "If the incident angle drops all the way to zero while the two indices stay different, what should you expect?",
+        "scenarioLabel": "Go to normal incidence",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The speed changes, but the transmitted ray keeps the same direction because both angles are zero."
+          },
+          {
+            "id": "b",
+            "label": "The ray must still bend because n1 and n2 are different."
+          },
+          {
+            "id": "c",
+            "label": "The boundary has no effect at all once theta_1 is zero."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At normal incidence, Snell's law gives sin(theta_2) = 0 as well, so there is no directional bend. The medium speed can still change because n still changes.",
+        "observationHint": "Apply the normal-incidence preset and compare the speed badges with the unchanged straight-through direction.",
+        "apply": {
+          "presetId": "normal-incidence"
+        },
+        "highlightedControls": [
+          "incidentAngle",
+          "n1",
+          "n2"
+        ],
+        "highlightedGraphs": [
+          "bend-map"
+        ],
+        "highlightedOverlays": [
+          "speedGuide"
+        ]
+      },
+      {
+        "id": "rs-predict-above-critical",
+        "prompt": "Starting from Glass to air, what happens if you increase the incident angle far enough above the critical angle?",
+        "scenarioLabel": "Go above theta_c",
+        "choices": [
+          {
+            "id": "a",
+            "label": "There is no real transmitted angle because Snell's law would require sin(theta_2) > 1."
+          },
+          {
+            "id": "b",
+            "label": "The transmitted ray keeps opening away from the normal until it points straight down."
+          },
+          {
+            "id": "c",
+            "label": "The transmitted ray flips to the other side of the normal in the lower medium."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Once n1 > n2 and the required transmitted sine exceeds one, the transmitted-angle solution stops being real. That is the threshold that leads into total internal reflection.",
+        "observationHint": "Apply the above-critical preset and look for the missing transmitted ray plus the critical-angle note in the readout.",
+        "apply": {
+          "presetId": "glass-to-air-above-critical"
+        },
+        "highlightedControls": [
+          "incidentAngle",
+          "n1",
+          "n2"
+        ],
+        "highlightedGraphs": [
+          "refraction-map"
+        ],
+        "highlightedOverlays": [
+          "criticalGuide"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the real ray diagram, not a separate puzzle state. The checks read the live angles, indices, and overlays from the same boundary you are editing.",
+    "items": [
+      {
+        "id": "rs-ch-hit-refraction-target",
+        "title": "Hit the transmitted-angle target",
+        "style": "target-setting",
+        "prompt": "Starting from Air to glass, tune the setup until the refracted angle lands between 25 and 28 degrees while the speed ratio v2/v1 stays between 0.62 and 0.69.",
+        "successMessage": "You matched the target by coordinating the speed ratio and Snell-angle response on the same boundary.",
+        "setup": {
+          "presetId": "air-to-glass",
+          "graphId": "refraction-map",
+          "overlayIds": [
+            "normalGuide"
+          ],
+          "note": "Use the angle map and the stage together."
+        },
+        "hints": [
+          "A slightly denser lower medium makes the transmitted angle smaller.",
+          "The target speed ratio is below one, so the lower medium must stay slower than the top medium."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Open the incident-to-refracted angle graph.",
+            "graphId": "refraction-map"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the normal and angle guide visible.",
+            "overlayId": "normalGuide"
+          },
+          {
+            "type": "metric-range",
+            "label": "Make theta_2 land between 25 and 28 degrees.",
+            "metric": "refractedAngle",
+            "min": 25,
+            "max": 28,
+            "displayUnit": "deg"
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep v2/v1 between 0.62 and 0.69.",
+            "metric": "speedRatio",
+            "min": 0.62,
+            "max": 0.69
+          }
+        ]
+      },
+      {
+        "id": "rs-ch-compare-denser-variant",
+        "title": "Compare a denser variant",
+        "style": "parameter-match",
+        "prompt": "Open compare mode from Air to glass. Leave Setup A near the baseline, then edit Setup B so the lower medium is noticeably denser and the incident angle is steeper.",
+        "successMessage": "You used compare mode to isolate a stronger index contrast instead of eyeballing two unrelated rays.",
+        "setup": {
+          "presetId": "air-to-glass",
+          "graphId": "bend-map",
+          "overlayIds": [
+            "normalGuide"
+          ],
+          "interactionMode": "compare",
+          "note": "Keep A as the baseline while you edit B."
+        },
+        "hints": [
+          "Setup A should stay close to n2 = 1.5 so it remains the readable baseline.",
+          "Make Setup B both steeper and denser so its ray bends more strongly toward the normal."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Open the bend graph.",
+            "graphId": "bend-map"
+          },
+          {
+            "type": "compare-active",
+            "label": "Edit Setup B while compare mode is active.",
+            "target": "b"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup A near the air-to-glass baseline.",
+            "setup": "a",
+            "param": "n2",
+            "min": 1.48,
+            "max": 1.52
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Make Setup B use a denser lower medium.",
+            "setup": "b",
+            "param": "n2",
+            "min": 1.78,
+            "max": 1.92
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Make Setup B use a steeper incident angle.",
+            "setup": "b",
+            "param": "incidentAngle",
+            "min": 54,
+            "max": 62,
+            "displayUnit": "deg"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Use the speed story, the angle story, and the graph story together. The goal is to reason from the live boundary, not to quote a slogan.",
+    "questions": [
+      {
+        "id": "rs-qt-slower-bends",
+        "type": "variable-effect",
+        "prompt": "What happens when light crosses from a lower-index medium into a higher-index medium at the same incident angle?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It slows down and bends toward the normal."
+          },
+          {
+            "id": "b",
+            "label": "It speeds up and bends toward the normal."
+          },
+          {
+            "id": "c",
+            "label": "It slows down and bends away from the normal."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A higher refractive index means a lower speed. Snell's law then requires a smaller transmitted angle, so the ray bends toward the normal.",
+        "selectedWrongExplanations": {
+          "b": "The bend direction is right, but the speed change is backwards. Higher n means slower light, not faster light.",
+          "c": "Slowing down in the second medium bends the ray inward toward the normal, not outward away from it."
+        },
+        "showMeAction": {
+          "label": "Show the slower second medium",
+          "presetId": "air-to-glass",
+          "observationHint": "Compare the speed badges with the smaller transmitted angle at the same boundary.",
+          "highlightedControlIds": [
+            "n1",
+            "n2"
+          ],
+          "highlightedGraphIds": [
+            "bend-map"
+          ],
+          "highlightedOverlayIds": [
+            "speedGuide",
+            "normalGuide"
+          ]
+        }
+      },
+      {
+        "id": "rs-qt-normal-incidence",
+        "type": "misconception-check",
+        "prompt": "At normal incidence, what stays true even when n1 and n2 are different?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The direction stays straight through, even though the speed can change."
+          },
+          {
+            "id": "b",
+            "label": "The ray must still bend because the indices are different."
+          },
+          {
+            "id": "c",
+            "label": "Nothing changes at all at the boundary."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "With theta_1 = 0, Snell's law also gives theta_2 = 0. The speed can still change because the refractive index changed, but there is no directional bend.",
+        "selectedWrongExplanations": {
+          "b": "Different indices are not enough by themselves. You also need a nonzero incident angle to get a directional bend.",
+          "c": "The direction stays the same, but the boundary still changes the light speed because n changed."
+        },
+        "showMeAction": {
+          "label": "Show normal incidence",
+          "presetId": "normal-incidence",
+          "observationHint": "The ray goes straight through while the speed guide still shows different values in the two media.",
+          "highlightedControlIds": [
+            "incidentAngle"
+          ],
+          "highlightedGraphIds": [
+            "bend-map"
+          ],
+          "highlightedOverlayIds": [
+            "speedGuide"
+          ]
+        }
+      },
+      {
+        "id": "rs-qt-compare-index",
+        "type": "compare-two-cases",
+        "prompt": "Two setups use the same incident angle and the same top medium. Which setup bends more toward the normal?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The one with the larger lower-medium index n2."
+          },
+          {
+            "id": "b",
+            "label": "The one with the smaller lower-medium index n2."
+          },
+          {
+            "id": "c",
+            "label": "Neither. Only the incident angle matters."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "With n1 fixed, a larger n2 lowers the transmitted speed more strongly and makes theta_2 smaller, so the ray bends farther toward the normal.",
+        "selectedWrongExplanations": {
+          "b": "A smaller n2 makes the second medium faster, which opens the transmitted ray away from the normal instead.",
+          "c": "Incident angle matters, but the index contrast matters too. Changing n2 changes the transmitted angle even when theta_1 stays fixed."
+        },
+        "showMeAction": {
+          "label": "Show the denser lower medium",
+          "patch": {
+            "incidentAngle": 50,
+            "n1": 1,
+            "n2": 1.8
+          },
+          "observationHint": "The transmitted angle shrinks and the bend graph rises when the lower medium gets denser.",
+          "highlightedControlIds": [
+            "n2"
+          ],
+          "highlightedGraphIds": [
+            "refraction-map",
+            "bend-map"
+          ],
+          "highlightedOverlayIds": [
+            "normalGuide"
+          ]
+        }
+      },
+      {
+        "id": "rs-qt-critical",
+        "type": "reasoning",
+        "prompt": "If light goes from higher n to lower n and Snell's law would require sin(theta_2) > 1, what does that tell you?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "There is no real transmitted angle at that incident angle."
+          },
+          {
+            "id": "b",
+            "label": "The transmitted ray points straight down into the second medium."
+          },
+          {
+            "id": "c",
+            "label": "The second medium must suddenly become slower than the first."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A sine above one is not physically real for an angle, so the transmitted-angle solution breaks down. That is the threshold leading into total internal reflection.",
+        "selectedWrongExplanations": {
+          "b": "Straight down would mean zero angle from the normal, not a sine above one.",
+          "c": "The indices did not change suddenly. The issue is that the requested transmitted angle is no longer real for the existing media pair."
+        },
+        "showMeAction": {
+          "label": "Show the above-critical case",
+          "presetId": "glass-to-air-above-critical",
+          "observationHint": "The readout flags the missing transmitted ray, and the critical-angle guide shows the limit the setup has crossed.",
+          "highlightedControlIds": [
+            "incidentAngle",
+            "n1",
+            "n2"
+          ],
+          "highlightedGraphIds": [
+            "refraction-map"
+          ],
+          "highlightedOverlayIds": [
+            "criticalGuide"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a horizontal boundary separating a top medium from a bottom medium, with a dashed normal line through the point where the ray hits the interface. One incoming ray approaches from the upper left, and the transmitted ray leaves into the lower right unless the current setup exceeds the critical-angle limit.",
+        "Optional overlays show the angle markers, the medium-speed guide, and the critical-angle threshold used to introduce total internal reflection honestly."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The first graph plots refracted angle against incident angle for the current media pair, so hovering it previews a different boundary setup rather than a later moment in time.",
+        "The second graph plots the signed bend relative to the normal, with positive values meaning toward the normal and negative values meaning away. When a critical angle exists, the plotted branch stops where no real transmitted angle remains."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Refraction / Snell's Law",
+    "description": "Interactive refraction and Snell's law with refractive-index controls, speed-change readouts, graph-linked previews, and a clean bridge toward total internal reflection.",
+    "keywords": [
+      "refraction",
+      "snell's law",
+      "refractive index",
+      "critical angle",
+      "optics"
+    ]
+  },
+  "v2": {
+    "intuition": "Refraction is one boundary negotiation: the ray keeps the same boundary crossing point, but the wave speed changes when the refractive index changes, so the transmitted angle must adjust.",
+    "whyItMatters": "This is the bridge from ray sketches to lenses, fibers, rainbows, and total internal reflection: once you can read speed change and angle change together, Snell's law stops being a memorized formula.",
+    "estimatedMinutes": 15,
+    "equationSnapshot": {
+      "equationIds": [
+        "index-speed",
+        "snell-law",
+        "critical-angle"
+      ],
+      "note": "Start with index as the speed clue, then use Snell's law for the angle; only use the critical-angle rule when light is leaving the higher-index side."
+    },
+    "startSetup": {
+      "presetId": "air-to-glass",
+      "graphId": "refraction-map",
+      "overlayIds": [
+        "normalGuide",
+        "speedGuide"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-boundary-ray",
+        "title": "Read one boundary ray",
+        "goal": "Connect the incident angle, speed change, and transmitted angle in the default air-to-glass setup.",
+        "doThis": "Keep Air to glass selected, leave the normal and speed guides on, and compare theta_1, theta_2, n1, n2, and v2/v1 in the same stage.",
+        "notice": "The lower medium has the larger index and smaller speed ratio, and the transmitted angle is closer to the normal than the incoming ray.",
+        "explain": "A larger refractive index means a lower wave speed. Snell's law turns that speed contrast into the smaller transmitted angle you see on the diagram.",
+        "reveal": {
+          "controlIds": [
+            "incidentAngle",
+            "n1",
+            "n2"
+          ],
+          "graphIds": [
+            "refraction-map"
+          ],
+          "overlayIds": [
+            "normalGuide",
+            "speedGuide"
+          ]
+        },
+        "setup": {
+          "presetId": "air-to-glass",
+          "graphId": "refraction-map",
+          "overlayIds": [
+            "normalGuide",
+            "speedGuide"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "rs-qt-slower-bends"
+          ]
+        }
+      },
+      {
+        "id": "make-the-second-medium-slower",
+        "title": "Make medium 2 slower",
+        "goal": "See how increasing n2 changes both the speed ratio and the refracted angle.",
+        "doThis": "Raise the bottom-medium index n2 while keeping the incident angle and top medium fixed, then watch the angle map and speed guide together.",
+        "notice": "The speed ratio v2/v1 drops and theta_2 shrinks, so the bend toward the normal becomes stronger.",
+        "explain": "With n1 and theta_1 fixed, a larger n2 makes Snell's-law target (n1/n2) sin(theta_1) smaller. That forces the transmitted ray closer to the normal.",
+        "reveal": {
+          "controlIds": [
+            "n2"
+          ],
+          "graphIds": [
+            "refraction-map",
+            "bend-map"
+          ],
+          "overlayIds": [
+            "normalGuide",
+            "speedGuide"
+          ]
+        },
+        "setup": {
+          "patch": {
+            "incidentAngle": 50,
+            "n1": 1,
+            "n2": 1.8
+          },
+          "graphId": "bend-map",
+          "overlayIds": [
+            "normalGuide",
+            "speedGuide"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "rs-predict-denser-medium"
+          ],
+          "questionIds": [
+            "rs-qt-compare-index"
+          ]
+        }
+      },
+      {
+        "id": "separate-speed-change-from-bending",
+        "title": "Separate speed from bend",
+        "goal": "Use normal incidence to separate a speed change from a direction change.",
+        "doThis": "Switch to Normal incidence and compare the straight-through ray with the speed guide and bend graph.",
+        "notice": "The ray does not kink because both angles are zero, but the media still have different refractive indices and speeds.",
+        "explain": "Snell's law gives theta_2 = 0 when theta_1 = 0. Refraction can include a speed change without a visible direction change.",
+        "reveal": {
+          "controlIds": [
+            "incidentAngle",
+            "n1",
+            "n2"
+          ],
+          "graphIds": [
+            "bend-map"
+          ],
+          "overlayIds": [
+            "speedGuide",
+            "normalGuide"
+          ]
+        },
+        "setup": {
+          "presetId": "normal-incidence",
+          "graphId": "bend-map",
+          "overlayIds": [
+            "speedGuide",
+            "normalGuide"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "rs-predict-normal-incidence"
+          ],
+          "questionIds": [
+            "rs-qt-normal-incidence"
+          ]
+        }
+      },
+      {
+        "id": "find-the-critical-limit",
+        "title": "Find the critical limit",
+        "goal": "Recognize when Snell's law stops producing a real transmitted ray.",
+        "doThis": "Switch to Glass to air above critical, turn on the critical-angle guide, and compare the graph cutoff with the missing transmitted ray.",
+        "notice": "Leaving the higher-index medium at a steep angle would require sin(theta_2) greater than one, so the transmitted branch ends.",
+        "explain": "The critical angle is not a new bending rule; it is the edge case of Snell's law when light tries to go from slower to faster medium too steeply.",
+        "reveal": {
+          "controlIds": [
+            "incidentAngle",
+            "n1",
+            "n2"
+          ],
+          "graphIds": [
+            "refraction-map"
+          ],
+          "overlayIds": [
+            "normalGuide",
+            "criticalGuide"
+          ]
+        },
+        "setup": {
+          "presetId": "glass-to-air-above-critical",
+          "graphId": "refraction-map",
+          "overlayIds": [
+            "normalGuide",
+            "criticalGuide"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "rs-predict-above-critical"
+          ],
+          "questionIds": [
+            "rs-qt-critical"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Use refractive index as the speed clue: larger n means slower light.",
+        "Measure both angles from the normal before applying Snell's law.",
+        "Predict bend direction from whether the second medium is slower or faster.",
+        "Treat the critical angle as the point where the transmitted-angle solution stops being real."
+      ],
+      "misconception": "Do not measure ray angles from the surface, and do not treat the boundary as a sideways push; the bend follows from speed change plus Snell's law.",
+      "workedExampleRefs": [
+        "solve-refracted-angle",
+        "compare-speed-ratio"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "dispersion-refractive-index-color",
+          "reasonLabel": "Color changes n and bend"
+        },
+        {
+          "slug": "total-internal-reflection",
+          "reasonLabel": "Extend the critical limit"
+        },
+        {
+          "slug": "lens-imaging",
+          "reasonLabel": "Build many bends into an image"
+        }
+      ],
+      "freePlayPrompt": "Try making n1 larger than n2, then slide the incident angle upward until the transmitted ray disappears; explain the cutoff using the critical-angle equation."
+    },
+    "referenceSections": [
+      "workedExamples",
+      "keyIdeas",
+      "commonMisconception"
+    ]
+  }
+}

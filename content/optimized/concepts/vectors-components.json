@@ -1,0 +1,232 @@
+{
+"pageFramework": {
+"sections": [
+{
+"id": "workedExamples",
+"title": "Work the live vector"
+},
+{
+"id": "miniChallenge",
+"title": "Rotate and predict"
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"A diagonal vector is not a special new object. It is one vector split into a horizontal part and a vertical part, so you can analyze it by tracking two perpendicular components.",
+"In this model the vector stays constant, so the component graph stays flat, the $x(t)$ and $y(t)$ graphs stay linear, and the point follows a straight path. One magnitude and one angle control every representation, which is why component thinking carries directly into later mechanics."
+]
+},
+"keyIdeas": [
+"The horizontal and vertical components are exact projections of one vector, not two separate motions you invent afterward.",
+"At fixed magnitude, changing angle redistributes the same vector between $v_x$ and $v_y$.",
+"If $v_x$ and $v_y$ stay constant, the point moves on a straight line, the component graph stays flat, and $x(t)$ and $y(t)$ remain linear."
+],
+"commonMisconception": {
+"myth": "A diagonal vector needs its own special rule, so components are only rough estimates.",
+"correction": [
+"The components are exact perpendicular projections of the same vector. Using trigonometry and the Pythagorean relation takes you back to the original magnitude and angle.",
+"A negative component tells you direction along an axis, not that the whole vector became smaller."
+]
+},
+"workedExamples": {
+"title": "Work the live vector",
+"intro": "Read the current magnitude and angle from the controls, then check the calculation against the stage and graphs. In the time-based example, the values follow the current inspected time unless you freeze it.",
+"items": [
+{
+"id": "current-components",
+"title": "Current vector components",
+"prompt": "For the current vector, what are $v_x$ and $v_y$?",
+"resultLabel": "Live components",
+"applyAction": {
+"label": "Apply a steeper angle",
+"observationHint": "Watch the 1 s reference step and the component graph together: the total vector stays the same size, but more of it shifts into the vertical component and less into the horizontal component."
+}
+},
+{
+"id": "current-displacement",
+"title": "Position at the current time",
+"prompt": "After $t = {{timeValue}}\\,\\mathrm{s}$, where is the point on the stage?",
+"resultLabel": "Live position",
+"applyAction": {
+"label": "Apply a downward angle",
+"observationHint": "The point still moves along one straight path. What changes is the sign of the vertical component, so the path slopes downward while the horizontal motion stays to the right."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Keep the vector magnitude fixed and rotate the direction closer to the vertical axis. What happens to the horizontal and vertical components, and how does the path on the stage change?",
+"prediction": "Decide which component grows, which shrinks, and whether the straight path becomes flatter or steeper before you test it.",
+"answer": "The vertical component grows in magnitude, the horizontal component shrinks, and the path tilts closer to vertical.",
+"explanation": "The total vector length stays the same, so changing angle only redistributes that length between the horizontal and vertical legs of the triangle. Because the components are still constant, the path stays straight."
+}
+},
+"simulation": {
+"overlays": [
+{
+"id": "componentGuides",
+"shortDescription": "Drops perpendicular guides from the current point to show the horizontal and vertical parts.",
+"whatToNotice": [
+"The guide lines form the same right triangle described by the component equations."
+],
+"whyItMatters": "It makes the link between the stage position, the component values, and the triangle geometry visible."
+},
+{
+"id": "angleMarker",
+"shortDescription": "Marks the vector angle from the positive x-axis.",
+"whatToNotice": [
+"Crossing below the x-axis or past $90^\\circ$ can change a component sign without changing the sine and cosine rules."
+],
+"whyItMatters": "It keeps the angle convention visible, so sign changes and quadrant reasoning are easier to track."
+},
+{
+"id": "referenceStep",
+"shortDescription": "Shows the one-second displacement and splits that single step into horizontal and vertical parts.",
+"whatToNotice": [
+"The 1 s step stays the same while the point keeps repeating that component split as time increases."
+],
+"whyItMatters": "It separates the constant vector from the growing displacement it produces over time."
+}
+]
+},
+"graphs": [
+{
+"id": "path",
+"description": "Shows the straight-line track of the moving point in the plane. Its direction is set by the current component ratio."
+},
+{
+"id": "position",
+"description": "Shows $x(t)$ and $y(t)$ separately, so their slopes reveal the size and sign of the horizontal and vertical components."
+},
+{
+"id": "components",
+"description": "Shows $v_x$ and $v_y$ as constant lines because the vector itself does not change with time in this model."
+}
+],
+"noticePrompts": {
+"intro": "Use these prompts to connect one control change to one visible result. Check the stage, overlays, and graphs together rather than treating them as separate views.",
+"items": [
+{
+"id": "vc-notice-component-triangle",
+"text": "Notice that one diagonal displacement is exactly one horizontal change and one vertical change happening together.",
+"tryThis": "Keep the magnitude fixed, rotate the vector, and compare the triangle on the stage with the $x(t)$ and $y(t)$ graphs.",
+"whyItMatters": "This same decomposition move is used later for displacement, velocity, and force."
+},
+{
+"id": "vc-notice-path-link",
+"text": "Notice that the stage point and the path graph show the same position at the same time.",
+"tryThis": "Hover or scrub the path graph and watch the stage point move to the matching place on the straight path.",
+"whyItMatters": "It helps you read the graph as a map of the motion, not as a separate picture."
+},
+{
+"id": "vc-notice-angle-redistribution",
+"text": "Notice that rotating at fixed magnitude makes one component grow while the other shrinks.",
+"tryThis": "Rotate from about 35 degrees toward 75 degrees and compare the $v_x$ and $v_y$ lines before you look back at the path.",
+"whyItMatters": "This shows that angle redistributes the same vector instead of creating extra length."
+},
+{
+"id": "vc-notice-negative-component",
+"text": "A negative component means that projection points in the negative axis direction. It does not mean the whole vector became smaller.",
+"tryThis": "Keep the magnitude the same and drag the vector below the x-axis. The vertical component flips sign while the total vector keeps the same size.",
+"whyItMatters": "You need that sign idea later when forces or velocities point leftward or downward."
+},
+{
+"id": "vc-notice-inspection",
+"text": "Pausing changes the accumulated position, but it does not change the vector components themselves.",
+"tryThis": "Pause and step through time. The markers on $x(t)$ and $y(t)$ move, while the $v_x$ and $v_y$ lines stay flat because the components are constant.",
+"whyItMatters": "It separates accumulated displacement from the constant rate that creates it."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict the outcome before changing the vector. Then test it and use the stage, component graph, and path graph to explain what happened.",
+"items": [
+{
+"id": "vc-predict-steep",
+"prompt": "If the angle rotates from 35 degrees to 75 degrees while magnitude stays fixed, what changes must you see?",
+"explanation": "At fixed magnitude, rotating toward vertical gives more of the same total vector to $v_y$ and less to $v_x$. That is why the path becomes steeper.",
+"observationHint": "Watch $v_x$ drop, $v_y$ rise, and the straight path tilt upward."
+},
+{
+"id": "vc-predict-downward",
+"prompt": "If you keep the same magnitude but rotate the vector to -30 degrees, what must be true about the components?",
+"explanation": "A negative angle points below the x-axis but still to the right, so $v_y$ becomes negative while $v_x$ stays positive.",
+"observationHint": "Check the signs on the component graph and then confirm them from the path direction on the stage."
+}
+]
+},
+"challengeMode": {
+"intro": "Use the controls, overlays, and inspect rail as measuring tools. The goal is to build a vector and justify it from the live readout, not just guess a picture.",
+"items": [
+{
+"id": "vc-ch-equal-components",
+"prompt": "Build a vector whose horizontal and vertical components are nearly the same size. Keep the component graph open so you can match the two lines, not just eyeball the angle.",
+"successMessage": "You made the two components nearly equal. The graph values and the stage triangle now agree.",
+"setup": {
+"note": "Use the component graph and the guides together. One shows equal values, the other shows equal triangle legs."
+},
+"hints": [
+"A good first try is near $45^\\circ$, because equal legs come from a balanced angle.",
+"If one component is still larger, rotate the vector toward the smaller component's axis."
+]
+},
+{
+"id": "vc-ch-hit-end-point",
+"prompt": "At the end of the $4\\,\\mathrm{s}$ walk, make the point land near $(16\\,\\mathrm{m}, 12\\,\\mathrm{m})$.",
+"successMessage": "You matched the target endpoint by coordinating angle and magnitude. The stage position and the graphs point to the same final location.",
+"setup": {
+"note": "Choose the vector, let the motion run, then inspect the final sample to fine-tune both coordinates."
+},
+"hints": [
+"Use inspect mode near the end of the motion window so you are checking the correct time.",
+"A shallower angle increases horizontal reach faster than vertical reach for the same magnitude."
+]
+}
+]
+},
+"quickTest": {
+"intro": "Use the stage, the component graph, and the position graph together. These questions check whether you can explain the motion from the representations, not just recall formulas.",
+"questions": [
+{
+"id": "vc-qt-2",
+"prompt": "If the angle is $90^\\circ$, what must be true?",
+"explanation": "At $90^\\circ$, the vector points entirely along the vertical axis. That makes the horizontal projection zero, but the vector can still have a nonzero magnitude.",
+"selectedWrongExplanations": {
+"b": "Pointing straight up says nothing about the vector's size. Only the horizontal projection becomes zero at $90^\\circ$.",
+"c": "At $90^\\circ$, the vector aligns with the vertical axis, so the vertical component is as large as it can be for that magnitude."
+},
+"showMeAction": {
+"observationHint": "The path becomes vertical on the stage, the $x(t)$ line stays at zero, and the $v_x$ line sits on the axis while $v_y$ stays positive."
+}
+},
+{
+"id": "vc-qt-3",
+"prompt": "On the position graph, the $x(t)$ line slopes upward while the $y(t)$ line slopes downward. What motion does that represent?",
+"explanation": "An upward slope in $x(t)$ means the point keeps moving right. A downward slope in $y(t)$ means it keeps moving downward. Both happen at the same time.",
+"selectedWrongExplanations": {
+"b": "The sign or slope of $y(t)$ does not decide horizontal motion. The upward slope of $x(t)$ shows the motion is still to the right.",
+"c": "A downward $y(t)$ line only means the vertical component is negative. The vector can still have a large magnitude."
+},
+"showMeAction": {
+"observationHint": "The $x(t)$ line rises, the $y(t)$ line falls, and the path heads into the fourth quadrant on the stage."
+}
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows a coordinate plane with a vector starting at the origin and a point that moves in the vector direction as time passes. Optional overlays can show the angle, the one-second reference step, and guides that split the motion into horizontal and vertical parts.",
+"Changing magnitude or angle updates the stage and every graph together, so the same vector decomposition stays visible across the path, the position plots, and the component readout."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"The path graph is a straight line because the horizontal and vertical components stay constant. Hovering or scrubbing the path graph moves the stage point to the matching place on that line.",
+"The position graph shows straight-line $x(t)$ and $y(t)$ trends, while the component graph shows flat $v_x$ and $v_y$ lines. Together they show the difference between constant components and the displacement those components build over time."
+]
+}
+}
+}

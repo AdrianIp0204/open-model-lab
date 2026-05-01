@@ -1,0 +1,252 @@
+{
+  "title": "圖形表示和鄰接直覺",
+  "shortTitle": "圖形鄰接",
+  "summary": "保持一個活躍的圖形、一個區域性鄰居和一個前沿提示一起可見，以便在遍歷規則變得正式之前，圖形結構感覺可以讀懂。",
+  "highlights": [
+    "區域性鄰居",
+    "第一個前沿",
+    "一個活躍的圖形試驗台"
+  ],
+  "topic": "演演算法與搜尋",
+  "subtopic": "圖形鄰居和鄰接",
+  "recommendedNext": [
+    {
+      "slug": "breadth-first-search-and-layered-frontiers",
+      "reasonLabel": "將區域性鄰接轉換為層次搜尋"
+    },
+    {
+      "slug": "depth-first-search-and-backtracking-paths",
+      "reasonLabel": "在同一個圖形下比較分支-first前沿"
+    }
+  ],
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "一個圖形應該感覺像是一個活躍的鄰居地圖，而不是抽象的一系列圓圈和線條。這個試驗台保持一個標籤化的圖形、一個活動的前沿和一個鄰接讀出一起可見，以便在搜尋語言變得更正式之前，區域性連線保持可讀。",
+        "鄰接是第一個誠實的問題：當前節點現在可以直接觸及哪些節點？一旦這個區域性鄰居是可見的，廣度優先和深度優先搜尋就成為組織同一種下一步選項的不同方式。"
+      ]
+    },
+    "keyIdeas": [
+      "一個圖形由節點和邊構成，但有用的閱讀是區域性鄰接。",
+      "前沿只是已經被宣稱但尚未完全探索的相鄰候選集。",
+      "更改起始節點會改變第一個鄰居區域，即使圖形本身保持不變。"
+    ],
+    "commonMisconception": {
+      "myth": "閱讀一個圖形意味著一次看整個圖形並猜測一條全域性路徑。",
+      "correction": [
+        "誠實的第一步是區域性：閱讀當前節點的鄰居。",
+        "搜尋從一個鄰居區域延伸到另一個，而不是從一場魔幻的全圖掃描開始。"
+      ]
+    },
+    "workedExamples": {
+      "title": "示例",
+      "intro": "在試驗台上直接讀取一個鄰居區域之前，不要談論演算法。",
+      "items": [
+        {
+          "id": "read-the-first-neighborhood-from-a",
+          "title": "從A閱讀第一個鄰居區域",
+          "prompt": "在分層校園圖中，起始節點A立即使哪些部分可見？",
+          "variables": [
+            {
+              "id": "graph-layout",
+              "label": "圖佈局"
+            },
+            {
+              "id": "start-node",
+              "label": "起始節點"
+            },
+            {
+              "id": "first-frontier",
+              "label": "第一個前沿"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-adjacent-neighbors",
+              "label": "1. 首先只讀取直接鄰居"
+            },
+            {
+              "id": "name-the-frontier",
+              "label": "2. 將這個鄰居轉換為前沿"
+            },
+            {
+              "id": "connect-to-later-search",
+              "label": "3. 指出後來什麼保持不變"
+            }
+          ],
+          "resultLabel": "第一個鄰居區域讀取",
+          "applyAction": {
+            "label": "顯示分層校園圖",
+            "observationHint": "保持鄰居面板和前沿提示一起可見，以便第一個鄰居區域從未轉化為術語。"
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "移動起始節點直到第一個鄰居區域明顯延伸",
+      "prediction": "在移動滑桿之前，決定是否需要一個樞紐節點或邊節點。",
+      "answer": "從樞紐節點開始，如果希望第一個前沿立即延伸。",
+      "explanation": "樞紐節點有更多的鄰居，所以即使圖是同一個物件，前沿也會更快地散開。"
+    }
+  },
+  "quickTest": {
+    "title": "快速測驗",
+    "intro": "根據可見的鄰居回答問題，而不是記憶中的圖形術語。",
+    "questions": [
+      {
+        "id": "grai-qt-adjacency",
+        "prompt": "在這個圖表台上，什麼意味著節點之間的鄰接？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "兩個節點是鄰接的，當有一條邊直接連線它們時。"
+          },
+          {
+            "id": "b",
+            "label": "兩個節點是鄰接的，當它們在同一頁面上繪製在同一側時。"
+          },
+          {
+            "id": "c",
+            "label": "鄰接意味著節點已經被訪問過。"
+          }
+        ],
+        "explanation": "鄰接是一條直接邊緣關係，而不是對整個地圖的視覺猜測。"
+      },
+      {
+        "id": "grai-qt-first-frontier",
+        "prompt": "什麼最直接設定第一個前沿？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "選擇的起始節點的鄰居。"
+          },
+          {
+            "id": "b",
+            "label": "圖中的節點總數。"
+          },
+          {
+            "id": "c",
+            "label": "目標是否在繪製的右側。"
+          }
+        ],
+        "explanation": "前沿以當前節點的鄰居為開始，所以起始節點立即重要。"
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一個標記圖表，其中當前節點、前沿節點和已訪問節點以不同顏色著色，以便區域性鄰域保持可見。",
+        "讀出卡片報告遍歷模式、當前節點、前沿大小和目標，而提示面板顯示前沿順序和當前鄰居列表。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "一個圖表跟蹤已訪問節點與前沿大小的關係，第二個跟蹤當前深度與最深聲稱深度的關係，第三個比較新發現與重複跳過。",
+        "區域性鄰域轉換為活躍搜尋前沿"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "readNext",
+        "title": "分層校園從A開始"
+      }
+    ],
+    "featuredSetups": [
+      {
+        "id": "layered-campus-neighborhood",
+        "label": "開啟一個圖表，其中第一個鄰居集小且容易閱讀。",
+        "description": "從樞紐節點開始，以便一個節點立即散開成兩個繞行。"
+      },
+      {
+        "id": "hub-detours-center",
+        "label": "鄰居集合",
+        "description": "從樞紐節點開始，使第一個鄰居集可以改變而不更換整個圖表。"
+      }
+    ]
+  },
+  "equations": [
+    {
+      "id": "neighbor-set",
+      "label": "度數",
+      "meaning": "節點v的鄰居是透過一條邊與之相連的節點。"
+    },
+    {
+      "id": "degree-count",
+      "label": "度數",
+      "meaning": "度數計算一個節點有多少個直接鄰居。"
+    },
+    {
+      "id": "first-frontier",
+      "label": "第一個前沿",
+      "meaning": "第一個前沿是選擇的起始節點的鄰居。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "graph-layout",
+      "label": "圖佈局",
+      "description": "在同一遍歷平台上切換有界圖場景。"
+    },
+    {
+      "id": "start-node",
+      "label": "起始節點",
+      "description": "移動發射點，以便第一個鄰居集可以改變而不更換整個圖表。"
+    },
+    {
+      "id": "target-node",
+      "label": "目標節點",
+      "description": "標記後續搜尋將嘗試達到的節點。"
+    },
+    {
+      "id": "traversal-mode",
+      "label": "遍歷模式",
+      "description": "保持廣度優先和深度優先在相同的圖上可用，一旦鄰居影像穩定。"
+    }
+  ],
+  "simulation": {
+    "controls": [
+      {
+        "id": "start-node",
+        "label": "起始節點"
+      },
+      {
+        "id": "target-node",
+        "label": "目標節點"
+      },
+      {
+        "id": "traversal-mode",
+        "label": "遍歷模式"
+      }
+    ],
+    "presets": [
+      {
+        "id": "layered-campus-bfs",
+        "label": "分層校園BFS"
+      },
+      {
+        "id": "layered-campus-dfs",
+        "label": "層次校園 DFS"
+      },
+      {
+        "id": "bridge-cycle-bfs",
+        "label": "橋梁迴圈BFS"
+      },
+      {
+        "id": "bridge-cycle-dfs",
+        "label": "橋迴圈 DFS"
+      },
+      {
+        "id": "hub-detours-bfs",
+        "label": "鄰居集合"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "保持一個活躍的圖形、一個區域性鄰居和一個前沿提示一起可見，以便在遍歷規則變得正式之前，圖形結構感覺可以讀懂。",
+    "whyItMatters": "一個圖形應該感覺像是一個活躍的鄰居地圖，而不是抽象的一系列圓圈和線條。這個試驗台保持一個標籤化的圖形、一個活動的前沿和一個鄰接讀出一起可見，以便在搜尋語言變得更正式之前，區域性連線保持可讀。",
+    "keyTakeaway": "一個圖形由節點和邊構成，但有用的閱讀是區域性鄰接。"
+  }
+}

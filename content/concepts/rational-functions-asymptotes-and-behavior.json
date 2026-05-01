@@ -1,0 +1,915 @@
+{
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "shifted-reciprocal",
+        "label": "Shifted reciprocal",
+        "description": "Open a clean asymptote case with both intercept markers visible.",
+        "setup": {
+          "presetId": "shifted-right-down",
+          "graphId": "asymptote-response",
+          "overlayIds": [
+            "asymptotes",
+            "intercepts",
+            "probeMarkers"
+          ],
+          "note": "Use this setup to read the vertical break, the horizontal level, and both intercepts on one bench."
+        }
+      },
+      {
+        "id": "removable-hole-view",
+        "label": "Removable hole",
+        "description": "Open the canceled-factor case and compare the extra domain break with the same asymptote family.",
+        "setup": {
+          "presetId": "removable-hole",
+          "graphId": "asymptote-response",
+          "overlayIds": [
+            "asymptotes",
+            "holeMarker",
+            "probeMarkers"
+          ],
+          "note": "Use this to see that the hole adds one removable break without moving the asymptotes."
+        }
+      }
+    ],
+    "sections": [
+      {
+        "id": "readNext",
+        "title": "Keep The Function Branch Coherent"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Vary one shifted reciprocal family so domain breaks, vertical and horizontal asymptotes, intercepts, and removable-hole behavior stay tied to the same graph.",
+    "keyTakeaway": "The denominator decides the forbidden x-value x = h, so the graph breaks there and the domain excludes that point."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Rational functions become easier to trust when one shifted reciprocal family stays on the same graph while the asymptotes, probe points, intercepts, and optional removable hole all move together. This bench keeps the family bounded on purpose: one vertical break at x = h, one horizontal level at y = k, one branch scale a, and one optional canceled-factor hole at x = p.",
+        "The goal is not to turn this page into a symbolic simplifier. The goal is to make the graph behavior honest. Learners should be able to see which x-values are forbidden, which side of the horizontal asymptote each branch lives on, how the graph blows up near the vertical asymptote, and what a removable hole changes without pretending the whole family has been transformed into a giant algebra engine."
+      ]
+    },
+    "keyIdeas": [
+      "The denominator decides the forbidden x-value x = h, so the graph breaks there and the domain excludes that point.",
+      "The added constant k sets the horizontal asymptote y = k, so the graph settles toward that level far to the left and far to the right.",
+      "The sign of a decides which side of the horizontal asymptote each branch occupies, and the magnitude of a controls how strongly the graph bends near the vertical asymptote."
+    ],
+    "commonMisconception": {
+      "myth": "A removable hole should behave exactly like a vertical asymptote because both come from the denominator.",
+      "correction": [
+        "A vertical asymptote is where the graph grows without bound as x approaches the forbidden value.",
+        "A removable hole is different: the nearby curve still approaches one finite height, but the function is left undefined at that one x-value."
+      ]
+    },
+    "workedExamples": {
+      "title": "Worked examples",
+      "intro": "Use two fixed cases to keep asymptotes, domain breaks, and removable holes tied to one visible reciprocal family.",
+      "items": [
+        {
+          "id": "read-the-shifted-reciprocal",
+          "title": "Read one shifted reciprocal family",
+          "prompt": "For the preset f(x) = -1 + 2/(x - 1), what should the graph show first?",
+          "variables": [
+            {
+              "id": "example-case",
+              "variableId": "asymptote-x",
+              "symbol": "E",
+              "label": "Example case",
+              "valueKey": "Shifted reciprocal"
+            }
+          ],
+          "steps": [
+            {
+              "id": "vertical-break",
+              "label": "1. Read the forbidden denominator value",
+              "template": "The denominator vanishes at x = 1, so the graph has a vertical asymptote there and the domain excludes x = 1."
+            },
+            {
+              "id": "horizontal-level",
+              "label": "2. Read the long-run level",
+              "template": "Far from the asymptote, the reciprocal part fades and the graph settles toward y = -1, so that is the horizontal asymptote."
+            },
+            {
+              "id": "intercepts",
+              "label": "3. Check the intercepts on the same graph",
+              "template": "Setting y = 0 gives x = 3, and plugging in x = 0 gives y = -3, so the graph crosses at (3, 0) and (0, -3)."
+            }
+          ],
+          "resultLabel": "Visible landmarks",
+          "resultTemplate": "VA: x = 1, HA: y = -1, x-int: (3, 0), y-int: (0, -3)",
+          "interpretationTemplate": "This is the clean shifted-reciprocal story: one forbidden x-value, one horizontal level, and intercepts that still belong to the same family."
+        },
+        {
+          "id": "compare-the-removable-hole",
+          "title": "Compare the removable hole with the asymptote",
+          "prompt": "In the removable-hole preset f(x) = -0.5 + 3(x - 1)/((x + 1)(x - 1)), what changes and what stays the same?",
+          "variables": [
+            {
+              "id": "example-case",
+              "variableId": "hole-location",
+              "symbol": "E",
+              "label": "Example case",
+              "valueKey": "Removable hole"
+            }
+          ],
+          "steps": [
+            {
+              "id": "asymptote-stays",
+              "label": "1. Keep the true asymptote separate from the canceled factor",
+              "template": "The factor x + 1 still creates the true vertical asymptote at x = -1, so the graph still blows up there."
+            },
+            {
+              "id": "hole-location",
+              "label": "2. Read the removable break",
+              "template": "The factor x - 1 cancels from the family, so x = 1 becomes a removable hole instead of another asymptote."
+            },
+            {
+              "id": "hole-height",
+              "label": "3. Read the missing point from the nearby curve",
+              "template": "The nearby branch is still aiming at y = 1 when x approaches 1, so the hole sits at (1, 1) while the horizontal asymptote stays at y = -0.5."
+            }
+          ],
+          "resultLabel": "What changed",
+          "resultTemplate": "VA: x = -1, HA: y = -0.5, removable hole: (1, 1)",
+          "interpretationTemplate": "The removable hole adds one more excluded x-value, but it does not replace the true asymptote or the horizontal end behavior."
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Set the family so the vertical asymptote is left of the y-axis, the right branch sits below the horizontal asymptote, and a removable hole appears on positive x.",
+      "prediction": "Decide which control changes the asymptote position, which one flips the branch orientation, and which one only adds a removable break before you test it.",
+      "answer": "You need a negative h-value, a negative branch scale, and the removable-hole toggle turned on with the hole placed to the right of the y-axis.",
+      "explanation": "The asymptote position comes from h, the branch orientation comes from the sign of a, and the removable hole is a second domain break that does not move the asymptotes."
+    }
+  },
+  "equations": [
+    {
+      "id": "shifted-reciprocal",
+      "latex": "f(x) = k + \\frac{a}{x - h}",
+      "label": "Shifted reciprocal family",
+      "meaning": "Keeps one vertical asymptote at x = h and one horizontal asymptote at y = k while a sets the branch orientation and bend strength."
+    },
+    {
+      "id": "vertical-break",
+      "latex": "x \\neq h \\quad (\\text{and } x \\neq p \\text{ when a removable hole is shown})",
+      "label": "Domain breaks",
+      "meaning": "Marks the x-values that the graph cannot use because the denominator or canceled-factor seam removes them."
+    },
+    {
+      "id": "end-behavior",
+      "latex": "\\lim_{x \\to \\pm\\infty} f(x) = k",
+      "label": "Horizontal asymptote",
+      "meaning": "Shows that the reciprocal part fades far from the vertical break, so the graph settles toward the level y = k."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "asymptote-x",
+      "symbol": "h",
+      "label": "Vertical asymptote x-value",
+      "param": "asymptoteX",
+      "tone": "sky",
+      "description": "Moves the forbidden x-value left or right, which shifts the whole family horizontally without changing the horizontal asymptote level.",
+      "equationIds": [
+        "shifted-reciprocal",
+        "vertical-break"
+      ],
+      "graphIds": [
+        "asymptote-response"
+      ],
+      "overlayIds": [
+        "asymptotes",
+        "probeMarkers"
+      ]
+    },
+    {
+      "id": "horizontal-level",
+      "symbol": "k",
+      "label": "Horizontal asymptote y-value",
+      "param": "horizontalAsymptoteY",
+      "tone": "amber",
+      "description": "Raises or lowers the horizontal asymptote and carries the whole family with it in the long run.",
+      "equationIds": [
+        "shifted-reciprocal",
+        "end-behavior"
+      ],
+      "graphIds": [
+        "asymptote-response"
+      ],
+      "overlayIds": [
+        "asymptotes",
+        "intercepts"
+      ]
+    },
+    {
+      "id": "branch-scale",
+      "symbol": "a",
+      "label": "Branch scale",
+      "param": "branchScale",
+      "tone": "teal",
+      "description": "Flips which branch sits above or below y = k and changes how sharply the graph bends near the vertical asymptote.",
+      "equationIds": [
+        "shifted-reciprocal",
+        "end-behavior"
+      ],
+      "graphIds": [
+        "asymptote-response"
+      ],
+      "overlayIds": [
+        "asymptotes",
+        "probeMarkers",
+        "intercepts"
+      ]
+    },
+    {
+      "id": "probe-distance",
+      "symbol": "d",
+      "label": "Probe distance",
+      "param": "sampleDistance",
+      "tone": "coral",
+      "description": "Moves the left and right sample points closer to or farther from the forbidden x-value so you can watch the graph blow up near the asymptote.",
+      "equationIds": [
+        "vertical-break"
+      ],
+      "graphIds": [
+        "asymptote-response"
+      ],
+      "overlayIds": [
+        "probeMarkers"
+      ]
+    },
+    {
+      "id": "hole-location",
+      "symbol": "p",
+      "label": "Hole x-value",
+      "param": "holeX",
+      "tone": "ink",
+      "description": "Places one removable hole on the same reciprocal family without moving the true asymptotes.",
+      "equationIds": [
+        "vertical-break"
+      ],
+      "graphIds": [
+        "asymptote-response"
+      ],
+      "overlayIds": [
+        "holeMarker"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "asymptoteX": 1,
+      "horizontalAsymptoteY": -1,
+      "branchScale": 2,
+      "sampleDistance": 0.65,
+      "showHole": false,
+      "holeX": 1,
+      "asymptotes": true,
+      "probeMarkers": true,
+      "intercepts": true,
+      "holeMarker": true
+    },
+    "ui": {
+      "initialGraphId": "asymptote-response",
+      "primaryGraphIds": [
+        "asymptote-response"
+      ],
+      "primaryControlIds": [
+        "probe-distance"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "asymptote-x",
+        "kind": "slider",
+        "label": "Vertical asymptote x-value",
+        "param": "asymptoteX",
+        "min": -4,
+        "max": 4,
+        "step": 0.1,
+        "description": "Move the forbidden x-value left or right."
+      },
+      {
+        "id": "horizontal-level",
+        "kind": "slider",
+        "label": "Horizontal asymptote y-value",
+        "param": "horizontalAsymptoteY",
+        "min": -4,
+        "max": 4,
+        "step": 0.1,
+        "description": "Lift or lower the long-run level y = k."
+      },
+      {
+        "id": "branch-scale",
+        "kind": "slider",
+        "label": "Branch scale",
+        "param": "branchScale",
+        "min": -3,
+        "max": 3,
+        "step": 0.1,
+        "description": "Flip which branch sits above y = k and change how strongly the graph bends near x = h."
+      },
+      {
+        "id": "probe-distance",
+        "kind": "slider",
+        "label": "Probe distance",
+        "param": "sampleDistance",
+        "min": 0.25,
+        "max": 2.2,
+        "step": 0.05,
+        "description": "Move the sample points closer to or farther from the vertical asymptote."
+      },
+      {
+        "id": "show-hole",
+        "kind": "toggle",
+        "label": "Show removable hole",
+        "param": "showHole",
+        "description": "Add one canceled-factor hole without moving the true asymptotes."
+      },
+      {
+        "id": "hole-location",
+        "kind": "slider",
+        "label": "Hole x-value",
+        "param": "holeX",
+        "min": -4.8,
+        "max": 4.8,
+        "step": 0.1,
+        "description": "Place the removable hole when the canceled-factor view is turned on."
+      }
+    ],
+    "presets": [
+      {
+        "id": "shifted-right-down",
+        "label": "Shifted reciprocal",
+        "description": "One vertical asymptote, one horizontal asymptote, and both intercepts visible.",
+        "values": {
+          "asymptoteX": 1,
+          "horizontalAsymptoteY": -1,
+          "branchScale": 2,
+          "sampleDistance": 0.55,
+          "showHole": false,
+          "holeX": 1.6
+        }
+      },
+      {
+        "id": "reflected-branches",
+        "label": "Reflected branches",
+        "description": "Flip which branch sits above the horizontal asymptote.",
+        "values": {
+          "asymptoteX": -1.4,
+          "horizontalAsymptoteY": 0.8,
+          "branchScale": -1.8,
+          "sampleDistance": 0.5,
+          "showHole": false,
+          "holeX": 1.2
+        }
+      },
+      {
+        "id": "removable-hole",
+        "label": "Removable hole",
+        "description": "Keep the same reciprocal family but remove one finite point.",
+        "values": {
+          "asymptoteX": -1,
+          "horizontalAsymptoteY": -0.5,
+          "branchScale": 3,
+          "sampleDistance": 0.6,
+          "showHole": true,
+          "holeX": 1
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "asymptotes",
+        "label": "Asymptotes",
+        "shortDescription": "Show the vertical and horizontal asymptote guides.",
+        "whatToNotice": [
+          "Moving h shifts the vertical asymptote left or right, while moving k lifts or lowers the horizontal one."
+        ],
+        "whyItMatters": "It keeps the long-run and forbidden-value behavior visible on the same graph.",
+        "relatedControls": [
+          "asymptoteX",
+          "horizontalAsymptoteY"
+        ],
+        "relatedGraphTabs": [
+          "asymptote-response"
+        ],
+        "relatedEquationVariables": [
+          "asymptote-x",
+          "horizontal-level"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "probeMarkers",
+        "label": "Near-asymptote probes",
+        "shortDescription": "Show the left and right sample points at distance d from the vertical asymptote.",
+        "whatToNotice": [
+          "Shrinking d makes the branch values shoot away faster near the forbidden x-value."
+        ],
+        "whyItMatters": "It ties asymptote language to actual nearby function values instead of a slogan about undefined points.",
+        "relatedControls": [
+          "sampleDistance",
+          "branchScale"
+        ],
+        "relatedGraphTabs": [
+          "asymptote-response"
+        ],
+        "relatedEquationVariables": [
+          "probe-distance",
+          "branch-scale"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "intercepts",
+        "label": "Intercept markers",
+        "shortDescription": "Mark the x-intercept and y-intercept when they are actually defined.",
+        "whatToNotice": [
+          "Changing k can move the x-intercept without moving the vertical asymptote."
+        ],
+        "whyItMatters": "It keeps intercept reading tied to the same family instead of treating asymptotes as the only landmarks that matter.",
+        "relatedControls": [
+          "horizontalAsymptoteY",
+          "branchScale"
+        ],
+        "relatedGraphTabs": [
+          "asymptote-response"
+        ],
+        "relatedEquationVariables": [
+          "horizontal-level",
+          "branch-scale"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "holeMarker",
+        "label": "Removable hole marker",
+        "shortDescription": "Show the missing point when the canceled-factor view is on.",
+        "whatToNotice": [
+          "The hole adds a second excluded x-value without creating blow-up behavior there."
+        ],
+        "whyItMatters": "It separates a removable domain break from the true asymptote at x = h.",
+        "relatedControls": [
+          "showHole",
+          "holeX"
+        ],
+        "relatedGraphTabs": [
+          "asymptote-response"
+        ],
+        "relatedEquationVariables": [
+          "hole-location"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "asymptote-response",
+      "label": "Near-asymptote response",
+      "xLabel": "distance from x = h",
+      "yLabel": "f(x)",
+      "series": [
+        "left-approach",
+        "right-approach",
+        "horizontal-asymptote"
+      ],
+      "description": "Shows how the left and right branch values change as the probe points move toward the vertical asymptote."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the live prompts to keep domain breaks, asymptotes, and removable holes on the same graph story.",
+    "items": [
+      {
+        "id": "rf-notice-near-break",
+        "text": "Shrink the probe distance d. The branch values shoot away much faster near x = h, which is why the vertical asymptote is not just another missing point.",
+        "type": "graph-reading",
+        "relatedControls": [
+          "sampleDistance",
+          "branchScale"
+        ],
+        "relatedGraphTabs": [
+          "asymptote-response"
+        ],
+        "relatedOverlays": [
+          "probeMarkers",
+          "asymptotes"
+        ],
+        "relatedEquationVariables": [
+          "probe-distance",
+          "branch-scale"
+        ]
+      },
+      {
+        "id": "rf-notice-shifted-level",
+        "text": "Raise or lower k and watch the horizontal asymptote move with the whole family while the forbidden x-value stays fixed unless h changes too.",
+        "type": "compare",
+        "relatedControls": [
+          "horizontalAsymptoteY",
+          "asymptoteX"
+        ],
+        "relatedGraphTabs": [
+          "asymptote-response"
+        ],
+        "relatedOverlays": [
+          "asymptotes",
+          "intercepts"
+        ],
+        "relatedEquationVariables": [
+          "horizontal-level",
+          "asymptote-x"
+        ]
+      },
+      {
+        "id": "rf-notice-removable-hole",
+        "text": "Turn on the removable hole. The graph loses one finite point, but the asymptote layout and the long-run level of the family stay the same.",
+        "type": "try-this",
+        "relatedControls": [
+          "showHole",
+          "holeX"
+        ],
+        "relatedGraphTabs": [
+          "asymptote-response"
+        ],
+        "relatedOverlays": [
+          "holeMarker",
+          "asymptotes"
+        ],
+        "relatedEquationVariables": [
+          "hole-location",
+          "asymptote-x"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Predict",
+    "intro": "Commit to the graph change before you move the asymptotes or add the removable hole.",
+    "items": [
+      {
+        "id": "rf-predict-move-h",
+        "prompt": "If h increases while a and k stay fixed, what should move first on the graph?",
+        "scenarioLabel": "Move the vertical asymptote",
+        "changeLabel": "Increase h",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The vertical asymptote and both branches shift to the right."
+          },
+          {
+            "id": "b",
+            "label": "Only the horizontal asymptote moves upward."
+          },
+          {
+            "id": "c",
+            "label": "The branch orientation flips above and below y = k."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Changing h moves the forbidden x-value and the whole reciprocal family horizontally. The horizontal asymptote level and branch orientation stay the same until k or a changes.",
+        "observationHint": "Keep the asymptote guides visible while you watch the family translate.",
+        "apply": {
+          "patch": {
+            "asymptoteX": 2.2
+          }
+        },
+        "highlightedControls": [
+          "asymptoteX"
+        ],
+        "highlightedGraphs": [
+          "asymptote-response"
+        ],
+        "highlightedOverlays": [
+          "asymptotes"
+        ]
+      },
+      {
+        "id": "rf-predict-negative-a",
+        "prompt": "If a changes from positive to negative while h and k stay fixed, what is the most direct visual change?",
+        "scenarioLabel": "Flip the branch orientation",
+        "changeLabel": "Make a negative",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The two branches swap which side of y = k they occupy."
+          },
+          {
+            "id": "b",
+            "label": "The vertical asymptote disappears."
+          },
+          {
+            "id": "c",
+            "label": "The graph gains a removable hole automatically."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Changing the sign of a flips the branch orientation relative to the horizontal asymptote. The same x = h and y = k still anchor the family.",
+        "observationHint": "Watch the probe markers relative to y = k when the branch sign flips.",
+        "apply": {
+          "presetId": "reflected-branches"
+        },
+        "highlightedControls": [
+          "branchScale"
+        ],
+        "highlightedGraphs": [
+          "asymptote-response"
+        ],
+        "highlightedOverlays": [
+          "asymptotes",
+          "probeMarkers"
+        ]
+      },
+      {
+        "id": "rf-predict-hole",
+        "prompt": "Turning on the removable-hole view without changing h or k should do what?",
+        "scenarioLabel": "Add a removable hole",
+        "changeLabel": "Turn on the hole",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It removes one finite point without moving the true asymptotes."
+          },
+          {
+            "id": "b",
+            "label": "It turns the hole into a second vertical asymptote."
+          },
+          {
+            "id": "c",
+            "label": "It forces the horizontal asymptote to become y = 0."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A removable hole is a finite missing point on the same family. It adds a domain break, but the true vertical asymptote x = h and the horizontal asymptote y = k stay where they were.",
+        "observationHint": "Keep the hole marker and asymptote guides visible together.",
+        "apply": {
+          "presetId": "removable-hole"
+        },
+        "highlightedControls": [
+          "showHole",
+          "holeX"
+        ],
+        "highlightedGraphs": [
+          "asymptote-response"
+        ],
+        "highlightedOverlays": [
+          "holeMarker",
+          "asymptotes"
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the graph behavior, not from a detached list of algebra rules.",
+    "questions": [
+      {
+        "id": "rf-qt-domain",
+        "type": "graph-reading",
+        "prompt": "What is the cleanest reason x = h is excluded from the domain of k + a/(x - h)?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The denominator becomes zero there."
+          },
+          {
+            "id": "b",
+            "label": "The horizontal asymptote passes through that x-value."
+          },
+          {
+            "id": "c",
+            "label": "The y-intercept is always missing there."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "x = h makes the denominator zero, so the expression is undefined and the graph breaks there.",
+        "selectedWrongExplanations": {
+          "b": "The horizontal asymptote is a y-level, not an x-value that can remove the domain.",
+          "c": "The y-intercept only depends on x = 0, not on the generic forbidden value x = h."
+        },
+        "showMeAction": {
+          "label": "Show the vertical break",
+          "presetId": "shifted-right-down",
+          "observationHint": "The dashed vertical line marks the forbidden x-value directly on the graph.",
+          "highlightedControlIds": [
+            "asymptoteX"
+          ],
+          "highlightedGraphIds": [
+            "asymptote-response"
+          ],
+          "highlightedOverlayIds": [
+            "asymptotes"
+          ]
+        }
+      },
+      {
+        "id": "rf-qt-k",
+        "type": "variable-effect",
+        "prompt": "Which change moves the horizontal asymptote and the whole family up without moving the forbidden x-value?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Increase k."
+          },
+          {
+            "id": "b",
+            "label": "Increase h."
+          },
+          {
+            "id": "c",
+            "label": "Shrink the probe distance d."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "k sets the long-run level y = k, so changing k lifts or lowers the family while the forbidden x-value x = h stays put.",
+        "selectedWrongExplanations": {
+          "b": "Changing h moves the vertical asymptote left or right instead of lifting the family.",
+          "c": "Changing d only moves the sample markers; it does not change the family itself."
+        },
+        "showMeAction": {
+          "label": "Show a higher horizontal level",
+          "patch": {
+            "horizontalAsymptoteY": 1.6
+          },
+          "observationHint": "The dashed horizontal guide and the whole family rise together while x = h stays fixed.",
+          "highlightedControlIds": [
+            "horizontalAsymptoteY"
+          ],
+          "highlightedGraphIds": [
+            "asymptote-response"
+          ],
+          "highlightedOverlayIds": [
+            "asymptotes"
+          ]
+        }
+      },
+      {
+        "id": "rf-qt-hole",
+        "type": "compare-two-cases",
+        "prompt": "What makes the removable-hole view different from the plain shifted reciprocal family?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It adds one finite missing point while keeping the same asymptote family."
+          },
+          {
+            "id": "b",
+            "label": "It removes the horizontal asymptote."
+          },
+          {
+            "id": "c",
+            "label": "It forces both branches to sit on the same side of y = k."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A removable hole creates one extra excluded x-value at a finite height, but it does not replace the true asymptotes.",
+        "selectedWrongExplanations": {
+          "b": "The same long-run level y = k still controls the family even when a hole is shown.",
+          "c": "Branch orientation still comes from the sign of a, not from adding a removable hole."
+        },
+        "showMeAction": {
+          "label": "Show the removable hole",
+          "presetId": "removable-hole",
+          "observationHint": "Compare the open circle with the true vertical asymptote on the same graph.",
+          "highlightedControlIds": [
+            "showHole",
+            "holeX"
+          ],
+          "highlightedGraphIds": [
+            "asymptote-response"
+          ],
+          "highlightedOverlayIds": [
+            "holeMarker",
+            "asymptotes"
+          ]
+        }
+      },
+      {
+        "id": "rf-qt-branch-side",
+        "type": "graph-reading",
+        "prompt": "If a is negative in k + a/(x - h), what changes most clearly on the graph?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The branch positions flip relative to the horizontal asymptote."
+          },
+          {
+            "id": "b",
+            "label": "The forbidden x-value disappears from the domain."
+          },
+          {
+            "id": "c",
+            "label": "The horizontal asymptote must move to x = k."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The sign of a decides whether each branch sits above or below y = k on each side of the vertical asymptote.",
+        "selectedWrongExplanations": {
+          "b": "Changing a does not remove the denominator break at x = h.",
+          "c": "The horizontal asymptote is still the y-level y = k, not an x-location."
+        }
+      },
+      {
+        "id": "rf-qt-hole-height",
+        "type": "reasoning",
+        "prompt": "Why is a removable hole read at one finite point instead of like a vertical asymptote?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because the nearby curve still approaches one finite height even though the function is undefined there."
+          },
+          {
+            "id": "b",
+            "label": "Because removable holes can only happen when the graph is horizontal."
+          },
+          {
+            "id": "c",
+            "label": "Because any missing point automatically forces the graph to blow up."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A removable hole keeps a finite limiting height, while a vertical asymptote is where the graph grows without bound.",
+        "selectedWrongExplanations": {
+          "b": "The hole height is about the nearby branch value, not about the graph becoming horizontal.",
+          "c": "Blowing up is the asymptote story. A removable hole is the finite missing-point story."
+        }
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the asymptote graph as a domain-break bench. The goal is to separate the true asymptote from a removable hole while the branch orientation still matches the long-run level.",
+    "items": [
+      {
+        "id": "rf-ch-separate-hole-from-asymptote",
+        "title": "Domain-break checkpoint",
+        "style": "visible-condition",
+        "prompt": "Build a reciprocal family where the true vertical asymptote sits near $x=-1$, the removable hole sits on positive $x$, and the right branch stays below the horizontal asymptote.",
+        "successMessage": "You separated the true asymptote from the removable hole without losing the branch orientation. The domain breaks now read honestly from the same live family instead of collapsing into one fake missing-point story.",
+        "setup": {
+          "presetId": "shifted-right-down",
+          "patch": {
+            "showHole": true,
+            "holeX": 1.3
+          },
+          "note": "Start from the clean shifted reciprocal, then turn the hole on and move the family until the real asymptote and the removable break tell different graph stories."
+        },
+        "requirements": {
+          "graphId": "asymptote-response",
+          "overlayIds": [
+            "asymptotes",
+            "probeMarkers",
+            "holeMarker"
+          ]
+        },
+        "hints": [
+          "The sign of $a$ decides which side of the horizontal asymptote the right branch occupies.",
+          "A removable hole should still leave one finite nearby height, so keep the hole on the visible right branch instead of on the asymptote itself."
+        ],
+        "targets": [
+          {
+            "param": "asymptoteX",
+            "label": "Move the true vertical asymptote into the left-side band between $-1.1$ and $-0.9$.",
+            "min": -1.1,
+            "max": -0.9
+          },
+          {
+            "param": "horizontalAsymptoteY",
+            "label": "Keep the horizontal asymptote above the x-axis, between $0.7$ and $0.95$.",
+            "min": 0.7,
+            "max": 0.95
+          },
+          {
+            "param": "branchScale",
+            "label": "Flip the branch scale negative, between $-2.1$ and $-1.5$, so the right branch stays below $y=k$.",
+            "min": -2.1,
+            "max": -1.5
+          },
+          {
+            "param": "holeX",
+            "label": "Place the removable hole on positive x, between $1.15$ and $1.45$.",
+            "min": 1.15,
+            "max": 1.45
+          }
+        ]
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one rational-function graph on a coordinate plane with dashed asymptote guides, two movable probe markers near the vertical asymptote, visible intercept markers when they exist, and an optional open-circle hole marker.",
+        "Sliders move the vertical asymptote, the horizontal asymptote, the branch scale, the probe distance, and the optional hole location so the family stays tied to one compact graph."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The graph tab plots the left-hand and right-hand branch values against distance from the vertical asymptote, together with a dashed horizontal-asymptote guide.",
+        "That response view makes it easier to compare blow-up near the forbidden x-value with the long-run level the family approaches away from it."
+      ]
+    }
+  }
+}

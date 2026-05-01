@@ -1,0 +1,1489 @@
+{
+  "pageIntro": {
+    "definition": "See heat as energy transfer driven by temperature difference while conduction, convection, and radiation compete on one compact bench with honest pathway rates.",
+    "keyTakeaway": "Heat is energy transfer due to temperature difference, not a substance the hot object contains.",
+    "whyItMatters": "That distinction lets you predict whether a hot object cools faster because the temperature gap, contact path, airflow, area, or radiation changed."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Heat is not something a block stores by itself. On this bench, heat means energy crossing a boundary because one side is hotter than the other, so the direction and rate always come back to the temperature difference.",
+        "The same hot block can lose energy three beginner-friendly ways at once. Conduction uses the material-contact path into the bench, convection uses moving air that carries energy away, and radiation uses thermal emission that still works even with no solid contact.",
+        "This page stays bounded on purpose. It gives you one honest rate picture before later specific-heat or phase-change questions ask what that transferred energy does to temperature once it arrives."
+      ]
+    },
+    "keyIdeas": [
+      "Heat is energy transfer due to temperature difference, not a substance the hot object contains.",
+      "Conduction gets stronger when the material path is more conductive, the contact is better, or the shared area is larger.",
+      "Convection depends on moving fluid and exposed area, so stronger airflow can speed the transfer without changing the solid-contact path.",
+      "Radiation needs no contact and grows more quickly at large temperature contrast, which is why very hot objects can radiate strongly even in still air."
+    ],
+    "commonMisconception": {
+      "myth": "If an object is hot, it simply contains a lot of heat.",
+      "correction": [
+        "A hot object contains internal energy, but heat refers to the energy crossing into or out of the object because of a temperature difference.",
+        "That is why the same object can gain heat, lose heat, or have almost no net heat transfer depending on what surrounds it."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live heat-flow checks",
+      "intro": "Use the current setup directly. The same block, room, and pathway rates drive both worked examples, so the formulas stay tied to one visible heat-flow state.",
+      "items": [
+        {
+          "id": "current-pathway-split",
+          "title": "Current pathway split",
+          "prompt": "For the current setup, what is the temperature contrast and how is the total transfer rate split across conduction, convection, and radiation right now?",
+          "variables": [
+            {
+              "id": "hotTemperature",
+              "variableId": "hotTemperature",
+              "symbol": "T_{\\mathrm{hot}}",
+              "label": "Hot-block temperature",
+              "valueKey": "hotTemperatureValue",
+              "unit": "degC"
+            },
+            {
+              "id": "ambientTemperature",
+              "variableId": "ambientTemperature",
+              "symbol": "T_{\\mathrm{room}}",
+              "label": "Room temperature",
+              "valueKey": "ambientTemperatureValue",
+              "unit": "degC"
+            },
+            {
+              "id": "temperatureContrast",
+              "symbol": "\\Delta T",
+              "label": "Temperature contrast",
+              "valueKey": "temperatureContrastValue",
+              "unit": "degC"
+            },
+            {
+              "id": "totalRate",
+              "symbol": "\\dot q_{\\mathrm{total}}",
+              "label": "Total transfer rate",
+              "valueKey": "totalRateValue",
+              "unit": "u/s"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-contrast",
+              "label": "1. Read the driving difference",
+              "template": "The block is at $T_{\\mathrm{hot}} = {{hotTemperatureValue}}\\,\\mathrm{degC}$ while the room is $T_{\\mathrm{room}} = {{ambientTemperatureValue}}\\,\\mathrm{degC}$, so the current contrast is $\\Delta T = {{temperatureContrastValue}}\\,\\mathrm{degC}$."
+            },
+            {
+              "id": "read-pathways",
+              "label": "2. Read each pathway rate",
+              "template": "Right now the live rates are $\\dot q_{\\mathrm{cond}} = {{conductionRateValue}}\\,\\mathrm{u/s}$, $\\dot q_{\\mathrm{conv}} = {{convectionRateValue}}\\,\\mathrm{u/s}$, and $\\dot q_{\\mathrm{rad}} = {{radiationRateValue}}\\,\\mathrm{u/s}$."
+            },
+            {
+              "id": "sum-total",
+              "label": "3. Rebuild the total from the parts",
+              "template": "Adding the three visible pathways gives a total transfer rate of $\\dot q_{\\mathrm{total}} = {{totalRateValue}}\\,\\mathrm{u/s}$."
+            }
+          ],
+          "resultLabel": "Live pathway split",
+          "resultTemplate": "$\\dot q_{\\mathrm{cond}} = {{conductionRateValue}}\\,\\mathrm{u/s}, \\quad \\dot q_{\\mathrm{conv}} = {{convectionRateValue}}\\,\\mathrm{u/s}, \\quad \\dot q_{\\mathrm{rad}} = {{radiationRateValue}}\\,\\mathrm{u/s}$",
+          "interpretationTemplate": "{{dominantPathwayInterpretation}}",
+          "applyAction": {
+            "label": "Show the metal bench",
+            "presetId": "metal-bench",
+            "observationHint": "The conduction channel thickens because the hot block has a strong material-contact path into the cool bench.",
+            "highlightedControlIds": [
+              "materialConductivity",
+              "contactQuality",
+              "surfaceArea"
+            ],
+            "highlightedGraphIds": [
+              "pathway-rates",
+              "contact-response"
+            ],
+            "highlightedOverlayIds": [
+              "deltaBridge",
+              "pathwaySplit"
+            ]
+          }
+        },
+        {
+          "id": "cooling-over-time",
+          "title": "Cooling over time",
+          "dependsOnTime": true,
+          "prompt": "At the current inspected time $t = {{timeValue}}\\,\\mathrm{s}$, how much energy has left the block so far, and why is the transfer rate not the same as it was at the start?",
+          "variables": [
+            {
+              "id": "time",
+              "symbol": "t",
+              "label": "Elapsed time",
+              "valueKey": "timeValue",
+              "unit": "s"
+            },
+            {
+              "id": "totalEnergyTransferred",
+              "symbol": "E_{\\mathrm{out}}",
+              "label": "Energy transferred so far",
+              "valueKey": "totalEnergyTransferredValue",
+              "unit": "u"
+            },
+            {
+              "id": "hotTemperature",
+              "symbol": "T_{\\mathrm{hot}}",
+              "label": "Current hot-block temperature",
+              "valueKey": "hotTemperatureValue",
+              "unit": "degC"
+            },
+            {
+              "id": "totalRate",
+              "symbol": "\\dot q_{\\mathrm{total}}",
+              "label": "Current total transfer rate",
+              "valueKey": "totalRateValue",
+              "unit": "u/s"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-cumulative",
+              "label": "1. Read the cumulative transfer",
+              "template": "By the current inspected moment, the block has transferred about $E_{\\mathrm{out}} = {{totalEnergyTransferredValue}}\\,\\mathrm{u}$ to the surroundings."
+            },
+            {
+              "id": "read-current-state",
+              "label": "2. Read the current thermal state",
+              "template": "The block has cooled to $T_{\\mathrm{hot}} = {{hotTemperatureValue}}\\,\\mathrm{degC}$, so the live contrast is now $\\Delta T = {{temperatureContrastValue}}\\,\\mathrm{degC}$."
+            },
+            {
+              "id": "connect-rate-drop",
+              "label": "3. Connect the smaller contrast to the current rate",
+              "template": "Because the contrast is smaller than it was at the start, the current total rate has dropped to $\\dot q_{\\mathrm{total}} = {{totalRateValue}}\\,\\mathrm{u/s}$."
+            }
+          ],
+          "resultLabel": "Cumulative transfer and current rate",
+          "resultTemplate": "$E_{\\mathrm{out}} = {{totalEnergyTransferredValue}}\\,\\mathrm{u}, \\quad T_{\\mathrm{hot}} = {{hotTemperatureValue}}\\,\\mathrm{degC}, \\quad \\dot q_{\\mathrm{total}} = {{totalRateValue}}\\,\\mathrm{u/s}$",
+          "interpretationTemplate": "{{coolingInterpretation}}",
+          "applyAction": {
+            "label": "Show the windy room",
+            "presetId": "windy-room",
+            "observationHint": "As the block cools, every pathway rate bends downward because the shared temperature gap keeps shrinking.",
+            "highlightedControlIds": [
+              "hotTemperature",
+              "ambientTemperature",
+              "airflow"
+            ],
+            "highlightedGraphIds": [
+              "temperature-history",
+              "pathway-rates"
+            ],
+            "highlightedOverlayIds": [
+              "deltaBridge",
+              "pathwaySplit"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Two identical hot blocks start at the same temperature in the same room. Block A sits flat on a metal bench with good contact. Block B barely touches an insulating pad. Which block loses energy faster at first, and why?",
+      "prediction": "Decide which pathway changes even before either block has time to cool much.",
+      "answer": "Block A loses energy faster at first because the stronger material-contact path makes conduction much larger.",
+      "explanation": "At the same initial temperature contrast, the big difference is the contact path. Better material conductivity and better contact quality raise the conduction rate immediately, so the total heat-transfer rate is larger even before the temperatures have had much time to change."
+    }
+  },
+  "equations": [
+    {
+      "id": "total-rate",
+      "latex": "\\dot q_{\\mathrm{total}} = \\dot q_{\\mathrm{cond}} + \\dot q_{\\mathrm{conv}} + \\dot q_{\\mathrm{rad}}",
+      "label": "Total transfer rate",
+      "meaning": "The net heat-transfer rate is the sum of the three visible pathways on this bench."
+    },
+    {
+      "id": "conduction-rate",
+      "latex": "\\dot q_{\\mathrm{cond}} \\propto k_{\\mathrm{mat}}\\,\\chi\\,A\\,(T_{\\mathrm{hot}}-T_{\\mathrm{room}})",
+      "label": "Conduction scaling",
+      "meaning": "Conduction gets stronger when the material path conducts better, the contact is better, the shared area is larger, or the temperature contrast is larger.",
+      "notes": [
+        "The contact factor chi is a bounded stand-in for how well the two surfaces actually touch."
+      ]
+    },
+    {
+      "id": "convection-rate",
+      "latex": "\\dot q_{\\mathrm{conv}} \\propto h_{\\mathrm{air}}\\,A\\,(T_{\\mathrm{hot}}-T_{\\mathrm{room}})",
+      "label": "Convection scaling",
+      "meaning": "Convection rises with exposed area, temperature contrast, and how strongly the surrounding air is moving."
+    },
+    {
+      "id": "radiation-rate",
+      "latex": "\\dot q_{\\mathrm{rad}} \\propto \\varepsilon\\,A\\,(T_{\\mathrm{hot}}^4-T_{\\mathrm{room}}^4)",
+      "label": "Radiation scaling",
+      "meaning": "Radiation needs no contact and grows especially quickly when the temperature contrast is large.",
+      "notes": [
+        "The fourth-power dependence is why the radiation curve bends upward on the contrast graph."
+      ]
+    },
+    {
+      "id": "cooling-rate",
+      "latex": "\\dfrac{dT_{\\mathrm{hot}}}{dt} = -\\dfrac{\\dot q_{\\mathrm{total}}}{C_{\\mathrm{block}}}",
+      "label": "Cooling response",
+      "meaning": "The block cools faster when the total outward transfer rate is larger and more slowly as the temperature gap collapses."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "hotTemperature",
+      "symbol": "T_{\\mathrm{hot}}",
+      "label": "Hot-block temperature",
+      "param": "hotTemperature",
+      "tone": "coral",
+      "description": "Sets the starting temperature of the block, which controls the initial contrast with the room.",
+      "equationIds": [
+        "conduction-rate",
+        "convection-rate",
+        "radiation-rate",
+        "cooling-rate"
+      ],
+      "graphIds": [
+        "temperature-history",
+        "contrast-response"
+      ],
+      "overlayIds": [
+        "deltaBridge"
+      ]
+    },
+    {
+      "id": "ambientTemperature",
+      "symbol": "T_{\\mathrm{room}}",
+      "label": "Room temperature",
+      "param": "ambientTemperature",
+      "tone": "sky",
+      "description": "Moves the surrounding bench and air temperature, which changes the direction and size of the temperature contrast.",
+      "equationIds": [
+        "conduction-rate",
+        "convection-rate",
+        "radiation-rate",
+        "cooling-rate"
+      ],
+      "graphIds": [
+        "temperature-history",
+        "contrast-response"
+      ],
+      "overlayIds": [
+        "deltaBridge",
+        "environmentCue"
+      ]
+    },
+    {
+      "id": "materialConductivity",
+      "symbol": "k_{\\mathrm{mat}}",
+      "label": "Material conductivity",
+      "param": "materialConductivity",
+      "tone": "teal",
+      "description": "Strengthens or weakens the solid-conduction path without directly changing convection or radiation.",
+      "equationIds": [
+        "conduction-rate",
+        "total-rate"
+      ],
+      "graphIds": [
+        "contact-response"
+      ],
+      "overlayIds": [
+        "pathwaySplit"
+      ]
+    },
+    {
+      "id": "contactQuality",
+      "symbol": "\\chi",
+      "label": "Contact quality",
+      "param": "contactQuality",
+      "tone": "teal",
+      "description": "Represents how well the hot block actually touches the bench surface.",
+      "equationIds": [
+        "conduction-rate",
+        "total-rate"
+      ],
+      "graphIds": [
+        "contact-response"
+      ],
+      "overlayIds": [
+        "areaCue",
+        "pathwaySplit"
+      ]
+    },
+    {
+      "id": "surfaceArea",
+      "symbol": "A",
+      "label": "Surface area",
+      "param": "surfaceArea",
+      "tone": "amber",
+      "description": "Scales the exposed or shared boundary, so all three pathways respond when the area changes.",
+      "equationIds": [
+        "conduction-rate",
+        "convection-rate",
+        "radiation-rate",
+        "total-rate"
+      ],
+      "graphIds": [
+        "contact-response",
+        "contrast-response"
+      ],
+      "overlayIds": [
+        "areaCue",
+        "pathwaySplit"
+      ]
+    },
+    {
+      "id": "airflow",
+      "symbol": "h_{\\mathrm{air}}",
+      "label": "Airflow strength",
+      "param": "airflow",
+      "tone": "sky",
+      "description": "Changes only the convection path by making the air more still or more actively moving.",
+      "equationIds": [
+        "convection-rate",
+        "total-rate"
+      ],
+      "graphIds": [
+        "pathway-rates",
+        "contrast-response"
+      ],
+      "overlayIds": [
+        "environmentCue",
+        "pathwaySplit"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "hotTemperature": 145,
+      "ambientTemperature": 25,
+      "materialConductivity": 1.5,
+      "contactQuality": 0.8,
+      "surfaceArea": 1.1,
+      "airflow": 1
+    },
+    "ui": {
+      "initialGraphId": "pathway-rates",
+      "primaryGraphIds": [
+        "pathway-rates",
+        "contact-response",
+        "contrast-response"
+      ],
+      "primaryControlIds": [
+        "hotTemperature",
+        "ambientTemperature",
+        "materialConductivity",
+        "contactQuality",
+        "airflow"
+      ],
+      "primaryPresetIds": [
+        "metal-bench",
+        "loose-contact",
+        "windy-room",
+        "radiation-dominant"
+      ]
+    },
+    "controls": [
+      {
+        "id": "hotTemperature",
+        "kind": "slider",
+        "label": "Hot-block temperature",
+        "param": "hotTemperature",
+        "min": 60,
+        "max": 180,
+        "step": 2,
+        "unit": "degC",
+        "description": "Sets the block's starting temperature before the run begins."
+      },
+      {
+        "id": "ambientTemperature",
+        "kind": "slider",
+        "label": "Room temperature",
+        "param": "ambientTemperature",
+        "min": 5,
+        "max": 90,
+        "step": 1,
+        "unit": "degC",
+        "description": "Raises or lowers the surrounding bench and air temperature."
+      },
+      {
+        "id": "materialConductivity",
+        "kind": "slider",
+        "label": "Material conductivity",
+        "param": "materialConductivity",
+        "min": 0.4,
+        "max": 2.2,
+        "step": 0.05,
+        "description": "Changes how effective the solid-conduction path is."
+      },
+      {
+        "id": "contactQuality",
+        "kind": "slider",
+        "label": "Contact quality",
+        "param": "contactQuality",
+        "min": 0,
+        "max": 1,
+        "step": 0.02,
+        "description": "Changes how well the block actually touches the bench."
+      },
+      {
+        "id": "surfaceArea",
+        "kind": "slider",
+        "label": "Surface area",
+        "param": "surfaceArea",
+        "min": 0.6,
+        "max": 1.8,
+        "step": 0.05,
+        "description": "Scales the shared and exposed area used by the transfer paths on this bench."
+      },
+      {
+        "id": "airflow",
+        "kind": "slider",
+        "label": "Airflow",
+        "param": "airflow",
+        "min": 0.3,
+        "max": 2.1,
+        "step": 0.05,
+        "description": "Makes the surrounding air more still or more actively moving."
+      }
+    ],
+    "presets": [
+      {
+        "id": "metal-bench",
+        "label": "Metal on cool bench",
+        "description": "A very conductive contact path into a cooler bench makes conduction dominate the early cooling.",
+        "values": {
+          "hotTemperature": 150,
+          "ambientTemperature": 25,
+          "materialConductivity": 1.8,
+          "contactQuality": 0.9,
+          "surfaceArea": 1.2,
+          "airflow": 1
+        }
+      },
+      {
+        "id": "loose-contact",
+        "label": "Loose contact",
+        "description": "The block is still hot, but the solid-contact path is weak, so convection and radiation matter more.",
+        "values": {
+          "hotTemperature": 150,
+          "ambientTemperature": 25,
+          "materialConductivity": 0.9,
+          "contactQuality": 0.15,
+          "surfaceArea": 1.2,
+          "airflow": 1
+        }
+      },
+      {
+        "id": "windy-room",
+        "label": "Windy room",
+        "description": "A strong airflow makes convection the largest pathway even though the conduction path still exists.",
+        "values": {
+          "hotTemperature": 120,
+          "ambientTemperature": 25,
+          "materialConductivity": 0.8,
+          "contactQuality": 0.25,
+          "surfaceArea": 1.3,
+          "airflow": 2
+        }
+      },
+      {
+        "id": "radiation-dominant",
+        "label": "Radiation-dominant",
+        "description": "A very hot block with weak contact and still air can radiate away energy faster than it conducts or convects.",
+        "values": {
+          "hotTemperature": 175,
+          "ambientTemperature": 20,
+          "materialConductivity": 0.5,
+          "contactQuality": 0.05,
+          "surfaceArea": 1.4,
+          "airflow": 0.3
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "deltaBridge",
+        "label": "Temperature-gap bridge",
+        "shortDescription": "Shows the shared temperature difference and the net flow direction from hotter toward cooler.",
+        "whatToNotice": [
+          "When the two temperature chips move closer together, every transfer pathway shrinks because the common driving difference is smaller."
+        ],
+        "whyItMatters": "It keeps heat tied to a temperature difference instead of turning heat into a stored substance.",
+        "relatedControls": [
+          "hotTemperature",
+          "ambientTemperature"
+        ],
+        "relatedGraphTabs": [
+          "temperature-history",
+          "contrast-response"
+        ],
+        "relatedEquationVariables": [
+          "hotTemperature",
+          "ambientTemperature"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "pathwaySplit",
+        "label": "Pathway split",
+        "shortDescription": "Shows the separate conduction, convection, and radiation channels and the live rate bar built from their shares.",
+        "whatToNotice": [
+          "The total rate is not a fourth mystery path. It is the sum of the three visible pathways on the same bench."
+        ],
+        "whyItMatters": "It stops the beginner mistake of talking about one pathway while the live total is really being set by another.",
+        "relatedControls": [
+          "materialConductivity",
+          "contactQuality",
+          "surfaceArea",
+          "airflow"
+        ],
+        "relatedGraphTabs": [
+          "pathway-rates",
+          "contact-response",
+          "contrast-response"
+        ],
+        "relatedEquationVariables": [
+          "materialConductivity",
+          "contactQuality",
+          "surfaceArea",
+          "airflow"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "areaCue",
+        "label": "Area cue",
+        "shortDescription": "Highlights the contact patch and exposed outline so the surface-area control has a visible meaning.",
+        "whatToNotice": [
+          "A larger area gives the energy more boundary to cross, so the rates rise together even when the temperatures have not changed."
+        ],
+        "whyItMatters": "Area is a real physical lever, not just a graph trick.",
+        "relatedControls": [
+          "surfaceArea",
+          "contactQuality"
+        ],
+        "relatedGraphTabs": [
+          "contact-response",
+          "contrast-response"
+        ],
+        "relatedEquationVariables": [
+          "surfaceArea",
+          "contactQuality"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "environmentCue",
+        "label": "Environment cue",
+        "shortDescription": "Shows the room sink and airflow arrows so convection stays attached to the surrounding fluid.",
+        "whatToNotice": [
+          "Changing airflow leaves the solid-contact path alone while the convection arrows and convection rate respond immediately."
+        ],
+        "whyItMatters": "It keeps convection from being confused with conduction through a hidden solid path.",
+        "relatedControls": [
+          "ambientTemperature",
+          "airflow"
+        ],
+        "relatedGraphTabs": [
+          "pathway-rates"
+        ],
+        "relatedEquationVariables": [
+          "ambientTemperature",
+          "airflow"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "v2": {
+    "intuition": "Heat-transfer questions get easier when you read the temperature gap first, then ask which pathway makes energy cross the boundary fastest.",
+    "whyItMatters": "The same hot block can cool for different reasons. This lesson gives you a way to separate a bigger driving difference from a better conduction path, stronger airflow, larger area, or radiation at high temperature.",
+    "estimatedMinutes": 14,
+    "equationSnapshot": {
+      "equationIds": [
+        "total-rate",
+        "conduction-rate",
+        "radiation-rate"
+      ],
+      "note": "Use total rate to keep the three pathways together, then compare the contact-driven conduction trend with the high-contrast radiation trend."
+    },
+    "startSetup": {
+      "presetId": "metal-bench",
+      "graphId": "pathway-rates",
+      "overlayIds": [
+        "deltaBridge",
+        "pathwaySplit"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-temperature-gap",
+        "title": "Read the temperature gap",
+        "goal": "See heat as energy crossing because two parts of the setup are at different temperatures.",
+        "doThis": "Start from Metal on cool bench, keep the pathway-rates graph open, and compare the hot-block chip with the room chip before touching any control.",
+        "notice": "The arrows point from hotter toward cooler, and the pathway bar has a nonzero total because the two temperatures are not equal.",
+        "explain": "The hot block stores internal energy, but heat is the transfer across the boundary. The temperature gap is the shared driver for conduction, convection, and radiation.",
+        "reveal": {
+          "controlIds": [
+            "hotTemperature",
+            "ambientTemperature"
+          ],
+          "graphIds": [
+            "pathway-rates",
+            "temperature-history"
+          ],
+          "overlayIds": [
+            "deltaBridge",
+            "pathwaySplit"
+          ]
+        },
+        "setup": {
+          "presetId": "metal-bench",
+          "graphId": "pathway-rates",
+          "overlayIds": [
+            "deltaBridge",
+            "pathwaySplit"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "ht-qt-heat-definition"
+          ]
+        }
+      },
+      {
+        "id": "separate-contact-from-air",
+        "title": "Separate contact from air",
+        "goal": "Use one control change to distinguish solid conduction from the other pathways.",
+        "doThis": "Switch to Loose contact, then improve only Contact quality while watching the contact-response graph and pathway split.",
+        "notice": "The conduction segment changes first because the solid-contact path changed; the airflow and radiation settings did not have to change.",
+        "explain": "Path properties matter alongside the temperature gap. Better material contact gives energy an easier solid route out of the block.",
+        "reveal": {
+          "controlIds": [
+            "materialConductivity",
+            "contactQuality"
+          ],
+          "graphIds": [
+            "contact-response",
+            "pathway-rates"
+          ],
+          "overlayIds": [
+            "pathwaySplit",
+            "deltaBridge"
+          ]
+        },
+        "setup": {
+          "presetId": "loose-contact",
+          "graphId": "contact-response",
+          "overlayIds": [
+            "pathwaySplit",
+            "deltaBridge"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "ht-predict-better-contact"
+          ],
+          "questionIds": [
+            "ht-qt-better-contact"
+          ]
+        }
+      },
+      {
+        "id": "compare-airflow-and-area",
+        "title": "Compare air and area",
+        "goal": "See convection and area as separate levers instead of blaming every rate change on conduction.",
+        "doThis": "Use Windy room, change Airflow, then change Surface area while the pathway-rates graph stays open.",
+        "notice": "Airflow mainly moves the convection pathway, while a larger area raises the whole boundary available to the pathways.",
+        "explain": "Convection is energy carried by moving fluid. Area is broader: it changes how much boundary the transfer can use.",
+        "reveal": {
+          "controlIds": [
+            "airflow",
+            "surfaceArea"
+          ],
+          "graphIds": [
+            "pathway-rates",
+            "contrast-response"
+          ],
+          "overlayIds": [
+            "environmentCue",
+            "areaCue",
+            "pathwaySplit"
+          ]
+        },
+        "setup": {
+          "presetId": "windy-room",
+          "graphId": "pathway-rates",
+          "overlayIds": [
+            "environmentCue",
+            "pathwaySplit"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "ht-qt-airflow",
+            "ht-qt-area"
+          ]
+        }
+      },
+      {
+        "id": "judge-the-dominant-pathway",
+        "title": "Judge the dominant pathway",
+        "goal": "Decide which pathway is setting the total rate, then use the challenge to separate pathway effects from delta-T effects.",
+        "doThis": "Open Radiation-dominant, compare the contrast-response curve with the live pathway split, then try the challenge mode.",
+        "notice": "At high temperature contrast and weak contact, radiation can become the largest piece even though conduction and convection still exist.",
+        "explain": "A good heat-transfer explanation names both the driver and the pathway: the temperature gap starts the transfer, and pathway conditions decide how fast each route contributes.",
+        "reveal": {
+          "controlIds": [
+            "hotTemperature",
+            "ambientTemperature",
+            "contactQuality",
+            "airflow"
+          ],
+          "graphIds": [
+            "contrast-response",
+            "pathway-rates"
+          ],
+          "overlayIds": [
+            "deltaBridge",
+            "pathwaySplit",
+            "environmentCue"
+          ]
+        },
+        "setup": {
+          "presetId": "radiation-dominant",
+          "graphId": "contrast-response",
+          "overlayIds": [
+            "deltaBridge",
+            "pathwaySplit"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "ht-qt-radiation-curve"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Heat is energy crossing a boundary because a temperature difference exists.",
+        "The total rate is built from conduction, convection, and radiation rather than from one hidden heat pathway.",
+        "Contact quality and material conductivity mainly change conduction, while airflow mainly changes convection.",
+        "Large temperature contrast can make radiation more important, especially when contact and airflow are weak."
+      ],
+      "misconception": "Do not say a hot object contains heat. Say it contains internal energy, and heat is the transfer that occurs when surroundings are at a different temperature.",
+      "workedExampleRefs": [
+        "current-pathway-split",
+        "cooling-over-time"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "specific-heat-and-phase-change",
+          "title": "Specific Heat and Phase Change",
+          "reasonLabel": "Follow the transferred energy and ask what it does to temperature or phase."
+        },
+        {
+          "slug": "temperature-and-internal-energy",
+          "title": "Temperature and Internal Energy",
+          "reasonLabel": "Revisit the stored-energy side of the heat-versus-temperature distinction."
+        }
+      ],
+      "freePlayPrompt": "Keep the temperature gap almost the same, then make one setup conduction-dominated and another convection- or radiation-dominated. Explain which pathway changed the total rate."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "accessibility"
+    ]
+  },
+  "graphs": [
+    {
+      "id": "temperature-history",
+      "label": "Block and room temperatures",
+      "xLabel": "time (s)",
+      "yLabel": "temperature (degC)",
+      "series": [
+        "hot-temperature",
+        "ambient-temperature"
+      ],
+      "description": "Track the hot block against the fixed room temperature. As the gap shrinks, the pathway rates below must shrink too."
+    },
+    {
+      "id": "pathway-rates",
+      "label": "Pathway rates over time",
+      "xLabel": "time (s)",
+      "yLabel": "transfer rate (u/s)",
+      "series": [
+        "conduction-rate",
+        "convection-rate",
+        "radiation-rate",
+        "total-rate"
+      ],
+      "description": "Compare the three pathways directly and watch the total line track their sum on the same axis."
+    },
+    {
+      "id": "contact-response",
+      "label": "Contact response",
+      "xLabel": "contact quality",
+      "yLabel": "transfer rate (u/s)",
+      "series": [
+        "conduction-rate",
+        "total-rate"
+      ],
+      "description": "Sweep only the contact quality. This graph isolates how much the solid-contact path can change the total even when the temperatures stay the same."
+    },
+    {
+      "id": "contrast-response",
+      "label": "Rate vs temperature contrast",
+      "xLabel": "temperature contrast (degC)",
+      "yLabel": "transfer rate (u/s)",
+      "series": [
+        "conduction-rate",
+        "convection-rate",
+        "radiation-rate",
+        "total-rate"
+      ],
+      "description": "Sweep only the starting temperature contrast. Radiation bends upward more strongly here because of the fourth-power dependence."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use one prompt at a time. Each one keeps the heat-transfer story tied to one temperature gap and one honest pathway split.",
+    "items": [
+      {
+        "id": "ht-notice-contact-path",
+        "text": "Changing material conductivity or contact quality thickens only the conduction path. That is the clearest sign that conduction depends on the solid connection, not on the air movement.",
+        "type": "observation",
+        "priority": 2,
+        "conditions": {
+          "lastChangedControls": [
+            "materialConductivity",
+            "contactQuality"
+          ]
+        },
+        "tryThis": "Switch between Loose contact and Metal on cool bench, then compare the conduction line and the contact-response graph.",
+        "whyItMatters": "This is the first step before later specific-heat or phase-change questions ask what that transferred energy does after it crosses the boundary.",
+        "relatedControls": [
+          "materialConductivity",
+          "contactQuality"
+        ],
+        "relatedGraphTabs": [
+          "contact-response",
+          "pathway-rates"
+        ],
+        "relatedOverlays": [
+          "pathwaySplit",
+          "areaCue"
+        ],
+        "relatedEquationVariables": [
+          "materialConductivity",
+          "contactQuality"
+        ]
+      },
+      {
+        "id": "ht-notice-airflow",
+        "text": "Changing airflow leaves the solid-contact path alone while the convection curve and convection arrows respond immediately. That is the cleanest way to separate convection from conduction.",
+        "type": "try-this",
+        "priority": 3,
+        "conditions": {
+          "lastChangedControls": [
+            "airflow"
+          ]
+        },
+        "tryThis": "Start from Windy room, then lower only the airflow and watch the blue convection curve drop while the conduction line barely changes.",
+        "whyItMatters": "Convection is about the moving fluid carrying energy away, not about a hidden solid bridge.",
+        "relatedControls": [
+          "airflow"
+        ],
+        "relatedGraphTabs": [
+          "pathway-rates",
+          "contrast-response"
+        ],
+        "relatedOverlays": [
+          "environmentCue",
+          "pathwaySplit"
+        ],
+        "relatedEquationVariables": [
+          "airflow"
+        ]
+      },
+      {
+        "id": "ht-notice-area",
+        "text": "A larger area raises all three pathways together because it creates more boundary for energy to cross. Area is not just a conduction idea.",
+        "type": "observation",
+        "priority": 4,
+        "conditions": {
+          "lastChangedControls": [
+            "surfaceArea"
+          ]
+        },
+        "tryThis": "Raise only the surface area and compare the pathway bar before and after. The whole bar grows, not just one segment.",
+        "whyItMatters": "Area will matter again when later thermal problems compare small and large objects that cool or heat at different rates.",
+        "relatedControls": [
+          "surfaceArea"
+        ],
+        "relatedGraphTabs": [
+          "contrast-response",
+          "pathway-rates"
+        ],
+        "relatedOverlays": [
+          "areaCue",
+          "pathwaySplit"
+        ],
+        "relatedEquationVariables": [
+          "surfaceArea"
+        ]
+      },
+      {
+        "id": "ht-notice-radiation-curve",
+        "text": "On the contrast graph, the radiation curve bends upward faster than the conduction and convection lines. That is the telltale sign that radiation grows more strongly at large temperature contrast.",
+        "type": "graph-reading",
+        "priority": 5,
+        "conditions": {
+          "graphTabs": [
+            "contrast-response"
+          ]
+        },
+        "tryThis": "Hover a small delta T and a large delta T on the contrast graph, then compare how much the amber radiation curve catches up to the others.",
+        "whyItMatters": "This is the bounded radiation intuition you need before any later bridge into thermal emission or phase-change heating.",
+        "relatedControls": [
+          "hotTemperature",
+          "ambientTemperature",
+          "surfaceArea"
+        ],
+        "relatedGraphTabs": [
+          "contrast-response"
+        ],
+        "relatedOverlays": [
+          "deltaBridge",
+          "pathwaySplit"
+        ],
+        "relatedEquationVariables": [
+          "hotTemperature",
+          "ambientTemperature",
+          "surfaceArea"
+        ]
+      },
+      {
+        "id": "ht-notice-compare-rate",
+        "text": "Compare mode is most useful here when Setup A and Setup B keep nearly the same temperature contrast but different contact or area. Then the total-rate difference comes from the transfer path, not from a hidden delta-T change.",
+        "type": "compare",
+        "priority": 6,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Clone Metal on cool bench into compare mode, weaken only Setup B's contact quality, and watch the two total-rate badges separate while the delta-T badges stay similar.",
+        "whyItMatters": "It separates transfer-rate causes now, before later concepts ask how that transferred energy changes temperature or supports phase change.",
+        "relatedControls": [
+          "contactQuality",
+          "surfaceArea",
+          "hotTemperature",
+          "ambientTemperature"
+        ],
+        "relatedGraphTabs": [
+          "contact-response",
+          "pathway-rates"
+        ],
+        "relatedOverlays": [
+          "deltaBridge",
+          "pathwaySplit"
+        ],
+        "relatedEquationVariables": [
+          "contactQuality",
+          "surfaceArea",
+          "hotTemperature",
+          "ambientTemperature"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the pathway changes before you move the controls. Each scenario keeps the learner loop tight: change one cause, then watch the visible rate split respond.",
+    "items": [
+      {
+        "id": "ht-predict-better-contact",
+        "prompt": "Starting from Loose contact, you improve only the contact quality while keeping the same temperatures. What should change first?",
+        "scenarioLabel": "Improve the contact path",
+        "changeLabel": "Contact quality",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Conduction rises sharply and the total rate rises, while convection and radiation change much less at that instant."
+          },
+          {
+            "id": "b",
+            "label": "Only radiation rises because better contact makes the block glow more strongly."
+          },
+          {
+            "id": "c",
+            "label": "Nothing changes until the block has already cooled for a while."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Better contact strengthens the solid-conduction path immediately. The shared temperature gap is the same at the start, so the conduction term is the one that jumps first.",
+        "observationHint": "Watch the conduction line thicken and the total-rate badge increase while the room and block temperatures are still essentially the same starting pair.",
+        "apply": {
+          "presetId": "loose-contact",
+          "patch": {
+            "contactQuality": 0.85
+          }
+        },
+        "highlightedControls": [
+          "contactQuality"
+        ],
+        "highlightedGraphs": [
+          "contact-response",
+          "pathway-rates"
+        ],
+        "highlightedOverlays": [
+          "pathwaySplit",
+          "areaCue"
+        ]
+      },
+      {
+        "id": "ht-predict-more-airflow",
+        "prompt": "From Radiation-dominant, you turn up only the airflow while keeping the block just as hot. Which statement is strongest?",
+        "scenarioLabel": "Turn up the airflow",
+        "changeLabel": "Airflow",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Convection rises and may overtake radiation, while the contact path stays almost the same."
+          },
+          {
+            "id": "b",
+            "label": "Conduction rises most because moving air improves the bench contact."
+          },
+          {
+            "id": "c",
+            "label": "All three pathways stay fixed because the temperatures were not changed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Airflow belongs to the convection term, not to the solid-contact path. At the same temperatures, changing only airflow mainly changes the convection part of the split.",
+        "observationHint": "The blue convection arrows and the convection graph line are the features to watch first.",
+        "apply": {
+          "presetId": "radiation-dominant",
+          "patch": {
+            "airflow": 1.8
+          }
+        },
+        "highlightedControls": [
+          "airflow"
+        ],
+        "highlightedGraphs": [
+          "pathway-rates"
+        ],
+        "highlightedOverlays": [
+          "environmentCue",
+          "pathwaySplit"
+        ]
+      },
+      {
+        "id": "ht-predict-larger-contrast",
+        "prompt": "Starting from Windy room, you raise only the hot-block temperature. Which change is most important to expect at large temperature contrast?",
+        "scenarioLabel": "Raise the hot block",
+        "changeLabel": "Hot-block temperature",
+        "choices": [
+          {
+            "id": "a",
+            "label": "All three rates rise, but radiation grows more strongly at the large-contrast end of the graph."
+          },
+          {
+            "id": "b",
+            "label": "Only conduction rises because temperature contrast does not affect convection or radiation."
+          },
+          {
+            "id": "c",
+            "label": "The total rate must stay the same because the room temperature did not move."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A larger contrast increases all three pathways, but the radiation term bends upward more strongly because of the fourth-power temperature dependence.",
+        "observationHint": "Open the contrast-response graph and compare the amber curve with the nearly straight conduction and convection lines.",
+        "apply": {
+          "presetId": "windy-room",
+          "patch": {
+            "hotTemperature": 170
+          }
+        },
+        "highlightedControls": [
+          "hotTemperature"
+        ],
+        "highlightedGraphs": [
+          "contrast-response",
+          "pathway-rates"
+        ],
+        "highlightedOverlays": [
+          "deltaBridge",
+          "pathwaySplit"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the same heat-flow bench for compare and tuning challenges. The checks read the live rates and temperature contrast, so the success state stays tied to one honest simulation state.",
+    "items": [
+      {
+        "id": "ht-ch-slower-same-contrast",
+        "title": "Same contrast, slower loss",
+        "style": "parameter-match",
+        "prompt": "Start from Metal on cool bench, switch to compare mode, and edit only Setup B until it keeps nearly the same temperature contrast as Setup A but loses energy at less than half the rate.",
+        "successMessage": "You kept the same driving contrast while weakening the transfer path. That is the cleanest way to separate delta-T effects from material and contact effects.",
+        "setup": {
+          "presetId": "metal-bench",
+          "graphId": "contact-response",
+          "overlayIds": [
+            "deltaBridge",
+            "pathwaySplit"
+          ],
+          "interactionMode": "compare",
+          "note": "Leave Setup A as the strong-contact baseline and edit only Setup B."
+        },
+        "requirements": {
+          "graphId": "contact-response",
+          "overlayIds": [
+            "pathwaySplit"
+          ],
+          "compareActive": true,
+          "compareTarget": "b"
+        },
+        "targets": [
+          {
+            "setup": "a",
+            "metric": "temperatureContrast",
+            "min": 123,
+            "max": 127,
+            "displayUnit": "degC"
+          },
+          {
+            "setup": "b",
+            "metric": "temperatureContrast",
+            "min": 123,
+            "max": 127,
+            "displayUnit": "degC"
+          },
+          {
+            "setup": "b",
+            "param": "contactQuality",
+            "min": 0.15,
+            "max": 0.3
+          },
+          {
+            "setup": "b",
+            "metric": "totalRate",
+            "min": 18,
+            "max": 30,
+            "displayUnit": "u/s"
+          }
+        ],
+        "hints": [
+          "Keep the room and hot-block temperatures matched so the delta T badges stay close.",
+          "Use contact quality or material conductivity to change the conduction path without changing the temperature gap."
+        ]
+      },
+      {
+        "id": "ht-ch-make-radiation-largest",
+        "title": "Make radiation largest",
+        "style": "target-setting",
+        "prompt": "Tune the live setup until radiation is the largest pathway while the block is still clearly hotter than the room.",
+        "successMessage": "You built a case where weak contact and still air keep the other pathways small enough for radiation to take over.",
+        "setup": {
+          "presetId": "loose-contact",
+          "graphId": "pathway-rates",
+          "overlayIds": [
+            "deltaBridge",
+            "pathwaySplit"
+          ],
+          "note": "Keep the graph open so you can watch the amber radiation curve overtake the others."
+        },
+        "requirements": {
+          "graphId": "pathway-rates",
+          "overlayIds": [
+            "pathwaySplit"
+          ]
+        },
+        "targets": [
+          {
+            "param": "hotTemperature",
+            "min": 165,
+            "max": 180,
+            "displayUnit": "degC"
+          },
+          {
+            "param": "contactQuality",
+            "min": 0,
+            "max": 0.12
+          },
+          {
+            "param": "airflow",
+            "min": 0.3,
+            "max": 0.5
+          },
+          {
+            "metric": "radiationRate",
+            "min": 8,
+            "max": 13,
+            "displayUnit": "u/s"
+          },
+          {
+            "metric": "conductionRate",
+            "min": 0,
+            "max": 3,
+            "displayUnit": "u/s"
+          },
+          {
+            "metric": "convectionRate",
+            "min": 0,
+            "max": 7,
+            "displayUnit": "u/s"
+          }
+        ],
+        "hints": [
+          "Radiation likes a large temperature contrast.",
+          "To keep radiation largest, do not accidentally strengthen the contact path or the airflow too much."
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live bench, not from slogans. The goal is to keep direction, pathway, and rate reasoning connected to the same temperature gap.",
+    "questions": [
+      {
+        "id": "ht-qt-heat-definition",
+        "type": "reasoning",
+        "prompt": "On this page, what does heat mean most directly?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Energy transfer caused by a temperature difference."
+          },
+          {
+            "id": "b",
+            "label": "A substance stored inside the hot block."
+          },
+          {
+            "id": "c",
+            "label": "Only the block's temperature reading, with no transfer idea attached."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The block stores internal energy, but heat is the energy crossing the boundary because one side is hotter than the other.",
+        "selectedWrongExplanations": {
+          "b": "That treats heat as a stored material. The page is trying to keep stored energy separate from transferred energy.",
+          "c": "Temperature matters because it sets the driving difference, but the page is about the transfer that happens because of that difference."
+        },
+        "showMeAction": {
+          "label": "Show the temperature gap",
+          "presetId": "metal-bench",
+          "observationHint": "The delta-T bridge points from hotter toward cooler, which is the reason any net heat transfer exists.",
+          "highlightedControlIds": [
+            "hotTemperature",
+            "ambientTemperature"
+          ],
+          "highlightedGraphIds": [
+            "temperature-history"
+          ],
+          "highlightedOverlayIds": [
+            "deltaBridge"
+          ]
+        }
+      },
+      {
+        "id": "ht-qt-better-contact",
+        "type": "variable-effect",
+        "prompt": "If the temperatures stay the same but the contact quality improves, which pathway changes most directly?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Conduction."
+          },
+          {
+            "id": "b",
+            "label": "Convection."
+          },
+          {
+            "id": "c",
+            "label": "None of them, because the temperatures did not move."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Contact quality belongs to the solid-conduction path. Better contact changes conduction even before the temperatures have had time to respond.",
+        "selectedWrongExplanations": {
+          "b": "Convection is the moving-air pathway. It responds to airflow and exposed area, not to the solid-contact quality.",
+          "c": "The temperatures set the driving difference, but path properties still matter. Contact quality is one of those path properties."
+        },
+        "showMeAction": {
+          "label": "Show contact response",
+          "presetId": "loose-contact",
+          "observationHint": "The contact-response graph rises because the conduction part of the split gets stronger.",
+          "highlightedControlIds": [
+            "contactQuality",
+            "materialConductivity"
+          ],
+          "highlightedGraphIds": [
+            "contact-response",
+            "pathway-rates"
+          ],
+          "highlightedOverlayIds": [
+            "pathwaySplit",
+            "areaCue"
+          ]
+        }
+      },
+      {
+        "id": "ht-qt-airflow",
+        "type": "misconception-check",
+        "prompt": "A student says, \"If airflow changes, that really means the conduction path changed.\" What is the best correction?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "No. Airflow mainly changes convection because the moving fluid is the part carrying energy away."
+          },
+          {
+            "id": "b",
+            "label": "Yes. Airflow and conduction are the same thing because both remove heat."
+          },
+          {
+            "id": "c",
+            "label": "No. Airflow only changes radiation, not convection or conduction."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Convection is the fluid-motion pathway. Changing airflow changes the convection term while leaving the solid-contact idea separate.",
+        "selectedWrongExplanations": {
+          "b": "Two pathways can both remove energy without being the same physical process.",
+          "c": "Radiation can still matter, but airflow most directly changes convection."
+        },
+        "showMeAction": {
+          "label": "Show the windy room",
+          "presetId": "windy-room",
+          "observationHint": "The blue convection arrows and blue rate trace are the most direct signs that airflow belongs to convection.",
+          "highlightedControlIds": [
+            "airflow"
+          ],
+          "highlightedGraphIds": [
+            "pathway-rates"
+          ],
+          "highlightedOverlayIds": [
+            "environmentCue",
+            "pathwaySplit"
+          ]
+        }
+      },
+      {
+        "id": "ht-qt-radiation-curve",
+        "type": "graph-reading",
+        "prompt": "On the contrast-response graph, why does the radiation curve bend upward more strongly than the conduction and convection lines?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because radiation depends more strongly on temperature at large contrast."
+          },
+          {
+            "id": "b",
+            "label": "Because radiation is the only pathway that depends on area."
+          },
+          {
+            "id": "c",
+            "label": "Because the graph secretly changes the room temperature for the radiation curve only."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The page uses the fourth-power radiation scaling, so the radiation term grows more strongly at large contrast than the nearly straight conduction and convection trends.",
+        "selectedWrongExplanations": {
+          "b": "Area appears in all three pathway scalings on this bench.",
+          "c": "The graph keeps one shared room temperature. The different shape comes from the radiation law, not from a hidden second scenario."
+        },
+        "showMeAction": {
+          "label": "Show contrast response",
+          "presetId": "radiation-dominant",
+          "observationHint": "Compare the amber curve with the teal and blue lines as delta T increases.",
+          "highlightedControlIds": [
+            "hotTemperature",
+            "ambientTemperature"
+          ],
+          "highlightedGraphIds": [
+            "contrast-response"
+          ],
+          "highlightedOverlayIds": [
+            "deltaBridge",
+            "pathwaySplit"
+          ]
+        }
+      },
+      {
+        "id": "ht-qt-area",
+        "type": "compare-two-cases",
+        "prompt": "Two otherwise identical setups keep the same temperatures, but Setup B has a larger surface area. Which statement is best?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Setup B can transfer energy faster because the larger area gives all three pathways more boundary to work across."
+          },
+          {
+            "id": "b",
+            "label": "Only conduction changes because area belongs only to the solid-contact path."
+          },
+          {
+            "id": "c",
+            "label": "Nothing changes because the temperature difference stayed the same."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Area scales the boundary, so conduction, convection, and radiation can all grow at the same temperature contrast when the area increases.",
+        "selectedWrongExplanations": {
+          "b": "Area appears in all three pathway ideas on this bounded bench.",
+          "c": "The temperature difference is not the only causal lever. Area is a separate one."
+        },
+        "showMeAction": {
+          "label": "Show the area cue",
+          "presetId": "metal-bench",
+          "observationHint": "Raising the area grows the whole pathway bar, not just one segment.",
+          "highlightedControlIds": [
+            "surfaceArea"
+          ],
+          "highlightedGraphIds": [
+            "contrast-response",
+            "pathway-rates"
+          ],
+          "highlightedOverlayIds": [
+            "areaCue",
+            "pathwaySplit"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a hot block on the left and a cooler room-and-bench sink on the right. A temperature-gap bridge, a solid contact channel, airflow curves, and radiation arcs all come from the same hot-block and room temperatures.",
+        "Changing the controls updates the same live state: the hot-block temperature, room temperature, material conductivity, contact quality, surface area, and airflow all update the pathway split, the readout card, the graphs below, compare mode, prediction mode, and challenge checks together."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The temperature-history graph compares the hot block with the fixed room temperature so the shrinking delta T stays visible. The pathway-rates graph compares conduction, convection, radiation, and the total on one shared time axis.",
+        "The contact-response graph sweeps only the contact quality, which isolates the conduction path. The contrast-response graph sweeps only the temperature contrast, which is where the stronger radiation curvature becomes most visible."
+      ]
+    }
+  },
+  "seo": {
+    "description": "Learn heat transfer as energy flow due to temperature difference with conduction, convection, and radiation on one compact simulation bench.",
+    "keywords": [
+      "heat transfer",
+      "conduction convection radiation",
+      "temperature difference heat flow",
+      "thermal rate intuition",
+      "specific heat bridge",
+      "phase change bridge"
+    ]
+  }
+}

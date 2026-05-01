@@ -1,0 +1,928 @@
+{
+  "pageFramework": {
+    "featuredSetups": [
+      {
+        "id": "vector-sum-view",
+        "label": "Vector sum view",
+        "description": "Open a clean addition case with the head-to-tail guide visible.",
+        "setup": {
+          "presetId": "vector-sum",
+          "graphId": "addition-sweep",
+          "overlayIds": [
+            "additionGuide",
+            "magnitudeCircle"
+          ],
+          "note": "Use this to read a complex number as both a point and a vector."
+        }
+      },
+      {
+        "id": "rotation-by-i",
+        "label": "Rotate by i",
+        "description": "Open the multiplication case where the multiplier acts like a quarter-turn.",
+        "setup": {
+          "presetId": "rotation-by-i",
+          "graphId": "multiplication-sweep",
+          "overlayIds": [
+            "magnitudeCircle",
+            "rotationCue"
+          ],
+          "note": "Use this to see multiplication as rotation and scaling."
+        }
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Read complex numbers as points and vectors on one plane, then keep addition and multiplication geometric instead of symbolic-only.",
+    "keyTakeaway": "A complex number z = a + bi can be read as the point (a, b) or as the vector from the origin to that point."
+  },
+  "v2": {
+    "intuition": "Complex numbers get much easier when the algebra and the picture never split apart: the same z is both a point and an arrow on one plane.",
+    "whyItMatters": "This turns complex arithmetic into something you can see and reason about, which makes later rotation, trigonometry, and polar-form ideas much less abstract.",
+    "estimatedMinutes": 15,
+    "equationSnapshot": {
+      "equationIds": [
+        "complex-coordinate",
+        "complex-product"
+      ],
+      "note": "Keep the plane picture in mind: one formula tells you where the point is, and the other tells you how multiplication turns and scales it."
+    },
+    "startSetup": {
+      "presetId": "vector-sum",
+      "graphId": "addition-sweep",
+      "overlayIds": [
+        "additionGuide",
+        "magnitudeCircle"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-z-and-w-on-the-plane",
+        "title": "Read z and w on the plane",
+        "goal": "See that a complex number is already both geometry and algebra before you start combining anything.",
+        "doThis": "Start in Vector sum, keep the addition graph open, and move only the w sliders for a first pass.",
+        "notice": "The ordered pair and the arrow move together. You are not switching between two different objects.",
+        "explain": "z = a + bi means the point (a, b) and the vector from the origin to that same point.",
+        "reveal": {
+          "controlIds": [
+            "operand-real",
+            "operand-imaginary"
+          ],
+          "graphIds": [
+            "addition-sweep"
+          ],
+          "overlayIds": [
+            "additionGuide",
+            "magnitudeCircle"
+          ]
+        },
+        "setup": {
+          "presetId": "vector-sum",
+          "graphId": "addition-sweep",
+          "overlayIds": [
+            "additionGuide",
+            "magnitudeCircle"
+          ]
+        }
+      },
+      {
+        "id": "build-the-sum",
+        "title": "Build the sum",
+        "goal": "Use the same plane to read z + w as both component addition and head-to-tail geometry.",
+        "doThis": "Keep addition view on and use the head-to-tail guide to read where z + w lands.",
+        "notice": "The sum endpoint matches both the translated second arrow and the component-by-component addition rule.",
+        "explain": "Complex addition behaves like vector addition because the real parts add on one axis and the imaginary parts add on the other.",
+        "reveal": {
+          "controlIds": [
+            "real-part",
+            "imaginary-part",
+            "operand-real",
+            "operand-imaginary"
+          ],
+          "graphIds": [
+            "addition-sweep"
+          ],
+          "overlayIds": [
+            "additionGuide"
+          ]
+        },
+        "setup": {
+          "presetId": "vector-sum",
+          "graphId": "addition-sweep",
+          "overlayIds": [
+            "additionGuide"
+          ]
+        }
+      },
+      {
+        "id": "turn-multiplication-into-motion",
+        "title": "Turn multiplication into motion",
+        "goal": "See multiplication as a turn-plus-scale action instead of just a component rule.",
+        "doThis": "Switch on Multiplication view and apply Rotate by i before you change w yourself.",
+        "notice": "A multiplier near the unit circle can turn z a lot without stretching it much.",
+        "explain": "For products, magnitudes multiply and arguments add, so w changes both the size and direction of z.",
+        "reveal": {
+          "controlIds": [
+            "multiply-mode",
+            "operand-real",
+            "operand-imaginary"
+          ],
+          "graphIds": [
+            "multiplication-sweep"
+          ],
+          "overlayIds": [
+            "magnitudeCircle",
+            "rotationCue"
+          ]
+        },
+        "setup": {
+          "presetId": "rotation-by-i",
+          "graphId": "multiplication-sweep",
+          "overlayIds": [
+            "magnitudeCircle",
+            "rotationCue"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "cnp-predict-rotation-by-i"
+          ]
+        }
+      },
+      {
+        "id": "check-the-plane-story",
+        "title": "Check the plane story",
+        "goal": "Test whether the geometric and algebraic descriptions still agree when you explain the idea back to yourself.",
+        "doThis": "Use the quick checks, then build one multiplication case that turns the result without stretching it much.",
+        "notice": "The right answer should keep saying the same thing: the plane picture and the algebra are describing the same object.",
+        "explain": "If you can explain a point, a vector, a sum, and a product on the same plane, the concept is starting to hold together.",
+        "reveal": {
+          "controlIds": [
+            "multiply-mode",
+            "operand-real",
+            "operand-imaginary"
+          ],
+          "graphIds": [
+            "multiplication-sweep"
+          ],
+          "overlayIds": [
+            "magnitudeCircle",
+            "rotationCue"
+          ]
+        },
+        "setup": {
+          "presetId": "rotation-by-i",
+          "graphId": "multiplication-sweep",
+          "overlayIds": [
+            "magnitudeCircle",
+            "rotationCue"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "cnp-qt-plane-meaning",
+            "cnp-qt-multiplication"
+          ]
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "A complex number can be read as the point (a, b) and as the vector from the origin to that point.",
+        "Addition on the complex plane is the same head-to-tail story as vector addition.",
+        "Multiplication changes size and direction together because magnitudes multiply and arguments add."
+      ],
+      "misconception": "Complex multiplication is not only a symbolic component rule. The geometry is the clearest way to read what the product is doing.",
+      "workedExampleRefs": [
+        "read-the-current-vector-sum",
+        "read-complex-multiplication-geometrically"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "unit-circle-sine-cosine-from-rotation",
+          "title": "Unit Circle / Sine and Cosine from Rotation",
+          "reasonLabel": "Keep the same turn-on-a-plane picture and reuse it for trig coordinates."
+        },
+        {
+          "slug": "polar-coordinates-radius-and-angle",
+          "title": "Polar Coordinates / Radius and Angle",
+          "reasonLabel": "Carry the same distance-and-direction reading into radius-angle coordinates."
+        }
+      ],
+      "freePlayPrompt": "Stay on the plane and try your own add-versus-multiply cases until you can predict the turn and stretch before you switch the view."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "accessibility"
+    ]
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Complex numbers become easier to trust when the algebra and geometry stay on the same plane. This bench keeps z, w, and the current result visible together so a + bi reads as both an ordered pair and a directed arrow.",
+        "Addition should feel like vector addition, and multiplication should feel like one point being rotated and scaled by another complex number."
+      ]
+    },
+    "keyIdeas": [
+      "A complex number z = a + bi can be read as the point (a, b) or as the vector from the origin to that point.",
+      "The magnitude |z| is the distance from the origin, and the argument tells the direction of the same point.",
+      "Complex multiplication combines scaling and rotation on the same plane."
+    ],
+    "commonMisconception": {
+      "myth": "Complex multiplication is just a symbolic component rule, so the geometric picture is optional.",
+      "correction": [
+        "The component rule is real, but the geometry is what makes the result readable.",
+        "On this plane, multiplying by w changes both the size and the direction of z."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Use the current plane state rather than a detached worksheet.",
+      "items": [
+        {
+          "id": "read-the-current-vector-sum",
+          "title": "Read the current vector sum",
+          "prompt": "For the current addition view, where does z + w land on the plane?",
+          "variables": [
+            {
+              "id": "real-part",
+              "variableId": "real-part",
+              "symbol": "a",
+              "label": "Real part of z",
+              "valueKey": "realPartValue"
+            },
+            {
+              "id": "imaginary-part",
+              "variableId": "imaginary-part",
+              "symbol": "b",
+              "label": "Imaginary part of z",
+              "valueKey": "imaginaryPartValue"
+            },
+            {
+              "id": "operand-real",
+              "variableId": "operand-real",
+              "symbol": "c",
+              "label": "Real part of w",
+              "valueKey": "operandRealValue"
+            },
+            {
+              "id": "operand-imaginary",
+              "variableId": "operand-imaginary",
+              "symbol": "d",
+              "label": "Imaginary part of w",
+              "valueKey": "operandImaginaryValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "write-points",
+              "label": "1. Write the current points",
+              "template": "The current points are z = {{zValue}} and w = {{wValue}}."
+            },
+            {
+              "id": "add-components",
+              "label": "2. Add the real and imaginary parts separately",
+              "template": "The sum keeps the plane honest: ({{realPartValue}} + {{operandRealValue}}, {{imaginaryPartValue}} + {{operandImaginaryValue}})."
+            },
+            {
+              "id": "read-result",
+              "label": "3. Read the new endpoint",
+              "template": "That gives z + w = {{sumValue}}, so the sum lands at ({{sumRealValue}}, {{sumImaginaryValue}})."
+            }
+          ],
+          "resultLabel": "Current sum",
+          "resultTemplate": "$z + w = {{sumValue}}$",
+          "interpretationTemplate": "{{additionInterpretation}}",
+          "applyAction": {
+            "label": "Apply the vector-sum view",
+            "presetId": "vector-sum",
+            "observationHint": "The head-to-tail guide keeps the component addition and the geometry tied together.",
+            "highlightedControlIds": [
+              "realPart",
+              "imaginaryPart",
+              "operandReal",
+              "operandImaginary"
+            ],
+            "highlightedGraphIds": [
+              "addition-sweep"
+            ],
+            "highlightedOverlayIds": [
+              "additionGuide"
+            ]
+          }
+        },
+        {
+          "id": "read-complex-multiplication-geometrically",
+          "title": "Read a multiplication rotation",
+          "prompt": "In multiplication view, what scale and turn does w apply to z, and where does z · w land?",
+          "variables": [
+            {
+              "id": "z",
+              "symbol": "z",
+              "label": "Starting complex number",
+              "valueKey": "zValue"
+            },
+            {
+              "id": "w",
+              "symbol": "w",
+              "label": "Multiplier",
+              "valueKey": "wValue"
+            },
+            {
+              "id": "scale-factor",
+              "symbol": "|w|",
+              "label": "Scale factor from w",
+              "valueKey": "scaleFactorValue"
+            },
+            {
+              "id": "rotation",
+              "symbol": "arg(w)",
+              "label": "Rotation from w",
+              "valueKey": "rotationDegValue",
+              "unit": "°"
+            },
+            {
+              "id": "product",
+              "symbol": "z · w",
+              "label": "Product",
+              "valueKey": "productValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-multiplier",
+              "label": "1. Read the multiplier",
+              "template": "The current multiplier is w = {{wValue}}, so its size |w| = {{scaleFactorValue}} and its turn is about {{rotationDegValue}}°."
+            },
+            {
+              "id": "apply-scale-turn",
+              "label": "2. Apply scale and turn to z",
+              "template": "Start from z = {{zValue}}. Multiplication scales z by {{scaleFactorValue}} and adds about {{rotationDegValue}}° to its direction."
+            },
+            {
+              "id": "read-product",
+              "label": "3. Read the product endpoint",
+              "template": "The live product is z · w = {{productValue}}, landing at ({{productRealValue}}, {{productImaginaryValue}}) on the same plane."
+            }
+          ],
+          "resultLabel": "Current product",
+          "resultTemplate": "$z \\cdot w = {{productValue}}$",
+          "interpretationTemplate": "{{multiplicationInterpretation}}",
+          "applyAction": {
+            "label": "Apply the rotation view",
+            "presetId": "rotation-by-i",
+            "observationHint": "The rotation cue and unit circle show that multiplication can turn z first, while the multiplier magnitude controls how much the product stretches.",
+            "highlightedControlIds": [
+              "operandReal",
+              "operandImaginary",
+              "multiplyMode"
+            ],
+            "highlightedGraphIds": [
+              "multiplication-sweep"
+            ],
+            "highlightedOverlayIds": [
+              "magnitudeCircle",
+              "rotationCue"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Build a multiplication case where the product lands in the second quadrant without making the point much longer than the original z.",
+      "prediction": "Decide whether the multiplier needs to act mostly like a rotation, mostly like a stretch, or both before you try it.",
+      "answer": "You need a multiplier whose argument turns z into the second quadrant while its magnitude stays near one.",
+      "explanation": "The product direction comes from the added argument, while the size comes from the multiplier magnitude."
+    }
+  },
+  "equations": [
+    {
+      "id": "complex-coordinate",
+      "latex": "z = a + bi",
+      "label": "Complex-coordinate form",
+      "meaning": "Reads one complex number as a point on the plane with real part a and imaginary part b."
+    },
+    {
+      "id": "magnitude-argument",
+      "latex": "|z| = \\sqrt{a^2 + b^2}, \\qquad \\arg(z) = \\tan^{-1}\\!\\left(\\frac{b}{a}\\right)",
+      "label": "Magnitude and argument",
+      "meaning": "Turns the same point into a distance from the origin and a direction on the plane."
+    },
+    {
+      "id": "complex-product",
+      "latex": "|zw| = |z||w|, \\qquad \\arg(zw) = \\arg(z) + \\arg(w)",
+      "label": "Geometric multiplication rule",
+      "meaning": "Explains why multiplying by w scales and rotates z."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "real-part",
+      "symbol": "a",
+      "label": "Real part of z",
+      "param": "realPart",
+      "tone": "teal",
+      "description": "Moves z left or right on the real axis.",
+      "equationIds": [
+        "complex-coordinate",
+        "magnitude-argument"
+      ],
+      "graphIds": [
+        "addition-sweep",
+        "multiplication-sweep"
+      ],
+      "overlayIds": [
+        "additionGuide",
+        "magnitudeCircle"
+      ]
+    },
+    {
+      "id": "imaginary-part",
+      "symbol": "b",
+      "label": "Imaginary part of z",
+      "param": "imaginaryPart",
+      "tone": "teal",
+      "description": "Moves z up or down on the imaginary axis.",
+      "equationIds": [
+        "complex-coordinate",
+        "magnitude-argument"
+      ],
+      "graphIds": [
+        "addition-sweep",
+        "multiplication-sweep"
+      ],
+      "overlayIds": [
+        "additionGuide",
+        "magnitudeCircle"
+      ]
+    },
+    {
+      "id": "operand-real",
+      "symbol": "c",
+      "label": "Real part of w",
+      "param": "operandReal",
+      "tone": "coral",
+      "description": "Changes where the second complex point sits on the real axis.",
+      "equationIds": [
+        "complex-coordinate",
+        "complex-product"
+      ],
+      "graphIds": [
+        "addition-sweep",
+        "multiplication-sweep"
+      ],
+      "overlayIds": [
+        "additionGuide",
+        "rotationCue"
+      ]
+    },
+    {
+      "id": "operand-imaginary",
+      "symbol": "d",
+      "label": "Imaginary part of w",
+      "param": "operandImaginary",
+      "tone": "coral",
+      "description": "Changes the vertical component and therefore the direction of w.",
+      "equationIds": [
+        "complex-coordinate",
+        "complex-product"
+      ],
+      "graphIds": [
+        "addition-sweep",
+        "multiplication-sweep"
+      ],
+      "overlayIds": [
+        "additionGuide",
+        "rotationCue"
+      ]
+    },
+    {
+      "id": "multiply-mode",
+      "symbol": "×",
+      "label": "Multiplication view",
+      "param": "multiplyMode",
+      "tone": "amber",
+      "description": "Switches the result from a head-to-tail sum to the geometric product.",
+      "equationIds": [
+        "complex-product"
+      ],
+      "graphIds": [
+        "multiplication-sweep"
+      ],
+      "overlayIds": [
+        "rotationCue"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "realPart": 2.2,
+      "imaginaryPart": 1.6,
+      "operandReal": 1.1,
+      "operandImaginary": 1.8,
+      "multiplyMode": false,
+      "additionGuide": true,
+      "magnitudeCircle": true,
+      "rotationCue": false
+    },
+    "ui": {
+      "initialGraphId": "addition-sweep",
+      "primaryGraphIds": [
+        "addition-sweep"
+      ],
+      "primaryControlIds": [
+        "operand-real",
+        "operand-imaginary"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "real-part",
+        "kind": "slider",
+        "label": "Real part of z",
+        "param": "realPart",
+        "min": -4.5,
+        "max": 4.5,
+        "step": 0.1
+      },
+      {
+        "id": "imaginary-part",
+        "kind": "slider",
+        "label": "Imaginary part of z",
+        "param": "imaginaryPart",
+        "min": -4.5,
+        "max": 4.5,
+        "step": 0.1
+      },
+      {
+        "id": "operand-real",
+        "kind": "slider",
+        "label": "Real part of w",
+        "param": "operandReal",
+        "min": -4.5,
+        "max": 4.5,
+        "step": 0.1
+      },
+      {
+        "id": "operand-imaginary",
+        "kind": "slider",
+        "label": "Imaginary part of w",
+        "param": "operandImaginary",
+        "min": -4.5,
+        "max": 4.5,
+        "step": 0.1
+      },
+      {
+        "id": "multiply-mode",
+        "kind": "toggle",
+        "label": "Multiplication view",
+        "param": "multiplyMode"
+      }
+    ],
+    "presets": [
+      {
+        "id": "vector-sum",
+        "label": "Vector sum",
+        "description": "A clean addition case.",
+        "values": {
+          "realPart": 2.2,
+          "imaginaryPart": 1.6,
+          "operandReal": 1.1,
+          "operandImaginary": 1.8,
+          "multiplyMode": false
+        }
+      },
+      {
+        "id": "rotation-by-i",
+        "label": "Rotate by i",
+        "description": "A multiplier with magnitude 1 and argument 90 degrees.",
+        "values": {
+          "realPart": 2,
+          "imaginaryPart": 1,
+          "operandReal": 0,
+          "operandImaginary": 1,
+          "multiplyMode": true
+        }
+      },
+      {
+        "id": "canceling-sum",
+        "label": "Canceling sum",
+        "description": "An addition case where the two arrows partly cancel.",
+        "values": {
+          "realPart": 2.4,
+          "imaginaryPart": 1.6,
+          "operandReal": -1.9,
+          "operandImaginary": -1.2,
+          "multiplyMode": false
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "additionGuide",
+        "label": "Head-to-tail guide",
+        "shortDescription": "Show the translated second vector used in the sum.",
+        "whatToNotice": [
+          "The sum still uses the same two component pairs."
+        ],
+        "whyItMatters": "It keeps complex addition tied to vector addition.",
+        "relatedControls": [
+          "realPart",
+          "imaginaryPart",
+          "operandReal",
+          "operandImaginary"
+        ],
+        "relatedGraphTabs": [
+          "addition-sweep"
+        ],
+        "relatedEquationVariables": [
+          "real-part",
+          "imaginary-part",
+          "operand-real",
+          "operand-imaginary"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "magnitudeCircle",
+        "label": "Unit circle cue",
+        "shortDescription": "Keep a one-unit reference circle visible.",
+        "whatToNotice": [
+          "A multiplier with magnitude 1 can still rotate the point strongly."
+        ],
+        "whyItMatters": "It makes the size story of multiplication easier to read.",
+        "relatedControls": [
+          "realPart",
+          "imaginaryPart",
+          "operandReal",
+          "operandImaginary"
+        ],
+        "relatedGraphTabs": [
+          "multiplication-sweep"
+        ],
+        "relatedEquationVariables": [
+          "real-part",
+          "imaginary-part",
+          "operand-real",
+          "operand-imaginary"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "rotationCue",
+        "label": "Rotation cue",
+        "shortDescription": "Show the turn from arg(z) to arg(z · w).",
+        "whatToNotice": [
+          "Multiplication changes direction by adding angles."
+        ],
+        "whyItMatters": "It turns the argument-addition rule into a visible motion.",
+        "relatedControls": [
+          "operandReal",
+          "operandImaginary",
+          "multiplyMode"
+        ],
+        "relatedGraphTabs": [
+          "multiplication-sweep"
+        ],
+        "relatedEquationVariables": [
+          "operand-real",
+          "operand-imaginary",
+          "multiply-mode"
+        ],
+        "defaultOn": false
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "addition-sweep",
+      "label": "Sum components vs Re(w)",
+      "xLabel": "Re(w)",
+      "yLabel": "result component",
+      "series": [
+        "sum-real",
+        "sum-imaginary"
+      ]
+    },
+    {
+      "id": "multiplication-sweep",
+      "label": "Product components vs Re(w)",
+      "xLabel": "Re(w)",
+      "yLabel": "result component",
+      "series": [
+        "product-real",
+        "product-imaginary"
+      ]
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Keep the plane, the result arrow, and the active graph in view together.",
+    "items": [
+      {
+        "id": "cnp-notice-addition",
+        "text": "In addition view, the result arrow can be read both as component addition and as a head-to-tail sum on the same plane.",
+        "type": "observation",
+        "relatedControls": [
+          "realPart",
+          "imaginaryPart",
+          "operandReal",
+          "operandImaginary"
+        ],
+        "relatedGraphTabs": [
+          "addition-sweep"
+        ],
+        "relatedOverlays": [
+          "additionGuide"
+        ],
+        "relatedEquationVariables": [
+          "real-part",
+          "imaginary-part",
+          "operand-real",
+          "operand-imaginary"
+        ]
+      },
+      {
+        "id": "cnp-notice-multiply",
+        "text": "A multiplier near the unit circle can turn z a lot without stretching it much.",
+        "type": "graph-reading",
+        "relatedControls": [
+          "operandReal",
+          "operandImaginary",
+          "multiplyMode"
+        ],
+        "relatedGraphTabs": [
+          "multiplication-sweep"
+        ],
+        "relatedOverlays": [
+          "magnitudeCircle",
+          "rotationCue"
+        ],
+        "relatedEquationVariables": [
+          "operand-real",
+          "operand-imaginary",
+          "multiply-mode"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Predict",
+    "intro": "Predict the geometric change before you switch the preset or the view.",
+    "items": [
+      {
+        "id": "cnp-predict-rotation-by-i",
+        "prompt": "If w = i, what should happen to z in multiplication view?",
+        "scenarioLabel": "Multiply by i",
+        "choices": [
+          {
+            "id": "a",
+            "label": "z should rotate about 90 degrees while keeping the same magnitude."
+          },
+          {
+            "id": "b",
+            "label": "z should always double in length."
+          },
+          {
+            "id": "c",
+            "label": "z should collapse to the origin."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The multiplier i has magnitude 1 and argument 90 degrees, so it acts like a quarter-turn without scaling the point.",
+        "observationHint": "Turn the rotation cue on and compare the original direction with the product direction.",
+        "apply": {
+          "presetId": "rotation-by-i"
+        },
+        "highlightedControls": [
+          "multiplyMode"
+        ],
+        "highlightedGraphs": [
+          "multiplication-sweep"
+        ],
+        "highlightedOverlays": [
+          "magnitudeCircle",
+          "rotationCue"
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live plane picture, not from a detached rule.",
+    "questions": [
+      {
+        "id": "cnp-qt-plane-meaning",
+        "type": "reasoning",
+        "prompt": "What is the most honest way to read z = a + bi on this bench?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "As both the point (a, b) and the vector from the origin to that point."
+          },
+          {
+            "id": "b",
+            "label": "Only as a symbolic expression with no geometric meaning."
+          },
+          {
+            "id": "c",
+            "label": "Only as two unrelated real numbers."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The whole point of the complex plane is that the algebra and geometry describe the same object."
+      },
+      {
+        "id": "cnp-qt-multiplication",
+        "type": "misconception-check",
+        "prompt": "If |w| is close to 1 but arg(w) is large, what is the cleanest expectation for z · w?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The product should rotate a lot without changing size very much."
+          },
+          {
+            "id": "b",
+            "label": "The product should always become much longer."
+          },
+          {
+            "id": "c",
+            "label": "Nothing important should happen."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A multiplier near the unit circle mostly changes direction, not size."
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the plane honestly: build the right scale-and-turn case instead of guessing from formulas alone.",
+    "items": [
+      {
+        "id": "cnp-ch-rotate-to-positive-imaginary",
+        "title": "Rotate onto the positive imaginary axis",
+        "style": "visible-condition",
+        "prompt": "Build a multiplication case where z · w lands almost on the positive imaginary axis while the multiplier magnitude stays close to one.",
+        "successMessage": "You built a genuine rotation-first multiplication case. The product landed near the positive imaginary axis because the argument changed strongly while the scale factor stayed near one.",
+        "setup": {
+          "presetId": "rotation-by-i",
+          "graphId": "multiplication-sweep",
+          "overlayIds": [
+            "magnitudeCircle",
+            "rotationCue"
+          ]
+        },
+        "requirements": {
+          "graphId": "multiplication-sweep",
+          "overlayIds": [
+            "magnitudeCircle",
+            "rotationCue"
+          ]
+        },
+        "targets": [
+          {
+            "metric": "scaleFactor",
+            "min": 0.95,
+            "max": 1.05
+          },
+          {
+            "metric": "productReal",
+            "min": -0.25,
+            "max": 0.25
+          },
+          {
+            "metric": "productImaginary",
+            "min": 2.2,
+            "max": 5
+          }
+        ]
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a complex plane with z, w, and the current result arrow. Sliders or dragging change the real and imaginary parts of both points, and a toggle switches between addition view and multiplication view."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "One graph shows the real and imaginary parts of z + w as the real part of w changes. A second graph shows the real and imaginary parts of z · w under the same sweep."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Complex Numbers on the Plane",
+    "description": "Explore complex numbers as points and vectors, then read addition and multiplication geometrically on a live complex plane.",
+    "keywords": [
+      "complex numbers",
+      "complex plane",
+      "complex multiplication",
+      "math"
+    ]
+  }
+}

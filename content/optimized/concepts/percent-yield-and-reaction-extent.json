@@ -1,0 +1,248 @@
+{
+"pageFramework": {
+"featuredSetups": [
+{
+"id": "partial-yield-window",
+"description": "Open a matched run at 75% yield and compare the shorter actual tray with the unchanged theoretical marker."
+},
+{
+"id": "full-yield-window",
+"description": "Compare the same kind of matched run at 100% yield so the actual tray reaches the theoretical marker."
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Start by finding the theoretical output. Use the recipe card and the limiting-reagent cap to work out the maximum possible batches, then compare that ideal marker with the actual product tray.",
+"On this bench, reaction extent is the fraction of those theoretical batches that really finish. Lowering percent yield does not rewrite the recipe or switch the limiting side. It only lowers the actual output below the same theoretical maximum."
+]
+},
+"keyIdeas": [
+"Find the theoretical output first from the recipe and the limiting-reagent batch cap.",
+"Percent yield tells what fraction of that theoretical output actually forms.",
+"When yield is below 100%, the missing part is a shortfall from the same theoretical marker, so more reactant stays unused."
+],
+"commonMisconception": {
+"myth": "A 75% yield means the recipe itself changed so each batch uses only 75% of the reactants.",
+"correction": [
+"The recipe card stays the same. You still start from the same theoretical batch cap.",
+"A 75% yield means the actual product is 75% of the theoretical output, so the tray stops short of the ideal marker."
+]
+},
+"workedExamples": {
+"title": "Worked example: compare theoretical and actual output",
+"intro": "Read the theoretical marker first, then use percent yield to predict the actual tray.",
+"items": [
+{
+"id": "read-a-seventy-five-percent-yield-run",
+"title": "Read a 75% yield run",
+"prompt": "With 12 A, 18 B, a 2:3 recipe, and 75% yield, what actual output appears and how large is the shortfall from theoretical?",
+"steps": [
+{
+"id": "read-theoretical-output",
+"label": "1. Find the theoretical batch cap"
+},
+{
+"id": "apply-yield",
+"label": "2. Apply percent yield to the theoretical output"
+},
+{
+"id": "read-the-gap",
+"label": "3. Compare the actual tray with the theoretical marker"
+}
+],
+"resultLabel": "Actual output and yield gap",
+"applyAction": {
+"label": "Apply the 75% yield case",
+"observationHint": "The theoretical marker stays at 6 batches while the actual tray stops at 4.5 batches."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Keep the recipe and starting supplies fixed, then lower the yield until the actual tray clearly falls below the same theoretical marker.",
+"prediction": "Before you move a slider, decide which control changes the actual tray without changing the theoretical cap.",
+"answer": "Percent yield changes the actual output, while the theoretical batch cap stays set by the same recipe and limiting reagent.",
+"explanation": "This lets you separate theoretical yield from actual yield instead of folding both into one number."
+}
+},
+"equations": [
+{
+"id": "actual-from-theoretical",
+"label": "Actual output from theoretical output",
+"meaning": "Take the theoretical batch count first, then scale it by percent yield to get the actual finished output."
+},
+{
+"id": "reaction-extent",
+"label": "Reaction extent as a fraction of theoretical output",
+"meaning": "Reaction extent here is the fraction of the theoretical batches that actually finish."
+},
+{
+"id": "yield-gap",
+"meaning": "The yield gap is the missing product: the difference between the theoretical marker and the actual tray."
+}
+],
+"variableLinks": [
+{
+"id": "reactant-a-supply",
+"description": "Helps set the theoretical batch cap before percent yield changes the actual output."
+},
+{
+"id": "reactant-b-supply",
+"description": "Helps set the theoretical batch cap before percent yield changes the actual output."
+},
+{
+"id": "percent-yield",
+"description": "Changes the fraction of theoretical output that actually appears on the product tray."
+}
+],
+"simulation": {
+"controls": [
+{
+"id": "percentYield",
+"description": "Lower this to make the actual tray fall below the same theoretical marker."
+}
+],
+"presets": [
+{
+"id": "matched-two-three",
+"description": "Matched supplies at 100% yield, so the actual tray reaches the theoretical marker."
+},
+{
+"id": "partial-yield",
+"description": "The same matched supplies at 75% yield, so the actual tray stops short of the theoretical marker."
+}
+],
+"overlays": [
+{
+"id": "recipeCard",
+"shortDescription": "Keep the recipe visible while comparing theoretical and actual output.",
+"whatToNotice": [
+"The recipe card and limiting side stay the same even when percent yield lowers the actual tray."
+],
+"whyItMatters": "It separates the theoretical yield story from the later percent-yield adjustment."
+},
+{
+"id": "limitingCue",
+"shortDescription": "Keep the limiting side visible while yield changes the product tray.",
+"whatToNotice": [
+"Changing percent yield does not change which side set the theoretical batch cap."
+],
+"whyItMatters": "It shows that percent yield acts on the same theoretical cap instead of creating a new one."
+},
+{
+"id": "yieldGap",
+"shortDescription": "Keep the theoretical marker visible beside the actual product tray.",
+"whatToNotice": [
+"As percent yield drops, the actual tray falls farther below the theoretical marker."
+],
+"whyItMatters": "It turns percent yield into a visible shortfall from the maximum possible output."
+}
+]
+},
+"graphs": [
+{
+"id": "yield-vs-percent",
+"label": "Actual and theoretical product vs percent yield",
+"description": "Watch the actual product change with percent yield while the theoretical marker stays fixed for the same recipe run."
+}
+],
+"noticePrompts": {
+"title": "What to notice when yield changes",
+"intro": "Keep the theoretical marker and the actual tray visible together.",
+"items": [
+{
+"id": "pyre-notice-theoretical-stays-fixed",
+"text": "The theoretical output stays fixed until you change the recipe or the limiting reagent. Percent yield only changes how much of that possible output actually appears."
+},
+{
+"id": "pyre-notice-gap-grows",
+"text": "Lowering percent yield widens the gap between the actual tray and the theoretical marker, so more possible product is missing."
+}
+]
+},
+"predictionMode": {
+"title": "Predict what yield changes",
+"intro": "Predict what percent yield changes and what stays fixed.",
+"items": [
+{
+"id": "pyre-predict-raise-yield",
+"prompt": "If a matched 2:3 run stays the same but percent yield rises from 75% to 100%, what should change?",
+"scenarioLabel": "Raise percent yield only",
+"choices": [
+{
+"id": "a",
+"label": "The actual product tray rises toward the same theoretical marker."
+},
+{
+"id": "b",
+"label": "The recipe card changes to a different stoichiometric ratio."
+},
+{
+"id": "c",
+"label": "The limiting reagent switches sides."
+}
+],
+"explanation": "Percent yield changes the actual output. It does not change the recipe card or the limiting side that set the theoretical cap.",
+"observationHint": "Watch the actual tray rise while the theoretical marker stays fixed."
+}
+]
+},
+"quickTest": {
+"title": "Quick check",
+"intro": "Answer by comparing the theoretical marker with the actual tray.",
+"questions": [
+{
+"id": "pyre-qt-percent-yield",
+"explanation": "Seventy-five percent of 6 batches is 4.5, so the actual tray should show 4.5 batches.",
+"showMeAction": {
+"label": "Apply the 75% yield case",
+"observationHint": "The tray lands at 4.5 batches while the theoretical marker stays at 6."
+}
+},
+{
+"id": "pyre-qt-yield-keeps-recipe",
+"prompt": "Which statement best describes what percent yield changes in this model?",
+"explanation": "Percent yield scales the actual output against the same theoretical batch cap.",
+"selectedWrongExplanations": {
+"b": "The recipe card stays the same. Yield changes the finished output, not the stoichiometric ratio.",
+"c": "Lower yield often leaves more reactant unused because fewer batches actually finish."
+},
+"showMeAction": {
+"label": "Compare 75% with 100%",
+"observationHint": "The theoretical marker stays the same while the actual tray moves when you change the yield slider."
+}
+}
+]
+},
+"challengeMode": {
+"intro": "Keep the recipe matched, then use percent yield to land the actual tray below the same theoretical marker.",
+"items": [
+{
+"id": "pyre-ch-hit-seventy-five-percent-yield",
+"title": "Set a matched run to 75% yield",
+"prompt": "Use the matched 2 A + 3 B run and set percent yield to 75% so the actual output lands at 3.75 batches.",
+"successMessage": "You kept the recipe matched and changed only the yield. The theoretical marker stays at 5 batches while the actual tray lands at 3.75.",
+"hints": [
+"First confirm that the matched run makes 5 theoretical batches.",
+"Then take 75% of 5 to predict the actual tray."
+]
+}
+]
+},
+"accessibility": {
+"simulationDescription": {
+"paragraphs": [
+"The simulation shows two reactant supply bins, a product tray, a theoretical-output marker, and a recipe card that states how many packets of A and B one full batch needs.",
+"A readout reports the current recipe, the maximum possible batches, the limiting side, the actual output, and leftover reactant so the learner can compare theoretical and actual results."
+]
+},
+"graphSummary": {
+"paragraphs": [
+"One graph shows possible batches against the A supply, a second shows possible batches against the B supply, and a third compares actual product with theoretical product as percent yield changes.",
+"Use the yield graph to see the actual-output line move while the theoretical marker stays fixed for the same recipe run."
+]
+}
+}
+}

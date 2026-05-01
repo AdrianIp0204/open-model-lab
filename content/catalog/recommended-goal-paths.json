@@ -1,0 +1,571 @@
+[
+  {
+    "id": "recommended-goal-waves-intuition",
+    "slug": "waves-intuition",
+    "goalKind": "build-intuition",
+    "title": "Build wave intuition from one oscillator outward",
+    "objective": "Build intuition in waves",
+    "summary": "Start on the waves topic page, keep the Waves Evidence Loop compact, and reuse the authored wave order before widening into the rest of the branch.",
+    "sequenceRationale": "The topic page gives the branch a map, the guided collection keeps the story compact, the waves starter track preserves the authored order through sound, pitch-versus-loudness cues, beats, the Doppler shift, and air-column resonance, and the interference revisit gives one clean place to test whether the wave picture still feels concrete.",
+    "educatorNote": "Useful when learners need one bounded wave path before they branch into the broader catalog.",
+    "sequence": 10,
+    "accent": "sky",
+    "highlights": [
+      "Topic page",
+      "Waves lesson set",
+      "Starter track",
+      "Interference revisit"
+    ],
+    "topicSlugs": [
+      "waves"
+    ],
+    "steps": [
+      {
+        "id": "waves-intuition-topic-route",
+        "kind": "topic",
+        "topicSlug": "waves",
+        "title": "Frame the branch on the waves topic page",
+        "summary": "Use the topic page first so wavelength, interference, and standing patterns are visible before the path narrows.",
+        "purpose": "Give the goal one clear map before the more ordered work starts."
+      },
+      {
+        "id": "waves-intuition-guided-collection",
+        "kind": "guided-collection",
+        "collectionSlug": "waves-evidence-loop",
+        "title": "Keep the path compact with Waves Evidence Loop",
+        "summary": "Reuse the existing guided collection when the wave story should stay teacher-friendly and bounded.",
+        "purpose": "Anchor the goal in a collection that already bundles the topic page, starter track, and challenge checkpoint."
+      },
+      {
+        "id": "waves-intuition-starter-track",
+        "kind": "track",
+        "trackSlug": "waves",
+        "title": "Run the authored waves starter track",
+        "summary": "Keep simple harmonic motion, wavelength, longitudinal sound, pitch-versus-loudness reasoning, beats, the Doppler shift, interference, standing waves, and air-column resonance in the same authored order used elsewhere in the catalog.",
+        "purpose": "Reuse the canonical track rather than reassembling the same sequence ad hoc."
+      },
+      {
+        "id": "waves-intuition-interference-revisit",
+        "kind": "concept",
+        "conceptSlug": "wave-interference",
+        "title": "Return to wave interference for one focused checkpoint",
+        "summary": "Reopen the interference concept when you want one concrete place to test whether the wavelength and timing story still holds.",
+        "purpose": "Keep one strong challenge-ready concept close at hand after the broader sequence is in place."
+      }
+    ]
+  },
+  {
+    "id": "recommended-goal-electricity-bridge",
+    "slug": "teacher-electricity-bridge",
+    "goalKind": "teacher-objective",
+    "title": "Run a teacher-led electricity bridge objective",
+    "objective": "Follow a teacher-curated electricity objective",
+    "summary": "Use the electricity topic page, the authored bridge lesson set, and the main electricity track when the field-to-voltage-to-circuit handoff should stay explicit.",
+    "sequenceRationale": "The topic page keeps the branch visible, the guided lesson set narrows the story to the field-to-voltage bridge, the electricity track preserves the authored order into circuits, and the electric-potential revisit keeps the critical midpoint checkpoint close at hand.",
+    "educatorNote": "Best when a class should share one field-to-voltage launch path before it opens the wider electricity branch.",
+    "sequence": 20,
+    "accent": "sky",
+    "highlights": [
+      "Electricity topic page",
+      "Bridge lesson set",
+      "Voltage checkpoint",
+      "Electricity track"
+    ],
+    "topicSlugs": [
+      "electricity",
+      "circuits"
+    ],
+    "steps": [
+      {
+        "id": "teacher-electricity-topic-route",
+        "kind": "topic",
+        "topicSlug": "electricity",
+        "title": "Open the electricity topic page",
+        "summary": "Frame charges, potential, and the bridge into circuits on the existing topic page before the path narrows.",
+        "purpose": "Keep the goal attached to the canonical field-and-potential branch before the circuit work opens."
+      },
+      {
+        "id": "teacher-electricity-guided-collection",
+        "kind": "guided-collection",
+        "collectionSlug": "electricity-bridge-lesson-set",
+        "title": "Use the Electricity Bridge Lesson Set",
+        "summary": "Hand the objective to the existing guided collection that already packages the bridge from electric fields into potential and circuits.",
+        "purpose": "Reuse the compact authored lesson path instead of rebuilding the bridge by hand."
+      },
+      {
+        "id": "teacher-electricity-track",
+        "kind": "track",
+        "trackSlug": "electricity",
+        "title": "Carry the bridge into the full electricity starter track",
+        "summary": "Once the bridge is stable, let the canonical electricity track widen the same story into power, branches, and reduction.",
+        "purpose": "Preserve the shared starter-track flow for the broader branch."
+      },
+      {
+        "id": "teacher-electricity-voltage-revisit",
+        "kind": "concept",
+        "conceptSlug": "electric-potential",
+        "title": "Revisit electric potential before the path branches wider",
+        "summary": "Use the electric-potential concept when the midpoint-voltage checkpoint needs one more focused pass.",
+        "purpose": "Keep the exact bridge case nearby without introducing a separate checkpoint page."
+      }
+    ]
+  },
+  {
+    "id": "recommended-goal-electromagnetism-prep",
+    "slug": "prepare-for-electromagnetism",
+    "goalKind": "prepare-branch",
+    "title": "Prepare for the electromagnetism branch",
+    "objective": "Prepare for a later branch in electromagnetism",
+    "summary": "Use the electricity topic page, the existing electricity-to-magnetism bridge collection, and the magnetic starter track so the transition into electromagnetism stays bounded and transparent.",
+    "sequenceRationale": "The electricity topic page reminds learners what current and voltage already mean, the bridge collection groups the recap and handoff, the magnetic starter track keeps the next authored order explicit, and the Maxwell synthesis revisit makes the branch target visible before electromagnetic waves open up.",
+    "educatorNote": "Use this when the class is leaving electricity and needs a compact authored ramp into magnetism and electromagnetism.",
+    "sequence": 30,
+    "accent": "teal",
+    "highlights": [
+      "Electricity recap",
+      "Bridge collection",
+      "Magnetic starter track",
+      "Maxwell synthesis"
+    ],
+    "topicSlugs": [
+      "circuits",
+      "magnetism",
+      "electromagnetism"
+    ],
+    "steps": [
+      {
+        "id": "electromagnetism-prep-topic-route",
+        "kind": "topic",
+        "topicSlug": "circuits",
+        "title": "Reopen the circuits topic page first",
+        "summary": "Use the circuits branch map before current-made magnetic fields and induction take over.",
+        "purpose": "Make the upcoming branch feel like an extension of circuit current and voltage instead of a detached new shelf."
+      },
+      {
+        "id": "electromagnetism-prep-guided-collection",
+        "kind": "guided-collection",
+        "collectionSlug": "electricity-to-magnetism-bridge",
+        "title": "Use the electricity-to-magnetism bridge collection",
+        "summary": "Keep the recap, induction checkpoint, and Maxwell capstone in one existing bridge sequence.",
+        "purpose": "Reuse the authored handoff rather than stitching together separate links during the branch transition."
+      },
+      {
+        "id": "electromagnetism-prep-track",
+        "kind": "track",
+        "trackSlug": "magnetic-fields",
+        "title": "Run the magnetic starter track once the recap is stable",
+        "summary": "Use the authored magnetic order for field direction, induction, and magnetic force.",
+        "purpose": "Keep the next bounded branch inside the canonical starter-track system."
+      },
+      {
+        "id": "electromagnetism-prep-maxwell-revisit",
+        "kind": "concept",
+        "conceptSlug": "maxwells-equations-synthesis",
+        "title": "Revisit Maxwell synthesis as the branch target",
+        "summary": "Use the compact four-law concept when you want one page that makes the magnetic branch widen toward electromagnetic waves.",
+        "purpose": "Keep the destination visible without turning the goal into a full course sequence."
+      }
+    ]
+  },
+  {
+    "id": "recommended-goal-functions-and-change",
+    "slug": "functions-and-change",
+    "goalKind": "build-intuition",
+    "title": "Build function and rate intuition from the graph first",
+    "objective": "Build intuition in functions and introductory calculus",
+    "summary": "Use the functions topic page, the new lesson set, the compact math starter track, and the calculus topic page so graph moves, rational asymptotes, exponential change, local slope, and accumulation stay on one coherent bench.",
+    "sequenceRationale": "The functions topic page frames the parent-curve, rational-asymptote, and exponential-change story first, the guided lesson set keeps that branch compact and teacher-usable, the Functions and Change starter track preserves the authored order from graph moves into rational behavior, multiplicative change, local slope, and accumulation, and the calculus topic page keeps that branch visible once the first tangent and signed-area intuitions land.",
+    "educatorNote": "Use this when learners should get one small graph-first math path before the catalog grows into a broader math shelf.",
+    "sequence": 40,
+    "accent": "amber",
+    "highlights": [
+      "Functions topic page",
+      "Lesson set",
+      "Math starter track",
+      "Calculus bridge",
+      "Accumulation and area"
+    ],
+    "topicSlugs": [
+      "functions",
+      "calculus"
+    ],
+    "steps": [
+      {
+        "id": "functions-and-change-topic-route",
+        "kind": "topic",
+        "topicSlug": "functions",
+        "title": "Start on the functions topic page",
+        "summary": "Frame parent curves, shifts, reflections, and vertical scale on the topic page before the path narrows.",
+        "purpose": "Keep the first math move attached to the canonical topic page instead of a one-off lesson shell."
+      },
+      {
+        "id": "functions-and-change-guided-collection",
+        "kind": "guided-collection",
+        "collectionSlug": "functions-and-change-lesson-set",
+        "title": "Keep the branch compact with the Functions and Change Lesson Set",
+        "summary": "Reuse the guided collection when the graph-first math launch should stay teacher-friendly and bounded.",
+        "purpose": "Anchor the goal in the compact lesson set that already bundles the topic page, starter track, checkpoint, and calculus handoff."
+      },
+      {
+        "id": "functions-and-change-track",
+        "kind": "track",
+        "trackSlug": "functions-and-change",
+        "title": "Carry the lesson set into the full Functions and Change starter track",
+        "summary": "Once the compact branch is stable, use the canonical track so graph transformations lead into rational asymptotes, exponential growth and decay, tangent slope, and then accumulation without breaking the shared concept flow.",
+        "purpose": "Reuse the canonical starter-track layer for the broader math branch after the compact lesson set has framed it."
+      },
+      {
+        "id": "functions-and-change-calculus-topic",
+        "kind": "topic",
+        "topicSlug": "calculus",
+        "title": "Keep the next branch visible on the calculus topic page",
+        "summary": "Open the calculus topic page once the slope and accumulation concepts land so the next math branch still feels situated instead of isolated.",
+        "purpose": "Show where the starter path opens out next without inventing a larger curriculum system."
+      }
+    ]
+  },
+  {
+    "id": "recommended-goal-vectors-and-motion-bridge",
+    "slug": "vectors-and-motion-bridge",
+    "goalKind": "prepare-branch",
+    "title": "Bridge plane vectors into motion",
+    "objective": "Prepare vector intuition for mechanics",
+    "summary": "Use the vectors topic page, the new bridge collection, the short bridge track, and the mechanics topic page so vectors feel like one language before motion problems take over.",
+    "sequenceRationale": "The vectors topic page frames the geometric and algebraic views first, the bridge collection keeps the handoff compact and teacher-usable, the Vectors and Motion Bridge starter track preserves the authored move into the existing motion-facing vectors bench, and the mechanics topic page shows where that language widens next without inventing a separate curriculum tree.",
+    "educatorNote": "Use this when learners need a compact math-to-mechanics vector handoff instead of isolated concept links.",
+    "sequence": 44,
+    "accent": "sky",
+    "highlights": [
+      "Vectors topic page",
+      "Bridge collection",
+      "Bridge starter track",
+      "Mechanics handoff"
+    ],
+    "topicSlugs": [
+      "vectors",
+      "mechanics"
+    ],
+    "steps": [
+      {
+        "id": "vectors-and-motion-topic-route",
+        "kind": "topic",
+        "topicSlug": "vectors",
+        "title": "Start on the vectors topic page",
+        "summary": "Frame vectors as arrows and ordered pairs on the topic page before the bridge narrows.",
+        "purpose": "Keep the new math vectors topic attached to the canonical discovery route."
+      },
+      {
+        "id": "vectors-and-motion-guided-collection",
+        "kind": "guided-collection",
+        "collectionSlug": "vectors-to-mechanics-bridge",
+        "title": "Use the Vectors to Mechanics Bridge collection",
+        "summary": "Hand the objective to the compact collection that already packages the vectors topic page, bridge track, endpoint checkpoint, and mechanics handoff.",
+        "purpose": "Reuse the teacher-friendly bridge instead of rebuilding the math-to-mechanics handoff by hand."
+      },
+      {
+        "id": "vectors-and-motion-track",
+        "kind": "track",
+        "trackSlug": "vectors-and-motion-bridge",
+        "title": "Carry the bridge into the Vectors and Motion Bridge starter track",
+        "summary": "Once the compact collection has framed the handoff, use the short authored bridge so 2D vector combination feeds directly into the existing motion-facing vectors bench.",
+        "purpose": "Reuse the shared starter-track layer for the broader math-to-physics handoff."
+      },
+      {
+        "id": "vectors-and-motion-mechanics-topic",
+        "kind": "topic",
+        "topicSlug": "mechanics",
+        "title": "Open mechanics once the vector language feels stable",
+        "summary": "Use the mechanics topic page to widen the same vector language into trajectories, turning effects, and momentum.",
+        "purpose": "Show the next branch honestly instead of pretending vectors live in an isolated mini-subject."
+      }
+    ]
+  },
+  {
+    "id": "recommended-goal-complex-and-parametric-motion",
+    "slug": "complex-and-parametric-motion",
+    "goalKind": "build-intuition",
+    "title": "Build plane intuition through complex numbers and parametric motion",
+    "objective": "Build intuition in plane-based math",
+    "summary": "Use the complex-and-parametric topic page, the new lesson set, the compact starter track, and the vectors topic page so the plane language widens from complex numbers into unit-circle and polar-coordinate geometry, then deepens into trig identities and inverse-angle reasoning before motion.",
+    "sequenceRationale": "The topic page frames the plane branch first, the lesson set keeps that branch compact and teacher-usable, the starter track preserves the authored order from complex numbers into unit-circle rotation, polar coordinates, trig identities, inverse-angle recovery, and then motion from equations, and the vectors topic page shows where the same coordinate language can widen next.",
+    "educatorNote": "Use this when learners should deepen the math slice beyond graph transformations without jumping straight into physics.",
+    "sequence": 46,
+    "accent": "teal",
+    "highlights": [
+      "Complex-plane topic page",
+      "Lesson set",
+      "Unit-circle projections",
+      "Polar point and components",
+      "Identity and inverse-angle reasoning",
+      "Starter track",
+      "Path vs traversal",
+      "Vectors next step"
+    ],
+    "topicSlugs": [
+      "complex-numbers-and-parametric-motion",
+      "vectors"
+    ],
+    "steps": [
+      {
+        "id": "complex-parametric-topic-route",
+        "kind": "topic",
+        "topicSlug": "complex-numbers-and-parametric-motion",
+        "title": "Start on the complex-and-parametric topic page",
+        "summary": "Frame complex-plane geometry, unit-circle rotation, polar coordinates, and motion from equations before the path narrows.",
+        "purpose": "Keep the new branch attached to the canonical topic page."
+      },
+      {
+        "id": "complex-parametric-guided-collection",
+        "kind": "guided-collection",
+        "collectionSlug": "complex-and-parametric-motion-lesson-set",
+        "title": "Use the Complex and Parametric Motion Lesson Set",
+        "summary": "Reuse the compact collection when the plane-based branch should stay bounded before learners widen into later math and mechanics surfaces.",
+        "purpose": "Anchor the goal in the lesson set that already packages the topic page, starter track, parametric checkpoint, and vectors handoff."
+      },
+      {
+        "id": "complex-parametric-track",
+        "kind": "track",
+        "trackSlug": "complex-and-parametric-motion",
+        "title": "Carry the lesson set into the Complex and Parametric Motion starter track",
+        "summary": "Once the compact collection has framed the branch, use the authored path so complex numbers lead into unit-circle projections, polar coordinates, trig identities, inverse-angle recovery, and then parametric motion on the same plane.",
+        "purpose": "Reuse the starter-track layer for the broader plane-based math branch."
+      },
+      {
+        "id": "complex-parametric-vectors-topic",
+        "kind": "topic",
+        "topicSlug": "vectors",
+        "title": "Open the vectors topic once the plane language feels stable",
+        "summary": "Use the vectors topic page to widen the same coordinate habits into addition, scaling, and later motion.",
+        "purpose": "Show the next branch honestly instead of leaving the new track isolated."
+      }
+    ]
+  },
+  {
+    "id": "recommended-goal-chemistry-rates-equilibrium",
+    "slug": "chemistry-rates-equilibrium",
+    "goalKind": "build-intuition",
+    "title": "Build chemistry intuition through rates and equilibrium",
+    "objective": "Build intuition in introductory chemistry",
+    "summary": "Use the chemistry topic page, the new Rates and Equilibrium Lesson Set, the compact starter track, and the thermodynamics topic page so the chemistry pilot feels like a real branch instead of isolated concept links.",
+    "sequenceRationale": "The Rates and Equilibrium topic page frames the small chemistry branch first, the lesson set keeps that branch compact and teacher-usable, the starter track preserves the authored order from successful collisions into dynamic equilibrium, and the thermodynamics topic page shows where the same particle language can widen next without inventing a second chemistry curriculum layer.",
+    "educatorNote": "Use this when learners should get one small chemistry path that already includes discovery, mastery, and a sensible next branch.",
+    "sequence": 48,
+    "accent": "teal",
+    "highlights": [
+      "Chemistry topic page",
+      "Lesson set",
+      "Starter track",
+      "Rebalance checkpoint",
+      "Thermodynamics next step"
+    ],
+    "topicSlugs": [
+      "rates-and-equilibrium",
+      "thermodynamics"
+    ],
+    "steps": [
+      {
+        "id": "chemistry-rates-equilibrium-topic-route",
+        "kind": "topic",
+        "topicSlug": "rates-and-equilibrium",
+        "title": "Start on the rates-and-equilibrium topic page",
+        "summary": "Frame successful collisions and reversible re-balancing on the chemistry topic page before the path narrows.",
+        "purpose": "Keep the chemistry pilot attached to the canonical topic page rather than a separate lesson shell."
+      },
+      {
+        "id": "chemistry-rates-equilibrium-guided-collection",
+        "kind": "guided-collection",
+        "collectionSlug": "rates-and-equilibrium-lesson-set",
+        "title": "Keep the branch compact with the Rates and Equilibrium Lesson Set",
+        "summary": "Reuse the compact collection when the chemistry launch should stay teacher-friendly and bounded.",
+        "purpose": "Anchor the goal in the lesson set that already packages the topic page, starter track, rebalance checkpoint, and chemistry handoff."
+      },
+      {
+        "id": "chemistry-rates-equilibrium-track",
+        "kind": "track",
+        "trackSlug": "rates-and-equilibrium",
+        "title": "Run the Rates and Equilibrium starter track",
+        "summary": "Once the lesson set has framed the chemistry branch, use the compact track so collision theory leads directly into dynamic equilibrium and Le Chatelier-style re-balancing.",
+        "purpose": "Reuse the shared starter-track layer for the broader chemistry branch after the compact collection has done the first packaging work."
+      },
+      {
+        "id": "chemistry-rates-equilibrium-thermo-topic",
+        "kind": "topic",
+        "topicSlug": "thermodynamics",
+        "title": "Open thermodynamics once the chemistry branch lands",
+        "summary": "Use the thermodynamics topic page to widen the same particle-and-collision language into gas pressure and thermal energy.",
+        "purpose": "Show the next subject bridge honestly without building a larger chemistry curriculum tree."
+      }
+    ]
+  },
+  {
+    "id": "recommended-goal-chemistry-stoichiometry-and-yield",
+    "slug": "chemistry-stoichiometry-and-yield",
+    "goalKind": "build-intuition",
+    "title": "Build chemistry intuition through stoichiometry and yield",
+    "objective": "Build intuition in reaction recipes and output limits",
+    "summary": "Use the stoichiometry-and-yield topic page, the new lesson set, the compact starter track, and the solutions-and-pH topic page so chemistry quantities stay visual instead of becoming detached worksheet algebra.",
+    "sequenceRationale": "The Stoichiometry and Yield topic page frames one recipe-first chemistry branch, the lesson set keeps that branch compact and teacher-usable, the starter track preserves the authored order from stoichiometric ratios into limiting reagent and percent yield, and the solutions-and-pH topic page shows where the same quantity language can widen next without inventing a second chemistry curriculum layer.",
+    "educatorNote": "Use this when learners should get one bounded stoichiometry path before chemistry widens into beakers, saturation, and pH.",
+    "sequence": 49,
+    "accent": "amber",
+    "highlights": [
+      "Stoichiometry topic page",
+      "Lesson set",
+      "Starter track",
+      "Yield checkpoint",
+      "Solutions next step"
+    ],
+    "topicSlugs": [
+      "stoichiometry-and-yield"
+    ],
+    "steps": [
+      {
+        "id": "chemistry-stoich-yield-topic-route",
+        "kind": "topic",
+        "topicSlug": "stoichiometry-and-yield",
+        "title": "Start on the stoichiometry-and-yield topic page",
+        "summary": "Frame recipe batches, limiting reagent, and actual-versus-theoretical output on the chemistry topic page before the path narrows.",
+        "purpose": "Keep the stoichiometry branch attached to the canonical topic page rather than a separate worksheet shell."
+      },
+      {
+        "id": "chemistry-stoich-yield-guided-collection",
+        "kind": "guided-collection",
+        "collectionSlug": "stoichiometry-and-yield-lesson-set",
+        "title": "Keep the branch compact with the Stoichiometry and Yield Lesson Set",
+        "summary": "Reuse the compact collection when the stoichiometry launch should stay teacher-friendly and bounded.",
+        "purpose": "Anchor the goal in the lesson set that already packages the topic page, starter track, yield checkpoint, and chemistry handoff."
+      },
+      {
+        "id": "chemistry-stoich-yield-track",
+        "kind": "track",
+        "trackSlug": "stoichiometry-and-yield",
+        "title": "Run the Stoichiometry and Yield starter track",
+        "summary": "Once the lesson set has framed the branch, use the compact track so recipe ratios lead directly into limiting reagent and percent yield on the same shared bench.",
+        "purpose": "Reuse the starter-track layer for the broader chemistry branch after the compact collection has done the first packaging work."
+      },
+      {
+        "id": "chemistry-stoich-yield-solutions-topic",
+        "kind": "topic",
+        "topicSlug": "solutions-and-ph",
+        "title": "Open solutions and pH once the yield story lands",
+        "summary": "Use the solutions-and-pH topic page to widen the same quantity language into concentration, solubility, pH, and buffers.",
+        "purpose": "Show the next chemistry branch honestly without building a larger chemistry curriculum tree."
+      }
+    ]
+  },
+  {
+    "id": "recommended-goal-solutions-and-ph",
+    "slug": "solutions-and-ph",
+    "goalKind": "build-intuition",
+    "title": "Build chemistry intuition through solutions and pH",
+    "objective": "Build intuition in solution chemistry",
+    "summary": "Use the solutions-and-pH topic page, the new Solutions and pH Lesson Set, the starter track, and the rates-and-equilibrium topic page so Chemistry feels broader without becoming sprawling.",
+    "sequenceRationale": "The topic page frames the beaker-first branch, the lesson set keeps that branch compact and teacher-usable, the starter track preserves the authored order from concentration into solubility, pH, and buffers, and the rates-and-equilibrium topic page shows where the chemistry slice can widen next.",
+    "educatorNote": "Useful when learners need one bounded chemistry path before they move into reversible reaction systems.",
+    "sequence": 50,
+    "accent": "sky",
+    "highlights": [
+      "Solutions topic page",
+      "Lesson set",
+      "Starter track",
+      "Buffer checkpoint",
+      "Buffer reserve",
+      "Rates and equilibrium next"
+    ],
+    "topicSlugs": [
+      "solutions-and-ph",
+      "rates-and-equilibrium"
+    ],
+    "steps": [
+      {
+        "id": "solutions-ph-topic-route",
+        "kind": "topic",
+        "topicSlug": "solutions-and-ph",
+        "title": "Start on the solutions-and-pH topic page",
+        "summary": "Frame dilution, pH, and bounded solution chemistry before the path narrows.",
+        "purpose": "Keep the new chemistry branch attached to the canonical topic page."
+      },
+      {
+        "id": "solutions-ph-guided-collection",
+        "kind": "guided-collection",
+        "collectionSlug": "solutions-and-ph-lesson-set",
+        "title": "Keep the branch compact with the Solutions and pH Lesson Set",
+        "summary": "Reuse the compact collection when the broader chemistry branch should stay bounded before learners widen into neighboring chemistry topics.",
+        "purpose": "Anchor the goal in the lesson set that already packages the topic page, starter track, buffer checkpoint, and chemistry handoff."
+      },
+      {
+        "id": "solutions-ph-track",
+        "kind": "track",
+        "trackSlug": "solutions-and-ph",
+        "title": "Run the Solutions and pH starter track",
+        "summary": "Once the lesson set has framed the branch, use the authored track so concentration and solubility lead directly into acid-base, pH, buffers, and neutralization.",
+        "purpose": "Reuse the starter-track layer for the expanded chemistry slice after the compact collection has established the path."
+      },
+      {
+        "id": "solutions-ph-rates-topic",
+        "kind": "topic",
+        "topicSlug": "rates-and-equilibrium",
+        "title": "Open rates and equilibrium once the beaker language lands",
+        "summary": "Use the existing chemistry topic page to widen the same particle-and-solution intuition into collision success and reversible change.",
+        "purpose": "Show the next chemistry branch honestly instead of leaving the new slice isolated."
+      }
+    ]
+  },
+  {
+    "id": "recommended-goal-algorithms-and-search",
+    "slug": "algorithms-and-search",
+    "goalKind": "build-intuition",
+    "title": "Build computer-science intuition through algorithms and search",
+    "objective": "Build intuition in introductory algorithms",
+    "summary": "Use the algorithms-and-search topic page, the new playlist, the compact starter track, and the frontier-state revisit so the CS branch stays bounded while it grows into graph traversal.",
+    "sequenceRationale": "The topic page frames the subject branch first, the playlist keeps that branch compact and extension-ready, the starter track preserves the authored order from visible sorting work into binary search and then the shared graph bench, and the frontier-state revisit keeps the new graph bookkeeping close by after the first pass lands.",
+    "educatorNote": "Use this when learners should try one bounded CS branch without turning the site into a coding playground.",
+    "sequence": 52,
+    "accent": "ink",
+    "highlights": [
+      "CS topic page",
+      "Playlist",
+      "Starter track",
+      "List intuition",
+      "Graph frontiers",
+      "Visited-state bookkeeping"
+    ],
+    "topicSlugs": [
+      "algorithms-and-search"
+    ],
+    "steps": [
+      {
+        "id": "algorithms-search-topic-route",
+        "kind": "topic",
+        "topicSlug": "algorithms-and-search",
+        "title": "Start on the algorithms-and-search topic page",
+        "summary": "Frame sorting and ordered search on the new subject page before the path narrows.",
+        "purpose": "Keep the pilot attached to the canonical topic page."
+      },
+      {
+        "id": "algorithms-search-guided-collection",
+        "kind": "guided-collection",
+        "collectionSlug": "algorithms-and-search-playlist",
+        "title": "Keep the branch compact with the Algorithms and Search Playlist",
+        "summary": "Reuse the compact playlist when the CS pilot should stay bounded and extension-ready.",
+        "purpose": "Anchor the goal in the playlist that already packages the topic page, starter track, graph-traversal revisit, and filtered challenge follow-up."
+      },
+      {
+        "id": "algorithms-search-track",
+        "kind": "track",
+        "trackSlug": "algorithms-and-search-foundations",
+        "title": "Run the Algorithms and Search Foundations track",
+        "summary": "Once the playlist has framed the branch, use the compact authored path so visible sorting work leads into binary search and then one shared graph-traversal bench.",
+        "purpose": "Reuse the starter-track layer for the fourth-subject pilot after the compact playlist has handled the initial packaging."
+      },
+      {
+        "id": "algorithms-search-frontier-revisit",
+        "kind": "concept",
+        "conceptSlug": "frontier-and-visited-state-on-graphs",
+        "title": "Return to frontier and visited state for one focused graph checkpoint",
+        "summary": "Reopen the graph-traversal concept when you want one strong place to compare waiting frontier nodes, visited bookkeeping, and repeat skips again.",
+        "purpose": "Keep the pilot's new graph-traversal bookkeeping concept close by after the broader sequence."
+      }
+    ]
+  }
+]

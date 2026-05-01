@@ -1,0 +1,1286 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live collision checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Collision outcome checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Keep the momentum story moving"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Collide two carts on one honest track, keep total momentum in view, and see how elasticity, mass, and incoming speed shape the rebound or stick-together outcome.",
+    "keyTakeaway": "Momentum conservation belongs to the whole two-cart system, so the total momentum line stays flat through contact."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "A collision is a short interaction, but it does not erase the momentum story. If the two-cart system is isolated, then the total momentum before contact must match the total momentum after contact even when the individual cart velocities change abruptly.",
+        "This module keeps the setup bounded and honest with two carts on one fixed track, one contact point, and one elasticity control. You can change the masses and incoming speeds, then compare an elastic rebound with a more inelastic outcome without turning the page into a giant sandbox."
+      ]
+    },
+    "keyIdeas": [
+      "Momentum conservation belongs to the whole two-cart system, so the total momentum line stays flat through contact.",
+      "Elasticity tells you how much of the closing speed comes back as separation speed. Elastic collisions keep kinetic energy, while inelastic ones lose some kinetic energy even though momentum is still conserved.",
+      "The same momentum rule can give very different post-collision speeds because mass changes how a given momentum change affects velocity."
+    ],
+    "commonMisconception": {
+      "myth": "If momentum is conserved, then the carts must keep the same total kinetic energy and rebound the same way every time.",
+      "correction": [
+        "Momentum conservation does not guarantee kinetic-energy conservation. Inelastic collisions can keep the same total momentum while the total kinetic energy drops.",
+        "Mass and incoming velocity still matter. A light cart hitting a heavy one can rebound sharply, while a heavy cart can keep moving forward with only a modest speed change."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Solve the collision you are actually watching. The total-momentum check follows the current inspected moment, while the outcome check uses the current masses, incoming speeds, and elasticity to predict the post-collision velocities.",
+      "items": [
+        {
+          "id": "current-total-momentum",
+          "title": "Current system total",
+          "prompt": "At $t = {{timeValue}}\\,\\mathrm{s}$, what is the system's total momentum?",
+          "dependsOnTime": true,
+          "variables": [
+            {
+              "id": "massA",
+              "variableId": "massA",
+              "symbol": "m_A",
+              "label": "Mass of A",
+              "valueKey": "massAValue",
+              "unit": "kg"
+            },
+            {
+              "id": "velocityA",
+              "symbol": "v_A",
+              "label": "Velocity of A",
+              "valueKey": "velocityAValue",
+              "unit": "m/s"
+            },
+            {
+              "id": "massB",
+              "variableId": "massB",
+              "symbol": "m_B",
+              "label": "Mass of B",
+              "valueKey": "massBValue",
+              "unit": "kg"
+            },
+            {
+              "id": "velocityB",
+              "symbol": "v_B",
+              "label": "Velocity of B",
+              "valueKey": "velocityBValue",
+              "unit": "m/s"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relation",
+              "label": "1. Add the cart momenta",
+              "template": "Use $p_{\\mathrm{tot}} = m_Av_A + m_Bv_B$ for the same instant shown on the stage."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the live values",
+              "template": "$p_{\\mathrm{tot}} = ({{massAValue}})({{velocityAValue}}) + ({{massBValue}})({{velocityBValue}})$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compute the total",
+              "template": "So $p_{\\mathrm{tot}} = {{totalMomentumValue}}\\,\\mathrm{kg\\,m/s}$."
+            }
+          ],
+          "resultLabel": "Current total momentum",
+          "resultTemplate": "$p_{\\mathrm{tot}} = {{totalMomentumValue}}\\,\\mathrm{kg\\,m/s}$",
+          "interpretationTemplate": "{{totalMomentumInterpretation}}",
+          "applyAction": {
+            "label": "Show moving target",
+            "presetId": "moving-target",
+            "observationHint": "Watch the flat total-momentum line while both carts were already moving before contact.",
+            "highlightedControlIds": [
+              "speedA",
+              "speedB"
+            ],
+            "highlightedGraphIds": [
+              "momentum",
+              "velocity"
+            ],
+            "highlightedOverlayIds": [
+              "centerOfMass",
+              "collisionZone"
+            ]
+          }
+        },
+        {
+          "id": "final-velocity-split",
+          "title": "Post-collision velocities",
+          "prompt": "For the current masses, incoming speeds, and elasticity, what velocities should the carts have just after contact?",
+          "variables": [
+            {
+              "id": "massA",
+              "variableId": "massA",
+              "symbol": "m_A",
+              "label": "Mass of A",
+              "valueKey": "massAValue",
+              "unit": "kg"
+            },
+            {
+              "id": "incomingVelocityA",
+              "variableId": "speedA",
+              "symbol": "u_A",
+              "label": "Incoming velocity of A",
+              "valueKey": "initialVelocityAValue",
+              "unit": "m/s"
+            },
+            {
+              "id": "massB",
+              "variableId": "massB",
+              "symbol": "m_B",
+              "label": "Mass of B",
+              "valueKey": "massBValue",
+              "unit": "kg"
+            },
+            {
+              "id": "incomingVelocityB",
+              "variableId": "speedB",
+              "symbol": "u_B",
+              "label": "Incoming velocity of B",
+              "valueKey": "initialVelocityBValue",
+              "unit": "m/s"
+            },
+            {
+              "id": "elasticity",
+              "variableId": "elasticity",
+              "symbol": "e",
+              "label": "Elasticity",
+              "valueKey": "elasticityValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "relations",
+              "label": "1. Start from conservation and restitution",
+              "template": "Use $m_Au_A + m_Bu_B = m_Av_A + m_Bv_B$ and $v_B - v_A = e(u_A - u_B)$."
+            },
+            {
+              "id": "substitute",
+              "label": "2. Substitute the current setup",
+              "template": "Here $m_A = {{massAValue}}$, $u_A = {{initialVelocityAValue}}$, $m_B = {{massBValue}}$, $u_B = {{initialVelocityBValue}}$, and $e = {{elasticityValue}}$."
+            },
+            {
+              "id": "compute",
+              "label": "3. Solve the two equations",
+              "template": "That gives $v_A = {{finalVelocityAValue}}\\,\\mathrm{m/s}$ and $v_B = {{finalVelocityBValue}}\\,\\mathrm{m/s}$ just after contact."
+            }
+          ],
+          "resultLabel": "Post-collision velocity pair",
+          "resultTemplate": "$v_A = {{finalVelocityAValue}}\\,\\mathrm{m/s}, \\quad v_B = {{finalVelocityBValue}}\\,\\mathrm{m/s}$",
+          "interpretationTemplate": "{{outcomeInterpretation}}",
+          "applyAction": {
+            "label": "Apply sticky collision",
+            "presetId": "sticky-collision",
+            "observationHint": "Watch the total momentum line stay flat while the total kinetic energy drops at contact.",
+            "highlightedControlIds": [
+              "elasticity"
+            ],
+            "highlightedGraphIds": [
+              "momentum",
+              "energy"
+            ],
+            "highlightedOverlayIds": [
+              "collisionZone",
+              "relativeSpeed"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Can you make cart A bounce backward while the system total momentum still points to the right?",
+      "prediction": "Try a light cart A hitting a heavier cart B with a fairly elastic rebound. Predict whether the heavy cart can carry enough rightward momentum to keep the total positive.",
+      "answer": "Yes. Cart A can reverse while the total momentum stays rightward if cart B leaves the collision with enough positive momentum.",
+      "explanation": "Momentum conservation constrains the sum, not the direction of each object. A light cart can rebound left after contact while the heavier cart keeps the system total moving right."
+    }
+  },
+  "equations": [
+    {
+      "id": "object-momentum",
+      "latex": "p = mv",
+      "label": "Momentum of one cart",
+      "meaning": "Each cart's momentum comes from its own mass and velocity."
+    },
+    {
+      "id": "momentum-conservation",
+      "latex": "m_Au_A + m_Bu_B = m_Av_A + m_Bv_B",
+      "label": "Momentum conservation across contact",
+      "meaning": "The system total momentum before the collision must equal the system total momentum after the collision."
+    },
+    {
+      "id": "restitution",
+      "latex": "v_B - v_A = e(u_A - u_B)",
+      "label": "Elasticity relation",
+      "meaning": "Elasticity compares the rebound speed after contact with the closing speed before contact."
+    },
+    {
+      "id": "kinetic-energy",
+      "latex": "K = \\tfrac{1}{2}mv^2",
+      "label": "Kinetic energy",
+      "meaning": "Kinetic energy helps distinguish elastic collisions from inelastic ones because only elastic collisions keep the total kinetic energy unchanged."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "massA",
+      "symbol": "m_A",
+      "label": "Mass of A",
+      "param": "massA",
+      "tone": "teal",
+      "description": "Changing A's mass changes how strongly a given momentum change shifts A's velocity after contact.",
+      "equationIds": [
+        "object-momentum",
+        "momentum-conservation"
+      ],
+      "graphIds": [
+        "velocity",
+        "momentum"
+      ],
+      "overlayIds": [
+        "momentumBars"
+      ]
+    },
+    {
+      "id": "massB",
+      "symbol": "m_B",
+      "label": "Mass of B",
+      "param": "massB",
+      "tone": "coral",
+      "description": "Changing B's mass changes how much B's velocity responds while the system total still obeys the same momentum law.",
+      "equationIds": [
+        "object-momentum",
+        "momentum-conservation"
+      ],
+      "graphIds": [
+        "velocity",
+        "momentum"
+      ],
+      "overlayIds": [
+        "momentumBars"
+      ]
+    },
+    {
+      "id": "speedA",
+      "symbol": "u_A",
+      "label": "Incoming speed of A",
+      "param": "speedA",
+      "tone": "sky",
+      "description": "Sets how fast cart A approaches the collision point from the left.",
+      "equationIds": [
+        "momentum-conservation",
+        "restitution"
+      ],
+      "graphIds": [
+        "velocity",
+        "momentum",
+        "energy"
+      ],
+      "overlayIds": [
+        "collisionZone",
+        "relativeSpeed"
+      ]
+    },
+    {
+      "id": "speedB",
+      "symbol": "u_B",
+      "label": "Incoming speed of B",
+      "param": "speedB",
+      "tone": "amber",
+      "description": "Sets how fast cart B approaches the collision point from the right.",
+      "equationIds": [
+        "momentum-conservation",
+        "restitution"
+      ],
+      "graphIds": [
+        "velocity",
+        "momentum",
+        "energy"
+      ],
+      "overlayIds": [
+        "collisionZone",
+        "relativeSpeed"
+      ]
+    },
+    {
+      "id": "elasticity",
+      "symbol": "e",
+      "label": "Elasticity",
+      "param": "elasticity",
+      "tone": "ink",
+      "description": "Sets how much closing speed comes back as rebound speed, so it controls whether the carts bounce apart or leave together.",
+      "equationIds": [
+        "restitution",
+        "kinetic-energy"
+      ],
+      "graphIds": [
+        "velocity",
+        "energy"
+      ],
+      "overlayIds": [
+        "relativeSpeed",
+        "collisionZone"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "massA": 1.2,
+      "massB": 2.2,
+      "speedA": 1.6,
+      "speedB": 0.7,
+      "elasticity": 0.8
+    },
+    "ui": {
+      "initialGraphId": "momentum",
+      "primaryGraphIds": [
+        "momentum"
+      ],
+      "primaryControlIds": [
+        "speedA",
+        "elasticity"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "massA",
+        "kind": "slider",
+        "label": "Mass of A",
+        "param": "massA",
+        "min": 1,
+        "max": 4,
+        "step": 0.1,
+        "unit": "kg",
+        "description": "Change cart A without changing the track or the collision point."
+      },
+      {
+        "id": "massB",
+        "kind": "slider",
+        "label": "Mass of B",
+        "param": "massB",
+        "min": 1,
+        "max": 4,
+        "step": 0.1,
+        "unit": "kg",
+        "description": "Change cart B and compare how its velocity response differs from A's."
+      },
+      {
+        "id": "speedA",
+        "kind": "slider",
+        "label": "Incoming speed of A",
+        "param": "speedA",
+        "min": 0.8,
+        "max": 2.2,
+        "step": 0.05,
+        "unit": "m/s",
+        "description": "Set how quickly cart A approaches from the left."
+      },
+      {
+        "id": "speedB",
+        "kind": "slider",
+        "label": "Incoming speed of B",
+        "param": "speedB",
+        "min": 0,
+        "max": 1.8,
+        "step": 0.05,
+        "unit": "m/s",
+        "description": "Set how quickly cart B approaches from the right. Zero means B starts at rest."
+      },
+      {
+        "id": "elasticity",
+        "kind": "slider",
+        "label": "Elasticity",
+        "param": "elasticity",
+        "min": 0,
+        "max": 1,
+        "step": 0.05,
+        "description": "Zero means perfectly inelastic. One means perfectly elastic."
+      }
+    ],
+    "presets": [
+      {
+        "id": "elastic-equal-masses",
+        "label": "Elastic equal masses",
+        "description": "Equal masses with an almost ideal rebound.",
+        "values": {
+          "massA": 1.5,
+          "massB": 1.5,
+          "speedA": 1.6,
+          "speedB": 0,
+          "elasticity": 1
+        }
+      },
+      {
+        "id": "sticky-collision",
+        "label": "Sticky collision",
+        "description": "The carts leave together after contact.",
+        "values": {
+          "massA": 1.5,
+          "massB": 1.5,
+          "speedA": 1.6,
+          "speedB": 0,
+          "elasticity": 0
+        }
+      },
+      {
+        "id": "light-into-heavy",
+        "label": "Light into heavy",
+        "description": "A lighter cart A rebounds from a heavier cart B.",
+        "values": {
+          "massA": 1.1,
+          "massB": 3.2,
+          "speedA": 1.9,
+          "speedB": 0.2,
+          "elasticity": 0.9
+        }
+      },
+      {
+        "id": "heavy-into-light",
+        "label": "Heavy into light",
+        "description": "A heavier cart A keeps moving forward while B shoots ahead.",
+        "values": {
+          "massA": 3.2,
+          "massB": 1.1,
+          "speedA": 1.5,
+          "speedB": 0,
+          "elasticity": 0.9
+        }
+      },
+      {
+        "id": "moving-target",
+        "label": "Moving target",
+        "description": "Both carts are already moving before contact.",
+        "values": {
+          "massA": 1.2,
+          "massB": 2.2,
+          "speedA": 1.8,
+          "speedB": 0.7,
+          "elasticity": 0.6
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "collisionZone",
+        "label": "Collision zone",
+        "shortDescription": "Marks the contact point on the track and the contact instant on the timeline.",
+        "whatToNotice": [
+          "The sudden velocity change happens only at the contact instant, not throughout the whole run.",
+          "The collision point stays fixed, so compare mode never cheats by moving the target just to fit the picture."
+        ],
+        "whyItMatters": "A short collision is still a real physical event in time, and the graphs should jump at the same instant the stage reaches contact.",
+        "relatedControls": [
+          "speedA",
+          "speedB"
+        ],
+        "relatedGraphTabs": [
+          "velocity",
+          "momentum",
+          "energy"
+        ],
+        "relatedEquationVariables": [
+          "speedA",
+          "speedB"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "centerOfMass",
+        "label": "Center of mass",
+        "shortDescription": "Tracks the center of mass while the carts approach, collide, and leave.",
+        "whatToNotice": [
+          "The center of mass keeps the same drift through contact even though the individual cart velocities jump.",
+          "If the total momentum is zero, the center of mass stays nearly fixed before and after the collision."
+        ],
+        "whyItMatters": "The center of mass is a compact check that the system total momentum has not changed.",
+        "relatedControls": [
+          "massA",
+          "massB",
+          "speedA",
+          "speedB"
+        ],
+        "relatedGraphTabs": [
+          "velocity",
+          "momentum"
+        ],
+        "relatedEquationVariables": [
+          "massA",
+          "massB"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "relativeSpeed",
+        "label": "Relative speed",
+        "shortDescription": "Shows the closing speed before contact and the separation speed after contact.",
+        "whatToNotice": [
+          "Lower elasticity does not change the closing speed before impact, but it does reduce the separation speed after impact.",
+          "At elasticity zero the carts leave together, so the separation speed drops all the way to zero."
+        ],
+        "whyItMatters": "Elasticity is easier to reason about as a speed ratio than as an abstract label.",
+        "relatedControls": [
+          "elasticity",
+          "speedA",
+          "speedB"
+        ],
+        "relatedGraphTabs": [
+          "velocity",
+          "energy"
+        ],
+        "relatedEquationVariables": [
+          "speedA",
+          "speedB",
+          "elasticity"
+        ],
+        "defaultOn": false
+      },
+      {
+        "id": "momentumBars",
+        "label": "Momentum bars",
+        "shortDescription": "Compares cart A, cart B, and total momentum on one centered scale.",
+        "whatToNotice": [
+          "The object bars can change sharply at contact while the total bar stays fixed.",
+          "Mass changes how the same total momentum is split between the carts' velocities."
+        ],
+        "whyItMatters": "The bars keep the system total visible while you reason about the individual outcomes.",
+        "relatedControls": [
+          "massA",
+          "massB"
+        ],
+        "relatedGraphTabs": [
+          "momentum",
+          "velocity"
+        ],
+        "relatedEquationVariables": [
+          "massA",
+          "massB"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "velocity",
+      "label": "Velocities and center-of-mass speed",
+      "xLabel": "time (s)",
+      "yLabel": "velocity (m/s)",
+      "series": [
+        "velocity-a",
+        "velocity-b",
+        "velocity-cm"
+      ],
+      "description": "Shows the velocity jump at contact and the steady center-of-mass speed that carries the system total momentum."
+    },
+    {
+      "id": "momentum",
+      "label": "Object and total momentum",
+      "xLabel": "time (s)",
+      "yLabel": "momentum (kg m/s)",
+      "series": [
+        "momentum-a",
+        "momentum-b",
+        "momentum-total"
+      ],
+      "description": "Shows the carts trading momentum at contact while the total momentum line stays flat."
+    },
+    {
+      "id": "energy",
+      "label": "Kinetic energy through the collision",
+      "xLabel": "time (s)",
+      "yLabel": "kinetic energy (J)",
+      "series": [
+        "energy-a",
+        "energy-b",
+        "energy-total"
+      ],
+      "description": "Shows elastic collisions keeping total kinetic energy and inelastic ones dropping it at contact."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use the live prompt as a short guide while you change masses, incoming speeds, and elasticity. The best prompt should point at something the stage and the current graph already show honestly.",
+    "items": [
+      {
+        "id": "col-total-flat",
+        "text": "Notice that the total-momentum line stays flat even though the cart momentum lines jump at contact.",
+        "type": "graph-reading",
+        "priority": 1,
+        "conditions": {
+          "graphTabs": [
+            "momentum"
+          ]
+        },
+        "tryThis": "Pause just before and just after the collision. The object lines should jump, but the total line should not drift.",
+        "whyItMatters": "Momentum conservation is about the system total, not about each cart keeping the same momentum.",
+        "relatedGraphTabs": [
+          "momentum"
+        ],
+        "relatedOverlays": [
+          "momentumBars",
+          "collisionZone"
+        ]
+      },
+      {
+        "id": "col-energy-drop",
+        "text": "Notice that lowering elasticity can make the energy graph drop at contact even while the total-momentum line stays flat.",
+        "type": "observation",
+        "priority": 2,
+        "conditions": {
+          "graphTabs": [
+            "energy"
+          ],
+          "controlRanges": [
+            {
+              "param": "elasticity",
+              "max": 0.8
+            }
+          ]
+        },
+        "tryThis": "Lower elasticity, then compare the energy and momentum graphs at the same collision instant.",
+        "whyItMatters": "This separates momentum conservation from kinetic-energy conservation.",
+        "relatedControls": [
+          "elasticity"
+        ],
+        "relatedGraphTabs": [
+          "energy",
+          "momentum"
+        ],
+        "relatedOverlays": [
+          "collisionZone",
+          "relativeSpeed"
+        ],
+        "relatedEquationVariables": [
+          "elasticity"
+        ]
+      },
+      {
+        "id": "col-heavy-target",
+        "text": "Notice that a heavier target changes speed less, even when the total momentum rule is exactly the same.",
+        "type": "misconception",
+        "priority": 6,
+        "conditions": {
+          "lastChangedControls": [
+            "massA",
+            "massB"
+          ]
+        },
+        "tryThis": "Make cart B much heavier, then compare the post-collision velocity jump of B with cart A's jump.",
+        "whyItMatters": "Students often mix up momentum change with speed change. Mass decides how a momentum change shows up in velocity.",
+        "relatedControls": [
+          "massA",
+          "massB"
+        ],
+        "relatedGraphTabs": [
+          "velocity",
+          "momentum"
+        ],
+        "relatedOverlays": [
+          "momentumBars"
+        ],
+        "relatedEquationVariables": [
+          "massA",
+          "massB"
+        ]
+      },
+      {
+        "id": "col-elasticity-speed-ratio",
+        "text": "Notice that elasticity changes the rebound speed after contact, not the closing speed before contact.",
+        "type": "try-this",
+        "priority": 5,
+        "conditions": {
+          "lastChangedControls": [
+            "elasticity"
+          ]
+        },
+        "tryThis": "Turn on the relative-speed overlay, then lower elasticity from 1 toward 0 and compare the after-collision label.",
+        "whyItMatters": "Elasticity is a ratio of speeds, so it should be read as a before/after comparison rather than a vague material label.",
+        "relatedControls": [
+          "elasticity",
+          "speedA",
+          "speedB"
+        ],
+        "relatedGraphTabs": [
+          "velocity",
+          "energy"
+        ],
+        "relatedOverlays": [
+          "relativeSpeed"
+        ],
+        "relatedEquationVariables": [
+          "elasticity",
+          "speedA",
+          "speedB"
+        ]
+      },
+      {
+        "id": "col-center-of-mass",
+        "text": "Notice that the center-of-mass marker keeps one steady drift even though the individual cart velocities jump at contact.",
+        "type": "observation",
+        "priority": 3,
+        "conditions": {
+          "overlayIds": [
+            "centerOfMass"
+          ]
+        },
+        "tryThis": "Leave the center-of-mass overlay on while you scrub through contact. The CM marker should not kink or bounce.",
+        "whyItMatters": "A steady center-of-mass motion is another honest sign that the system total momentum has not changed.",
+        "relatedGraphTabs": [
+          "velocity",
+          "momentum"
+        ],
+        "relatedOverlays": [
+          "centerOfMass"
+        ]
+      },
+      {
+        "id": "col-compare-energy",
+        "text": "Notice that two setups can share the same total momentum but lose very different amounts of kinetic energy.",
+        "type": "compare",
+        "priority": 7,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Compare the elastic equal-mass setup with the sticky collision. The momentum totals match, but the energy graph does not.",
+        "whyItMatters": "Compare mode is useful here because it separates what momentum conservation guarantees from what elasticity changes.",
+        "relatedControls": [
+          "elasticity"
+        ],
+        "relatedGraphTabs": [
+          "momentum",
+          "energy"
+        ],
+        "relatedOverlays": [
+          "collisionZone",
+          "relativeSpeed"
+        ],
+        "relatedEquationVariables": [
+          "elasticity"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the rebound before you test it. Each prompt keeps momentum conservation in play while asking you to reason about mass or elasticity.",
+    "items": [
+      {
+        "id": "col-predict-equal-mass-elastic",
+        "prompt": "If equal-mass carts collide almost elastically and cart B starts at rest, what should happen just after contact?",
+        "scenarioLabel": "Elastic equal masses",
+        "changeLabel": "Same masses, strong rebound",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Cart A nearly stops and cart B leaves with almost all of A's original speed."
+          },
+          {
+            "id": "b",
+            "label": "Both carts keep moving right together with the same speed."
+          },
+          {
+            "id": "c",
+            "label": "The total momentum must become zero because one cart started at rest."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "For equal masses and an elastic collision, the moving cart transfers its motion to the resting cart while the total momentum stays unchanged.",
+        "observationHint": "Watch the velocity graph just after contact. One line nearly stops while the other takes over.",
+        "apply": {
+          "presetId": "elastic-equal-masses"
+        },
+        "highlightedControls": [
+          "massA",
+          "massB",
+          "elasticity"
+        ],
+        "highlightedGraphs": [
+          "velocity",
+          "momentum"
+        ],
+        "highlightedOverlays": [
+          "collisionZone"
+        ]
+      },
+      {
+        "id": "col-predict-sticky",
+        "prompt": "If the same equal-mass setup becomes perfectly inelastic, what should the carts do after contact?",
+        "scenarioLabel": "Perfectly inelastic equal masses",
+        "changeLabel": "Set elasticity to zero",
+        "choices": [
+          {
+            "id": "a",
+            "label": "They leave together with one shared velocity while the total kinetic energy drops."
+          },
+          {
+            "id": "b",
+            "label": "They rebound faster because more energy is stored during contact."
+          },
+          {
+            "id": "c",
+            "label": "The total momentum disappears because the carts stick."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A perfectly inelastic collision still conserves momentum, but the carts leave together and the total kinetic energy decreases.",
+        "observationHint": "Watch the shared post-collision motion and the drop in the energy graph.",
+        "apply": {
+          "presetId": "sticky-collision"
+        },
+        "highlightedControls": [
+          "elasticity"
+        ],
+        "highlightedGraphs": [
+          "momentum",
+          "energy"
+        ],
+        "highlightedOverlays": [
+          "collisionZone",
+          "relativeSpeed"
+        ]
+      },
+      {
+        "id": "col-predict-light-into-heavy",
+        "prompt": "If a light cart A hits a much heavier cart B with a fairly elastic collision, what is the most likely outcome?",
+        "scenarioLabel": "Light cart into heavy cart",
+        "changeLabel": "Strong mass contrast",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Cart A rebounds left while cart B gains only a modest rightward speed."
+          },
+          {
+            "id": "b",
+            "label": "Cart B must rebound left because it has more mass."
+          },
+          {
+            "id": "c",
+            "label": "Both carts keep exactly the same speeds because momentum is conserved."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A heavy target changes speed less. The light cart can rebound while the heavy cart moves forward only a little, and the total momentum still stays consistent.",
+        "observationHint": "Watch the post-collision velocity jump and compare how much smaller B's speed change is.",
+        "apply": {
+          "presetId": "light-into-heavy"
+        },
+        "highlightedControls": [
+          "massA",
+          "massB",
+          "elasticity"
+        ],
+        "highlightedGraphs": [
+          "velocity",
+          "momentum"
+        ],
+        "highlightedOverlays": [
+          "momentumBars"
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Use the stage and the linked graphs together. These checks are about reasoning through collisions, not just repeating the word conservation.",
+    "questions": [
+      {
+        "id": "col-qt-1",
+        "type": "reasoning",
+        "prompt": "Which quantity must stay the same for this isolated two-cart collision system?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The system's total momentum"
+          },
+          {
+            "id": "b",
+            "label": "The system's total kinetic energy in every collision"
+          },
+          {
+            "id": "c",
+            "label": "Each cart's individual velocity"
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Momentum conservation applies to the whole isolated system. Kinetic energy only stays the same in elastic collisions, and the individual cart velocities can change a lot.",
+        "selectedWrongExplanations": {
+          "b": "Total kinetic energy can drop in an inelastic collision even while total momentum stays fixed.",
+          "c": "The whole point of a collision is that the individual velocities change at contact."
+        },
+        "showMeAction": {
+          "label": "Show the sticky collision",
+          "presetId": "sticky-collision",
+          "observationHint": "The carts leave together, but the total-momentum line still stays flat.",
+          "highlightedControlIds": [
+            "elasticity"
+          ],
+          "highlightedGraphIds": [
+            "momentum",
+            "energy"
+          ],
+          "highlightedOverlayIds": [
+            "collisionZone"
+          ]
+        }
+      },
+      {
+        "id": "col-qt-2",
+        "type": "graph-reading",
+        "prompt": "If the total-momentum line stays flat but the total-energy line drops at contact, what kind of collision are you looking at?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "An inelastic collision"
+          },
+          {
+            "id": "b",
+            "label": "An elastic collision"
+          },
+          {
+            "id": "c",
+            "label": "A collision that breaks momentum conservation"
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A drop in total kinetic energy with no change in total momentum is the signature of an inelastic collision.",
+        "selectedWrongExplanations": {
+          "b": "Elastic collisions keep the total kinetic energy the same, so the energy line should stay flat through contact.",
+          "c": "Momentum conservation is still working here because the total-momentum line never drifts."
+        },
+        "showMeAction": {
+          "label": "Show the energy drop",
+          "presetId": "sticky-collision",
+          "observationHint": "Compare the flat momentum total with the step down in total kinetic energy.",
+          "highlightedControlIds": [
+            "elasticity"
+          ],
+          "highlightedGraphIds": [
+            "momentum",
+            "energy"
+          ],
+          "highlightedOverlayIds": [
+            "relativeSpeed"
+          ]
+        }
+      },
+      {
+        "id": "col-qt-3",
+        "type": "variable-effect",
+        "prompt": "If cart B becomes much heavier while the incoming speeds and elasticity stay the same, what changes most directly?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Cart B's speed changes less, while cart A's speed changes more strongly."
+          },
+          {
+            "id": "b",
+            "label": "The total momentum must become zero because the heavier cart dominates."
+          },
+          {
+            "id": "c",
+            "label": "Elasticity stops mattering once one cart is heavier."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Mass changes how much a given momentum transfer alters speed. The heavier cart usually changes speed less, not more.",
+        "selectedWrongExplanations": {
+          "b": "Heavier mass changes the split of velocity, not whether the system total momentum vanishes.",
+          "c": "Elasticity still controls the relative rebound speed even when the masses are different."
+        },
+        "showMeAction": {
+          "label": "Show light into heavy",
+          "presetId": "light-into-heavy",
+          "observationHint": "The heavier cart moves, but its speed change is much smaller than the lighter cart's change.",
+          "highlightedControlIds": [
+            "massA",
+            "massB"
+          ],
+          "highlightedGraphIds": [
+            "velocity",
+            "momentum"
+          ],
+          "highlightedOverlayIds": [
+            "momentumBars"
+          ]
+        }
+      },
+      {
+        "id": "col-qt-4",
+        "type": "compare-two-cases",
+        "prompt": "Two setups start with the same masses and incoming speeds, but one has elasticity 1 and the other has elasticity 0. What stays the same between them?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The system's total momentum"
+          },
+          {
+            "id": "b",
+            "label": "The carts' final relative speed"
+          },
+          {
+            "id": "c",
+            "label": "The system's total kinetic energy"
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Changing elasticity changes the rebound and the energy retention, but it does not change the total momentum of the isolated system.",
+        "selectedWrongExplanations": {
+          "b": "Elasticity directly changes the post-collision relative speed, so these two setups cannot keep the same rebound speed.",
+          "c": "Total kinetic energy stays the same only in the elastic case, not in the perfectly inelastic one."
+        },
+        "showMeAction": {
+          "label": "Show the elastic reference",
+          "presetId": "elastic-equal-masses",
+          "observationHint": "Compare this with the sticky setup in compare mode to separate momentum conservation from energy loss.",
+          "highlightedControlIds": [
+            "elasticity"
+          ],
+          "highlightedGraphIds": [
+            "momentum",
+            "energy"
+          ],
+          "highlightedOverlayIds": [
+            "collisionZone",
+            "relativeSpeed"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows two carts moving on a fixed horizontal track toward one collision point. Each cart has a mass label and a horizontal velocity arrow, and optional overlays can mark the collision zone, the center of mass, the momentum bars, and the relative speed before or after contact.",
+        "Changing mass, incoming speed, or elasticity updates the same stage, readouts, and linked graphs without changing the track scale. A perfectly inelastic collision shows the carts leaving together, while higher elasticity shows them separating more strongly after contact."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The velocity graph shows the cart velocities changing at contact and includes a steady center-of-mass velocity line. The momentum graph shows the cart momentum lines changing while the total momentum line stays flat.",
+        "The energy graph shows when total kinetic energy is preserved and when it drops at contact, which is the main visual difference between elastic and inelastic behavior in this module."
+      ]
+    }
+  },
+  "seo": {
+    "description": "Interactive collisions lesson with two carts, linked momentum and energy graphs, elasticity control, prediction prompts, and conceptual quick tests.",
+    "keywords": [
+      "collisions",
+      "momentum conservation",
+      "elastic collision",
+      "inelastic collision",
+      "restitution",
+      "physics simulation"
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the same collision bench to prove that momentum conservation, elasticity, and mass contrast are separate ideas instead of one vague rebound rule.",
+    "items": [
+      {
+        "id": "collisions-ch-sticky-energy-drop",
+        "title": "Sticky but still conserved",
+        "style": "target-setting",
+        "prompt": "Build a nearly sticky equal-mass collision, keep the energy graph open, and explain why momentum can stay conserved while kinetic energy drops.",
+        "successMessage": "You made the carts leave together while keeping the momentum story intact: the energy graph changes, but the isolated system momentum rule does not.",
+        "setup": {
+          "presetId": "sticky-collision",
+          "graphId": "energy",
+          "overlayIds": [
+            "collisionZone",
+            "relativeSpeed"
+          ],
+          "note": "Start from the sticky preset, then use the energy graph and relative-speed overlay to check the loss at contact."
+        },
+        "requirements": {
+          "graphId": "energy",
+          "overlayIds": [
+            "collisionZone",
+            "relativeSpeed"
+          ]
+        },
+        "hints": [
+          "Elasticity near zero means the separation speed after contact should be nearly zero.",
+          "Do not look for energy conservation here. The goal is to keep momentum conserved while kinetic energy drops."
+        ],
+        "targets": [
+          {
+            "param": "elasticity",
+            "label": "Keep elasticity between $0$ and $0.05$ so the carts nearly stick.",
+            "min": 0,
+            "max": 0.05
+          },
+          {
+            "param": "massA",
+            "label": "Keep cart A near $1.5\\,\\mathrm{kg}$.",
+            "min": 1.4,
+            "max": 1.6,
+            "displayUnit": "kg"
+          },
+          {
+            "param": "massB",
+            "label": "Keep cart B near $1.5\\,\\mathrm{kg}$.",
+            "min": 1.4,
+            "max": 1.6,
+            "displayUnit": "kg"
+          },
+          {
+            "param": "speedB",
+            "label": "Keep cart B nearly at rest before contact.",
+            "min": 0,
+            "max": 0.1,
+            "displayUnit": "m/s"
+          }
+        ]
+      },
+      {
+        "id": "collisions-ch-light-rebound",
+        "title": "Light cart rebounds",
+        "style": "visible-condition",
+        "prompt": "Make a light cart A rebound from a heavier cart B while the velocity graph and momentum bars stay visible.",
+        "successMessage": "You separated object motion from system momentum: the light cart can reverse while the heavier cart carries enough forward momentum after contact.",
+        "setup": {
+          "presetId": "light-into-heavy",
+          "graphId": "velocity",
+          "overlayIds": [
+            "momentumBars",
+            "relativeSpeed"
+          ],
+          "note": "Use a strong mass contrast and high elasticity; the velocity graph should show A reversing after contact."
+        },
+        "requirements": {
+          "graphId": "velocity",
+          "overlayIds": [
+            "momentumBars",
+            "relativeSpeed"
+          ]
+        },
+        "hints": [
+          "A light cart is easier to turn around than a heavy target.",
+          "Keep elasticity high enough that the closing speed returns as a strong separation speed."
+        ],
+        "targets": [
+          {
+            "param": "massA",
+            "label": "Make cart A light: $1.0$ to $1.2\\,\\mathrm{kg}$.",
+            "min": 1,
+            "max": 1.2,
+            "displayUnit": "kg"
+          },
+          {
+            "param": "massB",
+            "label": "Make cart B heavy: $3.0$ to $3.4\\,\\mathrm{kg}$.",
+            "min": 3,
+            "max": 3.4,
+            "displayUnit": "kg"
+          },
+          {
+            "param": "speedA",
+            "label": "Send cart A in with at least $1.7\\,\\mathrm{m/s}$.",
+            "min": 1.7,
+            "max": 2.2,
+            "displayUnit": "m/s"
+          },
+          {
+            "param": "elasticity",
+            "label": "Keep elasticity high: $0.85$ to $1.0$.",
+            "min": 0.85,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "id": "collisions-ch-compare-elastic-sticky",
+        "title": "Same start, different energy story",
+        "style": "parameter-match",
+        "prompt": "Open compare mode with the same equal-mass starting collision, then make Setup A elastic and Setup B sticky so only elasticity changes the energy story.",
+        "successMessage": "You held the starting masses and speeds fixed while changing elasticity, so the comparison isolates why momentum stays constrained but kinetic energy does not.",
+        "setup": {
+          "presetId": "elastic-equal-masses",
+          "graphId": "energy",
+          "overlayIds": [
+            "collisionZone"
+          ],
+          "interactionMode": "compare",
+          "note": "After compare opens, keep Setup A elastic and tune only Setup B toward a sticky collision."
+        },
+        "requirements": {
+          "graphId": "energy",
+          "overlayIds": [
+            "collisionZone"
+          ],
+          "compareActive": true,
+          "compareTarget": "b"
+        },
+        "hints": [
+          "Use the same masses and incoming speed in both setups before changing elasticity.",
+          "Setup A should keep the elastic rebound; Setup B should lose separation speed after contact."
+        ],
+        "targets": [
+          {
+            "setup": "a",
+            "param": "elasticity",
+            "label": "Keep Setup A elastic: $e$ between $0.95$ and $1.0$.",
+            "min": 0.95,
+            "max": 1
+          },
+          {
+            "setup": "b",
+            "param": "elasticity",
+            "label": "Make Setup B sticky: $e$ between $0$ and $0.05$.",
+            "min": 0,
+            "max": 0.05
+          },
+          {
+            "setup": "a",
+            "param": "massA",
+            "label": "Keep Setup A cart A near $1.5\\,\\mathrm{kg}$.",
+            "min": 1.4,
+            "max": 1.6,
+            "displayUnit": "kg"
+          },
+          {
+            "setup": "b",
+            "param": "massA",
+            "label": "Keep Setup B cart A near $1.5\\,\\mathrm{kg}$.",
+            "min": 1.4,
+            "max": 1.6,
+            "displayUnit": "kg"
+          },
+          {
+            "setup": "a",
+            "param": "speedA",
+            "label": "Keep Setup A incoming speed near $1.6\\,\\mathrm{m/s}$.",
+            "min": 1.5,
+            "max": 1.7,
+            "displayUnit": "m/s"
+          },
+          {
+            "setup": "b",
+            "param": "speedA",
+            "label": "Keep Setup B incoming speed near $1.6\\,\\mathrm{m/s}$.",
+            "min": 1.5,
+            "max": 1.7,
+            "displayUnit": "m/s"
+          }
+        ]
+      }
+    ]
+  }
+}

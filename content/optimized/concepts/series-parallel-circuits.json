@@ -1,0 +1,210 @@
+{
+"pageFramework": {
+"sections": [
+{
+"id": "workedExamples",
+"title": "Work from the live circuit"
+},
+{
+"id": "miniChallenge",
+"title": "Brightness checkpoint"
+},
+{
+"id": "readNext",
+"title": "Continue with related ideas"
+}
+]
+},
+"sections": {
+"explanation": {
+"paragraphs": [
+"Series and parallel circuits can use the same battery and the same two loads, but the path for charge is different. In series there is one loop, so the same current passes through both loads. In parallel there are two branches between the same nodes, so the current splits and recombines while each branch keeps the full battery voltage.",
+"This module keeps just two loads and one arrangement toggle. That is enough to connect what you see on the stage to the main ideas: how equivalent resistance changes, how current and voltage are shared, why brightness follows power, and why the charge counters behave differently in series and parallel."
+]
+},
+"keyIdeas": [
+"In series there is only one path, so the same current passes through both loads and the battery voltage is shared between them.",
+"In parallel both loads connect across the same two nodes, so each branch has the full battery voltage even when the branch currents are different.",
+"Brightness follows power in this bounded model, so identical bulbs are dimmer in series and brighter in parallel because the power in each load changes with the arrangement."
+],
+"commonMisconception": {
+"myth": "Parallel bulbs are brighter because the battery somehow sends more voltage into each branch.",
+"correction": [
+"The battery voltage does not get stronger when you switch to parallel. Each branch keeps the same battery voltage because both branches connect across the same two nodes.",
+"What changes is the equivalent resistance of the whole circuit. A smaller equivalent resistance lets the same battery drive a larger total current, which changes the power in each load."
+]
+},
+"workedExamples": {
+"title": "Work from the live circuit",
+"intro": "Use the exact arrangement, resistances, and inspected time shown on screen. The same live circuit drives the loads, counters, overlays, and graphs below, so every calculation matches the stage.",
+"items": [
+{
+"id": "total-current-from-arrangement",
+"title": "Equivalent resistance and total current",
+"steps": [
+{
+"id": "topology-rule",
+"label": "1. Choose the equivalent-resistance rule for the live arrangement"
+},
+{
+"id": "substitute-values",
+"label": "2. Substitute the two live load values"
+},
+{
+"id": "whole-circuit-ohms-law",
+"label": "3. Apply Ohm's law to the whole circuit"
+},
+{
+"id": "current-result",
+"label": "4. Calculate the total current"
+}
+],
+"applyAction": {
+"label": "Load equal parallel pair",
+"observationHint": "The same two loads now connect across the same battery directly, so each load keeps the full battery voltage while the total current rises."
+}
+},
+{
+"id": "load-b-rate-and-brightness",
+"title": "Load B power and charge at the inspected time",
+"prompt": "For the current setup and inspected time, how much power is Load B taking right now, and how much charge has passed through Load B by this time?",
+"steps": [
+{
+"id": "branch-rule",
+"label": "1. Write the live rules for I_B and V_B"
+},
+{
+"id": "substitute-live-values",
+"label": "2. Substitute the live circuit values"
+},
+{
+"id": "power-step",
+"label": "3. Use P_B = I_B V_B to connect to brightness"
+},
+{
+"id": "charge-step",
+"label": "4. Use Q_B = I_B t for charge passed"
+}
+],
+"applyAction": {
+"label": "Load unequal parallel pair",
+"observationHint": "Load B keeps the full battery voltage in parallel, but its current, power, and charge counter grow more slowly because its resistance is larger."
+}
+}
+]
+},
+"miniChallenge": {
+"prompt": "Two identical bulbs are connected to the same battery. Why do they both look dimmer in series than in parallel even though the battery has not changed?",
+"prediction": "Before you switch the equal pair between arrangements, predict whether each bulb gets less current, less voltage, or both in series.",
+"answer": "In series, the battery voltage is shared between the two bulbs, so the loop current is smaller and each bulb gets less power. In parallel, each bulb keeps the full battery voltage and therefore dissipates more power.",
+"explanation": "Brightness in this bounded model follows power. Series raises the equivalent resistance and reduces the loop current, while parallel lowers the equivalent resistance and lets each branch keep the full battery voltage."
+}
+},
+"graphs": [
+{
+"id": "branch-current",
+"description": "Sweep only load B while the battery voltage, load A, and arrangement stay fixed. In series all three current lines move together because one loop current passes through both loads. In parallel, load A stays fixed while load B and the total current respond to the changing blue branch resistance."
+},
+{
+"id": "branch-voltage",
+"description": "Sweep only load B while the battery voltage and load A stay fixed. In series the two load voltages trade off and still add to the battery voltage, while in parallel both branch voltages stay pinned to the battery."
+},
+{
+"id": "load-power",
+"description": "Brightness follows power in this bounded model. Sweep load B to see how changing one resistance changes which load transfers energy faster in series and in parallel."
+}
+],
+"noticePrompts": {
+"intro": "Use each prompt as a small investigation. Change one thing, then connect what the stage shows to what the graphs show.",
+"items": [
+{
+"id": "spc-notice-topology-toggle",
+"text": "Switching from series to parallel does not make the battery stronger. It changes the path structure and therefore the equivalent resistance seen by the battery.",
+"whyItMatters": "This keeps the cause of brighter parallel bulbs honest: the battery is unchanged, but the total load is smaller."
+},
+{
+"id": "spc-notice-current-graph",
+"text": "On the branch-current graph, series keeps one current everywhere, while parallel lets load B change on its own and makes the total current follow the branch sum.",
+"whyItMatters": "Current splitting becomes something you can read directly instead of memorizing as a detached rule."
+},
+{
+"id": "spc-notice-voltage-graph",
+"text": "On the branch-voltage graph, parallel branches stay at the battery value because both loads connect across the same two nodes. In series, the two load voltages trade off and still add to the battery.",
+"whyItMatters": "Equal branch voltage in parallel stops feeling mysterious once the shared-node picture and the graph agree."
+},
+{
+"id": "spc-notice-power-graph",
+"text": "The load-power graph is the brightness story. The arrangement decides whether the loads share the same current or the same voltage, so resistance alone does not predict brightness.",
+"whyItMatters": "This keeps bulb intuition tied to power rather than to one variable taken out of context."
+},
+{
+"id": "spc-notice-time-charge",
+"text": "Charge counters show the time consequence of current. In series both counters rise together; in parallel the branch with the larger current accumulates charge faster.",
+"whyItMatters": "It connects a current rule to a time-based outcome without introducing a separate hidden model."
+}
+]
+},
+"predictionMode": {
+"intro": "Predict before you change the arrangement or a load. Each scenario changes one idea at a time so you can track what must happen to current, voltage, and brightness.",
+"items": [
+{
+"id": "spc-pred-switch-to-parallel",
+"prompt": "The circuit starts as the equal series pair: 12 V with 6 ohm and 6 ohm in one loop. If you change only to parallel, which statement must be true?",
+"explanation": "Putting the same two loads in parallel reduces the equivalent resistance seen by the battery. The battery is unchanged, so the total current rises and each branch still spans the full battery voltage.",
+"observationHint": "The battery label stays fixed while both branch-voltage labels sit at the full battery value and the total current badge jumps."
+},
+{
+"id": "spc-pred-raise-rb-series",
+"explanation": "Raising one series resistance raises the equivalent resistance, so the same battery drives less loop current. With the same current through both loads, the larger resistance gets the larger voltage drop.",
+"observationHint": "The current badge shrinks, the blue voltage label grows, and the branch-voltage graph tilts toward load B."
+},
+{
+"id": "spc-pred-raise-rb-parallel",
+"explanation": "In parallel, each branch keeps the full battery voltage. Raising only R_B lowers only the blue branch current and power, while the amber branch remains set by its own unchanged resistance.",
+"observationHint": "The amber branch stays unchanged while the blue current, power, and charge rate all shrink."
+}
+]
+},
+"challengeMode": {
+"intro": "Use the same two-load circuit to hit branch-current and branch-voltage targets. The checks come from the live stage, so the topology rule stays tied to what you can actually see.",
+"items": [
+{
+"id": "spc-ch-blue-branch-full-voltage",
+"title": "Give Load B full battery voltage",
+"prompt": "Starting from Unequal series loads, rewire the circuit so Load B keeps the full battery voltage while its branch current stays around 1 A.",
+"setup": {
+"note": "Use the branch-voltage graph and the node guide together while you rewire the unequal pair."
+},
+"hints": [
+"Keep the 4 ohm and 12 ohm loads unchanged. The target comes from changing the arrangement, not the resistances.",
+"If Load B really spans the same two nodes as the battery, its voltage should stay at the full battery value."
+]
+}
+]
+},
+"quickTest": {
+"intro": "Answer from circuit logic, then check the stage if needed. Each question asks what the live circuit, counters, or graphs must mean.",
+"questions": [
+{
+"id": "spc-qt-equal-bulbs",
+"explanation": "Equal loads in series share the battery voltage and therefore carry a smaller current than the equal parallel case. Less power per load means dimmer bulbs in this bounded model."
+},
+{
+"id": "spc-qt-parallel-current",
+"explanation": "Equal branch voltage does not force equal branch current. Ohm's law says the lower-resistance branch draws the larger current."
+},
+{
+"id": "spc-qt-charge-counter",
+"explanation": "In series, the same current crosses both loads, so equal time means equal charge passed even if brightness differs. In parallel, different branch currents make the counters diverge."
+}
+]
+},
+"accessibility": {
+"graphSummary": {
+"paragraphs": [
+"All three response graphs sweep only load B resistance while the battery voltage, load A, and arrangement stay fixed. The branch-current graph shows total current together with the two load currents, the branch-voltage graph shows how the two load voltages behave, and the load-power graph shows the brightness logic for both loads.",
+"The time rail does not change the graph sweep. It lets the learner inspect one moment on the stage so charge counters and moving packets can be compared without changing the underlying response curves."
+]
+}
+}
+}

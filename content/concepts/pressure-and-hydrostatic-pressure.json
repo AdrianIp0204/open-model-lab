@@ -1,0 +1,1310 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live pressure checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Fluid statics checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Carry this into buoyancy and fluids"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Use one piston-and-tank bench to connect force per area, pressure acting in all directions, and the way density, gravity, and depth build hydrostatic pressure.",
+    "keyTakeaway": "The probe pressure is the transmitted surface pressure F/A plus the hydrostatic gain ρgh, so area changes the surface part while depth, density, and gravity change the pressure-depth rise."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Pressure starts as force per unit area. If the same push is spread over a larger area, each square meter gets a smaller share of that push. On this bench, the piston at the fluid surface makes that idea visible before depth is added.",
+        "A fluid at rest transmits pressure throughout the connected fluid, and at one point that pressure acts equally in all directions. The probe arrows do not point only downward because hydrostatic pressure is not a downward force rule. It is a scalar pressure field that can later create net forces only when pressure differs from one place to another.",
+        "Hydrostatic pressure grows with depth because deeper points support more fluid above them. In this bounded model, the probe reading is the surface pressure from $F/A$ plus the depth-dependent gain $\\rho g h$. That keeps force, area, density, gravity, depth, graphs, compare mode, prediction prompts, worked examples, and challenge checks attached to one honest static-fluid story without expanding into a full fluid-mechanics platform."
+      ]
+    },
+    "keyIdeas": [
+      "Pressure from a surface load is force divided by area, so the same force gives a smaller pressure when it is spread across a wider piston.",
+      "In a resting connected fluid, pressure at one point acts equally in all directions and points at the same depth share the same hydrostatic contribution.",
+      "Hydrostatic pressure increases linearly with depth because each extra meter adds another $\\rho g$ of pressure.",
+      "Density and gravity set the slope of the pressure-depth graph, which is why denser fluids or stronger gravity produce larger pressure differences over the same height."
+    ],
+    "commonMisconception": {
+      "myth": "Fluid pressure only pushes downward because the fluid is above the point you are looking at.",
+      "correction": [
+        "The fluid weight above a point explains why pressure grows with depth, but the pressure at that point acts equally in all directions.",
+        "That is why the same-depth line matters, and why later buoyancy comes from pressure being larger on deeper parts of an object than on shallower parts."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live pressure checks",
+      "intro": "Use the current tank directly. The same piston load, fluid properties, and probe depth now on screen drive both worked examples, so the algebra stays tied to the live visualization.",
+      "items": [
+        {
+          "id": "current-total-pressure",
+          "title": "Current probe pressure",
+          "prompt": "For the current tank with $F = {{forceValue}}$, $A = {{areaValue}}$, $\\rho = {{densityValue}}$, $g = {{gravityValue}}$, and $h = {{depthValue}}$, what pressure should the probe read?",
+          "variables": [
+            {
+              "id": "force",
+              "variableId": "force",
+              "symbol": "F",
+              "label": "Surface force",
+              "valueKey": "forceValue",
+              "unit": "N"
+            },
+            {
+              "id": "area",
+              "variableId": "area",
+              "symbol": "A",
+              "label": "Piston area",
+              "valueKey": "areaValue",
+              "unit": "m^2"
+            },
+            {
+              "id": "density",
+              "variableId": "density",
+              "symbol": "\\rho",
+              "label": "Fluid density",
+              "valueKey": "densityValue",
+              "unit": "kg/m^3"
+            },
+            {
+              "id": "gravity",
+              "variableId": "gravity",
+              "symbol": "g",
+              "label": "Gravity",
+              "valueKey": "gravityValue",
+              "unit": "m/s^2"
+            },
+            {
+              "id": "depth",
+              "variableId": "depth",
+              "symbol": "h",
+              "label": "Probe depth",
+              "valueKey": "depthValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "surface-part",
+              "label": "1. Turn the piston load into surface pressure",
+              "template": "The piston sets $P_s = F/A = {{surfacePressureValue}}\\,\\mathrm{kPa}$, so the same force is currently being spread across {{areaInterpretationText}}."
+            },
+            {
+              "id": "hydrostatic-part",
+              "label": "2. Add the hydrostatic contribution from depth",
+              "template": "The fluid column contributes $P_h = \\rho g h = {{hydrostaticPressureValue}}\\,\\mathrm{kPa}$ at depth ${{depthValue}}\\,\\mathrm{m}$."
+            },
+            {
+              "id": "total-part",
+              "label": "3. Combine the two contributions",
+              "template": "So the probe reads $P_{\\mathrm{probe}} = P_s + P_h = {{totalPressureValue}}\\,\\mathrm{kPa}$, with the {{dominantContributionText}} contribution currently larger."
+            }
+          ],
+          "resultLabel": "Current probe pressure",
+          "resultTemplate": "$P_s = {{surfacePressureValue}}\\,\\mathrm{kPa}, \\quad P_h = {{hydrostaticPressureValue}}\\,\\mathrm{kPa}, \\quad P_{\\mathrm{probe}} = {{totalPressureValue}}\\,\\mathrm{kPa}$",
+          "interpretationTemplate": "{{currentPressureInterpretation}}",
+          "applyAction": {
+            "label": "Show a deeper probe",
+            "presetId": "deep-probe",
+            "observationHint": "The surface load stays the same, but the depth guide grows and the pressure arrows lengthen because the hydrostatic part is larger.",
+            "highlightedControlIds": [
+              "depth"
+            ],
+            "highlightedGraphIds": [
+              "pressure-depth"
+            ],
+            "highlightedOverlayIds": [
+              "depthGuide",
+              "pressureArrows"
+            ]
+          }
+        },
+        {
+          "id": "one-meter-deeper",
+          "title": "One meter deeper",
+          "prompt": "If the same probe were moved {{extraDepthValue}} deeper while keeping the same piston load and fluid, how much extra pressure would it gain?",
+          "variables": [
+            {
+              "id": "density",
+              "variableId": "density",
+              "symbol": "\\rho",
+              "label": "Fluid density",
+              "valueKey": "densityValue",
+              "unit": "kg/m^3"
+            },
+            {
+              "id": "gravity",
+              "variableId": "gravity",
+              "symbol": "g",
+              "label": "Gravity",
+              "valueKey": "gravityValue",
+              "unit": "m/s^2"
+            },
+            {
+              "id": "pressureGradient",
+              "symbol": "\\rho g",
+              "label": "Pressure gradient",
+              "valueKey": "pressureGradientValue",
+              "unit": "kPa/m"
+            },
+            {
+              "id": "depth",
+              "variableId": "depth",
+              "symbol": "h",
+              "label": "Current depth",
+              "valueKey": "depthValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-gradient",
+              "label": "1. Read the pressure gradient for this fluid and gravity",
+              "template": "Here $dP/dh = \\rho g = {{pressureGradientValue}}\\,\\mathrm{kPa/m}$, so every extra meter adds the same pressure increment."
+            },
+            {
+              "id": "apply-extra-depth",
+              "label": "2. Apply that slope to one more meter",
+              "template": "For $\\Delta h = {{extraDepthValue}}$, the extra pressure is $\\Delta P = (dP/dh)\\Delta h = {{extraPressureValue}}\\,\\mathrm{kPa}$."
+            },
+            {
+              "id": "new-total",
+              "label": "3. Update the probe reading",
+              "template": "One meter deeper the hydrostatic part becomes ${{deeperHydrostaticPressureValue}}\\,\\mathrm{kPa}$, so the total probe pressure becomes ${{deeperTotalPressureValue}}\\,\\mathrm{kPa}$."
+            }
+          ],
+          "resultLabel": "Extra depth result",
+          "resultTemplate": "$\\Delta P = {{extraPressureValue}}\\,\\mathrm{kPa}, \\quad P_{\\mathrm{deeper}} = {{deeperTotalPressureValue}}\\,\\mathrm{kPa}$",
+          "interpretationTemplate": "{{deeperInterpretation}}",
+          "applyAction": {
+            "label": "Open the depth sweep",
+            "presetId": "water-baseline",
+            "observationHint": "The pressure-depth graph separates the constant surface pressure from the linearly growing hydrostatic and total curves.",
+            "highlightedControlIds": [
+              "depth",
+              "density",
+              "gravity"
+            ],
+            "highlightedGraphIds": [
+              "pressure-depth"
+            ],
+            "highlightedOverlayIds": [
+              "depthGuide",
+              "sameDepthLine"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Two pressure probes are held at the same depth in the same resting fluid, but one is near the wall and the other is near the center. Which reads higher?",
+      "prediction": "Decide whether sideways position matters once fluid, depth, gravity, and surface loading are all the same.",
+      "answer": "They read the same pressure.",
+      "explanation": "In one connected resting fluid, the hydrostatic part depends on depth, density, and gravity. Sideways position does not create a second pressure law. Later buoyancy comes from different depths on the same object, not from a special sideways pressure rule."
+    }
+  },
+  "equations": [
+    {
+      "id": "pressure-definition",
+      "latex": "P_s = \\dfrac{F}{A}",
+      "label": "Pressure from a surface load",
+      "meaning": "The same force gives less pressure when it is spread over a larger area."
+    },
+    {
+      "id": "hydrostatic-pressure",
+      "latex": "P_h = \\rho g h",
+      "label": "Hydrostatic pressure",
+      "meaning": "Depth adds pressure because deeper points support more fluid above them."
+    },
+    {
+      "id": "total-probe-pressure",
+      "latex": "P_{\\mathrm{probe}} = P_s + P_h",
+      "label": "Total probe pressure",
+      "meaning": "The probe reads the transmitted surface pressure plus the depth-dependent hydrostatic contribution."
+    },
+    {
+      "id": "pressure-gradient",
+      "latex": "\\Delta P = \\rho g\\,\\Delta h",
+      "label": "Pressure change with depth",
+      "meaning": "Each extra depth step adds the same pressure increment when density and gravity stay fixed.",
+      "notes": [
+        "This is the linear hydrostatic pressure gradient for the bounded static-fluid model on this page."
+      ]
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "force",
+      "symbol": "F",
+      "label": "Surface force",
+      "param": "force",
+      "tone": "coral",
+      "description": "Changes the total push on the piston. At fixed area it changes only the surface-pressure part of the probe reading.",
+      "equationIds": [
+        "pressure-definition",
+        "total-probe-pressure"
+      ],
+      "graphIds": [
+        "pressure-force"
+      ],
+      "overlayIds": [
+        "surfaceLoad"
+      ]
+    },
+    {
+      "id": "area",
+      "symbol": "A",
+      "label": "Piston area",
+      "param": "area",
+      "tone": "sky",
+      "description": "Spreads the same force across a wider or narrower piston. A larger area lowers the surface pressure for the same force.",
+      "equationIds": [
+        "pressure-definition",
+        "total-probe-pressure"
+      ],
+      "graphIds": [
+        "pressure-area"
+      ],
+      "overlayIds": [
+        "surfaceLoad"
+      ]
+    },
+    {
+      "id": "density",
+      "symbol": "\\rho",
+      "label": "Fluid density",
+      "param": "density",
+      "tone": "amber",
+      "description": "Sets how much pressure each meter of depth adds. Denser fluids give a steeper pressure-depth slope.",
+      "equationIds": [
+        "hydrostatic-pressure",
+        "total-probe-pressure",
+        "pressure-gradient"
+      ],
+      "graphIds": [
+        "pressure-density",
+        "pressure-depth"
+      ],
+      "overlayIds": [
+        "depthGuide",
+        "sameDepthLine"
+      ]
+    },
+    {
+      "id": "gravity",
+      "symbol": "g",
+      "label": "Gravity",
+      "param": "gravity",
+      "tone": "ink",
+      "description": "Changes the hydrostatic pressure gradient without changing the force-per-area part at the surface.",
+      "equationIds": [
+        "hydrostatic-pressure",
+        "total-probe-pressure",
+        "pressure-gradient"
+      ],
+      "graphIds": [
+        "pressure-depth"
+      ],
+      "overlayIds": [
+        "depthGuide",
+        "pressureArrows"
+      ]
+    },
+    {
+      "id": "depth",
+      "symbol": "h",
+      "label": "Probe depth",
+      "param": "depth",
+      "tone": "teal",
+      "description": "Moves the probe deeper or shallower while leaving the same fluid and surface loading in place. The hydrostatic contribution grows linearly with depth.",
+      "equationIds": [
+        "hydrostatic-pressure",
+        "total-probe-pressure",
+        "pressure-gradient"
+      ],
+      "graphIds": [
+        "pressure-depth"
+      ],
+      "overlayIds": [
+        "depthGuide",
+        "pressureArrows",
+        "sameDepthLine"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "force": 720,
+      "area": 0.15,
+      "density": 1000,
+      "gravity": 9.8,
+      "depth": 1
+    },
+    "ui": {
+      "initialGraphId": "pressure-depth",
+      "primaryGraphIds": [
+        "pressure-depth"
+      ],
+      "primaryControlIds": [
+        "depth"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "force",
+        "kind": "slider",
+        "label": "Surface force",
+        "param": "force",
+        "min": 200,
+        "max": 1600,
+        "step": 20,
+        "unit": "N",
+        "description": "Changes the piston load at the fluid surface."
+      },
+      {
+        "id": "area",
+        "kind": "slider",
+        "label": "Piston area",
+        "param": "area",
+        "min": 0.08,
+        "max": 0.4,
+        "step": 0.01,
+        "unit": "m^2",
+        "description": "Spreads the same force across a wider or narrower surface."
+      },
+      {
+        "id": "density",
+        "kind": "slider",
+        "label": "Fluid density",
+        "param": "density",
+        "min": 600,
+        "max": 1400,
+        "step": 20,
+        "unit": "kg/m^3",
+        "description": "Sets how much pressure each meter of depth adds."
+      },
+      {
+        "id": "gravity",
+        "kind": "slider",
+        "label": "Gravity",
+        "param": "gravity",
+        "min": 5,
+        "max": 12,
+        "step": 0.1,
+        "unit": "m/s^2",
+        "description": "Changes the hydrostatic pressure gradient without changing $F/A$."
+      },
+      {
+        "id": "depth",
+        "kind": "slider",
+        "label": "Probe depth",
+        "param": "depth",
+        "min": 0.2,
+        "max": 4,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Moves the probe deeper or shallower in the same fluid."
+      }
+    ],
+    "presets": [
+      {
+        "id": "water-baseline",
+        "label": "Water baseline",
+        "description": "A water-like fluid with a moderate piston load and a 1 m probe depth.",
+        "values": {
+          "force": 720,
+          "area": 0.15,
+          "density": 1000,
+          "gravity": 9.8,
+          "depth": 1
+        }
+      },
+      {
+        "id": "wide-piston",
+        "label": "Wide piston",
+        "description": "The same force is spread over a much larger surface area.",
+        "values": {
+          "force": 720,
+          "area": 0.3,
+          "density": 1000,
+          "gravity": 9.8,
+          "depth": 1
+        }
+      },
+      {
+        "id": "deep-probe",
+        "label": "Deep probe",
+        "description": "The same surface loading, but the probe is much deeper in the fluid.",
+        "values": {
+          "force": 720,
+          "area": 0.15,
+          "density": 1000,
+          "gravity": 9.8,
+          "depth": 2.5
+        }
+      },
+      {
+        "id": "dense-brine",
+        "label": "Dense brine",
+        "description": "A denser fluid raises the pressure gradient without changing the depth.",
+        "values": {
+          "force": 720,
+          "area": 0.15,
+          "density": 1200,
+          "gravity": 9.8,
+          "depth": 1
+        }
+      },
+      {
+        "id": "low-gravity",
+        "label": "Low gravity tank",
+        "description": "The same fluid and depth under weaker gravity.",
+        "values": {
+          "force": 720,
+          "area": 0.15,
+          "density": 1000,
+          "gravity": 6,
+          "depth": 1
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "surfaceLoad",
+        "label": "Surface load",
+        "shortDescription": "Shows the piston area and the downward surface force that creates $F/A$.",
+        "whatToNotice": [
+          "Changing area changes the piston width, so the same force can produce a smaller pressure when it is spread out."
+        ],
+        "whyItMatters": "It keeps pressure tied to force per area instead of treating pressure as a mysterious extra quantity.",
+        "relatedControls": [
+          "force",
+          "area"
+        ],
+        "relatedGraphTabs": [
+          "pressure-force",
+          "pressure-area"
+        ],
+        "relatedEquationVariables": [
+          "force",
+          "area"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "depthGuide",
+        "label": "Depth guide",
+        "shortDescription": "Marks the probe depth from the fluid surface.",
+        "whatToNotice": [
+          "Every extra meter adds the same amount of hydrostatic pressure when density and gravity stay fixed."
+        ],
+        "whyItMatters": "It makes the $h$ in $\\rho g h$ concrete.",
+        "relatedControls": [
+          "depth",
+          "density",
+          "gravity"
+        ],
+        "relatedGraphTabs": [
+          "pressure-depth"
+        ],
+        "relatedEquationVariables": [
+          "depth",
+          "density",
+          "gravity"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "pressureArrows",
+        "label": "Pressure arrows",
+        "shortDescription": "Shows the same probe pressure acting upward, downward, and sideways.",
+        "whatToNotice": [
+          "The arrows stay equal at one point because pressure in a resting fluid acts equally in all directions."
+        ],
+        "whyItMatters": "It prevents the common mistake of treating hydrostatic pressure as only a downward push.",
+        "relatedControls": [
+          "depth",
+          "density",
+          "gravity"
+        ],
+        "relatedGraphTabs": [
+          "pressure-depth",
+          "pressure-density"
+        ],
+        "relatedEquationVariables": [
+          "depth",
+          "density",
+          "gravity"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "sameDepthLine",
+        "label": "Same-depth line",
+        "shortDescription": "Shows a horizontal line through the probe to emphasize equal depth.",
+        "whatToNotice": [
+          "Points at the same depth share the same hydrostatic contribution even if one point is near the wall."
+        ],
+        "whyItMatters": "It sets up the later buoyancy idea that deeper parts of an object feel larger pressure than shallower parts.",
+        "relatedControls": [
+          "depth",
+          "density",
+          "gravity"
+        ],
+        "relatedGraphTabs": [
+          "pressure-depth"
+        ],
+        "relatedEquationVariables": [
+          "depth",
+          "density",
+          "gravity"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "pressure-depth",
+      "label": "Pressure vs depth",
+      "xLabel": "depth (m)",
+      "yLabel": "pressure (kPa)",
+      "series": [
+        "surface-pressure",
+        "hydrostatic-pressure",
+        "total-pressure"
+      ],
+      "description": "Hold force, area, density, and gravity fixed while moving only the probe depth. The hydrostatic and total curves rise linearly, while the surface-pressure line stays flat."
+    },
+    {
+      "id": "pressure-density",
+      "label": "Pressure vs density",
+      "xLabel": "density (kg/m^3)",
+      "yLabel": "pressure (kPa)",
+      "series": [
+        "surface-pressure",
+        "hydrostatic-pressure",
+        "total-pressure"
+      ],
+      "description": "Hold force, area, depth, and gravity fixed while changing fluid density. Only the hydrostatic and total terms respond."
+    },
+    {
+      "id": "pressure-force",
+      "label": "Pressure vs force",
+      "xLabel": "force (N)",
+      "yLabel": "pressure (kPa)",
+      "series": [
+        "surface-pressure",
+        "hydrostatic-pressure",
+        "total-pressure"
+      ],
+      "description": "Hold area, density, gravity, and depth fixed while changing only the piston force. The hydrostatic contribution stays flat while the surface and total pressures rise."
+    },
+    {
+      "id": "pressure-area",
+      "label": "Pressure vs area",
+      "xLabel": "area (m^2)",
+      "yLabel": "pressure (kPa)",
+      "series": [
+        "surface-pressure",
+        "hydrostatic-pressure",
+        "total-pressure"
+      ],
+      "description": "Hold force, density, gravity, and depth fixed while spreading the same force over different piston areas. The surface and total pressures fall as area grows."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use one concrete pressure question at a time so the piston load, fluid depth, and graphs stay tied together.",
+    "items": [
+      {
+        "id": "depth-builds-pressure",
+        "text": "Drag the probe deeper. The surface pressure from $F/A$ does not change, but the total probe pressure grows because the hydrostatic piece $\\rho g h$ is larger.",
+        "type": "observation",
+        "relatedControls": [
+          "depth"
+        ],
+        "relatedGraphTabs": [
+          "pressure-depth"
+        ],
+        "relatedOverlays": [
+          "depthGuide",
+          "pressureArrows"
+        ],
+        "relatedEquationVariables": [
+          "depth"
+        ]
+      },
+      {
+        "id": "same-depth-same-pressure",
+        "text": "Turn on the same-depth line. The point near the wall and the point near the middle share the same hydrostatic contribution because they are at the same depth in one connected fluid.",
+        "type": "compare",
+        "relatedControls": [
+          "depth"
+        ],
+        "relatedGraphTabs": [
+          "pressure-depth"
+        ],
+        "relatedOverlays": [
+          "sameDepthLine",
+          "pressureArrows"
+        ],
+        "relatedEquationVariables": [
+          "depth"
+        ]
+      },
+      {
+        "id": "area-spreads-force",
+        "text": "Increase the piston area while keeping the same force. The piston gets wider, the surface pressure drops, and the total pressure curve bends downward on the area graph.",
+        "type": "graph-reading",
+        "relatedControls": [
+          "area",
+          "force"
+        ],
+        "relatedGraphTabs": [
+          "pressure-area"
+        ],
+        "relatedOverlays": [
+          "surfaceLoad"
+        ],
+        "relatedEquationVariables": [
+          "area",
+          "force"
+        ]
+      },
+      {
+        "id": "density-gravity-set-slope",
+        "text": "Density and gravity do not change the surface-pressure line. They change the slope of the hydrostatic and total depth graphs because they change how much pressure each extra meter adds.",
+        "type": "misconception",
+        "relatedControls": [
+          "density",
+          "gravity",
+          "depth"
+        ],
+        "relatedGraphTabs": [
+          "pressure-depth",
+          "pressure-density"
+        ],
+        "relatedOverlays": [
+          "depthGuide"
+        ],
+        "relatedEquationVariables": [
+          "density",
+          "gravity",
+          "depth"
+        ]
+      },
+      {
+        "id": "match-total-with-different-cause",
+        "text": "Use compare mode to match the same total pressure with a smaller surface load but a denser fluid. Equal total pressure does not mean the causes are the same.",
+        "type": "try-this",
+        "tryThis": "Start from Water baseline, open compare mode, leave Setup A alone, and tune Setup B until the total pressures match while Setup B uses a smaller $F/A$ and a larger hydrostatic part.",
+        "relatedControls": [
+          "force",
+          "area",
+          "density"
+        ],
+        "relatedGraphTabs": [
+          "pressure-density",
+          "pressure-area"
+        ],
+        "relatedOverlays": [
+          "surfaceLoad",
+          "pressureArrows"
+        ],
+        "relatedEquationVariables": [
+          "force",
+          "area",
+          "density"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the pressure change before you test it. The point is to separate the surface-pressure part from the hydrostatic part.",
+    "items": [
+      {
+        "id": "php-predict-depth",
+        "prompt": "Starting from Water baseline, you move the probe deeper while changing nothing else. What should happen?",
+        "scenarioLabel": "Deeper probe",
+        "changeLabel": "Depth",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The hydrostatic and total pressures rise, while the surface-pressure part stays the same."
+          },
+          {
+            "id": "b",
+            "label": "Only the surface pressure rises because there is more fluid touching the piston."
+          },
+          {
+            "id": "c",
+            "label": "All pressure stays the same because the fluid is connected."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Moving deeper changes only the $\\rho g h$ part. The piston load and area have not changed, so the surface-pressure term stays fixed.",
+        "observationHint": "The depth guide grows, the pressure arrows lengthen, and only the hydrostatic and total curves move on the depth graph.",
+        "apply": {
+          "presetId": "deep-probe"
+        },
+        "highlightedControls": [
+          "depth"
+        ],
+        "highlightedGraphs": [
+          "pressure-depth"
+        ],
+        "highlightedOverlays": [
+          "depthGuide",
+          "pressureArrows"
+        ]
+      },
+      {
+        "id": "php-predict-area",
+        "prompt": "Starting from Water baseline, you keep the same force but double the piston area. Which statement is best?",
+        "scenarioLabel": "Wider piston",
+        "changeLabel": "Area",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Surface pressure falls, so the total probe pressure also falls."
+          },
+          {
+            "id": "b",
+            "label": "Surface pressure rises because a larger area lets the fluid push harder."
+          },
+          {
+            "id": "c",
+            "label": "Only the hydrostatic pressure changes because the fluid depth is the same."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "With the same force spread over a larger area, $F/A$ is smaller. The hydrostatic part stays the same, so the total pressure drops by the same surface-pressure change.",
+        "observationHint": "The piston gets wider, the surface-load chip shows the same force, and the area graph drops rather than rises.",
+        "apply": {
+          "presetId": "wide-piston"
+        },
+        "highlightedControls": [
+          "area",
+          "force"
+        ],
+        "highlightedGraphs": [
+          "pressure-area"
+        ],
+        "highlightedOverlays": [
+          "surfaceLoad"
+        ]
+      },
+      {
+        "id": "php-predict-density",
+        "prompt": "Starting from Water baseline, you swap in a denser fluid at the same depth and surface loading. What changes next?",
+        "scenarioLabel": "Denser fluid",
+        "changeLabel": "Density",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The hydrostatic and total pressures rise because each meter of depth adds more pressure."
+          },
+          {
+            "id": "b",
+            "label": "Only the surface pressure rises because the denser fluid pushes back on the piston more."
+          },
+          {
+            "id": "c",
+            "label": "Pressure falls because denser fluid spreads the piston force better."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Density appears only in the hydrostatic term on this page. A denser fluid raises the pressure gradient without changing $F/A$ at the surface.",
+        "observationHint": "The density chip changes, the same-depth and pressure-arrow overlays stay honest, and the density graph lifts the hydrostatic and total curves together.",
+        "apply": {
+          "presetId": "dense-brine"
+        },
+        "highlightedControls": [
+          "density"
+        ],
+        "highlightedGraphs": [
+          "pressure-density",
+          "pressure-depth"
+        ],
+        "highlightedOverlays": [
+          "pressureArrows",
+          "sameDepthLine"
+        ]
+      },
+      {
+        "id": "php-predict-gravity",
+        "prompt": "Starting from Water baseline, you lower gravity while keeping the same piston load, area, fluid, and depth. What happens?",
+        "scenarioLabel": "Lower gravity",
+        "changeLabel": "Gravity",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The hydrostatic part drops, so the total pressure drops too."
+          },
+          {
+            "id": "b",
+            "label": "The surface pressure drops but the hydrostatic part stays the same."
+          },
+          {
+            "id": "c",
+            "label": "Nothing changes because the fluid and depth are unchanged."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Gravity changes the hydrostatic gradient $\\rho g$. The surface-pressure part depends only on force and area, so it stays fixed.",
+        "observationHint": "The pressure arrows shorten and the readout shows a smaller hydrostatic contribution even though the piston load has not changed.",
+        "apply": {
+          "presetId": "low-gravity"
+        },
+        "highlightedControls": [
+          "gravity"
+        ],
+        "highlightedGraphs": [
+          "pressure-depth"
+        ],
+        "highlightedOverlays": [
+          "depthGuide",
+          "pressureArrows"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the same static tank for direct pressure targets and compare matches. The checks read the live pressure components instead of switching to a separate challenge model.",
+    "items": [
+      {
+        "id": "php-ch-hit-24-kpa-deep",
+        "title": "Hit 24 kPa by depth alone",
+        "style": "parameter-match",
+        "prompt": "Start from Water baseline and adjust only the probe depth until the total pressure is about 24 kPa while the piston load, area, density, and gravity stay near baseline.",
+        "successMessage": "You reached the target by depth alone. The surface pressure stayed fixed while the hydrostatic part grew linearly with depth.",
+        "setup": {
+          "presetId": "water-baseline",
+          "graphId": "pressure-depth",
+          "overlayIds": [
+            "depthGuide",
+            "pressureArrows"
+          ],
+          "note": "Keep the surface-loading controls and fluid properties near the baseline while you move only the probe."
+        },
+        "hints": [
+          "Read the flat surface-pressure line first, then use the total-pressure line to find the right depth.",
+          "If force or area drifts, you are changing the wrong part of the pressure sum."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Open the pressure-depth graph.",
+            "graphId": "pressure-depth"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the depth guide visible.",
+            "overlayId": "depthGuide"
+          },
+          {
+            "type": "param-range",
+            "label": "Keep the force near the baseline.",
+            "param": "force",
+            "min": 700,
+            "max": 740,
+            "displayUnit": "N"
+          },
+          {
+            "type": "param-range",
+            "label": "Keep the area near the baseline.",
+            "param": "area",
+            "min": 0.14,
+            "max": 0.16,
+            "displayUnit": "m^2"
+          },
+          {
+            "type": "param-range",
+            "label": "Keep the fluid near water density.",
+            "param": "density",
+            "min": 980,
+            "max": 1020,
+            "displayUnit": "kg/m^3"
+          },
+          {
+            "type": "param-range",
+            "label": "Keep gravity near Earth gravity.",
+            "param": "gravity",
+            "min": 9.7,
+            "max": 9.9,
+            "displayUnit": "m/s^2"
+          },
+          {
+            "type": "param-range",
+            "label": "Move the probe to about 1.96 m depth.",
+            "param": "depth",
+            "min": 1.94,
+            "max": 1.98,
+            "displayUnit": "m"
+          },
+          {
+            "type": "metric-range",
+            "label": "Reach about 24 kPa total pressure.",
+            "metric": "totalPressure",
+            "min": 23.8,
+            "max": 24.2,
+            "displayUnit": "kPa"
+          }
+        ]
+      },
+      {
+        "id": "php-ch-match-total-lower-surface",
+        "title": "Match total pressure with less surface load",
+        "style": "parameter-match",
+        "prompt": "Start from Water baseline, switch to compare mode, leave Setup A alone, and tune only Setup B until it reaches the same total pressure with a smaller surface-pressure part and a denser fluid.",
+        "successMessage": "You matched the same total pressure with a different cause. Setup A used more surface loading, while Setup B used more hydrostatic pressure from a denser fluid.",
+        "setup": {
+          "presetId": "water-baseline",
+          "graphId": "pressure-density",
+          "overlayIds": [
+            "surfaceLoad",
+            "pressureArrows"
+          ],
+          "interactionMode": "compare",
+          "note": "Setup A stays fixed as the baseline. Edit only Setup B."
+        },
+        "hints": [
+          "Keep Setup B at the same depth first, then lower its surface-pressure part and let density make up the rest.",
+          "The total pressures should match before the surface and hydrostatic pieces do."
+        ],
+        "checks": [
+          {
+            "type": "compare-active",
+            "label": "Stay in compare mode while editing Setup B.",
+            "target": "b"
+          },
+          {
+            "type": "graph-active",
+            "label": "Open the pressure-density graph.",
+            "graphId": "pressure-density"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the pressure arrows visible.",
+            "overlayId": "pressureArrows"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Keep Setup A at the baseline total pressure.",
+            "setup": "a",
+            "metric": "totalPressure",
+            "min": 14.5,
+            "max": 14.7,
+            "displayUnit": "kPa"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup B near the same depth.",
+            "setup": "b",
+            "param": "depth",
+            "min": 0.98,
+            "max": 1.02,
+            "displayUnit": "m"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Lower Setup B's force.",
+            "setup": "b",
+            "param": "force",
+            "min": 590,
+            "max": 610,
+            "displayUnit": "N"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Spread Setup B over a wider piston.",
+            "setup": "b",
+            "param": "area",
+            "min": 0.19,
+            "max": 0.21,
+            "displayUnit": "m^2"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Use a denser fluid in Setup B.",
+            "setup": "b",
+            "param": "density",
+            "min": 1190,
+            "max": 1210,
+            "displayUnit": "kg/m^3"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Keep Setup B's surface pressure lower than Setup A.",
+            "setup": "b",
+            "metric": "surfacePressure",
+            "min": 2.9,
+            "max": 3.1,
+            "displayUnit": "kPa"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Let Setup B's hydrostatic part carry more of the total.",
+            "setup": "b",
+            "metric": "hydrostaticPressure",
+            "min": 11.65,
+            "max": 11.85,
+            "displayUnit": "kPa"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Match Setup B to the same total pressure.",
+            "setup": "b",
+            "metric": "totalPressure",
+            "min": 14.66,
+            "max": 14.86,
+            "displayUnit": "kPa"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the tank, not from a slogan. The goal is to keep pressure causal and visual.",
+    "questions": [
+      {
+        "id": "php-qt-area",
+        "type": "variable-effect",
+        "prompt": "At the same force, what happens if the piston area is increased?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Surface pressure falls because the same force is spread over more area."
+          },
+          {
+            "id": "b",
+            "label": "Surface pressure rises because a wider piston pushes on more fluid."
+          },
+          {
+            "id": "c",
+            "label": "Only hydrostatic pressure changes because the probe depth is unchanged."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Pressure from the surface load is $F/A$. Larger area means smaller pressure for the same force.",
+        "selectedWrongExplanations": {
+          "b": "A larger piston changes area, not the total force, so $F/A$ gets smaller rather than larger.",
+          "c": "Hydrostatic pressure stays the same here because density, gravity, and depth did not change."
+        },
+        "showMeAction": {
+          "label": "Show the wide piston",
+          "presetId": "wide-piston",
+          "observationHint": "The piston widens, the surface-pressure number drops, and the area graph bends downward.",
+          "highlightedControlIds": [
+            "area",
+            "force"
+          ],
+          "highlightedGraphIds": [
+            "pressure-area"
+          ],
+          "highlightedOverlayIds": [
+            "surfaceLoad"
+          ]
+        }
+      },
+      {
+        "id": "php-qt-same-depth",
+        "type": "compare-two-cases",
+        "prompt": "Two points are at the same depth in the same resting fluid. One is near the wall and one is near the center. Which statement is best?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "They have the same hydrostatic pressure because depth, density, and gravity are the same."
+          },
+          {
+            "id": "b",
+            "label": "The wall point has higher pressure because the wall blocks the fluid."
+          },
+          {
+            "id": "c",
+            "label": "The center point has higher pressure because more fluid surrounds it."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "In one connected resting fluid, same depth means the same hydrostatic contribution.",
+        "selectedWrongExplanations": {
+          "b": "The wall does not create a second pressure rule here. Depth is the relevant variable.",
+          "c": "Pressure at a point is not determined by how much fluid surrounds it sideways."
+        },
+        "showMeAction": {
+          "label": "Show the same-depth line",
+          "presetId": "water-baseline",
+          "observationHint": "The dashed same-depth line is the cue that both points share the same hydrostatic part.",
+          "highlightedControlIds": [
+            "depth"
+          ],
+          "highlightedGraphIds": [
+            "pressure-depth"
+          ],
+          "highlightedOverlayIds": [
+            "sameDepthLine",
+            "pressureArrows"
+          ]
+        }
+      },
+      {
+        "id": "php-qt-density",
+        "type": "reasoning",
+        "prompt": "At the same depth and surface load, why does a denser fluid give a larger probe pressure?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because $\\rho g h$ is larger, so each meter of depth adds more pressure."
+          },
+          {
+            "id": "b",
+            "label": "Because a denser fluid always increases the surface-pressure term $F/A$."
+          },
+          {
+            "id": "c",
+            "label": "Because pressure only depends on depth, not on density."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Density appears in the hydrostatic term. Higher density means a steeper pressure gradient with depth.",
+        "selectedWrongExplanations": {
+          "b": "The surface-pressure term depends only on force and area on this page.",
+          "c": "Depth matters, but density decides how much pressure each meter adds."
+        },
+        "showMeAction": {
+          "label": "Show denser fluid",
+          "presetId": "dense-brine",
+          "observationHint": "The density graph lifts the hydrostatic and total curves while the surface-pressure line stays flat.",
+          "highlightedControlIds": [
+            "density"
+          ],
+          "highlightedGraphIds": [
+            "pressure-density"
+          ],
+          "highlightedOverlayIds": [
+            "pressureArrows",
+            "depthGuide"
+          ]
+        }
+      },
+      {
+        "id": "php-qt-buoyancy-bridge",
+        "type": "misconception-check",
+        "prompt": "Why is the bottom of a submerged box pushed harder than the top in a resting fluid?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because the bottom is deeper, so the pressure there is larger."
+          },
+          {
+            "id": "b",
+            "label": "Because pressure in fluids only points upward."
+          },
+          {
+            "id": "c",
+            "label": "Because the bottom has more area than the top."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Pressure acts in all directions at each point, but deeper points have larger pressure. That top-to-bottom pressure difference is the root of buoyancy.",
+        "selectedWrongExplanations": {
+          "b": "Fluid pressure is not an upward-only rule. The net upward effect appears only because pressure is larger on the deeper side.",
+          "c": "Area matters for force from a given pressure, but the pressure difference itself comes from depth."
+        },
+        "showMeAction": {
+          "label": "Show the deeper probe",
+          "presetId": "deep-probe",
+          "observationHint": "The pressure arrows stay equal in all directions at the deeper point, but they are larger than at the shallow point.",
+          "highlightedControlIds": [
+            "depth"
+          ],
+          "highlightedGraphIds": [
+            "pressure-depth"
+          ],
+          "highlightedOverlayIds": [
+            "pressureArrows",
+            "depthGuide"
+          ]
+        }
+      },
+      {
+        "id": "php-qt-graph-reading",
+        "type": "graph-reading",
+        "prompt": "Which graph is the cleanest check of how fluid density changes hydrostatic pressure when force, area, depth, and gravity are held fixed?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Pressure vs density"
+          },
+          {
+            "id": "b",
+            "label": "Pressure vs force"
+          },
+          {
+            "id": "c",
+            "label": "Pressure vs area"
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "That graph isolates density as the only changing variable, so the hydrostatic and total responses are easiest to read.",
+        "selectedWrongExplanations": {
+          "b": "That graph isolates the surface-loading change instead.",
+          "c": "That graph isolates how the same force is spread over different areas."
+        },
+        "showMeAction": {
+          "label": "Open the density sweep",
+          "presetId": "water-baseline",
+          "observationHint": "The density sweep keeps the surface-pressure line flat while the hydrostatic and total curves lift together.",
+          "highlightedControlIds": [
+            "density"
+          ],
+          "highlightedGraphIds": [
+            "pressure-density"
+          ],
+          "highlightedOverlayIds": [
+            "depthGuide"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one piston pressing on a fluid tank and one probe at an adjustable depth. The piston width represents area, the downward arrow represents surface force, the probe depth marker shows how far below the surface the point is, and equal-length arrows around the probe show pressure acting equally in all directions at that point.",
+        "The readout card reports force, area, surface pressure, density, gravity, depth, hydrostatic pressure, and total probe pressure. Compare mode ghosts one second setup so the same tank can show two different ways to reach similar pressures.",
+        "All graphs on this page are response graphs for a static fluid. One graph varies depth, one varies density, one varies force, and one varies piston area while the other variables stay fixed."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The pressure-depth graph is the main hydrostatic graph. The surface-pressure line stays flat while the hydrostatic and total curves rise linearly with depth.",
+        "The density, force, and area graphs isolate the other levers. Density changes only the hydrostatic part, force changes only the surface-pressure part, and area changes the same surface load by spreading it out more or less."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Pressure and Hydrostatic Pressure | Open Model Lab",
+    "description": "Learn pressure and hydrostatic pressure with a compact fluid-tank simulation that connects force per area, depth, density, gravity, and fluid pressure honestly.",
+    "keywords": [
+      "pressure and hydrostatic pressure",
+      "force per area fluid pressure",
+      "hydrostatic pressure depth density gravity",
+      "same depth same pressure buoyancy bridge",
+      "open model lab pressure"
+    ]
+  }
+}

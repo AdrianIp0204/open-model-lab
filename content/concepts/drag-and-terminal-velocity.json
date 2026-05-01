@@ -1,0 +1,1094 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live drag checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Terminal-speed checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Bridge mechanics and fluids next"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Drop one object through a fluid, then change its mass, area, and drag strength to see why the fall settles into a steady terminal speed.",
+    "keyTakeaway": "Terminal velocity happens when upward drag has grown enough to balance weight, so acceleration fades while the object keeps moving downward."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "This page follows one object released from rest through one fluid. The downward weight stays fixed at $mg$, while the upward drag force starts near zero and grows with speed according to $F_d = kAv^2$. That changing force balance is why the fall does not behave like constant-acceleration free fall.",
+        "Terminal velocity is the balance point, not a mystery cap on motion. As the object speeds up, the drag arrow grows until it nearly matches the weight arrow. At that stage the net force shrinks toward zero, so the acceleration collapses and the speed levels off even though the object keeps moving downward.",
+        "Mass, area, and drag strength matter in different ways. More mass raises the weight that drag must match, so the terminal speed is higher. More area or stronger drag makes the same speed produce a larger resistive force, so the balance happens sooner and at a lower speed. This bounded model keeps gravity fixed, folds fluid-and-shape details into one drag-strength constant $k$, and ignores buoyancy so the force story stays compact and readable."
+      ]
+    },
+    "keyIdeas": [
+      "Drag starts small because the object starts with little speed, then grows rapidly as the fall speeds up.",
+      "Weight stays constant while drag changes, so the net downward force is largest early and much smaller near terminal speed.",
+      "Terminal velocity is a force-balance state: drag nearly matches weight, acceleration is near zero, and the object is still moving downward.",
+      "A larger mass raises terminal speed, while a larger area or stronger drag lowers terminal speed because they change how quickly drag catches the weight."
+    ],
+    "commonMisconception": {
+      "myth": "Terminal velocity happens because gravity turns off once the object has been falling for a while.",
+      "correction": [
+        "Gravity is still acting; the weight force stays essentially constant in this model.",
+        "The changing part is drag. It grows with speed until it nearly matches weight, leaving very little net downward force."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live drag checks",
+      "intro": "Use the live bench directly. The current controls set the terminal-speed prediction, and the current time on the rail sets the live force-balance example.",
+      "items": [
+        {
+          "id": "current-terminal-speed",
+          "title": "Current terminal speed",
+          "prompt": "For the current setup with $m = {{massValue}}$, $A = {{areaValue}}$, and $k = {{dragStrengthValue}}$, what terminal speed does the bounded drag model predict?",
+          "variables": [
+            {
+              "id": "mass",
+              "variableId": "mass",
+              "symbol": "m",
+              "label": "Mass",
+              "valueKey": "massValue",
+              "unit": "kg"
+            },
+            {
+              "id": "area",
+              "variableId": "area",
+              "symbol": "A",
+              "label": "Area",
+              "valueKey": "areaValue",
+              "unit": "m^2"
+            },
+            {
+              "id": "dragStrength",
+              "variableId": "dragStrength",
+              "symbol": "k",
+              "label": "Drag strength",
+              "valueKey": "dragStrengthValue"
+            },
+            {
+              "id": "weight",
+              "symbol": "W",
+              "label": "Weight",
+              "valueKey": "weightValue",
+              "unit": "N"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-weight",
+              "label": "1. Turn mass into the constant downward weight",
+              "template": "With gravity fixed on this page, the current setup gives $W = mg = {{weightValue}}\\,\\mathrm{N}$."
+            },
+            {
+              "id": "set-balance",
+              "label": "2. Use the terminal-speed balance condition",
+              "template": "Terminal speed is where drag catches the weight, so $kAv_t^2 = mg$ with $k = {{dragStrengthValue}}$ and $A = {{areaValue}}\\,\\mathrm{m^2}$."
+            },
+            {
+              "id": "solve-terminal-speed",
+              "label": "3. Solve for the resulting balance speed",
+              "template": "That gives $v_t = \\sqrt{mg/(kA)} = {{terminalSpeedValue}}\\,\\mathrm{m/s}$ for the current controls."
+            }
+          ],
+          "resultLabel": "Current terminal speed",
+          "resultTemplate": "$W = {{weightValue}}\\,\\mathrm{N}, \\quad v_t = {{terminalSpeedValue}}\\,\\mathrm{m/s}$",
+          "interpretationTemplate": "{{terminalSpeedInterpretation}}",
+          "applyAction": {
+            "label": "Show the heavier mass",
+            "presetId": "heavy-sphere",
+            "observationHint": "The weight arrow is larger, so the speed curve has to level off at a higher terminal value before drag can match it.",
+            "highlightedControlIds": [
+              "mass"
+            ],
+            "highlightedGraphIds": [
+              "terminal-speed-mass",
+              "speed-history"
+            ],
+            "highlightedOverlayIds": [
+              "forceBalance",
+              "terminalBand"
+            ]
+          }
+        },
+        {
+          "id": "current-force-balance",
+          "title": "Current force balance at this moment",
+          "prompt": "At $t = {{timeValue}}$, the object is moving at ${{speedValue}}\\,\\mathrm{m/s}$. What drag force and net downward force does that imply right now?",
+          "dependsOnTime": true,
+          "variables": [
+            {
+              "id": "time",
+              "symbol": "t",
+              "label": "Current time",
+              "valueKey": "timeValue",
+              "unit": "s"
+            },
+            {
+              "id": "speed",
+              "symbol": "v",
+              "label": "Current speed",
+              "valueKey": "speedValue",
+              "unit": "m/s"
+            },
+            {
+              "id": "dragStrength",
+              "variableId": "dragStrength",
+              "symbol": "k",
+              "label": "Drag strength",
+              "valueKey": "dragStrengthValue"
+            },
+            {
+              "id": "area",
+              "variableId": "area",
+              "symbol": "A",
+              "label": "Area",
+              "valueKey": "areaValue",
+              "unit": "m^2"
+            },
+            {
+              "id": "weight",
+              "symbol": "W",
+              "label": "Weight",
+              "valueKey": "weightValue",
+              "unit": "N"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-live-speed",
+              "label": "1. Read the live speed from the stage or speed graph",
+              "template": "Right now the bench is showing $v = {{speedValue}}\\,\\mathrm{m/s}$ at $t = {{timeValue}}\\,\\mathrm{s}$."
+            },
+            {
+              "id": "compute-drag",
+              "label": "2. Use the drag law at that speed",
+              "template": "With $F_d = kAv^2$, the current setup gives $F_d = {{dragForceValue}}\\,\\mathrm{N}$."
+            },
+            {
+              "id": "compare-forces",
+              "label": "3. Compare drag with weight to get the net force",
+              "template": "The weight is still ${{weightValue}}\\,\\mathrm{N}$, so the net downward force is $F_{net} = W - F_d = {{netForceValue}}\\,\\mathrm{N}$ and the downward acceleration is ${{accelerationValue}}\\,\\mathrm{m/s^2}$."
+            }
+          ],
+          "resultLabel": "Current balance state",
+          "resultTemplate": "$F_d = {{dragForceValue}}\\,\\mathrm{N}, \\quad F_{net} = {{netForceValue}}\\,\\mathrm{N}, \\quad a = {{accelerationValue}}\\,\\mathrm{m/s^2}$",
+          "interpretationTemplate": "{{balanceInterpretation}}",
+          "applyAction": {
+            "label": "Show the low-terminal setup",
+            "presetId": "draggy-disk",
+            "observationHint": "The speed curve flattens quickly, the drag arrow catches the weight, and the net-force line sinks close to zero.",
+            "highlightedControlIds": [
+              "area",
+              "dragStrength"
+            ],
+            "highlightedGraphIds": [
+              "force-balance",
+              "speed-history"
+            ],
+            "highlightedOverlayIds": [
+              "forceBalance",
+              "terminalBand"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Two objects use the same drag strength and the same frontal area, but one has twice the mass. Which one has the higher terminal speed?",
+      "prediction": "Use the force balance $kAv_t^2 = mg$: which setup needs drag to grow to a larger value before it can balance weight?",
+      "answer": "The heavier object has the higher terminal speed.",
+      "explanation": "The heavier object has the larger constant weight. With the same $k$ and area, drag can match that larger weight only at a higher speed, so the terminal speed is higher."
+    }
+  },
+  "equations": [
+    {
+      "id": "drag-law",
+      "latex": "F_d = kAv^2",
+      "label": "Quadratic drag for this bounded model",
+      "meaning": "The upward resistive force grows with speed, area, and the lumped drag-strength constant."
+    },
+    {
+      "id": "weight-force",
+      "latex": "W = mg",
+      "label": "Weight",
+      "meaning": "Gravity keeps the downward weight essentially constant while the object falls."
+    },
+    {
+      "id": "terminal-balance",
+      "latex": "kAv_t^2 = mg",
+      "label": "Force balance at terminal speed",
+      "meaning": "Terminal speed is the speed where drag has grown enough to match the weight."
+    },
+    {
+      "id": "terminal-speed",
+      "latex": "v_t = \\sqrt{\\dfrac{mg}{kA}}",
+      "label": "Terminal-speed formula",
+      "meaning": "A larger mass raises terminal speed, while a larger area or stronger drag lowers it.",
+      "notes": [
+        "Here $k$ packages the fluid-and-shape details so the page can stay focused on one compact drag model."
+      ]
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "mass",
+      "symbol": "m",
+      "label": "Mass",
+      "param": "mass",
+      "tone": "amber",
+      "description": "Raises the constant weight. With the same area and drag strength, the object must reach a higher speed before drag can balance it.",
+      "equationIds": [
+        "weight-force",
+        "terminal-balance",
+        "terminal-speed"
+      ],
+      "graphIds": [
+        "speed-history",
+        "terminal-speed-mass"
+      ],
+      "overlayIds": [
+        "forceBalance",
+        "terminalBand"
+      ]
+    },
+    {
+      "id": "area",
+      "symbol": "A",
+      "label": "Area",
+      "param": "area",
+      "tone": "sky",
+      "description": "Sets how much drag the object gets at the same speed. A larger area lowers the speed needed for drag to catch the weight.",
+      "equationIds": [
+        "drag-law",
+        "terminal-balance",
+        "terminal-speed"
+      ],
+      "graphIds": [
+        "force-balance",
+        "terminal-speed-area"
+      ],
+      "overlayIds": [
+        "forceBalance",
+        "terminalBand"
+      ]
+    },
+    {
+      "id": "dragStrength",
+      "symbol": "k",
+      "label": "Drag strength",
+      "param": "dragStrength",
+      "tone": "coral",
+      "description": "Packages how strongly this fluid-and-shape model resists motion. Larger $k$ makes drag grow faster at every speed and lowers terminal speed.",
+      "equationIds": [
+        "drag-law",
+        "terminal-balance",
+        "terminal-speed"
+      ],
+      "graphIds": [
+        "force-balance",
+        "terminal-speed-drag-strength"
+      ],
+      "overlayIds": [
+        "forceBalance",
+        "terminalBand"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "mass": 2,
+      "area": 0.05,
+      "dragStrength": 12
+    },
+    "ui": {
+      "initialGraphId": "force-balance",
+      "primaryGraphIds": [
+        "force-balance"
+      ],
+      "primaryControlIds": [
+        "mass"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "mass",
+        "kind": "slider",
+        "label": "Mass",
+        "param": "mass",
+        "min": 0.6,
+        "max": 4,
+        "step": 0.1,
+        "unit": "kg",
+        "description": "Changes the constant weight that drag eventually has to balance."
+      },
+      {
+        "id": "area",
+        "kind": "slider",
+        "label": "Area",
+        "param": "area",
+        "min": 0.03,
+        "max": 0.14,
+        "step": 0.005,
+        "unit": "m^2",
+        "description": "Changes how much drag the object gets at the same speed."
+      },
+      {
+        "id": "dragStrength",
+        "kind": "slider",
+        "label": "Drag strength",
+        "param": "dragStrength",
+        "min": 8,
+        "max": 22,
+        "step": 0.5,
+        "description": "Lumped fluid-and-shape drag constant for this bounded page."
+      }
+    ],
+    "presets": [
+      {
+        "id": "baseline-drop",
+        "label": "Baseline drop",
+        "description": "A medium-mass object with moderate area and moderate drag strength.",
+        "values": {
+          "mass": 2,
+          "area": 0.05,
+          "dragStrength": 12
+        }
+      },
+      {
+        "id": "heavy-sphere",
+        "label": "Heavy sphere",
+        "description": "The same area and drag strength, but much more mass.",
+        "values": {
+          "mass": 4,
+          "area": 0.05,
+          "dragStrength": 12
+        }
+      },
+      {
+        "id": "wide-canopy",
+        "label": "Wide canopy",
+        "description": "A much larger area makes drag catch up sooner.",
+        "values": {
+          "mass": 2,
+          "area": 0.1,
+          "dragStrength": 12
+        }
+      },
+      {
+        "id": "thick-fluid",
+        "label": "Thick fluid",
+        "description": "Stronger drag lowers the eventual fall speed even without changing the mass.",
+        "values": {
+          "mass": 2,
+          "area": 0.05,
+          "dragStrength": 20
+        }
+      },
+      {
+        "id": "matched-ratio",
+        "label": "Matched ratio",
+        "description": "Doubling both mass and area keeps the same terminal-speed ratio when drag strength stays fixed.",
+        "values": {
+          "mass": 4,
+          "area": 0.1,
+          "dragStrength": 12
+        }
+      },
+      {
+        "id": "draggy-disk",
+        "label": "Draggy disk",
+        "description": "Large area and strong drag create a low terminal speed quickly.",
+        "values": {
+          "mass": 1.2,
+          "area": 0.12,
+          "dragStrength": 18
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "forceBalance",
+        "label": "Force balance",
+        "shortDescription": "Shows the constant weight arrow, the upward drag arrow, and the shrinking net-force arrow.",
+        "whatToNotice": [
+          "The weight arrow hardly changes, but the drag arrow grows with speed until the two nearly match."
+        ],
+        "whyItMatters": "It keeps terminal velocity tied to force balance instead of treating it like a memorized speed limit.",
+        "relatedControls": [
+          "mass",
+          "area",
+          "dragStrength"
+        ],
+        "relatedGraphTabs": [
+          "force-balance",
+          "speed-history"
+        ],
+        "relatedEquationVariables": [
+          "mass",
+          "area",
+          "dragStrength"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "terminalBand",
+        "label": "Terminal-speed cue",
+        "shortDescription": "Shows the current terminal-speed label and how close the drag force is to the weight.",
+        "whatToNotice": [
+          "The object does not stop at terminal speed. It keeps moving while the speed levels off because the net force is nearly zero."
+        ],
+        "whyItMatters": "It separates force balance from position change, which is the core terminal-velocity idea.",
+        "relatedControls": [
+          "mass",
+          "area",
+          "dragStrength"
+        ],
+        "relatedGraphTabs": [
+          "speed-history",
+          "terminal-speed-mass",
+          "terminal-speed-area",
+          "terminal-speed-drag-strength"
+        ],
+        "relatedEquationVariables": [
+          "mass",
+          "area",
+          "dragStrength"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "distanceGuide",
+        "label": "Distance guide",
+        "shortDescription": "Marks how far the object has fallen through the fluid column.",
+        "whatToNotice": [
+          "Once the speed curve flattens, the object still keeps covering distance, but the position starts growing almost linearly instead of from rapid acceleration."
+        ],
+        "whyItMatters": "It prevents the mistake of confusing constant speed with zero motion.",
+        "relatedControls": [
+          "mass",
+          "area",
+          "dragStrength"
+        ],
+        "relatedGraphTabs": [
+          "speed-history"
+        ],
+        "relatedEquationVariables": [
+          "mass",
+          "area",
+          "dragStrength"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "speed-history",
+      "label": "Speed vs time",
+      "xLabel": "time (s)",
+      "yLabel": "speed (m/s)",
+      "series": [
+        "speed",
+        "terminal-speed"
+      ],
+      "description": "The speed curve rises quickly at first and then levels toward the flat terminal-speed line because drag is catching up to the weight."
+    },
+    {
+      "id": "force-balance",
+      "label": "Force balance vs time",
+      "xLabel": "time (s)",
+      "yLabel": "force (N)",
+      "series": [
+        "weight",
+        "drag-force",
+        "net-force"
+      ],
+      "description": "Weight stays flat, drag grows, and the net downward force shrinks toward zero as the object approaches terminal speed."
+    },
+    {
+      "id": "terminal-speed-mass",
+      "label": "Terminal speed vs mass",
+      "xLabel": "mass (kg)",
+      "yLabel": "terminal speed (m/s)",
+      "series": [
+        "terminal-speed-vs-mass"
+      ],
+      "description": "Hold area and drag strength fixed while changing only mass. Heavier objects need a larger speed before drag can balance the larger weight."
+    },
+    {
+      "id": "terminal-speed-area",
+      "label": "Terminal speed vs area",
+      "xLabel": "area (m^2)",
+      "yLabel": "terminal speed (m/s)",
+      "series": [
+        "terminal-speed-vs-area"
+      ],
+      "description": "Hold mass and drag strength fixed while changing only the object's frontal area. More area means more drag at the same speed, so terminal speed falls."
+    },
+    {
+      "id": "terminal-speed-drag-strength",
+      "label": "Terminal speed vs drag strength",
+      "xLabel": "drag strength k",
+      "yLabel": "terminal speed (m/s)",
+      "series": [
+        "terminal-speed-vs-drag-strength"
+      ],
+      "description": "Hold mass and area fixed while changing only the drag-strength constant. Stronger drag lowers the speed needed for force balance."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Keep one force question live at a time so the stage, the time rail, and the graphs stay tied to the same fall.",
+    "items": [
+      {
+        "id": "drag-starts-small",
+        "text": "Right after release the object is not already at terminal speed because drag depends on speed. At very small $v$, the drag arrow is still much smaller than the constant weight arrow.",
+        "type": "observation",
+        "relatedGraphTabs": [
+          "speed-history",
+          "force-balance"
+        ],
+        "relatedOverlays": [
+          "forceBalance"
+        ],
+        "relatedEquationVariables": [
+          "area",
+          "dragStrength"
+        ]
+      },
+      {
+        "id": "forces-not-motion-disappear",
+        "text": "Near terminal speed, the object is still moving downward even though the net force is tiny. Force balance makes the acceleration nearly vanish; it does not erase the speed already built up.",
+        "type": "misconception",
+        "conditions": {
+          "inspectState": "inspect"
+        },
+        "tryThis": "Pause late in the fall and compare the small net-force line with the still-positive speed line.",
+        "whyItMatters": "This is the key difference between terminal velocity and coming to rest.",
+        "relatedGraphTabs": [
+          "speed-history",
+          "force-balance"
+        ],
+        "relatedOverlays": [
+          "forceBalance",
+          "terminalBand"
+        ]
+      },
+      {
+        "id": "mass-raises-terminal-speed",
+        "text": "On the mass sweep, larger mass raises the terminal-speed curve because the constant weight is larger while the drag law itself has not changed.",
+        "type": "graph-reading",
+        "relatedControls": [
+          "mass"
+        ],
+        "relatedGraphTabs": [
+          "terminal-speed-mass"
+        ],
+        "relatedOverlays": [
+          "forceBalance",
+          "terminalBand"
+        ],
+        "relatedEquationVariables": [
+          "mass"
+        ]
+      },
+      {
+        "id": "area-lowers-terminal-speed",
+        "text": "On the area sweep, a larger frontal area lowers terminal speed because the same speed now creates a larger drag force.",
+        "type": "graph-reading",
+        "relatedControls": [
+          "area"
+        ],
+        "relatedGraphTabs": [
+          "terminal-speed-area"
+        ],
+        "relatedOverlays": [
+          "terminalBand"
+        ],
+        "relatedEquationVariables": [
+          "area"
+        ]
+      },
+      {
+        "id": "same-terminal-different-cause",
+        "text": "Use compare mode to match the same terminal speed with two different setups. Equal terminal speed does not mean the mass, area, or drag strength are the same; it means the ratio $mg/(kA)$ matches.",
+        "type": "try-this",
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Start from Baseline drop, copy it into compare mode, then turn Setup B into Matched ratio. The terminal-speed labels match even though Setup B is both heavier and larger.",
+        "relatedControls": [
+          "mass",
+          "area"
+        ],
+        "relatedGraphTabs": [
+          "terminal-speed-mass",
+          "terminal-speed-area"
+        ],
+        "relatedOverlays": [
+          "terminalBand",
+          "forceBalance"
+        ],
+        "relatedEquationVariables": [
+          "mass",
+          "area",
+          "dragStrength"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict which force grows or which balance speed shifts before you run the new setup.",
+    "items": [
+      {
+        "id": "dtv-predict-area",
+        "prompt": "Starting from Baseline drop, you increase the area while keeping mass and drag strength fixed. What should happen?",
+        "scenarioLabel": "Larger area",
+        "changeLabel": "Area",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Drag grows more strongly at the same speed, so the speed curve levels off sooner and terminal speed is lower."
+          },
+          {
+            "id": "b",
+            "label": "Weight increases, so terminal speed is higher."
+          },
+          {
+            "id": "c",
+            "label": "Nothing changes because area only affects position, not force."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Area appears directly in the drag law $F_d = kAv^2$, so a larger area makes drag stronger at every speed and lowers terminal speed.",
+        "observationHint": "The force-balance graph shows the drag line rising toward the weight line sooner, and the terminal-speed-area graph drops as area grows.",
+        "apply": {
+          "presetId": "wide-canopy"
+        },
+        "highlightedControls": [
+          "area"
+        ],
+        "highlightedGraphs": [
+          "force-balance",
+          "terminal-speed-area"
+        ],
+        "highlightedOverlays": [
+          "forceBalance",
+          "terminalBand"
+        ]
+      },
+      {
+        "id": "dtv-predict-mass",
+        "prompt": "Starting from Baseline drop, you double the mass while keeping area and drag strength fixed. Which statement is best?",
+        "scenarioLabel": "Heavier object",
+        "changeLabel": "Mass",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The weight is larger, so drag has to grow to a higher speed before the forces balance."
+          },
+          {
+            "id": "b",
+            "label": "Drag becomes weaker at the same speed because heavier objects cut through the fluid."
+          },
+          {
+            "id": "c",
+            "label": "Terminal speed stays the same because mass does not appear in the drag law."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Mass changes the weight side of the balance, so a heavier object reaches a higher terminal speed even though the drag law itself is unchanged.",
+        "observationHint": "The speed-history line approaches a larger flat terminal-speed value when you switch to the heavier setup.",
+        "apply": {
+          "presetId": "heavy-sphere"
+        },
+        "highlightedControls": [
+          "mass"
+        ],
+        "highlightedGraphs": [
+          "speed-history",
+          "terminal-speed-mass"
+        ],
+        "highlightedOverlays": [
+          "forceBalance",
+          "terminalBand"
+        ]
+      },
+      {
+        "id": "dtv-predict-drag-strength",
+        "prompt": "Starting from Baseline drop, you move into a thicker fluid so the drag strength is larger. What changes next?",
+        "scenarioLabel": "Stronger drag",
+        "changeLabel": "Drag strength",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The drag force builds faster at every speed, so the object settles into a lower terminal speed."
+          },
+          {
+            "id": "b",
+            "label": "The weight force falls because the fluid is thicker."
+          },
+          {
+            "id": "c",
+            "label": "Only the position ruler changes; the speed and force graphs stay the same."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A larger $k$ makes drag stronger for the same $A$ and $v$, so the balance with weight happens at a lower speed.",
+        "observationHint": "The terminal-speed-drag-strength graph slopes downward, and the force-balance graph reaches the near-equality region earlier in time.",
+        "apply": {
+          "presetId": "thick-fluid"
+        },
+        "highlightedControls": [
+          "dragStrength"
+        ],
+        "highlightedGraphs": [
+          "force-balance",
+          "terminal-speed-drag-strength"
+        ],
+        "highlightedOverlays": [
+          "forceBalance",
+          "terminalBand"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the falling-body bench to prove two terminal-velocity claims: tune a slower fall by changing the drag side of the balance, then pause at the moment drag and weight nearly match.",
+    "items": [
+      {
+        "id": "dtv-ch-slow-the-fall",
+        "title": "Build a slower terminal-speed case",
+        "style": "parameter-match",
+        "prompt": "Starting from Baseline drop, keep the mass near $2\\,\\mathrm{kg}$ and lower the terminal speed by increasing both area and drag strength.",
+        "successMessage": "You lowered the terminal speed by making drag catch the same weight sooner. The object still falls, but it settles into a slower constant-speed regime.",
+        "setup": {
+          "presetId": "baseline-drop",
+          "note": "Use the terminal-speed graphs and keep the mass close to baseline."
+        },
+        "requirements": {
+          "graphId": "terminal-speed-area",
+          "overlayIds": [
+            "terminalBand"
+          ]
+        },
+        "hints": [
+          "Keep mass near baseline, so the speed change must come from the drag side of the balance.",
+          "A larger area and a stronger drag constant both lower terminal speed; combine them instead of moving only one control."
+        ],
+        "targets": [
+          {
+            "param": "mass",
+            "label": "Keep the mass near $2.0\\,\\mathrm{kg}$.",
+            "min": 1.9,
+            "max": 2.1,
+            "displayUnit": "kg"
+          },
+          {
+            "param": "area",
+            "label": "Raise the area to about $0.10\\,\\mathrm{m^2}$.",
+            "min": 0.095,
+            "max": 0.105,
+            "displayUnit": "m^2"
+          },
+          {
+            "param": "dragStrength",
+            "label": "Raise the drag strength to about $18$.",
+            "min": 17.5,
+            "max": 18.5
+          },
+          {
+            "metric": "terminalSpeed",
+            "label": "Bring the terminal speed into the $3.2$ to $3.5\\,\\mathrm{m/s}$ band.",
+            "min": 3.2,
+            "max": 3.5,
+            "displayUnit": "m/s"
+          }
+        ]
+      },
+      {
+        "id": "dtv-ch-freeze-near-terminal",
+        "title": "Catch the near-terminal moment",
+        "style": "visible-condition",
+        "prompt": "Starting from Draggy disk, pause when drag is almost equal to weight and the remaining net downward force is tiny.",
+        "successMessage": "You found the near-terminal moment. The object is still moving, but the force imbalance is now so small that the speed is hardly changing.",
+        "setup": {
+          "presetId": "draggy-disk",
+          "note": "Pause the fall and scrub until the drag and weight readouts are almost matched."
+        },
+        "requirements": {
+          "graphId": "force-balance",
+          "overlayIds": [
+            "forceBalance",
+            "terminalBand"
+          ],
+          "timeSource": "inspect"
+        },
+        "hints": [
+          "Look for the drag line almost touching the weight line while the net-force line sits close to zero.",
+          "Late in this low-terminal-speed setup, the speed is still positive even though the force imbalance is tiny."
+        ],
+        "targets": [
+          {
+            "metric": "netForce",
+            "label": "Make the net downward force smaller than about $0.35\\,\\mathrm{N}$.",
+            "min": 0,
+            "max": 0.35,
+            "displayUnit": "N"
+          },
+          {
+            "metric": "terminalGap",
+            "label": "Bring the current speed within about $0.10\\,\\mathrm{m/s}$ of terminal speed.",
+            "min": 0,
+            "max": 0.1,
+            "displayUnit": "m/s"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Use the force story, not just the formula. Each question checks whether the drag-balance picture is stable enough to explain the graphs.",
+    "questions": [
+      {
+        "id": "dtv-qt-area",
+        "type": "variable-effect",
+        "prompt": "At the same mass and drag strength, what does a larger area do to terminal speed?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It lowers terminal speed because drag is larger at the same speed."
+          },
+          {
+            "id": "b",
+            "label": "It raises terminal speed because the object has more room to accelerate."
+          },
+          {
+            "id": "c",
+            "label": "It does nothing because terminal speed depends only on mass."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Area sits directly in the drag law, so a larger area means the same speed produces more drag and the balance with weight happens earlier.",
+        "selectedWrongExplanations": {
+          "b": "A larger area changes drag, not the amount of room available for acceleration.",
+          "c": "Mass matters, but terminal speed also depends on the drag side of the balance through $kA$."
+        },
+        "showMeAction": {
+          "label": "Show the wide canopy",
+          "presetId": "wide-canopy",
+          "observationHint": "The terminal-speed-area graph slopes downward, and the speed curve flattens at a smaller value.",
+          "highlightedControlIds": [
+            "area"
+          ],
+          "highlightedGraphIds": [
+            "terminal-speed-area",
+            "speed-history"
+          ],
+          "highlightedOverlayIds": [
+            "terminalBand"
+          ]
+        }
+      },
+      {
+        "id": "dtv-qt-mass",
+        "type": "reasoning",
+        "prompt": "Why does a heavier object have a higher terminal speed when area and drag strength stay fixed?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because the constant weight is larger, so drag must grow to a higher speed before the forces balance."
+          },
+          {
+            "id": "b",
+            "label": "Because heavier objects automatically make the drag law weaker."
+          },
+          {
+            "id": "c",
+            "label": "Because gravity becomes stronger for heavier objects."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Mass changes the weight side of the balance. The drag law is unchanged, so the speed at balance must rise.",
+        "selectedWrongExplanations": {
+          "b": "The drag law still uses the same $k$, $A$, and $v^2$. Mass changes the weight that drag must match.",
+          "c": "Gravity is fixed on this page. The weight grows only because $m$ grows."
+        },
+        "showMeAction": {
+          "label": "Show the heavier mass",
+          "presetId": "heavy-sphere",
+          "observationHint": "The weight arrow is larger, and the terminal-speed-mass graph climbs as mass increases.",
+          "highlightedControlIds": [
+            "mass"
+          ],
+          "highlightedGraphIds": [
+            "terminal-speed-mass",
+            "force-balance"
+          ],
+          "highlightedOverlayIds": [
+            "forceBalance",
+            "terminalBand"
+          ]
+        }
+      },
+      {
+        "id": "dtv-qt-terminal",
+        "type": "misconception-check",
+        "prompt": "Which statement is best at terminal velocity?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The object still moves downward, but drag and weight are nearly equal so the acceleration is near zero."
+          },
+          {
+            "id": "b",
+            "label": "The object has stopped, so both drag and weight are zero."
+          },
+          {
+            "id": "c",
+            "label": "Gravity has turned off, so only drag is left."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Terminal velocity is a force-balance statement, not a stopped-motion statement. The speed is steady because the net force is near zero.",
+        "selectedWrongExplanations": {
+          "b": "Terminal velocity is not rest. The object keeps moving even when the speed is no longer changing much.",
+          "c": "Weight remains present. It is the upward drag force that grows until it nearly matches the weight."
+        },
+        "showMeAction": {
+          "label": "Show the low-terminal case",
+          "presetId": "draggy-disk",
+          "observationHint": "Late in the fall the speed is still positive even though the force lines are almost balanced.",
+          "highlightedGraphIds": [
+            "speed-history",
+            "force-balance"
+          ],
+          "highlightedOverlayIds": [
+            "forceBalance",
+            "terminalBand"
+          ]
+        }
+      },
+      {
+        "id": "dtv-qt-release",
+        "type": "graph-reading",
+        "prompt": "Why is the drag force almost zero right after release on the force-balance graph?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because the speed is still near zero, so the $v^2$ drag term is tiny."
+          },
+          {
+            "id": "b",
+            "label": "Because the fluid is not touching the object yet."
+          },
+          {
+            "id": "c",
+            "label": "Because weight is cancelled immediately at release."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The drag law on this page depends on speed. With almost no speed yet, the drag force is still tiny even though the object is already in the fluid.",
+        "selectedWrongExplanations": {
+          "b": "The object is in the same fluid the whole time. The change is speed, not contact.",
+          "c": "Weight is still present at release, which is why the net force starts large."
+        },
+        "showMeAction": {
+          "label": "Restart the baseline drop",
+          "presetId": "baseline-drop",
+          "observationHint": "Near t = 0, the drag line begins near zero while the weight line is already flat and positive.",
+          "highlightedGraphIds": [
+            "force-balance",
+            "speed-history"
+          ],
+          "highlightedOverlayIds": [
+            "forceBalance"
+          ]
+        }
+      },
+      {
+        "id": "dtv-qt-ratio",
+        "type": "compare-two-cases",
+        "prompt": "Setup A is Baseline drop. Setup B doubles both mass and area while keeping drag strength the same. Which statement is best?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The terminal speeds can stay the same because both the weight and the drag area have doubled together."
+          },
+          {
+            "id": "b",
+            "label": "Setup B must have a much lower terminal speed because area matters more than mass."
+          },
+          {
+            "id": "c",
+            "label": "Setup B must have a much higher terminal speed because mass matters and area does not."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Terminal speed depends on the ratio $mg/(kA)$. Doubling both mass and area keeps that ratio the same when $k$ is fixed.",
+        "selectedWrongExplanations": {
+          "b": "Area does lower terminal speed, but here mass increased by the same factor so the balance ratio is unchanged.",
+          "c": "Area still matters directly through the drag side of the balance."
+        },
+        "showMeAction": {
+          "label": "Show the matched-ratio case",
+          "presetId": "matched-ratio",
+          "observationHint": "The control values are different, but the terminal-speed label matches the baseline ratio when mass and area scale together.",
+          "highlightedControlIds": [
+            "mass",
+            "area"
+          ],
+          "highlightedGraphIds": [
+            "terminal-speed-mass",
+            "terminal-speed-area"
+          ],
+          "highlightedOverlayIds": [
+            "terminalBand"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one object dropping through one fluid column with a distance ruler on the left and a readout card on the right. The object changes width with area, while mass is represented through the force readouts rather than by resizing the object itself. Optional overlays show a constant downward weight arrow, an upward drag arrow that grows with speed, a net-force arrow, a terminal-speed cue, and a distance guide.",
+        "The time rail controls one bounded fall from rest over four seconds. Compare mode can ghost a second setup behind the current one so two force-balance stories stay on the same scale.",
+        "The readout card reports mass, area, drag strength, distance fallen, current speed, terminal speed, drag force, and net downward force."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The speed-history graph is the main motion graph. The speed curve rises and then flattens toward the constant terminal-speed line.",
+        "The force-balance graph keeps the forces honest: weight stays flat, drag rises, and the net downward force shrinks toward zero.",
+        "The three response graphs isolate mass, area, and drag strength. The mass sweep rises, while the area and drag-strength sweeps fall because larger drag-side factors lower terminal speed."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Drag and Terminal Velocity | Open Model Lab",
+    "description": "Learn drag and terminal velocity with a compact falling-body simulation that keeps force balance, speed, and terminal-speed tradeoffs tied to one honest fluid model.",
+    "keywords": [
+      "drag and terminal velocity",
+      "terminal speed",
+      "fluid resistance",
+      "quadratic drag",
+      "force balance",
+      "mass area drag strength"
+    ]
+  }
+}

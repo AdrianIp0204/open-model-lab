@@ -1,0 +1,1228 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live Bohr checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Hydrogen-line checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Carry the hydrogen story forward"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Use a compact hydrogen bench to connect quantized energy levels, allowed transitions, and named spectral-line series while staying clear that Bohr is a useful historical model rather than the final quantum description.",
+    "keyTakeaway": "For hydrogen in the Bohr model, the allowed energies follow E_n = -13.6 eV / n^2, so only certain transition gaps exist.",
+    "whyItMatters": "Bohr's hydrogen model is the bridge between measured spectral lines and quantum rules: once each line is tied to one allowed energy gap, series names, wavelengths, and model limits stop feeling like separate facts."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "The Bohr model is a bounded historical hydrogen model: it gives electrons only certain allowed energy levels, so light comes from discrete transitions rather than from any arbitrary orbital drop. That makes it a strong bridge from observed line spectra to quantized atomic structure without pretending to be the final quantum description.",
+        "This module keeps one compact bench with a radius map, an energy ladder, a hydrogen line map, and one wavelength graph. The selected transition, its wavelength, its series family, its reverse excitation case, the worked examples, quick tests, and challenge checks all stay tied to that same live state."
+      ]
+    },
+    "keyIdeas": [
+      "For hydrogen in the Bohr model, the allowed energies follow E_n = -13.6 eV / n^2, so only certain transition gaps exist.",
+      "Holding the lower level fixed creates named hydrogen series such as Lyman, Balmer, and Paschen.",
+      "Within one series, higher starting levels crowd the lines toward a series limit because the upper energies bunch closer together.",
+      "This page treats Bohr as a useful historical and conceptual model for hydrogen spectral lines, not as the final quantum-mechanical picture."
+    ],
+    "commonMisconception": {
+      "myth": "If the electron can orbit the nucleus, it should be able to fall from any radius to any other and emit any color you want.",
+      "correction": [
+        "In the bounded Bohr model, only specific energy levels are allowed, so only specific transition gaps and wavelengths appear.",
+        "Modern quantum mechanics replaces the literal orbit picture, but the quantized-level idea still explains why hydrogen line spectra are discrete."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live Bohr checks",
+      "intro": "Use the current hydrogen transition directly from the live bench. The same levels, graph, overlays, and readout card drive each worked result.",
+      "items": [
+        {
+          "id": "active-transition-wavelength",
+          "title": "Current transition and wavelength",
+          "prompt": "For the current transition {{activeLabelValue}}, what photon energy and wavelength belong to this Bohr jump?",
+          "variables": [
+            {
+              "id": "upperLevel",
+              "variableId": "upperLevel",
+              "symbol": "n_i",
+              "label": "Upper level",
+              "valueKey": "upperLevelValue"
+            },
+            {
+              "id": "lowerLevel",
+              "variableId": "lowerLevel",
+              "symbol": "n_f",
+              "label": "Lower level",
+              "valueKey": "lowerLevelValue"
+            },
+            {
+              "id": "gap",
+              "symbol": "\\Delta E",
+              "label": "Transition energy",
+              "valueKey": "gapValue",
+              "unit": "eV"
+            },
+            {
+              "id": "wavelength",
+              "symbol": "\\lambda",
+              "label": "Photon wavelength",
+              "valueKey": "wavelengthValue",
+              "unit": "nm"
+            }
+          ],
+          "steps": [
+            {
+              "id": "identify-jump",
+              "label": "1. Identify the live jump",
+              "template": "The bench is currently showing {{activeLabelValue}}, so the electron changes between n = {{upperLevelValue}} and n = {{lowerLevelValue}}."
+            },
+            {
+              "id": "read-gap",
+              "label": "2. Read the quantized gap",
+              "template": "That allowed hydrogen gap is {{gapValue}} on the live ladder and readout card."
+            },
+            {
+              "id": "convert-gap",
+              "label": "3. Convert the gap to a photon wavelength",
+              "template": "Using $\\lambda = hc / \\Delta E$, this jump gives {{wavelengthValue}} in the {{bandValue}}."
+            }
+          ],
+          "resultLabel": "Current transition",
+          "resultTemplate": "$\\Delta E = {{gapValue}}, \\; \\lambda = {{wavelengthValue}}, \\; {{bandValue}}$",
+          "interpretationTemplate": "{{transitionInterpretation}}",
+          "applyAction": {
+            "label": "Show the red Balmer line",
+            "presetId": "balmer-alpha",
+            "observationHint": "Keep the ladder arrow, wavelength strip, and graph aligned while the red Balmer line appears.",
+            "highlightedControlIds": [
+              "upperLevel",
+              "lowerLevel"
+            ],
+            "highlightedGraphIds": [
+              "series-spectrum"
+            ],
+            "highlightedOverlayIds": [
+              "lineLabels",
+              "reverseTransition"
+            ]
+          }
+        },
+        {
+          "id": "current-series-scale",
+          "title": "Current series and scale",
+          "prompt": "With lower level {{lowerLevelValue}}, what hydrogen series is active and why do its lines crowd toward a limit?",
+          "variables": [
+            {
+              "id": "series",
+              "symbol": "S",
+              "label": "Series family",
+              "valueKey": "seriesNameValue"
+            },
+            {
+              "id": "seriesLimit",
+              "symbol": "\\lambda_{\\text{limit}}",
+              "label": "Series limit",
+              "valueKey": "seriesLimitValue",
+              "unit": "nm"
+            },
+            {
+              "id": "radiusRatio",
+              "symbol": "r_i / r_f",
+              "label": "Radius ratio",
+              "valueKey": "radiusRatioValue"
+            }
+          ],
+          "steps": [
+            {
+              "id": "identify-series",
+              "label": "1. Fix the lower level",
+              "template": "Because the current lower level is n = {{lowerLevelValue}}, the live page is tracing the {{seriesNameValue}} series."
+            },
+            {
+              "id": "compare-scales",
+              "label": "2. Compare the orbital scale change",
+              "template": "For the active jump, the Bohr radius ratio is {{radiusRatioValue}}, so the upper allowed orbit is much larger than the lower one."
+            },
+            {
+              "id": "read-limit",
+              "label": "3. Explain the crowding",
+              "template": "As higher n_i values bunch closer together near zero energy, the line family crowds toward {{seriesLimitValue}} instead of spacing evenly forever."
+            }
+          ],
+          "resultLabel": "Current series link",
+          "resultTemplate": "{{seriesNameValue}} series, \\(\\lambda_{\\text{limit}} = {{seriesLimitValue}}\\), \\(r_i / r_f = {{radiusRatioValue}}\\)",
+          "interpretationTemplate": "{{seriesInterpretation}}",
+          "applyAction": {
+            "label": "Show a crowded Balmer case",
+            "presetId": "high-n-balmer",
+            "observationHint": "Notice how the active line shifts toward the Balmer limit while the reverse excitation wavelength still matches it.",
+            "highlightedControlIds": [
+              "upperLevel",
+              "lowerLevel"
+            ],
+            "highlightedGraphIds": [
+              "series-spectrum"
+            ],
+            "highlightedOverlayIds": [
+              "seriesFamily",
+              "radiusRule"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Why do 3 -> 2 emission and 2 -> 3 excitation use the same wavelength on this page even though one arrow points down and the other points up?",
+      "prediction": "Answer from the allowed energy gap, not from arrow direction alone.",
+      "answer": "They use the same wavelength because both processes involve the same energy difference between the same two allowed levels. Emission releases that photon energy, and excitation requires that same photon energy.",
+      "explanation": "The direction changes whether the atom gives the photon energy away or absorbs it, but the magnitude of the allowed gap stays fixed."
+    }
+  },
+  "equations": [
+    {
+      "id": "bohr-energy",
+      "latex": "E_n = -\\dfrac{13.6\\ \\mathrm{eV}}{n^2}",
+      "label": "Bohr energy levels",
+      "meaning": "Hydrogen's allowed Bohr energies get closer together as n increases."
+    },
+    {
+      "id": "transition-gap",
+      "latex": "\\Delta E = 13.6\\ \\mathrm{eV}\\left(\\dfrac{1}{n_f^2} - \\dfrac{1}{n_i^2}\\right)",
+      "label": "Allowed transition energy",
+      "meaning": "A hydrogen photon comes from the difference between two allowed levels with n_i > n_f."
+    },
+    {
+      "id": "photon-link",
+      "latex": "\\lambda = \\dfrac{hc}{\\Delta E}",
+      "label": "Gap to wavelength",
+      "meaning": "Shorter wavelengths correspond to larger allowed Bohr gaps."
+    },
+    {
+      "id": "radius-rule",
+      "latex": "r_n \\propto n^2",
+      "label": "Bohr radius scaling",
+      "meaning": "Higher allowed Bohr orbits sit farther from the nucleus very quickly."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "upperLevel",
+      "symbol": "n_i",
+      "label": "Upper level",
+      "param": "upperLevel",
+      "tone": "coral",
+      "description": "Chooses which allowed upper hydrogen level starts the current transition.",
+      "equationIds": [
+        "transition-gap",
+        "photon-link",
+        "radius-rule"
+      ],
+      "graphIds": [
+        "series-spectrum"
+      ],
+      "overlayIds": [
+        "lineLabels",
+        "radiusRule",
+        "seriesFamily"
+      ]
+    },
+    {
+      "id": "lowerLevel",
+      "symbol": "n_f",
+      "label": "Lower level",
+      "param": "lowerLevel",
+      "tone": "sky",
+      "description": "Selects the lower level that defines the active hydrogen series family.",
+      "equationIds": [
+        "bohr-energy",
+        "transition-gap",
+        "photon-link"
+      ],
+      "graphIds": [
+        "series-spectrum"
+      ],
+      "overlayIds": [
+        "seriesFamily",
+        "lineLabels"
+      ]
+    },
+    {
+      "id": "excitationMode",
+      "symbol": "m",
+      "label": "Reverse excitation",
+      "param": "excitationMode",
+      "tone": "amber",
+      "description": "Flips the same allowed gap between emitted light and absorbed light without changing its wavelength.",
+      "equationIds": [
+        "transition-gap",
+        "photon-link"
+      ],
+      "graphIds": [
+        "series-spectrum"
+      ],
+      "overlayIds": [
+        "reverseTransition",
+        "lineLabels"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "upperLevel": 3,
+      "lowerLevel": 2,
+      "excitationMode": false,
+      "radiusRule": true,
+      "lineLabels": true,
+      "seriesFamily": true,
+      "reverseTransition": true
+    },
+    "ui": {
+      "initialGraphId": "series-spectrum",
+      "primaryGraphIds": [
+        "series-spectrum"
+      ],
+      "primaryControlIds": [
+        "upperLevel",
+        "lowerLevel",
+        "excitationMode"
+      ],
+      "primaryPresetIds": [
+        "balmer-alpha",
+        "high-n-balmer",
+        "balmer-reverse-excitation"
+      ]
+    },
+    "controls": [
+      {
+        "id": "upperLevel",
+        "kind": "slider",
+        "label": "Upper level",
+        "param": "upperLevel",
+        "min": 2,
+        "max": 6,
+        "step": 1,
+        "description": "Choose the starting Bohr level n_i."
+      },
+      {
+        "id": "lowerLevel",
+        "kind": "slider",
+        "label": "Lower level",
+        "param": "lowerLevel",
+        "min": 1,
+        "max": 3,
+        "step": 1,
+        "description": "Choose the lower level n_f, which selects Lyman, Balmer, or Paschen."
+      },
+      {
+        "id": "excitationMode",
+        "kind": "toggle",
+        "label": "Show reverse excitation",
+        "param": "excitationMode",
+        "description": "Flip the active jump to the matching absorbed-photon case."
+      }
+    ],
+    "presets": [
+      {
+        "id": "balmer-alpha",
+        "label": "Balmer alpha",
+        "description": "The classic red hydrogen line from 3 -> 2.",
+        "values": {
+          "upperLevel": 3,
+          "lowerLevel": 2,
+          "excitationMode": false
+        }
+      },
+      {
+        "id": "balmer-beta",
+        "label": "Balmer beta",
+        "description": "A shorter-wavelength Balmer line from 4 -> 2.",
+        "values": {
+          "upperLevel": 4,
+          "lowerLevel": 2,
+          "excitationMode": false
+        }
+      },
+      {
+        "id": "lyman-alpha",
+        "label": "Lyman alpha",
+        "description": "A strong ultraviolet hydrogen line from 2 -> 1.",
+        "values": {
+          "upperLevel": 2,
+          "lowerLevel": 1,
+          "excitationMode": false
+        }
+      },
+      {
+        "id": "paschen-alpha",
+        "label": "Paschen alpha",
+        "description": "An infrared hydrogen line from 4 -> 3.",
+        "values": {
+          "upperLevel": 4,
+          "lowerLevel": 3,
+          "excitationMode": false
+        }
+      },
+      {
+        "id": "high-n-balmer",
+        "label": "High-n Balmer",
+        "description": "A higher Balmer jump that sits closer to the series limit.",
+        "values": {
+          "upperLevel": 6,
+          "lowerLevel": 2,
+          "excitationMode": false
+        }
+      },
+      {
+        "id": "balmer-reverse-excitation",
+        "label": "Balmer reverse excitation",
+        "description": "Use the same Balmer-alpha wavelength to drive the atom back upward.",
+        "values": {
+          "upperLevel": 3,
+          "lowerLevel": 2,
+          "excitationMode": true
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "radiusRule",
+        "label": "Radius rule",
+        "shortDescription": "Shows how the allowed Bohr radii expand like n^2.",
+        "whatToNotice": [
+          "The higher selected orbit stretches much farther from the nucleus than the lower one."
+        ],
+        "whyItMatters": "It keeps the historical orbit picture tied to the same quantized ladder instead of floating as a separate diagram.",
+        "relatedControls": [
+          "upperLevel"
+        ],
+        "relatedGraphTabs": [
+          "series-spectrum"
+        ],
+        "relatedEquationVariables": [
+          "upperLevel"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "lineLabels",
+        "label": "Line labels",
+        "shortDescription": "Labels the allowed level pair and wavelength for each line in the selected series.",
+        "whatToNotice": [
+          "Higher starting levels within one series move toward the limit rather than staying evenly spaced."
+        ],
+        "whyItMatters": "It makes the series pattern readable without turning the page into a detached table.",
+        "relatedControls": [
+          "upperLevel",
+          "lowerLevel"
+        ],
+        "relatedGraphTabs": [
+          "series-spectrum"
+        ],
+        "relatedEquationVariables": [
+          "upperLevel",
+          "lowerLevel"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "seriesFamily",
+        "label": "Series family",
+        "shortDescription": "Marks the selected hydrogen series and its wavelength limit.",
+        "whatToNotice": [
+          "Changing n_f changes the whole family, not just the active line."
+        ],
+        "whyItMatters": "It ties named spectral series to one compact live bench.",
+        "relatedControls": [
+          "lowerLevel"
+        ],
+        "relatedGraphTabs": [
+          "series-spectrum"
+        ],
+        "relatedEquationVariables": [
+          "lowerLevel"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "reverseTransition",
+        "label": "Reverse wavelength lock",
+        "shortDescription": "Keeps the excitation case visibly locked to the same wavelength as the matching emission case.",
+        "whatToNotice": [
+          "Reversing the arrow direction does not change the energy-gap magnitude."
+        ],
+        "whyItMatters": "It blocks the common mistake that upward transitions should require a different wavelength from the matching downward transition.",
+        "relatedControls": [
+          "excitationMode"
+        ],
+        "relatedGraphTabs": [
+          "series-spectrum"
+        ],
+        "relatedEquationVariables": [
+          "excitationMode"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "series-spectrum",
+      "label": "Hydrogen series spectrum",
+      "xLabel": "wavelength (nm)",
+      "yLabel": "relative line strength",
+      "series": [
+        "series-lines"
+      ],
+      "description": "Shows the current hydrogen series as a set of narrow line peaks from ultraviolet through infrared with the active transition highlighted on the same wavelength axis."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use one prompt at a time so the radius map, energy ladder, line strip, and spectrum graph stay on the same compact bench.",
+    "items": [
+      {
+        "id": "bm-notice-allowed",
+        "text": "Only certain hydrogen gaps exist here, so the spectrum is a set of lines tied to allowed levels rather than a smooth rainbow.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Start on Balmer alpha, then scan the graph between the line peaks.",
+        "whyItMatters": "It makes quantization visible before you talk about deeper quantum mechanics.",
+        "relatedControls": [
+          "upperLevel",
+          "lowerLevel"
+        ],
+        "relatedGraphTabs": [
+          "series-spectrum"
+        ],
+        "relatedOverlays": [
+          "lineLabels",
+          "seriesFamily"
+        ]
+      },
+      {
+        "id": "bm-notice-crowding",
+        "text": "Within one series, raising n_i gives shorter wavelengths that crowd toward the same limit because the upper Bohr energies bunch together.",
+        "type": "graph-reading",
+        "priority": 4,
+        "tryThis": "Compare Balmer alpha with High-n Balmer.",
+        "whyItMatters": "It explains why named hydrogen series have a limit instead of equally spaced lines.",
+        "relatedControls": [
+          "upperLevel"
+        ],
+        "relatedGraphTabs": [
+          "series-spectrum"
+        ],
+        "relatedOverlays": [
+          "seriesFamily",
+          "lineLabels"
+        ]
+      },
+      {
+        "id": "bm-notice-reverse",
+        "text": "Switching to reverse excitation flips the arrow but keeps the same wavelength because the allowed energy difference did not change.",
+        "type": "misconception",
+        "priority": 7,
+        "tryThis": "Flip from Balmer alpha to Balmer reverse excitation.",
+        "whyItMatters": "It keeps emission and absorption locked to one honest gap story.",
+        "relatedControls": [
+          "excitationMode"
+        ],
+        "relatedGraphTabs": [
+          "series-spectrum"
+        ],
+        "relatedOverlays": [
+          "reverseTransition",
+          "lineLabels"
+        ]
+      },
+      {
+        "id": "bm-notice-compare",
+        "text": "Compare mode is strongest when one setup changes n_i within a series and the other changes n_f between series. That separates crowding within a family from switching to a different family altogether.",
+        "type": "compare",
+        "priority": 10,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Keep Setup A on High-n Balmer and Setup B on Lyman alpha.",
+        "whyItMatters": "The side-by-side view keeps series identity and active wavelength from getting mixed together.",
+        "relatedControls": [
+          "upperLevel",
+          "lowerLevel"
+        ],
+        "relatedGraphTabs": [
+          "series-spectrum"
+        ],
+        "relatedOverlays": [
+          "seriesFamily",
+          "lineLabels",
+          "reverseTransition"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Commit to the spectral consequence before you move the level selector.",
+    "items": [
+      {
+        "id": "bm-pred-higher-balmer",
+        "prompt": "Start from Balmer alpha and raise only the upper level from n_i = 3 to n_i = 6 while keeping n_f = 2. What should happen?",
+        "scenarioLabel": "Raise n_i inside Balmer",
+        "changeLabel": "Upper level",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The wavelength gets shorter and the line moves toward the Balmer limit."
+          },
+          {
+            "id": "b",
+            "label": "The wavelength gets longer because the electron starts farther out."
+          },
+          {
+            "id": "c",
+            "label": "Nothing changes because the lower level stayed fixed."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "For a fixed Balmer lower level, higher starting levels create larger gaps that approach the Balmer series limit.",
+        "observationHint": "Track the active line on the strip and the graph together.",
+        "apply": {
+          "presetId": "high-n-balmer"
+        },
+        "highlightedControls": [
+          "upperLevel"
+        ],
+        "highlightedGraphs": [
+          "series-spectrum"
+        ],
+        "highlightedOverlays": [
+          "seriesFamily",
+          "lineLabels"
+        ]
+      },
+      {
+        "id": "bm-pred-series-switch",
+        "prompt": "Keep the same upper level n_i = 3 but switch the lower level from n_f = 2 to n_f = 1. Which statement stays honest?",
+        "scenarioLabel": "Move from Balmer to Lyman",
+        "changeLabel": "Lower level",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The photon energy increases and the line shifts into the ultraviolet because the drop ends deeper."
+          },
+          {
+            "id": "b",
+            "label": "The wavelength stays the same because n_i did not change."
+          },
+          {
+            "id": "c",
+            "label": "The line becomes infrared because Lyman uses larger orbits."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Dropping to n_f = 1 creates a larger hydrogen gap than dropping to n_f = 2, so the wavelength becomes much shorter.",
+        "observationHint": "Watch the graph and readout card while the active family changes.",
+        "apply": {
+          "patch": {
+            "upperLevel": 3,
+            "lowerLevel": 1,
+            "excitationMode": false
+          }
+        },
+        "highlightedControls": [
+          "lowerLevel"
+        ],
+        "highlightedGraphs": [
+          "series-spectrum"
+        ],
+        "highlightedOverlays": [
+          "seriesFamily",
+          "lineLabels"
+        ]
+      },
+      {
+        "id": "bm-pred-reverse",
+        "prompt": "Keep Balmer alpha selected but flip from emission to reverse excitation. What should the page keep fixed?",
+        "scenarioLabel": "Reverse the jump",
+        "changeLabel": "Excitation mode",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The wavelength stays the same while only the arrow direction changes."
+          },
+          {
+            "id": "b",
+            "label": "The wavelength doubles because the electron now climbs instead of falls."
+          },
+          {
+            "id": "c",
+            "label": "The line disappears because excitation cannot use the same spectral family."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The same two allowed levels set the same energy-gap magnitude in either direction.",
+        "observationHint": "Use the reverse-transition overlay and the readout card together.",
+        "apply": {
+          "presetId": "balmer-reverse-excitation"
+        },
+        "highlightedControls": [
+          "excitationMode"
+        ],
+        "highlightedGraphs": [
+          "series-spectrum"
+        ],
+        "highlightedOverlays": [
+          "reverseTransition",
+          "lineLabels"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the same hydrogen bench for compact transition and series targets instead of widening into a full atomic-physics engine.",
+    "items": [
+      {
+        "id": "bm-ch-find-red-balmer",
+        "title": "Find the red Balmer line",
+        "style": "target-setting",
+        "prompt": "Starting from Balmer beta, tune the live state until the active transition is the classic red Balmer line while the page stays in emission.",
+        "successMessage": "You landed on the red Balmer-alpha transition and kept the same series family honest.",
+        "setup": {
+          "presetId": "balmer-beta",
+          "graphId": "series-spectrum",
+          "overlayIds": [
+            "lineLabels",
+            "seriesFamily"
+          ],
+          "note": "Use the active pair, wavelength readout, and graph together."
+        },
+        "requirements": {
+          "graphId": "series-spectrum",
+          "overlayIds": [
+            "lineLabels"
+          ]
+        },
+        "hints": [
+          "Keep n_f on the Balmer lower level.",
+          "The red Balmer line comes from the smallest visible Balmer drop."
+        ],
+        "targets": [
+          {
+            "param": "lowerLevel",
+            "min": 2,
+            "max": 2
+          },
+          {
+            "param": "upperLevel",
+            "min": 3,
+            "max": 3
+          },
+          {
+            "metric": "excitationFlag",
+            "min": 0,
+            "max": 0
+          },
+          {
+            "metric": "wavelengthNm",
+            "min": 650,
+            "max": 663,
+            "displayUnit": "nm"
+          },
+          {
+            "metric": "photonEnergyEv",
+            "min": 1.86,
+            "max": 1.92,
+            "displayUnit": "eV"
+          },
+          {
+            "metric": "activeVisibleFlag",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "id": "bm-ch-ultraviolet-reverse",
+        "title": "Match the reverse UV excitation",
+        "style": "target-setting",
+        "prompt": "Starting from Lyman alpha emission, switch to the matching reverse excitation from the ground level while keeping the same ultraviolet wavelength.",
+        "successMessage": "You matched the reverse Lyman-alpha excitation, so the page kept the same UV wavelength while the arrow reversed.",
+        "setup": {
+          "presetId": "lyman-alpha",
+          "graphId": "series-spectrum",
+          "overlayIds": [
+            "reverseTransition",
+            "lineLabels"
+          ],
+          "note": "Use the reverse-transition cue so arrow direction does not trick you into picking a different wavelength."
+        },
+        "requirements": {
+          "graphId": "series-spectrum",
+          "overlayIds": [
+            "reverseTransition"
+          ]
+        },
+        "hints": [
+          "Stay on the ground-level family.",
+          "You only need the first upward jump from n = 1."
+        ],
+        "targets": [
+          {
+            "param": "lowerLevel",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "param": "upperLevel",
+            "min": 2,
+            "max": 2
+          },
+          {
+            "metric": "excitationFlag",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "metric": "wavelengthNm",
+            "min": 121,
+            "max": 123,
+            "displayUnit": "nm"
+          },
+          {
+            "metric": "photonEnergyEv",
+            "min": 10.1,
+            "max": 10.3,
+            "displayUnit": "eV"
+          },
+          {
+            "metric": "activeVisibleFlag",
+            "min": 0,
+            "max": 0
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live hydrogen-level story, not from disconnected historical slogans.",
+    "questions": [
+      {
+        "id": "bm-qt-discrete-lines",
+        "type": "reasoning",
+        "prompt": "Why does the Bohr-model page show discrete hydrogen lines instead of every wavelength?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Because hydrogen is allowed only certain energy levels, so only certain transition gaps and wavelengths exist."
+          },
+          {
+            "id": "b",
+            "label": "Because the graph hides the wavelengths between the labeled lines."
+          },
+          {
+            "id": "c",
+            "label": "Because the electron can emit only visible light in atoms."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The discreteness comes from allowed levels and allowed gaps, not from graph cropping or a visible-only rule.",
+        "selectedWrongExplanations": {
+          "b": "The empty regions are part of the modeled physics, not a display omission.",
+          "c": "The same page includes ultraviolet and infrared lines as well."
+        },
+        "showMeAction": {
+          "label": "Show one Balmer line map",
+          "presetId": "balmer-alpha",
+          "observationHint": "Notice the graph between the line peaks stays mostly empty because no allowed gap lands there.",
+          "highlightedControlIds": [
+            "upperLevel",
+            "lowerLevel"
+          ],
+          "highlightedGraphIds": [
+            "series-spectrum"
+          ],
+          "highlightedOverlayIds": [
+            "lineLabels",
+            "seriesFamily"
+          ]
+        }
+      },
+      {
+        "id": "bm-qt-series-limit",
+        "type": "graph-reading",
+        "prompt": "What happens to the active wavelength when you raise n_i within the same Balmer series?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It gets shorter and crowds toward the Balmer limit."
+          },
+          {
+            "id": "b",
+            "label": "It gets longer because the upper orbit is larger."
+          },
+          {
+            "id": "c",
+            "label": "It stays fixed because n_f did not change."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "For fixed n_f, higher n_i values give larger gaps that approach the series limit.",
+        "selectedWrongExplanations": {
+          "b": "A larger starting radius does not mean a smaller transition gap here.",
+          "c": "The gap still changes when the upper level changes."
+        },
+        "showMeAction": {
+          "label": "Jump to High-n Balmer",
+          "presetId": "high-n-balmer",
+          "observationHint": "Compare the active wavelength with Balmer alpha and watch it move toward the series limit marker.",
+          "highlightedControlIds": [
+            "upperLevel"
+          ],
+          "highlightedGraphIds": [
+            "series-spectrum"
+          ],
+          "highlightedOverlayIds": [
+            "seriesFamily",
+            "lineLabels"
+          ]
+        }
+      },
+      {
+        "id": "bm-qt-reverse-same-wavelength",
+        "type": "compare-two-cases",
+        "prompt": "Which statement is correct for a matching emission and excitation pair between the same two Bohr levels?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "They use the same wavelength because they use the same energy-gap magnitude."
+          },
+          {
+            "id": "b",
+            "label": "Excitation always needs a longer wavelength because the electron climbs upward."
+          },
+          {
+            "id": "c",
+            "label": "Only emission belongs to named hydrogen series."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The level pair fixes one energy difference, so the matching photon wavelength is the same in either direction.",
+        "selectedWrongExplanations": {
+          "b": "Arrow direction changes the sign of energy flow, not the size of the allowed gap.",
+          "c": "The same series labels still describe which lower level defines the family."
+        },
+        "showMeAction": {
+          "label": "Flip to reverse excitation",
+          "presetId": "balmer-reverse-excitation",
+          "observationHint": "Watch the arrow reverse while the wavelength readout stays locked.",
+          "highlightedControlIds": [
+            "excitationMode"
+          ],
+          "highlightedGraphIds": [
+            "series-spectrum"
+          ],
+          "highlightedOverlayIds": [
+            "reverseTransition",
+            "lineLabels"
+          ]
+        }
+      },
+      {
+        "id": "bm-qt-model-scope",
+        "type": "misconception-check",
+        "prompt": "What is the most honest statement about the Bohr model on this page?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It is a useful historical hydrogen model for quantized levels and spectral lines, but it is not the final quantum description."
+          },
+          {
+            "id": "b",
+            "label": "It is the full modern quantum theory of all atoms because the line families match hydrogen."
+          },
+          {
+            "id": "c",
+            "label": "It works only by choosing colors manually rather than from energy differences."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "This page uses Bohr for bounded hydrogen intuition while staying explicit that later quantum mechanics goes beyond literal electron orbits.",
+        "selectedWrongExplanations": {
+          "b": "The page is intentionally bounded to hydrogen-like level logic rather than a full quantum-mechanical treatment.",
+          "c": "The wavelengths come from the allowed gaps first, then the visible-color cue is derived from wavelength."
+        },
+        "showMeAction": {
+          "label": "Show Balmer alpha again",
+          "presetId": "balmer-alpha",
+          "observationHint": "Use the line map and equations together, then read the bounded-scope note in the readout card.",
+          "highlightedControlIds": [
+            "upperLevel",
+            "lowerLevel"
+          ],
+          "highlightedGraphIds": [
+            "series-spectrum"
+          ],
+          "highlightedOverlayIds": [
+            "seriesFamily",
+            "reverseTransition"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a compact Bohr-model hydrogen bench with a radius map on the left, an energy ladder in the middle, and a hydrogen line strip on the right. A highlighted arrow marks the active transition, and a matching wavelength marker appears on the strip and graph.",
+        "Optional overlays label the line family, the allowed wavelengths, the n squared radius scaling, and the matching reverse-excitation wavelength. The readout card summarizes the current mode, series name, active level pair, photon energy, wavelength, series limit, and radius ratio."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The graph plots relative line strength against wavelength across ultraviolet, visible, and infrared regions for the selected hydrogen series. Narrow peaks mark the allowed series lines, and the active transition is read from the same wavelength axis used by the strip."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Bohr Model | Open Model Lab",
+    "description": "Explore quantized hydrogen energy levels, allowed transitions, series limits, and spectral lines with a compact Bohr-model simulation.",
+    "keywords": [
+      "Bohr model simulation",
+      "hydrogen spectral lines",
+      "Balmer series",
+      "quantized energy levels",
+      "hydrogen transitions"
+    ]
+  },
+  "v2": {
+    "intuition": "Treat Bohr's hydrogen atom as a level ladder with only certain rungs. A spectral line appears only when the electron uses one allowed gap, and reversing the jump uses the same gap in the opposite direction.",
+    "whyItMatters": "Bohr is not the final quantum picture, but it is a powerful checkpoint: it turns hydrogen's measured line series into a concrete rule for quantized energy, wavelength, and model scope.",
+    "estimatedMinutes": 22,
+    "equationSnapshot": {
+      "title": "Level gap to wavelength snapshot",
+      "note": "Pick two allowed hydrogen levels first. The energy gap sets the photon wavelength; holding the lower level fixed creates a named series, and reversing the jump keeps the wavelength magnitude fixed.",
+      "equationIds": [
+        "bohr-energy",
+        "transition-gap",
+        "photon-link"
+      ]
+    },
+    "startSetup": {
+      "presetId": "balmer-alpha",
+      "graphId": "series-spectrum",
+      "overlayIds": [
+        "lineLabels",
+        "seriesFamily",
+        "radiusRule"
+      ],
+      "note": "Start on the red Balmer-alpha line so the level pair, ladder arrow, wavelength strip, and graph marker can all be read as one transition."
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-balmer-jump",
+        "title": "Read one Balmer jump",
+        "goal": "Connect one allowed level pair to one photon energy and wavelength before comparing series patterns.",
+        "doThis": "Start from Balmer alpha, then trace the 3 -> 2 arrow from the energy ladder to the wavelength strip and spectrum graph.",
+        "notice": "The readout, arrow, line label, and graph marker all describe the same allowed hydrogen gap.",
+        "explain": "The Bohr model does not let the electron drop by any arbitrary amount. The selected level pair fixes one gap, and that gap fixes one photon wavelength.",
+        "reveal": {
+          "controlIds": [
+            "upperLevel",
+            "lowerLevel"
+          ],
+          "graphIds": [
+            "series-spectrum"
+          ],
+          "overlayIds": [
+            "lineLabels",
+            "seriesFamily",
+            "radiusRule"
+          ]
+        },
+        "setup": {
+          "presetId": "balmer-alpha",
+          "graphId": "series-spectrum",
+          "overlayIds": [
+            "lineLabels",
+            "seriesFamily",
+            "radiusRule"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Check why the lines are discrete",
+          "questionIds": [
+            "bm-qt-discrete-lines"
+          ]
+        }
+      },
+      {
+        "id": "crowd-toward-a-series-limit",
+        "title": "Crowd toward a series limit",
+        "goal": "See why changing the upper level inside one series moves the active line toward a limit instead of spacing lines evenly.",
+        "doThis": "Switch from Balmer alpha to High-n Balmer while keeping n_f = 2, then compare the active wavelength with the Balmer limit marker.",
+        "notice": "The line shifts shorter and closer to the same series limit because high-n energies bunch together near zero.",
+        "explain": "A named series is made by holding the lower level fixed. Raising n_i changes the gap, but the gaps approach a maximum for that series rather than growing without bound.",
+        "reveal": {
+          "controlIds": [
+            "upperLevel"
+          ],
+          "graphIds": [
+            "series-spectrum"
+          ],
+          "overlayIds": [
+            "seriesFamily",
+            "lineLabels"
+          ]
+        },
+        "setup": {
+          "presetId": "high-n-balmer",
+          "graphId": "series-spectrum",
+          "overlayIds": [
+            "seriesFamily",
+            "lineLabels",
+            "radiusRule"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Predict a higher Balmer start",
+          "predictionIds": [
+            "bm-pred-higher-balmer"
+          ],
+          "questionIds": [
+            "bm-qt-series-limit"
+          ]
+        }
+      },
+      {
+        "id": "switch-the-series-family",
+        "title": "Switch the series family",
+        "goal": "Separate changing the lower level from merely moving along one Balmer family.",
+        "doThis": "Keep n_i = 3 but change n_f from 2 to 1, then read how the family label and wavelength region change.",
+        "notice": "Dropping to n = 1 creates a much larger gap, so the active line moves into the ultraviolet Lyman family.",
+        "explain": "The lower level defines the series family. Changing it changes the destination energy, the gap size, and the wavelength region all at once.",
+        "reveal": {
+          "controlIds": [
+            "lowerLevel"
+          ],
+          "graphIds": [
+            "series-spectrum"
+          ],
+          "overlayIds": [
+            "seriesFamily",
+            "lineLabels"
+          ]
+        },
+        "setup": {
+          "patch": {
+            "upperLevel": 3,
+            "lowerLevel": 1,
+            "excitationMode": false
+          },
+          "graphId": "series-spectrum",
+          "overlayIds": [
+            "seriesFamily",
+            "lineLabels"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Check the series switch",
+          "predictionIds": [
+            "bm-pred-series-switch"
+          ]
+        }
+      },
+      {
+        "id": "reverse-with-the-same-wavelength",
+        "title": "Reverse with the same wavelength",
+        "goal": "Use emission and absorption as the same allowed gap with opposite energy-flow directions.",
+        "doThis": "Flip Balmer alpha into reverse excitation and watch which parts of the bench change and which wavelength readout stays locked.",
+        "notice": "The arrow direction reverses, but the level spacing and wavelength magnitude stay the same.",
+        "explain": "Emission gives the gap energy to a photon; excitation takes that same photon energy in. Direction changes the sign of energy flow, not the size of the allowed gap.",
+        "reveal": {
+          "controlIds": [
+            "excitationMode"
+          ],
+          "graphIds": [
+            "series-spectrum"
+          ],
+          "overlayIds": [
+            "reverseTransition",
+            "lineLabels"
+          ]
+        },
+        "setup": {
+          "presetId": "balmer-reverse-excitation",
+          "graphId": "series-spectrum",
+          "overlayIds": [
+            "reverseTransition",
+            "lineLabels",
+            "seriesFamily"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Check the reverse case",
+          "predictionIds": [
+            "bm-pred-reverse"
+          ],
+          "questionIds": [
+            "bm-qt-reverse-same-wavelength"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Hydrogen's Bohr levels are quantized, so only certain transition gaps and wavelengths are available.",
+        "Holding the lower level fixed creates named series such as Lyman, Balmer, and Paschen.",
+        "Within one series, higher starting levels crowd toward a wavelength limit because the upper energies bunch together.",
+        "Matching emission and excitation between the same two levels use the same wavelength magnitude.",
+        "Bohr is a bounded hydrogen model that points toward, but does not replace, fuller quantum mechanics."
+      ],
+      "misconception": "Do not read the orbit picture as permission for any radius or any color. On this page the only honest transitions are the allowed hydrogen level gaps, and the literal-orbit model has a limited scope.",
+      "workedExampleRefs": [
+        "active-transition-wavelength",
+        "current-series-scale"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "photoelectric-effect",
+          "title": "Photoelectric Effect",
+          "reasonLabel": "Use photon energy in a different quantum experiment."
+        },
+        {
+          "slug": "de-broglie-matter-waves",
+          "title": "de Broglie Matter Waves",
+          "reasonLabel": "Connect Bohr-style standing fits to matter waves."
+        },
+        {
+          "slug": "radioactivity-half-life",
+          "title": "Radioactivity Half-Life",
+          "reasonLabel": "Continue into another modern-physics model with probabilistic behavior."
+        }
+      ],
+      "freePlayPrompt": "Build one case that moves along the Balmer series, one case that switches into Lyman, and one reverse-excitation case. Explain which slider changed the gap, which changed the family, and which changed only direction."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "commonMisconception",
+      "workedExamples",
+      "quickTest"
+    ]
+  }
+}

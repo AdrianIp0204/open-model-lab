@@ -1,0 +1,1333 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live escape checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Escape-threshold checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Keep the gravity launch story moving"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Launch outward from one bounded gravity source and see how source mass, launch radius, and total specific energy decide whether the object escapes or eventually returns.",
+    "keyTakeaway": "Escape is an energy threshold, not a place where gravity turns off.",
+    "whyItMatters": "Escape velocity is the clean bridge between projectile motion, circular orbits, and gravitational potential energy: the same well that can hold an orbit also sets the launch speed needed to avoid a turnaround."
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Escape velocity is the minimum outward launch speed from one chosen radius that makes the total specific energy reach zero. Above that threshold, gravity still pulls inward and slows the launch, but there is no finite turnaround radius. Below it, even a very high outward trip is still bound and eventually returns.",
+        "This bounded lab keeps one source mass, one launch radius, one speed factor, one live radial path, and the linked radius, speed-threshold, and specific-energy graphs on the same state. The local circular-speed comparison stays visible too, so going far away is not confused with escape or with circular orbit balance."
+      ]
+    },
+    "keyIdeas": [
+      "Escape is an energy threshold, not a place where gravity turns off.",
+      "With displayed units using G = 1, the escape speed from radius r_0 is v_esc = sqrt(2M/r_0), so a heavier source raises the threshold while a larger launch radius lowers it.",
+      "A launch can be faster than the local circular speed and still remain bound if it stays below escape speed and keeps negative total specific energy."
+    ],
+    "commonMisconception": {
+      "myth": "If a launch gets far enough from the source, it has escaped, and escape means gravity is basically gone.",
+      "correction": [
+        "Distance alone does not decide escape. The deciding quantity is the sign of E/m. Zero or positive total specific energy means there is no finite turnaround radius; negative total specific energy means the launch is still bound.",
+        "Gravity does not vanish after escape. It keeps acting and keeps reducing the speed. The difference is that the object never has to reverse direction."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live worked example",
+      "intro": "Use the same source mass, launch radius, speed factor, live time, and graphs already on screen.",
+      "items": [
+        {
+          "id": "required-escape-speed",
+          "title": "Required escape speed",
+          "prompt": "For the current source mass and launch radius, what outward launch speed makes the total specific energy exactly zero?",
+          "variables": [
+            {
+              "id": "sourceMass",
+              "variableId": "sourceMass",
+              "symbol": "M",
+              "label": "Source mass",
+              "valueKey": "sourceMassValue",
+              "unit": "kg"
+            },
+            {
+              "id": "launchRadius",
+              "variableId": "launchRadius",
+              "symbol": "r_0",
+              "label": "Launch radius",
+              "valueKey": "launchRadiusValue",
+              "unit": "m"
+            }
+          ],
+          "steps": [
+            {
+              "id": "set-threshold",
+              "label": "1. Set the threshold condition",
+              "template": "At escape threshold, $0 = \\\\dfrac{v_{\\\\text{esc}}^2}{2} - \\\\dfrac{M}{r_0}$."
+            },
+            {
+              "id": "solve",
+              "label": "2. Solve for the threshold speed",
+              "template": "So $v_{\\\\text{esc}} = \\\\sqrt{2M/r_0} = \\\\sqrt{2({{sourceMassValue}})/{{launchRadiusValue}}}$ in the displayed $G = 1$ units."
+            },
+            {
+              "id": "compute",
+              "label": "3. Compute the live value",
+              "template": "That gives $v_{\\\\text{esc}} = {{launchEscapeSpeedValue}}\\\\,\\\\mathrm{m/s}$, while the circular-speed comparison is $v_c = {{launchCircularSpeedValue}}\\\\,\\\\mathrm{m/s}$ at the same radius."
+            }
+          ],
+          "resultLabel": "Escape speed",
+          "resultTemplate": "$v_{\\\\text{esc}} = {{launchEscapeSpeedValue}}\\\\,\\\\mathrm{m/s}$",
+          "interpretationTemplate": "{{escapeSpeedInterpretation}}",
+          "applyAction": {
+            "label": "Show the wider-launch threshold case",
+            "presetId": "wider-launch-threshold",
+            "observationHint": "At a larger launch radius, the well is shallower and the threshold speed drops.",
+            "highlightedControlIds": [
+              "launchRadius"
+            ],
+            "highlightedGraphIds": [
+              "speed-thresholds",
+              "specific-energy"
+            ],
+            "highlightedOverlayIds": [
+              "launchMarker",
+              "velocityVector",
+              "trail"
+            ]
+          }
+        },
+        {
+          "id": "current-energy-check",
+          "title": "Current energy check",
+          "prompt": "At the current live time, what do the specific kinetic, potential, and total energies say about whether this launch escapes or stays bound?",
+          "dependsOnTime": true,
+          "variables": [
+            {
+              "id": "time",
+              "symbol": "t",
+              "label": "Time",
+              "valueKey": "timeValue",
+              "unit": "s"
+            },
+            {
+              "id": "currentRadius",
+              "symbol": "r(t)",
+              "label": "Current radius",
+              "valueKey": "currentRadiusValue",
+              "unit": "m"
+            },
+            {
+              "id": "currentSpeed",
+              "symbol": "v(t)",
+              "label": "Current speed",
+              "valueKey": "currentSpeedValue",
+              "unit": "m/s"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-state",
+              "label": "1. Read the live radius and speed",
+              "template": "At $t = {{timeValue}}\\\\,\\\\mathrm{s}$, the launch sits at $r = {{currentRadiusValue}}\\\\,\\\\mathrm{m}$ and has speed $v = {{currentSpeedValue}}\\\\,\\\\mathrm{m/s}$."
+            },
+            {
+              "id": "compute-energy-parts",
+              "label": "2. Compute the specific energy terms",
+              "template": "That gives $K/m = v^2/2 = {{kineticEnergyValue}}$ and $U/m = -M/r = {{potentialEnergyValue}}$."
+            },
+            {
+              "id": "add-and-interpret",
+              "label": "3. Add to get the verdict",
+              "template": "Adding them gives $E/m = {{totalEnergyValue}}$. The local escape speed there is ${{localEscapeSpeedValue}}\\\\,\\\\mathrm{m/s}$, so the model predicts {{turnaroundInterpretation}}."
+            }
+          ],
+          "resultLabel": "Specific energy state",
+          "resultTemplate": "$K/m = {{kineticEnergyValue}},\\\\; U/m = {{potentialEnergyValue}},\\\\; E/m = {{totalEnergyValue}}$",
+          "interpretationTemplate": "{{energyInterpretation}} This setting implies {{turnaroundInterpretation}}.",
+          "applyAction": {
+            "label": "Show the high-but-bound case",
+            "presetId": "high-but-bound",
+            "observationHint": "The radius can grow a lot while the total-energy line stays negative.",
+            "highlightedControlIds": [
+              "speedFactor"
+            ],
+            "highlightedGraphIds": [
+              "radius-history",
+              "specific-energy"
+            ],
+            "highlightedOverlayIds": [
+              "turnaroundMarker",
+              "trail"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "Start from High but bound. Without changing the source mass or launch radius, what single control change removes the finite turnaround radius?",
+      "prediction": "Decide what should happen to the total-energy line and the turnaround marker when the launch just reaches escape threshold.",
+      "answer": "Raise the launch speed until the speed factor reaches 1.00, so the total specific energy reaches zero and the finite turnaround radius disappears.",
+      "explanation": "At fixed source mass and launch radius, changing the speed factor changes the kinetic term at launch. The threshold case happens when $E/m = v_0^2/2 - M/r_0 = 0$."
+    }
+  },
+  "equations": [
+    {
+      "id": "specific-total-energy",
+      "latex": "\\\\dfrac{E}{m} = \\\\dfrac{v^2}{2} - \\\\dfrac{M}{r}",
+      "label": "Specific total energy",
+      "meaning": "The sign of the total energy per unit mass decides whether the launch is bound, threshold, or escaping."
+    },
+    {
+      "id": "escape-threshold",
+      "latex": "0 = \\\\dfrac{v_{\\\\text{esc}}^2}{2} - \\\\dfrac{M}{r_0}",
+      "label": "Threshold condition",
+      "meaning": "Escape velocity is the launch speed that makes the total specific energy exactly zero at the starting radius."
+    },
+    {
+      "id": "escape-speed",
+      "latex": "v_{\\\\text{esc}} = \\\\sqrt{\\\\dfrac{2M}{r_0}}",
+      "label": "Escape speed",
+      "meaning": "The threshold rises for heavier source mass and falls for larger launch radius."
+    },
+    {
+      "id": "circular-speed-comparison",
+      "latex": "v_c = \\\\sqrt{\\\\dfrac{M}{r_0}},\\\\qquad v_{\\\\text{esc}} = \\\\sqrt{2}\\\\,v_c",
+      "label": "Circular-speed comparison",
+      "meaning": "Local circular speed is useful for contrast, but exceeding it alone does not guarantee escape."
+    },
+    {
+      "id": "turnaround-radius",
+      "latex": "r_{\\\\text{turn}} = \\\\dfrac{M}{-(E/m)}\\\\qquad (E < 0)",
+      "label": "Finite turnaround radius",
+      "meaning": "A negative total specific energy predicts the largest radius before the bound launch must reverse."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "sourceMass",
+      "symbol": "M",
+      "label": "Source mass",
+      "param": "sourceMass",
+      "tone": "ink",
+      "description": "Changes the depth of the gravity well, so the escape threshold, circular comparison speed, and gravity pull all scale from the same cause.",
+      "equationIds": [
+        "specific-total-energy",
+        "escape-threshold",
+        "escape-speed",
+        "circular-speed-comparison",
+        "turnaround-radius"
+      ],
+      "graphIds": [
+        "speed-thresholds",
+        "specific-energy"
+      ],
+      "overlayIds": [
+        "gravityVector",
+        "velocityVector",
+        "trail"
+      ]
+    },
+    {
+      "id": "launchRadius",
+      "symbol": "r_0",
+      "label": "Launch radius",
+      "param": "launchRadius",
+      "tone": "amber",
+      "description": "Sets the starting distance from the source. Launching farther out means there is less well depth to climb out of.",
+      "equationIds": [
+        "escape-threshold",
+        "escape-speed",
+        "circular-speed-comparison",
+        "turnaround-radius"
+      ],
+      "graphIds": [
+        "radius-history",
+        "speed-thresholds",
+        "specific-energy"
+      ],
+      "overlayIds": [
+        "launchMarker",
+        "turnaroundMarker",
+        "trail"
+      ]
+    },
+    {
+      "id": "speedFactor",
+      "symbol": "\\\\dfrac{v_0}{v_{\\\\text{esc}}}",
+      "label": "Speed factor",
+      "param": "speedFactor",
+      "tone": "sky",
+      "description": "Sets the actual launch speed relative to the escape threshold. Below 1 the launch is bound, at 1 it is threshold, and above 1 it escapes.",
+      "equationIds": [
+        "specific-total-energy",
+        "escape-threshold",
+        "turnaround-radius"
+      ],
+      "graphIds": [
+        "radius-history",
+        "speed-thresholds",
+        "specific-energy"
+      ],
+      "overlayIds": [
+        "velocityVector",
+        "turnaroundMarker",
+        "trail"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "sourceMass": 4,
+      "launchRadius": 1.6,
+      "speedFactor": 1,
+      "launchMarker": true,
+      "turnaroundMarker": true,
+      "velocityVector": true,
+      "gravityVector": true,
+      "trail": true
+    },
+    "ui": {
+      "initialGraphId": "specific-energy",
+      "primaryGraphIds": [
+        "specific-energy"
+      ],
+      "primaryControlIds": [
+        "speedFactor"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "sourceMass",
+        "kind": "slider",
+        "label": "Source mass",
+        "param": "sourceMass",
+        "min": 2,
+        "max": 6,
+        "step": 0.05,
+        "unit": "kg",
+        "description": "Changes the source mass creating the well and therefore the escape threshold."
+      },
+      {
+        "id": "launchRadius",
+        "kind": "slider",
+        "label": "Launch radius",
+        "param": "launchRadius",
+        "min": 1,
+        "max": 2.4,
+        "step": 0.05,
+        "unit": "m",
+        "description": "Sets how far from the source the outward launch begins."
+      },
+      {
+        "id": "speedFactor",
+        "kind": "slider",
+        "label": "Speed factor",
+        "param": "speedFactor",
+        "min": 0.82,
+        "max": 1.12,
+        "step": 0.01,
+        "unit": "x escape",
+        "description": "1.00 means the launch speed exactly matches the escape threshold for the current source mass and launch radius."
+      }
+    ],
+    "presets": [
+      {
+        "id": "threshold-launch",
+        "label": "Threshold launch",
+        "description": "The launch starts exactly at escape speed, so the total specific energy sits on zero.",
+        "values": {
+          "sourceMass": 4,
+          "launchRadius": 1.6,
+          "speedFactor": 1
+        }
+      },
+      {
+        "id": "high-but-bound",
+        "label": "High but bound",
+        "description": "This launch goes far above the start, but it still stays below escape speed and keeps a finite turnaround radius.",
+        "values": {
+          "sourceMass": 4,
+          "launchRadius": 1.6,
+          "speedFactor": 0.92
+        }
+      },
+      {
+        "id": "clear-escape",
+        "label": "Clear escape",
+        "description": "A launch above threshold keeps positive total specific energy, so it never needs a finite turnaround radius.",
+        "values": {
+          "sourceMass": 4,
+          "launchRadius": 1.6,
+          "speedFactor": 1.08
+        }
+      },
+      {
+        "id": "heavier-source-threshold",
+        "label": "Heavier source threshold",
+        "description": "At the same launch radius, a heavier source raises the threshold speed while the total-energy line still sits on zero.",
+        "values": {
+          "sourceMass": 5.6,
+          "launchRadius": 1.6,
+          "speedFactor": 1
+        }
+      },
+      {
+        "id": "wider-launch-threshold",
+        "label": "Wider launch threshold",
+        "description": "Launching farther from the source lowers the threshold speed because the well is shallower there.",
+        "values": {
+          "sourceMass": 4,
+          "launchRadius": 2.2,
+          "speedFactor": 1
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "launchMarker",
+        "label": "Launch marker",
+        "shortDescription": "Marks the starting radius so the equations and trail stay tied to the same launch point.",
+        "whatToNotice": [
+          "Changing only the launch radius moves the start line and immediately changes the threshold speed."
+        ],
+        "whyItMatters": "It keeps r_0 visible as the launch condition.",
+        "relatedControls": [
+          "launchRadius"
+        ],
+        "relatedGraphTabs": [
+          "radius-history",
+          "speed-thresholds"
+        ],
+        "relatedEquationVariables": [
+          "launchRadius"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "turnaroundMarker",
+        "label": "Turnaround marker",
+        "shortDescription": "Shows the predicted finite turnaround radius for bound launches.",
+        "whatToNotice": [
+          "At threshold or above, this marker disappears because there is no finite turnaround radius."
+        ],
+        "whyItMatters": "It makes the difference between a high bound trip and a true escape visible.",
+        "relatedControls": [
+          "sourceMass",
+          "launchRadius",
+          "speedFactor"
+        ],
+        "relatedGraphTabs": [
+          "radius-history",
+          "specific-energy"
+        ],
+        "relatedEquationVariables": [
+          "sourceMass",
+          "launchRadius",
+          "speedFactor"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "velocityVector",
+        "label": "Velocity vector",
+        "shortDescription": "Shows the current radial motion of the launched mass.",
+        "whatToNotice": [
+          "A fast outward arrow does not guarantee escape. The total-energy sign still decides whether it must reverse later."
+        ],
+        "whyItMatters": "It keeps the launch-speed comparison attached to the same moving object.",
+        "relatedControls": [
+          "sourceMass",
+          "launchRadius",
+          "speedFactor"
+        ],
+        "relatedGraphTabs": [
+          "speed-thresholds"
+        ],
+        "relatedEquationVariables": [
+          "sourceMass",
+          "launchRadius",
+          "speedFactor"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "gravityVector",
+        "label": "Gravity vector",
+        "shortDescription": "Shows the inward gravitational pull that keeps slowing the launch even in escaping cases.",
+        "whatToNotice": [
+          "Escape does not make the gravity arrow vanish."
+        ],
+        "whyItMatters": "It keeps the force picture honest while the energy graph explains the threshold.",
+        "relatedControls": [
+          "sourceMass",
+          "launchRadius",
+          "speedFactor"
+        ],
+        "relatedGraphTabs": [
+          "radius-history",
+          "speed-thresholds"
+        ],
+        "relatedEquationVariables": [
+          "sourceMass",
+          "launchRadius"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "trail",
+        "label": "Trajectory trail",
+        "shortDescription": "Leaves the visited radial path so the difference between continuing outward and turning back stays visible over time.",
+        "whatToNotice": [
+          "A long outward trail can still belong to a bound launch if the total-energy line stays below zero."
+        ],
+        "whyItMatters": "It makes the motion consequence of the energy sign visible instead of reducing escape to one instant.",
+        "relatedControls": [
+          "sourceMass",
+          "launchRadius",
+          "speedFactor"
+        ],
+        "relatedGraphTabs": [
+          "radius-history",
+          "specific-energy"
+        ],
+        "relatedEquationVariables": [
+          "sourceMass",
+          "launchRadius",
+          "speedFactor"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "radius-history",
+      "label": "Radius and launch radius",
+      "xLabel": "time (s)",
+      "yLabel": "radius (m)",
+      "series": [
+        "radius",
+        "launch-radius"
+      ],
+      "description": "Shows how far the launch has traveled compared with the starting radius."
+    },
+    {
+      "id": "speed-thresholds",
+      "label": "Actual speed and threshold speeds",
+      "xLabel": "time (s)",
+      "yLabel": "speed (m/s)",
+      "series": [
+        "actual-speed",
+        "local-escape-speed",
+        "local-circular-speed"
+      ],
+      "description": "Compares the live speed with the local escape and circular-speed benchmarks."
+    },
+    {
+      "id": "specific-energy",
+      "label": "Specific energy balance",
+      "xLabel": "time (s)",
+      "yLabel": "specific energy",
+      "series": [
+        "kinetic-energy",
+        "potential-energy",
+        "total-energy",
+        "zero-energy"
+      ],
+      "description": "Shows whether the total specific energy sits below, on, or above the escape threshold."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use one prompt at a time. The main pattern changes depending on whether you inspect the energy line, change the source mass or launch radius, or compare a bound launch with a true escape.",
+    "items": [
+      {
+        "id": "ev-notice-energy-sign",
+        "text": "The total-energy line is the real escape verdict. Above zero means escape, on zero means threshold, and below zero means the launch is still bound even if it climbs a long way.",
+        "type": "graph-reading",
+        "priority": 1,
+        "conditions": {
+          "graphTabs": [
+            "specific-energy"
+          ]
+        },
+        "tryThis": "Switch between Threshold launch, High but bound, and Clear escape while keeping the specific-energy graph open.",
+        "whyItMatters": "It prevents the page from reducing escape to a distance guess.",
+        "relatedControls": [
+          "speedFactor"
+        ],
+        "relatedGraphTabs": [
+          "specific-energy"
+        ],
+        "relatedOverlays": [
+          "turnaroundMarker",
+          "trail"
+        ],
+        "relatedEquationVariables": [
+          "speedFactor"
+        ]
+      },
+      {
+        "id": "ev-notice-high-bound",
+        "text": "A launch can sit above the local circular-speed curve and still be bound if it stays below the local escape-speed curve and keeps negative total specific energy.",
+        "type": "misconception",
+        "priority": 2,
+        "conditions": {
+          "graphTabs": [
+            "speed-thresholds"
+          ],
+          "lastChangedControls": [
+            "speedFactor"
+          ]
+        },
+        "tryThis": "Apply High but bound and compare the speed-threshold graph with the specific-energy graph before deciding whether the launch truly escapes.",
+        "whyItMatters": "It separates escape reasoning from orbit reasoning without pretending they are unrelated.",
+        "relatedControls": [
+          "speedFactor"
+        ],
+        "relatedGraphTabs": [
+          "radius-history",
+          "speed-thresholds",
+          "specific-energy"
+        ],
+        "relatedOverlays": [
+          "velocityVector",
+          "turnaroundMarker",
+          "trail"
+        ],
+        "relatedEquationVariables": [
+          "speedFactor"
+        ]
+      },
+      {
+        "id": "ev-notice-heavier-source",
+        "text": "At the same launch radius, a heavier source mass deepens the well and raises the threshold speed.",
+        "type": "observation",
+        "priority": 3,
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "sourceMass",
+              "min": 5
+            }
+          ]
+        },
+        "tryThis": "Use Heavier source threshold and watch the launch-speed readout and the escape-speed curve rise together while the total-energy line still sits on zero.",
+        "whyItMatters": "It ties the threshold directly to the source of the gravity well.",
+        "relatedControls": [
+          "sourceMass"
+        ],
+        "relatedGraphTabs": [
+          "speed-thresholds",
+          "specific-energy"
+        ],
+        "relatedOverlays": [
+          "gravityVector",
+          "velocityVector"
+        ],
+        "relatedEquationVariables": [
+          "sourceMass"
+        ]
+      },
+      {
+        "id": "ev-notice-wider-launch",
+        "text": "Launching farther from the source lowers the threshold speed because the well is shallower at the starting point, not because gravity has disappeared.",
+        "type": "try-this",
+        "priority": 4,
+        "conditions": {
+          "controlRanges": [
+            {
+              "param": "launchRadius",
+              "min": 2
+            }
+          ]
+        },
+        "tryThis": "Use Wider launch threshold and compare the new launch marker with the lower threshold speed and the less-negative starting potential energy.",
+        "whyItMatters": "It makes the radius dependence feel like an energy-depth story instead of a formula to memorize.",
+        "relatedControls": [
+          "launchRadius"
+        ],
+        "relatedGraphTabs": [
+          "radius-history",
+          "speed-thresholds",
+          "specific-energy"
+        ],
+        "relatedOverlays": [
+          "launchMarker",
+          "trail"
+        ],
+        "relatedEquationVariables": [
+          "launchRadius"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Predict the launch outcome before you apply the change. Each scenario isolates one cause so the threshold stays readable from the same bench.",
+    "items": [
+      {
+        "id": "ev-pred-heavier-source-threshold",
+        "prompt": "At the same launch radius, what must happen if the source mass increases while the speed factor stays at 1.00?",
+        "scenarioLabel": "Heavier source, same threshold factor",
+        "changeLabel": "Source mass",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The threshold speed rises, but the total-energy line stays near zero because the actual launch speed scales with the escape-speed target."
+          },
+          {
+            "id": "b",
+            "label": "Only the gravity arrow changes because escape speed does not depend on source mass."
+          },
+          {
+            "id": "c",
+            "label": "The launch becomes bound immediately because a heavier source must make the same speed factor too small."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "With speed factor fixed at 1.00, the actual launch speed updates with the new escape-speed target. A heavier source mass deepens the well and raises v_esc, but the threshold condition E/m = 0 stays intact.",
+        "observationHint": "The launch-speed readout rises with the escape-speed curve, while the total-energy line remains on zero.",
+        "apply": {
+          "presetId": "heavier-source-threshold"
+        },
+        "highlightedControls": [
+          "sourceMass"
+        ],
+        "highlightedGraphs": [
+          "speed-thresholds",
+          "specific-energy"
+        ],
+        "highlightedOverlays": [
+          "gravityVector",
+          "velocityVector"
+        ]
+      },
+      {
+        "id": "ev-pred-wider-launch-threshold",
+        "prompt": "At the same source mass, what should happen if the launch radius increases while the speed factor stays at 1.00?",
+        "scenarioLabel": "Wider threshold launch",
+        "changeLabel": "Launch radius",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The threshold speed decreases because the launch begins in a shallower part of the gravity well, but the total-energy line still stays near zero."
+          },
+          {
+            "id": "b",
+            "label": "The threshold speed increases because larger radii always need more speed to keep moving outward."
+          },
+          {
+            "id": "c",
+            "label": "Nothing important changes because the same source mass is still present."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Increasing r_0 makes the starting potential less negative, so the launch needs less kinetic energy to reach the zero-energy threshold. At speed factor 1.00 the total specific energy still stays at zero.",
+        "observationHint": "The launch marker moves outward, the threshold speed drops, and the total-energy line still hugs zero.",
+        "apply": {
+          "presetId": "wider-launch-threshold"
+        },
+        "highlightedControls": [
+          "launchRadius"
+        ],
+        "highlightedGraphs": [
+          "radius-history",
+          "speed-thresholds",
+          "specific-energy"
+        ],
+        "highlightedOverlays": [
+          "launchMarker",
+          "trail"
+        ]
+      },
+      {
+        "id": "ev-pred-high-bound-not-escape",
+        "prompt": "A launch starts faster than the local circular-speed comparison but still below the escape speed. Which statement is most defensible?",
+        "scenarioLabel": "Fast enough to climb, not enough to escape",
+        "changeLabel": "Speed factor",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It can rise far from the source and still remain bound, because negative total specific energy guarantees a finite turnaround radius."
+          },
+          {
+            "id": "b",
+            "label": "It must escape because any speed above circular speed is automatically above escape speed."
+          },
+          {
+            "id": "c",
+            "label": "It should settle into a circular orbit because circular speed is the main orbit threshold."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Escape depends on the total-energy sign, not on whether the launch exceeds the local circular-speed comparison. In this page the motion is radial, not a sideways orbit.",
+        "observationHint": "Watch the speed-threshold and specific-energy graphs together. The trail can extend far outward while the total-energy line stays negative.",
+        "apply": {
+          "presetId": "high-but-bound"
+        },
+        "highlightedControls": [
+          "speedFactor"
+        ],
+        "highlightedGraphs": [
+          "radius-history",
+          "speed-thresholds",
+          "specific-energy"
+        ],
+        "highlightedOverlays": [
+          "turnaroundMarker",
+          "trail",
+          "velocityVector"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Tune the same one-source launch bench into threshold targets. The checks read the live energy, speed, and turnaround state instead of a detached worksheet.",
+    "items": [
+      {
+        "id": "ev-ch-remove-turnaround",
+        "title": "Remove the finite turnaround",
+        "style": "target-setting",
+        "prompt": "Starting from High but bound, raise the launch just to the threshold case at the same source mass and launch radius so the total specific energy is about zero and the finite turnaround disappears.",
+        "successMessage": "You reached the threshold case: the total-energy line climbed to zero without changing the source mass or launch radius, so the finite turnaround is gone.",
+        "setup": {
+          "presetId": "high-but-bound",
+          "graphId": "specific-energy",
+          "overlayIds": [
+            "turnaroundMarker",
+            "trail"
+          ],
+          "note": "Keep the same source mass and launch radius. Only the launch speed should move."
+        },
+        "requirements": {
+          "graphId": "specific-energy",
+          "overlayIds": [
+            "turnaroundMarker",
+            "trail"
+          ]
+        },
+        "hints": [
+          "At fixed source mass and launch radius, the threshold case is the place where the total-energy line lands on zero.",
+          "Do not change the source mass or launch radius."
+        ],
+        "targets": [
+          {
+            "param": "sourceMass",
+            "min": 3.95,
+            "max": 4.05,
+            "displayUnit": "kg"
+          },
+          {
+            "param": "launchRadius",
+            "min": 1.55,
+            "max": 1.65,
+            "displayUnit": "m"
+          },
+          {
+            "param": "speedFactor",
+            "min": 0.99,
+            "max": 1.01
+          },
+          {
+            "metric": "totalEnergy",
+            "min": -0.02,
+            "max": 0.02
+          },
+          {
+            "metric": "launchSpeed",
+            "min": 2.22,
+            "max": 2.25,
+            "displayUnit": "m/s"
+          }
+        ]
+      },
+      {
+        "id": "ev-ch-high-climb-still-bound",
+        "title": "High climb, still bound",
+        "style": "target-setting",
+        "prompt": "Starting from Threshold launch, tune a launch that still begins from 1.6 m around a 4 kg source, climbs high, but remains bound with a finite turnaround near 10.4 m.",
+        "successMessage": "You built the high-but-bound case honestly: the outward trip is large, but the negative total-energy line still predicts a finite turnaround.",
+        "setup": {
+          "presetId": "threshold-launch",
+          "graphId": "radius-history",
+          "overlayIds": [
+            "turnaroundMarker",
+            "trail"
+          ],
+          "note": "Keep the same source mass and launch radius, then lower the launch speed just enough to restore a finite turnaround."
+        },
+        "requirements": {
+          "graphId": "radius-history",
+          "overlayIds": [
+            "turnaroundMarker",
+            "trail"
+          ]
+        },
+        "hints": [
+          "A high bound trip still needs negative total specific energy.",
+          "Aim below the escape threshold but not so low that the turnaround collapses back toward the launch point."
+        ],
+        "targets": [
+          {
+            "param": "sourceMass",
+            "min": 3.95,
+            "max": 4.05,
+            "displayUnit": "kg"
+          },
+          {
+            "param": "launchRadius",
+            "min": 1.55,
+            "max": 1.65,
+            "displayUnit": "m"
+          },
+          {
+            "param": "speedFactor",
+            "min": 0.91,
+            "max": 0.93
+          },
+          {
+            "metric": "totalEnergy",
+            "min": -0.4,
+            "max": -0.36
+          },
+          {
+            "metric": "turnaroundRadius",
+            "min": 10.2,
+            "max": 10.6,
+            "displayUnit": "m"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live launch-and-energy logic, not from detached formulas.",
+    "questions": [
+      {
+        "id": "ev-qt-high-but-bound",
+        "type": "reasoning",
+        "prompt": "A launch begins faster than the local circular-speed comparison but still below the escape speed from the same radius. What must be true in this lab?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "It can still remain bound, climb far out, and then return because the total specific energy is still negative."
+          },
+          {
+            "id": "b",
+            "label": "It must escape because any speed above circular speed is already above escape speed."
+          },
+          {
+            "id": "c",
+            "label": "It should settle into a circular orbit because circular speed is the main escape threshold."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Escape is decided by the sign of E/m. A radial launch can be faster than v_c and still remain bound if it stays below v_esc.",
+        "selectedWrongExplanations": {
+          "b": "Escape speed is higher than circular speed by a factor of sqrt(2) at the same radius, so being above v_c alone is not enough.",
+          "c": "This bench launches outward along a radial line, not sideways into orbit balance."
+        },
+        "showMeAction": {
+          "label": "Show the high-but-bound launch",
+          "presetId": "high-but-bound",
+          "observationHint": "The trail extends far outward, but the total-energy line stays negative and the turnaround marker remains finite.",
+          "highlightedControlIds": [
+            "speedFactor"
+          ],
+          "highlightedGraphIds": [
+            "radius-history",
+            "speed-thresholds",
+            "specific-energy"
+          ],
+          "highlightedOverlayIds": [
+            "turnaroundMarker",
+            "trail"
+          ]
+        }
+      },
+      {
+        "id": "ev-qt-heavier-source",
+        "type": "variable-effect",
+        "prompt": "At the same launch radius, the source mass increases while the speed factor stays at 1.00. Which claim is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The threshold speed rises with the deeper well, but the launch can stay at threshold because the actual speed scales with the escape-speed target."
+          },
+          {
+            "id": "b",
+            "label": "Nothing changes because escape speed depends only on launch radius."
+          },
+          {
+            "id": "c",
+            "label": "The launch becomes bound automatically because a heavier source always makes the same speed factor too small."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Escape speed depends on both source mass and launch radius. With speed factor fixed at 1.00, the actual speed updates with the new threshold.",
+        "selectedWrongExplanations": {
+          "b": "Source mass sets the depth of the gravity well, so it changes the threshold directly.",
+          "c": "That would be true only if the actual launch speed stayed fixed while the threshold changed."
+        },
+        "showMeAction": {
+          "label": "Show the heavier-source threshold",
+          "presetId": "heavier-source-threshold",
+          "observationHint": "The gravity arrow and launch-speed readout both rise, but the total-energy line still stays near zero.",
+          "highlightedControlIds": [
+            "sourceMass"
+          ],
+          "highlightedGraphIds": [
+            "speed-thresholds",
+            "specific-energy"
+          ],
+          "highlightedOverlayIds": [
+            "gravityVector",
+            "velocityVector"
+          ]
+        }
+      },
+      {
+        "id": "ev-qt-wider-launch",
+        "type": "compare-two-cases",
+        "prompt": "Setup A and Setup B use the same source mass and both keep speed factor at 1.00, but Setup B launches from the larger radius. What must be true?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Setup B has the lower threshold speed because it starts in a shallower part of the gravity well."
+          },
+          {
+            "id": "b",
+            "label": "Setup B has the higher threshold speed because larger radii always need more speed to keep moving outward."
+          },
+          {
+            "id": "c",
+            "label": "Both setups must have the same threshold speed because the source mass matches."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Escape speed falls as the launch radius increases because the starting potential is less negative.",
+        "selectedWrongExplanations": {
+          "b": "Escape threshold is about how much well depth remains to climb out of, not about a generic outward-motion rule.",
+          "c": "Source mass matters, but launch radius matters too."
+        },
+        "showMeAction": {
+          "label": "Show the wider-launch threshold",
+          "presetId": "wider-launch-threshold",
+          "observationHint": "The launch marker moves outward and the threshold speed drops while the total-energy line still stays near zero.",
+          "highlightedControlIds": [
+            "launchRadius"
+          ],
+          "highlightedGraphIds": [
+            "radius-history",
+            "speed-thresholds",
+            "specific-energy"
+          ],
+          "highlightedOverlayIds": [
+            "launchMarker",
+            "trail"
+          ]
+        }
+      },
+      {
+        "id": "ev-qt-threshold-meaning",
+        "type": "misconception-check",
+        "prompt": "A student says, \"At escape velocity, gravity becomes zero once the object gets far enough away.\" What is the best correction?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Gravity keeps acting, but the total specific energy is zero, so the speed can fade toward zero only very far away without needing a finite turnaround."
+          },
+          {
+            "id": "b",
+            "label": "Escape velocity means the object instantly keeps a constant speed because gravity has switched off."
+          },
+          {
+            "id": "c",
+            "label": "Escape velocity means the object enters a circular orbit where gravity and speed balance perfectly."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Escape velocity is about the energy threshold, not about gravity disappearing. Gravity keeps pulling inward and reducing the speed.",
+        "selectedWrongExplanations": {
+          "b": "The speed does not stay constant. Gravity still removes kinetic energy as the object moves outward.",
+          "c": "Circular orbit is a separate sideways-balance story."
+        },
+        "showMeAction": {
+          "label": "Show the threshold case",
+          "presetId": "threshold-launch",
+          "observationHint": "The turnaround marker disappears, but the gravity arrow remains visible and the speed still decreases over time.",
+          "highlightedControlIds": [
+            "speedFactor"
+          ],
+          "highlightedGraphIds": [
+            "radius-history",
+            "specific-energy"
+          ],
+          "highlightedOverlayIds": [
+            "gravityVector",
+            "turnaroundMarker",
+            "trail"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows one source mass on the left side of a compact radial launch axis, a launched mass moving outward or inward along that axis, and optional overlays for the launch marker, finite turnaround marker, current velocity vector, inward gravity vector, and visited trajectory trail.",
+        "Changing source mass, launch radius, or speed factor updates the same trajectory, readout card, and linked graphs together. Compare mode overlays a second launch on a separate dashed track instead of switching to a different model.",
+        "The displayed units use a bounded one-source gravity model with G = 1. The stage has a finite maximum visible radius, and bound launches whose turnaround sits beyond that view are labeled explicitly rather than being faked into the visible window."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The radius-history graph compares the live radius with the starting launch radius over the same time window. Hovering or scrubbing the graph previews the same instant on the launch stage.",
+        "The speed-thresholds graph compares the live speed with the local escape-speed and circular-speed benchmarks, and the specific-energy graph shows the live kinetic, potential, and total specific energies together with the zero-energy threshold."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Escape Velocity | Open Model Lab",
+    "description": "Learn escape velocity with a compact one-source gravity lab that links launch radius, source mass, total specific energy, threshold speeds, and high-but-bound launches.",
+    "keywords": [
+      "escape velocity",
+      "gravitational potential energy",
+      "total energy",
+      "orbital speed",
+      "physics simulation"
+    ]
+  },
+  "v2": {
+    "intuition": "Escape velocity is not the speed where gravity stops. It is the launch speed that gives the object just enough total specific energy to avoid any finite turnaround radius.",
+    "whyItMatters": "This turns escape from a memorized formula into an energy story you can reuse for projectiles, orbits, rockets, and gravitational wells.",
+    "estimatedMinutes": 16,
+    "equationSnapshot": {
+      "equationIds": [
+        "specific-total-energy",
+        "escape-speed",
+        "turnaround-radius"
+      ],
+      "note": "Read these as one test: the launch starts with kinetic energy, the well contributes negative potential energy, and the sign of E/m decides whether a finite turnaround exists."
+    },
+    "startSetup": {
+      "presetId": "threshold-launch",
+      "graphId": "specific-energy",
+      "overlayIds": [
+        "launchMarker",
+        "turnaroundMarker",
+        "velocityVector",
+        "gravityVector",
+        "trail"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-energy-threshold",
+        "title": "Read the threshold",
+        "goal": "See escape as a zero-energy boundary before changing any controls.",
+        "doThis": "Start from Threshold launch with the specific-energy graph open. Compare the launch speed, escape-speed readout, total-energy line, and missing finite turnaround marker.",
+        "notice": "The object still slows because gravity keeps pulling inward, but the total-energy line sits near zero and no finite turnaround radius is marked.",
+        "explain": "At threshold, v_0 equals v_esc and E/m = v_0^2/2 - M/r_0 is zero. That does not remove gravity; it removes the need for the object to reverse direction at a finite radius.",
+        "reveal": {
+          "controlIds": [
+            "speedFactor"
+          ],
+          "graphIds": [
+            "specific-energy",
+            "speed-thresholds"
+          ],
+          "overlayIds": [
+            "launchMarker",
+            "turnaroundMarker",
+            "velocityVector",
+            "gravityVector"
+          ]
+        },
+        "setup": {
+          "presetId": "threshold-launch",
+          "graphId": "specific-energy",
+          "overlayIds": [
+            "launchMarker",
+            "turnaroundMarker",
+            "velocityVector",
+            "gravityVector",
+            "trail"
+          ]
+        }
+      },
+      {
+        "id": "make-a-high-bound-launch",
+        "title": "Make high but bound",
+        "goal": "Separate a dramatic outward climb from true escape.",
+        "doThis": "Apply High but bound, keep the radius and specific-energy graphs available, and follow the trail toward the turnaround marker.",
+        "notice": "The launch can rise far past its starting point and even exceed the circular-speed comparison, while negative total specific energy still predicts a finite turnaround.",
+        "explain": "Circular speed is a local sideways-orbit benchmark. A radial launch escapes only when the total specific energy reaches zero or above; below that, the well eventually wins back the motion.",
+        "reveal": {
+          "controlIds": [
+            "speedFactor"
+          ],
+          "graphIds": [
+            "radius-history",
+            "speed-thresholds",
+            "specific-energy"
+          ],
+          "overlayIds": [
+            "turnaroundMarker",
+            "trail",
+            "velocityVector"
+          ]
+        },
+        "setup": {
+          "presetId": "high-but-bound",
+          "graphId": "radius-history",
+          "overlayIds": [
+            "turnaroundMarker",
+            "trail",
+            "velocityVector"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "ev-pred-high-bound-not-escape"
+          ],
+          "questionIds": [
+            "ev-qt-high-but-bound"
+          ]
+        }
+      },
+      {
+        "id": "change-the-well-depth",
+        "title": "Change the well depth",
+        "goal": "Predict how source mass and launch radius change the escape-speed threshold.",
+        "doThis": "Switch between Heavier source threshold and Wider launch threshold while the speed-threshold and specific-energy graphs are open.",
+        "notice": "A heavier source raises the threshold; a wider launch point lowers it. With speed factor still at 1.00, both cases remain near the zero-energy boundary.",
+        "explain": "The formula v_esc = sqrt(2M/r_0) is an energy-depth statement: more M deepens the well, while a larger r_0 starts higher in the well.",
+        "reveal": {
+          "controlIds": [
+            "sourceMass",
+            "launchRadius",
+            "speedFactor"
+          ],
+          "graphIds": [
+            "speed-thresholds",
+            "specific-energy"
+          ],
+          "overlayIds": [
+            "launchMarker",
+            "gravityVector",
+            "velocityVector",
+            "trail"
+          ]
+        },
+        "setup": {
+          "presetId": "heavier-source-threshold",
+          "graphId": "speed-thresholds",
+          "overlayIds": [
+            "launchMarker",
+            "gravityVector",
+            "velocityVector",
+            "trail"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "ev-pred-heavier-source-threshold",
+            "ev-pred-wider-launch-threshold"
+          ],
+          "questionIds": [
+            "ev-qt-heavier-source",
+            "ev-qt-wider-launch"
+          ]
+        }
+      },
+      {
+        "id": "check-the-escape-verdict",
+        "title": "Check the verdict",
+        "goal": "Use the live bench to move between bound, threshold, and escaping outcomes intentionally.",
+        "doThis": "Start from High but bound, then raise only Speed factor until the total-energy line reaches zero and the finite turnaround marker disappears.",
+        "notice": "Changing speed factor changes the launch kinetic term directly. Crossing zero total energy is the moment the bound verdict turns into threshold or escape.",
+        "explain": "If you can name the energy sign, the speed-threshold relationship, and the turnaround consequence for the same setting, you have the escape-velocity idea.",
+        "reveal": {
+          "controlIds": [
+            "speedFactor"
+          ],
+          "graphIds": [
+            "specific-energy",
+            "radius-history"
+          ],
+          "overlayIds": [
+            "turnaroundMarker",
+            "trail",
+            "velocityVector"
+          ]
+        },
+        "setup": {
+          "presetId": "high-but-bound",
+          "graphId": "specific-energy",
+          "overlayIds": [
+            "turnaroundMarker",
+            "trail",
+            "velocityVector"
+          ]
+        },
+        "inlineCheck": {
+          "includeMiniChallenge": true,
+          "questionIds": [
+            "ev-qt-high-but-bound"
+          ]
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Escape velocity is the launch speed that makes total specific energy zero at the starting radius.",
+        "Gravity keeps slowing an escaping launch; escape means there is no finite turnaround radius, not that gravity vanishes.",
+        "Increasing source mass raises the threshold, while launching from a larger radius lowers it.",
+        "Being faster than circular speed is not enough for radial escape if the total specific energy is still negative."
+      ],
+      "misconception": "Getting very far from the source is not the same as escaping. A high bound launch can travel far outward and still return if E/m remains negative.",
+      "workedExampleRefs": [
+        "required-escape-speed",
+        "current-energy-check"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "circular-orbits-orbital-speed",
+          "title": "Circular Orbits and Orbital Speed",
+          "reasonLabel": "Contrast escape with the speed that holds a bound circle."
+        },
+        {
+          "slug": "gravitational-potential-energy",
+          "title": "Gravitational Potential and Potential Energy",
+          "reasonLabel": "Review the energy-well picture behind the threshold."
+        },
+        {
+          "slug": "projectile-motion",
+          "title": "Projectile Motion",
+          "reasonLabel": "Compare ordinary return-to-ground motion with escaping a gravity well."
+        }
+      ],
+      "freePlayPrompt": "Build three cases with the same source mass and launch radius: bound below threshold, threshold at speed factor 1.00, and clear escape above threshold. For each one, say the sign of E/m and what happens to the turnaround marker."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "quickTest"
+    ]
+  }
+}

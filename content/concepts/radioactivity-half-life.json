@@ -1,0 +1,1224 @@
+{
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "Live half-life checks"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "Chance-versus-curve checkpoint",
+        "order": 35
+      },
+      {
+        "id": "readNext",
+        "title": "Carry the modern-physics branch forward"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "Use one compact decay bench to see why each nucleus decays unpredictably, why large samples still follow a regular half-life curve, and how to read remaining-count graphs honestly.",
+    "whyItMatters": "Half-life is the bridge between random nuclear events and useful predictions for dating, medical tracers, radiation safety, and any situation where a sample decays by chance but still follows a measurable trend.",
+    "keyTakeaway": "Half-life means the expected sample count is multiplied by one half over each equal half-life interval. It does not mean each nucleus survives exactly half that long."
+  },
+  "v2": {
+    "intuition": "Treat radioactive decay as two stories on the same bench: one nucleus makes a yes-or-no chance event, while many independent nuclei make a steady halving pattern you can predict.",
+    "whyItMatters": "Half-life lets scientists make practical predictions from random decay—dating old materials, planning medical tracers, and judging radiation risk—without pretending any single nucleus owns a countdown clock.",
+    "estimatedMinutes": 24,
+    "equationSnapshot": {
+      "title": "Probability to half-life snapshot",
+      "note": "Read the expected count first, then compare it with the actual stepped tray. The same decay constant controls the sample expectation and the survival chance for one nucleus.",
+      "equationIds": [
+        "count-law",
+        "survival-probability",
+        "decay-constant"
+      ]
+    },
+    "startSetup": {
+      "presetId": "single-nucleus",
+      "graphId": "remaining-fraction",
+      "overlayIds": [
+        "singleVsSample",
+        "sampleVsExpected",
+        "halfLifeMarkers"
+      ],
+      "note": "Begin with one nucleus so the 50% value is clearly a probability, not half of a physical particle, then grow the sample to see the curve emerge."
+    },
+    "guidedSteps": [
+      {
+        "id": "separate-one-nucleus-from-the-sample",
+        "title": "Separate one nucleus from the sample",
+        "goal": "Make the single-event probability visible before using the smooth sample curve.",
+        "doThis": "Open Single nucleus, scrub to one half-life, and compare the yes-or-no tray with the 50% survival marker on the fraction graph.",
+        "notice": "The nucleus is either present or gone; the 50% mark describes survival probability and expected sample fraction, not half a nucleus.",
+        "explain": "Radioactive decay has no personal countdown clock. Each nucleus only has a chance to survive each interval, so probability is honest for one nucleus and averages become useful for many nuclei.",
+        "reveal": {
+          "controlIds": [
+            "sampleSize",
+            "halfLifeSeconds"
+          ],
+          "graphIds": [
+            "remaining-fraction"
+          ],
+          "overlayIds": [
+            "singleVsSample",
+            "sampleVsExpected",
+            "halfLifeMarkers"
+          ]
+        },
+        "setup": {
+          "presetId": "single-nucleus",
+          "graphId": "remaining-fraction",
+          "overlayIds": [
+            "singleVsSample",
+            "sampleVsExpected",
+            "halfLifeMarkers"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Check what half-life means",
+          "questionIds": [
+            "rhl-qt-half-life-meaning"
+          ],
+          "predictionIds": [
+            "rhl-pred-one-half-life"
+          ]
+        }
+      },
+      {
+        "id": "read-repeated-halving",
+        "title": "Read repeated halving",
+        "goal": "Connect equal half-life intervals to multiplication by one half, not a fixed subtraction.",
+        "doThis": "Switch to Class-lab sample, keep the half-life markers visible, and scrub from one checkpoint to the next on the count and fraction graphs.",
+        "notice": "The expected fraction goes 100%, 50%, 25%, 12.5%, while the actual tray falls in whole-number steps near the curve.",
+        "explain": "A half-life repeats the same fraction over equal intervals. That is why the expectation bends toward zero instead of losing the same number of nuclei every second.",
+        "reveal": {
+          "controlIds": [
+            "halfLifeSeconds"
+          ],
+          "graphIds": [
+            "remaining-count",
+            "remaining-fraction"
+          ],
+          "overlayIds": [
+            "halfLifeMarkers",
+            "sampleVsExpected"
+          ]
+        },
+        "setup": {
+          "presetId": "class-lab",
+          "graphId": "remaining-count",
+          "overlayIds": [
+            "halfLifeMarkers",
+            "sampleVsExpected"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Predict two half-lives",
+          "questionIds": [
+            "rhl-qt-two-half-lives"
+          ],
+          "predictionIds": [
+            "rhl-pred-two-half-lives"
+          ]
+        }
+      },
+      {
+        "id": "compare-noisy-and-smooth-samples",
+        "title": "Compare noisy and smooth samples",
+        "goal": "See why the same decay law looks jumpier for small samples and steadier for large samples.",
+        "doThis": "Compare Small noisy sample with Large smooth sample while keeping the half-life the same and reading the remaining-fraction graph.",
+        "notice": "The expected fraction curve stays the same, but the larger sample hugs it more closely because more independent decays are averaged.",
+        "explain": "Sample size changes the size of random wiggles, not the half-life law. Fewer nuclei make each yes-or-no event matter more; more nuclei make the aggregate trend steadier.",
+        "reveal": {
+          "controlIds": [
+            "sampleSize"
+          ],
+          "graphIds": [
+            "remaining-fraction",
+            "remaining-count"
+          ],
+          "overlayIds": [
+            "sampleVsExpected",
+            "singleVsSample",
+            "recentDecays"
+          ]
+        },
+        "setup": {
+          "presetId": "small-sample-noisy",
+          "graphId": "remaining-fraction",
+          "overlayIds": [
+            "sampleVsExpected",
+            "singleVsSample",
+            "recentDecays"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Check sample-size noise",
+          "questionIds": [
+            "rhl-qt-small-large"
+          ],
+          "predictionIds": [
+            "rhl-pred-small-vs-large"
+          ]
+        }
+      },
+      {
+        "id": "judge-an-honest-decay-graph",
+        "title": "Judge an honest decay graph",
+        "goal": "Pull the probability, curve, and integer-tray ideas together before the challenge.",
+        "doThis": "Use the challenge setup or the class-lab preset to decide which parts of the display should be smooth and which must stay stepped.",
+        "notice": "The smooth line is the expectation, the tray is the actual integer sample, and both should approach zero without going negative.",
+        "explain": "An honest half-life model does not smooth away individual decays or force exact tray counts. It keeps the random sample and predictable expectation visibly connected.",
+        "reveal": {
+          "controlIds": [
+            "sampleSize",
+            "halfLifeSeconds"
+          ],
+          "graphIds": [
+            "remaining-count",
+            "remaining-fraction"
+          ],
+          "overlayIds": [
+            "sampleVsExpected",
+            "halfLifeMarkers",
+            "recentDecays"
+          ]
+        },
+        "setup": {
+          "presetId": "class-lab",
+          "graphId": "remaining-count",
+          "overlayIds": [
+            "sampleVsExpected",
+            "halfLifeMarkers",
+            "recentDecays"
+          ]
+        },
+        "inlineCheck": {
+          "title": "Check the curve story",
+          "questionIds": [
+            "rhl-qt-curve-honesty"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Half-life is a repeated halving of the expected sample count over equal time intervals.",
+        "One nucleus decays as a yes-or-no chance event; it does not split or follow a personal timer.",
+        "Small actual samples can wander above or below the smooth expectation, while larger samples look steadier.",
+        "The actual tray should fall in integer steps, and the expected curve should stay smooth, positive, and flattening toward zero."
+      ],
+      "misconception": "Do not read half-life as a schedule that makes exactly half the nuclei vanish at one instant. It is an expectation law for many independent random decays.",
+      "workedExampleRefs": [
+        "current-expected-remaining",
+        "current-sample-spread"
+      ],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "bohr-model",
+          "title": "Bohr Model",
+          "reasonLabel": "Compare probabilistic decay with quantized atomic structure."
+        },
+        {
+          "slug": "atomic-spectra",
+          "title": "Atomic Spectra",
+          "reasonLabel": "Use discrete evidence from atoms in another modern-physics bench."
+        },
+        {
+          "slug": "photoelectric-effect",
+          "title": "Photoelectric Effect",
+          "reasonLabel": "Continue the probability-versus-threshold thread with photons and electrons."
+        }
+      ],
+      "freePlayPrompt": "Build three cases: one single nucleus at one half-life, one small noisy sample near the same checkpoint, and one large smooth sample. Say which reading is probability, which is actual count, and which is expectation."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "commonMisconception",
+      "workedExamples",
+      "quickTest"
+    ]
+  },
+  "sections": {
+    "explanation": {
+      "paragraphs": [
+        "Radioactivity is the bounded decay case where single events are genuinely probabilistic, but large samples still produce a steady and predictable curve. A nucleus does not carry a countdown clock to a personal half-life. Instead, each nucleus has the same chance to survive each interval, and the sample-level pattern becomes regular only when many independent yes-or-no events are averaged together.",
+        "This page keeps one compact bench with a bounded sample tray, two linked time graphs, and one readout card. Sample size, half-life, graph hover previews, compare mode, worked examples, quick tests, overlays, and challenge checks all stay tied to that same honest decay state instead of splitting into a separate probability page and a separate curve page."
+      ]
+    },
+    "keyIdeas": [
+      "Half-life means the expected sample count is multiplied by one half over each equal half-life interval. It does not mean each nucleus survives exactly half that long.",
+      "For one nucleus, decay is a probabilistic yes-or-no event. For many nuclei, those independent events average into a smoother exponential trend.",
+      "The decay curve should step downward for an actual sample and stay smooth only for the expectation. Both views belong on the same bench.",
+      "An honest decay graph approaches zero without becoming negative, and the sample can wander above or below the expectation while still following the same law."
+    ],
+    "commonMisconception": {
+      "myth": "A half-life of 2 seconds means every nucleus lives for 2 seconds and then exactly half of them disappear on schedule.",
+      "correction": [
+        "Half-life is a sample-level expectation, not a personal timer for each nucleus. One nucleus may decay early, late, or not yet at all.",
+        "The smooth exponential curve is the expected trend for many independent decays. The live sample count stays as integer nuclei and should fall in steps."
+      ]
+    },
+    "workedExamples": {
+      "title": "Live half-life checks",
+      "intro": "Use the current sample and half-life directly from the live bench. The same tray, graphs, and readout card drive each worked result.",
+      "items": [
+        {
+          "id": "current-expected-remaining",
+          "title": "Current expected benchmark",
+          "prompt": "For a sample of {{sampleSizeValue}} nuclei with half-life {{halfLifeValue}}, what expected count belongs at time {{timeValue}}?",
+          "variables": [
+            {
+              "id": "sampleSize",
+              "variableId": "sampleSize",
+              "symbol": "N_0",
+              "label": "Starting sample",
+              "valueKey": "sampleSizeValue",
+              "unit": "nuclei"
+            },
+            {
+              "id": "halfLifeSeconds",
+              "variableId": "halfLifeSeconds",
+              "symbol": "T_{1/2}",
+              "label": "Half-life",
+              "valueKey": "halfLifeValue",
+              "unit": "s"
+            },
+            {
+              "id": "time",
+              "symbol": "t",
+              "label": "Elapsed time",
+              "valueKey": "timeValue",
+              "unit": "s"
+            },
+            {
+              "id": "expectedRemaining",
+              "symbol": "N_{\\mathrm{exp}}",
+              "label": "Expected remaining",
+              "valueKey": "expectedRemainingValue",
+              "unit": "nuclei"
+            }
+          ],
+          "steps": [
+            {
+              "id": "count-half-lives",
+              "label": "1. Count equal half-life intervals",
+              "template": "The live time is {{timeValue}}, which is {{elapsedHalfLivesValue}} half-lives of {{halfLifeValue}} each."
+            },
+            {
+              "id": "apply-halving-law",
+              "label": "2. Apply the half-life law to the expectation",
+              "template": "That means the expected surviving fraction is about {{expectedFractionPercentValue}}, so the sample expectation is {{expectedRemainingValue}} nuclei."
+            },
+            {
+              "id": "compare-live-count",
+              "label": "3. Compare expectation with the live sample",
+              "template": "The tray currently shows {{actualRemainingValue}} nuclei still present, so the sample is being compared with an expectation instead of being forced to equal it exactly."
+            }
+          ],
+          "resultLabel": "Expected benchmark",
+          "resultTemplate": "\\(N_{\\mathrm{exp}} \\approx {{expectedRemainingValue}}\\) nuclei at \\(t = {{timeValue}}\\)",
+          "interpretationTemplate": "{{expectedInterpretation}}",
+          "applyAction": {
+            "label": "Show the class-lab sample",
+            "presetId": "class-lab",
+            "observationHint": "Use the half-life markers and the expected curve together, then scrub the time rail.",
+            "highlightedControlIds": [
+              "sampleSize",
+              "halfLifeSeconds"
+            ],
+            "highlightedGraphIds": [
+              "remaining-count",
+              "remaining-fraction"
+            ],
+            "highlightedOverlayIds": [
+              "sampleVsExpected",
+              "halfLifeMarkers"
+            ]
+          }
+        },
+        {
+          "id": "current-sample-spread",
+          "title": "Current sample spread",
+          "prompt": "At the same time {{timeValue}}, how far is the live sample from the smooth expectation, and what does that say about chance in decay?",
+          "variables": [
+            {
+              "id": "sampleSize",
+              "variableId": "sampleSize",
+              "symbol": "N_0",
+              "label": "Starting sample",
+              "valueKey": "sampleSizeValue",
+              "unit": "nuclei"
+            },
+            {
+              "id": "survivalProbability",
+              "symbol": "P_{\\mathrm{survive}}",
+              "label": "Single-nucleus survival chance",
+              "valueKey": "survivalProbabilityPercentValue",
+              "unit": "%"
+            },
+            {
+              "id": "actualRemaining",
+              "symbol": "N_{\\mathrm{actual}}",
+              "label": "Actual remaining",
+              "valueKey": "actualRemainingValue",
+              "unit": "nuclei"
+            },
+            {
+              "id": "deviation",
+              "symbol": "\\Delta N",
+              "label": "Actual minus expected",
+              "valueKey": "signedDeviationCountValue",
+              "unit": "nuclei"
+            }
+          ],
+          "steps": [
+            {
+              "id": "single-particle-view",
+              "label": "1. Read the one-nucleus probability honestly",
+              "template": "By {{timeValue}}, one nucleus has survival probability {{survivalProbabilityPercentValue}}. That probability applies independently to each nucleus rather than forcing the tray to match the curve exactly."
+            },
+            {
+              "id": "compare-sample-and-curve",
+              "label": "2. Compare the tray with the expectation",
+              "template": "The live tray shows {{actualRemainingValue}} nuclei, which is {{signedDeviationCountValue}} nuclei relative to the smooth expectation."
+            },
+            {
+              "id": "state-the-spread",
+              "label": "3. Turn the difference into a sample-level reading",
+              "template": "That spread is about {{deviationFractionPercentValue}} of the starting sample, so the page is showing sample noise and sample regularity on the same bench."
+            }
+          ],
+          "resultLabel": "Current sample spread",
+          "resultTemplate": "\\(N_{\\mathrm{actual}} = {{actualRemainingValue}}, \\; \\Delta N = {{signedDeviationCountValue}}\\)",
+          "interpretationTemplate": "{{spreadInterpretation}}",
+          "applyAction": {
+            "label": "Show the small noisy sample",
+            "presetId": "small-sample-noisy",
+            "observationHint": "Keep the single-vs-sample cue open while the stepped count pulls away from the smooth curve.",
+            "highlightedControlIds": [
+              "sampleSize"
+            ],
+            "highlightedGraphIds": [
+              "remaining-count",
+              "remaining-fraction"
+            ],
+            "highlightedOverlayIds": [
+              "singleVsSample",
+              "sampleVsExpected",
+              "recentDecays"
+            ]
+          }
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "A graph shows a smooth curve halving from 80 to 40 to 20 while the sample tray drops in uneven steps. Which description is the most honest?",
+      "prediction": "Answer from the difference between expectation and individual decays.",
+      "answer": "The smooth curve is the expected sample trend, while the tray shows the actual integer nuclei that happened to survive. Both are correct views of the same probabilistic decay law.",
+      "explanation": "If the tray matched a perfectly smooth curve, the page would be hiding the fact that nuclei decay one by one. If the page showed only random dots with no expectation, it would hide the regular large-sample law."
+    }
+  },
+  "equations": [
+    {
+      "id": "count-law",
+      "latex": "N(t) = N_0\\left(\\dfrac{1}{2}\\right)^{t / T_{1/2}}",
+      "label": "Half-life law",
+      "meaning": "Each equal half-life interval multiplies the expected count by one half."
+    },
+    {
+      "id": "decay-constant",
+      "latex": "N(t) = N_0 e^{-\\lambda t}, \\qquad \\lambda = \\dfrac{\\ln 2}{T_{1/2}}",
+      "label": "Exponential form",
+      "meaning": "The half-life law is the same exponential decay law written with a decay constant."
+    },
+    {
+      "id": "survival-probability",
+      "latex": "P(\\text{survive to } t) = e^{-\\lambda t}",
+      "label": "Single-nucleus survival probability",
+      "meaning": "One nucleus survives probabilistically, but the same decay constant links the single-event chance to the sample trend."
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "sampleSize",
+      "symbol": "N_0",
+      "label": "Sample size",
+      "param": "sampleSize",
+      "tone": "teal",
+      "description": "Changes how noisy the actual tray looks around the same expectation curve. Small samples wander more, while large samples look steadier.",
+      "equationIds": [
+        "count-law"
+      ],
+      "graphIds": [
+        "remaining-count",
+        "remaining-fraction"
+      ],
+      "overlayIds": [
+        "sampleVsExpected",
+        "singleVsSample",
+        "recentDecays"
+      ]
+    },
+    {
+      "id": "halfLifeSeconds",
+      "symbol": "T_{1/2}",
+      "label": "Half-life",
+      "param": "halfLifeSeconds",
+      "tone": "amber",
+      "description": "Stretches or compresses the time scale while keeping the same equal-interval halving idea visible on both graphs.",
+      "equationIds": [
+        "count-law",
+        "decay-constant",
+        "survival-probability"
+      ],
+      "graphIds": [
+        "remaining-count",
+        "remaining-fraction"
+      ],
+      "overlayIds": [
+        "halfLifeMarkers",
+        "sampleVsExpected"
+      ]
+    }
+  ],
+  "simulation": {
+    "defaults": {
+      "sampleSize": 64,
+      "halfLifeSeconds": 2.4,
+      "recentDecays": true,
+      "sampleVsExpected": true,
+      "halfLifeMarkers": true,
+      "singleVsSample": true
+    },
+    "ui": {
+      "initialGraphId": "remaining-fraction",
+      "primaryGraphIds": [
+        "remaining-fraction",
+        "remaining-count"
+      ],
+      "primaryControlIds": [
+        "sampleSize",
+        "halfLifeSeconds"
+      ],
+      "primaryPresetIds": [
+        "single-nucleus",
+        "small-sample-noisy",
+        "class-lab",
+        "large-sample-smooth"
+      ]
+    },
+    "controls": [
+      {
+        "id": "sampleSize",
+        "kind": "slider",
+        "label": "Sample size",
+        "param": "sampleSize",
+        "min": 1,
+        "max": 196,
+        "step": 1,
+        "unit": "nuclei",
+        "description": "Set how many nuclei start in the tray so you can compare small-sample noise with large-sample regularity."
+      },
+      {
+        "id": "halfLifeSeconds",
+        "kind": "slider",
+        "label": "Half-life",
+        "param": "halfLifeSeconds",
+        "min": 0.6,
+        "max": 8,
+        "step": 0.1,
+        "unit": "s",
+        "description": "Set the half-life that defines the equal-interval halving law on the time axis."
+      }
+    ],
+    "presets": [
+      {
+        "id": "single-nucleus",
+        "label": "Single nucleus",
+        "description": "One nucleus shows pure yes-or-no survival while the expected curve still reads 50% after one half-life.",
+        "values": {
+          "sampleSize": 1,
+          "halfLifeSeconds": 2.4
+        }
+      },
+      {
+        "id": "small-sample-noisy",
+        "label": "Small noisy sample",
+        "description": "A dozen nuclei make the sample curve noticeably jumpy around the smooth expectation.",
+        "values": {
+          "sampleSize": 12,
+          "halfLifeSeconds": 2.4
+        }
+      },
+      {
+        "id": "class-lab",
+        "label": "Class-lab sample",
+        "description": "A medium sample makes the expectation readable while sample noise is still visible.",
+        "values": {
+          "sampleSize": 64,
+          "halfLifeSeconds": 2.4
+        }
+      },
+      {
+        "id": "large-sample-smooth",
+        "label": "Large smooth sample",
+        "description": "A larger tray makes the step curve hug the smooth expectation more closely.",
+        "values": {
+          "sampleSize": 196,
+          "halfLifeSeconds": 2.4
+        }
+      },
+      {
+        "id": "short-half-life",
+        "label": "Short half-life",
+        "description": "The same sample now decays over a shorter time scale, so the checkpoints arrive quickly.",
+        "values": {
+          "sampleSize": 64,
+          "halfLifeSeconds": 1.2
+        }
+      },
+      {
+        "id": "long-half-life",
+        "label": "Long half-life",
+        "description": "The same sample now decays over a longer time scale, spreading the same checkpoint story outward.",
+        "values": {
+          "sampleSize": 64,
+          "halfLifeSeconds": 4.8
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "id": "recentDecays",
+        "label": "Recent decays",
+        "shortDescription": "Highlights nuclei that decayed only recently instead of pretending the tray changes smoothly everywhere at once.",
+        "whatToNotice": [
+          "The tray changes one nucleus at a time even when the graph of expectation is smooth."
+        ],
+        "whyItMatters": "It keeps the single-event story visible and prevents the page from faking continuous matter loss.",
+        "relatedControls": [
+          "sampleSize"
+        ],
+        "relatedGraphTabs": [
+          "remaining-count"
+        ],
+        "relatedEquationVariables": [
+          "sampleSize"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "sampleVsExpected",
+        "label": "Sample versus expectation",
+        "shortDescription": "Keeps the stepped actual count and the smooth expectation visibly paired on the same bench.",
+        "whatToNotice": [
+          "The actual tray can sit above or below the smooth curve while still following the same decay law overall."
+        ],
+        "whyItMatters": "It is the cleanest way to separate probabilistic single events from predictable large-sample behavior.",
+        "relatedControls": [
+          "sampleSize",
+          "halfLifeSeconds"
+        ],
+        "relatedGraphTabs": [
+          "remaining-count",
+          "remaining-fraction"
+        ],
+        "relatedEquationVariables": [
+          "sampleSize",
+          "halfLifeSeconds"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "halfLifeMarkers",
+        "label": "Half-life markers",
+        "shortDescription": "Marks equal half-life checkpoints on the bench so repeated halving stays visually honest.",
+        "whatToNotice": [
+          "Each equal checkpoint multiplies the expectation by one half again rather than subtracting a fixed number."
+        ],
+        "whyItMatters": "It keeps learners from reading half-life as a linear drop per second.",
+        "relatedControls": [
+          "halfLifeSeconds"
+        ],
+        "relatedGraphTabs": [
+          "remaining-count",
+          "remaining-fraction"
+        ],
+        "relatedEquationVariables": [
+          "halfLifeSeconds"
+        ],
+        "defaultOn": true
+      },
+      {
+        "id": "singleVsSample",
+        "label": "Single versus sample",
+        "shortDescription": "Shows one-nucleus survival language beside the sample curve so the page does not confuse probability with certainty.",
+        "whatToNotice": [
+          "One nucleus is either still present or gone, while the large-sample curve is an average expectation."
+        ],
+        "whyItMatters": "It blocks the common mistake that a 50 percent survival chance means a half nucleus or a scheduled countdown.",
+        "relatedControls": [
+          "sampleSize"
+        ],
+        "relatedGraphTabs": [
+          "remaining-fraction"
+        ],
+        "relatedEquationVariables": [
+          "sampleSize"
+        ],
+        "defaultOn": true
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "remaining-count",
+      "label": "Remaining nuclei vs time",
+      "xLabel": "time (s)",
+      "yLabel": "remaining nuclei",
+      "series": [
+        "actual-remaining",
+        "expected-remaining"
+      ],
+      "description": "Shows the stepped live count and the smooth expectation together so integer decays and exponential regularity stay aligned."
+    },
+    {
+      "id": "remaining-fraction",
+      "label": "Remaining fraction vs time",
+      "xLabel": "time (s)",
+      "yLabel": "remaining fraction",
+      "series": [
+        "actual-fraction",
+        "expected-fraction"
+      ],
+      "description": "Normalizes the same decay story so samples of different sizes can be compared without hiding the single-event noise."
+    }
+  ],
+  "noticePrompts": {
+    "title": "What to notice",
+    "intro": "Use one prompt at a time so the tray, the readout card, and the time graphs stay on the same compact decay bench.",
+    "items": [
+      {
+        "id": "rhl-notice-single",
+        "text": "One nucleus is either still present or gone. The 50 percent curve at one half-life is a survival probability for one nucleus and an expectation for a sample, not a scheduled split of each nucleus.",
+        "type": "observation",
+        "priority": 1,
+        "tryThis": "Open Single nucleus and scrub to one half-life.",
+        "whyItMatters": "It keeps the page honest about what probability means at the single-particle level.",
+        "relatedControls": [
+          "sampleSize"
+        ],
+        "relatedGraphTabs": [
+          "remaining-fraction"
+        ],
+        "relatedOverlays": [
+          "singleVsSample",
+          "sampleVsExpected"
+        ]
+      },
+      {
+        "id": "rhl-notice-halving",
+        "text": "Equal half-life intervals halve the expected sample repeatedly. They do not remove a fixed number of nuclei each second, so the curve bends and flattens as time goes on.",
+        "type": "graph-reading",
+        "priority": 4,
+        "tryThis": "Start from Class-lab sample and scrub from one half-life to two half-lives.",
+        "whyItMatters": "It turns half-life into a multiplicative idea instead of a linear one.",
+        "relatedControls": [
+          "halfLifeSeconds"
+        ],
+        "relatedGraphTabs": [
+          "remaining-count",
+          "remaining-fraction"
+        ],
+        "relatedOverlays": [
+          "halfLifeMarkers",
+          "sampleVsExpected"
+        ]
+      },
+      {
+        "id": "rhl-notice-noise",
+        "text": "Small samples can wander noticeably above or below the expectation, but a larger sample hugs the same curve more closely because many independent decays average together.",
+        "type": "try-this",
+        "priority": 7,
+        "tryThis": "Compare Small noisy sample with Large smooth sample at the same half-life.",
+        "whyItMatters": "It links probability to regularity without pretending the sample must always match the curve exactly.",
+        "relatedControls": [
+          "sampleSize"
+        ],
+        "relatedGraphTabs": [
+          "remaining-count",
+          "remaining-fraction"
+        ],
+        "relatedOverlays": [
+          "sampleVsExpected",
+          "recentDecays"
+        ]
+      },
+      {
+        "id": "rhl-notice-compare",
+        "text": "Compare mode is strongest when the half-life stays the same but sample size changes. That separates randomness in the tray from the shared decay law in the graphs.",
+        "type": "compare",
+        "priority": 10,
+        "conditions": {
+          "modes": [
+            "compare"
+          ]
+        },
+        "tryThis": "Keep Setup A on Small noisy sample and Setup B on Large smooth sample.",
+        "whyItMatters": "The side-by-side bench makes probability and regularity visible at once.",
+        "relatedControls": [
+          "sampleSize"
+        ],
+        "relatedGraphTabs": [
+          "remaining-count",
+          "remaining-fraction"
+        ],
+        "relatedOverlays": [
+          "sampleVsExpected",
+          "singleVsSample",
+          "recentDecays"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "Prediction mode",
+    "intro": "Commit to the probability-versus-curve consequence before you scrub the time rail or change the sample.",
+    "items": [
+      {
+        "id": "rhl-pred-one-half-life",
+        "prompt": "Start from Class-lab sample and scrub to one half-life. Which statement should stay honest?",
+        "scenarioLabel": "Reach one half-life",
+        "changeLabel": "Elapsed time",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The expected sample is cut in half, but the actual tray can land near that value rather than exactly on it."
+          },
+          {
+            "id": "b",
+            "label": "Exactly half of the nuclei must disappear at that instant because half-life is a schedule."
+          },
+          {
+            "id": "c",
+            "label": "The curve should stay straight because each second removes the same number of nuclei."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "At one half-life the expectation is 50 percent, but the actual tray still changes in integer yes-or-no decays.",
+        "observationHint": "Use the half-life markers, then compare the stepped count with the dashed curve.",
+        "apply": {
+          "presetId": "class-lab"
+        },
+        "highlightedControls": [
+          "halfLifeSeconds"
+        ],
+        "highlightedGraphs": [
+          "remaining-count",
+          "remaining-fraction"
+        ],
+        "highlightedOverlays": [
+          "halfLifeMarkers",
+          "sampleVsExpected"
+        ]
+      },
+      {
+        "id": "rhl-pred-small-vs-large",
+        "prompt": "Keep the same half-life but raise the sample size from Small noisy sample to Large smooth sample. What should the page do?",
+        "scenarioLabel": "Raise the sample size",
+        "changeLabel": "Sample size",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The actual fraction should wobble less around the same expectation curve because more independent decays are being averaged."
+          },
+          {
+            "id": "b",
+            "label": "The half-life itself should become longer because larger samples decay more slowly."
+          },
+          {
+            "id": "c",
+            "label": "The expected fraction curve should tilt upward because there are more nuclei to start with."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Sample size changes how noisy the actual tray looks, not the half-life law itself. The fraction expectation stays the same while the large sample becomes steadier.",
+        "observationHint": "Use compare mode or jump between the presets and focus on the fraction graph.",
+        "apply": {
+          "presetId": "large-sample-smooth"
+        },
+        "highlightedControls": [
+          "sampleSize"
+        ],
+        "highlightedGraphs": [
+          "remaining-fraction"
+        ],
+        "highlightedOverlays": [
+          "sampleVsExpected",
+          "singleVsSample"
+        ]
+      },
+      {
+        "id": "rhl-pred-two-half-lives",
+        "prompt": "From the same starting sample, scrub from one half-life to two half-lives. Which statement is correct about the expectation?",
+        "scenarioLabel": "Reach two half-lives",
+        "changeLabel": "Elapsed time",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The expected sample falls to one quarter of the start because the halving repeats over equal intervals."
+          },
+          {
+            "id": "b",
+            "label": "The expected sample falls to zero because two half-lives means nothing can remain."
+          },
+          {
+            "id": "c",
+            "label": "The expected sample loses the same number of nuclei as it did during the first half-life."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The decay law multiplies by one half again after the second equal interval, so the expectation becomes one quarter of the start.",
+        "observationHint": "Watch the half-life checkpoint strip and the fraction graph together.",
+        "apply": {
+          "presetId": "class-lab"
+        },
+        "highlightedControls": [
+          "halfLifeSeconds"
+        ],
+        "highlightedGraphs": [
+          "remaining-count",
+          "remaining-fraction"
+        ],
+        "highlightedOverlays": [
+          "halfLifeMarkers",
+          "sampleVsExpected"
+        ]
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the same bounded decay bench for compact half-life and sample-noise targets instead of widening into a full nuclear-physics system.",
+    "items": [
+      {
+        "id": "rhl-ch-half-life-checkpoint",
+        "title": "Land on the one-half-life checkpoint",
+        "style": "target-setting",
+        "prompt": "Starting from Class-lab sample, scrub to about one half-life so the expectation is halved while the live tray stays slightly below it.",
+        "successMessage": "You landed on the one-half-life checkpoint and kept the actual tray and smooth expectation aligned honestly.",
+        "setup": {
+          "presetId": "class-lab",
+          "graphId": "remaining-count",
+          "overlayIds": [
+            "sampleVsExpected",
+            "halfLifeMarkers"
+          ],
+          "note": "Use the half-life markers and the dashed expectation together, then scrub the time rail."
+        },
+        "requirements": {
+          "graphId": "remaining-count",
+          "overlayIds": [
+            "sampleVsExpected",
+            "halfLifeMarkers"
+          ]
+        },
+        "hints": [
+          "Keep the sample on the 64-nucleus class-lab setting.",
+          "At one half-life, the expectation should be about 32 nuclei while the live tray can sit a little lower."
+        ],
+        "targets": [
+          {
+            "param": "sampleSize",
+            "min": 64,
+            "max": 64,
+            "displayUnit": "nuclei"
+          },
+          {
+            "param": "halfLifeSeconds",
+            "min": 2.35,
+            "max": 2.45,
+            "displayUnit": "s"
+          },
+          {
+            "metric": "elapsedHalfLives",
+            "min": 0.98,
+            "max": 1.02
+          },
+          {
+            "metric": "expectedRemainingCount",
+            "min": 31.6,
+            "max": 32.4,
+            "displayUnit": "nuclei"
+          },
+          {
+            "metric": "actualRemainingCount",
+            "min": 26.5,
+            "max": 28.5,
+            "displayUnit": "nuclei"
+          }
+        ]
+      },
+      {
+        "id": "rhl-ch-small-sample-spread",
+        "title": "Catch a noisy small sample",
+        "style": "target-setting",
+        "prompt": "Starting from Small noisy sample, scrub to about one half-life so the live tray sits well below the smooth expectation and the spread is obvious.",
+        "successMessage": "You caught a genuinely noisy small sample without changing the underlying half-life law.",
+        "setup": {
+          "presetId": "small-sample-noisy",
+          "graphId": "remaining-fraction",
+          "overlayIds": [
+            "singleVsSample",
+            "sampleVsExpected",
+            "recentDecays"
+          ],
+          "note": "Use the fraction graph so the gap between the tray and the expectation stays easy to read."
+        },
+        "requirements": {
+          "graphId": "remaining-fraction",
+          "overlayIds": [
+            "sampleVsExpected",
+            "singleVsSample"
+          ]
+        },
+        "hints": [
+          "Keep the sample small so the same half-life law looks visibly noisier.",
+          "Near one half-life, the expectation is 50 percent, but this tray lands closer to one quarter."
+        ],
+        "targets": [
+          {
+            "param": "sampleSize",
+            "min": 12,
+            "max": 12,
+            "displayUnit": "nuclei"
+          },
+          {
+            "param": "halfLifeSeconds",
+            "min": 2.35,
+            "max": 2.45,
+            "displayUnit": "s"
+          },
+          {
+            "metric": "elapsedHalfLives",
+            "min": 0.98,
+            "max": 1.02
+          },
+          {
+            "metric": "expectedFraction",
+            "min": 0.49,
+            "max": 0.51
+          },
+          {
+            "metric": "actualFraction",
+            "min": 0.24,
+            "max": 0.26
+          },
+          {
+            "metric": "deviationCount",
+            "min": -3.2,
+            "max": -2.8,
+            "displayUnit": "nuclei"
+          }
+        ]
+      }
+    ]
+  },
+  "quickTest": {
+    "title": "Quick test",
+    "intro": "Answer from the live decay bench, not from a fake countdown picture.",
+    "questions": [
+      {
+        "id": "rhl-qt-half-life-meaning",
+        "type": "reasoning",
+        "prompt": "What is the most honest meaning of a 2-second half-life on this page?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Every 2-second interval halves the expected sample, but any one nucleus may or may not have decayed by then."
+          },
+          {
+            "id": "b",
+            "label": "Every nucleus waits exactly 2 seconds and then half of each nucleus disappears."
+          },
+          {
+            "id": "c",
+            "label": "Exactly half of the nuclei must decay at the 2-second mark, with none before and none after."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "Half-life is a probabilistic sample-level law. Individual nuclei still decay as yes-or-no events at different times.",
+        "selectedWrongExplanations": {
+          "b": "The page never treats nuclei as splitting or running on personal clocks.",
+          "c": "The actual tray falls in steps over time rather than waiting for one scheduled drop."
+        },
+        "showMeAction": {
+          "label": "Show one nucleus at one half-life",
+          "presetId": "single-nucleus",
+          "observationHint": "Scrub to one half-life and compare the one-nucleus survival statement with the 50 percent expectation.",
+          "highlightedControlIds": [
+            "sampleSize",
+            "halfLifeSeconds"
+          ],
+          "highlightedGraphIds": [
+            "remaining-fraction"
+          ],
+          "highlightedOverlayIds": [
+            "singleVsSample",
+            "sampleVsExpected"
+          ]
+        }
+      },
+      {
+        "id": "rhl-qt-two-half-lives",
+        "type": "graph-reading",
+        "prompt": "If the starting sample is 80 nuclei, what expected count belongs after two half-lives?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "20 nuclei, because the expectation is halved twice."
+          },
+          {
+            "id": "b",
+            "label": "40 nuclei, because one half-life means lose 40 every time."
+          },
+          {
+            "id": "c",
+            "label": "0 nuclei, because repeated decay must finish after two steps."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The expectation is multiplied by one half again at the second equal interval, so 80 becomes 40 and then 20.",
+        "selectedWrongExplanations": {
+          "b": "Half-life repeats a fraction, not a fixed-number subtraction.",
+          "c": "The curve approaches zero gradually rather than dropping to zero after two checkpoints."
+        },
+        "showMeAction": {
+          "label": "Show the class-lab checkpoints",
+          "presetId": "class-lab",
+          "observationHint": "Use the half-life markers to compare one half-life with two half-lives on the fraction graph.",
+          "highlightedControlIds": [
+            "halfLifeSeconds"
+          ],
+          "highlightedGraphIds": [
+            "remaining-count",
+            "remaining-fraction"
+          ],
+          "highlightedOverlayIds": [
+            "halfLifeMarkers",
+            "sampleVsExpected"
+          ]
+        }
+      },
+      {
+        "id": "rhl-qt-small-large",
+        "type": "compare-two-cases",
+        "prompt": "Two samples use the same half-life. Sample A starts with 12 nuclei. Sample B starts with 196 nuclei. Which statement is correct?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Sample B usually hugs the smooth expectation more closely because more independent decays are being averaged."
+          },
+          {
+            "id": "b",
+            "label": "Sample B has a different half-life because larger samples always decay more slowly."
+          },
+          {
+            "id": "c",
+            "label": "Sample A should look smoother because fewer nuclei means fewer random outcomes."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "The same half-life law applies to both, but the larger sample averages many more independent yes-or-no events into a steadier curve.",
+        "selectedWrongExplanations": {
+          "b": "Changing sample size changes noise, not the half-life setting.",
+          "c": "Fewer nuclei make each single decay matter more, so the small sample looks noisier."
+        },
+        "showMeAction": {
+          "label": "Show the large smooth sample",
+          "presetId": "large-sample-smooth",
+          "observationHint": "Compare it mentally or in compare mode with Small noisy sample and focus on the fraction graph.",
+          "highlightedControlIds": [
+            "sampleSize"
+          ],
+          "highlightedGraphIds": [
+            "remaining-fraction"
+          ],
+          "highlightedOverlayIds": [
+            "sampleVsExpected",
+            "singleVsSample"
+          ]
+        }
+      },
+      {
+        "id": "rhl-qt-curve-honesty",
+        "type": "misconception-check",
+        "prompt": "Which statement is most honest about the decay curve on this page?",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The expectation curve approaches zero without becoming negative, while the actual sample falls in integer steps."
+          },
+          {
+            "id": "b",
+            "label": "The expectation curve should eventually go below zero so the graph can stay straight."
+          },
+          {
+            "id": "c",
+            "label": "The actual sample should be drawn as a smooth line so the random jumps do not distract from the math."
+          }
+        ],
+        "correctChoiceId": "a",
+        "explanation": "A physically honest page keeps the actual tray as integer nuclei and keeps the expectation exponential, positive, and asymptotic toward zero.",
+        "selectedWrongExplanations": {
+          "b": "Negative remaining nuclei would be physically meaningless.",
+          "c": "Smoothing the actual sample would hide the single-event randomness the concept is supposed to teach."
+        },
+        "showMeAction": {
+          "label": "Show the noisy tray and curve",
+          "presetId": "small-sample-noisy",
+          "observationHint": "Watch the stepped actual count stay above zero while the dashed expectation bends downward smoothly.",
+          "highlightedControlIds": [
+            "sampleSize"
+          ],
+          "highlightedGraphIds": [
+            "remaining-count"
+          ],
+          "highlightedOverlayIds": [
+            "recentDecays",
+            "sampleVsExpected"
+          ]
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "The simulation shows a bounded sample tray of nuclei on the left and an actual-versus-expected summary on the right. Each nucleus is either still present or marked as decayed, and optional cues can highlight recently decayed nuclei, equal half-life checkpoints, and one-nucleus survival language.",
+        "The readout card summarizes sample size, half-life, elapsed time, expected remaining count, actual remaining count, remaining fraction, deviation from the expectation, and the single-nucleus survival probability at the current time."
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "The remaining-count graph plots time against both the stepped actual count and the smooth expected count. The remaining-fraction graph shows the same story normalized by the starting sample so different sample sizes can be compared without changing the underlying half-life law."
+      ]
+    }
+  },
+  "seo": {
+    "title": "Radioactivity and Half-Life | Open Model Lab",
+    "description": "Explore radioactive decay, half-life, probabilistic single-nucleus survival, and large-sample decay curves with a compact simulation-first lab bench.",
+    "keywords": [
+      "radioactivity simulation",
+      "half-life simulation",
+      "radioactive decay",
+      "exponential decay",
+      "probability and decay curves"
+    ]
+  }
+}
