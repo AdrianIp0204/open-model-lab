@@ -11,7 +11,7 @@ import {
 const publicRouteExpectations = [
   {
     pathname: "/",
-    heading: "Start from one live model, then learn by changing it.",
+    heading: "Learn science by changing live simulations.",
   },
   {
     pathname: "/concepts",

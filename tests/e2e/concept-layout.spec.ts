@@ -72,12 +72,21 @@ async function openConceptPageFromHome(
   await gotoAndExpectOk(page, "/");
   await expect(
     page.getByRole("heading", {
-      name: "Start from one live model, then learn by changing it.",
+      name: "Learn science by changing live simulations.",
     }),
   ).toBeVisible();
 
-  await page.locator(`a[href$="${conceptPath}"]`).first().click();
-  await expect(page).toHaveURL(new RegExp(`${conceptPath.replace(/\//g, "\\/")}$`));
+  const conceptLink = page
+    .locator(`a[href$="${conceptPath}"]`)
+    .filter({ hasText: /Start SHM|Open SHM|Simple Harmonic Motion/ })
+    .first();
+  await expect(conceptLink).toBeVisible();
+  await Promise.all([
+    page.waitForURL(new RegExp(`${conceptPath.replace(/\//g, "\\/")}$`), {
+      timeout: 15_000,
+    }),
+    conceptLink.click(),
+  ]);
   await expect(page.locator("h1", { hasText: conceptTitle })).toBeVisible();
 
   return { context, page, browserGuard };
@@ -89,9 +98,9 @@ async function assertInitialViewportLayout(
   testInfo: TestInfo,
 ) {
   const startHere = page.getByTestId("concept-v2-start-here");
-  const lessonPreviewCards = startHere
-    .getByTestId("concept-v2-start-lesson-preview-list")
-    .locator("li");
+  const lessonPreviewDisclosure = startHere.getByTestId(
+    "concept-v2-start-lesson-disclosure",
+  );
   const scene = page.getByTestId("simulation-shell-scene");
   const controls = page.getByTestId("simulation-shell-controls");
   const graphs = page.getByTestId("simulation-shell-graphs");
@@ -99,6 +108,7 @@ async function assertInitialViewportLayout(
   const firstPrimaryControl = controls.locator('input[type="range"], input[type="checkbox"]').first();
 
   await expect(startHere).toBeVisible();
+  await expect(lessonPreviewDisclosure).toBeVisible();
   await expect(scene).toBeVisible();
   await expect(controls).toBeVisible();
   await expect(graphs).toBeVisible();
@@ -125,14 +135,18 @@ async function assertInitialViewportLayout(
   expect(widthMetrics.scrollWidth).toBe(widthMetrics.innerWidth);
 
   if (viewportCase.viewport.width < 640) {
-    const [firstPreviewCardBox, secondPreviewCardBox] = await Promise.all([
-      lessonPreviewCards.nth(0).boundingBox(),
-      lessonPreviewCards.nth(1).boundingBox(),
-    ]);
+    const [startHereBox, lessonPreviewDisclosureBox, sceneBoxForMobile] =
+      await Promise.all([
+        startHere.boundingBox(),
+        lessonPreviewDisclosure.boundingBox(),
+        scene.boundingBox(),
+      ]);
 
-    expect(firstPreviewCardBox).not.toBeNull();
-    expect(secondPreviewCardBox).not.toBeNull();
-    expect(secondPreviewCardBox!.y).toBeGreaterThan(firstPreviewCardBox!.y + 8);
+    expect(startHereBox).not.toBeNull();
+    expect(lessonPreviewDisclosureBox).not.toBeNull();
+    expect(sceneBoxForMobile).not.toBeNull();
+    expect(startHereBox!.y).toBeLessThan(lessonPreviewDisclosureBox!.y);
+    expect(lessonPreviewDisclosureBox!.y).toBeLessThan(sceneBoxForMobile!.y);
   }
 
   if (viewportCase.viewport.width >= 1366) {

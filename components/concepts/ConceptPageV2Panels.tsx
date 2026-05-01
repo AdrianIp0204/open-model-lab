@@ -94,6 +94,10 @@ type ConceptPageV2Copy = {
   equationDisclosureLabel: string;
   startLearning: string;
   lessonFlowLabel: string;
+  lessonPreviewDisclosureLabel: string;
+  lessonPreviewDisclosureDescription: string;
+  contextDisclosureLabel: string;
+  contextDisclosureDescription: string;
   lessonStepCountLabel?: (values: { count: number }) => string;
   currentStepLabel: string;
   upcomingStepLabel: string;
@@ -706,6 +710,10 @@ export function ConceptPageV2StartHere({
     | "equationDisclosureLabel"
     | "keyTakeawayLabel"
     | "lessonFlowLabel"
+    | "lessonPreviewDisclosureLabel"
+    | "lessonPreviewDisclosureDescription"
+    | "contextDisclosureLabel"
+    | "contextDisclosureDescription"
     | "quickCheckLabel"
     | "startLearning"
     | "wrapUpLabel"
@@ -948,6 +956,80 @@ export function ConceptPageV2StartHere({
       ) : null}
     </dl>
   ) : null;
+  const compactLessonPreview = lessonSteps.length ? (
+    <ConceptPageV2Disclosure
+      testId="concept-v2-start-lesson-disclosure"
+      className="group rounded-[20px] border border-line/80 bg-white/86 px-3.5 py-3 shadow-sm"
+      summaryClassName="min-w-0 cursor-pointer list-none rounded-[14px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [&::-webkit-details-marker]:hidden"
+      summaryAriaLabel={copy.lessonPreviewDisclosureLabel}
+      contentClassName="mt-3 min-w-0"
+      summary={(
+        <div className="flex min-w-0 items-center justify-between gap-3">
+          <span className="min-w-0">
+            <span className="lab-label block min-w-0 break-words text-ink-700">
+              {copy.lessonFlowLabel}
+            </span>
+            <span className="mt-1 block min-w-0 break-words text-sm font-semibold leading-5 text-ink-950">
+              {copy.lessonPreviewDisclosureLabel}
+            </span>
+            <span className="mt-0.5 block min-w-0 break-words text-xs leading-5 text-ink-600">
+              {copy.lessonPreviewDisclosureDescription}
+            </span>
+          </span>
+          <span
+            aria-hidden="true"
+            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line bg-paper-strong text-sm font-semibold text-ink-500 transition-transform group-open:rotate-180 motion-reduce:transition-none"
+          >
+            {"\u2193"}
+          </span>
+        </div>
+      )}
+    >
+      <ConceptPageV2LessonPreview
+        steps={lessonSteps}
+        label={copy.lessonFlowLabel}
+        quickCheckLabel={copy.quickCheckLabel}
+        firstStepLabel={copy.startHereLabel}
+        wrapUpLabel={copy.wrapUpLabel}
+        lessonCompleteLabel={copy.lessonCompleteLabel}
+        nextStepLabel={copy.nextStep}
+        lessonStepCountLabel={copy.lessonStepCountLabel}
+        compact
+      />
+    </ConceptPageV2Disclosure>
+  ) : null;
+  const compactContext = supportBlocks ? (
+    <ConceptPageV2Disclosure
+      testId="concept-v2-start-context-disclosure"
+      className="group rounded-[20px] border border-line/80 bg-white/78 px-3.5 py-3 shadow-sm"
+      summaryClassName="min-w-0 cursor-pointer list-none rounded-[14px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [&::-webkit-details-marker]:hidden"
+      summaryAriaLabel={copy.contextDisclosureLabel}
+      contentClassName="mt-3 min-w-0"
+      summary={(
+        <div className="flex min-w-0 items-center justify-between gap-3">
+          <span className="min-w-0">
+            <span className="lab-label block min-w-0 break-words text-ink-700">
+              {copy.whyItMattersLabel}
+            </span>
+            <span className="mt-1 block min-w-0 break-words text-sm font-semibold leading-5 text-ink-950">
+              {copy.contextDisclosureLabel}
+            </span>
+            <span className="mt-0.5 block min-w-0 break-words text-xs leading-5 text-ink-600">
+              {copy.contextDisclosureDescription}
+            </span>
+          </span>
+          <span
+            aria-hidden="true"
+            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line bg-paper-strong text-sm font-semibold text-ink-500 transition-transform group-open:rotate-180 motion-reduce:transition-none"
+          >
+            {"\u2193"}
+          </span>
+        </div>
+      )}
+    >
+      {supportBlocks}
+    </ConceptPageV2Disclosure>
+  ) : null;
 
   if (compactLayout) {
     return (
@@ -980,20 +1062,12 @@ export function ConceptPageV2StartHere({
           </div>
         </div>
 
-        <div className="mt-4 space-y-3">
-          {simulationPreviewBlock}
-          <ConceptPageV2LessonPreview
-            steps={lessonSteps}
-            label={copy.lessonFlowLabel}
-            quickCheckLabel={copy.quickCheckLabel}
-            firstStepLabel={copy.startHereLabel}
-            wrapUpLabel={copy.wrapUpLabel}
-            lessonCompleteLabel={copy.lessonCompleteLabel}
-            nextStepLabel={copy.nextStep}
-            lessonStepCountLabel={copy.lessonStepCountLabel}
-            compact
-          />
-          {supportBlocks}
+        <div className="mt-3 grid gap-3 lg:grid-cols-2">
+          {simulationPreviewBlock ? (
+            <div className="min-w-0 lg:col-span-2">{simulationPreviewBlock}</div>
+          ) : null}
+          {compactLessonPreview}
+          {compactContext}
         </div>
       </section>
     );

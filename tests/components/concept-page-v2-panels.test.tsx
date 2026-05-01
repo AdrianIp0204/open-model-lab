@@ -332,7 +332,13 @@ describe("ConceptPageV2StartHere", () => {
           estimatedTimeLabel: "Estimated time",
           prerequisitesLabel: "Prerequisites",
           noPrerequisites: "No prerequisites",
-          simulationPreviewLabel: "Simulation preview",
+          simulationPreviewLabel: "Try this first",
+          lessonPreviewDisclosureLabel: "Preview the lesson path",
+          lessonPreviewDisclosureDescription:
+            "Open this when you want the full step map before using the bench.",
+          contextDisclosureLabel: "Show why it matters",
+          contextDisclosureDescription:
+            "Keep the extra context available without putting it before the first interaction.",
           equationSnapshotLabel: "Equation snapshot",
           equationReadAloudLabel: "Read as",
           equationCountLabel: ({ count }: { count: number }) =>
@@ -548,7 +554,13 @@ describe("ConceptPageV2StartHere", () => {
           estimatedTimeLabel: "Estimated time",
           prerequisitesLabel: "Prerequisites",
           noPrerequisites: "No prerequisites",
-          simulationPreviewLabel: "Simulation preview",
+          simulationPreviewLabel: "Try this first",
+          lessonPreviewDisclosureLabel: "Preview the lesson path",
+          lessonPreviewDisclosureDescription:
+            "Open this when you want the full step map before using the bench.",
+          contextDisclosureLabel: "Show why it matters",
+          contextDisclosureDescription:
+            "Keep the extra context available without putting it before the first interaction.",
           equationSnapshotLabel: "Equation snapshot",
           equationReadAloudLabel: "Read as",
           equationCountLabel: ({ count }: { count: number }) =>
@@ -640,7 +652,13 @@ describe("ConceptPageV2StartHere", () => {
           estimatedTimeLabel: "Estimated time",
           prerequisitesLabel: "Prerequisites",
           noPrerequisites: "No prerequisites",
-          simulationPreviewLabel: "Simulation preview",
+          simulationPreviewLabel: "Try this first",
+          lessonPreviewDisclosureLabel: "Preview the lesson path",
+          lessonPreviewDisclosureDescription:
+            "Open this when you want the full step map before using the bench.",
+          contextDisclosureLabel: "Show why it matters",
+          contextDisclosureDescription:
+            "Keep the extra context available without putting it before the first interaction.",
           equationSnapshotLabel: "Equation snapshot",
           equationReadAloudLabel: "Read as",
           equationCountLabel: ({ count }: { count: number }) =>
@@ -685,8 +703,8 @@ describe("ConceptPageV2StartHere", () => {
       prerequisites.getAttribute("aria-labelledby"),
     );
     expect(prerequisites).toHaveTextContent("No prerequisites");
-    const preview = screen.getByRole("region", { name: "Simulation preview" });
-    expect(within(preview).getByRole("heading", { name: "Simulation preview" })).toHaveAttribute(
+    const preview = screen.getByRole("region", { name: "Try this first" });
+    expect(within(preview).getByRole("heading", { name: "Try this first" })).toHaveAttribute(
       "id",
       preview.getAttribute("aria-labelledby"),
     );
@@ -726,7 +744,13 @@ describe("ConceptPageV2StartHere", () => {
           estimatedTimeLabel: "Estimated time",
           prerequisitesLabel: "Prerequisites",
           noPrerequisites: "No prerequisites",
-          simulationPreviewLabel: "Simulation preview",
+          simulationPreviewLabel: "Try this first",
+          lessonPreviewDisclosureLabel: "Preview the lesson path",
+          lessonPreviewDisclosureDescription:
+            "Open this when you want the full step map before using the bench.",
+          contextDisclosureLabel: "Show why it matters",
+          contextDisclosureDescription:
+            "Keep the extra context available without putting it before the first interaction.",
           equationSnapshotLabel: "Equation snapshot",
           equationReadAloudLabel: "Read as",
           equationCountLabel: ({ count }: { count: number }) =>
@@ -744,7 +768,7 @@ describe("ConceptPageV2StartHere", () => {
       />,
     );
 
-    const preview = screen.getByRole("region", { name: "Simulation preview" });
+    const preview = screen.getByRole("region", { name: "Try this first" });
     expect(preview).toHaveAccessibleDescription(
       "You’ll interact with controls and compare the stage with graphs.",
     );
@@ -778,7 +802,13 @@ describe("ConceptPageV2StartHere", () => {
           estimatedTimeLabel: "Estimated time",
           prerequisitesLabel: "Prerequisites",
           noPrerequisites: "No prerequisites",
-          simulationPreviewLabel: "Simulation preview",
+          simulationPreviewLabel: "Try this first",
+          lessonPreviewDisclosureLabel: "Preview the lesson path",
+          lessonPreviewDisclosureDescription:
+            "Open this when you want the full step map before using the bench.",
+          contextDisclosureLabel: "Show why it matters",
+          contextDisclosureDescription:
+            "Keep the extra context available without putting it before the first interaction.",
           equationSnapshotLabel: "Equation snapshot",
           equationReadAloudLabel: "Read as",
           equationCountLabel: ({ count }: { count: number }) =>
@@ -835,7 +865,13 @@ describe("ConceptPageV2StartHere", () => {
           estimatedTimeLabel: "Estimated time",
           prerequisitesLabel: "Prerequisites",
           noPrerequisites: "No prerequisites",
-          simulationPreviewLabel: "Simulation preview",
+          simulationPreviewLabel: "Try this first",
+          lessonPreviewDisclosureLabel: "Preview the lesson path",
+          lessonPreviewDisclosureDescription:
+            "Open this when you want the full step map before using the bench.",
+          contextDisclosureLabel: "Show why it matters",
+          contextDisclosureDescription:
+            "Keep the extra context available without putting it before the first interaction.",
           equationSnapshotLabel: "Equation snapshot",
           equationReadAloudLabel: "Read as",
           equationCountLabel: ({ count }: { count: number }) =>
@@ -856,7 +892,14 @@ describe("ConceptPageV2StartHere", () => {
     const handoff = screen.getByTestId("concept-v2-start-handoff");
 
     expect(screen.queryByText("Key takeaway")).not.toBeInTheDocument();
-    const supportGrid = screen.getByText("Why it matters").closest("dl");
+    const contextDisclosure = screen.getByTestId("concept-v2-start-context-disclosure");
+    expect(contextDisclosure).not.toHaveAttribute("open");
+    expect(within(contextDisclosure).getByText("Show why it matters")).toBeInTheDocument();
+    const whyItMattersCard = within(contextDisclosure).getByRole("group", {
+      hidden: true,
+      name: "Why it matters",
+    });
+    const supportGrid = whyItMattersCard.closest("dl");
     expect(supportGrid).not.toBeNull();
     expect(supportGrid!).toHaveClass("grid", "gap-2");
     expect(supportGrid!).not.toHaveClass("md:grid-cols-2");
