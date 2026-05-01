@@ -920,21 +920,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Cart B's speed change gets smaller even though the opposite momentum changes stay equal in size."
+            "label": "The total momentum becomes nonzero because the heavier cart dominates."
           },
           {
             "id": "b",
-            "label": "The total momentum becomes nonzero because the heavier cart dominates."
+            "label": "Cart B's speed change gets smaller even though the opposite momentum changes stay equal in size."
           },
           {
             "id": "c",
             "label": "Cart A stops changing momentum because cart B is harder to move."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "The momentum changes remain equal and opposite. The heavier cart just turns that same momentum change into a smaller velocity change.",
         "selectedWrongExplanations": {
-          "b": "The system still starts from zero total momentum, so it stays at zero while the carts split apart.",
+          "a": "The system still starts from zero total momentum, so it stays at zero while the carts split apart.",
           "c": "Cart A still changes momentum by the same magnitude because the internal force pair acts on both carts."
         },
         "showMeAction": {
@@ -960,22 +960,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The total momentum line stays flat while the object momentum lines tilt in opposite directions."
-          },
-          {
-            "id": "b",
             "label": "All three lines tilt together because both carts are accelerating."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "The total line resets to zero as soon as the internal force turns on."
+          },
+          {
+            "id": "c",
+            "label": "The total momentum line stays flat while the object momentum lines tilt in opposite directions."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Internal forces redistribute momentum between the carts, so the object lines change while the total line stays fixed.",
         "selectedWrongExplanations": {
-          "b": "The carts accelerate in different directions, so their momentum changes cancel in the total.",
-          "c": "There is no reason for the total line to reset. Conservation says it stays at the system value it started with."
+          "a": "The carts accelerate in different directions, so their momentum changes cancel in the total.",
+          "b": "There is no reason for the total line to reset. Conservation says it stays at the system value it started with."
         },
         "showMeAction": {
           "label": "Show the short strong split",

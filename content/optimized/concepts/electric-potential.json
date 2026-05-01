@@ -335,11 +335,7 @@
 },
 {
 "id": "ep-qt-slope-to-field",
-"explanation": "A downward slope means dV/dx is negative, so the minus sign in E_x = -dV/dx makes E_x positive.",
-"selectedWrongExplanations": {
-"b": "Smooth change does not mean zero slope. Only a flat graph would make E_x vanish along that slice.",
-"c": "The field is the negative slope, not the slope itself."
-}
+"explanation": "A downward slope means dV/dx is negative, so the minus sign in E_x = -dV/dx makes E_x positive."
 },
 {
 "id": "ep-qt-test-charge-energy",

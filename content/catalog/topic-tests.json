@@ -51,11 +51,11 @@
         "choices": [
           {
             "id": "a",
-            "label": "Use impulse to track each object's momentum change during contact, then use conservation and collision reasoning to interpret the post-impact motion of the system."
+            "label": "Use collision formulas first to get the contact force, then ignore momentum because it only matters before impact."
           },
           {
             "id": "b",
-            "label": "Use collision formulas first to get the contact force, then ignore momentum because it only matters before impact."
+            "label": "Use impulse to track each object's momentum change during contact, then use conservation and collision reasoning to interpret the post-impact motion of the system."
           },
           {
             "id": "c",
@@ -66,7 +66,7 @@
             "label": "Use torque instead, because every collision is mainly a rotational equilibrium problem."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Impulse connects the large force during the short contact interval to each object's momentum change. Once the interaction is over, conservation of momentum and the collision model explain how the objects move afterward."
       }
     ]
@@ -87,22 +87,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "In the resting tank, pressure is larger deeper down. Once the water is moving in the narrow section, continuity makes the speed increase and Bernoulli says the static pressure there drops."
-          },
-          {
-            "id": "b",
             "label": "Pressure is always highest where the fluid moves fastest, so the narrow section must have the largest static pressure."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Hydrostatic pressure and Bernoulli cannot both apply to the same water system, so one of them must be ignored."
+          },
+          {
+            "id": "c",
+            "label": "In the resting tank, pressure is larger deeper down. Once the water is moving in the narrow section, continuity makes the speed increase and Bernoulli says the static pressure there drops."
           },
           {
             "id": "d",
             "label": "Continuity predicts lower speed in the narrow section, so Bernoulli raises the pressure there."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Hydrostatic pressure describes how pressure varies with depth in a resting fluid. In the flowing pipe, continuity links the smaller cross-section to a higher speed, and Bernoulli links that higher speed to a lower static pressure at the same height."
       }
     ]
@@ -123,22 +123,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "Heat transfer keeps adding energy, but during the phase change that energy raises internal energy by breaking intermolecular binding instead of raising the average-kinetic-energy temperature signal."
-          },
-          {
-            "id": "b",
             "label": "No energy enters during melting because a constant temperature always means zero heat transfer."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "The gas law forces every heated sample to increase temperature immediately, even during a phase change."
           },
           {
-            "id": "d",
+            "id": "c",
             "label": "Specific heat becomes negative, so added energy cancels itself out."
+          },
+          {
+            "id": "d",
+            "label": "Heat transfer keeps adding energy, but during the phase change that energy raises internal energy by breaking intermolecular binding instead of raising the average-kinetic-energy temperature signal."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "d",
         "explanation": "Heat can still flow into the sample while the temperature stays fixed during melting. In that stage the added energy changes the internal-energy bookkeeping through latent heat instead of increasing the average microscopic kinetic energy that the thermometer tracks."
       }
     ]
@@ -195,11 +195,11 @@
         "choices": [
           {
             "id": "a",
-            "label": "A changing magnetic flux can induce an electric effect, and Maxwell's laws extend that idea so time-varying electric and magnetic fields can sustain one another as a propagating electromagnetic wave."
+            "label": "Induction works only for coils, so it has no conceptual connection to propagating electromagnetic waves."
           },
           {
             "id": "b",
-            "label": "Induction works only for coils, so it has no conceptual connection to propagating electromagnetic waves."
+            "label": "A changing magnetic flux can induce an electric effect, and Maxwell's laws extend that idea so time-varying electric and magnetic fields can sustain one another as a propagating electromagnetic wave."
           },
           {
             "id": "c",
@@ -210,7 +210,7 @@
             "label": "Maxwell's equations replace induction by showing that changing fields cannot influence one another."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Induction already shows that a changing magnetic situation can produce an electric response. Maxwell's synthesis generalizes that coupling, which is why changing electric and magnetic fields can propagate together as an electromagnetic wave."
       }
     ]
@@ -231,22 +231,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The prism separates colors because refraction depends on wavelength through the refractive index, and the fiber guides the chosen color by total internal reflection when the ray meets the boundary above the critical condition."
-          },
-          {
-            "id": "b",
             "label": "The prism separates colors because total internal reflection happens first, and the fiber then works by ordinary refraction only."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Dispersion changes brightness but not direction, so the prism cannot separate colors before the fiber."
+          },
+          {
+            "id": "c",
+            "label": "The prism separates colors because refraction depends on wavelength through the refractive index, and the fiber guides the chosen color by total internal reflection when the ray meets the boundary above the critical condition."
           },
           {
             "id": "d",
             "label": "Once light has been refracted by the prism, total internal reflection is impossible inside the fiber."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Dispersion is a refraction effect: different wavelengths bend by different amounts because the refractive index depends on color. In the fiber, the chosen ray is then trapped by total internal reflection if it meets the boundary beyond the critical-angle condition."
       }
     ]
@@ -267,22 +267,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "A threshold frequency in the photoelectric effect and discrete atomic spectral lines."
-          },
-          {
-            "id": "b",
             "label": "Half-life randomness and a steady incandescent color gradient."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Classical wave diffraction and continuous thermal expansion."
           },
           {
-            "id": "d",
+            "id": "c",
             "label": "A smoother orbit and a continuously variable standing-wave node count."
+          },
+          {
+            "id": "d",
+            "label": "A threshold frequency in the photoelectric effect and discrete atomic spectral lines."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "d",
         "explanation": "The photoelectric threshold shows that light-energy transfer is not arbitrarily smooth, and atomic line spectra show that atoms emit only specific energy differences. Those two observations are exactly the kind of evidence that motivated quantized energy levels."
       }
     ]
@@ -303,11 +303,11 @@
         "choices": [
           {
             "id": "a",
-            "label": "The same vertical transformation adds 3 to both graphs, but the shifted reciprocal still has a vertical asymptote and a horizontal asymptote at y = 3, while the shifted exponential still grows without bound for large x."
+            "label": "Both graphs lose all asymptotes after the shift because any translation removes long-run structure."
           },
           {
             "id": "b",
-            "label": "Both graphs lose all asymptotes after the shift because any translation removes long-run structure."
+            "label": "The same vertical transformation adds 3 to both graphs, but the shifted reciprocal still has a vertical asymptote and a horizontal asymptote at y = 3, while the shifted exponential still grows without bound for large x."
           },
           {
             "id": "c",
@@ -318,7 +318,7 @@
             "label": "The exponential gains a vertical asymptote at x = 3, while the reciprocal no longer has any domain break."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "A graph transformation can act the same way on two families without making their long-run behavior identical. The reciprocal family keeps its domain break and horizontal asymptote after the vertical shift, while the exponential family keeps its characteristic unbounded growth."
       }
     ]
@@ -340,22 +340,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "Use derivative-style local-rate reasoning on the rate graph to find when the increase is steepest, and use integral accumulation to find the total added amount."
-          },
-          {
-            "id": "b",
             "label": "Use the integral for both questions, because accumulation also tells you the steepest local change automatically."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Use limits only; derivatives and integrals are unnecessary once the graph is continuous."
+          },
+          {
+            "id": "c",
+            "label": "Use derivative-style local-rate reasoning on the rate graph to find when the increase is steepest, and use integral accumulation to find the total added amount."
           },
           {
             "id": "d",
             "label": "Use optimization on the stored amount first, then ignore the rate graph because local change is unrelated to accumulation."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Derivatives answer local-rate questions, while integrals answer accumulation questions. Continuity matters because it tells you whether these tools behave cleanly on the interval, but it does not replace either derivative or integral reasoning."
       }
     ]
@@ -376,22 +376,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "First use the matrix to get the new vector, then use the dot product to measure how much of that transformed vector lies along the target direction."
-          },
-          {
-            "id": "b",
             "label": "Use the dot product first, because projections never depend on the transformed vector itself."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Matrix transformations can change position but never change the component of a vector along another direction."
           },
           {
-            "id": "d",
+            "id": "c",
             "label": "Once a matrix is applied, vector components are no longer meaningful, so projection is impossible."
+          },
+          {
+            "id": "d",
+            "label": "First use the matrix to get the new vector, then use the dot product to measure how much of that transformed vector lies along the target direction."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "d",
         "explanation": "The matrix changes the vector first, so the projection question must be asked about the transformed vector, not the original one. The dot product is then the right tool for measuring how much of that new vector lies along a chosen direction."
       }
     ]
@@ -484,11 +484,11 @@
         "choices": [
           {
             "id": "a",
-            "label": "First identify the limiting reagent to get the theoretical product amount from the stoichiometric ratio, then compare the actual product to that theoretical amount to compute percent yield."
+            "label": "Percent yield should be calculated first, because the limiting reagent depends on the measured actual product."
           },
           {
             "id": "b",
-            "label": "Percent yield should be calculated first, because the limiting reagent depends on the measured actual product."
+            "label": "First identify the limiting reagent to get the theoretical product amount from the stoichiometric ratio, then compare the actual product to that theoretical amount to compute percent yield."
           },
           {
             "id": "c",
@@ -499,7 +499,7 @@
             "label": "Stoichiometric ratios determine leftover reactants, but not the theoretical product amount."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "The stoichiometric recipe sets the full-batch ratios, the limiting reagent sets the maximum number of complete batches, and that theoretical product amount is the reference you need before percent yield can be computed."
       }
     ]
@@ -520,22 +520,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "Dilution lowers the concentrations of the buffer components, but the buffer can still resist a large pH jump because its acid-base pair neutralizes some added base until that reserve is used up."
-          },
-          {
-            "id": "b",
             "label": "Dilution makes the solution more saturated, so pH is then controlled only by solubility and not by the buffer pair."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "A buffer works only before dilution, so any added water guarantees a huge pH jump from a small base addition."
+          },
+          {
+            "id": "c",
+            "label": "Dilution lowers the concentrations of the buffer components, but the buffer can still resist a large pH jump because its acid-base pair neutralizes some added base until that reserve is used up."
           },
           {
             "id": "d",
             "label": "Adding base changes concentration, but buffers never affect pH response."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Dilution changes the concentrations, but the buffer still works through the same acid-base neutralization reserve until enough reactant is added to exhaust that reserve. So you must track both concentration changes and the buffer pair's remaining capacity."
       }
     ]
@@ -559,11 +559,11 @@
         "choices": [
           {
             "id": "a",
-            "label": "Binary search works because a sorted list lets you discard half the remaining positions each step, while graph traversal needs frontier and visited bookkeeping because adjacency does not give you that same ordered-halving shortcut."
+            "label": "Binary search and BFS use the same rule because both always discard half of their remaining search space."
           },
           {
             "id": "b",
-            "label": "Binary search and BFS use the same rule because both always discard half of their remaining search space."
+            "label": "Binary search works because a sorted list lets you discard half the remaining positions each step, while graph traversal needs frontier and visited bookkeeping because adjacency does not give you that same ordered-halving shortcut."
           },
           {
             "id": "c",
@@ -574,7 +574,7 @@
             "label": "Sorting a graph's node labels is enough to replace BFS or DFS with binary search."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Binary search depends on the special structure of sorted order. Graph search does not have that halving guarantee, so it needs queue or stack frontier management plus visited-state tracking to avoid getting lost or repeating work."
       }
     ]
@@ -596,22 +596,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The gravitational field is weaker, the required circular speed is lower, the orbital period is longer, and the gravitational potential energy is less negative in the higher orbit."
-          },
-          {
-            "id": "b",
             "label": "The field is stronger, the circular speed is higher, and the period is shorter because the satellite is farther from the planet."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "The potential energy becomes more negative, so the satellite must orbit faster at the larger radius."
+          },
+          {
+            "id": "c",
+            "label": "The gravitational field is weaker, the required circular speed is lower, the orbital period is longer, and the gravitational potential energy is less negative in the higher orbit."
           },
           {
             "id": "d",
             "label": "Kepler's third law says the period stays fixed if the planet stays the same."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "At a larger radius the gravitational field is weaker, so the circular speed needed for centripetal support is smaller. Kepler's third law then gives a longer orbital period, and the gravitational potential energy becomes less negative because the satellite is less tightly bound."
       }
     ]
@@ -632,22 +632,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "A moving source can Doppler-shift the observed frequency of a traveling wave, but a standing-wave pattern on a fixed medium is still set by the allowed boundary wavelengths of that medium."
-          },
-          {
-            "id": "b",
             "label": "Doppler shift changes the allowed standing-wave modes directly, so the boundary conditions no longer matter."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Standing waves and interference depend only on source motion, not on path difference or boundaries."
           },
           {
-            "id": "d",
+            "id": "c",
             "label": "If a wave experiences Doppler shift, wavelength and speed can no longer be related."
+          },
+          {
+            "id": "d",
+            "label": "A moving source can Doppler-shift the observed frequency of a traveling wave, but a standing-wave pattern on a fixed medium is still set by the allowed boundary wavelengths of that medium."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "d",
         "explanation": "Doppler shift describes how relative motion changes the observed frequency of a traveling wave. Standing waves are a different situation: their allowed patterns come from the medium length and boundary conditions, not from source motion alone."
       }
     ]
@@ -704,11 +704,11 @@
         "choices": [
           {
             "id": "a",
-            "label": "The equivalent resistance increases, the total current drops, and the remaining branch still has the source voltage across it."
+            "label": "The equivalent resistance decreases, the total current rises, and the remaining branch gets a smaller voltage."
           },
           {
             "id": "b",
-            "label": "The equivalent resistance decreases, the total current rises, and the remaining branch gets a smaller voltage."
+            "label": "The equivalent resistance increases, the total current drops, and the remaining branch still has the source voltage across it."
           },
           {
             "id": "c",
@@ -719,7 +719,7 @@
             "label": "The total current drops only because the battery voltage falls to zero once one branch is removed."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Removing a parallel branch leaves fewer current paths, so the overall equivalent resistance rises. With the same source voltage, Ohm's law gives a smaller total current. The remaining branch is still connected directly across the source, so its branch voltage still matches the source voltage."
       }
     ]
@@ -739,22 +739,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "A current creates a magnetic field around the wire, and a moving charge or current placed in that field can feel a magnetic force perpendicular to both its motion and the field direction."
-          },
-          {
-            "id": "b",
             "label": "A magnetic force creates the field first, and current appears only after the force is measured."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Moving charges can create magnetic forces, but current cannot create a magnetic field."
+          },
+          {
+            "id": "c",
+            "label": "A current creates a magnetic field around the wire, and a moving charge or current placed in that field can feel a magnetic force perpendicular to both its motion and the field direction."
           },
           {
             "id": "d",
             "label": "The magnetic field and magnetic force always point in the same direction."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "The magnetic field is the environment created by moving charges or currents. A separate moving charge or current in that field can then experience a magnetic force whose direction is perpendicular to the motion-field plane."
       }
     ]
@@ -775,22 +775,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "Geometric image formation still sets where the image appears, but diffraction limits the resolving power, so two points can share one blurry image spot even when the lens equation is satisfied."
-          },
-          {
-            "id": "b",
             "label": "If the lens equation is satisfied, optical resolution is automatically perfect."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Diffraction changes the image location formula itself, so no lens or mirror rule remains useful."
           },
           {
-            "id": "d",
+            "id": "c",
             "label": "Resolution limits matter only for mirrors, not for lenses."
+          },
+          {
+            "id": "d",
+            "label": "Geometric image formation still sets where the image appears, but diffraction limits the resolving power, so two points can share one blurry image spot even when the lens equation is satisfied."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "d",
         "explanation": "Geometric imaging and diffraction-limited resolution answer different questions. Mirror or lens rules tell you where the image forms, while optical resolution tells you whether two nearby object points remain distinguishable in that image."
       }
     ]

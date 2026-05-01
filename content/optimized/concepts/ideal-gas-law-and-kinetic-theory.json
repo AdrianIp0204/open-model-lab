@@ -220,7 +220,7 @@
 ]
 },
 "quickTest": {
-"intro": "Answer from the stage and graphs, not from a memorized slogan. Each question checks whether you can explain pressure causally.",
+"intro": "Answer from the particle box and graphs, not from a memorized slogan. Each question checks whether you can explain pressure causally.",
 "questions": [
 {
 "id": "igkt-qt-compress",
@@ -260,7 +260,7 @@
 "simulationDescription": {
 "paragraphs": [
 "The simulation shows a single gas box with moving particles. Motion streaks show the speed scale, density shading shows how crowded the gas is, wall flashes show collision frequency, and a pressure gauge shows the resulting pressure.",
-"The graphs below each vary one control while holding the other two fixed. They let you connect what changes on the stage to a clean pressure-volume, pressure-temperature, pressure-particle-count, or collision-temperature trend.",
+"The graphs below each vary one control while holding the other two fixed. They let you connect what changes in the particle box to a clean pressure-volume, pressure-temperature, pressure-particle-count, or collision-temperature trend.",
 "This is a simplified 2D model rather than a full 3D molecular simulation. It is designed to make the ideal-gas patterns and the wall-collision explanation easy to see."
 ]
 },

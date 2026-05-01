@@ -297,10 +297,6 @@
 "id": "de-qt-forward-reverse",
 "prompt": "Which graph cue most honestly tells you the system is near equilibrium?",
 "explanation": "The best equilibrium cue is that the forward and reverse rates are nearly equal, not that the amounts look equal or that both species are present.",
-"selectedWrongExplanations": {
-"b": "Having both species present does not tell you whether the forward and reverse rates are balanced.",
-"c": "Products can be above reactants even when the system is still shifting."
-},
 "showMeAction": {
 "label": "Show a near-equilibrium moment",
 "observationHint": "Near the end of the run, the two rate curves nearly meet even though both are still non-zero."

@@ -158,10 +158,6 @@
 "id": "v2d-qt-subtraction",
 "prompt": "What is the most accurate way to think about vector subtraction on this bench?",
 "explanation": "Subtraction is addition with the opposite vector, which is why the tip-to-tail construction still works after B is reversed.",
-"selectedWrongExplanations": {
-"b": "The plane picture does not need a new rule. You still use tip-to-tail after replacing B with its opposite.",
-"c": "Turning on subtraction changes the geometry directly because the second arrow flips direction."
-},
 "showMeAction": {
 "label": "Show subtraction as adding the opposite",
 "observationHint": "B flips first, then the same tip-to-tail construction builds the resultant."
@@ -171,10 +167,6 @@
 "id": "v2d-qt-scalar",
 "prompt": "If the scalar becomes negative while A is not the zero vector, what must happen to the scaled version of A?",
 "explanation": "A negative scalar reverses the direction of A, and the absolute value of the scalar sets the size of the scaled arrow. Magnitude does not become negative.",
-"selectedWrongExplanations": {
-"b": "Magnitude graphs track size, so they stay at or above zero.",
-"c": "The scalar acts only on A in this bench."
-},
 "showMeAction": {
 "label": "Show the flipped scale",
 "observationHint": "The scaled copy of A flips through the origin before the sum is taken."

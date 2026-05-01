@@ -196,6 +196,21 @@ function buildBaseWorkedExampleState(
     }
   }
 
+  if (
+    concept.slug === "static-equilibrium-centre-of-mass" &&
+    example.id === "current-centre-of-mass" &&
+    Math.abs(typeof params.cargoPosition === "number" ? params.cargoPosition : 0) < 0.1
+  ) {
+    const preferredPosition = preferredPreset?.values.cargoPosition;
+    const presetPosition = chosenPreset?.values.cargoPosition;
+    params.cargoPosition =
+      typeof preferredPosition === "number" && Math.abs(preferredPosition) >= 0.1
+        ? preferredPosition
+        : typeof presetPosition === "number" && Math.abs(presetPosition) >= 0.1
+          ? presetPosition
+          : 0.8;
+  }
+
   const timeCandidates = buildFriendlyTimeCandidates(slotIndex % 3 === 0 ? 1 : 0);
   const time = example.dependsOnTime
     ? timeCandidates[slotIndex % timeCandidates.length] ?? 1
@@ -335,16 +350,49 @@ function buildExplanationContent(resolution: QuizWorkedExampleResolution) {
 
 function formatPromptSymbol(symbol: string) {
   return symbol
-    .replace(/\\lambda\b/g, "λ")
-    .replace(/\\theta\b/g, "θ")
-    .replace(/\\Delta\b/g, "Δ")
-    .replace(/\\omega\b/g, "ω")
-    .replace(/\\alpha\b/g, "α")
-    .replace(/\\beta\b/g, "β")
-    .replace(/\\mu\b/g, "μ")
-    .replace(/\\pi\b/g, "π")
+    .replace(/\\mathrm\{([^{}]+)\}/g, "$1")
+    .replace(/\\lambda/g, "λ")
+    .replace(/\\theta/g, "θ")
+    .replace(/\\Delta/g, "Δ")
+    .replace(/\\omega/g, "ω")
+    .replace(/\\alpha/g, "α")
+    .replace(/\\beta/g, "β")
+    .replace(/\\mu/g, "μ")
+    .replace(/\\pi/g, "π")
     .replace(/_\{([^}]+)\}/g, "_$1")
     .replace(/\\/g, "");
+}
+
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function valueAlreadyIncludesUnit(value: string, unit: string) {
+  const normalizedValue = value.trim().toLowerCase();
+  const normalizedUnit = unit.trim().toLowerCase();
+
+  if (!normalizedValue || !normalizedUnit) {
+    return false;
+  }
+
+  if (normalizedUnit === "deg") {
+    return /(?:°|\bdeg\b|\bdegrees?\b)/i.test(value);
+  }
+
+  const unitPattern = new RegExp(
+    `(?:^|\\s|[({])${escapeRegExp(normalizedUnit)}(?:$|\\s|[),.;])`,
+    "i",
+  );
+
+  return unitPattern.test(normalizedValue);
+}
+
+function getDisplayUnit(value: string, unit?: string) {
+  if (!unit || valueAlreadyIncludesUnit(value, unit)) {
+    return undefined;
+  }
+
+  return unit;
 }
 
 function normalizeSetupMatchText(content: string) {
@@ -413,28 +461,33 @@ function buildWorkedExampleGivens(input: {
   resolution: QuizWorkedExampleResolution;
   targetVariableId?: string;
 }) {
-  const candidateVariables = input.resolution.example.variables.filter(
+  const concreteVariables = input.resolution.example.variables.filter(
+    (variable) => (input.resolution.variableValues[variable.id] ?? "—") !== "—",
+  );
+  const primaryVariables = concreteVariables.filter(
     (variable) =>
       Boolean(variable.variableId) ||
       variable.id === "time" ||
       /time/i.test(variable.label),
   );
-  const sourceVariables = candidateVariables.length
-    ? candidateVariables
-    : input.resolution.example.variables;
+  const sourceVariables = [
+    ...primaryVariables,
+    ...concreteVariables.filter((variable) => !primaryVariables.includes(variable)),
+  ];
 
-  return sourceVariables
+  return (sourceVariables.length ? sourceVariables : input.resolution.example.variables)
     .filter((variable) => variable.id !== input.targetVariableId)
-    .map(
-      (variable) =>
-        ({
-          id: variable.id,
-          label: variable.label,
-          symbol: variable.symbol ? formatPromptSymbol(variable.symbol) : variable.symbol,
-          value: input.resolution.variableValues[variable.id] ?? "—",
-          unit: variable.unit,
-        }) satisfies QuizGiven,
-    )
+    .map((variable) => {
+      const value = input.resolution.variableValues[variable.id] ?? "—";
+
+      return {
+        id: variable.id,
+        label: variable.label,
+        symbol: variable.symbol ? formatPromptSymbol(variable.symbol) : variable.symbol,
+        value,
+        unit: getDisplayUnit(value, variable.unit),
+      } satisfies QuizGiven;
+    })
     .slice(0, 4);
 }
 

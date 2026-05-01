@@ -1238,21 +1238,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The parallel-group case has the smaller grouped equivalent and therefore the smaller total equivalent, so the total current is larger."
+            "label": "The total equivalent stays the same because R1 has not changed."
           },
           {
             "id": "b",
-            "label": "The total equivalent stays the same because R1 has not changed."
+            "label": "The parallel-group case has the smaller grouped equivalent and therefore the smaller total equivalent, so the total current is larger."
           },
           {
             "id": "c",
             "label": "The series-group case must have the larger current because it keeps all of the charge on one path."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "The grouped pair changes from 12 ohm in series to 3 ohm in parallel, while R1 still stays at 4 ohm. That lowers the total equivalent and raises the total current.",
         "selectedWrongExplanations": {
-          "b": "R1 is unchanged, but the grouped pair is not. The total equivalent therefore changes a lot.",
+          "a": "R1 is unchanged, but the grouped pair is not. The total equivalent therefore changes a lot.",
           "c": "Path count does not make current smaller by itself. The key change is the lower total equivalent resistance in the parallel-group case."
         },
         "showMeAction": {
@@ -1279,22 +1279,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "R2, because both grouped branches share the same group voltage and the smaller branch resistance takes the larger current."
-          },
-          {
-            "id": "b",
             "label": "R3, because the larger resistance stores more charge and therefore must pull more current."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "They must match because both grouped branches span the same group voltage."
+          },
+          {
+            "id": "c",
+            "label": "R2, because both grouped branches share the same group voltage and the smaller branch resistance takes the larger current."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Equal branch voltage does not force equal branch current. In a parallel group the lower-resistance branch draws the larger current.",
         "selectedWrongExplanations": {
-          "b": "A larger resistance limits current more strongly at the same branch voltage.",
-          "c": "Equal voltage only means equal push. Different resistances still give different currents."
+          "a": "A larger resistance limits current more strongly at the same branch voltage.",
+          "b": "Equal voltage only means equal push. Different resistances still give different currents."
         },
         "showMeAction": {
           "label": "Show unequal parallel group",
@@ -1322,21 +1322,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "That is false. In the series grouped pair the same current crosses both grouped resistors, so the charge rate matches even when the voltage drops differ."
+            "label": "That is true because larger voltage always means larger current through the same resistor group."
           },
           {
             "id": "b",
-            "label": "That is true because larger voltage always means larger current through the same resistor group."
+            "label": "That is false. In the series grouped pair the same current crosses both grouped resistors, so the charge rate matches even when the voltage drops differ."
           },
           {
             "id": "c",
             "label": "That is false only if R1 is removed from the circuit."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "The unequal series grouped pair still carries one current through both grouped resistors. The larger resistor gets more of the group voltage, but the charge rate stays the same through both.",
         "selectedWrongExplanations": {
-          "b": "Voltage and current do not separate that way in one series path. The current is fixed by the whole loop.",
+          "a": "Voltage and current do not separate that way in one series path. The current is fixed by the whole loop.",
           "c": "R1 does not change the fact that the grouped pair is series when the toggle is off."
         },
         "showMeAction": {
@@ -1364,22 +1364,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The fixed outer resistor R1, because the total-equivalent curve is the grouped equivalent plus that same series resistor."
-          },
-          {
-            "id": "b",
             "label": "The grouped current split, because the graph is secretly plotting current as resistance."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "The battery voltage, because the graph moves upward when voltage increases."
+          },
+          {
+            "id": "c",
+            "label": "The fixed outer resistor R1, because the total-equivalent curve is the grouped equivalent plus that same series resistor."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "The graph is plotting equivalent resistance, not current or voltage. The total-equivalent curve stays above the grouped curve by the fixed amount contributed by R1.",
         "selectedWrongExplanations": {
-          "b": "Current is shown on the current graph, not on the reduction sweep.",
-          "c": "Voltage is held fixed during this sweep, so the vertical gap is not a voltage effect."
+          "a": "Current is shown on the current graph, not on the reduction sweep.",
+          "b": "Voltage is held fixed during this sweep, so the vertical gap is not a voltage effect."
         },
         "showMeAction": {
           "label": "Show reduction sweep",

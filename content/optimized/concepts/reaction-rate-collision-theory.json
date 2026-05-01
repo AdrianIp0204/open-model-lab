@@ -333,10 +333,6 @@
 "id": "rr-qt-heating",
 "prompt": "If you heat the same mixture without changing concentration or barrier, what is the best expectation?",
 "explanation": "Heating does not remove the barrier, but it does let a larger fraction of collisions clear it.",
-"selectedWrongExplanations": {
-"b": "Concentration is not the only factor. Temperature changes both particle motion and the barrier-clearing fraction.",
-"c": "Heating helps more collisions cross the barrier, but it does not make the barrier disappear."
-},
 "showMeAction": {
 "label": "Load the hotter case",
 "observationHint": "The particles are more energetic, and a larger fraction of collisions becomes successful."

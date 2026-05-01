@@ -947,21 +947,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "It falls to about one quarter of the original value."
+            "label": "It falls to about one half because the distance doubled."
           },
           {
             "id": "b",
-            "label": "It falls to about one half because the distance doubled."
+            "label": "It falls to about one quarter of the original value."
           },
           {
             "id": "c",
             "label": "It stays the same because the source mass did not change."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "For one source mass, |g| follows the inverse-square rule. Doubling the distance multiplies the denominator by four, so the field drops to about one quarter.",
         "selectedWrongExplanations": {
-          "b": "That would match a one-over-r trend, not the inverse-square relation used here.",
+          "a": "That would match a one-over-r trend, not the inverse-square relation used here.",
           "c": "A fixed source mass still creates different field strengths at different distances."
         },
         "showMeAction": {
@@ -988,22 +988,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The field is unchanged by the probe mass; only the force doubles because F = m_test g."
-          },
-          {
-            "id": "b",
             "label": "The field doubles only if the probe becomes heavier than the source."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Both field and force disappear because the probe is no longer a test object."
+          },
+          {
+            "id": "c",
+            "label": "The field is unchanged by the probe mass; only the force doubles because F = m_test g."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "The source mass and geometry determine the field. Changing the probe mass changes the force response, not the source-generated field itself.",
         "selectedWrongExplanations": {
-          "b": "This bounded lab does not compare source and probe mass to decide the field. The source mass and distance already fix the field at that location.",
-          "c": "A heavier probe still feels the field. The field remains present and the force simply scales with the probe mass."
+          "a": "This bounded lab does not compare source and probe mass to decide the field. The source mass and distance already fix the field at that location.",
+          "b": "A heavier probe still feels the field. The field remains present and the force simply scales with the probe mass."
         },
         "showMeAction": {
           "label": "Show the heavier probe",
@@ -1028,21 +1028,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Both the field magnitude and the force magnitude double while the direction stays the same."
+            "label": "Only the force doubles because the field depends only on distance."
           },
           {
             "id": "b",
-            "label": "Only the force doubles because the field depends only on distance."
+            "label": "Both the field magnitude and the force magnitude double while the direction stays the same."
           },
           {
             "id": "c",
             "label": "The field direction reverses because the source mass became larger."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Increasing the source mass scales the field at every point. With the same probe mass, the force scales by the same factor because it is built from that field.",
         "selectedWrongExplanations": {
-          "b": "Distance matters, but source mass still sets the scale of the field at every point.",
+          "a": "Distance matters, but source mass still sets the scale of the field at every point.",
           "c": "Changing source mass changes size, not the inward direction toward the source."
         },
         "showMeAction": {

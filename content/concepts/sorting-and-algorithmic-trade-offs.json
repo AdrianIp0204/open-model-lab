@@ -532,7 +532,11 @@
           }
         ],
         "correctChoiceId": "a",
-        "explanation": "The interesting part is the process and cost of getting to the sorted list, not just the final answer."
+        "explanation": "The interesting part is the process and cost of getting to the sorted list, not just the final answer.",
+        "selectedWrongExplanations": {
+          "b": "Correct sorting algorithms should agree on the final order even when their step patterns differ.",
+          "c": "Sorting also matters for messy or reversed lists; the starting order changes cost, not relevance."
+        }
       },
       {
         "id": "sat-qt-input-order",
@@ -541,19 +545,23 @@
         "choices": [
           {
             "id": "a",
-            "label": "The starting order of the list."
+            "label": "Nothing important, because list size alone fixes the whole story."
           },
           {
             "id": "b",
-            "label": "Nothing important, because list size alone fixes the whole story."
+            "label": "The starting order of the list."
           },
           {
             "id": "c",
             "label": "Only the graph colors."
           }
         ],
-        "correctChoiceId": "a",
-        "explanation": "Input order changes how much work the algorithm actually has to do before the list is settled."
+        "correctChoiceId": "b",
+        "explanation": "Input order changes how much work the algorithm actually has to do before the list is settled.",
+        "selectedWrongExplanations": {
+          "a": "List size matters, but starting order can greatly change the work for the same algorithm.",
+          "c": "Graph colors do not set the algorithmic cost."
+        }
       },
       {
         "id": "sat-qt-nearly-sorted",
@@ -562,22 +570,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "Because most items are already close to their final positions, so fewer writes are needed."
-          },
-          {
-            "id": "b",
             "label": "Because insertion sort ignores all comparisons on nearly sorted inputs."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Because a reversed list is already sorted for insertion sort."
+          },
+          {
+            "id": "c",
+            "label": "Because most items are already close to their final positions, so fewer writes are needed."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Insertion sort benefits when only short local repairs are needed instead of long shifts through the whole list.",
         "selectedWrongExplanations": {
-          "b": "The algorithm still compares items; it just often needs less movement.",
-          "c": "A reversed list is one of the hardest visible cases, not an already-finished one."
+          "a": "The algorithm still compares items; it just often needs less movement.",
+          "b": "A reversed list is one of the hardest visible cases, not an already-finished one."
         }
       },
       {
@@ -587,21 +595,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Because two algorithms can sort the same list with different trade-offs between checking and rewriting."
+            "label": "Because comparisons and writes are always forced to match exactly."
           },
           {
             "id": "b",
-            "label": "Because comparisons and writes are always forced to match exactly."
+            "label": "Because two algorithms can sort the same list with different trade-offs between checking and rewriting."
           },
           {
             "id": "c",
             "label": "Because the final sorted list depends only on the graph axes."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "The whole point of this bench is that the same final order can come from different cost patterns.",
         "selectedWrongExplanations": {
-          "b": "The counts can diverge a lot depending on the algorithm and the input order.",
+          "a": "The counts can diverge a lot depending on the algorithm and the input order.",
           "c": "The graphs report the process; they do not create the sorted list."
         }
       },
@@ -612,22 +620,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "Which part of the list is already in its finished place and which part is still active work."
-          },
-          {
-            "id": "b",
             "label": "Which bars are taller than the graph axes allow."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Which algorithm the benchmark will choose next by itself."
+          },
+          {
+            "id": "c",
+            "label": "Which part of the list is already in its finished place and which part is still active work."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "The settled region is a visual separation between finished positions and the still-changing active segment.",
         "selectedWrongExplanations": {
-          "b": "The settled cue is about algorithm progress, not chart limits.",
-          "c": "The benchmark does not auto-switch algorithms just because a region is marked settled."
+          "a": "The settled cue is about algorithm progress, not chart limits.",
+          "b": "The benchmark does not auto-switch algorithms just because a region is marked settled."
         }
       }
     ]

@@ -693,21 +693,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The successful share should usually rise because more collisions clear the barrier."
+            "label": "The successful share should stay fixed because only concentration affects the rate."
           },
           {
             "id": "b",
-            "label": "The successful share should stay fixed because only concentration affects the rate."
+            "label": "The successful share should usually rise because more collisions clear the barrier."
           },
           {
             "id": "c",
             "label": "The barrier should automatically disappear."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Heating does not remove the barrier, but it does make more collisions energetic enough to cross it.",
         "selectedWrongExplanations": {
-          "b": "Concentration is not the only factor. Temperature changes both the motion cue and the barrier-clearing fraction.",
+          "a": "Concentration is not the only factor. Temperature changes both the motion cue and the barrier-clearing fraction.",
           "c": "Heating helps particles cross the barrier more often, but it does not make the barrier vanish."
         },
         "showMeAction": {
@@ -734,22 +734,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The effective barrier that collisions must clear."
-          },
-          {
-            "id": "b",
             "label": "The concentration of particles in the box."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "The graph axes themselves."
+          },
+          {
+            "id": "c",
+            "label": "The effective barrier that collisions must clear."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "The catalyst changes the barrier story without having to change the crowding or redraw the box.",
         "selectedWrongExplanations": {
-          "b": "The number of particles does not have to change for a catalyst to help.",
-          "c": "The axes stay the same. What changes is how the setup moves through the same graphs."
+          "a": "The number of particles does not have to change for a catalyst to help.",
+          "b": "The axes stay the same. What changes is how the setup moves through the same graphs."
         },
         "showMeAction": {
           "label": "Turn on the catalyst",

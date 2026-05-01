@@ -907,18 +907,18 @@
         "choices": [
           {
             "id": "a",
-            "label": "Section A and section B keep carrying the same flow rate even while the speeds change."
+            "label": "Speed is the same everywhere in the pipe."
           },
           {
             "id": "b",
-            "label": "Speed is the same everywhere in the pipe."
+            "label": "Section A and section B keep carrying the same flow rate even while the speeds change."
           },
           {
             "id": "c",
             "label": "Area no longer matters once the fluid starts moving."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Continuity keeps $Q$ matched across the pipe. The speed and area can change, but the flow rate stays the same.",
         "showMeAction": {
           "label": "Open the flow-balance graph",
@@ -939,7 +939,7 @@
         "choices": [
           {
             "id": "a",
-            "label": "That changing area changes speed while the same flow rate is conserved."
+            "label": "That speed can change without any relation to area."
           },
           {
             "id": "b",
@@ -947,10 +947,10 @@
           },
           {
             "id": "c",
-            "label": "That speed can change without any relation to area."
+            "label": "That changing area changes speed while the same flow rate is conserved."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Bernoulli needs the continuity result first: if the area changes, the speed changes in a specific way while the same steady flow rate is conserved.",
         "showMeAction": {
           "label": "Compare narrow and wide setups",

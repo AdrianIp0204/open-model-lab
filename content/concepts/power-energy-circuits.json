@@ -842,21 +842,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "It doubles because I = V/R and the resistance stayed fixed."
+            "label": "It stays the same because the load resistance did not change."
           },
           {
             "id": "b",
-            "label": "It stays the same because the load resistance did not change."
+            "label": "It doubles because I = V/R and the resistance stayed fixed."
           },
           {
             "id": "c",
             "label": "It is cut in half because the source is working harder."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "With resistance fixed, current is directly proportional to voltage.",
         "selectedWrongExplanations": {
-          "b": "Resistance matters, but voltage is the other half of Ohm's law and it directly scales the current.",
+          "a": "Resistance matters, but voltage is the other half of Ohm's law and it directly scales the current.",
           "c": "Nothing in Ohm's law forces current downward when the source voltage rises for the same load."
         },
         "showMeAction": {
@@ -881,22 +881,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "Because raising voltage also raises current in the same load, so power grows faster than linearly."
-          },
-          {
-            "id": "b",
             "label": "Because the graph is only decorative and does not use the circuit equations."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Because resistance automatically increases when voltage increases in this model."
+          },
+          {
+            "id": "c",
+            "label": "Because raising voltage also raises current in the same load, so power grows faster than linearly."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "At fixed resistance, current rises with voltage, so P = VI grows faster than either one alone.",
         "selectedWrongExplanations": {
-          "b": "The graph is built from the same live circuit state and equations as the stage.",
-          "c": "The resistance stays fixed unless you change that control yourself."
+          "a": "The graph is built from the same live circuit state and equations as the stage.",
+          "b": "The resistance stays fixed unless you change that control yourself."
         },
         "showMeAction": {
           "label": "Show boosted source",
@@ -921,21 +921,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The 16 ohm load takes less power because it limits current more strongly."
+            "label": "The 16 ohm load takes more power because larger resistance always means more energy each second."
           },
           {
             "id": "b",
-            "label": "The 16 ohm load takes more power because larger resistance always means more energy each second."
+            "label": "The 16 ohm load takes less power because it limits current more strongly."
           },
           {
             "id": "c",
             "label": "Both loads take the same power because the source voltage is the same."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "At one fixed source voltage, larger resistance lowers current, so power falls too in this ohmic-load model.",
         "selectedWrongExplanations": {
-          "b": "That mixes up resistance with power. The source-load combination decides the current and power together.",
+          "a": "That mixes up resistance with power. The source-load combination decides the current and power together.",
           "c": "Equal source voltage does not force equal power when the load resistance changes."
         },
         "showMeAction": {
@@ -961,22 +961,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The longer run transfers twice as much energy because the same power acts for twice the time."
-          },
-          {
-            "id": "b",
             "label": "Both runs transfer the same energy because the power was the same."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "The longer run transfers less energy because power gets used up over time."
+          },
+          {
+            "id": "c",
+            "label": "The longer run transfers twice as much energy because the same power acts for twice the time."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "If power stays fixed, energy grows directly with time through E = Pt.",
         "selectedWrongExplanations": {
-          "b": "Equal power means equal rate, not equal total. Time still matters.",
-          "c": "Power is a rate here, not a substance that gets consumed by running longer."
+          "a": "Equal power means equal rate, not equal total. Time still matters.",
+          "b": "Power is a rate here, not a substance that gets consumed by running longer."
         },
         "showMeAction": {
           "label": "Show the energy graph",

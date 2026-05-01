@@ -1127,21 +1127,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "They have the same hydrostatic pressure because depth, density, and gravity are the same."
+            "label": "The wall point has higher pressure because the wall blocks the fluid."
           },
           {
             "id": "b",
-            "label": "The wall point has higher pressure because the wall blocks the fluid."
+            "label": "They have the same hydrostatic pressure because depth, density, and gravity are the same."
           },
           {
             "id": "c",
             "label": "The center point has higher pressure because more fluid surrounds it."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "In one connected resting fluid, same depth means the same hydrostatic contribution.",
         "selectedWrongExplanations": {
-          "b": "The wall does not create a second pressure rule here. Depth is the relevant variable.",
+          "a": "The wall does not create a second pressure rule here. Depth is the relevant variable.",
           "c": "Pressure at a point is not determined by how much fluid surrounds it sideways."
         },
         "showMeAction": {
@@ -1167,7 +1167,7 @@
         "choices": [
           {
             "id": "a",
-            "label": "Because $\\rho g h$ is larger, so each meter of depth adds more pressure."
+            "label": "Because pressure only depends on depth, not on density."
           },
           {
             "id": "b",
@@ -1175,14 +1175,14 @@
           },
           {
             "id": "c",
-            "label": "Because pressure only depends on depth, not on density."
+            "label": "Because $\\rho g h$ is larger, so each meter of depth adds more pressure."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Density appears in the hydrostatic term. Higher density means a steeper pressure gradient with depth.",
         "selectedWrongExplanations": {
-          "b": "The surface-pressure term depends only on force and area on this page.",
-          "c": "Depth matters, but density decides how much pressure each meter adds."
+          "a": "Depth matters, but density decides how much pressure each meter adds.",
+          "b": "The surface-pressure term depends only on force and area on this page."
         },
         "showMeAction": {
           "label": "Show denser fluid",
@@ -1207,21 +1207,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Because the bottom is deeper, so the pressure there is larger."
+            "label": "Because pressure in fluids only points upward."
           },
           {
             "id": "b",
-            "label": "Because pressure in fluids only points upward."
+            "label": "Because the bottom is deeper, so the pressure there is larger."
           },
           {
             "id": "c",
             "label": "Because the bottom has more area than the top."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Pressure acts in all directions at each point, but deeper points have larger pressure. That top-to-bottom pressure difference is the root of buoyancy.",
         "selectedWrongExplanations": {
-          "b": "Fluid pressure is not an upward-only rule. The net upward effect appears only because pressure is larger on the deeper side.",
+          "a": "Fluid pressure is not an upward-only rule. The net upward effect appears only because pressure is larger on the deeper side.",
           "c": "Area matters for force from a given pressure, but the pressure difference itself comes from depth."
         },
         "showMeAction": {
@@ -1247,22 +1247,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "Pressure vs density"
-          },
-          {
-            "id": "b",
             "label": "Pressure vs force"
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Pressure vs area"
+          },
+          {
+            "id": "c",
+            "label": "Pressure vs density"
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "That graph isolates density as the only changing variable, so the hydrostatic and total responses are easiest to read.",
         "selectedWrongExplanations": {
-          "b": "That graph isolates the surface-loading change instead.",
-          "c": "That graph isolates how the same force is spread over different areas."
+          "a": "That graph isolates the surface-loading change instead.",
+          "b": "That graph isolates how the same force is spread over different areas."
         },
         "showMeAction": {
           "label": "Open the density sweep",

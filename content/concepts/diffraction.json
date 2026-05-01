@@ -861,21 +861,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "A narrower slit usually increases spreading, so the main diffraction peak gets broader."
+            "label": "A narrower slit keeps the same spread because only the wavelength matters."
           },
           {
             "id": "b",
-            "label": "A narrower slit keeps the same spread because only the wavelength matters."
+            "label": "A narrower slit usually increases spreading, so the main diffraction peak gets broader."
           },
           {
             "id": "c",
             "label": "A narrower slit blocks diffraction completely because there is less wave left."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Reducing the opening increases lambda / a, which broadens the outgoing pattern instead of tightening it.",
         "selectedWrongExplanations": {
-          "b": "Wavelength matters, but diffraction is set by the ratio lambda / a, so slit width matters too.",
+          "a": "Wavelength matters, but diffraction is set by the ratio lambda / a, so slit width matters too.",
           "c": "A smaller opening can transmit less total energy, but the wave that gets through still diffracts."
         },
         "showMeAction": {
@@ -901,22 +901,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "Case B should have a broader central peak because the wavelength is larger relative to the same opening."
-          },
-          {
-            "id": "b",
             "label": "Case B should have the same pattern because the slit is unchanged."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Case B should have a narrower peak because longer waves bend less."
+          },
+          {
+            "id": "c",
+            "label": "Case B should have a broader central peak because the wavelength is larger relative to the same opening."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "With the same opening width, increasing wavelength increases lambda / a and therefore broadens the diffraction envelope.",
         "selectedWrongExplanations": {
-          "b": "The slit width stayed fixed, but wavelength still changes the pattern.",
-          "c": "That intuition works against the actual single-slit result here. Longer wavelength produces more spread."
+          "a": "The slit width stayed fixed, but wavelength still changes the pattern.",
+          "b": "That intuition works against the actual single-slit result here. Longer wavelength produces more spread."
         },
         "showMeAction": {
           "label": "Compare broad and tight spread",

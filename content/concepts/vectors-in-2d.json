@@ -758,21 +758,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "It is addition with the opposite vector."
+            "label": "It uses a completely different picture from vector addition."
           },
           {
             "id": "b",
-            "label": "It uses a completely different picture from vector addition."
+            "label": "It is addition with the opposite vector."
           },
           {
             "id": "c",
             "label": "It only changes the readout, not the geometry."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "That is why the tip-to-tail picture still works: subtraction is handled by reversing B first.",
         "selectedWrongExplanations": {
-          "b": "The same plane picture still works once the second vector is replaced by its opposite.",
+          "a": "The same plane picture still works once the second vector is replaced by its opposite.",
           "c": "Turning on subtraction changes the geometry directly because the second arrow flips."
         },
         "showMeAction": {
@@ -797,22 +797,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The scaled version of A flips direction through the origin."
-          },
-          {
-            "id": "b",
             "label": "The magnitude graph must dip below zero."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Vector B must inherit the same sign change."
+          },
+          {
+            "id": "c",
+            "label": "The scaled version of A flips direction through the origin."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "A negative scalar reverses the direction of A while still scaling its size. Magnitude remains nonnegative.",
         "selectedWrongExplanations": {
-          "b": "Magnitude graphs plot size, so they stay at or above zero.",
-          "c": "The scalar only acts on A in this bench."
+          "a": "Magnitude graphs plot size, so they stay at or above zero.",
+          "b": "The scalar only acts on A in this bench."
         },
         "showMeAction": {
           "label": "Show the flipped scale",

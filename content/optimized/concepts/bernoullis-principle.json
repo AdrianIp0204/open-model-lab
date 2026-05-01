@@ -240,7 +240,7 @@
 "questions": [
 {
 "id": "bp-qt-narrower-throat",
-"explanation": "Continuity makes the smaller throat faster for the same $Q$. Bernoulli then leaves less of the same total as static pressure there.",
+"explanation": "Continuity makes the smaller throat faster for the same $Q$. Bernoulli then leaves less of the same budget as static pressure there.",
 "showMeAction": {
 "label": "Load Baseline venturi",
 "observationHint": "The throat speed arrow is longer and the throat pressure gauge sits lower than at section A."
@@ -248,7 +248,7 @@
 },
 {
 "id": "bp-qt-height-term",
-"explanation": "With the same speeds, the extra drop comes from the $\rho g y$ term. A higher throat leaves less of the total as static pressure at B.",
+"explanation": "With the same speeds, the extra drop comes from the height term. A higher throat leaves less static pressure at B.",
 "showMeAction": {
 "label": "Load Raised throat",
 "observationHint": "The energy bars show a larger height share while the throat pressure gauge drops."

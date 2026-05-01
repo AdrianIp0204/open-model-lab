@@ -48,6 +48,204 @@ describe("topic tests", () => {
     }
   });
 
+  it("keeps physics topic bridge answer keys varied while preserving the correct bridge claims", () => {
+    const fixtures = [
+      {
+        topicSlug: "oscillations",
+        correctChoiceId: "a",
+        correctSnippet: "resonant amplitude falls",
+      },
+      {
+        topicSlug: "mechanics",
+        correctChoiceId: "b",
+        correctSnippet: "Use impulse to track each object's momentum change",
+      },
+      {
+        topicSlug: "fluids",
+        correctChoiceId: "c",
+        correctSnippet: "pressure is larger deeper down",
+      },
+      {
+        topicSlug: "thermodynamics",
+        correctChoiceId: "d",
+        correctSnippet: "Heat transfer keeps adding energy",
+      },
+      {
+        topicSlug: "electricity",
+        correctChoiceId: "a",
+        correctSnippet: "larger potential difference",
+      },
+      {
+        topicSlug: "electromagnetism",
+        correctChoiceId: "b",
+        correctSnippet: "changing magnetic flux",
+      },
+      {
+        topicSlug: "optics",
+        correctChoiceId: "c",
+        correctSnippet: "refraction depends on wavelength",
+      },
+      {
+        topicSlug: "modern-physics",
+        correctChoiceId: "d",
+        correctSnippet: "threshold frequency",
+      },
+    ] as const;
+
+    for (const fixture of fixtures) {
+      const session = buildTopicTestSession(fixture.topicSlug, {
+        locale: "en",
+        seed: `topic-bridge-answer-key:${fixture.topicSlug}`,
+      });
+      const bridgeQuestion = session.questions.find((question) =>
+        question.canonicalQuestionId.startsWith(`topic:${fixture.topicSlug}:authored:`),
+      );
+
+      expect(bridgeQuestion?.correctChoiceId).toBe(fixture.correctChoiceId);
+      expect(
+        bridgeQuestion?.choices.find((choice) => choice.id === fixture.correctChoiceId)?.label,
+      ).toContain(fixture.correctSnippet);
+    }
+
+    expect(new Set(fixtures.map((fixture) => fixture.correctChoiceId)).size).toBe(4);
+  });
+
+  it("keeps Math topic bridge answer keys varied while preserving the correct bridge claims", () => {
+    const fixtures = [
+      {
+        topicSlug: "functions",
+        correctChoiceId: "b",
+        correctSnippet: "same vertical transformation",
+      },
+      {
+        topicSlug: "calculus",
+        correctChoiceId: "c",
+        correctSnippet: "derivative-style local-rate reasoning",
+      },
+      {
+        topicSlug: "vectors",
+        correctChoiceId: "d",
+        correctSnippet: "matrix to get the new vector",
+      },
+      {
+        topicSlug: "complex-numbers-and-parametric-motion",
+        correctChoiceId: "a",
+        correctSnippet: "polar magnitude-angle form",
+      },
+    ] as const;
+
+    for (const fixture of fixtures) {
+      const session = buildTopicTestSession(fixture.topicSlug, {
+        locale: "en",
+        seed: `math-topic-bridge-answer-key:${fixture.topicSlug}`,
+      });
+      const bridgeQuestion = session.questions.find((question) =>
+        question.canonicalQuestionId.startsWith(`topic:${fixture.topicSlug}:authored:`),
+      );
+
+      expect(bridgeQuestion?.correctChoiceId).toBe(fixture.correctChoiceId);
+      expect(
+        bridgeQuestion?.choices.find((choice) => choice.id === fixture.correctChoiceId)?.label,
+      ).toContain(fixture.correctSnippet);
+    }
+
+    expect(new Set(fixtures.map((fixture) => fixture.correctChoiceId)).size).toBe(4);
+  });
+
+  it("keeps Chemistry topic bridge answer keys varied while preserving the correct bridge claims", () => {
+    const fixtures = [
+      {
+        topicSlug: "rates-and-equilibrium",
+        correctChoiceId: "a",
+        correctSnippet: "collision success rates",
+      },
+      {
+        topicSlug: "stoichiometry-and-yield",
+        correctChoiceId: "b",
+        correctSnippet: "limiting reagent",
+      },
+      {
+        topicSlug: "solutions-and-ph",
+        correctChoiceId: "c",
+        correctSnippet: "buffer can still resist",
+      },
+    ] as const;
+
+    for (const fixture of fixtures) {
+      const session = buildTopicTestSession(fixture.topicSlug, {
+        locale: "en",
+        seed: `chemistry-topic-bridge-answer-key:${fixture.topicSlug}`,
+      });
+      const bridgeQuestion = session.questions.find((question) =>
+        question.canonicalQuestionId.startsWith(`topic:${fixture.topicSlug}:authored:`),
+      );
+
+      expect(bridgeQuestion?.correctChoiceId).toBe(fixture.correctChoiceId);
+      expect(
+        bridgeQuestion?.choices.find((choice) => choice.id === fixture.correctChoiceId)?.label,
+      ).toContain(fixture.correctSnippet);
+    }
+
+    expect(new Set(fixtures.map((fixture) => fixture.correctChoiceId)).size).toBe(3);
+  });
+
+  it("keeps remaining topic bridge answer keys varied while preserving the correct bridge claims", () => {
+    const fixtures = [
+      {
+        topicSlug: "algorithms-and-search",
+        correctChoiceId: "b",
+        correctSnippet: "sorted list lets you discard half",
+      },
+      {
+        topicSlug: "gravity-and-orbits",
+        correctChoiceId: "c",
+        correctSnippet: "required circular speed is lower",
+      },
+      {
+        topicSlug: "waves",
+        correctChoiceId: "d",
+        correctSnippet: "Doppler-shift the observed frequency",
+      },
+      {
+        topicSlug: "sound",
+        correctChoiceId: "a",
+        correctSnippet: "beat rate comes from the small difference",
+      },
+      {
+        topicSlug: "circuits",
+        correctChoiceId: "b",
+        correctSnippet: "equivalent resistance increases",
+      },
+      {
+        topicSlug: "magnetism",
+        correctChoiceId: "c",
+        correctSnippet: "current creates a magnetic field",
+      },
+      {
+        topicSlug: "mirrors-and-lenses",
+        correctChoiceId: "d",
+        correctSnippet: "diffraction limits the resolving power",
+      },
+    ] as const;
+
+    for (const fixture of fixtures) {
+      const session = buildTopicTestSession(fixture.topicSlug, {
+        locale: "en",
+        seed: `remaining-topic-bridge-answer-key:${fixture.topicSlug}`,
+      });
+      const bridgeQuestion = session.questions.find((question) =>
+        question.canonicalQuestionId.startsWith(`topic:${fixture.topicSlug}:authored:`),
+      );
+
+      expect(bridgeQuestion?.correctChoiceId).toBe(fixture.correctChoiceId);
+      expect(
+        bridgeQuestion?.choices.find((choice) => choice.id === fixture.correctChoiceId)?.label,
+      ).toContain(fixture.correctSnippet);
+    }
+
+    expect(new Set(fixtures.map((fixture) => fixture.correctChoiceId)).size).toBe(4);
+  });
+
   it("builds topic sessions without duplicate canonical questions or fallback-backed question instances", () => {
     const catalog = getPublishedTopicTestCatalog();
 

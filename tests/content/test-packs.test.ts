@@ -46,6 +46,70 @@ describe("cross-topic packs", () => {
     }
   });
 
+  it("keeps pack bridge answer keys varied while preserving the correct bridge claims", () => {
+    const fixtures = [
+      {
+        packSlug: "physics-connected-models",
+        expected: [
+          {
+            correctChoiceId: "a",
+            correctSnippet: "Gravity provides the inward acceleration",
+          },
+          {
+            correctChoiceId: "b",
+            correctSnippet: "source point oscillates locally",
+          },
+        ],
+      },
+      {
+        packSlug: "math-linked-representations",
+        expected: [
+          {
+            correctChoiceId: "c",
+            correctSnippet: "vertical stretch changes slope values",
+          },
+          {
+            correctChoiceId: "d",
+            correctSnippet: "real and imaginary parts are the vector components",
+          },
+        ],
+      },
+      {
+        packSlug: "chemistry-connected-systems",
+        expected: [
+          {
+            correctChoiceId: "a",
+            correctSnippet: "full-conversion recipe",
+          },
+          {
+            correctChoiceId: "b",
+            correctSnippet: "Use mole ratios first",
+          },
+        ],
+      },
+    ] as const;
+
+    for (const fixture of fixtures) {
+      const session = buildPackTestSession(fixture.packSlug, {
+        locale: "en",
+        seed: `pack-bridge-answer-key:${fixture.packSlug}`,
+      });
+      const bridgeQuestions = session.questions.filter((question) =>
+        question.canonicalQuestionId.startsWith(`pack:${fixture.packSlug}:authored:`),
+      );
+
+      expect(bridgeQuestions).toHaveLength(fixture.expected.length);
+      fixture.expected.forEach((expected, index) => {
+        const bridgeQuestion = bridgeQuestions[index]!;
+
+        expect(bridgeQuestion.correctChoiceId).toBe(expected.correctChoiceId);
+        expect(
+          bridgeQuestion.choices.find((choice) => choice.id === expected.correctChoiceId)?.label,
+        ).toContain(expected.correctSnippet);
+      });
+    }
+  });
+
   it("builds pack sessions without duplicate canonical questions or fallback-backed question instances", () => {
     const catalog = getPublishedPackTestCatalog();
 

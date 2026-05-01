@@ -2,6 +2,7 @@ import { render } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import {
   compileRichMathExpression,
+  formatMathExpressionForAccessibleText,
   RichInlineFormula,
   RichMathText,
 } from "@/components/concepts/MathFormula";
@@ -37,5 +38,18 @@ describe("rich math formulas", () => {
     expect(container.textContent).toContain("Use");
     expect(container.textContent).not.toContain("\\omega");
     expect(container.textContent).not.toContain("\\phi");
+  });
+
+  it("adds readable labels for rendered formulas", () => {
+    const expression = "n(\\lambda) \\approx n_{\\mathrm{ref}} + D\\left[\\left(\\dfrac{550}{\\lambda}\\right)^2 - 1\\right]";
+    const { container } = render(<RichMathText content={`Use $${expression}$ now.`} />);
+    const formula = container.querySelector(".math-inline");
+
+    expect(formatMathExpressionForAccessibleText(expression)).toContain("550 over lambda");
+    expect(formula).toHaveAttribute("role", "math");
+    expect(formula).toHaveAttribute(
+      "aria-label",
+      "n(lambda) approximately n sub ref + D[(550 over lambda) squared - 1]",
+    );
   });
 });

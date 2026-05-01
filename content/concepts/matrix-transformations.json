@@ -793,7 +793,11 @@
           }
         ],
         "correctChoiceId": "a",
-        "explanation": "That is why the columns already organize the unit square and the whole transformed grid."
+        "explanation": "That is why the columns already organize the unit square and the whole transformed grid.",
+        "selectedWrongExplanations": {
+          "b": "The columns act on the whole plane, not just the sample triangle.",
+          "c": "The matrix entries are geometric instructions for where the basis vectors land."
+        }
       },
       {
         "id": "mt-qt-shear",
@@ -802,19 +806,23 @@
         "choices": [
           {
             "id": "a",
-            "label": "Increase the second-column x entry."
+            "label": "Make the first-column x entry negative."
           },
           {
             "id": "b",
-            "label": "Make the first-column x entry negative."
+            "label": "Increase the second-column x entry."
           },
           {
             "id": "c",
             "label": "Set both diagonal entries to zero."
           }
         ],
-        "correctChoiceId": "a",
-        "explanation": "That leans $e_2$ right while keeping $e_1$ close to its original direction."
+        "correctChoiceId": "b",
+        "explanation": "That leans $e_2$ right while keeping $e_1$ close to its original direction.",
+        "selectedWrongExplanations": {
+          "a": "Changing the first-column x entry changes the image of e1, not the intended second-column shear.",
+          "c": "Zeroing both diagonals collapses the basic scale directions instead of creating a clean right shear."
+        }
       },
       {
         "id": "mt-qt-reflection",
@@ -823,19 +831,23 @@
         "choices": [
           {
             "id": "a",
-            "label": "A reflection changes the whole plane action, so the grid, the basis vectors, and every sample point flip consistently."
-          },
-          {
-            "id": "b",
             "label": "A reflection only changes the tracked point because it is special."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "A reflection needs a third dimension before the grid can notice it."
+          },
+          {
+            "id": "c",
+            "label": "A reflection changes the whole plane action, so the grid, the basis vectors, and every sample point flip consistently."
           }
         ],
-        "correctChoiceId": "a",
-        "explanation": "This bench is about one matrix acting on the entire plane, not about one shape receiving a special case."
+        "correctChoiceId": "c",
+        "explanation": "This bench is about one matrix acting on the entire plane, not about one shape receiving a special case.",
+        "selectedWrongExplanations": {
+          "a": "The tracked point is not special; the same plane transformation applies everywhere.",
+          "b": "A 2D reflection is already visible in the grid and basis vectors."
+        }
       },
       {
         "id": "mt-qt-diagonal-scale",
@@ -844,21 +856,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The basis directions keep their axes, but the plane stretches along those same directions."
+            "label": "The plane must turn into a reflection because only diagonals changed."
           },
           {
             "id": "b",
-            "label": "The plane must turn into a reflection because only diagonals changed."
+            "label": "The basis directions keep their axes, but the plane stretches along those same directions."
           },
           {
             "id": "c",
             "label": "The unit square cannot change unless a shear entry is nonzero."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "With the off-diagonal entries quiet, the columns stay aligned to the axes and the visible change is axis-aligned stretching or compression.",
         "selectedWrongExplanations": {
-          "b": "Reflections come from sign flips across a direction, not from every diagonal change.",
+          "a": "Reflections come from sign flips across a direction, not from every diagonal change.",
           "c": "The unit square can stretch even without a shear."
         }
       },
@@ -869,22 +881,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "Because the basis vectors define the whole plane action, so every other transformed shape follows from them."
-          },
-          {
-            "id": "b",
             "label": "Because the sample point ignores the matrix entirely."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Because transformed shapes never depend on the columns of the matrix."
+          },
+          {
+            "id": "c",
+            "label": "Because the basis vectors define the whole plane action, so every other transformed shape follows from them."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Once you know where e1 and e2 land, the transformed grid, square, triangle, and probe point all follow from the same matrix action.",
         "selectedWrongExplanations": {
-          "b": "The sample point still responds to the same matrix action.",
-          "c": "The columns are exactly what set the transformed basis directions."
+          "a": "The sample point still responds to the same matrix action.",
+          "b": "The columns are exactly what set the transformed basis directions."
         }
       }
     ]

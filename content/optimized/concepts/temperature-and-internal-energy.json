@@ -233,7 +233,7 @@
 "prompt": "Two samples have the same temperature, but one contains three times as many particles. Which statement is best supported by this model?",
 "explanation": "Temperature follows the average per-particle motion. Total internal energy still depends on how many particles and internal stores the whole sample contains.",
 "selectedWrongExplanations": {
-"b": "That confuses temperature with total internal energy. Here, temperature is an average-scale measure, not the full total.",
+"a": "That confuses temperature with total internal energy. Here, temperature is an average-scale measure, not the full total.",
 "c": "Crowding is not the key idea in this model. The relevant pieces are amount and per-particle energy."
 },
 "showMeAction": {
@@ -266,8 +266,8 @@
 "prompt": "A student says, 'If the heater adds energy, temperature must rise immediately every time.' What is the best correction in this model?",
 "explanation": "The shelf is the reminder that energy input can feed other microscopic changes, so temperature is not forced to jump every instant.",
 "selectedWrongExplanations": {
-"b": "That ignores shelf behavior. In this model, temperature is not the only way added energy can appear.",
-"c": "Particle count is a separate control. Added energy changes internal energy directly and can also change temperature when it goes into average motion."
+"a": "That ignores shelf behavior. In this model, temperature is not the only way added energy can appear.",
+"b": "Particle count is a separate control. Added energy changes internal energy directly and can also change temperature when it goes into average motion."
 },
 "showMeAction": {
 "label": "Inspect shelf heating",

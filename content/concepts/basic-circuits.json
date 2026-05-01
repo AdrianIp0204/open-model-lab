@@ -887,21 +887,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Branch A, because the lower-resistance branch draws more current at the same branch voltage."
+            "label": "Branch B, because the higher resistance stores more energy and therefore pulls more current."
           },
           {
             "id": "b",
-            "label": "Branch B, because the higher resistance stores more energy and therefore pulls more current."
+            "label": "Branch A, because the lower-resistance branch draws more current at the same branch voltage."
           },
           {
             "id": "c",
             "label": "They must be equal because both branches share the same battery voltage."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Equal branch voltage does not force equal branch current. Ohm's law says the lower-resistance branch draws the larger current.",
         "selectedWrongExplanations": {
-          "b": "Higher resistance limits current more strongly; it does not pull more current at the same voltage.",
+          "a": "Higher resistance limits current more strongly; it does not pull more current at the same voltage.",
           "c": "Equal voltage only means both branches have the same push across them. Different resistances still create different currents."
         },
         "showMeAction": {
@@ -930,22 +930,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "Resistor B, because the same series current crosses both resistors and the larger resistance takes the larger drop."
-          },
-          {
-            "id": "b",
             "label": "Resistor A, because it is first in the loop and sees the battery sooner."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "They must split the source voltage evenly because there are two resistors."
+          },
+          {
+            "id": "c",
+            "label": "Resistor B, because the same series current crosses both resistors and the larger resistance takes the larger drop."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Equal series current means voltage drop tracks resistance. The 12 ohm resistor takes three times the drop of the 4 ohm resistor.",
         "selectedWrongExplanations": {
-          "b": "Order in the loop does not decide the drop. Resistance and current do.",
-          "c": "Equal sharing only happens when the series resistances are equal."
+          "a": "Order in the loop does not decide the drop. Resistance and current do.",
+          "b": "Equal sharing only happens when the series resistances are equal."
         },
         "showMeAction": {
           "label": "Show uneven series divider",
@@ -972,21 +972,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Current stays the same around the series loop; voltage drops across the resistors instead."
+            "label": "Current does get used up, but the battery replaces it instantly at the next resistor."
           },
           {
             "id": "b",
-            "label": "Current does get used up, but the battery replaces it instantly at the next resistor."
+            "label": "Current stays the same around the series loop; voltage drops across the resistors instead."
           },
           {
             "id": "c",
             "label": "The statement is true only when the resistors have different values."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "A steady series loop carries one current everywhere. What changes across each resistor is voltage, not the amount of current still available.",
         "selectedWrongExplanations": {
-          "b": "That treats current like a material that disappears and reappears. In an ideal steady loop, the same charge flow rate is already present everywhere.",
+          "a": "That treats current like a material that disappears and reappears. In an ideal steady loop, the same charge flow rate is already present everywhere.",
           "c": "Different resistor values change the voltage shares, not whether the same loop current exists everywhere."
         },
         "showMeAction": {
@@ -1013,22 +1013,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "It moves to twice the current on the same straight-line relationship."
-          },
-          {
-            "id": "b",
             "label": "It stays at the same current because resistance did not change."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "It drops to half the current because the line gets flatter at higher voltage."
+          },
+          {
+            "id": "c",
+            "label": "It moves to twice the current on the same straight-line relationship."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "For one fixed resistance setup, current is proportional to voltage, so doubling V doubles I on the same line.",
         "selectedWrongExplanations": {
-          "b": "Resistance stays fixed, but voltage is the other half of Ohm's law and it directly scales the current.",
-          "c": "The line slope is set by resistance. If resistance is fixed, the line does not flatten just because the voltage value is larger."
+          "a": "Resistance stays fixed, but voltage is the other half of Ohm's law and it directly scales the current.",
+          "b": "The line slope is set by resistance. If resistance is fixed, the line does not flatten just because the voltage value is larger."
         },
         "showMeAction": {
           "label": "Show low-voltage check",

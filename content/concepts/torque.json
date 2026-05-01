@@ -952,21 +952,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Because its line of action can pass through the pivot, leaving almost no moment arm."
+            "label": "Because torque ignores direction and only cares about mass."
           },
           {
             "id": "b",
-            "label": "Because torque ignores direction and only cares about mass."
+            "label": "Because its line of action can pass through the pivot, leaving almost no moment arm."
           },
           {
             "id": "c",
             "label": "Because any force aimed along the bar automatically disappears."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "A force does not have to be small to have small torque. If the perpendicular distance to the pivot is near zero, the turning effect is near zero too.",
         "selectedWrongExplanations": {
-          "b": "Direction is essential in torque. It decides both the size and the sign of the perpendicular component.",
+          "a": "Direction is essential in torque. It decides both the size and the sign of the perpendicular component.",
           "c": "The force is still real. What disappears is the turning effect about that pivot, not the force itself."
         },
         "showMeAction": {
@@ -993,7 +993,7 @@
         "choices": [
           {
             "id": "a",
-            "label": "The stronger push makes up for the shallower angle so that the perpendicular component stays matched."
+            "label": "Torque depends only on angle, so the bigger force is irrelevant."
           },
           {
             "id": "b",
@@ -1001,14 +1001,14 @@
           },
           {
             "id": "c",
-            "label": "Torque depends only on angle, so the bigger force is irrelevant."
+            "label": "The stronger push makes up for the shallower angle so that the perpendicular component stays matched."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Torque depends on $rF_\\perp$. If the application point stays at the handle and $F_\\perp$ stays matched, the torque stays matched too.",
         "selectedWrongExplanations": {
-          "b": "A stronger total force does not help if its perpendicular component does not grow in the right way.",
-          "c": "Angle matters, but force magnitude still matters because it sets how large the perpendicular component can be."
+          "a": "Angle matters, but force magnitude still matters because it sets how large the perpendicular component can be.",
+          "b": "A stronger total force does not help if its perpendicular component does not grow in the right way."
         },
         "showMeAction": {
           "label": "Show the matched-torque case",

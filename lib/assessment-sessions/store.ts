@@ -200,7 +200,12 @@ export function useAssessmentSessionStoreSnapshot() {
 
 export function useAssessmentSessionStoreReady() {
   return useSyncExternalStore(
-    localAssessmentSessionStore.subscribe,
+    (listener) => {
+      const unsubscribe = localAssessmentSessionStore.subscribe(listener);
+      listener();
+
+      return unsubscribe;
+    },
     localAssessmentSessionStore.isReady,
     () => serverReady,
   );

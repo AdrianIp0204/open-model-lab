@@ -646,21 +646,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The finite limit and the actual function value match at that point."
+            "label": "Any finite limit means the graph is continuous there."
           },
           {
             "id": "b",
-            "label": "Any finite limit means the graph is continuous there."
+            "label": "The finite limit and the actual function value match at that point."
           },
           {
             "id": "c",
             "label": "Any filled point means the graph is continuous there."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Continuity needs both pieces: a finite limit and an actual point that lands on that same value.",
         "selectedWrongExplanations": {
-          "b": "A removable hole shows why that is incomplete. The limit can exist while the point still misses it.",
+          "a": "A removable hole shows why that is incomplete. The limit can exist while the point still misses it.",
           "c": "A filled point can still sit away from the nearby approach behavior."
         },
         "showMeAction": {
@@ -686,22 +686,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "There is no finite two-sided limit there."
-          },
-          {
-            "id": "b",
             "label": "The limit must be zero because the point is missing."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "The graph is still continuous because both sides are steep."
+          },
+          {
+            "id": "c",
+            "label": "There is no finite two-sided limit there."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "A blow-up case does not settle to one honest finite height, so the finite two-sided limit fails.",
         "selectedWrongExplanations": {
-          "b": "A missing point does not force the limit to be zero. The nearby values are the deciding factor.",
-          "c": "Steepness is not the continuity test. Matching nearby values and the actual point are."
+          "a": "A missing point does not force the limit to be zero. The nearby values are the deciding factor.",
+          "b": "Steepness is not the continuity test. Matching nearby values and the actual point are."
         },
         "showMeAction": {
           "label": "Show the blow-up case",

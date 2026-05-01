@@ -1058,21 +1058,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The net field is zero there because the two tangential contributions are equal in size and opposite in direction."
+            "label": "The net field points upward because both currents are out of the page."
           },
           {
             "id": "b",
-            "label": "The net field points upward because both currents are out of the page."
+            "label": "The net field is zero there because the two tangential contributions are equal in size and opposite in direction."
           },
           {
             "id": "c",
             "label": "The stronger cancellation happens only if one wire current is negative."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "At the midpoint on the shared axis, the geometry is perfectly symmetric. Each wire contributes an equal tangential field in the opposite direction, so the vector sum vanishes there.",
         "selectedWrongExplanations": {
-          "b": "That upward result belongs to the above-midpoint opposite-current case, not to the midpoint between equal same-direction currents.",
+          "a": "That upward result belongs to the above-midpoint opposite-current case, not to the midpoint between equal same-direction currents.",
           "c": "The cancellation here comes from symmetry, equal current size, and opposite tangential directions at that location."
         },
         "showMeAction": {
@@ -1101,22 +1101,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "It points straight up because the horizontal contributions cancel while the vertical contributions reinforce."
-          },
-          {
-            "id": "b",
             "label": "It must point left because both field loops curve around the wires."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "It must be zero because the currents have equal magnitude."
+          },
+          {
+            "id": "c",
+            "label": "It points straight up because the horizontal contributions cancel while the vertical contributions reinforce."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Above the midpoint of an equal opposite-current pair, the sideways pieces cancel on the symmetry line while the upward pieces add, so the net field points straight up.",
         "selectedWrongExplanations": {
-          "b": "Equal same-direction currents above the midpoint give the sideways reinforcement case, not opposite-sign currents.",
-          "c": "Equal magnitude does not guarantee cancellation. Direction matters, and here the two contributions reinforce vertically."
+          "a": "Equal same-direction currents above the midpoint give the sideways reinforcement case, not opposite-sign currents.",
+          "b": "Equal magnitude does not guarantee cancellation. Direction matters, and here the two contributions reinforce vertically."
         },
         "showMeAction": {
           "label": "Show opposite-current lift",
@@ -1144,21 +1144,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "At the same distance, a stronger current produces a stronger magnetic field because the field magnitude scales with current."
+            "label": "Current size only changes the field if the probe is exactly on the wire."
           },
           {
             "id": "b",
-            "label": "Current size only changes the field if the probe is exactly on the wire."
+            "label": "At the same distance, a stronger current produces a stronger magnetic field because the field magnitude scales with current."
           },
           {
             "id": "c",
             "label": "Current size changes the field direction but not its strength."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "For a long straight wire, field strength grows with current and weakens with distance. Current direction chooses the circulation sense, while current size scales the field magnitude.",
         "selectedWrongExplanations": {
-          "b": "The scaling with current applies at every nonzero distance in this model, not just right on the wire.",
+          "a": "The scaling with current applies at every nonzero distance in this model, not just right on the wire.",
           "c": "Direction and strength are different roles: sign chooses clockwise or counterclockwise, while size scales how strong the field is."
         },
         "showMeAction": {

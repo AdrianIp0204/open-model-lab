@@ -964,6 +964,10 @@
             "fieldBand",
             "currentLoop"
           ]
+        },
+        "selectedWrongExplanations": {
+          "b": "A large steady field is not enough. Faraday induction needs changing flux, not just nonzero flux.",
+          "c": "The sign cannot alternate unless the linked flux is changing through time."
         }
       },
       {
@@ -973,18 +977,18 @@
         "choices": [
           {
             "id": "a",
-            "label": "The induced emf can be zero because the flux curve has zero slope there."
+            "label": "The emf must also be at a maximum because the flux is largest."
           },
           {
             "id": "b",
-            "label": "The emf must also be at a maximum because the flux is largest."
+            "label": "The induced emf can be zero because the flux curve has zero slope there."
           },
           {
             "id": "c",
             "label": "The current direction becomes undefined because the field disappears."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "A maximum flux value does not imply a maximum derivative. At the peak of the flux curve the slope is zero, so the induced emf crosses through zero.",
         "showMeAction": {
           "label": "Show centered zero",
@@ -1002,6 +1006,10 @@
             "fieldBand",
             "currentLoop"
           ]
+        },
+        "selectedWrongExplanations": {
+          "a": "Emf follows the rate of flux change, so a peak in flux can coincide with zero slope and zero emf.",
+          "c": "The field has not disappeared at the centered instant; the flux is momentarily changing least rapidly."
         }
       },
       {
@@ -1011,18 +1019,18 @@
         "choices": [
           {
             "id": "a",
-            "label": "Flip which pole faces the coil or reverse the direction of relative motion."
-          },
-          {
-            "id": "b",
             "label": "Increase the number of turns while leaving the motion and polarity unchanged."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Increase the coil area while leaving the motion and polarity unchanged."
+          },
+          {
+            "id": "c",
+            "label": "Flip which pole faces the coil or reverse the direction of relative motion."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "The emf sign tracks the direction of change in linked flux under the stage's chosen positive loop direction. Flipping pole orientation or reversing motion reverses that change, so the emf and current signs reverse too.",
         "showMeAction": {
           "label": "Show pole flip",
@@ -1039,6 +1047,10 @@
             "fieldBand",
             "currentLoop"
           ]
+        },
+        "selectedWrongExplanations": {
+          "a": "More turns changes the size of the response, not the sign, if polarity and motion stay the same.",
+          "b": "A larger area changes the flux scale, but it does not reverse the pass direction or pole orientation."
         }
       },
       {
@@ -1048,18 +1060,18 @@
         "choices": [
           {
             "id": "a",
-            "label": "The larger-turn coil has a larger flux linkage and usually a larger emf because the same changing field links more turns."
+            "label": "The emf must stay the same because only speed controls induction."
           },
           {
             "id": "b",
-            "label": "The emf must stay the same because only speed controls induction."
+            "label": "The larger-turn coil has a larger flux linkage and usually a larger emf because the same changing field links more turns."
           },
           {
             "id": "c",
             "label": "The current disappears because adding turns cancels the field inside the coil."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "With the same pass, more turns means more linked flux and a larger flux-change rate in the coil model, so the induced response scales upward.",
         "showMeAction": {
           "label": "Show more turns",
@@ -1076,6 +1088,10 @@
             "coilArea",
             "currentLoop"
           ]
+        },
+        "selectedWrongExplanations": {
+          "a": "Speed matters, but the number of linked turns also scales the flux linkage.",
+          "c": "Adding turns does not cancel the magnetic field; it changes how much flux linkage is counted."
         }
       }
     ]

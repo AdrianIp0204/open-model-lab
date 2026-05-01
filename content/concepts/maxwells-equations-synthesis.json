@@ -882,21 +882,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The net magnetic flux through a closed surface stays zero even when local magnetic loops are strong."
+            "label": "Magnetic fields disappear whenever the electric source term is zero."
           },
           {
             "id": "b",
-            "label": "Magnetic fields disappear whenever the electric source term is zero."
+            "label": "The net magnetic flux through a closed surface stays zero even when local magnetic loops are strong."
           },
           {
             "id": "c",
             "label": "Magnetic circulation and magnetic flux are the same measurement."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Gauss for B is the no-net-source statement. It does not say magnetic fields are absent; it says the field lines still close so the net closed-surface flux stays zero.",
         "selectedWrongExplanations": {
-          "b": "Zero electric source term does not remove local magnetic structure.",
+          "a": "Zero electric source term does not remove local magnetic structure.",
           "c": "Flux through a closed surface and circulation around a loop are different physical readings."
         },
         "showMeAction": {
@@ -916,22 +916,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "Ampere-Maxwell still allows magnetic circulation if the electric field is changing."
-          },
-          {
-            "id": "b",
             "label": "That statement is correct because only wire current can create magnetic loops."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "The loop law disappears and Gauss for E takes over instead."
+          },
+          {
+            "id": "c",
+            "label": "Ampere-Maxwell still allows magnetic circulation if the electric field is changing."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Maxwell's extra term matters here. A changing electric field can still source magnetic circulation even when the conduction-current contribution is zero.",
         "selectedWrongExplanations": {
-          "b": "That misses Maxwell's displacement-current term.",
-          "c": "Gauss for E is a separate source law, not a replacement for the loop law."
+          "a": "That misses Maxwell's displacement-current term.",
+          "b": "Gauss for E is a separate source law, not a replacement for the loop law."
         },
         "showMeAction": {
           "label": "Show the displacement-driven loop",
@@ -956,21 +956,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Because changing E and changing B can keep feeding one coherent field update instead of remaining only local source effects."
+            "label": "Because light is just the electric source-law card with a faster cycle rate."
           },
           {
             "id": "b",
-            "label": "Because light is just the electric source-law card with a faster cycle rate."
+            "label": "Because changing E and changing B can keep feeding one coherent field update instead of remaining only local source effects."
           },
           {
             "id": "c",
             "label": "Because the magnetic net-flux law becomes nonzero when light appears."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "The light bridge cue is the intuition-first result of the two circulation laws working together. It is not just faster charge flow, and it does not require breaking Gauss for B.",
         "selectedWrongExplanations": {
-          "b": "Light is not the electric source law by itself; the coupled changing-field story matters.",
+          "a": "Light is not the electric source law by itself; the coupled changing-field story matters.",
           "c": "Gauss for B still stays at zero net flux even in the unified light story."
         },
         "showMeAction": {

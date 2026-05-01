@@ -648,7 +648,11 @@
           }
         ],
         "correctChoiceId": "a",
-        "explanation": "The stack frontier is what gives one branch temporary priority and pushes the current depth upward."
+        "explanation": "The stack frontier is what gives one branch temporary priority and pushes the current depth upward.",
+        "selectedWrongExplanations": {
+          "b": "Other frontier nodes remain available; DFS just prioritizes the newest branch.",
+          "c": "DFS still follows the graph edge structure."
+        }
       },
       {
         "id": "dfs-qt-shortest-path-misread",
@@ -657,19 +661,23 @@
         "choices": [
           {
             "id": "a",
-            "label": "DFS is branch-first, but it does not guarantee the shallowest route to the target."
+            "label": "DFS always finds the shortest route because it moves fast."
           },
           {
             "id": "b",
-            "label": "DFS always finds the shortest route because it moves fast."
+            "label": "DFS is branch-first, but it does not guarantee the shallowest route to the target."
           },
           {
             "id": "c",
             "label": "DFS removes the need for visited state."
           }
         ],
-        "correctChoiceId": "a",
-        "explanation": "DFS chooses one branch first. That can be useful, but it is different from a shortest-path guarantee."
+        "correctChoiceId": "b",
+        "explanation": "DFS chooses one branch first. That can be useful, but it is different from a shortest-path guarantee.",
+        "selectedWrongExplanations": {
+          "a": "Moving fast or deep first does not guarantee the shortest route.",
+          "c": "Visited state is still needed to avoid repeated work."
+        }
       },
       {
         "id": "dfs-qt-stack-frontier",
@@ -678,22 +686,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The frontier behaves like a stack, so the newest discovery is expanded next."
-          },
-          {
-            "id": "b",
             "label": "DFS always expands the oldest discovery first."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "DFS deletes all but one edge from the graph."
+          },
+          {
+            "id": "c",
+            "label": "The frontier behaves like a stack, so the newest discovery is expanded next."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "That last-in-first-out behavior is the visible reason one branch keeps priority.",
         "selectedWrongExplanations": {
-          "b": "Oldest-first is the queue story, not the stack story.",
-          "c": "The graph structure stays intact; only the frontier policy changes."
+          "a": "Oldest-first is the queue story, not the stack story.",
+          "b": "The graph structure stays intact; only the frontier policy changes."
         }
       },
       {
@@ -703,21 +711,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "When the current branch runs out of new neighbors to push deeper into."
+            "label": "Only when the target has already been removed from the graph."
           },
           {
             "id": "b",
-            "label": "Only when the target has already been removed from the graph."
+            "label": "When the current branch runs out of new neighbors to push deeper into."
           },
           {
             "id": "c",
             "label": "Whenever the graph contains more than one connected component."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Backtracking is the moment the active branch no longer offers a new next step.",
         "selectedWrongExplanations": {
-          "b": "The target is not removed from the graph. DFS backtracks when the branch is exhausted.",
+          "a": "The target is not removed from the graph. DFS backtracks when the branch is exhausted.",
           "c": "Multiple components are a separate graph property, not the trigger for ordinary DFS backtracking."
         }
       },
@@ -728,22 +736,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "So a branch-first search does not keep circling back through the same looped nodes."
-          },
-          {
-            "id": "b",
             "label": "So DFS can stop using the frontier altogether."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "So DFS can guarantee the shallowest route to every node."
+          },
+          {
+            "id": "c",
+            "label": "So a branch-first search does not keep circling back through the same looped nodes."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Visited bookkeeping prevents cycle loops even when the stack keeps pushing down one branch.",
         "selectedWrongExplanations": {
-          "b": "DFS still needs a frontier; visited just keeps it bounded.",
-          "c": "Visited state does not turn DFS into a shortest-path method."
+          "a": "DFS still needs a frontier; visited just keeps it bounded.",
+          "b": "Visited state does not turn DFS into a shortest-path method."
         }
       }
     ]

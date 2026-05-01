@@ -694,7 +694,11 @@
           }
         ],
         "correctChoiceId": "a",
-        "explanation": "The queue frontier is what makes shallow discoveries settle before the search moves deeper."
+        "explanation": "The queue frontier is what makes shallow discoveries settle before the search moves deeper.",
+        "selectedWrongExplanations": {
+          "b": "BFS still follows graph edges; it does not teleport.",
+          "c": "BFS is built from adjacency rather than ignoring it."
+        }
       },
       {
         "id": "bfs-qt-shortest-path-misread",
@@ -703,19 +707,23 @@
         "choices": [
           {
             "id": "a",
-            "label": "Its layer order lets the first discovery of a node reflect the fewest-edge distance from the start."
+            "label": "It always uses fewer total edges than the graph actually has."
           },
           {
             "id": "b",
-            "label": "It always uses fewer total edges than the graph actually has."
+            "label": "Its layer order lets the first discovery of a node reflect the fewest-edge distance from the start."
           },
           {
             "id": "c",
             "label": "It removes the need for a frontier at all."
           }
         ],
-        "correctChoiceId": "a",
-        "explanation": "Because BFS settles the graph layer by layer, the first time it reaches a node is already the shallowest edge-distance route."
+        "correctChoiceId": "b",
+        "explanation": "Because BFS settles the graph layer by layer, the first time it reaches a node is already the shallowest edge-distance route.",
+        "selectedWrongExplanations": {
+          "a": "BFS may inspect many edges; its usefulness here is the layer-distance guarantee.",
+          "c": "The frontier is essential for BFS order."
+        }
       },
       {
         "id": "bfs-qt-frontier-order",
@@ -724,22 +732,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "Nodes wait in queue order, so earlier discoveries are expanded before later ones."
-          },
-          {
-            "id": "b",
             "label": "The current node is always chosen by largest degree first."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "BFS removes all already discovered nodes from the graph itself."
+          },
+          {
+            "id": "c",
+            "label": "Nodes wait in queue order, so earlier discoveries are expanded before later ones."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Queue order is what preserves the visible layer-by-layer widening pattern.",
         "selectedWrongExplanations": {
-          "b": "Degree is not the core BFS ordering rule on this bench.",
-          "c": "The graph stays the same; the frontier bookkeeping is what changes."
+          "a": "Degree is not the core BFS ordering rule on this bench.",
+          "b": "The graph stays the same; the frontier bookkeeping is what changes."
         }
       },
       {
@@ -749,21 +757,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "So the search does not keep reopening the same nodes and muddying the layer story."
+            "label": "So BFS can ignore the frontier entirely."
           },
           {
             "id": "b",
-            "label": "So BFS can ignore the frontier entirely."
+            "label": "So the search does not keep reopening the same nodes and muddying the layer story."
           },
           {
             "id": "c",
             "label": "So the target can move after the search starts."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Visited state keeps the queue work bounded and stops the traversal from recycling the same nodes.",
         "selectedWrongExplanations": {
-          "b": "Visited helps the frontier stay clean; it does not replace it.",
+          "a": "Visited helps the frontier stay clean; it does not replace it.",
           "c": "The target is fixed. The visited set is about bookkeeping the search."
         }
       },
@@ -774,22 +782,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The current node is being expanded now, while frontier nodes are waiting for their turn."
-          },
-          {
-            "id": "b",
             "label": "They are always the same node set in BFS."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Frontier nodes are already fully processed, but the current node is not."
+          },
+          {
+            "id": "c",
+            "label": "The current node is being expanded now, while frontier nodes are waiting for their turn."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "BFS separates the node being expanded from the queue of discovered nodes that are still waiting.",
         "selectedWrongExplanations": {
-          "b": "The current node comes out of the frontier and is processed while the rest keep waiting.",
-          "c": "The already fully processed nodes belong to visited history, not the frontier."
+          "a": "The current node comes out of the frontier and is processed while the rest keep waiting.",
+          "b": "The already fully processed nodes belong to visited history, not the frontier."
         }
       }
     ]

@@ -523,7 +523,11 @@
           }
         ],
         "correctChoiceId": "a",
-        "explanation": "Saturation is about the current limit on what can stay dissolved."
+        "explanation": "Saturation is about the current limit on what can stay dissolved.",
+        "selectedWrongExplanations": {
+          "b": "Visible particles alone do not prove saturation unless the dissolved amount has reached the capacity.",
+          "c": "Saturation compares dissolved amount with capacity, not just concentration by itself."
+        }
       },
       {
         "id": "ss-qt-solubility-vs-concentration",
@@ -532,19 +536,23 @@
         "choices": [
           {
             "id": "a",
-            "label": "Solubility limit"
+            "label": "Concentration"
           },
           {
             "id": "b",
-            "label": "Concentration"
+            "label": "Solubility limit"
           },
           {
             "id": "c",
             "label": "Excess solid"
           }
         ],
-        "correctChoiceId": "a",
-        "explanation": "Concentration describes what is already dissolved. Solubility tells you the capacity."
+        "correctChoiceId": "b",
+        "explanation": "Concentration describes what is already dissolved. Solubility tells you the capacity.",
+        "selectedWrongExplanations": {
+          "a": "Concentration is how crowded the dissolved part is, not the capacity ceiling.",
+          "c": "Excess solid is what remains after the capacity is reached, not the capacity itself."
+        }
       }
     ]
   },

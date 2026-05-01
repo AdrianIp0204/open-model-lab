@@ -1015,21 +1015,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The electric field is zero there, but the potential is positive."
+            "label": "Both electric field and potential are zero there."
           },
           {
             "id": "b",
-            "label": "Both electric field and potential are zero there."
+            "label": "The electric field is zero there, but the potential is positive."
           },
           {
             "id": "c",
             "label": "The potential is negative there because the fields cancel."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "The two positive-source fields cancel as vectors at that midpoint, but the two positive potentials add as scalars.",
         "selectedWrongExplanations": {
-          "b": "Zero slope in the potential landscape does not force the potential value itself to be zero.",
+          "a": "Zero slope in the potential landscape does not force the potential value itself to be zero.",
           "c": "Field cancellation does not make the scalar potential negative. Both source contributions are still positive."
         },
         "showMeAction": {
@@ -1059,22 +1059,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The potential is zero there, but the field is not zero because the field contributions point in the same horizontal direction."
-          },
-          {
-            "id": "b",
             "label": "Both potential and field are zero because the charges have equal magnitude."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "The field is zero there, but the potential is positive."
+          },
+          {
+            "id": "c",
+            "label": "The potential is zero there, but the field is not zero because the field contributions point in the same horizontal direction."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "At the midpoint of an equal dipole, the positive and negative potentials cancel, but the field contributions both point from the positive source toward the negative source and therefore add.",
         "selectedWrongExplanations": {
-          "b": "Equal magnitude is not enough for field cancellation. Direction matters, and here the vectors reinforce.",
-          "c": "That positive-potential result belongs to two like positive charges, not to an equal dipole."
+          "a": "Equal magnitude is not enough for field cancellation. Direction matters, and here the vectors reinforce.",
+          "b": "That positive-potential result belongs to two like positive charges, not to an equal dipole."
         },
         "showMeAction": {
           "label": "Show zero-potential midpoint",
@@ -1103,21 +1103,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "E_x is positive there because E_x = -dV/dx and the slope is negative."
+            "label": "E_x is zero there because the potential is changing smoothly."
           },
           {
             "id": "b",
-            "label": "E_x is zero there because the potential is changing smoothly."
+            "label": "E_x is positive there because E_x = -dV/dx and the slope is negative."
           },
           {
             "id": "c",
             "label": "E_x is negative there because the graph is going downward."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "A downward slope means dV/dx is negative, so the negative sign in E_x = -dV/dx makes E_x positive.",
         "selectedWrongExplanations": {
-          "b": "Smooth change does not mean zero slope. Only a flat graph would make E_x vanish along that slice.",
+          "a": "Smooth change does not mean zero slope. Only a flat graph would make E_x vanish along that slice.",
           "c": "The field takes the negative slope, not the slope itself."
         },
         "showMeAction": {
@@ -1145,22 +1145,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The potential is unchanged by q_test; only the potential energy changes sign because U = qV."
-          },
-          {
-            "id": "b",
             "label": "The potential flips only when the negative test charge is larger than the source charges."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Both potential and electric field disappear because a negative charge cannot be used as a probe."
+          },
+          {
+            "id": "c",
+            "label": "The potential is unchanged by q_test; only the potential energy changes sign because U = qV."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "The source charges set the potential. The test charge only tells you what potential energy one chosen charge would have there.",
         "selectedWrongExplanations": {
-          "b": "In this model, q_test never redefines the source-generated potential. It only multiplies it to make U.",
-          "c": "Negative charges are valid probes. They are useful precisely because they reveal the sign of potential energy."
+          "a": "In this model, q_test never redefines the source-generated potential. It only multiplies it to make U.",
+          "b": "Negative charges are valid probes. They are useful precisely because they reveal the sign of potential energy."
         },
         "showMeAction": {
           "label": "Show negative test-charge energy",

@@ -575,7 +575,12 @@ export function useProgressSnapshot() {
 
 export function useProgressSnapshotReady() {
   return useSyncExternalStore(
-    localConceptProgressStore.subscribe,
+    (listener) => {
+      const unsubscribe = localConceptProgressStore.subscribe(listener);
+      listener();
+
+      return unsubscribe;
+    },
     localConceptProgressStore.isReady,
     () => serverProgressReady,
   );
