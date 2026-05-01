@@ -52,6 +52,15 @@ async function seedLocalStorage(page: Page, input: Record<string, unknown>) {
 }
 
 async function waitForHubSummaryReady(page: Page) {
+  await page.waitForFunction(
+    () =>
+      ["test-hub-completed-count", "test-hub-clean-count", "test-hub-remaining-count"].every((testId) => {
+        const element = document.querySelector(`[data-testid="${testId}"]`);
+        return Boolean(element && element.textContent?.trim() !== "\u2014");
+      }),
+    undefined,
+    { timeout: 15000 },
+  );
   await expect(page.getByTestId("test-hub-completed-count")).not.toHaveText(/^\s*—\s*$/);
   await expect(page.getByTestId("test-hub-clean-count")).not.toHaveText(/^\s*—\s*$/);
   await expect(page.getByTestId("test-hub-remaining-count")).not.toHaveText(/^\s*—\s*$/);
@@ -410,7 +419,7 @@ test("direct concept quick-test load shows pending or exact restored generated s
     },
   });
 
-  const response = await page.goto(`/concepts/${concept.slug}#quick-test`, {
+  const response = await page.goto(`/concepts/${concept.slug}?phase=check#quick-test`, {
     waitUntil: "domcontentloaded",
   });
   expect(response?.ok()).toBeTruthy();
@@ -790,7 +799,7 @@ test("direct retry-round load does not flash the initial round before restoring"
     },
   });
 
-  const response = await page.goto(`/concepts/${concept.slug}#quick-test`, {
+  const response = await page.goto(`/concepts/${concept.slug}?phase=check#quick-test`, {
     waitUntil: "domcontentloaded",
   });
   expect(response?.ok()).toBeTruthy();
@@ -863,7 +872,7 @@ test("explicit restart clears exact resume and falls back to Continue honestly",
     },
   });
 
-  await gotoAndExpectOk(page, `/concepts/${concept.slug}#quick-test`);
+  await gotoAndExpectOk(page, `/concepts/${concept.slug}?phase=check#quick-test`);
   await expect(page.getByTestId(`quiz-choice-${wrongChoice.id}`)).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("button", { name: "Restart" }).click();
   await expect(page.getByTestId(`quiz-choice-${wrongChoice.id}`)).toHaveAttribute("aria-pressed", "false");

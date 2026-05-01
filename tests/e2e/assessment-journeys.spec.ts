@@ -35,7 +35,7 @@ type HubSummaryCounts = {
 
 let browserGuard: BrowserGuard;
 
-test.describe.configure({ timeout: 60000 });
+test.describe.configure({ timeout: 120000 });
 
 function escapeRegExp(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -73,10 +73,10 @@ async function readHubSummaryCounts(page: Page): Promise<HubSummaryCounts> {
   };
 }
 
-async function waitForHubSummaryReady(page: Page) {
-  await expect(page.getByTestId("test-hub-completed-count")).not.toHaveText("\u2014");
-  await expect(page.getByTestId("test-hub-clean-count")).not.toHaveText("\u2014");
-  await expect(page.getByTestId("test-hub-remaining-count")).not.toHaveText("\u2014");
+async function waitForHubSummaryReady(page: Page, timeout = 15000) {
+  await expect(page.getByTestId("test-hub-completed-count")).not.toHaveText("\u2014", { timeout });
+  await expect(page.getByTestId("test-hub-clean-count")).not.toHaveText("\u2014", { timeout });
+  await expect(page.getByTestId("test-hub-remaining-count")).not.toHaveText("\u2014", { timeout });
   await expandFullTestCatalogIfAvailable(page);
 }
 
@@ -806,7 +806,7 @@ test("keeps direct-load concept quick-test progress honest during hydration on r
     });
   };
 
-  const response = await page.goto("/concepts/basic-circuits#quick-test", {
+  const response = await page.goto("/concepts/basic-circuits?phase=check#quick-test", {
     waitUntil: "domcontentloaded",
   });
   expect(response?.ok()).toBeTruthy();

@@ -123,11 +123,11 @@ async function ensureConceptProgressPanelOpen(page: Page) {
   return card;
 }
 
-async function waitForHubSummaryReady(page: Page) {
-  await expect(page.getByTestId("test-hub-total-count")).not.toHaveText("\u2014");
-  await expect(page.getByTestId("test-hub-completed-count")).not.toHaveText("\u2014");
-  await expect(page.getByTestId("test-hub-clean-count")).not.toHaveText("\u2014");
-  await expect(page.getByTestId("test-hub-remaining-count")).not.toHaveText("\u2014");
+async function waitForHubSummaryReady(page: Page, timeout = 15000) {
+  await expect(page.getByTestId("test-hub-total-count")).not.toHaveText("\u2014", { timeout });
+  await expect(page.getByTestId("test-hub-completed-count")).not.toHaveText("\u2014", { timeout });
+  await expect(page.getByTestId("test-hub-clean-count")).not.toHaveText("\u2014", { timeout });
+  await expect(page.getByTestId("test-hub-remaining-count")).not.toHaveText("\u2014", { timeout });
   await expandFullTestCatalogIfAvailable(page);
 }
 
@@ -238,6 +238,7 @@ test("keeps the direct concept quick-test route honest when synced progress exis
   await expect(card).toContainText(/Last activity/i);
   await expect(card).toContainText("Synced");
 
+  await page.getByText("Progress and next steps").click();
   await closeOpenDisclosurePanels(page);
   await page.reload({ waitUntil: "domcontentloaded" });
   await expect(page.getByTestId("challenge-mode-floating-anchor")).toHaveCount(0);

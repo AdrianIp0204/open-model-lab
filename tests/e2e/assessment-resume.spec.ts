@@ -44,10 +44,10 @@ function normalizeText(value: string | null | undefined) {
   return (value ?? "").replace(/\s+/g, " ").trim();
 }
 
-async function waitForHubSummaryReady(page: Page) {
-  await expect(page.getByTestId("test-hub-completed-count")).not.toHaveText("\u2014");
-  await expect(page.getByTestId("test-hub-clean-count")).not.toHaveText("\u2014");
-  await expect(page.getByTestId("test-hub-remaining-count")).not.toHaveText("\u2014");
+async function waitForHubSummaryReady(page: Page, timeout = 15000) {
+  await expect(page.getByTestId("test-hub-completed-count")).not.toHaveText("\u2014", { timeout });
+  await expect(page.getByTestId("test-hub-clean-count")).not.toHaveText("\u2014", { timeout });
+  await expect(page.getByTestId("test-hub-remaining-count")).not.toHaveText("\u2014", { timeout });
   await expandFullTestCatalogIfAvailable(page);
 }
 

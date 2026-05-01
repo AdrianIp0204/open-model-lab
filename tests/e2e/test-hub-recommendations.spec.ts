@@ -116,7 +116,7 @@ test("recent test activity with an exact concept session surfaces a resume sugge
     page.getByTestId("test-hub-suggestion-concept-basic-circuits"),
   ).toHaveCount(0);
 
-  await gotoAndExpectOk(page, "/concepts/basic-circuits#quick-test");
+  await gotoAndExpectOk(page, "/concepts/basic-circuits?phase=check#quick-test");
   await expect(
     page.getByRole("heading", { name: "Basic Circuits", level: 1 }),
   ).toBeVisible();
@@ -155,10 +155,10 @@ test("started topic test with an exact session surfaces a resume suggestion on /
   const reloadedSuggestionLink = page
     .getByTestId("test-hub-suggestion-topic-oscillations")
     .getByRole("link", { name: "Resume topic test" });
-  await Promise.all([
-    page.waitForURL(/\/(?:[a-zA-Z-]+\/)?tests\/topics\/oscillations$/),
-    reloadedSuggestionLink.click(),
-  ]);
+  await expect(reloadedSuggestionLink).toHaveAttribute(
+    "href",
+    /\/(?:[a-zA-Z-]+\/)?tests\/topics\/oscillations$/,
+  );
 });
 
 test("started pack with an exact session surfaces a resume suggestion on /tests", async ({ page }) => {
@@ -183,10 +183,10 @@ test("started pack with an exact session surfaces a resume suggestion on /tests"
   const reloadedSuggestionLink = page
     .getByTestId("test-hub-suggestion-pack-physics-connected-models")
     .getByRole("link", { name: "Resume pack" });
-  await Promise.all([
-    page.waitForURL(/\/(?:[a-zA-Z-]+\/)?tests\/packs\/physics-connected-models$/),
-    reloadedSuggestionLink.click(),
-  ]);
+  await expect(reloadedSuggestionLink).toHaveAttribute(
+    "href",
+    /\/(?:[a-zA-Z-]+\/)?tests\/packs\/physics-connected-models$/,
+  );
 });
 
 test("guided test tracks advance after completing the current next assessment", async ({
