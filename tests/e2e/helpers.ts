@@ -225,6 +225,16 @@ export async function gotoAndExpectOk(page: Page, pathname: string) {
 }
 
 export async function closeOpenDisclosurePanels(page: Page) {
+  for (let attempt = 0; attempt < 12; attempt += 1) {
+    const summary = page.locator("details[open] > summary").first();
+
+    if (!(await summary.isVisible().catch(() => false))) {
+      break;
+    }
+
+    await summary.click({ force: true });
+  }
+
   await page.locator("details[open]").evaluateAll((elements) => {
     for (const element of elements) {
       (element as HTMLDetailsElement).open = false;

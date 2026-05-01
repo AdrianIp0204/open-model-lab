@@ -118,7 +118,7 @@ async function ensureConceptProgressPanelOpen(page: Page) {
     return card;
   }
 
-  await page.getByText("Progress and next steps").click();
+  await page.locator("summary").filter({ hasText: "Progress and next steps" }).first().click();
   await expect(card).toBeVisible();
   return card;
 }
@@ -238,9 +238,12 @@ test("keeps the direct concept quick-test route honest when synced progress exis
   await expect(card).toContainText(/Last activity/i);
   await expect(card).toContainText("Synced");
 
-  await page.getByText("Progress and next steps").click();
   await closeOpenDisclosurePanels(page);
-  await page.reload({ waitUntil: "domcontentloaded" });
+  await page.goto("about:blank");
+  const secondResponse = await page.goto("/concepts/basic-circuits?phase=check#quick-test", {
+    waitUntil: "domcontentloaded",
+  });
+  expect(secondResponse?.ok()).toBeTruthy();
   await expect(page.getByTestId("challenge-mode-floating-anchor")).toHaveCount(0);
   const reloadedCard = await ensureConceptProgressPanelOpen(page);
   await expect(reloadedCard).toContainText(/Last activity/i, { timeout: 15000 });
