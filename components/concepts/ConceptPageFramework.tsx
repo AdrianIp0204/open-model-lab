@@ -214,6 +214,7 @@ export function ConceptPageFramework({
       <DisclosurePanel
         title={progressDisclosureTitle}
         summary={progressDisclosureSummary}
+        triggerTestId="concept-progress-disclosure-trigger"
       >
         <div
           className={[

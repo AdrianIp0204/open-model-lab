@@ -4,6 +4,7 @@ import {
   closeOpenDisclosurePanels,
   expandFullTestCatalogIfAvailable,
   installBrowserGuards,
+  openConceptProgressDisclosure,
   resetPlaywrightHarnessProgressStore,
   seedLocalProgressSnapshot,
   seedSyncedProgressSnapshot,
@@ -118,7 +119,7 @@ async function ensureConceptProgressPanelOpen(page: Page) {
     return card;
   }
 
-  await page.locator("summary").filter({ hasText: "Progress and next steps" }).first().click();
+  await openConceptProgressDisclosure(page);
   await expect(card).toBeVisible();
   return card;
 }

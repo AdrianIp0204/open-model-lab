@@ -14,6 +14,7 @@ import {
   expandFullTestCatalogIfAvailable,
   gotoAndExpectOk,
   installBrowserGuards,
+  openConceptProgressDisclosure,
   setHarnessSession,
   type BrowserGuard,
 } from "./helpers";
@@ -812,7 +813,7 @@ test("keeps direct-load concept quick-test progress honest during hydration on r
   expect(response?.ok()).toBeTruthy();
   await expect(page.getByTestId("quiz-question-stage")).toBeVisible();
   await expect(page.getByTestId("challenge-mode-floating-anchor")).toHaveCount(0);
-  await page.locator("summary").filter({ hasText: "Progress and next steps" }).first().click();
+  await openConceptProgressDisclosure(page);
   await getConceptProgressCard(page).scrollIntoViewIfNeeded();
   await assertHonestConceptStatus();
 
@@ -821,7 +822,7 @@ test("keeps direct-load concept quick-test progress honest during hydration on r
   await closeOpenDisclosurePanels(page);
   await page.reload({ waitUntil: "domcontentloaded" });
   await expect(page.getByTestId("challenge-mode-floating-anchor")).toHaveCount(0);
-  await page.locator("summary").filter({ hasText: "Progress and next steps" }).first().click();
+  await openConceptProgressDisclosure(page);
   await getConceptProgressCard(page).scrollIntoViewIfNeeded();
   await assertHonestConceptStatus();
 });
