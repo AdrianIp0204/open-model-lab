@@ -18,7 +18,7 @@ test("serves the standalone concept-test entry route across all published concep
       expect(response.ok(), `${entry.testHref} returned ${response.status()}.`).toBeTruthy();
       const html = await response.text();
       expect(html).toContain(entry.title);
-      expect(html).toContain("Saved result");
+      expect(html).toContain("Saved on this device");
     });
   }
 });

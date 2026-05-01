@@ -3,6 +3,7 @@ import { getConceptBySlug } from "@/lib/content";
 import { buildConceptQuizSession } from "@/lib/quiz";
 import { getPublishedConceptTestCatalog } from "@/lib/test-hub";
 import {
+  expandFullTestCatalogIfAvailable,
   gotoAndExpectOk,
   installBrowserGuards,
   setHarnessSession,
@@ -168,7 +169,7 @@ test("opens the locale-wrapped standalone concept-test route from /zh-HK/tests",
   await gotoAndExpectOk(page, "/zh-HK/tests");
   await expect(page.getByText("測驗中心").first()).toBeVisible();
 
-  await page.getByRole("button", { name: /顯示完整清單/ }).click();
+  await expandFullTestCatalogIfAvailable(page);
 
   const conceptCard = page.getByTestId("test-hub-card-concept-basic-circuits");
   await Promise.all([

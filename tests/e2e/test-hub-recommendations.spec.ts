@@ -2,6 +2,7 @@ import { expect, test, type Page } from "@playwright/test";
 import { getConceptBySlug } from "@/lib/content";
 import { buildConceptQuizSession } from "@/lib/quiz";
 import {
+  expandFullTestCatalogIfAvailable,
   gotoAndExpectOk,
   installBrowserGuards,
   setHarnessSession,
@@ -24,9 +25,10 @@ async function seedLocalSnapshot(page: Page, snapshot: unknown) {
 }
 
 async function waitForHubSummaryReady(page: Page, timeout = 15000) {
-  await expect(page.getByTestId("test-hub-completed-count")).not.toHaveText("—", { timeout });
-  await expect(page.getByTestId("test-hub-clean-count")).not.toHaveText("—", { timeout });
-  await expect(page.getByTestId("test-hub-remaining-count")).not.toHaveText("—", { timeout });
+  await expect(page.getByTestId("test-hub-completed-count")).not.toHaveText("\u2014", { timeout });
+  await expect(page.getByTestId("test-hub-clean-count")).not.toHaveText("\u2014", { timeout });
+  await expect(page.getByTestId("test-hub-remaining-count")).not.toHaveText("\u2014", { timeout });
+  await expandFullTestCatalogIfAvailable(page);
 }
 
 async function completeAssessmentWithSingleRetry(
@@ -125,7 +127,7 @@ test("recent test activity with an exact concept session surfaces a resume sugge
 
   const suggestionCard = page.getByTestId("test-hub-suggestion-concept-basic-circuits");
   await expect(suggestionCard).toBeVisible();
-  await expect(suggestionCard).toContainText("Continue from your recent test activity");
+  await expect(suggestionCard).toContainText("Continue your in-progress test");
   await expect(
     suggestionCard.getByRole("link", { name: "Resume concept test" }),
   ).toHaveAttribute("href", /\/(?:[a-zA-Z-]+\/)?tests\/concepts\/basic-circuits$/);
@@ -140,18 +142,23 @@ test("started topic test with an exact session surfaces a resume suggestion on /
 
   const suggestionCard = page.getByTestId("test-hub-suggestion-topic-oscillations");
   await expect(suggestionCard).toBeVisible();
-  await expect(suggestionCard).toContainText("Continue from your recent test activity");
+  await expect(suggestionCard).toContainText("Continue your in-progress test");
   const suggestionLink = suggestionCard.getByRole("link", { name: "Resume topic test" });
   await expect(suggestionLink).toHaveAttribute("href", /\/(?:[a-zA-Z-]+\/)?tests\/topics\/oscillations$/);
 
   await page.reload({ waitUntil: "domcontentloaded" });
   await waitForHubSummaryReady(page);
   await expect(page.getByTestId("test-hub-suggestion-topic-oscillations")).toContainText(
-    "Continue from your recent test activity",
+    "Continue your in-progress test",
   );
 
-  await suggestionLink.click();
-  await expect(page).toHaveURL(/\/(?:[a-zA-Z-]+\/)?tests\/topics\/oscillations$/);
+  const reloadedSuggestionLink = page
+    .getByTestId("test-hub-suggestion-topic-oscillations")
+    .getByRole("link", { name: "Resume topic test" });
+  await Promise.all([
+    page.waitForURL(/\/(?:[a-zA-Z-]+\/)?tests\/topics\/oscillations$/),
+    reloadedSuggestionLink.click(),
+  ]);
 });
 
 test("started pack with an exact session surfaces a resume suggestion on /tests", async ({ page }) => {
@@ -163,24 +170,29 @@ test("started pack with an exact session surfaces a resume suggestion on /tests"
 
   const suggestionCard = page.getByTestId("test-hub-suggestion-pack-physics-connected-models");
   await expect(suggestionCard).toBeVisible();
-  await expect(suggestionCard).toContainText("Continue from your recent test activity");
+  await expect(suggestionCard).toContainText("Continue your in-progress test");
   const suggestionLink = suggestionCard.getByRole("link", { name: "Resume pack" });
   await expect(suggestionLink).toHaveAttribute("href", /\/(?:[a-zA-Z-]+\/)?tests\/packs\/physics-connected-models$/);
 
   await page.reload({ waitUntil: "domcontentloaded" });
   await waitForHubSummaryReady(page);
   await expect(page.getByTestId("test-hub-suggestion-pack-physics-connected-models")).toContainText(
-    "Continue from your recent test activity",
+    "Continue your in-progress test",
   );
 
-  await suggestionLink.click();
-  await expect(page).toHaveURL(/\/(?:[a-zA-Z-]+\/)?tests\/packs\/physics-connected-models$/);
+  const reloadedSuggestionLink = page
+    .getByTestId("test-hub-suggestion-pack-physics-connected-models")
+    .getByRole("link", { name: "Resume pack" });
+  await Promise.all([
+    page.waitForURL(/\/(?:[a-zA-Z-]+\/)?tests\/packs\/physics-connected-models$/),
+    reloadedSuggestionLink.click(),
+  ]);
 });
 
 test("guided test tracks advance after completing the current next assessment", async ({
   page,
 }) => {
-  const concept = getConceptBySlug("simple-harmonic-motion");
+  const concept = getConceptBySlug("vectors-components");
   const session = buildConceptQuizSession(concept, {
     seed: `${concept.slug}:en:quiz-attempt:1`,
     locale: "en",
@@ -189,11 +201,11 @@ test("guided test tracks advance after completing the current next assessment", 
   await gotoAndExpectOk(page, "/tests");
   await waitForHubSummaryReady(page);
 
-  const trackCard = page.getByTestId("test-hub-guided-track-oscillations");
-  const nextAction = trackCard.getByTestId("test-hub-guided-track-next-oscillations");
+  const trackCard = page.getByTestId("test-hub-guided-track-mechanics");
+  const nextAction = trackCard.getByTestId("test-hub-guided-track-next-mechanics");
   await expect(nextAction).toHaveAttribute(
     "href",
-    /\/(?:[a-zA-Z-]+\/)?tests\/concepts\/simple-harmonic-motion$/,
+    /\/(?:[a-zA-Z-]+\/)?tests\/concepts\/vectors-components$/,
   );
 
   const nextHref = await nextAction.getAttribute("href");
@@ -201,18 +213,139 @@ test("guided test tracks advance after completing the current next assessment", 
     throw new Error("Guided track next action did not expose an href.");
   }
   await gotoAndExpectOk(page, nextHref);
-  await expect(page).toHaveURL(/\/(?:[a-zA-Z-]+\/)?tests\/concepts\/simple-harmonic-motion$/);
+  await expect(page).toHaveURL(/\/(?:[a-zA-Z-]+\/)?tests\/concepts\/vectors-components$/);
   await completeAssessmentWithSingleRetry(page, session, 0);
   await page.getByTestId("quiz-completion").getByRole("link", { name: "Back to Test Hub" }).click();
   await expect(page).toHaveURL(/\/tests$/);
   await waitForHubSummaryReady(page);
 
   await expect(
-    page.getByTestId("test-hub-guided-track-next-oscillations"),
-  ).toHaveAttribute("href", /\/(?:[a-zA-Z-]+\/)?tests\/concepts\/oscillation-energy$/);
+    page.getByTestId("test-hub-guided-track-next-mechanics"),
+  ).toHaveAttribute("href", /\/(?:[a-zA-Z-]+\/)?tests\/concepts\/projectile-motion$/);
 });
 
 test("fully completed guided tracks render completed state on /tests", async ({ page }) => {
+  await seedLocalSnapshot(page, {
+    version: 1,
+    concepts: {
+      "vectors-components": {
+        conceptId: "vectors-components",
+        slug: "vectors-components",
+        completedQuickTestAt: "2026-04-18T08:05:00.000Z",
+        quickTestAttemptCount: 1,
+        quickTestLastIncorrectCount: 0,
+      },
+      "projectile-motion": {
+        conceptId: "projectile-motion",
+        slug: "projectile-motion",
+        completedQuickTestAt: "2026-04-18T08:10:00.000Z",
+        quickTestAttemptCount: 1,
+        quickTestLastIncorrectCount: 0,
+      },
+      "uniform-circular-motion": {
+        conceptId: "uniform-circular-motion",
+        slug: "uniform-circular-motion",
+        completedQuickTestAt: "2026-04-18T08:15:00.000Z",
+        quickTestAttemptCount: 1,
+        quickTestLastIncorrectCount: 0,
+      },
+      torque: {
+        conceptId: "torque",
+        slug: "torque",
+        completedQuickTestAt: "2026-04-18T08:16:00.000Z",
+        quickTestAttemptCount: 1,
+        quickTestLastIncorrectCount: 0,
+      },
+      "static-equilibrium-centre-of-mass": {
+        conceptId: "static-equilibrium-centre-of-mass",
+        slug: "static-equilibrium-centre-of-mass",
+        completedQuickTestAt: "2026-04-18T08:17:00.000Z",
+        quickTestAttemptCount: 1,
+        quickTestLastIncorrectCount: 0,
+      },
+      "rotational-inertia": {
+        conceptId: "rotational-inertia",
+        slug: "rotational-inertia",
+        completedQuickTestAt: "2026-04-18T08:18:00.000Z",
+        quickTestAttemptCount: 1,
+        quickTestLastIncorrectCount: 0,
+      },
+      "rolling-motion": {
+        conceptId: "rolling-motion",
+        slug: "rolling-motion",
+        completedQuickTestAt: "2026-04-18T08:19:00.000Z",
+        quickTestAttemptCount: 1,
+        quickTestLastIncorrectCount: 0,
+      },
+      "angular-momentum": {
+        conceptId: "angular-momentum",
+        slug: "angular-momentum",
+        completedQuickTestAt: "2026-04-18T08:20:00.000Z",
+        quickTestAttemptCount: 1,
+        quickTestLastIncorrectCount: 0,
+      },
+      "momentum-impulse": {
+        conceptId: "momentum-impulse",
+        slug: "momentum-impulse",
+        completedQuickTestAt: "2026-04-18T08:21:00.000Z",
+        quickTestAttemptCount: 1,
+        quickTestLastIncorrectCount: 0,
+      },
+      "conservation-of-momentum": {
+        conceptId: "conservation-of-momentum",
+        slug: "conservation-of-momentum",
+        completedQuickTestAt: "2026-04-18T08:22:00.000Z",
+        quickTestAttemptCount: 1,
+        quickTestLastIncorrectCount: 0,
+      },
+      collisions: {
+        conceptId: "collisions",
+        slug: "collisions",
+        completedQuickTestAt: "2026-04-18T08:23:00.000Z",
+        quickTestAttemptCount: 1,
+        quickTestLastIncorrectCount: 0,
+      },
+    },
+    topicTests: {
+      mechanics: {
+        slug: "mechanics",
+        completedAt: "2026-04-18T08:24:00.000Z",
+        attemptCount: 1,
+        lastIncorrectCount: 0,
+        lastQuestionCount: 10,
+      },
+    },
+    packTests: {
+      "physics-connected-models": {
+        slug: "physics-connected-models",
+        completedAt: "2026-04-18T08:25:00.000Z",
+        attemptCount: 1,
+        lastIncorrectCount: 0,
+        lastQuestionCount: 16,
+      },
+    },
+  });
+
+  await gotoAndExpectOk(page, "/tests");
+  await waitForHubSummaryReady(page);
+
+  const trackCard = page.getByTestId("test-hub-guided-track-mechanics");
+  await expect(trackCard).toContainText("Completed");
+  await expect(trackCard).toContainText("Every published step in this testing path has been cleared.");
+  const trackLink = trackCard.getByTestId("test-hub-guided-track-next-mechanics");
+  await expect(trackLink).toHaveAttribute("href", /\/(?:[a-zA-Z-]+\/)?concepts\/topics\/mechanics$/);
+  await expect(trackLink).toContainText("Open topic");
+
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await waitForHubSummaryReady(page);
+  await expect(page.getByTestId("test-hub-guided-track-mechanics")).toContainText(
+    "Every published step in this testing path has been cleared.",
+  );
+});
+
+test("nearby topic progress renders the current visible rule label", async ({
+  page,
+}) => {
   await seedLocalSnapshot(page, {
     version: 1,
     concepts: {
@@ -238,64 +371,6 @@ test("fully completed guided tracks render completed state on /tests", async ({ 
         quickTestLastIncorrectCount: 0,
       },
     },
-    topicTests: {
-      oscillations: {
-        slug: "oscillations",
-        completedAt: "2026-04-18T08:20:00.000Z",
-        attemptCount: 1,
-        lastIncorrectCount: 0,
-        lastQuestionCount: 10,
-      },
-    },
-    packTests: {
-      "physics-connected-models": {
-        slug: "physics-connected-models",
-        completedAt: "2026-04-18T08:25:00.000Z",
-        attemptCount: 1,
-        lastIncorrectCount: 0,
-        lastQuestionCount: 16,
-      },
-    },
-  });
-
-  await gotoAndExpectOk(page, "/tests");
-  await waitForHubSummaryReady(page);
-
-  const trackCard = page.getByTestId("test-hub-guided-track-oscillations");
-  await expect(trackCard).toContainText("Completed");
-  await expect(trackCard).toContainText("Every published step in this testing path has been cleared.");
-  const trackLink = trackCard.getByTestId("test-hub-guided-track-next-oscillations");
-  await expect(trackLink).toHaveAttribute("href", /\/(?:[a-zA-Z-]+\/)?concepts\/topics\/oscillations$/);
-  await expect(trackLink).toContainText("Open topic");
-
-  await page.reload({ waitUntil: "domcontentloaded" });
-  await waitForHubSummaryReady(page);
-  await expect(page.getByTestId("test-hub-guided-track-oscillations")).toContainText(
-    "Every published step in this testing path has been cleared.",
-  );
-});
-
-test("topic milestone suggestion renders with the correct rule label", async ({
-  page,
-}) => {
-  await seedLocalSnapshot(page, {
-    version: 1,
-    concepts: {
-      "simple-harmonic-motion": {
-        conceptId: "simple-harmonic-motion",
-        slug: "simple-harmonic-motion",
-        completedQuickTestAt: "2026-04-18T08:05:00.000Z",
-        quickTestAttemptCount: 1,
-        quickTestLastIncorrectCount: 0,
-      },
-      "oscillation-energy": {
-        conceptId: "oscillation-energy",
-        slug: "oscillation-energy",
-        completedQuickTestAt: "2026-04-18T08:10:00.000Z",
-        quickTestAttemptCount: 1,
-        quickTestLastIncorrectCount: 0,
-      },
-    },
     topicTests: {},
     packTests: {},
   });
@@ -303,9 +378,9 @@ test("topic milestone suggestion renders with the correct rule label", async ({
   await gotoAndExpectOk(page, "/tests");
   await waitForHubSummaryReady(page);
 
-  const topicSuggestion = page.getByTestId("test-hub-suggestion-topic-oscillations");
-  await expect(topicSuggestion).toBeVisible();
-  await expect(topicSuggestion).toContainText("Milestone for Oscillations");
+  const conceptSuggestion = page.getByTestId("test-hub-suggestion-concept-projectile-motion");
+  await expect(conceptSuggestion).toBeVisible();
+  await expect(conceptSuggestion).toContainText("Related to Damping / Resonance");
 });
 
 test("topic completion surfaces the pack follow-on suggestion with the correct rule label", async ({

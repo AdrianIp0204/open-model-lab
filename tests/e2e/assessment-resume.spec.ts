@@ -19,6 +19,7 @@ import {
   getPublishedTopicTestCatalog,
 } from "@/lib/test-hub";
 import {
+  expandFullTestCatalogIfAvailable,
   gotoAndExpectOk,
   installBrowserGuards,
   setHarnessSession,
@@ -44,9 +45,10 @@ function normalizeText(value: string | null | undefined) {
 }
 
 async function waitForHubSummaryReady(page: Page) {
-  await expect(page.getByTestId("test-hub-completed-count")).not.toHaveText("â€”");
-  await expect(page.getByTestId("test-hub-clean-count")).not.toHaveText("â€”");
-  await expect(page.getByTestId("test-hub-remaining-count")).not.toHaveText("â€”");
+  await expect(page.getByTestId("test-hub-completed-count")).not.toHaveText("\u2014");
+  await expect(page.getByTestId("test-hub-clean-count")).not.toHaveText("\u2014");
+  await expect(page.getByTestId("test-hub-remaining-count")).not.toHaveText("\u2014");
+  await expandFullTestCatalogIfAvailable(page);
 }
 
 async function startAssessmentFromHub(
@@ -55,6 +57,7 @@ async function startAssessmentFromHub(
   actionLabel: string,
   expectedUrl: RegExp,
 ) {
+  await expandFullTestCatalogIfAvailable(page);
   const card = page.getByTestId(cardTestId);
   const link = card.getByRole("link", { name: actionLabel });
   await expect(card).toBeVisible();
@@ -227,7 +230,7 @@ test("resumes a concept test exactly from /tests and clears the resumable state 
   });
   const suggestionCard = page.getByTestId("test-hub-suggestion-concept-escape-velocity");
   await expect(suggestionCard).toBeVisible();
-  await expect(suggestionCard).toContainText("Continue from your recent test activity");
+  await expect(suggestionCard).toContainText("Continue your in-progress test");
   const resumeLink = suggestionCard.getByRole("link", { name: "Resume concept test" });
   await expect(resumeLink).toHaveAttribute(
     "href",

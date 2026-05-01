@@ -223,3 +223,34 @@ export async function gotoAndExpectOk(page: Page, pathname: string) {
 
   return response;
 }
+
+export async function closeOpenDisclosurePanels(page: Page) {
+  await page.locator("details[open]").evaluateAll((elements) => {
+    for (const element of elements) {
+      (element as HTMLDetailsElement).open = false;
+    }
+  });
+}
+
+export async function expandFullTestCatalogIfAvailable(page: Page) {
+  const button = page.getByTestId("test-hub-show-full-catalog").first();
+
+  await button.waitFor({ state: "visible", timeout: 2000 }).catch(() => undefined);
+
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    if (!(await button.isVisible().catch(() => false))) {
+      return;
+    }
+
+    await button
+      .evaluate((element: HTMLElement) => {
+        element.click();
+      })
+      .catch(async () => {
+        await button.click({ force: true });
+      });
+    await page.waitForTimeout(250);
+  }
+
+  await button.waitFor({ state: "hidden", timeout: 5000 }).catch(() => undefined);
+}

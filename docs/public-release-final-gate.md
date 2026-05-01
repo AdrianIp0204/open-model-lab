@@ -57,7 +57,7 @@ Add targeted Playwright or manual browser checks for any route-visible change ma
 - [ ] Review existing GitHub Actions and disable, restrict, or keep them intentionally.
 - [ ] Configure branch protection if desired.
 - [ ] Require pull request reviews if desired.
-- [ ] Require status checks once the owner chooses the CI signal to enforce.
+- [ ] Require only stable status checks once the owner chooses the CI signal to enforce. The public assessment browser workflow currently runs as split `journeys`, `resume-sync`, and `entry-recommendations` lanes.
 - [ ] Enable Dependabot and security alerts if the owner wants those signals.
 - [ ] Confirm repository description, topics, and public README presentation are accurate.
 
