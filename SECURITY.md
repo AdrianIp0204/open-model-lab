@@ -1,6 +1,6 @@
 # Security Policy
 
-Open Model Lab is preparing for public release. Please report suspected vulnerabilities privately instead of opening a public issue.
+Open Model Lab accepts private vulnerability reports. Please report suspected vulnerabilities privately instead of opening a public issue.
 
 ## Supported Version
 

@@ -1,7 +1,7 @@
 blank_issues_enabled: false
 contact_links:
   - name: Security vulnerability
-    url: https://github.com/AdrianIp0204/OpenModelLab/blob/main/SECURITY.md
+    url: https://github.com/AdrianIp0204/open-model-lab/blob/main/SECURITY.md
     about: Please report suspected vulnerabilities privately. Do not open public security issues.
   - name: Account or billing support
     url: https://openmodellab.com/contact
