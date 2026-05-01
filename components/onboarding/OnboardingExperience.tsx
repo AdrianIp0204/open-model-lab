@@ -414,17 +414,16 @@ export function OnboardingExperience() {
           aria-modal="false"
           aria-labelledby={promptTitleId}
           aria-live="polite"
-          className="fixed left-4 right-4 z-[45] lab-panel p-4 sm:right-auto sm:w-[24rem] sm:p-5"
-          style={{ bottom: "max(1rem, env(safe-area-inset-bottom))" }}
+          className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-3 right-3 z-[45] max-w-[calc(100vw-1.5rem)] lab-panel p-3 shadow-surface sm:bottom-auto sm:left-auto sm:right-4 sm:top-[4.75rem] sm:w-[21rem] sm:p-4"
         >
           <div className="space-y-2">
             <p className="lab-label">{t("prompt.label")}</p>
             <h2 id={promptTitleId} className="text-lg font-semibold text-ink-950">
               {t("prompt.title")}
             </h2>
-            <p className="text-sm leading-6 text-ink-700">{t("prompt.description")}</p>
+            <p className="text-xs leading-5 text-ink-700 sm:text-sm sm:leading-6">{t("prompt.description")}</p>
           </div>
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="mt-3 flex flex-wrap gap-2">
             <button
               type="button"
               aria-label={t("prompt.actions.startAria")}

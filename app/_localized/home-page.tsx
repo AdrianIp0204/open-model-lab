@@ -55,6 +55,11 @@ import { DisplayAd, MultiplexAd } from "@/components/ads/AdSlot";
 import { HomeHeroLivePreview } from "@/components/home/HomeHeroLivePreview";
 import { PageSection } from "@/components/layout/PageSection";
 import { MotionSection, MotionStaggerGroup } from "@/components/motion";
+import {
+  LearningVisual,
+  type LearningVisualKind,
+  type LearningVisualTone,
+} from "@/components/visuals/LearningVisual";
 
 export async function buildHomeMetadata(locale: AppLocale) {
   const t = await getScopedTranslator(locale, "HomePage");
@@ -126,10 +131,13 @@ function getTrackPrimarySubject(
 }
 
 type HomeRouteChoiceCardProps = {
+  locale: AppLocale;
   eyebrow: string;
   title: string;
   description: string;
   meta?: string;
+  visualKind: LearningVisualKind;
+  tone: LearningVisualTone;
   actions: Array<{
     href: string;
     label: string;
@@ -137,15 +145,19 @@ type HomeRouteChoiceCardProps = {
 };
 
 function HomeRouteChoiceCard({
+  locale,
   eyebrow,
   title,
   description,
   meta,
+  visualKind,
+  tone,
   actions,
 }: HomeRouteChoiceCardProps) {
   return (
     <article className="motion-enter motion-card rounded-[26px] border border-line bg-paper-strong/96 p-5 shadow-surface">
       <div className="space-y-4">
+        <LearningVisual kind={visualKind} tone={tone} compact />
         <div className="space-y-2">
           <p className="lab-label">{eyebrow}</p>
           <h3 className="text-xl font-semibold text-ink-950">{title}</h3>
@@ -163,6 +175,7 @@ function HomeRouteChoiceCard({
             <Link
               key={action.href}
               href={action.href}
+              locale={locale}
               className="motion-button-outline inline-flex items-center rounded-full border border-line bg-paper px-4 py-2 text-sm font-medium text-ink-950 hover:border-ink-950/25"
             >
               {action.label}
@@ -175,29 +188,39 @@ function HomeRouteChoiceCard({
 }
 
 type HomeEntryCardProps = {
+  locale: AppLocale;
   href: string;
   eyebrow: string;
   title: string;
   description: string;
   testId: string;
+  visualKind: LearningVisualKind;
+  tone: LearningVisualTone;
 };
 
 function HomeEntryCard({
+  locale,
   href,
   eyebrow,
   title,
   description,
   testId,
+  visualKind,
+  tone,
 }: HomeEntryCardProps) {
   return (
     <Link
       href={href}
+      locale={locale}
       data-testid={testId}
-      className="motion-button-outline group grid min-h-[6.25rem] gap-1.5 rounded-[20px] border border-line bg-paper-strong/92 px-4 py-3 text-left transition hover:border-ink-950/24 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+      className="motion-button-outline group grid min-h-[8.5rem] grid-cols-[5.25rem_minmax(0,1fr)] gap-3 rounded-[20px] border border-line bg-paper-strong/92 px-3 py-3 text-left transition hover:border-ink-950/24 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper sm:min-h-[9rem] sm:grid-cols-1"
     >
-      <span className="lab-label text-[0.68rem] tracking-[0.14em]">{eyebrow}</span>
-      <span className="text-sm font-semibold leading-5 text-ink-950">{title}</span>
-      <span className="text-xs leading-5 text-ink-600">{description}</span>
+      <LearningVisual kind={visualKind} tone={tone} compact className="h-full min-h-20 sm:h-24" />
+      <span className="min-w-0 self-center sm:self-auto">
+        <span className="lab-label block text-[0.68rem] tracking-[0.14em]">{eyebrow}</span>
+        <span className="mt-1.5 block text-sm font-semibold leading-5 text-ink-950">{title}</span>
+        <span className="mt-1 block text-xs leading-5 text-ink-600">{description}</span>
+      </span>
     </Link>
   );
 }
@@ -271,6 +294,8 @@ export default async function HomePage({
         trackCount: starterTracks.length,
         collectionCount: guidedCollections.length,
       }),
+      visualKind: "guided" as const,
+      tone: "sky" as const,
       actions: [
         {
           href: "/concepts",
@@ -290,6 +315,8 @@ export default async function HomePage({
         subjectCount: subjectSummaries.length,
         topicCount: topicSummaries.length,
       }),
+      visualKind: "topic" as const,
+      tone: "amber" as const,
       actions: [
         {
           href: "/concepts/subjects",
@@ -310,6 +337,8 @@ export default async function HomePage({
       meta: tHome("routeChoices.challengeStats", {
         count: challengeMetrics.totalChallenges,
       }),
+      visualKind: "challenge" as const,
+      tone: "coral" as const,
       actions: [
         {
           href: "/challenges",
@@ -325,6 +354,8 @@ export default async function HomePage({
       title: tHome("hero.entryCards.simulations.title"),
       description: tHome("hero.entryCards.simulations.description"),
       testId: "home-entry-card-simulations",
+      visualKind: "simulation" as const,
+      tone: "teal" as const,
     },
     {
       href: "/guided",
@@ -332,6 +363,8 @@ export default async function HomePage({
       title: tHome("hero.entryCards.guided.title"),
       description: tHome("hero.entryCards.guided.description"),
       testId: "home-entry-card-guided",
+      visualKind: "guided" as const,
+      tone: "sky" as const,
     },
     {
       href: "/tests",
@@ -339,6 +372,8 @@ export default async function HomePage({
       title: tHome("hero.entryCards.tests.title"),
       description: tHome("hero.entryCards.tests.description"),
       testId: "home-entry-card-tests",
+      visualKind: "test" as const,
+      tone: "coral" as const,
     },
     {
       href: "/tools",
@@ -346,6 +381,8 @@ export default async function HomePage({
       title: tHome("hero.entryCards.tools.title"),
       description: tHome("hero.entryCards.tools.description"),
       testId: "home-entry-card-tools",
+      visualKind: "tool" as const,
+      tone: "amber" as const,
     },
   ];
   const websiteJsonLd = serializeJsonLd([
@@ -445,14 +482,17 @@ export default async function HomePage({
               data-onboarding-target="home-start-actions"
               className="flex flex-wrap gap-3"
             >
-              <Link href="/start" className="cta-primary">
+              <Link href="/start" locale={locale} className="cta-primary">
                 {tCommon("startHere")}
               </Link>
-              <Link href="/concepts" className="cta-secondary">
+              <Link href="/concepts" locale={locale} className="cta-secondary">
                 {tHome("hero.browseAction")}
               </Link>
-              <Link href="/tests" className="cta-secondary">
+              <Link href="/tests" locale={locale} className="cta-secondary">
                 {tHome("hero.practiceAction")}
+              </Link>
+              <Link href="/tools" locale={locale} className="cta-secondary">
+                {tHome("hero.toolsAction")}
               </Link>
             </nav>
 
@@ -480,11 +520,14 @@ export default async function HomePage({
             {heroEntryCards.map((entry) => (
               <HomeEntryCard
                 key={entry.href}
+                locale={locale}
                 href={entry.href}
                 eyebrow={entry.eyebrow}
                 title={entry.title}
                 description={entry.description}
                 testId={entry.testId}
+                visualKind={entry.visualKind}
+                tone={entry.tone}
               />
             ))}
           </nav>
@@ -523,6 +566,7 @@ export default async function HomePage({
             action={
               <Link
                 href="/concepts"
+                locale={locale}
                 className="motion-button-outline inline-flex items-center rounded-full border border-line bg-paper-strong px-5 py-3 text-sm font-medium text-ink-950 hover:border-ink-950/25"
               >
                 {tCommon("openConceptLibrary")}
@@ -572,6 +616,7 @@ export default async function HomePage({
                   </p>
                   <Link
                     href={`/concepts/${quickStartConcept.slug}`}
+                    locale={locale}
                     className="cta-secondary mt-4"
                     style={{ color: "var(--ink-950)" }}
                   >
@@ -624,6 +669,9 @@ export default async function HomePage({
                     title={choice.title}
                     description={choice.description}
                     meta={choice.meta}
+                    visualKind={choice.visualKind}
+                    tone={choice.tone}
+                    locale={locale}
                     actions={choice.actions}
                   />
                 ))}
@@ -649,6 +697,7 @@ export default async function HomePage({
                     <p className="lab-label">{tHome("guidedStarts.tracksLabel")}</p>
                     <Link
                       href="/concepts"
+                      locale={locale}
                       className="text-sm font-medium text-ink-700 underline decoration-ink-300 underline-offset-4 transition-colors hover:text-ink-950"
                     >
                       {tHome("guidedStarts.browseAllTracks")}
@@ -671,6 +720,7 @@ export default async function HomePage({
                     <p className="lab-label">{tHome("guidedStarts.collectionsLabel")}</p>
                     <Link
                       href="/guided"
+                      locale={locale}
                       className="text-sm font-medium text-ink-700 underline decoration-ink-300 underline-offset-4 transition-colors hover:text-ink-950"
                     >
                       {tHome("guidedStarts.browseAllCollections")}
@@ -700,6 +750,7 @@ export default async function HomePage({
                     <p className="lab-label">{tHome("routes.subjectsLabel")}</p>
                     <Link
                       href="/concepts/subjects"
+                      locale={locale}
                       className="text-sm font-medium text-ink-700 underline decoration-ink-300 underline-offset-4 transition-colors hover:text-ink-950"
                     >
                       {tHome("routes.openSubjectDirectory")}
@@ -721,6 +772,7 @@ export default async function HomePage({
                     <p className="lab-label">{tHome("routes.topicsLabel")}</p>
                     <Link
                       href="/concepts/topics"
+                      locale={locale}
                       className="text-sm font-medium text-ink-700 underline decoration-ink-300 underline-offset-4 transition-colors hover:text-ink-950"
                     >
                       {tHome("routes.openTopicDirectory")}
@@ -748,6 +800,7 @@ export default async function HomePage({
                 </p>
                 <Link
                   href="/challenges"
+                  locale={locale}
                   className="motion-button-outline inline-flex items-center rounded-full border border-line bg-paper-strong px-4 py-2.5 text-sm font-medium text-ink-950 hover:border-ink-950/25"
                 >
                   {tHome("challenges.action")}
@@ -777,6 +830,7 @@ export default async function HomePage({
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/contact"
+                locale={locale}
                 className="cta-secondary"
               >
                 {tHome("feedback.action")}

@@ -201,7 +201,7 @@ describe("home page", () => {
     const primaryActions = screen.getByRole("navigation", {
       name: /primary home actions/i,
     });
-    expect(within(primaryActions).getAllByRole("link")).toHaveLength(3);
+    expect(within(primaryActions).getAllByRole("link")).toHaveLength(4);
     expect(within(primaryActions).getByRole("link", { name: "Start here" })).toHaveAttribute(
       "href",
       "/start",
@@ -213,6 +213,10 @@ describe("home page", () => {
     expect(within(primaryActions).getByRole("link", { name: "Practice tests" })).toHaveAttribute(
       "href",
       "/tests",
+    );
+    expect(within(primaryActions).getByRole("link", { name: "Try a tool" })).toHaveAttribute(
+      "href",
+      "/tools",
     );
 
     const entryCards = screen.getByRole("navigation", { name: "Ways to start learning" });
@@ -275,6 +279,10 @@ describe("home page", () => {
     expect(screen.getByRole("link", { name: "練習測驗" })).toHaveAttribute(
       "href",
       "/tests",
+    );
+    expect(screen.getByRole("link", { name: "試用工具" })).toHaveAttribute(
+      "href",
+      "/tools",
     );
     const entryCards = screen.getByRole("navigation", { name: "開始學習的方式" });
     expect(within(entryCards).getByText("改動即時模型")).toBeInTheDocument();

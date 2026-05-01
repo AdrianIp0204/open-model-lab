@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/navigation";
+import { LearningVisual, type LearningVisualKind } from "@/components/visuals/LearningVisual";
 
 type ToolDirectoryCardProps = {
   title: string;
@@ -7,6 +8,7 @@ type ToolDirectoryCardProps = {
   ctaLabel: string;
   badge: string;
   accent: "sky" | "teal";
+  visualKind: LearningVisualKind;
 };
 
 const accentTopClasses: Record<ToolDirectoryCardProps["accent"], string> = {
@@ -26,6 +28,7 @@ export function ToolDirectoryCard({
   ctaLabel,
   badge,
   accent,
+  visualKind,
 }: ToolDirectoryCardProps) {
   return (
     <article className="motion-enter motion-card list-row-card relative overflow-hidden p-5 sm:p-6">
@@ -33,7 +36,9 @@ export function ToolDirectoryCard({
         className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${accentTopClasses[accent]}`}
       />
 
-      <div className="flex h-full flex-col gap-4">
+      <div className="grid h-full gap-4 sm:grid-cols-[8rem_minmax(0,1fr)] sm:items-start">
+        <LearningVisual kind={visualKind} tone={accent} compact className="h-28 sm:h-full" />
+        <div className="flex h-full min-w-0 flex-col gap-4">
         <div className="flex flex-wrap items-center gap-2">
           <span
             className={[
@@ -54,6 +59,7 @@ export function ToolDirectoryCard({
           <Link href={href} className="cta-primary">
             {ctaLabel}
           </Link>
+        </div>
         </div>
       </div>
     </article>

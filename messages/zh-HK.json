@@ -63,7 +63,7 @@
       "search": "搜尋",
       "challenges": "挑戰",
       "tests": "測驗",
-      "explore": "探索",
+      "explore": "模擬",
       "tools": "工具",
       "circuitBuilder": "電路工房",
       "guided": "引導",
@@ -80,7 +80,7 @@
       "search": "直接跳到你已知道的概念、主題或路線。",
       "challenges": "當你想先拿到一個明確任務時，就從具體題目開始。",
       "tests": "用主題與概念測驗檢查自己目前掌握了多少。",
-      "explore": "按學科、主題或路徑瀏覽完整概念庫。",
+      "explore": "按學科、主題或路徑打開視覺化概念實驗室。",
       "tools": "打開計算器、建構器與其他學習工具。",
       "guided": "跟著短的引導路徑與策展合集前進。"
     },
@@ -1141,6 +1141,7 @@
       "actionsAriaLabel": "首頁主要操作",
       "browseAction": "瀏覽概念庫",
       "practiceAction": "練習測驗",
+      "toolsAction": "試用工具",
       "supportingNote": "開始學習會先替你挑第一步；當你想自己掌握方向時，瀏覽與搜尋也會留在附近。",
       "entryCardsAriaLabel": "開始學習的方式",
       "entryCards": {

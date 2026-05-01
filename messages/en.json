@@ -67,7 +67,7 @@
       "search": "Search",
       "challenges": "Challenges",
       "tests": "Practice",
-      "explore": "Concepts",
+      "explore": "Simulations",
       "tools": "Tools",
       "circuitBuilder": "Builder",
       "guided": "Guided paths",
@@ -84,7 +84,7 @@
       "search": "Jump straight to a concept, topic, or route you already know.",
       "challenges": "Practice with concrete problems when you want a specific task.",
       "tests": "Check what you know with topic and concept tests.",
-      "explore": "Browse the full concept library by subject, topic, or track.",
+      "explore": "Open visual concept labs by subject, topic, or track.",
       "tools": "Open calculators, builders, and other study tools.",
       "guided": "Follow short guided paths and curated collections."
     },
@@ -1144,6 +1144,7 @@
       "actionsAriaLabel": "Primary home actions",
       "browseAction": "Browse library",
       "practiceAction": "Practice tests",
+      "toolsAction": "Try a tool",
       "supportingNote": "Start here chooses the first move. Browse and search stay close when you want more control.",
       "entryCardsAriaLabel": "Ways to start learning",
       "entryCards": {

@@ -357,6 +357,15 @@ export function ControlPanel({
           {primaryControls.map(renderControl)}
         </div>
 
+        {primaryPresets.length > 0 ? (
+          <div className="mt-3 border-t border-line pt-3">
+            <p className="lab-label">{t("presets")}</p>
+            <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+              {primaryPresets.map(renderPreset)}
+            </div>
+          </div>
+        ) : null}
+
         {hasSecondaryControls || hasSecondaryPresets || hasSupplementaryTools ? (
           <div
             className="mt-3 rounded-[20px] border border-line bg-white/45 px-4 py-3"
@@ -407,15 +416,6 @@ export function ControlPanel({
             ) : null}
               </div>
             ) : null}
-          </div>
-        ) : null}
-
-        {primaryPresets.length > 0 ? (
-          <div className="mt-3 border-t border-line pt-3">
-            <p className="lab-label">{t("presets")}</p>
-            <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-              {primaryPresets.map(renderPreset)}
-            </div>
           </div>
         ) : null}
       </div>

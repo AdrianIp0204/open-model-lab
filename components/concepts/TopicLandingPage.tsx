@@ -35,6 +35,7 @@ import { ProgressStatusBadge } from "@/components/progress/ProgressStatusBadge";
 import { RecommendedGoalPathList } from "@/components/guided/RecommendedGoalPathList";
 import { DisplayAd, MultiplexAd } from "@/components/ads/AdSlot";
 import { PageSection } from "@/components/layout/PageSection";
+import { LearningVisual } from "@/components/visuals/LearningVisual";
 import { ConceptTile } from "./ConceptTile";
 import { StarterTrackCard } from "./StarterTrackCard";
 
@@ -354,6 +355,7 @@ export function TopicLandingPage({
                   {topicIntroduction}
                 </p>
               </div>
+              <LearningVisual kind="topic" tone={topic.accent} compact className="h-28" />
 
               <div className="flex flex-wrap gap-3">
                 <Link
@@ -522,6 +524,7 @@ export function TopicLandingPage({
                   key={concept.slug}
                   className={`rounded-[24px] border p-4 ${accentPanelClasses[topic.accent]}`}
                 >
+                  <LearningVisual kind="concept" tone={concept.accent} compact className="mb-4 h-24" />
                   <div className="flex flex-wrap items-center gap-2">
                     {cue ? (
                       <span
