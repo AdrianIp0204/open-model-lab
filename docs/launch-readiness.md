@@ -99,9 +99,16 @@ Recommended Cloudflare Workers Builds settings for the public repo:
 - Node version: `20`
 - pnpm version: `10.30.3`
 - install command: `pnpm install --frozen-lockfile`
-- build/deploy command: `pnpm deploy`
+- build command: `node scripts/generate-content-registry.mjs && pnpm deploy:prepare && pnpm exec opennextjs-cloudflare build`
+- deploy command: `pnpm exec wrangler versions upload`
 - required private build variables: exactly one of `OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT` or `OPEN_MODEL_LAB_WRANGLER_JSONC_SOURCE`
 - optional private build variables when ads are enabled: exactly one of `OPEN_MODEL_LAB_ADS_TXT_CONTENT` or `OPEN_MODEL_LAB_ADS_TXT_SOURCE`
+
+The plain `pnpm build` command only creates the Next.js build output. It does not
+materialize private deployment config or create the OpenNext Worker bundle, so it
+is not sufficient before a Workers Builds deploy command such as
+`wrangler versions upload`. For local operator deploys from a shell, `pnpm deploy`
+still runs the private config preparation through its `predeploy` step.
 
 If Cloudflare preview deployments cannot access production secrets, either disable
 preview deployments for untrusted PRs or provide a separate preview-safe private

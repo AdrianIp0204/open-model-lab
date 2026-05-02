@@ -133,7 +133,7 @@ Vendor setup docs are for maintainers/operators of the official deployment, or f
 
 - For Supabase auth, progress sync, entitlement rows, and magic-link redirect setup, see [docs/account-sync-local-setup.md](./docs/account-sync-local-setup.md).
 - For launch-sensitive env vars and manual vendor steps for Stripe, AdSense, Resend, metadata, and trust pages, see [docs/launch-readiness.md](./docs/launch-readiness.md).
-- For Cloudflare preview/deploy work, provide private Wrangler config through `OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT` or `OPEN_MODEL_LAB_WRANGLER_JSONC_SOURCE`, then run `pnpm wrangler:check` and `pnpm deploy:prepare` in the private deploy environment. The helper writes ignored `wrangler.jsonc` without printing the config.
+- For Cloudflare preview/deploy work, provide private Wrangler config through `OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT` or `OPEN_MODEL_LAB_WRANGLER_JSONC_SOURCE`, then run `pnpm wrangler:check` and `pnpm deploy:prepare` in the private deploy environment. Workers Builds should run OpenNext after that preparation, not plain `pnpm build`; see [docs/launch-readiness.md](./docs/launch-readiness.md#cloudflare--opennext-private-config). The helper writes ignored `wrangler.jsonc` without printing the config.
 - For AdSense on an independently operated deployment, keep the real `public/ads.txt` private and ignored. Use `public/ads.example.txt` as the format reference and `pnpm ads:write` to materialize the real file from private env or a private source file.
 
 Fork operators are responsible for their own Supabase project, Stripe products/prices/webhooks, Resend sender/domain setup, AdSense account/slot IDs/consent obligations, Cloudflare configuration, legal policies, and brand compliance.
