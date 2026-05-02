@@ -416,12 +416,12 @@ export function OnboardingExperience() {
           aria-live="polite"
           className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-3 right-3 z-[45] max-w-[calc(100vw-1.5rem)] lab-panel p-3 shadow-surface sm:bottom-auto sm:left-auto sm:right-4 sm:top-[4.75rem] sm:w-[21rem] sm:p-4"
         >
-          <div className="space-y-2">
+          <div className="space-y-1.5 sm:space-y-2">
             <p className="lab-label">{t("prompt.label")}</p>
-            <h2 id={promptTitleId} className="text-lg font-semibold text-ink-950">
+            <h2 id={promptTitleId} className="text-base font-semibold text-ink-950 sm:text-lg">
               {t("prompt.title")}
             </h2>
-            <p className="text-xs leading-5 text-ink-700 sm:text-sm sm:leading-6">{t("prompt.description")}</p>
+            <p className="hidden text-sm leading-6 text-ink-700 sm:block">{t("prompt.description")}</p>
           </div>
           <div className="mt-3 flex flex-wrap gap-2">
             <button

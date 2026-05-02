@@ -154,10 +154,23 @@ function HomeRouteChoiceCard({
   tone,
   actions,
 }: HomeRouteChoiceCardProps) {
+  const primaryAction = actions[0] ?? null;
+
   return (
     <article className="motion-enter motion-card rounded-[26px] border border-line bg-paper-strong/96 p-5 shadow-surface">
       <div className="space-y-4">
-        <LearningVisual kind={visualKind} tone={tone} compact />
+        {primaryAction ? (
+          <Link
+            href={primaryAction.href}
+            locale={locale}
+            aria-label={primaryAction.label}
+            className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+          >
+            <LearningVisual kind={visualKind} tone={tone} compact />
+          </Link>
+        ) : (
+          <LearningVisual kind={visualKind} tone={tone} compact />
+        )}
         <div className="space-y-2">
           <p className="lab-label">{eyebrow}</p>
           <h3 className="text-xl font-semibold text-ink-950">{title}</h3>

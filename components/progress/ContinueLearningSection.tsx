@@ -63,7 +63,13 @@ export function ContinueLearningSection({
       {primary ? (
         <div className="grid gap-4 lg:grid-cols-[minmax(0,1.08fr)_minmax(18rem,0.92fr)]">
           <article className="lab-panel grid gap-4 p-5 sm:grid-cols-[8rem_minmax(0,1fr)] sm:items-start">
-            <LearningVisual kind="progress" tone="teal" compact className="h-28 sm:h-full" />
+            <Link
+              href={localizeShareHref(`/concepts/${primary.concept.slug}`, locale)}
+              aria-label={t("actions.continueConcept")}
+              className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+            >
+              <LearningVisual kind="progress" tone="teal" compact className="h-28 sm:min-h-28" />
+            </Link>
             <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
               <ProgressStatusBadge status={primary.status} />
@@ -193,7 +199,13 @@ export function ContinueLearningSection({
       ) : hasRecordedProgress ? (
         <div className="grid gap-4 lg:grid-cols-[minmax(0,1.08fr)_minmax(18rem,0.92fr)]">
           <article className="lab-panel grid gap-4 p-5 sm:grid-cols-[8rem_minmax(0,1fr)] sm:items-start">
-            <LearningVisual kind="progress" tone="teal" compact className="h-28 sm:h-full" />
+            <Link
+              href={localizeShareHref("/concepts", locale)}
+              aria-label={t("actions.browseLibrary")}
+              className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+            >
+              <LearningVisual kind="progress" tone="teal" compact className="h-28 sm:min-h-28" />
+            </Link>
             <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
               <ProgressStatusBadge status="completed" />
@@ -277,7 +289,13 @@ export function ContinueLearningSection({
         </div>
       ) : (
         <div className="lab-panel grid gap-4 p-5 sm:grid-cols-[8rem_minmax(0,1fr)] sm:items-center">
-          <LearningVisual kind="progress" tone="sky" compact className="h-24" />
+          <Link
+            href={localizeShareHref("/concepts", locale)}
+            aria-label={t("empty.action")}
+            className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+          >
+            <LearningVisual kind="progress" tone="sky" compact className="h-24" />
+          </Link>
           <div className="min-w-0">
           <p className="text-sm leading-6 text-ink-700">
             {t("empty.description")}

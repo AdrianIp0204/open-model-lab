@@ -110,12 +110,12 @@ export function SimulationShell({
               ].join(" ")}
             >
               <div className="space-y-2.5 lg:sticky lg:top-4">
-                {controls}
                 {interactionRail ? (
                   <div data-testid="simulation-shell-first-action">
                     {interactionRail}
                   </div>
                 ) : null}
+                {controls}
               </div>
             </div>
           </div>

@@ -1,6 +1,8 @@
 import { expect, test, type Browser, type BrowserContext, type Page, type TestInfo } from "@playwright/test";
 import { gotoAndExpectOk, installBrowserGuards, type BrowserGuard } from "./helpers";
 
+test.setTimeout(90_000);
+
 type ViewportCase = {
   name: string;
   viewport: {
@@ -108,6 +110,7 @@ async function assertInitialViewportLayout(
   const scene = page.getByTestId("simulation-shell-scene");
   const controls = page.getByTestId("simulation-shell-controls");
   const graphs = page.getByTestId("simulation-shell-graphs");
+  const firstAction = page.getByTestId("simulation-shell-first-action");
   const guidedStepSlot = page.getByTestId("concept-v2-step-card-slot");
   const firstPrimaryControl = controls.locator('input[type="range"], input[type="checkbox"]').first();
 
@@ -116,14 +119,16 @@ async function assertInitialViewportLayout(
   await expect(scene).toBeVisible();
   await expect(controls).toBeVisible();
   await expect(graphs).toBeVisible();
+  await expect(firstAction).toBeVisible();
   await expect(guidedStepSlot).toBeVisible();
   await expect(firstPrimaryControl).toBeVisible();
 
-  const [startHereBox, sceneBox, controlsBox, graphsBox, guidedStepBox, firstPrimaryControlBox] = await Promise.all([
+  const [startHereBox, sceneBox, controlsBox, graphsBox, firstActionBox, guidedStepBox, firstPrimaryControlBox] = await Promise.all([
     startHere.boundingBox(),
     scene.boundingBox(),
     controls.boundingBox(),
     graphs.boundingBox(),
+    firstAction.boundingBox(),
     guidedStepSlot.boundingBox(),
     firstPrimaryControl.boundingBox(),
   ]);
@@ -132,6 +137,7 @@ async function assertInitialViewportLayout(
   expect(sceneBox).not.toBeNull();
   expect(controlsBox).not.toBeNull();
   expect(graphsBox).not.toBeNull();
+  expect(firstActionBox).not.toBeNull();
   expect(guidedStepBox).not.toBeNull();
   expect(firstPrimaryControlBox).not.toBeNull();
 
@@ -143,10 +149,38 @@ async function assertInitialViewportLayout(
   expect(widthMetrics.scrollWidth).toBe(widthMetrics.innerWidth);
   expect(sceneBox!.y).toBeLessThan(viewportCase.viewport.height);
   expect(controlsBox!.y).toBeLessThan(viewportCase.viewport.height);
-  expect(firstPrimaryControlBox!.y).toBeLessThan(viewportCase.viewport.height);
+  expect(firstActionBox!.y).toBeLessThan(viewportCase.viewport.height);
+  if (viewportCase.viewport.width >= 640) {
+    expect(firstPrimaryControlBox!.y).toBeLessThan(viewportCase.viewport.height);
+  } else {
+    expect(firstPrimaryControlBox!.y).toBeLessThan(startHereBox!.y);
+  }
   expect(sceneBox!.y).toBeLessThan(startHereBox!.y);
   expect(controlsBox!.y).toBeLessThan(startHereBox!.y);
   expect(guidedStepBox!.y).toBeGreaterThan(controlsBox!.y);
+
+  if (
+    firstPrimaryControlBox!.y < viewportCase.viewport.height &&
+    firstPrimaryControlBox!.y + firstPrimaryControlBox!.height > 0
+  ) {
+    const firstPrimaryControlUnblocked = await firstPrimaryControl.evaluate((control) => {
+      const rect = control.getBoundingClientRect();
+      const x = Math.min(Math.max(rect.left + rect.width / 2, 0), window.innerWidth - 1);
+      const y = Math.min(Math.max(rect.top + rect.height / 2, 0), window.innerHeight - 1);
+      const topElement = document.elementFromPoint(x, y);
+      const controls = document.querySelector('[data-testid="simulation-shell-controls"]');
+
+      return Boolean(
+        topElement &&
+          (control === topElement ||
+            control.contains(topElement) ||
+            topElement.contains(control) ||
+            controls?.contains(topElement)),
+      );
+    });
+
+    expect(firstPrimaryControlUnblocked).toBe(true);
+  }
 
   if (viewportCase.viewport.width < 640) {
     const [lessonPreviewDisclosureBox, sceneBoxForMobile] =
@@ -221,6 +255,50 @@ test("opens Uniform Circular Motion directly into a lab-first bench on desktop a
   }
 });
 
+test("keeps additional physics, math, computing, and chemistry concepts lab-first", async ({
+  browser,
+}, testInfo) => {
+  const desktopCase = viewportCases.find((item) => item.name === "desktop-1440x900");
+  expect(desktopCase, "Expected the desktop-1440x900 viewport case to exist.").toBeTruthy();
+
+  const routes = [
+    {
+      path: "/en/concepts/simple-harmonic-motion",
+      title: "Simple Harmonic Motion",
+    },
+    {
+      path: "/en/concepts/graph-transformations",
+      title: "Graph Transformations",
+    },
+    {
+      path: "/en/concepts/binary-search-halving-the-search-space",
+      title: "Binary Search / Halving the Search Space",
+    },
+    {
+      path: "/en/concepts/acid-base-ph-intuition",
+      title: "Acid-Base / pH Intuition",
+    },
+  ];
+
+  for (const route of routes) {
+    await test.step(route.path, async () => {
+      const { context, page, browserGuard } = await openConceptPage(
+        browser,
+        desktopCase!,
+        route.path,
+        route.title,
+      );
+
+      try {
+        await assertInitialViewportLayout(page, desktopCase!, testInfo);
+        browserGuard.assertNoActionableIssues();
+      } finally {
+        await context.close();
+      }
+    });
+  }
+});
+
 test("renders topic-specific clickable visuals on concept discovery", async ({
   page,
 }) => {
@@ -245,11 +323,37 @@ test("renders topic-specific clickable visuals on concept discovery", async ({
   await expect(
     ucmCard.locator('[data-testid="learning-visual"]'),
   ).toHaveAttribute("data-visual-fallback", "false");
+  await expect(
+    ucmCard.locator('[data-testid="learning-visual"]'),
+  ).toHaveAttribute("data-visual-fallback-kind", "topic-specific");
+  await expect(
+    page.locator('[data-testid="learning-visual"][data-visual-fallback-kind="generic"]'),
+  ).toHaveCount(0);
 
   await Promise.all([
     page.waitForURL(/\/en\/concepts\/uniform-circular-motion$/),
     ucmCard.locator('[data-testid="learning-visual"]').click(),
   ]);
+  browserGuard.assertNoActionableIssues();
+});
+
+test("keeps the tests and practice hub visual-first with clickable visual cards", async ({
+  page,
+}) => {
+  const browserGuard = await installBrowserGuards(page);
+  await gotoAndExpectOk(page, "/en/tests");
+
+  await expect(page.getByTestId("test-hub-quick-start")).toBeVisible();
+  await expect(
+    page.locator('[data-testid="test-hub-quick-start-action"], a[href*="/tests/"]').first(),
+  ).toBeVisible();
+  await expect(page.locator('a:has([data-testid="learning-visual"])').first()).toBeVisible();
+
+  const widthMetrics = await page.evaluate(() => ({
+    innerWidth: window.innerWidth,
+    scrollWidth: document.documentElement.scrollWidth,
+  }));
+  expect(widthMetrics.scrollWidth).toBe(widthMetrics.innerWidth);
   browserGuard.assertNoActionableIssues();
 });
 

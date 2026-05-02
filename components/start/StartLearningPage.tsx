@@ -317,12 +317,18 @@ function RecommendationCard({
         getRecommendationPanelTone(emphasis, recommendation.accent),
       ].join(" ")}
     >
-      <LearningVisual
-        kind={visualKind}
-        tone={recommendation.accent}
-        compact
-        className="mb-4 h-24"
-      />
+      <Link
+        href={recommendation.href}
+        aria-label={display.actionLabel}
+        className="mb-4 block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+      >
+        <LearningVisual
+          kind={visualKind}
+          tone={recommendation.accent}
+          compact
+          className="h-24"
+        />
+      </Link>
       <div className="flex flex-wrap items-center gap-2">
         <span className="lab-label">
           {emphasis === "primary"

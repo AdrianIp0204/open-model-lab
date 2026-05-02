@@ -8187,19 +8187,19 @@ export function ConceptSimulationRenderer({
     Boolean(highlightedOverlayIds.length || initialChallengeItemId) ||
     activeLocationHash === `#${conceptShareAnchorIds.challengeMode}`;
   const interactionRail = (
-    <section className="rounded-[22px] border border-line bg-white/55 px-3 py-3">
-      <div className="mb-2 border-b border-line/80 pb-2">
+    <section className="rounded-[22px] border border-line bg-white/55 px-3 py-2.5">
+      <div className="mb-1.5 border-b border-line/80 pb-1.5">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <p className="lab-label">{t("interactionRail.label")}</p>
-            <p className="mt-1 text-xs leading-5 text-ink-600">
+            <p className="mt-0.5 text-xs leading-5 text-ink-600">
               {t("interactionRail.description")}
             </p>
           </div>
           {modeTabs}
         </div>
       </div>
-      {exploreStarterGuide ? <div className="mb-3">{exploreStarterGuide}</div> : null}
+      {exploreStarterGuide ? <div className="mb-2">{exploreStarterGuide}</div> : null}
       {interactionRailPanel}
     </section>
   );

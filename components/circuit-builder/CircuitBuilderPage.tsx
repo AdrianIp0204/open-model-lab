@@ -2421,6 +2421,7 @@ export function CircuitBuilderPage() {
 
   return (
     <section
+      id="circuit-builder-workspace"
       className="space-y-4 sm:space-y-5"
       data-circuit-builder-ready={hasHydrated ? "" : undefined}
     >
@@ -2434,13 +2435,19 @@ export function CircuitBuilderPage() {
             Free-build on the canvas, inspect live values, and keep the builder bench in view while you work through bounded DC assumptions.
           </p>
         </div>
-        <LearningVisual
-          kind="circuit"
-          motif="circuit"
-          tone="sky"
-          compact
-          className="h-28"
-        />
+        <a
+          href="#circuit-builder-workspace"
+          aria-label="Jump to circuit workspace"
+          className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+        >
+          <LearningVisual
+            kind="circuit"
+            motif="circuit"
+            tone="sky"
+            compact
+            className="h-28"
+          />
+        </a>
       </div>
 
       {draftRecoveryState === "pending" && pendingDraft ? (
