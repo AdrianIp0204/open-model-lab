@@ -436,7 +436,7 @@ function TestHubVisualLink({
   return (
     <Link
       href={href}
-      aria-describedby={titleId}
+      aria-labelledby={titleId}
       className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
     >
       <LearningVisual

@@ -206,6 +206,11 @@ describe("TestHubPage", () => {
     expect(conceptVisual).toHaveAttribute("data-visual-motif", "simple-harmonic-motion");
     expect(conceptVisual).toHaveAttribute("data-visual-overlay", "assessment");
     expect(conceptVisual).toHaveAttribute("data-visual-fallback", "false");
+    expect(
+      within(screen.getByTestId("test-hub-card-concept-simple-harmonic-motion")).getByRole("link", {
+        name: "Simple Harmonic Motion",
+      }),
+    ).toHaveAttribute("href", "/tests/concepts/simple-harmonic-motion");
     const conceptStartLink = within(
       screen.getByTestId("test-hub-card-concept-simple-harmonic-motion"),
     ).getByRole("link", {
@@ -553,7 +558,7 @@ describe("TestHubPage", () => {
       ),
     ).toBeInTheDocument();
     expect(
-      within(screen.getByTestId("test-hub-suggestion-topic-oscillations")).getByRole("link", {
+      within(screen.getByTestId("test-hub-card-topic-oscillations")).getByRole("link", {
         name: "Resume topic test",
       }),
     ).toHaveAttribute("href", "/tests/topics/oscillations");
