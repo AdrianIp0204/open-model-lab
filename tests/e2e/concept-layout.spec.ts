@@ -15,6 +15,8 @@ type ViewportCase = {
 
 const conceptPath = "/concepts/simple-harmonic-motion";
 const conceptTitle = "Simple Harmonic Motion";
+const ucmConceptPath = "/en/concepts/uniform-circular-motion";
+const ucmConceptTitle = "Uniform Circular Motion";
 const viewportCases: ViewportCase[] = [
   { name: "desktop-1440x900", viewport: { width: 1440, height: 900 } },
   { name: "tablet-landscape-1024x768", viewport: { width: 1024, height: 768 } },
@@ -30,6 +32,8 @@ const viewportCases: ViewportCase[] = [
 async function openConceptPage(
   browser: Browser,
   viewportCase: ViewportCase,
+  path = conceptPath,
+  title = conceptTitle,
 ): Promise<{
   context: BrowserContext;
   page: Page;
@@ -45,8 +49,8 @@ async function openConceptPage(
   const page = await context.newPage();
   const browserGuard = await installBrowserGuards(page);
 
-  await gotoAndExpectOk(page, conceptPath);
-  await expect(page.locator("h1", { hasText: conceptTitle })).toBeVisible();
+  await gotoAndExpectOk(page, path);
+  await expect(page.locator("h1", { hasText: title })).toBeVisible();
 
   return { context, page, browserGuard };
 }
@@ -115,16 +119,20 @@ async function assertInitialViewportLayout(
   await expect(guidedStepSlot).toBeVisible();
   await expect(firstPrimaryControl).toBeVisible();
 
-  const [sceneBox, controlsBox, graphsBox, firstPrimaryControlBox] = await Promise.all([
+  const [startHereBox, sceneBox, controlsBox, graphsBox, guidedStepBox, firstPrimaryControlBox] = await Promise.all([
+    startHere.boundingBox(),
     scene.boundingBox(),
     controls.boundingBox(),
     graphs.boundingBox(),
+    guidedStepSlot.boundingBox(),
     firstPrimaryControl.boundingBox(),
   ]);
 
+  expect(startHereBox).not.toBeNull();
   expect(sceneBox).not.toBeNull();
   expect(controlsBox).not.toBeNull();
   expect(graphsBox).not.toBeNull();
+  expect(guidedStepBox).not.toBeNull();
   expect(firstPrimaryControlBox).not.toBeNull();
 
   const widthMetrics = await page.evaluate(() => ({
@@ -133,20 +141,24 @@ async function assertInitialViewportLayout(
   }));
 
   expect(widthMetrics.scrollWidth).toBe(widthMetrics.innerWidth);
+  expect(sceneBox!.y).toBeLessThan(viewportCase.viewport.height);
+  expect(controlsBox!.y).toBeLessThan(viewportCase.viewport.height);
+  expect(firstPrimaryControlBox!.y).toBeLessThan(viewportCase.viewport.height);
+  expect(sceneBox!.y).toBeLessThan(startHereBox!.y);
+  expect(controlsBox!.y).toBeLessThan(startHereBox!.y);
+  expect(guidedStepBox!.y).toBeGreaterThan(controlsBox!.y);
 
   if (viewportCase.viewport.width < 640) {
-    const [startHereBox, lessonPreviewDisclosureBox, sceneBoxForMobile] =
+    const [lessonPreviewDisclosureBox, sceneBoxForMobile] =
       await Promise.all([
-        startHere.boundingBox(),
         lessonPreviewDisclosure.boundingBox(),
         scene.boundingBox(),
       ]);
 
-    expect(startHereBox).not.toBeNull();
     expect(lessonPreviewDisclosureBox).not.toBeNull();
     expect(sceneBoxForMobile).not.toBeNull();
-    expect(startHereBox!.y).toBeLessThan(lessonPreviewDisclosureBox!.y);
-    expect(lessonPreviewDisclosureBox!.y).toBeLessThan(sceneBoxForMobile!.y);
+    expect(sceneBoxForMobile!.y).toBeLessThan(startHereBox!.y);
+    expect(sceneBoxForMobile!.y).toBeLessThan(lessonPreviewDisclosureBox!.y);
   }
 
   if (viewportCase.viewport.width >= 1366) {
@@ -179,6 +191,122 @@ test("keeps the guided live lab reachable and the primary bench surfaces visible
         await context.close();
       }
     });
+  }
+});
+
+test("opens Uniform Circular Motion directly into a lab-first bench on desktop and mobile", async ({
+  browser,
+}, testInfo) => {
+  const ucmViewportCases = [
+    viewportCases.find((item) => item.name === "desktop-1440x900"),
+    viewportCases.find((item) => item.name === "mobile-390x844"),
+  ].filter((item): item is ViewportCase => Boolean(item));
+
+  for (const viewportCase of ucmViewportCases) {
+    await test.step(viewportCase.name, async () => {
+      const { context, page, browserGuard } = await openConceptPage(
+        browser,
+        viewportCase,
+        ucmConceptPath,
+        ucmConceptTitle,
+      );
+
+      try {
+        await assertInitialViewportLayout(page, viewportCase, testInfo);
+        browserGuard.assertNoActionableIssues();
+      } finally {
+        await context.close();
+      }
+    });
+  }
+});
+
+test("renders topic-specific clickable visuals on concept discovery", async ({
+  page,
+}) => {
+  const browserGuard = await installBrowserGuards(page);
+  await gotoAndExpectOk(page, "/en/concepts");
+
+  const ucmCard = page
+    .locator('a[href$="/concepts/uniform-circular-motion"]')
+    .filter({
+      has: page.locator('[data-testid="learning-visual"][data-visual-motif="uniform-circular-motion"]'),
+    })
+    .first();
+  const graphCard = page
+    .locator('a[href$="/concepts/graph-transformations"]')
+    .filter({
+      has: page.locator('[data-testid="learning-visual"][data-visual-motif="graph-transformations"]'),
+    })
+    .first();
+
+  await expect(ucmCard).toBeVisible();
+  await expect(graphCard).toBeVisible();
+  await expect(
+    ucmCard.locator('[data-testid="learning-visual"]'),
+  ).toHaveAttribute("data-visual-fallback", "false");
+
+  await Promise.all([
+    page.waitForURL(/\/en\/concepts\/uniform-circular-motion$/),
+    ucmCard.locator('[data-testid="learning-visual"]').click(),
+  ]);
+  browserGuard.assertNoActionableIssues();
+});
+
+test("shows a meaningful visual entry and first action on the circuit builder", async ({
+  page,
+}) => {
+  const browserGuard = await installBrowserGuards(page);
+  await gotoAndExpectOk(page, "/en/circuit-builder");
+
+  await expect(
+    page.locator('[data-testid="learning-visual"][data-visual-motif="circuit"]'),
+  ).toBeVisible();
+  await expect(page.locator("[data-circuit-builder-ready]")).toBeVisible();
+  await expect(page.locator("[data-circuit-builder-row]")).toBeVisible();
+
+  const widthMetrics = await page.evaluate(() => ({
+    innerWidth: window.innerWidth,
+    scrollWidth: document.documentElement.scrollWidth,
+  }));
+  expect(widthMetrics.scrollWidth).toBe(widthMetrics.innerWidth);
+  browserGuard.assertNoActionableIssues();
+});
+
+test("keeps zh-HK homepage and concept pages mobile-rendered with the shared lab-first shell", async ({
+  browser,
+}) => {
+  const viewportCase = viewportCases.find((item) => item.name === "mobile-390x844");
+  expect(viewportCase, "Expected the mobile-390x844 viewport case to exist.").toBeTruthy();
+
+  const context = await browser.newContext({
+    viewport: viewportCase!.viewport,
+    isMobile: true,
+    hasTouch: true,
+    deviceScaleFactor: 3,
+  });
+  const page = await context.newPage();
+  const browserGuard = await installBrowserGuards(page);
+
+  try {
+    await gotoAndExpectOk(page, "/zh-HK");
+    await expect(page.locator("html")).toHaveAttribute("lang", "zh-HK");
+    await expect(page.locator('[data-onboarding-target="home-start-actions"]')).toBeVisible();
+
+    await gotoAndExpectOk(page, "/zh-HK/concepts/uniform-circular-motion");
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await expect(page.locator("html")).toHaveAttribute("lang", "zh-HK");
+    await expect(page.getByTestId("simulation-shell-scene")).toBeVisible();
+    await expect(page.getByTestId("simulation-shell-controls")).toBeVisible();
+
+    const widthMetrics = await page.evaluate(() => ({
+      innerWidth: window.innerWidth,
+      scrollWidth: document.documentElement.scrollWidth,
+    }));
+    expect(widthMetrics.scrollWidth).toBe(widthMetrics.innerWidth);
+    browserGuard.assertNoActionableIssues();
+  } finally {
+    await context.close();
   }
 });
 
@@ -249,10 +377,10 @@ test("keeps the mobile V2 lesson order sane for a migrated chemistry concept", a
     expect(wrapUpBox).not.toBeNull();
     expect(referenceBox).not.toBeNull();
 
-    expect(startHereBox!.y).toBeLessThan(sceneBox!.y);
     expect(sceneBox!.y).toBeLessThan(controlsBox!.y);
+    expect(controlsBox!.y).toBeLessThan(startHereBox!.y);
     expect(controlsBox!.y).toBeLessThan(graphsBox!.y);
-    expect(stepCardBox!.y).toBeLessThan(firstPrimaryControlBox!.y);
+    expect(firstPrimaryControlBox!.y).toBeLessThan(stepCardBox!.y);
     expect(graphsBox!.y).toBeLessThan(wrapUpBox!.y);
     expect(wrapUpBox!.y).toBeLessThan(referenceBox!.y);
 

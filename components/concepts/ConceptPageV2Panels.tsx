@@ -1183,23 +1183,38 @@ export function ConceptPageV2LessonRail({
   useEffect(() => {
     const activeStepMapItem = activeStepMapItemRef.current;
 
-    if (
-      !activeStepMapItem ||
-      typeof window === "undefined" ||
-      typeof activeStepMapItem.scrollIntoView !== "function"
-    ) {
+    if (!activeStepMapItem || typeof window === "undefined") {
+      return;
+    }
+
+    const stepMap = activeStepMapItem.closest(
+      "[data-concept-v2-step-map-scroll]",
+    );
+
+    if (!(stepMap instanceof HTMLElement)) {
       return;
     }
 
     const prefersReducedMotion =
       typeof window.matchMedia === "function" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const itemLeft = activeStepMapItem.offsetLeft;
+    const itemRight = itemLeft + activeStepMapItem.offsetWidth;
+    const visibleLeft = stepMap.scrollLeft;
+    const visibleRight = visibleLeft + stepMap.clientWidth;
+    const targetLeft =
+      itemLeft < visibleLeft
+        ? itemLeft - 8
+        : itemRight > visibleRight
+          ? itemRight - stepMap.clientWidth + 8
+          : null;
 
-    activeStepMapItem.scrollIntoView({
-      block: "nearest",
-      inline: "nearest",
-      behavior: prefersReducedMotion ? "auto" : "smooth",
-    });
+    if (targetLeft !== null) {
+      stepMap.scrollTo({
+        left: Math.max(0, targetLeft),
+        behavior: prefersReducedMotion ? "auto" : "smooth",
+      });
+    }
   }, [activeStepId]);
 
   if (!steps.length) {
@@ -1527,6 +1542,7 @@ export function ConceptPageV2LessonRail({
         {steps.length > 1 ? (
           <ol
             data-testid="concept-v2-step-map"
+            data-concept-v2-step-map-scroll=""
             className="mt-3 flex snap-x scroll-px-1.5 gap-1.5 overflow-x-auto overscroll-x-contain pb-2 [scrollbar-width:thin]"
             aria-label={copy.lessonFlowLabel}
           >

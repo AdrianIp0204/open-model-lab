@@ -12,6 +12,7 @@ import {
   getTopicDisplayTitle,
 } from "@/lib/i18n/content";
 import { LearningVisual } from "@/components/visuals/LearningVisual";
+import { getTopicVisualDescriptor } from "@/components/visuals/learningVisualDescriptors";
 
 type TopicDiscoveryCardProps = {
   topic: TopicDiscoverySummary;
@@ -36,6 +37,13 @@ export function TopicDiscoveryCard({
   const displayTitle = getTopicDisplayTitle(topic, locale);
   const displayDescription = getTopicDisplayDescription(topic, locale);
   const displaySubject = getTopicDisplaySubject(topic, locale);
+  const visual = getTopicVisualDescriptor({
+    slug: topic.slug,
+    title: displayTitle,
+    subject: displaySubject,
+    description: displayDescription,
+    accent: topic.accent,
+  });
   const visibleConcepts = topic.featuredConcepts.slice(0, isCompact ? 2 : 3);
   const visibleSubtopics = getTopicDisplaySubtopics(topic, locale).slice(
     0,
@@ -54,7 +62,20 @@ export function TopicDiscoveryCard({
           className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${accentTopClasses[topic.accent]}`}
         />
         <div className="grid gap-3 sm:grid-cols-[6.5rem_minmax(0,1fr)] sm:items-start">
-          <LearningVisual kind="topic" tone={topic.accent} compact className="h-24 sm:h-full" />
+          <Link
+            href={`/concepts/topics/${topic.slug}`}
+            aria-label={t("actions.openTopic")}
+            className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+          >
+            <LearningVisual
+              kind={visual.kind}
+              motif={visual.motif}
+              isFallback={visual.isFallback}
+              tone={visual.tone ?? topic.accent}
+              compact
+              className="h-24 sm:h-full"
+            />
+          </Link>
           <div className="space-y-3">
           <div className="flex flex-wrap items-center gap-2">
             <span className="lab-label">{t("labels.topic")}</span>
@@ -70,7 +91,7 @@ export function TopicDiscoveryCard({
 
           <div className="space-y-2">
             <h3 className="text-[1.25rem] font-semibold text-ink-950">{displayTitle}</h3>
-            <p className="text-sm leading-6 text-ink-700">{displayDescription}</p>
+            <p className="line-clamp-2 text-sm leading-6 text-ink-700">{displayDescription}</p>
             {bestFirstConcept ? (
               <p className="text-sm leading-5.5 text-ink-600">
                 {t("compact.goodFirstConcept", {
@@ -101,7 +122,19 @@ export function TopicDiscoveryCard({
         className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${accentTopClasses[topic.accent]}`}
       />
       <div className="space-y-3.5">
-        <LearningVisual kind="topic" tone={topic.accent} compact />
+        <Link
+          href={`/concepts/topics/${topic.slug}`}
+          aria-label={t("actions.openTopic")}
+          className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+        >
+          <LearningVisual
+            kind={visual.kind}
+            motif={visual.motif}
+            isFallback={visual.isFallback}
+            tone={visual.tone ?? topic.accent}
+            compact
+          />
+        </Link>
         <div className="flex flex-wrap items-center gap-2">
           <span className="lab-label">{t("labels.topic")}</span>
           <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">
@@ -122,7 +155,7 @@ export function TopicDiscoveryCard({
 
         <div className="space-y-2">
           <h3 className="text-[1.45rem] font-semibold text-ink-950">{displayTitle}</h3>
-          <p className="text-sm leading-6 text-ink-700">{displayDescription}</p>
+          <p className="line-clamp-2 text-sm leading-6 text-ink-700">{displayDescription}</p>
         </div>
 
         {visibleSubtopics.length ? (

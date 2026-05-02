@@ -600,7 +600,7 @@ function ConceptTestCard({
         {entry.displayShortTitle !== entry.displayTitle ? (
           <p className="text-sm font-semibold text-ink-500">{entry.displayShortTitle}</p>
         ) : null}
-        <p className="text-sm leading-6 text-ink-700 sm:line-clamp-2">{entry.displaySummary}</p>
+        <p className="line-clamp-2 text-sm leading-6 text-ink-700">{entry.displaySummary}</p>
       </div>
 
       <div className="rounded-[18px] border border-line bg-paper-strong px-3 py-2">
@@ -705,7 +705,7 @@ function TopicTestCard({
       <div className="space-y-2">
         <p className="lab-label">{entry.displaySubject}</p>
         <h3 id={titleId} className="text-lg font-semibold text-ink-950">{entry.displayTitle}</h3>
-        <p className="text-sm leading-6 text-ink-700 sm:line-clamp-2">{entry.displaySummary}</p>
+        <p className="line-clamp-2 text-sm leading-6 text-ink-700">{entry.displaySummary}</p>
       </div>
 
       <div className="rounded-[18px] border border-line bg-paper-strong px-3 py-2">
@@ -810,7 +810,7 @@ function PackTestCard({
       <div className="space-y-2">
         <p className="lab-label">{entry.displaySubject}</p>
         <h3 id={titleId} className="text-lg font-semibold text-ink-950">{entry.displayTitle}</h3>
-        <p className="text-sm leading-6 text-ink-700 sm:line-clamp-2">{entry.displaySummary}</p>
+        <p className="line-clamp-2 text-sm leading-6 text-ink-700">{entry.displaySummary}</p>
         <p className="text-sm leading-6 text-ink-600 sm:line-clamp-1">{entry.displayTopicList}</p>
       </div>
 
@@ -912,7 +912,7 @@ function SuggestedTestCard({
       <div className="space-y-2">
         <p className="lab-label">{displaySubject}</p>
         <h3 id={titleId} className="text-lg font-semibold text-ink-950">{displayTitle}</h3>
-        <p className="text-sm leading-6 text-ink-700 sm:line-clamp-2">{displaySummary}</p>
+        <p className="line-clamp-2 text-sm leading-6 text-ink-700">{displaySummary}</p>
       </div>
 
       <div className="rounded-[18px] border border-line bg-paper-strong px-3 py-2">
@@ -1075,7 +1075,7 @@ function QuickStartPanel({
               {displayState === "resume" ? t("quickStart.resumeTitle") : t("quickStart.title")}
             </h2>
             <h3 className="text-lg font-semibold text-ink-950">{displayTitle}</h3>
-            <p className="max-w-3xl text-sm leading-6 text-ink-700 sm:line-clamp-2">{displaySummary}</p>
+            <p className="max-w-3xl line-clamp-2 text-sm leading-6 text-ink-700">{displaySummary}</p>
           </div>
           <p className="hidden max-w-3xl text-sm leading-6 text-ink-700 sm:block">
             {allStarterSuggestions
@@ -1190,7 +1190,7 @@ function GuidedTrackCard({
         <h3 id={titleId} className="text-lg font-semibold text-ink-950">
           {t("guidedTracks.trackTitle", { topic: getTopicDisplayTitle(getTopicDiscoverySummaryBySlug(track.topicSlug), locale) })}
         </h3>
-        <p className="text-sm leading-6 text-ink-700 sm:line-clamp-2">
+        <p className="line-clamp-2 text-sm leading-6 text-ink-700">
           {t("guidedTracks.trackDescription", {
             conceptCount: track.conceptCount,
             hasPack: track.packStep ? t("guidedTracks.withPack") : t("guidedTracks.withoutPack"),

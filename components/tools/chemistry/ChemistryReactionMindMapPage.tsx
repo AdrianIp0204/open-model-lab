@@ -216,7 +216,7 @@ export function ChemistryReactionMindMapPage() {
             {t("hero.description")}
           </p>
         </div>
-        <LearningVisual kind="chemistry" tone="teal" />
+        <LearningVisual kind="chemistry" motif="chemistry-reaction" tone="teal" />
       </article>
 
       <div

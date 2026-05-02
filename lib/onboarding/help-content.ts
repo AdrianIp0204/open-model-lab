@@ -42,9 +42,12 @@ const automaticPromptExcludedPrefixes = [
   "/dev",
   "/debug",
   "/author-preview",
+  "/concepts",
   "/tests/concepts",
   "/tests/topics",
   "/tests/packs",
+  "/tools/chemistry-reaction-mind-map",
+  "/circuit-builder",
 ] as const;
 
 const routeStepDefinitions: Partial<Record<OnboardingRouteKey, OnboardingStepDefinition[]>> = {

@@ -233,8 +233,8 @@ export function ConceptPageFramework({
   ]);
 
   return (
-    <div className="mx-auto w-full max-w-[88rem] px-4 pb-10 pt-4 sm:px-6 lg:px-8 lg:pt-8">
-      <section className="space-y-4">
+    <div className="mx-auto w-full max-w-[88rem] px-3 pb-10 pt-2.5 sm:px-5 lg:px-7 lg:pt-4">
+      <section>
         <div className="hidden flex-nowrap items-center gap-2 overflow-x-auto pb-1 text-sm text-ink-600 sm:flex [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           <Link href="/" className="section-kicker whitespace-nowrap transition-colors hover:text-ink-950">
             {t("breadcrumbs.home")}
@@ -282,15 +282,15 @@ export function ConceptPageFramework({
             sections={resolvedSections}
             workedExampleMode={workedExampleMode}
             titleContextContent={
-              <div className="space-y-2">
-                <div className="hidden flex-wrap gap-2 sm:flex">
+              <div className="space-y-1.5">
+                <div className="hidden flex-wrap gap-1.5 sm:flex">
                   <span className="progress-pill">{conceptSubjectLabel}</span>
                   <span className="progress-pill">{conceptTopicLabel}</span>
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-1">
                   <p className="hidden sm:block lab-label">{t("labels.conceptModule")}</p>
-                  <h1 className="max-w-4xl text-[1.75rem] font-semibold leading-[1.02] text-ink-950 sm:text-[2.3rem] lg:text-[2.45rem]">
+                  <h1 className="max-w-4xl text-[1.55rem] font-semibold leading-[1.03] text-ink-950 sm:text-[2rem] lg:text-[2.15rem]">
                     {concept.title}
                   </h1>
                 </div>
