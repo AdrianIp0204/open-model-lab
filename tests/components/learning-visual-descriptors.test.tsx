@@ -104,6 +104,66 @@ describe("learning visual descriptors", () => {
       "fluid-buoyancy",
       "fluid-drag",
     ]);
+
+    expect(
+      [
+        "basic-circuits",
+        "series-parallel-circuits",
+        "kirchhoff-loop-and-junction-rules",
+        "equivalent-resistance",
+        "power-energy-circuits",
+        "capacitance-and-stored-electric-energy",
+        "rc-charging-and-discharging",
+        "internal-resistance-and-terminal-voltage",
+      ].map((slug) => getConceptVisualDescriptor(getConceptSummary(slug)).motif),
+    ).toEqual([
+      "circuit",
+      "series-parallel-circuit",
+      "kirchhoff-rules",
+      "equivalent-resistance",
+      "circuit-power",
+      "capacitance-storage",
+      "rc-time-constant",
+      "internal-resistance",
+    ]);
+
+    expect(
+      [
+        "graph-transformations",
+        "rational-functions-asymptotes-and-behavior",
+        "exponential-change-growth-decay-logarithms",
+        "graph-representation-and-adjacency-intuition",
+        "breadth-first-search-and-layered-frontiers",
+        "depth-first-search-and-backtracking-paths",
+        "frontier-and-visited-state-on-graphs",
+      ].map((slug) => getConceptVisualDescriptor(getConceptSummary(slug)).motif),
+    ).toEqual([
+      "graph-transformations",
+      "rational-asymptote",
+      "exponential-change",
+      "graph-network",
+      "breadth-first-layers",
+      "depth-first-backtracking",
+      "frontier-visited",
+    ]);
+
+    expect(
+      [
+        "refraction-snells-law",
+        "dispersion-refractive-index-color",
+        "total-internal-reflection",
+        "mirrors",
+        "lens-imaging",
+        "optical-resolution-imaging-limits",
+      ].map((slug) => getConceptVisualDescriptor(getConceptSummary(slug)).motif),
+    ).toEqual([
+      "refraction-snell",
+      "dispersion-prism",
+      "total-internal-reflection",
+      "mirror-reflection",
+      "lens-imaging",
+      "optical-resolution",
+    ]);
   });
 
   it("maps challenge and assessment cards to meaningful overlays", () => {
@@ -143,6 +203,57 @@ describe("learning visual descriptors", () => {
       concept: getConceptSummary("doppler-effect"),
       cueLabels: ["higher ahead"],
     });
+    const circuitChallenges = [
+      getChallengeVisualDescriptor({
+        title: "Balance the loop",
+        prompt: "Use Kirchhoff's loop rule so the voltage rises and drops balance.",
+        concept: getConceptSummary("kirchhoff-loop-and-junction-rules"),
+      }),
+      getChallengeVisualDescriptor({
+        title: "Store more charge",
+        prompt: "Increase the capacitor energy without changing the plate voltage too much.",
+        concept: getConceptSummary("capacitance-and-stored-electric-energy"),
+      }),
+      getChallengeVisualDescriptor({
+        title: "Watch the charging curve",
+        prompt: "Tune the RC time constant so the capacitor charges more slowly.",
+        concept: getConceptSummary("rc-charging-and-discharging"),
+      }),
+    ];
+    const graphChallenges = [
+      getChallengeVisualDescriptor({
+        title: "Expand by layer",
+        prompt: "Use breadth-first search so each frontier layer is visited before the next one.",
+        concept: getConceptSummary("breadth-first-search-and-layered-frontiers"),
+      }),
+      getChallengeVisualDescriptor({
+        title: "Backtrack the branch",
+        prompt: "Use depth-first backtracking when a branch reaches a dead end.",
+        concept: getConceptSummary("depth-first-search-and-backtracking-paths"),
+      }),
+      getChallengeVisualDescriptor({
+        title: "Mark the frontier",
+        prompt: "Separate visited nodes from the next frontier before expanding the graph.",
+        concept: getConceptSummary("frontier-and-visited-state-on-graphs"),
+      }),
+    ];
+    const opticsChallenges = [
+      getChallengeVisualDescriptor({
+        title: "Bend toward normal",
+        prompt: "Use Snell's law to refract the ray toward the normal in the denser medium.",
+        concept: getConceptSummary("refraction-snells-law"),
+      }),
+      getChallengeVisualDescriptor({
+        title: "Hit the critical angle",
+        prompt: "Tune the incidence angle until total internal reflection begins.",
+        concept: getConceptSummary("total-internal-reflection"),
+      }),
+      getChallengeVisualDescriptor({
+        title: "Focus the image",
+        prompt: "Move the lens so the image forms sharply at the focal plane.",
+        concept: getConceptSummary("lens-imaging"),
+      }),
+    ];
 
     expect(circularChallenge).toMatchObject({
       kind: "challenge",
@@ -180,6 +291,21 @@ describe("learning visual descriptors", () => {
       overlay: "challenge",
       isFallback: false,
     });
+    expect(circuitChallenges.map((descriptor) => descriptor.motif)).toEqual([
+      "kirchhoff-rules",
+      "capacitance-storage",
+      "rc-time-constant",
+    ]);
+    expect(graphChallenges.map((descriptor) => descriptor.motif)).toEqual([
+      "breadth-first-layers",
+      "depth-first-backtracking",
+      "frontier-visited",
+    ]);
+    expect(opticsChallenges.map((descriptor) => descriptor.motif)).toEqual([
+      "refraction-snell",
+      "total-internal-reflection",
+      "lens-imaging",
+    ]);
   });
 
   it("maps visible math discovery concepts away from the generic fallback", () => {
