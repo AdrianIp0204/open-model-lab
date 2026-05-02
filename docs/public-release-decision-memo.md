@@ -4,8 +4,8 @@ This memo records the public-release policy decisions that led to the clean publ
 
 ## Current Readiness Snapshot
 
-- The clean public source repository now exists at `AdrianIp0204/open-model-lab`.
-- The private working/archive repository remains `AdrianIp0204/OpenModelLab` and must stay private unless the owner explicitly changes strategy later.
+- The clean public source repository now exists at `AdrianIp0204/open-model-lab` and is the active source of truth for future development.
+- The private `AdrianIp0204/OpenModelLab` repository is retained only as historical/private archive context and must stay private unless the owner explicitly changes strategy later.
 - The product model is free core learning plus an optional Supporter convenience layer.
 - The internal entitlement seam still uses `free | premium` for technical compatibility across billing, webhooks, stored records, fixtures, tests, and capability checks.
 - The public-release hygiene pass removed tracked local browser, output, crash, profile, screenshot, and QA artifacts from the repository.
@@ -18,7 +18,7 @@ This memo records the public-release policy decisions that led to the clean publ
 - The curated public tree no longer tracks private automation/operator internals, old private UX audit PDFs, or locale translation-memory caches.
 - `AGENTS.md` is retained as detailed repo/agent guidance; local agent-run artifacts remain ignored/untracked.
 - AdSense repository exposure and Wrangler/Cloudflare config posture are now decided: real files stay private and ignored, while placeholder examples stay committed.
-- The clean public history posture has been executed for the public repository. Do not push old private branches, tags, or history into `AdrianIp0204/open-model-lab`.
+- The clean public history posture has been executed for the public repository. Do not push old private branches, tags, or history into `AdrianIp0204/open-model-lab`, and do not base new public work on stale private-repo branches.
 - Repository identity rules now live in `docs/repository-identity.md`.
 
 ## AdSense Public Metadata Decision
@@ -122,7 +122,7 @@ Keep these docs aligned with actual maintainer capacity. Do not imply a larger g
 1. Keep public-source positioning accurate in README, `AGENTS.md`, and `docs/repository-identity.md`.
 2. Keep real deployment config, vendor secrets, real `wrangler.jsonc`, real `public/ads.txt`, and private operator artifacts out of the public repository.
 3. Run `pnpm public-release:hygiene`, `pnpm public-release:final-check`, `pnpm public-release:history-audit`, `pnpm lint`, `pnpm typecheck`, and the relevant test/browser lanes for release-sensitive changes.
-4. Use `AdrianIp0204/open-model-lab` for public contributions and keep `AdrianIp0204/OpenModelLab` private.
+4. Use `AdrianIp0204/open-model-lab` for public contributions and future development, and keep `AdrianIp0204/OpenModelLab` private as historical/archive context.
 
 ## Current Decisions And Non-Decisions
 
@@ -136,6 +136,6 @@ Keep these docs aligned with actual maintainer capacity. Do not imply a larger g
 - Decided: GitHub label definitions, label setup docs, synced GitHub labels, final release gate docs, and history audit docs exist.
 - Decided: private automation/operator internals, old private UX audit PDFs, and locale translation-memory caches are excluded from the curated public tree.
 - Decided: `AGENTS.md` remains as detailed repo/agent guidance and is distinct from ignored local agent artifacts.
-- Executed: the clean public source repository exists at `AdrianIp0204/open-model-lab`.
-- Still private by design: `AdrianIp0204/OpenModelLab`.
+- Executed: the clean public source repository exists at `AdrianIp0204/open-model-lab` and is the active source of truth.
+- Still private by design: `AdrianIp0204/OpenModelLab`, retained only as historical/archive context.
 - No product behavior, billing behavior, Stripe webhook behavior, database migration, or entitlement value changes are part of this memo.

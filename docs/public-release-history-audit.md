@@ -203,7 +203,7 @@ Before any rewrite or orphan-branch replacement:
 1. `git fetch --all --prune`
 2. `git tag private/pre-public-main-YYYYMMDD main`
 3. `git branch private/pre-public-main main`
-4. Export or archive the private repository state outside the public branch.
+4. Retain any private historical repository state outside the public branch.
 5. Decide whether non-release remote branches should be deleted before visibility changes.
 6. Rotate any credential if a later secret scan proves it was ever committed.
 

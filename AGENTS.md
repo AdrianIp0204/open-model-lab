@@ -12,19 +12,21 @@
   - paid/supporter-gated convenience features such as saved study tools, exact-state sharing, richer review/analytics, and ad-free browsing
 - The current product/repo direction is public source maintenance plus supporter-funded sustainability. Core learning should stay free; paid features should fund and improve the project without walling off the main educational value.
 
-## Repository Identity Guard
+## Repository Source-Of-Truth Guard
 - Always confirm whether the checkout is `AdrianIp0204/open-model-lab` or `AdrianIp0204/OpenModelLab` before editing. See `docs/repository-identity.md`.
-- `AdrianIp0204/open-model-lab` is the clean public source repository for code reading, issues, review, and public contributions.
-- `AdrianIp0204/OpenModelLab` is the private working/archive repository and must remain private unless the owner explicitly changes strategy later.
-- For public repo work, operate only in `AdrianIp0204/open-model-lab` unless the user explicitly says otherwise. Do not pull private history, ignored files, local QA output, deployment config, or private artifacts into the public repo.
-- Do not use stale private-repo HEADs as the basis for public changes. Fetch and branch from the current public `main`.
+- `AdrianIp0204/open-model-lab` is the active public development repository and current source of truth for code, docs, issues, PRs, CI, and future public-facing work.
+- `AdrianIp0204/OpenModelLab` is a private historical/archive repository only. It must remain private and should not be used for new development unless the owner explicitly says the task is private-archive maintenance.
+- For public repo work, operate only in `AdrianIp0204/open-model-lab`. Use public `main` as the current baseline.
+- Do not use private repo branches as the base for public work, and do not port private-history branches into the public repo unless the owner explicitly asks for a reviewed cherry-pick.
+- Do not pull private history, ignored files, local QA output, deployment config, old artifacts, or private config into the public repo.
 - Before editing, report or record:
   - repository full name
-  - branch
+  - remote URL
+  - current branch
   - HEAD SHA
   - whether the working tree is clean
-- If the task references public repo state but the checkout is `AdrianIp0204/OpenModelLab`, stop and switch to the public repo or ask for direction.
-- If the task references private repo state but the checkout is `AdrianIp0204/open-model-lab`, stop and ask for direction.
+- If the task references public repo state but the checkout is `AdrianIp0204/OpenModelLab`, stop and switch to `AdrianIp0204/open-model-lab` before editing.
+- If the task references private archive state but the checkout is `AdrianIp0204/open-model-lab`, stop and ask for direction.
 - `AGENTS.md` is intentional tracked guidance. Local agent artifacts such as `.codex-tmp/`, `output/`, `.codex-*.out`, logs, traces, screenshots, browser profiles, and temporary QA outputs are ignored/untracked and should never be committed.
 
 ## Open Source Direction
