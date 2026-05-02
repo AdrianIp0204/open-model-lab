@@ -65,7 +65,13 @@ export function ContinueLearningSection({
           <article className="lab-panel grid gap-4 p-5 sm:grid-cols-[8rem_minmax(0,1fr)] sm:items-start">
             <Link
               href={localizeShareHref(`/concepts/${primary.concept.slug}`, locale)}
-              aria-label={t("actions.continueConcept")}
+              aria-label={getConceptDisplayTitle(
+                {
+                  slug: primary.concept.slug,
+                  title: primary.concept.title ?? primary.concept.slug,
+                },
+                locale,
+              )}
               className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
             >
               <LearningVisual kind="progress" tone="teal" compact className="h-28 sm:min-h-28" />
@@ -109,6 +115,7 @@ export function ContinueLearningSection({
             <div className="mt-5 flex flex-wrap items-center gap-3">
               <Link
                 href={localizeShareHref(`/concepts/${primary.concept.slug}`, locale)}
+                data-testid={`continue-learning-primary-concept-cta-${primary.concept.slug}`}
                 className="inline-flex items-center rounded-full bg-ink-950 px-5 py-2.5 text-sm font-semibold transition-transform hover:-translate-y-0.5"
                 style={{ color: "var(--paper-strong)" }}
               >

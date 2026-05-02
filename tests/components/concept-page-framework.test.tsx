@@ -181,13 +181,13 @@ describe("ConceptPageFramework V2", () => {
     expect(equationSnapshot).toHaveTextContent(/restoring pattern/i);
   });
 
-  it("keeps the title and Start Here in a compact main stack beside the support rail", () => {
+  it("keeps the title compact and moves Start Here into post-lab context beside status", () => {
     renderFramework("simple-harmonic-motion");
 
     const heroGrid = screen.getByTestId("concept-v2-hero-grid");
     const heroMain = screen.getByTestId("concept-v2-hero-main");
-    const heroRail = screen.getByTestId("concept-v2-hero-rail");
     const heroTitle = screen.getByTestId("concept-v2-hero-title");
+    const postLabContext = screen.getByTestId("concept-v2-post-lab-context");
     const heroStatus = screen.getByTestId("concept-v2-hero-status");
     const heroStart = screen.getByTestId("concept-v2-hero-start");
     const equationSnapshot = screen.getByTestId("concept-v2-equation-snapshot");
@@ -198,9 +198,8 @@ describe("ConceptPageFramework V2", () => {
     expect(within(heroStart).getByTestId("concept-v2-start-here")).toBeInTheDocument();
     expect(equationSnapshot).toBeInTheDocument();
     expect(heroMain).toContainElement(heroTitle);
-    expect(heroMain).toContainElement(heroStart);
-    expect(heroRail).toContainElement(heroStatus);
-    expect(heroRail).toContainElement(equationSnapshot);
+    expect(postLabContext).toContainElement(heroStart);
+    expect(postLabContext).toContainElement(heroStatus);
     expect(
       heroTitle.compareDocumentPosition(heroStart) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();

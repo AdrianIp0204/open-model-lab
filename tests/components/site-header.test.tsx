@@ -189,7 +189,7 @@ describe("SiteHeader", () => {
     expect(
       screen.getAllByRole("link").some((link) => link.getAttribute("href") === "/tests"),
     ).toBe(true);
-    expect(screen.getByRole("link", { name: "探索" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "模擬" })).toHaveAttribute(
       "href",
       "/concepts",
     );
