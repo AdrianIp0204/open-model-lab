@@ -9,6 +9,12 @@ This repo now uses Supabase Auth plus Postgres for the first bounded account/syn
 - A minimal per-user entitlement record with `free` and `premium`
 - Signed-out browsing remains fully local-first
 
+Ordinary contributors do not need real Supabase or Stripe setup for most code, docs,
+content, test, accessibility, or localization work. Use the dev harness for deterministic
+local account-state QA. Real Supabase, Stripe, and production auth setup are maintainer/operator
+work, or independent-fork work with the fork operator's own accounts, branding, domains, and
+legal policies.
+
 ## Dev Account Harness
 
 For local product QA, the preferred path is now the deterministic dev harness instead of
@@ -126,14 +132,14 @@ setup documented below.
 Add these values to `.env.local`:
 
 ```bash
-NEXT_PUBLIC_SUPABASE_URL=...
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url_here
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_supabase_publishable_key_here
 NEXT_PUBLIC_OPEN_MODEL_LAB_SITE_URL=http://localhost:3000
-SUPABASE_SERVICE_ROLE_KEY=...
-STRIPE_SECRET_KEY=sk_test_...
-STRIPE_WEBHOOK_SECRET=whsec_...
-STRIPE_PREMIUM_PRICE_ID=price_...
-STRIPE_PREMIUM_ACHIEVEMENT_COUPON_ID=coupon_...
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key_here
+STRIPE_SECRET_KEY=your_stripe_test_secret_key_here
+STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret_here
+STRIPE_PREMIUM_PRICE_ID=your_supporter_price_id_here
+STRIPE_PREMIUM_ACHIEVEMENT_COUPON_ID=your_reward_coupon_id_here
 ```
 
 Notes:

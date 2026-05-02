@@ -18,6 +18,7 @@ This checklist records the final public-release gate for Open Model Lab and rema
 - [x] Recommended GitHub labels were synced from `.github/labels.yml` during the pre-release label pass.
 - [x] Public history audit exists at `docs/public-release-history-audit.md`.
 - [x] Detailed repo/agent guidance exists at `AGENTS.md`.
+- [x] Repository identity guidance exists at `docs/repository-identity.md`.
 
 ## Private Config Boundary
 

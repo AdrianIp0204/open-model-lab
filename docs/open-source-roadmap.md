@@ -1,19 +1,21 @@
 # Open-Source Roadmap
 
-Open Model Lab is preparing for a public open-source release. This document is a preparation roadmap only. It does not make the repository public, open contributions, or change the product's billing and entitlement behavior.
+Open Model Lab now has a clean public source repository at `AdrianIp0204/open-model-lab`. This roadmap records the preparation decisions and ongoing public-source maintenance boundaries. It does not change the product's billing and entitlement behavior.
 
 ## Current Status
 
-- The project is still in private preparation.
+- The clean public source repository exists at `AdrianIp0204/open-model-lab`.
+- The private working/archive repository remains `AdrianIp0204/OpenModelLab` and must remain private unless the owner explicitly changes strategy later.
 - Final code, educational-content, and brand boundaries have been chosen and documented in `LICENSE`, `CONTENT_LICENSE.md`, and `BRAND.md`.
 - Initial contribution, security, and conduct documents are now present in `CONTRIBUTING.md`, `SECURITY.md`, and `CODE_OF_CONDUCT.md`.
 - GitHub issue templates, a pull request checklist, and triage guidance are now present in `.github/ISSUE_TEMPLATE/`, `.github/PULL_REQUEST_TEMPLATE.md`, and `docs/github-triage.md`.
 - GitHub label definitions and setup notes are now present in `.github/labels.yml` and `docs/github-label-setup.md`.
 - Recommended GitHub labels have been synced on the current GitHub repository from `.github/labels.yml`.
-- The final pre-visibility checklist is now `docs/public-release-final-gate.md`.
+- The final public-release gate is now `docs/public-release-final-gate.md`.
 - A non-destructive current-tree and history audit is now recorded in `docs/public-release-history-audit.md`.
 - The curated public tree no longer tracks private automation/operator internals, old private UX audit PDFs, or locale translation-memory caches.
-- `AGENTS.md` has been reduced to public-safe project and validation guidance.
+- `AGENTS.md` remains detailed public-safe project and validation guidance.
+- Repository identity rules live in `docs/repository-identity.md`.
 - Real `wrangler.jsonc` and `public/ads.txt` are private/ignored; committed examples document the setup shape without exposing deployment topology or AdSense seller metadata.
 - Public product copy is moving toward free core learning plus optional Supporter-funded sustainability.
 - The internal entitlement seam remains `free | premium` until a separate migration plan says otherwise.
@@ -27,19 +29,19 @@ Open Model Lab is preparing for a public open-source release. This document is a
 - Portfolio value: the product should demonstrate real engineering choices, not only a hosted result.
 - Educational reuse: separate license docs make reuse rights understandable without confusing code, content, and brand rights.
 
-## Before Public Release
+## Ongoing Public-Repo Safety
 
-- Review `docs/public-release-decision-memo.md`, `docs/public-release-final-gate.md`, and `docs/public-release-history-audit.md`, then resolve remaining owner decisions for the clean orphan public branch and repository visibility timing.
+- Keep `docs/repository-identity.md`, `AGENTS.md`, and README positioning aligned so public-source work does not drift into private operations.
 - Complete a secret audit across the working tree, ignored files, deployment files, logs, generated artifacts, screenshots, and selected git history.
 - Keep `.env.example` and any other sample env files placeholder-only and aligned with the live runtime seams.
 - Keep `wrangler.example.jsonc` and `public/ads.example.txt` placeholder-only, with real `wrangler.jsonc` and `public/ads.txt` supplied privately.
 - Keep the published code, educational-content, and brand/trademark terms aligned with `LICENSE`, `CONTENT_LICENSE.md`, and `BRAND.md`.
 - Keep contribution docs, security reporting, and conduct expectations aligned with the actual maintainer process.
-- Keep GitHub labels synced from `.github/labels.yml` if label definitions change before visibility changes.
-- Create a clean orphan public branch from the curated tree, or explicitly accept a different history posture before changing visibility.
+- Keep GitHub labels synced from `.github/labels.yml` if label definitions change.
+- Preserve the clean public history posture; do not push old private branches, tags, or history into the public repository.
 - Review README claims so the public landing document matches what is implemented now.
 - Recheck generated files and ignored files so public artifacts are intentional.
-- Run final CI, `pnpm public-release:final-check`, `pnpm public-release:history-audit`, and smoke checks before changing repository visibility.
+- Run CI, `pnpm public-release:final-check`, `pnpm public-release:history-audit`, and smoke checks before release-sensitive repository changes.
 
 ## Protected Boundaries
 
