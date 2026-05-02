@@ -3,6 +3,7 @@ import type {
   LearningVisualFallbackKind,
   LearningVisualKind,
   LearningVisualMotif,
+  LearningVisualOverlay,
   LearningVisualTone,
 } from "./learningVisualDescriptors";
 
@@ -11,6 +12,7 @@ export type {
   LearningVisualFallbackKind,
   LearningVisualKind,
   LearningVisualMotif,
+  LearningVisualOverlay,
   LearningVisualTone,
 } from "./learningVisualDescriptors";
 
@@ -20,6 +22,7 @@ type LearningVisualProps = {
   isFallback?: boolean;
   fallbackKind?: LearningVisualFallbackKind;
   tone?: LearningVisualTone;
+  overlay?: LearningVisualOverlay;
   className?: string;
   ariaLabel?: string;
   compact?: boolean;
@@ -127,6 +130,158 @@ function WaveMotionGlyph() {
       <path d="M29 36V86M64 36V86M99 36V86" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.24" />
       <path d="M28 91H99" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.24" />
       <path d="M50 93H79" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+    </>
+  );
+}
+
+function MomentumCartsGlyph() {
+  return (
+    <>
+      <path d="M17 83H109" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.24" />
+      <rect x="25" y="56" width="28" height="20" rx="6" fill="currentColor" opacity="0.18" />
+      <rect x="72" y="56" width="28" height="20" rx="6" fill="var(--visual-accent)" opacity="0.88" />
+      <circle cx="33" cy="78" r="5" fill="currentColor" opacity="0.28" />
+      <circle cx="45" cy="78" r="5" fill="currentColor" opacity="0.28" />
+      <circle cx="80" cy="78" r="5" fill="currentColor" opacity="0.28" />
+      <circle cx="92" cy="78" r="5" fill="currentColor" opacity="0.28" />
+      <path d="M27 42H55M72 42H102" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M55 42L44 34M55 42L44 50M72 42L83 34M72 42L83 50" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M57 65H69" stroke="currentColor" strokeWidth="5" strokeLinecap="round" opacity="0.24" />
+    </>
+  );
+}
+
+function CollisionsGlyph() {
+  return (
+    <>
+      <path d="M17 84H109" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.22" />
+      <rect x="28" y="58" width="27" height="20" rx="6" fill="var(--visual-accent)" opacity="0.88" />
+      <rect x="72" y="58" width="27" height="20" rx="6" fill="currentColor" opacity="0.18" />
+      <circle cx="36" cy="80" r="5" fill="currentColor" opacity="0.28" />
+      <circle cx="48" cy="80" r="5" fill="currentColor" opacity="0.28" />
+      <circle cx="80" cy="80" r="5" fill="currentColor" opacity="0.28" />
+      <circle cx="92" cy="80" r="5" fill="currentColor" opacity="0.28" />
+      <path d="M22 43H50M104 43H76" stroke="currentColor" strokeWidth="5" strokeLinecap="round" opacity="0.34" />
+      <path d="M50 43L39 35M50 43L39 51M76 43L87 35M76 43L87 51" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M58 53L64 45L70 53M58 45L64 53L70 45" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" opacity="0.9" />
+    </>
+  );
+}
+
+function RotationalInertiaGlyph() {
+  return (
+    <>
+      <circle cx="63" cy="61" r="7" fill="var(--visual-accent)" />
+      <path d="M31 61H95" stroke="currentColor" strokeWidth="7" strokeLinecap="round" opacity="0.34" />
+      <circle cx="34" cy="61" r="11" fill="currentColor" opacity="0.18" />
+      <circle cx="92" cy="61" r="11" fill="currentColor" opacity="0.18" />
+      <path d="M37 32C52 18 78 20 91 38" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M91 38L78 34L86 26" fill="var(--visual-accent)" />
+      <path d="M89 88C74 102 48 100 35 82" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" opacity="0.32" />
+      <path d="M35 82L48 86L40 94" fill="currentColor" opacity="0.32" />
+    </>
+  );
+}
+
+function GravityOrbitsGlyph() {
+  return (
+    <>
+      <circle cx="63" cy="61" r="13" fill="var(--visual-accent)" />
+      <ellipse cx="63" cy="61" rx="45" ry="24" fill="none" stroke="currentColor" strokeWidth="4" opacity="0.22" transform="rotate(-18 63 61)" />
+      <ellipse cx="63" cy="61" rx="31" ry="44" fill="none" stroke="currentColor" strokeWidth="3" opacity="0.14" transform="rotate(18 63 61)" />
+      <circle cx="97" cy="45" r="7" fill="currentColor" opacity="0.32" />
+      <path d="M97 45C94 56 87 65 77 70" fill="none" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" />
+      <path d="M77 70L90 71L84 60" fill="var(--visual-accent)" />
+      <path d="M63 61L84 53" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.28" />
+    </>
+  );
+}
+
+function OpticsRayGlyph() {
+  return (
+    <>
+      <path d="M63 22C76 38 76 84 63 100C50 84 50 38 63 22Z" fill="currentColor" opacity="0.1" stroke="var(--visual-accent)" strokeWidth="4" />
+      <path d="M17 43H56M17 61H56M17 79H56" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.32" />
+      <path d="M70 45L108 31M70 61H109M70 77L108 91" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <circle cx="63" cy="61" r="5" fill="var(--visual-accent)" />
+    </>
+  );
+}
+
+function StandingWaveGlyph() {
+  return (
+    <>
+      <path d="M18 62H108" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.22" />
+      <path d="M20 62C34 32 48 32 63 62S92 92 106 62" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M20 62C34 92 48 92 63 62S92 32 106 62" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.28" />
+      {[20, 63, 106].map((cx) => (
+        <circle key={cx} cx={cx} cy="62" r="5" fill="currentColor" opacity="0.3" />
+      ))}
+      <path d="M20 35V89M63 35V89M106 35V89" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.18" />
+    </>
+  );
+}
+
+function SoundPitchGlyph() {
+  return (
+    <>
+      <path d="M24 51L40 41V81L24 71Z" fill="var(--visual-accent)" />
+      <path d="M44 47C51 54 51 68 44 75M55 39C67 51 67 71 55 83" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.3" />
+      <path d="M70 37C76 51 76 73 70 87M84 37C90 51 90 73 84 87M98 37C104 51 104 73 98 87" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M69 94H101" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.22" />
+    </>
+  );
+}
+
+function ThermalEnergyGlyph() {
+  return (
+    <>
+      <path d="M43 86C36 74 45 66 49 57C54 66 64 69 60 84C70 76 76 65 73 49C88 61 94 75 86 91C78 105 51 106 43 86Z" fill="var(--visual-accent)" opacity="0.88" />
+      <path d="M82 24V77" stroke="currentColor" strokeWidth="7" strokeLinecap="round" opacity="0.24" />
+      <circle cx="82" cy="86" r="13" fill="currentColor" opacity="0.2" />
+      <path d="M82 72V42" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      {[29, 42, 96].map((cx, index) => (
+        <circle key={cx} cx={cx} cy={[43, 25, 55][index]} r="5" fill="currentColor" opacity="0.22" />
+      ))}
+    </>
+  );
+}
+
+function AtomicSpectraGlyph() {
+  return (
+    <>
+      <circle cx="44" cy="60" r="10" fill="var(--visual-accent)" />
+      <ellipse cx="44" cy="60" rx="27" ry="13" fill="none" stroke="currentColor" strokeWidth="4" opacity="0.24" transform="rotate(-24 44 60)" />
+      <ellipse cx="44" cy="60" rx="27" ry="13" fill="none" stroke="currentColor" strokeWidth="4" opacity="0.18" transform="rotate(45 44 60)" />
+      <path d="M75 31V92M88 31V92M101 31V92" stroke="currentColor" strokeWidth="6" strokeLinecap="round" opacity="0.18" />
+      <path d="M82 31V92M96 31V92" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <circle cx="64" cy="47" r="5" fill="currentColor" opacity="0.28" />
+    </>
+  );
+}
+
+function RadioactivityGlyph() {
+  return (
+    <>
+      <circle cx="46" cy="60" r="20" fill="currentColor" opacity="0.12" />
+      <circle cx="46" cy="60" r="7" fill="var(--visual-accent)" />
+      <path d="M46 39V23M46 97V81M25 60H9M83 60H67" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" opacity="0.9" />
+      <path d="M72 92C82 82 86 68 87 49" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" opacity="0.28" />
+      <path d="M87 49L77 59L89 63" fill="currentColor" opacity="0.28" />
+      <path d="M77 34L92 19M77 86L96 101" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.22" />
+    </>
+  );
+}
+
+function FluidBuoyancyGlyph() {
+  return (
+    <>
+      <path d="M18 76C33 66 47 86 63 76S92 66 108 76V100H18Z" fill="currentColor" opacity="0.12" />
+      <path d="M18 76C33 66 47 86 63 76S92 66 108 76" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <rect x="46" y="52" width="34" height="30" rx="7" fill="var(--visual-accent)" opacity="0.88" />
+      <path d="M63 54V28" stroke="currentColor" strokeWidth="5" strokeLinecap="round" opacity="0.35" />
+      <path d="M63 28L54 41H72Z" fill="currentColor" opacity="0.35" />
+      <path d="M32 92H96" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.24" />
     </>
   );
 }
@@ -395,6 +550,8 @@ function renderMotif(motif: LearningVisualMotif) {
   switch (motif) {
     case "acid-base":
       return <AcidBaseGlyph />;
+    case "atomic-spectra":
+      return <AtomicSpectraGlyph />;
     case "binary-search":
       return <BinarySearchGlyph />;
     case "calculus-slope":
@@ -405,20 +562,40 @@ function renderMotif(motif: LearningVisualMotif) {
       return <ComplexPlaneGlyph />;
     case "circuit":
       return <CircuitGlyph />;
+    case "collisions":
+      return <CollisionsGlyph />;
     case "electric-field":
       return <ElectricFieldGlyph />;
+    case "fluid-buoyancy":
+      return <FluidBuoyancyGlyph />;
     case "graph-transformations":
       return <GraphTransformationsGlyph />;
+    case "gravity-orbits":
+      return <GravityOrbitsGlyph />;
     case "limit-approach":
       return <LimitApproachGlyph />;
+    case "momentum-carts":
+      return <MomentumCartsGlyph />;
     case "optimization":
       return <OptimizationGlyph />;
+    case "optics-ray":
+      return <OpticsRayGlyph />;
     case "polar-coordinates":
       return <PolarCoordinatesGlyph />;
     case "projectile-motion":
       return <ProjectileMotionGlyph />;
+    case "radioactivity":
+      return <RadioactivityGlyph />;
+    case "rotational-inertia":
+      return <RotationalInertiaGlyph />;
     case "simple-harmonic-motion":
       return <SimpleHarmonicGlyph />;
+    case "sound-pitch":
+      return <SoundPitchGlyph />;
+    case "standing-wave":
+      return <StandingWaveGlyph />;
+    case "thermal-energy":
+      return <ThermalEnergyGlyph />;
     case "torque":
       return <TorqueGlyph />;
     case "unit-circle":
@@ -488,12 +665,38 @@ function resolveFallbackKind(input: {
   return "category-specific";
 }
 
+function renderOverlay(overlay?: LearningVisualOverlay) {
+  if (overlay === "assessment") {
+    return (
+      <g transform="translate(82 75)">
+        <rect width="31" height="26" rx="9" fill="white" opacity="0.78" />
+        <rect x="4" y="4" width="23" height="18" rx="6" fill="currentColor" opacity="0.16" />
+        <path d="M9 13L14 18L23 8" fill="none" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      </g>
+    );
+  }
+
+  if (overlay === "challenge") {
+    return (
+      <g transform="translate(82 74)">
+        <circle cx="16" cy="14" r="15" fill="white" opacity="0.78" />
+        <circle cx="16" cy="14" r="11" fill="currentColor" opacity="0.14" />
+        <circle cx="16" cy="14" r="6" fill="none" stroke="var(--visual-accent)" strokeWidth="3" />
+        <circle cx="16" cy="14" r="2.5" fill="var(--visual-accent)" />
+      </g>
+    );
+  }
+
+  return null;
+}
+
 export function LearningVisual({
   kind,
   motif,
   isFallback = false,
   fallbackKind,
   tone = "teal",
+  overlay,
   className,
   ariaLabel,
   compact = false,
@@ -517,6 +720,7 @@ export function LearningVisual({
       data-testid="learning-visual"
       data-visual-kind={kind}
       data-visual-motif={motif ?? "generic"}
+      data-visual-overlay={overlay ?? "none"}
       data-visual-fallback={isFallback ? "true" : "false"}
       data-visual-fallback-kind={resolvedFallbackKind}
       role={ariaLabel ? "img" : undefined}
@@ -530,6 +734,7 @@ export function LearningVisual({
         focusable="false"
       >
         {renderGlyph(kind, motif)}
+        {renderOverlay(overlay)}
       </svg>
     </div>
   );

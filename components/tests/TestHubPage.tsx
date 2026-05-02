@@ -40,9 +40,15 @@ import { DiscoveryFilterSelect } from "@/components/layout/DiscoveryFilterSelect
 import { PageSection } from "@/components/layout/PageSection";
 import {
   LearningVisual,
+  type LearningVisualDescriptor,
   type LearningVisualKind,
   type LearningVisualTone,
 } from "@/components/visuals/LearningVisual";
+import {
+  getConceptAssessmentVisualDescriptor,
+  getPackAssessmentVisualDescriptor,
+  getTopicAssessmentVisualDescriptor,
+} from "@/components/visuals/learningVisualDescriptors";
 import {
   buildTestHubSummary,
   getConceptTestProgressState,
@@ -340,24 +346,109 @@ function getEntryReviewHref(
   return entry.reviewHref;
 }
 
+function getConceptTestVisual(
+  entry: Pick<
+    ConceptTestCatalogEntry,
+    "conceptSlug" | "title" | "shortTitle" | "summary" | "subject" | "topic"
+  >,
+) {
+  return getConceptAssessmentVisualDescriptor({
+    slug: entry.conceptSlug,
+    title: entry.title,
+    subject: entry.subject,
+    topic: entry.topic,
+    tags: [entry.shortTitle, entry.summary].filter((tag): tag is string => Boolean(tag)),
+  });
+}
+
+function getTopicTestVisual(
+  entry: Pick<TopicTestCatalogEntry, "topicSlug" | "title" | "summary" | "subject">,
+) {
+  return getTopicAssessmentVisualDescriptor({
+    slug: entry.topicSlug,
+    title: entry.title,
+    subject: entry.subject,
+    description: entry.summary,
+  });
+}
+
+function getPackTestVisual(
+  entry: Pick<
+    PackTestCatalogEntry,
+    | "packSlug"
+    | "title"
+    | "summary"
+    | "subjectTitle"
+    | "includedTopicSlugs"
+    | "includedTopicTitles"
+  >,
+) {
+  return getPackAssessmentVisualDescriptor({
+    slug: entry.packSlug,
+    title: entry.title,
+    subject: entry.subjectTitle,
+    summary: entry.summary,
+    includedTopicSlugs: entry.includedTopicSlugs,
+    includedTopicTitles: entry.includedTopicTitles,
+  });
+}
+
+function getEntryAssessmentVisual(
+  entry: TestHubSuggestion["entry"] | GuidedTestTrackStep["entry"],
+) {
+  switch (entry.kind) {
+    case "concept":
+      return getConceptTestVisual(entry);
+    case "topic":
+      return getTopicTestVisual(entry);
+    case "pack":
+      return getPackTestVisual(entry);
+  }
+}
+
+function getCatalogEntryAssessmentVisual(
+  entry: LocalizedConceptEntry | LocalizedTopicEntry | LocalizedPackEntry,
+) {
+  if ("conceptSlug" in entry) {
+    return getConceptTestVisual(entry);
+  }
+
+  if ("topicSlug" in entry) {
+    return getTopicTestVisual(entry);
+  }
+
+  return getPackTestVisual(entry);
+}
+
 function TestHubVisualLink({
   href,
   titleId,
   kind = "test",
   tone,
+  visual,
 }: {
   href: string;
   titleId: string;
   kind?: LearningVisualKind;
   tone: LearningVisualTone;
+  visual?: LearningVisualDescriptor;
 }) {
   return (
     <Link
       href={href}
-      aria-describedby={titleId}
+      aria-labelledby={titleId}
       className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
     >
-      <LearningVisual kind={kind} tone={tone} compact className="h-24" />
+      <LearningVisual
+        kind={visual?.kind ?? kind}
+        motif={visual?.motif}
+        overlay={visual?.overlay}
+        isFallback={visual?.isFallback}
+        fallbackKind={visual?.fallbackKind}
+        tone={visual?.tone ?? tone}
+        compact
+        className="h-24"
+      />
     </Link>
   );
 }
@@ -618,7 +709,12 @@ function ConceptTestCard({
         </span>
       </div>
 
-      <TestHubVisualLink href={entry.testHref} titleId={titleId} tone="teal" />
+      <TestHubVisualLink
+        href={entry.testHref}
+        titleId={titleId}
+        tone="teal"
+        visual={getConceptTestVisual(entry)}
+      />
 
       <div className="space-y-2">
         <p className="lab-label">{entry.displaySubject}</p>
@@ -726,7 +822,12 @@ function TopicTestCard({
         </span>
       </div>
 
-      <TestHubVisualLink href={entry.testHref} titleId={titleId} tone="sky" />
+      <TestHubVisualLink
+        href={entry.testHref}
+        titleId={titleId}
+        tone="sky"
+        visual={getTopicTestVisual(entry)}
+      />
 
       <div className="space-y-2">
         <p className="lab-label">{entry.displaySubject}</p>
@@ -831,7 +932,12 @@ function PackTestCard({
         </span>
       </div>
 
-      <TestHubVisualLink href={entry.testHref} titleId={titleId} tone="amber" />
+      <TestHubVisualLink
+        href={entry.testHref}
+        titleId={titleId}
+        tone="amber"
+        visual={getPackTestVisual(entry)}
+      />
 
       <div className="space-y-2">
         <p className="lab-label">{entry.displaySubject}</p>
@@ -937,6 +1043,7 @@ function SuggestedTestCard({
         href={getEntryTestHref(suggestion.entry)}
         titleId={titleId}
         tone="coral"
+        visual={getEntryAssessmentVisual(suggestion.entry)}
       />
 
       <div className="space-y-2">
@@ -1024,9 +1131,10 @@ function QuickStartPanel({
               href={getEntryTestHref(suggestion.entry)}
               titleId="test-hub-quick-start-title"
               tone="teal"
+              visual={getEntryAssessmentVisual(suggestion.entry)}
             />
           ) : (
-            <LearningVisual kind="test" tone="teal" compact className="h-24" />
+            <LearningVisual kind="test" tone="teal" overlay="assessment" compact className="h-24" />
           )}
           <div className="space-y-1.5">
             <p className="lab-label">{t("quickStart.eyebrow")}</p>
@@ -1095,6 +1203,7 @@ function QuickStartPanel({
           href={getEntryTestHref(suggestion.entry)}
           titleId="test-hub-quick-start-title"
           tone="teal"
+          visual={getEntryAssessmentVisual(suggestion.entry)}
         />
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2">
@@ -1176,6 +1285,9 @@ function GuidedTrackCard({
   const currentStepHref = assessmentReady
     ? nextStep?.entry.testHref ?? `/concepts/topics/${track.topicSlug}`
     : `/concepts/topics/${track.topicSlug}`;
+  const trackVisual = nextStep
+    ? getEntryAssessmentVisual(nextStep.entry)
+    : getTopicAssessmentVisualDescriptor(getTopicDiscoverySummaryBySlug(track.topicSlug));
   const displayState = resolveAssessmentDisplayState({
     progress: nextStep?.progress ?? {
       status: "not-started",
@@ -1230,6 +1342,7 @@ function GuidedTrackCard({
         titleId={titleId}
         kind="guided"
         tone="sky"
+        visual={trackVisual}
       />
 
       <div className="space-y-2">
@@ -1772,6 +1885,7 @@ export function TestHubPage({
                 href={fallbackStartEntry.testHref}
                 titleId="test-hub-fallback-start-title"
                 tone="teal"
+                visual={getCatalogEntryAssessmentVisual(fallbackStartEntry)}
               />
               <div className="space-y-1.5">
                 <p className="lab-label">{t("quickStart.eyebrow")}</p>

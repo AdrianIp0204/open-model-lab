@@ -157,6 +157,13 @@ describe("TestHubPage", () => {
     ).toBeTruthy();
 
     expect(screen.getByTestId("test-hub-card-pack-physics-connected-models")).toBeInTheDocument();
+    const packVisual = within(
+      screen.getByTestId("test-hub-card-pack-physics-connected-models"),
+    ).getByTestId("learning-visual");
+    expect(packVisual).toHaveAttribute("data-visual-kind", "test");
+    expect(packVisual).toHaveAttribute("data-visual-motif", "projectile-motion");
+    expect(packVisual).toHaveAttribute("data-visual-overlay", "assessment");
+    expect(packVisual).toHaveAttribute("data-visual-fallback", "false");
     const packStartLink = within(
       screen.getByTestId("test-hub-card-pack-physics-connected-models"),
     ).getByRole("link", {
@@ -171,6 +178,13 @@ describe("TestHubPage", () => {
     ).toHaveAttribute("href", "/concepts/subjects/physics");
 
     expect(screen.getByTestId("test-hub-card-topic-oscillations")).toBeInTheDocument();
+    const topicVisual = within(
+      screen.getByTestId("test-hub-card-topic-oscillations"),
+    ).getByTestId("learning-visual");
+    expect(topicVisual).toHaveAttribute("data-visual-kind", "test");
+    expect(topicVisual).toHaveAttribute("data-visual-motif", "simple-harmonic-motion");
+    expect(topicVisual).toHaveAttribute("data-visual-overlay", "assessment");
+    expect(topicVisual).toHaveAttribute("data-visual-fallback", "false");
     const topicStartLink = within(
       screen.getByTestId("test-hub-card-topic-oscillations"),
     ).getByRole("link", {
@@ -185,6 +199,18 @@ describe("TestHubPage", () => {
     ).toHaveAttribute("href", "/concepts/topics/oscillations");
 
     expect(screen.getByTestId("test-hub-card-concept-simple-harmonic-motion")).toBeInTheDocument();
+    const conceptVisual = within(
+      screen.getByTestId("test-hub-card-concept-simple-harmonic-motion"),
+    ).getByTestId("learning-visual");
+    expect(conceptVisual).toHaveAttribute("data-visual-kind", "test");
+    expect(conceptVisual).toHaveAttribute("data-visual-motif", "simple-harmonic-motion");
+    expect(conceptVisual).toHaveAttribute("data-visual-overlay", "assessment");
+    expect(conceptVisual).toHaveAttribute("data-visual-fallback", "false");
+    expect(
+      within(screen.getByTestId("test-hub-card-concept-simple-harmonic-motion")).getByRole("link", {
+        name: "Simple Harmonic Motion",
+      }),
+    ).toHaveAttribute("href", "/tests/concepts/simple-harmonic-motion");
     const conceptStartLink = within(
       screen.getByTestId("test-hub-card-concept-simple-harmonic-motion"),
     ).getByRole("link", {
@@ -532,7 +558,7 @@ describe("TestHubPage", () => {
       ),
     ).toBeInTheDocument();
     expect(
-      within(screen.getByTestId("test-hub-suggestion-topic-oscillations")).getByRole("link", {
+      within(screen.getByTestId("test-hub-card-topic-oscillations")).getByRole("link", {
         name: "Resume topic test",
       }),
     ).toHaveAttribute("href", "/tests/topics/oscillations");
