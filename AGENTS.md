@@ -109,9 +109,10 @@
 - `pnpm i18n:check:zh-HK` runs the shipped zh-HK locale-quality scanner over message catalogs and locale overlay files.
 - `pnpm i18n:sweep:zh-HK` runs the Playwright-backed zh-HK site sweep and writes `output/browser-zhhk-site-sweep.json`.
 - `pnpm content:doctor` audits content/catalog health, subject/topic wiring, and authoring integration drift.
-- `pnpm launch:doctor` audits launch env/config readiness for auth, billing, ads, feedback, and Cloudflare preview/deploy parity across `.env*`, `.dev.vars`, and the private ignored `wrangler.jsonc` copied from `wrangler.example.jsonc`.
+- `pnpm launch:doctor` audits launch env/config readiness for auth, billing, ads, feedback, and Cloudflare preview/deploy parity across `.env*`, `.dev.vars`, and the private ignored `wrangler.jsonc` materialized from private deploy input.
 - `pnpm public-release:hygiene`, `pnpm public-release:final-check`, and `pnpm public-release:history-audit` are the canonical public-release repo checks for tracked-file hygiene, final required-path gating, and non-destructive history review.
 - `pnpm github:labels:plan` is the source-of-truth helper for `.github/labels.yml`; use `-- --apply` only for an explicit GitHub label-sync task with owner approval.
+- `pnpm wrangler:check` validates private Wrangler config input without writing the ignored runtime file; `pnpm wrangler:write` materializes ignored `wrangler.jsonc`; `pnpm deploy:prepare` materializes private deploy config before Cloudflare/OpenNext upload/deploy work.
 - `pnpm ads:check` validates private `ads.txt` input without writing the ignored runtime file; `pnpm ads:write` materializes `public/ads.txt` when ads are actually enabled.
 - `pnpm scaffold:concept` is the supported way to scaffold a new concept file set and integration checklist.
 - `pnpm cf-typegen` refreshes Cloudflare env typings when bindings change.
@@ -312,6 +313,7 @@
   - `/guided`
   - `/concepts/[slug]` only in bounded in-article, post-lab, and footer zones outside the protected live bench
 - Ads stay dormant unless `NEXT_PUBLIC_OPEN_MODEL_LAB_ADSENSE_ENABLED=true`, a valid client id exists, the route/placement is eligible, and the matching slot id exists.
+- Cloudflare/OpenNext deploys need a private ignored `wrangler.jsonc` materialized from `OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT` or `OPEN_MODEL_LAB_WRANGLER_JSONC_SOURCE`. Keep `wrangler.example.jsonc` as the placeholder-only format reference, use `pnpm wrangler:check` before deploys, and do not commit the real config.
 - `/ads.txt` is served from a private ignored `public/ads.txt` materialized from private AdSense seller metadata. Keep `public/ads.example.txt` as the placeholder-only format reference, use `pnpm ads:write` when ads are enabled, and do not reintroduce a dynamic App Router handler or a duplicate repo-root source.
 - The paid/supporter entitlement is ad-free through the same entitlement capability model; internals currently express that as `premium`.
 - Do not put ads into the simulation stage, primary control column, graph panels, compare/prediction/challenge interactive regions, `/about`, pricing, account, auth, billing, contact, trust pages, guided collection detail pages, or dev harness pages.
@@ -481,7 +483,7 @@
   - `docs/launch-readiness.md`
 - `next.config.ts` intentionally pins `turbopack.root` and `outputFileTracingRoot` to the repo root and initializes OpenNext Cloudflare for local dev. Treat edits there as deployment-critical; do not relax that root pin casually.
 - Cloudflare skew protection is already wired through `lib/deployment/cloudflare-assets.ts` and `open-next.config.ts`. Do not hand-roll a parallel asset-versioning or cache-busting system.
-- `wrangler.example.jsonc` intentionally keeps runtime vars dashboard-managed with `keep_vars: true`. Copy it to the private ignored `wrangler.jsonc` for real preview/deploy work; do not commit the private config or move launch-critical secrets into committed `vars`.
+- `wrangler.example.jsonc` documents the private config shape and intentionally keeps runtime vars dashboard-managed with `keep_vars: true`. Materialize the private ignored `wrangler.jsonc` from `OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT` or `OPEN_MODEL_LAB_WRANGLER_JSONC_SOURCE` for real preview/deploy work; do not commit the private config or move launch-critical secrets into committed `vars`.
 - For Cloudflare preview/deploy parity, mirror required runtime secrets into `.dev.vars`, and mirror any `NEXT_PUBLIC_*` values needed at build time into Cloudflare build variables as well as runtime settings.
 - `pnpm launch:doctor` now specifically warns on missing `.dev.vars` secret mirrors, canonical site-URL drift between Next env and `wrangler.jsonc`, and `ENABLE_DEV_ACCOUNT_HARNESS` leaking into preview-style config. Treat those as real parity problems, not cosmetic warnings.
 - There is currently no root-level `middleware.ts` or Next.js `proxy.ts` entrypoint in this repo. `lib/supabase/proxy.ts` is a helper, not a global request-interception seam. Do not introduce a new root-level interceptor casually. Treat any such change as deployment-critical and verify Cloudflare/OpenNext behavior explicitly if a task truly requires it.

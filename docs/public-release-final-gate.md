@@ -49,6 +49,8 @@ pnpm test
 ```
 
 Add targeted Playwright or manual browser checks for any route-visible change made after this gate.
+For Cloudflare deploy changes, run `pnpm wrangler:check` and `pnpm deploy:prepare`
+in a private deploy environment before OpenNext upload/deploy work.
 
 ## GitHub Settings To Review Manually
 
