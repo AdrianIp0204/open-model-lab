@@ -20,7 +20,7 @@
 - Before repo-public changes, check that ignored/generated files are appropriate, no local `.env*` or `.dev.vars*` secrets are staged, and generated content is either intentionally checked in or intentionally ignored according to existing repo rules.
 - Keep brand/logo rights separate from code and educational-content licensing. Current checked-in boundaries are `LICENSE`, `CONTENT_LICENSE.md`, and `BRAND.md`.
 - Do not claim any license beyond what the checked-in license files actually say.
-- For repo-facing preparation details, start with `docs/open-source-roadmap.md`, `docs/monetization-boundaries.md`, `docs/public-release-safety-checklist.md`, `docs/public-release-final-gate.md`, `docs/public-release-history-audit.md`, and `docs/public-release-hygiene-inventory.md`.
+- For repo-facing preparation details, start with `docs/open-source-roadmap.md`, `docs/monetization-boundaries.md`, `docs/public-release-safety-checklist.md`, `docs/public-release-decision-memo.md`, `docs/public-release-final-gate.md`, `docs/public-release-history-audit.md`, `docs/public-release-hygiene-inventory.md`, `docs/github-triage.md`, and `docs/github-label-setup.md`.
 - `AGENTS.md` is intentional repo guidance and should remain tracked. Do not confuse it with local agent-run artifacts.
 - Local agent/dev artifacts such as `.codex-tmp/`, `.codex-*.out`, `output/`, Playwright traces, screenshots, logs, crash dumps, browser profiles, and temporary QA files should remain ignored and untracked.
 
@@ -101,7 +101,7 @@
 - Do not hand-edit `lib/content/generated/content-registry.ts`.
 - Do not hand-edit `lib/i18n/generated/content-bundle.ts`.
 - `pnpm test` and `pnpm validate:content` run through `scripts/run-vitest.mjs`, not raw Vitest invocation.
-- `next.config.ts` sets `typescript.ignoreBuildErrors = true`. `pnpm build` is not a substitute for `pnpm exec tsc --noEmit`.
+- `next.config.ts` sets `typescript.ignoreBuildErrors = true`. `pnpm build` is not a substitute for `pnpm typecheck`.
 
 ## Repo Map
 - `app/`: App Router pages and API routes. Public routes are locale-prefixed under `app/[locale]/*`, and root `/` is a locale-resolution redirect shim. Shared public route ownership still lives in the unprefixed `app/**` pages plus `app/_localized/home-page.tsx`. Important surfaces include `/`, `/about`, `/billing`, `/start`, `/search`, `/concepts`, `/concepts/[slug]`, `/concepts/topics`, `/concepts/topics/[slug]`, `/concepts/subjects`, `/concepts/subjects/[slug]`, `/tracks/[slug]`, `/tracks/[slug]/complete`, `/guided`, `/guided/[slug]`, `/challenges`, `/tests`, `/tests/concepts/[slug]`, `/tests/topics/[slug]`, `/tests/packs/[slug]`, `/tools`, `/tools/chemistry-reaction-mind-map`, `/circuit-builder`, `/assignments/[id]`, `/account`, `/account/create-password`, `/account/reset-password`, `/account/setups`, `/account/compare-setups`, `/account/study-plans`, `/dashboard`, `/dashboard/analytics`, `/pricing`, `/privacy`, `/terms`, `/ads`, `/ads.txt`, `/contact`, `/dev/account-harness`, `/auth/callback`, `/auth/confirm`, and billing/account/feedback APIs.
@@ -476,7 +476,7 @@
 ## Validation And Workflow
 - Required repo-wide validations for this codebase:
   - `pnpm lint`
-  - `pnpm exec tsc --noEmit`
+  - `pnpm typecheck`
   - `pnpm test`
   - `pnpm build`
 - Useful additional validation:
