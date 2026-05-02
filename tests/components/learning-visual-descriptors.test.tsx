@@ -53,11 +53,57 @@ describe("learning visual descriptors", () => {
     expect(descriptors[6]?.motif).toBe("momentum-carts");
     expect(descriptors[7]?.motif).toBe("collisions");
     expect(descriptors[8]?.motif).toBe("rotational-inertia");
-    expect(descriptors[9]?.motif).toBe("gravity-orbits");
+    expect(descriptors[9]?.motif).toBe("orbital-speed");
     expect(new Set(descriptors.map((descriptor) => descriptor.motif)).size).toBe(
       descriptors.length,
     );
     expect(descriptors.every((descriptor) => descriptor.fallbackKind === "topic-specific")).toBe(true);
+  });
+
+  it("keeps high-repeat physics families visually distinct enough for card scanning", () => {
+    expect(
+      [
+        "circular-orbits-orbital-speed",
+        "gravitational-fields",
+        "gravitational-potential-energy",
+        "keplers-third-law-orbital-periods",
+        "escape-velocity",
+      ].map((slug) => getConceptVisualDescriptor(getConceptSummary(slug)).motif),
+    ).toEqual([
+      "orbital-speed",
+      "gravitational-field",
+      "gravitational-potential",
+      "kepler-period",
+      "escape-velocity",
+    ]);
+
+    expect(
+      [
+        "simple-harmonic-motion",
+        "oscillation-energy",
+        "damping-resonance",
+      ].map((slug) => getConceptVisualDescriptor(getConceptSummary(slug)).motif),
+    ).toEqual([
+      "simple-harmonic-motion",
+      "oscillation-energy",
+      "damping-resonance",
+    ]);
+
+    expect(
+      [
+        "pressure-and-hydrostatic-pressure",
+        "continuity-equation",
+        "bernoullis-principle",
+        "buoyancy-and-archimedes-principle",
+        "drag-and-terminal-velocity",
+      ].map((slug) => getConceptVisualDescriptor(getConceptSummary(slug)).motif),
+    ).toEqual([
+      "fluid-pressure",
+      "fluid-continuity",
+      "fluid-bernoulli",
+      "fluid-buoyancy",
+      "fluid-drag",
+    ]);
   });
 
   it("maps challenge and assessment cards to meaningful overlays", () => {
@@ -85,6 +131,18 @@ describe("learning visual descriptors", () => {
       includedTopicSlugs: ["mechanics", "oscillations", "waves", "gravity-and-orbits"],
       includedTopicTitles: ["Mechanics", "Oscillations", "Waves", "Gravity and Orbits"],
     });
+    const beatChallenge = getChallengeVisualDescriptor({
+      title: "Tune slow pulses",
+      prompt: "Make the beat pulses slow enough to count.",
+      concept: getConceptSummary("beats"),
+      cueLabels: ["slow pulses"],
+    });
+    const dopplerChallenge = getChallengeVisualDescriptor({
+      title: "Lower behind, higher ahead",
+      prompt: "Move the source so the observed pitch is lower behind and higher ahead.",
+      concept: getConceptSummary("doppler-effect"),
+      cueLabels: ["higher ahead"],
+    });
 
     expect(circularChallenge).toMatchObject({
       kind: "challenge",
@@ -108,6 +166,18 @@ describe("learning visual descriptors", () => {
       kind: "test",
       motif: "projectile-motion",
       overlay: "assessment",
+      isFallback: false,
+    });
+    expect(beatChallenge).toMatchObject({
+      kind: "challenge",
+      motif: "sound-beats",
+      overlay: "challenge",
+      isFallback: false,
+    });
+    expect(dopplerChallenge).toMatchObject({
+      kind: "challenge",
+      motif: "sound-doppler",
+      overlay: "challenge",
       isFallback: false,
     });
   });

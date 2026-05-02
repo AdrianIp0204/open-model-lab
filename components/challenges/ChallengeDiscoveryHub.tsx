@@ -504,12 +504,13 @@ export function ChallengeDiscoveryHub({
     return (
       <article
         key={item.entry.id}
-        className="motion-enter motion-card list-row-card relative overflow-hidden p-5"
+        className="motion-enter motion-card list-row-card relative overflow-hidden p-4 sm:p-5"
+        data-card-visual-layout="compact-side"
       >
         <div
           className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${accentTopClasses[item.entry.concept.accent]}`}
         />
-        <div className="space-y-4">
+        <div className="grid gap-3 sm:grid-cols-[5.5rem_minmax(0,1fr)] sm:items-start">
           <LearningVisual
             kind={visual.kind}
             motif={visual.motif}
@@ -518,9 +519,10 @@ export function ChallengeDiscoveryHub({
             fallbackKind={visual.fallbackKind}
             tone={visual.tone ?? item.entry.concept.accent}
             compact
-            className="h-24 sm:h-28"
+            className="h-20 rounded-[18px] sm:h-24"
             ariaLabel={`${item.entry.title} visual cue`}
           />
+          <div className="min-w-0 space-y-3">
           <div className="flex flex-wrap items-center gap-2">
             <span className="lab-label">{getTopicDisplayTitle(item.entry.topic, locale)}</span>
             <span
@@ -541,36 +543,27 @@ export function ChallengeDiscoveryHub({
             </span>
           </div>
 
-          <div className="space-y-2">
-            <h3 className="text-xl font-semibold text-ink-950">{item.entry.title}</h3>
-            <p className="text-sm leading-6 text-ink-700">{displayPrompt}</p>
-            <p className="text-sm font-semibold text-ink-950">
+          <div className="space-y-1.5">
+            <h3 className="text-lg font-semibold text-ink-950 sm:text-xl">{item.entry.title}</h3>
+            <p className="line-clamp-2 text-sm leading-5.5 text-ink-700">{displayPrompt}</p>
+            <p className="line-clamp-1 text-sm font-semibold text-ink-950">
               {getConceptDisplayTitle(item.entry.concept, locale)}
-            </p>
-            <p className="text-sm leading-6 text-ink-600">
-              {getProgressNote(
-                item,
-                progressSource,
-                locale,
-                t,
-                getConceptDisplayTitle(item.entry.concept, locale),
-              )}
             </p>
           </div>
 
           {item.entry.starterTracks.length ? (
-            <p className="text-sm leading-6 text-ink-600">
-              {copyText(locale, "Appears in ", "出現在")}
+            <p className="line-clamp-1 text-xs leading-5 text-ink-500">
+              {copyText(locale, "Path: ", "路徑：")}
               {visibleTracks
                 .map((track) => getStarterTrackDisplayTitle(track, locale))
                 .join(", ")}
               {hiddenTrackCount
                 ? copyText(
                     locale,
-                    ` and ${hiddenTrackCount} more path${hiddenTrackCount === 1 ? "" : "s"}.`,
-                    ` 以及另外 ${hiddenTrackCount} 條路徑。`,
+                    ` +${hiddenTrackCount}`,
+                    ` +${hiddenTrackCount}`,
                   )
-                : "."}
+                : ""}
             </p>
           ) : null}
 
@@ -593,7 +586,7 @@ export function ChallengeDiscoveryHub({
             ) : null}
           </div>
 
-          <div>
+          <div className="flex flex-wrap items-center gap-3">
             <Link
               href={getEntryHref(item.entry)}
               className="cta-primary"
@@ -602,6 +595,16 @@ export function ChallengeDiscoveryHub({
                 ? t("actions.continueChallenge")
                 : t("actions.openChallenge")}
             </Link>
+            <span className="text-xs leading-5 text-ink-600">
+              {getProgressNote(
+                item,
+                progressSource,
+                locale,
+                t,
+                getConceptDisplayTitle(item.entry.concept, locale),
+              )}
+            </span>
+          </div>
           </div>
         </div>
       </article>
@@ -659,11 +662,14 @@ export function ChallengeDiscoveryHub({
             </div>
 
             {featuredEntry ? (
-              <article className="motion-enter motion-card list-row-card relative overflow-hidden p-5">
+              <article
+                className="motion-enter motion-card list-row-card relative overflow-hidden p-4 sm:p-5"
+                data-card-visual-layout="compact-side"
+              >
                 <div
                   className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${accentTopClasses[featuredEntry.entry.concept.accent]}`}
                 />
-                <div className="space-y-3">
+                <div className="grid gap-3 sm:grid-cols-[5.5rem_minmax(0,1fr)] sm:items-start">
                   {featuredVisual ? (
                     <LearningVisual
                       kind={featuredVisual.kind}
@@ -673,10 +679,11 @@ export function ChallengeDiscoveryHub({
                       fallbackKind={featuredVisual.fallbackKind}
                       tone={featuredVisual.tone ?? featuredEntry.entry.concept.accent}
                       compact
-                      className="h-24 sm:h-28"
+                      className="h-20 rounded-[18px] sm:h-24"
                       ariaLabel={`${featuredEntry.entry.title} visual cue`}
                     />
                   ) : null}
+                  <div className="min-w-0 space-y-3">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="lab-label">
                       {featuredEntry.state === "started"
@@ -701,12 +708,12 @@ export function ChallengeDiscoveryHub({
                     </span>
                   </div>
                   <div className="space-y-2">
-                    <h2 className="text-xl font-semibold text-ink-950">{featuredEntry.entry.title}</h2>
-                    <p className="text-sm leading-6 text-ink-700">{featuredPrompt}</p>
-                    <p className="text-sm font-semibold text-ink-950">
+                    <h2 className="text-lg font-semibold text-ink-950 sm:text-xl">{featuredEntry.entry.title}</h2>
+                    <p className="line-clamp-2 text-sm leading-5.5 text-ink-700">{featuredPrompt}</p>
+                    <p className="line-clamp-1 text-sm font-semibold text-ink-950">
                       {getConceptDisplayTitle(featuredEntry.entry.concept, locale)}
                     </p>
-                    <p className="text-sm leading-6 text-ink-600">
+                    <p className="text-xs leading-5 text-ink-600">
                       {getProgressNote(
                         featuredEntry,
                         progressSource,
@@ -715,6 +722,7 @@ export function ChallengeDiscoveryHub({
                         getConceptDisplayTitle(featuredEntry.entry.concept, locale),
                       )}
                     </p>
+                  </div>
                   </div>
                 </div>
               </article>
