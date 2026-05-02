@@ -15,7 +15,10 @@ import {
   useProgressSnapshot,
   type ProgressSnapshot,
 } from "@/lib/progress";
-import { localizeRecommendedGoalPath } from "@/lib/i18n/content";
+import {
+  getGuidedCollectionDisplayTitle,
+  localizeRecommendedGoalPath,
+} from "@/lib/i18n/content";
 import { DisclosurePanel } from "@/components/layout/DisclosurePanel";
 import { LearningVisual } from "@/components/visuals/LearningVisual";
 import { GuidedCollectionCard } from "./GuidedCollectionCard";
@@ -258,7 +261,18 @@ export function GuidedCollectionsHub({
         </article>
 
         <aside className="page-band grid gap-4 p-5 sm:grid-cols-[8rem_minmax(0,1fr)] xl:grid-cols-1">
-          <LearningVisual kind="guided" tone="sky" compact />
+          <Link
+            href={featuredCollection?.collection.path ?? primaryGoalPath?.primaryAction.href ?? "#guided-browser"}
+            aria-label={
+              featuredCollection
+                ? getGuidedCollectionDisplayTitle(featuredCollection.collection, locale)
+                : primaryGoalPath?.primaryAction.label ??
+                  copyText(locale, "Browse all collections", "瀏覽所有集合")
+            }
+            className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+          >
+            <LearningVisual kind="guided" tone="sky" compact />
+          </Link>
           <div className="space-y-4">
             <div className="space-y-2">
               <p className="lab-label">

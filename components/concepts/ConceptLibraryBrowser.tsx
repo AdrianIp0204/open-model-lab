@@ -1143,14 +1143,20 @@ export function ConceptLibraryBrowser({
 
           {primaryRecommendation ? (
             <article className="motion-enter motion-card mt-4 grid gap-4 rounded-[26px] border border-line bg-ink-950 p-4 text-paper-strong shadow-surface sm:grid-cols-[7.5rem_minmax(0,1fr)] sm:items-center">
-              <LearningVisual
-                kind={primaryRecommendationVisual?.kind ?? "simulation"}
-                motif={primaryRecommendationVisual?.motif}
-                isFallback={primaryRecommendationVisual?.isFallback ?? false}
-                tone={primaryRecommendationVisual?.tone ?? "teal"}
-                compact
-                className="h-24 border-white/15 bg-white/10 text-white"
-              />
+              <Link
+                href={primaryRecommendation.href}
+                aria-label={primaryRecommendation.actionLabel.trim() || t("recommendations.actions.continueConcept")}
+                className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950"
+              >
+                <LearningVisual
+                  kind={primaryRecommendationVisual?.kind ?? "simulation"}
+                  motif={primaryRecommendationVisual?.motif}
+                  isFallback={primaryRecommendationVisual?.isFallback ?? false}
+                  tone={primaryRecommendationVisual?.tone ?? "teal"}
+                  compact
+                  className="h-24 border-white/15 bg-white/10 text-white"
+                />
+              </Link>
               <div className="min-w-0">
                 <p className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-white/65">
                   {primaryRecommendation.eyebrow}

@@ -73,7 +73,7 @@ export function TopicDiscoveryCard({
               isFallback={visual.isFallback}
               tone={visual.tone ?? topic.accent}
               compact
-              className="h-24 sm:h-full"
+              className="h-24 sm:h-28"
             />
           </Link>
           <div className="space-y-3">

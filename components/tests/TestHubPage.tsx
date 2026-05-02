@@ -38,7 +38,11 @@ import {
 import { formatProgressMonthDay } from "@/components/progress/dateFormatting";
 import { DiscoveryFilterSelect } from "@/components/layout/DiscoveryFilterSelect";
 import { PageSection } from "@/components/layout/PageSection";
-import { LearningVisual } from "@/components/visuals/LearningVisual";
+import {
+  LearningVisual,
+  type LearningVisualKind,
+  type LearningVisualTone,
+} from "@/components/visuals/LearningVisual";
 import {
   buildTestHubSummary,
   getConceptTestProgressState,
@@ -336,6 +340,28 @@ function getEntryReviewHref(
   return entry.reviewHref;
 }
 
+function TestHubVisualLink({
+  href,
+  titleId,
+  kind = "test",
+  tone,
+}: {
+  href: string;
+  titleId: string;
+  kind?: LearningVisualKind;
+  tone: LearningVisualTone;
+}) {
+  return (
+    <Link
+      href={href}
+      aria-describedby={titleId}
+      className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+    >
+      <LearningVisual kind={kind} tone={tone} compact className="h-24" />
+    </Link>
+  );
+}
+
 function getEntryResumeMatch(
   entry: TestHubSuggestion["entry"] | GuidedTestTrackStep["entry"],
   matches: {
@@ -592,7 +618,7 @@ function ConceptTestCard({
         </span>
       </div>
 
-      <LearningVisual kind="test" tone="teal" compact className="h-24" />
+      <TestHubVisualLink href={entry.testHref} titleId={titleId} tone="teal" />
 
       <div className="space-y-2">
         <p className="lab-label">{entry.displaySubject}</p>
@@ -700,7 +726,7 @@ function TopicTestCard({
         </span>
       </div>
 
-      <LearningVisual kind="test" tone="sky" compact className="h-24" />
+      <TestHubVisualLink href={entry.testHref} titleId={titleId} tone="sky" />
 
       <div className="space-y-2">
         <p className="lab-label">{entry.displaySubject}</p>
@@ -805,7 +831,7 @@ function PackTestCard({
         </span>
       </div>
 
-      <LearningVisual kind="test" tone="amber" compact className="h-24" />
+      <TestHubVisualLink href={entry.testHref} titleId={titleId} tone="amber" />
 
       <div className="space-y-2">
         <p className="lab-label">{entry.displaySubject}</p>
@@ -907,7 +933,11 @@ function SuggestedTestCard({
         </span>
       </div>
 
-      <LearningVisual kind="test" tone="coral" compact className="h-24" />
+      <TestHubVisualLink
+        href={getEntryTestHref(suggestion.entry)}
+        titleId={titleId}
+        tone="coral"
+      />
 
       <div className="space-y-2">
         <p className="lab-label">{displaySubject}</p>
@@ -989,7 +1019,15 @@ function QuickStartPanel({
         aria-labelledby="test-hub-quick-start-title"
       >
         <div className="grid gap-3 sm:grid-cols-[7rem_minmax(0,1fr)_auto] sm:items-center">
-          <LearningVisual kind="test" tone="teal" compact className="h-24" />
+          {suggestion ? (
+            <TestHubVisualLink
+              href={getEntryTestHref(suggestion.entry)}
+              titleId="test-hub-quick-start-title"
+              tone="teal"
+            />
+          ) : (
+            <LearningVisual kind="test" tone="teal" compact className="h-24" />
+          )}
           <div className="space-y-1.5">
             <p className="lab-label">{t("quickStart.eyebrow")}</p>
             <h2 id="test-hub-quick-start-title" className="text-xl font-semibold text-ink-950 sm:text-2xl">
@@ -1053,7 +1091,11 @@ function QuickStartPanel({
       aria-labelledby="test-hub-quick-start-title"
     >
       <div className="grid gap-3 lg:grid-cols-[7rem_minmax(0,1fr)_auto] lg:items-center">
-        <LearningVisual kind="test" tone="teal" compact className="h-24" />
+        <TestHubVisualLink
+          href={getEntryTestHref(suggestion.entry)}
+          titleId="test-hub-quick-start-title"
+          tone="teal"
+        />
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2">
             <span className="lab-label">{t("quickStart.eyebrow")}</span>
@@ -1183,7 +1225,12 @@ function GuidedTrackCard({
         </span>
       </div>
 
-      <LearningVisual kind="guided" tone="sky" compact className="h-24" />
+      <TestHubVisualLink
+        href={currentStepHref}
+        titleId={titleId}
+        kind="guided"
+        tone="sky"
+      />
 
       <div className="space-y-2">
         <p className="lab-label">{getSubjectDisplayTitleFromValue(track.subject, locale)}</p>
@@ -1716,12 +1763,22 @@ export function TestHubPage({
             }}
           />
         ) : fallbackStartEntry ? (
-          <section className="rounded-[22px] border border-teal-500/20 bg-teal-500/8 p-3.5 shadow-sm sm:p-4">
+          <section
+            className="rounded-[22px] border border-teal-500/20 bg-teal-500/8 p-3.5 shadow-sm sm:p-4"
+            aria-labelledby="test-hub-fallback-start-title"
+          >
             <div className="grid gap-3 sm:grid-cols-[7rem_minmax(0,1fr)_auto] sm:items-center">
-              <LearningVisual kind="test" tone="teal" compact className="h-24" />
+              <TestHubVisualLink
+                href={fallbackStartEntry.testHref}
+                titleId="test-hub-fallback-start-title"
+                tone="teal"
+              />
               <div className="space-y-1.5">
                 <p className="lab-label">{t("quickStart.eyebrow")}</p>
-                <h2 className="text-xl font-semibold text-ink-950 sm:text-2xl">
+                <h2
+                  id="test-hub-fallback-start-title"
+                  className="text-xl font-semibold text-ink-950 sm:text-2xl"
+                >
                   {t("quickStart.fallbackTitle")}
                 </h2>
                 <p className="max-w-2xl text-sm leading-6 text-ink-700">

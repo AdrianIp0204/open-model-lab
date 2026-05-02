@@ -56,7 +56,7 @@ export function ToolDirectoryCard({
             isFallback={visual.isFallback}
             tone={visual.tone ?? accent}
             compact
-            className="h-28 sm:h-full"
+            className="h-28 sm:min-h-28"
           />
           <div className="flex h-full min-w-0 flex-col gap-4">
             <div className="flex flex-wrap items-center gap-2">

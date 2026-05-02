@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import type {
+  LearningVisualFallbackKind,
   LearningVisualKind,
   LearningVisualMotif,
   LearningVisualTone,
@@ -7,6 +8,7 @@ import type {
 
 export type {
   LearningVisualDescriptor,
+  LearningVisualFallbackKind,
   LearningVisualKind,
   LearningVisualMotif,
   LearningVisualTone,
@@ -16,6 +18,7 @@ type LearningVisualProps = {
   kind: LearningVisualKind;
   motif?: LearningVisualMotif;
   isFallback?: boolean;
+  fallbackKind?: LearningVisualFallbackKind;
   tone?: LearningVisualTone;
   className?: string;
   ariaLabel?: string;
@@ -149,6 +152,85 @@ function GraphTransformationsGlyph() {
       <path d="M35 61C50 35 60 34 73 52C84 68 94 58 108 22" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
       <path d="M54 51L69 38" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" opacity="0.7" />
       <path d="M69 38L57 40L65 50" fill="var(--visual-accent)" />
+    </>
+  );
+}
+
+function CalculusSlopeGlyph() {
+  return (
+    <>
+      <path d="M24 94V24M24 94H106" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.3" />
+      <path d="M30 82C45 37 68 35 101 72" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.26" />
+      <path d="M50 62L96 45" stroke="var(--visual-accent)" strokeWidth="6" strokeLinecap="round" />
+      <path d="M96 45L84 55L81 44" fill="var(--visual-accent)" />
+      <circle cx="63" cy="57" r="7" fill="var(--visual-accent)" />
+      <path d="M62 26V88" stroke="currentColor" strokeWidth="3" strokeDasharray="5 7" strokeLinecap="round" opacity="0.24" />
+    </>
+  );
+}
+
+function LimitApproachGlyph() {
+  return (
+    <>
+      <path d="M22 92H106M64 28V94" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.26" />
+      <circle cx="64" cy="60" r="13" fill="none" stroke="var(--visual-accent)" strokeWidth="5" />
+      <circle cx="64" cy="60" r="4" fill="var(--visual-accent)" />
+      <path d="M25 60H48M103 60H80" stroke="currentColor" strokeWidth="5" strokeLinecap="round" opacity="0.34" />
+      <path d="M48 60L38 51M48 60L38 69M80 60L90 51M80 60L90 69" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M36 82C50 72 78 72 92 82" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.2" />
+    </>
+  );
+}
+
+function OptimizationGlyph() {
+  return (
+    <>
+      <path d="M24 94V24M24 94H106" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.3" />
+      <path d="M31 84C49 35 78 32 101 82" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <circle cx="66" cy="48" r="8" fill="var(--visual-accent)" />
+      <path d="M66 48V88" stroke="currentColor" strokeWidth="3" strokeDasharray="5 6" strokeLinecap="round" opacity="0.3" />
+      <rect x="42" y="67" width="48" height="21" rx="6" fill="currentColor" opacity="0.13" />
+      <path d="M42 67H90V88H42Z" fill="none" stroke="currentColor" strokeWidth="3" opacity="0.22" />
+    </>
+  );
+}
+
+function ComplexPlaneGlyph() {
+  return (
+    <>
+      <path d="M25 92H104M64 24V101" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.28" />
+      <path d="M64 82L89 45" stroke="var(--visual-accent)" strokeWidth="6" strokeLinecap="round" />
+      <path d="M89 45L84 60L75 50" fill="var(--visual-accent)" />
+      <path d="M64 82L41 62" stroke="currentColor" strokeWidth="5" strokeLinecap="round" opacity="0.34" />
+      <circle cx="89" cy="45" r="7" fill="var(--visual-accent)" />
+      <circle cx="41" cy="62" r="6" fill="currentColor" opacity="0.24" />
+      <path d="M75 77C78 67 85 58 94 52" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.26" />
+    </>
+  );
+}
+
+function PolarCoordinatesGlyph() {
+  return (
+    <>
+      <circle cx="63" cy="63" r="38" fill="none" stroke="currentColor" strokeWidth="4" opacity="0.18" />
+      <path d="M25 63H103M63 25V101" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.24" />
+      <path d="M63 63L91 39" stroke="var(--visual-accent)" strokeWidth="6" strokeLinecap="round" />
+      <circle cx="91" cy="39" r="8" fill="var(--visual-accent)" />
+      <path d="M81 63C81 55 77 50 72 46" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.34" />
+      <path d="M72 46L83 47L78 56" fill="currentColor" opacity="0.34" />
+    </>
+  );
+}
+
+function UnitCircleGlyph() {
+  return (
+    <>
+      <circle cx="63" cy="62" r="36" fill="none" stroke="currentColor" strokeWidth="4" opacity="0.24" />
+      <path d="M24 62H102M63 23V101" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.22" />
+      <path d="M63 62L90 39" stroke="var(--visual-accent)" strokeWidth="6" strokeLinecap="round" />
+      <circle cx="90" cy="39" r="7" fill="var(--visual-accent)" />
+      <path d="M90 39V62H63" fill="none" stroke="currentColor" strokeWidth="4" strokeDasharray="6 6" opacity="0.35" />
+      <path d="M77 62C77 55 73 50 68 47" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.4" />
     </>
   );
 }
@@ -315,20 +397,32 @@ function renderMotif(motif: LearningVisualMotif) {
       return <AcidBaseGlyph />;
     case "binary-search":
       return <BinarySearchGlyph />;
+    case "calculus-slope":
+      return <CalculusSlopeGlyph />;
     case "chemistry-reaction":
       return <ChemistryGlyph />;
+    case "complex-plane":
+      return <ComplexPlaneGlyph />;
     case "circuit":
       return <CircuitGlyph />;
     case "electric-field":
       return <ElectricFieldGlyph />;
     case "graph-transformations":
       return <GraphTransformationsGlyph />;
+    case "limit-approach":
+      return <LimitApproachGlyph />;
+    case "optimization":
+      return <OptimizationGlyph />;
+    case "polar-coordinates":
+      return <PolarCoordinatesGlyph />;
     case "projectile-motion":
       return <ProjectileMotionGlyph />;
     case "simple-harmonic-motion":
       return <SimpleHarmonicGlyph />;
     case "torque":
       return <TorqueGlyph />;
+    case "unit-circle":
+      return <UnitCircleGlyph />;
     case "uniform-circular-motion":
       return <UniformCircularMotionGlyph />;
     case "vectors-components":
@@ -373,15 +467,44 @@ function renderGlyph(kind: LearningVisualKind, motif?: LearningVisualMotif) {
   }
 }
 
+function resolveFallbackKind(input: {
+  fallbackKind?: LearningVisualFallbackKind;
+  isFallback: boolean;
+  kind: LearningVisualKind;
+  motif?: LearningVisualMotif;
+}): LearningVisualFallbackKind {
+  if (input.fallbackKind) {
+    return input.fallbackKind;
+  }
+
+  if (input.motif) {
+    return "topic-specific";
+  }
+
+  if (input.isFallback && (input.kind === "concept" || input.kind === "simulation")) {
+    return "generic";
+  }
+
+  return "category-specific";
+}
+
 export function LearningVisual({
   kind,
   motif,
   isFallback = false,
+  fallbackKind,
   tone = "teal",
   className,
   ariaLabel,
   compact = false,
 }: LearningVisualProps) {
+  const resolvedFallbackKind = resolveFallbackKind({
+    fallbackKind,
+    isFallback,
+    kind,
+    motif,
+  });
+
   return (
     <div
       className={[
@@ -395,6 +518,7 @@ export function LearningVisual({
       data-visual-kind={kind}
       data-visual-motif={motif ?? "generic"}
       data-visual-fallback={isFallback ? "true" : "false"}
+      data-visual-fallback-kind={resolvedFallbackKind}
       role={ariaLabel ? "img" : undefined}
       aria-label={ariaLabel}
       aria-hidden={ariaLabel ? undefined : true}

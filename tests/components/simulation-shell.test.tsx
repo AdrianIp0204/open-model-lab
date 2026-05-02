@@ -51,12 +51,18 @@ describe("SimulationShell", () => {
     );
 
     const controlsSlot = container.querySelector('[data-testid="simulation-shell-controls"]');
+    const controls = container.querySelector('[data-testid="controls"]');
     const firstAction = container.querySelector('[data-testid="simulation-shell-first-action"]');
     const guides = container.querySelector('[data-testid="simulation-shell-guides"]');
     expect(firstAction).not.toBeNull();
     expect(firstAction?.textContent).toContain("Interaction rail");
     expect(controlsSlot).not.toBeNull();
+    expect(controls).not.toBeNull();
     expect(controlsSlot).toContainElement(firstAction as HTMLElement);
+    expect(
+      (firstAction as HTMLElement).compareDocumentPosition(controls as HTMLElement) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
     expect(guides).toBeNull();
   });
 

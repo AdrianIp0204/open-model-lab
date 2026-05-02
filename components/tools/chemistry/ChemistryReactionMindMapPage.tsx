@@ -216,10 +216,17 @@ export function ChemistryReactionMindMapPage() {
             {t("hero.description")}
           </p>
         </div>
-        <LearningVisual kind="chemistry" motif="chemistry-reaction" tone="teal" />
+        <a
+          href="#chemistry-worksurface"
+          aria-label={t("graph.title")}
+          className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+        >
+          <LearningVisual kind="chemistry" motif="chemistry-reaction" tone="teal" />
+        </a>
       </article>
 
       <div
+        id="chemistry-worksurface"
         data-testid="chemistry-worksurface"
         data-chemistry-layout="split-panel"
         className="grid gap-4 min-[1100px]:grid-cols-[minmax(0,1fr)_25rem] min-[1100px]:items-stretch min-[1100px]:h-[min(100svh,70rem)] min-[1100px]:min-h-[58rem] min-[1100px]:overflow-hidden"
