@@ -11,7 +11,7 @@ import {
 const publicRouteExpectations = [
   {
     pathname: "/",
-    heading: "Start from one live model, then learn by changing it.",
+    heading: "Learn science by changing live simulations.",
   },
   {
     pathname: "/concepts",
@@ -134,7 +134,7 @@ test("keeps Guided as the active primary nav item for guided hub and detail rout
       "page",
     );
     await expect(primaryNav.getByRole("link", { name: "Challenges" })).toHaveCount(1);
-    await expect(primaryNav.getByRole("link", { name: "Concepts" })).toHaveCount(1);
+    await expect(primaryNav.getByRole("link", { name: "Simulations" })).toHaveCount(1);
   }
 });
 

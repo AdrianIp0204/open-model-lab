@@ -39,6 +39,8 @@ import {
 } from "@/lib/progress";
 import { formatProgressMonthDay } from "@/components/progress/dateFormatting";
 import { DiscoveryFilterSelect } from "@/components/layout/DiscoveryFilterSelect";
+import { LearningVisual } from "@/components/visuals/LearningVisual";
+import { getConceptVisualDescriptor } from "@/components/visuals/learningVisualDescriptors";
 import { ConceptTile } from "./ConceptTile";
 import { type ConceptSummary } from "./concept-catalog";
 import { StarterTrackEntryLink } from "./StarterTrackEntryLink";
@@ -1100,6 +1102,12 @@ export function ConceptLibraryBrowser({
         ? t("empty.noteSubjectTopic")
         : t("empty.noteExtraFilters");
   const [primaryRecommendation, ...secondaryRecommendations] = recommendationCards;
+  const primaryRecommendationConcept = primaryRecommendation
+    ? conceptsBySlug.get(primaryRecommendation.targetSlug)
+    : null;
+  const primaryRecommendationVisual = primaryRecommendationConcept
+    ? getConceptVisualDescriptor(primaryRecommendationConcept)
+    : null;
 
   return (
     <div className="space-y-4">
@@ -1134,26 +1142,42 @@ export function ConceptLibraryBrowser({
           </div>
 
           {primaryRecommendation ? (
-            <article className="motion-enter motion-card mt-4 rounded-[26px] border border-line bg-ink-950 p-4 text-paper-strong shadow-surface">
-              <p className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-white/65">
-                {primaryRecommendation.eyebrow}
-              </p>
-              <h3 className="mt-2 text-lg font-semibold sm:text-xl">
-                {primaryRecommendation.title}
-              </h3>
-              <p className="mt-2 text-sm leading-5.5 text-white/80 sm:leading-6">
-                {primaryRecommendation.note}
-              </p>
+            <article className="motion-enter motion-card mt-4 grid gap-4 rounded-[26px] border border-line bg-ink-950 p-4 text-paper-strong shadow-surface sm:grid-cols-[7.5rem_minmax(0,1fr)] sm:items-center">
               <Link
                 href={primaryRecommendation.href}
-                data-testid="library-primary-cta"
-                className="motion-button-solid mt-4 inline-flex items-center justify-center rounded-full bg-paper-strong px-4 py-2.5 text-sm font-semibold text-ink-950"
-                style={{ color: "var(--ink-950)" }}
+                aria-label={primaryRecommendation.actionLabel.trim() || t("recommendations.actions.continueConcept")}
+                className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950"
               >
-                <span className="text-ink-950">
-                  {primaryRecommendation.actionLabel.trim() || t("recommendations.actions.continueConcept")}
-                </span>
+                <LearningVisual
+                  kind={primaryRecommendationVisual?.kind ?? "simulation"}
+                  motif={primaryRecommendationVisual?.motif}
+                  isFallback={primaryRecommendationVisual?.isFallback ?? false}
+                  tone={primaryRecommendationVisual?.tone ?? "teal"}
+                  compact
+                  className="h-24 border-white/15 bg-white/10 text-white"
+                />
               </Link>
+              <div className="min-w-0">
+                <p className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-white/65">
+                  {primaryRecommendation.eyebrow}
+                </p>
+                <h3 className="mt-2 text-lg font-semibold sm:text-xl">
+                  {primaryRecommendation.title}
+                </h3>
+                <p className="mt-2 text-sm leading-5.5 text-white/80 sm:leading-6">
+                  {primaryRecommendation.note}
+                </p>
+                <Link
+                  href={primaryRecommendation.href}
+                  data-testid="library-primary-cta"
+                  className="motion-button-solid mt-4 inline-flex items-center justify-center rounded-full bg-paper-strong px-4 py-2.5 text-sm font-semibold text-ink-950"
+                  style={{ color: "var(--ink-950)" }}
+                >
+                  <span className="text-ink-950">
+                    {primaryRecommendation.actionLabel.trim() || t("recommendations.actions.continueConcept")}
+                  </span>
+                </Link>
+              </div>
             </article>
           ) : null}
 

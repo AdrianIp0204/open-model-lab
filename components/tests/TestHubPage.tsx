@@ -39,6 +39,11 @@ import { formatProgressMonthDay } from "@/components/progress/dateFormatting";
 import { DiscoveryFilterSelect } from "@/components/layout/DiscoveryFilterSelect";
 import { PageSection } from "@/components/layout/PageSection";
 import {
+  LearningVisual,
+  type LearningVisualKind,
+  type LearningVisualTone,
+} from "@/components/visuals/LearningVisual";
+import {
   buildTestHubSummary,
   getConceptTestProgressState,
   getPackTestProgressState,
@@ -335,6 +340,28 @@ function getEntryReviewHref(
   return entry.reviewHref;
 }
 
+function TestHubVisualLink({
+  href,
+  titleId,
+  kind = "test",
+  tone,
+}: {
+  href: string;
+  titleId: string;
+  kind?: LearningVisualKind;
+  tone: LearningVisualTone;
+}) {
+  return (
+    <Link
+      href={href}
+      aria-describedby={titleId}
+      className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+    >
+      <LearningVisual kind={kind} tone={tone} compact className="h-24" />
+    </Link>
+  );
+}
+
 function getEntryResumeMatch(
   entry: TestHubSuggestion["entry"] | GuidedTestTrackStep["entry"],
   matches: {
@@ -591,13 +618,15 @@ function ConceptTestCard({
         </span>
       </div>
 
+      <TestHubVisualLink href={entry.testHref} titleId={titleId} tone="teal" />
+
       <div className="space-y-2">
         <p className="lab-label">{entry.displaySubject}</p>
         <h3 id={titleId} className="text-lg font-semibold text-ink-950">{entry.displayTitle}</h3>
         {entry.displayShortTitle !== entry.displayTitle ? (
           <p className="text-sm font-semibold text-ink-500">{entry.displayShortTitle}</p>
         ) : null}
-        <p className="text-sm leading-6 text-ink-700 sm:line-clamp-2">{entry.displaySummary}</p>
+        <p className="line-clamp-2 text-sm leading-6 text-ink-700">{entry.displaySummary}</p>
       </div>
 
       <div className="rounded-[18px] border border-line bg-paper-strong px-3 py-2">
@@ -697,10 +726,12 @@ function TopicTestCard({
         </span>
       </div>
 
+      <TestHubVisualLink href={entry.testHref} titleId={titleId} tone="sky" />
+
       <div className="space-y-2">
         <p className="lab-label">{entry.displaySubject}</p>
         <h3 id={titleId} className="text-lg font-semibold text-ink-950">{entry.displayTitle}</h3>
-        <p className="text-sm leading-6 text-ink-700 sm:line-clamp-2">{entry.displaySummary}</p>
+        <p className="line-clamp-2 text-sm leading-6 text-ink-700">{entry.displaySummary}</p>
       </div>
 
       <div className="rounded-[18px] border border-line bg-paper-strong px-3 py-2">
@@ -800,10 +831,12 @@ function PackTestCard({
         </span>
       </div>
 
+      <TestHubVisualLink href={entry.testHref} titleId={titleId} tone="amber" />
+
       <div className="space-y-2">
         <p className="lab-label">{entry.displaySubject}</p>
         <h3 id={titleId} className="text-lg font-semibold text-ink-950">{entry.displayTitle}</h3>
-        <p className="text-sm leading-6 text-ink-700 sm:line-clamp-2">{entry.displaySummary}</p>
+        <p className="line-clamp-2 text-sm leading-6 text-ink-700">{entry.displaySummary}</p>
         <p className="text-sm leading-6 text-ink-600 sm:line-clamp-1">{entry.displayTopicList}</p>
       </div>
 
@@ -900,10 +933,16 @@ function SuggestedTestCard({
         </span>
       </div>
 
+      <TestHubVisualLink
+        href={getEntryTestHref(suggestion.entry)}
+        titleId={titleId}
+        tone="coral"
+      />
+
       <div className="space-y-2">
         <p className="lab-label">{displaySubject}</p>
         <h3 id={titleId} className="text-lg font-semibold text-ink-950">{displayTitle}</h3>
-        <p className="text-sm leading-6 text-ink-700 sm:line-clamp-2">{displaySummary}</p>
+        <p className="line-clamp-2 text-sm leading-6 text-ink-700">{displaySummary}</p>
       </div>
 
       <div className="rounded-[18px] border border-line bg-paper-strong px-3 py-2">
@@ -979,7 +1018,16 @@ function QuickStartPanel({
         className="rounded-[22px] border border-teal-500/20 bg-teal-500/8 p-3.5 shadow-sm sm:p-4"
         aria-labelledby="test-hub-quick-start-title"
       >
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="grid gap-3 sm:grid-cols-[7rem_minmax(0,1fr)_auto] sm:items-center">
+          {suggestion ? (
+            <TestHubVisualLink
+              href={getEntryTestHref(suggestion.entry)}
+              titleId="test-hub-quick-start-title"
+              tone="teal"
+            />
+          ) : (
+            <LearningVisual kind="test" tone="teal" compact className="h-24" />
+          )}
           <div className="space-y-1.5">
             <p className="lab-label">{t("quickStart.eyebrow")}</p>
             <h2 id="test-hub-quick-start-title" className="text-xl font-semibold text-ink-950 sm:text-2xl">
@@ -1042,7 +1090,12 @@ function QuickStartPanel({
       className="rounded-[22px] border border-teal-500/20 bg-teal-500/8 p-3.5 shadow-sm sm:p-4"
       aria-labelledby="test-hub-quick-start-title"
     >
-      <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+      <div className="grid gap-3 lg:grid-cols-[7rem_minmax(0,1fr)_auto] lg:items-center">
+        <TestHubVisualLink
+          href={getEntryTestHref(suggestion.entry)}
+          titleId="test-hub-quick-start-title"
+          tone="teal"
+        />
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2">
             <span className="lab-label">{t("quickStart.eyebrow")}</span>
@@ -1064,7 +1117,7 @@ function QuickStartPanel({
               {displayState === "resume" ? t("quickStart.resumeTitle") : t("quickStart.title")}
             </h2>
             <h3 className="text-lg font-semibold text-ink-950">{displayTitle}</h3>
-            <p className="max-w-3xl text-sm leading-6 text-ink-700 sm:line-clamp-2">{displaySummary}</p>
+            <p className="max-w-3xl line-clamp-2 text-sm leading-6 text-ink-700">{displaySummary}</p>
           </div>
           <p className="hidden max-w-3xl text-sm leading-6 text-ink-700 sm:block">
             {allStarterSuggestions
@@ -1172,12 +1225,19 @@ function GuidedTrackCard({
         </span>
       </div>
 
+      <TestHubVisualLink
+        href={currentStepHref}
+        titleId={titleId}
+        kind="guided"
+        tone="sky"
+      />
+
       <div className="space-y-2">
         <p className="lab-label">{getSubjectDisplayTitleFromValue(track.subject, locale)}</p>
         <h3 id={titleId} className="text-lg font-semibold text-ink-950">
           {t("guidedTracks.trackTitle", { topic: getTopicDisplayTitle(getTopicDiscoverySummaryBySlug(track.topicSlug), locale) })}
         </h3>
-        <p className="text-sm leading-6 text-ink-700 sm:line-clamp-2">
+        <p className="line-clamp-2 text-sm leading-6 text-ink-700">
           {t("guidedTracks.trackDescription", {
             conceptCount: track.conceptCount,
             hasPack: track.packStep ? t("guidedTracks.withPack") : t("guidedTracks.withoutPack"),
@@ -1703,11 +1763,22 @@ export function TestHubPage({
             }}
           />
         ) : fallbackStartEntry ? (
-          <section className="rounded-[22px] border border-teal-500/20 bg-teal-500/8 p-3.5 shadow-sm sm:p-4">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <section
+            className="rounded-[22px] border border-teal-500/20 bg-teal-500/8 p-3.5 shadow-sm sm:p-4"
+            aria-labelledby="test-hub-fallback-start-title"
+          >
+            <div className="grid gap-3 sm:grid-cols-[7rem_minmax(0,1fr)_auto] sm:items-center">
+              <TestHubVisualLink
+                href={fallbackStartEntry.testHref}
+                titleId="test-hub-fallback-start-title"
+                tone="teal"
+              />
               <div className="space-y-1.5">
                 <p className="lab-label">{t("quickStart.eyebrow")}</p>
-                <h2 className="text-xl font-semibold text-ink-950 sm:text-2xl">
+                <h2
+                  id="test-hub-fallback-start-title"
+                  className="text-xl font-semibold text-ink-950 sm:text-2xl"
+                >
                   {t("quickStart.fallbackTitle")}
                 </h2>
                 <p className="max-w-2xl text-sm leading-6 text-ink-700">

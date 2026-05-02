@@ -63,7 +63,7 @@
       "search": "搜尋",
       "challenges": "挑戰",
       "tests": "測驗",
-      "explore": "探索",
+      "explore": "模擬",
       "tools": "工具",
       "circuitBuilder": "電路工房",
       "guided": "引導",
@@ -80,7 +80,7 @@
       "search": "直接跳到你已知道的概念、主題或路線。",
       "challenges": "當你想先拿到一個明確任務時，就從具體題目開始。",
       "tests": "用主題與概念測驗檢查自己目前掌握了多少。",
-      "explore": "按學科、主題或路徑瀏覽完整概念庫。",
+      "explore": "按學科、主題或路徑打開視覺化概念實驗室。",
       "tools": "打開計算器、建構器與其他學習工具。",
       "guided": "跟著短的引導路徑與策展合集前進。"
     },
@@ -880,6 +880,10 @@
       "startLearning": "開始概念",
       "keyTakeawayLabel": "關鍵重點",
       "lessonFlowLabel": "學習流程",
+      "lessonPreviewDisclosureLabel": "預覽學習流程",
+      "lessonPreviewDisclosureDescription": "想在使用實驗台前先看完整步驟時，可以打開這裡。",
+      "contextDisclosureLabel": "顯示為甚麼重要",
+      "contextDisclosureDescription": "保留額外脈絡，但不讓它排在第一次操作之前。",
       "lessonStepCountLabel": "{count} 個步驟",
       "currentStepLabel": "目前步驟",
       "upcomingStepLabel": "下一個步驟",
@@ -973,7 +977,7 @@
       },
       "prerequisitesLabel": "先修概念",
       "noPrerequisites": "沒有先修概念",
-      "simulationPreviewLabel": "模擬預覽",
+      "simulationPreviewLabel": "先試這個",
       "morePracticeOptionsLabel": "更多練習選項",
       "moreReadNextOptionsLabel": "更多延伸閱讀",
       "showMoreOptionsLabel": "顯示選項",
@@ -1132,15 +1136,40 @@
     },
     "hero": {
       "eyebrow": "Open Model Lab",
-      "title": "先從一個即時模型開始，再透過改動去理解它。",
-      "description": "打開一個模擬，把圖表與控制項保持在視野內，只在真的有幫助時才跟進下一個想法。",
+      "title": "透過改動即時模擬來學科學。",
+      "description": "打開一個可視化模型，移動一個控制項，再把場景、圖表與解釋的變化連起來。",
       "actionsAriaLabel": "首頁主要操作",
       "browseAction": "瀏覽概念庫",
-      "supportingNote": "開始學習會先替你挑第一步；當你想自己掌握方向時，瀏覽與搜尋也會留在附近。"
+      "practiceAction": "練習測驗",
+      "toolsAction": "試用工具",
+      "supportingNote": "開始學習會先替你挑第一步；當你想自己掌握方向時，瀏覽與搜尋也會留在附近。",
+      "entryCardsAriaLabel": "開始學習的方式",
+      "entryCards": {
+        "simulations": {
+          "eyebrow": "模擬",
+          "title": "改動即時模型",
+          "description": "打開有控制項、圖表與可視化讀數的概念實驗台。"
+        },
+        "guided": {
+          "eyebrow": "引導",
+          "title": "跟著短路徑前進",
+          "description": "想由系統安排次序時，使用入門路徑與引導式合集。"
+        },
+        "tests": {
+          "eyebrow": "練習",
+          "title": "檢查是否掌握",
+          "description": "完成探索後，用概念、主題與測驗包檢查理解。"
+        },
+        "tools": {
+          "eyebrow": "工具",
+          "title": "使用專門工作區",
+          "description": "為特定任務打開建構器、心智圖與其他學習工具。"
+        }
+      }
     },
     "liveBench": {
       "eyebrow": "即時實驗台",
-      "description": "把實驗台放在最前面，下一步就會來自模型本身，而不是一堆路線選項。"
+      "description": "這個預覽展示核心模式：改動一個變數，再一起讀出運動與圖表。"
     },
     "resume": {
       "eyebrow": "接續上次的位置",

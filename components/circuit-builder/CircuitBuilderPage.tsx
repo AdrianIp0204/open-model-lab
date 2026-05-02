@@ -19,6 +19,7 @@ import {
   saveAccountCircuitSave,
 } from "@/lib/circuit-builder/account-saves-client";
 import { DisclosurePanel } from "@/components/layout/DisclosurePanel";
+import { LearningVisual } from "@/components/visuals/LearningVisual";
 import {
   CIRCUIT_CANVAS_HEIGHT,
   CIRCUIT_CANVAS_WIDTH,
@@ -2396,20 +2397,57 @@ export function CircuitBuilderPage() {
       </div>
       </DisclosurePanel>
   );
+  const presetStrip = (
+    <div className="page-band p-3" data-testid="circuit-builder-preset-strip">
+      <div className="space-y-2.5">
+        <div className="space-y-1.5">
+          <p className="lab-label">Suggested starting points</p>
+          <div className="flex flex-wrap gap-2">
+            {circuitBuilderPresets.map((preset) => (
+              <button
+                key={preset.id}
+                type="button"
+                className="rounded-full border border-line bg-paper px-3.5 py-2 text-sm font-semibold text-ink-950"
+                onClick={() => loadPresetCircuit(preset)}
+              >
+                {preset.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <section
+      id="circuit-builder-workspace"
       className="space-y-4 sm:space-y-5"
       data-circuit-builder-ready={hasHydrated ? "" : undefined}
     >
-      <div className="motion-enter motion-enter-tight space-y-1.5">
-        <p className="lab-label">Circuit Builder</p>
-        <h1 className="max-w-4xl text-[1.65rem] font-semibold leading-tight text-ink-950 sm:text-[1.95rem]">
-          Build a live circuit and explain what it is doing.
-        </h1>
-        <p className="max-w-3xl text-sm leading-6 text-ink-700 sm:text-[0.95rem]">
-          Free-build on the canvas, inspect live values, and keep the builder bench in view while you work through bounded DC assumptions.
-        </p>
+      <div className="motion-enter motion-enter-tight grid gap-4 page-band p-4 sm:p-5 lg:grid-cols-[minmax(0,1fr)_14rem] lg:items-center">
+        <div className="space-y-1.5">
+          <p className="lab-label">Circuit Builder</p>
+          <h1 className="max-w-4xl text-[1.65rem] font-semibold leading-tight text-ink-950 sm:text-[1.95rem]">
+            Build a live circuit and explain what it is doing.
+          </h1>
+          <p className="max-w-3xl text-sm leading-6 text-ink-700 sm:text-[0.95rem]">
+            Free-build on the canvas, inspect live values, and keep the builder bench in view while you work through bounded DC assumptions.
+          </p>
+        </div>
+        <a
+          href="#circuit-builder-workspace"
+          aria-label="Jump to circuit workspace"
+          className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+        >
+          <LearningVisual
+            kind="circuit"
+            motif="circuit"
+            tone="sky"
+            compact
+            className="h-28"
+          />
+        </a>
       </div>
 
       {draftRecoveryState === "pending" && pendingDraft ? (
@@ -2451,6 +2489,8 @@ export function CircuitBuilderPage() {
           </div>
         </section>
       ) : null}
+
+      {presetStrip}
 
       <div
         className={[
@@ -2645,22 +2685,7 @@ export function CircuitBuilderPage() {
       </div>
 
       <div className="page-band p-3">
-        <div className="flex flex-col gap-2.5 xl:flex-row xl:items-start xl:justify-between">
-          <div className="space-y-1.5">
-            <p className="lab-label">Suggested starting points</p>
-            <div className="flex flex-wrap gap-2">
-              {circuitBuilderPresets.map((preset) => (
-                <button
-                  key={preset.id}
-                  type="button"
-                  className="rounded-full border border-line bg-paper px-3.5 py-2 text-sm font-semibold text-ink-950"
-                  onClick={() => loadPresetCircuit(preset)}
-                >
-                  {preset.label}
-                </button>
-              ))}
-            </div>
-          </div>
+        <div className="flex flex-col gap-2.5 xl:flex-row xl:items-start xl:justify-end">
           <div className="space-y-2 xl:max-w-[54rem] xl:text-right">
             <p className="lab-label">Status and tools</p>
             <div

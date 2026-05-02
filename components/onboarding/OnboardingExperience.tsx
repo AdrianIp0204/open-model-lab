@@ -179,6 +179,7 @@ export function OnboardingExperience() {
     defaultOnboardingPreferences,
   );
   const [promptOpen, setPromptOpen] = useState(false);
+  const [promptPathname, setPromptPathname] = useState<string | null>(null);
   const [helpOpen, setHelpOpen] = useState(false);
   const [tourSteps, setTourSteps] = useState<OnboardingStepDefinition[]>([]);
   const [tourStepIndex, setTourStepIndex] = useState(0);
@@ -283,6 +284,7 @@ export function OnboardingExperience() {
 
     const timer = window.setTimeout(() => {
       if (!hasBlockingDialog()) {
+        setPromptPathname(pathname ?? null);
         setPromptOpen(true);
       }
     }, AUTO_PROMPT_DELAY_MS);
@@ -408,23 +410,24 @@ export function OnboardingExperience() {
 
   return (
     <>
-      {promptOpen ? (
+      {promptOpen &&
+      promptPathname === (pathname ?? null) &&
+      !shouldSuppressAutomaticOnboarding(pathname) ? (
         <section
           role="dialog"
           aria-modal="false"
           aria-labelledby={promptTitleId}
           aria-live="polite"
-          className="fixed left-4 right-4 z-[45] lab-panel p-4 sm:right-auto sm:w-[24rem] sm:p-5"
-          style={{ bottom: "max(1rem, env(safe-area-inset-bottom))" }}
+          className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-3 right-3 z-[45] max-w-[calc(100vw-1.5rem)] lab-panel p-3 shadow-surface sm:bottom-auto sm:left-auto sm:right-4 sm:top-[4.75rem] sm:w-[21rem] sm:p-4"
         >
-          <div className="space-y-2">
+          <div className="space-y-1.5 sm:space-y-2">
             <p className="lab-label">{t("prompt.label")}</p>
-            <h2 id={promptTitleId} className="text-lg font-semibold text-ink-950">
+            <h2 id={promptTitleId} className="text-base font-semibold text-ink-950 sm:text-lg">
               {t("prompt.title")}
             </h2>
-            <p className="text-sm leading-6 text-ink-700">{t("prompt.description")}</p>
+            <p className="hidden text-sm leading-6 text-ink-700 sm:block">{t("prompt.description")}</p>
           </div>
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="mt-3 flex flex-wrap gap-2">
             <button
               type="button"
               aria-label={t("prompt.actions.startAria")}

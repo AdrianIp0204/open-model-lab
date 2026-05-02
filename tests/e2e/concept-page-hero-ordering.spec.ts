@@ -29,26 +29,28 @@ test.describe("concept page v2 ordering", () => {
       const status = page.getByTestId("concept-page-status-surface");
       const startHere = page.getByTestId("concept-v2-start-here");
       const equationSnapshot = page.getByTestId("concept-v2-equation-snapshot");
+      const reference = page.getByTestId("concept-v2-reference");
       const guidedLab = page.getByTestId("concept-v2-guided-live-lab");
 
       await expect(title).toBeVisible();
       await expect(status).toHaveCount(0);
       await expect(startHere).toBeVisible();
-      await expect(equationSnapshot).toBeVisible();
+      await expect(equationSnapshot).toBeHidden();
+      await expect(reference).toBeVisible();
       await expect(guidedLab).toBeVisible();
 
-      const [startHereBox, equationBox, guidedLabBox] = await Promise.all([
+      const [startHereBox, guidedLabBox, referenceBox] = await Promise.all([
         startHere.boundingBox(),
-        equationSnapshot.boundingBox(),
         guidedLab.boundingBox(),
+        reference.boundingBox(),
       ]);
 
       expect(startHereBox).not.toBeNull();
-      expect(equationBox).not.toBeNull();
       expect(guidedLabBox).not.toBeNull();
+      expect(referenceBox).not.toBeNull();
       expect(startHereBox!.y).toBeLessThan(guidedLabBox!.y);
-      expect(Math.abs(equationBox!.y - startHereBox!.y)).toBeLessThan(128);
-      expect(guidedLabBox!.y - Math.max(startHereBox!.y + startHereBox!.height, equationBox!.y + equationBox!.height)).toBeLessThan(72);
+      expect(guidedLabBox!.y - (startHereBox!.y + startHereBox!.height)).toBeLessThan(72);
+      expect(guidedLabBox!.y + guidedLabBox!.height).toBeLessThan(referenceBox!.y);
 
       browserGuard.assertNoActionableIssues();
     } finally {
@@ -124,7 +126,9 @@ test.describe("concept page v2 ordering", () => {
           const startHere = page.getByTestId("concept-v2-start-here");
           const prerequisites = page.getByTestId("concept-v2-prerequisites");
           const startButton = startHere.getByRole("button", { name: "Start concept" });
-          const lessonPreview = page.getByTestId("concept-v2-start-lesson-preview");
+          const lessonPreviewDisclosure = page.getByTestId(
+            "concept-v2-start-lesson-disclosure",
+          );
           const status = page.getByTestId("concept-page-status-surface");
           const equationSnapshot = page.getByTestId("concept-v2-equation-snapshot");
           const scene = page.getByTestId("simulation-shell-scene");
@@ -136,9 +140,9 @@ test.describe("concept page v2 ordering", () => {
           await expect(startHere).toBeVisible();
           await expect(prerequisites).toBeVisible();
           await expect(startButton).toBeVisible();
-          await expect(lessonPreview).toBeVisible();
+          await expect(lessonPreviewDisclosure).toBeVisible();
           await expect(status).toHaveCount(0);
-          await expect(equationSnapshot).toBeVisible();
+          await expect(equationSnapshot).toBeHidden();
           await expect(scene).toBeVisible();
           await expect(stepSlot).toBeVisible();
           await expect(wrapUp).toBeVisible();
@@ -149,8 +153,7 @@ test.describe("concept page v2 ordering", () => {
             startHereBox,
             prerequisitesBox,
             startButtonBox,
-            lessonPreviewBox,
-            equationBox,
+            lessonPreviewDisclosureBox,
             sceneBox,
             stepSlotBox,
             wrapUpBox,
@@ -160,8 +163,7 @@ test.describe("concept page v2 ordering", () => {
             startHere.boundingBox(),
             prerequisites.boundingBox(),
             startButton.boundingBox(),
-            lessonPreview.boundingBox(),
-            equationSnapshot.boundingBox(),
+            lessonPreviewDisclosure.boundingBox(),
             scene.boundingBox(),
             stepSlot.boundingBox(),
             wrapUp.boundingBox(),
@@ -172,8 +174,7 @@ test.describe("concept page v2 ordering", () => {
           expect(startHereBox).not.toBeNull();
           expect(prerequisitesBox).not.toBeNull();
           expect(startButtonBox).not.toBeNull();
-          expect(lessonPreviewBox).not.toBeNull();
-          expect(equationBox).not.toBeNull();
+          expect(lessonPreviewDisclosureBox).not.toBeNull();
           expect(sceneBox).not.toBeNull();
           expect(stepSlotBox).not.toBeNull();
           expect(wrapUpBox).not.toBeNull();
@@ -182,8 +183,8 @@ test.describe("concept page v2 ordering", () => {
           expect(titleBox!.y).toBeLessThan(startHereBox!.y);
           expect(startButtonBox!.y).toBeLessThan(prerequisitesBox!.y);
           expect(startButtonBox!.height).toBeGreaterThanOrEqual(44);
-          expect(startButtonBox!.y).toBeLessThan(lessonPreviewBox!.y);
-          expect(startButtonBox!.y).toBeLessThan(equationBox!.y);
+          expect(startButtonBox!.y).toBeLessThan(lessonPreviewDisclosureBox!.y);
+          expect(lessonPreviewDisclosureBox!.y).toBeLessThan(sceneBox!.y);
           expect(startHereBox!.y).toBeLessThan(sceneBox!.y);
           expect(sceneBox!.y).toBeLessThan(stepSlotBox!.y);
           expect(stepSlotBox!.y).toBeLessThan(wrapUpBox!.y);

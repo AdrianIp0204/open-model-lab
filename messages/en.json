@@ -67,7 +67,7 @@
       "search": "Search",
       "challenges": "Challenges",
       "tests": "Practice",
-      "explore": "Concepts",
+      "explore": "Simulations",
       "tools": "Tools",
       "circuitBuilder": "Builder",
       "guided": "Guided paths",
@@ -84,7 +84,7 @@
       "search": "Jump straight to a concept, topic, or route you already know.",
       "challenges": "Practice with concrete problems when you want a specific task.",
       "tests": "Check what you know with topic and concept tests.",
-      "explore": "Browse the full concept library by subject, topic, or track.",
+      "explore": "Open visual concept labs by subject, topic, or track.",
       "tools": "Open calculators, builders, and other study tools.",
       "guided": "Follow short guided paths and curated collections."
     },
@@ -884,6 +884,10 @@
       "startLearning": "Start concept",
       "keyTakeawayLabel": "Key takeaway",
       "lessonFlowLabel": "Lesson path",
+      "lessonPreviewDisclosureLabel": "Preview the lesson path",
+      "lessonPreviewDisclosureDescription": "Open this when you want the full step map before using the bench.",
+      "contextDisclosureLabel": "Show why it matters",
+      "contextDisclosureDescription": "Keep the extra context available without putting it before the first interaction.",
       "lessonStepCountLabel": "{count, plural, one {# step} other {# steps}}",
       "currentStepLabel": "Current step",
       "upcomingStepLabel": "Up next",
@@ -976,7 +980,7 @@
       },
       "prerequisitesLabel": "Prerequisites",
       "noPrerequisites": "No prerequisites",
-      "simulationPreviewLabel": "Simulation preview",
+      "simulationPreviewLabel": "Try this first",
       "morePracticeOptionsLabel": "More practice options",
       "moreReadNextOptionsLabel": "More read-next options",
       "showMoreOptionsLabel": "Show options",
@@ -1135,15 +1139,40 @@
     },
     "hero": {
       "eyebrow": "Open Model Lab",
-      "title": "Start from one live model, then learn by changing it.",
-      "description": "Open one simulation, keep the graph and controls in view, and follow the next idea only when it helps.",
+      "title": "Learn science by changing live simulations.",
+      "description": "Open a visual model, move one control, and connect what changes in the scene, graph, and explanation.",
       "actionsAriaLabel": "Primary home actions",
       "browseAction": "Browse library",
-      "supportingNote": "Start here chooses the first move. Browse and search stay close when you want more control."
+      "practiceAction": "Practice tests",
+      "toolsAction": "Try a tool",
+      "supportingNote": "Start here chooses the first move. Browse and search stay close when you want more control.",
+      "entryCardsAriaLabel": "Ways to start learning",
+      "entryCards": {
+        "simulations": {
+          "eyebrow": "Simulate",
+          "title": "Change a live model",
+          "description": "Open concept benches with controls, graphs, and visual readouts."
+        },
+        "guided": {
+          "eyebrow": "Guided",
+          "title": "Follow a short path",
+          "description": "Use starter tracks and guided collections when you want the order chosen."
+        },
+        "tests": {
+          "eyebrow": "Practice",
+          "title": "Check what sticks",
+          "description": "Try concept, topic, and pack tests after an exploration."
+        },
+        "tools": {
+          "eyebrow": "Tools",
+          "title": "Use focused workspaces",
+          "description": "Open builders, maps, and other study tools for a specific task."
+        }
+      }
     },
     "liveBench": {
       "eyebrow": "Live bench",
-      "description": "The live bench stays first so the next step comes from the model instead of from a pile of route choices."
+      "description": "This preview shows the core pattern: change one variable, then read the motion and graph together."
     },
     "resume": {
       "eyebrow": "Pick up where you left off",

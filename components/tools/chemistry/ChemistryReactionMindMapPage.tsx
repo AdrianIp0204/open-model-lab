@@ -19,6 +19,7 @@ import { ChemistryNodeDetails } from "./ChemistryNodeDetails";
 import { ChemistryEdgeDetails } from "./ChemistryEdgeDetails";
 import { ChemistryComparisonDetails } from "./ChemistryComparisonDetails";
 import { ChemistryRouteExplorerDetails } from "./ChemistryRouteExplorerDetails";
+import { LearningVisual } from "@/components/visuals/LearningVisual";
 
 type ChemistrySelection =
   | { kind: "node"; id: ChemistryNode["id"] }
@@ -197,7 +198,7 @@ export function ChemistryReactionMindMapPage() {
 
   return (
     <section className="space-y-6 sm:space-y-7">
-      <article className="page-band space-y-5 p-5 sm:p-6">
+      <article className="page-band grid gap-5 p-5 sm:p-6 lg:grid-cols-[minmax(0,1fr)_16rem] lg:items-center">
         <div className="space-y-3">
           <div className="flex flex-wrap items-center gap-2">
             <span className="lab-label">{t("hero.eyebrow")}</span>
@@ -215,9 +216,17 @@ export function ChemistryReactionMindMapPage() {
             {t("hero.description")}
           </p>
         </div>
+        <a
+          href="#chemistry-worksurface"
+          aria-label={t("graph.title")}
+          className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+        >
+          <LearningVisual kind="chemistry" motif="chemistry-reaction" tone="teal" />
+        </a>
       </article>
 
       <div
+        id="chemistry-worksurface"
         data-testid="chemistry-worksurface"
         data-chemistry-layout="split-panel"
         className="grid gap-4 min-[1100px]:grid-cols-[minmax(0,1fr)_25rem] min-[1100px]:items-stretch min-[1100px]:h-[min(100svh,70rem)] min-[1100px]:min-h-[58rem] min-[1100px]:overflow-hidden"

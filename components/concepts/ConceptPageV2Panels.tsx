@@ -94,6 +94,10 @@ type ConceptPageV2Copy = {
   equationDisclosureLabel: string;
   startLearning: string;
   lessonFlowLabel: string;
+  lessonPreviewDisclosureLabel: string;
+  lessonPreviewDisclosureDescription: string;
+  contextDisclosureLabel: string;
+  contextDisclosureDescription: string;
   lessonStepCountLabel?: (values: { count: number }) => string;
   currentStepLabel: string;
   upcomingStepLabel: string;
@@ -706,6 +710,10 @@ export function ConceptPageV2StartHere({
     | "equationDisclosureLabel"
     | "keyTakeawayLabel"
     | "lessonFlowLabel"
+    | "lessonPreviewDisclosureLabel"
+    | "lessonPreviewDisclosureDescription"
+    | "contextDisclosureLabel"
+    | "contextDisclosureDescription"
     | "quickCheckLabel"
     | "startLearning"
     | "wrapUpLabel"
@@ -948,6 +956,80 @@ export function ConceptPageV2StartHere({
       ) : null}
     </dl>
   ) : null;
+  const compactLessonPreview = lessonSteps.length ? (
+    <ConceptPageV2Disclosure
+      testId="concept-v2-start-lesson-disclosure"
+      className="group rounded-[18px] border border-line/80 bg-white/86 px-3 py-2.5 shadow-sm"
+      summaryClassName="min-w-0 cursor-pointer list-none rounded-[14px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [&::-webkit-details-marker]:hidden"
+      summaryAriaLabel={copy.lessonPreviewDisclosureLabel}
+      contentClassName="mt-3 min-w-0"
+      summary={(
+        <div className="flex min-w-0 items-center justify-between gap-3">
+          <span className="min-w-0">
+            <span className="lab-label block min-w-0 break-words text-ink-700">
+              {copy.lessonFlowLabel}
+            </span>
+            <span className="mt-1 block min-w-0 break-words text-sm font-semibold leading-5 text-ink-950">
+              {copy.lessonPreviewDisclosureLabel}
+            </span>
+            <span className="sr-only">
+              {copy.lessonPreviewDisclosureDescription}
+            </span>
+          </span>
+          <span
+            aria-hidden="true"
+            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-line bg-paper-strong text-sm font-semibold text-ink-500 transition-transform group-open:rotate-180 motion-reduce:transition-none"
+          >
+            {"\u2193"}
+          </span>
+        </div>
+      )}
+    >
+      <ConceptPageV2LessonPreview
+        steps={lessonSteps}
+        label={copy.lessonFlowLabel}
+        quickCheckLabel={copy.quickCheckLabel}
+        firstStepLabel={copy.startHereLabel}
+        wrapUpLabel={copy.wrapUpLabel}
+        lessonCompleteLabel={copy.lessonCompleteLabel}
+        nextStepLabel={copy.nextStep}
+        lessonStepCountLabel={copy.lessonStepCountLabel}
+        compact
+      />
+    </ConceptPageV2Disclosure>
+  ) : null;
+  const compactContext = supportBlocks ? (
+    <ConceptPageV2Disclosure
+      testId="concept-v2-start-context-disclosure"
+      className="group rounded-[18px] border border-line/80 bg-white/78 px-3 py-2.5 shadow-sm"
+      summaryClassName="min-w-0 cursor-pointer list-none rounded-[14px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [&::-webkit-details-marker]:hidden"
+      summaryAriaLabel={copy.contextDisclosureLabel}
+      contentClassName="mt-3 min-w-0"
+      summary={(
+        <div className="flex min-w-0 items-center justify-between gap-3">
+          <span className="min-w-0">
+            <span className="lab-label block min-w-0 break-words text-ink-700">
+              {copy.whyItMattersLabel}
+            </span>
+            <span className="mt-1 block min-w-0 break-words text-sm font-semibold leading-5 text-ink-950">
+              {copy.contextDisclosureLabel}
+            </span>
+            <span className="sr-only">
+              {copy.contextDisclosureDescription}
+            </span>
+          </span>
+          <span
+            aria-hidden="true"
+            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-line bg-paper-strong text-sm font-semibold text-ink-500 transition-transform group-open:rotate-180 motion-reduce:transition-none"
+          >
+            {"\u2193"}
+          </span>
+        </div>
+      )}
+    >
+      {supportBlocks}
+    </ConceptPageV2Disclosure>
+  ) : null;
 
   if (compactLayout) {
     return (
@@ -955,7 +1037,7 @@ export function ConceptPageV2StartHere({
         data-testid="concept-v2-start-here"
         aria-labelledby={startHereHeadingId}
         aria-describedby={startHereDescriptionId}
-        className="rounded-[28px] border border-teal-500/18 bg-[linear-gradient(135deg,rgba(20,184,166,0.1)_0%,rgba(255,255,255,0.97)_48%,rgba(255,255,255,0.99)_100%)] px-4 py-4 shadow-sm ring-1 ring-white/70 sm:px-5"
+        className="rounded-[28px] border border-teal-500/18 bg-[linear-gradient(135deg,rgba(20,184,166,0.1)_0%,rgba(255,255,255,0.97)_48%,rgba(255,255,255,0.99)_100%)] px-4 py-3.5 shadow-sm ring-1 ring-white/70 sm:px-5"
       >
         <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(15rem,19rem)] lg:items-start">
           <div className="min-w-0 space-y-2">
@@ -980,20 +1062,12 @@ export function ConceptPageV2StartHere({
           </div>
         </div>
 
-        <div className="mt-4 space-y-3">
-          {simulationPreviewBlock}
-          <ConceptPageV2LessonPreview
-            steps={lessonSteps}
-            label={copy.lessonFlowLabel}
-            quickCheckLabel={copy.quickCheckLabel}
-            firstStepLabel={copy.startHereLabel}
-            wrapUpLabel={copy.wrapUpLabel}
-            lessonCompleteLabel={copy.lessonCompleteLabel}
-            nextStepLabel={copy.nextStep}
-            lessonStepCountLabel={copy.lessonStepCountLabel}
-            compact
-          />
-          {supportBlocks}
+        <div className="mt-2.5 grid gap-2.5 lg:grid-cols-2">
+          {simulationPreviewBlock ? (
+            <div className="min-w-0 lg:col-span-2">{simulationPreviewBlock}</div>
+          ) : null}
+          {compactLessonPreview}
+          {compactContext}
         </div>
       </section>
     );
@@ -1109,23 +1183,38 @@ export function ConceptPageV2LessonRail({
   useEffect(() => {
     const activeStepMapItem = activeStepMapItemRef.current;
 
-    if (
-      !activeStepMapItem ||
-      typeof window === "undefined" ||
-      typeof activeStepMapItem.scrollIntoView !== "function"
-    ) {
+    if (!activeStepMapItem || typeof window === "undefined") {
+      return;
+    }
+
+    const stepMap = activeStepMapItem.closest(
+      "[data-concept-v2-step-map-scroll]",
+    );
+
+    if (!(stepMap instanceof HTMLElement)) {
       return;
     }
 
     const prefersReducedMotion =
       typeof window.matchMedia === "function" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const itemLeft = activeStepMapItem.offsetLeft;
+    const itemRight = itemLeft + activeStepMapItem.offsetWidth;
+    const visibleLeft = stepMap.scrollLeft;
+    const visibleRight = visibleLeft + stepMap.clientWidth;
+    const targetLeft =
+      itemLeft < visibleLeft
+        ? itemLeft - 8
+        : itemRight > visibleRight
+          ? itemRight - stepMap.clientWidth + 8
+          : null;
 
-    activeStepMapItem.scrollIntoView({
-      block: "nearest",
-      inline: "nearest",
-      behavior: prefersReducedMotion ? "auto" : "smooth",
-    });
+    if (targetLeft !== null) {
+      stepMap.scrollTo({
+        left: Math.max(0, targetLeft),
+        behavior: prefersReducedMotion ? "auto" : "smooth",
+      });
+    }
   }, [activeStepId]);
 
   if (!steps.length) {
@@ -1453,6 +1542,7 @@ export function ConceptPageV2LessonRail({
         {steps.length > 1 ? (
           <ol
             data-testid="concept-v2-step-map"
+            data-concept-v2-step-map-scroll=""
             className="mt-3 flex snap-x scroll-px-1.5 gap-1.5 overflow-x-auto overscroll-x-contain pb-2 [scrollbar-width:thin]"
             aria-label={copy.lessonFlowLabel}
           >

@@ -184,27 +184,24 @@ describe("home page", () => {
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: /start from one live model, then learn by changing it/i,
+        name: /learn science by changing live simulations/i,
       }),
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        /open one simulation, keep the graph and controls in view, and follow the next idea only when it helps/i,
+        /open a visual model, move one control, and connect what changes in the scene, graph, and explanation/i,
       ),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/start here chooses the first move\. browse and search stay close when you want more control/i),
-    ).toBeInTheDocument();
-    expect(
       screen.getByText(
-        /the live bench stays first so the next step comes from the model instead of from a pile of route choices/i,
+        /this preview shows the core pattern: change one variable, then read the motion and graph together/i,
       ),
     ).toBeInTheDocument();
 
     const primaryActions = screen.getByRole("navigation", {
       name: /primary home actions/i,
     });
-    expect(within(primaryActions).getAllByRole("link")).toHaveLength(3);
+    expect(within(primaryActions).getAllByRole("link")).toHaveLength(4);
     expect(within(primaryActions).getByRole("link", { name: "Start here" })).toHaveAttribute(
       "href",
       "/start",
@@ -213,10 +210,28 @@ describe("home page", () => {
       "href",
       "/concepts",
     );
-    expect(within(primaryActions).getByRole("link", { name: "Search" })).toHaveAttribute(
+    expect(within(primaryActions).getByRole("link", { name: "Practice tests" })).toHaveAttribute(
       "href",
-      "/search",
+      "/tests",
     );
+    expect(within(primaryActions).getByRole("link", { name: "Try a tool" })).toHaveAttribute(
+      "href",
+      "/tools",
+    );
+
+    const entryCards = screen.getByRole("navigation", { name: "Ways to start learning" });
+    expect(within(entryCards).getAllByRole("link")).toHaveLength(4);
+    expect(screen.getByTestId("home-entry-card-simulations")).toHaveAttribute(
+      "href",
+      "/concepts",
+    );
+    expect(screen.getByTestId("home-entry-card-guided")).toHaveAttribute("href", "/guided");
+    expect(screen.getByTestId("home-entry-card-tests")).toHaveAttribute("href", "/tests");
+    expect(screen.getByTestId("home-entry-card-tools")).toHaveAttribute("href", "/tools");
+    expect(within(entryCards).getByText("Change a live model")).toBeInTheDocument();
+    expect(within(entryCards).getByText("Follow a short path")).toBeInTheDocument();
+    expect(within(entryCards).getByText("Check what sticks")).toBeInTheDocument();
+    expect(within(entryCards).getByText("Use focused workspaces")).toBeInTheDocument();
 
     expect(
       screen.getByRole("heading", {
@@ -250,7 +265,7 @@ describe("home page", () => {
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: /先從一個即時模型開始，再透過改動去理解它/i,
+        name: /透過改動即時模擬來學科學/,
       }),
     ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "開始學習" })).toHaveAttribute(
@@ -261,5 +276,18 @@ describe("home page", () => {
       "href",
       "/concepts",
     );
+    expect(screen.getByRole("link", { name: "練習測驗" })).toHaveAttribute(
+      "href",
+      "/tests",
+    );
+    expect(screen.getByRole("link", { name: "試用工具" })).toHaveAttribute(
+      "href",
+      "/tools",
+    );
+    const entryCards = screen.getByRole("navigation", { name: "開始學習的方式" });
+    expect(within(entryCards).getByText("改動即時模型")).toBeInTheDocument();
+    expect(within(entryCards).getByText("跟著短路徑前進")).toBeInTheDocument();
+    expect(within(entryCards).getByText("檢查是否掌握")).toBeInTheDocument();
+    expect(within(entryCards).getByText("使用專門工作區")).toBeInTheDocument();
   });
 });

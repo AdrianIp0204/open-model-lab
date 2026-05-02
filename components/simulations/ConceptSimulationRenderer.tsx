@@ -8186,20 +8186,30 @@ export function ConceptSimulationRenderer({
     moreToolsExpanded ||
     Boolean(highlightedOverlayIds.length || initialChallengeItemId) ||
     activeLocationHash === `#${conceptShareAnchorIds.challengeMode}`;
+  const controlsAnchorId = "concept-live-controls";
   const interactionRail = (
-    <section className="rounded-[22px] border border-line bg-white/55 px-3 py-3">
-      <div className="mb-2 border-b border-line/80 pb-2">
+    <section className="rounded-[22px] border border-line bg-white/55 px-3 py-2.5">
+      <div className="mb-1.5 border-b border-line/80 pb-1.5">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <p className="lab-label">{t("interactionRail.label")}</p>
-            <p className="mt-1 text-xs leading-5 text-ink-600">
+            <p className="mt-0.5 text-xs leading-5 text-ink-600">
               {t("interactionRail.description")}
             </p>
           </div>
-          {modeTabs}
+          <div className="flex flex-wrap items-center gap-2">
+            <a
+              href={`#${controlsAnchorId}`}
+              data-testid="simulation-shell-controls-link"
+              className="inline-flex min-h-9 items-center justify-center rounded-full border border-teal-500/25 bg-paper-strong px-3 py-1.5 text-xs font-semibold text-teal-800 transition hover:border-teal-500/45 hover:bg-white sm:hidden"
+            >
+              {t("controls.title")}
+            </a>
+            {modeTabs}
+          </div>
         </div>
       </div>
-      {exploreStarterGuide ? <div className="mb-3">{exploreStarterGuide}</div> : null}
+      {exploreStarterGuide ? <div className="mb-2">{exploreStarterGuide}</div> : null}
       {interactionRailPanel}
     </section>
   );
@@ -8237,10 +8247,13 @@ export function ConceptSimulationRenderer({
     />
   );
   const mergedAfterBench =
-    guidedStepSupport || afterBench ? (
+    guidedStepSupport || guidedStepCard || afterBench ? (
       <div className="grid gap-3">
         {guidedStepSupport ? (
           <div data-testid="concept-v2-step-support-slot">{guidedStepSupport}</div>
+        ) : null}
+        {guidedStepCard ? (
+          <div data-testid="concept-v2-step-card-slot">{guidedStepCard}</div>
         ) : null}
         {afterBench}
       </div>
@@ -8313,6 +8326,8 @@ export function ConceptSimulationRenderer({
         accessibilityDescription={`${simulationDescription} ${stateDescription}`}
         setupAnchorId={conceptShareAnchorIds.liveBench}
         setupAnchorLabel={t("setupAnchorLabel", { title: concept.title })}
+        controlsAnchorId={controlsAnchorId}
+        controlsAnchorLabel={t("controls.title")}
         transport={
           hasInteractiveTime ? (
             <TimeControlRail
@@ -8331,13 +8346,7 @@ export function ConceptSimulationRenderer({
             />
           ) : null
         }
-        benchHeader={
-          guidedStepCard ? (
-            <div data-testid="concept-v2-step-card-slot">
-              {guidedStepCard}
-            </div>
-          ) : null
-        }
+        benchHeader={null}
         notice={null}
         scene={runtime.renderScene({
           concept,

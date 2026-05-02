@@ -47,6 +47,10 @@ import { formatProgressMonthDay } from "@/components/progress/dateFormatting";
 import { ExpandedSubjectSpotlightGrid } from "@/components/concepts/ExpandedSubjectSpotlightGrid";
 import { DisclosurePanel } from "@/components/layout/DisclosurePanel";
 import { PageSection } from "@/components/layout/PageSection";
+import {
+  LearningVisual,
+  type LearningVisualKind,
+} from "@/components/visuals/LearningVisual";
 
 type StartLearningPageProps = {
   locale?: AppLocale;
@@ -297,6 +301,14 @@ function RecommendationCard({
     topicBySlug,
     trackBySlug,
   ]);
+  const visualKind: LearningVisualKind =
+    recommendation.kind === "concept"
+      ? "simulation"
+      : recommendation.kind === "topic"
+        ? "topic"
+        : recommendation.kind === "track"
+          ? "guided"
+          : "subject";
 
   return (
     <article
@@ -305,6 +317,18 @@ function RecommendationCard({
         getRecommendationPanelTone(emphasis, recommendation.accent),
       ].join(" ")}
     >
+      <Link
+        href={recommendation.href}
+        aria-label={display.actionLabel}
+        className="mb-4 block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+      >
+        <LearningVisual
+          kind={visualKind}
+          tone={recommendation.accent}
+          compact
+          className="h-24"
+        />
+      </Link>
       <div className="flex flex-wrap items-center gap-2">
         <span className="lab-label">
           {emphasis === "primary"

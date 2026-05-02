@@ -51,6 +51,7 @@ import {
 } from "@/lib/i18n/progress";
 import { StarterTrackRecommendationList } from "@/components/tracks/StarterTrackRecommendationList";
 import { ConceptLearningSurfaceTestCta } from "@/components/tests/ConceptLearningSurfaceTestCta";
+import { LearningVisual } from "@/components/visuals/LearningVisual";
 import { MasteryStateBadge } from "./MasteryStateBadge";
 import { ProgressStatusBadge } from "./ProgressStatusBadge";
 import { AccountAwareReviewRemediationList } from "./AccountAwareReviewRemediationList";
@@ -676,6 +677,20 @@ export function HomeContinueLearningSurface({
   const fallbackTrackHighlights = fallbackTrack
     ? getStarterTrackDisplayHighlights(fallbackTrack, locale)
     : [];
+  const primaryVisualHref = displayPrimaryConcept
+    ? `/concepts/${displayPrimaryConcept.slug}`
+    : quickStartConcept
+      ? `/concepts/${quickStartConcept.slug}`
+      : "/concepts";
+  const primaryVisualLabel = displayPrimaryConcept
+    ? t("actions.continueConcept")
+    : quickStartConcept
+      ? t("actions.startTitle", {
+          title:
+            getConceptDisplayShortTitle(quickStartConcept, locale) ??
+            getConceptDisplayTitle(quickStartConcept, locale),
+        })
+      : t("actions.startConcept");
 
   return (
     <section className={["space-y-5", className].filter(Boolean).join(" ")}>
@@ -701,7 +716,15 @@ export function HomeContinueLearningSurface({
       ) : null}
 
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1.14fr)_minmax(20rem,0.86fr)] xl:items-start">
-        <article className="lab-panel p-4 sm:p-5">
+        <article className="lab-panel grid gap-4 p-4 sm:p-5 md:grid-cols-[8rem_minmax(0,1fr)] md:items-start">
+          <Link
+            href={primaryVisualHref}
+            aria-label={primaryVisualLabel}
+            className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+          >
+            <LearningVisual kind="progress" tone="teal" compact className="h-28 md:h-full" />
+          </Link>
+          <div className="min-w-0">
           {displayPrimaryConcept ? (
             <>
               <div className="flex flex-wrap items-center gap-2">
@@ -830,6 +853,7 @@ export function HomeContinueLearningSurface({
               </div>
             </>
           )}
+          </div>
         </article>
 
         <div className="grid gap-4 xl:self-start">

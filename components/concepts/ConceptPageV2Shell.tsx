@@ -184,6 +184,10 @@ export function ConceptPageV2Shell({
       deeperReferenceNote: t("v2.deeperReferenceNote"),
       keyTakeawayLabel: t("v2.keyTakeawayLabel"),
       wrapUpTitle: t("v2.wrapUpTitle"),
+      lessonPreviewDisclosureLabel: t("v2.lessonPreviewDisclosureLabel"),
+      lessonPreviewDisclosureDescription: t("v2.lessonPreviewDisclosureDescription"),
+      contextDisclosureLabel: t("v2.contextDisclosureLabel"),
+      contextDisclosureDescription: t("v2.contextDisclosureDescription"),
       revealKinds: {
         control: t("v2.revealKinds.control"),
         graph: t("v2.revealKinds.graph"),
@@ -410,67 +414,48 @@ export function ConceptPageV2Shell({
     />
   ) : null;
 
+  const startHereContent = !hideStartHere ? (
+    <div data-testid="concept-v2-hero-start" className="min-w-0">
+      <ConceptPageV2StartHere
+        title={model.title}
+        intuition={model.intuition}
+        whyItMatters={model.whyItMatters}
+        estimatedTime={
+          model.estimatedMinutes
+            ? t("v2.estimatedMinutes", { count: model.estimatedMinutes })
+            : null
+        }
+        prerequisites={model.prerequisites}
+        simulationPreview={model.simulationPreview}
+        keyTakeaway={model.keyTakeaway}
+        equations={model.equationSnapshot}
+        equationSnapshotNote={model.equationSnapshotNote}
+        lessonSteps={model.steps}
+        copy={copy}
+        showTitle={!titleContextContent}
+        showEquationSnapshot={false}
+        onStartLearning={() => {
+          if (model.steps[0]) {
+            handleSelectStep(model.steps[0].id, { focusLab: true });
+          }
+        }}
+      />
+    </div>
+  ) : null;
+
   return (
-    <section data-testid="concept-page-v2-shell" className="mt-4 space-y-4 lg:mt-5">
-      {titleContextContent || statusContent || !hideStartHere ? (
-        <div className="page-band p-2.5 sm:p-4 lg:p-5">
+    <section data-testid="concept-page-v2-shell" className="mt-2.5 space-y-3 lg:mt-3">
+      {titleContextContent ? (
+        <div className="page-band p-2.5 sm:p-3 lg:p-3.5">
           <div
             data-testid="concept-v2-hero-grid"
-            className="grid gap-3 xl:grid-cols-[minmax(0,1fr)_minmax(18rem,22rem)] xl:items-start"
+            className="grid gap-3"
           >
-            <div data-testid="concept-v2-hero-main" className="min-w-0 space-y-2">
-              {titleContextContent ? (
-                <div data-testid="concept-v2-hero-title" className="min-w-0">
-                  <Fragment>{titleContextContent}</Fragment>
-                </div>
-              ) : null}
-              {!hideStartHere ? (
-                <div data-testid="concept-v2-hero-start" className="min-w-0">
-                  <ConceptPageV2StartHere
-                    title={model.title}
-                    intuition={model.intuition}
-                    whyItMatters={model.whyItMatters}
-                    estimatedTime={
-                      model.estimatedMinutes
-                        ? t("v2.estimatedMinutes", { count: model.estimatedMinutes })
-                        : null
-                    }
-                    prerequisites={model.prerequisites}
-                    simulationPreview={model.simulationPreview}
-                    keyTakeaway={model.keyTakeaway}
-                    equations={model.equationSnapshot}
-                    equationSnapshotNote={model.equationSnapshotNote}
-                    lessonSteps={model.steps}
-                    copy={copy}
-                    showTitle={!titleContextContent}
-                    showEquationSnapshot={false}
-                    onStartLearning={() => {
-                      if (model.steps[0]) {
-                        handleSelectStep(model.steps[0].id, { focusLab: true });
-                      }
-                    }}
-                  />
-                </div>
-              ) : null}
-            </div>
-            {statusContent || (!hideStartHere && model.equationSnapshot.length) ? (
-              <div data-testid="concept-v2-hero-rail" className="min-w-0 space-y-3">
-                {statusContent ? (
-                  <div data-testid="concept-v2-hero-status" className="min-w-0">
-                    <Fragment>{statusContent}</Fragment>
-                  </div>
-                ) : null}
-                {!hideStartHere && model.equationSnapshot.length ? (
-                  <ConceptPageV2EquationSnapshotCard
-                    key="equation-snapshot"
-                    equations={model.equationSnapshot}
-                    note={model.equationSnapshotNote}
-                    copy={copy}
-                    compact
-                  />
-                ) : null}
+            <div data-testid="concept-v2-hero-main" className="min-w-0">
+              <div data-testid="concept-v2-hero-title" className="min-w-0">
+                <Fragment>{titleContextContent}</Fragment>
               </div>
-            ) : null}
+            </div>
           </div>
         </div>
       ) : null}
@@ -493,6 +478,17 @@ export function ConceptPageV2Shell({
         </ConceptPagePhaseProvider>
       </section>
 
+      {startHereContent || statusContent ? (
+        <div data-testid="concept-v2-post-lab-context" className="grid gap-3">
+          {startHereContent}
+          {statusContent ? (
+            <div data-testid="concept-v2-hero-status" className="min-w-0">
+              <Fragment>{statusContent}</Fragment>
+            </div>
+          ) : null}
+        </div>
+      ) : null}
+
       <ConceptPageV2WrapUp wrapUp={model.wrapUp} copy={copy}>
         {model.wrapUpSections.length ? (
           <ConceptPageSections
@@ -504,7 +500,7 @@ export function ConceptPageV2Shell({
         ) : null}
       </ConceptPageV2WrapUp>
 
-      {model.referenceSections.length ? (
+      {model.referenceSections.length || model.equationSnapshot.length ? (
         <ConceptPageV2SecondarySection
           testId="concept-v2-reference"
           eyebrow={copy.referenceLabel}
@@ -513,12 +509,25 @@ export function ConceptPageV2Shell({
           note={copy.deeperReferenceNote}
           actionLabel={copy.referenceDisclosureLabel}
         >
-          <ConceptPageSections
-            concept={concept}
-            readNext={readNext}
-            sections={model.referenceSections}
-            workedExampleMode={workedExampleMode}
-          />
+          <div className="space-y-4">
+            {model.equationSnapshot.length ? (
+              <ConceptPageV2EquationSnapshotCard
+                key="reference-equation-snapshot"
+                equations={model.equationSnapshot}
+                note={model.equationSnapshotNote}
+                copy={copy}
+                compact
+              />
+            ) : null}
+            {model.referenceSections.length ? (
+              <ConceptPageSections
+                concept={concept}
+                readNext={readNext}
+                sections={model.referenceSections}
+                workedExampleMode={workedExampleMode}
+              />
+            ) : null}
+          </div>
         </ConceptPageV2SecondarySection>
       ) : null}
 

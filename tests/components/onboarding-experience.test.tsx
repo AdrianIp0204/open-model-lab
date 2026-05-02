@@ -47,7 +47,7 @@ describe("OnboardingExperience", () => {
 
   it("shows the first-time prompt and starts a non-blocking tour", async () => {
     vi.useFakeTimers();
-    globalThis.__TEST_PATHNAME__ = "/";
+    globalThis.__TEST_PATHNAME__ = "/search";
 
     render(<OnboardingExperience />);
     await showAutomaticPrompt();
@@ -66,7 +66,7 @@ describe("OnboardingExperience", () => {
 
   it("persists Skip for now so the automatic prompt does not repeat", async () => {
     vi.useFakeTimers();
-    globalThis.__TEST_PATHNAME__ = "/";
+    globalThis.__TEST_PATHNAME__ = "/search";
     const { rerender } = render(<OnboardingExperience />);
 
     await showAutomaticPrompt();
@@ -87,7 +87,7 @@ describe("OnboardingExperience", () => {
 
   it("suppresses automatic prompts after Don't show again but keeps manual help available", async () => {
     vi.useFakeTimers();
-    globalThis.__TEST_PATHNAME__ = "/";
+    globalThis.__TEST_PATHNAME__ = "/search";
 
     render(<OnboardingExperience />);
     await showAutomaticPrompt();
@@ -96,6 +96,23 @@ describe("OnboardingExperience", () => {
     expect(window.localStorage.getItem(ONBOARDING_PREFERENCES_STORAGE_KEY)).toContain(
       '"disabled":true',
     );
+
+    await openManualHelp();
+
+    expect(screen.getByRole("dialog", { name: /search and discovery/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /start quick tour/i })).toBeInTheDocument();
+  });
+
+  it("keeps the automatic prompt off the home page while manual help stays available", async () => {
+    vi.useFakeTimers();
+    globalThis.__TEST_PATHNAME__ = "/";
+
+    render(<OnboardingExperience />);
+    await showAutomaticPrompt();
+
+    expect(
+      screen.queryByRole("dialog", { name: /take a quick look around/i }),
+    ).not.toBeInTheDocument();
 
     await openManualHelp();
 
@@ -132,7 +149,7 @@ describe("OnboardingExperience", () => {
     cleanup();
     window.localStorage.clear();
 
-    globalThis.__TEST_PATHNAME__ = "/";
+    globalThis.__TEST_PATHNAME__ = "/search";
     render(<OnboardingExperience />);
     await showAutomaticPrompt();
 
