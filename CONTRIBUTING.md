@@ -31,7 +31,7 @@ Use the issue templates under `.github/ISSUE_TEMPLATE/` and the pull request che
 
 Do not open public issues for vulnerabilities, private account support, billing support, or user-data questions. Use `SECURITY.md` for suspected vulnerabilities and the live contact page for account or billing support.
 
-Before opening larger changes, verify that you are working in the public source repository. The repo identity guide lives in `docs/repository-identity.md`.
+Before opening larger changes, verify that you are working in `AdrianIp0204/open-model-lab`, the active public source of truth. The private `AdrianIp0204/OpenModelLab` repository is historical/archive-only and should not be used for new public-facing development. The repo identity guide lives in `docs/repository-identity.md`.
 
 ## Local Setup
 

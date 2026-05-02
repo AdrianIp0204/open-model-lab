@@ -10,7 +10,7 @@ It is not a turnkey production deployment package for cloning the official Open 
 
 Ordinary code, docs, content, test, accessibility, and localization contributions do not need production vendor setup. Anyone operating an independent fork must use their own name, branding, domains, vendor accounts, keys, legal policies, and deployment process. The Open Model Lab name, logo, marks, domains, and official presentation are reserved under [BRAND.md](./BRAND.md).
 
-See [docs/repository-identity.md](./docs/repository-identity.md) for the distinction between this public source repository and the private working/archive repository.
+This public repository is the active source of truth for future development. See [docs/repository-identity.md](./docs/repository-identity.md) for the distinction between this repository and the private historical/archive repository.
 
 This repo is no longer the earlier static prototype. The current codebase already includes:
 

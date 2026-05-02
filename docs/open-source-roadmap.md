@@ -1,11 +1,11 @@
 # Open-Source Roadmap
 
-Open Model Lab now has a clean public source repository at `AdrianIp0204/open-model-lab`. This roadmap records the preparation decisions and ongoing public-source maintenance boundaries. It does not change the product's billing and entitlement behavior.
+Open Model Lab now has a clean public source repository at `AdrianIp0204/open-model-lab`. That public repository is the active source of truth for future development. This roadmap records the preparation decisions and ongoing public-source maintenance boundaries. It does not change the product's billing and entitlement behavior.
 
 ## Current Status
 
-- The clean public source repository exists at `AdrianIp0204/open-model-lab`.
-- The private working/archive repository remains `AdrianIp0204/OpenModelLab` and must remain private unless the owner explicitly changes strategy later.
+- The clean public source repository exists at `AdrianIp0204/open-model-lab` and is the active development source of truth.
+- The private `AdrianIp0204/OpenModelLab` repository is retained only as historical/private archive context and must remain private unless the owner explicitly changes strategy later.
 - Final code, educational-content, and brand boundaries have been chosen and documented in `LICENSE`, `CONTENT_LICENSE.md`, and `BRAND.md`.
 - Initial contribution, security, and conduct documents are now present in `CONTRIBUTING.md`, `SECURITY.md`, and `CODE_OF_CONDUCT.md`.
 - GitHub issue templates, a pull request checklist, and triage guidance are now present in `.github/ISSUE_TEMPLATE/`, `.github/PULL_REQUEST_TEMPLATE.md`, and `docs/github-triage.md`.
@@ -39,6 +39,7 @@ Open Model Lab now has a clean public source repository at `AdrianIp0204/open-mo
 - Keep contribution docs, security reporting, and conduct expectations aligned with the actual maintainer process.
 - Keep GitHub labels synced from `.github/labels.yml` if label definitions change.
 - Preserve the clean public history posture; do not push old private branches, tags, or history into the public repository.
+- Do not base new public-facing work on stale branches from `AdrianIp0204/OpenModelLab`; branch from public `main`.
 - Review README claims so the public landing document matches what is implemented now.
 - Recheck generated files and ignored files so public artifacts are intentional.
 - Run CI, `pnpm public-release:final-check`, `pnpm public-release:history-audit`, and smoke checks before release-sensitive repository changes.
