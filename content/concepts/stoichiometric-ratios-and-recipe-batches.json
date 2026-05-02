@@ -628,21 +628,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The number of full batches can change because each batch now spends different packets."
+            "label": "Nothing changes because the supply bins did not move."
           },
           {
             "id": "b",
-            "label": "Nothing changes because the supply bins did not move."
+            "label": "The number of full batches can change because each batch now spends different packets."
           },
           {
             "id": "c",
             "label": "Only percent yield changes."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Changing the recipe changes what counts as one full batch, so the same supply bins can support a different output.",
         "selectedWrongExplanations": {
-          "b": "The supply bins matter together with the recipe card, not by themselves.",
+          "a": "The supply bins matter together with the recipe card, not by themselves.",
           "c": "Yield is separate from the recipe definition. The batch recipe changes first."
         },
         "showMeAction": {

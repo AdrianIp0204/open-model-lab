@@ -954,21 +954,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The larger sample can have more internal energy even though the temperature is the same."
+            "label": "They must have the same internal energy because temperature already measures all of the energy."
           },
           {
             "id": "b",
-            "label": "They must have the same internal energy because temperature already measures all of the energy."
+            "label": "The larger sample can have more internal energy even though the temperature is the same."
           },
           {
             "id": "c",
             "label": "The smaller sample must have more internal energy because its particles are less crowded."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Temperature follows the average per-particle motion. Internal energy totals still depend on how many particles and internal stores the whole sample contains.",
         "selectedWrongExplanations": {
-          "b": "That confuses temperature with total internal energy. Temperature is an average-scale measure here, not the full total.",
+          "a": "That confuses temperature with total internal energy. Temperature is an average-scale measure here, not the full total.",
           "c": "Crowding is not the key idea in this model. Amount and per-particle energy are the relevant pieces."
         },
         "showMeAction": {
@@ -994,22 +994,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The smaller sample, because the same input is shared across fewer particles."
-          },
-          {
-            "id": "b",
             "label": "Both samples, because identical heater power always means identical temperature rise."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "The larger sample, because it already contains more internal energy."
+          },
+          {
+            "id": "c",
+            "label": "The smaller sample, because the same input is shared across fewer particles."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Heater power sets the input rate, but temperature response depends on how many particles must share that input.",
         "selectedWrongExplanations": {
-          "b": "Equal heater power does not force equal temperature rise if the samples have different amounts of substance.",
-          "c": "More internal energy does not automatically mean faster temperature change. The larger amount actually spreads the same input more thinly."
+          "a": "Equal heater power does not force equal temperature rise if the samples have different amounts of substance.",
+          "b": "More internal energy does not automatically mean faster temperature change. The larger amount actually spreads the same input more thinly."
         },
         "showMeAction": {
           "label": "Show the rate scan",
@@ -1075,21 +1075,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The average kinetic energy per particle."
+            "label": "The total internal energy of the whole sample."
           },
           {
             "id": "b",
-            "label": "The total internal energy of the whole sample."
+            "label": "The average kinetic energy per particle."
           },
           {
             "id": "c",
             "label": "Only the heater power, with no connection to particle motion."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Temperature is tied to the average microscopic motion scale, not to the whole-sample energy total and not to the heater alone.",
         "selectedWrongExplanations": {
-          "b": "Total internal energy also depends on the amount of substance and the other internal store.",
+          "a": "Total internal energy also depends on the amount of substance and the other internal store.",
           "c": "Heater power changes the energy input rate, but temperature is read from the resulting particle motion scale."
         },
         "showMeAction": {
@@ -1115,22 +1115,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "Not always. During a shelf, the added energy can increase internal energy without an immediate temperature rise."
-          },
-          {
-            "id": "b",
             "label": "Yes. Any added energy automatically produces an immediate temperature increase no matter what internal changes are happening."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "No. Added energy can only change particle count, not temperature or internal energy."
+          },
+          {
+            "id": "c",
+            "label": "Not always. During a shelf, the added energy can increase internal energy without an immediate temperature rise."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "The shelf is the bounded reminder that energy input can feed other microscopic changes, so temperature is not forced to jump every instant.",
         "selectedWrongExplanations": {
-          "b": "That ignores the shelf behavior entirely. The point of the model is that temperature is not the only way added energy can appear.",
-          "c": "Particle count is a separate control. Added energy changes internal energy directly and can also change temperature when it goes into average motion."
+          "a": "That ignores the shelf behavior entirely. The point of the model is that temperature is not the only way added energy can appear.",
+          "b": "Particle count is a separate control. Added energy changes internal energy directly and can also change temperature when it goes into average motion."
         },
         "showMeAction": {
           "label": "Show shelf heating",

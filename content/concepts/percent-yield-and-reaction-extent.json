@@ -587,21 +587,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "It changes actual output relative to the same theoretical recipe run."
+            "label": "It rewrites the stoichiometric ratio for one batch."
           },
           {
             "id": "b",
-            "label": "It rewrites the stoichiometric ratio for one batch."
+            "label": "It changes actual output relative to the same theoretical recipe run."
           },
           {
             "id": "c",
             "label": "It guarantees both reactants are fully consumed no matter what."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Percent yield scales the actual output against the same theoretical recipe cap.",
         "selectedWrongExplanations": {
-          "b": "The recipe card stays the same. Yield changes the finished output, not the stoichiometric ratio.",
+          "a": "The recipe card stays the same. Yield changes the finished output, not the stoichiometric ratio.",
           "c": "Lower yield often leaves more reactant unused because fewer batches actually finish."
         },
         "showMeAction": {

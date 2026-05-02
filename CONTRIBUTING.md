@@ -1,10 +1,10 @@
 # Contributing To Open Model Lab
 
-Open Model Lab is preparing for a public open-source release. These guidelines describe the expected contribution path once public contribution is enabled. They do not change the current product behavior, billing model, entitlement values, or repository visibility.
+Open Model Lab is public source software. These guidelines describe the expected contribution path. They do not change the current product behavior, billing model, or entitlement values.
 
 ## Useful Contribution Scope
 
-After public release, contributions that are usually welcome include:
+Contributions that are usually welcome include:
 
 - bug fixes
 - accessibility fixes
@@ -27,7 +27,7 @@ Please open a discussion or issue before working on:
 
 ## Issue And Pull Request Intake
 
-After public release, use the issue templates under `.github/ISSUE_TEMPLATE/` and the pull request checklist at `.github/PULL_REQUEST_TEMPLATE.md`. Triage labels and maintainer routing guidance live in `docs/github-triage.md`, with label setup details in `docs/github-label-setup.md`.
+Use the issue templates under `.github/ISSUE_TEMPLATE/` and the pull request checklist at `.github/PULL_REQUEST_TEMPLATE.md`. Triage labels and maintainer routing guidance live in `docs/github-triage.md`, with label setup details in `docs/github-label-setup.md`.
 
 Do not open public issues for vulnerabilities, private account support, billing support, or user-data questions. Use `SECURITY.md` for suspected vulnerabilities and the live contact page for account or billing support.
 
@@ -77,6 +77,8 @@ pnpm i18n:check:zh-HK
 pnpm validate:content
 pnpm content:doctor
 ```
+
+Public PR validation does not require deployment secrets. The `Public Validation` workflow runs public-release hygiene, label-plan, lint, typecheck, and unit/component tests. The assessment browser workflow runs the same assessment coverage in smaller `journeys`, `resume-sync`, and `entry-recommendations` lanes so each status check stays suitable for branch protection.
 
 `pnpm build` is not a substitute for type checking in this repo. Use `pnpm typecheck` for TypeScript validation.
 

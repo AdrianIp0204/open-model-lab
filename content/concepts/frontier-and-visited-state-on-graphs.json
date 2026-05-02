@@ -43,7 +43,7 @@
   "sections": {
     "explanation": {
       "paragraphs": [
-        "On a graph with cycles, frontier and visited state answer different questions. The frontier says, \u201cWhich discovered nodes are still waiting to be expanded?\u201d The visited state says, \u201cWhich nodes have already had their neighbors checked?\u201d",
+        "On a graph with cycles, frontier and visited state answer different questions. The frontier says, “Which discovered nodes are still waiting to be expanded?” The visited state says, “Which nodes have already had their neighbors checked?”",
         "That separation turns a loop from a trap into a bookkeeping event. When an edge points back to a visited node, the search records a repeat skip instead of reopening that node, while the remaining frontier keeps the run moving forward."
       ]
     },
@@ -638,7 +638,11 @@
           }
         ],
         "correctChoiceId": "a",
-        "explanation": "That waiting-versus-finished distinction is what makes graph traversal work cleanly on graphs with cycles."
+        "explanation": "That waiting-versus-finished distinction is what makes graph traversal work cleanly on graphs with cycles.",
+        "selectedWrongExplanations": {
+          "b": "Frontier and visited are different stages of traversal bookkeeping.",
+          "c": "Visited nodes are already settled, not the only nodes still needing work."
+        }
       },
       {
         "id": "fvsg-qt-repeat-skip",
@@ -647,19 +651,23 @@
         "choices": [
           {
             "id": "a",
-            "label": "They stop the traversal from reopening the same looped nodes over and over."
+            "label": "They force the traversal to ignore adjacency completely."
           },
           {
             "id": "b",
-            "label": "They force the traversal to ignore adjacency completely."
+            "label": "They stop the traversal from reopening the same looped nodes over and over."
           },
           {
             "id": "c",
             "label": "They remove the need for a frontier."
           }
         ],
-        "correctChoiceId": "a",
-        "explanation": "Cycles naturally point backward, so repeat skips are what turn the graph into bounded work instead of endless reopening."
+        "correctChoiceId": "b",
+        "explanation": "Cycles naturally point backward, so repeat skips are what turn the graph into bounded work instead of endless reopening.",
+        "selectedWrongExplanations": {
+          "a": "Repeat skips use adjacency safely; they do not ignore it.",
+          "c": "The frontier still controls what is waiting to expand."
+        }
       },
       {
         "id": "fvsg-qt-frontier-not-finished",
@@ -668,22 +676,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "It has been discovered but not fully expanded yet."
-          },
-          {
-            "id": "b",
             "label": "It has already finished all of its graph work."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "It can never be revisited under any rule."
+          },
+          {
+            "id": "c",
+            "label": "It has been discovered but not fully expanded yet."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Frontier means waiting work: found already, but not yet used up as a full expansion.",
         "selectedWrongExplanations": {
-          "b": "Finished nodes belong to visited history, not the active frontier.",
-          "c": "The key point is waiting versus finished, not a blanket claim about every future rule."
+          "a": "Finished nodes belong to visited history, not the active frontier.",
+          "b": "The key point is waiting versus finished, not a blanket claim about every future rule."
         }
       },
       {
@@ -693,21 +701,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Because small cycle links can still reopen the same work over and over if visited state is ignored."
+            "label": "Because repeat skips only matter once the graph has hundreds of nodes."
           },
           {
             "id": "b",
-            "label": "Because repeat skips only matter once the graph has hundreds of nodes."
+            "label": "Because small cycle links can still reopen the same work over and over if visited state is ignored."
           },
           {
             "id": "c",
             "label": "Because repeat skips decide the graph drawing layout."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "The cycle problem is structural, not just about graph size.",
         "selectedWrongExplanations": {
-          "b": "Even a tiny cycle can cause endless reopening without the right bookkeeping.",
+          "a": "Even a tiny cycle can cause endless reopening without the right bookkeeping.",
           "c": "Repeat skips organize traversal work, not the drawing layout."
         }
       },
@@ -718,22 +726,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The current node is the one being expanded now, while the visited set records nodes that are already settled."
-          },
-          {
-            "id": "b",
             "label": "The current node is outside the visited set because it has never been discovered."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "The current node and visited set are just two names for the same thing."
+          },
+          {
+            "id": "c",
+            "label": "The current node is the one being expanded now, while the visited set records nodes that are already settled."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "The current node is one active member of the search, while visited records the broader settled history.",
         "selectedWrongExplanations": {
-          "b": "The current node is already discovered; it is being worked on right now.",
-          "c": "Visited is a larger bookkeeping set than the one current expansion node."
+          "a": "The current node is already discovered; it is being worked on right now.",
+          "b": "Visited is a larger bookkeeping set than the one current expansion node."
         }
       }
     ]

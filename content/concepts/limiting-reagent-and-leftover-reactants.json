@@ -629,21 +629,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Leftover reactant belongs to the excess side because the limiting side is spent first."
+            "label": "The limiting side should always have the largest leftover because it matters most."
           },
           {
             "id": "b",
-            "label": "The limiting side should always have the largest leftover because it matters most."
+            "label": "Leftover reactant belongs to the excess side because the limiting side is spent first."
           },
           {
             "id": "c",
             "label": "If anything is left over, then no reactant was actually limiting."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "The limiting reagent is used up by the last complete batch, so leftovers appear on the excess side.",
         "selectedWrongExplanations": {
-          "b": "The limiting side is the one that runs out first, so it cannot also be the side that keeps the largest leftover.",
+          "a": "The limiting side is the one that runs out first, so it cannot also be the side that keeps the largest leftover.",
           "c": "A limiting reagent can still exist while the excess side keeps packets left over after the run."
         },
         "showMeAction": {

@@ -569,6 +569,10 @@
             "coordinateGuides",
             "angleArc"
           ]
+        },
+        "selectedWrongExplanations": {
+          "b": "Radius alone does not distinguish quadrants with the same tangent ratio.",
+          "c": "A ratio needs sign or quadrant context to recover the intended angle."
         }
       },
       {
@@ -578,19 +582,23 @@
         "choices": [
           {
             "id": "a",
-            "label": "It should stay the same because the point remains on the same ray."
+            "label": "It should always move into a new quadrant."
           },
           {
             "id": "b",
-            "label": "It should always move into a new quadrant."
+            "label": "It should stay the same because the point remains on the same ray."
           },
           {
             "id": "c",
             "label": "It should double with the radius."
           }
         ],
-        "correctChoiceId": "a",
-        "explanation": "Scaling the point along one ray changes the coordinate sizes but not the direction."
+        "correctChoiceId": "b",
+        "explanation": "Scaling the point along one ray changes the coordinate sizes but not the direction.",
+        "selectedWrongExplanations": {
+          "a": "Changing radius at fixed angle keeps the point on the same ray.",
+          "c": "Angle does not scale with radius."
+        }
       }
     ]
   },

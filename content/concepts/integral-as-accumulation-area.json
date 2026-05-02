@@ -528,21 +528,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The source height is local, while the accumulated amount is a running total."
+            "label": "The source height and the accumulated amount always mean the same thing at one x-value."
           },
           {
             "id": "b",
-            "label": "The source height and the accumulated amount always mean the same thing at one x-value."
+            "label": "The source height is local, while the accumulated amount is a running total."
           },
           {
             "id": "c",
             "label": "The accumulated amount only matters once the source curve crosses the axis."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "That is the core distinction this concept is trying to make visible: height is local, while accumulation is total.",
         "selectedWrongExplanations": {
-          "b": "They can sometimes have similar numerical values, but they describe different quantities.",
+          "a": "They can sometimes have similar numerical values, but they describe different quantities.",
           "c": "Accumulation starts immediately. Crossing the axis only changes whether new area adds or subtracts."
         },
         "showMeAction": {
@@ -569,22 +569,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "It is decreasing because new signed area is negative."
-          },
-          {
-            "id": "b",
             "label": "It is automatically increasing because the interval is getting longer."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "It must freeze because the bound is past the positive region."
+          },
+          {
+            "id": "c",
+            "label": "It is decreasing because new signed area is negative."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Area below the axis counts negatively, so extending the bound through that region subtracts from the running total.",
         "selectedWrongExplanations": {
-          "b": "Longer interval length alone does not decide the sign of the change. The sign comes from the source height.",
-          "c": "The total keeps changing. It just changes downward instead of upward."
+          "a": "Longer interval length alone does not decide the sign of the change. The sign comes from the source height.",
+          "b": "The total keeps changing. It just changes downward instead of upward."
         },
         "showMeAction": {
           "label": "Show the negative region",

@@ -904,21 +904,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "It gets shorter because a larger photon energy means a shorter wavelength."
+            "label": "It gets longer because stronger transitions always move toward red."
           },
           {
             "id": "b",
-            "label": "It gets longer because stronger transitions always move toward red."
+            "label": "It gets shorter because a larger photon energy means a shorter wavelength."
           },
           {
             "id": "c",
             "label": "It stays fixed because wavelength depends only on the number of levels."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "From $\\lambda = hc / \\Delta E$, larger energy gaps correspond to shorter wavelengths.",
         "selectedWrongExplanations": {
-          "b": "Transition strength and line position are different ideas on this page.",
+          "a": "Transition strength and line position are different ideas on this page.",
           "c": "The line position depends on the actual gap size, not just on how many levels exist."
         },
         "showMeAction": {
@@ -949,22 +949,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "They use the same allowed wavelengths, but emission shows bright lines and absorption shows dark notches."
-          },
-          {
-            "id": "b",
             "label": "Absorption shifts every line to a longer wavelength because the atom climbs the ladder instead of falling."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Emission shows only visible lines, but absorption shows only ultraviolet lines."
+          },
+          {
+            "id": "c",
+            "label": "They use the same allowed wavelengths, but emission shows bright lines and absorption shows dark notches."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "The same level differences fix the wavelengths. Only the visual appearance of the spectrum changes.",
         "selectedWrongExplanations": {
-          "b": "Upward versus downward transitions do not change the magnitude of the energy gap.",
-          "c": "Either mode can include visible, ultraviolet, or infrared lines if the same allowed gaps place them there."
+          "a": "Upward versus downward transitions do not change the magnitude of the energy gap.",
+          "b": "Either mode can include visible, ultraviolet, or infrared lines if the same allowed gaps place them there."
         },
         "showMeAction": {
           "label": "Flip to absorption",

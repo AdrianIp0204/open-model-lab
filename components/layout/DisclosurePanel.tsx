@@ -9,6 +9,7 @@ type DisclosurePanelProps = {
   defaultOpen?: boolean;
   className?: string;
   bodyClassName?: string;
+  triggerTestId?: string;
 };
 
 export function DisclosurePanel({
@@ -20,11 +21,12 @@ export function DisclosurePanel({
   defaultOpen = false,
   className = "",
   bodyClassName = "",
+  triggerTestId,
 }: DisclosurePanelProps) {
   return (
     <details
       id={id}
-      open={defaultOpen}
+      {...(defaultOpen ? { open: true } : {})}
       className={[
         "group rounded-[28px] border border-line bg-paper-strong/96 p-5 shadow-surface sm:p-6",
         className,
@@ -32,7 +34,11 @@ export function DisclosurePanel({
         .join(" ")
         .trim()}
     >
-      <summary className="flex cursor-pointer list-none items-start justify-between gap-4 [&::-webkit-details-marker]:hidden">
+      <summary
+        data-disclosure-panel-trigger=""
+        data-testid={triggerTestId}
+        className="flex cursor-pointer list-none items-start justify-between gap-4 [&::-webkit-details-marker]:hidden"
+      >
         <div className="min-w-0 space-y-2">
           {eyebrow ? <p className="lab-label">{eyebrow}</p> : null}
           <p className="text-xl font-semibold text-ink-950 sm:text-2xl">{title}</p>

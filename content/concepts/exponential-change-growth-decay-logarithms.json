@@ -684,6 +684,10 @@
           "highlightedOverlayIds": [
             "pairedRate"
           ]
+        },
+        "selectedWrongExplanations": {
+          "b": "Raising the target changes whether or when the curve reaches that line, but it does not make a positive-rate curve decay.",
+          "c": "Lowering the start changes the height, not the sign of the rate that controls growth versus decay."
         }
       },
       {
@@ -693,18 +697,18 @@
         "choices": [
           {
             "id": "a",
-            "label": "The target is not reached for the current sign of k."
+            "label": "The target time must be negative, so the curve reaches it faster."
           },
           {
             "id": "b",
-            "label": "The target time must be negative, so the curve reaches it faster."
+            "label": "The target is not reached for the current sign of k."
           },
           {
             "id": "c",
             "label": "The target time stays equal to the half-life no matter where the target sits."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "A decay curve can only move downward from its positive start value, so a higher target sits on the wrong side of the graph for a nonnegative hit time.",
         "showMeAction": {
           "label": "Show the unreachable target",
@@ -722,6 +726,10 @@
             "targetMarker",
             "logGuide"
           ]
+        },
+        "selectedWrongExplanations": {
+          "a": "A negative algebraic time would point backward from the starting moment; it is not a faster future hit.",
+          "c": "Half-life describes a fixed multiplicative drop, not every target position."
         }
       },
       {
@@ -731,7 +739,7 @@
         "choices": [
           {
             "id": "a",
-            "label": "Because time sits in the exponent, so solving for it means undoing an exponential with a logarithm."
+            "label": "Because logarithms are only used to rename the initial value."
           },
           {
             "id": "b",
@@ -739,10 +747,10 @@
           },
           {
             "id": "c",
-            "label": "Because logarithms are only used to rename the initial value."
+            "label": "Because time sits in the exponent, so solving for it means undoing an exponential with a logarithm."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "The logarithm is the inverse step that unwraps the exponential when time is trapped in the exponent.",
         "showMeAction": {
           "label": "Show the log guide",
@@ -758,6 +766,10 @@
           "highlightedOverlayIds": [
             "logGuide"
           ]
+        },
+        "selectedWrongExplanations": {
+          "b": "Curvature alone does not create a logarithm; the logarithm appears because it undoes the exponential.",
+          "a": "The initial value stays in the ratio T / y_0; the logarithm is not just a renaming step."
         }
       },
       {
@@ -767,21 +779,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Doubling time belongs to growth cases, while half-life belongs to decay cases."
+            "label": "They are the same only because the target line is hidden."
           },
           {
             "id": "b",
-            "label": "They are the same only because the target line is hidden."
+            "label": "Doubling time belongs to growth cases, while half-life belongs to decay cases."
           },
           {
             "id": "c",
             "label": "They change the initial value instead of describing equal-time multiplicative change."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Both are equal-time multiplicative benchmarks, but one describes repeated doubling and the other repeated halving.",
         "selectedWrongExplanations": {
-          "b": "The target line does not decide whether the case is doubling or halving.",
+          "a": "The target line does not decide whether the case is doubling or halving.",
           "c": "The initial value can stay fixed while the benchmark still describes the time-based multiplicative change."
         }
       },
@@ -792,7 +804,7 @@
         "choices": [
           {
             "id": "a",
-            "label": "The target-to-start ratio, because the curve changes multiplicatively."
+            "label": "Only the graph color, because the inverse readout ignores the current curve."
           },
           {
             "id": "b",
@@ -800,14 +812,14 @@
           },
           {
             "id": "c",
-            "label": "Only the graph color, because the inverse readout ignores the current curve."
+            "label": "The target-to-start ratio, because the curve changes multiplicatively."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "The inverse-time question starts from how many times larger or smaller the target is than the start value.",
         "selectedWrongExplanations": {
           "b": "Exponential change is multiplicative, so the ratio matters more than a raw difference.",
-          "c": "The inverse readout is tied to the live curve and its current target ratio."
+          "a": "The inverse readout is tied to the live curve and its current target ratio."
         }
       }
     ]

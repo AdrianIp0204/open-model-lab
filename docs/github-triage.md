@@ -1,6 +1,6 @@
 # GitHub Triage Guide
 
-Open Model Lab is preparing for public contribution intake after repository visibility changes. This guide documents recommended issue labels and triage boundaries. It does not create labels automatically and does not change product behavior.
+Open Model Lab uses this guide for public issue and pull request triage. It documents recommended issue labels and triage boundaries. It does not create labels automatically and does not change product behavior.
 
 The label source of truth is `.github/labels.yml`. Setup instructions live in `docs/github-label-setup.md`.
 

@@ -205,10 +205,6 @@
 "id": "pyre-qt-yield-keeps-recipe",
 "prompt": "Which statement best describes what percent yield changes in this model?",
 "explanation": "Percent yield scales the actual output against the same theoretical batch cap.",
-"selectedWrongExplanations": {
-"b": "The recipe card stays the same. Yield changes the finished output, not the stoichiometric ratio.",
-"c": "Lower yield often leaves more reactant unused because fewer batches actually finish."
-},
 "showMeAction": {
 "label": "Compare 75% with 100%",
 "observationHint": "The theoretical marker stays the same while the actual tray moves when you change the yield slider."

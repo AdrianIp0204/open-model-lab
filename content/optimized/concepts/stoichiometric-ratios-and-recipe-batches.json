@@ -267,10 +267,6 @@
 }
 ],
 "explanation": "Changing the recipe changes what one full batch uses, so the maximum batch count can change even before you move the supplies.",
-"selectedWrongExplanations": {
-"b": "The supply bins matter together with the recipe card, not by themselves.",
-"c": "Percent yield is a separate idea. The batch recipe changes first."
-},
 "showMeAction": {
 "label": "Apply the 3:2 recipe",
 "observationHint": "The new recipe changes the batch cap story even before the supply bins change much."

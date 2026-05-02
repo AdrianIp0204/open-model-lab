@@ -867,21 +867,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "It gets shorter and crowds toward the Balmer limit."
+            "label": "It gets longer because the upper orbit is larger."
           },
           {
             "id": "b",
-            "label": "It gets longer because the upper orbit is larger."
+            "label": "It gets shorter and crowds toward the Balmer limit."
           },
           {
             "id": "c",
             "label": "It stays fixed because n_f did not change."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "For fixed n_f, higher n_i values give larger gaps that approach the series limit.",
         "selectedWrongExplanations": {
-          "b": "A larger starting radius does not mean a smaller transition gap here.",
+          "a": "A larger starting radius does not mean a smaller transition gap here.",
           "c": "The gap still changes when the upper level changes."
         },
         "showMeAction": {
@@ -907,22 +907,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "They use the same wavelength because they use the same energy-gap magnitude."
-          },
-          {
-            "id": "b",
             "label": "Excitation always needs a longer wavelength because the electron climbs upward."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Only emission belongs to named hydrogen series."
+          },
+          {
+            "id": "c",
+            "label": "They use the same wavelength because they use the same energy-gap magnitude."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "The level pair fixes one energy difference, so the matching photon wavelength is the same in either direction.",
         "selectedWrongExplanations": {
-          "b": "Arrow direction changes the sign of energy flow, not the size of the allowed gap.",
-          "c": "The same series labels still describe which lower level defines the family."
+          "a": "Arrow direction changes the sign of energy flow, not the size of the allowed gap.",
+          "b": "The same series labels still describe which lower level defines the family."
         },
         "showMeAction": {
           "label": "Flip to reverse excitation",

@@ -670,7 +670,11 @@
           }
         ],
         "correctChoiceId": "a",
-        "explanation": "The pH reading summarizes the current acid-base balance."
+        "explanation": "The pH reading summarizes the current acid-base balance.",
+        "selectedWrongExplanations": {
+          "b": "The strip color reports pH; it is not the underlying acid-base quantity by itself.",
+          "c": "Total liquid amount does not by itself determine acid/base character."
+        }
       },
       {
         "id": "abph-qt-water",
@@ -679,19 +683,23 @@
         "choices": [
           {
             "id": "a",
-            "label": "It softens both sides and can move the pH back toward neutral."
+            "label": "It always makes the mixture more acidic."
           },
           {
             "id": "b",
-            "label": "It always makes the mixture more acidic."
+            "label": "It softens both sides and can move the pH back toward neutral."
           },
           {
             "id": "c",
             "label": "It always makes the mixture more basic."
           }
         ],
-        "correctChoiceId": "a",
-        "explanation": "More water spreads the same acid and base influence through a larger volume."
+        "correctChoiceId": "b",
+        "explanation": "More water spreads the same acid and base influence through a larger volume.",
+        "selectedWrongExplanations": {
+          "a": "Adding water dilutes; it does not always push the mixture more acidic.",
+          "c": "Adding water dilutes; it does not always push the mixture more basic."
+        }
       }
     ]
   },

@@ -975,21 +975,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Load B, because the same series current crosses both loads and the larger resistance takes the larger drop."
+            "label": "Load A, because it is closer to the positive terminal."
           },
           {
             "id": "b",
-            "label": "Load A, because it is closer to the positive terminal."
+            "label": "Load B, because the same series current crosses both loads and the larger resistance takes the larger drop."
           },
           {
             "id": "c",
             "label": "They must split the battery evenly because there are two loads."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Equal series current makes voltage drop track resistance, so the 12 ohm load takes three times the drop of the 4 ohm load.",
         "selectedWrongExplanations": {
-          "b": "Order in the loop does not decide the drop. Current and resistance do.",
+          "a": "Order in the loop does not decide the drop. Current and resistance do.",
           "c": "Equal sharing only happens when the series resistances are equal."
         },
         "showMeAction": {
@@ -1017,22 +1017,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "Branch A, because the lower-resistance branch draws more current at the same branch voltage."
-          },
-          {
-            "id": "b",
             "label": "Branch B, because the higher resistance stores more charge and therefore pulls more current."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "They must be equal because both branches have the same battery voltage."
+          },
+          {
+            "id": "c",
+            "label": "Branch A, because the lower-resistance branch draws more current at the same branch voltage."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Equal branch voltage does not force equal branch current. Ohm's law says the lower-resistance branch draws the larger current.",
         "selectedWrongExplanations": {
-          "b": "Higher resistance limits current more strongly; it does not pull more current at the same voltage.",
-          "c": "Equal voltage only means equal push. Different resistances still make different currents."
+          "a": "Higher resistance limits current more strongly; it does not pull more current at the same voltage.",
+          "b": "Equal voltage only means equal push. Different resistances still make different currents."
         },
         "showMeAction": {
           "label": "Show unequal parallel pair",
@@ -1060,21 +1060,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Parallel, because two branches across the same battery lower the one-number load seen by the source."
+            "label": "Series, because the charge has fewer junctions to cross."
           },
           {
             "id": "b",
-            "label": "Series, because the charge has fewer junctions to cross."
+            "label": "Parallel, because two branches across the same battery lower the one-number load seen by the source."
           },
           {
             "id": "c",
             "label": "They are equal because both use the same two loads."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Series gives 12 ohm, but parallel gives 3 ohm for the same equal pair. The battery therefore drives a much larger total current in parallel.",
         "selectedWrongExplanations": {
-          "b": "Junction count is not the governing quantity here. The branch structure changes how the resistances combine.",
+          "a": "Junction count is not the governing quantity here. The branch structure changes how the resistances combine.",
           "c": "Using the same loads does not mean the source sees the same equivalent load."
         },
         "showMeAction": {
@@ -1099,22 +1099,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "That is only true in parallel. In series, both loads still get the same charge flow rate because the same loop current crosses both."
-          },
-          {
-            "id": "b",
             "label": "It is always true because dimmer means less charge everywhere."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "It is never true because charge counters should always match."
+          },
+          {
+            "id": "c",
+            "label": "That is only true in parallel. In series, both loads still get the same charge flow rate because the same loop current crosses both."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "In series, the same current crosses both loads, so equal time means equal charge passed even if the power and brightness differ. In parallel, different branch currents make the charge counters diverge.",
         "selectedWrongExplanations": {
-          "b": "Brightness follows power, not charge passed by itself. Series can have different power while keeping the same charge rate through both loads.",
-          "c": "Parallel branches can accumulate charge at different rates because their currents are different."
+          "a": "Brightness follows power, not charge passed by itself. Series can have different power while keeping the same charge rate through both loads.",
+          "b": "Parallel branches can accumulate charge at different rates because their currents are different."
         },
         "showMeAction": {
           "label": "Show time-based charge split",

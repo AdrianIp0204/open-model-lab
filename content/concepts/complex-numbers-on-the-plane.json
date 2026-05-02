@@ -833,7 +833,11 @@
           }
         ],
         "correctChoiceId": "a",
-        "explanation": "The whole point of the complex plane is that the algebra and geometry describe the same object."
+        "explanation": "The whole point of the complex plane is that the algebra and geometry describe the same object.",
+        "selectedWrongExplanations": {
+          "b": "The a and b parts place the complex number directly on the plane.",
+          "c": "The two components work together as one point/vector, not as unrelated values."
+        }
       },
       {
         "id": "cnp-qt-multiplication",
@@ -842,19 +846,23 @@
         "choices": [
           {
             "id": "a",
-            "label": "The product should rotate a lot without changing size very much."
+            "label": "The product should always become much longer."
           },
           {
             "id": "b",
-            "label": "The product should always become much longer."
+            "label": "The product should rotate a lot without changing size very much."
           },
           {
             "id": "c",
             "label": "Nothing important should happen."
           }
         ],
-        "correctChoiceId": "a",
-        "explanation": "A multiplier near the unit circle mostly changes direction, not size."
+        "correctChoiceId": "b",
+        "explanation": "A multiplier near the unit circle mostly changes direction, not size.",
+        "selectedWrongExplanations": {
+          "a": "A modulus near 1 does not greatly scale length.",
+          "c": "A large argument changes the direction of the product."
+        }
       }
     ]
   },

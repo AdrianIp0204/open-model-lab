@@ -42,9 +42,9 @@ This repo is no longer the earlier static prototype. The current codebase alread
 - Concept labs, challenges, pricing, account/auth, contact, and dev harness pages remain ad-free.
 - Feedback and contact go through `app/api/feedback/route.ts` and `lib/feedback-delivery.ts`, with direct delivery when configured and an honest public email fallback when not.
 
-## Public release preparation
+## Public repository notes
 
-The repository is preparing for a future public open-source release, but the owner has not changed repository visibility yet. Repo-facing preparation notes live in:
+This public repository starts from a clean public release history. Repo-facing preparation and maintenance notes live in:
 
 - [Open-source roadmap](./docs/open-source-roadmap.md)
 - [Monetization boundaries](./docs/monetization-boundaries.md)
@@ -66,9 +66,7 @@ The repository is preparing for a future public open-source release, but the own
 - Private vulnerability reporting guidance lives in [SECURITY.md](./SECURITY.md).
 - Contributor conduct expectations live in [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md).
 
-These docs prepare the repo for public release; they do not make the repository public by themselves.
-
-The current tree is being curated for a future clean orphan public branch. Private automation/operator internals, old private UX audit PDFs, real `wrangler.jsonc`, real `public/ads.txt`, and local translation-memory caches are excluded from the public snapshot.
+Private automation/operator internals, old private UX audit PDFs, real `wrangler.jsonc`, real `public/ads.txt`, and local translation-memory caches are excluded from this public tree.
 
 ## Tech stack
 

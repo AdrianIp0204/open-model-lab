@@ -223,3 +223,62 @@ export async function gotoAndExpectOk(page: Page, pathname: string) {
 
   return response;
 }
+
+export async function closeOpenDisclosurePanels(page: Page) {
+  for (let attempt = 0; attempt < 12; attempt += 1) {
+    const summary = page.locator("details[open] > summary").first();
+
+    if (!(await summary.isVisible().catch(() => false))) {
+      break;
+    }
+
+    await summary.click({ force: true });
+  }
+
+  await page.locator("details[open]").evaluateAll((elements) => {
+    for (const element of elements) {
+      (element as HTMLDetailsElement).open = false;
+    }
+  });
+}
+
+export async function openConceptProgressDisclosure(page: Page) {
+  const trigger = page.getByTestId("concept-progress-disclosure-trigger");
+  const disclosure = page.locator("details").filter({ has: trigger }).first();
+
+  await trigger.scrollIntoViewIfNeeded();
+  await expect(trigger).toBeVisible();
+
+  const isOpen = await disclosure.evaluate((element) =>
+    (element as HTMLDetailsElement).open,
+  );
+
+  if (!isOpen) {
+    await trigger.click();
+  }
+
+  await expect(disclosure).toHaveJSProperty("open", true);
+}
+
+export async function expandFullTestCatalogIfAvailable(page: Page) {
+  const button = page.getByTestId("test-hub-show-full-catalog").first();
+
+  await button.waitFor({ state: "visible", timeout: 2000 }).catch(() => undefined);
+
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    if (!(await button.isVisible().catch(() => false))) {
+      return;
+    }
+
+    await button
+      .evaluate((element: HTMLElement) => {
+        element.click();
+      })
+      .catch(async () => {
+        await button.click({ force: true });
+      });
+    await page.waitForTimeout(250);
+  }
+
+  await button.waitFor({ state: "hidden", timeout: 5000 }).catch(() => undefined);
+}

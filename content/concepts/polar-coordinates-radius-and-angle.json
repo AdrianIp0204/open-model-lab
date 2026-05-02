@@ -509,6 +509,10 @@
             "coordinateGuides",
             "angleArc"
           ]
+        },
+        "selectedWrongExplanations": {
+          "b": "Cartesian and polar coordinates describe the same point.",
+          "c": "Both x and y depend on both radius and angle through cosine and sine."
         }
       },
       {
@@ -518,19 +522,23 @@
         "choices": [
           {
             "id": "a",
-            "label": "The point should keep the same direction and quadrant."
+            "label": "The point should always move into a new quadrant."
           },
           {
             "id": "b",
-            "label": "The point should always move into a new quadrant."
+            "label": "The point should keep the same direction and quadrant."
           },
           {
             "id": "c",
             "label": "The x-coordinate should stay identical while only y changes."
           }
         ],
-        "correctChoiceId": "a",
-        "explanation": "Changing radius scales the point along the same ray, so theta and the quadrant stay fixed while the distance from the origin changes."
+        "correctChoiceId": "b",
+        "explanation": "Changing radius scales the point along the same ray, so theta and the quadrant stay fixed while the distance from the origin changes.",
+        "selectedWrongExplanations": {
+          "a": "Changing radius at fixed angle keeps the same ray and quadrant.",
+          "c": "Both coordinates generally scale when radius changes at fixed angle."
+        }
       }
     ]
   },

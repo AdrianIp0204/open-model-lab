@@ -892,21 +892,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The vertical velocity is zero there, but the horizontal velocity is still nonzero."
+            "label": "Both velocity components are zero because the projectile stops at the top."
           },
           {
             "id": "b",
-            "label": "Both velocity components are zero because the projectile stops at the top."
+            "label": "The vertical velocity is zero there, but the horizontal velocity is still nonzero."
           },
           {
             "id": "c",
             "label": "The horizontal velocity becomes largest only at the apex."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "At the apex, the projectile has finished moving upward for that instant, so the vertical component crosses zero. The horizontal component keeps going because gravity does not act sideways in this ideal model.",
         "selectedWrongExplanations": {
-          "b": "The projectile is not frozen at the top. Only the vertical component reaches zero there; the horizontal component keeps carrying it forward.",
+          "a": "The projectile is not frozen at the top. Only the vertical component reaches zero there; the horizontal component keeps carrying it forward.",
           "c": "The horizontal component stays steady throughout flight when drag is ignored. The apex is special because the vertical component changes sign there."
         },
         "showMeAction": {
@@ -933,22 +933,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "A steeper launch gains airtime, but it also gives up horizontal speed, so the range can shrink again."
-          },
-          {
-            "id": "b",
             "label": "A steeper launch always wins because height and range are the same thing."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Only gravity decides the range, so angle is mostly cosmetic."
+          },
+          {
+            "id": "c",
+            "label": "A steeper launch gains airtime, but it also gives up horizontal speed, so the range can shrink again."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Range comes from a tradeoff between horizontal speed and time in the air. Steeper launches raise the arc, but beyond a point they waste too much horizontal speed to keep increasing the landing distance.",
         "selectedWrongExplanations": {
-          "b": "Height and range are related but not identical. A shot can go much higher while actually landing closer if too little speed remains in the horizontal direction.",
-          "c": "Gravity matters, but the launch angle decides how the initial speed is split between horizontal and vertical motion, which directly affects the range."
+          "a": "Height and range are related but not identical. A shot can go much higher while actually landing closer if too little speed remains in the horizontal direction.",
+          "b": "Gravity matters, but the launch angle decides how the initial speed is split between horizontal and vertical motion, which directly affects the range."
         },
         "showMeAction": {
           "label": "Try an overly steep case",
@@ -975,21 +975,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The horizontal motion keeps the same straight-line trend, while the vertical motion bends less sharply and lasts longer."
+            "label": "The horizontal velocity starts increasing because lower gravity pulls less downward."
           },
           {
             "id": "b",
-            "label": "The horizontal velocity starts increasing because lower gravity pulls less downward."
+            "label": "The horizontal motion keeps the same straight-line trend, while the vertical motion bends less sharply and lasts longer."
           },
           {
             "id": "c",
             "label": "The launch angle changes automatically because the projectile is lighter."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Changing gravity only changes the vertical acceleration. The sideways motion stays uniform, but the projectile spends more time in the air and the vertical curve bends downward more gently.",
         "selectedWrongExplanations": {
-          "b": "Gravity acts vertically in this model, so lowering it does not create sideways acceleration. The horizontal component still stays steady.",
+          "a": "Gravity acts vertically in this model, so lowering it does not create sideways acceleration. The horizontal component still stays steady.",
           "c": "The launch angle is a chosen initial condition, not something gravity rewrites after launch."
         },
         "showMeAction": {

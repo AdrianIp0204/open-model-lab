@@ -937,28 +937,28 @@
         "type": "reasoning",
         "choices": [
           {
-            "id": "fraction-0-6",
-            "label": "About 0.6 of its volume"
-          },
-          {
-            "id": "fraction-1",
+            "id": "a",
             "label": "All of it"
           },
           {
-            "id": "fraction-0-4",
+            "id": "b",
+            "label": "About 0.6 of its volume"
+          },
+          {
+            "id": "c",
             "label": "About 0.4 of its volume"
           },
           {
-            "id": "depends-on-g",
+            "id": "d",
             "label": "It depends only on gravity"
           }
         ],
-        "correctChoiceId": "fraction-0-6",
+        "correctChoiceId": "b",
         "explanation": "For a freely floating block, the submerged fraction is $\\rho_{obj}/\\rho_f = 600/1000 = 0.6$.",
         "selectedWrongExplanations": {
-          "fraction-1": "Full submersion is only required when the object density matches the fluid density.",
-          "fraction-0-4": "The ratio goes object density divided by fluid density, not the other way around.",
-          "depends-on-g": "Gravity scales both weight and buoyancy together, so the density ratio still sets the floating fraction."
+          "a": "Full submersion is only required when the object density matches the fluid density.",
+          "c": "The ratio goes object density divided by fluid density, not the other way around.",
+          "d": "Gravity scales both weight and buoyancy together, so the density ratio still sets the floating fraction."
         },
         "showMeAction": {
           "label": "Show a 0.6-fraction case",
@@ -986,23 +986,23 @@
         "type": "misconception-check",
         "choices": [
           {
-            "id": "same-buoyancy",
-            "label": "Buoyant force stays the same"
-          },
-          {
-            "id": "more-buoyancy",
+            "id": "a",
             "label": "Buoyant force increases because the pressure is higher"
           },
           {
-            "id": "less-buoyancy",
+            "id": "b",
             "label": "Buoyant force decreases because the top pressure also rises"
           },
           {
-            "id": "zero-buoyancy",
+            "id": "c",
+            "label": "Buoyant force stays the same"
+          },
+          {
+            "id": "d",
             "label": "Buoyancy disappears because the block is no longer floating"
           }
         ],
-        "correctChoiceId": "same-buoyancy",
+        "correctChoiceId": "c",
         "explanation": "In a uniform fluid the pressure difference across the fully submerged block depends on the block's height and the fluid density, not on the absolute depth. The displaced volume is also unchanged, so the buoyant force stays the same.",
         "showMeAction": {
           "label": "Show the deeper fully submerged state",
@@ -1018,6 +1018,11 @@
             "pressureDifference",
             "displacedFluid"
           ]
+        },
+        "selectedWrongExplanations": {
+          "a": "Greater absolute pressure lifts both the top and bottom pressures together; the pressure difference and displaced volume stay the same.",
+          "b": "The top pressure does rise, but the bottom pressure rises by the same amount, so the pressure difference does not shrink.",
+          "d": "Floating is not required for buoyancy; a fully submerged object still displaces fluid and feels an upward force."
         }
       },
       {
@@ -1026,23 +1031,23 @@
         "type": "reasoning",
         "choices": [
           {
-            "id": "weight-displaced-fluid",
+            "id": "a",
             "label": "The weight of the displaced fluid"
           },
           {
-            "id": "weight-object",
+            "id": "b",
             "label": "The weight of the object"
           },
           {
-            "id": "bottom-pressure-only",
+            "id": "c",
             "label": "The pressure at the block's bottom face"
           },
           {
-            "id": "mass-fluid-above",
+            "id": "d",
             "label": "The mass of all the fluid above the block"
           }
         ],
-        "correctChoiceId": "weight-displaced-fluid",
+        "correctChoiceId": "a",
         "explanation": "Archimedes' principle is exactly the displaced-fluid weight rule: $F_b = \\rho_f g V_{disp}$.",
         "showMeAction": {
           "label": "Show the displaced-fluid cue",
@@ -1055,6 +1060,11 @@
             "displacedFluid",
             "forceBalance"
           ]
+        },
+        "selectedWrongExplanations": {
+          "b": "Object weight only equals buoyant force at a floating or neutral balance; Archimedes' principle itself uses displaced-fluid weight.",
+          "c": "Bottom pressure alone misses the downward pressure on the top face; the net upward force comes from the pressure difference.",
+          "d": "Only the fluid volume displaced by the object sets the buoyant force, not the whole column above it."
         }
       },
       {
@@ -1063,23 +1073,23 @@
         "type": "compare-two-cases",
         "choices": [
           {
-            "id": "same-buoyancy-different-weight",
-            "label": "They feel the same buoyant force, but A weighs more"
-          },
-          {
-            "id": "a-more-buoyant",
+            "id": "a",
             "label": "A gets more buoyant force because it is denser"
           },
           {
-            "id": "b-more-buoyant",
+            "id": "b",
             "label": "B gets more buoyant force because it is lighter"
           },
           {
-            "id": "same-everything",
+            "id": "c",
             "label": "They have the same buoyant force and the same weight"
+          },
+          {
+            "id": "d",
+            "label": "They feel the same buoyant force, but A weighs more"
           }
         ],
-        "correctChoiceId": "same-buoyancy-different-weight",
+        "correctChoiceId": "d",
         "explanation": "Equal displaced volume in the same fluid gives the same buoyant force. The denser block has the larger weight, so it is more likely to sink even though the buoyant force is unchanged.",
         "showMeAction": {
           "label": "Show a denser block at the same depth",
@@ -1097,6 +1107,11 @@
           "highlightedOverlayIds": [
             "forceBalance"
           ]
+        },
+        "selectedWrongExplanations": {
+          "a": "Changing object density changes the block's weight, but equal immersed volume in the same fluid displaces the same fluid weight.",
+          "b": "Being lighter does not create extra displaced volume; equal volumes at the same depth get the same buoyant force.",
+          "c": "Their buoyant forces match, but density changes mass and therefore weight for equal-volume blocks."
         }
       }
     ]

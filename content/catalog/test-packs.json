@@ -66,11 +66,11 @@
         "choices": [
           {
             "id": "a",
-            "label": "The source point oscillates locally with its own period, while the disturbance pattern travels along the rope with a speed set by the medium; those are related but not identical motions."
+            "label": "The source point and the disturbance must move together at the same speed, because every oscillation is automatically a traveling wave."
           },
           {
             "id": "b",
-            "label": "The source point and the disturbance must move together at the same speed, because every oscillation is automatically a traveling wave."
+            "label": "The source point oscillates locally with its own period, while the disturbance pattern travels along the rope with a speed set by the medium; those are related but not identical motions."
           },
           {
             "id": "c",
@@ -81,7 +81,7 @@
             "label": "Standing-wave patterns can form only if the source point stops oscillating entirely."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "The oscillation topic tracks the repeated local motion of one point, while the wave topic tracks how the disturbance travels through space. The source frequency influences the wave, but the point's oscillation and the wave's travel are not the same kind of motion."
       }
     ]
@@ -117,22 +117,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The vertical stretch changes slope values and can change optimization values, while the upward shift changes output values without changing where the slope is zero."
-          },
-          {
-            "id": "b",
             "label": "Any vertical shift changes the derivative everywhere, because slope depends only on the y-value."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "A vertical stretch leaves every slope unchanged, because only horizontal changes affect derivatives."
+          },
+          {
+            "id": "c",
+            "label": "The vertical stretch changes slope values and can change optimization values, while the upward shift changes output values without changing where the slope is zero."
           },
           {
             "id": "d",
             "label": "Graph transformations matter for plotting, but not for local-rate or optimization reasoning."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Graph transformations and calculus are linked. Adding a constant moves the graph without changing slope, while a vertical scale factor changes slope values and therefore changes derivative-based rate and optimization interpretations."
       },
       {
@@ -153,22 +153,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The complex number and the vector describe the same point: the real and imaginary parts are the vector components, and the same point can also be rewritten in polar magnitude-angle form."
-          },
-          {
-            "id": "b",
             "label": "The complex number fixes only the angle, while the vector fixes only the length, so they cannot represent the same point."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Complex numbers and vectors use incompatible coordinate systems, so converting between them changes the point itself."
           },
           {
-            "id": "d",
+            "id": "c",
             "label": "Polar form replaces the point with a curve, so it no longer matches the vector interpretation."
+          },
+          {
+            "id": "d",
+            "label": "The complex number and the vector describe the same point: the real and imaginary parts are the vector components, and the same point can also be rewritten in polar magnitude-angle form."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "d",
         "explanation": "A point in the plane can be seen as a vector, as rectangular coordinates, or as a complex number. Polar form is another description of that same point using magnitude and angle instead of x-y components."
       }
     ]
@@ -240,11 +240,11 @@
         "choices": [
           {
             "id": "a",
-            "label": "Use mole ratios first to decide how much acid and base react, then use the final amounts and volume to interpret concentration and pH."
+            "label": "Use pH first to determine the balanced reaction ratio, because mole bookkeeping is unnecessary once concentration is known."
           },
           {
             "id": "b",
-            "label": "Use pH first to determine the balanced reaction ratio, because mole bookkeeping is unnecessary once concentration is known."
+            "label": "Use mole ratios first to decide how much acid and base react, then use the final amounts and volume to interpret concentration and pH."
           },
           {
             "id": "c",
@@ -255,7 +255,7 @@
             "label": "Buffers remove the need for stoichiometric bookkeeping entirely, even when no buffer is present."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Neutralization still follows stoichiometric mole ratios. After the reaction, the remaining amounts and the final volume determine concentration, and that concentration picture is what the solutions-and-pH topic uses to interpret pH and mixture behavior."
       }
     ]

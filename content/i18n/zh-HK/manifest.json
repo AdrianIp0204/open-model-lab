@@ -2,7 +2,7 @@
   "version": 1,
   "locale": "zh-HK",
   "createdAt": "2026-04-09T15:18:55.731320Z",
-  "updatedAt": "2026-04-30T00:20:46Z",
+  "updatedAt": "2026-05-01T08:48:00Z",
   "entries": {
     "concept:simple-harmonic-motion": {
       "attempts": 3,
@@ -188,7 +188,7 @@
       "attempts": 4,
       "fieldCount": 211,
       "lastError": null,
-      "outputHash": "73c3e6dd6f00f27a22c03d48f04e147be162651c76d9f10480cd48186f763d58",
+      "outputHash": "d19d1f2bf191622391104d94b2b2f04e73568c703c337bc5736e5bf818e0b85e",
       "outputPath": "C:\\Users\\dream\\OneDrive\\Desktop\\.physica\\content\\i18n\\zh-HK\\concepts\\collisions.json",
       "provider": "ollama",
       "sourceHash": "91b28cd0484c948e305590f7f2e7532106d8f498604624e0eb3cef843c62ab95",
@@ -644,13 +644,14 @@
       "attempts": 1,
       "fieldCount": 230,
       "lastError": null,
-      "outputHash": "e2d0b696c5e7b749689c66677fad6bd6c5fe36dbbed8306901de60ea3c5a25ad",
+      "outputHash": "4a1b334488d1118a632d49a5cb91304133dc8eee015409693d53b89a93b24a98",
       "outputPath": "C:\\Users\\dream\\OneDrive\\Desktop\\.physica\\content\\i18n\\zh-HK\\concepts\\magnetic-force-moving-charges-currents.json",
       "provider": "ollama",
-      "sourceHash": "6033ffafce0c612e7c652cc53397ce18ac6edb48295b28fe36a0396e05d7dafd",
+      "sourceHash": "72838eb6ebaedb860a35f2f273e6fd8e293016a529a073013c182fb1f647857f",
       "sourcePath": "C:\\Users\\dream\\OneDrive\\Desktop\\.physica\\content\\concepts\\magnetic-force-moving-charges-currents.json",
       "status": "done",
-      "translatedAt": "2026-04-11T08:09:31.515287Z"
+      "translatedAt": "2026-04-11T08:09:31.515287Z",
+      "reviewStatus": "human-reviewed"
     },
     "concept:matrix-transformations": {
       "attempts": 2,
@@ -872,13 +873,13 @@
       "attempts": 1,
       "fieldCount": 203,
       "lastError": null,
-      "outputHash": "fe5e8a8aaa671c0af7b5dc27b1dd8db4006f225db6a076b66cc3aa7166251408",
+      "outputHash": "b77f5ea02e5502a85fcead1098aa4eddcc9f17c5d040768e70483963c6d51d72",
       "outputPath": "C:\\Users\\dream\\OneDrive\\Desktop\\.physica\\content\\i18n\\zh-HK\\concepts\\refraction-snells-law.json",
-      "provider": "ollama",
+      "provider": "manual-review",
       "sourceHash": "bfafe5afb5049ecaa63cabacf51295df71825006fef0c4cc144a118a13906431",
       "sourcePath": "C:\\Users\\dream\\OneDrive\\Desktop\\.physica\\content\\concepts\\refraction-snells-law.json",
       "status": "done",
-      "translatedAt": "2026-04-11T08:09:31.515287Z"
+      "translatedAt": "2026-05-01T09:14:40.511941Z"
     },
     "concept:resonance-air-columns-open-closed-pipes": {
       "attempts": 1,
@@ -896,7 +897,7 @@
       "attempts": 1,
       "fieldCount": 230,
       "lastError": null,
-      "outputHash": "55f01417c82a34e475198ae7e559ead50604c8019afae01b2d11bbc57ab40c65",
+      "outputHash": "d4226f9f08b57fe14742e794245b20726b89bcdb84556aa3a5a4b843dc92ca65",
       "outputPath": "C:\\Users\\dream\\OneDrive\\Desktop\\.physica\\content\\i18n\\zh-HK\\concepts\\rolling-motion.json",
       "provider": "ollama",
       "sourceHash": "4f8c093ca1662520b03a95a3aa9ec9cb0ee1c8a846afc3529042fce654e0b964",

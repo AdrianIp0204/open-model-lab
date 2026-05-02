@@ -842,21 +842,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Because the larger current also makes the internal drop larger, which pulls the terminal voltage down."
+            "label": "Because heavier loads always lower emf directly inside the source."
           },
           {
             "id": "b",
-            "label": "Because heavier loads always lower emf directly inside the source."
+            "label": "Because the larger current also makes the internal drop larger, which pulls the terminal voltage down."
           },
           {
             "id": "c",
             "label": "Because terminal voltage and current must always move in opposite directions in every circuit."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "The load changes the current first. That same current then changes the size of the internal voltage drop.",
         "selectedWrongExplanations": {
-          "b": "Emf is a source property here. The load does not directly change it.",
+          "a": "Emf is a source property here. The load does not directly change it.",
           "c": "That is not a universal rule. It is the non-ideal-source mechanism on this bench."
         },
         "showMeAction": {
@@ -882,22 +882,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The one with the smaller internal resistance, because the terminal voltage stays closer to the emf and the internal loss is smaller."
-          },
-          {
-            "id": "b",
             "label": "The one with the larger internal resistance, because it stores more voltage inside the source."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Both behave the same as long as emf is the same."
+          },
+          {
+            "id": "c",
+            "label": "The one with the smaller internal resistance, because the terminal voltage stays closer to the emf and the internal loss is smaller."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Smaller internal resistance means less voltage lost and less power wasted inside the source, so the source behaves more like the ideal limit.",
         "selectedWrongExplanations": {
-          "b": "Storing more loss inside the source is the opposite of ideal behavior.",
-          "c": "Equal emf does not make sources behave identically if their internal resistance differs."
+          "a": "Storing more loss inside the source is the opposite of ideal behavior.",
+          "b": "Equal emf does not make sources behave identically if their internal resistance differs."
         },
         "showMeAction": {
           "label": "Show near-ideal source",
@@ -922,21 +922,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Power wasted as heating inside the source because current is flowing through the internal resistance."
+            "label": "Extra power the source creates to help the load."
           },
           {
             "id": "b",
-            "label": "Extra power the source creates to help the load."
+            "label": "Power wasted as heating inside the source because current is flowing through the internal resistance."
           },
           {
             "id": "c",
             "label": "The part of the load power that will later return to the source."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Internal resistance wastes some of the source power inside the source itself, so not all of the source power reaches the load.",
         "selectedWrongExplanations": {
-          "b": "That curve is a loss, not a bonus.",
+          "a": "That curve is a loss, not a bonus.",
           "c": "The graph is showing dissipation inside the source, not a future return path."
         },
         "showMeAction": {

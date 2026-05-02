@@ -973,21 +973,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The capacitor is only partway to its final voltage, and the current has already dropped a lot."
+            "label": "The capacitor has finished charging because one time constant means one full charge."
           },
           {
             "id": "b",
-            "label": "The capacitor has finished charging because one time constant means one full charge."
+            "label": "The capacitor is only partway to its final voltage, and the current has already dropped a lot."
           },
           {
             "id": "c",
             "label": "The current is still the same as at the start because the source voltage is fixed."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "One time constant is a pacing marker, not the finish line. The charging curve is only partway complete and the current has already decayed strongly.",
         "selectedWrongExplanations": {
-          "b": "The response approaches its final value gradually and is still incomplete at 1tau.",
+          "a": "The response approaches its final value gradually and is still incomplete at 1tau.",
           "c": "The source is fixed, but the current is not. It falls as the capacitor voltage rises."
         },
         "showMeAction": {
@@ -1013,22 +1013,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The response gets slower because tau increases and the starting current gets smaller."
-          },
-          {
-            "id": "b",
             "label": "The response gets faster because the resistor can now hold more energy."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Nothing changes because capacitance is the only thing that sets RC timing."
+          },
+          {
+            "id": "c",
+            "label": "The response gets slower because tau increases and the starting current gets smaller."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Larger resistance raises tau = RC and reduces the starting current V/R, so the whole response becomes slower.",
         "selectedWrongExplanations": {
-          "b": "The resistor does not create a faster response here. It slows the flow of charge onto the capacitor.",
-          "c": "Both R and C set tau."
+          "a": "The resistor does not create a faster response here. It slows the flow of charge onto the capacitor.",
+          "b": "Both R and C set tau."
         },
         "showMeAction": {
           "label": "Show slow charge",
@@ -1053,21 +1053,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The current does not vanish instantly. The charged capacitor becomes the source that drives the resistor, so the current reverses and then decays."
+            "label": "That is correct because only batteries can ever drive current in a loop."
           },
           {
             "id": "b",
-            "label": "That is correct because only batteries can ever drive current in a loop."
+            "label": "The current does not vanish instantly. The charged capacitor becomes the source that drives the resistor, so the current reverses and then decays."
           },
           {
             "id": "c",
             "label": "The current stays exactly the same forever because the capacitor keeps the same stored voltage."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "The charged capacitor stores voltage and energy. During discharge it becomes the source driving the resistor, so the current reverses and then fades away.",
         "selectedWrongExplanations": {
-          "b": "A charged capacitor can also drive current while it is releasing stored energy.",
+          "a": "A charged capacitor can also drive current while it is releasing stored energy.",
           "c": "The capacitor voltage is not fixed during discharge. It falls with time."
         },
         "showMeAction": {

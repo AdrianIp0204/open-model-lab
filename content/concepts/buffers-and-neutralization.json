@@ -548,7 +548,11 @@
           }
         ],
         "correctChoiceId": "a",
-        "explanation": "The reserve bar makes the hidden chemistry visible: the buffer is being used to resist a larger pH shift."
+        "explanation": "The reserve bar makes the hidden chemistry visible: the buffer is being used to resist a larger pH shift.",
+        "selectedWrongExplanations": {
+          "b": "A stable pH can hide buffer reserve being consumed.",
+          "c": "The strip can still be measuring correctly while the buffer chemistry changes."
+        }
       },
       {
         "id": "bn-qt-dilution-vs-neutralization",
@@ -557,19 +561,23 @@
         "choices": [
           {
             "id": "a",
-            "label": "Adding more of the opposite side so acid and base directly counteract each other."
+            "label": "Adding more water while leaving the same acid-base amounts in place."
           },
           {
             "id": "b",
-            "label": "Adding more water while leaving the same acid-base amounts in place."
+            "label": "Adding more of the opposite side so acid and base directly counteract each other."
           },
           {
             "id": "c",
             "label": "Turning on the reserve overlay without changing the mixture."
           }
         ],
-        "correctChoiceId": "a",
-        "explanation": "Neutralization comes from acid and base counteracting each other directly, not from spreading the same mixture through more water."
+        "correctChoiceId": "b",
+        "explanation": "Neutralization comes from acid and base counteracting each other directly, not from spreading the same mixture through more water.",
+        "selectedWrongExplanations": {
+          "a": "Adding water is dilution, not acid-base neutralization.",
+          "c": "Showing an overlay does not change the chemistry."
+        }
       }
     ]
   },

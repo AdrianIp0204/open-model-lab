@@ -3,6 +3,7 @@ import { getConceptBySlug } from "@/lib/content";
 import { buildConceptQuizSession } from "@/lib/quiz";
 import { getPublishedConceptTestCatalog } from "@/lib/test-hub";
 import {
+  expandFullTestCatalogIfAvailable,
   gotoAndExpectOk,
   installBrowserGuards,
   setHarnessSession,
@@ -83,7 +84,7 @@ test("restores a standalone-started concept test on the inline concept-page quic
   await advanceThroughQuestions(page, session, targetIndex);
   await answerQuestion(page, wrongChoice.id);
 
-  await gotoAndExpectOk(page, `/concepts/${concept.slug}#quick-test`);
+  await gotoAndExpectOk(page, `/concepts/${concept.slug}?phase=check#quick-test`);
   await expect(page.getByTestId("quiz-question-stage")).toBeVisible();
   await expect(
     page.getByRole("heading", {
@@ -111,7 +112,7 @@ test("restores an inline concept-page quick test on the standalone concept-test 
     (choice) => choice.id !== targetQuestion.correctChoiceId,
   )!;
 
-  await gotoAndExpectOk(page, `/concepts/${concept.slug}#quick-test`);
+  await gotoAndExpectOk(page, `/concepts/${concept.slug}?phase=check#quick-test`);
   await expect(page.getByTestId("quiz-question-stage")).toBeVisible();
   await advanceThroughQuestions(page, session, targetIndex);
   await answerQuestion(page, wrongChoice.id);
@@ -138,7 +139,7 @@ test("shares completed concept-test state between the inline and standalone surf
     locale: "en",
   });
 
-  await gotoAndExpectOk(page, `/concepts/${concept.slug}#quick-test`);
+  await gotoAndExpectOk(page, `/concepts/${concept.slug}?phase=check#quick-test`);
   await expect(page.getByTestId("quiz-question-stage")).toBeVisible();
 
   for (let index = 0; index < session.questions.length; index += 1) {
@@ -168,7 +169,7 @@ test("opens the locale-wrapped standalone concept-test route from /zh-HK/tests",
   await gotoAndExpectOk(page, "/zh-HK/tests");
   await expect(page.getByText("測驗中心").first()).toBeVisible();
 
-  await page.getByRole("button", { name: /顯示完整清單/ }).click();
+  await expandFullTestCatalogIfAvailable(page);
 
   const conceptCard = page.getByTestId("test-hub-card-concept-basic-circuits");
   await Promise.all([

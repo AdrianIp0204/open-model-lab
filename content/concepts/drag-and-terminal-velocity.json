@@ -911,22 +911,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "Because the constant weight is larger, so drag must grow to a higher speed before the forces balance."
-          },
-          {
-            "id": "b",
             "label": "Because heavier objects automatically make the drag law weaker."
           },
           {
+            "id": "b",
+            "label": "Because the constant weight is larger, so drag must grow to a higher speed before the forces balance."
+          },
+          {
             "id": "c",
-            "label": "Because gravity becomes stronger for heavier objects."
+            "label": "Because the local gravitational field becomes stronger for heavier objects."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Mass changes the weight side of the balance. The drag law is unchanged, so the speed at balance must rise.",
         "selectedWrongExplanations": {
-          "b": "The drag law still uses the same $k$, $A$, and $v^2$. Mass changes the weight that drag must match.",
-          "c": "Gravity is fixed on this page. The weight grows only because $m$ grows."
+          "a": "The drag law still uses the same $k$, $A$, and $v^2$. Mass changes the weight that drag must match.",
+          "c": "The local gravitational field is fixed on this page. The weight grows because $m$ grows."
         },
         "showMeAction": {
           "label": "Show the heavier mass",
@@ -952,7 +952,7 @@
         "choices": [
           {
             "id": "a",
-            "label": "The object still moves downward, but drag and weight are nearly equal so the acceleration is near zero."
+            "label": "Gravity has turned off, so only drag is left."
           },
           {
             "id": "b",
@@ -960,14 +960,14 @@
           },
           {
             "id": "c",
-            "label": "Gravity has turned off, so only drag is left."
+            "label": "The object still moves downward, but drag and weight are nearly equal so the acceleration is near zero."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Terminal velocity is a force-balance statement, not a stopped-motion statement. The speed is steady because the net force is near zero.",
         "selectedWrongExplanations": {
-          "b": "Terminal velocity is not rest. The object keeps moving even when the speed is no longer changing much.",
-          "c": "Weight remains present. It is the upward drag force that grows until it nearly matches the weight."
+          "a": "Weight remains present. It is the upward drag force that grows until it nearly matches the weight.",
+          "b": "Terminal velocity is not rest. The object keeps moving even when the speed is no longer changing much."
         },
         "showMeAction": {
           "label": "Show the low-terminal case",
@@ -990,21 +990,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Because the speed is still near zero, so the $v^2$ drag term is tiny."
+            "label": "Because the fluid is not touching the object yet."
           },
           {
             "id": "b",
-            "label": "Because the fluid is not touching the object yet."
+            "label": "Because the speed is still near zero, so the $v^2$ drag term is tiny."
           },
           {
             "id": "c",
             "label": "Because weight is cancelled immediately at release."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "The drag law on this page depends on speed. With almost no speed yet, the drag force is still tiny even though the object is already in the fluid.",
         "selectedWrongExplanations": {
-          "b": "The object is in the same fluid the whole time. The change is speed, not contact.",
+          "a": "The object is in the same fluid the whole time. The change is speed, not contact.",
           "c": "Weight is still present at release, which is why the net force starts large."
         },
         "showMeAction": {

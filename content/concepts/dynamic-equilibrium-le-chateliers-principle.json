@@ -831,21 +831,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The mixture should move toward more products until the rates match again."
+            "label": "The mixture should freeze where it is because equilibrium has already happened once."
           },
           {
             "id": "b",
-            "label": "The mixture should freeze where it is because equilibrium has already happened once."
+            "label": "The mixture should move toward more products until the rates match again."
           },
           {
             "id": "c",
             "label": "The system should always move toward fewer products."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "If the current mix is below the new target, the forward side has room to dominate until the settled share is reached.",
         "selectedWrongExplanations": {
-          "b": "Equilibrium can shift. A new disturbance creates a new target mix.",
+          "a": "Equilibrium can shift. A new disturbance creates a new target mix.",
           "c": "The direction depends on the disturbance and the new target, not on a fixed rule about products."
         },
         "showMeAction": {
@@ -868,22 +868,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "The forward and reverse rate curves are nearly on top of each other."
-          },
-          {
-            "id": "b",
             "label": "The current amounts are both non-zero."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "The product line is above the reactant line."
+          },
+          {
+            "id": "c",
+            "label": "The forward and reverse rate curves are nearly on top of each other."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "Equal or nearly equal forward and reverse rates are the actual equilibrium test on this bench.",
         "selectedWrongExplanations": {
-          "b": "Having both species present does not guarantee equilibrium.",
-          "c": "Products can be above reactants without the rates being balanced yet."
+          "a": "Having both species present does not guarantee equilibrium.",
+          "b": "Products can be above reactants without the rates being balanced yet."
         },
         "showMeAction": {
           "label": "Show the near-balance region",

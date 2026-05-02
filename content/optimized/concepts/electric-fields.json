@@ -330,10 +330,6 @@
 {
 "id": "ef-qt-midpoint-cancel",
 "explanation": "At the midpoint on the source axis, the geometry is perfectly symmetric. Each source contributes an equal horizontal field in the opposite direction, so the net field is zero there.",
-"selectedWrongExplanations": {
-"b": "At that midpoint there is no vertical offset, so neither source contributes an upward component.",
-"c": "Test-charge sign affects force, not the source-generated field. The cancellation is already present before any test charge is chosen."
-},
 "showMeAction": {
 "observationHint": "At the midpoint on the axis, the two equal positive-source contributions are equal and opposite, so the net field collapses to zero."
 }
@@ -348,10 +344,6 @@
 {
 "id": "ef-qt-test-charge-sign",
 "explanation": "The electric field is set by the source charges and the location. A negative test charge feels a force opposite to the field, but it does not redefine the field.",
-"selectedWrongExplanations": {
-"b": "Probe strength only scales the force in this model. The field direction is not negotiated with the test charge.",
-"c": "Negative charges are valid probes. They are useful because they show that force can point opposite to the field."
-},
 "showMeAction": {
 "label": "Show force flip without field flip",
 "observationHint": "Change only the test charge and watch the force reverse while the field arrows and graphs stay fixed."

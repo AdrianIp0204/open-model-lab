@@ -597,6 +597,10 @@
           "highlightedOverlayIds": [
             "projectionGuides"
           ]
+        },
+        "selectedWrongExplanations": {
+          "b": "On the standard unit circle, cosine is the x-coordinate and sine is the y-coordinate.",
+          "c": "The projections are exactly what the coordinates track."
         }
       },
       {
@@ -606,19 +610,23 @@
         "choices": [
           {
             "id": "a",
-            "label": "Both cosine and sine are negative."
+            "label": "Cosine is positive and sine is negative."
           },
           {
             "id": "b",
-            "label": "Cosine is positive and sine is negative."
+            "label": "Both cosine and sine are negative."
           },
           {
             "id": "c",
             "label": "Cosine is negative and sine is positive."
           }
         ],
-        "correctChoiceId": "a",
-        "explanation": "Quadrant III is left of the y-axis and below the x-axis, so both projections are negative."
+        "correctChoiceId": "b",
+        "explanation": "Quadrant III is left of the y-axis and below the x-axis, so both projections are negative.",
+        "selectedWrongExplanations": {
+          "a": "That sign pattern belongs to Quadrant IV.",
+          "c": "That sign pattern belongs to Quadrant II."
+        }
       }
     ]
   },

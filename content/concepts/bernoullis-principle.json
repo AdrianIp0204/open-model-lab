@@ -101,17 +101,17 @@
             {
               "id": "dynamic",
               "label": "2. Read the speed-driven pressure share",
-              "template": "Moving from section A to throat B shifts about {{dynamicPressureDropValue}}\\,\\mathrm{kPa}$ of static pressure into the kinetic term."
+              "template": "Moving from section A to throat B shifts about ${{dynamicPressureDropValue}}\\,\\mathrm{kPa}$ of static pressure into the kinetic term."
             },
             {
               "id": "height",
               "label": "3. Include the height term",
-              "template": "Lifting the throat by {{throatHeightValue}}\\,\\mathrm{m}$ costs another {{heightPressureDropValue}}\\,\\mathrm{kPa}$ in the height term."
+              "template": "Lifting the throat by ${{throatHeightValue}}\\,\\mathrm{m}$ costs another ${{heightPressureDropValue}}\\,\\mathrm{kPa}$ in the height term."
             },
             {
               "id": "result",
               "label": "4. Read the static pressure left over",
-              "template": "So the throat pressure is $P_B = {{throatPressureValue}}\\,\\mathrm{kPa}$, with a total drop of {{pressureDropValue}}\\,\\mathrm{kPa}$. {{pressureInterpretationText}}"
+              "template": "So the throat pressure is $P_B = {{throatPressureValue}}\\,\\mathrm{kPa}$, with a total drop of ${{pressureDropValue}}\\,\\mathrm{kPa}$. {{pressureInterpretationText}}"
             }
           ],
           "resultLabel": "Current throat state",
@@ -169,21 +169,21 @@
             {
               "id": "keep-speed",
               "label": "1. Keep the same continuity state",
-              "template": "With the same $Q$, $A_A$, and $A_B$, the speed story stays the same: $v_B$ remains {{throatSpeedValue}}\\,\\mathrm{m/s}$."
+              "template": "With the same $Q$, $A_A$, and $A_B$, the speed story stays the same: $v_B$ remains ${{throatSpeedValue}}\\,\\mathrm{m/s}$."
             },
             {
               "id": "remove-height",
               "label": "2. Remove only the height term",
-              "template": "Lowering the throat removes the current height contribution of {{heightPressureDropValue}}\\,\\mathrm{kPa}$."
+              "template": "Lowering the throat removes the current height contribution of ${{heightPressureDropValue}}\\,\\mathrm{kPa}$."
             },
             {
               "id": "compare",
               "label": "3. Read the recovered throat pressure",
-              "template": "So the same throat would rise from {{throatPressureValue}}\\,\\mathrm{kPa}$ to about {{levelThroatPressureValue}}\\,\\mathrm{kPa}$ if it were level with section A. {{heightInterpretationText}}"
+              "template": "So the same throat would rise from ${{throatPressureValue}}\\,\\mathrm{kPa}$ to about ${{levelThroatPressureValue}}\\,\\mathrm{kPa}$ if it were level with section A. {{heightInterpretationText}}"
             }
           ],
           "resultLabel": "Leveled throat pressure",
-          "resultTemplate": "$P_B(\\text{level}) = {{levelThroatPressureValue}}\\,\\mathrm{kPa}$",
+          "resultTemplate": "$P_{B,\\mathrm{level}} = {{levelThroatPressureValue}}\\,\\mathrm{kPa}$",
           "interpretationTemplate": "{{heightInterpretationText}}",
           "applyAction": {
             "label": "Level the throat",
@@ -1041,6 +1041,10 @@
             "speedArrows",
             "pressureGauges"
           ]
+        },
+        "selectedWrongExplanations": {
+          "b": "The same flow rate is not the same as the same speed. A smaller area forces a larger throat speed, and Bernoulli converts that speed rise into a lower static-pressure share.",
+          "c": "Narrowing the throat does not slow the fluid in this steady incompressible model. Continuity requires the same flow rate through a smaller area, so the speed rises."
         }
       },
       {
@@ -1050,19 +1054,19 @@
         "choices": [
           {
             "id": "a",
-            "label": "More of the same Bernoulli budget is now used by the height term."
-          },
-          {
-            "id": "b",
             "label": "The entry pressure automatically doubles."
           },
           {
+            "id": "b",
+            "label": "More of the same Bernoulli budget is now used by the height term."
+          },
+          {
             "id": "c",
-            "label": "Continuity no longer applies."
+            "label": "Continuity no longer applies because the pipe is tilted."
           }
         ],
-        "correctChoiceId": "a",
-        "explanation": "With the same speeds, the extra drop comes from the $\\rho g y$ term. The higher throat leaves less static pressure at B.",
+        "correctChoiceId": "b",
+        "explanation": "With the same speeds, the extra drop comes from the height term. The higher throat leaves less static pressure at B.",
         "showMeAction": {
           "label": "Raise the throat",
           "presetId": "raised-throat",
@@ -1077,6 +1081,10 @@
             "pressureGauges",
             "energyBars"
           ]
+        },
+        "selectedWrongExplanations": {
+          "a": "Raising the throat does not create extra entry pressure. It spends part of the same Bernoulli budget on gravitational height, leaving less as static pressure at the throat.",
+          "c": "Continuity still links the speeds because the same steady flow passes both sections. The new pressure drop comes from the added height term, not from turning continuity off."
         }
       },
       {
@@ -1086,18 +1094,18 @@
         "choices": [
           {
             "id": "a",
-            "label": "Continuity sets the speed change from the area change, and Bernoulli translates that speed and height change into a pressure change."
-          },
-          {
-            "id": "b",
             "label": "Bernoulli replaces continuity, so area no longer matters once the fluid is moving."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Continuity only matters when the pressure is the same everywhere."
+          },
+          {
+            "id": "c",
+            "label": "Continuity sets the speed change from the area change, and Bernoulli translates that speed and height change into a pressure change."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "The two ideas do different jobs in the same model. Continuity tells you where the speed rises or falls, and Bernoulli tells you how the pressure responds to that same state.",
         "showMeAction": {
           "label": "Compare narrow and wide throats",
@@ -1115,6 +1123,10 @@
             "speedArrows",
             "pressureGauges"
           ]
+        },
+        "selectedWrongExplanations": {
+          "a": "Bernoulli does not replace the flow-rate bookkeeping. Area still controls the speed change through continuity before the pressure trade is read.",
+          "b": "Continuity applies to the same steady incompressible stream even when pressure changes. It is the reason the throat speed changes in the first place."
         }
       }
     ]

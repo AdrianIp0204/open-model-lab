@@ -50,6 +50,20 @@
           "id": "current-total-momentum",
           "title": "目前系統總動量",
           "prompt": "在$t = {{timeValue}}\\,\\mathrm{s}$時，系統的總動量是多少？",
+          "variables": [
+            {
+              "id": "time",
+              "label": "時間"
+            },
+            {
+              "id": "momentumA",
+              "label": "車 A 動量"
+            },
+            {
+              "id": "momentumB",
+              "label": "車 B 動量"
+            }
+          ],
           "steps": [
             {
               "id": "relation",
@@ -74,6 +88,24 @@
           "id": "final-momentum-split",
           "title": "最終動量分割",
           "prompt": "對於目前這次內部互動，車 A 和車 B 最終應該各自帶有甚麼動量？",
+          "variables": [
+            {
+              "id": "initialMomentumA",
+              "label": "車 A 初始動量"
+            },
+            {
+              "id": "initialMomentumB",
+              "label": "車 B 初始動量"
+            },
+            {
+              "id": "interactionForce",
+              "label": "內力"
+            },
+            {
+              "id": "interactionDuration",
+              "label": "互動時間"
+            }
+          ],
           "steps": [
             {
               "id": "relation",
@@ -140,11 +172,11 @@
         "choices": [
           {
             "id": "a",
-            "label": "即使反向動量的變化大小相同，車B的速度變化變得更小。"
+            "label": "總動量變得非零，因為較重的車佔據了優勢。"
           },
           {
             "id": "b",
-            "label": "總動量變得非零，因為較重的車佔據了優勢。"
+            "label": "即使反向動量的變化大小相同，車B的速度變化變得更小。"
           },
           {
             "id": "c",
@@ -153,7 +185,7 @@
         ],
         "explanation": "動量變化仍然等大反向。較重的車只是將相同的動量變化轉換為較小的速度變化。",
         "selectedWrongExplanations": {
-          "b": "系統仍從零總動量開始，因此在車輛分開時保持為零。",
+          "a": "系統仍從零總動量開始，因此在車輛分開時保持為零。",
           "c": "車A仍然以相同大小改變動量，因為內部力對作用於兩輛車。"
         },
         "showMeAction": {
@@ -167,21 +199,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "總動量線保持平坦，而物體的動量線則傾斜方向相反。"
-          },
-          {
-            "id": "b",
             "label": "所有三條線一起傾斜，因為兩個車廂都在加速。"
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "內部力作用啟動後，匯流排立即重置為零。"
+          },
+          {
+            "id": "c",
+            "label": "總動量線保持平坦，而物體的動量線則傾斜方向相反。"
           }
         ],
         "explanation": "內部力重新分配物體之間的動量，所以物體線改變而匯流排保持固定。",
         "selectedWrongExplanations": {
-          "b": "兩個車廂在不同方向加速，因此它們的動量變化相互抵消。",
-          "c": "沒有理由使匯流排重置。守恆定律説它會保持初始系統值不變。"
+          "a": "兩個車廂在不同方向加速，因此它們的動量變化相互抵消。",
+          "b": "沒有理由使匯流排重置。守恆定律説它會保持初始系統值不變。"
         },
         "showMeAction": {
           "label": "顯示短而強的互動",

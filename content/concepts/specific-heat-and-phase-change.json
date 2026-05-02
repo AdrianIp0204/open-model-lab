@@ -1303,21 +1303,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Energy is still entering, but it is changing phase fraction rather than temperature."
+            "label": "No energy is entering because a flat curve means the heater stopped."
           },
           {
             "id": "b",
-            "label": "No energy is entering because a flat curve means the heater stopped."
+            "label": "Energy is still entering, but it is changing phase fraction rather than temperature."
           },
           {
             "id": "c",
             "label": "Temperature is secretly rising, but the graph is hiding it."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "The shelf is the bounded place where latent energy changes while temperature stays nearly constant.",
         "selectedWrongExplanations": {
-          "b": "A flat temperature segment does not automatically mean zero energy transfer.",
+          "a": "A flat temperature segment does not automatically mean zero energy transfer.",
           "c": "The whole point of the shelf is that temperature can stay nearly constant while the phase state changes."
         },
         "showMeAction": {
@@ -1345,22 +1345,22 @@
         "choices": [
           {
             "id": "a",
-            "label": "Setup B changes temperature less because doubling mass doubles m c."
-          },
-          {
-            "id": "b",
             "label": "Setup B changes temperature more because the larger sample contains more total energy."
           },
           {
-            "id": "c",
+            "id": "b",
             "label": "Both setups change temperature the same amount because the material is the same."
+          },
+          {
+            "id": "c",
+            "label": "Setup B changes temperature less because doubling mass doubles m c."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "For the same material, doubling mass doubles the thermal capacity and therefore halves the temperature response to the same sensible-energy pulse.",
         "selectedWrongExplanations": {
-          "b": "A larger total energy store does not mean a larger temperature response. Here it means more energy is needed for each degree.",
-          "c": "The material matters, but the amount matters too because Q_sensible = m c delta T."
+          "a": "A larger total energy store does not mean a larger temperature response. Here it means more energy is needed for each degree.",
+          "b": "The material matters, but the amount matters too because Q_sensible = m c delta T."
         },
         "showMeAction": {
           "label": "Show the mass cue",
@@ -1386,21 +1386,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "No. During cooling, the sample can stay near the shelf temperature while the phase fraction decreases first."
+            "label": "Yes. Cooling always changes temperature before phase."
           },
           {
             "id": "b",
-            "label": "Yes. Cooling always changes temperature before phase."
+            "label": "No. During cooling, the sample can stay near the shelf temperature while the phase fraction decreases first."
           },
           {
             "id": "c",
             "label": "No. Cooling can only change latent heat, never temperature."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "Cooling reverses the same shelf logic: latent energy leaves first, so the phase fraction can decrease while temperature stays near the shelf.",
         "selectedWrongExplanations": {
-          "b": "That ignores the whole idea of a phase-change shelf during cooling.",
+          "a": "That ignores the whole idea of a phase-change shelf during cooling.",
           "c": "Away from the shelf, cooling absolutely changes temperature. The point is that the shelf interrupts that direct change."
         },
         "showMeAction": {

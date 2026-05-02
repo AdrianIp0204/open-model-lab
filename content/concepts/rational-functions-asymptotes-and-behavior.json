@@ -712,21 +712,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "Increase k."
+            "label": "Increase h."
           },
           {
             "id": "b",
-            "label": "Increase h."
+            "label": "Increase k."
           },
           {
             "id": "c",
             "label": "Shrink the probe distance d."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "k sets the long-run level y = k, so changing k lifts or lowers the family while the forbidden x-value x = h stays put.",
         "selectedWrongExplanations": {
-          "b": "Changing h moves the vertical asymptote left or right instead of lifting the family.",
+          "a": "Changing h moves the vertical asymptote left or right instead of lifting the family.",
           "c": "Changing d only moves the sample markers; it does not change the family itself."
         },
         "showMeAction": {
@@ -753,7 +753,7 @@
         "choices": [
           {
             "id": "a",
-            "label": "It adds one finite missing point while keeping the same asymptote family."
+            "label": "It forces both branches to sit on the same side of y = k."
           },
           {
             "id": "b",
@@ -761,14 +761,14 @@
           },
           {
             "id": "c",
-            "label": "It forces both branches to sit on the same side of y = k."
+            "label": "It adds one finite missing point while keeping the same asymptote family."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "A removable hole creates one extra excluded x-value at a finite height, but it does not replace the true asymptotes.",
         "selectedWrongExplanations": {
           "b": "The same long-run level y = k still controls the family even when a hole is shown.",
-          "c": "Branch orientation still comes from the sign of a, not from adding a removable hole."
+          "a": "Branch orientation still comes from the sign of a, not from adding a removable hole."
         },
         "showMeAction": {
           "label": "Show the removable hole",
@@ -794,21 +794,21 @@
         "choices": [
           {
             "id": "a",
-            "label": "The branch positions flip relative to the horizontal asymptote."
+            "label": "The forbidden x-value disappears from the domain."
           },
           {
             "id": "b",
-            "label": "The forbidden x-value disappears from the domain."
+            "label": "The branch positions flip relative to the horizontal asymptote."
           },
           {
             "id": "c",
             "label": "The horizontal asymptote must move to x = k."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "b",
         "explanation": "The sign of a decides whether each branch sits above or below y = k on each side of the vertical asymptote.",
         "selectedWrongExplanations": {
-          "b": "Changing a does not remove the denominator break at x = h.",
+          "a": "Changing a does not remove the denominator break at x = h.",
           "c": "The horizontal asymptote is still the y-level y = k, not an x-location."
         }
       },
@@ -819,7 +819,7 @@
         "choices": [
           {
             "id": "a",
-            "label": "Because the nearby curve still approaches one finite height even though the function is undefined there."
+            "label": "Because any missing point automatically forces the graph to blow up."
           },
           {
             "id": "b",
@@ -827,14 +827,14 @@
           },
           {
             "id": "c",
-            "label": "Because any missing point automatically forces the graph to blow up."
+            "label": "Because the nearby curve still approaches one finite height even though the function is undefined there."
           }
         ],
-        "correctChoiceId": "a",
+        "correctChoiceId": "c",
         "explanation": "A removable hole keeps a finite limiting height, while a vertical asymptote is where the graph grows without bound.",
         "selectedWrongExplanations": {
           "b": "The hole height is about the nearby branch value, not about the graph becoming horizontal.",
-          "c": "Blowing up is the asymptote story. A removable hole is the finite missing-point story."
+          "a": "Blowing up is the asymptote story. A removable hole is the finite missing-point story."
         }
       }
     ]
