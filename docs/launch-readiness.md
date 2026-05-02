@@ -72,12 +72,18 @@ Cloudflare Workers Builds and local OpenNext preview/deploy commands need a real
 Set exactly one of these in the private deploy/build environment:
 
 ```bash
-# Option A: paste private JSONC content, with newlines or escaped \n.
+# Option A, recommended for Cloudflare Workers Builds:
+# paste private JSONC content, with newlines or escaped \n.
 OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT=your_private_wrangler_jsonc_here
 
-# Option B: point at a private file available to the build environment.
+# Option B, mostly for local/private shells:
+# point at a private file that already exists in the build environment.
 OPEN_MODEL_LAB_WRANGLER_JSONC_SOURCE=path/to/private/wrangler.jsonc
 ```
+
+For Cloudflare dashboard setup, prefer `OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT`.
+`OPEN_MODEL_LAB_WRANGLER_JSONC_SOURCE` only works when the private source file
+already exists inside the Cloudflare build environment, which is usually not true.
 
 Then run:
 
@@ -96,13 +102,74 @@ Recommended Cloudflare Workers Builds settings for the public repo:
 
 - repository: `AdrianIp0204/open-model-lab`
 - production branch: `main`
-- Node version: `20`
-- pnpm version: `10.30.3`
-- install command: `pnpm install --frozen-lockfile`
-- build command: `node scripts/generate-content-registry.mjs && pnpm deploy:prepare && pnpm exec opennextjs-cloudflare build`
-- deploy command: `pnpm exec wrangler versions upload`
-- required private build variables: exactly one of `OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT` or `OPEN_MODEL_LAB_WRANGLER_JSONC_SOURCE`
-- optional private build variables when ads are enabled: exactly one of `OPEN_MODEL_LAB_ADS_TXT_CONTENT` or `OPEN_MODEL_LAB_ADS_TXT_SOURCE`
+- path: `/`
+
+In the Cloudflare Workers Builds **Build configuration** drawer, the visible
+fields may be limited to:
+
+```text
+Build command:
+node scripts/generate-content-registry.mjs && pnpm deploy:prepare && pnpm exec opennextjs-cloudflare build
+
+Deploy command:
+pnpm exec wrangler versions upload
+
+Non-production branch deploy command:
+pnpm exec wrangler versions upload
+
+Path:
+/
+```
+
+The shorter equivalent build command is:
+
+```text
+pnpm cloudflare:build
+```
+
+Use the explicit command above when configuring the dashboard by hand because it
+shows each deploy-preparation step. The shorthand exists for maintainers who want
+one local command that matches the Cloudflare build phase.
+
+The old Workers Builds settings are wrong for this repo:
+
+```text
+Build command: pnpm run build
+Deploy command: npx wrangler versions upload
+```
+
+That path builds the Next.js app but does not run OpenNext, so Wrangler cannot
+find the Worker entrypoint or assets during upload.
+
+If Cloudflare exposes dedicated build-image settings outside this drawer, set:
+
+```text
+Node version: 20
+pnpm version: 10.30.3
+```
+
+If those fields are not visible, add non-secret build variables only if the
+Cloudflare project supports them:
+
+```text
+NODE_VERSION=20
+PNPM_VERSION=10.30.3
+```
+
+Do not put secrets in these version variables. Recent failed logs showed
+Cloudflare using Node `22.16.0`; try to pin Node 20 where the UI allows it. If
+Cloudflare still uses Node 22 but the OpenNext build and Wrangler upload pass,
+track that as a compatibility follow-up rather than a deployment blocker.
+
+Required private build variables:
+
+- exactly one of `OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT` or `OPEN_MODEL_LAB_WRANGLER_JSONC_SOURCE`
+- recommended for Cloudflare: `OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT`
+
+Optional private build variables when production ads are enabled:
+
+- exactly one of `OPEN_MODEL_LAB_ADS_TXT_CONTENT` or `OPEN_MODEL_LAB_ADS_TXT_SOURCE`
+- recommended for Cloudflare: `OPEN_MODEL_LAB_ADS_TXT_CONTENT`
 
 The plain `pnpm build` command only creates the Next.js build output. It does not
 materialize private deployment config or create the OpenNext Worker bundle, so it
@@ -110,10 +177,13 @@ is not sufficient before a Workers Builds deploy command such as
 `wrangler versions upload`. For local operator deploys from a shell, `pnpm deploy`
 still runs the private config preparation through its `predeploy` step.
 
-If Cloudflare preview deployments cannot access production secrets, either disable
-preview deployments for untrusted PRs or provide a separate preview-safe private
-Wrangler config. Do not expose official production config or vendor identifiers in
-the public repository.
+If the owner does not want preview branch deployments, disable non-production
+branch builds instead of relying on production private variables being available
+to previews. If preview branch builds stay enabled, the same required private
+build variables must be available to those builds, or previews may fail during
+`pnpm deploy:prepare`. A separate preview-safe Wrangler config is acceptable only
+when it uses preview-owned bindings, domains, and vendor accounts. Do not expose
+official production config or vendor identifiers in the public repository.
 
 ### Ads
 

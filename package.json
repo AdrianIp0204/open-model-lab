@@ -25,6 +25,7 @@
     "ads:write": "node scripts/write-ads-txt.mjs",
     "ads:check": "node scripts/write-ads-txt.mjs --check",
     "deploy:prepare": "node scripts/write-wrangler-config.mjs && node scripts/write-ads-txt.mjs --allow-missing",
+    "cloudflare:build": "node scripts/generate-content-registry.mjs && pnpm deploy:prepare && pnpm exec opennextjs-cloudflare build",
     "build": "next build --webpack",
     "prebuild": "node scripts/generate-content-registry.mjs",
     "dev": "next dev",
