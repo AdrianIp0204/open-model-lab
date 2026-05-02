@@ -31,6 +31,8 @@ Use the issue templates under `.github/ISSUE_TEMPLATE/` and the pull request che
 
 Do not open public issues for vulnerabilities, private account support, billing support, or user-data questions. Use `SECURITY.md` for suspected vulnerabilities and the live contact page for account or billing support.
 
+Before opening larger changes, verify that you are working in the public source repository. The repo identity guide lives in `docs/repository-identity.md`.
+
 ## Local Setup
 
 Use Node and pnpm matching the repo's `packageManager` field.
@@ -41,6 +43,8 @@ pnpm dev
 ```
 
 Copy `.env.example` to `.env.local` for local development and fill only local or test values. Do not commit real secrets, private keys, vendor dashboard exports, database dumps, `.env.local`, or `.dev.vars`.
+
+Ordinary code, docs, content, test, accessibility, and localization contributions do not require production Supabase, Stripe, Resend, AdSense, or Cloudflare setup. Vendor setup docs are for maintainers/operators or independent forks using their own accounts, branding, domains, and legal policies.
 
 For deterministic local account QA, enable the dev harness only in local development:
 

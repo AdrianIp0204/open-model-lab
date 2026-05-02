@@ -2,6 +2,16 @@
 
 Open Model Lab is a simulation-first science-learning site built with Next.js App Router, React, TypeScript, and Tailwind.
 
+## Public source, not an official deployment kit
+
+This is the public source release of Open Model Lab. It is published for code reading, learning, architecture review, issue reports, and focused contributions.
+
+It is not a turnkey production deployment package for cloning the official Open Model Lab website. Real production configuration is intentionally absent: real `wrangler.jsonc`, real `public/ads.txt`, deployment secrets, vendor accounts, private Stripe/Resend/AdSense/Supabase setup, and private operator history are not included.
+
+Ordinary code, docs, content, test, accessibility, and localization contributions do not need production vendor setup. Anyone operating an independent fork must use their own name, branding, domains, vendor accounts, keys, legal policies, and deployment process. The Open Model Lab name, logo, marks, domains, and official presentation are reserved under [BRAND.md](./BRAND.md).
+
+See [docs/repository-identity.md](./docs/repository-identity.md) for the distinction between this public source repository and the private working/archive repository.
+
 This repo is no longer the earlier static prototype. The current codebase already includes:
 
 - a structured concept catalog and authored concept-content system
@@ -54,6 +64,7 @@ This public repository starts from a clean public release history. Repo-facing p
 - [GitHub label setup](./docs/github-label-setup.md)
 - [Final public release gate](./docs/public-release-final-gate.md)
 - [Public release history audit](./docs/public-release-history-audit.md)
+- [Repository identity](./docs/repository-identity.md)
 
 ## License and contribution
 
@@ -114,20 +125,18 @@ The content registry is regenerated automatically before `dev`, `lint`, `test`, 
 pnpm content:registry
 ```
 
-## Local account and vendor setup
+## Local development and optional vendor setup
+
+Most contributors only need `pnpm install`, `pnpm dev`, and the validation commands below. The deterministic dev harness is available for local account-state QA without real vendor accounts: enable `ENABLE_DEV_ACCOUNT_HARNESS=true` and use `/dev/account-harness`.
+
+Vendor setup docs are for maintainers/operators of the official deployment, or for independent fork operators using their own accounts and branding. They are not instructions for deploying an official Open Model Lab clone.
 
 - For Supabase auth, progress sync, entitlement rows, and magic-link redirect setup, see [docs/account-sync-local-setup.md](./docs/account-sync-local-setup.md).
-- For deterministic local QA of signed-out, signed-in free, and internally premium states, enable `ENABLE_DEV_ACCOUNT_HARNESS=true` and use `/dev/account-harness`.
 - For launch-sensitive env vars and manual vendor steps for Stripe, AdSense, Resend, metadata, and trust pages, see [docs/launch-readiness.md](./docs/launch-readiness.md).
 - For Cloudflare preview/deploy work, copy `wrangler.example.jsonc` to the ignored `wrangler.jsonc` and put real values in the private copy plus Cloudflare/Wrangler/CI secret stores.
-- For production AdSense, keep the real `public/ads.txt` private and ignored. Use `public/ads.example.txt` as the format reference and `pnpm ads:write` to materialize the real file from private env or a private source file.
+- For AdSense on an independently operated deployment, keep the real `public/ads.txt` private and ignored. Use `public/ads.example.txt` as the format reference and `pnpm ads:write` to materialize the real file from private env or a private source file.
 
-The repo already supports these flows in code, but vendor dashboards still need manual setup for:
-
-- Supabase redirect URLs and auth configuration
-- Stripe products, prices, and webhook forwarding
-- AdSense publisher/slot IDs, `ads.txt`, and any required consent tooling
-- Resend sender/domain setup
+Fork operators are responsible for their own Supabase project, Stripe products/prices/webhooks, Resend sender/domain setup, AdSense account/slot IDs/consent obligations, Cloudflare configuration, legal policies, and brand compliance.
 
 ## Verify
 

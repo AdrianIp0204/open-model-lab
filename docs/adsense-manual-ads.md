@@ -4,6 +4,11 @@ This doc describes the current pre-approval ad architecture for Open Model Lab.
 It is intentionally dormant by default and requires explicit post-approval
 activation.
 
+This is a maintainer/operator reference, or a reference for independent forks using
+their own AdSense account, brand, domains, legal policies, and consent setup. It is
+not a turnkey guide for publishing an official Open Model Lab clone. The real
+`public/ads.txt`, publisher identifiers, and slot IDs stay private and untracked.
+
 ## Audit Findings
 
 - The old AdSense bootstrap lived in the root layout and could activate from env

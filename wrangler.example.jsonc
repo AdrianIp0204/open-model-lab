@@ -1,5 +1,8 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
+  // Template only. Copy to ignored wrangler.jsonc for real preview/deploy work.
+  // Do not use this as official Open Model Lab production config.
+  // Independent forks need their own brand, domains, accounts, and secrets.
   "main": ".open-next/worker.js",
   "find_additional_modules": true,
   "preserve_file_names": true,

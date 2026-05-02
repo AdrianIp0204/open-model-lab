@@ -2,7 +2,13 @@
 
 This doc covers the bounded launch layer that now exists in the repo. It separates
 what the app supports directly from what still must be configured manually in vendor
-dashboards before a public ad-supported launch.
+dashboards before an ad-supported launch.
+
+This is a maintainer/operator reference, not a turnkey guide for cloning the official
+Open Model Lab deployment. Ordinary contributors do not need production vendor setup.
+Independent fork operators must use their own brand, domains, vendor accounts, keys,
+legal policies, and deployment process. Real official deployment config, secrets,
+`wrangler.jsonc`, and `public/ads.txt` are intentionally not committed.
 
 ## What The Repo Supports
 
@@ -37,11 +43,11 @@ pnpm validate:content
   than real-provider staging. Copy `wrangler.example.jsonc` to the ignored `wrangler.jsonc`
   before real preview/deploy checks.
 - `content:doctor` and `validate:content` keep the catalog/discovery layer honest.
-- For the practical manual staging flow, use [prelaunch-staging-checklist.md](C:/Users/dream/OneDrive/Desktop/.physica/docs/prelaunch-staging-checklist.md).
+- For the practical manual staging flow, use [prelaunch-staging-checklist.md](./prelaunch-staging-checklist.md).
 
-## Required Production Environment
+## Operator-Only Production Environment
 
-Prefer the explicit Open Model Lab names below. The older `SITE_URL` / `NEXT_PUBLIC_SITE_URL`
+Prefer the explicit Open Model Lab env variable names below. The older `SITE_URL` / `NEXT_PUBLIC_SITE_URL`
 fallbacks still work for compatibility, but they should not be the first choice for a fresh
 deployment.
 
@@ -88,14 +94,14 @@ OPEN_MODEL_LAB_ADS_TXT_CONTENT=google.com, pub-your-publisher-id, DIRECT, your-c
 OPEN_MODEL_LAB_ADS_TXT_SOURCE=path/to/private/ads.txt
 ```
 
-See [adsense-manual-ads.md](C:/Users/dream/OneDrive/Desktop/.physica/docs/adsense-manual-ads.md)
+See [adsense-manual-ads.md](./adsense-manual-ads.md)
 for the current placement registry and route policy.
 
 ### Feedback / contact
 
 ```bash
 NEXT_PUBLIC_FEEDBACK_EMAIL=hello@your-domain.example
-RESEND_API_KEY=re_...
+RESEND_API_KEY=your_resend_api_key_here
 FEEDBACK_TO_EMAIL=inbox@your-domain.example
 FEEDBACK_FROM_EMAIL=Open Model Lab <feedback@your-domain.example>
 ```
@@ -127,10 +133,10 @@ publishable key is not required for this first pass because the product does not
 Stripe Elements client-side.
 
 ```bash
-STRIPE_SECRET_KEY=sk_live_...
-STRIPE_WEBHOOK_SECRET=whsec_...
-STRIPE_PREMIUM_PRICE_ID=price_...
-STRIPE_PREMIUM_ACHIEVEMENT_COUPON_ID=coupon_...
+STRIPE_SECRET_KEY=your_stripe_secret_key_here
+STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret_here
+STRIPE_PREMIUM_PRICE_ID=your_supporter_price_id_here
+STRIPE_PREMIUM_ACHIEVEMENT_COUPON_ID=your_reward_coupon_id_here
 ```
 
 Optional local/dev override for a mock Stripe-compatible HTTP server:
@@ -152,9 +158,9 @@ Analytics is optional and separate from advertising.
 ### Account / sync
 
 ```bash
-NEXT_PUBLIC_SUPABASE_URL=...
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
-SUPABASE_SERVICE_ROLE_KEY=...
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url_here
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_supabase_publishable_key_here
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key_here
 ```
 
 ## Current Ad Placement Map
@@ -179,6 +185,10 @@ Current policy:
 - Concept pages are ad-eligible only in clearly separated non-interactive zones
 
 ## Manual AdSense Steps Outside The Repo
+
+These steps are for maintainers/operators of an authorized deployment or independent forks
+using their own AdSense account and branding. They are not instructions to publish an
+official Open Model Lab clone.
 
 1. Get the AdSense account approved for the production domain.
 2. Create the manual units you want to activate first from the current placement
@@ -207,6 +217,10 @@ This repo does **not** implement a bespoke cookie banner or CMP. If your launch 
 traffic mix requires consent tooling, that remains a manual launch step.
 
 ## Manual Stripe Steps Outside The Repo
+
+These steps are for maintainers/operators of an authorized deployment or independent forks
+using their own Stripe account and branding. They are not instructions to publish an
+official Open Model Lab clone.
 
 1. Create one recurring monthly price in Stripe for the Premium plan.
 2. Copy that recurring price ID into `STRIPE_PREMIUM_PRICE_ID`.

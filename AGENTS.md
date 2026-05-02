@@ -10,10 +10,27 @@
   - local-first progress by default
   - any signed-in account can sync the canonical progress snapshot across devices
   - paid/supporter-gated convenience features such as saved study tools, exact-state sharing, richer review/analytics, and ad-free browsing
-- The next product direction is public open-source preparation plus supporter-funded sustainability. Core learning should stay free; paid features should fund and improve the project without walling off the main educational value.
+- The current product/repo direction is public source maintenance plus supporter-funded sustainability. Core learning should stay free; paid features should fund and improve the project without walling off the main educational value.
+
+## Repository Identity Guard
+- Always confirm whether the checkout is `AdrianIp0204/open-model-lab` or `AdrianIp0204/OpenModelLab` before editing. See `docs/repository-identity.md`.
+- `AdrianIp0204/open-model-lab` is the clean public source repository for code reading, issues, review, and public contributions.
+- `AdrianIp0204/OpenModelLab` is the private working/archive repository and must remain private unless the owner explicitly changes strategy later.
+- For public repo work, operate only in `AdrianIp0204/open-model-lab` unless the user explicitly says otherwise. Do not pull private history, ignored files, local QA output, deployment config, or private artifacts into the public repo.
+- Do not use stale private-repo HEADs as the basis for public changes. Fetch and branch from the current public `main`.
+- Before editing, report or record:
+  - repository full name
+  - branch
+  - HEAD SHA
+  - whether the working tree is clean
+- If the task references public repo state but the checkout is `AdrianIp0204/OpenModelLab`, stop and switch to the public repo or ask for direction.
+- If the task references private repo state but the checkout is `AdrianIp0204/open-model-lab`, stop and ask for direction.
+- `AGENTS.md` is intentional tracked guidance. Local agent artifacts such as `.codex-tmp/`, `output/`, `.codex-*.out`, logs, traces, screenshots, browser profiles, and temporary QA outputs are ignored/untracked and should never be committed.
 
 ## Open Source Direction
-- The repo is preparing for a public open-source release, but do not claim it is community-ready until the supporting files and processes actually exist.
+- This public repo is the clean public source release. Keep it positioned for code reading, learning, issue reports, review, and focused contributions, not as a turnkey official deployment kit.
+- Do not imply that the public repo includes the official production deployment setup. Real production config, real `wrangler.jsonc`, real `public/ads.txt`, deployment secrets, vendor dashboards, and private operator history are intentionally absent.
+- Fork operators must use their own name, branding, domains, vendor accounts, keys, legal policies, and deployment process. The Open Model Lab name, logo, marks, domains, and official presentation remain reserved under `BRAND.md`.
 - Protect secrets and private deployment details. Do not commit real API keys, Stripe IDs, Supabase service-role keys, Resend keys, Cloudflare secrets, private emails beyond intended public support addresses, private user data, customer records, local database dumps, or vendor dashboard exports.
 - Keep `.env.example` and similar checked-in example files truthful, minimal, and non-secret. If an example file does not exist yet, do not imply that it does.
 - Keep public docs honest about what is implemented now versus planned. Avoid aspirational claims about governance, community support, security response, public roadmap process, or contributor experience until the relevant files and workflows exist.

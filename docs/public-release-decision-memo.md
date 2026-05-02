@@ -1,10 +1,11 @@
 # Public Release Decision Memo
 
-This memo records the public-release policy decisions and remaining owner decisions before Open Model Lab changes repository visibility. It does not change product behavior.
+This memo records the public-release policy decisions that led to the clean public source repository. It remains useful as historical context and does not change product behavior.
 
 ## Current Readiness Snapshot
 
-- Open Model Lab is preparing for a public open-source release, but the repository should not yet claim final open-source readiness.
+- The clean public source repository now exists at `AdrianIp0204/open-model-lab`.
+- The private working/archive repository remains `AdrianIp0204/OpenModelLab` and must stay private unless the owner explicitly changes strategy later.
 - The product model is free core learning plus an optional Supporter convenience layer.
 - The internal entitlement seam still uses `free | premium` for technical compatibility across billing, webhooks, stored records, fixtures, tests, and capability checks.
 - The public-release hygiene pass removed tracked local browser, output, crash, profile, screenshot, and QA artifacts from the repository.
@@ -12,12 +13,13 @@ This memo records the public-release policy decisions and remaining owner decisi
 - `pnpm public-release:hygiene` exists and checks tracked paths for forbidden local artifacts and secret-looking filenames without printing file contents.
 - Final license files, contribution docs, security policy, brand policy, and code-of-conduct docs now exist.
 - GitHub issue templates, a pull request checklist, and triage guidance now exist.
-- GitHub label definitions and setup instructions now exist, the recommended labels have been synced on GitHub, and the final pre-visibility gate now exists.
+- GitHub label definitions and setup instructions now exist, the recommended labels have been synced on GitHub, and the final public-release gate now exists.
 - A non-destructive current-tree and history audit now exists in `docs/public-release-history-audit.md`.
 - The curated public tree no longer tracks private automation/operator internals, old private UX audit PDFs, or locale translation-memory caches.
 - `AGENTS.md` is retained as detailed repo/agent guidance; local agent-run artifacts remain ignored/untracked.
 - AdSense repository exposure and Wrangler/Cloudflare config posture are now decided: real files stay private and ignored, while placeholder examples stay committed.
-- The preferred history cleanup posture is a future clean orphan public branch; repository visibility timing remains an owner decision.
+- The clean public history posture has been executed for the public repository. Do not push old private branches, tags, or history into `AdrianIp0204/open-model-lab`.
+- Repository identity rules now live in `docs/repository-identity.md`.
 
 ## AdSense Public Metadata Decision
 
@@ -109,17 +111,18 @@ The final repo-facing files are:
 | `docs/github-triage.md` | Label and maintainer-routing guidance. | Label meanings, security redirect rule, owner-review boundaries, and triage expectations. | Added. |
 | `.github/labels.yml` | Label source of truth. | Recommended labels, colors, and descriptions. | Added. |
 | `docs/github-label-setup.md` | Label setup instructions. | Manual setup steps and optional dry-run/apply helper usage. | Added. |
-| `docs/public-release-final-gate.md` | Final pre-visibility checklist. | Policy files, private config boundary, verification commands, GitHub settings, and manual deployment checks. | Added. |
+| `docs/public-release-final-gate.md` | Final public-release checklist. | Policy files, private config boundary, verification commands, GitHub settings, and manual deployment checks. | Added. |
+| `docs/repository-identity.md` | Public/private repo identity guard. | Public repo purpose, private repo boundary, and required agent/contributor identity checks. | Added. |
 | `docs/public-release-history-audit.md` | Current-tree and history cleanup audit. | Current HEAD classifications, historical artifact findings, and rewrite/orphan-branch options. | Added. |
 
 Keep these docs aligned with actual maintainer capacity. Do not imply a larger governance, security, or moderation organization than exists.
 
 ## Recommended Next Sequence
 
-1. Create the clean orphan public branch from the curated current tree, or explicitly accept a different history posture using `docs/public-release-history-audit.md`.
-2. Recheck README, launch docs, and public-release docs for accurate claims.
-3. Run `pnpm public-release:hygiene`, `pnpm public-release:final-check`, `pnpm public-release:history-audit`, `pnpm lint`, `pnpm typecheck`, and the relevant test/browser lanes for the final changes.
-4. Then consider changing repository visibility.
+1. Keep public-source positioning accurate in README, `AGENTS.md`, and `docs/repository-identity.md`.
+2. Keep real deployment config, vendor secrets, real `wrangler.jsonc`, real `public/ads.txt`, and private operator artifacts out of the public repository.
+3. Run `pnpm public-release:hygiene`, `pnpm public-release:final-check`, `pnpm public-release:history-audit`, `pnpm lint`, `pnpm typecheck`, and the relevant test/browser lanes for release-sensitive changes.
+4. Use `AdrianIp0204/open-model-lab` for public contributions and keep `AdrianIp0204/OpenModelLab` private.
 
 ## Current Decisions And Non-Decisions
 
@@ -133,6 +136,6 @@ Keep these docs aligned with actual maintainer capacity. Do not imply a larger g
 - Decided: GitHub label definitions, label setup docs, synced GitHub labels, final release gate docs, and history audit docs exist.
 - Decided: private automation/operator internals, old private UX audit PDFs, and locale translation-memory caches are excluded from the curated public tree.
 - Decided: `AGENTS.md` remains as detailed repo/agent guidance and is distinct from ignored local agent artifacts.
-- Preferred but not yet executed: create a clean orphan public branch from the curated tree before changing visibility.
-- Not decided: final repository visibility timing.
+- Executed: the clean public source repository exists at `AdrianIp0204/open-model-lab`.
+- Still private by design: `AdrianIp0204/OpenModelLab`.
 - No product behavior, billing behavior, Stripe webhook behavior, database migration, or entitlement value changes are part of this memo.
