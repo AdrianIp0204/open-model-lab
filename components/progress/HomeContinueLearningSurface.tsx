@@ -683,13 +683,9 @@ export function HomeContinueLearningSurface({
       ? `/concepts/${quickStartConcept.slug}`
       : "/concepts";
   const primaryVisualLabel = displayPrimaryConcept
-    ? t("actions.continueConcept")
+    ? displayPrimaryConcept.title
     : quickStartConcept
-      ? t("actions.startTitle", {
-          title:
-            getConceptDisplayShortTitle(quickStartConcept, locale) ??
-            getConceptDisplayTitle(quickStartConcept, locale),
-        })
+      ? getConceptDisplayTitle(quickStartConcept, locale)
       : t("actions.startConcept");
 
   return (
@@ -755,6 +751,7 @@ export function HomeContinueLearningSurface({
               <div className="mt-5 flex flex-wrap gap-3">
                 <Link
                   href={`/concepts/${displayPrimaryConcept.slug}`}
+                  data-testid={`home-primary-concept-cta-${displayPrimaryConcept.slug}`}
                   className="inline-flex items-center rounded-full bg-ink-950 px-5 py-2.5 text-sm font-semibold transition-transform duration-200 hover:-translate-y-0.5"
                   style={{ color: "var(--paper-strong)" }}
                 >
@@ -833,6 +830,11 @@ export function HomeContinueLearningSurface({
               <div className="mt-5 flex flex-wrap gap-3">
                 <Link
                   href={quickStartConcept ? `/concepts/${quickStartConcept.slug}` : "/concepts"}
+                  data-testid={
+                    quickStartConcept
+                      ? `home-first-visit-concept-cta-${quickStartConcept.slug}`
+                      : "home-first-visit-concept-cta"
+                  }
                   className="inline-flex items-center rounded-full bg-ink-950 px-5 py-2.5 text-sm font-semibold transition-transform duration-200 hover:-translate-y-0.5"
                   style={{ color: "var(--paper-strong)" }}
                 >
@@ -1016,6 +1018,7 @@ export function HomeContinueLearningSurface({
                 <div className="mt-5 flex flex-wrap gap-3">
                   <Link
                     href={displayFollowUpCandidate.primaryAction.href}
+                    data-testid={`home-follow-up-primary-action-${displayFollowUpCandidate.conceptSlug}`}
                     className="inline-flex items-center rounded-full bg-ink-950 px-4 py-2.5 text-sm font-semibold transition-transform duration-200 hover:-translate-y-0.5"
                     style={{ color: "var(--paper-strong)" }}
                   >

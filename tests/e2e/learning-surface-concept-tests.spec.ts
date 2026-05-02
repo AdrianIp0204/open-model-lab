@@ -44,7 +44,7 @@ test("home continue-learning surface keeps concept review primary and opens the 
 
   await gotoAndExpectOk(page, "/");
   await expect(page.getByRole("heading", { name: /resume saved work or take the next bounded step/i })).toBeVisible();
-  await expect(page.getByRole("link", { name: /resume concept|continue concept/i })).toHaveAttribute(
+  await expect(page.getByTestId("home-primary-concept-cta-vectors-components")).toHaveAttribute(
     "href",
     /\/(?:[a-zA-Z-]+\/)?concepts\/vectors-components$/,
   );

@@ -456,7 +456,7 @@ describe("ConceptLibraryBrowser", () => {
       />,
     );
 
-    expect(screen.getByRole("link", { name: /continue concept/i })).toHaveAttribute(
+    expect(screen.getByTestId("library-primary-cta")).toHaveAttribute(
       "href",
       "/concepts/vectors-components",
     );

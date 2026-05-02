@@ -128,7 +128,7 @@ describe("ContinueLearningSection", () => {
 
     render(<ContinueLearningSection concepts={concepts} />);
 
-    expect(screen.getByRole("link", { name: /continue concept/i })).toHaveAttribute(
+    expect(screen.getByTestId("continue-learning-primary-concept-cta-simple-harmonic-motion")).toHaveAttribute(
       "href",
       "/concepts/simple-harmonic-motion",
     );

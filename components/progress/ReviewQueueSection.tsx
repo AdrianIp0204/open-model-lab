@@ -318,15 +318,7 @@ export function ReviewQueueSection({
                 </div>
                 <Link
                   href={item.primaryAction.href}
-                  aria-label={
-                    useGenericProgressCopy
-                      ? tProgress(
-                          getProgressActionKey(item.primaryAction.kind, {
-                            conceptStatus: item.progressStatus,
-                          }),
-                        )
-                      : item.primaryAction.label
-                  }
+                  aria-label={displayTitle}
                   className="mt-4 block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
                 >
                   <LearningVisual
@@ -371,6 +363,7 @@ export function ReviewQueueSection({
                 <div className="mt-5 flex flex-wrap items-center gap-3">
                   <Link
                     href={item.primaryAction.href}
+                    data-testid={`review-primary-action-${item.slug}`}
                     className="inline-flex items-center rounded-full bg-ink-950 px-5 py-2.5 text-sm font-semibold transition-transform hover:-translate-y-0.5"
                     style={{ color: "var(--paper-strong)" }}
                   >

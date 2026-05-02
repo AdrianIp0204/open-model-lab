@@ -186,7 +186,7 @@ describe("ReviewQueueSection", () => {
     expect(
       screen.getAllByText(/quick test has ended with missed questions 2 times in a row/i).length,
     ).toBeGreaterThan(0);
-    expect(screen.getByRole("link", { name: /retry quick test/i })).toHaveAttribute(
+    expect(screen.getByTestId("review-primary-action-projectile-motion")).toHaveAttribute(
       "href",
       "/concepts/projectile-motion#quick-test",
     );
@@ -329,7 +329,7 @@ describe("ReviewQueueSection", () => {
     );
 
     expect(screen.getByText(/synced across devices/i)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /retry quick test/i })).toHaveAttribute(
+    expect(screen.getByTestId("review-primary-action-projectile-motion")).toHaveAttribute(
       "href",
       "/concepts/projectile-motion#quick-test",
     );
@@ -376,7 +376,7 @@ describe("ReviewQueueSection", () => {
     );
 
     expect(screen.getAllByText(/checkpoint/i).length).toBeGreaterThan(0);
-    expect(screen.getByRole("link", { name: /open checkpoint/i })).toHaveAttribute(
+    expect(screen.getByTestId("review-primary-action-projectile-motion")).toHaveAttribute(
       "href",
       "/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
     );
@@ -411,7 +411,7 @@ describe("ReviewQueueSection", () => {
     render(<ReviewQueueSection concepts={concepts} starterTracks={starterTracks} />);
 
     expect(screen.getAllByText(/checkpoint/i).length).toBeGreaterThan(0);
-    expect(screen.getByRole("link", { name: /open checkpoint/i })).toHaveAttribute(
+    expect(screen.getByTestId("review-primary-action-projectile-motion")).toHaveAttribute(
       "href",
       "/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
     );

@@ -10,6 +10,14 @@ vi.mock("@/components/layout/PageShell", () => ({
 
 import ToolsDirectoryRoute from "@/app/tools/ToolsDirectoryRoute";
 
+function expectAnyLinkHref(name: RegExp, href: string) {
+  expect(
+    screen
+      .getAllByRole("link", { name })
+      .some((link) => link.getAttribute("href") === href),
+  ).toBe(true);
+}
+
 describe("tools directory route", () => {
   it("renders the learning tools hub with circuit and chemistry entries", async () => {
     render(await ToolsDirectoryRoute());
@@ -20,13 +28,7 @@ describe("tools directory route", () => {
         name: /open specialized workspaces without leaving the main learning product behind/i,
       }),
     ).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /open circuit builder/i })).toHaveAttribute(
-      "href",
-      "/circuit-builder",
-    );
-    expect(screen.getByRole("link", { name: /open reaction mind map/i })).toHaveAttribute(
-      "href",
-      "/tools/chemistry-reaction-mind-map",
-    );
+    expectAnyLinkHref(/open circuit builder/i, "/circuit-builder");
+    expectAnyLinkHref(/open reaction mind map/i, "/tools/chemistry-reaction-mind-map");
   });
 });
