@@ -999,10 +999,24 @@ function renderMotif(motif: LearningVisualMotif) {
       return <AcidBaseGlyph />;
     case "atomic-spectra":
       return <AtomicSpectraGlyph />;
+    case "bohr-energy-levels":
+      return (
+        <>
+          <AtomicSpectraGlyph />
+          <path d="M70 78H100M76 64H100M84 50H100" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" opacity="0.78" />
+        </>
+      );
     case "binary-search":
       return <BinarySearchGlyph />;
     case "breadth-first-layers":
       return <BreadthFirstLayersGlyph />;
+    case "calculus-limit":
+      return (
+        <>
+          <LimitApproachGlyph />
+          <path d="M34 43C45 36 53 36 60 43M68 43C75 36 84 36 94 43" fill="none" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" opacity="0.75" />
+        </>
+      );
     case "calculus-slope":
       return <CalculusSlopeGlyph />;
     case "capacitance-storage":
@@ -1017,6 +1031,22 @@ function renderMotif(motif: LearningVisualMotif) {
       return <CircuitPowerGlyph />;
     case "collisions":
       return <CollisionsGlyph />;
+    case "diffraction-aperture":
+      return (
+        <>
+          <WaveMotionGlyph />
+          <path d="M42 28V94M84 28V94" stroke="currentColor" strokeWidth="5" strokeLinecap="round" opacity="0.32" />
+          <path d="M50 58C62 42 72 42 83 58M50 76C62 92 72 92 83 76" fill="none" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" opacity="0.8" />
+        </>
+      );
+    case "double-slit-fringes":
+      return (
+        <>
+          <WaveMotionGlyph />
+          <path d="M48 34V55M48 72V93M58 34V55M58 72V93" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.34" />
+          <path d="M86 32V94M99 38V88" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" opacity="0.76" />
+        </>
+      );
     case "damping-resonance":
       return <DampingResonanceGlyph />;
     case "depth-first-backtracking":
@@ -1025,6 +1055,29 @@ function renderMotif(motif: LearningVisualMotif) {
       return <DispersionPrismGlyph />;
     case "electric-field":
       return <ElectricFieldGlyph />;
+    case "electric-potential":
+      return (
+        <>
+          <ElectricFieldGlyph />
+          <path d="M34 42C48 31 77 31 94 42M31 80C49 94 79 94 99 80" fill="none" stroke="currentColor" strokeWidth="3" strokeDasharray="6 6" strokeLinecap="round" opacity="0.34" />
+        </>
+      );
+    case "electromagnetic-induction":
+      return (
+        <>
+          <ElectricFieldGlyph />
+          <path d="M73 29C93 38 101 60 92 78" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+          <path d="M92 78L92 65L82 72" fill="var(--visual-accent)" />
+        </>
+      );
+    case "electromagnetic-wave":
+      return (
+        <>
+          <WaveMotionGlyph />
+          <path d="M26 41C42 26 58 26 74 41S94 56 108 41" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.34" />
+          <path d="M64 31V91" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" opacity="0.74" />
+        </>
+      );
     case "escape-velocity":
       return <EscapeVelocityGlyph />;
     case "equivalent-resistance":
@@ -1041,6 +1094,31 @@ function renderMotif(motif: LearningVisualMotif) {
       return <FluidDragGlyph />;
     case "fluid-pressure":
       return <FluidPressureGlyph />;
+    case "heat-transfer-flow":
+      return (
+        <>
+          <ThermalEnergyGlyph />
+          <path d="M25 34C45 22 69 22 90 34M90 34L78 28M90 34L82 45" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.36" />
+        </>
+      );
+    case "ideal-gas-kinetic":
+      return (
+        <>
+          <ThermalEnergyGlyph />
+          <path d="M33 44L55 31M75 48L96 35M45 83L68 70" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.36" />
+          <circle cx="55" cy="31" r="4" fill="var(--visual-accent)" />
+          <circle cx="96" cy="35" r="4" fill="var(--visual-accent)" />
+        </>
+      );
+    case "internal-energy-particles":
+      return (
+        <>
+          <ThermalEnergyGlyph />
+          <circle cx="36" cy="58" r="5" fill="currentColor" opacity="0.3" />
+          <circle cx="60" cy="34" r="5" fill="currentColor" opacity="0.3" />
+          <circle cx="96" cy="74" r="5" fill="var(--visual-accent)" />
+        </>
+      );
     case "frontier-visited":
       return <FrontierVisitedGlyph />;
     case "graph-network":
@@ -1061,14 +1139,72 @@ function renderMotif(motif: LearningVisualMotif) {
       return <KirchhoffRulesGlyph />;
     case "lens-imaging":
       return <LensImagingGlyph />;
+    case "light-spectrum":
+      return (
+        <>
+          <DispersionPrismGlyph />
+          <path d="M76 42H110M76 55H110M76 68H110M76 81H110" stroke="var(--visual-accent)" strokeWidth="3" strokeLinecap="round" opacity="0.75" />
+        </>
+      );
     case "limit-approach":
       return <LimitApproachGlyph />;
+    case "limiting-reagent":
+      return (
+        <>
+          <ChemistryGlyph />
+          <path d="M34 97H70" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+          <path d="M79 97H99" stroke="currentColor" strokeWidth="5" strokeLinecap="round" opacity="0.24" />
+        </>
+      );
+    case "longitudinal-sound":
+      return (
+        <>
+          <SoundPitchGlyph />
+          <path d="M67 49H104M67 63H104M67 77H104" stroke="currentColor" strokeWidth="3" strokeDasharray="4 6" strokeLinecap="round" opacity="0.34" />
+        </>
+      );
+    case "magnetic-field-lines":
+      return (
+        <>
+          <ElectricFieldGlyph />
+          <path d="M30 36C51 17 86 23 99 46M28 84C51 105 88 98 101 74" fill="none" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" opacity="0.78" />
+        </>
+      );
+    case "matrix-transformation":
+      return (
+        <>
+          <VectorsComponentsGlyph />
+          <path d="M32 38H76V72H32Z" fill="none" stroke="currentColor" strokeWidth="4" opacity="0.26" />
+          <path d="M48 38L90 28V62L48 72Z" fill="none" stroke="var(--visual-accent)" strokeWidth="4" opacity="0.82" />
+        </>
+      );
+    case "matter-wave":
+      return (
+        <>
+          <AtomicSpectraGlyph />
+          <path d="M22 93C34 80 45 80 57 93S82 106 105 89" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+        </>
+      );
+    case "maxwell-field-synthesis":
+      return (
+        <>
+          <ElectricFieldGlyph />
+          <path d="M27 28L100 95M100 28L27 95" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" opacity="0.52" />
+        </>
+      );
     case "mirror-reflection":
       return <MirrorReflectionGlyph />;
     case "momentum-carts":
       return <MomentumCartsGlyph />;
     case "optimization":
       return <OptimizationGlyph />;
+    case "phase-change-curve":
+      return (
+        <>
+          <ThermalEnergyGlyph />
+          <path d="M25 94H103M33 84H52L66 63H84L96 42" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+        </>
+      );
     case "optical-resolution":
       return <OpticalResolutionGlyph />;
     case "orbital-speed":
@@ -1079,8 +1215,24 @@ function renderMotif(motif: LearningVisualMotif) {
       return <PolarCoordinatesGlyph />;
     case "projectile-motion":
       return <ProjectileMotionGlyph />;
+    case "polarization-filter":
+      return (
+        <>
+          <WaveMotionGlyph />
+          <path d="M67 28V94" stroke="currentColor" strokeWidth="6" strokeLinecap="round" opacity="0.3" />
+          <path d="M78 34V88M90 34V88" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" opacity="0.8" />
+        </>
+      );
     case "radioactivity":
       return <RadioactivityGlyph />;
+    case "photoelectric-threshold":
+      return (
+        <>
+          <AtomicSpectraGlyph />
+          <path d="M23 34H55" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+          <path d="M55 34L44 26M55 34L44 42" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+        </>
+      );
     case "rational-asymptote":
       return <RationalAsymptoteGlyph />;
     case "refraction-snell":
@@ -1099,10 +1251,25 @@ function renderMotif(motif: LearningVisualMotif) {
       return <SoundBeatsGlyph />;
     case "sound-doppler":
       return <SoundDopplerGlyph />;
+    case "sound-intensity":
+      return (
+        <>
+          <SoundPitchGlyph />
+          <path d="M75 95H85M92 95H108" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+          <circle cx="101" cy="47" r="8" fill="currentColor" opacity="0.18" />
+        </>
+      );
     case "sound-pitch":
       return <SoundPitchGlyph />;
     case "standing-wave":
       return <StandingWaveGlyph />;
+    case "stoichiometric-ratios":
+      return (
+        <>
+          <ChemistryGlyph />
+          <path d="M30 98H48M58 98H76M86 98H104" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+        </>
+      );
     case "thermal-energy":
       return <ThermalEnergyGlyph />;
     case "torque":
@@ -1113,10 +1280,49 @@ function renderMotif(motif: LearningVisualMotif) {
       return <UnitCircleGlyph />;
     case "uniform-circular-motion":
       return <UniformCircularMotionGlyph />;
+    case "vector-2d-addition":
+      return (
+        <>
+          <VectorsComponentsGlyph />
+          <path d="M35 46H66M66 46V75M35 46L66 75" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.35" />
+        </>
+      );
+    case "vector-projection":
+      return (
+        <>
+          <VectorsComponentsGlyph />
+          <path d="M40 89H98" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" opacity="0.88" />
+          <path d="M74 48L74 89" stroke="currentColor" strokeWidth="4" strokeDasharray="6 6" strokeLinecap="round" opacity="0.4" />
+        </>
+      );
     case "vectors-components":
       return <VectorsComponentsGlyph />;
+    case "wave-interference-pattern":
+      return (
+        <>
+          <WaveMotionGlyph />
+          <path d="M24 39C39 25 55 25 70 39M57 84C73 100 91 100 106 84" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.34" />
+        </>
+      );
     case "wave-motion":
       return <WaveMotionGlyph />;
+    case "wave-speed":
+      return (
+        <>
+          <WaveMotionGlyph />
+          <path d="M31 30H88" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+          <path d="M88 30L76 22M88 30L76 38" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+        </>
+      );
+    case "solubility-saturation":
+      return (
+        <>
+          <AcidBaseGlyph />
+          <path d="M38 82H88" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+          <circle cx="49" cy="69" r="4" fill="currentColor" opacity="0.32" />
+          <circle cx="69" cy="65" r="4" fill="currentColor" opacity="0.32" />
+        </>
+      );
   }
 
   return <SimulationGlyph />;

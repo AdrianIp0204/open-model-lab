@@ -24,6 +24,8 @@ export type LearningVisualOverlay = "assessment" | "challenge";
 export type LearningVisualMotif =
   | "acid-base"
   | "atomic-spectra"
+  | "bohr-energy-levels"
+  | "calculus-limit"
   | "binary-search"
   | "breadth-first-layers"
   | "calculus-slope"
@@ -33,10 +35,15 @@ export type LearningVisualMotif =
   | "circuit"
   | "circuit-power"
   | "collisions"
+  | "diffraction-aperture"
+  | "double-slit-fringes"
   | "damping-resonance"
   | "depth-first-backtracking"
   | "dispersion-prism"
   | "electric-field"
+  | "electric-potential"
+  | "electromagnetic-induction"
+  | "electromagnetic-wave"
   | "escape-velocity"
   | "equivalent-resistance"
   | "exponential-change"
@@ -51,19 +58,31 @@ export type LearningVisualMotif =
   | "gravitational-field"
   | "gravitational-potential"
   | "gravity-orbits"
+  | "heat-transfer-flow"
+  | "ideal-gas-kinetic"
+  | "internal-energy-particles"
   | "internal-resistance"
   | "kepler-period"
   | "kirchhoff-rules"
   | "lens-imaging"
+  | "light-spectrum"
   | "limit-approach"
+  | "limiting-reagent"
+  | "longitudinal-sound"
+  | "magnetic-field-lines"
+  | "matrix-transformation"
+  | "matter-wave"
+  | "maxwell-field-synthesis"
   | "mirror-reflection"
   | "momentum-carts"
   | "optimization"
+  | "phase-change-curve"
   | "optical-resolution"
   | "orbital-speed"
   | "optics-ray"
   | "polar-coordinates"
   | "projectile-motion"
+  | "polarization-filter"
   | "radioactivity"
   | "rational-asymptote"
   | "refraction-snell"
@@ -74,15 +93,23 @@ export type LearningVisualMotif =
   | "oscillation-energy"
   | "sound-beats"
   | "sound-doppler"
+  | "sound-intensity"
   | "sound-pitch"
   | "standing-wave"
+  | "stoichiometric-ratios"
   | "thermal-energy"
   | "torque"
   | "total-internal-reflection"
   | "unit-circle"
   | "uniform-circular-motion"
+  | "vector-2d-addition"
+  | "vector-projection"
   | "vectors-components"
-  | "wave-motion";
+  | "wave-interference-pattern"
+  | "wave-motion"
+  | "wave-speed"
+  | "solubility-saturation"
+  | "photoelectric-threshold";
 
 export type LearningVisualDescriptor = {
   kind: LearningVisualKind;
@@ -150,7 +177,7 @@ const exactConceptMotifs: Record<string, LearningVisualMotif> = {
   "atomic-spectra": "atomic-spectra",
   "basic-circuits": "circuit",
   "binary-search-halving-the-search-space": "binary-search",
-  "bohr-model": "atomic-spectra",
+  "bohr-model": "bohr-energy-levels",
   "breadth-first-search-and-layered-frontiers": "breadth-first-layers",
   "buoyancy-and-archimedes-principle": "fluid-buoyancy",
   "capacitance-and-stored-electric-energy": "capacitance-storage",
@@ -161,12 +188,12 @@ const exactConceptMotifs: Record<string, LearningVisualMotif> = {
   "conservation-of-momentum": "momentum-carts",
   "continuity-equation": "fluid-continuity",
   "damping-resonance": "damping-resonance",
-  "de-broglie-matter-waves": "atomic-spectra",
+  "de-broglie-matter-waves": "matter-wave",
   "depth-first-search-and-backtracking-paths": "depth-first-backtracking",
   "derivative-as-slope-local-rate-of-change": "calculus-slope",
   "dispersion-refractive-index-color": "dispersion-prism",
-  "doppler-effect": "sound-pitch",
-  "electric-potential": "electric-field",
+  "doppler-effect": "sound-doppler",
+  "electric-potential": "electric-potential",
   "drag-and-terminal-velocity": "fluid-drag",
   "equivalent-resistance": "equivalent-resistance",
   "exponential-change-growth-decay-logarithms": "exponential-change",
@@ -180,19 +207,22 @@ const exactConceptMotifs: Record<string, LearningVisualMotif> = {
   "internal-resistance-and-terminal-voltage": "internal-resistance",
   "integral-as-accumulation-area": "calculus-slope",
   "interference-diffraction": "standing-wave",
+  "ideal-gas-law-and-kinetic-theory": "ideal-gas-kinetic",
   "inverse-trig-angle-from-ratio": "unit-circle",
   "kinetic-energy-work": "projectile-motion",
   "keplers-third-law-orbital-periods": "kepler-period",
   "kirchhoff-loop-and-junction-rules": "kirchhoff-rules",
   "lens-imaging": "lens-imaging",
-  "limits-and-continuity-approaching-a-value": "limit-approach",
+  "limits-and-continuity-approaching-a-value": "calculus-limit",
+  "light-spectrum-linkage": "light-spectrum",
+  "limiting-reagent-and-leftover-reactants": "limiting-reagent",
   "momentum-impulse": "momentum-carts",
   mirrors: "mirror-reflection",
   "optical-resolution-imaging-limits": "optical-resolution",
   "optimization-maxima-minima-and-constraints": "optimization",
   "parametric-curves-motion-from-equations": "polar-coordinates",
-  "photoelectric-effect": "atomic-spectra",
-  "pitch-frequency-loudness-intensity": "sound-pitch",
+  "photoelectric-effect": "photoelectric-threshold",
+  "pitch-frequency-loudness-intensity": "sound-intensity",
   "polar-coordinates-radius-and-angle": "polar-coordinates",
   "power-energy-circuits": "circuit-power",
   "projectile-motion": "projectile-motion",
@@ -205,22 +235,36 @@ const exactConceptMotifs: Record<string, LearningVisualMotif> = {
   "oscillation-energy": "oscillation-energy",
   "pressure-and-hydrostatic-pressure": "fluid-pressure",
   "rotational-inertia": "rotational-inertia",
-  "specific-heat-and-phase-change": "thermal-energy",
+  "specific-heat-and-phase-change": "phase-change-curve",
   "simple-harmonic-motion": "simple-harmonic-motion",
   "series-parallel-circuits": "series-parallel-circuit",
-  "sound-intensity-levels": "sound-pitch",
+  "sound-intensity-levels": "sound-intensity",
   "standing-waves": "standing-wave",
   "static-equilibrium-centre-of-mass": "torque",
-  "temperature-and-internal-energy": "thermal-energy",
+  "temperature-and-internal-energy": "internal-energy-particles",
   torque: "torque",
   "total-internal-reflection": "total-internal-reflection",
   "trig-identities-from-unit-circle-geometry": "unit-circle",
   "unit-circle-sine-cosine-from-rotation": "unit-circle",
   "uniform-circular-motion": "uniform-circular-motion",
   "vectors-components": "vectors-components",
-  "vectors-in-2d": "vectors-components",
-  "wave-interference": "wave-motion",
-  "wave-speed-wavelength": "wave-motion",
+  "vectors-in-2d": "vector-2d-addition",
+  "matrix-transformations": "matrix-transformation",
+  "dot-product-angle-and-projection": "vector-projection",
+  "wave-interference": "wave-interference-pattern",
+  "wave-speed-wavelength": "wave-speed",
+  "electromagnetic-waves": "electromagnetic-wave",
+  polarization: "polarization-filter",
+  diffraction: "diffraction-aperture",
+  "double-slit-interference": "double-slit-fringes",
+  "magnetic-fields": "magnetic-field-lines",
+  "electromagnetic-induction": "electromagnetic-induction",
+  "maxwells-equations-synthesis": "maxwell-field-synthesis",
+  "heat-transfer": "heat-transfer-flow",
+  "beats": "sound-beats",
+  "sound-waves-longitudinal-motion": "longitudinal-sound",
+  "solubility-and-saturation": "solubility-saturation",
+  "stoichiometric-ratios-and-recipe-batches": "stoichiometric-ratios",
   waves: "wave-motion",
 };
 

@@ -164,6 +164,111 @@ describe("learning visual descriptors", () => {
       "lens-imaging",
       "optical-resolution",
     ]);
+
+
+    expect(
+      [
+        "wave-speed-wavelength",
+        "wave-interference",
+        "electromagnetic-waves",
+        "polarization",
+        "diffraction",
+        "double-slit-interference",
+      ].map((slug) => getConceptVisualDescriptor(getConceptSummary(slug)).motif),
+    ).toEqual([
+      "wave-speed",
+      "wave-interference-pattern",
+      "electromagnetic-wave",
+      "polarization-filter",
+      "diffraction-aperture",
+      "double-slit-fringes",
+    ]);
+
+    expect(
+      [
+        "sound-waves-longitudinal-motion",
+        "pitch-frequency-loudness-intensity",
+        "beats",
+        "doppler-effect",
+        "light-spectrum-linkage",
+      ].map((slug) => getConceptVisualDescriptor(getConceptSummary(slug)).motif),
+    ).toEqual([
+      "longitudinal-sound",
+      "sound-intensity",
+      "sound-beats",
+      "sound-doppler",
+      "light-spectrum",
+    ]);
+
+    expect(
+      [
+        "vectors-components",
+        "vectors-in-2d",
+        "matrix-transformations",
+        "dot-product-angle-and-projection",
+      ].map((slug) => getConceptVisualDescriptor(getConceptSummary(slug)).motif),
+    ).toEqual([
+      "vectors-components",
+      "vector-2d-addition",
+      "matrix-transformation",
+      "vector-projection",
+    ]);
+
+    expect(
+      [
+        "temperature-and-internal-energy",
+        "ideal-gas-law-and-kinetic-theory",
+        "heat-transfer",
+        "specific-heat-and-phase-change",
+      ].map((slug) => getConceptVisualDescriptor(getConceptSummary(slug)).motif),
+    ).toEqual([
+      "internal-energy-particles",
+      "ideal-gas-kinetic",
+      "heat-transfer-flow",
+      "phase-change-curve",
+    ]);
+
+    expect(
+      [
+        "electric-potential",
+        "magnetic-fields",
+        "electromagnetic-induction",
+        "maxwells-equations-synthesis",
+      ].map((slug) => getConceptVisualDescriptor(getConceptSummary(slug)).motif),
+    ).toEqual([
+      "electric-potential",
+      "magnetic-field-lines",
+      "electromagnetic-induction",
+      "maxwell-field-synthesis",
+    ]);
+
+    expect(
+      [
+        "photoelectric-effect",
+        "atomic-spectra",
+        "de-broglie-matter-waves",
+        "bohr-model",
+      ].map((slug) => getConceptVisualDescriptor(getConceptSummary(slug)).motif),
+    ).toEqual([
+      "photoelectric-threshold",
+      "atomic-spectra",
+      "matter-wave",
+      "bohr-energy-levels",
+    ]);
+
+    expect(
+      [
+        "limits-and-continuity-approaching-a-value",
+        "solubility-and-saturation",
+        "stoichiometric-ratios-and-recipe-batches",
+        "limiting-reagent-and-leftover-reactants",
+      ].map((slug) => getConceptVisualDescriptor(getConceptSummary(slug)).motif),
+    ).toEqual([
+      "calculus-limit",
+      "solubility-saturation",
+      "stoichiometric-ratios",
+      "limiting-reagent",
+    ]);
   });
 
   it("maps challenge and assessment cards to meaningful overlays", () => {
@@ -321,7 +426,7 @@ describe("learning visual descriptors", () => {
 
     expect(descriptors.map((descriptor) => descriptor.motif)).toEqual([
       "calculus-slope",
-      "limit-approach",
+      "calculus-limit",
       "optimization",
       "complex-plane",
       "polar-coordinates",
