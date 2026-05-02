@@ -112,7 +112,7 @@ describe("ConceptPage above-the-fold entry flow", () => {
     }),
   });
 
-  it("keeps the authored V2 start-here rail above the live lab", () => {
+  it("puts the live lab before authored start/context details", () => {
     const concept = getConceptBySlug("simple-harmonic-motion");
 
     renderConceptFramework(concept);
@@ -157,7 +157,7 @@ describe("ConceptPage above-the-fold entry flow", () => {
       ) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
     expect(
-      startHere.compareDocumentPosition(liveLab) & Node.DOCUMENT_POSITION_FOLLOWING,
+      liveLab.compareDocumentPosition(startHere) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
   });
 
@@ -179,7 +179,7 @@ describe("ConceptPage above-the-fold entry flow", () => {
     expect(startHere).toHaveTextContent(model.intuition);
     expect(startHere).toHaveTextContent("Start concept");
     expect(
-      startHere.compareDocumentPosition(liveLab) & Node.DOCUMENT_POSITION_FOLLOWING,
+      liveLab.compareDocumentPosition(startHere) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
   });
 

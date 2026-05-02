@@ -2434,7 +2434,13 @@ export function CircuitBuilderPage() {
             Free-build on the canvas, inspect live values, and keep the builder bench in view while you work through bounded DC assumptions.
           </p>
         </div>
-        <LearningVisual kind="circuit" tone="sky" compact className="h-28" />
+        <LearningVisual
+          kind="circuit"
+          motif="circuit"
+          tone="sky"
+          compact
+          className="h-28"
+        />
       </div>
 
       {draftRecoveryState === "pending" && pendingDraft ? (

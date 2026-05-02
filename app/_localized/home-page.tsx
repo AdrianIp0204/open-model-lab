@@ -161,7 +161,7 @@ function HomeRouteChoiceCard({
         <div className="space-y-2">
           <p className="lab-label">{eyebrow}</p>
           <h3 className="text-xl font-semibold text-ink-950">{title}</h3>
-          <p className="text-sm leading-6 text-ink-700">{description}</p>
+          <p className="line-clamp-2 text-sm leading-6 text-ink-700">{description}</p>
         </div>
 
         {meta ? (
@@ -219,7 +219,7 @@ function HomeEntryCard({
       <span className="min-w-0 self-center sm:self-auto">
         <span className="lab-label block text-[0.68rem] tracking-[0.14em]">{eyebrow}</span>
         <span className="mt-1.5 block text-sm font-semibold leading-5 text-ink-950">{title}</span>
-        <span className="mt-1 block text-xs leading-5 text-ink-600">{description}</span>
+        <span className="mt-1 line-clamp-2 block text-xs leading-5 text-ink-600">{description}</span>
       </span>
     </Link>
   );
@@ -498,7 +498,10 @@ export default async function HomePage({
 
           </div>
 
-          <div className="motion-enter motion-card page-hero-surface p-4 xl:row-span-2">
+          <div
+            className="motion-enter motion-card page-hero-surface p-4 xl:row-span-2"
+            data-testid="home-hero-preview"
+          >
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(30,166,162,0.14),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(241,102,89,0.12),transparent_28%)]" />
             <div className="relative space-y-3">
               <p className="lab-label">{tHome("liveBench.eyebrow")}</p>

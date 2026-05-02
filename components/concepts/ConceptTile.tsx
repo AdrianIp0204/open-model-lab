@@ -19,6 +19,7 @@ import {
 import { ProgressStatusBadge } from "@/components/progress/ProgressStatusBadge";
 import { formatProgressMonthDay } from "@/components/progress/dateFormatting";
 import { LearningVisual } from "@/components/visuals/LearningVisual";
+import { getConceptVisualDescriptor } from "@/components/visuals/learningVisualDescriptors";
 
 type ConceptTrackMembership = {
   trackSlug: string;
@@ -73,6 +74,7 @@ export function ConceptTile({
     title: concept.title,
   });
   const progress = progressSummary ?? localProgressSummary;
+  const visual = getConceptVisualDescriptor(concept);
 
   const lastActiveLabel = formatProgressMonthDay(
     progress.lastActivityAt,
@@ -123,8 +125,10 @@ export function ConceptTile({
         />
         <div className={isFeature ? "grid gap-4" : "grid gap-3 sm:grid-cols-[6.5rem_minmax(0,1fr)] sm:items-start"}>
           <LearningVisual
-            kind="concept"
-            tone={concept.accent}
+            kind={visual.kind}
+            motif={visual.motif}
+            isFallback={visual.isFallback}
+            tone={visual.tone ?? concept.accent}
             compact
             className={isFeature ? "h-28" : "h-24 sm:h-full sm:min-h-28"}
           />
@@ -160,8 +164,8 @@ export function ConceptTile({
               </h3>
               <p
                 className={[
-                  "text-base text-ink-700",
-                  isFeature ? "max-w-xl leading-7" : "leading-7",
+                  "line-clamp-2 text-sm text-ink-700",
+                  isFeature ? "max-w-xl leading-6" : "leading-6",
                 ].join(" ")}
               >
                 {displaySummary}

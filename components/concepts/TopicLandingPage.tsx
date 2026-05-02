@@ -36,6 +36,10 @@ import { RecommendedGoalPathList } from "@/components/guided/RecommendedGoalPath
 import { DisplayAd, MultiplexAd } from "@/components/ads/AdSlot";
 import { PageSection } from "@/components/layout/PageSection";
 import { LearningVisual } from "@/components/visuals/LearningVisual";
+import {
+  getConceptVisualDescriptor,
+  getTopicVisualDescriptor,
+} from "@/components/visuals/learningVisualDescriptors";
 import { ConceptTile } from "./ConceptTile";
 import { StarterTrackCard } from "./StarterTrackCard";
 
@@ -177,6 +181,13 @@ export function TopicLandingPage({
   const topicDescription = getTopicDisplayDescription(topic, locale);
   const topicIntroduction = getTopicDisplayIntroduction(topic, locale);
   const topicSubjectTitle = getSubjectDisplayTitleFromValue(topic.subject, locale);
+  const topicVisual = getTopicVisualDescriptor({
+    slug: topic.slug,
+    title: topicTitle,
+    subject: topicSubjectTitle,
+    description: topicDescription,
+    accent: topic.accent,
+  });
   const displayStarterTracks = topic.starterTracks;
   const displayGroups = getTopicDisplayGroups(topic, locale);
   const topicTrackRecommendations = buildTopicStarterTrackRecommendations(
@@ -348,14 +359,21 @@ export function TopicLandingPage({
                 <h1 className="max-w-4xl text-[2.2rem] font-semibold leading-[1.02] text-ink-950 sm:text-[2.7rem]">
                   {topicTitle}
                 </h1>
-                <p className="max-w-3xl text-base leading-6 text-ink-700">
+                <p className="line-clamp-2 max-w-3xl text-base leading-6 text-ink-700">
                   {topicDescription}
                 </p>
                 <p className="hidden max-w-3xl text-sm leading-6 text-ink-700 sm:block">
                   {topicIntroduction}
                 </p>
               </div>
-              <LearningVisual kind="topic" tone={topic.accent} compact className="h-28" />
+              <LearningVisual
+                kind={topicVisual.kind}
+                motif={topicVisual.motif}
+                isFallback={topicVisual.isFallback}
+                tone={topicVisual.tone ?? topic.accent}
+                compact
+                className="h-28"
+              />
 
               <div className="flex flex-wrap gap-3">
                 <Link
@@ -514,6 +532,7 @@ export function TopicLandingPage({
             {topic.featuredConcepts.map((concept) => {
               const progress = progressBySlug.get(concept.slug);
               const cue = cueBySlug.get(concept.slug);
+              const visual = getConceptVisualDescriptor(concept);
               const lastActiveLabel = formatProgressMonthDay(
                 progress?.lastActivityAt ?? null,
                 progressSource,
@@ -524,7 +543,20 @@ export function TopicLandingPage({
                   key={concept.slug}
                   className={`rounded-[24px] border p-4 ${accentPanelClasses[topic.accent]}`}
                 >
-                  <LearningVisual kind="concept" tone={concept.accent} compact className="mb-4 h-24" />
+                  <Link
+                    href={`/concepts/${concept.slug}`}
+                    aria-label={t("actions.openConcept")}
+                    className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                  >
+                    <LearningVisual
+                      kind={visual.kind}
+                      motif={visual.motif}
+                      isFallback={visual.isFallback}
+                      tone={visual.tone ?? concept.accent}
+                      compact
+                      className="mb-4 h-24"
+                    />
+                  </Link>
                   <div className="flex flex-wrap items-center gap-2">
                     {cue ? (
                       <span
@@ -549,7 +581,7 @@ export function TopicLandingPage({
                   <h2 className="mt-3 text-xl font-semibold text-ink-950">
                     {getConceptDisplayTitle(concept, locale)}
                   </h2>
-                  <p className="mt-2 text-sm leading-6 text-ink-700">
+                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-ink-700">
                     {getConceptDisplaySummary(concept, locale)}
                   </p>
                   <p className="mt-3 text-xs uppercase tracking-[0.16em] text-ink-500">

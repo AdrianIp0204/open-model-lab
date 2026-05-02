@@ -8237,10 +8237,13 @@ export function ConceptSimulationRenderer({
     />
   );
   const mergedAfterBench =
-    guidedStepSupport || afterBench ? (
+    guidedStepSupport || guidedStepCard || afterBench ? (
       <div className="grid gap-3">
         {guidedStepSupport ? (
           <div data-testid="concept-v2-step-support-slot">{guidedStepSupport}</div>
+        ) : null}
+        {guidedStepCard ? (
+          <div data-testid="concept-v2-step-card-slot">{guidedStepCard}</div>
         ) : null}
         {afterBench}
       </div>
@@ -8331,13 +8334,7 @@ export function ConceptSimulationRenderer({
             />
           ) : null
         }
-        benchHeader={
-          guidedStepCard ? (
-            <div data-testid="concept-v2-step-card-slot">
-              {guidedStepCard}
-            </div>
-          ) : null
-        }
+        benchHeader={null}
         notice={null}
         scene={runtime.renderScene({
           concept,

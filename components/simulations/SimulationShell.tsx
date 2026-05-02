@@ -45,8 +45,8 @@ export function SimulationShell({
   const hasLowerDock = Boolean(equations || supportDock);
 
   return (
-    <section className={["page-hero-surface overflow-hidden p-1.5 sm:p-2.5 md:p-3", className ?? ""].join(" ")}>
-      <div className="relative overflow-hidden rounded-[26px] border border-line bg-paper-strong/85 p-3">
+    <section className={["page-hero-surface overflow-hidden p-1 sm:p-1.5 md:p-2", className ?? ""].join(" ")}>
+      <div className="relative overflow-hidden rounded-[22px] border border-line bg-paper-strong/85 p-2.5 sm:p-3">
         <div className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#1ea6a2,#f0ab3c,#f16659)]" />
         <p className="sr-only" aria-live="polite">
           {accessibilityDescription}
@@ -58,14 +58,14 @@ export function SimulationShell({
           aria-label={setupAnchorLabel}
           tabIndex={setupAnchorId ? -1 : undefined}
         >
-          <div className="border-b border-line/80 pb-2">
+          <div className="border-b border-line/80 pb-1.5">
             <p className="lab-label">{t("title")}</p>
-            <p className="mt-1 hidden text-sm leading-6 text-ink-600 xl:block">
+            <p className="sr-only">
               {t("description")}
             </p>
           </div>
         </div>
-        <div className="mt-2.5 space-y-2.5 md:space-y-3">
+        <div className="mt-2 space-y-2 md:space-y-2.5">
           {transport ? (
             <div
               data-testid="simulation-shell-transport"
@@ -74,19 +74,19 @@ export function SimulationShell({
               {transport}
             </div>
           ) : null}
-          <div className="grid gap-2.5 md:gap-3 xl:grid-cols-[minmax(0,1.18fr)_minmax(18rem,20.5rem)] 2xl:grid-cols-[minmax(0,1.24fr)_minmax(19rem,22rem)] xl:items-start">
+          <div className="grid gap-2 md:gap-2.5 lg:grid-cols-[minmax(0,1.18fr)_minmax(18rem,20.5rem)] 2xl:grid-cols-[minmax(0,1.24fr)_minmax(19rem,22rem)] lg:items-start">
             {benchHeader ? (
               <div
                 data-testid="simulation-shell-bench-header"
-                className="order-2 min-w-0 xl:order-1 xl:col-span-2"
+                className="order-2 min-w-0 lg:order-1 lg:col-span-2"
               >
                 {benchHeader}
               </div>
             ) : null}
             <div
               className={[
-                "contents xl:block xl:min-w-0 xl:space-y-3 xl:col-start-1",
-                benchHeader ? "order-1 xl:order-2" : "order-1",
+                "contents lg:block lg:min-w-0 lg:space-y-3 lg:col-start-1",
+                benchHeader ? "order-1 lg:order-2" : "order-1",
               ].join(" ")}
             >
               <div
@@ -105,11 +105,11 @@ export function SimulationShell({
             <div
               data-testid="simulation-shell-controls"
               className={[
-                "min-w-0 xl:col-start-2 xl:row-span-2",
-                benchHeader ? "order-3 xl:order-3" : "order-2",
+                "min-w-0 lg:col-start-2 lg:row-span-2",
+                benchHeader ? "order-3 lg:order-3" : "order-2",
               ].join(" ")}
             >
-              <div className="space-y-3 xl:sticky xl:top-5">
+              <div className="space-y-2.5 lg:sticky lg:top-4">
                 {controls}
                 {interactionRail ? (
                   <div data-testid="simulation-shell-first-action">
@@ -153,13 +153,13 @@ export function SimulationShell({
           ) : null}
         </div>
         {hasLowerDock ? (
-          <div className="mt-2.5 grid gap-2.5">
+          <div className="mt-2 grid gap-2.5">
             <div>{equations}</div>
             {supportDock ? <div>{supportDock}</div> : null}
           </div>
         ) : null}
-        <div className="mt-2.5">
-          <div className="rounded-[18px] border border-line bg-white/70 px-4 py-3 text-sm leading-6 text-ink-700">
+        <div className="mt-2">
+          <div className="rounded-[16px] border border-line bg-white/70 px-3 py-2 text-sm leading-6 text-ink-700">
             {status}
           </div>
         </div>
