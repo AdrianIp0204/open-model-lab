@@ -5,6 +5,13 @@ import {
 } from "@/lib/onboarding/help-content";
 
 describe("onboarding help route behavior", () => {
+  it("suppresses automatic onboarding on the visual-first home page", () => {
+    expect(getOnboardingRouteKey("/")).toBe("home");
+    expect(getOnboardingRouteKey("/zh-HK")).toBe("home");
+    expect(shouldSuppressAutomaticOnboarding("/")).toBe(true);
+    expect(shouldSuppressAutomaticOnboarding("/zh-HK")).toBe(true);
+  });
+
   it("keeps manual assessment help available while suppressing automatic test overlays", () => {
     expect(getOnboardingRouteKey("/en/tests/concepts/simple-harmonic-motion")).toBe(
       "assessment",

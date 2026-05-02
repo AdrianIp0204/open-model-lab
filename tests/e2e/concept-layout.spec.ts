@@ -111,6 +111,7 @@ async function assertInitialViewportLayout(
   const controls = page.getByTestId("simulation-shell-controls");
   const graphs = page.getByTestId("simulation-shell-graphs");
   const firstAction = page.getByTestId("simulation-shell-first-action");
+  const controlsLink = page.getByTestId("simulation-shell-controls-link");
   const guidedStepSlot = page.getByTestId("concept-v2-step-card-slot");
   const firstPrimaryControl = controls.locator('input[type="range"], input[type="checkbox"]').first();
 
@@ -120,6 +121,10 @@ async function assertInitialViewportLayout(
   await expect(controls).toBeVisible();
   await expect(graphs).toBeVisible();
   await expect(firstAction).toBeVisible();
+  if (viewportCase.viewport.width < 640) {
+    await expect(controlsLink).toBeVisible();
+    await expect(controlsLink).toHaveAttribute("href", "#concept-live-controls");
+  }
   await expect(guidedStepSlot).toBeVisible();
   await expect(firstPrimaryControl).toBeVisible();
 

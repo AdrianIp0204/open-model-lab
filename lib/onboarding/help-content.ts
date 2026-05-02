@@ -31,6 +31,7 @@ export type OnboardingStepDefinition = {
 const localeSegmentPattern = /^\/(?:en|zh-HK)(?=\/|$)/;
 
 const automaticPromptExcludedPrefixes = [
+  "/",
   "/account",
   "/auth",
   "/billing",

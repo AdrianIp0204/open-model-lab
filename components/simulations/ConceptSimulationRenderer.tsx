@@ -8186,6 +8186,7 @@ export function ConceptSimulationRenderer({
     moreToolsExpanded ||
     Boolean(highlightedOverlayIds.length || initialChallengeItemId) ||
     activeLocationHash === `#${conceptShareAnchorIds.challengeMode}`;
+  const controlsAnchorId = "concept-live-controls";
   const interactionRail = (
     <section className="rounded-[22px] border border-line bg-white/55 px-3 py-2.5">
       <div className="mb-1.5 border-b border-line/80 pb-1.5">
@@ -8196,7 +8197,16 @@ export function ConceptSimulationRenderer({
               {t("interactionRail.description")}
             </p>
           </div>
-          {modeTabs}
+          <div className="flex flex-wrap items-center gap-2">
+            <a
+              href={`#${controlsAnchorId}`}
+              data-testid="simulation-shell-controls-link"
+              className="inline-flex min-h-9 items-center justify-center rounded-full border border-teal-500/25 bg-paper-strong px-3 py-1.5 text-xs font-semibold text-teal-800 transition hover:border-teal-500/45 hover:bg-white sm:hidden"
+            >
+              {t("controls.title")}
+            </a>
+            {modeTabs}
+          </div>
         </div>
       </div>
       {exploreStarterGuide ? <div className="mb-2">{exploreStarterGuide}</div> : null}
@@ -8316,6 +8326,8 @@ export function ConceptSimulationRenderer({
         accessibilityDescription={`${simulationDescription} ${stateDescription}`}
         setupAnchorId={conceptShareAnchorIds.liveBench}
         setupAnchorLabel={t("setupAnchorLabel", { title: concept.title })}
+        controlsAnchorId={controlsAnchorId}
+        controlsAnchorLabel={t("controls.title")}
         transport={
           hasInteractiveTime ? (
             <TimeControlRail

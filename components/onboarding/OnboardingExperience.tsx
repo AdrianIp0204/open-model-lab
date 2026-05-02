@@ -179,6 +179,7 @@ export function OnboardingExperience() {
     defaultOnboardingPreferences,
   );
   const [promptOpen, setPromptOpen] = useState(false);
+  const [promptPathname, setPromptPathname] = useState<string | null>(null);
   const [helpOpen, setHelpOpen] = useState(false);
   const [tourSteps, setTourSteps] = useState<OnboardingStepDefinition[]>([]);
   const [tourStepIndex, setTourStepIndex] = useState(0);
@@ -283,6 +284,7 @@ export function OnboardingExperience() {
 
     const timer = window.setTimeout(() => {
       if (!hasBlockingDialog()) {
+        setPromptPathname(pathname ?? null);
         setPromptOpen(true);
       }
     }, AUTO_PROMPT_DELAY_MS);
@@ -408,7 +410,9 @@ export function OnboardingExperience() {
 
   return (
     <>
-      {promptOpen ? (
+      {promptOpen &&
+      promptPathname === (pathname ?? null) &&
+      !shouldSuppressAutomaticOnboarding(pathname) ? (
         <section
           role="dialog"
           aria-modal="false"

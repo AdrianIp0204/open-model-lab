@@ -7,6 +7,8 @@ type SimulationShellProps = {
   accessibilityDescription: string;
   setupAnchorId?: string;
   setupAnchorLabel?: string;
+  controlsAnchorId?: string;
+  controlsAnchorLabel?: string;
   scene: ReactNode;
   equations: ReactNode;
   controls: ReactNode;
@@ -26,6 +28,8 @@ export function SimulationShell({
   accessibilityDescription,
   setupAnchorId,
   setupAnchorLabel,
+  controlsAnchorId,
+  controlsAnchorLabel,
   transport,
   scene,
   equations,
@@ -115,7 +119,16 @@ export function SimulationShell({
                     {interactionRail}
                   </div>
                 ) : null}
-                {controls}
+                <div
+                  id={controlsAnchorId}
+                  data-testid="simulation-shell-control-panel"
+                  className={controlsAnchorId ? "scroll-mt-24" : undefined}
+                  role={controlsAnchorId ? "region" : undefined}
+                  aria-label={controlsAnchorLabel}
+                  tabIndex={controlsAnchorId ? -1 : undefined}
+                >
+                  {controls}
+                </div>
               </div>
             </div>
           </div>
