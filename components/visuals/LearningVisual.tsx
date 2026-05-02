@@ -84,6 +84,33 @@ function SimpleHarmonicGlyph() {
   );
 }
 
+function OscillationEnergyGlyph() {
+  return (
+    <>
+      <path d="M16 67H110" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.22" />
+      <path d="M24 68C34 34 45 34 55 68S76 102 86 68S100 34 108 68" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <rect x="28" y="82" width="22" height="14" rx="5" fill="currentColor" opacity="0.16" />
+      <rect x="54" y="72" width="22" height="24" rx="5" fill="var(--visual-accent)" opacity="0.82" />
+      <rect x="80" y="58" width="22" height="38" rx="5" fill="currentColor" opacity="0.2" />
+      <path d="M34 45H76" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.3" />
+      <path d="M76 45L65 37M76 45L65 53" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+    </>
+  );
+}
+
+function DampingResonanceGlyph() {
+  return (
+    <>
+      <path d="M18 77C30 34 43 34 55 65S78 91 91 61S103 41 109 55" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M19 87C36 82 55 78 78 78C91 78 101 80 108 84" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.28" />
+      <path d="M27 36C45 24 77 24 96 42" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.28" />
+      <path d="M96 42L84 39L91 29" fill="currentColor" opacity="0.3" />
+      <circle cx="72" cy="50" r="7" fill="var(--visual-accent)" />
+      <path d="M32 99H99" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.22" />
+    </>
+  );
+}
+
 function VectorsComponentsGlyph() {
   return (
     <>
@@ -197,6 +224,84 @@ function GravityOrbitsGlyph() {
   );
 }
 
+function OrbitalSpeedGlyph() {
+  return (
+    <>
+      <circle cx="62" cy="61" r="12" fill="var(--visual-accent)" />
+      <ellipse cx="62" cy="61" rx="43" ry="26" fill="none" stroke="currentColor" strokeWidth="4" opacity="0.22" transform="rotate(-14 62 61)" />
+      <circle cx="98" cy="49" r="7" fill="currentColor" opacity="0.34" />
+      <path d="M98 49H111" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M111 49L101 41M111 49L101 57" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M62 61L98 49" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.25" />
+      <path d="M30 78C42 91 65 98 88 88" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.18" />
+    </>
+  );
+}
+
+function GravitationalFieldGlyph() {
+  return (
+    <>
+      <circle cx="63" cy="61" r="13" fill="var(--visual-accent)" />
+      {[28, 44, 62, 80, 98].map((x, index) => (
+        <path
+          key={x}
+          d={`M${x} ${[31, 42, 24, 42, 31][index]}L${63 + (x < 63 ? -10 : x > 63 ? 10 : 0)} ${54}`}
+          stroke="currentColor"
+          strokeWidth="4"
+          strokeLinecap="round"
+          opacity="0.3"
+        />
+      ))}
+      <path d="M31 91L53 71M95 91L73 71" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.3" />
+      <circle cx="92" cy="41" r="7" fill="currentColor" opacity="0.22" />
+      <path d="M89 44L73 55" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M73 55L84 56L79 47" fill="var(--visual-accent)" />
+    </>
+  );
+}
+
+function GravitationalPotentialGlyph() {
+  return (
+    <>
+      <path d="M23 91H105M23 91V28" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.28" />
+      <path d="M30 46C45 48 53 70 63 83C75 64 89 53 104 48" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <circle cx="63" cy="81" r="7" fill="var(--visual-accent)" />
+      <path d="M47 55L35 64M78 70L94 59" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.3" />
+      <path d="M94 59L88 70L82 61" fill="currentColor" opacity="0.3" />
+      <path d="M55 26H93" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.2" />
+    </>
+  );
+}
+
+function KeplerPeriodGlyph() {
+  return (
+    <>
+      <circle cx="61" cy="61" r="10" fill="var(--visual-accent)" />
+      <ellipse cx="61" cy="61" rx="24" ry="16" fill="none" stroke="currentColor" strokeWidth="4" opacity="0.24" />
+      <ellipse cx="61" cy="61" rx="47" ry="31" fill="none" stroke="currentColor" strokeWidth="4" opacity="0.16" />
+      <circle cx="85" cy="61" r="5" fill="currentColor" opacity="0.32" />
+      <circle cx="106" cy="61" r="7" fill="currentColor" opacity="0.24" />
+      <path d="M75 36C87 27 104 31 111 44" fill="none" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" />
+      <path d="M111 44L99 40L107 33" fill="var(--visual-accent)" />
+      <path d="M28 93H91" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.22" />
+      <path d="M34 93V84M57 93V78M84 93V70" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" opacity="0.75" />
+    </>
+  );
+}
+
+function EscapeVelocityGlyph() {
+  return (
+    <>
+      <circle cx="45" cy="75" r="13" fill="var(--visual-accent)" />
+      <path d="M45 75C58 48 76 31 105 21" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M105 21L94 32L91 20" fill="var(--visual-accent)" />
+      <path d="M32 91C48 105 75 101 91 83" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.22" />
+      <path d="M20 75C35 51 63 38 92 39" fill="none" stroke="currentColor" strokeWidth="4" strokeDasharray="6 7" strokeLinecap="round" opacity="0.25" />
+      <circle cx="87" cy="48" r="5" fill="currentColor" opacity="0.26" />
+    </>
+  );
+}
+
 function OpticsRayGlyph() {
   return (
     <>
@@ -229,6 +334,31 @@ function SoundPitchGlyph() {
       <path d="M44 47C51 54 51 68 44 75M55 39C67 51 67 71 55 83" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.3" />
       <path d="M70 37C76 51 76 73 70 87M84 37C90 51 90 73 84 87M98 37C104 51 104 73 98 87" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
       <path d="M69 94H101" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.22" />
+    </>
+  );
+}
+
+function SoundBeatsGlyph() {
+  return (
+    <>
+      <path d="M18 61C27 43 36 43 45 61S63 79 72 61S90 43 108 61" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.28" />
+      <path d="M18 61C30 30 43 30 55 61S80 92 108 61" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M30 93C44 83 55 83 70 93S94 103 104 92" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.22" />
+      <path d="M35 33V89M72 33V89M101 33V89" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.18" />
+      <circle cx="72" cy="61" r="6" fill="var(--visual-accent)" />
+    </>
+  );
+}
+
+function SoundDopplerGlyph() {
+  return (
+    <>
+      <path d="M31 52L46 43V81L31 72Z" fill="var(--visual-accent)" />
+      <path d="M51 61H82" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M82 61L71 53M82 61L71 69" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M87 36C94 50 94 73 87 88M100 41C105 53 105 70 100 82" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.34" />
+      <path d="M20 42C14 53 14 70 20 82M10 50C6 57 6 66 10 74" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.2" />
+      <circle cx="93" cy="61" r="6" fill="currentColor" opacity="0.2" />
     </>
   );
 }
@@ -282,6 +412,59 @@ function FluidBuoyancyGlyph() {
       <path d="M63 54V28" stroke="currentColor" strokeWidth="5" strokeLinecap="round" opacity="0.35" />
       <path d="M63 28L54 41H72Z" fill="currentColor" opacity="0.35" />
       <path d="M32 92H96" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.24" />
+    </>
+  );
+}
+
+function FluidPressureGlyph() {
+  return (
+    <>
+      <rect x="31" y="28" width="65" height="68" rx="5" fill="currentColor" opacity="0.1" />
+      <path d="M31 28H96V96H31Z" fill="none" stroke="currentColor" strokeWidth="4" opacity="0.18" />
+      <path d="M34 55H93V96H34Z" fill="var(--visual-accent)" opacity="0.22" />
+      <circle cx="63" cy="72" r="7" fill="var(--visual-accent)" />
+      <path d="M63 42V67M45 72H58M68 72H82M63 78V92" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.34" />
+      <path d="M63 67L55 57H71Z" fill="currentColor" opacity="0.34" />
+      <path d="M28 96H99" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.22" />
+    </>
+  );
+}
+
+function FluidContinuityGlyph() {
+  return (
+    <>
+      <path d="M18 52C38 42 48 43 59 53C68 62 82 63 108 50V72C82 84 68 83 58 73C47 63 38 62 18 73Z" fill="currentColor" opacity="0.12" />
+      <path d="M21 62H50M75 62H108" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M50 62L40 54M50 62L40 70M108 62L98 54M108 62L98 70" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M55 43V82M72 48V76" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.28" />
+      <path d="M30 91H97" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.22" />
+    </>
+  );
+}
+
+function FluidBernoulliGlyph() {
+  return (
+    <>
+      <path d="M18 58C36 45 48 45 61 57C73 69 88 68 108 51V76C88 91 73 91 61 78C48 65 36 66 18 78Z" fill="currentColor" opacity="0.12" />
+      <path d="M26 48H42M77 39H101" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.24" />
+      <path d="M34 83H54M79 76H104" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.24" />
+      <path d="M42 63H71" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M71 63L61 55M71 63L61 71" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="85" cy="56" r="6" fill="var(--visual-accent)" />
+      <path d="M83 56V35" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" opacity="0.8" />
+    </>
+  );
+}
+
+function FluidDragGlyph() {
+  return (
+    <>
+      <path d="M63 25V83" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M63 83L53 71M63 83L73 71" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="63" cy="62" r="12" fill="currentColor" opacity="0.2" />
+      <path d="M45 44C33 52 33 70 45 78M81 44C93 52 93 70 81 78" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.28" />
+      <path d="M37 31H89M37 94H89" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.2" />
+      <path d="M42 88H84" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.24" />
     </>
   );
 }
@@ -564,20 +747,40 @@ function renderMotif(motif: LearningVisualMotif) {
       return <CircuitGlyph />;
     case "collisions":
       return <CollisionsGlyph />;
+    case "damping-resonance":
+      return <DampingResonanceGlyph />;
     case "electric-field":
       return <ElectricFieldGlyph />;
+    case "escape-velocity":
+      return <EscapeVelocityGlyph />;
+    case "fluid-bernoulli":
+      return <FluidBernoulliGlyph />;
     case "fluid-buoyancy":
       return <FluidBuoyancyGlyph />;
+    case "fluid-continuity":
+      return <FluidContinuityGlyph />;
+    case "fluid-drag":
+      return <FluidDragGlyph />;
+    case "fluid-pressure":
+      return <FluidPressureGlyph />;
     case "graph-transformations":
       return <GraphTransformationsGlyph />;
+    case "gravitational-field":
+      return <GravitationalFieldGlyph />;
+    case "gravitational-potential":
+      return <GravitationalPotentialGlyph />;
     case "gravity-orbits":
       return <GravityOrbitsGlyph />;
+    case "kepler-period":
+      return <KeplerPeriodGlyph />;
     case "limit-approach":
       return <LimitApproachGlyph />;
     case "momentum-carts":
       return <MomentumCartsGlyph />;
     case "optimization":
       return <OptimizationGlyph />;
+    case "orbital-speed":
+      return <OrbitalSpeedGlyph />;
     case "optics-ray":
       return <OpticsRayGlyph />;
     case "polar-coordinates":
@@ -590,6 +793,12 @@ function renderMotif(motif: LearningVisualMotif) {
       return <RotationalInertiaGlyph />;
     case "simple-harmonic-motion":
       return <SimpleHarmonicGlyph />;
+    case "oscillation-energy":
+      return <OscillationEnergyGlyph />;
+    case "sound-beats":
+      return <SoundBeatsGlyph />;
+    case "sound-doppler":
+      return <SoundDopplerGlyph />;
     case "sound-pitch":
       return <SoundPitchGlyph />;
     case "standing-wave":

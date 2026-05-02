@@ -378,6 +378,7 @@ describe("ChallengeDiscoveryHub", () => {
     const card = heading.closest("article");
 
     expect(card).not.toBeNull();
+    expect(card as HTMLElement).toHaveAttribute("data-card-visual-layout", "compact-side");
     expect(card as HTMLElement).toHaveTextContent(/2\.2 s/i);
     expect(card as HTMLElement).not.toHaveTextContent(/\\mathrm|\\,|\$/);
 

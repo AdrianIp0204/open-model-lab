@@ -52,6 +52,7 @@ import {
 import { StarterTrackRecommendationList } from "@/components/tracks/StarterTrackRecommendationList";
 import { ConceptLearningSurfaceTestCta } from "@/components/tests/ConceptLearningSurfaceTestCta";
 import { LearningVisual } from "@/components/visuals/LearningVisual";
+import { getConceptVisualDescriptor } from "@/components/visuals/learningVisualDescriptors";
 import { MasteryStateBadge } from "./MasteryStateBadge";
 import { ProgressStatusBadge } from "./ProgressStatusBadge";
 import { AccountAwareReviewRemediationList } from "./AccountAwareReviewRemediationList";
@@ -144,6 +145,30 @@ function buildTopicSummaryByConceptSlug(topics: TopicDiscoverySummary[]) {
   }
 
   return topicByConceptSlug;
+}
+
+function cleanCardText(value: string | null | undefined, maxLength = 190) {
+  if (!value) {
+    return null;
+  }
+
+  const compact = value
+    .replace(/\s+/g, " ")
+    .replace(/([.!?])(?=[A-Z0-9])/g, "$1 ")
+    .trim();
+
+  if (compact.length <= maxLength) {
+    return compact;
+  }
+
+  const cut = compact.slice(0, maxLength - 3);
+  const lastSpace = cut.lastIndexOf(" ");
+
+  return `${cut.slice(0, lastSpace > 120 ? lastSpace : cut.length).trim()}...`;
+}
+
+function joinCardText(parts: Array<string | null | undefined>, maxLength?: number) {
+  return cleanCardText(parts.filter(Boolean).join(" "), maxLength);
 }
 
 function buildHomeTrackRecommendationSection(
@@ -623,19 +648,22 @@ export function HomeContinueLearningSurface({
         t,
       );
   const displayPrimaryDescription = displayPrimaryConcept
-    ? useGenericProgressCopy
-      ? tProgress(
-          displayPrimaryConcept.resumeReason
-            ? displayPrimaryConcept.isSynced
-              ? "descriptions.primaryReviewSynced"
-              : "descriptions.primaryReviewLocal"
-            : displayPrimaryConcept.isSynced
-              ? "descriptions.primaryMomentumSynced"
-              : "descriptions.primaryMomentumLocal",
-        )
-      : [displayPrimaryConcept.resumeReason, displayPrimaryConcept.masteryNote]
-          .filter(Boolean)
-          .join(" ")
+    ? cleanCardText(
+        useGenericProgressCopy
+          ? tProgress(
+              displayPrimaryConcept.resumeReason
+                ? displayPrimaryConcept.isSynced
+                  ? "descriptions.primaryReviewSynced"
+                  : "descriptions.primaryReviewLocal"
+                : displayPrimaryConcept.isSynced
+                  ? "descriptions.primaryMomentumSynced"
+                  : "descriptions.primaryMomentumLocal",
+            )
+          : [displayPrimaryConcept.resumeReason, displayPrimaryConcept.masteryNote]
+              .filter(Boolean)
+              .join(" "),
+        170,
+      )
     : null;
   const displayCurrentTrackPrimaryNote =
     displayCurrentTrack && useGenericProgressCopy && displayCurrentTrack.status !== "completed"
@@ -645,10 +673,31 @@ export function HomeContinueLearningSurface({
           ? tProgress("descriptions.trackCheckpoint")
           : tProgress("descriptions.trackContinue")
       : displayCurrentTrack?.primaryNote ?? null;
+  const displayCurrentTrackDescription = displayCurrentTrack
+    ? joinCardText(
+        [
+          t("track.progressSummary", {
+            completed: displayCurrentTrack.completedFlowCount,
+            total: displayCurrentTrack.totalFlowCount,
+          }),
+          displayCurrentTrack.totalCheckpoints > 0
+            ? t("track.checkpointSummary", {
+                completedConcepts: displayCurrentTrack.completedCount,
+                completedCheckpoints: displayCurrentTrack.completedCheckpointCount,
+              })
+            : null,
+          displayCurrentTrackPrimaryNote,
+        ],
+        180,
+      )
+    : null;
   const displayFollowUpReason = displayFollowUpCandidate
-    ? useGenericProgressCopy
-      ? tProgress(getProgressReasonKey(displayFollowUpCandidate.reasonKind))
-      : displayFollowUpCandidate.reason
+    ? cleanCardText(
+        useGenericProgressCopy
+          ? tProgress(getProgressReasonKey(displayFollowUpCandidate.reasonKind))
+          : displayFollowUpCandidate.reason,
+        150,
+      )
     : null;
   const displayFollowUpTrackCueLabel =
     displayFollowUpCandidate?.trackCue && useGenericProgressCopy
@@ -656,18 +705,21 @@ export function HomeContinueLearningSurface({
       : displayFollowUpCandidate?.trackCue?.focusLabel ?? null;
   const displayFollowUpTrackCueNote =
     displayFollowUpCandidate?.trackCue && useGenericProgressCopy
-      ? tProgress("descriptions.trackCue", {
-          title: displayFollowUpCandidate.trackCue.title,
-        })
-      : displayFollowUpCandidate?.trackCue?.note ?? null;
+      ? cleanCardText(
+          tProgress("descriptions.trackCue", {
+            title: displayFollowUpCandidate.trackCue.title,
+          }),
+          120,
+        )
+      : cleanCardText(displayFollowUpCandidate?.trackCue?.note, 120);
   const displayFollowUpSupportReasons =
     displayFollowUpCandidate && !useGenericProgressCopy
       ? displayFollowUpCandidate.supportReasons
       : [];
   const displayNextRecommendationNote =
     displayNextRecommendation && useGenericProgressCopy
-      ? tProgress("descriptions.nextRecommendation")
-      : displayNextRecommendation?.note ?? null;
+      ? cleanCardText(tProgress("descriptions.nextRecommendation"), 140)
+      : cleanCardText(displayNextRecommendation?.note, 140);
   const fallbackTrackTitle = fallbackTrack
     ? getStarterTrackDisplayTitle(fallbackTrack, locale)
     : null;
@@ -687,6 +739,20 @@ export function HomeContinueLearningSurface({
     : quickStartConcept
       ? getConceptDisplayTitle(quickStartConcept, locale)
       : t("actions.startConcept");
+  const primaryVisualConcept = displayPrimaryConcept
+    ? conceptsBySlug.get(displayPrimaryConcept.slug) ?? null
+    : quickStartConcept;
+  const primaryVisual = primaryVisualConcept
+    ? getConceptVisualDescriptor(primaryVisualConcept)
+    : null;
+  const followUpVisualConcept = displayFollowUpCandidate
+    ? conceptsBySlug.get(displayFollowUpCandidate.conceptSlug) ?? null
+    : displayNextRecommendation
+      ? conceptsBySlug.get(displayNextRecommendation.conceptSlug) ?? null
+      : null;
+  const followUpVisual = followUpVisualConcept
+    ? getConceptVisualDescriptor(followUpVisualConcept)
+    : null;
 
   return (
     <section className={["space-y-5", className].filter(Boolean).join(" ")}>
@@ -718,7 +784,16 @@ export function HomeContinueLearningSurface({
             aria-label={primaryVisualLabel}
             className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
           >
-            <LearningVisual kind="progress" tone="teal" compact className="h-28 md:h-full" />
+            <LearningVisual
+              kind={primaryVisual?.kind ?? "progress"}
+              motif={primaryVisual?.motif}
+              overlay={primaryVisual?.overlay}
+              isFallback={primaryVisual?.isFallback}
+              fallbackKind={primaryVisual?.fallbackKind}
+              tone={primaryVisual?.tone ?? primaryVisualConcept?.accent ?? "teal"}
+              compact
+              className="h-24 rounded-[18px] md:h-full"
+            />
           </Link>
           <div className="min-w-0">
           {displayPrimaryConcept ? (
@@ -882,17 +957,7 @@ export function HomeContinueLearningSurface({
                   {displayCurrentTrack.title}
                 </h3>
                 <p className="mt-2 text-sm leading-5.5 text-ink-700 sm:leading-6">
-                  {t("track.progressSummary", {
-                    completed: displayCurrentTrack.completedFlowCount,
-                    total: displayCurrentTrack.totalFlowCount,
-                  })}{" "}
-                  {displayCurrentTrack.totalCheckpoints > 0
-                    ? t("track.checkpointSummary", {
-                        completedConcepts: displayCurrentTrack.completedCount,
-                        completedCheckpoints: displayCurrentTrack.completedCheckpointCount,
-                      })
-                    : null}
-                  {displayCurrentTrackPrimaryNote}
+                  {displayCurrentTrackDescription}
                 </p>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {displayCurrentTrack.highlights.slice(0, 2).map((item) => (
@@ -973,6 +1038,24 @@ export function HomeContinueLearningSurface({
           <article className="lab-panel p-4">
             {displayFollowUpCandidate ? (
               <>
+                {followUpVisual ? (
+                  <Link
+                    href={displayFollowUpCandidate.primaryAction.href}
+                    aria-label={displayFollowUpCandidate.title}
+                    className="mb-3 block w-24 rounded-[18px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                  >
+                    <LearningVisual
+                      kind={followUpVisual.kind}
+                      motif={followUpVisual.motif}
+                      overlay={followUpVisual.overlay}
+                      isFallback={followUpVisual.isFallback}
+                      fallbackKind={followUpVisual.fallbackKind}
+                      tone={followUpVisual.tone ?? followUpVisualConcept?.accent ?? "amber"}
+                      compact
+                      className="h-16 rounded-[18px]"
+                    />
+                  </Link>
+                ) : null}
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="lab-label">{getFollowUpLabel(displayFollowUpCandidate, t)}</span>
                   <ProgressStatusBadge status={displayFollowUpCandidate.progressStatus} compact />
@@ -1057,6 +1140,24 @@ export function HomeContinueLearningSurface({
               </>
             ) : displayNextRecommendation ? (
               <>
+                {followUpVisual ? (
+                  <Link
+                    href={`/concepts/${displayNextRecommendation.conceptSlug}`}
+                    aria-label={displayNextRecommendation.title}
+                    className="mb-3 block w-24 rounded-[18px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                  >
+                    <LearningVisual
+                      kind={followUpVisual.kind}
+                      motif={followUpVisual.motif}
+                      overlay={followUpVisual.overlay}
+                      isFallback={followUpVisual.isFallback}
+                      fallbackKind={followUpVisual.fallbackKind}
+                      tone={followUpVisual.tone ?? followUpVisualConcept?.accent ?? "sky"}
+                      compact
+                      className="h-16 rounded-[18px]"
+                    />
+                  </Link>
+                ) : null}
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="lab-label">{t("nextRecommendation.label")}</span>
                   <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">

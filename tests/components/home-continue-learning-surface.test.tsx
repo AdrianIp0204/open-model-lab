@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { HomeContinueLearningSurface } from "@/components/progress/HomeContinueLearningSurface";
 import type { ConceptSummary } from "@/components/concepts/concept-catalog";
@@ -170,6 +170,11 @@ describe("HomeContinueLearningSurface", () => {
       "href",
       "/tests/concepts/vectors-components",
     );
+    expect(
+      within(screen.getByRole("link", { name: "Vectors and Components" })).getByTestId(
+        "learning-visual",
+      ),
+    ).toHaveAttribute("data-visual-motif", "vectors-components");
     expect(screen.getByRole("link", { name: /continue with vectors/i })).toHaveAttribute(
       "href",
       "/concepts/vectors-components",
@@ -583,6 +588,10 @@ describe("HomeContinueLearningSurface", () => {
     expect(screen.getByRole("link", { name: /open recap/i })).toHaveAttribute(
       "href",
       "/tracks/motion-and-circular-motion?mode=recap",
+    );
+    expect(document.body.textContent).not.toContain("cleared.Uniform");
+    expect(document.body.textContent).toContain(
+      "2 checkpoints cleared. Use the completion page",
     );
   });
 

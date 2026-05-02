@@ -31,18 +31,31 @@ export type LearningVisualMotif =
   | "circuit"
   | "collisions"
   | "electric-field"
+  | "escape-velocity"
   | "fluid-buoyancy"
+  | "fluid-bernoulli"
+  | "fluid-continuity"
+  | "fluid-drag"
+  | "fluid-pressure"
   | "graph-transformations"
+  | "gravitational-field"
+  | "gravitational-potential"
   | "gravity-orbits"
+  | "kepler-period"
   | "limit-approach"
   | "momentum-carts"
   | "optimization"
+  | "orbital-speed"
   | "optics-ray"
   | "polar-coordinates"
   | "projectile-motion"
   | "radioactivity"
   | "rotational-inertia"
   | "simple-harmonic-motion"
+  | "damping-resonance"
+  | "oscillation-energy"
+  | "sound-beats"
+  | "sound-doppler"
   | "sound-pitch"
   | "standing-wave"
   | "thermal-energy"
@@ -120,26 +133,29 @@ const exactConceptMotifs: Record<string, LearningVisualMotif> = {
   "bohr-model": "atomic-spectra",
   "buoyancy-and-archimedes-principle": "fluid-buoyancy",
   "capacitance-and-stored-electric-energy": "circuit",
-  "circular-orbits-orbital-speed": "gravity-orbits",
+  "bernoullis-principle": "fluid-bernoulli",
+  "circular-orbits-orbital-speed": "orbital-speed",
   collisions: "collisions",
   "complex-numbers-on-the-plane": "complex-plane",
   "conservation-of-momentum": "momentum-carts",
-  "continuity-equation": "fluid-buoyancy",
+  "continuity-equation": "fluid-continuity",
+  "damping-resonance": "damping-resonance",
   "de-broglie-matter-waves": "atomic-spectra",
   "derivative-as-slope-local-rate-of-change": "calculus-slope",
   "dispersion-refractive-index-color": "optics-ray",
   "doppler-effect": "sound-pitch",
   "electric-potential": "electric-field",
-  "escape-velocity": "gravity-orbits",
+  "drag-and-terminal-velocity": "fluid-drag",
+  "escape-velocity": "escape-velocity",
   "geometric-optics-lenses": "optics-ray",
-  "gravitational-fields": "gravity-orbits",
-  "gravitational-potential-energy": "gravity-orbits",
+  "gravitational-fields": "gravitational-field",
+  "gravitational-potential-energy": "gravitational-potential",
   "graph-transformations": "graph-transformations",
   "integral-as-accumulation-area": "calculus-slope",
   "interference-diffraction": "standing-wave",
   "inverse-trig-angle-from-ratio": "unit-circle",
   "kinetic-energy-work": "projectile-motion",
-  "keplers-third-law-orbital-periods": "gravity-orbits",
+  "keplers-third-law-orbital-periods": "kepler-period",
   "lens-imaging": "optics-ray",
   "limits-and-continuity-approaching-a-value": "limit-approach",
   "momentum-impulse": "momentum-carts",
@@ -154,6 +170,8 @@ const exactConceptMotifs: Record<string, LearningVisualMotif> = {
   "reflection-and-mirrors": "optics-ray",
   "refraction-snells-law": "optics-ray",
   "resonance-air-columns-open-closed-pipes": "standing-wave",
+  "oscillation-energy": "oscillation-energy",
+  "pressure-and-hydrostatic-pressure": "fluid-pressure",
   "rotational-inertia": "rotational-inertia",
   "specific-heat-and-phase-change": "thermal-energy",
   "simple-harmonic-motion": "simple-harmonic-motion",
@@ -197,8 +215,15 @@ const topicMotifs: Array<{
   motif: LearningVisualMotif;
   label: string;
 }> = [
-  { pattern: /gravity|gravitational|kepler|escape|orbit/, motif: "gravity-orbits", label: "gravity and orbits" },
+  { pattern: /escape/, motif: "escape-velocity", label: "escape threshold" },
+  { pattern: /kepler|orbital period/, motif: "kepler-period", label: "orbital period" },
+  { pattern: /potential energy|gravity well|gravitational potential/, motif: "gravitational-potential", label: "gravity potential" },
+  { pattern: /gravitational field|inverse square|test mass/, motif: "gravitational-field", label: "gravity field" },
+  { pattern: /orbital speed|circular orbit/, motif: "orbital-speed", label: "orbital speed" },
+  { pattern: /gravity|gravitational|orbit/, motif: "gravity-orbits", label: "gravity and orbits" },
   { pattern: /circular|centripetal/, motif: "uniform-circular-motion", label: "circular motion" },
+  { pattern: /damping|resonance|driving force|response curve/, motif: "damping-resonance", label: "damped response" },
+  { pattern: /oscillation energy|kinetic energy|turning points/, motif: "oscillation-energy", label: "oscillator energy" },
   { pattern: /harmonic|oscillation|oscillator|spring/, motif: "simple-harmonic-motion", label: "oscillator" },
   { pattern: /rotational inertia|angular momentum|moment of inertia|flywheel|rotor/, motif: "rotational-inertia", label: "rotational inertia" },
   { pattern: /momentum|impulse/, motif: "momentum-carts", label: "momentum transfer" },
@@ -213,7 +238,11 @@ const topicMotifs: Array<{
   { pattern: /circuit|resistor|battery|capacitor|voltage/, motif: "circuit", label: "circuit workspace" },
   { pattern: /electric|field|charge|current|magnetic/, motif: "electric-field", label: "field vectors" },
   { pattern: /heat|temperature|thermal|specific heat|phase change|internal energy/, motif: "thermal-energy", label: "thermal energy" },
-  { pattern: /fluid|buoyancy|archimedes|pressure|bernoulli|continuity|flow/, motif: "fluid-buoyancy", label: "fluid forces" },
+  { pattern: /bernoulli|venturi|height term/, motif: "fluid-bernoulli", label: "Bernoulli flow" },
+  { pattern: /continuity|flow rate|cross-sectional area/, motif: "fluid-continuity", label: "flow continuity" },
+  { pattern: /drag|terminal velocity|fluid resistance/, motif: "fluid-drag", label: "drag balance" },
+  { pattern: /hydrostatic|pressure|fluid statics/, motif: "fluid-pressure", label: "fluid pressure" },
+  { pattern: /fluid|buoyancy|archimedes|flow/, motif: "fluid-buoyancy", label: "fluid forces" },
   { pattern: /graph|transform|function|curve/, motif: "graph-transformations", label: "transformed graph" },
   { pattern: /derivative|slope|tangent|secant|calculus|rate of change/, motif: "calculus-slope", label: "slope and tangent" },
   { pattern: /limit|continuity|approaching|epsilon|delta/, motif: "limit-approach", label: "limit approach" },
@@ -233,17 +262,24 @@ const challengeMotifs: Array<{
   motif: LearningVisualMotif;
   label: string;
 }> = [
-  { pattern: /pitch|beat|pulse|doppler|frequency|loudness|sound/, motif: "sound-pitch", label: "sound frequency challenge" },
+  { pattern: /beat|pulse/, motif: "sound-beats", label: "beat and pulse challenge" },
+  { pattern: /doppler|higher ahead|lower behind|source|observer/, motif: "sound-doppler", label: "Doppler challenge" },
+  { pattern: /pitch|frequency|loudness|sound|carrier/, motif: "sound-pitch", label: "sound frequency challenge" },
   { pattern: /standing|node|antinode|resonance|harmonic|pipe/, motif: "standing-wave", label: "standing wave challenge" },
   { pattern: /period|centripetal|circular|orbit|radius/, motif: "uniform-circular-motion", label: "circular motion challenge" },
-  { pattern: /joule|energy|spring|oscillat|amplitude/, motif: "simple-harmonic-motion", label: "oscillator energy challenge" },
+  { pattern: /damping|resonance|driving force|response/, motif: "damping-resonance", label: "damped response challenge" },
+  { pattern: /joule|energy|spring|oscillat|amplitude/, motif: "oscillation-energy", label: "oscillator energy challenge" },
   { pattern: /collision|rebound|cart|elastic|inelastic/, motif: "collisions", label: "collision challenge" },
   { pattern: /momentum|impulse|force pulse/, motif: "momentum-carts", label: "momentum challenge" },
   { pattern: /angular momentum|rotational inertia|moment of inertia|mass radius|spin/, motif: "rotational-inertia", label: "rotational inertia challenge" },
   { pattern: /lens|mirror|ray|refraction|snell|image|fringe|slit/, motif: "optics-ray", label: "optics challenge" },
   { pattern: /battery|resistor|circuit|voltage|current|power|watt|ohm|capacitor|load/, motif: "circuit", label: "circuit challenge" },
   { pattern: /temperature|thermal|phase|heat|heater/, motif: "thermal-energy", label: "thermal energy challenge" },
-  { pattern: /fluid|buoyant|pressure|flow|bernoulli|continuity/, motif: "fluid-buoyancy", label: "fluid challenge" },
+  { pattern: /bernoulli|venturi|height term/, motif: "fluid-bernoulli", label: "Bernoulli challenge" },
+  { pattern: /continuity|flow rate|cross-sectional area/, motif: "fluid-continuity", label: "flow continuity challenge" },
+  { pattern: /drag|terminal velocity|fluid resistance/, motif: "fluid-drag", label: "drag balance challenge" },
+  { pattern: /hydrostatic|pressure/, motif: "fluid-pressure", label: "fluid pressure challenge" },
+  { pattern: /fluid|buoyant|flow/, motif: "fluid-buoyancy", label: "fluid challenge" },
 ];
 
 function compactSearchText(parts: Array<string | null | undefined>) {

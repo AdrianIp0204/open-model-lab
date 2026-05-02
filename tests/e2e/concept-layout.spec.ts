@@ -383,6 +383,7 @@ test("renders challenge cards with meaningful visuals and readable unit text", a
   }).first();
 
   await expect(card).toBeVisible();
+  await expect(card).toHaveAttribute("data-card-visual-layout", "compact-side");
   await expect(
     card.locator(
       '[data-testid="learning-visual"][data-visual-kind="challenge"][data-visual-motif="uniform-circular-motion"][data-visual-overlay="challenge"]',
@@ -390,6 +391,27 @@ test("renders challenge cards with meaningful visuals and readable unit text", a
   ).toBeVisible();
   await expect(card).toContainText(/2\.2 s/i);
   await expect(card).not.toContainText(/\\mathrm|\\,|\$/);
+  browserGuard.assertNoActionableIssues();
+});
+
+test("keeps zh-HK challenge and tests hubs visually covered", async ({ page }) => {
+  const browserGuard = await installBrowserGuards(page);
+  await setHarnessSession(page, "signed-out");
+
+  await gotoAndExpectOk(page, "/zh-HK/challenges");
+  await expect(page.locator("html")).toHaveAttribute("lang", "zh-HK");
+  await expect(
+    page.locator(
+      'article[data-card-visual-layout="compact-side"] [data-testid="learning-visual"][data-visual-kind="challenge"]',
+    ).first(),
+  ).toBeVisible();
+
+  await gotoAndExpectOk(page, "/zh-HK/tests");
+  await expect(page.locator("html")).toHaveAttribute("lang", "zh-HK");
+  await expect(page.getByTestId("test-hub-quick-start")).toBeVisible();
+  await expect(
+    page.locator('[data-testid="learning-visual"][data-visual-overlay="assessment"]').first(),
+  ).toBeVisible();
   browserGuard.assertNoActionableIssues();
 });
 

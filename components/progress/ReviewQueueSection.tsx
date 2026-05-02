@@ -13,6 +13,7 @@ import {
   shouldUseGenericProgressCopy,
 } from "@/lib/i18n/progress";
 import { LearningVisual } from "@/components/visuals/LearningVisual";
+import { getConceptVisualDescriptor } from "@/components/visuals/learningVisualDescriptors";
 import type { GuidedCollectionSummary, StarterTrackSummary } from "@/lib/content";
 import {
   resolveAccountProgressSnapshot,
@@ -252,6 +253,10 @@ export function ReviewQueueSection({
             const displayTitle = conceptsBySlug.get(item.slug)
               ? getConceptDisplayTitle(conceptsBySlug.get(item.slug)!, locale)
               : item.title;
+            const reviewVisualConcept = conceptsBySlug.get(item.slug) ?? null;
+            const reviewVisual = reviewVisualConcept
+              ? getConceptVisualDescriptor(reviewVisualConcept)
+              : null;
             const trackCueTitle =
               item.trackCue && starterTracksBySlug.get(item.trackCue.trackSlug)
                 ? getStarterTrackDisplayTitle(
@@ -322,10 +327,14 @@ export function ReviewQueueSection({
                   className="mt-4 block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
                 >
                   <LearningVisual
-                    kind="progress"
-                    tone={index === 0 ? "coral" : "amber"}
+                    kind={reviewVisual?.kind ?? "progress"}
+                    motif={reviewVisual?.motif}
+                    overlay={reviewVisual?.overlay}
+                    isFallback={reviewVisual?.isFallback}
+                    fallbackKind={reviewVisual?.fallbackKind}
+                    tone={reviewVisual?.tone ?? (index === 0 ? "coral" : "amber")}
                     compact
-                    className="h-24"
+                    className="h-20 rounded-[18px] sm:h-24"
                   />
                 </Link>
 

@@ -36,8 +36,15 @@ const exactConceptMotifs = extractRecordMap(descriptorSource, "exactConceptMotif
 const exactTopicMotifs = extractRecordMap(descriptorSource, "exactTopicMotifs");
 
 const motifRules = [
-  [/gravity|gravitational|kepler|escape|orbit/, "gravity-orbits"],
+  [/escape/, "escape-velocity"],
+  [/kepler|orbital period/, "kepler-period"],
+  [/potential energy|gravity well|gravitational potential/, "gravitational-potential"],
+  [/gravitational field|inverse square|test mass/, "gravitational-field"],
+  [/orbital speed|circular orbit/, "orbital-speed"],
+  [/gravity|gravitational|orbit/, "gravity-orbits"],
   [/circular|centripetal/, "uniform-circular-motion"],
+  [/damping|resonance|driving force|response curve/, "damping-resonance"],
+  [/oscillation energy|kinetic energy|turning points/, "oscillation-energy"],
   [/harmonic|oscillation|oscillator|spring/, "simple-harmonic-motion"],
   [/rotational inertia|angular momentum|moment of inertia|flywheel|rotor/, "rotational-inertia"],
   [/momentum|impulse/, "momentum-carts"],
@@ -52,7 +59,11 @@ const motifRules = [
   [/circuit|resistor|battery|capacitor|voltage/, "circuit"],
   [/electric|field|charge|current|magnetic/, "electric-field"],
   [/heat|temperature|thermal|specific heat|phase change|internal energy/, "thermal-energy"],
-  [/fluid|buoyancy|archimedes|pressure|bernoulli|continuity|flow/, "fluid-buoyancy"],
+  [/bernoulli|venturi|height term/, "fluid-bernoulli"],
+  [/continuity|flow rate|cross-sectional area/, "fluid-continuity"],
+  [/drag|terminal velocity|fluid resistance/, "fluid-drag"],
+  [/hydrostatic|pressure|fluid statics/, "fluid-pressure"],
+  [/fluid|buoyancy|archimedes|flow/, "fluid-buoyancy"],
   [/graph|transform|function|curve/, "graph-transformations"],
   [/derivative|slope|tangent|secant|calculus|rate of change/, "calculus-slope"],
   [/limit|continuity|approaching|epsilon|delta/, "limit-approach"],
@@ -68,17 +79,24 @@ const motifRules = [
 ];
 
 const challengeRules = [
-  [/pitch|beat|pulse|doppler|frequency|loudness|sound/, "sound-pitch"],
+  [/beat|pulse/, "sound-beats"],
+  [/doppler|higher ahead|lower behind|source|observer/, "sound-doppler"],
+  [/pitch|frequency|loudness|sound|carrier/, "sound-pitch"],
   [/standing|node|antinode|resonance|harmonic|pipe/, "standing-wave"],
   [/period|centripetal|circular|orbit|radius/, "uniform-circular-motion"],
-  [/joule|energy|spring|oscillat|amplitude/, "simple-harmonic-motion"],
+  [/damping|resonance|driving force|response/, "damping-resonance"],
+  [/joule|energy|spring|oscillat|amplitude/, "oscillation-energy"],
   [/collision|rebound|cart|elastic|inelastic/, "collisions"],
   [/momentum|impulse|force pulse/, "momentum-carts"],
   [/angular momentum|rotational inertia|moment of inertia|mass radius|spin/, "rotational-inertia"],
   [/lens|mirror|ray|refraction|snell|image|fringe|slit/, "optics-ray"],
   [/battery|resistor|circuit|voltage|current|power|watt|ohm|capacitor|load/, "circuit"],
   [/temperature|thermal|phase|heat|heater/, "thermal-energy"],
-  [/fluid|buoyant|pressure|flow|bernoulli|continuity/, "fluid-buoyancy"],
+  [/bernoulli|venturi|height term/, "fluid-bernoulli"],
+  [/continuity|flow rate|cross-sectional area/, "fluid-continuity"],
+  [/drag|terminal velocity|fluid resistance/, "fluid-drag"],
+  [/hydrostatic|pressure/, "fluid-pressure"],
+  [/fluid|buoyant|flow/, "fluid-buoyancy"],
 ];
 
 function compact(parts) {

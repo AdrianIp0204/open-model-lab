@@ -15,6 +15,7 @@ import {
 } from "@/lib/progress";
 import { ConceptLearningSurfaceTestCta } from "@/components/tests/ConceptLearningSurfaceTestCta";
 import { LearningVisual } from "@/components/visuals/LearningVisual";
+import { getConceptVisualDescriptor } from "@/components/visuals/learningVisualDescriptors";
 import { formatProgressMonthDay } from "./dateFormatting";
 import { MasteryStateBadge } from "./MasteryStateBadge";
 import { ProgressStatusBadge } from "./ProgressStatusBadge";
@@ -44,6 +45,17 @@ export function ContinueLearningSection({
   const { primary, recent } = selectContinueLearning(snapshot, concepts, 3);
   const hasRecordedProgress = Boolean(primary || recent.length);
   const primaryResurfacingCue = primary ? getConceptResurfacingCue(primary) : null;
+  const primaryConceptSummary = primary
+    ? concepts.find((concept) => concept.slug === primary.concept.slug)
+    : null;
+  const primaryVisual = primary
+    ? getConceptVisualDescriptor(
+        primaryConceptSummary ?? {
+          slug: primary.concept.slug,
+          title: primary.concept.title ?? primary.concept.slug,
+        },
+      )
+    : null;
   const primaryLastActiveLabel = primary?.lastActivityAt
     ? formatProgressMonthDay(primary.lastActivityAt, "local", locale)
     : null;
@@ -74,7 +86,16 @@ export function ContinueLearningSection({
               )}
               className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
             >
-              <LearningVisual kind="progress" tone="teal" compact className="h-28 sm:min-h-28" />
+              <LearningVisual
+                kind={primaryVisual?.kind ?? "progress"}
+                motif={primaryVisual?.motif}
+                overlay={primaryVisual?.overlay}
+                isFallback={primaryVisual?.isFallback}
+                fallbackKind={primaryVisual?.fallbackKind}
+                tone={primaryVisual?.tone ?? primaryConceptSummary?.accent ?? "teal"}
+                compact
+                className="h-24 rounded-[18px] sm:min-h-28"
+              />
             </Link>
             <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
