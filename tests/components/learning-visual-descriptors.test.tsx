@@ -5,7 +5,11 @@ import { ConceptTile } from "@/components/concepts/ConceptTile";
 import { ToolDirectoryCard } from "@/components/tools/ToolDirectoryCard";
 import { LearningVisual } from "@/components/visuals/LearningVisual";
 import {
+  getChallengeVisualDescriptor,
+  getConceptAssessmentVisualDescriptor,
   getConceptVisualDescriptor,
+  getPackAssessmentVisualDescriptor,
+  getTopicAssessmentVisualDescriptor,
   getTopicVisualDescriptor,
   getToolVisualDescriptor,
 } from "@/components/visuals/learningVisualDescriptors";
@@ -31,6 +35,10 @@ describe("learning visual descriptors", () => {
       getConceptVisualDescriptor(getConceptSummary("torque")),
       getConceptVisualDescriptor(getConceptSummary("graph-transformations")),
       getConceptVisualDescriptor(getConceptSummary("binary-search-halving-the-search-space")),
+      getConceptVisualDescriptor(getConceptSummary("conservation-of-momentum")),
+      getConceptVisualDescriptor(getConceptSummary("collisions")),
+      getConceptVisualDescriptor(getConceptSummary("rotational-inertia")),
+      getConceptVisualDescriptor(getConceptSummary("circular-orbits-orbital-speed")),
     ];
 
     expect(descriptors[0]).toMatchObject({
@@ -42,10 +50,66 @@ describe("learning visual descriptors", () => {
     expect(descriptors[3]?.motif).toBe("torque");
     expect(descriptors[4]?.motif).toBe("graph-transformations");
     expect(descriptors[5]?.motif).toBe("binary-search");
+    expect(descriptors[6]?.motif).toBe("momentum-carts");
+    expect(descriptors[7]?.motif).toBe("collisions");
+    expect(descriptors[8]?.motif).toBe("rotational-inertia");
+    expect(descriptors[9]?.motif).toBe("gravity-orbits");
     expect(new Set(descriptors.map((descriptor) => descriptor.motif)).size).toBe(
       descriptors.length,
     );
     expect(descriptors.every((descriptor) => descriptor.fallbackKind === "topic-specific")).toBe(true);
+  });
+
+  it("maps challenge and assessment cards to meaningful overlays", () => {
+    const circularChallenge = getChallengeVisualDescriptor({
+      id: "ucm-ch-short-period-force-band",
+      title: "Short-period force band",
+      prompt: "Shorten the period to about $2.2\\,\\mathrm{s}$.",
+      concept: getConceptSummary("uniform-circular-motion"),
+      targetMetrics: ["period", "centripetalAcceleration"],
+    });
+    const oscillatorAssessment = getConceptAssessmentVisualDescriptor(
+      getConceptSummary("simple-harmonic-motion"),
+    );
+    const topicAssessment = getTopicAssessmentVisualDescriptor({
+      slug: "oscillations",
+      title: "Oscillations",
+      subject: "Physics",
+      description: "Oscillators and resonance.",
+    });
+    const packAssessment = getPackAssessmentVisualDescriptor({
+      slug: "physics-connected-models",
+      title: "Physics Connections Pack",
+      subject: "Physics",
+      summary: "Connect motion, oscillation, waves, and orbit reasoning.",
+      includedTopicSlugs: ["mechanics", "oscillations", "waves", "gravity-and-orbits"],
+      includedTopicTitles: ["Mechanics", "Oscillations", "Waves", "Gravity and Orbits"],
+    });
+
+    expect(circularChallenge).toMatchObject({
+      kind: "challenge",
+      motif: "uniform-circular-motion",
+      overlay: "challenge",
+      isFallback: false,
+    });
+    expect(oscillatorAssessment).toMatchObject({
+      kind: "test",
+      motif: "simple-harmonic-motion",
+      overlay: "assessment",
+      isFallback: false,
+    });
+    expect(topicAssessment).toMatchObject({
+      kind: "test",
+      motif: "simple-harmonic-motion",
+      overlay: "assessment",
+      isFallback: false,
+    });
+    expect(packAssessment).toMatchObject({
+      kind: "test",
+      motif: "projectile-motion",
+      overlay: "assessment",
+      isFallback: false,
+    });
   });
 
   it("maps visible math discovery concepts away from the generic fallback", () => {
@@ -207,12 +271,13 @@ describe("learning visual descriptors", () => {
 
   it("renders motif metadata on the visual primitive for browser checks", () => {
     render(
-      <LearningVisual
-        kind="concept"
-        motif="graph-transformations"
-        isFallback={false}
-        tone="sky"
-      />,
+        <LearningVisual
+          kind="concept"
+          motif="graph-transformations"
+          overlay="assessment"
+          isFallback={false}
+          tone="sky"
+        />,
     );
 
     expect(screen.getByTestId("learning-visual")).toHaveAttribute(
@@ -222,6 +287,10 @@ describe("learning visual descriptors", () => {
     expect(screen.getByTestId("learning-visual")).toHaveAttribute(
       "data-visual-fallback-kind",
       "topic-specific",
+    );
+    expect(screen.getByTestId("learning-visual")).toHaveAttribute(
+      "data-visual-overlay",
+      "assessment",
     );
   });
 

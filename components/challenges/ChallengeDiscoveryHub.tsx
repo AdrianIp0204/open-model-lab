@@ -35,7 +35,10 @@ import { PageSection } from "@/components/layout/PageSection";
 import { DisclosurePanel } from "@/components/layout/DisclosurePanel";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { MotionStaggerGroup } from "@/components/motion";
+import { LearningVisual } from "@/components/visuals/LearningVisual";
+import { getChallengeVisualDescriptor } from "@/components/visuals/learningVisualDescriptors";
 import { translateChallengeCueLabel } from "@/lib/i18n/challenge-ui";
+import { formatDisplayText } from "@/lib/physics/math";
 
 export type ChallengeDiscoveryHubInitialFilters = {
   search?: string;
@@ -117,6 +120,14 @@ function normalizeSearchText(value: string) {
     .trim();
 }
 
+function formatChallengeCardText(value: string) {
+  return formatDisplayText(value)
+    .replace(/\s+([,.;:!?])/g, "$1")
+    .replace(/\(\s+/g, "(")
+    .replace(/\s+\)/g, ")")
+    .trim();
+}
+
 function getCanonicalChallengeDepthTerms(depth: ChallengeDepth) {
   switch (depth) {
     case "warm-up":
@@ -139,6 +150,7 @@ function buildSearchText(
     [
       entry.title,
       entry.prompt,
+      formatChallengeCardText(entry.prompt),
       entry.concept.title,
       getConceptDisplayTitle(entry.concept, input.locale),
       entry.concept.shortTitle,
@@ -458,6 +470,16 @@ export function ChallengeDiscoveryHub({
     progressFilter !== "all" ? challengeStateLabels[progressFilter] : null,
   ].filter((label): label is string => Boolean(label));
   const featuredEntry = featuredEntries[0]?.item ?? primaryEntry;
+  const featuredVisual = featuredEntry
+    ? getChallengeVisualDescriptor({
+        ...featuredEntry.entry,
+        prompt: featuredEntry.entry.prompt,
+        accent: featuredEntry.entry.concept.accent,
+      })
+    : null;
+  const featuredPrompt = featuredEntry
+    ? formatChallengeCardText(featuredEntry.entry.prompt)
+    : null;
   const solvedPercent = progressEntries.length
     ? Math.round((solvedCount / progressEntries.length) * 100)
     : 0;
@@ -472,6 +494,12 @@ export function ChallengeDiscoveryHub({
   const renderChallengeCard = (item: ChallengeProgressEntry) => {
     const visibleTracks = item.entry.starterTracks.slice(0, 2);
     const hiddenTrackCount = Math.max(0, item.entry.starterTracks.length - visibleTracks.length);
+    const visual = getChallengeVisualDescriptor({
+      ...item.entry,
+      prompt: item.entry.prompt,
+      accent: item.entry.concept.accent,
+    });
+    const displayPrompt = formatChallengeCardText(item.entry.prompt);
 
     return (
       <article
@@ -482,6 +510,17 @@ export function ChallengeDiscoveryHub({
           className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${accentTopClasses[item.entry.concept.accent]}`}
         />
         <div className="space-y-4">
+          <LearningVisual
+            kind={visual.kind}
+            motif={visual.motif}
+            overlay={visual.overlay}
+            isFallback={visual.isFallback}
+            fallbackKind={visual.fallbackKind}
+            tone={visual.tone ?? item.entry.concept.accent}
+            compact
+            className="h-24 sm:h-28"
+            ariaLabel={`${item.entry.title} visual cue`}
+          />
           <div className="flex flex-wrap items-center gap-2">
             <span className="lab-label">{getTopicDisplayTitle(item.entry.topic, locale)}</span>
             <span
@@ -504,7 +543,7 @@ export function ChallengeDiscoveryHub({
 
           <div className="space-y-2">
             <h3 className="text-xl font-semibold text-ink-950">{item.entry.title}</h3>
-            <p className="text-sm leading-6 text-ink-700">{item.entry.prompt}</p>
+            <p className="text-sm leading-6 text-ink-700">{displayPrompt}</p>
             <p className="text-sm font-semibold text-ink-950">
               {getConceptDisplayTitle(item.entry.concept, locale)}
             </p>
@@ -625,6 +664,19 @@ export function ChallengeDiscoveryHub({
                   className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${accentTopClasses[featuredEntry.entry.concept.accent]}`}
                 />
                 <div className="space-y-3">
+                  {featuredVisual ? (
+                    <LearningVisual
+                      kind={featuredVisual.kind}
+                      motif={featuredVisual.motif}
+                      overlay={featuredVisual.overlay}
+                      isFallback={featuredVisual.isFallback}
+                      fallbackKind={featuredVisual.fallbackKind}
+                      tone={featuredVisual.tone ?? featuredEntry.entry.concept.accent}
+                      compact
+                      className="h-24 sm:h-28"
+                      ariaLabel={`${featuredEntry.entry.title} visual cue`}
+                    />
+                  ) : null}
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="lab-label">
                       {featuredEntry.state === "started"
@@ -650,7 +702,7 @@ export function ChallengeDiscoveryHub({
                   </div>
                   <div className="space-y-2">
                     <h2 className="text-xl font-semibold text-ink-950">{featuredEntry.entry.title}</h2>
-                    <p className="text-sm leading-6 text-ink-700">{featuredEntry.entry.prompt}</p>
+                    <p className="text-sm leading-6 text-ink-700">{featuredPrompt}</p>
                     <p className="text-sm font-semibold text-ink-950">
                       {getConceptDisplayTitle(featuredEntry.entry.concept, locale)}
                     </p>

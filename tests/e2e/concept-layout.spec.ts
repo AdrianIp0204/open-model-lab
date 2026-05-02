@@ -1,5 +1,10 @@
 import { expect, test, type Browser, type BrowserContext, type Page, type TestInfo } from "@playwright/test";
-import { gotoAndExpectOk, installBrowserGuards, type BrowserGuard } from "./helpers";
+import {
+  gotoAndExpectOk,
+  installBrowserGuards,
+  setHarnessSession,
+  type BrowserGuard,
+} from "./helpers";
 
 test.setTimeout(90_000);
 
@@ -308,6 +313,7 @@ test("renders topic-specific clickable visuals on concept discovery", async ({
   page,
 }) => {
   const browserGuard = await installBrowserGuards(page);
+  await setHarnessSession(page, "signed-out");
   await gotoAndExpectOk(page, "/en/concepts");
 
   const ucmCard = page
@@ -346,6 +352,7 @@ test("keeps the tests and practice hub visual-first with clickable visual cards"
   page,
 }) => {
   const browserGuard = await installBrowserGuards(page);
+  await setHarnessSession(page, "signed-out");
   await gotoAndExpectOk(page, "/en/tests");
 
   await expect(page.getByTestId("test-hub-quick-start")).toBeVisible();
@@ -359,6 +366,30 @@ test("keeps the tests and practice hub visual-first with clickable visual cards"
     scrollWidth: document.documentElement.scrollWidth,
   }));
   expect(widthMetrics.scrollWidth).toBe(widthMetrics.innerWidth);
+  browserGuard.assertNoActionableIssues();
+});
+
+test("renders challenge cards with meaningful visuals and readable unit text", async ({
+  page,
+}) => {
+  const browserGuard = await installBrowserGuards(page);
+  await setHarnessSession(page, "signed-out");
+  await gotoAndExpectOk(page, "/en/challenges");
+
+  await page.getByRole("searchbox", { name: /search/i }).fill("short-period force band");
+
+  const card = page.locator("article", {
+    has: page.getByRole("heading", { name: /short-period force band/i }),
+  }).first();
+
+  await expect(card).toBeVisible();
+  await expect(
+    card.locator(
+      '[data-testid="learning-visual"][data-visual-kind="challenge"][data-visual-motif="uniform-circular-motion"][data-visual-overlay="challenge"]',
+    ),
+  ).toBeVisible();
+  await expect(card).toContainText(/2\.2 s/i);
+  await expect(card).not.toContainText(/\\mathrm|\\,|\$/);
   browserGuard.assertNoActionableIssues();
 });
 
@@ -398,6 +429,7 @@ test("keeps zh-HK homepage and concept pages mobile-rendered with the shared lab
   const browserGuard = await installBrowserGuards(page);
 
   try {
+    await setHarnessSession(page, "signed-out");
     await gotoAndExpectOk(page, "/zh-HK");
     await expect(page.locator("html")).toHaveAttribute("lang", "zh-HK");
     await expect(page.locator('[data-onboarding-target="home-start-actions"]')).toBeVisible();

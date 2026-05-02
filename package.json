@@ -20,6 +20,7 @@
     "public-release:final-check": "node scripts/public-release-final-check.mjs",
     "public-release:history-audit": "node scripts/public-release-history-audit.mjs",
     "github:labels:plan": "node scripts/github-labels-plan.mjs",
+    "card-visuals:audit": "node scripts/report-card-visual-coverage.mjs",
     "wrangler:write": "node scripts/write-wrangler-config.mjs",
     "wrangler:check": "node scripts/write-wrangler-config.mjs --check",
     "ads:write": "node scripts/write-ads-txt.mjs",

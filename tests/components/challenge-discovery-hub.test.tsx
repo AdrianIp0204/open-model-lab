@@ -361,6 +361,33 @@ describe("ChallengeDiscoveryHub", () => {
     ).toBeInTheDocument();
   });
 
+  it("renders challenge cards with meaningful visuals and readable unit text", async () => {
+    const user = userEvent.setup();
+
+    render(<ChallengeDiscoveryHub index={challengeDiscoveryIndex} />);
+    const browserSection = screen.getByLabelText(/search/i).closest("section");
+
+    expect(browserSection).not.toBeNull();
+
+    await replaceChallengeSearch(user, "short-period force band");
+
+    const heading = await within(browserSection as HTMLElement).findByRole("heading", {
+      name: /short-period force band/i,
+      level: 3,
+    });
+    const card = heading.closest("article");
+
+    expect(card).not.toBeNull();
+    expect(card as HTMLElement).toHaveTextContent(/2\.2 s/i);
+    expect(card as HTMLElement).not.toHaveTextContent(/\\mathrm|\\,|\$/);
+
+    const visual = within(card as HTMLElement).getByTestId("learning-visual");
+    expect(visual).toHaveAttribute("data-visual-kind", "challenge");
+    expect(visual).toHaveAttribute("data-visual-motif", "uniform-circular-motion");
+    expect(visual).toHaveAttribute("data-visual-overlay", "challenge");
+    expect(visual).toHaveAttribute("data-visual-fallback", "false");
+  });
+
   it("accepts initial track and search filters for deep-linked follow-up flows", () => {
     render(
       <ChallengeDiscoveryHub
