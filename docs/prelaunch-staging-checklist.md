@@ -21,13 +21,17 @@ pnpm validate:content
 - For `pnpm build`, `pnpm preview`, or deployment work through OpenNext/Wrangler, keep the same
   server secrets mirrored into `.dev.vars` or the deployment-secret layer. Those Cloudflare
   checks are separate from Next's `.env.local` loading.
-- For Cloudflare preview/deploy, copy `wrangler.example.jsonc` to the ignored
-  `wrangler.jsonc` and fill the private copy with real route, domain, and vendor
-  values. Do not commit the private config.
+- For Cloudflare preview/deploy, provide private config through
+  `OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT` or `OPEN_MODEL_LAB_WRANGLER_JSONC_SOURCE`
+  (`OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT` is the reliable Cloudflare dashboard
+  option), run `pnpm wrangler:check`, then run `pnpm deploy:prepare` so the
+  ignored `wrangler.jsonc` exists before OpenNext runs. Do not commit the private
+  config.
 - When testing or deploying AdSense, provide real seller metadata through
-  `OPEN_MODEL_LAB_ADS_TXT_CONTENT` or `OPEN_MODEL_LAB_ADS_TXT_SOURCE`, run
-  `pnpm ads:check`, then run `pnpm ads:write` so the ignored `public/ads.txt`
-  exists before upload. Do not commit the real file.
+  `OPEN_MODEL_LAB_ADS_TXT_CONTENT` or `OPEN_MODEL_LAB_ADS_TXT_SOURCE` (prefer
+  `OPEN_MODEL_LAB_ADS_TXT_CONTENT` in Cloudflare), run `pnpm ads:check`, then run
+  `pnpm ads:write` so the ignored `public/ads.txt` exists before upload. Do not
+  commit the real file.
 
 ## 1a. Provider-return route matrix
 

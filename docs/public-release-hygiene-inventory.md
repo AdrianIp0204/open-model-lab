@@ -49,7 +49,7 @@ These removals do not affect runtime source code, content catalogs, migrations, 
 | --- | --- | --- |
 | `.env.local` | Ignored local environment file. Contents were not inspected or printed. | Not touched; must remain untracked. |
 | `.dev.vars` | Ignored local Cloudflare/Wrangler environment file. Contents were not inspected or printed. | Not touched; must remain untracked. |
-| `wrangler.jsonc` | Ignored real Cloudflare/Wrangler config copied from `wrangler.example.jsonc` for local/deploy work. Contents were not printed. | Removed from tracking and left private. |
+| `wrangler.jsonc` | Ignored real Cloudflare/Wrangler config materialized from private deploy input for local/deploy work. Contents were not printed. | Removed from tracking and left private. |
 | `public/ads.txt` | Ignored real AdSense seller metadata materialized privately for production. Contents were not printed. | Removed from tracking and left private. |
 | `.next/`, `.open-next/`, `.wrangler/`, `node_modules/`, `supabase/` local output | Build, deployment, dependency, or local database output covered by ignore rules. | Not touched. |
 | `tests/e2e/output/` | Local Playwright report/results output under the E2E folder. | Not touched; now ignored. |

@@ -232,6 +232,10 @@ OPEN_MODEL_LAB_ADS_TXT_CONTENT=google.com, pub-your-publisher-id, DIRECT, your-c
 OPEN_MODEL_LAB_ADS_TXT_SOURCE=path/to/private/ads.txt
 ```
 
+For Cloudflare Workers Builds, prefer `OPEN_MODEL_LAB_ADS_TXT_CONTENT`.
+`OPEN_MODEL_LAB_ADS_TXT_SOURCE` only works if the private file already exists in
+the build environment.
+
 Run `pnpm ads:check` to validate the private input without writing the file, or
 `pnpm ads:write` to write the ignored `public/ads.txt`. Do not commit the real
 seller metadata file.

@@ -50,7 +50,7 @@ Use this checklist before changing repository visibility or publishing a public 
 
 ## Deployment Files
 
-- [ ] Keep the real `wrangler.jsonc` private and ignored; commit only `wrangler.example.jsonc`.
+- [ ] Keep the real `wrangler.jsonc` private and ignored; commit only `wrangler.example.jsonc` and materialize the real file from private deploy input with `pnpm wrangler:write` or `pnpm deploy:prepare`.
 - [ ] Review `wrangler.example.jsonc`, OpenNext config, and deployment docs for public/private boundary issues.
 - [ ] Keep deployment secrets in Cloudflare or CI secret stores, not committed files.
 - [ ] Review any committed production-like public variables before release and document whether they are intentionally public.

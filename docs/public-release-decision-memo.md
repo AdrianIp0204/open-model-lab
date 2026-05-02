@@ -75,7 +75,7 @@ Decision:
 | --- | --- | --- |
 | Commit `wrangler.example.jsonc` and ignore real `wrangler.jsonc` | Real deployment values move out of tracked source; the example preserves the OpenNext/Cloudflare shape and placeholder binding/env names. | Less topology exposure, but contributors and operators must create a private config before preview/deploy work. |
 
-Operational rule: copy `wrangler.example.jsonc` to the ignored `wrangler.jsonc` for real preview/deploy work, keep real values private, and set secrets through Cloudflare/Wrangler/CI secret stores.
+Operational rule: provide private config through `OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT` or `OPEN_MODEL_LAB_WRANGLER_JSONC_SOURCE`, run `pnpm wrangler:check`, and materialize ignored `wrangler.jsonc` with `pnpm deploy:prepare` or `pnpm wrangler:write` for real preview/deploy work. Keep real values private and set secrets through Cloudflare/Wrangler/CI secret stores.
 
 ## Decided License Model
 

@@ -18,6 +18,7 @@ legal policies, and deployment process. Real official deployment config, secrets
 - Manual-first Google AdSense integration through the shared ad seam
 - Dormant-by-default activation through an explicit feature flag
 - A private/deploy-time static `public/ads.txt` materialization path, with `public/ads.example.txt` kept as the committed format reference
+- A private/deploy-time `wrangler.jsonc` materialization path, with `wrangler.example.jsonc` kept as the committed format reference
 - One Premium monthly Stripe subscription flow
 - Stripe checkout, billing portal, and webhook-driven entitlement updates
 - Public trust pages:
@@ -40,8 +41,9 @@ pnpm validate:content
 - It also warns when Cloudflare preview/deploy parity looks weak, such as a missing private
   `wrangler.jsonc`, missing `.dev.vars` secret mirrors, canonical site-URL drift between
   Next env and `wrangler.jsonc`, or a harness flag that would make preview look healthier
-  than real-provider staging. Copy `wrangler.example.jsonc` to the ignored `wrangler.jsonc`
-  before real preview/deploy checks.
+  than real-provider staging. Provide private Wrangler config through
+  `OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT` or `OPEN_MODEL_LAB_WRANGLER_JSONC_SOURCE`, then
+  run `pnpm wrangler:check` before real preview/deploy checks.
 - `content:doctor` and `validate:content` keep the catalog/discovery layer honest.
 - For the practical manual staging flow, use [prelaunch-staging-checklist.md](./prelaunch-staging-checklist.md).
 
@@ -62,6 +64,126 @@ Optional server-side fallback:
 ```bash
 OPEN_MODEL_LAB_SITE_URL=https://your-public-origin.example
 ```
+
+### Cloudflare / OpenNext private config
+
+Cloudflare Workers Builds and local OpenNext preview/deploy commands need a real
+`wrangler.jsonc`, but the public repository intentionally does not track that file.
+Set exactly one of these in the private deploy/build environment:
+
+```bash
+# Option A, recommended for Cloudflare Workers Builds:
+# paste private JSONC content, with newlines or escaped \n.
+OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT=your_private_wrangler_jsonc_here
+
+# Option B, mostly for local/private shells:
+# point at a private file that already exists in the build environment.
+OPEN_MODEL_LAB_WRANGLER_JSONC_SOURCE=path/to/private/wrangler.jsonc
+```
+
+For Cloudflare dashboard setup, prefer `OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT`.
+`OPEN_MODEL_LAB_WRANGLER_JSONC_SOURCE` only works when the private source file
+already exists inside the Cloudflare build environment, which is usually not true.
+
+Then run:
+
+```bash
+pnpm wrangler:check
+pnpm deploy:prepare
+pnpm deploy
+```
+
+`pnpm deploy:prepare` writes ignored `wrangler.jsonc` and, when AdSense input is
+provided, ignored `public/ads.txt`. It does not print either file's private
+contents. Ordinary contributors do not need this for `pnpm dev`, `pnpm lint`,
+`pnpm typecheck`, or `pnpm test`.
+
+Recommended Cloudflare Workers Builds settings for the public repo:
+
+- repository: `AdrianIp0204/open-model-lab`
+- production branch: `main`
+- path: `/`
+
+In the Cloudflare Workers Builds **Build configuration** drawer, the visible
+fields may be limited to:
+
+```text
+Build command:
+node scripts/generate-content-registry.mjs && pnpm deploy:prepare && pnpm exec opennextjs-cloudflare build
+
+Deploy command:
+pnpm exec wrangler versions upload
+
+Non-production branch deploy command:
+pnpm exec wrangler versions upload
+
+Path:
+/
+```
+
+The shorter equivalent build command is:
+
+```text
+pnpm cloudflare:build
+```
+
+Use the explicit command above when configuring the dashboard by hand because it
+shows each deploy-preparation step. The shorthand exists for maintainers who want
+one local command that matches the Cloudflare build phase.
+
+The old Workers Builds settings are wrong for this repo:
+
+```text
+Build command: pnpm run build
+Deploy command: npx wrangler versions upload
+```
+
+That path builds the Next.js app but does not run OpenNext, so Wrangler cannot
+find the Worker entrypoint or assets during upload.
+
+If Cloudflare exposes dedicated build-image settings outside this drawer, set:
+
+```text
+Node version: 20
+pnpm version: 10.30.3
+```
+
+If those fields are not visible, add non-secret build variables only if the
+Cloudflare project supports them:
+
+```text
+NODE_VERSION=20
+PNPM_VERSION=10.30.3
+```
+
+Do not put secrets in these version variables. Recent failed logs showed
+Cloudflare using Node `22.16.0`; try to pin Node 20 where the UI allows it. If
+Cloudflare still uses Node 22 but the OpenNext build and Wrangler upload pass,
+track that as a compatibility follow-up rather than a deployment blocker.
+
+Required private build variables:
+
+- exactly one of `OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT` or `OPEN_MODEL_LAB_WRANGLER_JSONC_SOURCE`
+- recommended for Cloudflare: `OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT`
+
+Optional private build variables when production ads are enabled:
+
+- exactly one of `OPEN_MODEL_LAB_ADS_TXT_CONTENT` or `OPEN_MODEL_LAB_ADS_TXT_SOURCE`
+- recommended for Cloudflare: `OPEN_MODEL_LAB_ADS_TXT_CONTENT`
+
+The plain `pnpm build` command only creates the Next.js build output. It does not
+materialize private deployment config or create the OpenNext Worker bundle, so it
+is not sufficient before a Workers Builds deploy command such as
+`wrangler versions upload`. For local operator deploys from a shell, `pnpm deploy`
+still runs the private config preparation through its `predeploy` step.
+
+If the owner does not want preview branch deployments, disable non-production
+branch builds instead of relying on production private variables being available
+to previews. If preview branch builds stay enabled, the same required private
+build variables must be available to those builds, or previews may fail during
+`pnpm deploy:prepare`. A separate preview-safe Wrangler config is acceptable only
+when it uses preview-owned bindings, domains, and vendor accounts. Do not expose
+official production config or vendor identifiers in the public repository.
 
 ### Ads
 
@@ -196,7 +318,7 @@ official Open Model Lab clone.
 3. Put the client ID and the needed slot IDs into the production environment.
 4. Provide the real `ads.txt` through `OPEN_MODEL_LAB_ADS_TXT_CONTENT` or
    `OPEN_MODEL_LAB_ADS_TXT_SOURCE`, run `pnpm ads:check`, then run
-   `pnpm ads:write` in the setup/deploy environment so the ignored
+   `pnpm deploy:prepare` or `pnpm ads:write` in the setup/deploy environment so the ignored
    `public/ads.txt` exists before upload.
 5. Confirm the deployed static `/ads.txt` asset resolves on the public origin.
    If the publisher changes, update the private input and rerun the helper
