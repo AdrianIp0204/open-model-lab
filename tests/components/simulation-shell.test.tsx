@@ -42,7 +42,11 @@ describe("SimulationShell", () => {
         Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
     expect(
-      (graphsSlot as HTMLElement).compareDocumentPosition(benchEquationsSlot as HTMLElement) &
+      (sceneSlot as HTMLElement).compareDocumentPosition(benchEquationsSlot as HTMLElement) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(
+      (benchEquationsSlot as HTMLElement).compareDocumentPosition(graphsSlot as HTMLElement) &
         Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
   });

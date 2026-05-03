@@ -115,6 +115,7 @@ async function assertInitialViewportLayout(
   const scene = page.getByTestId("simulation-shell-scene");
   const controls = page.getByTestId("simulation-shell-controls");
   const graphs = page.getByTestId("simulation-shell-graphs");
+  const benchEquations = page.getByTestId("bench-equation-strip");
   const firstAction = page.getByTestId("simulation-shell-first-action");
   const controlsLink = page.getByTestId("simulation-shell-controls-link");
   const guidedStepSlot = page.getByTestId("concept-v2-step-card-slot");
@@ -125,6 +126,7 @@ async function assertInitialViewportLayout(
   await expect(scene).toBeVisible();
   await expect(controls).toBeVisible();
   await expect(graphs).toBeVisible();
+  await expect(benchEquations).toBeVisible();
   await expect(firstAction).toBeVisible();
   if (viewportCase.viewport.width < 640) {
     await expect(controlsLink).toBeVisible();
@@ -133,11 +135,21 @@ async function assertInitialViewportLayout(
   await expect(guidedStepSlot).toBeVisible();
   await expect(firstPrimaryControl).toBeVisible();
 
-  const [startHereBox, sceneBox, controlsBox, graphsBox, firstActionBox, guidedStepBox, firstPrimaryControlBox] = await Promise.all([
+  const [
+    startHereBox,
+    sceneBox,
+    controlsBox,
+    graphsBox,
+    benchEquationsBox,
+    firstActionBox,
+    guidedStepBox,
+    firstPrimaryControlBox,
+  ] = await Promise.all([
     startHere.boundingBox(),
     scene.boundingBox(),
     controls.boundingBox(),
     graphs.boundingBox(),
+    benchEquations.boundingBox(),
     firstAction.boundingBox(),
     guidedStepSlot.boundingBox(),
     firstPrimaryControl.boundingBox(),
@@ -147,6 +159,7 @@ async function assertInitialViewportLayout(
   expect(sceneBox).not.toBeNull();
   expect(controlsBox).not.toBeNull();
   expect(graphsBox).not.toBeNull();
+  expect(benchEquationsBox).not.toBeNull();
   expect(firstActionBox).not.toBeNull();
   expect(guidedStepBox).not.toBeNull();
   expect(firstPrimaryControlBox).not.toBeNull();
@@ -206,8 +219,12 @@ async function assertInitialViewportLayout(
   }
 
   if (viewportCase.viewport.width >= 1366) {
-    const verticalGap = graphsBox!.y - (sceneBox!.y + sceneBox!.height);
-    expect(verticalGap).toBeLessThan(96);
+    const sceneToEquationGap = benchEquationsBox!.y - (sceneBox!.y + sceneBox!.height);
+    const equationToGraphsGap =
+      graphsBox!.y - (benchEquationsBox!.y + benchEquationsBox!.height);
+    expect(sceneToEquationGap).toBeLessThan(48);
+    expect(equationToGraphsGap).toBeLessThan(72);
+    expect(benchEquationsBox!.y).toBeLessThan(graphsBox!.y);
     expect(graphsBox!.y).toBeLessThan(controlsBox!.y + controlsBox!.height);
   }
 

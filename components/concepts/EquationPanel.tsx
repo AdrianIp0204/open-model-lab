@@ -40,19 +40,19 @@ export function EquationBenchStrip({
   return (
     <section
       data-testid="bench-equation-strip"
-      aria-label={t("map.title")}
-      className="rounded-[16px] border border-line bg-white/62 px-3 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]"
+      aria-label={t("bench.title")}
+      className="rounded-[14px] border border-teal-500/20 bg-teal-500/8 px-3 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.74)]"
     >
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <p className="lab-label">{t("equations.label")}</p>
-        <p className="text-[0.7rem] leading-4 text-ink-600">{t("map.title")}</p>
+        <p className="lab-label text-teal-700">{t("bench.label")}</p>
+        <p className="text-[0.7rem] leading-4 text-ink-600">{t("bench.title")}</p>
       </div>
       <div className="mt-1.5 grid gap-1.5 md:grid-cols-2">
         {equations.map((equation) => (
           <article
             key={equation.id}
             data-testid={`bench-equation-${equation.id}`}
-            className="min-w-0 rounded-[14px] border border-line bg-paper px-2.5 py-1.5"
+            className="min-w-0 rounded-[12px] border border-teal-500/15 bg-paper/86 px-2.5 py-1.5"
           >
             <div className="flex min-w-0 items-center justify-between gap-2">
               <div className="min-w-0">

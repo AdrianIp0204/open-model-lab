@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import {
   clamp,
   DIFFRACTION_SCREEN_HALF_HEIGHT,
@@ -46,6 +47,31 @@ type DiffractionFrame = {
   snapshot: ReturnType<typeof sampleDiffractionState>;
 };
 
+type DiffractionStageLabels = {
+  incomingWavefronts: string;
+  slitWidth: (value: string) => string;
+  topPath: (value: string) => string;
+  bottomPath: (value: string) => string;
+  edgePathDifference: (distance: string, wavelengths: string) => string;
+  firstDarkBands: (distance: string) => string;
+  screenPattern: string;
+  probe: string;
+  livePattern: string;
+  liveSetup: string;
+  setupA: string;
+  setupB: string;
+  editing: string;
+  locked: string;
+  wavelengthToSlitRatio: string;
+  probeIntensity: string;
+  firstMinimum: string;
+  none: string;
+  liveReadout: string;
+  moveProbeHeight: (value: string) => string;
+  previewTime: (seriesLabel: string, time: string) => string;
+  previewScreenY: (value: string) => string;
+};
+
 const WIDTH = 760;
 const HEIGHT = 324;
 const BARRIER_X = 270;
@@ -53,9 +79,9 @@ const BARRIER_WIDTH = 24;
 const SCREEN_X = 530;
 const SCREEN_WIDTH = 18;
 const BASELINE_PROBE_X = SCREEN_X + SCREEN_WIDTH + 18;
-const CARD_WIDTH = 188;
-const CARD_X = WIDTH - CARD_WIDTH - 14;
-const CARD_Y = HEIGHT - 92;
+const CARD_WIDTH = 162;
+const CARD_X = WIDTH - CARD_WIDTH - 10;
+const CARD_Y = HEIGHT - 54;
 const ROW_SCALE = 20;
 const PROBE_OFFSET_SCALE = 18;
 const SPATIAL_SCALE = 38;
@@ -143,7 +169,11 @@ function buildOutgoingArcPath(radius: number, rowCenter: number, halfAngle: numb
     .join(" ");
 }
 
-function renderIncomingWavefronts(frame: DiffractionFrame, rowCenter: number) {
+function renderIncomingWavefronts(
+  frame: DiffractionFrame,
+  rowCenter: number,
+  labels: DiffractionStageLabels,
+) {
   const travelShift =
     ((DIFFRACTION_WAVE_SPEED * frame.snapshot.time) % frame.params.wavelength) * SPATIAL_SCALE;
   const wavelengthPx = frame.params.wavelength * SPATIAL_SCALE;
@@ -173,7 +203,7 @@ function renderIncomingWavefronts(frame: DiffractionFrame, rowCenter: number) {
         y={top - 6}
         className="fill-ink-500 text-[11px] font-semibold uppercase tracking-[0.16em]"
       >
-        incoming wavefronts
+        {labels.incomingWavefronts}
       </text>
     </g>
   );
@@ -242,6 +272,7 @@ function renderBarrier(frame: DiffractionFrame, rowCenter: number) {
 function renderSlitWidthGuide(
   frame: DiffractionFrame,
   rowCenter: number,
+  labels: DiffractionStageLabels,
   focusedOverlayId?: string | null,
 ) {
   const opacity = overlayWeight(focusedOverlayId, "slitWidthGuide");
@@ -282,7 +313,7 @@ function renderSlitWidthGuide(
         textAnchor="end"
         className="fill-amber-700 text-[11px] font-semibold"
       >
-        slit width {formatMeasurement(frame.params.slitWidth, "m")}
+        {labels.slitWidth(formatMeasurement(frame.params.slitWidth, "m"))}
       </text>
     </g>
   );
@@ -291,6 +322,7 @@ function renderSlitWidthGuide(
 function renderEdgePaths(
   frame: DiffractionFrame,
   rowCenter: number,
+  labels: DiffractionStageLabels,
   focusedOverlayId?: string | null,
 ) {
   const opacity = overlayWeight(focusedOverlayId, "edgePaths");
@@ -323,14 +355,14 @@ function renderEdgePaths(
         y={slitTopY - 8}
         className="fill-teal-700 text-[11px] font-semibold"
       >
-        top path {formatMeasurement(frame.snapshot.topPath, "m")}
+        {labels.topPath(formatMeasurement(frame.snapshot.topPath, "m"))}
       </text>
       <text
         x={BARRIER_X + 24}
         y={slitBottomY + 20}
         className="fill-sky-700 text-[11px] font-semibold"
       >
-        bottom path {formatMeasurement(frame.snapshot.bottomPath, "m")}
+        {labels.bottomPath(formatMeasurement(frame.snapshot.bottomPath, "m"))}
       </text>
       <text
         x={SCREEN_X - 10}
@@ -338,7 +370,10 @@ function renderEdgePaths(
         textAnchor="end"
         className="fill-ink-500 text-[11px] font-semibold"
       >
-        edge path difference {formatMeasurement(frame.snapshot.edgePathDifference, "m")} ({formatNumber(frame.snapshot.edgePathDifferenceInWavelengths)} wavelengths)
+        {labels.edgePathDifference(
+          formatMeasurement(frame.snapshot.edgePathDifference, "m"),
+          formatNumber(frame.snapshot.edgePathDifferenceInWavelengths),
+        )}
       </text>
     </g>
   );
@@ -347,6 +382,7 @@ function renderEdgePaths(
 function renderFirstMinimumGuide(
   frame: DiffractionFrame,
   rowCenter: number,
+  labels: DiffractionStageLabels,
   focusedOverlayId?: string | null,
 ) {
   if (
@@ -391,7 +427,7 @@ function renderFirstMinimumGuide(
         textAnchor="end"
         className="fill-coral-700 text-[11px] font-semibold"
       >
-        first dark bands about +/-{formatMeasurement(frame.snapshot.firstMinimumScreenY, "m")}
+        {labels.firstDarkBands(formatMeasurement(frame.snapshot.firstMinimumScreenY, "m"))}
       </text>
     </g>
   );
@@ -400,6 +436,7 @@ function renderFirstMinimumGuide(
 function renderScreenPattern(
   frame: DiffractionFrame,
   rowCenter: number,
+  labels: DiffractionStageLabels,
   options?: {
     interactive?: boolean;
     onAdjustProbe?: (probeY: number) => void;
@@ -460,7 +497,7 @@ function renderScreenPattern(
             width: SCREEN_WIDTH + 44,
             height: stripHeight,
           }}
-          ariaLabel={`Move probe height, current y ${formatNumber(frame.snapshot.probe.y)} meters`}
+          ariaLabel={labels.moveProbeHeight(formatNumber(frame.snapshot.probe.y))}
           cursor="ns-resize"
           step={0.1}
           resolveValue={(svgY) => physicalYFromStage(svgY, rowCenter)}
@@ -498,14 +535,14 @@ function renderScreenPattern(
         textAnchor="end"
         className="fill-ink-500 text-[11px] font-semibold uppercase tracking-[0.12em]"
       >
-        screen pattern
+        {labels.screenPattern}
       </text>
       <text
         x={BASELINE_PROBE_X + 46}
         y={probeStageY + 4}
         className="fill-ink-600 text-[11px] font-semibold"
       >
-        probe
+        {labels.probe}
       </text>
     </>
   );
@@ -514,6 +551,7 @@ function renderScreenPattern(
 function renderWaveRow(
   frame: DiffractionFrame,
   rowCenter: number,
+  labels: DiffractionStageLabels,
   options: {
     label: string;
     compareBadge?: string;
@@ -547,19 +585,19 @@ function renderWaveRow(
         {options.label}
         {options.compareBadge ? ` - ${options.compareBadge}` : ""}
       </text>
-      {renderIncomingWavefronts(frame, rowCenter)}
+      {renderIncomingWavefronts(frame, rowCenter, labels)}
       {renderOutgoingWavefronts(frame, rowCenter)}
       {renderBarrier(frame, rowCenter)}
       {values.slitWidthGuide ?? true
-        ? renderSlitWidthGuide(frame, rowCenter, options.focusedOverlayId)
+        ? renderSlitWidthGuide(frame, rowCenter, labels, options.focusedOverlayId)
         : null}
       {values.edgePaths ?? true
-        ? renderEdgePaths(frame, rowCenter, options.focusedOverlayId)
+        ? renderEdgePaths(frame, rowCenter, labels, options.focusedOverlayId)
         : null}
       {values.firstMinimumGuide ?? false
-        ? renderFirstMinimumGuide(frame, rowCenter, options.focusedOverlayId)
+        ? renderFirstMinimumGuide(frame, rowCenter, labels, options.focusedOverlayId)
         : null}
-      {renderScreenPattern(frame, rowCenter, {
+      {renderScreenPattern(frame, rowCenter, labels, {
         interactive: options.interactive,
         onAdjustProbe: options.onAdjustProbe,
       })}
@@ -577,6 +615,32 @@ export function DiffractionSimulation({
   compare,
   graphPreview,
 }: DiffractionSimulationProps) {
+  const t = useTranslations("DiffractionSimulation.labels");
+  const labels: DiffractionStageLabels = {
+    incomingWavefronts: t("incomingWavefronts"),
+    slitWidth: (value) => t("slitWidth", { value }),
+    topPath: (value) => t("topPath", { value }),
+    bottomPath: (value) => t("bottomPath", { value }),
+    edgePathDifference: (distance, wavelengths) =>
+      t("edgePathDifference", { distance, wavelengths }),
+    firstDarkBands: (distance) => t("firstDarkBands", { distance }),
+    screenPattern: t("screenPattern"),
+    probe: t("probe"),
+    livePattern: t("livePattern"),
+    liveSetup: t("liveSetup"),
+    setupA: t("setupA"),
+    setupB: t("setupB"),
+    editing: t("editing"),
+    locked: t("locked"),
+    wavelengthToSlitRatio: t("wavelengthToSlitRatio"),
+    probeIntensity: t("probeIntensity"),
+    firstMinimum: t("firstMinimum"),
+    none: t("none"),
+    liveReadout: t("liveReadout"),
+    moveProbeHeight: (value) => t("moveProbeHeight", { value }),
+    previewTime: (seriesLabel, timeValue) => t("previewTime", { seriesLabel, time: timeValue }),
+    previewScreenY: (value) => t("previewScreenY", { value }),
+  };
   const displayTime =
     graphPreview?.kind === "time" || graphPreview?.kind === "trajectory"
       ? graphPreview.time
@@ -599,32 +663,28 @@ export function DiffractionSimulation({
       activeFrame,
       frameA: compareAFrame,
       frameB: compareBFrame,
-      liveLabel: "Live setup",
+      liveLabel: labels.liveSetup,
     });
   const previewBadge =
     graphPreview && (graphPreview.kind === "time" || graphPreview.kind === "trajectory") ? (
       <SimulationPreviewBadge tone="teal">
-        preview {graphPreview.seriesLabel} t = {formatNumber(displayTime)} s
+        {labels.previewTime(graphPreview.seriesLabel, formatNumber(displayTime))}
       </SimulationPreviewBadge>
     ) : graphPreview ? (
       <SimulationPreviewBadge>
-        preview screen y = {formatMeasurement(previewProbeY ?? 0, "m")}
+        {labels.previewScreenY(formatMeasurement(previewProbeY ?? 0, "m"))}
       </SimulationPreviewBadge>
     ) : null;
   const metricRows = [
     {
-      label: "spread ratio",
+      label: labels.wavelengthToSlitRatio,
       value: formatNumber(primaryFrame.snapshot.wavelengthToSlitRatio),
     },
     {
-      label: "probe intensity",
-      value: formatNumber(primaryFrame.snapshot.normalizedIntensity),
-    },
-    {
-      label: "first minimum",
+      label: labels.firstMinimum,
       value:
         primaryFrame.snapshot.firstMinimumAngleDeg === null
-          ? "none"
+          ? labels.none
           : formatMeasurement(primaryFrame.snapshot.firstMinimumAngleDeg, "deg"),
     },
   ];
@@ -661,18 +721,18 @@ export function DiffractionSimulation({
         <rect width={WIDTH} height={HEIGHT} fill="rgba(255,255,255,0.5)" />
         {compareEnabled ? (
           <>
-            {renderWaveRow(compareAFrame!, COMPARE_ROW_CENTERS.a, {
-              label: compare?.labelA ?? "Setup A",
-              compareBadge: compare?.activeTarget === "a" ? "editing" : "locked",
+            {renderWaveRow(compareAFrame!, COMPARE_ROW_CENTERS.a, labels, {
+              label: compare?.labelA ?? labels.setupA,
+              compareBadge: compare?.activeTarget === "a" ? labels.editing : labels.locked,
               interactive: compare?.activeTarget === "a",
               overlayValues,
               focusedOverlayId,
               muted: previewedSetup === "b",
               onAdjustProbe: handleAdjustProbe,
             })}
-            {renderWaveRow(compareBFrame!, COMPARE_ROW_CENTERS.b, {
-              label: compare?.labelB ?? "Setup B",
-              compareBadge: compare?.activeTarget === "b" ? "editing" : "locked",
+            {renderWaveRow(compareBFrame!, COMPARE_ROW_CENTERS.b, labels, {
+              label: compare?.labelB ?? labels.setupB,
+              compareBadge: compare?.activeTarget === "b" ? labels.editing : labels.locked,
               interactive: compare?.activeTarget === "b",
               overlayValues,
               focusedOverlayId,
@@ -681,8 +741,8 @@ export function DiffractionSimulation({
             })}
           </>
         ) : (
-          renderWaveRow(activeFrame, SINGLE_ROW_CENTER, {
-            label: "Live pattern",
+          renderWaveRow(activeFrame, SINGLE_ROW_CENTER, labels, {
+            label: labels.livePattern,
             interactive: true,
             overlayValues,
             focusedOverlayId,
@@ -693,7 +753,7 @@ export function DiffractionSimulation({
           x={CARD_X}
           y={readoutY}
           width={CARD_WIDTH}
-          title="Live readout"
+          title={labels.liveReadout}
           variant="hud"
           setupLabel={compareEnabled ? primaryLabel : undefined}
           rows={metricRows}

@@ -2184,6 +2184,32 @@
     "title": "即時實驗台",
     "description": "把實驗台、控制項、圖表與支援層一起留在畫面上，讓下一步來自模型本身，而不是切換路線。"
   },
+  "DiffractionSimulation": {
+    "labels": {
+      "incomingWavefronts": "入射波面",
+      "slitWidth": "狹縫寬度 {value}",
+      "topPath": "上方路徑 {value}",
+      "bottomPath": "下方路徑 {value}",
+      "edgePathDifference": "邊緣路徑差 {distance}（{wavelengths} 個波長）",
+      "firstDarkBands": "第一暗紋 +/-{distance}",
+      "screenPattern": "屏幕圖樣",
+      "probe": "探測點",
+      "livePattern": "即時圖樣",
+      "liveSetup": "即時設定",
+      "setupA": "設定 A",
+      "setupB": "設定 B",
+      "editing": "編輯中",
+      "locked": "已鎖定",
+      "wavelengthToSlitRatio": "波長/狹縫",
+      "probeIntensity": "探測強度",
+      "firstMinimum": "第一極小",
+      "none": "無",
+      "liveReadout": "即時讀數",
+      "moveProbeHeight": "移動探測高度，目前 y 為 {value} 米",
+      "previewTime": "預覽 {seriesLabel} t = {time} s",
+      "previewScreenY": "預覽屏幕 y = {value}"
+    }
+  },
   "ControlPanel": {
     "title": "控制項",
     "description": "一次只改一個變數，讓即時模型保持容易閱讀。",
@@ -2408,6 +2434,18 @@
     "supportDock": {
       "label": "更多支援",
       "description": "例題、疊加層與額外提示會靠近實驗台，但保持較安靜。"
+    },
+    "stepSupport": {
+      "label": "這一步的更多內容",
+      "description": "只有在目前動作需要更多脈絡時，才打開額外提示。"
+    },
+    "phaseSupport": {
+      "label": "額外提示",
+      "description": "觀察提示與挑戰細節仍可使用，但不會擠滿實驗台。"
+    },
+    "equationMap": {
+      "label": "完整方程對照",
+      "description": "關鍵關係會留在實驗台旁；打開這裏可查看完整變數對照。"
     },
     "setupAnchorLabel": "即時實驗台設定錨點",
     "controls": {
@@ -3391,6 +3429,10 @@
       "label": "方程對照",
       "title": "即時控制如何連到各個表示",
       "description": "沿着每個變數看它如何由目前控制值連到相關的方程、圖表與疊加層。"
+    },
+    "bench": {
+      "label": "關鍵關係",
+      "title": "調整控制項時，把這個關係留在視野中"
     },
     "chips": {
       "graph": "圖表：{label}",

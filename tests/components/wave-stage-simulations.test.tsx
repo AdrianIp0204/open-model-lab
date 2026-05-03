@@ -179,7 +179,7 @@ describe("wave-stage simulation migrations", () => {
     );
 
     expect(screen.getAllByText("Live readout").length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/spread ratio/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/wavelength\/slit/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/slit width/i).length).toBeGreaterThan(0);
     expect(screen.queryByText(/delta r_edge/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/r_top/i)).not.toBeInTheDocument();
@@ -191,6 +191,35 @@ describe("wave-stage simulation migrations", () => {
     );
 
     expect(setParam).toHaveBeenCalledWith("probeY", 0.7);
+  });
+
+  it("localizes diffraction stage labels on zh-HK routes", () => {
+    globalThis.__TEST_LOCALE__ = "zh-HK";
+    const source = buildSimulationSource("diffraction");
+
+    render(
+      <DiffractionSimulation
+        concept={source}
+        params={{
+          wavelength: 1,
+          slitWidth: 2.4,
+          probeY: 0.6,
+        }}
+        time={0}
+        setParam={vi.fn()}
+        overlayValues={{
+          slitWidthGuide: true,
+          edgePaths: true,
+          firstMinimumGuide: true,
+        }}
+      />,
+    );
+
+    expect(screen.getAllByText("即時讀數").length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/狹縫寬度/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/上方路徑/).length).toBeGreaterThan(0);
+    expect(screen.queryByText(/top path/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/edge path difference/i)).not.toBeInTheDocument();
   });
 
   it("renders the double-slit bench and keeps probe dragging keyboard-addressable", () => {

@@ -216,20 +216,25 @@ function buildInitialCompareState(
 }
 
 describe("ConceptSimulationRenderer compare state", () => {
-  it("keeps prediction as a prompt action instead of a primary bench tab", () => {
+  it("keeps prediction out of the primary bench modes", () => {
     render(<ConceptSimulationRenderer concept={buildSimulationSource("simple-harmonic-motion")} />);
 
     const interactionTabs = screen.getByRole("tablist", {
       name: "Concept interaction modes",
     });
 
+    expect(within(interactionTabs).getAllByRole("tab")).toHaveLength(2);
     expect(within(interactionTabs).getByRole("tab", { name: "Explore" })).toHaveAttribute(
       "aria-selected",
       "true",
     );
-    expect(within(interactionTabs).getByRole("tab", { name: "Compare" })).toBeInTheDocument();
+    expect(within(interactionTabs).getByRole("tab", { name: "Compare" })).toHaveAttribute(
+      "aria-selected",
+      "false",
+    );
     expect(within(interactionTabs).queryByRole("tab", { name: "Predict" })).not.toBeInTheDocument();
-    expect(screen.getByTestId("concept-runtime-prediction-action")).toHaveTextContent("Predict");
+    expect(screen.queryByTestId("concept-runtime-prediction-action")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("mock-prediction-mode-panel")).not.toBeInTheDocument();
   });
 
   it("keeps compare enter, target switching, setup edits, and exit on one renderer-owned state seam", async () => {
@@ -237,15 +242,15 @@ describe("ConceptSimulationRenderer compare state", () => {
 
     render(<ConceptSimulationRenderer concept={buildSimulationSource("simple-harmonic-motion")} />);
 
+    const interactionTabs = screen.getByRole("tablist", {
+      name: "Concept interaction modes",
+    });
     const controls = screen.getByTestId("simulation-shell-controls");
-    const moreToolsToggle = within(controls).getByRole("button", { name: "More tools" });
-    await user.click(moreToolsToggle);
 
-    await user.click(
-      within(screen.getByTestId("control-panel-compare-tools")).getByRole("button", {
-        name: "Compare mode",
-      }),
-    );
+    expect(screen.queryByTestId("control-panel-compare-tools")).not.toBeInTheDocument();
+    expect(within(controls).queryByRole("button", { name: "Compare mode" })).not.toBeInTheDocument();
+
+    await user.click(within(interactionTabs).getByRole("tab", { name: "Compare" }));
 
     const compareTools = screen.getByTestId("control-panel-compare-tools");
     const amplitudeSlider = within(controls).getByRole("slider", {
@@ -255,6 +260,10 @@ describe("ConceptSimulationRenderer compare state", () => {
 
     expect(screen.getByTestId("mock-compare-scene")).toHaveAttribute("data-compare", "on");
     expect(screen.getByTestId("mock-compare-scene")).toHaveAttribute("data-target", "b");
+    expect(within(interactionTabs).getByRole("tab", { name: "Compare" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
     expect(compareTools).toHaveTextContent("Editing Setup B");
 
     fireEvent.change(amplitudeSlider, { target: { value: "2.2" } });

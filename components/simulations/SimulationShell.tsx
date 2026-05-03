@@ -101,20 +101,20 @@ export function SimulationShell({
               >
                 {scene}
               </div>
+              {benchEquations ? (
+                <div
+                  data-testid="simulation-shell-bench-equations"
+                  className={benchHeader ? "order-3 min-w-0" : "order-2 min-w-0"}
+                >
+                  {benchEquations}
+                </div>
+              ) : null}
               <div
                 data-testid="simulation-shell-graphs"
                 className={benchHeader ? "order-4 min-w-0" : "order-3 min-w-0"}
               >
                 {graphs}
               </div>
-              {benchEquations ? (
-                <div
-                  data-testid="simulation-shell-bench-equations"
-                  className={benchHeader ? "order-5 min-w-0" : "order-4 min-w-0"}
-                >
-                  {benchEquations}
-                </div>
-              ) : null}
             </div>
             <div
               data-testid="simulation-shell-controls"
