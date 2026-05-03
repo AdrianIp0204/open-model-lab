@@ -31,7 +31,13 @@ describe("SimulationShell", () => {
     expect(sceneSlot?.textContent).toContain("Scene");
     expect(benchEquationsSlot?.textContent).toContain("Bench equations");
     expect(sceneSlot).toContainElement(benchEquationsSlot as HTMLElement);
-    expect(benchEquationsSlot).toHaveClass("absolute", "left-1.5", "top-1.5", "z-20");
+    expect(benchEquationsSlot).toHaveClass(
+      "pointer-events-none",
+      "absolute",
+      "left-1.5",
+      "top-1.5",
+      "z-20",
+    );
     expect(controlsSlot?.textContent).toContain("Controls");
     expect(graphsSlot?.textContent).toContain("Graphs");
     expect(transportSlot?.textContent).toContain("Transport");
