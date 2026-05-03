@@ -52,7 +52,10 @@ import {
 import { StarterTrackRecommendationList } from "@/components/tracks/StarterTrackRecommendationList";
 import { ConceptLearningSurfaceTestCta } from "@/components/tests/ConceptLearningSurfaceTestCta";
 import { LearningVisual } from "@/components/visuals/LearningVisual";
-import { getConceptVisualDescriptor } from "@/components/visuals/learningVisualDescriptors";
+import {
+  getConceptVisualDescriptor,
+  getStarterTrackVisualDescriptor,
+} from "@/components/visuals/learningVisualDescriptors";
 import { MasteryStateBadge } from "./MasteryStateBadge";
 import { ProgressStatusBadge } from "./ProgressStatusBadge";
 import { AccountAwareReviewRemediationList } from "./AccountAwareReviewRemediationList";
@@ -688,7 +691,7 @@ export function HomeContinueLearningSurface({
             : null,
           displayCurrentTrackPrimaryNote,
         ],
-        180,
+        150,
       )
     : null;
   const displayFollowUpReason = displayFollowUpCandidate
@@ -724,11 +727,20 @@ export function HomeContinueLearningSurface({
     ? getStarterTrackDisplayTitle(fallbackTrack, locale)
     : null;
   const fallbackTrackSummary = fallbackTrack
-    ? getStarterTrackDisplaySummary(fallbackTrack, locale)
+    ? cleanCardText(getStarterTrackDisplaySummary(fallbackTrack, locale), 150)
     : null;
   const fallbackTrackHighlights = fallbackTrack
     ? getStarterTrackDisplayHighlights(fallbackTrack, locale)
     : [];
+  const displayCurrentTrackVisualSource = displayCurrentTrack
+    ? starterTracksBySlug.get(displayCurrentTrack.slug) ?? null
+    : null;
+  const displayCurrentTrackVisual = displayCurrentTrackVisualSource
+    ? getStarterTrackVisualDescriptor(displayCurrentTrackVisualSource)
+    : null;
+  const fallbackTrackVisual = fallbackTrack
+    ? getStarterTrackVisualDescriptor(fallbackTrack)
+    : null;
   const primaryVisualHref = displayPrimaryConcept
     ? `/concepts/${displayPrimaryConcept.slug}`
     : quickStartConcept
@@ -778,7 +790,7 @@ export function HomeContinueLearningSurface({
       ) : null}
 
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1.14fr)_minmax(20rem,0.86fr)] xl:items-start">
-        <article className="lab-panel grid gap-4 p-4 sm:p-5 md:grid-cols-[8rem_minmax(0,1fr)] md:items-start">
+        <article className="lab-panel grid gap-4 p-4 sm:p-5 md:grid-cols-[9.5rem_minmax(0,1fr)] md:items-start">
           <Link
             href={primaryVisualHref}
             aria-label={primaryVisualLabel}
@@ -792,7 +804,7 @@ export function HomeContinueLearningSurface({
               fallbackKind={primaryVisual?.fallbackKind}
               tone={primaryVisual?.tone ?? primaryVisualConcept?.accent ?? "teal"}
               compact
-              className="h-24 rounded-[18px] md:h-full"
+              className="h-28 rounded-[18px] md:h-full md:min-h-32"
             />
           </Link>
           <div className="min-w-0">
@@ -937,6 +949,27 @@ export function HomeContinueLearningSurface({
           <article className="lab-panel p-4">
             {displayCurrentTrack ? (
               <>
+                <div className="grid gap-3 sm:grid-cols-[5.5rem_minmax(0,1fr)] sm:items-start">
+                  {displayCurrentTrackVisual ? (
+                    <Link
+                      href={displayCurrentTrack.primaryHref}
+                      aria-label={displayCurrentTrack.title}
+                      data-testid={`home-current-track-visual-${displayCurrentTrack.slug}`}
+                      className="block rounded-[18px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                    >
+                      <LearningVisual
+                        kind={displayCurrentTrackVisual.kind}
+                        motif={displayCurrentTrackVisual.motif}
+                        overlay={displayCurrentTrackVisual.overlay}
+                        isFallback={displayCurrentTrackVisual.isFallback}
+                        fallbackKind={displayCurrentTrackVisual.fallbackKind}
+                        tone={displayCurrentTrackVisual.tone ?? displayCurrentTrackVisualSource?.accent ?? "coral"}
+                        compact
+                        className="h-20 rounded-[18px] sm:h-24"
+                      />
+                    </Link>
+                  ) : null}
+                  <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="lab-label">{t("track.label")}</span>
                   {displayCurrentTrack.isSynced ? (
@@ -991,9 +1024,32 @@ export function HomeContinueLearningSurface({
                     {displayCurrentTrack.secondaryLabel}
                   </Link>
                 </div>
+                  </div>
+                </div>
               </>
             ) : fallbackTrack ? (
               <>
+                <div className="grid gap-3 sm:grid-cols-[5.5rem_minmax(0,1fr)] sm:items-start">
+                  {fallbackTrackVisual ? (
+                    <Link
+                      href={`/tracks/${fallbackTrack.slug}`}
+                      aria-label={fallbackTrackTitle ?? fallbackTrack.title}
+                      data-testid={`home-fallback-track-visual-${fallbackTrack.slug}`}
+                      className="block rounded-[18px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                    >
+                      <LearningVisual
+                        kind={fallbackTrackVisual.kind}
+                        motif={fallbackTrackVisual.motif}
+                        overlay={fallbackTrackVisual.overlay}
+                        isFallback={fallbackTrackVisual.isFallback}
+                        fallbackKind={fallbackTrackVisual.fallbackKind}
+                        tone={fallbackTrackVisual.tone ?? fallbackTrack.accent}
+                        compact
+                        className="h-20 rounded-[18px] sm:h-24"
+                      />
+                    </Link>
+                  ) : null}
+                  <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="lab-label">{t("track.fallbackLabel")}</span>
                   <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">
@@ -1031,6 +1087,8 @@ export function HomeContinueLearningSurface({
                     {t("actions.openTrack")}
                   </Link>
                 </div>
+                  </div>
+                </div>
               </>
             ) : null}
           </article>
@@ -1038,156 +1096,175 @@ export function HomeContinueLearningSurface({
           <article className="lab-panel p-4">
             {displayFollowUpCandidate ? (
               <>
-                {followUpVisual ? (
-                  <Link
-                    href={displayFollowUpCandidate.primaryAction.href}
-                    aria-label={displayFollowUpCandidate.title}
-                    className="mb-3 block w-24 rounded-[18px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
-                  >
-                    <LearningVisual
-                      kind={followUpVisual.kind}
-                      motif={followUpVisual.motif}
-                      overlay={followUpVisual.overlay}
-                      isFallback={followUpVisual.isFallback}
-                      fallbackKind={followUpVisual.fallbackKind}
-                      tone={followUpVisual.tone ?? followUpVisualConcept?.accent ?? "amber"}
-                      compact
-                      className="h-16 rounded-[18px]"
-                    />
-                  </Link>
-                ) : null}
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="lab-label">{getFollowUpLabel(displayFollowUpCandidate, t)}</span>
-                  <ProgressStatusBadge status={displayFollowUpCandidate.progressStatus} compact />
-                  <MasteryStateBadge state={displayFollowUpCandidate.masteryState} compact />
-                  {displayFollowUpCandidate.trackCue ? (
-                    <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">
-                      {displayFollowUpTrackCueLabel}
-                    </span>
-                  ) : null}
-                </div>
-                <h3 className="mt-3 text-lg font-semibold text-ink-950 sm:text-xl">
-                  {displayFollowUpCandidate.title}
-                </h3>
-                <p className="mt-2 text-sm leading-5.5 text-ink-700 sm:leading-6">
-                  {displayFollowUpReason}
-                </p>
-                {displayFollowUpCandidate.trackCue ? (
-                  <p className="mt-2 text-sm leading-5.5 text-ink-600 sm:leading-6">
-                    {useGenericProgressCopy
-                      ? displayFollowUpTrackCueNote
-                      : `${displayFollowUpCandidate.trackCue.title}: ${displayFollowUpTrackCueNote ?? ""}`}
-                  </p>
-                ) : null}
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {displayFollowUpSupportReasons
-                    .filter((reason) =>
-                      shouldDisplaySupportReason(
-                        reason,
-                        displayFollowUpReason ?? "",
-                        displayFollowUpTrackCueNote,
-                      ),
-                    )
-                    .slice(0, 2)
-                    .map((reason) => (
-                      <span
-                        key={reason}
-                        className="rounded-full border border-amber-500/20 bg-amber-500/10 px-3 py-1 text-xs text-ink-700"
-                      >
-                        {reason}
-                      </span>
-                    ))}
-                </div>
-                <div className="mt-5 flex flex-wrap gap-3">
-                  <Link
-                    href={displayFollowUpCandidate.primaryAction.href}
-                    data-testid={`home-follow-up-primary-action-${displayFollowUpCandidate.conceptSlug}`}
-                    className="inline-flex items-center rounded-full bg-ink-950 px-4 py-2.5 text-sm font-semibold transition-transform duration-200 hover:-translate-y-0.5"
-                    style={{ color: "var(--paper-strong)" }}
-                  >
-                    {getLocalizedReviewActionLabel(
-                      displayFollowUpCandidate.primaryAction,
-                      locale,
-                      tProgress,
-                      displayFollowUpCandidate.progressStatus,
-                    )}
-                  </Link>
-                  {displayFollowUpCandidate.secondaryAction ? (
+                <div className="grid gap-3 sm:grid-cols-[5.5rem_minmax(0,1fr)] sm:items-start">
+                  {followUpVisual ? (
                     <Link
-                      href={displayFollowUpCandidate.secondaryAction.href}
-                      className="inline-flex items-center rounded-full border border-line bg-paper-strong px-4 py-2.5 text-sm font-semibold text-ink-950 transition-colors hover:border-ink-950/25"
+                      href={displayFollowUpCandidate.primaryAction.href}
+                      aria-label={displayFollowUpCandidate.title}
+                      className="block rounded-[18px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
                     >
-                      {getLocalizedReviewActionLabel(
-                        displayFollowUpCandidate.secondaryAction,
-                        locale,
-                        tProgress,
-                        displayFollowUpCandidate.progressStatus,
-                      )}
+                      <LearningVisual
+                        kind={followUpVisual.kind}
+                        motif={followUpVisual.motif}
+                        overlay={followUpVisual.overlay}
+                        isFallback={followUpVisual.isFallback}
+                        fallbackKind={followUpVisual.fallbackKind}
+                        tone={followUpVisual.tone ?? followUpVisualConcept?.accent ?? "amber"}
+                        compact
+                        className="h-20 rounded-[18px] sm:h-24"
+                      />
                     </Link>
                   ) : null}
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="lab-label">{getFollowUpLabel(displayFollowUpCandidate, t)}</span>
+                      <ProgressStatusBadge status={displayFollowUpCandidate.progressStatus} compact />
+                      <MasteryStateBadge state={displayFollowUpCandidate.masteryState} compact />
+                      {displayFollowUpCandidate.trackCue ? (
+                        <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">
+                          {displayFollowUpTrackCueLabel}
+                        </span>
+                      ) : null}
+                    </div>
+                    <h3 className="mt-3 text-lg font-semibold text-ink-950 sm:text-xl">
+                      {displayFollowUpCandidate.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-5.5 text-ink-700 sm:leading-6">
+                      {displayFollowUpReason}
+                    </p>
+                    <div className="mt-5 flex flex-wrap gap-3">
+                      <Link
+                        href={displayFollowUpCandidate.primaryAction.href}
+                        data-testid={`home-follow-up-primary-action-${displayFollowUpCandidate.conceptSlug}`}
+                        className="inline-flex items-center rounded-full bg-ink-950 px-4 py-2.5 text-sm font-semibold transition-transform duration-200 hover:-translate-y-0.5"
+                        style={{ color: "var(--paper-strong)" }}
+                      >
+                        {getLocalizedReviewActionLabel(
+                          displayFollowUpCandidate.primaryAction,
+                          locale,
+                          tProgress,
+                          displayFollowUpCandidate.progressStatus,
+                        )}
+                      </Link>
+                      {displayFollowUpCandidate.secondaryAction ? (
+                        <Link
+                          href={displayFollowUpCandidate.secondaryAction.href}
+                          className="inline-flex items-center rounded-full border border-line bg-paper-strong px-4 py-2.5 text-sm font-semibold text-ink-950 transition-colors hover:border-ink-950/25"
+                        >
+                          {getLocalizedReviewActionLabel(
+                            displayFollowUpCandidate.secondaryAction,
+                            locale,
+                            tProgress,
+                            displayFollowUpCandidate.progressStatus,
+                          )}
+                        </Link>
+                      ) : null}
+                    </div>
+                  </div>
                 </div>
-                <AccountAwareReviewRemediationList
-                  concept={{
-                    slug: displayFollowUpCandidate.conceptSlug,
-                    title: displayFollowUpCandidate.title,
-                  }}
-                  reasonKind={displayFollowUpCandidate.reasonKind}
-                  primaryAction={displayFollowUpCandidate.primaryAction}
-                  secondaryAction={displayFollowUpCandidate.secondaryAction}
-                  suggestions={displayFollowUpCandidate.remediationSuggestions}
-                  className="mt-5"
-                />
+                <details
+                  data-testid="home-recovery-details"
+                  className="mt-4 rounded-[20px] border border-line bg-paper-strong/70 px-4 py-3"
+                >
+                  <summary className="cursor-pointer text-sm font-semibold text-ink-800">
+                    {t("followUp.detailsSummary")}
+                  </summary>
+                  <div className="mt-3 space-y-3">
+                    {displayFollowUpCandidate.trackCue ? (
+                      <p className="text-sm leading-5.5 text-ink-600 sm:leading-6">
+                        {useGenericProgressCopy
+                          ? displayFollowUpTrackCueNote
+                          : `${displayFollowUpCandidate.trackCue.title}: ${displayFollowUpTrackCueNote ?? ""}`}
+                      </p>
+                    ) : null}
+                    {displayFollowUpSupportReasons.length ? (
+                      <div className="flex flex-wrap gap-2">
+                        {displayFollowUpSupportReasons
+                          .filter((reason) =>
+                            shouldDisplaySupportReason(
+                              reason,
+                              displayFollowUpReason ?? "",
+                              displayFollowUpTrackCueNote,
+                            ),
+                          )
+                          .slice(0, 2)
+                          .map((reason) => (
+                            <span
+                              key={reason}
+                              className="rounded-full border border-amber-500/20 bg-amber-500/10 px-3 py-1 text-xs text-ink-700"
+                            >
+                              {reason}
+                            </span>
+                          ))}
+                      </div>
+                    ) : null}
+                    <AccountAwareReviewRemediationList
+                      concept={{
+                        slug: displayFollowUpCandidate.conceptSlug,
+                        title: displayFollowUpCandidate.title,
+                      }}
+                      reasonKind={displayFollowUpCandidate.reasonKind}
+                      primaryAction={displayFollowUpCandidate.primaryAction}
+                      secondaryAction={displayFollowUpCandidate.secondaryAction}
+                      suggestions={displayFollowUpCandidate.remediationSuggestions}
+                    />
+                  </div>
+                </details>
               </>
             ) : displayNextRecommendation ? (
               <>
-                {followUpVisual ? (
-                  <Link
-                    href={`/concepts/${displayNextRecommendation.conceptSlug}`}
-                    aria-label={displayNextRecommendation.title}
-                    className="mb-3 block w-24 rounded-[18px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
-                  >
-                    <LearningVisual
-                      kind={followUpVisual.kind}
-                      motif={followUpVisual.motif}
-                      overlay={followUpVisual.overlay}
-                      isFallback={followUpVisual.isFallback}
-                      fallbackKind={followUpVisual.fallbackKind}
-                      tone={followUpVisual.tone ?? followUpVisualConcept?.accent ?? "sky"}
-                      compact
-                      className="h-16 rounded-[18px]"
-                    />
-                  </Link>
-                ) : null}
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="lab-label">{t("nextRecommendation.label")}</span>
-                  <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">
-                    {t("nextRecommendation.badge")}
-                  </span>
-                </div>
-                <h3 className="mt-3 text-lg font-semibold text-ink-950 sm:text-xl">
-                  {displayNextRecommendation.title}
-                </h3>
-                <p className="mt-2 text-sm leading-5.5 text-ink-700 sm:leading-6">
-                  {displayNextRecommendationNote}
-                </p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {displayNextRecommendation.highlights.slice(0, 2).map((item) => (
-                    <span
-                      key={item}
-                      className="rounded-full border border-line bg-paper px-3 py-1 text-xs text-ink-700"
+                <div className="grid gap-3 sm:grid-cols-[5.5rem_minmax(0,1fr)] sm:items-start">
+                  {followUpVisual ? (
+                    <Link
+                      href={`/concepts/${displayNextRecommendation.conceptSlug}`}
+                      aria-label={displayNextRecommendation.title}
+                      className="block rounded-[18px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
                     >
-                      {item}
-                    </span>
-                  ))}
-                </div>
-                <div className="mt-5 flex flex-wrap gap-3">
-                  <Link
-                    href={`/concepts/${displayNextRecommendation.conceptSlug}`}
-                    className="inline-flex items-center rounded-full bg-ink-950 px-4 py-2.5 text-sm font-semibold transition-transform duration-200 hover:-translate-y-0.5"
-                    style={{ color: "var(--paper-strong)" }}
-                  >
-                    {t("actions.openNextConcept")}
-                  </Link>
+                      <LearningVisual
+                        kind={followUpVisual.kind}
+                        motif={followUpVisual.motif}
+                        overlay={followUpVisual.overlay}
+                        isFallback={followUpVisual.isFallback}
+                        fallbackKind={followUpVisual.fallbackKind}
+                        tone={followUpVisual.tone ?? followUpVisualConcept?.accent ?? "sky"}
+                        compact
+                        className="h-20 rounded-[18px] sm:h-24"
+                      />
+                    </Link>
+                  ) : null}
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="lab-label">{t("nextRecommendation.label")}</span>
+                      <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">
+                        {t("nextRecommendation.badge")}
+                      </span>
+                    </div>
+                    <h3 className="mt-3 text-lg font-semibold text-ink-950 sm:text-xl">
+                      {displayNextRecommendation.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-5.5 text-ink-700 sm:leading-6">
+                      {displayNextRecommendationNote}
+                    </p>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {displayNextRecommendation.highlights.slice(0, 2).map((item) => (
+                        <span
+                          key={item}
+                          className="rounded-full border border-line bg-paper px-3 py-1 text-xs text-ink-700"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="mt-5 flex flex-wrap gap-3">
+                      <Link
+                        href={`/concepts/${displayNextRecommendation.conceptSlug}`}
+                        className="inline-flex items-center rounded-full bg-ink-950 px-4 py-2.5 text-sm font-semibold transition-transform duration-200 hover:-translate-y-0.5"
+                        style={{ color: "var(--paper-strong)" }}
+                      >
+                        {t("actions.openNextConcept")}
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </>
             ) : (

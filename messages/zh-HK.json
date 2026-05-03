@@ -2566,6 +2566,7 @@
       "topicNote": "當你想要一條更有引導的路徑時，這些路徑會緊貼目前主題。"
     },
     "followUp": {
+      "detailsSummary": "復習詳情",
       "labels": {
         "checkpoint": "檢查點",
         "diagnostic": "診斷",

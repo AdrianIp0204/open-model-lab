@@ -100,6 +100,10 @@ export type LearningVisualMotif =
   | "thermal-energy"
   | "torque"
   | "total-internal-reflection"
+  | "track-gravity-orbits"
+  | "track-motion-circular"
+  | "track-rotational-mechanics"
+  | "track-thermal-systems"
   | "unit-circle"
   | "uniform-circular-motion"
   | "vector-2d-addition"
@@ -143,6 +147,15 @@ type TopicVisualInput = {
   title: string;
   subject?: string;
   description?: string;
+  accent?: LearningVisualTone;
+};
+
+type StarterTrackVisualInput = {
+  slug: string;
+  title: string;
+  summary?: string | null;
+  highlights?: readonly string[];
+  concepts?: readonly ConceptVisualInput[];
   accent?: LearningVisualTone;
 };
 
@@ -285,6 +298,28 @@ const exactTopicMotifs: Record<string, LearningVisualMotif> = {
   "solutions-and-ph": "acid-base",
   "stoichiometry-and-yield": "chemistry-reaction",
   waves: "wave-motion",
+};
+
+const exactStarterTrackMotifs: Record<
+  string,
+  { motif: LearningVisualMotif; label: string }
+> = {
+  "motion-and-circular-motion": {
+    motif: "track-motion-circular",
+    label: "motion and circular motion track",
+  },
+  "rotational-mechanics": {
+    motif: "track-rotational-mechanics",
+    label: "rotational mechanics track",
+  },
+  "gravity-and-orbits": {
+    motif: "track-gravity-orbits",
+    label: "gravity and orbits track",
+  },
+  "thermodynamics-and-kinetic-theory": {
+    motif: "track-thermal-systems",
+    label: "thermal systems track",
+  },
 };
 
 const topicMotifs: Array<{
@@ -539,6 +574,58 @@ export function getTopicVisualDescriptor(topic: TopicVisualInput): LearningVisua
     isFallback: true,
     fallbackKind: "category-specific",
     label: "topic map",
+  };
+}
+
+export function getStarterTrackVisualDescriptor(
+  track: StarterTrackVisualInput,
+): LearningVisualDescriptor {
+  const exactMotif = exactStarterTrackMotifs[track.slug];
+
+  if (exactMotif) {
+    return {
+      kind: "guided",
+      motif: exactMotif.motif,
+      tone: track.accent,
+      isFallback: false,
+      fallbackKind: "topic-specific",
+      label: exactMotif.label,
+    };
+  }
+
+  const searchText = compactSearchText([
+    track.slug,
+    track.title,
+    track.summary,
+    ...(track.highlights ?? []),
+    ...(track.concepts ?? []).flatMap((concept) => [
+      concept.slug,
+      concept.title,
+      concept.subject,
+      concept.topic,
+      concept.subtopic,
+      ...(concept.tags ?? []),
+    ]),
+  ]);
+  const match = topicMotifs.find((candidate) => candidate.pattern.test(searchText));
+
+  if (match) {
+    return {
+      kind: "guided",
+      motif: match.motif,
+      tone: track.accent,
+      isFallback: false,
+      fallbackKind: "topic-specific",
+      label: `${match.label} track`,
+    };
+  }
+
+  return {
+    kind: "guided",
+    tone: track.accent,
+    isFallback: true,
+    fallbackKind: "category-specific",
+    label: "starter track",
   };
 }
 

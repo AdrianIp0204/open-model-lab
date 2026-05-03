@@ -9,11 +9,16 @@ import {
   getConceptAssessmentVisualDescriptor,
   getConceptVisualDescriptor,
   getPackAssessmentVisualDescriptor,
+  getStarterTrackVisualDescriptor,
   getTopicAssessmentVisualDescriptor,
   getTopicVisualDescriptor,
   getToolVisualDescriptor,
 } from "@/components/visuals/learningVisualDescriptors";
-import { getConceptSummaries, getSubjectDiscoverySummaries } from "@/lib/content";
+import {
+  getConceptSummaries,
+  getStarterTrackBySlug,
+  getSubjectDiscoverySummaries,
+} from "@/lib/content";
 import { localizeConceptSummaryDisplay } from "@/lib/i18n/content";
 
 function getConceptSummary(slug: string) {
@@ -434,6 +439,40 @@ describe("learning visual descriptors", () => {
       "total-internal-reflection",
       "mirror-reflection",
     ]);
+  });
+
+  it("maps starter tracks to cluster-specific visuals for homepage cards", () => {
+    expect(
+      getStarterTrackVisualDescriptor(
+        getStarterTrackBySlug("motion-and-circular-motion"),
+      ),
+    ).toMatchObject({
+      kind: "guided",
+      motif: "track-motion-circular",
+      isFallback: false,
+      fallbackKind: "topic-specific",
+    });
+    expect(
+      getStarterTrackVisualDescriptor(getStarterTrackBySlug("rotational-mechanics")),
+    ).toMatchObject({
+      kind: "guided",
+      motif: "track-rotational-mechanics",
+      isFallback: false,
+    });
+    expect(
+      getStarterTrackVisualDescriptor(getStarterTrackBySlug("gravity-and-orbits")),
+    ).toMatchObject({
+      motif: "track-gravity-orbits",
+      isFallback: false,
+    });
+    expect(
+      getStarterTrackVisualDescriptor(
+        getStarterTrackBySlug("thermodynamics-and-kinetic-theory"),
+      ),
+    ).toMatchObject({
+      motif: "track-thermal-systems",
+      isFallback: false,
+    });
   });
 
   it("maps visible math discovery concepts away from the generic fallback", () => {

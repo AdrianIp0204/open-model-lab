@@ -175,6 +175,11 @@ describe("HomeContinueLearningSurface", () => {
         "learning-visual",
       ),
     ).toHaveAttribute("data-visual-motif", "vectors-components");
+    expect(
+      within(
+        screen.getByTestId("home-current-track-visual-motion-and-circular-motion"),
+      ).getByTestId("learning-visual"),
+    ).toHaveAttribute("data-visual-motif", "track-motion-circular");
     expect(screen.getByRole("link", { name: /continue with vectors/i })).toHaveAttribute(
       "href",
       "/concepts/vectors-components",
@@ -234,6 +239,7 @@ describe("HomeContinueLearningSurface", () => {
       screen.getAllByText(/quick test has ended with missed questions 2 times in a row/i).length,
     ).toBeGreaterThan(0);
     expect(screen.getAllByText(/recovery path/i).length).toBeGreaterThan(0);
+    expect(screen.getByTestId("home-recovery-details")).not.toHaveAttribute("open");
     expect(screen.getByRole("link", { name: /review vectors/i })).toHaveAttribute(
       "href",
       "/concepts/vectors-components",
@@ -490,6 +496,11 @@ describe("HomeContinueLearningSurface", () => {
 
     expect(screen.getByText(/2 of 5 moments complete/i)).toBeInTheDocument();
     expect(
+      within(screen.getByRole("link", { name: "Uniform Circular Motion" })).getByTestId(
+        "learning-visual",
+      ),
+    ).toHaveAttribute("data-visual-motif", "uniform-circular-motion");
+    expect(
       screen
         .getAllByRole("link", { name: /open checkpoint/i })
         .some(
@@ -518,6 +529,11 @@ describe("HomeContinueLearningSurface", () => {
       "href",
       "/tracks/motion-and-circular-motion",
     );
+    expect(
+      within(
+        screen.getByTestId("home-fallback-track-visual-motion-and-circular-motion"),
+      ).getByTestId("learning-visual"),
+    ).toHaveAttribute("data-visual-motif", "track-motion-circular");
   });
 
   it("prefers the authored hero track for first-visit fallback guidance when one is present", () => {
@@ -537,6 +553,11 @@ describe("HomeContinueLearningSurface", () => {
       "href",
       "/tracks/gravity-and-orbits",
     );
+    expect(
+      within(screen.getByTestId("home-fallback-track-visual-gravity-and-orbits")).getByTestId(
+        "learning-visual",
+      ),
+    ).toHaveAttribute("data-visual-motif", "track-gravity-orbits");
   });
 
   it("sends completed current tracks to the completion page", () => {
@@ -616,6 +637,11 @@ describe("HomeContinueLearningSurface", () => {
       "href",
       "/tracks/electricity",
     );
+    expect(
+      within(screen.getByTestId("starter-track-recommendation-visual-electricity")).getByTestId(
+        "learning-visual",
+      ),
+    ).toHaveAttribute("data-visual-fallback", "false");
   });
 
   it("can add a saved compare setup recovery action to the follow-up card when no catalog remediation path is stronger", async () => {

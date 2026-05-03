@@ -5,7 +5,6 @@ import {
 
 type PrimaryNavLabelKey =
   | "start"
-  | "search"
   | "challenges"
   | "tests"
   | "explore"
@@ -20,7 +19,6 @@ type PrimaryNavItem = {
 
 export const primaryNavItems: readonly PrimaryNavItem[] = [
   { href: "/start", labelKey: "start" },
-  { href: "/search", labelKey: "search" },
   { href: "/concepts", labelKey: "explore" },
   { href: "/guided", labelKey: "guided" },
   { href: "/challenges", labelKey: "challenges" },
@@ -36,6 +34,7 @@ export const footerTrustNavItems = [
 ] as const;
 
 export const footerUtilityNavItems = [
+  { href: "/search", labelKey: "search" },
   { href: "/about", labelKey: "about" },
   { href: "/pricing", labelKey: "pricing" },
 ] as const;

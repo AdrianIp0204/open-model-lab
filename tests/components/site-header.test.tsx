@@ -90,6 +90,13 @@ describe("SiteHeader", () => {
     expect(
       within(mobileNav).getByText(/get a recommended first step or resume where you left off/i),
     ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /^search$/i })).toHaveAttribute(
+      "href",
+      "/search",
+    );
+    expect(
+      screen.getByText(/jump straight to a concept, topic, or route you already know/i),
+    ).toBeInTheDocument();
 
     await user.keyboard("{Escape}");
 

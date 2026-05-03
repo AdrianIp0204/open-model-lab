@@ -18,6 +18,10 @@ const publicRouteExpectations = [
     heading: "Search first, then keep the matching concepts in view.",
   },
   {
+    pathname: "/search",
+    heading: "Search concepts, topic pages, tracks, and guided paths from one place.",
+  },
+  {
     pathname: "/tests",
     heading: "Pick a test and start.",
   },
@@ -104,7 +108,7 @@ test("renders pricing, signed-out account, and contact flows cleanly", async ({ 
   await expect(page.getByRole("button", { name: "Send feedback" })).toBeVisible();
 });
 
-test("keeps About and Pricing discoverable in the footer without promoting them into primary nav", async ({
+test("keeps secondary routes discoverable in the footer without promoting them into primary nav", async ({
   page,
 }) => {
   await setHarnessSession(page, "signed-out");
@@ -113,8 +117,10 @@ test("keeps About and Pricing discoverable in the footer without promoting them 
   const footer = page.locator("footer");
   await footer.scrollIntoViewIfNeeded();
 
+  await expect(footer.getByRole("link", { name: "Search" })).toBeVisible();
   await expect(footer.getByRole("link", { name: "About" })).toBeVisible();
   await expect(footer.getByRole("link", { name: "Pricing" })).toBeVisible();
+  await expect(page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Search" })).toHaveCount(0);
   await expect(page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "About" })).toHaveCount(0);
   await expect(page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Pricing" })).toHaveCount(0);
 });

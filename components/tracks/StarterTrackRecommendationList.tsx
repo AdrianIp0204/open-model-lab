@@ -9,6 +9,8 @@ import {
   getStarterTrackDisplayTitle,
 } from "@/lib/i18n/content";
 import type { StarterTrackRecommendationSummary } from "@/lib/progress";
+import { LearningVisual } from "@/components/visuals/LearningVisual";
+import { getStarterTrackVisualDescriptor } from "@/components/visuals/learningVisualDescriptors";
 
 type StarterTrackRecommendationListProps = {
   recommendations: StarterTrackRecommendationSummary[];
@@ -53,6 +55,7 @@ export function StarterTrackRecommendationList({
           recommendation.track,
           locale,
         );
+        const visual = getStarterTrackVisualDescriptor(recommendation.track);
         const showTrackShortcut = recommendation.href !== `/tracks/${recommendation.track.slug}`;
 
         return (
@@ -67,7 +70,26 @@ export function StarterTrackRecommendationList({
             className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${accentTopClasses[recommendation.track.accent]}`}
           />
 
-          <div className="space-y-4">
+          <div className="grid gap-4 sm:grid-cols-[5.5rem_minmax(0,1fr)] sm:items-start">
+            <Link
+              href={recommendation.href}
+              aria-label={getStarterTrackDisplayTitle(recommendation.track, locale)}
+              data-testid={`starter-track-recommendation-visual-${recommendation.track.slug}`}
+              className="block rounded-[18px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+            >
+              <LearningVisual
+                kind={visual.kind}
+                motif={visual.motif}
+                overlay={visual.overlay}
+                isFallback={visual.isFallback}
+                fallbackKind={visual.fallbackKind}
+                tone={visual.tone ?? recommendation.track.accent}
+                compact
+                className="h-20 rounded-[18px] sm:h-24"
+              />
+            </Link>
+
+            <div className="min-w-0 space-y-4">
             <div className="flex flex-wrap items-center gap-2">
               <span className="lab-label">{t("label")}</span>
               <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">
@@ -85,7 +107,7 @@ export function StarterTrackRecommendationList({
               <h3 className="text-lg font-semibold text-ink-950">
                 {getStarterTrackDisplayTitle(recommendation.track, locale)}
               </h3>
-              <p className="text-sm leading-6 text-ink-700">
+              <p className="line-clamp-2 text-sm leading-6 text-ink-700">
                 {getStarterTrackDisplaySummary(recommendation.track, locale) ?? t("fallbackNote")}
               </p>
             </div>
@@ -125,6 +147,7 @@ export function StarterTrackRecommendationList({
                   {t("actions.openTrack")}
                 </Link>
               ) : null}
+            </div>
             </div>
           </div>
         </article>
