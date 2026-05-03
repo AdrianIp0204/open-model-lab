@@ -149,27 +149,6 @@ function buildOscillatorFrame(source: SimulationParams, time: number) {
   };
 }
 
-function getEnergyStateNote(
-  frame: OscillatorFrame,
-  t: ReturnType<typeof useTranslations<"SHMSimulation">>,
-) {
-  const normalizedDisplacement = Math.abs(frame.relativeDisplacement) / Math.max(frame.visibleAmplitude, 0.001);
-
-  if (normalizedDisplacement >= 0.94) {
-    return t("energyNotes.nearTurningPoint");
-  }
-
-  if (normalizedDisplacement <= 0.18) {
-    return t("energyNotes.nearEquilibrium");
-  }
-
-  if (frame.snapshot.velocity * frame.relativeDisplacement < 0) {
-    return t("energyNotes.movingTowardEquilibrium");
-  }
-
-  return t("energyNotes.movingAwayFromEquilibrium");
-}
-
 function renderTurningPointMarkers(
   frame: OscillatorFrame,
   laneY: number,
@@ -394,14 +373,6 @@ export function SHMSimulation({
             value: formatMeasurement(Math.abs(primaryFrame.snapshot.velocity), "m/s"),
           },
           {
-            label: t("metrics.kinetic"),
-            value: formatMeasurement(primaryFrame.snapshot.energy.kinetic, "J"),
-          },
-          {
-            label: t("metrics.potential"),
-            value: formatMeasurement(primaryFrame.snapshot.energy.potential, "J"),
-          },
-          {
             label: t("metrics.total"),
             value: formatMeasurement(primaryFrame.snapshot.energy.total, "J"),
           },
@@ -416,27 +387,10 @@ export function SHMSimulation({
             value: formatMeasurement(primaryFrame.snapshot.velocity, "m/s"),
           },
           {
-            label: t("metrics.acceleration"),
-            value: formatMeasurement(primaryFrame.snapshot.acceleration, "m/s^2"),
-          },
-          {
             label: t("metrics.period"),
             value: formatMeasurement((Math.PI * 2) / Math.max(primaryFrame.omega, 0.001), "s"),
           },
         ]),
-  ];
-  const readoutNotes = [
-    energyOverlayAvailable
-      ? getEnergyStateNote(primaryFrame, t)
-      : t("readout.trackMeters"),
-    energyOverlayAvailable
-      ? t("readout.springMass", {
-          springConstant: formatNumber(primaryFrame.springConstant),
-          mass: formatNumber(primaryFrame.mass),
-        })
-      : safeNumber(primaryFrame.envelope, 1) < 0.999
-        ? t("readout.envelope", { value: formatNumber(primaryFrame.envelope) })
-        : t("readout.undamped"),
   ];
 
   function updateFromClientX(clientX: number, bounds: DOMRect) {
@@ -938,8 +892,8 @@ export function SHMSimulation({
           y={METRICS_CARD_Y}
           width={METRICS_CARD_WIDTH}
           title={compareEnabled ? t("readout.titleForLabel", { label: primaryLabel }) : t("readout.title")}
+          variant="hud"
           rows={metricRows}
-          noteLines={readoutNotes}
         />
       </svg>
     </section>

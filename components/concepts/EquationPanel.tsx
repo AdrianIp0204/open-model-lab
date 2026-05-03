@@ -26,6 +26,51 @@ type EquationPanelProps = {
 
 type TranslateFn = (key: string, values?: Record<string, unknown>) => string;
 
+export function EquationBenchStrip({
+  equations,
+}: {
+  equations: SimulationEquation[];
+}) {
+  const t = useTranslations("EquationPanel");
+
+  if (!equations.length) {
+    return null;
+  }
+
+  return (
+    <section
+      data-testid="bench-equation-strip"
+      data-equation-variant="hud"
+      data-equation-layout="compact-inline"
+      aria-label={t("bench.title")}
+      className="rounded-[11px] border border-teal-500/12 bg-white/78 px-2 py-1.5 text-[0.68rem] leading-4 shadow-sm shadow-ink-950/4 ring-1 ring-white/60 backdrop-blur-sm"
+    >
+      <p className="sr-only">{t("bench.title")}</p>
+      <div className="grid gap-0.5">
+        {equations.map((equation) => (
+          <div
+            key={equation.id}
+            data-testid={`bench-equation-${equation.id}`}
+            data-equation-row-variant="inline"
+            title={equation.meaning}
+            className="flex min-w-0 items-center gap-1.5 rounded-[8px] px-1.5 py-0.5 text-ink-900"
+          >
+            <span className="min-w-0 shrink truncate font-semibold text-teal-800">
+              {equation.label}
+            </span>
+            <span
+              className="shrink-0 rounded-[7px] border border-line/55 bg-white/72 px-1.5 py-0.5 text-ink-950"
+              aria-label={equation.meaning}
+            >
+              <InlineFormula expression={equation.latex} className="text-[0.68rem]" />
+            </span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function formatValue(
   value: ControlValue,
   unit: string | undefined,

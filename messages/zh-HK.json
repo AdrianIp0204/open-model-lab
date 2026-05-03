@@ -870,6 +870,7 @@
       "label": "引導式課程",
       "fallbackDescription": "在完整的 V2 內容逐步遷移前，這個概念目前會先用現有內容整理成引導式課程。",
       "startHereLabel": "開始學習",
+      "postLabContextLabel": "課程脈絡",
       "whyItMattersLabel": "為甚麼重要",
       "estimatedTimeLabel": "預計時間",
       "equationSnapshotLabel": "公式速覽",
@@ -878,6 +879,7 @@
       "equationDisclosureLabel": "顯示",
       "estimatedMinutes": "{count} 分鐘",
       "startLearning": "開始概念",
+      "returnToBenchLabel": "回到實驗台",
       "keyTakeawayLabel": "關鍵重點",
       "lessonFlowLabel": "學習流程",
       "lessonPreviewDisclosureLabel": "預覽學習流程",
@@ -2184,6 +2186,32 @@
     "title": "即時實驗台",
     "description": "把實驗台、控制項、圖表與支援層一起留在畫面上，讓下一步來自模型本身，而不是切換路線。"
   },
+  "DiffractionSimulation": {
+    "labels": {
+      "incomingWavefronts": "入射波面",
+      "slitWidth": "狹縫寬度 {value}",
+      "topPath": "上方路徑 {value}",
+      "bottomPath": "下方路徑 {value}",
+      "edgePathDifference": "邊緣路徑差 {distance}（{wavelengths} 個波長）",
+      "firstDarkBands": "第一暗紋 +/-{distance}",
+      "screenPattern": "屏幕圖樣",
+      "probe": "探測點",
+      "livePattern": "即時圖樣",
+      "liveSetup": "即時設定",
+      "setupA": "設定 A",
+      "setupB": "設定 B",
+      "editing": "編輯中",
+      "locked": "已鎖定",
+      "wavelengthToSlitRatio": "波長/狹縫",
+      "probeIntensity": "探測強度",
+      "firstMinimum": "第一極小",
+      "none": "無",
+      "liveReadout": "即時讀數",
+      "moveProbeHeight": "移動探測高度，目前 y 為 {value} 米",
+      "previewTime": "預覽 {seriesLabel} t = {time} s",
+      "previewScreenY": "預覽屏幕 y = {value}"
+    }
+  },
   "ControlPanel": {
     "title": "控制項",
     "description": "一次只改一個變數，讓即時模型保持容易閱讀。",
@@ -2397,8 +2425,15 @@
       "hide": "隱藏"
     },
     "interactionRail": {
-      "label": "互動軌",
-      "description": "預測、比較、挑戰與觀察提示都附著在同一個執行時。"
+      "label": "先做這步",
+      "description": "先探索即時設定；比較可隨時切換，預測留在目前提示中。"
+    },
+    "predictionPrompt": {
+      "label": "預測提示",
+      "title": "預測提示",
+      "description": "可選：先判斷一次，再套用設定。",
+      "activeDescription": "把它當作快速檢查，完成後回到即時實驗台。",
+      "action": "打開預測提示"
     },
     "starterGuide": {
       "badge": "起步",
@@ -2406,8 +2441,20 @@
       "description": "先完成這幾步，再打開更多選項。"
     },
     "supportDock": {
-      "label": "支援區",
-      "description": "例題、引導式疊層與觀察提示都保持靠近即時實驗台。"
+      "label": "更多支援",
+      "description": "例題、疊加層與額外提示會靠近實驗台，但保持較安靜。"
+    },
+    "stepSupport": {
+      "label": "這一步的更多內容",
+      "description": "只有在目前動作需要更多脈絡時，才打開額外提示。"
+    },
+    "phaseSupport": {
+      "label": "額外提示",
+      "description": "觀察提示與挑戰細節仍可使用，但不會擠滿實驗台。"
+    },
+    "equationMap": {
+      "label": "完整方程對照",
+      "description": "關鍵關係會留在實驗台旁；打開這裏可查看完整變數對照。"
     },
     "setupAnchorLabel": "即時實驗台設定錨點",
     "controls": {
@@ -3391,6 +3438,10 @@
       "label": "方程對照",
       "title": "即時控制如何連到各個表示",
       "description": "沿着每個變數看它如何由目前控制值連到相關的方程、圖表與疊加層。"
+    },
+    "bench": {
+      "label": "關鍵關係",
+      "title": "調整控制項時，把這個關係留在視野中"
     },
     "chips": {
       "graph": "圖表：{label}",

@@ -28,11 +28,6 @@ test.describe("concept page v2 status surface", () => {
       await gotoAndExpectOk(page, "/en/concepts/graph-transformations");
 
       await expect(page.getByTestId("concept-page-status-surface")).toHaveCount(0);
-      await page
-        .getByTestId("concept-v2-start-handoff")
-        .getByRole("button", { name: /Start concept/ })
-        .click();
-      await expect(page).toHaveURL(/#guided-step-slide-the-parent-curve$/);
       await expect(page.getByTestId("concept-v2-step-card-slot")).toContainText(
         "Slide the parent curve",
       );
@@ -118,17 +113,17 @@ test.describe("concept page v2 status surface", () => {
       await expect(page.getByTestId("concept-page-status-secondary-cta")).toContainText(
         "Review this concept",
       );
-      const [statusBox, startHereBox, guidedLabBox] = await Promise.all([
+      const [statusBox, guidedLabBox, wrapUpBox] = await Promise.all([
         page.getByTestId("concept-page-status-surface").boundingBox(),
-        page.getByTestId("concept-v2-start-here").boundingBox(),
         page.getByTestId("concept-v2-guided-live-lab").boundingBox(),
+        page.getByTestId("concept-v2-wrap-up").boundingBox(),
       ]);
       expect(statusBox).not.toBeNull();
-      expect(startHereBox).not.toBeNull();
       expect(guidedLabBox).not.toBeNull();
+      expect(wrapUpBox).not.toBeNull();
       expect(statusBox!.height).toBeLessThan(300);
-      expect(startHereBox!.y - (statusBox!.y + statusBox!.height)).toBeLessThan(160);
-      expect(guidedLabBox!.y - (startHereBox!.y + startHereBox!.height)).toBeLessThan(96);
+      expect(statusBox!.y).toBeGreaterThan(guidedLabBox!.y);
+      expect(wrapUpBox!.y - (statusBox!.y + statusBox!.height)).toBeLessThan(160);
       await page.getByTestId("concept-page-status-secondary-cta").click();
       await expect(page).toHaveURL(/#guided-step-explain-a-reflection$/);
       browserGuard.assertNoActionableIssues();

@@ -875,6 +875,7 @@
       "fallbackDescription": "This concept is using a guided lesson built from the existing page content while the full V2 authoring migrates in.",
       "estimatedMinutes": "{count} min",
       "startHereLabel": "Start here",
+      "postLabContextLabel": "Lesson context",
       "whyItMattersLabel": "Why it matters",
       "estimatedTimeLabel": "Estimated time",
       "equationSnapshotLabel": "Equation snapshot",
@@ -882,6 +883,7 @@
       "equationCountLabel": "{count, plural, one {# equation} other {# equations}}",
       "equationDisclosureLabel": "Show",
       "startLearning": "Start concept",
+      "returnToBenchLabel": "Return to bench",
       "keyTakeawayLabel": "Key takeaway",
       "lessonFlowLabel": "Lesson path",
       "lessonPreviewDisclosureLabel": "Preview the lesson path",
@@ -2333,6 +2335,32 @@
     "title": "Live bench",
     "description": "Keep the bench, controls, graph, and support layers in view so the next step comes from the model instead of from route switching."
   },
+  "DiffractionSimulation": {
+    "labels": {
+      "incomingWavefronts": "incoming wavefronts",
+      "slitWidth": "slit width {value}",
+      "topPath": "top path {value}",
+      "bottomPath": "bottom path {value}",
+      "edgePathDifference": "edge path diff {distance} ({wavelengths} wavelengths)",
+      "firstDarkBands": "first dark bands +/-{distance}",
+      "screenPattern": "screen pattern",
+      "probe": "probe",
+      "livePattern": "Live pattern",
+      "liveSetup": "Live setup",
+      "setupA": "Setup A",
+      "setupB": "Setup B",
+      "editing": "editing",
+      "locked": "locked",
+      "wavelengthToSlitRatio": "wavelength/slit",
+      "probeIntensity": "probe intensity",
+      "firstMinimum": "first minimum",
+      "none": "none",
+      "liveReadout": "Live readout",
+      "moveProbeHeight": "Move probe height, current y {value} meters",
+      "previewTime": "preview {seriesLabel} t = {time} s",
+      "previewScreenY": "preview screen y = {value}"
+    }
+  },
   "ControlPanel": {
     "title": "Controls",
     "description": "Change one variable at a time so the live model stays easy to read.",
@@ -2546,8 +2574,15 @@
       "hide": "Hide"
     },
     "interactionRail": {
-      "label": "Interaction rail",
-      "description": "Prediction, compare, challenge, and notice prompts stay attached to the same runtime."
+      "label": "First action",
+      "description": "Explore the live setup first. Compare stays one switch away; predictions sit with the current prompt."
+    },
+    "predictionPrompt": {
+      "label": "Prediction prompt",
+      "title": "Prediction prompt",
+      "description": "Optional: make a call before applying a setup.",
+      "activeDescription": "Use this as a quick check, then return to the live bench.",
+      "action": "Open prediction prompt"
     },
     "starterGuide": {
       "badge": "Start here",
@@ -2555,8 +2590,20 @@
       "description": "Work through these steps before you open more options."
     },
     "supportDock": {
-      "label": "Support dock",
-      "description": "Worked examples, guided overlays, and notice prompts stay close to the live bench."
+      "label": "More guidance",
+      "description": "Worked examples, overlays, and extra prompts stay close but quieter."
+    },
+    "stepSupport": {
+      "label": "More for this step",
+      "description": "Open the extra prompts only when the current action needs more context."
+    },
+    "phaseSupport": {
+      "label": "Extra prompts",
+      "description": "Observation prompts and challenge details are available without crowding the bench."
+    },
+    "equationMap": {
+      "label": "Full equation map",
+      "description": "The key relationship stays near the bench; open this for the complete variable map."
     },
     "setupAnchorLabel": "Live bench setup anchor",
     "controls": {
@@ -3863,6 +3910,10 @@
       "label": "Equation map",
       "title": "How the live controls connect",
       "description": "Follow each variable from the current control values into the equations, graphs, and overlays that depend on it."
+    },
+    "bench": {
+      "label": "Key relationship",
+      "title": "Keep this in view while adjusting controls"
     },
     "chips": {
       "graph": "Graph: {label}",

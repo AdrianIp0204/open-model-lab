@@ -30,6 +30,7 @@ type ControlPanelProps = {
   autoRevealControlIds?: string[];
   highlightedPresetIds?: string[];
   supplementaryTools?: ReactNode;
+  supplementaryToolsPlacement?: "inline" | "more-tools";
   forceMoreToolsOpen?: boolean;
   onChange: (param: string, value: ControlValue) => void;
   onPreset?: (presetId: string) => void;
@@ -119,6 +120,7 @@ export function ControlPanel({
   autoRevealControlIds,
   highlightedPresetIds,
   supplementaryTools,
+  supplementaryToolsPlacement = "more-tools",
   forceMoreToolsOpen: forceMoreToolsOpenProp = false,
   onChange,
   onPreset,
@@ -157,6 +159,10 @@ export function ControlPanel({
   const hasSecondaryControls = secondaryControls.length > 0;
   const hasSecondaryPresets = secondaryPresets.length > 0;
   const hasSupplementaryTools = Boolean(supplementaryTools);
+  const hasInlineSupplementaryTools =
+    hasSupplementaryTools && supplementaryToolsPlacement === "inline";
+  const hasMoreToolsSupplementaryTools =
+    hasSupplementaryTools && supplementaryToolsPlacement === "more-tools";
   const shouldAutoOpenMoreTools = secondaryControls.some(
     (control) =>
       autoRevealControlSet.has(control.id) || autoRevealControlSet.has(control.param),
@@ -308,7 +314,7 @@ export function ControlPanel({
         onClick={() => onPreset?.(preset.id)}
         style={selected ? { color: "var(--paper-strong)" } : undefined}
         className={[
-          "rounded-[20px] border px-4 py-3 text-left text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong",
+          "rounded-[16px] border px-3 py-2 text-left text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong",
           selected
             ? "border-coral-500 bg-coral-500 shadow-[0_10px_24px_rgba(241,102,89,0.16)]"
             : highlighted
@@ -317,7 +323,7 @@ export function ControlPanel({
         ].join(" ")}
       >
         <span className="block font-semibold">{preset.label}</span>
-        {preset.description ? <span className="mt-1 block text-sm leading-6 opacity-80">{preset.description}</span> : null}
+        {preset.description ? <span className="mt-0.5 block line-clamp-1 text-xs leading-5 opacity-80">{preset.description}</span> : null}
       </button>
     );
   }
@@ -360,13 +366,19 @@ export function ControlPanel({
         {primaryPresets.length > 0 ? (
           <div className="mt-3 border-t border-line pt-3">
             <p className="lab-label">{t("presets")}</p>
-            <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+            <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3">
               {primaryPresets.map(renderPreset)}
             </div>
           </div>
         ) : null}
 
-        {hasSecondaryControls || hasSecondaryPresets || hasSupplementaryTools ? (
+        {hasInlineSupplementaryTools ? (
+          <div data-testid="control-panel-supplementary-tools" className="mb-3">
+            {supplementaryTools}
+          </div>
+        ) : null}
+
+        {hasSecondaryControls || hasSecondaryPresets || hasMoreToolsSupplementaryTools ? (
           <div
             className="mt-3 rounded-[20px] border border-line bg-white/45 px-4 py-3"
             data-testid="control-panel-more-tools"
@@ -391,29 +403,29 @@ export function ControlPanel({
             </div>
             {moreToolsOpen ? (
               <div id="control-panel-advanced-tools">
-            {hasSupplementaryTools ? (
-              <div data-testid="control-panel-supplementary-tools" className="mt-3">
-                {supplementaryTools}
-              </div>
-            ) : null}
-            {hasSecondaryControls ? (
-              <div
-                className={[
-                  "mt-3 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-1",
-                  hasSupplementaryTools ? "border-t border-line pt-3" : "",
-                ].join(" ")}
-              >
-                {secondaryControls.map(renderControl)}
-              </div>
-            ) : null}
-            {hasSecondaryPresets ? (
-              <div className="mt-3 border-t border-line pt-3">
-                <p className="lab-label">{t("morePresets")}</p>
-                <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-                  {secondaryPresets.map(renderPreset)}
-                </div>
-              </div>
-            ) : null}
+                {hasMoreToolsSupplementaryTools ? (
+                  <div data-testid="control-panel-supplementary-tools" className="mt-3">
+                    {supplementaryTools}
+                  </div>
+                ) : null}
+                {hasSecondaryControls ? (
+                  <div
+                    className={[
+                      "mt-3 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-1",
+                      hasMoreToolsSupplementaryTools ? "border-t border-line pt-3" : "",
+                    ].join(" ")}
+                  >
+                    {secondaryControls.map(renderControl)}
+                  </div>
+                ) : null}
+                {hasSecondaryPresets ? (
+                  <div className="mt-3 border-t border-line pt-3">
+                    <p className="lab-label">{t("morePresets")}</p>
+                    <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                      {secondaryPresets.map(renderPreset)}
+                    </div>
+                  </div>
+                ) : null}
               </div>
             ) : null}
           </div>

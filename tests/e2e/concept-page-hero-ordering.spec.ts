@@ -27,29 +27,24 @@ test.describe("concept page v2 ordering", () => {
 
       const title = page.getByRole("heading", { name: "Simple Harmonic Motion" });
       const status = page.getByTestId("concept-page-status-surface");
-      const startHere = page.getByTestId("concept-v2-start-here");
       const equationSnapshot = page.getByTestId("concept-v2-equation-snapshot");
       const reference = page.getByTestId("concept-v2-reference");
       const guidedLab = page.getByTestId("concept-v2-guided-live-lab");
 
       await expect(title).toBeVisible();
       await expect(status).toHaveCount(0);
-      await expect(startHere).toBeVisible();
+      await expect(page.getByTestId("concept-v2-start-here")).toHaveCount(0);
       await expect(equationSnapshot).toBeHidden();
       await expect(reference).toBeVisible();
       await expect(guidedLab).toBeVisible();
 
-      const [startHereBox, guidedLabBox, referenceBox] = await Promise.all([
-        startHere.boundingBox(),
+      const [guidedLabBox, referenceBox] = await Promise.all([
         guidedLab.boundingBox(),
         reference.boundingBox(),
       ]);
 
-      expect(startHereBox).not.toBeNull();
       expect(guidedLabBox).not.toBeNull();
       expect(referenceBox).not.toBeNull();
-      expect(startHereBox!.y).toBeLessThan(guidedLabBox!.y);
-      expect(guidedLabBox!.y - (startHereBox!.y + startHereBox!.height)).toBeLessThan(72);
       expect(guidedLabBox!.y + guidedLabBox!.height).toBeLessThan(referenceBox!.y);
 
       browserGuard.assertNoActionableIssues();
@@ -58,7 +53,7 @@ test.describe("concept page v2 ordering", () => {
     }
   });
 
-  test("keeps Start Here ahead of the guided live lab on representative desktop routes", async ({
+  test("keeps the guided live lab ahead of wrap-up and reference support", async ({
     browser,
   }) => {
     const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
@@ -70,30 +65,26 @@ test.describe("concept page v2 ordering", () => {
         await test.step(route, async () => {
           await gotoAndExpectOk(page, route);
 
-          const startHere = page.getByTestId("concept-v2-start-here");
           const heroIntro = page.getByTestId("concept-hero-intro");
           const guidedLab = page.getByTestId("concept-v2-guided-live-lab");
           const wrapUp = page.getByTestId("concept-v2-wrap-up");
           const reference = page.getByTestId("concept-v2-reference");
 
-          await expect(startHere).toBeVisible();
+          await expect(page.getByTestId("concept-v2-start-here")).toHaveCount(0);
           await expect(heroIntro).toHaveCount(0);
           await expect(guidedLab).toBeVisible();
           await expect(wrapUp).toBeVisible();
           await expect(reference).toBeVisible();
 
-          const [startHereBox, guidedLabBox, wrapUpBox, referenceBox] = await Promise.all([
-            startHere.boundingBox(),
+          const [guidedLabBox, wrapUpBox, referenceBox] = await Promise.all([
             guidedLab.boundingBox(),
             wrapUp.boundingBox(),
             reference.boundingBox(),
           ]);
 
-          expect(startHereBox).not.toBeNull();
           expect(guidedLabBox).not.toBeNull();
           expect(wrapUpBox).not.toBeNull();
           expect(referenceBox).not.toBeNull();
-          expect(startHereBox!.y + startHereBox!.height).toBeLessThan(guidedLabBox!.y);
           expect(guidedLabBox!.y + guidedLabBox!.height).toBeLessThan(wrapUpBox!.y);
           expect(wrapUpBox!.y + wrapUpBox!.height).toBeLessThan(referenceBox!.y);
         });
@@ -105,7 +96,7 @@ test.describe("concept page v2 ordering", () => {
     }
   });
 
-  test("keeps the mobile order student-first: Start Here, bench, wrap-up, then reference", async ({
+  test("keeps the mobile order bench-first with no late start context", async ({
     browser,
   }) => {
     const context = await browser.newContext({
@@ -123,12 +114,6 @@ test.describe("concept page v2 ordering", () => {
           await gotoAndExpectOk(page, route);
 
           const title = page.getByTestId("concept-v2-hero-title");
-          const startHere = page.getByTestId("concept-v2-start-here");
-          const prerequisites = page.getByTestId("concept-v2-prerequisites");
-          const startButton = startHere.getByRole("button", { name: "Start concept" });
-          const lessonPreviewDisclosure = page.getByTestId(
-            "concept-v2-start-lesson-disclosure",
-          );
           const status = page.getByTestId("concept-page-status-surface");
           const equationSnapshot = page.getByTestId("concept-v2-equation-snapshot");
           const scene = page.getByTestId("simulation-shell-scene");
@@ -137,10 +122,7 @@ test.describe("concept page v2 ordering", () => {
           const reference = page.getByTestId("concept-v2-reference");
 
           await expect(title).toBeVisible();
-          await expect(startHere).toBeVisible();
-          await expect(prerequisites).toBeVisible();
-          await expect(startButton).toBeVisible();
-          await expect(lessonPreviewDisclosure).toBeVisible();
+          await expect(page.getByTestId("concept-v2-start-here")).toHaveCount(0);
           await expect(status).toHaveCount(0);
           await expect(equationSnapshot).toBeHidden();
           await expect(scene).toBeVisible();
@@ -150,20 +132,12 @@ test.describe("concept page v2 ordering", () => {
 
           const [
             titleBox,
-            startHereBox,
-            prerequisitesBox,
-            startButtonBox,
-            lessonPreviewDisclosureBox,
             sceneBox,
             stepSlotBox,
             wrapUpBox,
             referenceBox,
           ] = await Promise.all([
             title.boundingBox(),
-            startHere.boundingBox(),
-            prerequisites.boundingBox(),
-            startButton.boundingBox(),
-            lessonPreviewDisclosure.boundingBox(),
             scene.boundingBox(),
             stepSlot.boundingBox(),
             wrapUp.boundingBox(),
@@ -171,21 +145,12 @@ test.describe("concept page v2 ordering", () => {
           ]);
 
           expect(titleBox).not.toBeNull();
-          expect(startHereBox).not.toBeNull();
-          expect(prerequisitesBox).not.toBeNull();
-          expect(startButtonBox).not.toBeNull();
-          expect(lessonPreviewDisclosureBox).not.toBeNull();
           expect(sceneBox).not.toBeNull();
           expect(stepSlotBox).not.toBeNull();
           expect(wrapUpBox).not.toBeNull();
           expect(referenceBox).not.toBeNull();
 
-          expect(titleBox!.y).toBeLessThan(startHereBox!.y);
-          expect(startButtonBox!.y).toBeLessThan(prerequisitesBox!.y);
-          expect(startButtonBox!.height).toBeGreaterThanOrEqual(44);
-          expect(startButtonBox!.y).toBeLessThan(lessonPreviewDisclosureBox!.y);
-          expect(lessonPreviewDisclosureBox!.y).toBeLessThan(sceneBox!.y);
-          expect(startHereBox!.y).toBeLessThan(sceneBox!.y);
+          expect(titleBox!.y).toBeLessThan(sceneBox!.y);
           expect(sceneBox!.y).toBeLessThan(stepSlotBox!.y);
           expect(stepSlotBox!.y).toBeLessThan(wrapUpBox!.y);
           expect(wrapUpBox!.y).toBeLessThan(referenceBox!.y);

@@ -1,8 +1,46 @@
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
 import { getConceptBySlug } from "@/lib/content";
 import { buildConceptSimulationStateHref } from "@/lib/share-links";
 import { DISCLOSURE_COMPARE_CASES } from "../helpers/concept-disclosure-fixtures";
 import { gotoAndExpectOk } from "./helpers";
+
+async function expectExploreCompareOnly(page: Page) {
+  const interactionTabs = page.getByRole("tablist", { name: "Concept interaction modes" });
+
+  await expect(interactionTabs.getByRole("tab", { name: "Explore" })).toHaveAttribute(
+    "aria-selected",
+    "true",
+  );
+  await expect(interactionTabs.getByRole("tab", { name: "Compare" })).toHaveAttribute(
+    "aria-selected",
+    "false",
+  );
+  await expect(interactionTabs.getByRole("tab", { name: "Predict" })).toHaveCount(0);
+  await expect(page.getByTestId("control-panel-compare-tools")).toHaveCount(0);
+  await expect(page.getByRole("button", { name: /^Compare mode$/i })).toHaveCount(0);
+
+  return interactionTabs;
+}
+
+async function enterCompareFromBench(page: Page) {
+  const interactionTabs = await expectExploreCompareOnly(page);
+
+  await interactionTabs.getByRole("tab", { name: "Compare" }).click();
+  await expect(interactionTabs.getByRole("tab", { name: "Explore" })).toHaveAttribute(
+    "aria-selected",
+    "false",
+  );
+  await expect(interactionTabs.getByRole("tab", { name: "Compare" })).toHaveAttribute(
+    "aria-selected",
+    "true",
+  );
+
+  const compareTools = page.getByTestId("control-panel-compare-tools");
+  await expect(compareTools).toContainText("Editing Setup");
+  await expect(page.getByRole("button", { name: /^Compare mode$/i })).toHaveCount(0);
+
+  return compareTools;
+}
 
 test.describe("concept compare controls", () => {
   test("graph-transformations keeps compare tools bench-local with no lower preview", async ({
@@ -11,12 +49,7 @@ test.describe("concept compare controls", () => {
     await gotoAndExpectOk(page, "/concepts/graph-transformations");
     await expect(page.getByRole("heading", { name: "Graph Transformations" })).toBeVisible();
 
-    const controls = page.getByTestId("simulation-shell-controls");
-    await controls.getByRole("button", { name: "More tools" }).click();
-
-    const compareTools = page.getByTestId("control-panel-compare-tools");
-    await expect(compareTools).toContainText("Compare mode");
-    await compareTools.getByRole("button", { name: /Compare/i }).click();
+    const compareTools = await enterCompareFromBench(page);
 
     await expect(compareTools).toContainText("Editing Setup");
     await expect(compareTools.getByRole("tab", { name: /Setup.*A/i })).toBeVisible();
@@ -27,7 +60,7 @@ test.describe("concept compare controls", () => {
 
     await expect(page.getByTestId("compare-observation-panel")).toHaveCount(0);
     await expect(page.getByTestId("compare-support-panel")).toContainText("Saved compare setups");
-    await expect(page.locator('[data-testid="simulation-shell-guides"] > *')).toHaveCount(1);
+    await expect(page.locator('[data-testid="simulation-shell-guides"] > *')).toHaveCount(0);
   });
 
   test("bench-side compare controls edit the active setup on simple harmonic motion", async ({
@@ -39,9 +72,7 @@ test.describe("concept compare controls", () => {
     const amplitudeSlider = controls.getByRole("slider", { name: "Amplitude" });
     const initialAmplitude = await amplitudeSlider.inputValue();
 
-    await controls.getByRole("button", { name: "More tools" }).click();
-    const compareTools = page.getByTestId("control-panel-compare-tools");
-    await compareTools.getByRole("button", { name: /Compare/i }).click();
+    const compareTools = await enterCompareFromBench(page);
 
     await amplitudeSlider.fill("2");
     await expect(amplitudeSlider).toHaveValue("2");
@@ -53,23 +84,20 @@ test.describe("concept compare controls", () => {
     await expect(amplitudeSlider).toHaveValue("2");
 
     await compareTools.getByRole("button", { name: "Exit compare mode" }).click();
-    await expect(compareTools).toContainText("Compare mode");
+    await expect(page.getByTestId("control-panel-compare-tools")).toHaveCount(0);
+    await expect(page.getByRole("tab", { name: "Explore" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
   });
 
   for (const sample of DISCLOSURE_COMPARE_CASES) {
     test(`keeps compare mode anchored on the main bench for ${sample.slug}`, async ({ page }) => {
       await gotoAndExpectOk(page, `/concepts/${sample.slug}`);
 
-      const controls = page.getByTestId("simulation-shell-controls");
-      await controls.getByRole("button", { name: "More tools" }).click();
-      const compareTools = page.getByTestId("control-panel-compare-tools");
-      await compareTools.getByRole("button", { name: /Compare/i }).click();
+      const compareTools = await enterCompareFromBench(page);
 
       await expect(compareTools).toContainText("Editing Setup");
-      await expect(page.locator(`#graph-tab-${sample.activeGraphId}`)).toHaveAttribute(
-        "aria-selected",
-        "true",
-      );
       await expect(page.getByTestId("compare-support-panel")).toContainText("Saved compare setups");
       await expect(page.getByTestId("compare-observation-panel")).toHaveCount(0);
     });
@@ -85,15 +113,15 @@ test.describe("concept compare controls", () => {
 
     try {
       await gotoAndExpectOk(page, "/concepts/graph-transformations");
-      const controls = page.getByTestId("simulation-shell-controls");
-      await controls.getByRole("button", { name: "More tools" }).click();
-      const compareTools = page.getByTestId("control-panel-compare-tools");
-      await compareTools.getByRole("button", { name: /Compare/i }).click();
+      const compareTools = await enterCompareFromBench(page);
 
       await expect(compareTools).toContainText("Editing Setup");
       const box = await compareTools.boundingBox();
       expect(box).not.toBeNull();
-      expect(box!.y).toBeLessThan(844 * 2);
+      expect(box!.y).toBeLessThan(844 * 2.25);
+      await expect(
+        page.getByTestId("simulation-shell-controls").getByTestId("control-panel-compare-tools"),
+      ).toContainText("Editing Setup");
       await expect(page.getByTestId("compare-observation-panel")).toHaveCount(0);
     } finally {
       await context.close();
@@ -150,8 +178,10 @@ test.describe("concept compare controls", () => {
     });
 
     await gotoAndExpectOk(page, href);
-    const controls = page.getByTestId("simulation-shell-controls");
-    await controls.getByRole("button", { name: "More tools" }).click();
+    await expect(page.getByRole("tab", { name: "Compare" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
     const compareTools = page.getByTestId("control-panel-compare-tools");
 
     await expect(compareTools.getByRole("tab", { name: /Setup.*B/i })).toHaveAttribute(

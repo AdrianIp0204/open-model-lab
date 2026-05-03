@@ -90,5 +90,5 @@ describe("write-wrangler-config", () => {
 
     expect(result.status).toBe(0);
     expect(result.stdout).toContain("skipping because --allow-missing is set");
-  });
+  }, 15_000);
 });

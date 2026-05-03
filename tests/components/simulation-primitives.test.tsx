@@ -50,6 +50,33 @@ describe("simulation primitives", () => {
     expect(screen.getByText("1.0 m")).toBeInTheDocument();
   });
 
+  it("keeps HUD readouts compact and omits explanatory note text", () => {
+    render(
+      <svg>
+        <SimulationReadoutCard
+          x={0}
+          y={0}
+          width={170}
+          title="Live state"
+          variant="hud"
+          rows={[
+            { label: "x", value: "1.0 m" },
+            { label: "v", value: "0.2 m/s" },
+            { label: "T", value: "2.0 s" },
+          ]}
+          noteLines={["Long explanatory readout note"]}
+        />
+      </svg>,
+    );
+
+    const hud = screen.getByTestId("simulation-readout-hud");
+    const frame = hud.querySelector("rect");
+
+    expect(hud).toHaveAttribute("data-readout-variant", "hud");
+    expect(Number(frame?.getAttribute("height"))).toBeLessThan(48);
+    expect(screen.queryByText("Long explanatory readout note")).not.toBeInTheDocument();
+  });
+
   it("localizes compare legend and readout labels in zh-HK instead of leaking English defaults", () => {
     globalThis.__TEST_LOCALE__ = "zh-HK";
 

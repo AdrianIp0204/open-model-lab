@@ -414,7 +414,7 @@ export function ConceptPageV2Shell({
     />
   ) : null;
 
-  const startHereContent = !hideStartHere ? (
+  const startHereContent = !hideStartHere && !titleContextContent ? (
     <div data-testid="concept-v2-hero-start" className="min-w-0">
       <ConceptPageV2StartHere
         title={model.title}
@@ -431,7 +431,11 @@ export function ConceptPageV2Shell({
         equations={model.equationSnapshot}
         equationSnapshotNote={model.equationSnapshotNote}
         lessonSteps={model.steps}
-        copy={copy}
+        copy={{
+          ...copy,
+          startHereLabel: t("v2.postLabContextLabel"),
+          startLearning: t("v2.returnToBenchLabel"),
+        }}
         showTitle={!titleContextContent}
         showEquationSnapshot={false}
         onStartLearning={() => {

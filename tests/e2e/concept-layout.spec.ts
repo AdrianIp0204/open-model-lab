@@ -108,23 +108,25 @@ async function assertInitialViewportLayout(
   viewportCase: ViewportCase,
   testInfo: TestInfo,
 ) {
-  const startHere = page.getByTestId("concept-v2-start-here");
-  const lessonPreviewDisclosure = startHere.getByTestId(
-    "concept-v2-start-lesson-disclosure",
-  );
   const scene = page.getByTestId("simulation-shell-scene");
   const controls = page.getByTestId("simulation-shell-controls");
   const graphs = page.getByTestId("simulation-shell-graphs");
+  const benchEquations = page.getByTestId("bench-equation-strip");
+  const benchEquationsSlot = page.getByTestId("simulation-shell-bench-equations");
   const firstAction = page.getByTestId("simulation-shell-first-action");
   const controlsLink = page.getByTestId("simulation-shell-controls-link");
   const guidedStepSlot = page.getByTestId("concept-v2-step-card-slot");
   const firstPrimaryControl = controls.locator('input[type="range"], input[type="checkbox"]').first();
 
-  await expect(startHere).toBeVisible();
-  await expect(lessonPreviewDisclosure).toBeVisible();
+  await expect(page.getByTestId("concept-v2-start-here")).toHaveCount(0);
   await expect(scene).toBeVisible();
   await expect(controls).toBeVisible();
   await expect(graphs).toBeVisible();
+  await expect(benchEquations).toBeVisible();
+  await expect(benchEquations).toHaveAttribute("data-equation-variant", "hud");
+  await expect(benchEquations).toHaveAttribute("data-equation-layout", "compact-inline");
+  await expect(benchEquations).not.toContainText(/Key relationship/i);
+  await expect(benchEquationsSlot).toBeVisible();
   await expect(firstAction).toBeVisible();
   if (viewportCase.viewport.width < 640) {
     await expect(controlsLink).toBeVisible();
@@ -133,20 +135,31 @@ async function assertInitialViewportLayout(
   await expect(guidedStepSlot).toBeVisible();
   await expect(firstPrimaryControl).toBeVisible();
 
-  const [startHereBox, sceneBox, controlsBox, graphsBox, firstActionBox, guidedStepBox, firstPrimaryControlBox] = await Promise.all([
-    startHere.boundingBox(),
+  const [
+    sceneBox,
+    controlsBox,
+    graphsBox,
+    benchEquationsBox,
+    benchEquationsSlotBox,
+    firstActionBox,
+    guidedStepBox,
+    firstPrimaryControlBox,
+  ] = await Promise.all([
     scene.boundingBox(),
     controls.boundingBox(),
     graphs.boundingBox(),
+    benchEquations.boundingBox(),
+    benchEquationsSlot.boundingBox(),
     firstAction.boundingBox(),
     guidedStepSlot.boundingBox(),
     firstPrimaryControl.boundingBox(),
   ]);
 
-  expect(startHereBox).not.toBeNull();
   expect(sceneBox).not.toBeNull();
   expect(controlsBox).not.toBeNull();
   expect(graphsBox).not.toBeNull();
+  expect(benchEquationsBox).not.toBeNull();
+  expect(benchEquationsSlotBox).not.toBeNull();
   expect(firstActionBox).not.toBeNull();
   expect(guidedStepBox).not.toBeNull();
   expect(firstPrimaryControlBox).not.toBeNull();
@@ -158,15 +171,17 @@ async function assertInitialViewportLayout(
 
   expect(widthMetrics.scrollWidth).toBe(widthMetrics.innerWidth);
   expect(sceneBox!.y).toBeLessThan(viewportCase.viewport.height);
-  expect(controlsBox!.y).toBeLessThan(viewportCase.viewport.height);
-  expect(firstActionBox!.y).toBeLessThan(viewportCase.viewport.height);
   if (viewportCase.viewport.width >= 640) {
+    expect(controlsBox!.y).toBeLessThan(viewportCase.viewport.height);
+    expect(firstActionBox!.y).toBeLessThan(viewportCase.viewport.height);
     expect(firstPrimaryControlBox!.y).toBeLessThan(viewportCase.viewport.height);
   } else {
-    expect(firstPrimaryControlBox!.y).toBeLessThan(startHereBox!.y);
+    expect(sceneBox!.y).toBeLessThan(graphsBox!.y);
+    expect(graphsBox!.y).toBeLessThan(controlsBox!.y);
+    expect(controlsBox!.y).toBeLessThan(guidedStepBox!.y);
+    expect(firstActionBox!.y).toBeLessThan(guidedStepBox!.y);
+    expect(firstPrimaryControlBox!.y).toBeLessThan(guidedStepBox!.y);
   }
-  expect(sceneBox!.y).toBeLessThan(startHereBox!.y);
-  expect(controlsBox!.y).toBeLessThan(startHereBox!.y);
   expect(guidedStepBox!.y).toBeGreaterThan(controlsBox!.y);
 
   if (
@@ -192,23 +207,20 @@ async function assertInitialViewportLayout(
     expect(firstPrimaryControlUnblocked).toBe(true);
   }
 
-  if (viewportCase.viewport.width < 640) {
-    const [lessonPreviewDisclosureBox, sceneBoxForMobile] =
-      await Promise.all([
-        lessonPreviewDisclosure.boundingBox(),
-        scene.boundingBox(),
-      ]);
-
-    expect(lessonPreviewDisclosureBox).not.toBeNull();
-    expect(sceneBoxForMobile).not.toBeNull();
-    expect(sceneBoxForMobile!.y).toBeLessThan(startHereBox!.y);
-    expect(sceneBoxForMobile!.y).toBeLessThan(lessonPreviewDisclosureBox!.y);
-  }
-
   if (viewportCase.viewport.width >= 1366) {
-    const verticalGap = graphsBox!.y - (sceneBox!.y + sceneBox!.height);
-    expect(verticalGap).toBeLessThan(96);
-    expect(graphsBox!.y).toBeLessThan(controlsBox!.y + controlsBox!.height);
+    expect(benchEquationsBox!.x).toBeGreaterThanOrEqual(sceneBox!.x);
+    expect(benchEquationsBox!.y).toBeGreaterThanOrEqual(sceneBox!.y);
+    expect(benchEquationsBox!.x + benchEquationsBox!.width).toBeLessThanOrEqual(
+      sceneBox!.x + sceneBox!.width + 1,
+    );
+    expect(benchEquationsBox!.y + benchEquationsBox!.height).toBeLessThanOrEqual(
+      sceneBox!.y + sceneBox!.height + 1,
+    );
+    expect(benchEquationsBox!.width).toBeLessThanOrEqual(290);
+    expect(benchEquationsBox!.height).toBeLessThanOrEqual(120);
+    if (viewportCase.viewport.width >= 640) {
+      expect(graphsBox!.y).toBeLessThan(controlsBox!.y + controlsBox!.height);
+    }
   }
 
   const screenshot = await page.screenshot({
@@ -491,7 +503,6 @@ test("keeps the mobile V2 lesson order sane for a migrated chemistry concept", a
       page.locator("h1", { hasText: "Acid-Base / pH Intuition" }),
     ).toBeVisible();
 
-    const startHere = page.getByTestId("concept-v2-start-here");
     const scene = page.getByTestId("simulation-shell-scene");
     const controls = page.getByTestId("simulation-shell-controls");
     const stepCardSlot = page.getByTestId("concept-v2-step-card-slot");
@@ -501,7 +512,7 @@ test("keeps the mobile V2 lesson order sane for a migrated chemistry concept", a
     const firstPrimaryControl = controls.locator('input[type="range"], input[type="checkbox"]').first();
 
     await Promise.all([
-      expect(startHere).toBeVisible(),
+      expect(page.getByTestId("concept-v2-start-here")).toHaveCount(0),
       expect(scene).toBeVisible(),
       expect(controls).toBeVisible(),
       expect(stepCardSlot).toBeVisible(),
@@ -512,7 +523,6 @@ test("keeps the mobile V2 lesson order sane for a migrated chemistry concept", a
     ]);
 
     const [
-      startHereBox,
       sceneBox,
       controlsBox,
       stepCardBox,
@@ -521,7 +531,6 @@ test("keeps the mobile V2 lesson order sane for a migrated chemistry concept", a
       wrapUpBox,
       referenceBox,
     ] = await Promise.all([
-      startHere.boundingBox(),
       scene.boundingBox(),
       controls.boundingBox(),
       stepCardSlot.boundingBox(),
@@ -531,7 +540,6 @@ test("keeps the mobile V2 lesson order sane for a migrated chemistry concept", a
       reference.boundingBox(),
     ]);
 
-    expect(startHereBox).not.toBeNull();
     expect(sceneBox).not.toBeNull();
     expect(controlsBox).not.toBeNull();
     expect(stepCardBox).not.toBeNull();
@@ -541,8 +549,8 @@ test("keeps the mobile V2 lesson order sane for a migrated chemistry concept", a
     expect(referenceBox).not.toBeNull();
 
     expect(sceneBox!.y).toBeLessThan(controlsBox!.y);
-    expect(controlsBox!.y).toBeLessThan(startHereBox!.y);
-    expect(controlsBox!.y).toBeLessThan(graphsBox!.y);
+    expect(sceneBox!.y).toBeLessThan(graphsBox!.y);
+    expect(graphsBox!.y).toBeLessThan(controlsBox!.y);
     expect(firstPrimaryControlBox!.y).toBeLessThan(stepCardBox!.y);
     expect(graphsBox!.y).toBeLessThan(wrapUpBox!.y);
     expect(wrapUpBox!.y).toBeLessThan(referenceBox!.y);

@@ -953,47 +953,28 @@ describe("ConceptPageV2LessonRail", () => {
       "[scrollbar-width:none]",
       "[&::-webkit-scrollbar]:hidden",
     );
-    expect(stepMap).toHaveTextContent("Current step");
-    expect(stepMap).toHaveTextContent("Up next");
-    expect(stepMap).toHaveTextContent("Previous step");
-    expect(stepMap).toHaveTextContent(
-      "Quick check",
-    );
     expect(stepMap).toHaveTextContent("✓");
     const previousStepMapButton = within(stepMap).getByRole("button", {
       name: "Set up the pattern — Previous step — Quick check",
     });
-    const previousStepStatus = within(previousStepMapButton).getByText("Previous step");
-    expect(previousStepStatus).toHaveClass(
-      "border-ink-950/10",
-      "bg-white/82",
-      "text-ink-600",
-    );
     expect(previousStepMapButton.closest("li")).toHaveAttribute("aria-posinset", "1");
     expect(previousStepMapButton.closest("li")).toHaveAttribute("aria-setsize", "4");
     expect(previousStepMapButton).toBeEnabled();
-    expect(previousStepMapButton).toHaveClass("min-h-11");
-    expect(previousStepMapButton).toHaveAccessibleDescription(
-      "Make the first deliberate change.",
-    );
+    expect(previousStepMapButton).toHaveClass("min-h-10");
+    expect(previousStepMapButton).not.toHaveAccessibleDescription();
     const activeStepMapButton = within(stepMap).getByRole("button", {
       name: "Compare two outputs — Current step",
     });
     expect(activeStepMapButton).toHaveAttribute("aria-current", "step");
     expect(activeStepMapButton.closest("li")).toHaveAttribute("aria-posinset", "2");
     expect(activeStepMapButton.closest("li")).toHaveAttribute("aria-setsize", "4");
-    expect(activeStepMapButton).toHaveClass("min-h-11");
-    expect(activeStepMapButton).toHaveAccessibleDescription("Read the relationship.");
-    expect(
-      within(stepMap).getByText("Read the relationship.").closest(".line-clamp-2"),
-    ).toHaveClass("min-w-0", "break-words");
+    expect(activeStepMapButton).toHaveClass("min-h-10");
+    expect(activeStepMapButton).not.toHaveAccessibleDescription();
     const nextStepMapButton = within(stepMap).getByRole("button", {
       name: "Explain the rule — Up next — Quick check",
     });
     expect(nextStepMapButton).toBeEnabled();
-    expect(nextStepMapButton).toHaveAccessibleDescription(
-      "Turn the pattern into a rule.",
-    );
+    expect(nextStepMapButton).not.toHaveAccessibleDescription();
     const wrapUpDestination = screen.getByTestId("concept-v2-step-map-wrap-up");
     expect(wrapUpDestination.closest("li")).toHaveAttribute("aria-posinset", "4");
     expect(wrapUpDestination.closest("li")).toHaveAttribute("aria-setsize", "4");
@@ -1001,9 +982,9 @@ describe("ConceptPageV2LessonRail", () => {
     expect(wrapUpDestination).toHaveClass("min-h-11");
     expect(wrapUpDestination).toHaveTextContent("Wrap-up");
     expect(wrapUpDestination).toHaveTextContent("Ready to wrap up");
-    expect(within(stepMap).getByText("Compare two outputs").closest(".line-clamp-2"))
+    expect(within(stepMap).getByText("Compare two outputs").closest(".line-clamp-1"))
       .toHaveClass("min-w-0", "break-words");
-    expect(within(stepMap).getByText("Explain the rule").closest(".line-clamp-2"))
+    expect(within(stepMap).getByText("Explain the rule").closest(".line-clamp-1"))
       .toHaveClass("min-w-0", "break-words");
 
     const rail = screen.getByTestId("concept-v2-current-step-card");
@@ -1027,20 +1008,28 @@ describe("ConceptPageV2LessonRail", () => {
     );
     expect(rail).toHaveAccessibleName("Current step: Compare two traces.");
     const railActionPath = screen.getByTestId("concept-v2-rail-action-path");
-    expect(railActionPath).toHaveAccessibleName("Current step: Compare two traces.");
-    expect(railActionPath).toHaveClass("xl:grid-cols-1", "2xl:grid-cols-3");
+    expect(railActionPath).toHaveAccessibleName("Do this: Compare two traces.");
+    expect(railActionPath).not.toHaveClass("xl:grid-cols-1", "2xl:grid-cols-3");
     expect(railActionPath).toHaveTextContent("Do this");
-    expect(railActionPath).toHaveTextContent("What to notice");
-    expect(railActionPath).toHaveTextContent("Why it happens");
-    const railActionCards = within(railActionPath).getAllByRole("listitem");
-    expect(railActionCards[0]).toHaveAccessibleName("Do this");
-    expect(railActionCards[0]).toHaveAccessibleDescription("Change the second setup.");
-    expect(railActionCards[1]).toHaveAccessibleName("What to notice");
-    expect(railActionCards[1]).toHaveAccessibleDescription("Look for the offset.");
-    expect(railActionCards[2]).toHaveAccessibleName("Why it happens");
-    expect(railActionCards[2]).toHaveAccessibleDescription("Say why the offset appears.");
-    expect(within(railActionPath).getByText("Change the second setup.").parentElement)
-      .toHaveClass("min-w-0", "break-words", "line-clamp-2");
+    expect(railActionPath).toHaveTextContent("Change the second setup.");
+    expect(within(railActionPath).queryAllByRole("listitem")).toHaveLength(0);
+    const secondaryGuidance = screen.getByTestId(
+      "concept-v2-current-step-secondary-guidance",
+    );
+    expect(secondaryGuidance).not.toHaveAttribute("open");
+    expect(secondaryGuidance).toHaveTextContent("What to notice / Why it happens");
+    expect(within(secondaryGuidance).getByText("Look for the offset.")).not.toBeVisible();
+    expect(
+      within(secondaryGuidance).getByText("Say why the offset appears."),
+    ).not.toBeVisible();
+    fireEvent.click(within(secondaryGuidance).getByText("What to notice / Why it happens"));
+    expect(within(railActionPath).getByText("Look for the offset.")).toBeVisible();
+    expect(within(railActionPath).getByText("Say why the offset appears.")).toBeVisible();
+    expect(
+      within(railActionPath).getByText("Change the second setup.").closest("p"),
+    ).toHaveClass(
+      "break-words",
+    );
     const railRevealStrip = screen.getByRole("region", {
       name: "Current step: Now available",
     });
@@ -1423,14 +1412,12 @@ describe("ConceptPageV2LessonRail", () => {
       name: "Set up the pattern — Current step — Quick check",
     });
     expect(disabledActiveStep).toBeDisabled();
-    expect(disabledActiveStep).toHaveAccessibleDescription(
-      "Make the first deliberate change.",
-    );
+    expect(disabledActiveStep).not.toHaveAccessibleDescription();
     const disabledNextStep = within(stepMap).getByRole("button", {
       name: "Compare two outputs — Up next",
     });
     expect(disabledNextStep).toBeDisabled();
-    expect(disabledNextStep).toHaveAccessibleDescription("Read the relationship.");
+    expect(disabledNextStep).not.toHaveAccessibleDescription();
 
     const nextCheckpoint = screen.getByRole("region", {
       name: "Up next: Compare two outputs",

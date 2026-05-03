@@ -282,6 +282,7 @@ export async function renderConceptPage({
         setupLinkState={setupLinkState}
         restoredStateParam={initialSimulationState ? requestedStateParam ?? null : null}
         restoredExperimentParam={publicExperimentCard ? requestedExperimentParam ?? null : null}
+        locale={locale}
         runtimeResetKey={[
           concept.slug,
           requestedChallengeParam ?? "",
