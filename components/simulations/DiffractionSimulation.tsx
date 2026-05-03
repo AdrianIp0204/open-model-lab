@@ -53,9 +53,9 @@ const BARRIER_WIDTH = 24;
 const SCREEN_X = 530;
 const SCREEN_WIDTH = 18;
 const BASELINE_PROBE_X = SCREEN_X + SCREEN_WIDTH + 18;
-const CARD_WIDTH = 206;
-const CARD_X = WIDTH - CARD_WIDTH - 16;
-const CARD_Y = 16;
+const CARD_WIDTH = 188;
+const CARD_X = WIDTH - CARD_WIDTH - 14;
+const CARD_Y = HEIGHT - 92;
 const ROW_SCALE = 20;
 const PROBE_OFFSET_SCALE = 18;
 const SPATIAL_SCALE = 38;
@@ -282,7 +282,7 @@ function renderSlitWidthGuide(
         textAnchor="end"
         className="fill-amber-700 text-[11px] font-semibold"
       >
-        a = {formatMeasurement(frame.params.slitWidth, "m")}
+        slit width {formatMeasurement(frame.params.slitWidth, "m")}
       </text>
     </g>
   );
@@ -323,22 +323,22 @@ function renderEdgePaths(
         y={slitTopY - 8}
         className="fill-teal-700 text-[11px] font-semibold"
       >
-        r_top = {formatMeasurement(frame.snapshot.topPath, "m")}
+        top path {formatMeasurement(frame.snapshot.topPath, "m")}
       </text>
       <text
         x={BARRIER_X + 24}
         y={slitBottomY + 20}
         className="fill-sky-700 text-[11px] font-semibold"
       >
-        r_bottom = {formatMeasurement(frame.snapshot.bottomPath, "m")}
+        bottom path {formatMeasurement(frame.snapshot.bottomPath, "m")}
       </text>
       <text
         x={SCREEN_X - 10}
         y={rowTop(rowCenter) - 8}
         textAnchor="end"
-        className="fill-ink-500 text-[11px] font-semibold uppercase tracking-[0.16em]"
+        className="fill-ink-500 text-[11px] font-semibold"
       >
-        delta r_edge {formatMeasurement(frame.snapshot.edgePathDifference, "m")} ({formatNumber(frame.snapshot.edgePathDifferenceInWavelengths)} lambda)
+        edge path difference {formatMeasurement(frame.snapshot.edgePathDifference, "m")} ({formatNumber(frame.snapshot.edgePathDifferenceInWavelengths)} wavelengths)
       </text>
     </g>
   );
@@ -389,9 +389,9 @@ function renderFirstMinimumGuide(
         x={SCREEN_X - 10}
         y={rowTop(rowCenter) + 14}
         textAnchor="end"
-        className="fill-coral-700 text-[11px] font-semibold uppercase tracking-[0.16em]"
+        className="fill-coral-700 text-[11px] font-semibold"
       >
-        1st minima at about +/-{formatMeasurement(frame.snapshot.firstMinimumScreenY, "m")}
+        first dark bands about +/-{formatMeasurement(frame.snapshot.firstMinimumScreenY, "m")}
       </text>
     </g>
   );
@@ -496,16 +496,16 @@ function renderScreenPattern(
         x={SCREEN_X - 8}
         y={bottom + 18}
         textAnchor="end"
-        className="fill-ink-500 text-[11px] font-semibold uppercase tracking-[0.16em]"
+        className="fill-ink-500 text-[11px] font-semibold uppercase tracking-[0.12em]"
       >
-        screen
+        screen pattern
       </text>
       <text
         x={BASELINE_PROBE_X + 46}
         y={probeStageY + 4}
         className="fill-ink-600 text-[11px] font-semibold"
       >
-        probe field
+        probe
       </text>
     </>
   );
@@ -542,7 +542,7 @@ function renderWaveRow(
       <text
         x="72"
         y={rowTop(rowCenter) - 4}
-        className="fill-ink-500 text-[11px] font-semibold uppercase tracking-[0.18em]"
+        className="fill-ink-500 text-[11px] font-semibold uppercase tracking-[0.12em]"
       >
         {options.label}
         {options.compareBadge ? ` - ${options.compareBadge}` : ""}
@@ -613,31 +613,22 @@ export function DiffractionSimulation({
     ) : null;
   const metricRows = [
     {
-      label: "lambda/a",
+      label: "spread ratio",
       value: formatNumber(primaryFrame.snapshot.wavelengthToSlitRatio),
     },
     {
-      label: "delta r_edge",
-      value: formatMeasurement(primaryFrame.snapshot.edgePathDifference, "m"),
-    },
-    {
-      label: "I / I0",
+      label: "probe intensity",
       value: formatNumber(primaryFrame.snapshot.normalizedIntensity),
     },
     {
-      label: "1st min",
+      label: "first minimum",
       value:
         primaryFrame.snapshot.firstMinimumAngleDeg === null
           ? "none"
           : formatMeasurement(primaryFrame.snapshot.firstMinimumAngleDeg, "deg"),
     },
   ];
-  const noteLines = [
-    `${primaryFrame.snapshot.diffractionLabel} diffraction for the current wavelength-to-opening ratio.`,
-    primaryFrame.snapshot.centralPeakWidth === null
-      ? "The central peak has no finite first minimum in this bounded model."
-      : `Central peak width is about ${formatMeasurement(primaryFrame.snapshot.centralPeakWidth, "m")} on the screen.`,
-  ];
+  const readoutY = compareEnabled ? 14 : CARD_Y;
 
   function handleAdjustProbe(nextProbeY: number) {
     setParam("probeY", Number(nextProbeY.toFixed(2)));
@@ -691,7 +682,7 @@ export function DiffractionSimulation({
           </>
         ) : (
           renderWaveRow(activeFrame, SINGLE_ROW_CENTER, {
-            label: "Live diffraction",
+            label: "Live pattern",
             interactive: true,
             overlayValues,
             focusedOverlayId,
@@ -700,12 +691,12 @@ export function DiffractionSimulation({
         )}
         <SimulationReadoutCard
           x={CARD_X}
-          y={CARD_Y}
+          y={readoutY}
           width={CARD_WIDTH}
-          title="Pattern state"
+          title="Live readout"
+          variant="hud"
           setupLabel={compareEnabled ? primaryLabel : undefined}
           rows={metricRows}
-          noteLines={noteLines}
         />
       </svg>
     </SimulationSceneCard>

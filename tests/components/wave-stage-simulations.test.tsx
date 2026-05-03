@@ -178,7 +178,11 @@ describe("wave-stage simulation migrations", () => {
       />,
     );
 
-    expect(screen.getAllByText("Pattern state").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Live readout").length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/spread ratio/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/slit width/i).length).toBeGreaterThan(0);
+    expect(screen.queryByText(/delta r_edge/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/r_top/i)).not.toBeInTheDocument();
     expect(screen.getAllByText(/incoming wavefronts/i).length).toBeGreaterThan(0);
 
     fireEvent.keyDown(

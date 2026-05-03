@@ -10,6 +10,7 @@ describe("SimulationShell", () => {
         transport={<div data-testid="transport">Transport</div>}
         benchHeader={<div data-testid="bench-header">Bench header</div>}
         scene={<div data-testid="scene">Scene</div>}
+        benchEquations={<div data-testid="bench-equations">Bench equations</div>}
         controls={<div data-testid="controls">Controls</div>}
         graphs={<div data-testid="graphs">Graphs</div>}
         notice={<div data-testid="notice">Notice</div>}
@@ -25,8 +26,10 @@ describe("SimulationShell", () => {
     const graphsSlot = container.querySelector('[data-testid="simulation-shell-graphs"]');
     const transportSlot = container.querySelector('[data-testid="simulation-shell-transport"]');
     const benchHeaderSlot = container.querySelector('[data-testid="simulation-shell-bench-header"]');
+    const benchEquationsSlot = container.querySelector('[data-testid="simulation-shell-bench-equations"]');
 
     expect(sceneSlot?.textContent).toContain("Scene");
+    expect(benchEquationsSlot?.textContent).toContain("Bench equations");
     expect(controlsSlot?.textContent).toContain("Controls");
     expect(graphsSlot?.textContent).toContain("Graphs");
     expect(transportSlot?.textContent).toContain("Transport");
@@ -34,6 +37,14 @@ describe("SimulationShell", () => {
     expect(container.querySelector('[data-testid="equations"]')?.compareDocumentPosition(graphsSlot!)).toBe(
       Node.DOCUMENT_POSITION_PRECEDING,
     );
+    expect(
+      (sceneSlot as HTMLElement).compareDocumentPosition(graphsSlot as HTMLElement) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(
+      (graphsSlot as HTMLElement).compareDocumentPosition(benchEquationsSlot as HTMLElement) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
   });
 
   it("docks the first action with controls when only the interaction rail exists", () => {

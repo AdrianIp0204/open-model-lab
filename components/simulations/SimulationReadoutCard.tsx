@@ -14,6 +14,7 @@ type SimulationReadoutCardProps = {
   y: number;
   width: number;
   title: string;
+  variant?: "card" | "hud";
   setupLabel?: string | null;
   rows: SimulationReadoutRow[];
   noteLines?: string[];
@@ -24,14 +25,20 @@ export function SimulationReadoutCard({
   y,
   width,
   title,
+  variant = "card",
   setupLabel,
   rows,
   noteLines,
 }: SimulationReadoutCardProps) {
   const locale = useLocale();
+  const compact = variant === "hud";
   const resolvedNoteLines = noteLines?.filter(Boolean) ?? [];
-  const height = 38 + rows.length * 18 + (resolvedNoteLines.length ? 18 + resolvedNoteLines.length * 14 : 0);
-  const noteStartY = 42 + rows.length * 18 + 10;
+  const headerHeight = compact ? 30 : 38;
+  const rowHeight = compact ? 16 : 18;
+  const noteLineHeight = compact ? 12 : 14;
+  const noteGap = compact ? 14 : 18;
+  const height = headerHeight + rows.length * rowHeight + (resolvedNoteLines.length ? noteGap + resolvedNoteLines.length * noteLineHeight : 0);
+  const noteStartY = headerHeight + 4 + rows.length * rowHeight + (compact ? 2 : 10);
   const localizedSetupLabel = setupLabel ? localizeKnownCompareText(locale, setupLabel) : null;
   const localizedTitle = localizeKnownSimulationText(locale, title);
   const setupPillWidth = localizedSetupLabel ? Math.max(58, localizedSetupLabel.length * 6 + 18) : 0;
@@ -43,16 +50,20 @@ export function SimulationReadoutCard({
         y="0"
         width={width}
         height={height}
-        rx="18"
-        fill="rgba(255,253,247,0.92)"
-        stroke="rgba(15,28,36,0.12)"
-        strokeWidth="1.5"
+        rx={compact ? "14" : "18"}
+        fill={compact ? "rgba(255,253,247,0.84)" : "rgba(255,253,247,0.92)"}
+        stroke={compact ? "rgba(15,28,36,0.1)" : "rgba(15,28,36,0.12)"}
+        strokeWidth={compact ? "1" : "1.5"}
       />
-      <text x="14" y="22" className="fill-ink-500 text-[11px] font-semibold uppercase tracking-[0.18em]">
+      <text
+        x={compact ? "12" : "14"}
+        y={compact ? "19" : "22"}
+        className={compact ? "fill-ink-600 text-[10px] font-semibold uppercase tracking-[0.14em]" : "fill-ink-500 text-[11px] font-semibold uppercase tracking-[0.18em]"}
+      >
         {localizedTitle}
       </text>
       {localizedSetupLabel ? (
-        <g transform={`translate(${width - 14} 14)`}>
+        <g transform={`translate(${width - (compact ? 12 : 14)} ${compact ? 12 : 14})`}>
           <rect
             x={-setupPillWidth}
             y="-9"
@@ -74,17 +85,21 @@ export function SimulationReadoutCard({
         </g>
       ) : null}
       {rows.map((row, index) => {
-        const rowY = 42 + index * 18;
+        const rowY = headerHeight + 4 + index * rowHeight;
         return (
           <g key={`${row.label}-${index}`}>
-            <text x="14" y={rowY} className="fill-ink-500 text-[10px] font-semibold uppercase tracking-[0.16em]">
+            <text
+              x={compact ? "12" : "14"}
+              y={rowY}
+              className={compact ? "fill-ink-600 text-[9px] font-semibold uppercase tracking-[0.1em]" : "fill-ink-500 text-[10px] font-semibold uppercase tracking-[0.16em]"}
+            >
               {row.label}
             </text>
             <text
-              x={width - 14}
+              x={width - (compact ? 12 : 14)}
               y={rowY}
               textAnchor="end"
-              className={row.valueClassName ?? "fill-ink-950 text-[12px] font-semibold"}
+              className={row.valueClassName ?? (compact ? "fill-ink-950 text-[11px] font-semibold" : "fill-ink-950 text-[12px] font-semibold")}
             >
               {row.value}
             </text>
@@ -94,18 +109,18 @@ export function SimulationReadoutCard({
       {resolvedNoteLines.length ? (
         <>
           <line
-            x1="14"
-            x2={width - 14}
-            y1={noteStartY - 10}
-            y2={noteStartY - 10}
+            x1={compact ? "12" : "14"}
+            x2={width - (compact ? 12 : 14)}
+            y1={noteStartY - (compact ? 7 : 10)}
+            y2={noteStartY - (compact ? 7 : 10)}
             stroke="rgba(15,28,36,0.1)"
           />
           {resolvedNoteLines.map((noteLine, index) => (
             <text
               key={noteLine}
-              x="14"
-              y={noteStartY + index * 14}
-              className="fill-ink-500 text-[10px]"
+              x={compact ? "12" : "14"}
+              y={noteStartY + index * noteLineHeight}
+              className={compact ? "fill-ink-500 text-[9px]" : "fill-ink-500 text-[10px]"}
             >
               {noteLine}
             </text>

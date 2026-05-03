@@ -2546,8 +2546,8 @@
       "hide": "Hide"
     },
     "interactionRail": {
-      "label": "Interaction rail",
-      "description": "Prediction, compare, challenge, and notice prompts stay attached to the same runtime."
+      "label": "First action",
+      "description": "Explore the live setup first. Compare stays one switch away; predictions sit with the current prompt."
     },
     "starterGuide": {
       "badge": "Start here",
@@ -2555,8 +2555,8 @@
       "description": "Work through these steps before you open more options."
     },
     "supportDock": {
-      "label": "Support dock",
-      "description": "Worked examples, guided overlays, and notice prompts stay close to the live bench."
+      "label": "More guidance",
+      "description": "Worked examples, overlays, and extra prompts stay close but quieter."
     },
     "setupAnchorLabel": "Live bench setup anchor",
     "controls": {

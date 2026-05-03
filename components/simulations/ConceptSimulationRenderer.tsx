@@ -434,7 +434,7 @@ import {
 import { useAnimationClock } from "@/hooks/useAnimationClock";
 import { useSimulationControls } from "@/hooks/useSimulationControls";
 import { CompactModeTabs } from "@/components/concepts/CompactModeTabs";
-import { EquationDetails, EquationPanel } from "@/components/concepts/EquationPanel";
+import { EquationBenchStrip, EquationDetails, EquationPanel } from "@/components/concepts/EquationPanel";
 import { GuidedOverlayPanel } from "@/components/concepts/GuidedOverlayPanel";
 import { PredictionModePanel } from "@/components/concepts/PredictionModePanel";
 import { SavedCompareSetupsCard } from "@/components/concepts/SavedCompareSetupsCard";
@@ -6497,6 +6497,27 @@ function deriveOverlayState(source: ConceptSimulationSource) {
   );
 }
 
+const preferredBenchEquationIdsByConcept: Record<string, string[]> = {
+  diffraction: ["edge-path-difference", "first-minimum"],
+};
+
+function selectBenchEquations(source: ConceptSimulationSource) {
+  const preferredIds = preferredBenchEquationIdsByConcept[source.slug ?? ""];
+
+  if (preferredIds?.length) {
+    const equationById = new Map(source.equations.map((equation) => [equation.id, equation]));
+    const selectedEquations = preferredIds
+      .map((equationId) => equationById.get(equationId))
+      .filter((equation): equation is ConceptSimulationSource["equations"][number] => Boolean(equation));
+
+    if (selectedEquations.length) {
+      return selectedEquations.slice(0, 2);
+    }
+  }
+
+  return source.equations.slice(0, 2);
+}
+
 function resolveFocusedOverlayId(
   source: ConceptSimulationSource,
   overlayValues: Record<string, boolean>,
@@ -7806,14 +7827,24 @@ export function ConceptSimulationRenderer({
     <CompactModeTabs
       items={[
         { id: "explore", label: t("tabs.explore") },
-        ...(predictionItems.length ? [{ id: "predict", label: t("tabs.predict") }] : []),
         { id: "compare", label: t("tabs.compare") },
       ]}
-      activeId={interactionMode}
+      activeId={interactionMode === "predict" ? "explore" : interactionMode}
       onChange={(nextMode) => setInteraction(nextMode as InteractionMode)}
       ariaLabel={t("aria.interactionMode")}
     />
   );
+
+  const predictionActionButton = predictionItems.length ? (
+    <button
+      type="button"
+      data-testid="concept-runtime-prediction-action"
+      onClick={() => setInteraction("predict")}
+      className="inline-flex items-center justify-center rounded-full border border-line bg-paper-strong px-2.5 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-700 transition hover:border-amber-500/35 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+    >
+      {t("tabs.predict")}
+    </button>
+  ) : null;
 
   const compareBenchTools =
     interactionMode === "compare" && compareState ? (
@@ -7906,6 +7937,14 @@ export function ConceptSimulationRenderer({
       </section>
     );
 
+  const explorePromptPanel = (
+    <section className="rounded-[16px] border border-line bg-paper px-3 py-2.5">
+      <p className="text-xs leading-5 text-ink-700">
+        {t("explorePrompt")}
+      </p>
+    </section>
+  );
+
   const interactionPanel =
     interactionMode === "predict" && predictionConfig ? (
       <PredictionModePanel
@@ -7951,13 +7990,7 @@ export function ConceptSimulationRenderer({
           />
         </div>
       </section>
-    ) : (
-      <section className="rounded-[20px] border border-line bg-paper px-3 py-3">
-        <p className="text-sm leading-6 text-ink-700">
-          {t("explorePrompt")}
-        </p>
-      </section>
-    );
+    ) : explorePromptPanel;
   const whatToNoticePanel =
     noticePromptConfig && activeNoticePrompt ? (
       <WhatToNoticePanel
@@ -8188,12 +8221,12 @@ export function ConceptSimulationRenderer({
     activeLocationHash === `#${conceptShareAnchorIds.challengeMode}`;
   const controlsAnchorId = "concept-live-controls";
   const interactionRail = (
-    <section className="rounded-[22px] border border-line bg-white/55 px-3 py-2.5">
+    <section className="rounded-[20px] border border-line bg-white/55 px-3 py-2">
       <div className="mb-1.5 border-b border-line/80 pb-1.5">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <p className="lab-label">{t("interactionRail.label")}</p>
-            <p className="mt-0.5 text-xs leading-5 text-ink-600">
+            <p className="sr-only">
               {t("interactionRail.description")}
             </p>
           </div>
@@ -8206,6 +8239,7 @@ export function ConceptSimulationRenderer({
               {t("controls.title")}
             </a>
             {modeTabs}
+            {interactionMode === "compare" ? null : predictionActionButton}
           </div>
         </div>
       </div>
@@ -8246,14 +8280,26 @@ export function ConceptSimulationRenderer({
       values={{ ...controlValues }}
     />
   );
+  const benchEquations = selectBenchEquations(concept);
   const mergedAfterBench =
     guidedStepSupport || guidedStepCard || afterBench ? (
       <div className="grid gap-3">
-        {guidedStepSupport ? (
-          <div data-testid="concept-v2-step-support-slot">{guidedStepSupport}</div>
-        ) : null}
-        {guidedStepCard ? (
-          <div data-testid="concept-v2-step-card-slot">{guidedStepCard}</div>
+        {guidedStepSupport || guidedStepCard ? (
+          <div
+            className={[
+              "grid gap-3",
+              guidedStepSupport && guidedStepCard
+                ? "xl:grid-cols-[minmax(0,1.04fr)_minmax(0,0.96fr)] xl:items-start"
+                : "",
+            ].join(" ")}
+          >
+            {guidedStepCard ? (
+              <div data-testid="concept-v2-step-card-slot">{guidedStepCard}</div>
+            ) : null}
+            {guidedStepSupport ? (
+              <div data-testid="concept-v2-step-support-slot">{guidedStepSupport}</div>
+            ) : null}
+          </div>
         ) : null}
         {afterBench}
       </div>
@@ -8374,6 +8420,7 @@ export function ConceptSimulationRenderer({
             applyLiveParamChange(param, coerceValue(value));
           },
         })}
+        benchEquations={<EquationBenchStrip equations={benchEquations} />}
         controls={
           <div className="space-y-3">
             <ControlPanel

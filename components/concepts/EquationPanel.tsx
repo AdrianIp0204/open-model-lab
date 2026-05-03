@@ -26,6 +26,52 @@ type EquationPanelProps = {
 
 type TranslateFn = (key: string, values?: Record<string, unknown>) => string;
 
+export function EquationBenchStrip({
+  equations,
+}: {
+  equations: SimulationEquation[];
+}) {
+  const t = useTranslations("EquationPanel");
+
+  if (!equations.length) {
+    return null;
+  }
+
+  return (
+    <section
+      data-testid="bench-equation-strip"
+      aria-label={t("map.title")}
+      className="rounded-[16px] border border-line bg-white/62 px-3 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]"
+    >
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <p className="lab-label">{t("equations.label")}</p>
+        <p className="text-[0.7rem] leading-4 text-ink-600">{t("map.title")}</p>
+      </div>
+      <div className="mt-1.5 grid gap-1.5 md:grid-cols-2">
+        {equations.map((equation) => (
+          <article
+            key={equation.id}
+            data-testid={`bench-equation-${equation.id}`}
+            className="min-w-0 rounded-[14px] border border-line bg-paper px-2.5 py-1.5"
+          >
+            <div className="flex min-w-0 items-center justify-between gap-2">
+              <div className="min-w-0">
+                <p className="truncate text-xs font-semibold text-ink-950">{equation.label}</p>
+                <p className="mt-0.5 line-clamp-1 text-[0.7rem] leading-4 text-ink-600">
+                  {equation.meaning}
+                </p>
+              </div>
+              <div className="shrink-0 rounded-[12px] border border-line bg-white/82 px-2 py-1 text-ink-950">
+                <InlineFormula expression={equation.latex} className="text-[0.76rem]" />
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function formatValue(
   value: ControlValue,
   unit: string | undefined,

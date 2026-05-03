@@ -2397,8 +2397,8 @@
       "hide": "隱藏"
     },
     "interactionRail": {
-      "label": "互動軌",
-      "description": "預測、比較、挑戰與觀察提示都附著在同一個執行時。"
+      "label": "先做這步",
+      "description": "先探索即時設定；比較可隨時切換，預測留在目前提示中。"
     },
     "starterGuide": {
       "badge": "起步",
@@ -2406,8 +2406,8 @@
       "description": "先完成這幾步，再打開更多選項。"
     },
     "supportDock": {
-      "label": "支援區",
-      "description": "例題、引導式疊層與觀察提示都保持靠近即時實驗台。"
+      "label": "更多支援",
+      "description": "例題、疊加層與額外提示會靠近實驗台，但保持較安靜。"
     },
     "setupAnchorLabel": "即時實驗台設定錨點",
     "controls": {

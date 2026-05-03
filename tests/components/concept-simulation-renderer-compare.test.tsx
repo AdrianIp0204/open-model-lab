@@ -67,6 +67,7 @@ vi.mock("@/components/concepts/MathFormula", () => ({
 }));
 
 vi.mock("@/components/concepts/EquationPanel", () => ({
+  EquationBenchStrip: () => <div data-testid="mock-bench-equation-strip">Bench equations</div>,
   EquationPanel: () => <div data-testid="mock-equation-panel">Equation panel</div>,
   EquationDetails: () => <div data-testid="mock-equation-details">Equation details</div>,
 }));
@@ -215,6 +216,22 @@ function buildInitialCompareState(
 }
 
 describe("ConceptSimulationRenderer compare state", () => {
+  it("keeps prediction as a prompt action instead of a primary bench tab", () => {
+    render(<ConceptSimulationRenderer concept={buildSimulationSource("simple-harmonic-motion")} />);
+
+    const interactionTabs = screen.getByRole("tablist", {
+      name: "Concept interaction modes",
+    });
+
+    expect(within(interactionTabs).getByRole("tab", { name: "Explore" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    expect(within(interactionTabs).getByRole("tab", { name: "Compare" })).toBeInTheDocument();
+    expect(within(interactionTabs).queryByRole("tab", { name: "Predict" })).not.toBeInTheDocument();
+    expect(screen.getByTestId("concept-runtime-prediction-action")).toHaveTextContent("Predict");
+  });
+
   it("keeps compare enter, target switching, setup edits, and exit on one renderer-owned state seam", async () => {
     const user = userEvent.setup();
 

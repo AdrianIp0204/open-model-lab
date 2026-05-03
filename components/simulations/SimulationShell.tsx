@@ -11,6 +11,7 @@ type SimulationShellProps = {
   controlsAnchorLabel?: string;
   scene: ReactNode;
   equations: ReactNode;
+  benchEquations?: ReactNode;
   controls: ReactNode;
   benchHeader?: ReactNode;
   notice?: ReactNode;
@@ -33,6 +34,7 @@ export function SimulationShell({
   transport,
   scene,
   equations,
+  benchEquations,
   controls,
   benchHeader,
   notice,
@@ -105,6 +107,14 @@ export function SimulationShell({
               >
                 {graphs}
               </div>
+              {benchEquations ? (
+                <div
+                  data-testid="simulation-shell-bench-equations"
+                  className={benchHeader ? "order-5 min-w-0" : "order-4 min-w-0"}
+                >
+                  {benchEquations}
+                </div>
+              ) : null}
             </div>
             <div
               data-testid="simulation-shell-controls"
