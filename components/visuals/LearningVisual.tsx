@@ -313,6 +313,83 @@ function OpticsRayGlyph() {
   );
 }
 
+function RefractionSnellGlyph() {
+  return (
+    <>
+      <path d="M20 62H106" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.22" />
+      <path d="M64 25V99" stroke="currentColor" strokeWidth="3" strokeDasharray="6 7" strokeLinecap="round" opacity="0.22" />
+      <path d="M28 31L64 62L96 84" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M96 84L83 81M96 84L88 73" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M27 75C45 69 82 69 101 75" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.16" />
+      <circle cx="64" cy="62" r="6" fill="var(--visual-accent)" />
+    </>
+  );
+}
+
+function DispersionPrismGlyph() {
+  return (
+    <>
+      <path d="M57 28L88 91H26Z" fill="currentColor" opacity="0.1" stroke="currentColor" strokeWidth="4" strokeLinejoin="round" />
+      <path d="M15 58H49" stroke="currentColor" strokeWidth="5" strokeLinecap="round" opacity="0.32" />
+      <path d="M68 53L108 37M70 63L111 63M68 73L108 91" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" />
+      <path d="M38 91H96" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.18" />
+      <circle cx="57" cy="61" r="5" fill="var(--visual-accent)" />
+    </>
+  );
+}
+
+function TotalInternalReflectionGlyph() {
+  return (
+    <>
+      <path d="M20 63H106" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.22" />
+      <path d="M24 88H102" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.16" />
+      <path d="M35 91L64 63L96 36" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M96 36L83 39M96 36L88 48" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M64 25V99" stroke="currentColor" strokeWidth="3" strokeDasharray="6 7" strokeLinecap="round" opacity="0.2" />
+      <path d="M78 49C88 58 96 63 106 64" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.18" />
+      <circle cx="64" cy="63" r="6" fill="var(--visual-accent)" />
+    </>
+  );
+}
+
+function MirrorReflectionGlyph() {
+  return (
+    <>
+      <path d="M82 25V99" stroke="currentColor" strokeWidth="6" strokeLinecap="round" opacity="0.28" />
+      <path d="M88 34L99 28M88 50L99 44M88 66L99 60M88 82L99 76" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.22" />
+      <path d="M26 40L82 62L31 86" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M31 86L42 75M31 86L46 90" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M26 62H82" stroke="currentColor" strokeWidth="3" strokeDasharray="5 7" strokeLinecap="round" opacity="0.22" />
+      <circle cx="82" cy="62" r="5" fill="var(--visual-accent)" />
+    </>
+  );
+}
+
+function LensImagingGlyph() {
+  return (
+    <>
+      <path d="M63 23C76 39 76 85 63 101C50 85 50 39 63 23Z" fill="currentColor" opacity="0.1" stroke="var(--visual-accent)" strokeWidth="4" />
+      <path d="M22 36H57M22 63H57M22 90H57" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.28" />
+      <path d="M69 42L101 31M69 63H104M69 84L101 95" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" />
+      <path d="M100 39V87" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.2" />
+      <circle cx="100" cy="63" r="6" fill="var(--visual-accent)" />
+    </>
+  );
+}
+
+function OpticalResolutionGlyph() {
+  return (
+    <>
+      <path d="M24 35V91M36 35V91" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.26" />
+      <path d="M36 51C52 45 65 43 82 43M36 75C52 81 65 83 82 83" fill="none" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" />
+      <circle cx="88" cy="63" r="24" fill="none" stroke="currentColor" strokeWidth="4" opacity="0.18" />
+      <circle cx="88" cy="63" r="11" fill="none" stroke="var(--visual-accent)" strokeWidth="5" />
+      <circle cx="88" cy="63" r="4" fill="var(--visual-accent)" />
+      <path d="M57 98H107" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.18" />
+    </>
+  );
+}
+
 function StandingWaveGlyph() {
   return (
     <>
@@ -494,6 +571,98 @@ function GraphTransformationsGlyph() {
   );
 }
 
+function RationalAsymptoteGlyph() {
+  return (
+    <>
+      <path d="M25 94V24M25 94H105" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.3" />
+      <path d="M64 29V96M28 56H104" stroke="currentColor" strokeWidth="3" strokeDasharray="6 7" strokeLinecap="round" opacity="0.24" />
+      <path d="M31 38C45 39 55 45 61 53M68 62C77 76 87 84 101 86" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <circle cx="64" cy="56" r="5" fill="currentColor" opacity="0.22" />
+      <path d="M42 73H55M78 40H94" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.22" />
+    </>
+  );
+}
+
+function ExponentialChangeGlyph() {
+  return (
+    <>
+      <path d="M24 94V27M24 94H106" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.3" />
+      <path d="M31 87C48 86 57 79 66 65C75 51 84 36 101 31" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      {[44, 62, 82].map((cx, index) => (
+        <circle key={cx} cx={cx} cy={[83, 70, 44][index]} r="5" fill={index === 2 ? "var(--visual-accent)" : "currentColor"} opacity={index === 2 ? 0.9 : 0.24} />
+      ))}
+      <path d="M37 59H50M37 46H56M37 33H66" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.22" />
+      <path d="M96 31L83 29M96 31L87 42" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+    </>
+  );
+}
+
+function GraphNetworkGlyph() {
+  const nodes = [
+    [39, 42],
+    [76, 34],
+    [91, 69],
+    [55, 83],
+    [30, 70],
+  ];
+
+  return (
+    <>
+      <path d="M39 42L76 34L91 69L55 83L30 70L39 42M39 42L55 83M76 34L55 83" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" opacity="0.26" />
+      <rect x="70" y="72" width="30" height="24" rx="6" fill="currentColor" opacity="0.1" />
+      <path d="M76 80H94M76 88H89" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.3" />
+      {nodes.map(([cx, cy], index) => (
+        <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="8" fill={index === 1 ? "var(--visual-accent)" : "currentColor"} opacity={index === 1 ? 0.9 : 0.2} />
+      ))}
+    </>
+  );
+}
+
+function BreadthFirstLayersGlyph() {
+  return (
+    <>
+      <circle cx="63" cy="33" r="9" fill="var(--visual-accent)" />
+      <path d="M63 42L42 63M63 42L84 63M42 72L31 91M42 72L53 91M84 72L73 91M84 72L95 91" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.28" />
+      {[42, 84].map((cx) => (
+        <circle key={cx} cx={cx} cy="66" r="8" fill="currentColor" opacity="0.22" />
+      ))}
+      {[31, 53, 73, 95].map((cx) => (
+        <circle key={cx} cx={cx} cy="94" r="7" fill="currentColor" opacity="0.16" />
+      ))}
+      <path d="M24 66H102M21 94H105" stroke="var(--visual-accent)" strokeWidth="4" strokeDasharray="6 7" strokeLinecap="round" opacity="0.62" />
+    </>
+  );
+}
+
+function DepthFirstBacktrackingGlyph() {
+  return (
+    <>
+      <path d="M40 32L76 47L54 66L88 84" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M76 47L98 38M54 66L33 82" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.24" />
+      <path d="M88 84C67 91 47 83 33 82" fill="none" stroke="currentColor" strokeWidth="4" strokeDasharray="6 7" strokeLinecap="round" opacity="0.28" />
+      {[40, 76, 54, 88, 98, 33].map((cx, index) => (
+        <circle key={`${cx}-${index}`} cx={cx} cy={[32, 47, 66, 84, 38, 82][index]} r="7" fill={index < 4 ? "var(--visual-accent)" : "currentColor"} opacity={index < 4 ? 0.88 : 0.18} />
+      ))}
+      <path d="M88 84L75 78M88 84L77 92" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+    </>
+  );
+}
+
+function FrontierVisitedGlyph() {
+  return (
+    <>
+      <path d="M34 40L62 34L90 47L83 79L50 86L34 40M62 34L50 86M90 47L50 86" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" opacity="0.25" />
+      <circle cx="34" cy="40" r="8" fill="currentColor" opacity="0.2" />
+      <circle cx="62" cy="34" r="8" fill="currentColor" opacity="0.2" />
+      <circle cx="50" cy="86" r="8" fill="currentColor" opacity="0.2" />
+      <circle cx="90" cy="47" r="10" fill="none" stroke="var(--visual-accent)" strokeWidth="5" />
+      <circle cx="83" cy="79" r="10" fill="none" stroke="var(--visual-accent)" strokeWidth="5" />
+      <path d="M26 101H58M71 101H102" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.18" />
+      <path d="M90 47L83 79" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" opacity="0.62" />
+    </>
+  );
+}
+
 function CalculusSlopeGlyph() {
   return (
     <>
@@ -658,6 +827,101 @@ function CircuitGlyph() {
   );
 }
 
+function SeriesParallelCircuitGlyph() {
+  return (
+    <>
+      <path d="M24 62H38M88 62H104" stroke="currentColor" strokeWidth="5" strokeLinecap="round" opacity="0.34" />
+      <path d="M38 62V36H88V62M38 62V88H88V62" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" opacity="0.28" />
+      <path d="M50 36H76M50 88H76" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M54 36L60 27L68 45L76 36M54 88L60 79L68 97L76 88" fill="none" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="24" cy="62" r="8" fill="var(--visual-accent)" />
+      <circle cx="104" cy="62" r="8" fill="currentColor" opacity="0.22" />
+    </>
+  );
+}
+
+function KirchhoffRulesGlyph() {
+  return (
+    <>
+      <path d="M33 30H93V92H33Z" fill="none" stroke="currentColor" strokeWidth="5" strokeLinejoin="round" opacity="0.26" />
+      <path d="M33 30H93M93 30V92M93 92H33M33 92V30" fill="none" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeDasharray="9 8" opacity="0.82" />
+      <circle cx="63" cy="61" r="9" fill="var(--visual-accent)" />
+      <path d="M63 61H33M63 61H93M63 61V30M63 61V92" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.32" />
+      <path d="M87 30L76 23M87 30L76 37M39 92L50 85M39 92L50 99" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="33" cy="61" r="5" fill="currentColor" opacity="0.22" />
+      <circle cx="93" cy="61" r="5" fill="currentColor" opacity="0.22" />
+    </>
+  );
+}
+
+function EquivalentResistanceGlyph() {
+  return (
+    <>
+      <path d="M18 42H35M18 78H35M91 60H108" stroke="currentColor" strokeWidth="5" strokeLinecap="round" opacity="0.28" />
+      <path d="M35 42L45 32L55 52L65 32L75 52L85 42M35 78L45 68L55 88L65 68L75 88L85 78" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" opacity="0.34" />
+      <path d="M85 42C96 46 98 54 91 60C98 66 96 74 85 78" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.28" />
+      <path d="M34 60H58L65 49L76 71L84 60H96" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M48 101H80" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+    </>
+  );
+}
+
+function CircuitPowerGlyph() {
+  return (
+    <>
+      <path d="M27 74H42V38H84V74H100" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" opacity="0.28" />
+      <circle cx="63" cy="38" r="15" fill="currentColor" opacity="0.12" stroke="var(--visual-accent)" strokeWidth="5" />
+      <path d="M54 39L62 25L60 38H73L61 55L64 42H54Z" fill="var(--visual-accent)" />
+      <rect x="35" y="80" width="11" height="18" rx="5" fill="currentColor" opacity="0.18" />
+      <rect x="55" y="72" width="11" height="26" rx="5" fill="var(--visual-accent)" opacity="0.88" />
+      <rect x="75" y="62" width="11" height="36" rx="5" fill="currentColor" opacity="0.22" />
+      <path d="M29 100H95" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.2" />
+    </>
+  );
+}
+
+function CapacitanceStorageGlyph() {
+  return (
+    <>
+      <path d="M26 62H47M79 62H100" stroke="currentColor" strokeWidth="5" strokeLinecap="round" opacity="0.28" />
+      <path d="M49 32V92M77 32V92" stroke="var(--visual-accent)" strokeWidth="7" strokeLinecap="round" />
+      <path d="M56 41H70M56 57H70M56 73H70" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.24" />
+      <path d="M30 62V91H96V62" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" opacity="0.22" />
+      {[36, 44, 82, 90].map((cx, index) => (
+        <circle key={cx} cx={cx} cy={index < 2 ? 48 : 78} r="5" fill={index < 2 ? "var(--visual-accent)" : "currentColor"} opacity={index < 2 ? 0.9 : 0.22} />
+      ))}
+      <path d="M36 91H52M74 91H91" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" />
+    </>
+  );
+}
+
+function RcTimeConstantGlyph() {
+  return (
+    <>
+      <path d="M24 77H43V42H74V77H93" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" opacity="0.28" />
+      <path d="M43 42L50 33L57 51L64 33L71 42" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" opacity="0.36" />
+      <path d="M84 48V76M96 48V76" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M23 97H104M32 91C45 70 55 59 70 54C84 49 94 48 104 48" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M32 34V97" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.22" />
+      <circle cx="70" cy="54" r="5" fill="var(--visual-accent)" />
+    </>
+  );
+}
+
+function InternalResistanceGlyph() {
+  return (
+    <>
+      <path d="M25 63H44M82 63H103" stroke="currentColor" strokeWidth="5" strokeLinecap="round" opacity="0.3" />
+      <path d="M45 36V90M58 46V80" stroke="var(--visual-accent)" strokeWidth="6" strokeLinecap="round" />
+      <path d="M63 63H71L76 53L82 73L88 63H101" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" opacity="0.36" />
+      <path d="M33 93H94" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.22" />
+      <path d="M36 28H90" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M90 28L78 20M90 28L78 36" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M72 39C82 45 90 53 96 64" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.24" />
+    </>
+  );
+}
+
 function ChemistryGlyph() {
   return (
     <>
@@ -735,24 +999,91 @@ function renderMotif(motif: LearningVisualMotif) {
       return <AcidBaseGlyph />;
     case "atomic-spectra":
       return <AtomicSpectraGlyph />;
+    case "bohr-energy-levels":
+      return (
+        <>
+          <AtomicSpectraGlyph />
+          <path d="M70 78H100M76 64H100M84 50H100" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" opacity="0.78" />
+        </>
+      );
     case "binary-search":
       return <BinarySearchGlyph />;
+    case "breadth-first-layers":
+      return <BreadthFirstLayersGlyph />;
+    case "calculus-limit":
+      return (
+        <>
+          <LimitApproachGlyph />
+          <path d="M34 43C45 36 53 36 60 43M68 43C75 36 84 36 94 43" fill="none" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" opacity="0.75" />
+        </>
+      );
     case "calculus-slope":
       return <CalculusSlopeGlyph />;
+    case "capacitance-storage":
+      return <CapacitanceStorageGlyph />;
     case "chemistry-reaction":
       return <ChemistryGlyph />;
     case "complex-plane":
       return <ComplexPlaneGlyph />;
     case "circuit":
       return <CircuitGlyph />;
+    case "circuit-power":
+      return <CircuitPowerGlyph />;
     case "collisions":
       return <CollisionsGlyph />;
+    case "diffraction-aperture":
+      return (
+        <>
+          <WaveMotionGlyph />
+          <path d="M42 28V94M84 28V94" stroke="currentColor" strokeWidth="5" strokeLinecap="round" opacity="0.32" />
+          <path d="M50 58C62 42 72 42 83 58M50 76C62 92 72 92 83 76" fill="none" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" opacity="0.8" />
+        </>
+      );
+    case "double-slit-fringes":
+      return (
+        <>
+          <WaveMotionGlyph />
+          <path d="M48 34V55M48 72V93M58 34V55M58 72V93" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.34" />
+          <path d="M86 32V94M99 38V88" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" opacity="0.76" />
+        </>
+      );
     case "damping-resonance":
       return <DampingResonanceGlyph />;
+    case "depth-first-backtracking":
+      return <DepthFirstBacktrackingGlyph />;
+    case "dispersion-prism":
+      return <DispersionPrismGlyph />;
     case "electric-field":
       return <ElectricFieldGlyph />;
+    case "electric-potential":
+      return (
+        <>
+          <ElectricFieldGlyph />
+          <path d="M34 42C48 31 77 31 94 42M31 80C49 94 79 94 99 80" fill="none" stroke="currentColor" strokeWidth="3" strokeDasharray="6 6" strokeLinecap="round" opacity="0.34" />
+        </>
+      );
+    case "electromagnetic-induction":
+      return (
+        <>
+          <ElectricFieldGlyph />
+          <path d="M73 29C93 38 101 60 92 78" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+          <path d="M92 78L92 65L82 72" fill="var(--visual-accent)" />
+        </>
+      );
+    case "electromagnetic-wave":
+      return (
+        <>
+          <WaveMotionGlyph />
+          <path d="M26 41C42 26 58 26 74 41S94 56 108 41" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.34" />
+          <path d="M64 31V91" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" opacity="0.74" />
+        </>
+      );
     case "escape-velocity":
       return <EscapeVelocityGlyph />;
+    case "equivalent-resistance":
+      return <EquivalentResistanceGlyph />;
+    case "exponential-change":
+      return <ExponentialChangeGlyph />;
     case "fluid-bernoulli":
       return <FluidBernoulliGlyph />;
     case "fluid-buoyancy":
@@ -763,6 +1094,35 @@ function renderMotif(motif: LearningVisualMotif) {
       return <FluidDragGlyph />;
     case "fluid-pressure":
       return <FluidPressureGlyph />;
+    case "heat-transfer-flow":
+      return (
+        <>
+          <ThermalEnergyGlyph />
+          <path d="M25 34C45 22 69 22 90 34M90 34L78 28M90 34L82 45" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.36" />
+        </>
+      );
+    case "ideal-gas-kinetic":
+      return (
+        <>
+          <ThermalEnergyGlyph />
+          <path d="M33 44L55 31M75 48L96 35M45 83L68 70" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.36" />
+          <circle cx="55" cy="31" r="4" fill="var(--visual-accent)" />
+          <circle cx="96" cy="35" r="4" fill="var(--visual-accent)" />
+        </>
+      );
+    case "internal-energy-particles":
+      return (
+        <>
+          <ThermalEnergyGlyph />
+          <circle cx="36" cy="58" r="5" fill="currentColor" opacity="0.3" />
+          <circle cx="60" cy="34" r="5" fill="currentColor" opacity="0.3" />
+          <circle cx="96" cy="74" r="5" fill="var(--visual-accent)" />
+        </>
+      );
+    case "frontier-visited":
+      return <FrontierVisitedGlyph />;
+    case "graph-network":
+      return <GraphNetworkGlyph />;
     case "graph-transformations":
       return <GraphTransformationsGlyph />;
     case "gravitational-field":
@@ -771,14 +1131,82 @@ function renderMotif(motif: LearningVisualMotif) {
       return <GravitationalPotentialGlyph />;
     case "gravity-orbits":
       return <GravityOrbitsGlyph />;
+    case "internal-resistance":
+      return <InternalResistanceGlyph />;
     case "kepler-period":
       return <KeplerPeriodGlyph />;
+    case "kirchhoff-rules":
+      return <KirchhoffRulesGlyph />;
+    case "lens-imaging":
+      return <LensImagingGlyph />;
+    case "light-spectrum":
+      return (
+        <>
+          <DispersionPrismGlyph />
+          <path d="M76 42H110M76 55H110M76 68H110M76 81H110" stroke="var(--visual-accent)" strokeWidth="3" strokeLinecap="round" opacity="0.75" />
+        </>
+      );
     case "limit-approach":
       return <LimitApproachGlyph />;
+    case "limiting-reagent":
+      return (
+        <>
+          <ChemistryGlyph />
+          <path d="M34 97H70" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+          <path d="M79 97H99" stroke="currentColor" strokeWidth="5" strokeLinecap="round" opacity="0.24" />
+        </>
+      );
+    case "longitudinal-sound":
+      return (
+        <>
+          <SoundPitchGlyph />
+          <path d="M67 49H104M67 63H104M67 77H104" stroke="currentColor" strokeWidth="3" strokeDasharray="4 6" strokeLinecap="round" opacity="0.34" />
+        </>
+      );
+    case "magnetic-field-lines":
+      return (
+        <>
+          <ElectricFieldGlyph />
+          <path d="M30 36C51 17 86 23 99 46M28 84C51 105 88 98 101 74" fill="none" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" opacity="0.78" />
+        </>
+      );
+    case "matrix-transformation":
+      return (
+        <>
+          <VectorsComponentsGlyph />
+          <path d="M32 38H76V72H32Z" fill="none" stroke="currentColor" strokeWidth="4" opacity="0.26" />
+          <path d="M48 38L90 28V62L48 72Z" fill="none" stroke="var(--visual-accent)" strokeWidth="4" opacity="0.82" />
+        </>
+      );
+    case "matter-wave":
+      return (
+        <>
+          <AtomicSpectraGlyph />
+          <path d="M22 93C34 80 45 80 57 93S82 106 105 89" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+        </>
+      );
+    case "maxwell-field-synthesis":
+      return (
+        <>
+          <ElectricFieldGlyph />
+          <path d="M27 28L100 95M100 28L27 95" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" opacity="0.52" />
+        </>
+      );
+    case "mirror-reflection":
+      return <MirrorReflectionGlyph />;
     case "momentum-carts":
       return <MomentumCartsGlyph />;
     case "optimization":
       return <OptimizationGlyph />;
+    case "phase-change-curve":
+      return (
+        <>
+          <ThermalEnergyGlyph />
+          <path d="M25 94H103M33 84H52L66 63H84L96 42" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+        </>
+      );
+    case "optical-resolution":
+      return <OpticalResolutionGlyph />;
     case "orbital-speed":
       return <OrbitalSpeedGlyph />;
     case "optics-ray":
@@ -787,10 +1215,34 @@ function renderMotif(motif: LearningVisualMotif) {
       return <PolarCoordinatesGlyph />;
     case "projectile-motion":
       return <ProjectileMotionGlyph />;
+    case "polarization-filter":
+      return (
+        <>
+          <WaveMotionGlyph />
+          <path d="M67 28V94" stroke="currentColor" strokeWidth="6" strokeLinecap="round" opacity="0.3" />
+          <path d="M78 34V88M90 34V88" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" opacity="0.8" />
+        </>
+      );
     case "radioactivity":
       return <RadioactivityGlyph />;
+    case "photoelectric-threshold":
+      return (
+        <>
+          <AtomicSpectraGlyph />
+          <path d="M23 34H55" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+          <path d="M55 34L44 26M55 34L44 42" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+        </>
+      );
+    case "rational-asymptote":
+      return <RationalAsymptoteGlyph />;
+    case "refraction-snell":
+      return <RefractionSnellGlyph />;
+    case "rc-time-constant":
+      return <RcTimeConstantGlyph />;
     case "rotational-inertia":
       return <RotationalInertiaGlyph />;
+    case "series-parallel-circuit":
+      return <SeriesParallelCircuitGlyph />;
     case "simple-harmonic-motion":
       return <SimpleHarmonicGlyph />;
     case "oscillation-energy":
@@ -799,22 +1251,78 @@ function renderMotif(motif: LearningVisualMotif) {
       return <SoundBeatsGlyph />;
     case "sound-doppler":
       return <SoundDopplerGlyph />;
+    case "sound-intensity":
+      return (
+        <>
+          <SoundPitchGlyph />
+          <path d="M75 95H85M92 95H108" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+          <circle cx="101" cy="47" r="8" fill="currentColor" opacity="0.18" />
+        </>
+      );
     case "sound-pitch":
       return <SoundPitchGlyph />;
     case "standing-wave":
       return <StandingWaveGlyph />;
+    case "stoichiometric-ratios":
+      return (
+        <>
+          <ChemistryGlyph />
+          <path d="M30 98H48M58 98H76M86 98H104" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+        </>
+      );
     case "thermal-energy":
       return <ThermalEnergyGlyph />;
     case "torque":
       return <TorqueGlyph />;
+    case "total-internal-reflection":
+      return <TotalInternalReflectionGlyph />;
     case "unit-circle":
       return <UnitCircleGlyph />;
     case "uniform-circular-motion":
       return <UniformCircularMotionGlyph />;
+    case "vector-2d-addition":
+      return (
+        <>
+          <VectorsComponentsGlyph />
+          <path d="M35 46H66M66 46V75M35 46L66 75" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.35" />
+        </>
+      );
+    case "vector-projection":
+      return (
+        <>
+          <VectorsComponentsGlyph />
+          <path d="M40 89H98" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" opacity="0.88" />
+          <path d="M74 48L74 89" stroke="currentColor" strokeWidth="4" strokeDasharray="6 6" strokeLinecap="round" opacity="0.4" />
+        </>
+      );
     case "vectors-components":
       return <VectorsComponentsGlyph />;
+    case "wave-interference-pattern":
+      return (
+        <>
+          <WaveMotionGlyph />
+          <path d="M24 39C39 25 55 25 70 39M57 84C73 100 91 100 106 84" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.34" />
+        </>
+      );
     case "wave-motion":
       return <WaveMotionGlyph />;
+    case "wave-speed":
+      return (
+        <>
+          <WaveMotionGlyph />
+          <path d="M31 30H88" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+          <path d="M88 30L76 22M88 30L76 38" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+        </>
+      );
+    case "solubility-saturation":
+      return (
+        <>
+          <AcidBaseGlyph />
+          <path d="M38 82H88" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+          <circle cx="49" cy="69" r="4" fill="currentColor" opacity="0.32" />
+          <circle cx="69" cy="65" r="4" fill="currentColor" opacity="0.32" />
+        </>
+      );
   }
 
   return <SimulationGlyph />;

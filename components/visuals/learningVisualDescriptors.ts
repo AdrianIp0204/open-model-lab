@@ -24,46 +24,92 @@ export type LearningVisualOverlay = "assessment" | "challenge";
 export type LearningVisualMotif =
   | "acid-base"
   | "atomic-spectra"
+  | "bohr-energy-levels"
+  | "calculus-limit"
   | "binary-search"
+  | "breadth-first-layers"
   | "calculus-slope"
+  | "capacitance-storage"
   | "chemistry-reaction"
   | "complex-plane"
   | "circuit"
+  | "circuit-power"
   | "collisions"
+  | "diffraction-aperture"
+  | "double-slit-fringes"
+  | "damping-resonance"
+  | "depth-first-backtracking"
+  | "dispersion-prism"
   | "electric-field"
+  | "electric-potential"
+  | "electromagnetic-induction"
+  | "electromagnetic-wave"
   | "escape-velocity"
+  | "equivalent-resistance"
+  | "exponential-change"
   | "fluid-buoyancy"
   | "fluid-bernoulli"
   | "fluid-continuity"
   | "fluid-drag"
   | "fluid-pressure"
+  | "frontier-visited"
+  | "graph-network"
   | "graph-transformations"
   | "gravitational-field"
   | "gravitational-potential"
   | "gravity-orbits"
+  | "heat-transfer-flow"
+  | "ideal-gas-kinetic"
+  | "internal-energy-particles"
+  | "internal-resistance"
   | "kepler-period"
+  | "kirchhoff-rules"
+  | "lens-imaging"
+  | "light-spectrum"
   | "limit-approach"
+  | "limiting-reagent"
+  | "longitudinal-sound"
+  | "magnetic-field-lines"
+  | "matrix-transformation"
+  | "matter-wave"
+  | "maxwell-field-synthesis"
+  | "mirror-reflection"
   | "momentum-carts"
   | "optimization"
+  | "phase-change-curve"
+  | "optical-resolution"
   | "orbital-speed"
   | "optics-ray"
   | "polar-coordinates"
   | "projectile-motion"
+  | "polarization-filter"
   | "radioactivity"
+  | "rational-asymptote"
+  | "refraction-snell"
   | "rotational-inertia"
+  | "rc-time-constant"
+  | "series-parallel-circuit"
   | "simple-harmonic-motion"
-  | "damping-resonance"
   | "oscillation-energy"
   | "sound-beats"
   | "sound-doppler"
+  | "sound-intensity"
   | "sound-pitch"
   | "standing-wave"
+  | "stoichiometric-ratios"
   | "thermal-energy"
   | "torque"
+  | "total-internal-reflection"
   | "unit-circle"
   | "uniform-circular-motion"
+  | "vector-2d-addition"
+  | "vector-projection"
   | "vectors-components"
-  | "wave-motion";
+  | "wave-interference-pattern"
+  | "wave-motion"
+  | "wave-speed"
+  | "solubility-saturation"
+  | "photoelectric-threshold";
 
 export type LearningVisualDescriptor = {
   kind: LearningVisualKind;
@@ -129,10 +175,12 @@ const exactConceptMotifs: Record<string, LearningVisualMotif> = {
   "acid-base-ph-intuition": "acid-base",
   "angular-momentum": "rotational-inertia",
   "atomic-spectra": "atomic-spectra",
+  "basic-circuits": "circuit",
   "binary-search-halving-the-search-space": "binary-search",
-  "bohr-model": "atomic-spectra",
+  "bohr-model": "bohr-energy-levels",
+  "breadth-first-search-and-layered-frontiers": "breadth-first-layers",
   "buoyancy-and-archimedes-principle": "fluid-buoyancy",
-  "capacitance-and-stored-electric-energy": "circuit",
+  "capacitance-and-stored-electric-energy": "capacitance-storage",
   "bernoullis-principle": "fluid-bernoulli",
   "circular-orbits-orbital-speed": "orbital-speed",
   collisions: "collisions",
@@ -140,54 +188,83 @@ const exactConceptMotifs: Record<string, LearningVisualMotif> = {
   "conservation-of-momentum": "momentum-carts",
   "continuity-equation": "fluid-continuity",
   "damping-resonance": "damping-resonance",
-  "de-broglie-matter-waves": "atomic-spectra",
+  "de-broglie-matter-waves": "matter-wave",
+  "depth-first-search-and-backtracking-paths": "depth-first-backtracking",
   "derivative-as-slope-local-rate-of-change": "calculus-slope",
-  "dispersion-refractive-index-color": "optics-ray",
-  "doppler-effect": "sound-pitch",
-  "electric-potential": "electric-field",
+  "dispersion-refractive-index-color": "dispersion-prism",
+  "doppler-effect": "sound-doppler",
+  "electric-potential": "electric-potential",
   "drag-and-terminal-velocity": "fluid-drag",
+  "equivalent-resistance": "equivalent-resistance",
+  "exponential-change-growth-decay-logarithms": "exponential-change",
   "escape-velocity": "escape-velocity",
-  "geometric-optics-lenses": "optics-ray",
+  "frontier-and-visited-state-on-graphs": "frontier-visited",
+  "geometric-optics-lenses": "lens-imaging",
+  "graph-representation-and-adjacency-intuition": "graph-network",
   "gravitational-fields": "gravitational-field",
   "gravitational-potential-energy": "gravitational-potential",
   "graph-transformations": "graph-transformations",
+  "internal-resistance-and-terminal-voltage": "internal-resistance",
   "integral-as-accumulation-area": "calculus-slope",
   "interference-diffraction": "standing-wave",
+  "ideal-gas-law-and-kinetic-theory": "ideal-gas-kinetic",
   "inverse-trig-angle-from-ratio": "unit-circle",
   "kinetic-energy-work": "projectile-motion",
   "keplers-third-law-orbital-periods": "kepler-period",
-  "lens-imaging": "optics-ray",
-  "limits-and-continuity-approaching-a-value": "limit-approach",
+  "kirchhoff-loop-and-junction-rules": "kirchhoff-rules",
+  "lens-imaging": "lens-imaging",
+  "limits-and-continuity-approaching-a-value": "calculus-limit",
+  "light-spectrum-linkage": "light-spectrum",
+  "limiting-reagent-and-leftover-reactants": "limiting-reagent",
   "momentum-impulse": "momentum-carts",
-  "optical-resolution-imaging-limits": "optics-ray",
+  mirrors: "mirror-reflection",
+  "optical-resolution-imaging-limits": "optical-resolution",
   "optimization-maxima-minima-and-constraints": "optimization",
   "parametric-curves-motion-from-equations": "polar-coordinates",
-  "photoelectric-effect": "atomic-spectra",
-  "pitch-frequency-loudness-intensity": "sound-pitch",
+  "photoelectric-effect": "photoelectric-threshold",
+  "pitch-frequency-loudness-intensity": "sound-intensity",
   "polar-coordinates-radius-and-angle": "polar-coordinates",
+  "power-energy-circuits": "circuit-power",
   "projectile-motion": "projectile-motion",
   "radioactivity-half-life": "radioactivity",
-  "reflection-and-mirrors": "optics-ray",
-  "refraction-snells-law": "optics-ray",
+  "rational-functions-asymptotes-and-behavior": "rational-asymptote",
+  "rc-charging-and-discharging": "rc-time-constant",
+  "reflection-and-mirrors": "mirror-reflection",
+  "refraction-snells-law": "refraction-snell",
   "resonance-air-columns-open-closed-pipes": "standing-wave",
   "oscillation-energy": "oscillation-energy",
   "pressure-and-hydrostatic-pressure": "fluid-pressure",
   "rotational-inertia": "rotational-inertia",
-  "specific-heat-and-phase-change": "thermal-energy",
+  "specific-heat-and-phase-change": "phase-change-curve",
   "simple-harmonic-motion": "simple-harmonic-motion",
-  "sound-intensity-levels": "sound-pitch",
+  "series-parallel-circuits": "series-parallel-circuit",
+  "sound-intensity-levels": "sound-intensity",
   "standing-waves": "standing-wave",
   "static-equilibrium-centre-of-mass": "torque",
-  "temperature-and-internal-energy": "thermal-energy",
+  "temperature-and-internal-energy": "internal-energy-particles",
   torque: "torque",
-  "total-internal-reflection": "optics-ray",
+  "total-internal-reflection": "total-internal-reflection",
   "trig-identities-from-unit-circle-geometry": "unit-circle",
   "unit-circle-sine-cosine-from-rotation": "unit-circle",
   "uniform-circular-motion": "uniform-circular-motion",
   "vectors-components": "vectors-components",
-  "vectors-in-2d": "vectors-components",
-  "wave-interference": "wave-motion",
-  "wave-speed-wavelength": "wave-motion",
+  "vectors-in-2d": "vector-2d-addition",
+  "matrix-transformations": "matrix-transformation",
+  "dot-product-angle-and-projection": "vector-projection",
+  "wave-interference": "wave-interference-pattern",
+  "wave-speed-wavelength": "wave-speed",
+  "electromagnetic-waves": "electromagnetic-wave",
+  polarization: "polarization-filter",
+  diffraction: "diffraction-aperture",
+  "double-slit-interference": "double-slit-fringes",
+  "magnetic-fields": "magnetic-field-lines",
+  "electromagnetic-induction": "electromagnetic-induction",
+  "maxwells-equations-synthesis": "maxwell-field-synthesis",
+  "heat-transfer": "heat-transfer-flow",
+  "beats": "sound-beats",
+  "sound-waves-longitudinal-motion": "longitudinal-sound",
+  "solubility-and-saturation": "solubility-saturation",
+  "stoichiometric-ratios-and-recipe-batches": "stoichiometric-ratios",
   waves: "wave-motion",
 };
 
@@ -234,7 +311,20 @@ const topicMotifs: Array<{
   { pattern: /standing|node|antinode|harmonic pipe|resonance/, motif: "standing-wave", label: "standing wave" },
   { pattern: /sound|pitch|doppler|beat|loudness|frequency/, motif: "sound-pitch", label: "sound frequency" },
   { pattern: /wave|wavelength|interference|fringe|diffraction/, motif: "wave-motion", label: "wave motion" },
+  { pattern: /snell|refraction|refractive index/, motif: "refraction-snell", label: "bent light ray" },
+  { pattern: /dispersion|prism|color spectrum|colour spectrum|rainbow/, motif: "dispersion-prism", label: "separated light spectrum" },
+  { pattern: /total internal|critical angle/, motif: "total-internal-reflection", label: "total internal reflection" },
+  { pattern: /lens|image formation|focal/, motif: "lens-imaging", label: "lens image formation" },
+  { pattern: /mirror|reflection/, motif: "mirror-reflection", label: "mirror reflection" },
+  { pattern: /resolution|imaging limit|aperture/, motif: "optical-resolution", label: "imaging resolution" },
   { pattern: /optic|lens|mirror|refraction|reflection|ray|snell|image|prism|dispersion/, motif: "optics-ray", label: "light ray optics" },
+  { pattern: /\brc\b|time constant|charging|discharging/, motif: "rc-time-constant", label: "RC time response" },
+  { pattern: /capacitance|capacitor|charge storage|stored electric energy/, motif: "capacitance-storage", label: "capacitor charge storage" },
+  { pattern: /kirchhoff|junction rule|loop rule|voltage balance|current conservation/, motif: "kirchhoff-rules", label: "Kirchhoff loop and junction" },
+  { pattern: /equivalent resistance|mixed resistor|resistor group/, motif: "equivalent-resistance", label: "equivalent resistance" },
+  { pattern: /series and parallel|series circuits|parallel circuits|branch current/, motif: "series-parallel-circuit", label: "series and parallel branches" },
+  { pattern: /power and energy|circuit power|watt|terminal power/, motif: "circuit-power", label: "circuit power" },
+  { pattern: /internal resistance|terminal voltage|non-ideal source/, motif: "internal-resistance", label: "terminal voltage drop" },
   { pattern: /circuit|resistor|battery|capacitor|voltage/, motif: "circuit", label: "circuit workspace" },
   { pattern: /electric|field|charge|current|magnetic/, motif: "electric-field", label: "field vectors" },
   { pattern: /heat|temperature|thermal|specific heat|phase change|internal energy/, motif: "thermal-energy", label: "thermal energy" },
@@ -243,6 +333,12 @@ const topicMotifs: Array<{
   { pattern: /drag|terminal velocity|fluid resistance/, motif: "fluid-drag", label: "drag balance" },
   { pattern: /hydrostatic|pressure|fluid statics/, motif: "fluid-pressure", label: "fluid pressure" },
   { pattern: /fluid|buoyancy|archimedes|flow/, motif: "fluid-buoyancy", label: "fluid forces" },
+  { pattern: /breadth[- ]?first|layered frontier|bfs/, motif: "breadth-first-layers", label: "breadth-first layers" },
+  { pattern: /depth[- ]?first|backtracking|dfs/, motif: "depth-first-backtracking", label: "depth-first backtracking" },
+  { pattern: /frontier|visited state|visited nodes/, motif: "frontier-visited", label: "frontier and visited nodes" },
+  { pattern: /adjacency|graph representation|network graph/, motif: "graph-network", label: "graph network" },
+  { pattern: /rational|asymptote/, motif: "rational-asymptote", label: "rational asymptote" },
+  { pattern: /exponential|growth|decay|logarithm/, motif: "exponential-change", label: "exponential change" },
   { pattern: /graph|transform|function|curve/, motif: "graph-transformations", label: "transformed graph" },
   { pattern: /derivative|slope|tangent|secant|calculus|rate of change/, motif: "calculus-slope", label: "slope and tangent" },
   { pattern: /limit|continuity|approaching|epsilon|delta/, motif: "limit-approach", label: "limit approach" },
@@ -265,6 +361,20 @@ const challengeMotifs: Array<{
   { pattern: /beat|pulse/, motif: "sound-beats", label: "beat and pulse challenge" },
   { pattern: /doppler|higher ahead|lower behind|source|observer/, motif: "sound-doppler", label: "Doppler challenge" },
   { pattern: /pitch|frequency|loudness|sound|carrier/, motif: "sound-pitch", label: "sound frequency challenge" },
+  { pattern: /\brc\b|time constant|charging|discharging/, motif: "rc-time-constant", label: "RC response challenge" },
+  { pattern: /capacitor|capacitance|charge storage|stored electric/, motif: "capacitance-storage", label: "capacitor challenge" },
+  { pattern: /kirchhoff|junction|loop rule|voltage balance|current conservation/, motif: "kirchhoff-rules", label: "Kirchhoff challenge" },
+  { pattern: /equivalent resistance|mixed resistor|resistor group/, motif: "equivalent-resistance", label: "equivalent resistance challenge" },
+  { pattern: /series and parallel|series circuits|parallel circuits|branch current|bulb brightness/, motif: "series-parallel-circuit", label: "series and parallel challenge" },
+  { pattern: /internal resistance|terminal voltage|non-ideal source/, motif: "internal-resistance", label: "terminal voltage challenge" },
+  { pattern: /power-energy|power in circuits|circuit power|watt|current.*power|voltage.*power|resistor.*power|battery.*power|power.*circuit/, motif: "circuit-power", label: "circuit power challenge" },
+  { pattern: /breadth[- ]?first|layered frontier|bfs/, motif: "breadth-first-layers", label: "breadth-first challenge" },
+  { pattern: /depth[- ]?first|backtracking|dfs/, motif: "depth-first-backtracking", label: "depth-first challenge" },
+  { pattern: /frontier|visited state|visited nodes/, motif: "frontier-visited", label: "frontier challenge" },
+  { pattern: /adjacency|graph representation|network graph/, motif: "graph-network", label: "graph network challenge" },
+  { pattern: /rational|asymptote/, motif: "rational-asymptote", label: "asymptote challenge" },
+  { pattern: /radioactivity|half-life|nuclear/, motif: "radioactivity", label: "radioactivity challenge" },
+  { pattern: /exponential|growth|decay|logarithm/, motif: "exponential-change", label: "exponential challenge" },
   { pattern: /standing|node|antinode|resonance|harmonic|pipe/, motif: "standing-wave", label: "standing wave challenge" },
   { pattern: /period|centripetal|circular|orbit|radius/, motif: "uniform-circular-motion", label: "circular motion challenge" },
   { pattern: /damping|resonance|driving force|response/, motif: "damping-resonance", label: "damped response challenge" },
@@ -272,6 +382,12 @@ const challengeMotifs: Array<{
   { pattern: /collision|rebound|cart|elastic|inelastic/, motif: "collisions", label: "collision challenge" },
   { pattern: /momentum|impulse|force pulse/, motif: "momentum-carts", label: "momentum challenge" },
   { pattern: /angular momentum|rotational inertia|moment of inertia|mass radius|spin/, motif: "rotational-inertia", label: "rotational inertia challenge" },
+  { pattern: /total[- ]internal|critical angle/, motif: "total-internal-reflection", label: "total internal reflection challenge" },
+  { pattern: /snell|refraction|refractive index/, motif: "refraction-snell", label: "refraction challenge" },
+  { pattern: /dispersion|prism|color spectrum|colour spectrum|rainbow/, motif: "dispersion-prism", label: "dispersion challenge" },
+  { pattern: /lens|image formation/, motif: "lens-imaging", label: "lens challenge" },
+  { pattern: /mirror/, motif: "mirror-reflection", label: "mirror challenge" },
+  { pattern: /resolution|imaging limit|aperture/, motif: "optical-resolution", label: "resolution challenge" },
   { pattern: /lens|mirror|ray|refraction|snell|image|fringe|slit/, motif: "optics-ray", label: "optics challenge" },
   { pattern: /battery|resistor|circuit|voltage|current|power|watt|ohm|capacitor|load/, motif: "circuit", label: "circuit challenge" },
   { pattern: /temperature|thermal|phase|heat|heater/, motif: "thermal-energy", label: "thermal energy challenge" },
@@ -439,12 +555,6 @@ export function getChallengeVisualDescriptor(
     ...(challenge.targetLabels ?? []),
     ...(challenge.targetMetrics ?? []),
     ...(challenge.targetParams ?? []),
-    challenge.concept.slug,
-    challenge.concept.title,
-    challenge.concept.subject,
-    challenge.concept.topic,
-    challenge.concept.subtopic,
-    ...(challenge.concept.tags ?? []),
   ]);
   const challengeMatch = challengeMotifs.find((candidate) =>
     candidate.pattern.test(searchText),
