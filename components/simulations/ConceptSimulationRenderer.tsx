@@ -6848,6 +6848,7 @@ export function ConceptSimulationRenderer({
     focusedOverlay?.relatedControls,
   );
   const autoRevealControlIds = mergeUniqueIds(
+    predictionHighlightedControlIds,
     quickTestHighlightedControlIds,
     workedExampleHighlightedControlIds,
     guidedReveal?.controlIds,
@@ -6861,6 +6862,7 @@ export function ConceptSimulationRenderer({
     focusedOverlay?.relatedGraphTabs,
   );
   const autoRevealGraphIds = mergeUniqueIds(
+    predictionHighlightedGraphIds,
     quickTestHighlightedGraphIds,
     workedExampleHighlightedGraphIds,
     guidedReveal?.graphIds,

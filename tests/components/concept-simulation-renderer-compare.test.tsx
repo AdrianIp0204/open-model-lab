@@ -43,8 +43,15 @@ vi.mock("@/components/concepts/GuidedOverlayPanel", () => ({
 
 vi.mock("@/components/concepts/PredictionModePanel", () => ({
   PredictionModePanel: ({ api }: { api: PredictionModeApi }) => (
-    <div data-testid="mock-prediction-mode-panel" data-mode={api.mode}>
+    <div
+      data-testid="mock-prediction-mode-panel"
+      data-mode={api.mode}
+      data-active-item={api.activeItemId ?? ""}
+    >
       Prediction prompt
+      <button type="button" onClick={() => api.setActiveItemId("gt-predict-negative-a")}>
+        Use negative scale prediction
+      </button>
     </div>
   ),
 }));
@@ -275,6 +282,46 @@ describe("ConceptSimulationRenderer compare state", () => {
       "true",
     );
     expect(within(interactionTabs).queryByRole("tab", { name: "Predict" })).not.toBeInTheDocument();
+  });
+
+  it("auto-reveals secondary controls and graphs for the secondary prediction workflow", async () => {
+    const user = userEvent.setup();
+
+    render(<ConceptSimulationRenderer concept={buildSimulationSource("graph-transformations")} />);
+
+    const predictionFlow = screen.getByTestId("concept-secondary-prediction-flow");
+
+    await user.click(within(predictionFlow).getByText("Prediction prompt"));
+    await user.click(
+      within(predictionFlow).getByRole("button", {
+        name: "Open prediction prompt",
+      }),
+    );
+    await user.click(
+      screen.getByRole("button", {
+        name: "Use negative scale prediction",
+      }),
+    );
+
+    const controls = screen.getByTestId("simulation-shell-controls");
+    const graphs = screen.getByTestId("simulation-shell-graphs");
+
+    expect(screen.getByTestId("mock-prediction-mode-panel")).toHaveAttribute(
+      "data-active-item",
+      "gt-predict-negative-a",
+    );
+    expect(within(controls).getByRole("button", { name: "More tools" })).toHaveAttribute(
+      "aria-expanded",
+      "true",
+    );
+    expect(within(controls).getByRole("slider", { name: "Vertical scale" })).toBeInTheDocument();
+    expect(within(graphs).getByRole("button", { name: "Hide graphs" })).toHaveAttribute(
+      "aria-expanded",
+      "true",
+    );
+    expect(
+      within(graphs).getByRole("tab", { name: /Vertex height vs vertical scale/i }),
+    ).toBeInTheDocument();
   });
 
   it("lets phase support disclosures stay open across bench rerenders", async () => {
