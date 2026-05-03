@@ -162,26 +162,19 @@ describe("ConceptPageFramework V2", () => {
     window.history.replaceState(window.history.state, "", "/");
   });
 
-  it("renders post-bench lesson context with a return CTA and equation snapshot", () => {
+  it("keeps the routed page lab-first without a duplicate post-bench start card", () => {
     renderFramework("simple-harmonic-motion");
 
-    expect(screen.getByTestId("concept-v2-start-here")).toBeInTheDocument();
-    const lessonPreview = screen.getByTestId("concept-v2-start-lesson-preview");
-    expect(lessonPreview).toHaveTextContent("See one full cycle");
-    expect(lessonPreview).toHaveTextContent(
-      "Build the first picture on the live bench before you analyse the graphs.",
-    );
-    expect(
-      screen.getAllByTestId("concept-v2-start-lesson-preview-quick-check").length,
-    ).toBeGreaterThan(0);
-    expect(lessonPreview).toHaveTextContent("Quick check");
-    expect(screen.getByRole("button", { name: /return to bench/i })).toBeInTheDocument();
+    expect(screen.queryByTestId("concept-v2-start-here")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /return to bench/i })).not.toBeInTheDocument();
+    expect(screen.getByTestId("guided-step-slot")).toHaveTextContent("See one full cycle");
+    expect(screen.getByTestId("concept-v2-current-step-card")).toHaveTextContent("Current step");
     const equationSnapshot = screen.getByTestId("concept-v2-equation-snapshot");
     expect(equationSnapshot).toHaveTextContent(/equation snapshot/i);
     expect(equationSnapshot).toHaveTextContent(/restoring pattern/i);
   });
 
-  it("keeps the title compact and moves lesson context beside status", () => {
+  it("keeps the title compact and leaves only status in the post-lab context", () => {
     renderFramework("simple-harmonic-motion");
 
     const heroGrid = screen.getByTestId("concept-v2-hero-grid");
@@ -189,19 +182,17 @@ describe("ConceptPageFramework V2", () => {
     const heroTitle = screen.getByTestId("concept-v2-hero-title");
     const postLabContext = screen.getByTestId("concept-v2-post-lab-context");
     const heroStatus = screen.getByTestId("concept-v2-hero-status");
-    const heroStart = screen.getByTestId("concept-v2-hero-start");
     const equationSnapshot = screen.getByTestId("concept-v2-equation-snapshot");
 
     expect(heroGrid).toBeInTheDocument();
     expect(within(heroTitle).getByRole("heading", { name: /simple harmonic motion/i })).toBeInTheDocument();
     expect(within(heroStatus).queryByTestId("concept-page-status-surface")).not.toBeInTheDocument();
-    expect(within(heroStart).getByTestId("concept-v2-start-here")).toBeInTheDocument();
+    expect(screen.queryByTestId("concept-v2-hero-start")).not.toBeInTheDocument();
     expect(equationSnapshot).toBeInTheDocument();
     expect(heroMain).toContainElement(heroTitle);
-    expect(postLabContext).toContainElement(heroStart);
     expect(postLabContext).toContainElement(heroStatus);
     expect(
-      heroTitle.compareDocumentPosition(heroStart) & Node.DOCUMENT_POSITION_FOLLOWING,
+      heroTitle.compareDocumentPosition(postLabContext) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
     expect(
       heroStatus.compareDocumentPosition(equationSnapshot) & Node.DOCUMENT_POSITION_FOLLOWING,
@@ -218,28 +209,21 @@ describe("ConceptPageFramework V2", () => {
     expect(screen.getAllByText("Try this setup")).toHaveLength(1);
   });
 
-  it("starts the lesson and exposes the first guided step inside the live lab", async () => {
-    const user = userEvent.setup();
-
+  it("exposes the first guided step inside the live lab by default", async () => {
     renderFramework("simple-harmonic-motion");
-    await user.click(screen.getByRole("button", { name: /return to bench/i }));
 
-    await waitFor(() => {
-      expect(window.location.hash).toContain("guided-step-see-one-full-cycle");
-    });
     const guidedLiveLab = screen.getByRole("region", { name: "Lesson path" });
     expect(guidedLiveLab).toHaveAttribute("data-testid", "concept-v2-guided-live-lab");
     expect(screen.getByTestId("guided-step-slot")).toHaveTextContent("See one full cycle");
     expect(screen.getByTestId("guided-reveal-probe")).toHaveTextContent("amplitude");
     expect(screen.getByTestId("phase-probe")).toHaveTextContent("explore");
-    expect(document.activeElement).toHaveAttribute("id", "live-bench");
+    expect(screen.getByTestId("concept-v2-current-step-card")).toBeInTheDocument();
   });
 
   it("moves through guided steps and updates the reveal contract", async () => {
     const user = userEvent.setup();
 
     renderFramework("simple-harmonic-motion");
-    await user.click(screen.getByRole("button", { name: /return to bench/i }));
     await user.click(
       within(screen.getByTestId("concept-v2-next-checkpoint")).getByRole("button", {
         name: /up next/i,
@@ -271,7 +255,6 @@ describe("ConceptPageFramework V2", () => {
     const user = userEvent.setup();
 
     renderFramework("simple-harmonic-motion");
-    await user.click(screen.getByRole("button", { name: /return to bench/i }));
 
     const stepMap = screen.getByTestId("concept-v2-step-map");
     expect(stepMap).toHaveTextContent("See one full cycle");
@@ -295,10 +278,7 @@ describe("ConceptPageFramework V2", () => {
   });
 
   it("renders inline quick checks inside the guided step flow", async () => {
-    const user = userEvent.setup();
-
     renderFramework("graph-transformations");
-    await user.click(screen.getByRole("button", { name: /return to bench/i }));
 
     expect(screen.getByTestId("guided-step-slot")).toHaveTextContent("Slide the parent curve");
     expect(screen.getByTestId("guided-step-support-slot")).toHaveTextContent(
@@ -368,7 +348,6 @@ describe("ConceptPageFramework V2", () => {
   });
 
   it("keeps synthetic non-migrated concepts on a fallback V2 lesson path", async () => {
-    const user = userEvent.setup();
     const concept = structuredClone(getConceptBySlug("projectile-motion"));
     concept.v2 = undefined;
     const model = resolveConceptPageV2(concept, {
@@ -377,7 +356,6 @@ describe("ConceptPageFramework V2", () => {
     });
 
     renderConceptFramework(concept);
-    await user.click(screen.getByRole("button", { name: /return to bench/i }));
 
     expect(model.source).toBe("fallback");
     expect(screen.getByTestId("guided-step-slot")).toHaveTextContent(

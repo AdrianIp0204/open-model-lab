@@ -33,7 +33,7 @@ async function expectNoRawMathLeak(locator: Locator) {
 }
 
 test.describe("concept page v2 flow", () => {
-  test("keeps the first guided interaction viewport focused on the live bench with support collapsed", async ({
+  test("keeps the first guided interaction viewport focused on the live bench without duplicate support", async ({
     browser,
   }) => {
     const viewportCases = [
@@ -48,25 +48,27 @@ test.describe("concept page v2 flow", () => {
 
       try {
         await gotoAndExpectOk(page, "/en/concepts/simple-harmonic-motion");
-        await page.getByRole("button", { name: "Return to bench" }).click();
 
         const guidedLiveLab = page.getByTestId("concept-v2-guided-live-lab");
         const scene = page.getByTestId("simulation-shell-scene");
         const stepSlot = page.getByTestId("concept-v2-step-card-slot");
         const currentStepCard = page.getByTestId("concept-v2-current-step-card");
         const railInlineCheck = page.getByTestId("concept-v2-rail-inline-check");
+        const secondaryGuidance = page.getByTestId(
+          "concept-v2-current-step-secondary-guidance",
+        );
         const stepMap = page.getByTestId("concept-v2-step-map");
-        const stepSupport = page.getByTestId("concept-v2-step-support-slot");
 
-        await expect(page).toHaveURL(/#guided-step-see-one-full-cycle$/);
+        await expect(page.getByTestId("concept-v2-start-here")).toHaveCount(0);
         await expect(guidedLiveLab).toBeVisible();
         await expect(scene).toBeInViewport();
         await expect(stepSlot).toBeVisible();
         await expect(currentStepCard).toBeVisible();
         await expect(railInlineCheck).toBeVisible();
+        await expect(secondaryGuidance).toBeVisible();
+        await expect(secondaryGuidance).not.toHaveAttribute("open");
         await expect(stepMap).toBeVisible();
-        await expect(stepSupport).toContainText("More for this step");
-        await expect(stepSupport.getByTestId("concept-v2-inline-check")).toBeHidden();
+        await expect(page.getByTestId("concept-v2-step-support-slot")).toHaveCount(0);
 
         const [currentStepCardBox, stepMapBox] = await Promise.all([
           currentStepCard.boundingBox(),
@@ -84,7 +86,7 @@ test.describe("concept page v2 flow", () => {
     }
   });
 
-  test("start learning enters the live lab and activates the first guided step on simple harmonic motion", async ({
+  test("the first guided step is active by default on simple harmonic motion", async ({
     browser,
   }) => {
     test.setTimeout(90_000);
@@ -95,15 +97,14 @@ test.describe("concept page v2 flow", () => {
     try {
       await gotoAndExpectOk(page, "/en/concepts/simple-harmonic-motion");
 
-      const startHere = page.getByTestId("concept-v2-start-here");
       const stepSlot = page.getByTestId("concept-v2-step-card-slot");
-      const stepSupport = page.getByTestId("concept-v2-step-support-slot");
+      const railInlineCheck = page.getByTestId("concept-v2-rail-inline-check");
+      const secondaryGuidance = page.getByTestId(
+        "concept-v2-current-step-secondary-guidance",
+      );
 
-      await expect(startHere).toBeVisible();
+      await expect(page.getByTestId("concept-v2-start-here")).toHaveCount(0);
       await expect(stepSlot).toBeVisible();
-      await expect(startHere.getByRole("button", { name: "Return to bench" })).toBeVisible();
-      await startHere.getByRole("button", { name: "Return to bench" }).click();
-      await expect(page).toHaveURL(/#guided-step-see-one-full-cycle$/);
 
       await expect(stepSlot).toContainText("See one full cycle");
       await expect(stepSlot.getByRole("progressbar", { name: "Lesson path" })).toHaveAttribute(
@@ -111,13 +112,11 @@ test.describe("concept page v2 flow", () => {
         "1",
       );
       await expect(stepSlot).toContainText("Current step");
-      await expect(stepSupport).toContainText("More for this step");
-      await expect(stepSupport).toContainText("Quick check");
-      await expect(stepSupport.getByTestId("concept-v2-inline-check")).toBeHidden();
-      await stepSupport.locator("summary").click();
-      await expect(stepSupport.getByTestId("concept-v2-inline-check")).toBeVisible();
-      await expect(stepSupport).toContainText("Now available");
-      await expect(stepSupport).toContainText("Graph: Displacement over time");
+      await expect(railInlineCheck).toContainText("Quick check");
+      await expect(secondaryGuidance).not.toHaveAttribute("open");
+      await expect(page.getByTestId("concept-v2-step-support-slot")).toHaveCount(0);
+      await expect(stepSlot).toContainText("Now available");
+      await expect(stepSlot).toContainText("Graph: Displacement over time");
       await expect(page.getByTestId("concept-v2-guided-live-lab")).toBeInViewport();
     } finally {
       await page.close().catch(() => undefined);
@@ -135,7 +134,6 @@ test.describe("concept page v2 flow", () => {
       await gotoAndExpectOk(page, "/en/concepts/simple-harmonic-motion#guided-step-see-one-full-cycle");
 
       const stepSlot = page.getByTestId("concept-v2-step-card-slot");
-      const stepSupport = page.getByTestId("concept-v2-step-support-slot");
 
       await stepSlot.getByTestId("concept-v2-rail-next-button").focus();
       await page.keyboard.press("Enter");
@@ -146,11 +144,9 @@ test.describe("concept page v2 flow", () => {
         "aria-valuenow",
         "2",
       );
-      await expect(stepSupport).toContainText("Graph: Velocity over time");
-      await expect(stepSupport).toContainText("Graph: Acceleration over time");
-      await expect(stepSupport.getByTestId("concept-v2-inline-check")).toBeHidden();
-      await stepSupport.locator("summary").click();
-      await expect(stepSupport.getByTestId("concept-v2-inline-check")).toBeVisible();
+      await expect(stepSlot).toContainText("Graph: Velocity over time");
+      await expect(stepSlot).toContainText("Graph: Acceleration over time");
+      await expect(page.getByTestId("concept-v2-step-support-slot")).toHaveCount(0);
       await expect(stepSlot.getByTestId("concept-v2-rail-next-button")).toBeVisible();
       browserGuard.assertNoActionableIssues();
     } finally {
@@ -302,17 +298,16 @@ test.describe("concept page v2 flow", () => {
         await test.step(route, async () => {
           await gotoAndExpectOk(page, route);
 
-          await expectNoRawMathLeak(page.getByTestId("concept-v2-start-here"));
+          await expect(page.getByTestId("concept-v2-start-here")).toHaveCount(0);
 
           if (route.includes("#challenge-mode")) {
             const challengePanel = page.getByTestId("challenge-mode-full-panel");
             await expect(challengePanel).toBeVisible();
             await expectNoRawMathLeak(challengePanel);
           } else {
-            await page.getByRole("button", { name: "Return to bench" }).click();
             await expect(page.getByTestId("concept-v2-step-card-slot")).toBeVisible();
             await expectNoRawMathLeak(page.getByTestId("concept-v2-step-card-slot"));
-            await expectNoRawMathLeak(page.getByTestId("concept-v2-step-support-slot"));
+            await expect(page.getByTestId("concept-v2-step-support-slot")).toHaveCount(0);
           }
 
           await page.getByTestId("concept-v2-wrap-up").scrollIntoViewIfNeeded();
@@ -337,12 +332,9 @@ test.describe("concept page v2 flow", () => {
     try {
       await gotoAndExpectOk(page, "/zh-HK/concepts/simple-harmonic-motion");
 
-      const startHere = page.getByTestId("concept-v2-start-here");
       const equationSnapshot = page.getByTestId("concept-v2-equation-snapshot");
-      await expect(startHere).toContainText("課程脈絡");
-      await expect(startHere).toContainText("預計時間");
+      await expect(page.getByTestId("concept-v2-start-here")).toHaveCount(0);
       await expect(equationSnapshot).toContainText("公式速覽");
-      await expect(startHere).not.toContainText("Start here");
       await expect(page.getByTestId("concept-v2-wrap-up")).toContainText("總結");
       await expect(page.getByTestId("concept-v2-reference")).toContainText("參考與支援");
       await page.getByTestId("concept-bench-utilities").scrollIntoViewIfNeeded();
@@ -352,8 +344,7 @@ test.describe("concept page v2 flow", () => {
         "Bench tools and share links",
       );
 
-      await startHere.getByRole("button", { name: "回到實驗台" }).click();
-      await expect(page).toHaveURL(/#guided-step-see-one-full-cycle$/);
+      await page.getByTestId("concept-v2-guided-live-lab").scrollIntoViewIfNeeded();
       await expect(page.getByTestId("concept-v2-guided-live-lab")).toBeInViewport();
 
       browserGuard.assertNoActionableIssues();
@@ -372,14 +363,12 @@ test.describe("concept page v2 flow", () => {
     try {
       await gotoAndExpectOk(page, "/en/concepts/rotational-inertia");
 
-      await expect(page.getByTestId("concept-v2-start-here")).toBeVisible();
-      await page.getByRole("button", { name: "Return to bench" }).click();
+      await expect(page.getByTestId("concept-v2-start-here")).toHaveCount(0);
 
-      await expect(page).toHaveURL(/#guided-step-/);
       await expect(page.getByTestId("concept-v2-step-card-slot")).toContainText(
         "Read the baseline rotor",
       );
-      await expect(page.getByTestId("concept-v2-step-support-slot")).toBeVisible();
+      await expect(page.getByTestId("concept-v2-step-support-slot")).toHaveCount(0);
 
       await page.getByTestId("concept-v2-wrap-up").scrollIntoViewIfNeeded();
       await expect(page.getByTestId("concept-v2-wrap-up")).toBeVisible();
@@ -413,9 +402,7 @@ test.describe("concept page v2 flow", () => {
         await test.step(item.route, async () => {
           await gotoAndExpectOk(page, item.route);
 
-          await expect(page.getByTestId("concept-v2-start-here")).toBeVisible();
-          await page.getByRole("button", { name: "Return to bench" }).click();
-          await expect(page).toHaveURL(/#guided-step-/);
+          await expect(page.getByTestId("concept-v2-start-here")).toHaveCount(0);
           await expect(page.getByTestId("concept-v2-step-card-slot")).toContainText(
             item.firstStep,
           );
@@ -443,9 +430,8 @@ test.describe("concept page v2 flow", () => {
       await wrapUp.getByRole("link", { name: "Angular Momentum" }).first().click();
 
       await expect(page).toHaveURL(/\/en\/concepts\/angular-momentum$/);
-      await expect(page.getByTestId("concept-v2-start-here")).toBeVisible();
+      await expect(page.getByTestId("concept-v2-start-here")).toHaveCount(0);
 
-      await page.getByRole("button", { name: "Return to bench" }).click();
       await expect(page.getByTestId("concept-v2-step-card-slot")).toContainText(
         "Read one rotor with both ingredients",
       );
@@ -511,12 +497,9 @@ test.describe("concept page v2 flow", () => {
         await test.step(item.route, async () => {
           await gotoAndExpectOk(page, item.route);
 
-          await expect(page.getByTestId("concept-v2-start-here")).toBeVisible();
-          await page.getByRole("button", { name: "Return to bench" }).click();
-
-          await expect(page).toHaveURL(/#guided-step-/);
+          await expect(page.getByTestId("concept-v2-start-here")).toHaveCount(0);
           await expect(page.getByTestId("concept-v2-step-card-slot")).toContainText(item.firstStep);
-          await expect(page.getByTestId("concept-v2-step-support-slot")).toBeVisible();
+          await expect(page.getByTestId("concept-v2-step-support-slot")).toHaveCount(0);
           await expect(page.getByTestId("concept-v2-wrap-up")).toBeVisible();
           await expect(page.getByTestId("concept-v2-reference")).toBeVisible();
         });
@@ -541,21 +524,13 @@ test.describe("concept page v2 flow", () => {
     try {
       await gotoAndExpectOk(page, "/en/concepts/oscillation-energy");
 
-      const startHere = page.getByTestId("concept-v2-start-here");
-      await expect(startHere).toBeVisible();
-      await startHere.getByRole("button", { name: "Return to bench" }).click();
+      await expect(page.getByTestId("concept-v2-start-here")).toHaveCount(0);
 
-      await expect(page).toHaveURL(/#guided-step-read-the-energy-split$/);
       await expect(page.getByTestId("concept-v2-step-card-slot")).toContainText(
         "Read the energy split",
       );
-      await expect(
-        page.getByTestId("concept-v2-step-support-slot").getByTestId("concept-v2-inline-check"),
-      ).toBeHidden();
-      await page.getByTestId("concept-v2-step-support-slot").locator("summary").click();
-      await expect(
-        page.getByTestId("concept-v2-step-support-slot").getByTestId("concept-v2-inline-check"),
-      ).toBeVisible();
+      await expect(page.getByTestId("concept-v2-step-support-slot")).toHaveCount(0);
+      await expect(page.getByTestId("concept-v2-rail-inline-check")).toBeVisible();
       await expect(page.getByTestId("concept-v2-reference")).toBeVisible();
       await expect(page.getByTestId("concept-v2-wrap-up")).toBeVisible();
       browserGuard.assertNoActionableIssues();

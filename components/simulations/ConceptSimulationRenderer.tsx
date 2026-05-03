@@ -6569,7 +6569,6 @@ export function ConceptSimulationRenderer({
   const tNotice = useTranslations("WhatToNoticePanel");
   const activeConceptPagePhaseId = conceptPagePhase?.activePhaseId ?? null;
   const guidedStepCard = conceptPagePhase?.guidedStepCard ?? null;
-  const guidedStepSupport = conceptPagePhase?.guidedStepSupport ?? null;
   const guidedReveal = conceptPagePhase?.guidedReveal ?? null;
   const isGuidedLessonMode = Boolean(guidedStepCard);
   const [activeLocationHash, setActiveLocationHash] = useState<string>(() =>
@@ -8283,35 +8282,15 @@ export function ConceptSimulationRenderer({
     />
   );
   const benchEquations = selectBenchEquations(concept);
-  const guidedStepSupportDisclosure = guidedStepSupport ? (
-    <details
-      data-testid="concept-v2-step-support-slot"
-      className="rounded-[20px] border border-line bg-white/50 px-3 py-3"
-    >
-      <summary className="flex cursor-pointer list-none items-start justify-between gap-3">
-        <div>
-          <p className="lab-label">{t("stepSupport.label")}</p>
-          <p className="mt-1 text-xs leading-5 text-ink-600">
-            {t("stepSupport.description")}
-          </p>
-        </div>
-        <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-600">
-          {t("actions.show")}
-        </span>
-      </summary>
-      <div className="mt-3">{guidedStepSupport}</div>
-    </details>
-  ) : null;
   const mergedAfterBench =
-    guidedStepSupport || guidedStepCard || secondaryPredictionPanel || afterBench ? (
+    guidedStepCard || secondaryPredictionPanel || afterBench ? (
       <div className="grid gap-3">
-        {guidedStepSupport || guidedStepCard || secondaryPredictionPanel ? (
+        {guidedStepCard || secondaryPredictionPanel ? (
           <div className="grid gap-2.5">
             {guidedStepCard ? (
               <div data-testid="concept-v2-step-card-slot">{guidedStepCard}</div>
             ) : null}
             {secondaryPredictionPanel}
-            {guidedStepSupportDisclosure}
           </div>
         ) : null}
         {afterBench}

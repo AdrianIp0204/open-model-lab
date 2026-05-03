@@ -1,10 +1,9 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { ConceptPageFramework } from "@/components/concepts/ConceptPageFramework";
 import {
   getConceptBySlug,
   getReadNextRecommendations,
-  resolveConceptPageV2,
   type ConceptContent,
 } from "@/lib/content";
 import { resolveAccountEntitlement } from "@/lib/account/entitlements";
@@ -112,115 +111,62 @@ describe("ConceptPage above-the-fold entry flow", () => {
     }),
   });
 
-  it("puts the live lab before authored start/context details", () => {
+  it("keeps routed concepts lab-first without a late start/context block", () => {
     const concept = getConceptBySlug("simple-harmonic-motion");
 
     renderConceptFramework(concept);
 
-    const startHere = screen.getByTestId("concept-v2-start-here");
     const liveLab = screen.getByTestId("concept-live-lab");
+    const postLabContext = screen.getByTestId("concept-v2-post-lab-context");
 
     expect(screen.getByTestId("concept-page-v2-shell")).toBeInTheDocument();
-    expect(startHere).toHaveTextContent("Lesson context");
-    expect(startHere).toHaveTextContent("Why it matters");
-    expect(startHere).toHaveTextContent("Key takeaway");
+    expect(liveLab).toBeInTheDocument();
+    expect(screen.queryByTestId("concept-v2-start-here")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Return to bench" })).not.toBeInTheDocument();
+    expect(screen.queryByText("Lesson context")).not.toBeInTheDocument();
+    expect(screen.queryByText("Why it matters")).not.toBeInTheDocument();
     expect(
-      within(screen.getByTestId("concept-v2-start-lesson-preview-first")).queryByText(
-        "Start concept",
-      ),
-    ).not.toBeInTheDocument();
-    expect(screen.queryByTestId("concept-v2-start-lesson-preview-connector")).not.toBeInTheDocument();
-    expect(screen.getByTestId("concept-v2-start-lesson-preview-list")).toHaveClass(
-      "sm:grid-cols-2",
-      "2xl:grid-cols-4",
-    );
-    expect(screen.getByTestId("concept-v2-start-lesson-preview-list")).not.toHaveClass(
-      "xl:grid-cols-4",
-    );
-    expect(screen.getAllByRole("button", { name: "Return to bench" })).toHaveLength(1);
-    expect(screen.getByRole("button", { name: "Return to bench" })).toHaveClass(
-      "w-full",
-    );
-    expect(screen.queryByTestId("concept-page-status-surface")).not.toBeInTheDocument();
-    expect(screen.getByTestId("concept-v2-start-handoff")).toHaveTextContent(
-      "Estimated time: 25 min",
-    );
-    expect(screen.getByTestId("concept-v2-prerequisites")).toHaveTextContent(
-      "No prerequisites",
-    );
-    expect(screen.getByTestId("concept-v2-simulation-preview")).toHaveTextContent(
-      "Start by changing Amplitude, then compare the stage with the Displacement over time graph.",
-    );
-    expect(
-      screen.getByTestId("concept-v2-start-handoff").compareDocumentPosition(
-        screen.getByTestId("concept-v2-prerequisites"),
-      ) & Node.DOCUMENT_POSITION_FOLLOWING,
-    ).toBeTruthy();
-    expect(
-      liveLab.compareDocumentPosition(startHere) & Node.DOCUMENT_POSITION_FOLLOWING,
+      liveLab.compareDocumentPosition(postLabContext) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
   });
 
-  it("uses the fallback V2 start-here shell for non-migrated concepts", () => {
+  it("keeps fallback V2 concepts lab-first without a late start-here block", () => {
     const concept = structuredClone(getConceptBySlug("projectile-motion"));
     concept.v2 = undefined;
-    const model = resolveConceptPageV2(concept, {
-      locale: "en",
-      readNext: getReadNextRecommendations(concept.slug),
-    });
 
     renderConceptFramework(concept);
 
-    const startHere = screen.getByTestId("concept-v2-start-here");
-    const liveLab = screen.getByTestId("concept-live-lab");
-
-    expect(model.source).toBe("fallback");
     expect(screen.getByTestId("concept-page-v2-shell")).toBeInTheDocument();
-    expect(startHere).toHaveTextContent(model.intuition);
-    expect(startHere).toHaveTextContent("Return to bench");
-    expect(
-      liveLab.compareDocumentPosition(startHere) & Node.DOCUMENT_POSITION_FOLLOWING,
-    ).toBeTruthy();
+    expect(screen.getByTestId("concept-live-lab")).toBeInTheDocument();
+    expect(screen.queryByTestId("concept-v2-start-here")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Return to bench" })).not.toBeInTheDocument();
   });
 
-  it("renders authored prerequisite titles calmly near the top", () => {
+  it("does not front-load authored prerequisites as a second start panel", () => {
     const concept = getConceptBySlug("wave-interference");
 
     renderConceptFramework(concept);
 
-    const startHere = screen.getByTestId("concept-v2-start-here");
-    const prerequisites = screen.getByTestId("concept-v2-prerequisites");
-    expect(startHere).toHaveTextContent("Start with two equal sources");
-    expect(startHere).toHaveTextContent(
-      "the probe graph traces the wave's up-and-down motion over time at one selected point",
-    );
-    expect(prerequisites).toHaveTextContent("Simple Harmonic Motion");
-    expect(prerequisites).toHaveTextContent("Wave Speed and Wavelength");
-    expect(
-      within(prerequisites).getByRole("link", { name: "Simple Harmonic Motion" }),
-    ).toHaveAttribute("href", "/concepts/simple-harmonic-motion");
+    expect(screen.getByTestId("concept-page-v2-shell")).toBeInTheDocument();
+    expect(screen.queryByTestId("concept-v2-start-here")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("concept-v2-prerequisites")).not.toBeInTheDocument();
+    expect(screen.queryByText("Start with two equal sources")).not.toBeInTheDocument();
   });
 
-  it("falls back to the concept summary when a fallback concept has no page intro", () => {
+  it("keeps fallback summary copy out of the default current lesson stack", () => {
     const concept = structuredClone(getConceptBySlug("projectile-motion"));
     concept.v2 = undefined;
     delete concept.pageIntro;
-    const model = resolveConceptPageV2(concept, {
-      locale: "en",
-      readNext: getReadNextRecommendations(concept.slug),
-    });
+    const fallbackSummary = concept.summary;
 
     renderConceptFramework(concept);
 
-    const startHere = screen.getByTestId("concept-v2-start-here");
-    expect(model.source).toBe("fallback");
-    expect(model.intuition).toBe(concept.summary);
-    expect(startHere).toHaveTextContent(concept.summary);
-    expect(startHere).not.toHaveTextContent("Why it matters");
-    expect(startHere).not.toHaveTextContent("Key takeaway");
+    expect(screen.queryByTestId("concept-v2-start-here")).not.toBeInTheDocument();
+    expect(screen.queryByText(fallbackSummary)).not.toBeInTheDocument();
+    expect(screen.queryByText("Why it matters")).not.toBeInTheDocument();
   });
 
-  it("renders localized zh-HK start-here copy for authored v2 concepts", () => {
+  it("keeps zh-HK routed concepts from leaking English late start copy", () => {
     globalThis.__TEST_LOCALE__ = "zh-HK";
     const concept = localizeConceptContent(
       getConceptBySlug("simple-harmonic-motion"),
@@ -229,9 +175,8 @@ describe("ConceptPage above-the-fold entry flow", () => {
 
     renderConceptFramework(concept);
 
-    const startHere = screen.getByTestId("concept-v2-start-here");
-    expect(startHere).toHaveTextContent("為甚麼重要");
-    expect(startHere.textContent).toMatch(/[\u4e00-\u9fff]/);
-    expect(startHere).not.toHaveTextContent("Why it matters");
+    expect(screen.queryByTestId("concept-v2-start-here")).not.toBeInTheDocument();
+    expect(screen.queryByText("Why it matters")).not.toBeInTheDocument();
+    expect(screen.queryByText("Return to bench")).not.toBeInTheDocument();
   });
 });

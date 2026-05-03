@@ -414,7 +414,7 @@ export function ConceptPageV2Shell({
     />
   ) : null;
 
-  const startHereContent = !hideStartHere ? (
+  const startHereContent = !hideStartHere && !titleContextContent ? (
     <div data-testid="concept-v2-hero-start" className="min-w-0">
       <ConceptPageV2StartHere
         title={model.title}

@@ -1169,7 +1169,6 @@ export function ConceptPageV2LessonRail({
 }) {
   const nextCheckpointDescriptionId = useId();
   const completeCheckpointDescriptionId = useId();
-  const stepMapDescriptionIdBase = useId();
   const railInlineCheckPromptId = useId();
   const railInlineCheckSupportingId = useId();
   const railInlineCheckLabelId = useId();
@@ -1223,6 +1222,10 @@ export function ConceptPageV2LessonRail({
 
   const { activeIndex, activeStep, previousStep, nextStep, detailRows } =
     resolveLessonRailState(steps, activeStepId);
+  const primaryActionRow = detailRows.find((row) => row.label === "act") ?? detailRows[0];
+  const secondaryGuidanceRows = detailRows.filter(
+    (row) => row.label !== "act" && row.value.trim().length > 0,
+  );
   const activePosition = Math.max(activeIndex + 1, 1);
   const nextStepPrimaryReveal = nextStep?.revealItems[0] ?? null;
   const nextStepAdditionalRevealCount = Math.max(
@@ -1306,63 +1309,67 @@ export function ConceptPageV2LessonRail({
               >
                 <RichMathText as="span" content={activeStep.goal} />
               </h2>
-              <ol
+              <div
                 data-testid="concept-v2-rail-action-path"
-                aria-label={`${copy.currentStepLabel}: ${activeStep.goal}`}
-                className="mt-2 grid gap-1.5 md:grid-cols-3 xl:grid-cols-1 2xl:grid-cols-3"
+                role="group"
+                aria-label={`${copy.actLabel}: ${activeStep.goal}`}
+                className="mt-2 rounded-[16px] border border-teal-500/22 bg-teal-500/10 px-3 py-2.5 shadow-[0_1px_0_rgba(255,255,255,0.72)_inset]"
               >
-                {detailRows.map((row, index) => {
-                  const isActionCard = row.label === "act";
-                  const rowLabel = isActionCard
-                    ? copy.actLabel
-                    : row.label === "observe"
-                      ? copy.observeLabel
-                      : copy.explainLabel;
-                  const rowLabelId = `${railActionPathIdBase}-${row.label}-label`;
-                  const rowDescriptionId = `${railActionPathIdBase}-${row.label}-description`;
-
-                  return (
-                    <li
-                      key={row.label}
-                      aria-labelledby={rowLabelId}
-                      aria-describedby={rowDescriptionId}
-                      className={[
-                        "grid grid-cols-[auto_minmax(0,1fr)] items-start gap-2 rounded-[14px] border px-2.5 py-2",
-                        isActionCard
-                          ? "border-teal-500/24 bg-teal-500/10 shadow-[0_1px_0_rgba(255,255,255,0.7)_inset]"
-                          : "border-line/80 bg-white/82",
-                      ].join(" ")}
-                    >
+                <p
+                  id={`${railActionPathIdBase}-act-label`}
+                  className="text-[0.66rem] font-semibold uppercase tracking-[0.14em] text-teal-700"
+                >
+                  {copy.actLabel}
+                </p>
+                <RichMathText
+                  as="p"
+                  id={`${railActionPathIdBase}-act-description`}
+                  content={primaryActionRow.value}
+                  className="mt-1 break-words text-sm font-semibold leading-6 text-ink-950"
+                />
+                {secondaryGuidanceRows.length ? (
+                  <details
+                    data-testid="concept-v2-current-step-secondary-guidance"
+                    className="group mt-2 rounded-[12px] border border-teal-500/14 bg-white/70 px-2.5 py-2"
+                  >
+                    <summary className="flex min-h-9 cursor-pointer list-none items-center justify-between gap-2 rounded-[10px] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/24 focus-visible:ring-offset-2 focus-visible:ring-offset-white [&::-webkit-details-marker]:hidden">
+                      <span className="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-ink-600">
+                        {copy.observeLabel} / {copy.explainLabel}
+                      </span>
                       <span
                         aria-hidden="true"
-                        className={[
-                          "mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full border text-[0.66rem] font-semibold",
-                          isActionCard
-                            ? "border-teal-500/28 bg-white text-teal-700"
-                            : "border-line bg-paper text-ink-500",
-                        ].join(" ")}
+                        className="text-xs text-ink-500 transition-transform group-open:rotate-180 motion-reduce:transition-none"
                       >
-                        {index + 1}
+                        ↓
                       </span>
-                      <span className="min-w-0">
-                        <span
-                          id={rowLabelId}
-                          className="block text-[0.66rem] font-semibold uppercase tracking-[0.14em] text-ink-500"
-                        >
-                          {rowLabel}
-                        </span>
-                        <span id={rowDescriptionId} className="block min-w-0">
-                          <RichMathText
-                            as="span"
-                            content={row.value}
-                            className="mt-1 line-clamp-2 block min-w-0 break-words text-xs leading-5 text-ink-700"
-                          />
-                        </span>
-                      </span>
-                    </li>
-                  );
-                })}
-              </ol>
+                    </summary>
+                    <dl className="mt-1.5 grid gap-1.5">
+                      {secondaryGuidanceRows.map((row) => {
+                        const rowLabel =
+                          row.label === "observe" ? copy.observeLabel : copy.explainLabel;
+
+                        return (
+                          <div
+                            key={row.label}
+                            className="rounded-[10px] border border-line/70 bg-paper/70 px-2 py-1.5"
+                          >
+                            <dt className="text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-ink-500">
+                              {rowLabel}
+                            </dt>
+                            <dd className="mt-0.5 min-w-0">
+                              <RichMathText
+                                as="span"
+                                content={row.value}
+                                className="block break-words text-xs leading-5 text-ink-700"
+                              />
+                            </dd>
+                          </div>
+                        );
+                      })}
+                    </dl>
+                  </details>
+                ) : null}
+              </div>
               {activeStep.revealItems.length ? (
                 <div
                   data-testid="concept-v2-rail-reveal-strip"
@@ -1543,7 +1550,7 @@ export function ConceptPageV2LessonRail({
           <ol
             data-testid="concept-v2-step-map"
             data-concept-v2-step-map-scroll=""
-            className="mt-3 flex snap-x scroll-px-1.5 gap-1.5 overflow-x-auto overscroll-x-contain pb-2 [scrollbar-width:thin]"
+            className="mt-2 flex snap-x scroll-px-1.5 gap-1 overflow-x-auto overscroll-x-contain pb-1.5 [scrollbar-width:thin]"
             aria-label={copy.lessonFlowLabel}
           >
             {steps.map((step, index) => {
@@ -1567,8 +1574,6 @@ export function ConceptPageV2LessonRail({
                 stepAriaLabelParts.length > 1
                   ? stepAriaLabelParts.join(" — ")
                   : undefined;
-              const stepSummaryText = step.summary || step.goal;
-              const stepDescriptionId = `${stepMapDescriptionIdBase}-${index}`;
 
               return (
                 <li
@@ -1576,7 +1581,7 @@ export function ConceptPageV2LessonRail({
                   ref={isActive ? activeStepMapItemRef : undefined}
                   aria-posinset={index + 1}
                   aria-setsize={steps.length + 1}
-                  className="min-w-[8.75rem] flex-1 snap-start"
+                  className="min-w-[7.25rem] flex-1 snap-start"
                 >
                   <button
                     type="button"
@@ -1584,9 +1589,8 @@ export function ConceptPageV2LessonRail({
                     disabled={!canSelectSteps}
                     aria-current={isActive ? "step" : undefined}
                     aria-label={stepStatusAriaLabel}
-                    aria-describedby={stepSummaryText ? stepDescriptionId : undefined}
                     className={[
-                      "group grid h-full min-h-11 w-full grid-cols-[auto_minmax(0,1fr)] items-start gap-2 rounded-[14px] border px-2.5 py-2 text-left transition disabled:cursor-default disabled:hover:bg-inherit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                      "group grid h-full min-h-10 w-full grid-cols-[auto_minmax(0,1fr)] items-center gap-1.5 rounded-[12px] border px-2 py-1.5 text-left transition disabled:cursor-default disabled:hover:bg-inherit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
                       isActive
                         ? "border-teal-500/34 bg-teal-500/10 text-ink-950 shadow-sm disabled:hover:bg-teal-500/10"
                         : isComplete
@@ -1599,7 +1603,7 @@ export function ConceptPageV2LessonRail({
                     <span
                       aria-hidden="true"
                       className={[
-                        "mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full border text-[0.72rem] font-semibold",
+                        "inline-flex h-5 w-5 items-center justify-center rounded-full border text-[0.66rem] font-semibold",
                         isActive || isComplete
                           ? "border-teal-500/30 bg-white text-teal-700"
                           : isNext
@@ -1613,43 +1617,8 @@ export function ConceptPageV2LessonRail({
                       <RichMathText
                         as="span"
                         content={step.label}
-                        className="line-clamp-2 block min-w-0 break-words text-xs font-semibold leading-5"
+                        className="line-clamp-1 block min-w-0 break-words text-[0.72rem] font-semibold leading-4"
                       />
-                      {stepSummaryText ? (
-                        <span
-                          id={stepDescriptionId}
-                          className="mt-0.5 line-clamp-2 block min-w-0 break-words text-[0.72rem] leading-4 text-ink-600"
-                        >
-                          <RichMathText as="span" content={stepSummaryText} />
-                        </span>
-                      ) : null}
-                      {isActive ? (
-                        <span
-                          aria-hidden="true"
-                          className="mt-1 inline-flex rounded-full border border-teal-500/20 bg-white/82 px-2 py-0.5 text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-teal-700"
-                        >
-                          {copy.currentStepLabel}
-                        </span>
-                      ) : isNext ? (
-                        <span
-                          aria-hidden="true"
-                          className="mt-1 inline-flex rounded-full border border-sky-500/20 bg-white/82 px-2 py-0.5 text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-sky-700"
-                        >
-                          {copy.upcomingStepLabel}
-                        </span>
-                      ) : isComplete ? (
-                        <span
-                          aria-hidden="true"
-                          className="mt-1 inline-flex rounded-full border border-ink-950/10 bg-white/82 px-2 py-0.5 text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-ink-600"
-                        >
-                          {copy.previousStep}
-                        </span>
-                      ) : null}
-                      {step.inlineCheck ? (
-                        <span className="mt-1 inline-flex rounded-full border border-amber-500/18 bg-amber-500/10 px-2 py-0.5 text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-amber-700">
-                          {copy.quickCheckLabel}
-                        </span>
-                      ) : null}
                     </span>
                   </button>
                 </li>
@@ -1658,7 +1627,7 @@ export function ConceptPageV2LessonRail({
             <li
               aria-posinset={steps.length + 1}
               aria-setsize={steps.length + 1}
-              className="min-w-[8.75rem] flex-1 snap-start"
+              className="min-w-[7.25rem] flex-1 snap-start"
             >
               {isWrapUpReady && onCompleteLesson ? (
                 <button

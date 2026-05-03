@@ -40,29 +40,29 @@ export function EquationBenchStrip({
   return (
     <section
       data-testid="bench-equation-strip"
+      data-equation-variant="hud"
       aria-label={t("bench.title")}
-      className="rounded-[14px] border border-teal-500/20 bg-teal-500/8 px-3 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.74)]"
+      className="rounded-[13px] border border-teal-500/18 bg-white/88 px-2.5 py-2 shadow-sm shadow-ink-950/5 ring-1 ring-white/70 backdrop-blur-sm"
     >
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <p className="lab-label text-teal-700">{t("bench.label")}</p>
-        <p className="text-[0.7rem] leading-4 text-ink-600">{t("bench.title")}</p>
+      <div className="flex items-baseline justify-between gap-2">
+        <p className="text-[0.6rem] font-semibold uppercase tracking-[0.14em] text-teal-700">
+          {t("bench.label")}
+        </p>
+        <p className="sr-only">{t("bench.title")}</p>
       </div>
-      <div className="mt-1.5 grid gap-1.5 md:grid-cols-2">
+      <div className="mt-1 grid gap-1">
         {equations.map((equation) => (
           <article
             key={equation.id}
             data-testid={`bench-equation-${equation.id}`}
-            className="min-w-0 rounded-[12px] border border-teal-500/15 bg-paper/86 px-2.5 py-1.5"
+            className="min-w-0 rounded-[10px] border border-teal-500/12 bg-paper/78 px-2 py-1.5"
           >
-            <div className="flex min-w-0 items-center justify-between gap-2">
-              <div className="min-w-0">
-                <p className="truncate text-xs font-semibold text-ink-950">{equation.label}</p>
-                <p className="mt-0.5 line-clamp-1 text-[0.7rem] leading-4 text-ink-600">
-                  {equation.meaning}
-                </p>
-              </div>
-              <div className="shrink-0 rounded-[12px] border border-line bg-white/82 px-2 py-1 text-ink-950">
-                <InlineFormula expression={equation.latex} className="text-[0.76rem]" />
+            <div className="grid min-w-0 gap-1">
+              <p className="truncate text-[0.68rem] font-semibold leading-4 text-ink-800">
+                {equation.label}
+              </p>
+              <div className="min-w-0 rounded-[9px] border border-line/80 bg-white/82 px-1.5 py-1 text-ink-950">
+                <InlineFormula expression={equation.latex} className="text-[0.72rem]" />
               </div>
             </div>
           </article>

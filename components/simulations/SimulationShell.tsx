@@ -97,21 +97,21 @@ export function SimulationShell({
             >
               <div
                 data-testid="simulation-shell-scene"
-                className={benchHeader ? "order-1 min-w-0" : "order-1 min-w-0"}
+                className="relative order-1 min-w-0"
               >
                 {scene}
+                {benchEquations ? (
+                  <div
+                    data-testid="simulation-shell-bench-equations"
+                    className="pointer-events-auto absolute left-2 top-2 z-20 max-w-[min(20rem,calc(100%-1rem))] sm:left-3 sm:top-3"
+                  >
+                    {benchEquations}
+                  </div>
+                ) : null}
               </div>
-              {benchEquations ? (
-                <div
-                  data-testid="simulation-shell-bench-equations"
-                  className={benchHeader ? "order-3 min-w-0" : "order-2 min-w-0"}
-                >
-                  {benchEquations}
-                </div>
-              ) : null}
               <div
                 data-testid="simulation-shell-graphs"
-                className={benchHeader ? "order-4 min-w-0" : "order-3 min-w-0"}
+                className={benchHeader ? "order-3 min-w-0" : "order-2 min-w-0"}
               >
                 {graphs}
               </div>

@@ -30,6 +30,8 @@ describe("SimulationShell", () => {
 
     expect(sceneSlot?.textContent).toContain("Scene");
     expect(benchEquationsSlot?.textContent).toContain("Bench equations");
+    expect(sceneSlot).toContainElement(benchEquationsSlot as HTMLElement);
+    expect(benchEquationsSlot).toHaveClass("absolute", "left-2", "top-2", "z-20");
     expect(controlsSlot?.textContent).toContain("Controls");
     expect(graphsSlot?.textContent).toContain("Graphs");
     expect(transportSlot?.textContent).toContain("Transport");
@@ -39,10 +41,6 @@ describe("SimulationShell", () => {
     );
     expect(
       (sceneSlot as HTMLElement).compareDocumentPosition(graphsSlot as HTMLElement) &
-        Node.DOCUMENT_POSITION_FOLLOWING,
-    ).toBeTruthy();
-    expect(
-      (sceneSlot as HTMLElement).compareDocumentPosition(benchEquationsSlot as HTMLElement) &
         Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
     expect(
