@@ -359,6 +359,24 @@ describe("learning visual descriptors", () => {
         concept: getConceptSummary("lens-imaging"),
       }),
     ];
+    const motifRegressionChallenges = [
+      getChallengeVisualDescriptor({
+        title: "Read a half-life drop",
+        prompt: "Use the decay graph to estimate the remaining nuclei after one half-life.",
+        concept: getConceptSummary("radioactivity-half-life"),
+      }),
+      getChallengeVisualDescriptor({
+        id: "tir-refracted-angle-check",
+        title: "Hold the last refracted ray",
+        prompt: "Tune the boundary until refractedAngle collapses at the critical angle.",
+        concept: getConceptSummary("total-internal-reflection"),
+      }),
+      getChallengeVisualDescriptor({
+        title: "Mirror focus check",
+        prompt: "Move the object until the mirror image lands beyond the focal point.",
+        concept: getConceptSummary("mirrors"),
+      }),
+    ];
 
     expect(circularChallenge).toMatchObject({
       kind: "challenge",
@@ -410,6 +428,11 @@ describe("learning visual descriptors", () => {
       "refraction-snell",
       "total-internal-reflection",
       "lens-imaging",
+    ]);
+    expect(motifRegressionChallenges.map((descriptor) => descriptor.motif)).toEqual([
+      "radioactivity",
+      "total-internal-reflection",
+      "mirror-reflection",
     ]);
   });
 
