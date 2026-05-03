@@ -51,6 +51,70 @@ async function waitForStableChemistryGraph(page: Page) {
   });
 }
 
+test("chemistry reaction mind map is map-first on initial desktop load", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1366, height: 768 });
+  await disableOnboardingPrompt(page);
+  const guard = await installBrowserGuards(page);
+
+  await gotoAndExpectOk(page, "/tools/chemistry-reaction-mind-map");
+  await waitForStableChemistryGraph(page);
+
+  const firstScreen = await page.evaluate(() => {
+    const heading = document.querySelector("h1");
+    const worksurface = document.querySelector('[data-testid="chemistry-worksurface"]');
+    const viewport = document.querySelector('[data-testid="chemistry-graph-viewport"]');
+    const alcoholLabel = document.querySelector(
+      '[data-testid="chem-node-alcohol"] [data-chem-label-role="family-primary"]',
+    );
+    const hydrationEdge = document.querySelector(
+      '[data-testid="chem-edge-alkene-to-alcohol-hydration"]',
+    );
+
+    if (
+      !(heading instanceof HTMLElement) ||
+      !(worksurface instanceof HTMLElement) ||
+      !(viewport instanceof HTMLElement) ||
+      !(alcoholLabel instanceof HTMLElement) ||
+      !(hydrationEdge instanceof HTMLElement)
+    ) {
+      return null;
+    }
+
+    const headingRect = heading.getBoundingClientRect();
+    const worksurfaceRect = worksurface.getBoundingClientRect();
+    const viewportRect = viewport.getBoundingClientRect();
+    const nodeFontSize = Number.parseFloat(getComputedStyle(alcoholLabel).fontSize);
+    const edgeFontSize = Number.parseFloat(getComputedStyle(hydrationEdge).fontSize);
+
+    return {
+      density: worksurface.getAttribute("data-chemistry-density"),
+      headingHeight: Math.round(headingRect.height),
+      worksurfaceTop: Math.round(worksurfaceRect.top),
+      viewportTop: Math.round(viewportRect.top),
+      viewportBottom: Math.round(viewportRect.bottom),
+      viewportHeight: Math.round(viewportRect.height),
+      nodeFontSize,
+      edgeFontSize,
+    };
+  });
+
+  if (!firstScreen) {
+    throw new Error("Chemistry first-screen layout metrics were not available.");
+  }
+
+  expect(firstScreen.density).toBe("map-first");
+  expect(firstScreen.headingHeight).toBeLessThanOrEqual(120);
+  expect(firstScreen.worksurfaceTop).toBeLessThan(340);
+  expect(firstScreen.viewportTop).toBeLessThan(650);
+  expect(firstScreen.viewportBottom).toBeGreaterThan(620);
+  expect(firstScreen.viewportHeight).toBeGreaterThanOrEqual(320);
+  expect(firstScreen.nodeFontSize).toBeGreaterThan(firstScreen.edgeFontSize);
+
+  guard.assertNoActionableIssues();
+});
+
 test("chemistry reaction mind map keeps the graph viewport clipped inside the split panel on widescreen layouts", async ({
   page,
 }) => {

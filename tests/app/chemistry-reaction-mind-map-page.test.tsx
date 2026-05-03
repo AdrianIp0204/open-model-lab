@@ -40,11 +40,21 @@ describe("chemistry reaction mind map route", () => {
 
     const alcoholNode = screen.getByTestId("chem-node-alcohol");
     expect(alcoholNode).toHaveClass("z-20");
+    expect(
+      alcoholNode.querySelector('[data-chem-label-role="family-primary"]'),
+    ).toHaveClass("text-xl", "font-bold");
+    const hydrationEdge = screen.getByTestId("chem-edge-alkene-to-alcohol-hydration");
+    expect(hydrationEdge).toHaveAttribute(
+      "data-chem-label-role",
+      "pathway-secondary",
+    );
+    expect(hydrationEdge).toHaveClass("text-[0.68rem]", "font-medium");
 
     await user.click(alcoholNode);
 
     const nodeDetails = screen.getByTestId("chem-node-details");
     expect(nodeDetails).toBeInTheDocument();
+    expect(nodeDetails).toHaveAttribute("data-chem-inspector-density", "compact");
     expect(
       within(nodeDetails).getByText(
         /higher than alkanes and haloalkanes of similar size/i,
@@ -61,6 +71,7 @@ describe("chemistry reaction mind map route", () => {
 
     const edgeDetails = screen.getByTestId("chem-edge-details");
     expect(edgeDetails).toBeInTheDocument();
+    expect(edgeDetails).toHaveAttribute("data-chem-inspector-density", "compact");
     expect(screen.getByText(/primary alcohols only/i)).toBeInTheDocument();
     expect(
       within(edgeDetails).getByLabelText(
@@ -407,6 +418,9 @@ describe("chemistry reaction mind map route", () => {
     expect(
       Number(edgeLabel.getAttribute("data-chem-label-scale")),
     ).toBeGreaterThan(1);
+    expect(
+      Number(edgeLabel.getAttribute("data-chem-label-scale")),
+    ).toBeLessThan(1.2);
     expect(edgeLabel).toHaveStyle({ transformOrigin: "center" });
     expect(edgeLabel).toHaveAttribute("data-chem-layer-priority", "default");
     expect(edgeLabel.getAttribute("style")).toContain("z-index: 10");
@@ -1575,6 +1589,14 @@ describe("chemistry reaction mind map route", () => {
     expect(screen.getByTestId("chemistry-worksurface")).toHaveAttribute(
       "data-chemistry-layout",
       "split-panel",
+    );
+    expect(screen.getByTestId("chemistry-worksurface")).toHaveAttribute(
+      "data-chemistry-density",
+      "map-first",
+    );
+    expect(screen.getByTestId("chemistry-route-controls")).toHaveAttribute(
+      "data-chem-route-density",
+      "compact",
     );
     expect(screen.getByTestId("chemistry-inspector-scroll")).toHaveAttribute(
       "data-scroll-mode",
