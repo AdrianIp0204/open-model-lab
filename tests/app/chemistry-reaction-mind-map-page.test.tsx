@@ -1656,6 +1656,8 @@ describe("chemistry reaction mind map route", () => {
       "All stages",
     );
     expect(viewport).toHaveAttribute("data-chem-pan-guard", "visible-scene");
+    expect(viewport).toHaveAttribute("data-chem-navigation-mode", "drag-pan");
+    expect(viewport).toHaveAttribute("data-chem-wheel-mode", "page-scroll");
     expect(screen.getByTestId("chem-pan-affordance")).toHaveAttribute(
       "data-chem-pan-edges",
       "none",
@@ -1703,7 +1705,7 @@ describe("chemistry reaction mind map route", () => {
     expect(zoomIn).toBeEnabled();
   });
 
-  it("keeps extreme wheel panning within a visible-scene guard", async () => {
+  it("keeps ordinary wheel input for page scrolling while modifier wheel zooms", async () => {
     render(await ChemistryReactionMindMapRoute());
 
     const viewport = screen.getByTestId("chemistry-graph-viewport");
@@ -1716,21 +1718,22 @@ describe("chemistry reaction mind map route", () => {
       value: 360,
     });
 
-    fireEvent.wheel(viewport, { deltaX: -10_000, deltaY: -10_000 });
-    expect(Number(viewport.getAttribute("data-chem-offset-x"))).toBeLessThan(
-      1_000,
-    );
-    expect(Number(viewport.getAttribute("data-chem-offset-y"))).toBeLessThan(
-      1_000,
-    );
+    const initialOffsetX = viewport.getAttribute("data-chem-offset-x");
+    const initialOffsetY = viewport.getAttribute("data-chem-offset-y");
+    const initialScale = viewport.getAttribute("data-chem-scale");
 
-    fireEvent.wheel(viewport, { deltaX: 10_000, deltaY: 10_000 });
-    expect(Number(viewport.getAttribute("data-chem-offset-x"))).toBeGreaterThan(
-      -1_000,
-    );
-    expect(Number(viewport.getAttribute("data-chem-offset-y"))).toBeGreaterThan(
-      -1_000,
-    );
+    fireEvent.wheel(viewport, { deltaX: -10_000, deltaY: -10_000 });
+    expect(viewport).toHaveAttribute("data-chem-offset-x", initialOffsetX ?? "");
+    expect(viewport).toHaveAttribute("data-chem-offset-y", initialOffsetY ?? "");
+    expect(viewport).toHaveAttribute("data-chem-scale", initialScale ?? "");
+
+    fireEvent.wheel(viewport, {
+      clientX: 120,
+      clientY: 120,
+      ctrlKey: true,
+      deltaY: -120,
+    });
+    expect(viewport.getAttribute("data-chem-scale")).not.toBe(initialScale);
   });
 
   it("keeps graph keyboard shortcuts available from focused map controls", async () => {

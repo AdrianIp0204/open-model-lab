@@ -71,16 +71,79 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
     const hydrationEdge = document.querySelector(
       '[data-testid="chem-edge-alkene-to-alcohol-hydration"]',
     );
+    const nodeIds = [
+      "alkene",
+      "haloalkane",
+      "alcohol",
+      "aldehyde",
+      "ketone",
+      "carboxylic-acid",
+      "ester",
+    ];
+    const nodeElements = nodeIds
+      .map((id) => document.querySelector(`[data-testid="chem-node-${id}"]`))
+      .filter((item): item is HTMLElement => item instanceof HTMLElement);
+    const edgeLabelElements = Array.from(
+      document.querySelectorAll('[data-chem-label-role="pathway-secondary"]'),
+    ).filter((item): item is HTMLElement => item instanceof HTMLElement);
 
     if (
       !(heading instanceof HTMLElement) ||
       !(worksurface instanceof HTMLElement) ||
       !(viewport instanceof HTMLElement) ||
       !(alcoholLabel instanceof HTMLElement) ||
-      !(hydrationEdge instanceof HTMLElement)
+      !(hydrationEdge instanceof HTMLElement) ||
+      nodeElements.length !== nodeIds.length ||
+      edgeLabelElements.length === 0
     ) {
       return null;
     }
+
+    const getRect = (element: HTMLElement) => {
+      const rect = element.getBoundingClientRect();
+      return {
+        left: rect.left,
+        right: rect.right,
+        top: rect.top,
+        bottom: rect.bottom,
+        width: rect.width,
+        height: rect.height,
+      };
+    };
+    const getOverlapArea = (
+      first: ReturnType<typeof getRect>,
+      second: ReturnType<typeof getRect>,
+    ) => {
+      const width = Math.max(0, Math.min(first.right, second.right) - Math.max(first.left, second.left));
+      const height = Math.max(0, Math.min(first.bottom, second.bottom) - Math.max(first.top, second.top));
+
+      return Math.round(width * height);
+    };
+    const nodeRects = nodeElements.map((element) => ({
+      id: element.dataset.testid ?? "",
+      rect: getRect(element),
+      labelRect: getRect(
+        element.querySelector('[data-chem-label-role="family-primary"]') as HTMLElement,
+      ),
+    }));
+    const nodeOverlaps: string[] = [];
+    for (let index = 0; index < nodeRects.length; index += 1) {
+      for (let nextIndex = index + 1; nextIndex < nodeRects.length; nextIndex += 1) {
+        const overlapArea = getOverlapArea(nodeRects[index].rect, nodeRects[nextIndex].rect);
+        if (overlapArea > 1) {
+          nodeOverlaps.push(`${nodeRects[index].id}/${nodeRects[nextIndex].id}:${overlapArea}`);
+        }
+      }
+    }
+    const edgeNodeLabelOverlaps = edgeLabelElements.flatMap((edgeLabel) => {
+      const edgeRect = getRect(edgeLabel);
+      return nodeRects.flatMap(({ id, labelRect }) => {
+        const overlapArea = getOverlapArea(edgeRect, labelRect);
+        return overlapArea > 12
+          ? [`${edgeLabel.dataset.testid ?? "edge"}/${id}:${overlapArea}`]
+          : [];
+      });
+    });
 
     const headingRect = heading.getBoundingClientRect();
     const worksurfaceRect = worksurface.getBoundingClientRect();
@@ -97,6 +160,10 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
       viewportHeight: Math.round(viewportRect.height),
       nodeFontSize,
       edgeFontSize,
+      navigationMode: viewport.getAttribute("data-chem-navigation-mode"),
+      wheelMode: viewport.getAttribute("data-chem-wheel-mode"),
+      nodeOverlaps,
+      edgeNodeLabelOverlaps,
     };
   });
 
@@ -111,6 +178,10 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
   expect(firstScreen.viewportBottom).toBeGreaterThan(620);
   expect(firstScreen.viewportHeight).toBeGreaterThanOrEqual(320);
   expect(firstScreen.nodeFontSize).toBeGreaterThan(firstScreen.edgeFontSize);
+  expect(firstScreen.navigationMode).toBe("drag-pan");
+  expect(firstScreen.wheelMode).toBe("page-scroll");
+  expect(firstScreen.nodeOverlaps).toEqual([]);
+  expect(firstScreen.edgeNodeLabelOverlaps).toEqual([]);
 
   guard.assertNoActionableIssues();
 });
@@ -207,7 +278,7 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
   await expect(page.getByTestId("chem-fit-view")).toBeVisible();
   const zoomSlider = page.getByTestId("chem-zoom-slider");
   await expect(zoomSlider).toBeVisible();
-  await expect(zoomSlider).toHaveAttribute("min", "42");
+  await expect(zoomSlider).toHaveAttribute("min", "36");
   await expect(zoomSlider).toHaveAttribute("max", "225");
 
   const fitScale = await viewport.getAttribute("data-chem-scale");

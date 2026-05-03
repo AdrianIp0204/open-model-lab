@@ -21,7 +21,7 @@ import { ChemistryInlineNotation } from "./ChemistryNotation";
 const NODE_WIDTH = 192;
 const NODE_HEIGHT = 98;
 const SCENE_PADDING = 72;
-const MIN_SCALE = 0.42;
+const MIN_SCALE = 0.36;
 const MAX_SCALE = 2.25;
 const MIN_SCALE_PERCENT = Math.round(MIN_SCALE * 100);
 const MAX_SCALE_PERCENT = Math.round(MAX_SCALE * 100);
@@ -29,6 +29,7 @@ const ZOOM_FACTOR = 1.16;
 const KEYBOARD_PAN_STEP = 64;
 const FIT_MARGIN = 48;
 const CONTEXT_PADDING = 88;
+const ROUTE_CONTEXT_PADDING = 52;
 const MIN_VISIBLE_SCENE_EDGE = 96;
 const PAN_AFFORDANCE_THRESHOLD = 24;
 const EDGE_LABEL_TARGET_VISUAL_SCALE = 0.76;
@@ -1019,21 +1020,24 @@ export function ChemistryReactionGraph({
       };
     }
 
+    const contextPadding =
+      activeCamera.mode === "route" ? ROUTE_CONTEXT_PADDING : CONTEXT_PADDING;
+
     return {
       minX: Math.max(
-        Math.min(...nodeBounds.map((bounds) => bounds.minX)) - CONTEXT_PADDING,
+        Math.min(...nodeBounds.map((bounds) => bounds.minX)) - contextPadding,
         0,
       ),
       minY: Math.max(
-        Math.min(...nodeBounds.map((bounds) => bounds.minY)) - CONTEXT_PADDING,
+        Math.min(...nodeBounds.map((bounds) => bounds.minY)) - contextPadding,
         0,
       ),
       maxX: Math.min(
-        Math.max(...nodeBounds.map((bounds) => bounds.maxX)) + CONTEXT_PADDING,
+        Math.max(...nodeBounds.map((bounds) => bounds.maxX)) + contextPadding,
         sceneWidth,
       ),
       maxY: Math.min(
-        Math.max(...nodeBounds.map((bounds) => bounds.maxY)) + CONTEXT_PADDING,
+        Math.max(...nodeBounds.map((bounds) => bounds.maxY)) + contextPadding,
         sceneHeight,
       ),
     };
@@ -1242,34 +1246,20 @@ export function ChemistryReactionGraph({
       return;
     }
 
-    event.preventDefault();
-    hasAdjustedViewRef.current = true;
-
-    if (event.ctrlKey || event.metaKey) {
-      const viewportBox = viewport.getBoundingClientRect();
-      const zoomFactor = event.deltaY < 0 ? ZOOM_FACTOR : 1 / ZOOM_FACTOR;
-      setViewState((current) =>
-        clampViewToVisibleScene(
-          zoomAroundPoint(current, zoomFactor, {
-            x: event.clientX - viewportBox.left,
-            y: event.clientY - viewportBox.top,
-          }),
-          viewport.clientWidth,
-          viewport.clientHeight,
-          sceneWidth,
-          sceneHeight,
-        ),
-      );
+    if (!event.ctrlKey && !event.metaKey) {
       return;
     }
 
+    event.preventDefault();
+    hasAdjustedViewRef.current = true;
+    const viewportBox = viewport.getBoundingClientRect();
+    const zoomFactor = event.deltaY < 0 ? ZOOM_FACTOR : 1 / ZOOM_FACTOR;
     setViewState((current) =>
       clampViewToVisibleScene(
-        {
-          ...current,
-          x: Math.round(current.x - event.deltaX),
-          y: Math.round(current.y - event.deltaY),
-        },
+        zoomAroundPoint(current, zoomFactor, {
+          x: event.clientX - viewportBox.left,
+          y: event.clientY - viewportBox.top,
+        }),
         viewport.clientWidth,
         viewport.clientHeight,
         sceneWidth,
@@ -1688,6 +1678,8 @@ export function ChemistryReactionGraph({
         data-chem-visible-coverage={visibleSceneCoveragePercent}
         data-chem-trace-active={hoverTraceActive ? "true" : "false"}
         data-chem-pan-guard="visible-scene"
+        data-chem-navigation-mode="drag-pan"
+        data-chem-wheel-mode="page-scroll"
         data-chem-zoom-boundary={zoomBoundary}
         role="region"
         tabIndex={0}
