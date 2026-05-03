@@ -121,7 +121,7 @@ describe("ConceptPage above-the-fold entry flow", () => {
     const liveLab = screen.getByTestId("concept-live-lab");
 
     expect(screen.getByTestId("concept-page-v2-shell")).toBeInTheDocument();
-    expect(startHere).toHaveTextContent("Start here");
+    expect(startHere).toHaveTextContent("Lesson context");
     expect(startHere).toHaveTextContent("Why it matters");
     expect(startHere).toHaveTextContent("Key takeaway");
     expect(
@@ -137,8 +137,8 @@ describe("ConceptPage above-the-fold entry flow", () => {
     expect(screen.getByTestId("concept-v2-start-lesson-preview-list")).not.toHaveClass(
       "xl:grid-cols-4",
     );
-    expect(screen.getAllByRole("button", { name: "Start concept" })).toHaveLength(1);
-    expect(screen.getByRole("button", { name: "Start concept" })).toHaveClass(
+    expect(screen.getAllByRole("button", { name: "Return to bench" })).toHaveLength(1);
+    expect(screen.getByRole("button", { name: "Return to bench" })).toHaveClass(
       "w-full",
     );
     expect(screen.queryByTestId("concept-page-status-surface")).not.toBeInTheDocument();
@@ -177,7 +177,7 @@ describe("ConceptPage above-the-fold entry flow", () => {
     expect(model.source).toBe("fallback");
     expect(screen.getByTestId("concept-page-v2-shell")).toBeInTheDocument();
     expect(startHere).toHaveTextContent(model.intuition);
-    expect(startHere).toHaveTextContent("Start concept");
+    expect(startHere).toHaveTextContent("Return to bench");
     expect(
       liveLab.compareDocumentPosition(startHere) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();

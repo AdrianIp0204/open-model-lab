@@ -12,6 +12,7 @@ import {
   getSubjectDisplayTitleFromValue,
   getTopicDisplayTitleFromValue,
 } from "@/lib/i18n/content";
+import { copyText } from "@/lib/i18n/copy-text";
 import type { AppLocale } from "@/i18n/routing";
 import { buildInitialConceptPageRuntimeSnapshot } from "@/lib/learning/conceptPageRuntime";
 import type { ConceptSimulationSource } from "@/lib/physics";
@@ -57,6 +58,7 @@ type ConceptPageFrameworkProps = {
     title: string;
     path: string;
   } | null;
+  locale?: AppLocale;
 };
 
 function getOnboardingSurfaces(
@@ -106,27 +108,49 @@ export function ConceptPageFramework({
   runtimeResetKey,
   subjectPage = null,
   topicPage = null,
+  locale: localeOverride,
 }: ConceptPageFrameworkProps) {
   const t = useTranslations("ConceptPage");
-  const locale = useLocale() as AppLocale;
-  const resolvedSections = resolveConceptPageSections(concept, { readNext, locale });
+  const intlLocale = useLocale() as AppLocale;
+  const resolvedLocale = localeOverride ?? intlLocale;
+  const resolvedSections = resolveConceptPageSections(concept, {
+    readNext,
+    locale: resolvedLocale,
+  });
   const initialRuntimeSnapshot = buildInitialConceptPageRuntimeSnapshot(
     concept,
     initialSimulationState,
   );
   const onboardingSurfaces = getOnboardingSurfaces(concept, t);
-  const conceptSubjectLabel = getSubjectDisplayTitleFromValue(concept.subject, locale);
-  const conceptTopicLabel = getTopicDisplayTitleFromValue(concept.topic, locale);
+  const conceptSubjectLabel = getSubjectDisplayTitleFromValue(concept.subject, resolvedLocale);
+  const conceptTopicLabel = getTopicDisplayTitleFromValue(concept.topic, resolvedLocale);
   const shareTargets = buildConceptShareTargets({
     slug: concept.slug,
     hasChallengeMode: Boolean(concept.challengeMode?.items.length),
     sections: resolvedSections,
-    locale,
+    locale: resolvedLocale,
   });
-  const shareDisclosureTitle = t("v2.shareToolsTitle");
-  const shareDisclosureSummary = t("v2.shareToolsDescription");
-  const progressDisclosureTitle = t("v2.progressSupportTitle");
-  const progressDisclosureSummary = t("v2.progressSupportDescription");
+  const shareDisclosureTitle = copyText(
+    resolvedLocale,
+    "Bench tools and share links",
+    "工作台工具與分享連結",
+  );
+  const shareDisclosureSummary = copyText(
+    resolvedLocale,
+    "Keep stable concept links and exact-state sharing tucked away until you actually need to relaunch or share the bench.",
+    "先把穩定概念連結和精確狀態分享收起來，等你真的要重新打開或分享工作台時再展開。",
+  );
+  const progressDisclosureTitle = copyText(
+    resolvedLocale,
+    "Progress and next steps",
+    "進度與下一步",
+  );
+  const progressDisclosureSummary = copyText(
+    resolvedLocale,
+    "Keep progress signals, starter-track handoffs, and review prompts available without letting them compete with the live lesson flow.",
+    "把進度訊號、入門路徑接續和複習提示留在頁面裡，但不要讓它們和主要學習流程搶焦點。",
+  );
+  const conceptModuleLabel = copyText(resolvedLocale, "Concept module", "概念模組");
   const liveLabChildren = Children.toArray([
     publicExperimentCard ? (
       <PublicExperimentCard
@@ -289,7 +313,7 @@ export function ConceptPageFramework({
                 </div>
 
                 <div className="space-y-1">
-                  <p className="hidden sm:block lab-label">{t("labels.conceptModule")}</p>
+                  <p className="hidden sm:block lab-label">{conceptModuleLabel}</p>
                   <h1 className="max-w-4xl text-[1.55rem] font-semibold leading-[1.03] text-ink-950 sm:text-[2rem] lg:text-[2.15rem]">
                     {concept.title}
                   </h1>

@@ -870,6 +870,7 @@
       "label": "引導式課程",
       "fallbackDescription": "在完整的 V2 內容逐步遷移前，這個概念目前會先用現有內容整理成引導式課程。",
       "startHereLabel": "開始學習",
+      "postLabContextLabel": "課程脈絡",
       "whyItMattersLabel": "為甚麼重要",
       "estimatedTimeLabel": "預計時間",
       "equationSnapshotLabel": "公式速覽",
@@ -878,6 +879,7 @@
       "equationDisclosureLabel": "顯示",
       "estimatedMinutes": "{count} 分鐘",
       "startLearning": "開始概念",
+      "returnToBenchLabel": "回到實驗台",
       "keyTakeawayLabel": "關鍵重點",
       "lessonFlowLabel": "學習流程",
       "lessonPreviewDisclosureLabel": "預覽學習流程",
@@ -2425,6 +2427,13 @@
     "interactionRail": {
       "label": "先做這步",
       "description": "先探索即時設定；比較可隨時切換，預測留在目前提示中。"
+    },
+    "predictionPrompt": {
+      "label": "預測提示",
+      "title": "預測提示",
+      "description": "可選：先判斷一次，再套用設定。",
+      "activeDescription": "把它當作快速檢查，完成後回到即時實驗台。",
+      "action": "打開預測提示"
     },
     "starterGuide": {
       "badge": "起步",

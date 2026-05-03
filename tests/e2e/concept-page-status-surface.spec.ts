@@ -30,7 +30,7 @@ test.describe("concept page v2 status surface", () => {
       await expect(page.getByTestId("concept-page-status-surface")).toHaveCount(0);
       await page
         .getByTestId("concept-v2-start-handoff")
-        .getByRole("button", { name: /Start concept/ })
+        .getByRole("button", { name: /Return to bench/ })
         .click();
       await expect(page).toHaveURL(/#guided-step-slide-the-parent-curve$/);
       await expect(page.getByTestId("concept-v2-step-card-slot")).toContainText(

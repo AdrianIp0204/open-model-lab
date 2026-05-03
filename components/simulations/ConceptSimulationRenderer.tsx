@@ -10,6 +10,7 @@ import type {
   ConceptWorkedExampleAction,
   ReadNextRecommendation,
 } from "@/lib/content";
+import type { ConceptLearningPhaseId } from "@/lib/content/concept-learning-phases";
 import type { SavedCompareSetupRecord } from "@/lib/account/compare-setups";
 import { ChallengeModePanel } from "@/components/concepts/ChallengeModePanel";
 import { RichMathText } from "@/components/concepts/MathFormula";
@@ -19,6 +20,7 @@ import type { LiveWorkedExampleState } from "@/lib/learning/liveWorkedExamples";
 import {
   recordCompareModeUsed,
   recordConceptInteraction,
+  recordPredictionModeUsed,
 } from "@/lib/progress";
 import type { ProgressSnapshot } from "@/lib/progress";
 import {
@@ -215,6 +217,7 @@ import {
   type GraphStagePreview,
   type GraphSeries,
   type GraphSeriesMap,
+  type PredictionModeApi,
   DOPPLER_EFFECT_MAX_OBSERVER_SPEED,
   DOPPLER_EFFECT_MAX_SOURCE_SPEED,
   DOPPLER_EFFECT_MIN_OBSERVER_SPEED,
@@ -434,6 +437,7 @@ import { useSimulationControls } from "@/hooks/useSimulationControls";
 import { CompactModeTabs } from "@/components/concepts/CompactModeTabs";
 import { EquationBenchStrip, EquationDetails, EquationPanel } from "@/components/concepts/EquationPanel";
 import { GuidedOverlayPanel } from "@/components/concepts/GuidedOverlayPanel";
+import { PredictionModePanel } from "@/components/concepts/PredictionModePanel";
 import { SavedCompareSetupsCard } from "@/components/concepts/SavedCompareSetupsCard";
 import {
   getConceptPageBenchSupportTargetId,
@@ -6644,9 +6648,22 @@ export function ConceptSimulationRenderer({
   const [activeVariableId, setActiveVariableId] = useState<string | null>(
     concept.variableLinks[0]?.id ?? null,
   );
+  const [activePredictionItemId, setActivePredictionItemId] = useState<string | null>(
+    predictionConfig?.items[0]?.id ?? null,
+  );
+  const [selectedPredictionChoiceId, setSelectedPredictionChoiceId] = useState<string | null>(
+    null,
+  );
+  const [predictionAnswered, setPredictionAnswered] = useState(false);
+  const [predictionTested, setPredictionTested] = useState(false);
+  const [predictionCompleted, setPredictionCompleted] = useState(false);
+  const [isPredictionPanelOpen, setIsPredictionPanelOpen] = useState(false);
+  const [phaseSupportDisclosureOpenByPhase, setPhaseSupportDisclosureOpenByPhase] = useState<
+    Partial<Record<ConceptLearningPhaseId, boolean>>
+  >({});
   const [lastChangedParam, setLastChangedParam] = useState<string | null>(null);
   const [noticePromptOffset, setNoticePromptOffset] = useState(0);
-  const [noticePromptHidden, setNoticePromptHidden] = useState(false);
+  const [noticePromptHidden, setNoticePromptHidden] = useState(true);
   const [quickTestFocus, setQuickTestFocus] = useState<QuickTestFocusState | null>(null);
   const [workedExampleFocus, setWorkedExampleFocus] = useState<QuickTestFocusState | null>(null);
   const [moreToolsExpanded, setMoreToolsExpanded] = useState(Boolean(initialChallengeItemId));
@@ -6744,7 +6761,16 @@ export function ConceptSimulationRenderer({
   const graphSummary =
     concept.accessibility?.graphSummary ??
     concept.simulation.accessibility.graphSummary;
-  const predictionItems = predictionConfig?.items ?? [];
+  const predictionItems = useMemo(
+    () => predictionConfig?.items ?? [],
+    [predictionConfig?.items],
+  );
+  const activePredictionItem =
+    predictionItems.find((item) => item.id === activePredictionItemId) ??
+    predictionItems[0] ??
+    null;
+  const activePredictionScenario =
+    isPredictionPanelOpen ? activePredictionItem?.scenario ?? null : null;
   const visibleOverlayIds = simulationOverlays
     .filter((overlay) => overlays[overlay.id])
     .map((overlay) => overlay.id);
@@ -6796,6 +6822,12 @@ export function ConceptSimulationRenderer({
     : 0;
   const activeNoticePrompt =
     resolvedNoticePrompts[normalizedNoticePromptIndex] ?? null;
+  const predictionHighlightedControlIds =
+    activePredictionScenario?.highlightedControlIds ?? [];
+  const predictionHighlightedGraphIds =
+    activePredictionScenario?.highlightedGraphIds ?? [];
+  const predictionHighlightedOverlayIds =
+    activePredictionScenario?.highlightedOverlayIds ?? [];
   const quickTestHighlightedControlIds = quickTestFocus?.highlightedControlIds ?? [];
   const quickTestHighlightedGraphIds = quickTestFocus?.highlightedGraphIds ?? [];
   const quickTestHighlightedOverlayIds = quickTestFocus?.highlightedOverlayIds ?? [];
@@ -6809,6 +6841,7 @@ export function ConceptSimulationRenderer({
   const noticePromptHighlightedOverlayIds =
     !noticePromptHidden ? activeNoticePrompt?.relatedOverlays ?? [] : [];
   const highlightedControlIds = mergeUniqueIds(
+    predictionHighlightedControlIds,
     quickTestHighlightedControlIds,
     workedExampleHighlightedControlIds,
     noticePromptHighlightedControlIds,
@@ -6821,6 +6854,7 @@ export function ConceptSimulationRenderer({
     guidedReveal?.controlIds,
   );
   const highlightedGraphIds = mergeUniqueIds(
+    predictionHighlightedGraphIds,
     quickTestHighlightedGraphIds,
     workedExampleHighlightedGraphIds,
     noticePromptHighlightedGraphIds,
@@ -6833,6 +6867,7 @@ export function ConceptSimulationRenderer({
     guidedReveal?.graphIds,
   );
   const highlightedOverlayIds = mergeUniqueIds(
+    predictionHighlightedOverlayIds,
     quickTestHighlightedOverlayIds,
     workedExampleHighlightedOverlayIds,
     noticePromptHighlightedOverlayIds,
@@ -6878,7 +6913,6 @@ export function ConceptSimulationRenderer({
 
   useEffect(() => {
     if (!challengeMode?.items.length) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- Sync the active challenge id when authored challenge content disappears.
       setActiveChallengeItemId(null);
       return;
     }
@@ -6913,7 +6947,6 @@ export function ConceptSimulationRenderer({
 
   useEffect(() => {
     if (activeConceptPagePhaseId !== "check" || !challengeMode?.items.length) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- Reset the floating challenge reminder outside the check phase.
       setIsFullChallengePanelVisible(true);
       return;
     }
@@ -6951,19 +6984,16 @@ export function ConceptSimulationRenderer({
   }, [activeConceptPagePhaseId, challengeMode]);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- Clear stale graph previews when the active graph or bench mode changes.
     setGraphPreview(null);
   }, [activeGraphId, interactionMode, compareEnabled, isInspecting]);
 
   useEffect(() => {
     if (guidedPrimaryGraphId && guidedPrimaryGraphId !== activeGraphId) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- Guided lesson reveal can request a graph tab after phase resolution.
       setActiveGraphId(guidedPrimaryGraphId);
     }
   }, [activeGraphId, guidedPrimaryGraphId]);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- Focused overlays are derived from current overlay visibility and concept metadata.
     setFocusedOverlayId((current) => resolveFocusedOverlayId(concept, overlays, current));
   }, [concept, overlays]);
 
@@ -6972,7 +7002,6 @@ export function ConceptSimulationRenderer({
       return;
     }
 
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- Guided lesson reveal can request an overlay after phase resolution.
     setFocusedOverlayId(guidedPrimaryOverlayId);
   }, [guidedPrimaryOverlayId]);
 
@@ -6981,7 +7010,6 @@ export function ConceptSimulationRenderer({
       return;
     }
 
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- Clamp an existing inspection cursor after the graph time domain changes.
     setInspectedTime((current) =>
       current === null ? current : clampTimeCursor(current, timeDomain.max),
     );
@@ -6992,14 +7020,12 @@ export function ConceptSimulationRenderer({
       return;
     }
 
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- Quick-test focus is only valid in Explore mode.
     setQuickTestFocus(null);
   }, [interactionMode]);
 
   useEffect(() => {
     if (!resolvedNoticePrompts.length) {
       if (noticePromptOffset !== 0) {
-        // eslint-disable-next-line react-hooks/set-state-in-effect -- Reset the prompt cursor when content no longer has prompts.
         setNoticePromptOffset(0);
       }
       return;
@@ -7009,6 +7035,59 @@ export function ConceptSimulationRenderer({
       setNoticePromptOffset((current) => current % resolvedNoticePrompts.length);
     }
   }, [noticePromptOffset, resolvedNoticePrompts.length]);
+
+  useEffect(() => {
+    if (!predictionItems.length) {
+      setIsPredictionPanelOpen(false);
+      setActivePredictionItemId(null);
+      return;
+    }
+
+    if (activePredictionItemId && predictionItems.some((item) => item.id === activePredictionItemId)) {
+      return;
+    }
+
+    setActivePredictionItemId(predictionItems[0]?.id ?? null);
+  }, [activePredictionItemId, predictionItems]);
+
+  function resetPredictionSelection(
+    nextItemId: string | null = activePredictionItem?.id ?? predictionItems[0]?.id ?? null,
+  ) {
+    setSelectedPredictionChoiceId(null);
+    setPredictionAnswered(false);
+    setPredictionTested(false);
+    if (nextItemId) {
+      setActivePredictionItemId(nextItemId);
+    }
+  }
+
+  function openPredictionWorkflow(
+    nextItemId: string | null = activePredictionItem?.id ?? predictionItems[0]?.id ?? null,
+  ) {
+    if (!predictionItems.length) {
+      return;
+    }
+
+    recordPredictionModeUsed(progressIdentity);
+    setPredictionCompleted(false);
+    resetPredictionSelection(nextItemId);
+    setIsPredictionPanelOpen(true);
+
+    if (compareStateRef.current) {
+      clearCompareState("explore");
+      return;
+    }
+
+    if (interactionMode !== "explore") {
+      setInteractionMode("explore");
+    }
+  }
+
+  function closePredictionWorkflow() {
+    setIsPredictionPanelOpen(false);
+    setPredictionCompleted(false);
+    resetPredictionSelection(predictionItems[0]?.id ?? null);
+  }
 
   function focusPredictionTargets(controlIds?: string[], graphIds?: string[]) {
     const nextGraphId = graphIds?.[0];
@@ -7466,6 +7545,48 @@ export function ConceptSimulationRenderer({
     play();
   }
 
+  function applyPredictionScenario() {
+    if (!activePredictionScenario) {
+      return;
+    }
+
+    recordMeaningfulConceptInteraction();
+
+    if (activePredictionScenario.presetId) {
+      applyPreset(activePredictionScenario.presetId);
+    }
+
+    if (activePredictionScenario.patch) {
+      applyValues(
+        activePredictionScenario.patch,
+        activePredictionScenario.presetId ?? null,
+      );
+    }
+
+    focusPredictionTargets(
+      activePredictionScenario.highlightedControlIds,
+      activePredictionScenario.highlightedGraphIds,
+    );
+
+    if (activePredictionScenario.highlightedOverlayIds?.length) {
+      setOverlays((current) => {
+        const nextState = { ...current };
+
+        for (const overlayId of activePredictionScenario.highlightedOverlayIds ?? []) {
+          nextState[overlayId] = true;
+        }
+
+        return nextState;
+      });
+      focusOverlay(activePredictionScenario.highlightedOverlayIds[0]);
+    }
+
+    setInspectedTime(null);
+    resetClock(0);
+    play();
+    setPredictionTested(true);
+  }
+
   const handleQuickTestAction = useEffectEvent((action: ConceptQuickTestShowMeAction) => {
     if (compareStateRef.current) {
       clearCompareState("explore");
@@ -7676,6 +7797,72 @@ export function ConceptSimulationRenderer({
     );
   }
 
+  const isPredictionCorrect = activePredictionItem && selectedPredictionChoiceId
+    ? selectedPredictionChoiceId === activePredictionItem.correctChoiceId
+    : null;
+  const predictionApi: PredictionModeApi = {
+    mode: isPredictionPanelOpen || predictionCompleted ? "predict" : "explore",
+    activeItemId: activePredictionItem?.id ?? null,
+    activeItem: activePredictionItem,
+    selectedChoiceId: selectedPredictionChoiceId,
+    answered: predictionAnswered,
+    tested: predictionTested,
+    completed: predictionCompleted,
+    isCorrect: isPredictionCorrect,
+    highlightedControlIds,
+    highlightedGraphIds,
+    highlightedOverlayIds,
+    setMode: (nextMode) => {
+      if (nextMode === "predict") {
+        openPredictionWorkflow();
+        return;
+      }
+
+      closePredictionWorkflow();
+    },
+    setActiveItemId: (itemId) => {
+      openPredictionWorkflow(itemId);
+    },
+    selectChoice: (choiceId) => {
+      if (predictionAnswered) {
+        return;
+      }
+
+      setSelectedPredictionChoiceId(choiceId);
+      setPredictionAnswered(true);
+      setPredictionTested(false);
+      setPredictionCompleted(false);
+    },
+    testScenario: applyPredictionScenario,
+    nextItem: () => {
+      if (!predictionItems.length) {
+        return;
+      }
+
+      const currentIndex = predictionItems.findIndex(
+        (item) => item.id === (activePredictionItem?.id ?? activePredictionItemId),
+      );
+
+      if (currentIndex >= predictionItems.length - 1) {
+        setPredictionCompleted(true);
+        setIsPredictionPanelOpen(true);
+        return;
+      }
+
+      const nextItem = predictionItems[currentIndex + 1] ?? predictionItems[0];
+      setPredictionCompleted(false);
+      resetPredictionSelection(nextItem.id);
+    },
+    restart: () => {
+      if (!predictionItems.length) {
+        return;
+      }
+
+      openPredictionWorkflow(predictionItems[0].id);
+    },
+    exit: closePredictionWorkflow,
+  };
+
   const modeTabs = (
     <CompactModeTabs
       items={[
@@ -7809,6 +7996,47 @@ export function ConceptSimulationRenderer({
         </div>
       </section>
     ) : explorePromptPanel;
+  const secondaryPredictionPanel = predictionItems.length ? (
+    <details
+      data-testid="concept-secondary-prediction-flow"
+      className="rounded-[20px] border border-amber-500/20 bg-amber-500/8 px-3 py-3"
+    >
+      <summary className="flex cursor-pointer list-none items-start justify-between gap-3">
+        <div>
+          <p className="lab-label">{t("predictionPrompt.label")}</p>
+          <p className="mt-1 text-xs leading-5 text-ink-600">
+            {isPredictionPanelOpen || predictionCompleted
+              ? t("predictionPrompt.activeDescription")
+              : t("predictionPrompt.description")}
+          </p>
+        </div>
+        <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-600">
+          {t("actions.show")}
+        </span>
+      </summary>
+      <div className="mt-3">
+        {isPredictionPanelOpen || predictionCompleted ? (
+          <PredictionModePanel
+            title={t("predictionPrompt.title")}
+            intro={predictionConfig?.intro ?? t("predictionPrompt.description")}
+            items={predictionItems}
+            api={predictionApi}
+            modeTabsNode={null}
+            className="border-amber-500/20 bg-paper/75 p-3 shadow-none"
+          />
+        ) : (
+          <button
+            type="button"
+            data-testid="concept-secondary-prediction-start"
+            onClick={() => openPredictionWorkflow()}
+            className="inline-flex items-center justify-center rounded-full border border-amber-500/25 bg-amber-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-amber-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+          >
+            {t("predictionPrompt.action")}
+          </button>
+        )}
+      </div>
+    </details>
+  ) : null;
   const whatToNoticePanel =
     noticePromptConfig && activeNoticePrompt ? (
       <WhatToNoticePanel
@@ -7931,61 +8159,7 @@ export function ConceptSimulationRenderer({
         />
       </div>
     ) : null;
-  const primaryGuidePanel = interactionMode === "explore" && activeNoticePrompt && !noticePromptHidden ? (
-      <section className="rounded-[20px] border border-line bg-paper px-3 py-3">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="rounded-full border border-teal-500/25 bg-teal-500/10 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-teal-700">
-            {t(`noticeTypes.${activeNoticePrompt.type}`)}
-          </span>
-          <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-600">
-            {t("promptCounter", {
-              current: normalizedNoticePromptIndex + 1,
-              total: resolvedNoticePrompts.length,
-            })}
-          </span>
-        </div>
-        <RichMathText
-          as="div"
-          content={activeNoticePrompt.text}
-          className="mt-2 text-sm font-semibold leading-6 text-ink-900"
-        />
-        {activeNoticePrompt.tryThis ? (
-          <div className="mt-3 rounded-[18px] border border-teal-500/20 bg-white/75 px-3 py-2.5">
-            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-teal-700">
-              {t("sections.tryThis")}
-            </p>
-            <RichMathText
-              as="div"
-              content={activeNoticePrompt.tryThis}
-              className="mt-1.5 text-xs leading-5 text-ink-700"
-            />
-          </div>
-        ) : null}
-        <div className="mt-3 flex flex-wrap items-center gap-2">
-          <button
-            type="button"
-            onClick={cycleNoticePrompt}
-            className="inline-flex items-center justify-center rounded-full border border-teal-500/25 bg-teal-500 px-3 py-2 text-xs font-semibold text-white transition hover:bg-teal-600"
-          >
-            {resolvedNoticePrompts.length > 1 ? t("actions.nextPrompt") : t("actions.showAgain")}
-          </button>
-          <button
-            type="button"
-            onClick={() => setMoreToolsExpanded(true)}
-            className="inline-flex items-center justify-center rounded-full border border-line bg-paper-strong px-3 py-2 text-xs font-semibold text-ink-800 transition hover:border-teal-500/35 hover:bg-white/90"
-          >
-            {t("actions.openDetailedGuide")}
-          </button>
-          <button
-            type="button"
-            onClick={() => setNoticePromptHidden((current) => !current)}
-            className="inline-flex items-center justify-center rounded-full border border-line bg-paper-strong px-3 py-2 text-xs font-semibold text-ink-800 transition hover:border-coral-500/35 hover:bg-white/90"
-          >
-            {noticePromptHidden ? t("actions.show") : t("actions.hide")}
-          </button>
-        </div>
-      </section>
-    ) : interactionPanel;
+  const primaryGuidePanel = interactionPanel;
   const showExploreStarterGuide =
     starterGuidePlacement !== "external" &&
     starterExploreTasks.length > 0 &&
@@ -8021,7 +8195,7 @@ export function ConceptSimulationRenderer({
   const interactionRailPanel = activeConceptPagePhaseId ? interactionPanel : primaryGuidePanel;
   const phaseSupportPanels = activeConceptPagePhaseId
     ? {
-        explore: whatToNoticePanel ?? primaryGuidePanel,
+        explore: whatToNoticePanel,
         understand: guidedOverlayPanel,
         check: isGuidedLessonMode && !isChallengeHashActive ? null : fullChallengePanel,
       }
@@ -8030,6 +8204,17 @@ export function ConceptSimulationRenderer({
     phaseSupportPanels &&
       Object.values(phaseSupportPanels).some((panel) => Boolean(panel)),
   );
+
+  useEffect(() => {
+    if (activeConceptPagePhaseId !== "check" || !isChallengeHashActive) {
+      return;
+    }
+
+    setPhaseSupportDisclosureOpenByPhase((current) =>
+      current.check ? current : { ...current, check: true },
+    );
+  }, [activeConceptPagePhaseId, isChallengeHashActive]);
+
   const secondaryToolSections = activeConceptPagePhaseId
     ? []
     : [whatToNoticePanel, guidedOverlayPanel, fullChallengePanel].filter(Boolean);
@@ -8118,13 +8303,14 @@ export function ConceptSimulationRenderer({
     </details>
   ) : null;
   const mergedAfterBench =
-    guidedStepSupport || guidedStepCard || afterBench ? (
+    guidedStepSupport || guidedStepCard || secondaryPredictionPanel || afterBench ? (
       <div className="grid gap-3">
-        {guidedStepSupport || guidedStepCard ? (
+        {guidedStepSupport || guidedStepCard || secondaryPredictionPanel ? (
           <div className="grid gap-2.5">
             {guidedStepCard ? (
               <div data-testid="concept-v2-step-card-slot">{guidedStepCard}</div>
             ) : null}
+            {secondaryPredictionPanel}
             {guidedStepSupportDisclosure}
           </div>
         ) : null}
@@ -8317,7 +8503,8 @@ export function ConceptSimulationRenderer({
                 setGraphPreview(null);
                 setInspectedTime(null);
                 setNoticePromptOffset(0);
-                setNoticePromptHidden(false);
+                setNoticePromptHidden(true);
+                closePredictionWorkflow();
                 setMoreToolsExpanded(false);
                 resetClock(0);
                 setOverlays(defaultOverlayValues);
@@ -8451,6 +8638,10 @@ export function ConceptSimulationRenderer({
               return null;
             }
 
+            const isSupportDisclosureOpen =
+              phaseSupportDisclosureOpenByPhase[phaseId] ??
+              (phaseId === "check" && isChallengeHashActive);
+
             return (
               <div
                 key={phaseId}
@@ -8466,7 +8657,16 @@ export function ConceptSimulationRenderer({
                 <details
                   data-testid={`concept-phase-bench-support-disclosure-${phaseId}`}
                   className="rounded-[20px] border border-line bg-white/50 px-3 py-3"
-                  open={phaseId === "check" && isChallengeHashActive}
+                  open={isSupportDisclosureOpen}
+                  onToggle={(event) => {
+                    const isOpen = event.currentTarget.open;
+
+                    setPhaseSupportDisclosureOpenByPhase((current) =>
+                      current[phaseId] === isOpen
+                        ? current
+                        : { ...current, [phaseId]: isOpen },
+                    );
+                  }}
                 >
                   <summary className="flex cursor-pointer list-none items-start justify-between gap-3">
                     <div>

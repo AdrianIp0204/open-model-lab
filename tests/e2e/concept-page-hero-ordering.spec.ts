@@ -48,9 +48,8 @@ test.describe("concept page v2 ordering", () => {
       expect(startHereBox).not.toBeNull();
       expect(guidedLabBox).not.toBeNull();
       expect(referenceBox).not.toBeNull();
-      expect(startHereBox!.y).toBeLessThan(guidedLabBox!.y);
-      expect(guidedLabBox!.y - (startHereBox!.y + startHereBox!.height)).toBeLessThan(72);
-      expect(guidedLabBox!.y + guidedLabBox!.height).toBeLessThan(referenceBox!.y);
+      expect(guidedLabBox!.y).toBeLessThan(startHereBox!.y);
+      expect(startHereBox!.y + startHereBox!.height).toBeLessThan(referenceBox!.y);
 
       browserGuard.assertNoActionableIssues();
     } finally {
@@ -58,7 +57,7 @@ test.describe("concept page v2 ordering", () => {
     }
   });
 
-  test("keeps Start Here ahead of the guided live lab on representative desktop routes", async ({
+  test("keeps the guided live lab ahead of quieter post-bench lesson context", async ({
     browser,
   }) => {
     const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
@@ -93,8 +92,8 @@ test.describe("concept page v2 ordering", () => {
           expect(guidedLabBox).not.toBeNull();
           expect(wrapUpBox).not.toBeNull();
           expect(referenceBox).not.toBeNull();
-          expect(startHereBox!.y + startHereBox!.height).toBeLessThan(guidedLabBox!.y);
-          expect(guidedLabBox!.y + guidedLabBox!.height).toBeLessThan(wrapUpBox!.y);
+          expect(guidedLabBox!.y + guidedLabBox!.height).toBeLessThan(startHereBox!.y);
+          expect(startHereBox!.y + startHereBox!.height).toBeLessThan(wrapUpBox!.y);
           expect(wrapUpBox!.y + wrapUpBox!.height).toBeLessThan(referenceBox!.y);
         });
       }
@@ -105,7 +104,7 @@ test.describe("concept page v2 ordering", () => {
     }
   });
 
-  test("keeps the mobile order student-first: Start Here, bench, wrap-up, then reference", async ({
+  test("keeps the mobile order bench-first with lesson context below the lab", async ({
     browser,
   }) => {
     const context = await browser.newContext({
@@ -125,7 +124,7 @@ test.describe("concept page v2 ordering", () => {
           const title = page.getByTestId("concept-v2-hero-title");
           const startHere = page.getByTestId("concept-v2-start-here");
           const prerequisites = page.getByTestId("concept-v2-prerequisites");
-          const startButton = startHere.getByRole("button", { name: "Start concept" });
+          const startButton = startHere.getByRole("button", { name: "Return to bench" });
           const lessonPreviewDisclosure = page.getByTestId(
             "concept-v2-start-lesson-disclosure",
           );
@@ -181,13 +180,12 @@ test.describe("concept page v2 ordering", () => {
           expect(referenceBox).not.toBeNull();
 
           expect(titleBox!.y).toBeLessThan(startHereBox!.y);
+          expect(sceneBox!.y).toBeLessThan(stepSlotBox!.y);
+          expect(stepSlotBox!.y).toBeLessThan(startHereBox!.y);
           expect(startButtonBox!.y).toBeLessThan(prerequisitesBox!.y);
           expect(startButtonBox!.height).toBeGreaterThanOrEqual(44);
           expect(startButtonBox!.y).toBeLessThan(lessonPreviewDisclosureBox!.y);
-          expect(lessonPreviewDisclosureBox!.y).toBeLessThan(sceneBox!.y);
-          expect(startHereBox!.y).toBeLessThan(sceneBox!.y);
-          expect(sceneBox!.y).toBeLessThan(stepSlotBox!.y);
-          expect(stepSlotBox!.y).toBeLessThan(wrapUpBox!.y);
+          expect(startHereBox!.y).toBeLessThan(wrapUpBox!.y);
           expect(wrapUpBox!.y).toBeLessThan(referenceBox!.y);
 
           const horizontalOverflow = await page.evaluate(() =>

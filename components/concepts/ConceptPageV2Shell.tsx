@@ -431,7 +431,11 @@ export function ConceptPageV2Shell({
         equations={model.equationSnapshot}
         equationSnapshotNote={model.equationSnapshotNote}
         lessonSteps={model.steps}
-        copy={copy}
+        copy={{
+          ...copy,
+          startHereLabel: t("v2.postLabContextLabel"),
+          startLearning: t("v2.returnToBenchLabel"),
+        }}
         showTitle={!titleContextContent}
         showEquationSnapshot={false}
         onStartLearning={() => {

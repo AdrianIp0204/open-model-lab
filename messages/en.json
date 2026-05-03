@@ -875,6 +875,7 @@
       "fallbackDescription": "This concept is using a guided lesson built from the existing page content while the full V2 authoring migrates in.",
       "estimatedMinutes": "{count} min",
       "startHereLabel": "Start here",
+      "postLabContextLabel": "Lesson context",
       "whyItMattersLabel": "Why it matters",
       "estimatedTimeLabel": "Estimated time",
       "equationSnapshotLabel": "Equation snapshot",
@@ -882,6 +883,7 @@
       "equationCountLabel": "{count, plural, one {# equation} other {# equations}}",
       "equationDisclosureLabel": "Show",
       "startLearning": "Start concept",
+      "returnToBenchLabel": "Return to bench",
       "keyTakeawayLabel": "Key takeaway",
       "lessonFlowLabel": "Lesson path",
       "lessonPreviewDisclosureLabel": "Preview the lesson path",
@@ -2574,6 +2576,13 @@
     "interactionRail": {
       "label": "First action",
       "description": "Explore the live setup first. Compare stays one switch away; predictions sit with the current prompt."
+    },
+    "predictionPrompt": {
+      "label": "Prediction prompt",
+      "title": "Prediction prompt",
+      "description": "Optional: make a call before applying a setup.",
+      "activeDescription": "Use this as a quick check, then return to the live bench.",
+      "action": "Open prediction prompt"
     },
     "starterGuide": {
       "badge": "Start here",
