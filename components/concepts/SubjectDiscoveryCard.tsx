@@ -12,6 +12,7 @@ import {
   getTopicDisplayTitle,
 } from "@/lib/i18n/content";
 import { LearningVisual } from "@/components/visuals/LearningVisual";
+import { getSubjectVisualDescriptor } from "@/components/visuals/learningVisualDescriptors";
 
 type SubjectDiscoveryCardProps = {
   subject: SubjectDiscoverySummary;
@@ -40,6 +41,7 @@ export function SubjectDiscoveryCard({
   const bridgeTrack = subject.bridgeStarterTracks[0] ?? null;
   const bestFirstTrack = subject.featuredStarterTracks[0] ?? null;
   const bestFirstConcept = subject.featuredConcepts[0] ?? null;
+  const subjectVisual = getSubjectVisualDescriptor(subject);
   const compactMeta = [
     t("meta.topics", { count: subject.topicCount }),
     t("meta.concepts", { count: subject.conceptCount }),
@@ -66,7 +68,16 @@ export function SubjectDiscoveryCard({
             aria-label={t("actions.openSubject")}
             className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
           >
-            <LearningVisual kind="subject" tone={subject.accent} compact className="h-24 sm:h-28" />
+            <LearningVisual
+              kind={subjectVisual.kind}
+              motif={subjectVisual.motif}
+              overlay={subjectVisual.overlay}
+              isFallback={subjectVisual.isFallback}
+              fallbackKind={subjectVisual.fallbackKind}
+              tone={subjectVisual.tone ?? subject.accent}
+              compact
+              className="h-24 sm:h-28"
+            />
           </Link>
           <div className="space-y-3">
           <div className="flex flex-wrap items-center gap-2">
@@ -117,7 +128,15 @@ export function SubjectDiscoveryCard({
           aria-label={t("actions.openSubject")}
           className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
         >
-          <LearningVisual kind="subject" tone={subject.accent} compact />
+          <LearningVisual
+            kind={subjectVisual.kind}
+            motif={subjectVisual.motif}
+            overlay={subjectVisual.overlay}
+            isFallback={subjectVisual.isFallback}
+            fallbackKind={subjectVisual.fallbackKind}
+            tone={subjectVisual.tone ?? subject.accent}
+            compact
+          />
         </Link>
         <div className="flex flex-wrap items-center gap-2">
           <span className="lab-label">{t("labels.subject")}</span>

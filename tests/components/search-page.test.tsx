@@ -137,6 +137,7 @@ describe("SearchPage", () => {
     expect(screen.getByPlaceholderText(/search inside math/i)).toBeInTheDocument();
     expect(screen.getByText("Use Subject for the broad branch first.")).toBeInTheDocument();
     expect(screen.getByText("Searching inside Math")).toBeInTheDocument();
+    expect(document.querySelector('[data-visual-motif="subject-math"]')).not.toBeNull();
     expect(
       screen.getByText("Now showing topics inside Math. Add one when you want a tighter concept list."),
     ).toBeInTheDocument();
@@ -232,6 +233,7 @@ describe("SearchPage", () => {
     ).toHaveLength(1);
     expect(hasLinkForHref("/concepts/vectors-in-2d")).toBe(true);
     expect(hasLinkForHref("/tracks/vectors-and-motion-bridge")).toBe(true);
+    expect(document.querySelector('[data-visual-motif="vectors-components"]')).not.toBeNull();
 
     await waitFor(() => {
       expect(navigationState.replace).toHaveBeenLastCalledWith(

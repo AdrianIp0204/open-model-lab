@@ -19,7 +19,7 @@ export type LearningVisualFallbackKind =
   | "generic"
   | "topic-specific";
 
-export type LearningVisualOverlay = "assessment" | "challenge";
+export type LearningVisualOverlay = "assessment" | "challenge" | "checkpoint";
 
 export type LearningVisualMotif =
   | "acid-base"
@@ -97,6 +97,10 @@ export type LearningVisualMotif =
   | "sound-pitch"
   | "standing-wave"
   | "stoichiometric-ratios"
+  | "subject-chemistry"
+  | "subject-computer-science"
+  | "subject-math"
+  | "subject-physics"
   | "thermal-energy"
   | "torque"
   | "total-internal-reflection"
@@ -147,6 +151,13 @@ type TopicVisualInput = {
   title: string;
   subject?: string;
   description?: string;
+  accent?: LearningVisualTone;
+};
+
+type SubjectVisualInput = {
+  slug?: string | null;
+  title: string;
+  description?: string | null;
   accent?: LearningVisualTone;
 };
 
@@ -300,6 +311,14 @@ const exactTopicMotifs: Record<string, LearningVisualMotif> = {
   waves: "wave-motion",
 };
 
+const exactSubjectMotifs: Record<string, LearningVisualMotif> = {
+  chemistry: "subject-chemistry",
+  "computer-science": "subject-computer-science",
+  math: "subject-math",
+  mathematics: "subject-math",
+  physics: "subject-physics",
+};
+
 const exactStarterTrackMotifs: Record<
   string,
   { motif: LearningVisualMotif; label: string }
@@ -319,6 +338,66 @@ const exactStarterTrackMotifs: Record<
   "thermodynamics-and-kinetic-theory": {
     motif: "track-thermal-systems",
     label: "thermal systems track",
+  },
+  "oscillations-and-energy": {
+    motif: "oscillation-energy",
+    label: "oscillations and energy track",
+  },
+  "fluid-and-pressure": {
+    motif: "fluid-pressure",
+    label: "fluids and pressure track",
+  },
+  waves: {
+    motif: "wave-motion",
+    label: "waves track",
+  },
+  "wave-optics": {
+    motif: "double-slit-fringes",
+    label: "wave optics track",
+  },
+  "sound-and-acoustics": {
+    motif: "sound-beats",
+    label: "sound and acoustics track",
+  },
+  electricity: {
+    motif: "series-parallel-circuit",
+    label: "electricity track",
+  },
+  "magnetic-fields": {
+    motif: "magnetic-field-lines",
+    label: "magnetic fields track",
+  },
+  "modern-physics": {
+    motif: "atomic-spectra",
+    label: "modern physics track",
+  },
+  "functions-and-change": {
+    motif: "graph-transformations",
+    label: "functions and change track",
+  },
+  "vectors-and-motion-bridge": {
+    motif: "vectors-components",
+    label: "vectors and motion bridge",
+  },
+  "complex-and-parametric-motion": {
+    motif: "polar-coordinates",
+    label: "complex and parametric motion track",
+  },
+  "rates-and-equilibrium": {
+    motif: "chemistry-reaction",
+    label: "rates and equilibrium track",
+  },
+  "stoichiometry-and-yield": {
+    motif: "stoichiometric-ratios",
+    label: "stoichiometry and yield track",
+  },
+  "solutions-and-ph": {
+    motif: "acid-base",
+    label: "solutions and pH track",
+  },
+  "algorithms-and-search-foundations": {
+    motif: "binary-search",
+    label: "algorithms and search track",
   },
 };
 
@@ -577,6 +656,52 @@ export function getTopicVisualDescriptor(topic: TopicVisualInput): LearningVisua
   };
 }
 
+export function getSubjectVisualDescriptor(
+  subject: SubjectVisualInput,
+): LearningVisualDescriptor {
+  const normalizedSlug = subject.slug?.trim().toLowerCase() ?? "";
+  const normalizedTitle = subject.title.trim().toLowerCase();
+  const exactMotif =
+    exactSubjectMotifs[normalizedSlug] ?? exactSubjectMotifs[normalizedTitle];
+
+  if (exactMotif) {
+    return {
+      kind: "subject",
+      motif: exactMotif,
+      tone: subject.accent,
+      isFallback: false,
+      fallbackKind: "category-specific",
+      label: `${subject.title} subject`,
+    };
+  }
+
+  const searchText = compactSearchText([
+    subject.slug ?? undefined,
+    subject.title,
+    subject.description ?? undefined,
+  ]);
+  const topicMatch = topicMotifs.find((candidate) => candidate.pattern.test(searchText));
+
+  if (topicMatch) {
+    return {
+      kind: "subject",
+      motif: topicMatch.motif,
+      tone: subject.accent,
+      isFallback: false,
+      fallbackKind: "category-specific",
+      label: `${topicMatch.label} subject`,
+    };
+  }
+
+  return {
+    kind: "subject",
+    tone: subject.accent,
+    isFallback: true,
+    fallbackKind: "category-specific",
+    label: "subject map",
+  };
+}
+
 export function getStarterTrackVisualDescriptor(
   track: StarterTrackVisualInput,
 ): LearningVisualDescriptor {
@@ -700,6 +825,17 @@ export function getConceptAssessmentVisualDescriptor(
     kind: "test",
     labelSuffix: "assessment",
     overlay: "assessment",
+    tone: concept.accent,
+  });
+}
+
+export function getConceptCheckpointVisualDescriptor(
+  concept: ConceptVisualInput,
+): LearningVisualDescriptor {
+  return withOverlay(getConceptVisualDescriptor(concept), {
+    kind: "progress",
+    labelSuffix: "checkpoint",
+    overlay: "checkpoint",
     tone: concept.accent,
   });
 }

@@ -148,6 +148,7 @@ describe("StartLearningPage", () => {
       "aria-pressed",
       "true",
     );
+    expect(document.querySelector('[data-visual-motif="subject-math"]')).not.toBeNull();
     expect(
       screen
         .getAllByRole("link", { name: /start functions and change/i })
@@ -241,6 +242,11 @@ describe("StartLearningPage", () => {
         .some((link) => link.getAttribute("href") === "/concepts/graph-transformations"),
     ).toBe(true);
     expect(
+      screen
+        .getByTestId("start-resume-concept-visual-graph-transformations")
+        .querySelector('[data-visual-motif="graph-transformations"]'),
+    ).not.toBeNull();
+    expect(
       screen.getByRole("link", { name: /continue this subject/i }),
     ).toHaveAttribute("href", "/concepts/subjects/math");
     expect(
@@ -286,6 +292,8 @@ describe("StartLearningPage", () => {
     ).toBeInTheDocument();
     expect(screen.getAllByText(/projectile motion checkpoint/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/subject momentum/i).length).toBeGreaterThan(0);
+    expect(document.querySelector('[data-visual-overlay="checkpoint"]')).not.toBeNull();
+    expect(document.querySelector('[data-visual-motif="subject-physics"]')).not.toBeNull();
     expect(screen.getByRole("link", { name: /reopen checkpoint/i })).toHaveAttribute(
       "href",
       "/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",

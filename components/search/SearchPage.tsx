@@ -52,6 +52,13 @@ import { ExpandedSubjectSpotlightGrid } from "@/components/concepts/ExpandedSubj
 import { DisclosurePanel } from "@/components/layout/DisclosurePanel";
 import { DiscoveryFilterSelect } from "@/components/layout/DiscoveryFilterSelect";
 import { PageSection } from "@/components/layout/PageSection";
+import { LearningVisual, type LearningVisualDescriptor } from "@/components/visuals/LearningVisual";
+import {
+  getConceptVisualDescriptor,
+  getStarterTrackVisualDescriptor,
+  getSubjectVisualDescriptor,
+  getTopicVisualDescriptor,
+} from "@/components/visuals/learningVisualDescriptors";
 
 type SearchPageProps = {
   index: SiteSearchIndex;
@@ -258,6 +265,68 @@ function SearchNavChip({
   return <Link href={href} className={className}>{label}</Link>;
 }
 
+function getSearchEntryVisualDescriptor(entry: DisplaySearchEntry): LearningVisualDescriptor {
+  if (entry.kind === "concept") {
+    return getConceptVisualDescriptor({
+      slug: entry.slug,
+      title: entry.displayTitle,
+      subject: entry.displayPrimarySubjectTitle ?? entry.primarySubjectTitle ?? undefined,
+      topic: entry.topicTitle ?? undefined,
+      accent: entry.accent,
+    });
+  }
+
+  if (entry.kind === "topic") {
+    return getTopicVisualDescriptor({
+      slug: entry.slug,
+      title: entry.displayTitle,
+      subject: entry.displayPrimarySubjectTitle ?? entry.primarySubjectTitle ?? undefined,
+      description: entry.displaySummary,
+      accent: entry.accent,
+    });
+  }
+
+  if (entry.kind === "track") {
+    return getStarterTrackVisualDescriptor({
+      slug: entry.slug,
+      title: entry.displayTitle,
+      summary: entry.displaySummary,
+      accent: entry.accent,
+    });
+  }
+
+  if (entry.kind === "subject") {
+    return getSubjectVisualDescriptor({
+      slug: entry.slug,
+      title: entry.displayTitle,
+      description: entry.displaySummary,
+      accent: entry.accent,
+    });
+  }
+
+  if (entry.topicSlug || entry.topicTitle) {
+    return {
+      ...getTopicVisualDescriptor({
+        slug: entry.topicSlug ?? entry.slug,
+        title: entry.topicTitle ?? entry.displayTitle,
+        subject: entry.displayPrimarySubjectTitle ?? entry.primarySubjectTitle ?? undefined,
+        description: entry.displaySummary,
+        accent: entry.accent,
+      }),
+      kind: "guided",
+      label: `${entry.displayTitle} route`,
+    };
+  }
+
+  return {
+    kind: "guided",
+    tone: entry.accent,
+    isFallback: true,
+    fallbackKind: "category-specific",
+    label: `${entry.displayTitle} route`,
+  };
+}
+
 function SearchResultCard({
   entry,
   conceptProgress,
@@ -288,6 +357,7 @@ function SearchResultCard({
     entry.displayPrimarySubjectTitle,
     ...entry.displayMetadataChips,
   ]).slice(0, 2);
+  const visual = getSearchEntryVisualDescriptor(entry);
 
   let progressNote: string | null = null;
 
@@ -331,7 +401,19 @@ function SearchResultCard({
       <div
         className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${accentTopClasses[entry.accent]}`}
       />
-      <div className="space-y-3">
+      <div className="grid gap-4 sm:grid-cols-[6rem_minmax(0,1fr)] sm:items-start">
+        <LearningVisual
+          kind={visual.kind}
+          motif={visual.motif}
+          overlay={visual.overlay}
+          isFallback={visual.isFallback}
+          fallbackKind={visual.fallbackKind}
+          tone={visual.tone ?? entry.accent}
+          ariaLabel={visual.label}
+          compact
+          className="h-24 rounded-[18px]"
+        />
+        <div className="min-w-0 space-y-3">
         {emphasizedCue ? (
           <div className="flex flex-wrap items-center gap-2">
             <span className="rounded-full border border-teal-500/25 bg-teal-500/10 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-teal-700">
@@ -342,7 +424,9 @@ function SearchResultCard({
 
         <div className="space-y-2">
           <h2 className="text-xl font-semibold text-ink-950">{entry.displayTitle}</h2>
-          <p className="text-base leading-7 text-ink-700">{entry.displaySummary}</p>
+          <p className="line-clamp-2 text-sm leading-6 text-ink-700 sm:text-base sm:leading-7">
+            {entry.displaySummary}
+          </p>
         </div>
 
         {visibleMeta.length ? (
@@ -368,6 +452,7 @@ function SearchResultCard({
         >
           {entry.displayActionLabel}
         </Link>
+        </div>
       </div>
     </article>
   );
@@ -1665,6 +1750,13 @@ export function SearchPage({
             }),
         }
       : null;
+  const resumeVisual = resumeSummary.primaryConcept
+    ? getConceptVisualDescriptor(resumeSummary.primaryConcept)
+    : resumeSummary.currentTrack
+      ? getStarterTrackVisualDescriptor(resumeSummary.currentTrack.track)
+      : activeSubject
+        ? getSubjectVisualDescriptor(activeSubject)
+        : null;
   return (
       <section className="space-y-5 sm:space-y-6">
         <PageSection id="search-controls" as="section" className="space-y-4">
@@ -1788,7 +1880,26 @@ export function SearchPage({
                   className="rounded-[22px] border border-line bg-paper px-4 py-4"
                   data-onboarding-target="search-results"
                 >
-                  <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                  <div
+                    className={
+                      resumeVisual
+                        ? "grid gap-4 lg:grid-cols-[5.75rem_minmax(0,1fr)_auto] lg:items-center"
+                        : "flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between"
+                    }
+                  >
+                    {resumeVisual ? (
+                      <LearningVisual
+                        kind={resumeVisual.kind}
+                        motif={resumeVisual.motif}
+                        overlay={resumeVisual.overlay}
+                        isFallback={resumeVisual.isFallback}
+                        fallbackKind={resumeVisual.fallbackKind}
+                        tone={resumeVisual.tone ?? activeSubject?.accent ?? "teal"}
+                        ariaLabel={resumeVisual.label}
+                        compact
+                        className="h-20 rounded-[18px] sm:h-24"
+                      />
+                    ) : null}
                     <div className="space-y-1">
                       <p className="lab-label">
                         {resumeSummary.hasRecordedProgress
@@ -1816,7 +1927,7 @@ export function SearchPage({
                       </p>
                     </div>
 
-                    <div className="flex flex-wrap gap-3">
+                    <div className="flex flex-wrap gap-3 lg:justify-end">
                       {resumeAction ? (
                         <Link
                           href={resumeAction.href}
