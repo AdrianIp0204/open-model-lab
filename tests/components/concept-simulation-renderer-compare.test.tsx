@@ -324,6 +324,45 @@ describe("ConceptSimulationRenderer compare state", () => {
     ).toBeInTheDocument();
   });
 
+  it("closes secondary prediction workflow when compare mode starts", async () => {
+    const user = userEvent.setup();
+
+    render(<ConceptSimulationRenderer concept={buildSimulationSource("simple-harmonic-motion")} />);
+
+    const interactionTabs = screen.getByRole("tablist", {
+      name: "Concept interaction modes",
+    });
+    const predictionFlow = screen.getByTestId("concept-secondary-prediction-flow");
+
+    await user.click(within(predictionFlow).getByText("Prediction prompt"));
+    await user.click(
+      within(predictionFlow).getByRole("button", {
+        name: "Open prediction prompt",
+      }),
+    );
+
+    expect(screen.getByTestId("mock-prediction-mode-panel")).toHaveAttribute(
+      "data-mode",
+      "predict",
+    );
+
+    await user.click(within(interactionTabs).getByRole("tab", { name: "Compare" }));
+
+    expect(within(interactionTabs).getByRole("tab", { name: "Compare" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    expect(screen.getByTestId("mock-compare-scene")).toHaveAttribute("data-compare", "on");
+    expect(screen.queryByTestId("concept-secondary-prediction-flow")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("mock-prediction-mode-panel")).not.toBeInTheDocument();
+
+    await user.click(within(interactionTabs).getByRole("tab", { name: "Explore" }));
+
+    expect(screen.getByTestId("mock-compare-scene")).toHaveAttribute("data-compare", "off");
+    expect(screen.getByTestId("concept-secondary-prediction-flow")).toBeInTheDocument();
+    expect(screen.queryByTestId("mock-prediction-mode-panel")).not.toBeInTheDocument();
+  });
+
   it("lets phase support disclosures stay open across bench rerenders", async () => {
     const user = userEvent.setup();
     const renderPhaseBench = () => (

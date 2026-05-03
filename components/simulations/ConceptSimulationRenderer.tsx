@@ -7062,6 +7062,14 @@ export function ConceptSimulationRenderer({
     }
   }
 
+  function resetPredictionWorkflow(
+    nextItemId: string | null = predictionItems[0]?.id ?? null,
+  ) {
+    setIsPredictionPanelOpen(false);
+    setPredictionCompleted(false);
+    resetPredictionSelection(nextItemId);
+  }
+
   function openPredictionWorkflow(
     nextItemId: string | null = activePredictionItem?.id ?? predictionItems[0]?.id ?? null,
   ) {
@@ -7069,25 +7077,23 @@ export function ConceptSimulationRenderer({
       return;
     }
 
-    recordPredictionModeUsed(progressIdentity);
-    setPredictionCompleted(false);
-    resetPredictionSelection(nextItemId);
-    setIsPredictionPanelOpen(true);
-
-    if (compareStateRef.current) {
-      clearCompareState("explore");
+    if (compareStateRef.current || interactionMode === "compare") {
+      resetPredictionWorkflow(nextItemId);
       return;
     }
 
     if (interactionMode !== "explore") {
       setInteractionMode("explore");
     }
+
+    recordPredictionModeUsed(progressIdentity);
+    setPredictionCompleted(false);
+    resetPredictionSelection(nextItemId);
+    setIsPredictionPanelOpen(true);
   }
 
   function closePredictionWorkflow() {
-    setIsPredictionPanelOpen(false);
-    setPredictionCompleted(false);
-    resetPredictionSelection(predictionItems[0]?.id ?? null);
+    resetPredictionWorkflow();
   }
 
   function focusPredictionTargets(controlIds?: string[], graphIds?: string[]) {
@@ -7382,6 +7388,7 @@ export function ConceptSimulationRenderer({
   }
 
   function enterCompareMode() {
+    resetPredictionWorkflow();
     recordCompareModeUsed(progressIdentity);
     const nextState = createCompareStateFromCurrent();
     compareStateRef.current = nextState;
@@ -7548,6 +7555,11 @@ export function ConceptSimulationRenderer({
 
   function applyPredictionScenario() {
     if (!activePredictionScenario) {
+      return;
+    }
+
+    if (compareStateRef.current || interactionMode === "compare") {
+      resetPredictionWorkflow();
       return;
     }
 
@@ -7997,7 +8009,9 @@ export function ConceptSimulationRenderer({
         </div>
       </section>
     ) : explorePromptPanel;
-  const secondaryPredictionPanel = predictionItems.length ? (
+  const shouldShowSecondaryPredictionPanel =
+    predictionItems.length > 0 && interactionMode !== "compare" && !compareState;
+  const secondaryPredictionPanel = shouldShowSecondaryPredictionPanel ? (
     <details
       data-testid="concept-secondary-prediction-flow"
       className="rounded-[20px] border border-amber-500/20 bg-amber-500/8 px-3 py-3"

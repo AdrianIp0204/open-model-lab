@@ -124,6 +124,8 @@ async function assertInitialViewportLayout(
   await expect(graphs).toBeVisible();
   await expect(benchEquations).toBeVisible();
   await expect(benchEquations).toHaveAttribute("data-equation-variant", "hud");
+  await expect(benchEquations).toHaveAttribute("data-equation-layout", "compact-inline");
+  await expect(benchEquations).not.toContainText(/Key relationship/i);
   await expect(benchEquationsSlot).toBeVisible();
   await expect(firstAction).toBeVisible();
   if (viewportCase.viewport.width < 640) {
@@ -214,7 +216,8 @@ async function assertInitialViewportLayout(
     expect(benchEquationsBox!.y + benchEquationsBox!.height).toBeLessThanOrEqual(
       sceneBox!.y + sceneBox!.height + 1,
     );
-    expect(benchEquationsBox!.width).toBeLessThanOrEqual(330);
+    expect(benchEquationsBox!.width).toBeLessThanOrEqual(290);
+    expect(benchEquationsBox!.height).toBeLessThanOrEqual(120);
     if (viewportCase.viewport.width >= 640) {
       expect(graphsBox!.y).toBeLessThan(controlsBox!.y + controlsBox!.height);
     }
