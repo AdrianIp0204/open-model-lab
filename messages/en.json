@@ -2715,6 +2715,7 @@
       "topicNote": "These tracks stay close to the current topic when you want a more guided path."
     },
     "followUp": {
+      "detailsSummary": "Recovery details",
       "labels": {
         "checkpoint": "Checkpoint",
         "diagnostic": "Diagnostic",

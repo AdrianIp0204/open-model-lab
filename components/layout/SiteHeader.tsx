@@ -304,6 +304,34 @@ export function SiteHeader() {
               );
             })}
           </nav>
+          <Link
+            href="/search"
+            aria-label={t("nav.search")}
+            aria-describedby="mobile-secondary-search-description"
+            onClick={() => setMobileOpen(false)}
+            className={[
+              "list-row-card flex items-start justify-between gap-3 px-4 py-3",
+              routePath.startsWith("/search")
+                ? "border-ink-950 bg-ink-950 text-paper-strong"
+                : "text-ink-800",
+            ].join(" ")}
+          >
+            <span className="min-w-0 space-y-1.5">
+              <span className="block text-base font-medium">{t("nav.search")}</span>
+              <span
+                id="mobile-secondary-search-description"
+                className={[
+                  "block text-sm leading-6",
+                  routePath.startsWith("/search") ? "text-paper-strong/80" : "text-ink-600",
+                ].join(" ")}
+              >
+                {t("navDescriptions.search")}
+              </span>
+            </span>
+            <span className="section-kicker shrink-0 self-center">
+              {routePath.startsWith("/search") ? t("routeFamily.search") : ""}
+            </span>
+          </Link>
 
           <div className="grid gap-2 sm:grid-cols-2">
             <Link

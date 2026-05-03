@@ -302,6 +302,73 @@ function EscapeVelocityGlyph() {
   );
 }
 
+function TrackMotionCircularGlyph() {
+  return (
+    <>
+      <path d="M18 90H108" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.2" />
+      <path d="M25 82C40 41 61 33 83 66" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <circle cx="84" cy="65" r="7" fill="var(--visual-accent)" />
+      <circle cx="76" cy="47" r="22" fill="none" stroke="currentColor" strokeWidth="4" opacity="0.22" />
+      <path d="M76 47L93 35" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.36" />
+      <path d="M93 35H108" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M108 35L98 27M108 35L98 43" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M27 36H61M27 58H48" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.24" />
+    </>
+  );
+}
+
+function TrackRotationalMechanicsGlyph() {
+  return (
+    <>
+      <circle cx="39" cy="74" r="10" fill="currentColor" opacity="0.22" />
+      <path d="M39 74L92 45" stroke="currentColor" strokeWidth="7" strokeLinecap="round" opacity="0.38" />
+      <path d="M79 52L94 78" stroke="var(--visual-accent)" strokeWidth="6" strokeLinecap="round" />
+      <path d="M94 78L95 64L83 70" fill="var(--visual-accent)" />
+      <circle cx="81" cy="74" r="18" fill="none" stroke="currentColor" strokeWidth="4" opacity="0.18" />
+      <path d="M57 31C72 19 94 23 104 40" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M104 40L91 36L99 28" fill="var(--visual-accent)" />
+      <circle cx="62" cy="69" r="6" fill="var(--visual-accent)" opacity="0.9" />
+    </>
+  );
+}
+
+function TrackGravityOrbitsGlyph() {
+  return (
+    <>
+      <circle cx="59" cy="61" r="12" fill="var(--visual-accent)" />
+      <ellipse cx="59" cy="61" rx="43" ry="24" fill="none" stroke="currentColor" strokeWidth="4" opacity="0.2" transform="rotate(-16 59 61)" />
+      <ellipse cx="59" cy="61" rx="29" ry="41" fill="none" stroke="currentColor" strokeWidth="3" opacity="0.13" transform="rotate(20 59 61)" />
+      <circle cx="96" cy="49" r="6" fill="currentColor" opacity="0.28" />
+      <path d="M96 49H111" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M111 49L101 41M111 49L101 57" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M36 91C47 101 73 102 88 89" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.2" />
+      <path d="M33 33C49 21 77 21 94 36" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.18" />
+    </>
+  );
+}
+
+function TrackThermalSystemsGlyph() {
+  return (
+    <>
+      <rect x="24" y="39" width="34" height="43" rx="9" fill="var(--visual-accent)" opacity="0.82" />
+      <rect x="70" y="31" width="34" height="56" rx="9" fill="currentColor" opacity="0.12" />
+      <path d="M58 54H72M58 69H72" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M72 54L63 47M72 54L63 62M58 69L67 62M58 69L67 77" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      {[34, 46, 82, 94].map((cx, index) => (
+        <circle
+          key={cx}
+          cx={cx}
+          cy={[51, 72, 47, 68][index]}
+          r="4"
+          fill={index < 2 ? "currentColor" : "var(--visual-accent)"}
+          opacity={index < 2 ? 0.26 : 0.75}
+        />
+      ))}
+      <path d="M31 29C40 20 51 20 59 29M75 96C84 104 97 104 105 96" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.24" />
+    </>
+  );
+}
+
 function OpticsRayGlyph() {
   return (
     <>
@@ -450,6 +517,82 @@ function ThermalEnergyGlyph() {
       {[29, 42, 96].map((cx, index) => (
         <circle key={cx} cx={cx} cy={[43, 25, 55][index]} r="5" fill="currentColor" opacity="0.22" />
       ))}
+    </>
+  );
+}
+
+function HeatTransferFlowGlyph() {
+  return (
+    <>
+      <rect x="22" y="42" width="30" height="42" rx="8" fill="var(--visual-accent)" opacity="0.86" />
+      <rect x="76" y="42" width="30" height="42" rx="8" fill="currentColor" opacity="0.14" />
+      <path d="M30 34C37 24 45 24 52 34M78 94C85 102 97 102 104 94" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.28" />
+      <path d="M51 55H79M51 71H79" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M79 55L69 47M79 55L69 63M51 71L61 63M51 71L61 79" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M37 50V75M91 50V75" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.28" />
+    </>
+  );
+}
+
+function IdealGasKineticGlyph() {
+  const particles = [
+    { cx: 37, cy: 43 },
+    { cx: 60, cy: 32 },
+    { cx: 84, cy: 51 },
+    { cx: 47, cy: 76 },
+    { cx: 75, cy: 84 },
+  ];
+
+  return (
+    <>
+      <rect x="25" y="24" width="76" height="72" rx="12" fill="currentColor" opacity="0.08" stroke="currentColor" strokeWidth="4" />
+      {particles.map((particle, index) => (
+        <circle
+          key={`${particle.cx}-${particle.cy}`}
+          cx={particle.cx}
+          cy={particle.cy}
+          r={index === 2 ? 6 : 5}
+          fill={index === 2 ? "var(--visual-accent)" : "currentColor"}
+          opacity={index === 2 ? 0.95 : 0.3}
+        />
+      ))}
+      <path d="M41 47L53 38M56 32L68 37M80 55L66 67M51 74L62 81M77 83L89 74" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" opacity="0.78" />
+      <path d="M24 61H12M102 61H114M63 23V11M63 97V109" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.24" />
+    </>
+  );
+}
+
+function InternalEnergyParticlesGlyph() {
+  return (
+    <>
+      <circle cx="54" cy="62" r="31" fill="currentColor" opacity="0.08" />
+      {[34, 49, 65, 80].map((cx, index) => (
+        <circle
+          key={cx}
+          cx={cx}
+          cy={[52, 76, 45, 70][index]}
+          r={index === 1 ? 7 : 6}
+          fill={index === 1 ? "var(--visual-accent)" : "currentColor"}
+          opacity={index === 1 ? 0.9 : 0.28}
+        />
+      ))}
+      <path d="M31 39L44 32M62 32L74 24M79 87L94 98M38 86L26 98" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" opacity="0.74" />
+      <path d="M99 31V78" stroke="currentColor" strokeWidth="6" strokeLinecap="round" opacity="0.22" />
+      <circle cx="99" cy="87" r="11" fill="currentColor" opacity="0.18" />
+      <path d="M99 73V49" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" />
+    </>
+  );
+}
+
+function PhaseChangeCurveGlyph() {
+  return (
+    <>
+      <path d="M24 94V27M24 94H106" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.28" />
+      <path d="M32 84H50L60 66H78L97 42" fill="none" stroke="var(--visual-accent)" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M34 49C41 39 49 39 56 49M76 29C84 21 94 21 101 29" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.26" />
+      <rect x="36" y="70" width="16" height="14" rx="4" fill="currentColor" opacity="0.16" />
+      <circle cx="69" cy="66" r="6" fill="var(--visual-accent)" />
+      <path d="M86 48C92 52 97 58 100 66" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.22" />
     </>
   );
 }
@@ -1095,30 +1238,11 @@ function renderMotif(motif: LearningVisualMotif) {
     case "fluid-pressure":
       return <FluidPressureGlyph />;
     case "heat-transfer-flow":
-      return (
-        <>
-          <ThermalEnergyGlyph />
-          <path d="M25 34C45 22 69 22 90 34M90 34L78 28M90 34L82 45" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.36" />
-        </>
-      );
+      return <HeatTransferFlowGlyph />;
     case "ideal-gas-kinetic":
-      return (
-        <>
-          <ThermalEnergyGlyph />
-          <path d="M33 44L55 31M75 48L96 35M45 83L68 70" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.36" />
-          <circle cx="55" cy="31" r="4" fill="var(--visual-accent)" />
-          <circle cx="96" cy="35" r="4" fill="var(--visual-accent)" />
-        </>
-      );
+      return <IdealGasKineticGlyph />;
     case "internal-energy-particles":
-      return (
-        <>
-          <ThermalEnergyGlyph />
-          <circle cx="36" cy="58" r="5" fill="currentColor" opacity="0.3" />
-          <circle cx="60" cy="34" r="5" fill="currentColor" opacity="0.3" />
-          <circle cx="96" cy="74" r="5" fill="var(--visual-accent)" />
-        </>
-      );
+      return <InternalEnergyParticlesGlyph />;
     case "frontier-visited":
       return <FrontierVisitedGlyph />;
     case "graph-network":
@@ -1199,12 +1323,7 @@ function renderMotif(motif: LearningVisualMotif) {
     case "optimization":
       return <OptimizationGlyph />;
     case "phase-change-curve":
-      return (
-        <>
-          <ThermalEnergyGlyph />
-          <path d="M25 94H103M33 84H52L66 63H84L96 42" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-        </>
-      );
+      return <PhaseChangeCurveGlyph />;
     case "optical-resolution":
       return <OpticalResolutionGlyph />;
     case "orbital-speed":
@@ -1276,6 +1395,14 @@ function renderMotif(motif: LearningVisualMotif) {
       return <TorqueGlyph />;
     case "total-internal-reflection":
       return <TotalInternalReflectionGlyph />;
+    case "track-gravity-orbits":
+      return <TrackGravityOrbitsGlyph />;
+    case "track-motion-circular":
+      return <TrackMotionCircularGlyph />;
+    case "track-rotational-mechanics":
+      return <TrackRotationalMechanicsGlyph />;
+    case "track-thermal-systems":
+      return <TrackThermalSystemsGlyph />;
     case "unit-circle":
       return <UnitCircleGlyph />;
     case "uniform-circular-motion":
