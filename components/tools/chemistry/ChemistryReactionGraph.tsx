@@ -31,8 +31,8 @@ const FIT_MARGIN = 48;
 const CONTEXT_PADDING = 88;
 const MIN_VISIBLE_SCENE_EDGE = 96;
 const PAN_AFFORDANCE_THRESHOLD = 24;
-const EDGE_LABEL_TARGET_VISUAL_SCALE = 0.94;
-const EDGE_LABEL_DETAIL_SCALE = 0.86;
+const EDGE_LABEL_TARGET_VISUAL_SCALE = 0.76;
+const EDGE_LABEL_DETAIL_SCALE = 1.05;
 const MIN_EDGE_LABEL_COUNTER_SCALE = 0.58;
 const MAX_EDGE_LABEL_COUNTER_SCALE = 1.72;
 const ZOOM_BOUNDARY_EPSILON = 0.001;
@@ -1420,20 +1420,20 @@ export function ChemistryReactionGraph({
   return (
     <div
       className={joinClasses(
-        "flex h-full min-h-0 flex-col gap-3 overflow-hidden min-[1100px]:gap-2",
+        "flex h-full min-h-0 flex-col gap-2 overflow-hidden",
         className,
       )}
     >
-      <div className="flex flex-wrap items-center justify-between gap-3 min-[1100px]:flex-nowrap">
-        <div className="flex min-w-0 flex-1 flex-nowrap items-center gap-2 overflow-x-auto pb-1 text-sm text-ink-700 [scrollbar-width:thin] [&>span]:shrink-0">
-          <span className="rounded-full border border-line bg-paper px-3 py-2">
+      <div className="flex flex-wrap items-center justify-between gap-2 min-[1100px]:flex-nowrap">
+        <div className="flex min-w-0 flex-1 flex-nowrap items-center gap-1.5 overflow-x-auto pb-1 text-xs text-ink-700 [scrollbar-width:thin] [&>span]:shrink-0">
+          <span className="rounded-full border border-line bg-paper px-2.5 py-1.5">
             {t("navigation.dragHint")}
           </span>
           <span
             id="chemistry-graph-zoom-status"
             aria-live="polite"
             data-testid="chem-zoom-status"
-            className="rounded-full border border-line bg-paper px-3 py-2"
+            className="rounded-full border border-line bg-paper px-2.5 py-1.5"
           >
             {t("navigation.zoom", { percent: zoomPercent })}
           </span>
@@ -1441,7 +1441,7 @@ export function ChemistryReactionGraph({
             id="chemistry-graph-camera-status"
             aria-live="polite"
             data-testid="chem-camera-status"
-            className="rounded-full border border-teal-500/20 bg-teal-500/10 px-3 py-2 font-medium text-teal-900"
+            className="rounded-full border border-teal-500/20 bg-teal-500/10 px-2.5 py-1.5 font-medium text-teal-900"
           >
             {activeCameraSummary}
           </span>
@@ -1450,7 +1450,7 @@ export function ChemistryReactionGraph({
             aria-live="polite"
             data-testid="chem-scope-status"
             data-chem-scope-summary={activeScopeSummary}
-            className="rounded-full border border-line bg-paper px-3 py-2 font-medium text-ink-700"
+            className="rounded-full border border-line bg-paper px-2.5 py-1.5 font-medium text-ink-700 max-[1279px]:sr-only"
           >
             {activeScopeSummary}
           </span>
@@ -1459,7 +1459,7 @@ export function ChemistryReactionGraph({
             aria-live="polite"
             data-testid="chem-flow-status"
             data-chem-active-flow-summary={activeGraphFlowSummary}
-            className="rounded-full border border-line bg-paper px-3 py-2 font-medium text-ink-700"
+            className="rounded-full border border-line bg-paper px-2.5 py-1.5 font-medium text-ink-700 max-[1279px]:sr-only"
           >
             {t("graphStatus.flow.active", { stages: activeGraphFlowSummary })}
           </span>
@@ -1467,15 +1467,15 @@ export function ChemistryReactionGraph({
             id="chemistry-graph-preview-status"
             aria-live="polite"
             data-testid="chem-preview-status"
-            className="rounded-full border border-line bg-paper px-3 py-2 font-medium text-ink-700"
+            className="rounded-full border border-line bg-paper px-2.5 py-1.5 font-medium text-ink-700 max-[1279px]:sr-only"
           >
             {interactionPreviewSummary}
           </span>
         </div>
-        <div className="flex shrink-0 flex-wrap items-center gap-2">
+        <div className="flex shrink-0 flex-wrap items-center gap-1.5">
           <label
             data-testid="chem-zoom-slider-control"
-            className="flex min-w-[10rem] items-center gap-2 rounded-full border border-line bg-paper px-3 py-2 text-sm text-ink-700 shadow-sm"
+            className="flex min-w-[8.5rem] items-center gap-2 rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs text-ink-700 shadow-sm"
           >
             <span className="sr-only">
               {t("navigation.zoom", { percent: zoomPercent })}
@@ -1489,7 +1489,7 @@ export function ChemistryReactionGraph({
               value={zoomPercent}
               aria-labelledby="chemistry-graph-zoom-status"
               aria-valuetext={`${zoomPercent}%`}
-              className="h-2 w-28 accent-teal-600 sm:w-36"
+              className="h-2 w-24 accent-teal-600 sm:w-28"
               onChange={handleZoomSliderChange}
             />
           </label>
@@ -1499,7 +1499,7 @@ export function ChemistryReactionGraph({
             disabled={zoomBoundary === "min"}
             aria-disabled={zoomBoundary === "min"}
             className={joinClasses(
-              "rounded-full border border-line bg-paper px-3 py-2 text-sm font-medium text-ink-800 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+              "rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs font-medium text-ink-800 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
               zoomBoundary === "min"
                 ? "cursor-not-allowed opacity-50"
                 : "hover:border-ink-950/20 hover:bg-paper-strong",
@@ -1514,7 +1514,7 @@ export function ChemistryReactionGraph({
             disabled={zoomBoundary === "max"}
             aria-disabled={zoomBoundary === "max"}
             className={joinClasses(
-              "rounded-full border border-line bg-paper px-3 py-2 text-sm font-medium text-ink-800 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+              "rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs font-medium text-ink-800 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
               zoomBoundary === "max"
                 ? "cursor-not-allowed opacity-50"
                 : "hover:border-ink-950/20 hover:bg-paper-strong",
@@ -1526,7 +1526,7 @@ export function ChemistryReactionGraph({
           <button
             type="button"
             data-testid="chem-fit-view"
-            className="rounded-full border border-line bg-paper px-3 py-2 text-sm font-medium text-ink-800 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+            className="rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs font-medium text-ink-800 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
             onClick={resetView}
           >
             {t("navigation.fitToView")}
@@ -1695,7 +1695,7 @@ export function ChemistryReactionGraph({
         aria-describedby={graphDescriptionIds}
         aria-keyshortcuts="ArrowUp ArrowDown ArrowLeft ArrowRight + - 0"
         className={joinClasses(
-          "relative min-h-[26rem] flex-1 overflow-hidden rounded-[24px] border border-line bg-paper-strong/70 select-none touch-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper min-[1100px]:min-h-0",
+          "relative min-h-[28rem] flex-1 overflow-hidden rounded-[22px] border border-line bg-paper-strong/70 select-none touch-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper min-[1100px]:min-h-0",
           isPanning ? "cursor-grabbing" : "cursor-grab",
         )}
         onWheel={handleWheel}
@@ -3049,6 +3049,7 @@ export function ChemistryReactionGraph({
                 data-chem-flow-source={edgeFlowTransition?.source.id}
                 data-chem-flow-target={edgeFlowTransition?.target.id}
                 data-chem-layer-priority={edgeLayerPriority}
+                data-chem-label-role="pathway-secondary"
                 data-chem-crosses-flow-band={
                   edgeFlowTransition
                     ? edgeFlowTransition.crossesBand
@@ -3059,7 +3060,7 @@ export function ChemistryReactionGraph({
                 data-chem-interactive="true"
                 data-chem-label-scale={edgeLabelCounterScale.toFixed(2)}
                 className={[
-                  "absolute z-10 inline-flex max-w-[12.5rem] items-center justify-center gap-1.5 rounded-[1.35rem] border px-3 py-2 text-center text-xs font-semibold leading-tight transition shadow-sm backdrop-blur focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                  "absolute z-10 inline-flex max-w-[10.5rem] items-center justify-center gap-1.5 rounded-[1rem] border px-2.5 py-1.5 text-center text-[0.68rem] font-medium leading-tight transition shadow-sm backdrop-blur focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
                   selected
                     ? "border-teal-700 bg-teal-500/15 text-teal-900 ring-2 ring-teal-600/40"
                     : routeEdgeSet.has(edge.id)
@@ -3097,7 +3098,7 @@ export function ChemistryReactionGraph({
                   <span
                     aria-hidden="true"
                     data-testid={`chem-edge-route-step-${edge.id}`}
-                    className="grid size-5 shrink-0 place-items-center rounded-full bg-amber-500 text-[0.68rem] font-bold leading-none text-ink-950 shadow-sm"
+                    className="grid size-4 shrink-0 place-items-center rounded-full bg-amber-500 text-[0.58rem] font-bold leading-none text-ink-950 shadow-sm"
                   >
                     {routeStep}
                   </span>
@@ -3112,7 +3113,7 @@ export function ChemistryReactionGraph({
                       edgeFlowTransition.crossesBand ? "true" : "false"
                     }
                     className={joinClasses(
-                      "grid size-5 shrink-0 place-items-center rounded-full border text-[0.58rem] font-black leading-none shadow-sm",
+                      "grid size-4 shrink-0 place-items-center rounded-full border text-[0.5rem] font-black leading-none shadow-sm",
                       edgeFlowTransition.crossesBand
                         ? "border-teal-500/30 bg-teal-500/10 text-teal-900"
                         : "border-line bg-paper-strong text-ink-500",
@@ -3137,7 +3138,7 @@ export function ChemistryReactionGraph({
                     aria-hidden="true"
                     data-testid={`chem-edge-reaction-type-${edge.id}`}
                     className={joinClasses(
-                      "mx-auto mt-1 w-fit rounded-full border border-current/15 bg-paper/70 px-1.5 py-0.5 text-[0.56rem] font-bold uppercase tracking-[0.12em] opacity-75",
+                      "mx-auto mt-1 w-fit rounded-full border border-current/15 bg-paper/70 px-1.5 py-0.5 text-[0.54rem] font-bold uppercase tracking-[0.12em] opacity-70",
                       showEdgeDetail ? "block" : "hidden",
                     )}
                   >
@@ -3467,12 +3468,15 @@ export function ChemistryReactionGraph({
                       />
                     ) : null}
                   </span>
-                  <span className="block text-lg font-semibold text-ink-950">
+                  <span
+                    data-chem-label-role="family-primary"
+                    className="block text-xl font-bold leading-tight text-ink-950"
+                  >
                     {node.name}
                   </span>
                 </div>
                 <div className="flex w-full items-end justify-between gap-2">
-                  <span className="min-w-0 text-xs leading-5 text-ink-600">
+                  <span className="min-w-0 text-[0.72rem] leading-5 text-ink-600">
                     <ChemistryInlineNotation value={node.generalFormula} />
                   </span>
                   <span className="flex shrink-0 flex-col items-end gap-1">
