@@ -1102,6 +1102,46 @@ function SubjectGlyph() {
   );
 }
 
+function SubjectPhysicsGlyph() {
+  return (
+    <>
+      <circle cx="60" cy="61" r="10" fill="var(--visual-accent)" />
+      <ellipse cx="60" cy="61" rx="41" ry="21" fill="none" stroke="currentColor" strokeWidth="4" opacity="0.24" transform="rotate(-18 60 61)" />
+      <path d="M24 91C38 56 52 70 66 42C78 18 91 27 103 17" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.28" />
+      <path d="M80 48H106" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M106 48L96 40M106 48L96 56" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="95" cy="54" r="6" fill="currentColor" opacity="0.28" />
+    </>
+  );
+}
+
+function SubjectMathGlyph() {
+  return (
+    <>
+      <path d="M25 90H103M31 96V23" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.28" />
+      <path d="M32 79C45 58 53 60 62 70C73 83 84 47 101 32" fill="none" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M47 42L64 25L82 42" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" opacity="0.34" />
+      <path d="M60 59H91" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.28" />
+      <circle cx="64" cy="25" r="6" fill="var(--visual-accent)" />
+    </>
+  );
+}
+
+function SubjectComputerScienceGlyph() {
+  return (
+    <>
+      <rect x="22" y="24" width="82" height="66" rx="18" fill="currentColor" opacity="0.08" />
+      <circle cx="42" cy="47" r="9" fill="var(--visual-accent)" />
+      <circle cx="72" cy="38" r="8" fill="currentColor" opacity="0.24" />
+      <circle cx="86" cy="67" r="9" fill="currentColor" opacity="0.22" />
+      <circle cx="51" cy="78" r="8" fill="currentColor" opacity="0.2" />
+      <path d="M49 45L64 40M76 45L83 59M78 68L59 76M48 54L51 70" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.32" />
+      <path d="M28 99H98" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
+      <path d="M62 99V90" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.32" />
+    </>
+  );
+}
+
 function TopicGlyph() {
   return (
     <>
@@ -1389,6 +1429,19 @@ function renderMotif(motif: LearningVisualMotif) {
           <path d="M30 98H48M58 98H76M86 98H104" stroke="var(--visual-accent)" strokeWidth="5" strokeLinecap="round" />
         </>
       );
+    case "subject-chemistry":
+      return (
+        <>
+          <ChemistryGlyph />
+          <path d="M82 30C92 38 98 48 100 60" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.3" />
+        </>
+      );
+    case "subject-computer-science":
+      return <SubjectComputerScienceGlyph />;
+    case "subject-math":
+      return <SubjectMathGlyph />;
+    case "subject-physics":
+      return <SubjectPhysicsGlyph />;
     case "thermal-energy":
       return <ThermalEnergyGlyph />;
     case "torque":
@@ -1527,6 +1580,16 @@ function renderOverlay(overlay?: LearningVisualOverlay) {
         <circle cx="16" cy="14" r="11" fill="currentColor" opacity="0.14" />
         <circle cx="16" cy="14" r="6" fill="none" stroke="var(--visual-accent)" strokeWidth="3" />
         <circle cx="16" cy="14" r="2.5" fill="var(--visual-accent)" />
+      </g>
+    );
+  }
+
+  if (overlay === "checkpoint") {
+    return (
+      <g transform="translate(82 74)">
+        <rect width="31" height="27" rx="10" fill="white" opacity="0.78" />
+        <path d="M8 16L14 21L24 8" fill="none" stroke="var(--visual-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M8 7H22" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.22" />
       </g>
     );
   }

@@ -28,12 +28,38 @@ function extractRecordMap(source, constName) {
   return entries;
 }
 
+function extractNestedMotifRecord(source, constName) {
+  const match = source.match(
+    new RegExp(`const ${constName}:[\\s\\S]*?=\\s*\\{([\\s\\S]*?)\\n\\};`),
+  );
+
+  if (!match) {
+    return new Map();
+  }
+
+  const entries = new Map();
+  const body = match[1];
+  const recordPattern =
+    /(?:"([^"]+)"|([A-Za-z0-9_-]+)):\s*\{[\s\S]*?motif:\s*"([^"]+)"/g;
+
+  for (const entry of body.matchAll(recordPattern)) {
+    entries.set(entry[1] ?? entry[2], entry[3]);
+  }
+
+  return entries;
+}
+
 const descriptorSource = readFileSync(
   path.join(repoRoot, "components/visuals/learningVisualDescriptors.ts"),
   "utf8",
 );
 const exactConceptMotifs = extractRecordMap(descriptorSource, "exactConceptMotifs");
 const exactTopicMotifs = extractRecordMap(descriptorSource, "exactTopicMotifs");
+const exactSubjectMotifs = extractRecordMap(descriptorSource, "exactSubjectMotifs");
+const exactStarterTrackMotifs = extractNestedMotifRecord(
+  descriptorSource,
+  "exactStarterTrackMotifs",
+);
 
 const motifRules = [
   [/escape/, "escape-velocity"],
@@ -171,6 +197,8 @@ function hasRawLatex(value) {
 }
 
 const concepts = readJson("content/catalog/concepts.json");
+const subjects = readJson("content/catalog/subjects.json");
+const starterTracks = readJson("content/catalog/starter-tracks.json");
 const topics = readJson("content/catalog/topics.json");
 const topicTests = readJson("content/catalog/topic-tests.json");
 const testPacks = readJson("content/catalog/test-packs.json");
@@ -247,6 +275,31 @@ const packRows = testPacks.map((pack) => ({
       .map(getTopicMotif)
       .find(Boolean) ?? pickMotif(compact([pack.slug, pack.title, pack.summary])),
 }));
+const subjectRows = subjects.map((subject) => ({
+  id: subject.slug,
+  motif:
+    exactSubjectMotifs.get(subject.slug) ??
+    exactSubjectMotifs.get(subject.title.toLowerCase()) ??
+    pickMotif(compact([subject.slug, subject.title, subject.description])),
+}));
+const starterTrackRows = starterTracks.map((track) => ({
+  id: track.slug,
+  motif:
+    exactStarterTrackMotifs.get(track.slug) ??
+    pickMotif(compact([
+      track.slug,
+      track.title,
+      track.summary,
+      ...(track.highlights ?? []),
+      ...(track.concepts ?? []).flatMap((concept) => [
+        concept.slug,
+        concept.title,
+        concept.subject,
+        concept.topic,
+        ...(concept.tags ?? []),
+      ]),
+    ])),
+}));
 
 console.log("Card visual coverage report");
 console.log("===========================");
@@ -265,3 +318,5 @@ console.log(`Challenge prompts containing raw inline math/unit markup in source:
 console.log(`Concept test visuals with motifs: ${conceptTestRows.filter((row) => row.motif).length}/${conceptTestRows.length}`);
 console.log(`Topic test visuals with motifs: ${topicTestRows.filter((row) => row.motif).length}/${topicTestRows.length}`);
 console.log(`Pack test visuals with motifs: ${packRows.filter((row) => row.motif).length}/${packRows.length}`);
+console.log(`Subject visuals with motifs: ${subjectRows.filter((row) => row.motif).length}/${subjectRows.length}`);
+console.log(`Starter track visuals with motifs: ${starterTrackRows.filter((row) => row.motif).length}/${starterTrackRows.length}`);

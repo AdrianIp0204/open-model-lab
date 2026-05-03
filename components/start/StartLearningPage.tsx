@@ -49,8 +49,14 @@ import { DisclosurePanel } from "@/components/layout/DisclosurePanel";
 import { PageSection } from "@/components/layout/PageSection";
 import {
   LearningVisual,
-  type LearningVisualKind,
+  type LearningVisualDescriptor,
 } from "@/components/visuals/LearningVisual";
+import {
+  getConceptVisualDescriptor,
+  getStarterTrackVisualDescriptor,
+  getSubjectVisualDescriptor,
+  getTopicVisualDescriptor,
+} from "@/components/visuals/learningVisualDescriptors";
 
 type StartLearningPageProps = {
   locale?: AppLocale;
@@ -132,6 +138,29 @@ function InterestButton({
     >
       {label}
     </button>
+  );
+}
+
+function EntityVisual({
+  visual,
+  fallbackTone,
+  className,
+}: {
+  visual: LearningVisualDescriptor;
+  fallbackTone?: LearningVisualDescriptor["tone"];
+  className?: string;
+}) {
+  return (
+    <LearningVisual
+      kind={visual.kind}
+      motif={visual.motif}
+      overlay={visual.overlay}
+      isFallback={visual.isFallback}
+      fallbackKind={visual.fallbackKind}
+      tone={visual.tone ?? fallbackTone ?? "teal"}
+      compact
+      className={className}
+    />
   );
 }
 
@@ -301,14 +330,52 @@ function RecommendationCard({
     topicBySlug,
     trackBySlug,
   ]);
-  const visualKind: LearningVisualKind =
-    recommendation.kind === "concept"
-      ? "simulation"
-      : recommendation.kind === "topic"
-        ? "topic"
-        : recommendation.kind === "track"
-          ? "guided"
-          : "subject";
+  const visual = useMemo<LearningVisualDescriptor>(() => {
+    if (recommendation.kind === "concept" && recommendation.entitySlug) {
+      return getConceptVisualDescriptor(
+        conceptBySlug.get(recommendation.entitySlug) ?? {
+          slug: recommendation.entitySlug,
+          title: recommendation.title,
+          subject: localizedSubjectTitle ?? undefined,
+          accent: recommendation.accent,
+        },
+      );
+    }
+
+    if (recommendation.kind === "topic" && recommendation.entitySlug) {
+      return getTopicVisualDescriptor(
+        topicBySlug.get(recommendation.entitySlug) ?? {
+          slug: recommendation.entitySlug,
+          title: recommendation.title,
+          subject: localizedSubjectTitle ?? undefined,
+          accent: recommendation.accent,
+        },
+      );
+    }
+
+    if (recommendation.kind === "track" && recommendation.entitySlug) {
+      return getStarterTrackVisualDescriptor(
+        trackBySlug.get(recommendation.entitySlug) ?? {
+          slug: recommendation.entitySlug,
+          title: recommendation.title,
+          summary: recommendation.highlights.join(" "),
+          accent: recommendation.accent,
+        },
+      );
+    }
+
+    return getSubjectVisualDescriptor({
+      slug: recommendation.subjectSlug,
+      title: localizedSubjectTitle ?? recommendation.title,
+      accent: recommendation.accent,
+    });
+  }, [
+    conceptBySlug,
+    localizedSubjectTitle,
+    recommendation,
+    topicBySlug,
+    trackBySlug,
+  ]);
 
   return (
     <article
@@ -322,12 +389,7 @@ function RecommendationCard({
         aria-label={display.actionLabel}
         className="mb-4 block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
       >
-        <LearningVisual
-          kind={visualKind}
-          tone={recommendation.accent}
-          compact
-          className="h-24"
-        />
+        <EntityVisual visual={visual} fallbackTone={recommendation.accent} className="h-24" />
       </Link>
       <div className="flex flex-wrap items-center gap-2">
         <span className="lab-label">
@@ -474,6 +536,18 @@ export function StartLearningPage({
   const currentTrackBody = currentTrackSummary
     ? getStarterTrackDisplaySummary(currentTrackSummary, locale)
     : null;
+  const primaryConceptVisual = primaryConceptSummary
+    ? getConceptVisualDescriptor(primaryConceptSummary)
+    : null;
+  const currentTrackVisual = currentTrackSummary
+    ? getStarterTrackVisualDescriptor(currentTrackSummary)
+    : null;
+  const activeSubjectVisual = activeSubject
+    ? getSubjectVisualDescriptor(activeSubject)
+    : getSubjectVisualDescriptor({
+        title: t("chooser.selected"),
+        accent: "sky",
+      });
   return (
     <>
     {leadIn ? <div className="mb-6 space-y-3 sm:mb-8">{leadIn}</div> : null}
@@ -521,35 +595,50 @@ export function StartLearningPage({
                     t("overview.resumeConceptFallback")}{" "}
                   {resumeSummary.primaryConcept.masteryNote}
                 </p>
-                <div className="page-band p-5">
-                  <p className="text-sm font-semibold text-ink-950">
-                    {primaryConceptTitle ?? resumeSummary.primaryConcept.title}
-                  </p>
-                  <p className="mt-2 text-base leading-7 text-ink-700">
-                    {t("overview.resumeConceptCard")}
-                  </p>
-                  <div className="mt-4 flex flex-wrap gap-3">
+                <div className="page-band grid gap-4 p-5 sm:grid-cols-[7rem_minmax(0,1fr)] sm:items-start">
+                  {primaryConceptVisual ? (
                     <Link
                       href={`/concepts/${resumeSummary.primaryConcept.slug}`}
-                      className="cta-primary"
-                      data-testid="start-primary-cta"
+                      aria-label={primaryConceptTitle ?? resumeSummary.primaryConcept.title}
+                      data-testid={`start-resume-concept-visual-${resumeSummary.primaryConcept.slug}`}
+                      className="block rounded-[18px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
                     >
-                      {t("actions.continueConcept")}
+                      <EntityVisual
+                        visual={primaryConceptVisual}
+                        className="h-24 rounded-[18px] sm:h-28"
+                      />
                     </Link>
-                    {resumeSummary.activeSubject ? (
+                  ) : null}
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-ink-950">
+                      {primaryConceptTitle ?? resumeSummary.primaryConcept.title}
+                    </p>
+                    <p className="mt-2 text-sm leading-6 text-ink-700 sm:text-base sm:leading-7">
+                      {t("overview.resumeConceptCard")}
+                    </p>
+                    <div className="mt-4 flex flex-wrap gap-3">
                       <Link
-                        href={resumeSummary.activeSubject.path}
+                        href={`/concepts/${resumeSummary.primaryConcept.slug}`}
+                        className="cta-primary"
+                        data-testid="start-primary-cta"
+                      >
+                        {t("actions.continueConcept")}
+                      </Link>
+                      {resumeSummary.activeSubject ? (
+                        <Link
+                          href={resumeSummary.activeSubject.path}
+                          className="cta-secondary"
+                        >
+                          {t("actions.continueSubject")}
+                        </Link>
+                      ) : null}
+                      <Link
+                        href="#start-new"
                         className="cta-secondary"
                       >
-                        {t("actions.continueSubject")}
+                        {t("actions.startSomethingNew")}
                       </Link>
-                    ) : null}
-                    <Link
-                      href="#start-new"
-                      className="cta-secondary"
-                    >
-                      {t("actions.startSomethingNew")}
-                    </Link>
+                    </div>
                   </div>
                 </div>
               </>
@@ -577,33 +666,52 @@ export function StartLearningPage({
                       title: currentTrackTitle ?? resumeSummary.currentTrack.track.title,
                     })}
                 </p>
-                <div className="page-band p-5">
-                  <p className="text-sm font-semibold text-ink-950">
-                    {currentTrackTitle ?? resumeSummary.currentTrack.track.title}
-                  </p>
-                  <p className="mt-2 text-base leading-7 text-ink-700">
-                    {currentTrackBody ?? resumeSummary.currentTrack.track.summary}
-                  </p>
-                  <div className="mt-4 flex flex-wrap gap-3">
+                <div className="page-band grid gap-4 p-5 sm:grid-cols-[7rem_minmax(0,1fr)] sm:items-start">
+                  {currentTrackVisual ? (
                     <Link
                       href={
                         resumeSummary.currentTrack.primaryAction?.href ??
                         `/tracks/${resumeSummary.currentTrack.track.slug}`
                       }
-                      className="cta-primary"
-                      data-testid="start-primary-cta"
+                      aria-label={currentTrackTitle ?? resumeSummary.currentTrack.track.title}
+                      data-testid={`start-current-track-visual-${resumeSummary.currentTrack.track.slug}`}
+                      className="block rounded-[18px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
                     >
-                      {resumeSummary.currentTrack.primaryAction?.label ??
-                        t("actions.continueTrack", {
-                          title: currentTrackTitle ?? resumeSummary.currentTrack.track.title,
-                        })}
+                      <EntityVisual
+                        visual={currentTrackVisual}
+                        fallbackTone={currentTrackSummary?.accent}
+                        className="h-24 rounded-[18px] sm:h-28"
+                      />
                     </Link>
-                    <Link
-                      href="#start-new"
-                      className="cta-secondary"
-                    >
-                      {t("actions.startSomethingNew")}
-                    </Link>
+                  ) : null}
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-ink-950">
+                      {currentTrackTitle ?? resumeSummary.currentTrack.track.title}
+                    </p>
+                    <p className="mt-2 text-sm leading-6 text-ink-700 sm:text-base sm:leading-7">
+                      {currentTrackBody ?? resumeSummary.currentTrack.track.summary}
+                    </p>
+                    <div className="mt-4 flex flex-wrap gap-3">
+                      <Link
+                        href={
+                          resumeSummary.currentTrack.primaryAction?.href ??
+                          `/tracks/${resumeSummary.currentTrack.track.slug}`
+                        }
+                        className="cta-primary"
+                        data-testid="start-primary-cta"
+                      >
+                        {resumeSummary.currentTrack.primaryAction?.label ??
+                          t("actions.continueTrack", {
+                            title: currentTrackTitle ?? resumeSummary.currentTrack.track.title,
+                          })}
+                      </Link>
+                      <Link
+                        href="#start-new"
+                        className="cta-secondary"
+                      >
+                        {t("actions.startSomethingNew")}
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </>
@@ -666,12 +774,18 @@ export function StartLearningPage({
 
         <aside className="grid gap-4">
           <article className="page-band p-5">
-            <div className="space-y-3">
-              <p className="lab-label">{t("chooser.currentLabel")}</p>
-              <h2 className="text-xl font-semibold text-ink-950">
-                {getInterestButtonLabel(activeSubject, interest, t, locale)}
-              </h2>
-              <div className="flex flex-wrap gap-2 text-sm text-ink-700">
+            <div className="grid gap-3 sm:grid-cols-[5.5rem_minmax(0,1fr)] sm:items-start">
+              <EntityVisual
+                visual={activeSubjectVisual}
+                fallbackTone={activeSubject?.accent ?? "sky"}
+                className="h-20 rounded-[18px] sm:h-24"
+              />
+              <div className="min-w-0 space-y-3">
+                <p className="lab-label">{t("chooser.currentLabel")}</p>
+                <h2 className="text-xl font-semibold text-ink-950">
+                  {getInterestButtonLabel(activeSubject, interest, t, locale)}
+                </h2>
+                <div className="flex flex-wrap gap-2 text-sm text-ink-700">
                 <span className="rounded-full border border-line bg-paper-strong px-3 py-1.5 font-medium">
                   {t("filters.interest.label")}: {getInterestButtonLabel(activeSubject, interest, t, locale)}
                 </span>
@@ -689,6 +803,7 @@ export function StartLearningPage({
                       subject: activeSubjectTitle,
                     })}
               </p>
+              </div>
             </div>
             <div className="mt-4 flex flex-wrap gap-3">
               <Link
@@ -865,18 +980,21 @@ export function StartLearningPage({
       >
         <div className="grid gap-3 sm:grid-cols-3">
           <div className="rounded-[20px] border border-line bg-paper-strong p-4">
+            <LearningVisual kind="progress" tone="teal" compact className="mb-3 h-16 rounded-[16px]" />
             <p className="text-sm font-semibold text-ink-950">{t("howItWorks.cards.resume.title")}</p>
             <p className="mt-1.5 text-sm leading-5 text-ink-700">
               {t("howItWorks.cards.resume.body")}
             </p>
           </div>
           <div className="rounded-[20px] border border-line bg-paper-strong p-4">
+            <LearningVisual kind="guided" tone="coral" compact className="mb-3 h-16 rounded-[16px]" />
             <p className="text-sm font-semibold text-ink-950">{t("howItWorks.cards.tracks.title")}</p>
             <p className="mt-1.5 text-sm leading-5 text-ink-700">
               {t("howItWorks.cards.tracks.body")}
             </p>
           </div>
           <div className="rounded-[20px] border border-line bg-paper-strong p-4">
+            <LearningVisual kind="test" tone="amber" overlay="assessment" compact className="mb-3 h-16 rounded-[16px]" />
             <p className="text-sm font-semibold text-ink-950">{t("howItWorks.cards.scoring.title")}</p>
             <p className="mt-1.5 text-sm leading-5 text-ink-700">
               {t("howItWorks.cards.scoring.body")}

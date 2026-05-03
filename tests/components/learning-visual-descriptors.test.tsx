@@ -10,6 +10,7 @@ import {
   getConceptVisualDescriptor,
   getPackAssessmentVisualDescriptor,
   getStarterTrackVisualDescriptor,
+  getSubjectVisualDescriptor,
   getTopicAssessmentVisualDescriptor,
   getTopicVisualDescriptor,
   getToolVisualDescriptor,
@@ -473,6 +474,36 @@ describe("learning visual descriptors", () => {
       motif: "track-thermal-systems",
       isFallback: false,
     });
+    expect(
+      getStarterTrackVisualDescriptor(getStarterTrackBySlug("wave-optics")),
+    ).toMatchObject({
+      motif: "double-slit-fringes",
+      isFallback: false,
+    });
+    expect(
+      getStarterTrackVisualDescriptor(
+        getStarterTrackBySlug("algorithms-and-search-foundations"),
+      ),
+    ).toMatchObject({
+      motif: "binary-search",
+      isFallback: false,
+    });
+  });
+
+  it("maps first-class subject cards to subject-specific visual motifs", () => {
+    const subjects = getSubjectDiscoverySummaries();
+
+    expect(
+      subjects.map((subject) => [
+        subject.slug,
+        getSubjectVisualDescriptor(subject).motif,
+      ]),
+    ).toEqual([
+      ["physics", "subject-physics"],
+      ["math", "subject-math"],
+      ["chemistry", "subject-chemistry"],
+      ["computer-science", "subject-computer-science"],
+    ]);
   });
 
   it("maps visible math discovery concepts away from the generic fallback", () => {
@@ -626,6 +657,10 @@ describe("learning visual descriptors", () => {
 
     render(<SubjectDiscoveryCard subject={subject} variant="compact" />);
 
+    expect(screen.getByTestId("learning-visual")).toHaveAttribute(
+      "data-visual-motif",
+      `subject-${subject.slug === "math" ? "math" : subject.slug}`,
+    );
     expect(screen.getByTestId("learning-visual").closest("a")).toHaveAttribute(
       "href",
       subject.path,

@@ -15,7 +15,14 @@ import {
   getSubjectDisplayTitleFromValue,
 } from "@/lib/i18n/content";
 import type { FreeTierProgressRecapSummary } from "@/lib/progress";
-import { LearningVisual } from "@/components/visuals/LearningVisual";
+import { LearningVisual, type LearningVisualDescriptor } from "@/components/visuals/LearningVisual";
+import {
+  getChallengeVisualDescriptor,
+  getConceptCheckpointVisualDescriptor,
+  getConceptVisualDescriptor,
+  getStarterTrackVisualDescriptor,
+  getSubjectVisualDescriptor,
+} from "@/components/visuals/learningVisualDescriptors";
 import { formatProgressMonthDay } from "./dateFormatting";
 
 type FreeTierProgressRecapPanelProps = {
@@ -78,6 +85,97 @@ function getTrackSlugFromHref(href: string) {
 
 function getGuidedSlugFromHref(href: string) {
   return href.match(/^\/guided\/([^/?#]+)/)?.[1] ?? null;
+}
+
+function getSubjectSlugFromHref(href: string | null | undefined) {
+  return href?.match(/^\/concepts\/subjects\/([^/?#]+)/)?.[1] ?? null;
+}
+
+function getConceptForHref(href: string) {
+  const conceptSlug = getConceptSlugFromHref(href);
+
+  if (!conceptSlug) {
+    return null;
+  }
+
+  try {
+    return getConceptBySlug(conceptSlug);
+  } catch {
+    return null;
+  }
+}
+
+function getDisplayVisual(item: {
+  kind: "challenge" | "checkpoint" | "concept" | "track" | "guided";
+  title: string;
+  href: string;
+  note?: string;
+}): LearningVisualDescriptor {
+  const concept = getConceptForHref(item.href);
+
+  if (concept) {
+    if (item.kind === "challenge") {
+      return getChallengeVisualDescriptor({
+        title: item.title,
+        prompt: item.note,
+        concept,
+      });
+    }
+
+    if (item.kind === "checkpoint") {
+      return getConceptCheckpointVisualDescriptor(concept);
+    }
+
+    return getConceptVisualDescriptor(concept);
+  }
+
+  if (item.kind === "track") {
+    const trackSlug = getTrackSlugFromHref(item.href);
+
+    if (trackSlug) {
+      try {
+        return getStarterTrackVisualDescriptor(getStarterTrackBySlug(trackSlug));
+      } catch {
+        return {
+          kind: "guided",
+          tone: "coral",
+          isFallback: true,
+          fallbackKind: "category-specific",
+          label: "starter track",
+        };
+      }
+    }
+  }
+
+  return {
+    kind: item.kind === "challenge" ? "challenge" : item.kind === "guided" ? "guided" : "progress",
+    tone: item.kind === "challenge" ? "teal" : "amber",
+    overlay: item.kind === "challenge" ? "challenge" : item.kind === "checkpoint" ? "checkpoint" : undefined,
+    isFallback: true,
+    fallbackKind: "category-specific",
+    label: `${item.kind} card`,
+  };
+}
+
+function EntityVisual({
+  visual,
+  className,
+}: {
+  visual: LearningVisualDescriptor;
+  className?: string;
+}) {
+  return (
+    <LearningVisual
+      kind={visual.kind}
+      motif={visual.motif}
+      overlay={visual.overlay}
+      isFallback={visual.isFallback}
+      fallbackKind={visual.fallbackKind}
+      tone={visual.tone ?? "teal"}
+      compact
+      className={className}
+    />
+  );
 }
 
 export function FreeTierProgressRecapPanel({
@@ -248,38 +346,43 @@ export function FreeTierProgressRecapPanel({
                       ? getSubjectDisplayTitleFromValue(item.subjectTitle, locale)
                       : null;
 
+                    const visual = getDisplayVisual(item);
+
                     return (
                       <article
                         key={item.id}
-                        className="rounded-[20px] border border-line bg-paper p-4"
+                        className="grid gap-3 rounded-[20px] border border-line bg-paper p-4 sm:grid-cols-[4.75rem_minmax(0,1fr)] sm:items-start"
                       >
-                        <div className="flex flex-wrap items-center gap-2">
-                          <CompletionKindBadge kind={item.kind} />
-                          {displaySubject ? (
-                            <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">
-                              {displaySubject}
-                            </span>
-                          ) : null}
-                          {completedLabel ? (
-                            <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">
-                              {completedLabel}
-                            </span>
-                          ) : null}
+                        <EntityVisual visual={visual} className="h-18 rounded-[16px] sm:h-20" />
+                        <div className="min-w-0">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <CompletionKindBadge kind={item.kind} />
+                            {displaySubject ? (
+                              <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">
+                                {displaySubject}
+                              </span>
+                            ) : null}
+                            {completedLabel ? (
+                              <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">
+                                {completedLabel}
+                              </span>
+                            ) : null}
+                          </div>
+                          <p className="mt-3 text-lg font-semibold text-ink-950">
+                            {getDisplayTitle(item)}
+                          </p>
+                          <p className="mt-2 line-clamp-2 text-sm leading-6 text-ink-700">
+                            {getDisplayNote(item)}
+                          </p>
+                          <Link
+                            href={item.href}
+                            className="mt-3 inline-flex items-center rounded-full border border-line bg-paper-strong px-4 py-2 text-sm font-semibold text-ink-950 transition hover:border-ink-950/20 hover:bg-white"
+                          >
+                            {item.kind === "checkpoint"
+                              ? t("actions.reopenCheckpoint")
+                              : t("actions.reopenChallenge")}
+                          </Link>
                         </div>
-                        <p className="mt-3 text-lg font-semibold text-ink-950">
-                          {getDisplayTitle(item)}
-                        </p>
-                        <p className="mt-2 text-sm leading-6 text-ink-700">
-                          {getDisplayNote(item)}
-                        </p>
-                        <Link
-                          href={item.href}
-                          className="mt-3 inline-flex items-center rounded-full border border-line bg-paper-strong px-4 py-2 text-sm font-semibold text-ink-950 transition hover:border-ink-950/20 hover:bg-white"
-                        >
-                          {item.kind === "checkpoint"
-                            ? t("actions.reopenCheckpoint")
-                            : t("actions.reopenChallenge")}
-                        </Link>
                       </article>
                     );
                   })}
@@ -294,35 +397,42 @@ export function FreeTierProgressRecapPanel({
                 <p className="text-sm font-semibold text-ink-950">{t("sections.nextPrompts")}</p>
                 {summary.nextPrompts.length ? (
                   <div className="mt-3 grid gap-3">
-                    {summary.nextPrompts.map((prompt) => (
+                    {summary.nextPrompts.map((prompt) => {
+                      const visual = getDisplayVisual(prompt);
+
+                      return (
                       <article
                         key={prompt.id}
-                        className="rounded-[20px] border border-line bg-paper p-4"
+                        className="grid gap-3 rounded-[20px] border border-line bg-paper p-4 sm:grid-cols-[4.75rem_minmax(0,1fr)] sm:items-start"
                       >
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">
-                            {t(`kinds.${prompt.kind}`)}
-                          </span>
-                          {prompt.subjectTitle ? (
+                        <EntityVisual visual={visual} className="h-18 rounded-[16px] sm:h-20" />
+                        <div className="min-w-0">
+                          <div className="flex flex-wrap items-center gap-2">
                             <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">
-                              {getSubjectDisplayTitleFromValue(prompt.subjectTitle, locale)}
+                              {t(`kinds.${prompt.kind}`)}
                             </span>
-                          ) : null}
+                            {prompt.subjectTitle ? (
+                              <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">
+                                {getSubjectDisplayTitleFromValue(prompt.subjectTitle, locale)}
+                              </span>
+                            ) : null}
+                          </div>
+                          <p className="mt-3 text-lg font-semibold text-ink-950">
+                            {getDisplayTitle(prompt)}
+                          </p>
+                          <p className="mt-2 line-clamp-2 text-sm leading-6 text-ink-700">
+                            {getDisplayNote(prompt)}
+                          </p>
+                          <Link
+                            href={prompt.href}
+                            className="mt-3 inline-flex items-center rounded-full bg-ink-950 px-4 py-2 text-sm font-semibold text-paper-strong transition hover:opacity-90"
+                          >
+                            {getActionLabel(prompt)}
+                          </Link>
                         </div>
-                        <p className="mt-3 text-lg font-semibold text-ink-950">
-                          {getDisplayTitle(prompt)}
-                        </p>
-                        <p className="mt-2 text-sm leading-6 text-ink-700">
-                          {getDisplayNote(prompt)}
-                        </p>
-                        <Link
-                          href={prompt.href}
-                          className="mt-3 inline-flex items-center rounded-full bg-ink-950 px-4 py-2 text-sm font-semibold text-paper-strong transition hover:opacity-90"
-                        >
-                          {getActionLabel(prompt)}
-                        </Link>
                       </article>
-                    ))}
+                      );
+                    })}
                   </div>
                 ) : (
                   <p className="mt-3 text-sm leading-6 text-ink-700">{t("empty.nextPrompts")}</p>
@@ -338,23 +448,34 @@ export function FreeTierProgressRecapPanel({
                         item.subjectTitle,
                         locale,
                       );
+                      const subjectVisual = getSubjectVisualDescriptor({
+                        slug: getSubjectSlugFromHref(item.path),
+                        title: displaySubjectTitle,
+                        accent: "teal",
+                      });
                       const content = (
-                        <div className="rounded-[20px] border border-line bg-paper p-4">
-                          <div className="flex flex-wrap items-center justify-between gap-3">
-                            <p className="text-sm font-semibold text-ink-950">
-                              {displaySubjectTitle}
+                        <div className="grid gap-3 rounded-[20px] border border-line bg-paper p-4 sm:grid-cols-[4.25rem_minmax(0,1fr)] sm:items-start">
+                          <EntityVisual
+                            visual={subjectVisual}
+                            className="h-16 rounded-[16px] sm:h-18"
+                          />
+                          <div className="min-w-0">
+                            <div className="flex flex-wrap items-center justify-between gap-3">
+                              <p className="text-sm font-semibold text-ink-950">
+                                {displaySubjectTitle}
+                              </p>
+                              <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">
+                                {t("momentum.touched", { count: item.touchedConceptCount })}
+                              </span>
+                            </div>
+                            <p className="mt-2 line-clamp-2 text-sm leading-6 text-ink-700">
+                              {t("momentum.summary", {
+                                completedConcepts: item.completedConceptCount,
+                                solvedChallenges: item.solvedChallengeCount,
+                                clearedCheckpoints: item.clearedCheckpointCount,
+                              })}
                             </p>
-                            <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">
-                              {t("momentum.touched", { count: item.touchedConceptCount })}
-                            </span>
                           </div>
-                          <p className="mt-2 text-sm leading-6 text-ink-700">
-                            {t("momentum.summary", {
-                              completedConcepts: item.completedConceptCount,
-                              solvedChallenges: item.solvedChallengeCount,
-                              clearedCheckpoints: item.clearedCheckpointCount,
-                            })}
-                          </p>
                         </div>
                       );
 
