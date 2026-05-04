@@ -174,28 +174,33 @@ describe("ConceptPageFramework V2", () => {
     expect(equationSnapshot).toHaveTextContent(/restoring pattern/i);
   });
 
-  it("keeps the title compact and leaves only status in the post-lab context", () => {
+  it("keeps the title compact and moves Start Here plus status context below the live lab", () => {
     renderFramework("simple-harmonic-motion");
 
     const heroGrid = screen.getByTestId("concept-v2-hero-grid");
     const heroMain = screen.getByTestId("concept-v2-hero-main");
     const heroTitle = screen.getByTestId("concept-v2-hero-title");
+    const guidedLiveLab = screen.getByTestId("concept-v2-guided-live-lab");
     const postLabContext = screen.getByTestId("concept-v2-post-lab-context");
     const heroStatus = screen.getByTestId("concept-v2-hero-status");
-    const equationSnapshot = screen.getByTestId("concept-v2-equation-snapshot");
+    const heroStart = screen.getByTestId("concept-v2-hero-start");
 
     expect(heroGrid).toBeInTheDocument();
+    expect(screen.queryByTestId("concept-v2-hero-rail")).not.toBeInTheDocument();
     expect(within(heroTitle).getByRole("heading", { name: /simple harmonic motion/i })).toBeInTheDocument();
     expect(within(heroStatus).queryByTestId("concept-page-status-surface")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("concept-v2-hero-start")).not.toBeInTheDocument();
-    expect(equationSnapshot).toBeInTheDocument();
+    expect(within(heroStart).getByTestId("concept-v2-start-here")).toBeInTheDocument();
     expect(heroMain).toContainElement(heroTitle);
+    expect(postLabContext).toContainElement(heroStart);
     expect(postLabContext).toContainElement(heroStatus);
     expect(
-      heroTitle.compareDocumentPosition(postLabContext) & Node.DOCUMENT_POSITION_FOLLOWING,
+      heroGrid.compareDocumentPosition(guidedLiveLab) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
     expect(
-      heroStatus.compareDocumentPosition(equationSnapshot) & Node.DOCUMENT_POSITION_FOLLOWING,
+      guidedLiveLab.compareDocumentPosition(postLabContext) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(
+      heroStart.compareDocumentPosition(heroStatus) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
   });
 

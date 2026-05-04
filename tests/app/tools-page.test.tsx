@@ -28,7 +28,15 @@ describe("tools directory route", () => {
         name: /open specialized workspaces without leaving the main learning product behind/i,
       }),
     ).toBeInTheDocument();
-    expectAnyLinkHref(/open circuit builder/i, "/circuit-builder");
-    expectAnyLinkHref(/open reaction mind map/i, "/tools/chemistry-reaction-mind-map");
+    expect(
+      screen
+        .getAllByRole("link", { name: /open circuit builder/i })
+        .some((link) => link.getAttribute("href") === "/circuit-builder"),
+    ).toBe(true);
+    expect(
+      screen
+        .getAllByRole("link", { name: /open reaction mind map/i })
+        .some((link) => link.getAttribute("href") === "/tools/chemistry-reaction-mind-map"),
+    ).toBe(true);
   });
 });
