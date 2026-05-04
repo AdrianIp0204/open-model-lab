@@ -30,6 +30,9 @@ const KEYBOARD_PAN_STEP = 64;
 const FIT_MARGIN = 48;
 const CONTEXT_PADDING = 88;
 const ROUTE_CONTEXT_PADDING = 52;
+const EDGE_CAMERA_PATH_PADDING = 28;
+const EDGE_CAMERA_LABEL_HALF_WIDTH = 112;
+const EDGE_CAMERA_LABEL_HALF_HEIGHT = 48;
 const MIN_VISIBLE_SCENE_EDGE = 96;
 const PAN_AFFORDANCE_THRESHOLD = 24;
 const EDGE_LABEL_TARGET_VISUAL_SCALE = 0.76;
@@ -263,6 +266,9 @@ function getEdgeGeometry(edge: ChemistryEdge, layout: ChemistryGraphLayout) {
   const directionAngle = Math.atan2(tangent.y, tangent.x) * (180 / Math.PI);
 
   return {
+    start,
+    end,
+    control,
     path: bend
       ? `M ${start.x} ${start.y} Q ${control.x} ${control.y} ${end.x} ${end.y}`
       : `M ${start.x} ${start.y} L ${end.x} ${end.y}`,
@@ -270,6 +276,77 @@ function getEdgeGeometry(edge: ChemistryEdge, layout: ChemistryGraphLayout) {
     directionPoint,
     directionAngle,
   };
+}
+
+function combineSceneBounds(bounds: readonly SceneBounds[]) {
+  return {
+    minX: Math.min(...bounds.map((item) => item.minX)),
+    minY: Math.min(...bounds.map((item) => item.minY)),
+    maxX: Math.max(...bounds.map((item) => item.maxX)),
+    maxY: Math.max(...bounds.map((item) => item.maxY)),
+  };
+}
+
+function expandSceneBounds(bounds: SceneBounds, padding: number) {
+  return {
+    minX: bounds.minX - padding,
+    minY: bounds.minY - padding,
+    maxX: bounds.maxX + padding,
+    maxY: bounds.maxY + padding,
+  };
+}
+
+function clampSceneBounds(
+  bounds: SceneBounds,
+  sceneWidth: number,
+  sceneHeight: number,
+) {
+  return {
+    minX: Math.max(bounds.minX, 0),
+    minY: Math.max(bounds.minY, 0),
+    maxX: Math.min(bounds.maxX, sceneWidth),
+    maxY: Math.min(bounds.maxY, sceneHeight),
+  };
+}
+
+function getPointSceneBounds(
+  points: ReadonlyArray<{ x: number; y: number }>,
+  padding = 0,
+) {
+  return expandSceneBounds(
+    {
+      minX: Math.min(...points.map((point) => point.x)),
+      minY: Math.min(...points.map((point) => point.y)),
+      maxX: Math.max(...points.map((point) => point.x)),
+      maxY: Math.max(...points.map((point) => point.y)),
+    },
+    padding,
+  );
+}
+
+function getEdgeSceneBounds(
+  edge: ChemistryEdge,
+  layout: ChemistryGraphLayout,
+) {
+  const geometry = getEdgeGeometry(edge, layout);
+  const labelOffset = layout.edgeLabelOffsets[edge.id] ?? { x: 0, y: 0 };
+  const labelCenter = {
+    x: geometry.labelPoint.x + labelOffset.x,
+    y: geometry.labelPoint.y + labelOffset.y,
+  };
+
+  return combineSceneBounds([
+    getPointSceneBounds(
+      [geometry.start, geometry.end, geometry.control, geometry.directionPoint],
+      EDGE_CAMERA_PATH_PADDING,
+    ),
+    {
+      minX: labelCenter.x - EDGE_CAMERA_LABEL_HALF_WIDTH,
+      minY: labelCenter.y - EDGE_CAMERA_LABEL_HALF_HEIGHT,
+      maxX: labelCenter.x + EDGE_CAMERA_LABEL_HALF_WIDTH,
+      maxY: labelCenter.y + EDGE_CAMERA_LABEL_HALF_HEIGHT,
+    },
+  ]);
 }
 
 function isNodeAttachedToEdge(
@@ -518,12 +595,19 @@ export function ChemistryReactionGraph({
       ),
     [nodes],
   );
+  const edgeById = useMemo(
+    () =>
+      new Map<ChemistryEdge["id"], ChemistryEdge>(
+        edges.map((edge) => [edge.id, edge]),
+      ),
+    [edges],
+  );
   const selectedEdge =
     selection?.kind === "edge"
-      ? (edges.find((edge) => edge.id === selection.id) ?? null)
+      ? (edgeById.get(selection.id) ?? null)
       : null;
   const hoveredEdge = hoveredEdgeId
-    ? (edges.find((edge) => edge.id === hoveredEdgeId) ?? null)
+    ? (edgeById.get(hoveredEdgeId) ?? null)
     : null;
   const directionEdge = hoveredEdge ?? selectedEdge;
   const compareActive = comparedNodeIds.length > 0;
@@ -1002,16 +1086,30 @@ export function ChemistryReactionGraph({
 
     const uniqueNodeIds = [...new Set(activeCamera.nodeIds)];
     const nodeBounds = uniqueNodeIds
-      .map((nodeId) => layout.nodePositions[nodeId])
+      .map((nodeId) => shiftedLayout.nodePositions[nodeId])
       .filter(Boolean)
       .map((position) => ({
-        minX: position.x + SCENE_PADDING,
-        minY: position.y + SCENE_PADDING,
-        maxX: position.x + SCENE_PADDING + NODE_WIDTH,
-        maxY: position.y + SCENE_PADDING + NODE_HEIGHT,
+        minX: position.x,
+        minY: position.y,
+        maxX: position.x + NODE_WIDTH,
+        maxY: position.y + NODE_HEIGHT,
       }));
+    const activeEdgeIds =
+      activeCamera.mode === "route"
+        ? routeEdgeIds
+        : activeCamera.mode === "edge" && selectedEdge
+          ? [selectedEdge.id]
+          : activeCamera.mode === "compare"
+            ? comparedEdgeIds
+            : [];
+    const edgeBounds = activeEdgeIds
+      .map((edgeId) => edgeById.get(edgeId))
+      .filter((edge): edge is ChemistryEdge => Boolean(edge))
+      .map((edge) => getEdgeSceneBounds(edge, shiftedLayout));
 
-    if (!nodeBounds.length) {
+    const cameraBounds = [...nodeBounds, ...edgeBounds];
+
+    if (!cameraBounds.length) {
       return {
         minX: 0,
         minY: 0,
@@ -1023,25 +1121,21 @@ export function ChemistryReactionGraph({
     const contextPadding =
       activeCamera.mode === "route" ? ROUTE_CONTEXT_PADDING : CONTEXT_PADDING;
 
-    return {
-      minX: Math.max(
-        Math.min(...nodeBounds.map((bounds) => bounds.minX)) - contextPadding,
-        0,
-      ),
-      minY: Math.max(
-        Math.min(...nodeBounds.map((bounds) => bounds.minY)) - contextPadding,
-        0,
-      ),
-      maxX: Math.min(
-        Math.max(...nodeBounds.map((bounds) => bounds.maxX)) + contextPadding,
-        sceneWidth,
-      ),
-      maxY: Math.min(
-        Math.max(...nodeBounds.map((bounds) => bounds.maxY)) + contextPadding,
-        sceneHeight,
-      ),
-    };
-  }, [activeCamera, layout.nodePositions, sceneHeight, sceneWidth]);
+    return clampSceneBounds(
+      expandSceneBounds(combineSceneBounds(cameraBounds), contextPadding),
+      sceneWidth,
+      sceneHeight,
+    );
+  }, [
+    activeCamera,
+    comparedEdgeIds,
+    edgeById,
+    routeEdgeIds,
+    sceneHeight,
+    sceneWidth,
+    selectedEdge,
+    shiftedLayout,
+  ]);
   const activeScopeMetrics = useMemo(() => {
     const scopedNodeIds = new Set<ChemistryNode["id"]>();
     const scopedEdgeIds = new Set<ChemistryEdge["id"]>();

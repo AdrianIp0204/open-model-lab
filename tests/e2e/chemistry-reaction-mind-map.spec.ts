@@ -51,6 +51,50 @@ async function waitForStableChemistryGraph(page: Page) {
   });
 }
 
+async function expectChemistryGraphItemsInsideViewport(
+  page: Page,
+  testIds: readonly string[],
+) {
+  const outsideItems = await page.evaluate((ids) => {
+    const viewport = document.querySelector(
+      '[data-testid="chemistry-graph-viewport"]',
+    );
+
+    if (!(viewport instanceof HTMLElement)) {
+      return ["chemistry-graph-viewport:missing"];
+    }
+
+    const viewportRect = viewport.getBoundingClientRect();
+    const tolerance = 4;
+
+    return ids.flatMap((id) => {
+      const element = document.querySelector(`[data-testid="${id}"]`);
+      if (!(element instanceof Element)) {
+        return [`${id}:missing`];
+      }
+
+      const rect = element.getBoundingClientRect();
+      const clipped =
+        rect.left < viewportRect.left - tolerance ||
+        rect.right > viewportRect.right + tolerance ||
+        rect.top < viewportRect.top - tolerance ||
+        rect.bottom > viewportRect.bottom + tolerance;
+
+      return clipped
+        ? [
+            `${id}:${Math.round(rect.left - viewportRect.left)},${Math.round(
+              rect.top - viewportRect.top,
+            )},${Math.round(rect.right - viewportRect.right)},${Math.round(
+              rect.bottom - viewportRect.bottom,
+            )}`,
+          ]
+        : [];
+    });
+  }, testIds);
+
+  expect(outsideItems).toEqual([]);
+}
+
 test("chemistry reaction mind map is map-first on initial desktop load", async ({
   page,
 }) => {
@@ -164,6 +208,8 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
       wheelMode: viewport.getAttribute("data-chem-wheel-mode"),
       nodeOverlaps,
       edgeNodeLabelOverlaps,
+      overflowX: getComputedStyle(viewport).overflowX,
+      overflowY: getComputedStyle(viewport).overflowY,
     };
   });
 
@@ -180,6 +226,8 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
   expect(firstScreen.nodeFontSize).toBeGreaterThan(firstScreen.edgeFontSize);
   expect(firstScreen.navigationMode).toBe("drag-pan");
   expect(firstScreen.wheelMode).toBe("page-scroll");
+  expect(firstScreen.overflowX).toBe("hidden");
+  expect(firstScreen.overflowY).toBe("hidden");
   expect(firstScreen.nodeOverlaps).toEqual([]);
   expect(firstScreen.edgeNodeLabelOverlaps).toEqual([]);
 
@@ -330,6 +378,19 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
     "detailed",
   );
 
+  const dragOffsetX = await viewport.getAttribute("data-chem-offset-x");
+  const dragBox = await viewport.boundingBox();
+  if (!dragBox) {
+    throw new Error("Chemistry graph viewport did not return a bounding box.");
+  }
+  await page.mouse.move(dragBox.x + 24, dragBox.y + 24);
+  await page.mouse.down();
+  await page.mouse.move(dragBox.x + 124, dragBox.y + 84);
+  await page.mouse.up();
+  await expect
+    .poll(() => viewport.getAttribute("data-chem-offset-x"))
+    .not.toBe(dragOffsetX);
+
   const initialOffsetX = await viewport.getAttribute("data-chem-offset-x");
   await viewport.focus();
   await page.keyboard.press("ArrowLeft");
@@ -472,6 +533,17 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
     "data-chem-route-context",
     "route",
   );
+  await expectChemistryGraphItemsInsideViewport(page, [
+    "chem-edge-path-alkene-to-alcohol-hydration",
+    "chem-edge-direction-alkene-to-alcohol-hydration",
+    "chem-edge-alkene-to-alcohol-hydration",
+    "chem-edge-path-alcohol-to-aldehyde-oxidation",
+    "chem-edge-direction-alcohol-to-aldehyde-oxidation",
+    "chem-edge-alcohol-to-aldehyde-oxidation",
+    "chem-edge-path-aldehyde-to-carboxylic-acid-oxidation",
+    "chem-edge-direction-aldehyde-to-carboxylic-acid-oxidation",
+    "chem-edge-aldehyde-to-carboxylic-acid-oxidation",
+  ]);
   await expect(page.getByTestId("chem-edge-alkene-to-alcohol-hydration")).toHaveAttribute(
     "data-chem-route-step",
     "1",
@@ -527,6 +599,24 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
         '[data-chem-notation-source="CH3COOH(l) + CH3CH2OH(l) <=> CH3COOCH2CH3(l) + H2O(l)"]',
       ),
   ).toHaveCount(1);
+  await page.getByTestId("chem-route-clear").click();
+  await expect(viewport).toHaveAttribute("data-chem-camera-mode", "graph");
+
+  await page.getByTestId("chem-route-start").selectOption("alkene");
+  await page.getByTestId("chem-route-target").selectOption("haloalkane");
+  await page.getByTestId("chem-route-search").click();
+  await expect(page.getByTestId("chem-route-progress")).toHaveAttribute(
+    "data-chem-route-step-count",
+    "1",
+  );
+  await expect(viewport).toHaveAttribute("data-chem-camera-mode", "route");
+  await expectChemistryGraphItemsInsideViewport(page, [
+    "chem-edge-path-alkene-to-haloalkane-hydrohalogenation",
+    "chem-edge-direction-alkene-to-haloalkane-hydrohalogenation",
+    "chem-edge-alkene-to-haloalkane-hydrohalogenation",
+    "chem-node-alkene",
+    "chem-node-haloalkane",
+  ]);
   await page.getByTestId("chem-route-clear").click();
   await expect(viewport).toHaveAttribute("data-chem-camera-mode", "graph");
 
