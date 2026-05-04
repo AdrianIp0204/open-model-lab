@@ -207,13 +207,20 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
       '[data-testid="chem-edge-alkene-to-alcohol-hydration"]',
     );
     const nodeIds = [
+      "alkane",
       "alkene",
       "haloalkane",
+      "nitrile",
+      "amine",
       "alcohol",
       "aldehyde",
       "ketone",
+      "hydroxynitrile",
       "carboxylic-acid",
+      "carboxylate-salt",
+      "acyl-chloride",
       "ester",
+      "amide",
     ];
     const nodeElements = nodeIds
       .map((id) => document.querySelector(`[data-testid="chem-node-${id}"]`))
@@ -309,8 +316,25 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
         edgeLabel.querySelectorAll('[data-chem-overflow-guard="pathway-map-label"]'),
       ).filter((item): item is HTMLElement => item instanceof HTMLElement),
     );
+    const nodeOverflowGuards = nodeElements.flatMap((nodeElement) =>
+      [
+        nodeElement,
+        ...Array.from(
+          nodeElement.querySelectorAll(
+            '[data-chem-overflow-guard="node-title"], [data-chem-overflow-guard="node-formula"]',
+          ),
+        ),
+      ].filter((item): item is HTMLElement => item instanceof HTMLElement),
+    );
     const overflowingEdgeLabels = edgeOverflowGuards
       .filter((element) => getComputedStyle(element).overflowX !== "hidden")
+      .map((element) => element.getAttribute("data-testid") ?? element.textContent ?? "");
+    const overflowingNodeText = nodeOverflowGuards
+      .filter(
+        (element) =>
+          element.scrollWidth > element.clientWidth + 2 ||
+          element.scrollHeight > element.clientHeight + 2,
+      )
       .map((element) => element.getAttribute("data-testid") ?? element.textContent ?? "");
 
     return {
@@ -367,6 +391,7 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
       edgeNodeLabelOverlaps,
       overflowX: getComputedStyle(viewport).overflowX,
       overflowY: getComputedStyle(viewport).overflowY,
+      overflowingNodeText,
     };
   });
 
@@ -413,6 +438,7 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
   expect(firstScreen.nodeOverlaps).toEqual([]);
   expect(firstScreen.edgeNodeLabelOverlaps).toEqual([]);
   expect(firstScreen.overflowingEdgeLabels).toEqual([]);
+  expect(firstScreen.overflowingNodeText).toEqual([]);
 
   guard.assertNoActionableIssues();
 });

@@ -164,8 +164,11 @@ describe("chemistry reaction mind map route", () => {
 
     await user.click(screen.getByTestId("chem-node-nitrile"));
     const nitrileDetails = screen.getByTestId("chem-node-details");
+    const nitrileDetailsText = nitrileDetails.textContent?.replace(/\s+/g, "") ?? "";
     expect(nitrileDetails).toHaveTextContent(/nitrile/i);
-    expect(nitrileDetails.textContent?.replace(/\s+/g, "")).toContain("R-CN");
+    expect(nitrileDetailsText).toContain("R-C≡N");
+    expect(nitrileDetailsText).toContain("-C≡N");
+    expect(nitrileDetailsText).not.toContain("-C=N");
     expect(nitrileDetails).toHaveTextContent(/hydrolyzed to carboxylic acids/i);
 
     await user.click(

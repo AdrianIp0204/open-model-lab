@@ -91,6 +91,23 @@ describe("chemistry reaction mind map data contract", () => {
     );
   });
 
+  it("uses chemically correct nitrile triple-bond notation in English and localized node metadata", () => {
+    const english = getChemistryReactionMindMapContent("en");
+    const localized = getChemistryReactionMindMapContent("zh-HK");
+    const englishNitrile = english.nodes.find((node) => node.id === "nitrile");
+    const localizedNitrile = localized.nodes.find((node) => node.id === "nitrile");
+    const englishNitrileText = JSON.stringify(englishNitrile);
+
+    expect(englishNitrile).toBeDefined();
+    expect(englishNitrile?.generalFormula).toBe("R-C≡N");
+    expect(englishNitrile?.functionalGroup).toContain("-C≡N");
+    expect(englishNitrile?.functionalGroupVisual).toBe("-C≡N");
+    expect(englishNitrileText).toContain("C≡N");
+    expect(englishNitrileText).not.toContain("-C=N");
+    expect(englishNitrileText).not.toContain("C=N bond");
+    expect(localizedNitrile?.functionalGroup).toContain("-C≡N");
+  });
+
   it("keeps unique edge ids with no orphan node references", () => {
     const edgeIds = chemistryReactionEdges.map((edge) => edge.id);
     const nodeIds = new Set(chemistryReactionNodes.map((node) => node.id));
@@ -305,6 +322,22 @@ describe("chemistry reaction mind map data contract", () => {
     ]);
     expect(getChemistryRoutesBetween("acyl-chloride", "amide")[0]?.edgeIds).toEqual([
       "acyl-chloride-to-amide-ammonolysis",
+    ]);
+    expect(getChemistryRoutesBetween("nitrile", "amine")[0]?.edgeIds).toEqual([
+      "nitrile-to-amine-reduction",
+    ]);
+    expect(getChemistryRoutesBetween("carboxylic-acid", "amide")[0]?.edgeIds).toEqual([
+      "carboxylic-acid-to-acyl-chloride-chlorination",
+      "acyl-chloride-to-amide-ammonolysis",
+    ]);
+    expect(getChemistryRoutesBetween("aldehyde", "hydroxynitrile")[0]?.edgeIds).toEqual([
+      "aldehyde-to-hydroxynitrile-cyanohydrin-addition",
+    ]);
+    expect(getChemistryRoutesBetween("ketone", "hydroxynitrile")[0]?.edgeIds).toEqual([
+      "ketone-to-hydroxynitrile-cyanohydrin-addition",
+    ]);
+    expect(getChemistryRoutesBetween("ester", "carboxylate-salt")[0]?.edgeIds).toEqual([
+      "ester-to-carboxylate-salt-alkaline-hydrolysis",
     ]);
     expect(getChemistryRoutesBetween("alkane", "carboxylic-acid")[0]?.edgeIds).toEqual([
       "alkane-to-haloalkane-radical-substitution",

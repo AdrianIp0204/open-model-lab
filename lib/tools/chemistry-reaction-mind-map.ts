@@ -194,15 +194,15 @@ export const chemistryReactionNodes = [
       suffix: "-nitrile",
       prefix: "cyano-",
     },
-    generalFormula: "R-CN",
-    functionalGroup: "Cyano group, -C=N",
+    generalFormula: "R-C≡N",
+    functionalGroup: "Cyano group, -C≡N",
     representativeStructureLabel: "Representative member: ethanenitrile, CH3CN",
-    functionalGroupVisual: "-CN",
+    functionalGroupVisual: "-C≡N",
     boilingPoint: {
       summary:
         "Often higher than comparable hydrocarbons because the nitrile group is strongly polar.",
       details: [
-        "Nitriles cannot donate hydrogen bonds to each other, but the C=N bond creates strong dipole attractions.",
+        "Nitriles cannot donate hydrogen bonds to each other, but the C≡N bond creates strong dipole attractions.",
         "Boiling point still rises with carbon chain length.",
       ],
     },
@@ -402,8 +402,8 @@ export const chemistryReactionNodes = [
     nomenclature: {
       prefix: "hydroxycyano-",
     },
-    generalFormula: "RCH(OH)CN or R2C(OH)CN",
-    functionalGroup: "Hydroxyl and nitrile groups on the same carbon skeleton",
+    generalFormula: "R-C(OH)(CN)-R'",
+    functionalGroup: "Hydroxyl and nitrile (-C≡N) groups on the same carbon skeleton",
     representativeStructureLabel: "Representative product: 2-hydroxypropanenitrile, CH3CH(OH)CN",
     functionalGroupVisual: "-OH + -CN",
     boilingPoint: {
