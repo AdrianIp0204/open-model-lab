@@ -132,11 +132,21 @@ describe("metadata helpers", () => {
     expect(metadata.title).toEqual({
       absolute: "Open Model Lab | Interactive learning with live simulations",
     });
-    expect(metadata.alternates?.canonical).toContain("http://localhost:3000/");
+    expect(metadata.description).toContain("Open Model Lab");
+    expect(metadata.alternates?.canonical).toBe("https://openmodellab.com/en");
+    expect(metadata.alternates?.languages?.en).toBe("https://openmodellab.com/en");
+    expect(metadata.alternates?.languages?.["zh-HK"]).toBe("https://openmodellab.com/zh-HK");
+    expect(metadata.alternates?.languages?.["x-default"]).toBe("https://openmodellab.com/en");
     expect(metadata.openGraph?.title).toBe(
       "Open Model Lab | Interactive learning with live simulations",
     );
-    expect(websiteJsonLd.potentialAction?.target).toContain("/search?q={search_term_string}");
+    expect(websiteJsonLd.potentialAction?.target).toBe(
+      "https://openmodellab.com/en/search?q={search_term_string}",
+    );
+    expect(buildOrganizationJsonLd()).toMatchObject({
+      name: "Open Model Lab",
+      url: "https://openmodellab.com/",
+    });
     expect(organizationJsonLd["@type"]).toBe("Organization");
     expect(webApplicationJsonLd["@type"]).toBe("WebApplication");
     expect(webApplicationJsonLd.applicationCategory).toBe("EducationalApplication");
@@ -163,6 +173,6 @@ describe("metadata helpers", () => {
     expect(conceptJsonLd.inLanguage).toBe("zh-HK");
     expect(conceptJsonLd.url).toContain("/zh-HK/concepts/projectile-motion");
     expect(collectionJsonLd.inLanguage).toBe("zh-HK");
-    expect(collectionJsonLd.isPartOf?.url).toContain("/zh-HK");
+    expect(collectionJsonLd.isPartOf?.url).toBe("https://openmodellab.com/zh-HK");
   });
 });

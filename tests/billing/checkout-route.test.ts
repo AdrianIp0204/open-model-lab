@@ -144,7 +144,9 @@ describe("billing checkout route", () => {
       "Supporter checkout is unavailable because the Supporter price id is missing.",
     );
 
-    const response = await POST(new Request("http://localhost/api/billing/checkout"));
+    const response = await POST(
+      new Request("https://preview-openmodellab.example/api/billing/checkout"),
+    );
     const payload = (await response.json()) as {
       code: string;
       error: string;
@@ -172,7 +174,9 @@ describe("billing checkout route", () => {
       "Supporter checkout is unavailable because the Stripe webhook secret is missing.",
     );
 
-    const response = await POST(new Request("http://localhost/api/billing/checkout"));
+    const response = await POST(
+      new Request("https://preview-openmodellab.example/api/billing/checkout"),
+    );
     const payload = (await response.json()) as {
       code: string;
       error: string;
@@ -241,7 +245,9 @@ describe("billing checkout route", () => {
       url: "https://checkout.stripe.test/session",
     });
 
-    const response = await POST(new Request("http://localhost/api/billing/checkout"));
+    const response = await POST(
+      new Request("https://preview-openmodellab.example/api/billing/checkout"),
+    );
     const payload = (await response.json()) as {
       ok: boolean;
       url: string;
@@ -251,11 +257,15 @@ describe("billing checkout route", () => {
     expect(payload.ok).toBe(true);
     expect(payload.url).toBe("https://checkout.stripe.test/session");
     expect(mocks.createStripeCustomerMock).not.toHaveBeenCalled();
+    expect(mocks.getStripeBillingConfigMock).toHaveBeenCalledWith({
+      requestOrigin: "https://preview-openmodellab.example",
+    });
     expect(mocks.createStripeCheckoutSessionMock).toHaveBeenCalledWith({
       userId: "user-1",
       customerId: "cus_existing",
       rewardCouponId: null,
       rewardKey: null,
+      requestOrigin: "https://preview-openmodellab.example",
     });
   });
 
@@ -296,12 +306,17 @@ describe("billing checkout route", () => {
     );
 
     expect(response.status).toBe(200);
+    expect(mocks.getStripeBillingConfigMock).toHaveBeenCalledWith({
+      locale: "zh-HK",
+      requestOrigin: "http://localhost",
+    });
     expect(mocks.createStripeCheckoutSessionMock).toHaveBeenCalledWith({
       userId: "user-1",
       customerId: "cus_existing",
       rewardCouponId: null,
       rewardKey: null,
       locale: "zh-HK",
+      requestOrigin: "http://localhost",
     });
   });
 
@@ -421,6 +436,7 @@ describe("billing checkout route", () => {
       customerId: "cus_created",
       rewardCouponId: null,
       rewardKey: null,
+      requestOrigin: "http://localhost",
     });
   });
 
@@ -467,6 +483,7 @@ describe("billing checkout route", () => {
       customerId: "cus_created",
       rewardCouponId: null,
       rewardKey: null,
+      requestOrigin: "http://localhost",
     });
   });
 
@@ -507,6 +524,7 @@ describe("billing checkout route", () => {
       customerId: "cus_existing",
       rewardCouponId: null,
       rewardKey: null,
+      requestOrigin: "http://localhost",
     });
   });
 
@@ -650,6 +668,7 @@ describe("billing checkout route", () => {
       rewardCouponId: "coupon_achievement_25",
       rewardKey: ACHIEVEMENT_REWARD_KEY,
       idempotencyKey: "open-model-lab-reward-checkout-user-1-2026-04-03T00:00:00.000Z",
+      requestOrigin: "http://localhost",
     });
     expect(mocks.attachAchievementRewardCheckoutSessionMock).toHaveBeenCalledWith({
       userId: "user-1",

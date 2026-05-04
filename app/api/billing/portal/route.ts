@@ -25,6 +25,7 @@ async function readRequestedBillingLocale(request: Request): Promise<AppLocale |
 
 export async function POST(request: Request) {
   const requestedLocale = await readRequestedBillingLocale(request);
+  const requestOrigin = new URL(request.url).origin;
   const session = await getAccountSessionForCookieHeader(request.headers.get("cookie"));
 
   if (!session?.user) {
@@ -37,7 +38,14 @@ export async function POST(request: Request) {
     );
   }
 
-  const config = getStripeBillingConfig();
+  const config = getStripeBillingConfig({
+    ...(requestedLocale
+      ? {
+          locale: requestedLocale,
+        }
+      : {}),
+    requestOrigin,
+  });
   const diagnostics = getStripeBillingPortalConfigDiagnostics(config);
 
   if (!diagnostics.configured) {
@@ -93,6 +101,7 @@ export async function POST(request: Request) {
             locale: requestedLocale,
           }
         : {}),
+      requestOrigin,
     });
 
     return NextResponse.json({

@@ -1,13 +1,9 @@
-import { cookies, headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { localeCookieName } from "@/i18n/routing";
-import { resolveRequestLocale } from "@/i18n/request";
+import { permanentRedirect } from "next/navigation";
+import { addLocalePrefix, routing } from "@/i18n/routing";
 
 type RootLocaleRedirectPageProps = {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
-
-export const dynamic = "force-dynamic";
 
 function buildSearchString(searchParams: Record<string, string | string[] | undefined>) {
   const nextSearchParams = new URLSearchParams();
@@ -32,13 +28,9 @@ function buildSearchString(searchParams: Record<string, string | string[] | unde
 export default async function RootLocaleRedirectPage({
   searchParams,
 }: RootLocaleRedirectPageProps) {
-  const cookieStore = await cookies();
-  const headerStore = await headers();
-  const locale = resolveRequestLocale({
-    localeCookie: cookieStore.get(localeCookieName)?.value ?? null,
-    acceptLanguage: headerStore.get("accept-language"),
-  });
   const resolvedSearchParams = searchParams ? await searchParams : {};
 
-  redirect(`/${locale}${buildSearchString(resolvedSearchParams)}`);
+  permanentRedirect(
+    `${addLocalePrefix("/", routing.defaultLocale)}${buildSearchString(resolvedSearchParams)}`,
+  );
 }

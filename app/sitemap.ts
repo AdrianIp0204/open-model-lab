@@ -112,7 +112,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const routeEntries: MetadataRoute.Sitemap = staticRoutes.flatMap((route) =>
     locales.map((locale) => ({
       url: getLocaleAbsoluteUrl(route.path, locale),
-      lastModified: new Date(),
       changeFrequency: route.changeFrequency,
       priority: route.priority,
     })),

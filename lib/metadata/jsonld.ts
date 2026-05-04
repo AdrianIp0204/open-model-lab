@@ -21,7 +21,7 @@ type LocaleJsonLdOptions = {
 };
 
 function resolveJsonLdUrl(pathname: string, locale?: AppLocale) {
-  return locale ? getLocaleAbsoluteUrl(pathname, locale) : getAbsoluteUrl(pathname);
+  return getLocaleAbsoluteUrl(pathname, locale ?? routing.defaultLocale);
 }
 
 function resolveJsonLdLanguage(locale?: AppLocale) {

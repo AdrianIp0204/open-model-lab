@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { addLocalePrefix, localeOpenGraphMap, routing, type AppLocale } from "@/i18n/routing";
 
-const FALLBACK_SITE_URL = "http://localhost:3000";
+const PRODUCTION_SITE_URL = "https://openmodellab.com";
 const OPEN_MODEL_LAB_APEX_HOST = "openmodellab.com";
 const OPEN_MODEL_LAB_WWW_HOST = `www.${OPEN_MODEL_LAB_APEX_HOST}`;
 const BRAND_ASSET_VERSION = "20260425";
@@ -22,21 +22,73 @@ function readConfiguredSiteUrl() {
     process.env.OPEN_MODEL_LAB_SITE_URL?.trim() ||
     process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
     process.env.SITE_URL?.trim() ||
-    FALLBACK_SITE_URL
+    PRODUCTION_SITE_URL
+  );
+}
+
+function normalizeSiteHostname(hostname: string) {
+  return hostname.trim().toLowerCase().replace(/^\[(.*)\]$/, "$1");
+}
+
+function isLocalSiteHostname(hostname: string) {
+  const normalizedHostname = normalizeSiteHostname(hostname);
+
+  return (
+    normalizedHostname === "localhost" ||
+    normalizedHostname === "0.0.0.0" ||
+    normalizedHostname === "::1" ||
+    normalizedHostname === "127.0.0.1" ||
+    normalizedHostname.startsWith("127.")
+  );
+}
+
+function shouldDefaultToHttpProtocol(value: string) {
+  const normalizedValue = value.trim().toLowerCase();
+
+  return (
+    normalizedValue.startsWith("localhost") ||
+    normalizedValue.startsWith("127.") ||
+    normalizedValue.startsWith("0.0.0.0") ||
+    normalizedValue.startsWith("[::1]") ||
+    normalizedValue.startsWith("::1")
   );
 }
 
 function normalizeConfiguredSiteUrl(value: string) {
-  try {
-    const parsedUrl = new URL(value);
+  const configuredValue = value.trim();
 
-    if (parsedUrl.hostname === OPEN_MODEL_LAB_WWW_HOST) {
+  if (!configuredValue) {
+    return PRODUCTION_SITE_URL;
+  }
+
+  const valueWithProtocol = /^[a-z][a-z\d+\-.]*:\/\//i.test(configuredValue)
+    ? configuredValue
+    : `${shouldDefaultToHttpProtocol(configuredValue) ? "http" : "https"}://${configuredValue}`;
+
+  try {
+    const parsedUrl = new URL(valueWithProtocol);
+    let normalizedHostname = normalizeSiteHostname(parsedUrl.hostname);
+
+    if (normalizedHostname === OPEN_MODEL_LAB_WWW_HOST) {
       parsedUrl.hostname = OPEN_MODEL_LAB_APEX_HOST;
+      normalizedHostname = OPEN_MODEL_LAB_APEX_HOST;
     }
+
+    if (normalizedHostname === OPEN_MODEL_LAB_APEX_HOST) {
+      parsedUrl.protocol = "https:";
+    }
+
+    if (isLocalSiteHostname(normalizedHostname) && process.env.NODE_ENV === "production") {
+      return PRODUCTION_SITE_URL;
+    }
+
+    parsedUrl.pathname = "/";
+    parsedUrl.search = "";
+    parsedUrl.hash = "";
 
     return parsedUrl.toString();
   } catch {
-    return value;
+    return PRODUCTION_SITE_URL;
   }
 }
 
@@ -80,14 +132,18 @@ export function getLocaleAbsoluteUrl(pathname: string, locale: AppLocale): strin
 }
 
 export function buildLocaleAlternates(pathname: string, locale: AppLocale) {
+  const languages: Record<string, string> = Object.fromEntries(
+    routing.locales.map((supportedLocale) => [
+      supportedLocale,
+      getLocaleAbsoluteUrl(pathname, supportedLocale),
+    ]),
+  );
+
+  languages["x-default"] = getLocaleAbsoluteUrl(pathname, routing.defaultLocale);
+
   return {
     canonical: getLocaleAbsoluteUrl(pathname, locale),
-    languages: Object.fromEntries(
-      routing.locales.map((supportedLocale) => [
-        supportedLocale,
-        getLocaleAbsoluteUrl(pathname, supportedLocale),
-      ]),
-    ),
+    languages,
   };
 }
 

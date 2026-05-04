@@ -179,6 +179,7 @@ async function continueReservedRewardCheckout(input: {
   couponId: string | null;
   priceId: string;
   locale?: AppLocale;
+  requestOrigin?: string | null;
   setCheckpoint: (checkpoint: string) => void;
 }) {
   if (input.existingCheckoutSessionId) {
@@ -259,6 +260,7 @@ async function continueReservedRewardCheckout(input: {
           locale: input.locale,
         }
       : {}),
+    requestOrigin: input.requestOrigin,
   });
   input.setCheckpoint("reward_claim_checkout_session_attach");
   const attachedReward = await attachAchievementRewardCheckoutSession({
@@ -311,6 +313,7 @@ export async function POST(request: Request) {
   });
 
   const requestedLocale = await readRequestedBillingLocale(request);
+  const requestOrigin = new URL(request.url).origin;
   const session = await getAccountSessionForCookieHeader(request.headers.get("cookie"));
 
   if (!session?.user) {
@@ -346,7 +349,14 @@ export async function POST(request: Request) {
     );
   }
 
-  const config = getStripeBillingConfig();
+  const config = getStripeBillingConfig({
+    ...(requestedLocale
+      ? {
+          locale: requestedLocale,
+        }
+      : {}),
+    requestOrigin,
+  });
   const checkoutConfigDiagnostics = getStripeCheckoutConfigDiagnostics(config);
 
   if (!checkoutConfigDiagnostics.configured) {
@@ -469,6 +479,7 @@ export async function POST(request: Request) {
               locale: requestedLocale,
             }
           : {}),
+        requestOrigin,
         setCheckpoint(nextCheckpoint) {
           checkpoint = nextCheckpoint;
         },
@@ -517,6 +528,7 @@ export async function POST(request: Request) {
                 locale: requestedLocale,
               }
             : {}),
+          requestOrigin,
           setCheckpoint(nextCheckpoint) {
             checkpoint = nextCheckpoint;
           },
@@ -561,6 +573,7 @@ export async function POST(request: Request) {
                 locale: requestedLocale,
               }
             : {}),
+          requestOrigin,
           setCheckpoint(nextCheckpoint) {
             checkpoint = nextCheckpoint;
           },
@@ -601,6 +614,7 @@ export async function POST(request: Request) {
             locale: requestedLocale,
           }
         : {}),
+      requestOrigin,
     });
 
     console.info("[billing] checkout session created", {

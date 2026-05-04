@@ -203,9 +203,14 @@ export async function createStripeCheckoutSession(input: {
   rewardKey?: string | null;
   idempotencyKey?: string;
   locale?: AppLocale;
+  requestOrigin?: string | null;
+  returnUrlBase?: string | null;
 }) {
-  const config = getStripeBillingConfig();
-  const urls = buildStripeBillingConfigUrls(input.locale);
+  const config = getStripeBillingConfig({
+    locale: input.locale,
+    requestOrigin: input.requestOrigin,
+    returnUrlBase: input.returnUrlBase,
+  });
 
   if (!config.premiumPriceId) {
     throw new Error("stripe_not_configured");
@@ -215,8 +220,8 @@ export async function createStripeCheckoutSession(input: {
   form.set("mode", "subscription");
   form.set("customer", input.customerId);
   form.set("client_reference_id", input.userId);
-  form.set("success_url", urls.checkoutSuccessUrl);
-  form.set("cancel_url", urls.checkoutCancelUrl);
+  form.set("success_url", config.checkoutSuccessUrl);
+  form.set("cancel_url", config.checkoutCancelUrl);
   form.set("line_items[0][price]", config.premiumPriceId);
   form.set("line_items[0][quantity]", "1");
   form.set("metadata[user_id]", input.userId);
@@ -262,8 +267,14 @@ export async function retrieveStripeSubscription(subscriptionId: string) {
 export async function createStripeBillingPortalSession(input: {
   customerId: string;
   locale?: AppLocale;
+  requestOrigin?: string | null;
+  returnUrlBase?: string | null;
 }) {
-  const urls = buildStripeBillingConfigUrls(input.locale);
+  const urls = buildStripeBillingConfigUrls({
+    locale: input.locale,
+    requestOrigin: input.requestOrigin,
+    returnUrlBase: input.returnUrlBase,
+  });
   const form = new URLSearchParams();
   form.set("customer", input.customerId);
   form.set("return_url", urls.portalReturnUrl);
