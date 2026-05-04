@@ -39,6 +39,14 @@ describe("FreeTierProgressRecapPanel", () => {
     expect(
       screen.getByRole("link", { name: "Continue track" }),
     ).toHaveClass("bg-ink-950", "text-paper-strong");
+    expect(screen.getByTestId("learning-visual")).toHaveAttribute(
+      "data-visual-motif",
+      "vectors-components",
+    );
+    expect(screen.getByTestId("learning-visual")).toHaveAttribute(
+      "data-visual-fallback-kind",
+      "topic-specific",
+    );
   });
 
   it("keeps the empty-state browse CTA on the same dark foreground contract", () => {

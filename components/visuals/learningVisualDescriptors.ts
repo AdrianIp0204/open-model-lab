@@ -154,6 +154,25 @@ type TopicVisualInput = {
   accent?: LearningVisualTone;
 };
 
+type SubjectVisualInput = {
+  slug: string;
+  title: string;
+  description?: string;
+  accent?: LearningVisualTone;
+  featuredTopic?: Pick<TopicVisualInput, "slug" | "title"> | null;
+  featuredConcept?: Pick<ConceptVisualInput, "slug" | "title" | "subject"> | null;
+};
+
+type AssessmentPackVisualInput = {
+  title: string;
+  summary?: string;
+  subject?: string;
+  accent?: LearningVisualTone;
+  includedTopicSlugs?: readonly string[];
+  includedTopicTitles?: readonly string[];
+  includedConceptSlugs?: readonly string[];
+};
+
 type GuidedCollectionVisualInput = {
   slug: string;
   title: string;
@@ -478,6 +497,12 @@ function compactSearchText(parts: Array<string | null | undefined>) {
   return parts.filter(Boolean).join(" ").toLowerCase();
 }
 
+function findTopicMotif(parts: Array<string | null | undefined>) {
+  const searchText = compactSearchText(parts);
+
+  return topicMotifs.find((candidate) => candidate.pattern.test(searchText)) ?? null;
+}
+
 function withDescriptorKind(
   descriptor: LearningVisualDescriptor,
   kind: LearningVisualKind,
@@ -508,7 +533,7 @@ export function getConceptVisualDescriptor(
     };
   }
 
-  const searchText = compactSearchText([
+  const match = findTopicMotif([
     concept.slug,
     concept.title,
     concept.subject,
@@ -516,7 +541,6 @@ export function getConceptVisualDescriptor(
     concept.subtopic,
     ...(concept.tags ?? []),
   ]);
-  const match = topicMotifs.find((candidate) => candidate.pattern.test(searchText));
 
   if (match) {
     return {
@@ -593,13 +617,12 @@ export function getTopicVisualDescriptor(topic: TopicVisualInput): LearningVisua
     };
   }
 
-  const searchText = compactSearchText([
+  const match = findTopicMotif([
     topic.slug,
     topic.title,
     topic.subject,
     topic.description,
   ]);
-  const match = topicMotifs.find((candidate) => candidate.pattern.test(searchText));
 
   if (match) {
     return {
@@ -628,6 +651,106 @@ export function getTopicSurfaceVisualDescriptor(
   return withDescriptorKind(getTopicVisualDescriptor(topic), kind);
 }
 
+export function getSubjectVisualDescriptor(
+  subject: SubjectVisualInput,
+): LearningVisualDescriptor {
+  if (subject.featuredTopic) {
+    return getTopicSurfaceVisualDescriptor("subject", {
+      slug: subject.featuredTopic.slug,
+      title: subject.featuredTopic.title,
+      subject: subject.title,
+      description: subject.description,
+      accent: subject.accent,
+    });
+  }
+
+  if (subject.featuredConcept) {
+    return getConceptSurfaceVisualDescriptor("subject", {
+      slug: subject.featuredConcept.slug,
+      title: subject.featuredConcept.title,
+      subject: subject.featuredConcept.subject,
+      accent: subject.accent,
+    });
+  }
+
+  const match = findTopicMotif([subject.slug, subject.title, subject.description]);
+
+  if (match) {
+    return {
+      kind: "subject",
+      motif: match.motif,
+      tone: subject.accent,
+      isFallback: false,
+      fallbackKind: "topic-specific",
+      label: match.label,
+    };
+  }
+
+  return {
+    kind: "subject",
+    tone: subject.accent,
+    isFallback: true,
+    fallbackKind: "category-specific",
+    label: "subject roadmap",
+  };
+}
+
+export function getPackSurfaceVisualDescriptor(
+  kind: Extract<LearningVisualKind, "guided" | "test">,
+  pack: AssessmentPackVisualInput,
+): LearningVisualDescriptor {
+  const leadConceptSlug = pack.includedConceptSlugs?.[0] ?? null;
+
+  if (leadConceptSlug) {
+    return getConceptSurfaceVisualDescriptor(kind, {
+      slug: leadConceptSlug,
+      title: leadConceptSlug,
+      subject: pack.subject,
+      accent: pack.accent,
+    });
+  }
+
+  const leadTopicSlug = pack.includedTopicSlugs?.[0] ?? null;
+
+  if (leadTopicSlug) {
+    return getTopicSurfaceVisualDescriptor(kind, {
+      slug: leadTopicSlug,
+      title: pack.includedTopicTitles?.[0] ?? leadTopicSlug,
+      subject: pack.subject,
+      description: pack.summary,
+      accent: pack.accent,
+    });
+  }
+
+  const match = findTopicMotif([
+    pack.title,
+    pack.summary,
+    pack.subject,
+    ...(pack.includedTopicSlugs ?? []),
+    ...(pack.includedTopicTitles ?? []),
+    ...(pack.includedConceptSlugs ?? []),
+  ]);
+
+  if (match) {
+    return {
+      kind,
+      motif: match.motif,
+      tone: pack.accent,
+      isFallback: false,
+      fallbackKind: "topic-specific",
+      label: match.label,
+    };
+  }
+
+  return {
+    kind,
+    tone: pack.accent,
+    isFallback: true,
+    fallbackKind: "category-specific",
+    label: kind === "guided" ? "guided testing pack" : "cross-topic assessment pack",
+  };
+}
+
 export function getGuidedCollectionVisualDescriptor(
   collection: GuidedCollectionVisualInput,
 ): LearningVisualDescriptor {
@@ -652,12 +775,11 @@ export function getGuidedCollectionVisualDescriptor(
     });
   }
 
-  const searchText = compactSearchText([
+  const match = findTopicMotif([
     collection.slug,
     collection.title,
     collection.summary,
   ]);
-  const match = topicMotifs.find((candidate) => candidate.pattern.test(searchText));
 
   if (match) {
     return {

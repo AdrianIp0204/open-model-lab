@@ -36,6 +36,25 @@ export function SubjectDiscoveryCard({
   const isCompact = variant === "compact";
   const displayTitle = getSubjectDisplayTitle(subject, locale);
   const displayDescription = getSubjectDisplayDescription(subject, locale);
+  const visual = getSubjectVisualDescriptor({
+    slug: subject.slug,
+    title: displayTitle,
+    description: displayDescription,
+    accent: subject.accent,
+    featuredTopic: subject.featuredTopics[0]
+      ? {
+          slug: subject.featuredTopics[0].slug,
+          title: getTopicDisplayTitle(subject.featuredTopics[0], locale),
+        }
+      : null,
+    featuredConcept: subject.featuredConcepts[0]
+      ? {
+          slug: subject.featuredConcepts[0].slug,
+          title: subject.featuredConcepts[0].title,
+          subject: subject.featuredConcepts[0].subject,
+        }
+      : null,
+  });
   const visibleTopics = subject.featuredTopics.slice(0, isCompact ? 2 : 3);
   const visibleTracks = subject.featuredStarterTracks.slice(0, isCompact ? 1 : 2);
   const bridgeTrack = subject.bridgeStarterTracks[0] ?? null;
@@ -69,12 +88,11 @@ export function SubjectDiscoveryCard({
             className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
           >
             <LearningVisual
-              kind={subjectVisual.kind}
-              motif={subjectVisual.motif}
-              overlay={subjectVisual.overlay}
-              isFallback={subjectVisual.isFallback}
-              fallbackKind={subjectVisual.fallbackKind}
-              tone={subjectVisual.tone ?? subject.accent}
+              kind={visual.kind}
+              motif={visual.motif}
+              isFallback={visual.isFallback}
+              fallbackKind={visual.fallbackKind}
+              tone={visual.tone ?? subject.accent}
               compact
               className="h-24 sm:h-28"
             />
@@ -129,12 +147,11 @@ export function SubjectDiscoveryCard({
           className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
         >
           <LearningVisual
-            kind={subjectVisual.kind}
-            motif={subjectVisual.motif}
-            overlay={subjectVisual.overlay}
-            isFallback={subjectVisual.isFallback}
-            fallbackKind={subjectVisual.fallbackKind}
-            tone={subjectVisual.tone ?? subject.accent}
+            kind={visual.kind}
+            motif={visual.motif}
+            isFallback={visual.isFallback}
+            fallbackKind={visual.fallbackKind}
+            tone={visual.tone ?? subject.accent}
             compact
           />
         </Link>

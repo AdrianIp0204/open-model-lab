@@ -45,6 +45,7 @@ import {
 } from "@/components/visuals/LearningVisual";
 import {
   getConceptSurfaceVisualDescriptor,
+  getPackSurfaceVisualDescriptor,
   getTopicSurfaceVisualDescriptor,
 } from "@/components/visuals/learningVisualDescriptors";
 import {
@@ -467,12 +468,14 @@ function getTestVisualDescriptor(
         description: entry.summary,
       });
     case "pack":
-      return {
-        kind: "test",
-        isFallback: true,
-        fallbackKind: "category-specific",
-        label: "cross-topic assessment pack",
-      };
+      return getPackSurfaceVisualDescriptor("test", {
+        title: entry.title,
+        summary: entry.summary,
+        subject: entry.subjectTitle,
+        includedTopicSlugs: entry.includedTopicSlugs,
+        includedTopicTitles: entry.includedTopicTitles,
+        includedConceptSlugs: entry.includedConceptSlugs,
+      });
   }
 }
 
@@ -506,12 +509,14 @@ function getGuidedVisualDescriptor(
     });
   }
 
-  return {
-    kind: "guided",
-    isFallback: true,
-    fallbackKind: "category-specific",
-    label: "guided testing pack",
-  };
+  return getPackSurfaceVisualDescriptor("guided", {
+    title: nextStep.entry.title,
+    summary: nextStep.entry.summary,
+    subject: nextStep.entry.subjectTitle,
+    includedTopicSlugs: nextStep.entry.includedTopicSlugs,
+    includedTopicTitles: nextStep.entry.includedTopicTitles,
+    includedConceptSlugs: nextStep.entry.includedConceptSlugs,
+  });
 }
 
 function getEntryResumeMatch(

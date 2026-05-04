@@ -10,6 +10,8 @@ import {
   getConceptVisualDescriptor,
   getConceptSurfaceVisualDescriptor,
   getGuidedCollectionVisualDescriptor,
+  getPackSurfaceVisualDescriptor,
+  getSubjectVisualDescriptor,
   getTopicVisualDescriptor,
   getTopicSurfaceVisualDescriptor,
   getToolVisualDescriptor,
@@ -17,7 +19,7 @@ import {
 import {
   getConceptSummaries,
   getGuidedCollectionBySlug,
-  getSubjectDiscoverySummaries,
+  getSubjectDiscoverySummaryBySlug,
 } from "@/lib/content";
 import { localizeConceptSummaryDisplay } from "@/lib/i18n/content";
 
@@ -644,6 +646,40 @@ describe("learning visual descriptors", () => {
     });
   });
 
+  it("derives subject and pack motifs from representative featured topics and concepts", () => {
+    expect(
+      getSubjectVisualDescriptor({
+        slug: "computer-science",
+        title: "Computer Science",
+        description: "Keep binary search and graph work on one bounded branch.",
+        featuredTopic: {
+          slug: "algorithms-and-search",
+          title: "Algorithms and Search",
+        },
+      }),
+    ).toMatchObject({
+      kind: "subject",
+      motif: "binary-search",
+      fallbackKind: "topic-specific",
+      isFallback: false,
+    });
+
+    expect(
+      getPackSurfaceVisualDescriptor("test", {
+        title: "Physics Connections Pack",
+        summary: "Connect motion, oscillation, and orbit ideas across one compact assessment.",
+        subject: "Physics",
+        includedTopicSlugs: ["mechanics", "oscillations"],
+        includedConceptSlugs: ["vectors-components", "simple-harmonic-motion"],
+      }),
+    ).toMatchObject({
+      kind: "test",
+      motif: "vectors-components",
+      fallbackKind: "topic-specific",
+      isFallback: false,
+    });
+  });
+
   it("renders concept cards with the descriptor motif in English and zh-HK", () => {
     const concept = getConceptSummary("uniform-circular-motion");
 
@@ -707,17 +743,17 @@ describe("learning visual descriptors", () => {
   });
 
   it("keeps subject card visuals inside the primary subject link region", () => {
-    const subject = getSubjectDiscoverySummaries()[0];
-
-    if (!subject) {
-      throw new Error("Expected at least one subject summary");
-    }
+    const subject = getSubjectDiscoverySummaryBySlug("computer-science");
 
     render(<SubjectDiscoveryCard subject={subject} variant="compact" />);
 
     expect(screen.getByTestId("learning-visual")).toHaveAttribute(
       "data-visual-motif",
-      `subject-${subject.slug === "math" ? "math" : subject.slug}`,
+      "binary-search",
+    );
+    expect(screen.getByTestId("learning-visual")).toHaveAttribute(
+      "data-visual-fallback-kind",
+      "topic-specific",
     );
     expect(screen.getByTestId("learning-visual").closest("a")).toHaveAttribute(
       "href",

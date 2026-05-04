@@ -230,7 +230,12 @@ describe("TestHubPage", () => {
       within(screen.getByTestId("test-hub-card-pack-physics-connected-models")).getByTestId(
         "learning-visual",
       ),
-    ).toHaveAttribute("data-visual-fallback-kind", "category-specific");
+    ).toHaveAttribute("data-visual-motif", "vectors-components");
+    expect(
+      within(screen.getByTestId("test-hub-card-pack-physics-connected-models")).getByTestId(
+        "learning-visual",
+      ),
+    ).toHaveAttribute("data-visual-fallback-kind", "topic-specific");
   });
 
   it("renders aggregate progress and representative states across topic tests and concept tests", () => {
