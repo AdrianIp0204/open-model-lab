@@ -109,6 +109,7 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
     const heading = document.querySelector("h1");
     const worksurface = document.querySelector('[data-testid="chemistry-worksurface"]');
     const viewport = document.querySelector('[data-testid="chemistry-graph-viewport"]');
+    const toolbarStatus = document.querySelector('[data-testid="chemistry-graph-toolbar-status"]');
     const alcoholLabel = document.querySelector(
       '[data-testid="chem-node-alcohol"] [data-chem-label-role="family-primary"]',
     );
@@ -135,6 +136,7 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
       !(heading instanceof HTMLElement) ||
       !(worksurface instanceof HTMLElement) ||
       !(viewport instanceof HTMLElement) ||
+      !(toolbarStatus instanceof HTMLElement) ||
       !(alcoholLabel instanceof HTMLElement) ||
       !(hydrationEdge instanceof HTMLElement) ||
       nodeElements.length !== nodeIds.length ||
@@ -194,6 +196,7 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
     const viewportRect = viewport.getBoundingClientRect();
     const nodeFontSize = Number.parseFloat(getComputedStyle(alcoholLabel).fontSize);
     const edgeFontSize = Number.parseFloat(getComputedStyle(hydrationEdge).fontSize);
+    const edgeBackground = getComputedStyle(hydrationEdge).backgroundColor;
     const alcoholNode = document.querySelector('[data-testid="chem-node-alcohol"]');
     const nodeBorderWidth =
       alcoholNode instanceof HTMLElement
@@ -222,8 +225,12 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
           : null,
       edgeVisualKind: hydrationEdge.getAttribute("data-chem-visual-kind"),
       edgeVisualWeight: hydrationEdge.getAttribute("data-chem-visual-weight"),
+      edgeLabelVisual: hydrationEdge.getAttribute("data-chem-label-visual"),
+      edgeBackground,
       nodeLabelWeight: alcoholLabel.getAttribute("data-chem-label-weight"),
       edgeLabelWeight: hydrationEdge.getAttribute("data-chem-label-weight"),
+      toolbarOverflowMode: toolbarStatus.getAttribute("data-chem-toolbar-overflow"),
+      toolbarOverflowX: getComputedStyle(toolbarStatus).overflowX,
       navigationMode: viewport.getAttribute("data-chem-navigation-mode"),
       wheelMode: viewport.getAttribute("data-chem-wheel-mode"),
       nodeOverlaps,
@@ -249,8 +256,13 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
   expect(firstScreen.nodeVisualWeight).toBe("primary");
   expect(firstScreen.edgeVisualKind).toBe("reaction-pathway");
   expect(firstScreen.edgeVisualWeight).toBe("secondary");
+  expect(firstScreen.edgeLabelVisual).toBe("inline-annotation");
+  expect(firstScreen.edgeBackground).toBe("rgba(0, 0, 0, 0)");
   expect(firstScreen.nodeLabelWeight).toBe("primary");
   expect(firstScreen.edgeLabelWeight).toBe("secondary");
+  expect(firstScreen.toolbarOverflowMode).toBe("wrapped");
+  expect(firstScreen.toolbarOverflowX).not.toBe("scroll");
+  expect(firstScreen.toolbarOverflowX).not.toBe("auto");
   expect(firstScreen.navigationMode).toBe("drag-pan");
   expect(firstScreen.wheelMode).toBe("page-scroll");
   expect(firstScreen.overflowX).toBe("hidden");

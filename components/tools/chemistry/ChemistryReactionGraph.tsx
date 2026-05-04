@@ -18,8 +18,8 @@ import type {
 } from "@/lib/tools/chemistry-reaction-mind-map";
 import { ChemistryInlineNotation } from "./ChemistryNotation";
 
-const NODE_WIDTH = 192;
-const NODE_HEIGHT = 98;
+const NODE_WIDTH = 200;
+const NODE_HEIGHT = 104;
 const SCENE_PADDING = 72;
 const MIN_SCALE = 0.36;
 const MAX_SCALE = 2.25;
@@ -27,7 +27,7 @@ const MIN_SCALE_PERCENT = Math.round(MIN_SCALE * 100);
 const MAX_SCALE_PERCENT = Math.round(MAX_SCALE * 100);
 const ZOOM_FACTOR = 1.16;
 const KEYBOARD_PAN_STEP = 64;
-const FIT_MARGIN = 48;
+const FIT_MARGIN = 28;
 const CONTEXT_PADDING = 88;
 const ROUTE_CONTEXT_PADDING = 52;
 const EDGE_CAMERA_PATH_PADDING = 28;
@@ -35,7 +35,7 @@ const EDGE_CAMERA_LABEL_HALF_WIDTH = 112;
 const EDGE_CAMERA_LABEL_HALF_HEIGHT = 48;
 const MIN_VISIBLE_SCENE_EDGE = 96;
 const PAN_AFFORDANCE_THRESHOLD = 24;
-const EDGE_LABEL_TARGET_VISUAL_SCALE = 0.76;
+const EDGE_LABEL_TARGET_VISUAL_SCALE = 0.84;
 const EDGE_LABEL_DETAIL_SCALE = 1.05;
 const MIN_EDGE_LABEL_COUNTER_SCALE = 0.58;
 const MAX_EDGE_LABEL_COUNTER_SCALE = 1.72;
@@ -1509,7 +1509,11 @@ export function ChemistryReactionGraph({
       )}
     >
       <div className="flex flex-wrap items-center justify-between gap-2 min-[1100px]:flex-nowrap">
-        <div className="flex min-w-0 flex-1 flex-nowrap items-center gap-1.5 overflow-x-auto pb-1 text-xs text-ink-700 [scrollbar-width:thin] [&>span]:shrink-0">
+        <div
+          data-testid="chemistry-graph-toolbar-status"
+          data-chem-toolbar-overflow="wrapped"
+          className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 text-xs text-ink-700 [&>span]:shrink-0"
+        >
           <span className="rounded-full border border-line bg-paper px-2.5 py-1.5">
             {t("navigation.dragHint")}
           </span>
@@ -1781,7 +1785,7 @@ export function ChemistryReactionGraph({
         aria-describedby={graphDescriptionIds}
         aria-keyshortcuts="ArrowUp ArrowDown ArrowLeft ArrowRight + - 0"
         className={joinClasses(
-          "relative min-h-[28rem] flex-1 overflow-hidden rounded-[22px] border border-line bg-paper-strong/70 select-none touch-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper min-[1100px]:min-h-0",
+          "relative min-h-[31rem] flex-1 overflow-hidden rounded-[22px] border border-line bg-paper-strong/70 select-none touch-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper min-[1100px]:min-h-0",
           isPanning ? "cursor-grabbing" : "cursor-grab",
         )}
         onWheel={handleWheel}
@@ -2914,20 +2918,22 @@ export function ChemistryReactionGraph({
                       ? "background"
                       : "secondary";
               const edgeStrokeWidth = selected
-                ? 4
+                ? 4.2
                 : routeEdgeSet.has(edge.id)
-                  ? 3.5
+                  ? 3.7
                   : edgeIsHighlighted
-                    ? 3
-                    : 1.75;
+                    ? 3.1
+                    : 2.15;
               const edgeStrokeDasharray =
                 selected || routeEdgeSet.has(edge.id)
                   ? undefined
                   : edgeIsHighlighted
-                    ? "7 5"
-                    : "5 9";
+                    ? undefined
+                    : context === "dimmed"
+                      ? "4 8"
+                      : undefined;
               const edgeStrokeOpacity =
-                context === "dimmed" ? 0.18 : edgeIsHighlighted ? 0.84 : 0.48;
+                context === "dimmed" ? 0.18 : edgeIsHighlighted ? 0.9 : 0.62;
 
               return (
                 <g key={edge.id}>
@@ -2991,7 +2997,7 @@ export function ChemistryReactionGraph({
                           ? "var(--amber-600)"
                           : edgeIsHighlighted
                             ? "var(--teal-500)"
-                            : "var(--ink-500)"
+                            : "var(--ink-700)"
                     }
                     strokeWidth={edgeStrokeWidth}
                     strokeDasharray={edgeStrokeDasharray}
@@ -3126,8 +3132,8 @@ export function ChemistryReactionGraph({
                     : context === "connected"
                       ? "connected"
                       : context === "dimmed"
-                      ? "dimmed"
-                      : "default";
+                        ? "dimmed"
+                        : "default";
             const edgeVisualWeight = selected
               ? "selected"
               : routeEdgeSelected
@@ -3137,6 +3143,14 @@ export function ChemistryReactionGraph({
                   : context === "dimmed"
                     ? "background"
                     : "secondary";
+            const edgeLabelVisualMode =
+              selected || routeEdgeSelected
+                ? "active-callout"
+                : hoveredByEdge || hoveredByNode || context === "connected"
+                  ? "focus-annotation"
+                  : context === "dimmed"
+                    ? "background-annotation"
+                    : "inline-annotation";
 
             return (
               <button
@@ -3167,6 +3181,7 @@ export function ChemistryReactionGraph({
                 data-chem-label-weight="secondary"
                 data-chem-visual-kind="reaction-pathway"
                 data-chem-visual-weight={edgeVisualWeight}
+                data-chem-label-visual={edgeLabelVisualMode}
                 data-chem-crosses-flow-band={
                   edgeFlowTransition
                     ? edgeFlowTransition.crossesBand
@@ -3177,18 +3192,18 @@ export function ChemistryReactionGraph({
                 data-chem-interactive="true"
                 data-chem-label-scale={edgeLabelCounterScale.toFixed(2)}
                 className={[
-                  "absolute z-10 inline-flex max-w-[9.25rem] items-center justify-center gap-1 rounded-full border px-2 py-1 text-center text-[0.62rem] font-semibold leading-tight transition backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                  "absolute z-10 inline-flex max-w-[8.5rem] items-center justify-center gap-1 border px-1.5 py-0.5 text-center text-[0.66rem] font-bold leading-tight transition focus-visible:rounded-full focus-visible:bg-paper/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
                   selected
-                    ? "border-teal-700 bg-paper/95 text-teal-950 shadow-[0_4px_12px_rgba(15,118,110,0.16)] ring-2 ring-teal-600/35"
+                    ? "rounded-full border-teal-700 bg-paper/95 text-teal-950 shadow-[0_4px_12px_rgba(15,118,110,0.16)] ring-2 ring-teal-600/35"
                     : routeEdgeSet.has(edge.id)
-                      ? "border-amber-500/45 bg-paper/92 text-amber-950 shadow-[0_4px_12px_rgba(217,119,6,0.12)] ring-1 ring-amber-500/25"
+                      ? "rounded-full border-amber-500/50 bg-paper/94 text-amber-950 shadow-[0_4px_12px_rgba(217,119,6,0.12)] ring-1 ring-amber-500/25"
                       : context === "compared"
-                        ? "border-teal-500/25 bg-paper/90 text-teal-900"
+                        ? "rounded-full border-teal-500/25 bg-paper/88 text-teal-900"
                         : context === "connected"
-                          ? "border-teal-500/25 bg-paper/88 text-teal-900"
+                          ? "rounded-full border-transparent bg-paper/72 text-teal-900"
                           : context === "dimmed"
-                            ? "border-transparent bg-paper/55 text-ink-500 opacity-35"
-                            : "border-transparent bg-paper/75 text-ink-600 hover:border-ink-950/15 hover:bg-paper/95",
+                            ? "border-transparent bg-transparent text-ink-500 opacity-20"
+                            : "border-transparent bg-transparent text-ink-700 opacity-88 hover:rounded-full hover:bg-paper/88 hover:text-ink-950",
                 ].join(" ")}
                 style={{
                   left: labelPoint.x + labelOffset.x,
@@ -3230,7 +3245,7 @@ export function ChemistryReactionGraph({
                       edgeFlowTransition.crossesBand ? "true" : "false"
                     }
                     className={joinClasses(
-                      "grid size-3.5 shrink-0 place-items-center rounded-full border text-[0.48rem] font-black leading-none",
+                      "grid size-3 shrink-0 place-items-center rounded-full border text-[0.44rem] font-black leading-none",
                       edgeFlowTransition.crossesBand
                         ? "border-teal-500/30 bg-teal-500/10 text-teal-900"
                         : "border-line bg-paper-strong text-ink-500",
@@ -3445,20 +3460,20 @@ export function ChemistryReactionGraph({
                 data-chem-visual-kind="compound-family"
                 data-chem-visual-weight={nodeVisualWeight}
                 className={[
-                  "absolute z-20 flex flex-col items-start justify-between overflow-hidden rounded-[22px] border-2 p-4 text-left shadow-[0_8px_22px_rgba(15,28,36,0.1)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                  "absolute z-20 flex flex-col items-start justify-between overflow-hidden rounded-[16px] border-2 p-4 text-left shadow-[0_3px_0_rgba(15,28,36,0.08)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
                   selected
-                    ? "border-teal-700 bg-teal-500/14 shadow-[0_14px_32px_rgba(15,118,110,0.18)] ring-4 ring-teal-500/20"
+                    ? "border-teal-800 bg-paper shadow-[0_0_0_4px_rgba(20,184,166,0.18),0_4px_0_rgba(15,118,110,0.16)]"
                     : routeEndpointSet.has(node.id)
-                      ? "border-amber-600 bg-amber-500/12 shadow-[0_14px_32px_rgba(217,119,6,0.16)] ring-4 ring-amber-500/18"
+                      ? "border-amber-600 bg-paper shadow-[0_0_0_4px_rgba(245,158,11,0.16),0_4px_0_rgba(217,119,6,0.12)]"
                       : routeNodeSet.has(node.id)
-                        ? "border-amber-500/45 bg-paper/95 ring-1 ring-amber-500/22"
+                        ? "border-amber-500/65 bg-paper"
                         : context === "compared"
-                          ? "border-teal-700 bg-teal-500/14 shadow-[0_12px_28px_rgba(15,118,110,0.14)] ring-2 ring-teal-600/25"
+                          ? "border-teal-700 bg-paper shadow-[0_0_0_3px_rgba(20,184,166,0.14),0_3px_0_rgba(15,118,110,0.1)]"
                           : context === "connected"
-                            ? "border-teal-500/45 bg-paper/95 ring-1 ring-teal-500/20"
+                            ? "border-teal-500/55 bg-paper"
                             : context === "dimmed"
-                              ? "border-line/80 bg-paper/80 text-ink-500 opacity-45 shadow-none"
-                              : "border-ink-950/15 bg-paper/95 hover:border-ink-950/28 hover:bg-paper-strong",
+                              ? "border-line/75 bg-paper/72 text-ink-500 opacity-42 shadow-none"
+                              : "border-ink-950/22 bg-paper hover:border-ink-950/34 hover:bg-paper-strong",
                 ].join(" ")}
                 style={{
                   left: position.x + SCENE_PADDING,
@@ -3603,7 +3618,7 @@ export function ChemistryReactionGraph({
                   <span
                     data-chem-label-role="family-primary"
                     data-chem-label-weight="primary"
-                    className="block text-[1.35rem] font-black leading-tight tracking-[0.01em] text-ink-950"
+                    className="block text-[1.45rem] font-black leading-tight tracking-[0.01em] text-ink-950"
                   >
                     {node.name}
                   </span>

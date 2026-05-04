@@ -1189,16 +1189,16 @@ export function getChemistryReactionMindMapContent(locale: AppLocale | string) {
 }
 
 export const chemistryReactionGraphLayout: ChemistryGraphLayout = {
-  width: 1680,
-  height: 860,
+  width: 1560,
+  height: 780,
   nodePositions: {
-    alkene: { x: 90, y: 112 },
-    haloalkane: { x: 90, y: 668 },
-    alcohol: { x: 620, y: 390 },
-    aldehyde: { x: 1100, y: 112 },
-    ketone: { x: 1100, y: 668 },
-    "carboxylic-acid": { x: 1440, y: 112 },
-    ester: { x: 1440, y: 668 },
+    alkene: { x: 90, y: 104 },
+    haloalkane: { x: 90, y: 596 },
+    alcohol: { x: 588, y: 350 },
+    aldehyde: { x: 1002, y: 104 },
+    ketone: { x: 1002, y: 596 },
+    "carboxylic-acid": { x: 1270, y: 104 },
+    ester: { x: 1270, y: 596 },
   },
   edgeCurves: {
     "alkene-to-alcohol-hydration": -108,
