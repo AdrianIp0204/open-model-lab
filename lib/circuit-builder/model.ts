@@ -19,6 +19,8 @@ import { getCircuitComponentDefinition } from "./registry";
 
 const COMPONENT_HALF_SPAN = 64;
 const WIRE_STUB = 22;
+const WIRE_ROUTE_COMPONENT_INFLATE = 20;
+const WIRE_ROUTE_LANE_OFFSET = CIRCUIT_GRID_SIZE;
 const NEAR_ZERO_RESISTANCE = 0.0001;
 const VERY_HIGH_RESISTANCE = 100_000_000;
 export const CIRCUIT_DOCUMENT_VERSION = 1 as const;
@@ -390,11 +392,233 @@ export function buildCircuitJsonExport(document: CircuitDocument) {
   };
 }
 
+type CircuitBounds = ReturnType<typeof getComponentBoundingBox>;
+
+type WirePointEntry = {
+  point: CircuitPoint;
+  protected?: boolean;
+};
+
+function hasDirection(direction: CircuitPoint) {
+  return direction.x !== 0 || direction.y !== 0;
+}
+
+function pointsEqual(a: CircuitPoint, b: CircuitPoint) {
+  return a.x === b.x && a.y === b.y;
+}
+
+function inflateBounds(bounds: CircuitBounds, padding: number): CircuitBounds {
+  return {
+    left: bounds.left - padding,
+    right: bounds.right + padding,
+    top: bounds.top - padding,
+    bottom: bounds.bottom + padding,
+  };
+}
+
+function clampWireLane(value: number, max: number) {
+  return clamp(
+    snapToGrid(value),
+    CIRCUIT_GRID_SIZE,
+    max - CIRCUIT_GRID_SIZE,
+  );
+}
+
+function uniqueNumbers(values: number[]) {
+  return Array.from(new Set(values.filter(Number.isFinite)));
+}
+
+function directionBetween(a: CircuitPoint, b: CircuitPoint) {
+  return {
+    x: Math.sign(b.x - a.x),
+    y: Math.sign(b.y - a.y),
+  };
+}
+
+function isCollinear(a: CircuitPoint, b: CircuitPoint, c: CircuitPoint) {
+  return (
+    (a.x === b.x && b.x === c.x) ||
+    (a.y === b.y && b.y === c.y)
+  );
+}
+
+function cleanWirePointEntries(entries: WirePointEntry[]) {
+  const deduped: WirePointEntry[] = [];
+  for (const entry of entries) {
+    const previous = deduped[deduped.length - 1];
+    if (previous && pointsEqual(previous.point, entry.point)) {
+      if (entry.protected && !previous.protected) {
+        deduped[deduped.length - 1] = entry;
+      }
+      continue;
+    }
+    deduped.push(entry);
+  }
+
+  const cleaned: WirePointEntry[] = [];
+  for (const entry of deduped) {
+    cleaned.push(entry);
+    while (cleaned.length >= 3) {
+      const a = cleaned[cleaned.length - 3]!;
+      const b = cleaned[cleaned.length - 2]!;
+      const c = cleaned[cleaned.length - 1]!;
+      if (b.protected || !isCollinear(a.point, b.point, c.point)) {
+        break;
+      }
+      cleaned.splice(cleaned.length - 2, 1);
+    }
+  }
+
+  return cleaned.map((entry) => entry.point);
+}
+
+function cleanWirePoints(points: CircuitPoint[]) {
+  return cleanWirePointEntries(points.map((point) => ({ point })));
+}
+
+function segmentIntersectsBounds(
+  start: CircuitPoint,
+  end: CircuitPoint,
+  bounds: CircuitBounds,
+) {
+  if (start.x === end.x) {
+    const minY = Math.min(start.y, end.y);
+    const maxY = Math.max(start.y, end.y);
+    return (
+      start.x >= bounds.left &&
+      start.x <= bounds.right &&
+      maxY >= bounds.top &&
+      minY <= bounds.bottom
+    );
+  }
+
+  if (start.y === end.y) {
+    const minX = Math.min(start.x, end.x);
+    const maxX = Math.max(start.x, end.x);
+    return (
+      start.y >= bounds.top &&
+      start.y <= bounds.bottom &&
+      maxX >= bounds.left &&
+      minX <= bounds.right
+    );
+  }
+
+  return false;
+}
+
+function countObstacleHits(points: CircuitPoint[], obstacles: CircuitBounds[]) {
+  let hits = 0;
+  for (let index = 0; index < points.length - 1; index += 1) {
+    const start = points[index]!;
+    const end = points[index + 1]!;
+    hits += obstacles.filter((bounds) => segmentIntersectsBounds(start, end, bounds)).length;
+  }
+  return hits;
+}
+
+function countWireBends(points: CircuitPoint[]) {
+  let bends = 0;
+  for (let index = 1; index < points.length - 1; index += 1) {
+    const previous = directionBetween(points[index - 1]!, points[index]!);
+    const next = directionBetween(points[index]!, points[index + 1]!);
+    if (previous.x !== next.x || previous.y !== next.y) {
+      bends += 1;
+    }
+  }
+  return bends;
+}
+
+function wirePathLength(points: CircuitPoint[]) {
+  return points.reduce((total, point, index) => {
+    if (index === 0) {
+      return total;
+    }
+    const previous = points[index - 1]!;
+    return total + Math.abs(point.x - previous.x) + Math.abs(point.y - previous.y);
+  }, 0);
+}
+
+function buildWireRouteCandidates(
+  start: CircuitPoint,
+  end: CircuitPoint,
+  laneBounds: CircuitBounds[],
+) {
+  const candidates: CircuitPoint[][] = [];
+  const addCandidate = (points: CircuitPoint[]) => {
+    candidates.push(cleanWirePoints(points));
+  };
+  const laneXValues = uniqueNumbers([
+    start.x,
+    end.x,
+    clampWireLane((start.x + end.x) / 2, CIRCUIT_CANVAS_WIDTH),
+    ...laneBounds.flatMap((bounds) => [
+      clampWireLane(bounds.left - WIRE_ROUTE_LANE_OFFSET, CIRCUIT_CANVAS_WIDTH),
+      clampWireLane(bounds.right + WIRE_ROUTE_LANE_OFFSET, CIRCUIT_CANVAS_WIDTH),
+    ]),
+  ]);
+  const laneYValues = uniqueNumbers([
+    start.y,
+    end.y,
+    clampWireLane((start.y + end.y) / 2, CIRCUIT_CANVAS_HEIGHT),
+    ...laneBounds.flatMap((bounds) => [
+      clampWireLane(bounds.top - WIRE_ROUTE_LANE_OFFSET, CIRCUIT_CANVAS_HEIGHT),
+      clampWireLane(bounds.bottom + WIRE_ROUTE_LANE_OFFSET, CIRCUIT_CANVAS_HEIGHT),
+    ]),
+  ]);
+
+  if (start.x === end.x || start.y === end.y) {
+    addCandidate([start, end]);
+  }
+
+  addCandidate([start, { x: end.x, y: start.y }, end]);
+  addCandidate([start, { x: start.x, y: end.y }, end]);
+
+  for (const x of laneXValues) {
+    addCandidate([start, { x, y: start.y }, { x, y: end.y }, end]);
+  }
+
+  for (const y of laneYValues) {
+    addCandidate([start, { x: start.x, y }, { x: end.x, y }, end]);
+  }
+
+  return candidates;
+}
+
+function scoreWireRoute(points: CircuitPoint[], obstacleBounds: CircuitBounds[]) {
+  return (
+    countObstacleHits(points, obstacleBounds) * 1_000_000 +
+    countWireBends(points) * 1_000 +
+    wirePathLength(points)
+  );
+}
+
+function chooseBestWireRoute(
+  start: CircuitPoint,
+  end: CircuitPoint,
+  laneBounds: CircuitBounds[],
+  obstacleBounds: CircuitBounds[],
+) {
+  return buildWireRouteCandidates(start, end, laneBounds).reduce(
+    (best, candidate) => {
+      const candidateScore = scoreWireRoute(candidate, obstacleBounds);
+      if (!best || candidateScore < best.score) {
+        return { points: candidate, score: candidateScore };
+      }
+      return best;
+    },
+    null as { points: CircuitPoint[]; score: number } | null,
+  )?.points ?? [start, end];
+}
+
 export function buildWirePreviewPoints(
   from: CircuitPoint,
   fromDirection: CircuitPoint,
   to: CircuitPoint,
   toDirection: CircuitPoint,
+  options: {
+    components?: CircuitComponentInstance[];
+    ignoredComponentIds?: string[];
+  } = {},
 ) {
   const startStub = {
     x: from.x + fromDirection.x * WIRE_STUB,
@@ -404,16 +628,23 @@ export function buildWirePreviewPoints(
     x: to.x + toDirection.x * WIRE_STUB,
     y: to.y + toDirection.y * WIRE_STUB,
   };
-  const midX = (startStub.x + endStub.x) / 2;
+  const obstacleBounds = (options.components ?? [])
+    .filter((component) => !(options.ignoredComponentIds ?? []).includes(component.id))
+    .map((component) =>
+      inflateBounds(getComponentBoundingBox(component), WIRE_ROUTE_COMPONENT_INFLATE),
+    );
+  const laneBounds = (options.components ?? []).map((component) =>
+    inflateBounds(getComponentBoundingBox(component), WIRE_ROUTE_COMPONENT_INFLATE),
+  );
+  const routedCore = chooseBestWireRoute(startStub, endStub, laneBounds, obstacleBounds);
 
-  return [
-    from,
-    startStub,
-    { x: midX, y: startStub.y },
-    { x: midX, y: endStub.y },
-    endStub,
-    to,
-  ];
+  return cleanWirePointEntries([
+    { point: from },
+    { point: startStub, protected: hasDirection(fromDirection) },
+    ...routedCore.slice(1, -1).map((point) => ({ point })),
+    { point: endStub, protected: hasDirection(toDirection) },
+    { point: to },
+  ]);
 }
 
 export function buildWirePathData(points: CircuitPoint[]) {
@@ -440,6 +671,10 @@ export function buildWirePathFromRefs(
     getComponentTerminalDirection(fromComponent, wire.from.terminal),
     toPoint,
     getComponentTerminalDirection(toComponent, wire.to.terminal),
+    {
+      components: document.components,
+      ignoredComponentIds: [fromComponent.id, toComponent.id],
+    },
   );
 
   return {

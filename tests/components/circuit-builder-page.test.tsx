@@ -648,7 +648,7 @@ describe("CircuitBuilderPage", () => {
       toJSON: () => ({}),
     } as DOMRect);
 
-    expect(screen.getByText(/\+\/- zooms, F fits, 0 resets view/i)).toBeVisible();
+    expect(screen.getByText(/Ctrl\/Cmd\+wheel zooms around pointer/i)).toBeVisible();
 
     const zoomInButton = screen.getByRole("button", { name: "Zoom +" });
     const zoomOutButton = screen.getByRole("button", { name: "Zoom -" });
@@ -693,13 +693,17 @@ describe("CircuitBuilderPage", () => {
     expect(screen.getByRole("status")).toHaveTextContent(/Workspace view reset/i);
 
     fireEvent.wheel(canvas, { deltaY: -80, clientX: 300, clientY: 160 });
+    expect(viewStatus.getByText("78% zoom")).toBeVisible();
+    expect(screen.getByRole("status")).not.toHaveTextContent(/pointer as its anchor/i);
+
+    fireEvent.wheel(canvas, { deltaY: -80, clientX: 300, clientY: 160, ctrlKey: true });
     await waitFor(() => {
       expect(screen.getByRole("status")).toHaveTextContent(/Workspace zoom 86%/i);
     });
     expect(screen.getByRole("status")).toHaveTextContent(/pointer as its anchor/i);
     expect(viewStatus.getByText("86% zoom")).toBeVisible();
 
-    fireEvent.wheel(canvas, { deltaY: 80, clientX: 300, clientY: 160 });
+    fireEvent.wheel(canvas, { deltaY: 80, clientX: 300, clientY: 160, metaKey: true });
     await waitFor(() => {
       expect(screen.getByRole("status")).toHaveTextContent(/Workspace zoom 78%/i);
     });

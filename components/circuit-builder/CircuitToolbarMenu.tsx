@@ -137,7 +137,7 @@ export function CircuitToolbarMenu({
   return (
     <div
       ref={rootRef}
-      className="relative w-full sm:w-auto"
+      className="relative inline-flex max-w-full flex-col"
       data-circuit-toolbar-menu={menuId}
     >
       <button
@@ -148,7 +148,7 @@ export function CircuitToolbarMenu({
         aria-controls={panelId}
         aria-label={ariaLabel}
         className={[
-          "inline-flex min-h-10 w-full items-center justify-between gap-2 rounded-full border px-3.5 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper sm:w-auto",
+          "inline-flex min-h-9 w-auto items-center justify-between gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
           open
             ? "border-ink-950/25 bg-paper-strong text-ink-950"
             : "border-line bg-paper text-ink-950 hover:border-ink-950/20 hover:bg-paper-strong",
@@ -191,7 +191,7 @@ export function CircuitToolbarMenu({
           aria-describedby={panelDescription ? panelDescriptionId : undefined}
           tabIndex={-1}
           className={[
-            "mt-2 w-full space-y-3 rounded-[22px] border border-line bg-paper p-4 shadow-surface focus:outline-none sm:min-w-[20rem]",
+            "mt-2 w-[min(22rem,calc(100vw-2rem))] space-y-3 rounded-[18px] border border-line bg-paper p-3.5 shadow-surface focus:outline-none",
             align === "right"
               ? "xl:absolute xl:right-0 xl:top-full xl:z-40 xl:w-[22rem]"
               : "xl:absolute xl:left-0 xl:top-full xl:z-40 xl:w-[22rem]",

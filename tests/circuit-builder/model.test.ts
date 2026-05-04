@@ -1,12 +1,85 @@
 import { describe, expect, it } from "vitest";
 import {
+  buildWirePathFromRefs,
+  buildWirePreviewPoints,
   buildCircuitJsonExport,
   createDefaultCircuitEnvironment,
+  getComponentBoundingBox,
+  getComponentTerminalDirection,
+  getComponentTerminalPoint,
   normalizeCircuitDocument,
   parseCircuitDocumentJson,
   serializeCircuitDocument,
+  type CircuitComponentInstance,
   type CircuitDocument,
+  type CircuitPoint,
+  type CircuitWire,
 } from "@/lib/circuit-builder";
+
+const baseView = { zoom: 0.78, offsetX: 120, offsetY: 82 } as const;
+
+function createDocument(
+  components: CircuitComponentInstance[],
+  wires: CircuitWire[],
+): CircuitDocument {
+  return {
+    version: 1,
+    view: baseView,
+    environment: createDefaultCircuitEnvironment(),
+    components,
+    wires,
+  };
+}
+
+function expectOrthogonalCleanPath(points: CircuitPoint[]) {
+  for (let index = 0; index < points.length - 1; index += 1) {
+    const current = points[index]!;
+    const next = points[index + 1]!;
+    expect(current.x === next.x || current.y === next.y).toBe(true);
+    expect(current).not.toEqual(next);
+  }
+
+  for (let index = 1; index < points.length - 1; index += 1) {
+    if (index === 1 || index === points.length - 2) {
+      continue;
+    }
+    const previous = points[index - 1]!;
+    const current = points[index]!;
+    const next = points[index + 1]!;
+    expect(
+      (previous.x === current.x && current.x === next.x) ||
+        (previous.y === current.y && current.y === next.y),
+    ).toBe(false);
+  }
+}
+
+function segmentIntersectsBox(start: CircuitPoint, end: CircuitPoint, box: {
+  left: number;
+  right: number;
+  top: number;
+  bottom: number;
+}) {
+  if (start.x === end.x) {
+    const minY = Math.min(start.y, end.y);
+    const maxY = Math.max(start.y, end.y);
+    return start.x >= box.left && start.x <= box.right && maxY >= box.top && minY <= box.bottom;
+  }
+  if (start.y === end.y) {
+    const minX = Math.min(start.x, end.x);
+    const maxX = Math.max(start.x, end.x);
+    return start.y >= box.top && start.y <= box.bottom && maxX >= box.left && minX <= box.right;
+  }
+  return false;
+}
+
+function inflateBox(box: ReturnType<typeof getComponentBoundingBox>, padding: number) {
+  return {
+    left: box.left - padding,
+    right: box.right + padding,
+    top: box.top - padding,
+    bottom: box.bottom + padding,
+  };
+}
 
 describe("circuit builder model serialization", () => {
   it("preserves ambient environment state and component mode settings in JSON export", () => {
@@ -166,5 +239,139 @@ describe("circuit builder model serialization", () => {
     expect(() => parseCircuitDocumentJson("{not valid json")).toThrow(
       "The selected file is not valid JSON.",
     );
+  });
+});
+
+describe("circuit builder wire routing", () => {
+  const battery: CircuitComponentInstance = {
+    id: "battery-1",
+    label: "Battery 1",
+    type: "battery",
+    x: 240,
+    y: 320,
+    rotation: 0,
+    properties: { voltage: 9 },
+  };
+  const resistor: CircuitComponentInstance = {
+    id: "resistor-1",
+    label: "Resistor 1",
+    type: "resistor",
+    x: 560,
+    y: 320,
+    rotation: 0,
+    properties: { resistance: 12 },
+  };
+
+  it("routes horizontal components facing each other as a short clean path", () => {
+    const document = createDocument(
+      [battery, resistor],
+      [
+        {
+          id: "wire-1",
+          from: { componentId: "battery-1", terminal: "b" },
+          to: { componentId: "resistor-1", terminal: "a" },
+        },
+      ],
+    );
+    const routed = buildWirePathFromRefs(document, document.wires[0]!);
+
+    expect(routed).not.toBeNull();
+    expect(routed!.points).toHaveLength(4);
+    expect(new Set(routed!.points.map((point) => point.y))).toEqual(new Set([320]));
+    expectOrthogonalCleanPath(routed!.points);
+  });
+
+  it("uses the same routed points for persisted and terminal-preview wires", () => {
+    const document = createDocument(
+      [battery, resistor],
+      [
+        {
+          id: "wire-1",
+          from: { componentId: "battery-1", terminal: "b" },
+          to: { componentId: "resistor-1", terminal: "a" },
+        },
+      ],
+    );
+    const persisted = buildWirePathFromRefs(document, document.wires[0]!);
+    const preview = buildWirePreviewPoints(
+      getComponentTerminalPoint(battery, "b"),
+      getComponentTerminalDirection(battery, "b"),
+      getComponentTerminalPoint(resistor, "a"),
+      getComponentTerminalDirection(resistor, "a"),
+      {
+        components: document.components,
+        ignoredComponentIds: ["battery-1", "resistor-1"],
+      },
+    );
+
+    expect(persisted?.points).toEqual(preview);
+  });
+
+  it("routes around component bounding boxes when a direct midpoint path is blocked", () => {
+    const farResistor: CircuitComponentInstance = {
+      ...resistor,
+      x: 760,
+    };
+    const obstacle: CircuitComponentInstance = {
+      id: "switch-1",
+      label: "Switch 1",
+      type: "switch",
+      x: 440,
+      y: 320,
+      rotation: 0,
+      properties: { closed: true },
+    };
+    const document = createDocument(
+      [battery, obstacle, farResistor],
+      [
+        {
+          id: "wire-1",
+          from: { componentId: "battery-1", terminal: "b" },
+          to: { componentId: "resistor-1", terminal: "a" },
+        },
+      ],
+    );
+    const routed = buildWirePathFromRefs(document, document.wires[0]!);
+    const inflatedObstacle = inflateBox(getComponentBoundingBox(obstacle), 20);
+
+    expect(routed).not.toBeNull();
+    expectOrthogonalCleanPath(routed!.points);
+    for (let index = 0; index < routed!.points.length - 1; index += 1) {
+      expect(
+        segmentIntersectsBox(
+          routed!.points[index]!,
+          routed!.points[index + 1]!,
+          inflatedObstacle,
+        ),
+      ).toBe(false);
+    }
+  });
+
+  it("keeps moved lower components on a clean dogleg without duplicate points", () => {
+    const lowerBulb: CircuitComponentInstance = {
+      id: "bulb-1",
+      label: "Light bulb 1",
+      type: "lightBulb",
+      x: 560,
+      y: 512,
+      rotation: 0,
+      properties: { resistance: 24 },
+    };
+    const document = createDocument(
+      [battery, lowerBulb],
+      [
+        {
+          id: "wire-1",
+          from: { componentId: "battery-1", terminal: "b" },
+          to: { componentId: "bulb-1", terminal: "a" },
+        },
+      ],
+    );
+    const routed = buildWirePathFromRefs(document, document.wires[0]!);
+
+    expect(routed).not.toBeNull();
+    expect(routed!.points.length).toBeLessThanOrEqual(5);
+    expect(routed!.points.some((point) => point.y === 512)).toBe(true);
+    expectOrthogonalCleanPath(routed!.points);
   });
 });

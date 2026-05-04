@@ -342,12 +342,16 @@ export function CircuitWorkspace({
       return null;
     }
 
-    let targetPoint = pointerWorld;
-    if (!targetPoint && activeTerminalRef && !isSameTerminal(pendingWireStart, activeTerminalRef)) {
+    let targetPoint: CircuitPoint | null = pointerWorld;
+    let targetDirection = { x: 0, y: 0 };
+    const ignoredComponentIds = [fromComponent.id];
+    if (activeTerminalRef && !isSameTerminal(pendingWireStart, activeTerminalRef)) {
       const activeComponent = getCircuitComponentById(document, activeTerminalRef.componentId);
-      targetPoint = activeComponent
-        ? getComponentTerminalPoint(activeComponent, activeTerminalRef.terminal)
-        : null;
+      if (activeComponent) {
+        targetPoint = getComponentTerminalPoint(activeComponent, activeTerminalRef.terminal);
+        targetDirection = getComponentTerminalDirection(activeComponent, activeTerminalRef.terminal);
+        ignoredComponentIds.push(activeComponent.id);
+      }
     }
 
     if (!targetPoint) {
@@ -359,7 +363,11 @@ export function CircuitWorkspace({
       fromPoint,
       getComponentTerminalDirection(fromComponent, pendingWireStart.terminal),
       targetPoint,
-      { x: 0, y: 0 },
+      targetDirection,
+      {
+        components: document.components,
+        ignoredComponentIds,
+      },
     );
 
     return buildWirePathData(points);
@@ -462,10 +470,10 @@ export function CircuitWorkspace({
   const canZoomOut = document.view.zoom > minimumWorkspaceZoom;
   const canZoomIn = document.view.zoom < maximumWorkspaceZoom;
   const zoomOutDescription = canZoomOut
-    ? "Zoom out from the current centered workspace view. Shortcut: minus."
+    ? "Zoom out from the current centered workspace view. Shortcut: minus. Ctrl/Cmd plus wheel zooms around the pointer."
     : "Workspace is already at the minimum 45% zoom. Shortcut: minus.";
   const zoomInDescription = canZoomIn
-    ? "Zoom in on the current centered workspace view. Shortcut: plus."
+    ? "Zoom in on the current centered workspace view. Shortcut: plus. Ctrl/Cmd plus wheel zooms around the pointer."
     : "Workspace is already at the maximum 240% zoom. Shortcut: plus.";
   const resetViewDescription = canResetView
     ? "Reset the workspace to the default zoom and pan. Shortcut: 0."
@@ -493,7 +501,7 @@ export function CircuitWorkspace({
       offsetY: focusPoint.y - world.y * clampedZoom,
     });
     onAnnounceViewChange(
-      `Workspace zoom ${Math.round(clampedZoom * 100)}%. Wheel zoom uses the pointer as its anchor.`,
+      `Workspace zoom ${Math.round(clampedZoom * 100)}%. Ctrl/Cmd plus wheel uses the pointer as its anchor.`,
     );
   }
 
@@ -919,6 +927,10 @@ export function CircuitWorkspace({
               return;
             }
 
+            if (!event.ctrlKey && !event.metaKey) {
+              return;
+            }
+
             event.preventDefault();
             const bounds = svgRef.current?.getBoundingClientRect();
             if (!bounds) {
@@ -1062,7 +1074,7 @@ export function CircuitWorkspace({
                     d={path.path}
                     fill="none"
                     stroke="rgba(255,255,255,0.001)"
-                    strokeWidth="18"
+                    strokeWidth="12"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     pointerEvents="stroke"

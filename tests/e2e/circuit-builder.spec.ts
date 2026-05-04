@@ -208,19 +208,25 @@ test("keeps the builder row visible on desktop, scrolls the palette internally, 
   page,
 }) => {
   await setHarnessSession(page, "signed-out");
-  await page.setViewportSize({ width: 1440, height: 980 });
+  await page.setViewportSize({ width: 1440, height: 900 });
   await openCircuitBuilder(page);
 
   const builderRow = page.locator("[data-circuit-builder-row]");
   const workspacePanel = page.locator("[data-circuit-workspace-panel]");
   const palettePanel = page.locator('[data-circuit-palette-panel="desktop"]');
+  const inspectorPanel = page.locator('[data-circuit-inspector-panel]').first();
   const paletteScroll = page.locator('[data-circuit-palette-scroll="desktop"]');
   const workspaceBox = await workspacePanel.boundingBox();
   const paletteBox = await palettePanel.boundingBox();
+  const inspectorBox = await inspectorPanel.boundingBox();
 
   expect(workspaceBox).not.toBeNull();
   expect(paletteBox).not.toBeNull();
-  expect(workspaceBox!.y).toBeLessThan(620);
+  expect(inspectorBox).not.toBeNull();
+  expect(workspaceBox!.y).toBeLessThan(240);
+  expect(paletteBox!.y).toBeLessThan(240);
+  expect(inspectorBox!.y).toBeLessThan(240);
+  expect(workspaceBox!.y + workspaceBox!.height).toBeGreaterThan(780);
   expect(Math.abs((workspaceBox?.height ?? 0) - (paletteBox?.height ?? 0))).toBeLessThan(48);
   await expect(builderRow).toBeVisible();
 
