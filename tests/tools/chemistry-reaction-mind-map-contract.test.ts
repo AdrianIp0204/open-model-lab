@@ -53,6 +53,61 @@ describe("chemistry reaction mind map data contract", () => {
     }
   });
 
+  it("includes the expanded organic families from the synthesis reference scope", () => {
+    expect(chemistryReactionNodes.map((node) => node.id)).toEqual([
+      "alkane",
+      "alkene",
+      "haloalkane",
+      "nitrile",
+      "amine",
+      "alcohol",
+      "aldehyde",
+      "ketone",
+      "hydroxynitrile",
+      "carboxylic-acid",
+      "carboxylate-salt",
+      "acyl-chloride",
+      "ester",
+      "amide",
+    ]);
+
+    expect(chemistryReactionEdges.map((edge) => edge.id)).toEqual(
+      expect.arrayContaining([
+        "alkane-to-haloalkane-radical-substitution",
+        "alkane-to-alkene-cracking",
+        "alkene-to-alkane-hydrogenation",
+        "haloalkane-to-nitrile-cyanide-substitution",
+        "haloalkane-to-amine-ammonia-substitution",
+        "aldehyde-to-hydroxynitrile-cyanohydrin-addition",
+        "ketone-to-hydroxynitrile-cyanohydrin-addition",
+        "nitrile-to-carboxylic-acid-hydrolysis",
+        "nitrile-to-amine-reduction",
+        "carboxylic-acid-to-carboxylate-salt-neutralisation",
+        "carboxylic-acid-to-acyl-chloride-chlorination",
+        "acyl-chloride-to-ester-alcoholysis",
+        "acyl-chloride-to-amide-ammonolysis",
+        "ester-to-carboxylate-salt-alkaline-hydrolysis",
+      ]),
+    );
+  });
+
+  it("uses chemically correct nitrile triple-bond notation in English and localized node metadata", () => {
+    const english = getChemistryReactionMindMapContent("en");
+    const localized = getChemistryReactionMindMapContent("zh-HK");
+    const englishNitrile = english.nodes.find((node) => node.id === "nitrile");
+    const localizedNitrile = localized.nodes.find((node) => node.id === "nitrile");
+    const englishNitrileText = JSON.stringify(englishNitrile);
+
+    expect(englishNitrile).toBeDefined();
+    expect(englishNitrile?.generalFormula).toBe("R-C≡N");
+    expect(englishNitrile?.functionalGroup).toContain("-C≡N");
+    expect(englishNitrile?.functionalGroupVisual).toBe("-C≡N");
+    expect(englishNitrileText).toContain("C≡N");
+    expect(englishNitrileText).not.toContain("-C=N");
+    expect(englishNitrileText).not.toContain("C=N bond");
+    expect(localizedNitrile?.functionalGroup).toContain("-C≡N");
+  });
+
   it("keeps unique edge ids with no orphan node references", () => {
     const edgeIds = chemistryReactionEdges.map((edge) => edge.id);
     const nodeIds = new Set(chemistryReactionNodes.map((node) => node.id));
@@ -253,6 +308,42 @@ describe("chemistry reaction mind map data contract", () => {
     expect(route).toBeDefined();
     expect(route.includesRepresentativeOnlyStep).toBe(true);
     expect(route.includesSubgroupSpecificStep).toBe(true);
+  });
+
+  it("finds bounded routes through newly added nitrile and acyl-chloride branches", () => {
+    expect(getChemistryRoutesBetween("haloalkane", "nitrile")[0]?.edgeIds).toEqual([
+      "haloalkane-to-nitrile-cyanide-substitution",
+    ]);
+    expect(getChemistryRoutesBetween("nitrile", "carboxylic-acid")[0]?.edgeIds).toEqual([
+      "nitrile-to-carboxylic-acid-hydrolysis",
+    ]);
+    expect(getChemistryRoutesBetween("carboxylic-acid", "acyl-chloride")[0]?.edgeIds).toEqual([
+      "carboxylic-acid-to-acyl-chloride-chlorination",
+    ]);
+    expect(getChemistryRoutesBetween("acyl-chloride", "amide")[0]?.edgeIds).toEqual([
+      "acyl-chloride-to-amide-ammonolysis",
+    ]);
+    expect(getChemistryRoutesBetween("nitrile", "amine")[0]?.edgeIds).toEqual([
+      "nitrile-to-amine-reduction",
+    ]);
+    expect(getChemistryRoutesBetween("carboxylic-acid", "amide")[0]?.edgeIds).toEqual([
+      "carboxylic-acid-to-acyl-chloride-chlorination",
+      "acyl-chloride-to-amide-ammonolysis",
+    ]);
+    expect(getChemistryRoutesBetween("aldehyde", "hydroxynitrile")[0]?.edgeIds).toEqual([
+      "aldehyde-to-hydroxynitrile-cyanohydrin-addition",
+    ]);
+    expect(getChemistryRoutesBetween("ketone", "hydroxynitrile")[0]?.edgeIds).toEqual([
+      "ketone-to-hydroxynitrile-cyanohydrin-addition",
+    ]);
+    expect(getChemistryRoutesBetween("ester", "carboxylate-salt")[0]?.edgeIds).toEqual([
+      "ester-to-carboxylate-salt-alkaline-hydrolysis",
+    ]);
+    expect(getChemistryRoutesBetween("alkane", "carboxylic-acid")[0]?.edgeIds).toEqual([
+      "alkane-to-haloalkane-radical-substitution",
+      "haloalkane-to-nitrile-cyanide-substitution",
+      "nitrile-to-carboxylic-acid-hydrolysis",
+    ]);
   });
 
   it("returns no routes when start and target are the same family", () => {

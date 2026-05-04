@@ -98,13 +98,30 @@ describe("chemistry reaction mind map route", () => {
       "bg-transparent",
       "text-[0.6rem]",
       "rounded-[5px]",
-      "max-w-[7rem]",
+      "max-w-[8.25rem]",
     );
+    expect(hydrationEdge).toHaveAttribute("data-chem-label-fit", "wrapped");
     expect(hydrationEdge).not.toHaveClass(
       "rounded-full",
       "rounded-[16px]",
       "bg-paper",
     );
+    expect(
+      screen.getByTestId("chem-edge-alkene-to-haloalkane-hydrohalogenation"),
+    ).toHaveAttribute("data-chem-map-label", "Add HX");
+    expect(
+      screen.getByTestId("chem-edge-alkene-to-haloalkane-hydrohalogenation"),
+    ).toHaveAttribute("data-chem-full-label", "Hydrohalogenation");
+    expect(screen.queryByText("Hydrohalo.")).not.toBeInTheDocument();
+    expect(
+      screen.getByTestId("chem-edge-haloalkane-to-nitrile-cyanide-substitution"),
+    ).toHaveAttribute("data-chem-map-label", "Add CN");
+    expect(
+      screen.getByTestId("chem-edge-haloalkane-to-amine-ammonia-substitution"),
+    ).toHaveAttribute("data-chem-map-label", "Add NH3");
+    expect(
+      screen.getByTestId("chem-edge-alkane-to-haloalkane-radical-substitution"),
+    ).toHaveAttribute("data-chem-map-label", "Radical subst.");
 
     await user.click(alcoholNode);
     expect(alcoholNode).toHaveAttribute("data-chem-visual-weight", "selected");
@@ -147,6 +164,65 @@ describe("chemistry reaction mind map route", () => {
         /CH3CH2OH\(l\) \+ \[O\] -> CH3CHO\(l\) \+ H2O\(l\)/i,
       ),
     ).toBeInTheDocument();
+  });
+
+  it("renders expanded synthesis families, pathway details, and new route options", async () => {
+    const user = userEvent.setup();
+
+    render(await ChemistryReactionMindMapRoute());
+
+    expect(screen.getByTestId("chem-node-alkane")).toBeInTheDocument();
+    expect(screen.getByTestId("chem-node-nitrile")).toBeInTheDocument();
+    expect(screen.getByTestId("chem-node-acyl-chloride")).toBeInTheDocument();
+    expect(screen.getByTestId("chem-node-amide")).toBeInTheDocument();
+    expect(
+      screen.getByTestId("chem-edge-haloalkane-to-nitrile-cyanide-substitution"),
+    ).toHaveAttribute("data-chem-label-role", "pathway-secondary");
+
+    await user.click(screen.getByTestId("chem-node-nitrile"));
+    const nitrileDetails = screen.getByTestId("chem-node-details");
+    const nitrileDetailsText = nitrileDetails.textContent?.replace(/\s+/g, "") ?? "";
+    expect(nitrileDetails).toHaveTextContent(/nitrile/i);
+    expect(nitrileDetailsText).toContain("R-C≡N");
+    expect(nitrileDetailsText).toContain("-C≡N");
+    expect(nitrileDetailsText).not.toContain("-C=N");
+    const nitrileFormulaNotation = nitrileDetails.querySelector(
+      '[data-chem-notation-source="R-C≡N"]',
+    );
+    expect(nitrileFormulaNotation).not.toBeNull();
+    expect(
+      Array.from(nitrileFormulaNotation?.querySelectorAll("sub") ?? [])
+        .map((item) => item.textContent)
+        .join(""),
+    ).not.toContain("≡");
+    const nitrileFunctionalGroupNotation = screen
+      .getByTestId("chem-node-nitrile")
+      .querySelector('[data-chem-notation-source="-C≡N"]');
+    expect(nitrileFunctionalGroupNotation).not.toBeNull();
+    expect(
+      Array.from(nitrileFunctionalGroupNotation?.querySelectorAll("sub") ?? [])
+        .map((item) => item.textContent)
+        .join(""),
+    ).not.toContain("≡");
+    expect(nitrileDetails).toHaveTextContent(/hydrolyzed to carboxylic acids/i);
+
+    await user.click(
+      screen.getByTestId("chem-edge-carboxylic-acid-to-acyl-chloride-chlorination"),
+    );
+    const acylEdgeDetails = screen.getByTestId("chem-edge-details");
+    expect(acylEdgeDetails).toHaveTextContent(/thionyl chloride/i);
+    expect(acylEdgeDetails).toHaveTextContent(/reactive acyl chloride/i);
+
+    await user.selectOptions(screen.getByTestId("chem-route-start"), "haloalkane");
+    await user.selectOptions(screen.getByTestId("chem-route-target"), "nitrile");
+    await user.click(screen.getByTestId("chem-route-search"));
+    expect(screen.getByTestId("chemistry-route-panel")).toHaveTextContent(
+      /routes from haloalkane to nitrile/i,
+    );
+    expect(screen.getByTestId("chemistry-route-panel")).toHaveTextContent(/1 route found/i);
+    expect(screen.getByTestId("chemistry-route-panel")).toHaveTextContent(
+      /substitution to nitrile/i,
+    );
   });
 
   it("shows incoming and outgoing adjacency sections from the data when a node is selected", async () => {
@@ -498,6 +574,27 @@ describe("chemistry reaction mind map route", () => {
     expect(edgeLabel).toHaveAttribute("data-chem-label-radius", "low");
     expect(edgeLabel).toHaveAttribute("data-chem-label-size", "small");
     expect(edgeLabel).toHaveAttribute("data-chem-map-label", "Oxidation");
+    expect(edgeLabel).toHaveAttribute(
+      "data-chem-edge-id",
+      "alcohol-to-aldehyde-oxidation",
+    );
+    expect(edgeLabel).toHaveAttribute(
+      "data-chem-label-owner",
+      "alcohol-to-aldehyde-oxidation",
+    );
+    expect(edgeLabel).toHaveAttribute(
+      "data-chem-label-attachment",
+      "leader-line",
+    );
+    expect(
+      screen.getByTestId("chem-edge-label-leader-alcohol-to-aldehyde-oxidation"),
+    ).toHaveAttribute(
+      "data-chem-label-owner",
+      "alcohol-to-aldehyde-oxidation",
+    );
+    expect(
+      screen.getByTestId("chem-edge-label-leader-alcohol-to-aldehyde-oxidation"),
+    ).toHaveAttribute("data-chem-label-attachment", "leader-line");
     expect(edgeLabel.getAttribute("style")).toContain("z-index: 10");
     expect(edgeLabel.getAttribute("style")).toContain(
       "translate(-50%, -50%) scale(",
@@ -523,6 +620,19 @@ describe("chemistry reaction mind map route", () => {
     ).toHaveAttribute("data-chem-overflow-guard", "pathway-map-label");
     expect(
       within(edgeLabel).getByTestId(
+        "chem-edge-map-label-alcohol-to-aldehyde-oxidation",
+      ),
+    ).toHaveAttribute(
+      "data-chem-label-owner",
+      "alcohol-to-aldehyde-oxidation",
+    );
+    expect(
+      within(edgeLabel).getByTestId(
+        "chem-edge-map-label-alcohol-to-aldehyde-oxidation",
+      ),
+    ).toHaveAttribute("data-chem-label-attachment", "leader-line");
+    expect(
+      within(edgeLabel).getByTestId(
         "chem-edge-endpoints-alcohol-to-aldehyde-oxidation",
       ),
     ).toHaveTextContent(/alcohol → aldehyde/i);
@@ -533,14 +643,14 @@ describe("chemistry reaction mind map route", () => {
     ).toHaveTextContent(/oxidation/i);
     expect(edgeLabel).toHaveAttribute("data-chem-reaction-type", "Oxidation");
     expect(edgeLabel).toHaveAttribute("data-chem-flow-source", "relay");
-    expect(edgeLabel).toHaveAttribute("data-chem-flow-target", "product");
-    expect(edgeLabel).toHaveAttribute("data-chem-flow-transition", "2→3");
-    expect(edgeLabel).toHaveAttribute("data-chem-crosses-flow-band", "true");
+    expect(edgeLabel).toHaveAttribute("data-chem-flow-target", "relay");
+    expect(edgeLabel).toHaveAttribute("data-chem-flow-transition", "2→2");
+    expect(edgeLabel).toHaveAttribute("data-chem-crosses-flow-band", "false");
     expect(
       within(edgeLabel).getByTestId(
         "chem-edge-flow-transition-alcohol-to-aldehyde-oxidation",
       ),
-    ).toHaveTextContent("2→3");
+    ).toHaveTextContent("2→2");
     expect(edgeLabel).toHaveAccessibleName(
       /oxidation to aldehyde pathway from alcohol to aldehyde/i,
     );
@@ -726,7 +836,7 @@ describe("chemistry reaction mind map route", () => {
     ).toHaveAttribute("data-chem-flow-transition", "2→3");
     expect(cameraStatus).toHaveTextContent(/view: full reaction map/i);
     expect(scopeStatus).toHaveTextContent(
-      /7 nodes · 11 pathways in active view/i,
+      /14 nodes · 25 pathways in active view/i,
     );
     expect(flowStatus).toHaveTextContent(/flow: all stages/i);
     expect(
@@ -734,7 +844,7 @@ describe("chemistry reaction mind map route", () => {
     ).not.toBeInTheDocument();
     expect(viewport).toHaveAccessibleDescription(/view: full reaction map/i);
     expect(viewport).toHaveAccessibleDescription(
-      /7 nodes · 11 pathways in active view/i,
+      /14 nodes · 25 pathways in active view/i,
     );
     expect(viewport).toHaveAccessibleDescription(/flow: all stages/i);
     expect(viewport).toHaveAccessibleDescription(
@@ -774,12 +884,16 @@ describe("chemistry reaction mind map route", () => {
     expect(scopeStatus).toHaveTextContent(
       /1 node · 7 pathways in active view/i,
     );
-    expect(flowStatus).toHaveTextContent(/flow: relay/i);
+    expect(flowStatus).toHaveTextContent(/flow: entry\s*→\s*relay/i);
     expect(viewport).toHaveAttribute("data-chem-scope-nodes", "1");
     expect(viewport).toHaveAttribute("data-chem-scope-pathways", "7");
-    expect(viewport).toHaveAttribute("data-chem-active-flow-bands", "relay");
-    expect(viewport).toHaveAttribute("data-chem-active-flow-summary", "Relay");
-    expect(flowRail).toHaveAttribute("data-chem-active-flow-bands", "relay");
+    expect(viewport).toHaveAttribute("data-chem-active-flow-bands", "entry relay");
+    expect(viewport).toHaveAttribute("data-chem-active-flow-summary", "Entry → Relay");
+    expect(flowRail).toHaveAttribute("data-chem-active-flow-bands", "entry relay");
+    expect(screen.getByTestId("chem-flow-rail-stage-entry")).toHaveAttribute(
+      "data-chem-flow-active",
+      "true",
+    );
     expect(screen.getByTestId("chem-flow-rail-stage-relay")).toHaveAttribute(
       "data-chem-flow-active",
       "true",
@@ -794,18 +908,18 @@ describe("chemistry reaction mind map route", () => {
     );
     expect(screen.getByTestId("chem-active-camera-frame")).toHaveAttribute(
       "data-chem-active-flow-summary",
-      "Relay",
+      "Entry → Relay",
     );
     expect(
       screen.getByTestId("chem-active-camera-flow-label"),
-    ).toHaveTextContent(/^Relay$/i);
+    ).toHaveTextContent(/^Entry\s*→\s*Relay$/i);
     expect(screen.getByTestId("chem-active-camera-flow-label")).toHaveAttribute(
       "data-chem-active-flow-bands",
-      "relay",
+      "entry relay",
     );
     expect(screen.getByTestId("chem-graph-flow-band-entry")).toHaveAttribute(
       "data-chem-flow-active",
-      "false",
+      "true",
     );
     expect(screen.getByTestId("chem-graph-flow-band-relay")).toHaveAttribute(
       "data-chem-flow-active",
@@ -817,7 +931,7 @@ describe("chemistry reaction mind map route", () => {
     );
     expect(screen.getByTestId("chem-minimap-active-scope")).toHaveAttribute(
       "data-chem-active-flow-summary",
-      "Relay",
+      "Entry → Relay",
     );
     expect(screen.getByTestId("chem-flow-rail-stage-relay")).toHaveAttribute(
       "aria-current",
@@ -855,11 +969,11 @@ describe("chemistry reaction mind map route", () => {
     );
     expect(viewport).toHaveAttribute(
       "data-chem-active-flow-bands",
-      "relay product",
+      "entry relay",
     );
     expect(viewport).toHaveAttribute(
       "data-chem-active-flow-summary",
-      "Relay → Product",
+      "Entry → Relay",
     );
     expect(screen.getByTestId("chem-active-camera-frame")).toHaveAttribute(
       "data-chem-camera-frame",
@@ -867,11 +981,11 @@ describe("chemistry reaction mind map route", () => {
     );
     expect(screen.getByTestId("chem-active-camera-frame")).toHaveAttribute(
       "data-chem-active-flow-bands",
-      "relay product",
+      "entry relay",
     );
     expect(screen.getByTestId("chem-active-camera-flow-label")).toHaveAttribute(
       "data-chem-active-flow-summary",
-      "Relay → Product",
+      "Entry → Relay",
     );
     expect(
       screen.getByTestId("chem-edge-alcohol-to-aldehyde-oxidation"),
@@ -885,7 +999,7 @@ describe("chemistry reaction mind map route", () => {
       "data-chem-layer-priority",
       "preview",
     );
-    expect(screen.getByTestId("chem-flow-rail-stage-product")).toHaveAttribute(
+    expect(screen.getByTestId("chem-flow-rail-stage-relay")).toHaveAttribute(
       "aria-current",
       "step",
     );
@@ -895,26 +1009,26 @@ describe("chemistry reaction mind map route", () => {
     );
     expect(screen.getByTestId("chem-graph-flow-band-product")).toHaveAttribute(
       "data-chem-flow-active",
-      "true",
+      "false",
     );
     expect(
       screen.getByTestId("chem-graph-flow-corridor-relay-product"),
-    ).toHaveAttribute("data-chem-flow-active", "true");
-    expect(
-      screen.getByTestId("chem-flow-rail-connector-relay-product"),
-    ).toHaveAttribute("data-chem-flow-active", "true");
-    expect(
-      screen.getByTestId("chem-graph-flow-corridor-entry-relay"),
     ).toHaveAttribute("data-chem-flow-active", "false");
     expect(
-      screen.getByTestId("chem-minimap-flow-corridor-relay-product"),
+      screen.getByTestId("chem-flow-rail-connector-relay-product"),
+    ).toHaveAttribute("data-chem-flow-active", "false");
+    expect(
+      screen.getByTestId("chem-graph-flow-corridor-entry-relay"),
     ).toHaveAttribute("data-chem-flow-active", "true");
+    expect(
+      screen.getByTestId("chem-minimap-flow-corridor-relay-product"),
+    ).toHaveAttribute("data-chem-flow-active", "false");
     expect(
       screen.getByTestId("chem-graph-flow-spine-checkpoint-3"),
-    ).toHaveAttribute("data-chem-flow-active", "true");
+    ).toHaveAttribute("data-chem-flow-active", "false");
     expect(
       screen.getByTestId("chem-edge-path-alcohol-to-aldehyde-oxidation"),
-    ).toHaveAttribute("data-chem-flow-transition", "2→3");
+    ).toHaveAttribute("data-chem-flow-transition", "2→2");
 
     await user.selectOptions(screen.getByTestId("chem-route-start"), "alkene");
     await user.selectOptions(
@@ -998,7 +1112,7 @@ describe("chemistry reaction mind map route", () => {
     );
     expect(
       screen.getByTestId("chem-edge-path-alcohol-to-aldehyde-oxidation"),
-    ).toHaveAttribute("data-chem-flow-transition", "2→3");
+    ).toHaveAttribute("data-chem-flow-transition", "2→2");
     expect(mobileCameraStrip).toHaveAttribute("data-chem-camera-mode", "route");
     expect(screen.getByTestId("chem-mobile-camera-mode")).toHaveTextContent(
       /route/i,
@@ -1272,7 +1386,7 @@ describe("chemistry reaction mind map route", () => {
       screen.getByTestId(
         "chem-route-progress-step-detail-alcohol-to-aldehyde-oxidation",
       ),
-    ).toHaveAttribute("data-chem-flow-transition", "2→3");
+    ).toHaveAttribute("data-chem-flow-transition", "2→2");
     expect(
       screen.getByTestId(
         "chem-route-progress-step-flow-source-alcohol-to-aldehyde-oxidation",
@@ -1760,7 +1874,7 @@ describe("chemistry reaction mind map route", () => {
       "whitespace-nowrap",
     );
     expect(screen.getByTestId("chem-scope-status")).toHaveTextContent(
-      /7 nodes · 11 pathways in active view/i,
+      /14 nodes · 25 pathways in active view/i,
     );
     expect(screen.getByTestId("chem-flow-status")).toHaveTextContent(
       /flow: all stages/i,
@@ -1768,8 +1882,8 @@ describe("chemistry reaction mind map route", () => {
     expect(screen.getByTestId("chem-preview-status")).toHaveTextContent(
       /focus or hover a node or pathway to trace connections/i,
     );
-    expect(viewport).toHaveAttribute("data-chem-scope-nodes", "7");
-    expect(viewport).toHaveAttribute("data-chem-scope-pathways", "11");
+    expect(viewport).toHaveAttribute("data-chem-scope-nodes", "14");
+    expect(viewport).toHaveAttribute("data-chem-scope-pathways", "25");
     expect(viewport).toHaveAttribute(
       "data-chem-active-flow-summary",
       "All stages",

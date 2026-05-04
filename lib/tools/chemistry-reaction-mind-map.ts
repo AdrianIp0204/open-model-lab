@@ -66,6 +66,47 @@ function representativeExample(text: string): ChemistryRepresentativeExample {
 
 export const chemistryReactionNodes = [
   {
+    id: "alkane",
+    name: "Alkane",
+    nomenclature: {
+      suffix: "-ane",
+      prefix: "alkyl-",
+    },
+    generalFormula: "CnH2n+2",
+    functionalGroup: "Saturated C-C and C-H single bonds",
+    representativeStructureLabel: "Representative member: ethane, CH3CH3",
+    functionalGroupVisual: "C-C",
+    boilingPoint: {
+      summary:
+        "Usually low for smaller members because alkanes are non-polar and rely on London forces.",
+      details: [
+        "Boiling point rises with chain length because larger electron clouds are more polarizable.",
+        "Branching usually lowers boiling point compared with a straight-chain isomer.",
+      ],
+      representativeExample: representativeExample(
+        "Ethane boils far below room temperature, while longer liquid alkanes boil much higher.",
+      ),
+    },
+    solubility: {
+      summary: "Insoluble in water but soluble in non-polar organic solvents.",
+      details: [
+        "Alkanes cannot form strong interactions with water.",
+        "Their hydrocarbon chains mix much better with other non-polar substances.",
+      ],
+    },
+    acidityBasicity: {
+      summary: "Essentially neutral in ordinary organic chemistry descriptions.",
+      details: [
+        "Their main reactions come from combustion, cracking, and radical substitution rather than acid-base behavior.",
+      ],
+    },
+    notableProperties: [
+      "Relatively unreactive compared with functional-group families.",
+      "Can undergo free-radical substitution with halogens under UV light.",
+      "Can be cracked into smaller alkanes and alkenes in petroleum processing.",
+    ],
+  },
+  {
     id: "alkene",
     name: "Alkene",
     nomenclature: {
@@ -144,6 +185,85 @@ export const chemistryReactionNodes = [
       "Reactivity often increases from chloroalkane to iodoalkane as the C-X bond weakens.",
       "Can undergo substitution or elimination depending on the reagent and conditions.",
       "Useful intermediates for building alcohols, amines, and other substituted products.",
+    ],
+  },
+  {
+    id: "nitrile",
+    name: "Nitrile",
+    nomenclature: {
+      suffix: "-nitrile",
+      prefix: "cyano-",
+    },
+    generalFormula: "R-C≡N",
+    functionalGroup: "Cyano group, -C≡N",
+    representativeStructureLabel: "Representative member: ethanenitrile, CH3CN",
+    functionalGroupVisual: "-C≡N",
+    boilingPoint: {
+      summary:
+        "Often higher than comparable hydrocarbons because the nitrile group is strongly polar.",
+      details: [
+        "Nitriles cannot donate hydrogen bonds to each other, but the C≡N bond creates strong dipole attractions.",
+        "Boiling point still rises with carbon chain length.",
+      ],
+    },
+    solubility: {
+      summary:
+        "Small nitriles can mix with water, but solubility drops as the hydrocarbon chain grows.",
+      details: [
+        "The nitrogen can accept hydrogen bonds from water.",
+        "Longer non-polar chains reduce water compatibility.",
+      ],
+    },
+    acidityBasicity: {
+      summary: "Usually treated as essentially neutral in introductory family maps.",
+      details: [
+        "The nitrogen lone pair is held in a strongly electronegative, linear group, so nitriles are much weaker bases than amines.",
+      ],
+    },
+    notableProperties: [
+      "Useful for lengthening a carbon chain by one carbon through cyanide substitution.",
+      "Can be hydrolyzed to carboxylic acids under acidic or alkaline conditions.",
+      "Can be reduced to primary amines.",
+    ],
+  },
+  {
+    id: "amine",
+    name: "Amine",
+    nomenclature: {
+      suffix: "-amine",
+      prefix: "amino-",
+    },
+    generalFormula: "R-NH2",
+    functionalGroup: "Amino group, -NH2",
+    representativeStructureLabel: "Representative member: ethylamine, CH3CH2NH2",
+    functionalGroupVisual: "-NH2",
+    boilingPoint: {
+      summary:
+        "Usually higher than similar alkanes because smaller primary amines can hydrogen bond, but often lower than comparable alcohols.",
+      details: [
+        "Nitrogen is less electronegative than oxygen, so N-H hydrogen bonding is usually weaker than O-H hydrogen bonding.",
+        "Boiling point rises with carbon chain length.",
+      ],
+    },
+    solubility: {
+      summary:
+        "Small amines are soluble in water, while longer-chain amines become less water-soluble.",
+      details: [
+        "Amines can accept hydrogen bonds from water and primary amines can also donate N-H hydrogen bonds.",
+        "Their basicity also helps them form water-soluble ammonium salts with acids.",
+      ],
+    },
+    acidityBasicity: {
+      summary: "Weakly basic because the nitrogen lone pair can accept H+.",
+      details: [
+        "Amines form substituted ammonium ions when protonated by acids.",
+        "Basicity varies with structure and solvent, so this map keeps the statement family-level.",
+      ],
+    },
+    notableProperties: [
+      "Often recognized by basic behavior and amine-like odors in small volatile examples.",
+      "Can be made by reducing nitriles or by substituting haloalkanes with ammonia.",
+      "Primary amines are useful stepping stones to amides and other nitrogen-containing derivatives.",
     ],
   },
   {
@@ -277,6 +397,43 @@ export const chemistryReactionNodes = [
     ],
   },
   {
+    id: "hydroxynitrile",
+    name: "Hydroxynitrile",
+    nomenclature: {
+      prefix: "hydroxycyano-",
+    },
+    generalFormula: "R-C(OH)(CN)-R'",
+    functionalGroup: "Hydroxyl and nitrile (-C≡N) groups on the same carbon skeleton",
+    representativeStructureLabel: "Representative product: 2-hydroxypropanenitrile, CH3CH(OH)CN",
+    functionalGroupVisual: "-OH + -CN",
+    boilingPoint: {
+      summary:
+        "Often higher than the parent carbonyl compound because hydroxynitriles can hydrogen bond and remain polar.",
+      details: [
+        "Exact boiling points vary strongly with structure, so the map keeps this as a trend rather than a universal value.",
+      ],
+    },
+    solubility: {
+      summary:
+        "Small hydroxynitriles can interact with water through the hydroxyl and nitrile groups, but carbon-chain size still matters.",
+      details: [
+        "The -OH group can hydrogen bond with water.",
+        "The nitrile group is polar and can accept hydrogen bonds.",
+      ],
+    },
+    acidityBasicity: {
+      summary: "Usually treated as largely neutral in this family-level map.",
+      details: [
+        "The hydroxyl group can be weakly acidic only under strong-base conditions, and the nitrile is a weak base at most.",
+      ],
+    },
+    notableProperties: [
+      "Formed by nucleophilic addition of HCN to aldehydes or ketones.",
+      "Often used to illustrate carbon-carbon bond formation from carbonyl compounds.",
+      "Contains both alcohol and nitrile functionality, so follow-up chemistry depends on the intended route.",
+    ],
+  },
+  {
     id: "carboxylic-acid",
     name: "Carboxylic acid",
     nomenclature: {
@@ -320,6 +477,82 @@ export const chemistryReactionNodes = [
     ],
   },
   {
+    id: "carboxylate-salt",
+    name: "Carboxylate salt",
+    nomenclature: {
+      suffix: "-oate salt",
+      prefix: "carboxylato-",
+    },
+    generalFormula: "RCOO- M+",
+    functionalGroup: "Carboxylate ion, -COO-",
+    representativeStructureLabel: "Representative member: sodium ethanoate, CH3COO- Na+",
+    functionalGroupVisual: "-COO-",
+    boilingPoint: {
+      summary:
+        "Ionic salts usually have high melting points rather than simple low boiling points.",
+      details: [
+        "The ionic lattice gives much stronger attractions than neutral organic molecules of similar size.",
+      ],
+    },
+    solubility: {
+      summary:
+        "Many small sodium and potassium carboxylates are water-soluble because they are ionic.",
+      details: [
+        "Solubility can decrease for very long hydrocarbon chains even when the carboxylate head is ionic.",
+      ],
+    },
+    acidityBasicity: {
+      summary:
+        "Carboxylate ions are weak bases and are the conjugate bases of carboxylic acids.",
+      details: [
+        "Acidification converts a carboxylate salt back into the corresponding carboxylic acid.",
+      ],
+    },
+    notableProperties: [
+      "Produced when carboxylic acids react with alkalis or carbonates.",
+      "Produced directly by alkaline ester hydrolysis before acid work-up.",
+      "Soap molecules are long-chain carboxylate salts, though this map only shows the family-level relationship.",
+    ],
+  },
+  {
+    id: "acyl-chloride",
+    name: "Acyl chloride",
+    nomenclature: {
+      suffix: "-oyl chloride",
+      prefix: "chlorocarbonyl-",
+    },
+    generalFormula: "RCOCl",
+    functionalGroup: "Acyl chloride group, -COCl",
+    representativeStructureLabel: "Representative member: ethanoyl chloride, CH3COCl",
+    functionalGroupVisual: "-COCl",
+    boilingPoint: {
+      summary:
+        "Often moderate for small members, with polarity raising boiling point compared with similar hydrocarbons.",
+      details: [
+        "They do not hydrogen bond to themselves in the way alcohols or acids do.",
+        "Many low-mass acyl chlorides are volatile and moisture-sensitive.",
+      ],
+    },
+    solubility: {
+      summary:
+        "Not described by ordinary water solubility because acyl chlorides react rapidly with water.",
+      details: [
+        "Hydrolysis gives the carboxylic acid and hydrogen chloride.",
+      ],
+    },
+    acidityBasicity: {
+      summary: "Not treated as an acid/base family here; the key behavior is high acyl-transfer reactivity.",
+      details: [
+        "The carbonyl carbon is strongly electrophilic and chloride is a good leaving group.",
+      ],
+    },
+    notableProperties: [
+      "Very reactive carboxylic acid derivative.",
+      "Can make esters from alcohols without the equilibrium limitation of Fischer esterification.",
+      "Can form amides with ammonia or amines.",
+    ],
+  },
+  {
     id: "ester",
     name: "Ester",
     nomenclature: {
@@ -359,6 +592,44 @@ export const chemistryReactionNodes = [
       "Many small esters have distinctive fruity smells.",
       "Can be hydrolyzed back to acids and alcohols under acidic or alkaline conditions.",
       "Often used as solvents, flavorings, and fragrance molecules.",
+    ],
+  },
+  {
+    id: "amide",
+    name: "Amide",
+    nomenclature: {
+      suffix: "-amide",
+      prefix: "carbamoyl-",
+    },
+    generalFormula: "RCONH2",
+    functionalGroup: "Amide group, -CONH2",
+    representativeStructureLabel: "Representative member: ethanamide, CH3CONH2",
+    functionalGroupVisual: "-CONH2",
+    boilingPoint: {
+      summary:
+        "Often high for small primary amides because the amide group is very polar and can hydrogen bond strongly.",
+      details: [
+        "Hydrogen bonding and resonance in the amide group make amides less volatile than many similar carbonyl compounds.",
+      ],
+    },
+    solubility: {
+      summary:
+        "Small amides are often water-soluble, but solubility falls as hydrocarbon size increases.",
+      details: [
+        "Primary amides can donate and accept hydrogen bonds with water.",
+      ],
+    },
+    acidityBasicity: {
+      summary:
+        "Much less basic than amines because the nitrogen lone pair is delocalized into the carbonyl group.",
+      details: [
+        "The amide group is strongly resonance-stabilized, which changes its behavior compared with ordinary amines.",
+      ],
+    },
+    notableProperties: [
+      "Can be prepared from acyl chlorides and ammonia or amines.",
+      "Shows a stable carbonyl-nitrogen linkage that appears in proteins and many materials.",
+      "Hydrolysis is possible, but usually needs stronger conditions than ester hydrolysis.",
     ],
   },
 ] as const satisfies readonly ChemistryNodeDefinition[];
@@ -430,6 +701,110 @@ type ChemistryEdgeDefinition = {
 };
 
 export const chemistryReactionEdges = [
+  {
+    id: "alkane-to-haloalkane-radical-substitution",
+    from: "alkane",
+    to: "haloalkane",
+    label: "Radical substitution",
+    reactionType: "Free-radical substitution",
+    applicability: {
+      kind: "general",
+      summary:
+        "Alkanes can form haloalkanes when a C-H bond is substituted by a halogen under radical conditions. Product mixtures are common for larger or branched alkanes, so this remains a family-level route.",
+    },
+    reagents: [{ name: "Chlorine or bromine", formula: "Cl2(g) / Br2(l)" }],
+    conditions: ["UV light"],
+    equation: {
+      mode: "representative-only",
+      representativeExample: representativeExample(
+        "CH4(g) + Cl2(g) -> CH3Cl(g) + HCl(g)",
+      ),
+    },
+    ionicEquation: {
+      applicability: "not-typically-shown",
+      note:
+        "Radical substitution is not usually represented with a separate ionic equation.",
+    },
+    mechanism: {
+      applicability: "shown",
+      summary:
+        "UV light starts a radical chain reaction with initiation, propagation, and termination steps.",
+      steps: [
+        "UV light splits halogen molecules into radicals.",
+        "A halogen radical abstracts H from the alkane to form an alkyl radical.",
+        "The alkyl radical reacts with halogen to form the haloalkane and regenerate a halogen radical.",
+      ],
+    },
+    notes: [
+      "The map keeps this as a route to haloalkanes, not a promise of a single clean product for every alkane.",
+    ],
+  },
+  {
+    id: "alkane-to-alkene-cracking",
+    from: "alkane",
+    to: "alkene",
+    label: "Cracking",
+    reactionType: "Thermal or catalytic cracking",
+    applicability: {
+      kind: "subgroup-specific",
+      summary:
+        "Most useful for larger alkanes. Cracking gives a mixture of smaller alkanes and alkenes rather than one exact family-wide product.",
+    },
+    reagents: ["Longer-chain alkane feedstock"],
+    catalysts: [{ name: "Zeolite or alumina catalyst", formula: "Al2O3 / SiO2" }],
+    conditions: ["High temperature", "Catalytic cracking uses a hot catalyst surface"],
+    equation: {
+      mode: "representative-only",
+      representativeExample: representativeExample(
+        "C6H14(g) -> C2H4(g) + C4H10(g)",
+      ),
+    },
+    ionicEquation: {
+      applicability: "not-typically-shown",
+      note:
+        "Cracking is not usually summarized with an ionic equation in this family map.",
+    },
+    mechanism: {
+      applicability: "not-typically-shown",
+      note:
+        "Introductory maps usually treat cracking as a feedstock conversion rather than drawing every radical or carbocation step.",
+    },
+    notes: [
+      "This route adds feedstock context without turning the map into a full petrochemistry flow sheet.",
+    ],
+  },
+  {
+    id: "alkene-to-alkane-hydrogenation",
+    from: "alkene",
+    to: "alkane",
+    label: "Hydrogenation",
+    reactionType: "Catalytic addition",
+    applicability: {
+      kind: "general",
+      summary:
+        "Hydrogen adds across the C=C bond to make the corresponding saturated alkane family.",
+    },
+    reagents: [{ name: "Hydrogen", formula: "H2(g)" }],
+    catalysts: [{ name: "Nickel catalyst", formula: "Ni" }],
+    conditions: ["Heat gently with catalyst"],
+    equation: {
+      mode: "generic-and-representative",
+      generic: "CnH2n + H2 -> CnH2n+2",
+      representativeExample: representativeExample(
+        "CH2=CH2(g) + H2(g) -> CH3CH3(g)",
+      ),
+    },
+    ionicEquation: {
+      applicability: "not-typically-shown",
+      note:
+        "Hydrogenation is usually shown as catalytic addition, not as a separate ionic equation.",
+    },
+    mechanism: {
+      applicability: "not-typically-shown",
+      note:
+        "A surface-catalyzed mechanism exists, but this map keeps the visible route at the family-conversion level.",
+    },
+  },
   {
     id: "alkene-to-alcohol-hydration",
     from: "alkene",
@@ -546,6 +921,79 @@ export const chemistryReactionEdges = [
     },
     notes: [
       "Representative equation uses bromoethane because the whole family cannot be represented honestly by a single compound equation.",
+    ],
+  },
+  {
+    id: "haloalkane-to-nitrile-cyanide-substitution",
+    from: "haloalkane",
+    to: "nitrile",
+    label: "Substitution to nitrile",
+    reactionType: "Nucleophilic substitution",
+    applicability: {
+      kind: "general",
+      summary:
+        "Haloalkanes can undergo cyanide substitution to give nitriles, extending the carbon chain by one carbon.",
+    },
+    reagents: [{ name: "Potassium cyanide in ethanol", formula: "KCN(ethanol)" }],
+    conditions: ["Heat under reflux"],
+    equation: {
+      mode: "generic-and-representative",
+      generic: "R-X(l) + CN-(alc) -> R-CN(l) + X-(alc)",
+      representativeExample: representativeExample(
+        "CH3CH2Br(l) + KCN(ethanol) -> CH3CH2CN(l) + KBr(ethanol)",
+      ),
+    },
+    ionicEquation: {
+      applicability: "shown",
+      equation: "R-X + CN- -> R-CN + X-",
+    },
+    mechanism: {
+      applicability: "shown",
+      summary:
+        "Cyanide acts as the nucleophile and replaces the halogen-bearing leaving group.",
+      steps: [
+        "The carbon end of CN- attacks the carbon attached to the halogen.",
+        "The C-X bond breaks as the C-CN bond forms.",
+        "A nitrile is formed with one more carbon than the original haloalkane chain.",
+      ],
+    },
+  },
+  {
+    id: "haloalkane-to-amine-ammonia-substitution",
+    from: "haloalkane",
+    to: "amine",
+    label: "Substitution to amine",
+    reactionType: "Nucleophilic substitution",
+    applicability: {
+      kind: "general",
+      summary:
+        "Haloalkanes can react with ammonia to form primary amines, although further substitution can occur unless ammonia is in excess.",
+    },
+    reagents: [{ name: "Excess ammonia in ethanol", formula: "NH3(ethanol)" }],
+    conditions: ["Heat in a sealed tube or under pressure"],
+    equation: {
+      mode: "representative-only",
+      representativeExample: representativeExample(
+        "CH3CH2Br(l) + 2NH3(ethanol) -> CH3CH2NH2(l) + NH4Br(ethanol)",
+      ),
+    },
+    ionicEquation: {
+      applicability: "not-typically-shown",
+      note:
+        "The family-level route is usually summarized with a molecular equation because ammonia also neutralizes the acid by-product.",
+    },
+    mechanism: {
+      applicability: "shown",
+      summary:
+        "Ammonia attacks as a nucleophile, then deprotonation gives the neutral amine.",
+      steps: [
+        "NH3 attacks the carbon attached to the halogen.",
+        "The C-X bond breaks to release halide.",
+        "A second ammonia molecule removes H+ to give the primary amine.",
+      ],
+    },
+    notes: [
+      "Excess ammonia helps limit further substitution to secondary or tertiary amines.",
     ],
   },
   {
@@ -786,6 +1234,154 @@ export const chemistryReactionEdges = [
     ],
   },
   {
+    id: "aldehyde-to-hydroxynitrile-cyanohydrin-addition",
+    from: "aldehyde",
+    to: "hydroxynitrile",
+    label: "Addition",
+    reactionType: "Nucleophilic addition",
+    applicability: {
+      kind: "general",
+      summary:
+        "Aldehydes can add HCN across the carbonyl group to form hydroxynitriles, often called cyanohydrins.",
+    },
+    reagents: [
+      { name: "Hydrogen cyanide", formula: "HCN" },
+      { name: "Trace cyanide catalyst", formula: "KCN / H+" },
+    ],
+    conditions: ["Controlled pH", "Room temperature or gentle cooling"],
+    equation: {
+      mode: "generic-and-representative",
+      generic: "RCHO + HCN -> RCH(OH)CN",
+      representativeExample: representativeExample(
+        "CH3CHO(l) + HCN(aq) -> CH3CH(OH)CN(l)",
+      ),
+    },
+    ionicEquation: {
+      applicability: "not-typically-shown",
+      note:
+        "The map emphasizes the nucleophilic addition route rather than a separate net ionic equation.",
+    },
+    mechanism: {
+      applicability: "shown",
+      summary:
+        "CN- attacks the carbonyl carbon, then protonation gives the hydroxynitrile.",
+      steps: [
+        "CN- attacks the electron-poor carbonyl carbon.",
+        "The C=O pi electrons move onto oxygen to form an alkoxide.",
+        "The alkoxide is protonated to give the hydroxynitrile.",
+      ],
+    },
+    notes: [
+      "This is a useful carbon-carbon bond-forming route, but HCN handling is a significant safety issue outside the scope of the map.",
+    ],
+  },
+  {
+    id: "ketone-to-hydroxynitrile-cyanohydrin-addition",
+    from: "ketone",
+    to: "hydroxynitrile",
+    label: "Addition",
+    reactionType: "Nucleophilic addition",
+    applicability: {
+      kind: "general",
+      summary:
+        "Ketones can add HCN to form hydroxynitriles, although steric effects can make some ketones react more slowly than aldehydes.",
+    },
+    reagents: [
+      { name: "Hydrogen cyanide", formula: "HCN" },
+      { name: "Trace cyanide catalyst", formula: "KCN / H+" },
+    ],
+    conditions: ["Controlled pH", "Room temperature or gentle cooling"],
+    equation: {
+      mode: "generic-and-representative",
+      generic: "RCOR' + HCN -> R-C(OH)(CN)-R'",
+      representativeExample: representativeExample(
+        "CH3COCH3(l) + HCN(aq) -> (CH3)2C(OH)CN(l)",
+      ),
+    },
+    ionicEquation: {
+      applicability: "not-typically-shown",
+      note:
+        "The route is usually taught as nucleophilic addition rather than as a separate net ionic equation.",
+    },
+    mechanism: {
+      applicability: "shown",
+      summary:
+        "CN- attacks the polarized carbonyl carbon, and protonation gives the hydroxynitrile.",
+      steps: [
+        "CN- attacks the ketone carbonyl carbon.",
+        "The carbonyl oxygen becomes an alkoxide.",
+        "Protonation gives the hydroxynitrile product.",
+      ],
+    },
+  },
+  {
+    id: "nitrile-to-carboxylic-acid-hydrolysis",
+    from: "nitrile",
+    to: "carboxylic-acid",
+    label: "Hydrolysis",
+    reactionType: "Hydrolysis",
+    applicability: {
+      kind: "general",
+      summary:
+        "Nitriles can be hydrolyzed to carboxylic acids under acidic conditions or through alkaline hydrolysis followed by acidification.",
+    },
+    reagents: [
+      { name: "Dilute acid and water", formula: "H+(aq) / H2O(l)" },
+      { name: "Or aqueous hydroxide then acid work-up", formula: "OH-(aq), then H+" },
+    ],
+    conditions: ["Heat under reflux"],
+    equation: {
+      mode: "generic-and-representative",
+      generic: "R-CN + 2H2O + H+ -> RCOOH + NH4+",
+      representativeExample: representativeExample(
+        "CH3CN(l) + 2H2O(l) + H+(aq) -> CH3COOH(aq) + NH4+(aq)",
+      ),
+    },
+    ionicEquation: {
+      applicability: "shown",
+      equation: "R-CN + 2H2O + H+ -> RCOOH + NH4+",
+    },
+    mechanism: {
+      applicability: "not-typically-shown",
+      note:
+        "The detailed hydrolysis sequence is normally beyond a compact family map; the important route is nitrile to acid.",
+    },
+  },
+  {
+    id: "nitrile-to-amine-reduction",
+    from: "nitrile",
+    to: "amine",
+    label: "Reduction",
+    reactionType: "Reduction",
+    applicability: {
+      kind: "general",
+      summary:
+        "Nitriles can be reduced to primary amines, keeping the carbon from the nitrile group as part of the chain.",
+    },
+    reagents: [
+      { name: "Lithium aluminium hydride", formula: "LiAlH4" },
+      { name: "Or hydrogen with nickel", formula: "H2 / Ni" },
+    ],
+    conditions: ["Dry ether then water work-up for LiAlH4", "Or catalytic hydrogenation conditions"],
+    equation: {
+      mode: "generic-and-representative",
+      generic: "R-CN + 4[H] -> RCH2NH2",
+      representativeExample: representativeExample(
+        "CH3CN + 4[H] -> CH3CH2NH2",
+      ),
+    },
+    ionicEquation: {
+      applicability: "not-typically-shown",
+      note:
+        "Introductory organic maps usually show this with the neutral [H] reduction shorthand.",
+    },
+    mechanism: {
+      applicability: "not-typically-shown",
+      note:
+        "Hydride and protonation steps are useful at advanced level, but the compact map only needs the family conversion.",
+    },
+  },
+  {
     id: "carboxylic-acid-to-ester-esterification",
     from: "carboxylic-acid",
     to: "ester",
@@ -828,6 +1424,153 @@ export const chemistryReactionEdges = [
     ],
   },
   {
+    id: "carboxylic-acid-to-carboxylate-salt-neutralisation",
+    from: "carboxylic-acid",
+    to: "carboxylate-salt",
+    label: "Neutralisation",
+    reactionType: "Acid-base reaction",
+    applicability: {
+      kind: "general",
+      summary:
+        "Carboxylic acids react with alkalis to form carboxylate salts and water.",
+    },
+    reagents: [
+      { name: "Aqueous sodium hydroxide", formula: "NaOH(aq)" },
+      { name: "Or sodium carbonate", formula: "Na2CO3(aq)" },
+    ],
+    conditions: ["Room temperature or gentle warming"],
+    equation: {
+      mode: "generic-and-representative",
+      generic: "RCOOH(aq) + NaOH(aq) -> RCOONa(aq) + H2O(l)",
+      representativeExample: representativeExample(
+        "CH3COOH(aq) + NaOH(aq) -> CH3COONa(aq) + H2O(l)",
+      ),
+    },
+    ionicEquation: {
+      applicability: "shown",
+      equation: "RCOOH(aq) + OH-(aq) -> RCOO-(aq) + H2O(l)",
+    },
+    mechanism: {
+      applicability: "shown",
+      summary:
+        "Hydroxide removes the acidic proton from the carboxyl group to form the resonance-stabilized carboxylate ion.",
+      steps: [
+        "OH- accepts H+ from the carboxylic acid.",
+        "The carboxylate ion remains paired with the metal cation in solution or solid salt form.",
+      ],
+    },
+  },
+  {
+    id: "carboxylic-acid-to-acyl-chloride-chlorination",
+    from: "carboxylic-acid",
+    to: "acyl-chloride",
+    label: "Chlorination",
+    reactionType: "Conversion to acid chloride",
+    applicability: {
+      kind: "general",
+      summary:
+        "Carboxylic acids can be converted into more reactive acyl chlorides with chlorinating reagents.",
+    },
+    reagents: [
+      { name: "Thionyl chloride", formula: "SOCl2" },
+      { name: "Or phosphorus pentachloride", formula: "PCl5" },
+    ],
+    conditions: ["Dry conditions", "Gentle warming if needed"],
+    equation: {
+      mode: "generic-and-representative",
+      generic: "RCOOH + SOCl2 -> RCOCl + SO2 + HCl",
+      representativeExample: representativeExample(
+        "CH3COOH(l) + SOCl2(l) -> CH3COCl(l) + SO2(g) + HCl(g)",
+      ),
+    },
+    ionicEquation: {
+      applicability: "not-typically-shown",
+      note:
+        "This conversion is usually taught as a molecular reagent transformation rather than a net ionic equation.",
+    },
+    mechanism: {
+      applicability: "not-typically-shown",
+      note:
+        "The full reagent-specific mechanism is too detailed for the map; the important point is formation of a reactive acyl chloride.",
+    },
+  },
+  {
+    id: "acyl-chloride-to-ester-alcoholysis",
+    from: "acyl-chloride",
+    to: "ester",
+    label: "Alcoholysis",
+    reactionType: "Nucleophilic acyl substitution",
+    applicability: {
+      kind: "general",
+      summary:
+        "Acyl chlorides react readily with alcohols to form esters and hydrogen chloride.",
+    },
+    additionalOrganicReactants: ["Alcohol family"],
+    reagents: ["Alcohol family"],
+    conditions: ["Room temperature", "Dry conditions are commonly used"],
+    equation: {
+      mode: "generic-and-representative",
+      generic: "RCOCl(l) + R'OH(l) -> RCOOR'(l) + HCl(g)",
+      representativeExample: representativeExample(
+        "CH3COCl(l) + CH3CH2OH(l) -> CH3COOCH2CH3(l) + HCl(g)",
+      ),
+    },
+    ionicEquation: {
+      applicability: "not-typically-shown",
+      note:
+        "The reaction is usually summarized with a molecular acyl-substitution equation.",
+    },
+    mechanism: {
+      applicability: "shown",
+      summary:
+        "The alcohol oxygen attacks the acyl chloride carbonyl carbon, then chloride leaves and deprotonation gives the ester.",
+      steps: [
+        "Alcohol attacks the electrophilic carbonyl carbon.",
+        "A tetrahedral intermediate forms and collapses as chloride leaves.",
+        "Loss of H+ gives the neutral ester product.",
+      ],
+    },
+  },
+  {
+    id: "acyl-chloride-to-amide-ammonolysis",
+    from: "acyl-chloride",
+    to: "amide",
+    label: "Amidation",
+    reactionType: "Nucleophilic acyl substitution",
+    applicability: {
+      kind: "general",
+      summary:
+        "Acyl chlorides react with ammonia or amines to form amides.",
+    },
+    reagents: [
+      { name: "Ammonia", formula: "NH3" },
+      { name: "Or a primary amine", formula: "RNH2" },
+    ],
+    conditions: ["Room temperature", "Often dry conditions"],
+    equation: {
+      mode: "generic-and-representative",
+      generic: "RCOCl(l) + 2NH3 -> RCONH2 + NH4Cl",
+      representativeExample: representativeExample(
+        "CH3COCl(l) + 2NH3(g) -> CH3CONH2(s) + NH4Cl(s)",
+      ),
+    },
+    ionicEquation: {
+      applicability: "not-typically-shown",
+      note:
+        "This is usually taught as molecular acyl substitution with ammonia neutralizing HCl.",
+    },
+    mechanism: {
+      applicability: "shown",
+      summary:
+        "Ammonia attacks the carbonyl carbon, chloride leaves, and deprotonation gives the amide.",
+      steps: [
+        "NH3 attacks the acyl chloride carbonyl carbon.",
+        "The tetrahedral intermediate collapses as chloride leaves.",
+        "Another NH3 molecule removes H+ to form the amide and ammonium chloride.",
+      ],
+    },
+  },
+  {
     id: "ester-to-carboxylic-acid-hydrolysis",
     from: "ester",
     to: "carboxylic-acid",
@@ -866,6 +1609,44 @@ export const chemistryReactionEdges = [
     },
     notes: [
       "The representative equation also produces an alcohol, but the main directed edge highlights the acid family as the primary destination for this reverse pathway.",
+    ],
+  },
+  {
+    id: "ester-to-carboxylate-salt-alkaline-hydrolysis",
+    from: "ester",
+    to: "carboxylate-salt",
+    label: "Saponification",
+    reactionType: "Base hydrolysis / saponification",
+    applicability: {
+      kind: "general",
+      summary:
+        "Alkaline ester hydrolysis gives a carboxylate salt and an alcohol. Acidification would then convert the salt to the carboxylic acid.",
+    },
+    reagents: [{ name: "Aqueous sodium hydroxide", formula: "NaOH(aq)" }],
+    conditions: ["Heat under reflux"],
+    equation: {
+      mode: "generic-and-representative",
+      generic: "RCOOR'(l) + OH-(aq) -> RCOO-(aq) + R'OH(l)",
+      representativeExample: representativeExample(
+        "CH3COOCH2CH3(l) + NaOH(aq) -> CH3COONa(aq) + CH3CH2OH(l)",
+      ),
+    },
+    ionicEquation: {
+      applicability: "shown",
+      equation: "RCOOR' + OH- -> RCOO- + R'OH",
+    },
+    mechanism: {
+      applicability: "shown",
+      summary:
+        "Hydroxide attacks the ester carbonyl, then the tetrahedral intermediate collapses and the acid product is deprotonated to carboxylate.",
+      steps: [
+        "OH- attacks the ester carbonyl carbon.",
+        "The intermediate collapses and alkoxide leaves.",
+        "Acid-base transfer gives the carboxylate salt and alcohol.",
+      ],
+    },
+    notes: [
+      "This route is shown separately from acid hydrolysis because the immediate product family is a salt rather than the neutral acid.",
     ],
   },
 ] as const satisfies readonly ChemistryEdgeDefinition[];
@@ -1023,7 +1804,7 @@ export function getChemistryRoutesBetween(
   options?: ChemistryRouteSearchOptions,
 ): readonly ChemistryRoute[] {
   const edges = options?.edges ?? chemistryReactionEdges;
-  const maxEdges = options?.maxEdges ?? 3;
+  const maxEdges = options?.maxEdges ?? 4;
   const maxRoutes = options?.maxRoutes ?? 5;
 
   if (startNodeId === targetNodeId) {
@@ -1098,7 +1879,7 @@ export type ChemistryGraphLayout = {
   edgeLabelOffsets: Partial<Record<ChemistryEdge["id"], { x: number; y: number }>>;
 };
 
-type ChemistryNodeLocaleOverlay = Pick<
+type ChemistryNodeLocaleOverlay = Partial<Pick<
   ChemistryNodeDefinition,
   | "name"
   | "functionalGroup"
@@ -1107,11 +1888,11 @@ type ChemistryNodeLocaleOverlay = Pick<
   | "solubility"
   | "acidityBasicity"
   | "notableProperties"
-> & {
+>> & {
   nomenclature?: Partial<ChemistryNomenclature>;
 };
 
-type ChemistryEdgeLocaleOverlay = Pick<
+type ChemistryEdgeLocaleOverlay = Partial<Pick<
   ChemistryEdgeDefinition,
   | "label"
   | "reactionType"
@@ -1120,15 +1901,15 @@ type ChemistryEdgeLocaleOverlay = Pick<
   | "conditions"
   | "ionicEquation"
   | "mechanism"
-> & {
+>> & {
   catalysts?: ChemistryEdgeDefinition["catalysts"];
   additionalOrganicReactants?: ChemistryEdgeDefinition["additionalOrganicReactants"];
   notes?: ChemistryEdgeDefinition["notes"];
 };
 
 type ChemistryLocaleOverlay = {
-  nodes: Record<ChemistryNodeId, ChemistryNodeLocaleOverlay>;
-  edges: Record<ChemistryEdge["id"], ChemistryEdgeLocaleOverlay>;
+  nodes: Partial<Record<ChemistryNodeId, ChemistryNodeLocaleOverlay>>;
+  edges: Partial<Record<ChemistryEdge["id"], ChemistryEdgeLocaleOverlay>>;
 };
 
 const chemistryLocaleOverlays = chemistryReactionLocaleOverlays satisfies Partial<
@@ -1189,41 +1970,76 @@ export function getChemistryReactionMindMapContent(locale: AppLocale | string) {
 }
 
 export const chemistryReactionGraphLayout: ChemistryGraphLayout = {
-  width: 1560,
-  height: 780,
+  width: 2260,
+  height: 1000,
   nodePositions: {
-    alkene: { x: 90, y: 104 },
-    haloalkane: { x: 90, y: 596 },
-    alcohol: { x: 588, y: 350 },
-    aldehyde: { x: 1002, y: 104 },
-    ketone: { x: 1002, y: 596 },
-    "carboxylic-acid": { x: 1270, y: 104 },
-    ester: { x: 1270, y: 596 },
+    alkane: { x: 44, y: 382 },
+    alkene: { x: 350, y: 72 },
+    haloalkane: { x: 358, y: 636 },
+    alcohol: { x: 670, y: 350 },
+    nitrile: { x: 696, y: 744 },
+    amine: { x: 1010, y: 744 },
+    aldehyde: { x: 1220, y: 84 },
+    ketone: { x: 1220, y: 500 },
+    "carboxylic-acid": { x: 1535, y: 96 },
+    ester: { x: 1535, y: 540 },
+    hydroxynitrile: { x: 1440, y: 800 },
+    "acyl-chloride": { x: 1900, y: 72 },
+    amide: { x: 1900, y: 330 },
+    "carboxylate-salt": { x: 1900, y: 748 },
   },
   edgeCurves: {
-    "alkene-to-alcohol-hydration": -108,
-    "alkene-to-haloalkane-hydrohalogenation": 156,
-    "haloalkane-to-alcohol-hydrolysis": -108,
-    "alcohol-to-haloalkane-substitution": 108,
+    "alkane-to-haloalkane-radical-substitution": 158,
+    "alkane-to-alkene-cracking": -132,
+    "alkene-to-alkane-hydrogenation": 138,
+    "alkene-to-alcohol-hydration": -128,
+    "alkene-to-haloalkane-hydrohalogenation": 184,
+    "haloalkane-to-alcohol-hydrolysis": -132,
+    "haloalkane-to-nitrile-cyanide-substitution": 86,
+    "haloalkane-to-amine-ammonia-substitution": 204,
+    "alcohol-to-haloalkane-substitution": 132,
     "alcohol-to-aldehyde-oxidation": -100,
     "alcohol-to-ketone-oxidation": 100,
-    "aldehyde-to-carboxylic-acid-oxidation": -48,
+    "aldehyde-to-carboxylic-acid-oxidation": -62,
     "aldehyde-to-alcohol-reduction": 104,
     "ketone-to-alcohol-reduction": -104,
-    "carboxylic-acid-to-ester-esterification": 108,
-    "ester-to-carboxylic-acid-hydrolysis": -108,
+    "aldehyde-to-hydroxynitrile-cyanohydrin-addition": 230,
+    "ketone-to-hydroxynitrile-cyanohydrin-addition": 92,
+    "nitrile-to-carboxylic-acid-hydrolysis": -218,
+    "nitrile-to-amine-reduction": 34,
+    "carboxylic-acid-to-ester-esterification": 152,
+    "carboxylic-acid-to-carboxylate-salt-neutralisation": 96,
+    "carboxylic-acid-to-acyl-chloride-chlorination": -60,
+    "acyl-chloride-to-ester-alcoholysis": -128,
+    "acyl-chloride-to-amide-ammonolysis": 116,
+    "ester-to-carboxylic-acid-hydrolysis": -152,
+    "ester-to-carboxylate-salt-alkaline-hydrolysis": 104,
   },
   edgeLabelOffsets: {
-    "alkene-to-alcohol-hydration": { x: -76, y: -82 },
-    "alkene-to-haloalkane-hydrohalogenation": { x: -92, y: 86 },
-    "haloalkane-to-alcohol-hydrolysis": { x: -88, y: -82 },
-    "alcohol-to-haloalkane-substitution": { x: 92, y: 82 },
+    "alkane-to-haloalkane-radical-substitution": { x: -128, y: -8 },
+    "alkane-to-alkene-cracking": { x: -68, y: -106 },
+    "alkene-to-alkane-hydrogenation": { x: 92, y: 58 },
+    "alkene-to-alcohol-hydration": { x: -42, y: -116 },
+    "alkene-to-haloalkane-hydrohalogenation": { x: -158, y: 102 },
+    "haloalkane-to-alcohol-hydrolysis": { x: -38, y: -122 },
+    "haloalkane-to-nitrile-cyanide-substitution": { x: -112, y: 132 },
+    "haloalkane-to-amine-ammonia-substitution": { x: 96, y: 132 },
+    "alcohol-to-haloalkane-substitution": { x: 138, y: 116 },
     "alcohol-to-aldehyde-oxidation": { x: -18, y: -76 },
     "aldehyde-to-alcohol-reduction": { x: -66, y: 96 },
     "alcohol-to-ketone-oxidation": { x: 66, y: 96 },
     "ketone-to-alcohol-reduction": { x: -66, y: -96 },
-    "aldehyde-to-carboxylic-acid-oxidation": { x: -24, y: -86 },
-    "carboxylic-acid-to-ester-esterification": { x: 80, y: -88 },
-    "ester-to-carboxylic-acid-hydrolysis": { x: -80, y: 88 },
+    "aldehyde-to-carboxylic-acid-oxidation": { x: -18, y: -92 },
+    "aldehyde-to-hydroxynitrile-cyanohydrin-addition": { x: 62, y: 150 },
+    "ketone-to-hydroxynitrile-cyanohydrin-addition": { x: -92, y: 78 },
+    "nitrile-to-carboxylic-acid-hydrolysis": { x: -20, y: -162 },
+    "nitrile-to-amine-reduction": { x: -18, y: 78 },
+    "carboxylic-acid-to-ester-esterification": { x: 138, y: -34 },
+    "carboxylic-acid-to-carboxylate-salt-neutralisation": { x: 126, y: 98 },
+    "carboxylic-acid-to-acyl-chloride-chlorination": { x: 18, y: -90 },
+    "acyl-chloride-to-ester-alcoholysis": { x: 138, y: 112 },
+    "acyl-chloride-to-amide-ammonolysis": { x: 142, y: 8 },
+    "ester-to-carboxylic-acid-hydrolysis": { x: -136, y: 46 },
+    "ester-to-carboxylate-salt-alkaline-hydrolysis": { x: 20, y: -34 },
   },
 };

@@ -21,6 +21,10 @@ function joinClasses(...classes: Array<string | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
 
+function isFormulaBondSeparator(value: string) {
+  return value === "-" || value === "=" || value === "≡" || value === ">";
+}
+
 function renderFormulaPiece(
   token: string,
   keyPrefix: string,
@@ -86,9 +90,7 @@ function renderFormulaPiece(
           nextChar === ")" ||
           nextChar === "[" ||
           nextChar === "]" ||
-          nextChar === "-" ||
-          nextChar === "=" ||
-          nextChar === ">"
+          isFormulaBondSeparator(nextChar)
         ) {
           break;
         }
@@ -146,10 +148,10 @@ function renderNotationToken(token: string, index: number) {
     );
   }
 
-  if (token === "=") {
+  if (token === "=" || token === "≡") {
     return (
       <span key={`equals-${index}`} className="inline-flex items-center px-1 text-ink-700">
-        =
+        {token}
       </span>
     );
   }
