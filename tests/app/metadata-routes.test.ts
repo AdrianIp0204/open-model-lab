@@ -8,16 +8,29 @@ describe("metadata routes", () => {
     vi.resetModules();
   });
 
-  it("points robots.txt at the configured sitemap URL", async () => {
-    vi.stubEnv("NEXT_PUBLIC_OPEN_MODEL_LAB_SITE_URL", "https://openmodellab.example");
-
+  it("points robots.txt at the production sitemap URL and disallows private areas", async () => {
     const { default: robots } = await import("@/app/robots");
     const output = robots();
 
-    expect(output.sitemap).toBe("https://openmodellab.example/sitemap.xml");
+    expect(output.sitemap).toBe("https://openmodellab.com/sitemap.xml");
     expect(output.rules).toEqual({
       userAgent: "*",
       allow: "/",
+      disallow: expect.arrayContaining([
+        "/account",
+        "/api",
+        "/assignments",
+        "/auth",
+        "/author-preview",
+        "/dashboard",
+        "/debug",
+        "/dev",
+        "/en/account",
+        "/en/dashboard",
+        "/zh-HK/debug",
+        "/zh-HK/auth",
+        "/zh-HK/dev",
+      ]),
     });
   });
 
@@ -97,6 +110,7 @@ describe("metadata routes", () => {
     );
 
     expect(homeEntry?.priority).toBe(1);
+    expect(homeEntry?.lastModified).toBeUndefined();
     expect(privacyEntry?.priority).toBeLessThan(homeEntry?.priority ?? 0);
     expect(urls.has("https://openmodellab.example/en/search")).toBe(true);
     expect(urls.has("https://openmodellab.example/zh-HK/search")).toBe(true);
@@ -115,5 +129,16 @@ describe("metadata routes", () => {
     expect(urls.has("https://openmodellab.example/zh-HK/privacy")).toBe(true);
     expect(urls.has("https://openmodellab.example/en/terms")).toBe(true);
     expect(urls.has("https://openmodellab.example/en/ads")).toBe(true);
+    expect([...urls].some((url) => /\/(?:en|zh-HK)\/account(?:\/|$)/.test(url))).toBe(false);
+    expect([...urls].some((url) => /\/(?:en|zh-HK)\/dashboard(?:\/|$)/.test(url))).toBe(false);
+    expect([...urls].some((url) => /\/(?:en|zh-HK)\/auth(?:\/|$)/.test(url))).toBe(false);
+    expect([...urls].some((url) => /\/(?:en|zh-HK)\/dev(?:\/|$)/.test(url))).toBe(false);
+    expect([...urls].some((url) => /\/(?:en|zh-HK)\/debug(?:\/|$)/.test(url))).toBe(false);
+    expect([...urls].some((url) => /\/(?:en|zh-HK)\/author-preview(?:\/|$)/.test(url))).toBe(
+      false,
+    );
+    expect([...urls].some((url) => /\/(?:en|zh-HK)\/assignments(?:\/|$)/.test(url))).toBe(
+      false,
+    );
   });
 });

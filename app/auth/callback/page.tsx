@@ -1,9 +1,18 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { AuthCallbackClient } from "./AuthCallbackClient";
 import { stripLocalePrefix, type AppLocale } from "@/i18n/routing";
 import { resolveServerLocaleFallback } from "@/i18n/server";
 import { classifyAccountAuthFailure } from "@/lib/account/auth-return";
 import { localizeShareHref } from "@/lib/share-links";
+
+export const metadata: Metadata = {
+  title: "Auth callback | Open Model Lab",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 function resolveRedirectPath(nextPath: string | undefined, locale: AppLocale) {
   if (!nextPath || !nextPath.startsWith("/")) {

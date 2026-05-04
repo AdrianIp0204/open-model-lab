@@ -24,6 +24,7 @@ type PageMetadataOptions = {
   keywords?: string[];
   category?: string;
   openGraphType?: "website" | "article";
+  robots?: Metadata["robots"];
 };
 
 type MetadataLocaleCopy = {
@@ -183,6 +184,7 @@ export function buildPageMetadata({
   keywords,
   category,
   openGraphType = "website",
+  robots,
 }: PageMetadataOptions): Metadata {
   const canonicalUrl = getLocaleAbsoluteUrl(pathname, locale);
   const socialTitle = absoluteTitle ?? title;
@@ -193,6 +195,7 @@ export function buildPageMetadata({
     keywords: mergeKeywords(keywords),
     category,
     alternates: buildLocaleAlternates(pathname, locale),
+    ...(robots ? { robots } : {}),
     openGraph: {
       type: openGraphType,
       siteName: siteConfig.name,

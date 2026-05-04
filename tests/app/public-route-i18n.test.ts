@@ -341,6 +341,7 @@ describe("public route i18n metadata", () => {
     expect(homeMetadata.alternates?.canonical).toContain("/zh-HK");
     expect(homeMetadata.alternates?.languages?.en).toContain("/en");
     expect(homeMetadata.alternates?.languages?.["zh-HK"]).toContain("/zh-HK");
+    expect(homeMetadata.alternates?.languages?.["x-default"]).toContain("/en");
     expect(aboutMetadata.title).toBe(zhHkMessages.AboutPage.metadata.title);
     expect(aboutMetadata.alternates?.canonical).toContain("/zh-HK/about");
     expect(chemistryReactionMindMapMetadata.title).toBe(
@@ -372,6 +373,7 @@ describe("public route i18n metadata", () => {
     expect(searchMetadata.alternates?.canonical).toContain("/zh-HK/search");
     expect(searchMetadata.alternates?.languages?.en).toContain("/en/search");
     expect(searchMetadata.alternates?.languages?.["zh-HK"]).toContain("/zh-HK/search");
+    expect(searchMetadata.alternates?.languages?.["x-default"]).toContain("/en/search");
     expect(searchMetadata.openGraph?.locale).toBe("zh_HK");
     expect(testsMetadata.title).toBe(zhHkMessages.TestHubPage.metadata.title);
     expect(testsMetadata.alternates?.canonical).toContain("/zh-HK/tests");

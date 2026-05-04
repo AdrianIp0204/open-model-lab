@@ -45,6 +45,10 @@ describe("assignment route i18n metadata", () => {
       expect.arrayContaining(["Wave evidence", "作業", "引導式合集作業", "Waves"]),
     );
     expect(metadata.openGraph?.locale).toBe("zh_HK");
+    expect(metadata.robots).toEqual({
+      index: false,
+      follow: false,
+    });
   });
 
   it("keeps English assignment metadata on the root route", async () => {
@@ -64,5 +68,9 @@ describe("assignment route i18n metadata", () => {
         "Wave fundamentals",
       ]),
     );
+    expect(metadata.robots).toEqual({
+      index: false,
+      follow: false,
+    });
   });
 });

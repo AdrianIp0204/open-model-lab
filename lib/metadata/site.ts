@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { addLocalePrefix, localeOpenGraphMap, routing, type AppLocale } from "@/i18n/routing";
 
-const FALLBACK_SITE_URL = "http://localhost:3000";
+const PRODUCTION_SITE_URL = "https://openmodellab.com";
 const OPEN_MODEL_LAB_APEX_HOST = "openmodellab.com";
 const OPEN_MODEL_LAB_WWW_HOST = `www.${OPEN_MODEL_LAB_APEX_HOST}`;
+const LOCAL_SITE_HOSTS = new Set(["localhost", "127.0.0.1", "::1"]);
 const BRAND_ASSET_VERSION = "20260425";
 const BRAND_FAVICON_ICO = "/favicon.ico";
 const BRAND_ICON_SVG = "/branding/open-model-lab-mark.svg";
@@ -22,21 +23,47 @@ function readConfiguredSiteUrl() {
     process.env.OPEN_MODEL_LAB_SITE_URL?.trim() ||
     process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
     process.env.SITE_URL?.trim() ||
-    FALLBACK_SITE_URL
+    PRODUCTION_SITE_URL
   );
 }
 
 function normalizeConfiguredSiteUrl(value: string) {
+  const configuredValue = value.trim();
+
+  if (!configuredValue) {
+    return PRODUCTION_SITE_URL;
+  }
+
+  const valueWithProtocol = /^[a-z][a-z\d+\-.]*:\/\//i.test(configuredValue)
+    ? configuredValue
+    : `${
+        configuredValue.startsWith("localhost") || configuredValue.startsWith("127.")
+          ? "http"
+          : "https"
+      }://${configuredValue}`;
+
   try {
-    const parsedUrl = new URL(value);
+    const parsedUrl = new URL(valueWithProtocol);
 
     if (parsedUrl.hostname === OPEN_MODEL_LAB_WWW_HOST) {
       parsedUrl.hostname = OPEN_MODEL_LAB_APEX_HOST;
     }
 
+    if (parsedUrl.hostname === OPEN_MODEL_LAB_APEX_HOST) {
+      parsedUrl.protocol = "https:";
+    }
+
+    if (LOCAL_SITE_HOSTS.has(parsedUrl.hostname) && process.env.NODE_ENV === "production") {
+      return PRODUCTION_SITE_URL;
+    }
+
+    parsedUrl.pathname = "/";
+    parsedUrl.search = "";
+    parsedUrl.hash = "";
+
     return parsedUrl.toString();
   } catch {
-    return value;
+    return PRODUCTION_SITE_URL;
   }
 }
 
@@ -80,14 +107,18 @@ export function getLocaleAbsoluteUrl(pathname: string, locale: AppLocale): strin
 }
 
 export function buildLocaleAlternates(pathname: string, locale: AppLocale) {
+  const languages: Record<string, string> = Object.fromEntries(
+    routing.locales.map((supportedLocale) => [
+      supportedLocale,
+      getLocaleAbsoluteUrl(pathname, supportedLocale),
+    ]),
+  );
+
+  languages["x-default"] = getLocaleAbsoluteUrl(pathname, routing.defaultLocale);
+
   return {
     canonical: getLocaleAbsoluteUrl(pathname, locale),
-    languages: Object.fromEntries(
-      routing.locales.map((supportedLocale) => [
-        supportedLocale,
-        getLocaleAbsoluteUrl(pathname, supportedLocale),
-      ]),
-    ),
+    languages,
   };
 }
 

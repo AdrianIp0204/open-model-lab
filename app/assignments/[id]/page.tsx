@@ -59,6 +59,10 @@ export async function buildAssignmentPageMetadata({
       ...assignment.concepts.map((concept) => concept.title),
     ],
     category: t("metadata.category"),
+    robots: {
+      index: false,
+      follow: false,
+    },
   });
 }
 
