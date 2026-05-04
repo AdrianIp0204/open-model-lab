@@ -194,6 +194,12 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
     const viewportRect = viewport.getBoundingClientRect();
     const nodeFontSize = Number.parseFloat(getComputedStyle(alcoholLabel).fontSize);
     const edgeFontSize = Number.parseFloat(getComputedStyle(hydrationEdge).fontSize);
+    const alcoholNode = document.querySelector('[data-testid="chem-node-alcohol"]');
+    const nodeBorderWidth =
+      alcoholNode instanceof HTMLElement
+        ? Number.parseFloat(getComputedStyle(alcoholNode).borderTopWidth)
+        : 0;
+    const edgeBorderWidth = Number.parseFloat(getComputedStyle(hydrationEdge).borderTopWidth);
 
     return {
       density: worksurface.getAttribute("data-chemistry-density"),
@@ -204,6 +210,20 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
       viewportHeight: Math.round(viewportRect.height),
       nodeFontSize,
       edgeFontSize,
+      nodeBorderWidth,
+      edgeBorderWidth,
+      nodeVisualKind:
+        alcoholNode instanceof HTMLElement
+          ? alcoholNode.getAttribute("data-chem-visual-kind")
+          : null,
+      nodeVisualWeight:
+        alcoholNode instanceof HTMLElement
+          ? alcoholNode.getAttribute("data-chem-visual-weight")
+          : null,
+      edgeVisualKind: hydrationEdge.getAttribute("data-chem-visual-kind"),
+      edgeVisualWeight: hydrationEdge.getAttribute("data-chem-visual-weight"),
+      nodeLabelWeight: alcoholLabel.getAttribute("data-chem-label-weight"),
+      edgeLabelWeight: hydrationEdge.getAttribute("data-chem-label-weight"),
       navigationMode: viewport.getAttribute("data-chem-navigation-mode"),
       wheelMode: viewport.getAttribute("data-chem-wheel-mode"),
       nodeOverlaps,
@@ -224,6 +244,13 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
   expect(firstScreen.viewportBottom).toBeGreaterThan(620);
   expect(firstScreen.viewportHeight).toBeGreaterThanOrEqual(320);
   expect(firstScreen.nodeFontSize).toBeGreaterThan(firstScreen.edgeFontSize);
+  expect(firstScreen.nodeBorderWidth).toBeGreaterThan(firstScreen.edgeBorderWidth);
+  expect(firstScreen.nodeVisualKind).toBe("compound-family");
+  expect(firstScreen.nodeVisualWeight).toBe("primary");
+  expect(firstScreen.edgeVisualKind).toBe("reaction-pathway");
+  expect(firstScreen.edgeVisualWeight).toBe("secondary");
+  expect(firstScreen.nodeLabelWeight).toBe("primary");
+  expect(firstScreen.edgeLabelWeight).toBe("secondary");
   expect(firstScreen.navigationMode).toBe("drag-pan");
   expect(firstScreen.wheelMode).toBe("page-scroll");
   expect(firstScreen.overflowX).toBe("hidden");

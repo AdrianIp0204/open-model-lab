@@ -40,17 +40,32 @@ describe("chemistry reaction mind map route", () => {
 
     const alcoholNode = screen.getByTestId("chem-node-alcohol");
     expect(alcoholNode).toHaveClass("z-20");
+    expect(alcoholNode).toHaveAttribute(
+      "data-chem-visual-kind",
+      "compound-family",
+    );
+    expect(alcoholNode).toHaveAttribute("data-chem-visual-weight", "primary");
     expect(
       alcoholNode.querySelector('[data-chem-label-role="family-primary"]'),
-    ).toHaveClass("text-xl", "font-bold");
+    ).toHaveClass("text-[1.35rem]", "font-black");
+    expect(
+      alcoholNode.querySelector('[data-chem-label-role="family-primary"]'),
+    ).toHaveAttribute("data-chem-label-weight", "primary");
     const hydrationEdge = screen.getByTestId("chem-edge-alkene-to-alcohol-hydration");
     expect(hydrationEdge).toHaveAttribute(
       "data-chem-label-role",
       "pathway-secondary",
     );
-    expect(hydrationEdge).toHaveClass("text-[0.68rem]", "font-medium");
+    expect(hydrationEdge).toHaveAttribute(
+      "data-chem-visual-kind",
+      "reaction-pathway",
+    );
+    expect(hydrationEdge).toHaveAttribute("data-chem-visual-weight", "secondary");
+    expect(hydrationEdge).toHaveAttribute("data-chem-label-weight", "secondary");
+    expect(hydrationEdge).toHaveClass("text-[0.62rem]", "font-semibold");
 
     await user.click(alcoholNode);
+    expect(alcoholNode).toHaveAttribute("data-chem-visual-weight", "selected");
 
     const nodeDetails = screen.getByTestId("chem-node-details");
     expect(nodeDetails).toBeInTheDocument();
@@ -68,6 +83,9 @@ describe("chemistry reaction mind map route", () => {
     await user.click(
       screen.getByTestId("chem-edge-alcohol-to-aldehyde-oxidation"),
     );
+    expect(
+      screen.getByTestId("chem-edge-alcohol-to-aldehyde-oxidation"),
+    ).toHaveAttribute("data-chem-visual-weight", "selected");
 
     const edgeDetails = screen.getByTestId("chem-edge-details");
     expect(edgeDetails).toBeInTheDocument();
@@ -1114,6 +1132,19 @@ describe("chemistry reaction mind map route", () => {
     expect(
       screen.getByTestId("chem-edge-alkene-to-alcohol-hydration"),
     ).toHaveAttribute("data-chem-context", "connected");
+    expect(
+      screen.getByTestId("chem-edge-alkene-to-alcohol-hydration"),
+    ).toHaveAttribute("data-chem-visual-weight", "route-active");
+    expect(
+      screen.getByTestId("chem-edge-path-alkene-to-alcohol-hydration"),
+    ).toHaveAttribute("data-chem-visual-kind", "reaction-arrow");
+    expect(
+      screen.getByTestId("chem-edge-path-alkene-to-alcohol-hydration"),
+    ).toHaveAttribute("data-chem-visual-weight", "route-active");
+    expect(screen.getByTestId("chem-node-alkene")).toHaveAttribute(
+      "data-chem-visual-weight",
+      "route-endpoint",
+    );
     expect(
       screen.getByTestId("chem-minimap-edge-alkene-to-alcohol-hydration"),
     ).toHaveAttribute("data-chem-route-context", "route");

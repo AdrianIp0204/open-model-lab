@@ -2904,6 +2904,30 @@ export function ChemistryReactionGraph({
                     : "default"
                 : "default";
               const edgeFlowTransition = edgeFlowTransitionById.get(edge.id);
+              const edgeVisualWeight = selected
+                ? "selected"
+                : routeEdgeSet.has(edge.id)
+                  ? "route-active"
+                  : edgeIsHighlighted
+                    ? "active-context"
+                    : context === "dimmed"
+                      ? "background"
+                      : "secondary";
+              const edgeStrokeWidth = selected
+                ? 4
+                : routeEdgeSet.has(edge.id)
+                  ? 3.5
+                  : edgeIsHighlighted
+                    ? 3
+                    : 1.75;
+              const edgeStrokeDasharray =
+                selected || routeEdgeSet.has(edge.id)
+                  ? undefined
+                  : edgeIsHighlighted
+                    ? "7 5"
+                    : "5 9";
+              const edgeStrokeOpacity =
+                context === "dimmed" ? 0.18 : edgeIsHighlighted ? 0.84 : 0.48;
 
               return (
                 <g key={edge.id}>
@@ -2946,9 +2970,9 @@ export function ChemistryReactionGraph({
                           ? "var(--amber-500)"
                           : "var(--teal-500)"
                       }
-                      strokeWidth={
-                        selected || routeEdgeSet.has(edge.id) ? 12 : 10
-                      }
+                    strokeWidth={
+                      selected || routeEdgeSet.has(edge.id) ? 12 : 10
+                    }
                       opacity={
                         selected || routeEdgeSet.has(edge.id) ? 0.16 : 0.1
                       }
@@ -2967,18 +2991,11 @@ export function ChemistryReactionGraph({
                           ? "var(--amber-600)"
                           : edgeIsHighlighted
                             ? "var(--teal-500)"
-                            : "var(--line)"
+                            : "var(--ink-500)"
                     }
-                    strokeWidth={
-                      selected
-                        ? 4
-                        : routeEdgeSet.has(edge.id)
-                          ? 3.5
-                          : edgeIsHighlighted
-                            ? 3.25
-                            : 2.5
-                    }
-                    opacity={context === "dimmed" ? 0.35 : 1}
+                    strokeWidth={edgeStrokeWidth}
+                    strokeDasharray={edgeStrokeDasharray}
+                    opacity={edgeStrokeOpacity}
                     strokeLinecap="round"
                     markerEnd={
                       routeEdgeSet.has(edge.id)
@@ -2992,6 +3009,8 @@ export function ChemistryReactionGraph({
                     data-chem-context={context}
                     data-chem-route-context={routeContext}
                     data-chem-hover-context={hoverContext}
+                    data-chem-visual-kind="reaction-arrow"
+                    data-chem-visual-weight={edgeVisualWeight}
                     data-chem-flow-transition={edgeFlowTransition?.label}
                     data-chem-flow-source={edgeFlowTransition?.source.id}
                     data-chem-flow-target={edgeFlowTransition?.target.id}
@@ -3107,8 +3126,17 @@ export function ChemistryReactionGraph({
                     : context === "connected"
                       ? "connected"
                       : context === "dimmed"
-                        ? "dimmed"
-                        : "default";
+                      ? "dimmed"
+                      : "default";
+            const edgeVisualWeight = selected
+              ? "selected"
+              : routeEdgeSelected
+                ? "route-active"
+                : context === "compared" || context === "connected"
+                  ? "active-context"
+                  : context === "dimmed"
+                    ? "background"
+                    : "secondary";
 
             return (
               <button
@@ -3136,6 +3164,9 @@ export function ChemistryReactionGraph({
                 data-chem-flow-target={edgeFlowTransition?.target.id}
                 data-chem-layer-priority={edgeLayerPriority}
                 data-chem-label-role="pathway-secondary"
+                data-chem-label-weight="secondary"
+                data-chem-visual-kind="reaction-pathway"
+                data-chem-visual-weight={edgeVisualWeight}
                 data-chem-crosses-flow-band={
                   edgeFlowTransition
                     ? edgeFlowTransition.crossesBand
@@ -3146,18 +3177,18 @@ export function ChemistryReactionGraph({
                 data-chem-interactive="true"
                 data-chem-label-scale={edgeLabelCounterScale.toFixed(2)}
                 className={[
-                  "absolute z-10 inline-flex max-w-[10.5rem] items-center justify-center gap-1.5 rounded-[1rem] border px-2.5 py-1.5 text-center text-[0.68rem] font-medium leading-tight transition shadow-sm backdrop-blur focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                  "absolute z-10 inline-flex max-w-[9.25rem] items-center justify-center gap-1 rounded-full border px-2 py-1 text-center text-[0.62rem] font-semibold leading-tight transition backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
                   selected
-                    ? "border-teal-700 bg-teal-500/15 text-teal-900 ring-2 ring-teal-600/40"
+                    ? "border-teal-700 bg-paper/95 text-teal-950 shadow-[0_4px_12px_rgba(15,118,110,0.16)] ring-2 ring-teal-600/35"
                     : routeEdgeSet.has(edge.id)
-                      ? "border-amber-500/40 bg-amber-500/10 text-amber-950"
+                      ? "border-amber-500/45 bg-paper/92 text-amber-950 shadow-[0_4px_12px_rgba(217,119,6,0.12)] ring-1 ring-amber-500/25"
                       : context === "compared"
-                        ? "border-teal-500/30 bg-teal-500/10 text-teal-900"
+                        ? "border-teal-500/25 bg-paper/90 text-teal-900"
                         : context === "connected"
-                          ? "border-teal-500/30 bg-teal-500/10 text-teal-900"
+                          ? "border-teal-500/25 bg-paper/88 text-teal-900"
                           : context === "dimmed"
-                            ? "border-line bg-paper text-ink-500 opacity-45"
-                            : "border-line bg-paper text-ink-700 hover:border-ink-950/20",
+                            ? "border-transparent bg-paper/55 text-ink-500 opacity-35"
+                            : "border-transparent bg-paper/75 text-ink-600 hover:border-ink-950/15 hover:bg-paper/95",
                 ].join(" ")}
                 style={{
                   left: labelPoint.x + labelOffset.x,
@@ -3184,7 +3215,7 @@ export function ChemistryReactionGraph({
                   <span
                     aria-hidden="true"
                     data-testid={`chem-edge-route-step-${edge.id}`}
-                    className="grid size-4 shrink-0 place-items-center rounded-full bg-amber-500 text-[0.58rem] font-bold leading-none text-ink-950 shadow-sm"
+                    className="grid size-3.5 shrink-0 place-items-center rounded-full bg-amber-500 text-[0.5rem] font-bold leading-none text-ink-950 shadow-sm"
                   >
                     {routeStep}
                   </span>
@@ -3199,7 +3230,7 @@ export function ChemistryReactionGraph({
                       edgeFlowTransition.crossesBand ? "true" : "false"
                     }
                     className={joinClasses(
-                      "grid size-4 shrink-0 place-items-center rounded-full border text-[0.5rem] font-black leading-none shadow-sm",
+                      "grid size-3.5 shrink-0 place-items-center rounded-full border text-[0.48rem] font-black leading-none",
                       edgeFlowTransition.crossesBand
                         ? "border-teal-500/30 bg-teal-500/10 text-teal-900"
                         : "border-line bg-paper-strong text-ink-500",
@@ -3224,7 +3255,7 @@ export function ChemistryReactionGraph({
                     aria-hidden="true"
                     data-testid={`chem-edge-reaction-type-${edge.id}`}
                     className={joinClasses(
-                      "mx-auto mt-1 w-fit rounded-full border border-current/15 bg-paper/70 px-1.5 py-0.5 text-[0.54rem] font-bold uppercase tracking-[0.12em] opacity-70",
+                      "mx-auto mt-1 w-fit rounded-full border border-current/15 bg-paper/70 px-1.5 py-0.5 text-[0.5rem] font-bold uppercase tracking-[0.1em] opacity-65",
                       showEdgeDetail ? "block" : "hidden",
                     )}
                   >
@@ -3368,8 +3399,21 @@ export function ChemistryReactionGraph({
                       : context === "connected"
                         ? "connected"
                         : context === "dimmed"
-                          ? "dimmed"
-                          : "default";
+                        ? "dimmed"
+                        : "default";
+            const nodeVisualWeight = selected
+              ? "selected"
+              : routeEndpointSet.has(node.id)
+                ? "route-endpoint"
+                : routeNodeSet.has(node.id)
+                  ? "route"
+                  : context === "compared"
+                    ? "compared"
+                    : context === "connected"
+                      ? "connected"
+                      : context === "dimmed"
+                        ? "background"
+                        : "primary";
 
             return (
               <button
@@ -3398,21 +3442,23 @@ export function ChemistryReactionGraph({
                 data-chem-flow-tone={nodeFlowBand?.tone}
                 data-chem-layer-priority={nodeLayerPriority}
                 data-chem-interactive="true"
+                data-chem-visual-kind="compound-family"
+                data-chem-visual-weight={nodeVisualWeight}
                 className={[
-                  "absolute z-20 flex flex-col items-start justify-between overflow-hidden rounded-[24px] border p-4 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                  "absolute z-20 flex flex-col items-start justify-between overflow-hidden rounded-[22px] border-2 p-4 text-left shadow-[0_8px_22px_rgba(15,28,36,0.1)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
                   selected
-                    ? "border-teal-700 bg-teal-500/15 shadow-sm ring-2 ring-teal-600/40"
+                    ? "border-teal-700 bg-teal-500/14 shadow-[0_14px_32px_rgba(15,118,110,0.18)] ring-4 ring-teal-500/20"
                     : routeEndpointSet.has(node.id)
-                      ? "border-amber-600 bg-amber-500/12 shadow-sm ring-2 ring-amber-500/30"
+                      ? "border-amber-600 bg-amber-500/12 shadow-[0_14px_32px_rgba(217,119,6,0.16)] ring-4 ring-amber-500/18"
                       : routeNodeSet.has(node.id)
-                        ? "border-amber-500/35 bg-amber-500/10"
+                        ? "border-amber-500/45 bg-paper/95 ring-1 ring-amber-500/22"
                         : context === "compared"
-                          ? "border-teal-700 bg-teal-500/15 shadow-sm ring-2 ring-teal-600/30"
+                          ? "border-teal-700 bg-teal-500/14 shadow-[0_12px_28px_rgba(15,118,110,0.14)] ring-2 ring-teal-600/25"
                           : context === "connected"
-                            ? "border-teal-500/30 bg-teal-500/10"
+                            ? "border-teal-500/45 bg-paper/95 ring-1 ring-teal-500/20"
                             : context === "dimmed"
-                              ? "border-line bg-paper text-ink-500 opacity-55"
-                              : "border-line bg-paper hover:border-ink-950/20 hover:bg-paper-strong",
+                              ? "border-line/80 bg-paper/80 text-ink-500 opacity-45 shadow-none"
+                              : "border-ink-950/15 bg-paper/95 hover:border-ink-950/28 hover:bg-paper-strong",
                 ].join(" ")}
                 style={{
                   left: position.x + SCENE_PADDING,
@@ -3556,7 +3602,8 @@ export function ChemistryReactionGraph({
                   </span>
                   <span
                     data-chem-label-role="family-primary"
-                    className="block text-xl font-bold leading-tight text-ink-950"
+                    data-chem-label-weight="primary"
+                    className="block text-[1.35rem] font-black leading-tight tracking-[0.01em] text-ink-950"
                   >
                     {node.name}
                   </span>
