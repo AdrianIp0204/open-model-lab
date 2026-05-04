@@ -39,6 +39,7 @@ describe("learning visual descriptors", () => {
       getConceptVisualDescriptor(getConceptSummary("vectors-components")),
       getConceptVisualDescriptor(getConceptSummary("torque")),
       getConceptVisualDescriptor(getConceptSummary("graph-transformations")),
+      getConceptVisualDescriptor(getConceptSummary("acid-base-ph-intuition")),
       getConceptVisualDescriptor(getConceptSummary("binary-search-halving-the-search-space")),
       getConceptVisualDescriptor(getConceptSummary("conservation-of-momentum")),
       getConceptVisualDescriptor(getConceptSummary("collisions")),
@@ -54,11 +55,8 @@ describe("learning visual descriptors", () => {
     expect(descriptors[2]?.motif).toBe("vectors-components");
     expect(descriptors[3]?.motif).toBe("torque");
     expect(descriptors[4]?.motif).toBe("graph-transformations");
-    expect(descriptors[5]?.motif).toBe("binary-search");
-    expect(descriptors[6]?.motif).toBe("momentum-carts");
-    expect(descriptors[7]?.motif).toBe("collisions");
-    expect(descriptors[8]?.motif).toBe("rotational-inertia");
-    expect(descriptors[9]?.motif).toBe("orbital-speed");
+    expect(descriptors[5]?.motif).toBe("acid-base");
+    expect(descriptors[6]?.motif).toBe("binary-search");
     expect(new Set(descriptors.map((descriptor) => descriptor.motif)).size).toBe(
       descriptors.length,
     );
@@ -585,11 +583,25 @@ describe("learning visual descriptors", () => {
     });
   });
 
-  it("can reuse topic-specific motifs across progress and test surfaces", () => {
+  it("reuses exact topic-specific motifs across progress, guided, and test surfaces", () => {
     expect(
-      getConceptSurfaceVisualDescriptor("progress", getConceptSummary("simple-harmonic-motion")),
+      getConceptSurfaceVisualDescriptor("progress", getConceptSummary("buffers-and-neutralization")),
     ).toMatchObject({
       kind: "progress",
+      motif: "acid-base",
+      fallbackKind: "topic-specific",
+      isFallback: false,
+    });
+
+    expect(
+      getTopicSurfaceVisualDescriptor("guided", {
+        slug: "oscillations",
+        title: "Oscillations",
+        subject: "Physics",
+        description: "Keep one oscillator in view while displacement and resonance stay linked.",
+      }),
+    ).toMatchObject({
+      kind: "guided",
       motif: "simple-harmonic-motion",
       fallbackKind: "topic-specific",
       isFallback: false,
@@ -597,14 +609,14 @@ describe("learning visual descriptors", () => {
 
     expect(
       getTopicSurfaceVisualDescriptor("test", {
-        slug: "oscillations",
-        title: "Oscillations",
-        subject: "Physics",
-        description: "Check the main oscillator ideas across the topic branch.",
+        slug: "algorithms-and-search",
+        title: "Algorithms and Search",
+        subject: "Computer Science",
+        description: "Keep binary search and the ordered search interval on the same compact branch.",
       }),
     ).toMatchObject({
       kind: "test",
-      motif: "simple-harmonic-motion",
+      motif: "binary-search",
       fallbackKind: "topic-specific",
       isFallback: false,
     });
