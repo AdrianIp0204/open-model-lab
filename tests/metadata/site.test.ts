@@ -82,6 +82,16 @@ describe("site metadata config", () => {
     expect(getAbsoluteUrl("/privacy")).toBe("http://localhost:4321/privacy");
   });
 
+  it("preserves bracketed IPv6 localhost site URLs for local development", async () => {
+    vi.stubEnv("NODE_ENV", "development");
+    vi.stubEnv("NEXT_PUBLIC_OPEN_MODEL_LAB_SITE_URL", "http://[::1]:4321");
+
+    const { getAbsoluteUrl, getSiteUrl } = await import("@/lib/metadata");
+
+    expect(getSiteUrl().toString()).toBe("http://[::1]:4321/");
+    expect(getAbsoluteUrl("/privacy")).toBe("http://[::1]:4321/privacy");
+  });
+
   it("does not emit localhost metadata URLs in production", async () => {
     vi.stubEnv("NODE_ENV", "production");
     vi.stubEnv("NEXT_PUBLIC_OPEN_MODEL_LAB_SITE_URL", "http://localhost:4321");
@@ -92,5 +102,22 @@ describe("site metadata config", () => {
     expect(getSiteUrl().toString()).toBe("https://openmodellab.com/");
     expect(getAbsoluteUrl("/privacy")).toBe("https://openmodellab.com/privacy");
     expect(metadata.openGraph?.url).toBe("https://openmodellab.com/en");
+  });
+
+  it.each([
+    "http://[::1]:4321",
+    "http://0.0.0.0:3000",
+    "http://127.0.0.1:3000",
+    "http://127.4.5.6:3000",
+  ])("does not emit local development host %s in production", async (siteUrl) => {
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("NEXT_PUBLIC_OPEN_MODEL_LAB_SITE_URL", siteUrl);
+
+    const { buildSiteMetadata, getAbsoluteUrl, getSiteUrl } = await import("@/lib/metadata");
+    const metadata = buildSiteMetadata();
+
+    expect(getSiteUrl().toString()).toBe("https://openmodellab.com/");
+    expect(getAbsoluteUrl("/privacy")).toBe("https://openmodellab.com/privacy");
+    expect(metadata.metadataBase?.toString()).toBe("https://openmodellab.com/");
   });
 });

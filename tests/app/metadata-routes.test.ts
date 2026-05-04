@@ -8,17 +8,21 @@ describe("metadata routes", () => {
     vi.resetModules();
   });
 
-  it("points robots.txt at the production sitemap URL and disallows private areas", async () => {
+  it("points robots.txt at the production sitemap URL and leaves noindex HTML routes crawlable", async () => {
     const { default: robots } = await import("@/app/robots");
     const output = robots();
+    const disallow = Array.isArray(output.rules) ? output.rules[0].disallow : output.rules.disallow;
 
     expect(output.sitemap).toBe("https://openmodellab.com/sitemap.xml");
     expect(output.rules).toEqual({
       userAgent: "*",
       allow: "/",
-      disallow: expect.arrayContaining([
+      disallow: ["/api"],
+    });
+    expect(disallow).toContain("/api");
+    expect(disallow).not.toEqual(
+      expect.arrayContaining([
         "/account",
-        "/api",
         "/assignments",
         "/auth",
         "/author-preview",
@@ -26,12 +30,9 @@ describe("metadata routes", () => {
         "/debug",
         "/dev",
         "/en/account",
-        "/en/dashboard",
-        "/zh-HK/debug",
-        "/zh-HK/auth",
-        "/zh-HK/dev",
+        "/zh-HK/dashboard",
       ]),
-    });
+    );
   });
 
   it("normalizes robots and sitemap URLs to the apex host when www is configured", async () => {

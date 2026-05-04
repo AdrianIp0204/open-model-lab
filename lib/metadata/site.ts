@@ -4,7 +4,6 @@ import { addLocalePrefix, localeOpenGraphMap, routing, type AppLocale } from "@/
 const PRODUCTION_SITE_URL = "https://openmodellab.com";
 const OPEN_MODEL_LAB_APEX_HOST = "openmodellab.com";
 const OPEN_MODEL_LAB_WWW_HOST = `www.${OPEN_MODEL_LAB_APEX_HOST}`;
-const LOCAL_SITE_HOSTS = new Set(["localhost", "127.0.0.1", "::1"]);
 const BRAND_ASSET_VERSION = "20260425";
 const BRAND_FAVICON_ICO = "/favicon.ico";
 const BRAND_ICON_SVG = "/branding/open-model-lab-mark.svg";
@@ -27,6 +26,34 @@ function readConfiguredSiteUrl() {
   );
 }
 
+function normalizeSiteHostname(hostname: string) {
+  return hostname.trim().toLowerCase().replace(/^\[(.*)\]$/, "$1");
+}
+
+function isLocalSiteHostname(hostname: string) {
+  const normalizedHostname = normalizeSiteHostname(hostname);
+
+  return (
+    normalizedHostname === "localhost" ||
+    normalizedHostname === "0.0.0.0" ||
+    normalizedHostname === "::1" ||
+    normalizedHostname === "127.0.0.1" ||
+    normalizedHostname.startsWith("127.")
+  );
+}
+
+function shouldDefaultToHttpProtocol(value: string) {
+  const normalizedValue = value.trim().toLowerCase();
+
+  return (
+    normalizedValue.startsWith("localhost") ||
+    normalizedValue.startsWith("127.") ||
+    normalizedValue.startsWith("0.0.0.0") ||
+    normalizedValue.startsWith("[::1]") ||
+    normalizedValue.startsWith("::1")
+  );
+}
+
 function normalizeConfiguredSiteUrl(value: string) {
   const configuredValue = value.trim();
 
@@ -36,24 +63,22 @@ function normalizeConfiguredSiteUrl(value: string) {
 
   const valueWithProtocol = /^[a-z][a-z\d+\-.]*:\/\//i.test(configuredValue)
     ? configuredValue
-    : `${
-        configuredValue.startsWith("localhost") || configuredValue.startsWith("127.")
-          ? "http"
-          : "https"
-      }://${configuredValue}`;
+    : `${shouldDefaultToHttpProtocol(configuredValue) ? "http" : "https"}://${configuredValue}`;
 
   try {
     const parsedUrl = new URL(valueWithProtocol);
+    let normalizedHostname = normalizeSiteHostname(parsedUrl.hostname);
 
-    if (parsedUrl.hostname === OPEN_MODEL_LAB_WWW_HOST) {
+    if (normalizedHostname === OPEN_MODEL_LAB_WWW_HOST) {
       parsedUrl.hostname = OPEN_MODEL_LAB_APEX_HOST;
+      normalizedHostname = OPEN_MODEL_LAB_APEX_HOST;
     }
 
-    if (parsedUrl.hostname === OPEN_MODEL_LAB_APEX_HOST) {
+    if (normalizedHostname === OPEN_MODEL_LAB_APEX_HOST) {
       parsedUrl.protocol = "https:";
     }
 
-    if (LOCAL_SITE_HOSTS.has(parsedUrl.hostname) && process.env.NODE_ENV === "production") {
+    if (isLocalSiteHostname(normalizedHostname) && process.env.NODE_ENV === "production") {
       return PRODUCTION_SITE_URL;
     }
 
