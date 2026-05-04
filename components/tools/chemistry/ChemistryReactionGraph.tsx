@@ -7,6 +7,7 @@ import {
   useState,
   type ChangeEvent as ReactChangeEvent,
   type KeyboardEvent as ReactKeyboardEvent,
+  type MouseEvent as ReactMouseEvent,
   type PointerEvent as ReactPointerEvent,
   type WheelEvent as ReactWheelEvent,
 } from "react";
@@ -1478,6 +1479,118 @@ export function ChemistryReactionGraph({
     );
   };
 
+  const getNodeIdAtPointer = (
+    clientX: number,
+    clientY: number,
+  ): ChemistryNode["id"] | null => {
+    const viewport = viewportRef.current;
+    if (!viewport || clientX === 0 || clientY === 0) {
+      return null;
+    }
+
+    const nodeElements = Array.from(
+      viewport.querySelectorAll<HTMLElement>("[data-chem-node-hitbox='true']"),
+    );
+
+    for (const nodeElement of nodeElements) {
+      const rect = nodeElement.getBoundingClientRect();
+      if (
+        clientX >= rect.left &&
+        clientX <= rect.right &&
+        clientY >= rect.top &&
+        clientY <= rect.bottom
+      ) {
+        return nodeElement.dataset.chemNodeId ?? null;
+      }
+    }
+
+    return null;
+  };
+
+  const setHoverTargets = (
+    nodeId: ChemistryNode["id"] | null,
+    edgeId: ChemistryEdge["id"] | null,
+  ) => {
+    setHoveredNodeId((current) => (current === nodeId ? current : nodeId));
+    setHoveredEdgeId((current) => (current === edgeId ? current : edgeId));
+  };
+
+  const handleNodePointerEnter = (nodeId: ChemistryNode["id"]) => {
+    if (dragRef.current.active) {
+      return;
+    }
+
+    setHoverTargets(nodeId, null);
+  };
+
+  const handleNodePointerLeave = (
+    nodeId: ChemistryNode["id"],
+    event: ReactPointerEvent<Element>,
+  ) => {
+    if (dragRef.current.active) {
+      return;
+    }
+
+    const nodeIdAtPointer = getNodeIdAtPointer(event.clientX, event.clientY);
+    if (nodeIdAtPointer === nodeId) {
+      setHoverTargets(nodeId, null);
+      return;
+    }
+
+    setHoveredNodeId((current) => (current === nodeId ? null : current));
+  };
+
+  const handleEdgePointerEnter = (
+    edgeId: ChemistryEdge["id"],
+    event: ReactPointerEvent<Element>,
+  ) => {
+    if (dragRef.current.active) {
+      return;
+    }
+
+    const nodeIdAtPointer = getNodeIdAtPointer(event.clientX, event.clientY);
+    if (nodeIdAtPointer) {
+      setHoverTargets(nodeIdAtPointer, null);
+      return;
+    }
+
+    setHoverTargets(null, edgeId);
+  };
+
+  const handleEdgePointerLeave = (
+    edgeId: ChemistryEdge["id"],
+    event: ReactPointerEvent<Element>,
+  ) => {
+    if (dragRef.current.active) {
+      return;
+    }
+
+    const nodeIdAtPointer = getNodeIdAtPointer(event.clientX, event.clientY);
+    if (nodeIdAtPointer) {
+      setHoverTargets(nodeIdAtPointer, null);
+      return;
+    }
+
+    setHoveredEdgeId((current) => (current === edgeId ? null : current));
+  };
+
+  const handleEdgeClick = (
+    edgeId: ChemistryEdge["id"],
+    event: ReactMouseEvent<Element>,
+  ) => {
+    if (event.detail > 0) {
+      const nodeIdAtPointer = getNodeIdAtPointer(event.clientX, event.clientY);
+      if (nodeIdAtPointer) {
+        event.preventDefault();
+        event.stopPropagation();
+        onSelectNode(nodeIdAtPointer);
+        return;
+      }
+    }
+
+    onSelectEdge(edgeId);
+  };
+
   const handleZoomSliderChange = (
     event: ReactChangeEvent<HTMLInputElement>,
   ) => {
@@ -1625,9 +1738,17 @@ export function ChemistryReactionGraph({
       !dragRef.current.active ||
       dragRef.current.pointerId !== event.pointerId
     ) {
+      const nodeIdAtPointer = getNodeIdAtPointer(event.clientX, event.clientY);
+      if (nodeIdAtPointer) {
+        setHoverTargets(nodeIdAtPointer, null);
+      } else if (hoveredNodeId) {
+        setHoveredNodeId(null);
+      }
+
       return;
     }
 
+    setHoverTargets(null, null);
     hasAdjustedViewRef.current = true;
     const viewportWidth = event.currentTarget.clientWidth;
     const viewportHeight = event.currentTarget.clientHeight;
@@ -1666,6 +1787,7 @@ export function ChemistryReactionGraph({
       return;
     }
 
+    setHoverTargets(null, null);
     endPan(event.pointerId);
   };
 
@@ -1952,6 +2074,15 @@ export function ChemistryReactionGraph({
         data-chem-active-flow-summary={activeGraphFlowSummary}
         data-chem-visible-coverage={visibleSceneCoveragePercent}
         data-chem-trace-active={hoverTraceActive ? "true" : "false"}
+        data-chem-hover-target={
+          hoveredNodeId
+            ? `node:${hoveredNodeId}`
+            : hoveredEdgeId
+              ? `edge:${hoveredEdgeId}`
+              : "none"
+        }
+        data-chem-hit-priority="node-over-edge"
+        data-chem-hover-camera="none"
         data-chem-pan-guard="visible-scene"
         data-chem-navigation-mode="drag-pan"
         data-chem-wheel-mode="page-scroll"
@@ -3135,13 +3266,13 @@ export function ChemistryReactionGraph({
                         : undefined
                     }
                     data-chem-interactive="true"
-                    onPointerEnter={() => setHoveredEdgeId(edge.id)}
-                    onPointerLeave={() =>
-                      setHoveredEdgeId((current) =>
-                        current === edge.id ? null : current,
-                      )
+                    onPointerEnter={(event) =>
+                      handleEdgePointerEnter(edge.id, event)
                     }
-                    onClick={() => onSelectEdge(edge.id)}
+                    onPointerLeave={(event) =>
+                      handleEdgePointerLeave(edge.id, event)
+                    }
+                    onClick={(event) => handleEdgeClick(edge.id, event)}
                   />
                   {context !== "dimmed" &&
                   (edgeIsHighlighted || routeEdgeSet.has(edge.id)) ? (
@@ -3389,11 +3520,11 @@ export function ChemistryReactionGraph({
                   transform: `translate(-50%, -50%) scale(${edgeLabelCounterScale})`,
                   transformOrigin: "center",
                 }}
-                onPointerEnter={() => setHoveredEdgeId(edge.id)}
-                onPointerLeave={() =>
-                  setHoveredEdgeId((current) =>
-                    current === edge.id ? null : current,
-                  )
+                onPointerEnter={(event) =>
+                  handleEdgePointerEnter(edge.id, event)
+                }
+                onPointerLeave={(event) =>
+                  handleEdgePointerLeave(edge.id, event)
                 }
                 onFocus={() => setHoveredEdgeId(edge.id)}
                 onBlur={() =>
@@ -3401,7 +3532,7 @@ export function ChemistryReactionGraph({
                     current === edge.id ? null : current,
                   )
                 }
-                onClick={() => onSelectEdge(edge.id)}
+                onClick={(event) => handleEdgeClick(edge.id, event)}
               >
                 {routeStep ? (
                   <span
@@ -3634,6 +3765,8 @@ export function ChemistryReactionGraph({
                 data-chem-flow-tone={nodeFlowBand?.tone}
                 data-chem-layer-priority={nodeLayerPriority}
                 data-chem-interactive="true"
+                data-chem-node-hitbox="true"
+                data-chem-node-id={node.id}
                 data-chem-visual-kind="compound-family"
                 data-chem-visual-weight={nodeVisualWeight}
                 className={[
@@ -3659,11 +3792,9 @@ export function ChemistryReactionGraph({
                   height: NODE_HEIGHT,
                   zIndex: GRAPH_NODE_Z_INDEX[nodeLayerPriority],
                 }}
-                onPointerEnter={() => setHoveredNodeId(node.id)}
-                onPointerLeave={() =>
-                  setHoveredNodeId((current) =>
-                    current === node.id ? null : current,
-                  )
+                onPointerEnter={() => handleNodePointerEnter(node.id)}
+                onPointerLeave={(event) =>
+                  handleNodePointerLeave(node.id, event)
                 }
                 onFocus={() => setHoveredNodeId(node.id)}
                 onBlur={() =>

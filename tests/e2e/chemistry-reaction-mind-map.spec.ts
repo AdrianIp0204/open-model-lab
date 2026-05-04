@@ -51,6 +51,37 @@ async function waitForStableChemistryGraph(page: Page) {
   });
 }
 
+async function waitForStableChemistryCamera(page: Page) {
+  await page.waitForFunction(() => {
+    const viewport = document.querySelector('[data-testid="chemistry-graph-viewport"]');
+
+    if (!(viewport instanceof HTMLElement)) {
+      return false;
+    }
+
+    const sample = JSON.stringify({
+      scale: viewport.getAttribute("data-chem-scale"),
+      x: viewport.getAttribute("data-chem-offset-x"),
+      y: viewport.getAttribute("data-chem-offset-y"),
+      camera: viewport.getAttribute("data-chem-camera-mode"),
+      hover: viewport.getAttribute("data-chem-hover-target"),
+    });
+    const win = window as Window & {
+      __chemCameraStableSample?: string;
+      __chemCameraStableSince?: number;
+    };
+    const now = performance.now();
+
+    if (win.__chemCameraStableSample !== sample) {
+      win.__chemCameraStableSample = sample;
+      win.__chemCameraStableSince = now;
+      return false;
+    }
+
+    return now - (win.__chemCameraStableSince ?? now) >= 300;
+  });
+}
+
 async function expectChemistryGraphItemsInsideViewport(
   page: Page,
   testIds: readonly string[],
@@ -494,6 +525,58 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
     "chem-node-aldehyde",
     "chem-node-ketone",
   ]);
+  const alcoholOverlapPoint = await page.evaluate(() => {
+    const node = document.querySelector('[data-testid="chem-node-alcohol"]');
+    const candidates = Array.from(
+      document.querySelectorAll(
+        '[data-testid^="chem-edge-alcohol-"], [data-testid^="chem-edge-"][data-testid*="-alcohol-"]',
+      ),
+    );
+
+    if (!(node instanceof HTMLElement)) {
+      return null;
+    }
+
+    const nodeRect = node.getBoundingClientRect();
+    for (const candidate of candidates) {
+      if (!(candidate instanceof HTMLElement)) {
+        continue;
+      }
+
+      const edgeRect = candidate.getBoundingClientRect();
+      const left = Math.max(nodeRect.left, edgeRect.left);
+      const right = Math.min(nodeRect.right, edgeRect.right);
+      const top = Math.max(nodeRect.top, edgeRect.top);
+      const bottom = Math.min(nodeRect.bottom, edgeRect.bottom);
+
+      if (right > left && bottom > top) {
+        return {
+          x: (left + right) / 2,
+          y: (top + bottom) / 2,
+        };
+      }
+    }
+
+    return {
+      x: nodeRect.left + nodeRect.width / 2,
+      y: nodeRect.top + nodeRect.height / 2,
+    };
+  });
+  if (!alcoholOverlapPoint) {
+    throw new Error("Could not resolve an Alcohol hover overlap point.");
+  }
+  await page.mouse.move(alcoholOverlapPoint.x, alcoholOverlapPoint.y);
+  await expect(viewport).toHaveAttribute("data-chem-hover-target", /node:alcohol/);
+  await expect(viewport).toHaveAttribute("data-chem-hover-camera", "none");
+  const overlapHoverScale = await viewport.getAttribute("data-chem-scale");
+  await waitForStableChemistryCamera(page);
+  await expect(viewport).toHaveAttribute("data-chem-scale", overlapHoverScale ?? "");
+  await page.mouse.click(alcoholOverlapPoint.x, alcoholOverlapPoint.y);
+  await expect(page.getByTestId("chem-node-details")).toBeVisible();
+  await expect(page.getByTestId("chemistry-selection-summary")).toContainText(
+    /selected group: alcohol/i,
+  );
+  await expect(viewport).toHaveAttribute("data-chem-camera-mode", "node");
 
   const windowScrollBefore = await page.evaluate(() => window.scrollY);
   const inspectorBox = await inspector.boundingBox();

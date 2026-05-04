@@ -12,6 +12,25 @@ vi.mock("@/components/layout/PageShell", () => ({
 import ChemistryReactionMindMapRoute from "@/app/tools/chemistry-reaction-mind-map/page";
 import LocalizedChemistryReactionMindMapPage from "@/app/[locale]/tools/chemistry-reaction-mind-map/page";
 
+function mockElementRect(
+  element: Element,
+  rect: { left: number; top: number; width: number; height: number },
+) {
+  const domRect = {
+    x: rect.left,
+    y: rect.top,
+    left: rect.left,
+    top: rect.top,
+    width: rect.width,
+    height: rect.height,
+    right: rect.left + rect.width,
+    bottom: rect.top + rect.height,
+    toJSON: () => ({}),
+  } as DOMRect;
+
+  vi.spyOn(element, "getBoundingClientRect").mockReturnValue(domRect);
+}
+
 describe("chemistry reaction mind map route", () => {
   it("shows a useful default inspector state before anything is selected", async () => {
     render(await ChemistryReactionMindMapRoute());
@@ -1855,6 +1874,96 @@ describe("chemistry reaction mind map route", () => {
     expect(viewport).toHaveAttribute("data-chem-camera-mode", "graph");
     expect(viewport).toHaveAttribute("data-chem-camera-behavior", "full-fit");
     expect(viewport).toHaveAttribute("data-chem-fit-scope", "full-graph");
+  });
+
+  it("gives node hitboxes priority over overlapping edge hover and clicks", async () => {
+    render(await ChemistryReactionMindMapRoute());
+
+    const viewport = screen.getByTestId("chemistry-graph-viewport");
+    const alcoholNode = screen.getByTestId("chem-node-alcohol");
+    const oxidationEdge = screen.getByTestId(
+      "chem-edge-alcohol-to-aldehyde-oxidation",
+    );
+    mockElementRect(alcoholNode, {
+      left: 100,
+      top: 100,
+      width: 200,
+      height: 104,
+    });
+    const initialScale = viewport.getAttribute("data-chem-scale");
+
+    fireEvent.pointerEnter(oxidationEdge, {
+      pointerId: 11,
+      pointerType: "mouse",
+      clientX: 140,
+      clientY: 140,
+    });
+    expect(viewport).toHaveAttribute("data-chem-hover-target", "node:alcohol");
+    expect(viewport).toHaveAttribute("data-chem-hover-camera", "none");
+    expect(oxidationEdge).toHaveAttribute("data-chem-hover-context", "node");
+    expect(viewport).toHaveAttribute("data-chem-camera-mode", "graph");
+    expect(viewport).toHaveAttribute("data-chem-scale", initialScale ?? "");
+
+    fireEvent.pointerMove(viewport, {
+      pointerId: 11,
+      pointerType: "mouse",
+      clientX: 150,
+      clientY: 150,
+    });
+    expect(viewport).toHaveAttribute("data-chem-hover-target", "node:alcohol");
+    expect(viewport).toHaveAttribute("data-chem-scale", initialScale ?? "");
+
+    fireEvent.click(oxidationEdge, {
+      clientX: 150,
+      clientY: 150,
+      detail: 1,
+    });
+    expect(screen.getByTestId("chem-node-details")).toBeInTheDocument();
+    expect(screen.getByTestId("chemistry-selection-summary")).toHaveTextContent(
+      /selected group: alcohol/i,
+    );
+    expect(viewport).toHaveAttribute("data-chem-camera-mode", "node");
+  });
+
+  it("still allows exposed pathway hover and selection outside node hitboxes", async () => {
+    render(await ChemistryReactionMindMapRoute());
+
+    const viewport = screen.getByTestId("chemistry-graph-viewport");
+    const alcoholNode = screen.getByTestId("chem-node-alcohol");
+    const oxidationEdge = screen.getByTestId(
+      "chem-edge-alcohol-to-aldehyde-oxidation",
+    );
+    mockElementRect(alcoholNode, {
+      left: 100,
+      top: 100,
+      width: 200,
+      height: 104,
+    });
+    const initialScale = viewport.getAttribute("data-chem-scale");
+
+    fireEvent.pointerEnter(oxidationEdge, {
+      pointerId: 12,
+      pointerType: "mouse",
+      clientX: 460,
+      clientY: 260,
+    });
+    expect(viewport).toHaveAttribute(
+      "data-chem-hover-target",
+      "edge:alcohol-to-aldehyde-oxidation",
+    );
+    expect(oxidationEdge).toHaveAttribute("data-chem-hover-context", "edge");
+    expect(viewport).toHaveAttribute("data-chem-scale", initialScale ?? "");
+
+    fireEvent.click(oxidationEdge, {
+      clientX: 460,
+      clientY: 260,
+      detail: 1,
+    });
+    expect(screen.getByTestId("chem-edge-details")).toBeInTheDocument();
+    expect(screen.getByTestId("chemistry-selection-summary")).toHaveTextContent(
+      /selected pathway: oxidation to aldehyde/i,
+    );
+    expect(viewport).toHaveAttribute("data-chem-camera-mode", "edge");
   });
 
   it("supports background drag-to-pan without breaking subsequent selection", async () => {
