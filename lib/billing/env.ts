@@ -3,6 +3,11 @@ import { addLocalePrefix, type AppLocale } from "@/i18n/routing";
 export const STRIPE_API_VERSION = "2026-02-25.clover";
 const PRODUCTION_BILLING_RETURN_URL_BASE = "https://openmodellab.com";
 const LOCAL_BILLING_RETURN_URL_BASE = "http://localhost:3000";
+const OPEN_MODEL_LAB_APEX_HOST = "openmodellab.com";
+const OPEN_MODEL_LAB_WWW_HOST = "www.openmodellab.com";
+const OFFICIAL_CLOUDFLARE_WORKERS_HOST_SUFFIX =
+  ".dreamresearcher0204.workers.dev";
+const OFFICIAL_CLOUDFLARE_WORKER_SERVICE_SEGMENT = "openmodellab";
 
 function readEnv(name: string) {
   const value = process.env[name]?.trim();
@@ -48,6 +53,34 @@ function isLocalDevelopmentHostname(hostname: string) {
     normalizedHostname === "127.0.0.1" ||
     normalizedHostname.startsWith("127.") ||
     normalizedHostname.endsWith(".local")
+  );
+}
+
+function isOfficialOpenModelLabHostname(hostname: string) {
+  const normalizedHostname = normalizeBillingHostname(hostname);
+
+  return (
+    normalizedHostname === OPEN_MODEL_LAB_APEX_HOST ||
+    normalizedHostname === OPEN_MODEL_LAB_WWW_HOST ||
+    normalizedHostname.endsWith(`.${OPEN_MODEL_LAB_APEX_HOST}`)
+  );
+}
+
+function isOfficialCloudflarePreviewHostname(hostname: string) {
+  const normalizedHostname = normalizeBillingHostname(hostname);
+
+  if (!normalizedHostname.endsWith(OFFICIAL_CLOUDFLARE_WORKERS_HOST_SUFFIX)) {
+    return false;
+  }
+
+  const previewName = normalizedHostname.slice(
+    0,
+    -OFFICIAL_CLOUDFLARE_WORKERS_HOST_SUFFIX.length,
+  );
+
+  return (
+    previewName === OFFICIAL_CLOUDFLARE_WORKER_SERVICE_SEGMENT ||
+    previewName.endsWith(`-${OFFICIAL_CLOUDFLARE_WORKER_SERVICE_SEGMENT}`)
   );
 }
 
@@ -261,6 +294,25 @@ function readConfiguredBillingReturnUrlBase() {
   );
 }
 
+function readAllowedBillingReturnOrigins() {
+  return (
+    readEnv("OPEN_MODEL_LAB_BILLING_ALLOWED_RETURN_ORIGINS")
+      ?.split(/[\s,]+/)
+      .map((value) => normalizeBillingReturnUrlBase(value))
+      .filter((value): value is string => Boolean(value)) ?? []
+  );
+}
+
+function isConfiguredAllowedBillingReturnOrigin(url: URL) {
+  return readAllowedBillingReturnOrigins().some((allowedOrigin) => {
+    try {
+      return new URL(allowedOrigin).origin === url.origin;
+    } catch {
+      return false;
+    }
+  });
+}
+
 function normalizeStripeBillingConfigUrlOptions(
   input?: AppLocale | StripeBillingConfigUrlOptions,
 ): StripeBillingConfigUrlOptions {
@@ -270,12 +322,40 @@ function normalizeStripeBillingConfigUrlOptions(
 function getBillingReturnUrlBase(options: StripeBillingConfigUrlOptions) {
   return (
     normalizeBillingReturnUrlBase(options.returnUrlBase) ??
-    normalizeBillingReturnUrlBase(options.requestOrigin) ??
+    normalizeTrustedBillingRequestOrigin(options.requestOrigin) ??
     normalizeBillingReturnUrlBase(readConfiguredBillingReturnUrlBase()) ??
     (process.env.NODE_ENV === "production"
       ? PRODUCTION_BILLING_RETURN_URL_BASE
       : LOCAL_BILLING_RETURN_URL_BASE)
   );
+}
+
+function normalizeTrustedBillingRequestOrigin(value: string | null | undefined) {
+  const normalizedOrigin = normalizeBillingReturnUrlBase(value);
+
+  if (!normalizedOrigin) {
+    return null;
+  }
+
+  const parsedOrigin = new URL(normalizedOrigin);
+
+  if (isLocalDevelopmentHostname(parsedOrigin.hostname)) {
+    return process.env.NODE_ENV === "production" ? null : normalizedOrigin;
+  }
+
+  if (parsedOrigin.protocol !== "https:") {
+    return null;
+  }
+
+  if (
+    isOfficialOpenModelLabHostname(parsedOrigin.hostname) ||
+    isOfficialCloudflarePreviewHostname(parsedOrigin.hostname) ||
+    isConfiguredAllowedBillingReturnOrigin(parsedOrigin)
+  ) {
+    return normalizedOrigin;
+  }
+
+  return null;
 }
 
 function buildBillingReturnUrl(

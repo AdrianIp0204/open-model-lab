@@ -77,7 +77,28 @@ describe("billing env helpers", () => {
     );
   });
 
-  it("builds Stripe return URLs from an explicit preview request origin", () => {
+  it("builds Stripe return URLs from an official Cloudflare preview request origin", () => {
+    const previewOrigin =
+      "https://fix-seo-indexability-canonical-homepage-openmodellab.dreamresearcher0204.workers.dev";
+    const urls = buildStripeBillingConfigUrls({
+      requestOrigin: previewOrigin,
+    });
+
+    expect(urls.checkoutSuccessUrl).toBe(
+      `${previewOrigin}/account?billing=checkout-returned&session_id={CHECKOUT_SESSION_ID}`,
+    );
+    expect(urls.checkoutCancelUrl).toBe(
+      `${previewOrigin}/pricing?billing=checkout-canceled#compare`,
+    );
+    expect(urls.portalReturnUrl).toBe(`${previewOrigin}/account?billing=portal-returned`);
+  });
+
+  it("builds Stripe return URLs from a configured allowed preview request origin", () => {
+    vi.stubEnv(
+      "OPEN_MODEL_LAB_BILLING_ALLOWED_RETURN_ORIGINS",
+      "https://preview-openmodellab.example",
+    );
+
     const urls = buildStripeBillingConfigUrls({
       requestOrigin: "https://preview-openmodellab.example",
     });
@@ -93,8 +114,36 @@ describe("billing env helpers", () => {
     );
   });
 
+  it("does not trust arbitrary request origins for Stripe return URLs", () => {
+    vi.stubEnv("NODE_ENV", "test");
+    vi.stubEnv("OPEN_MODEL_LAB_BILLING_ALLOWED_RETURN_ORIGINS", "");
+    vi.stubEnv("OPEN_MODEL_LAB_BILLING_RETURN_URL_BASE", "");
+    vi.stubEnv("NEXT_PUBLIC_OPEN_MODEL_LAB_SITE_URL", "");
+    vi.stubEnv("OPEN_MODEL_LAB_SITE_URL", "");
+    vi.stubEnv("NEXT_PUBLIC_SITE_URL", "");
+    vi.stubEnv("SITE_URL", "");
+
+    const urls = buildStripeBillingConfigUrls({
+      requestOrigin: "https://attacker.example",
+    });
+
+    expect(urls.checkoutSuccessUrl).toBe(
+      "http://localhost:3000/account?billing=checkout-returned&session_id={CHECKOUT_SESSION_ID}",
+    );
+    expect(urls.checkoutCancelUrl).toBe(
+      "http://localhost:3000/pricing?billing=checkout-canceled#compare",
+    );
+    expect(urls.portalReturnUrl).toBe(
+      "http://localhost:3000/account?billing=portal-returned",
+    );
+    expect(Object.values(urls).some((url) => url.startsWith("https://attacker.example"))).toBe(
+      false,
+    );
+  });
+
   it("uses a local billing return URL base outside production when no origin or env is available", () => {
     vi.stubEnv("NODE_ENV", "test");
+    vi.stubEnv("OPEN_MODEL_LAB_BILLING_ALLOWED_RETURN_ORIGINS", "");
     vi.stubEnv("OPEN_MODEL_LAB_BILLING_RETURN_URL_BASE", "");
     vi.stubEnv("NEXT_PUBLIC_OPEN_MODEL_LAB_SITE_URL", "");
     vi.stubEnv("OPEN_MODEL_LAB_SITE_URL", "");
@@ -119,6 +168,7 @@ describe("billing env helpers", () => {
 
   it("falls back to the production billing return URL base in production when no origin or env is available", () => {
     vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("OPEN_MODEL_LAB_BILLING_ALLOWED_RETURN_ORIGINS", "");
     vi.stubEnv("OPEN_MODEL_LAB_BILLING_RETURN_URL_BASE", "");
     vi.stubEnv("NEXT_PUBLIC_OPEN_MODEL_LAB_SITE_URL", "");
     vi.stubEnv("OPEN_MODEL_LAB_SITE_URL", "");
