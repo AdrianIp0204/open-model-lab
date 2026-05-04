@@ -29,10 +29,30 @@ async function waitForStableChemistryGraph(page: Page) {
 
     const sample = JSON.stringify({
       scale: viewport.getAttribute("data-chem-scale"),
+      x: viewport.getAttribute("data-chem-offset-x"),
+      y: viewport.getAttribute("data-chem-offset-y"),
+      camera: viewport.getAttribute("data-chem-camera-mode"),
       width: Math.round(viewport.getBoundingClientRect().width),
       height: Math.round(viewport.getBoundingClientRect().height),
       minimapWidth: minimapWindow.getAttribute("data-chem-window-width"),
       minimapHeight: minimapWindow.getAttribute("data-chem-window-height"),
+      labelRects: [
+        "alkane-to-haloalkane-radical-substitution",
+        "carboxylic-acid-to-carboxylate-salt-neutralisation",
+        "ester-to-carboxylate-salt-alkaline-hydrolysis",
+      ].map((edgeId) => {
+        const label = document.querySelector(
+          `[data-testid="chem-edge-map-label-${edgeId}"]`,
+        );
+        if (!(label instanceof HTMLElement)) {
+          return `${edgeId}:missing`;
+        }
+
+        const rect = label.getBoundingClientRect();
+        return `${edgeId}:${Math.round(rect.left)},${Math.round(rect.top)},${Math.round(
+          rect.right,
+        )},${Math.round(rect.bottom)}`;
+      }),
     });
 
     const win = window as Window & {
@@ -47,7 +67,7 @@ async function waitForStableChemistryGraph(page: Page) {
       return false;
     }
 
-    return now - (win.__chemGraphStableSince ?? now) >= 150;
+    return now - (win.__chemGraphStableSince ?? now) >= 300;
   });
 }
 
@@ -124,6 +144,66 @@ async function expectChemistryGraphItemsInsideViewport(
   }, testIds);
 
   expect(outsideItems).toEqual([]);
+}
+
+async function expectChemistryEdgeLabelsReadable(
+  page: Page,
+  edgeIds: readonly string[],
+) {
+  const issues = await page.evaluate((ids) => {
+    const viewport = document.querySelector(
+      '[data-testid="chemistry-graph-viewport"]',
+    );
+
+    if (!(viewport instanceof HTMLElement)) {
+      return ["chemistry-graph-viewport:missing"];
+    }
+
+    const viewportRect = viewport.getBoundingClientRect();
+    const tolerance = 4;
+
+    return ids.flatMap((edgeId) => {
+      const edgeLabel = document.querySelector(
+        `[data-testid="chem-edge-${edgeId}"]`,
+      );
+      const mapLabel = document.querySelector(
+        `[data-testid="chem-edge-map-label-${edgeId}"]`,
+      );
+
+      if (!(edgeLabel instanceof HTMLElement)) {
+        return [`${edgeId}:edge-label-missing`];
+      }
+
+      if (!(mapLabel instanceof HTMLElement)) {
+        return [`${edgeId}:map-label-missing`];
+      }
+
+      const labelRect = mapLabel.getBoundingClientRect();
+      const outOfViewport =
+        labelRect.left < viewportRect.left - tolerance ||
+        labelRect.right > viewportRect.right + tolerance ||
+        labelRect.top < viewportRect.top - tolerance ||
+        labelRect.bottom > viewportRect.bottom + tolerance;
+      const textClipped =
+        mapLabel.scrollWidth > mapLabel.clientWidth + 2 ||
+        mapLabel.scrollHeight > mapLabel.clientHeight + 2;
+
+      return [
+        outOfViewport
+          ? `${edgeId}:outside:${Math.round(labelRect.left - viewportRect.left)},${Math.round(
+              labelRect.top - viewportRect.top,
+            )},${Math.round(labelRect.right - viewportRect.right)},${Math.round(
+              labelRect.bottom - viewportRect.bottom,
+            )}`
+          : null,
+        textClipped
+          ? `${edgeId}:clipped:${mapLabel.scrollWidth}x${mapLabel.scrollHeight}/${mapLabel.clientWidth}x${mapLabel.clientHeight}`
+          : null,
+      ].filter((issue): issue is string => Boolean(issue));
+    });
+  }, edgeIds);
+
+  expect(issues).toEqual([]);
 }
 
 async function expectNoChemistryEdgeLabelNodeTitleOverlap(page: Page) {
@@ -327,7 +407,12 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
       ].filter((item): item is HTMLElement => item instanceof HTMLElement),
     );
     const overflowingEdgeLabels = edgeOverflowGuards
-      .filter((element) => getComputedStyle(element).overflowX !== "hidden")
+      .filter(
+        (element) =>
+          getComputedStyle(element).overflowX !== "hidden" ||
+          element.scrollWidth > element.clientWidth + 2 ||
+          element.scrollHeight > element.clientHeight + 2,
+      )
       .map((element) => element.getAttribute("data-testid") ?? element.textContent ?? "");
     const overflowingNodeText = nodeOverflowGuards
       .filter(
@@ -439,6 +524,12 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
   expect(firstScreen.edgeNodeLabelOverlaps).toEqual([]);
   expect(firstScreen.overflowingEdgeLabels).toEqual([]);
   expect(firstScreen.overflowingNodeText).toEqual([]);
+  await expectChemistryEdgeLabelsReadable(page, [
+    "alkane-to-haloalkane-radical-substitution",
+    "alkene-to-alkane-hydrogenation",
+    "alkene-to-haloalkane-hydrohalogenation",
+    "alkene-to-alcohol-hydration",
+  ]);
 
   guard.assertNoActionableIssues();
 });
@@ -535,7 +626,7 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
   await expect(page.getByTestId("chem-fit-view")).toBeVisible();
   const zoomSlider = page.getByTestId("chem-zoom-slider");
   await expect(zoomSlider).toBeVisible();
-  await expect(zoomSlider).toHaveAttribute("min", "36");
+  await expect(zoomSlider).toHaveAttribute("min", "32");
   await expect(zoomSlider).toHaveAttribute("max", "225");
 
   const fitScale = await viewport.getAttribute("data-chem-scale");
@@ -871,6 +962,11 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
     "chem-edge-direction-aldehyde-to-carboxylic-acid-oxidation",
     "chem-edge-aldehyde-to-carboxylic-acid-oxidation",
   ]);
+  await expectChemistryEdgeLabelsReadable(page, [
+    "alkene-to-alcohol-hydration",
+    "alcohol-to-aldehyde-oxidation",
+    "aldehyde-to-carboxylic-acid-oxidation",
+  ]);
   await expectNoChemistryEdgeLabelNodeTitleOverlap(page);
   await expect(page.getByTestId("chem-edge-alkene-to-alcohol-hydration")).toHaveAttribute(
     "data-chem-route-step",
@@ -928,6 +1024,9 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
       ),
   ).toHaveCount(1);
   await expectNoChemistryEdgeLabelNodeTitleOverlap(page);
+  await expectChemistryEdgeLabelsReadable(page, [
+    "carboxylic-acid-to-ester-esterification",
+  ]);
   await page.getByTestId("chem-route-clear").click();
   await expect(viewport).toHaveAttribute("data-chem-camera-mode", "graph");
 
@@ -945,6 +1044,63 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
     "chem-edge-alkene-to-haloalkane-hydrohalogenation",
     "chem-node-alkene",
     "chem-node-haloalkane",
+  ]);
+  await expectChemistryEdgeLabelsReadable(page, [
+    "alkene-to-haloalkane-hydrohalogenation",
+  ]);
+  await page.getByTestId("chem-route-clear").click();
+  await expect(viewport).toHaveAttribute("data-chem-camera-mode", "graph");
+
+  await page.getByTestId("chem-route-start").selectOption("ester");
+  await page.getByTestId("chem-route-target").selectOption("carboxylate-salt");
+  await page.getByTestId("chem-route-search").click();
+  await expect(page.getByTestId("chem-route-progress")).toHaveAttribute(
+    "data-chem-route-step-count",
+    "1",
+  );
+  await expectChemistryEdgeLabelsReadable(page, [
+    "ester-to-carboxylate-salt-alkaline-hydrolysis",
+  ]);
+  await expectChemistryGraphItemsInsideViewport(page, [
+    "chem-edge-path-ester-to-carboxylate-salt-alkaline-hydrolysis",
+    "chem-edge-direction-ester-to-carboxylate-salt-alkaline-hydrolysis",
+    "chem-edge-ester-to-carboxylate-salt-alkaline-hydrolysis",
+  ]);
+  await page.getByTestId("chem-route-clear").click();
+  await expect(viewport).toHaveAttribute("data-chem-camera-mode", "graph");
+
+  await page.getByTestId("chem-route-start").selectOption("acyl-chloride");
+  await page.getByTestId("chem-route-target").selectOption("ester");
+  await page.getByTestId("chem-route-search").click();
+  await expect(page.getByTestId("chem-route-progress")).toHaveAttribute(
+    "data-chem-route-step-count",
+    "1",
+  );
+  await expectChemistryEdgeLabelsReadable(page, [
+    "acyl-chloride-to-ester-alcoholysis",
+  ]);
+  await expectChemistryGraphItemsInsideViewport(page, [
+    "chem-edge-path-acyl-chloride-to-ester-alcoholysis",
+    "chem-edge-direction-acyl-chloride-to-ester-alcoholysis",
+    "chem-edge-acyl-chloride-to-ester-alcoholysis",
+  ]);
+  await page.getByTestId("chem-route-clear").click();
+  await expect(viewport).toHaveAttribute("data-chem-camera-mode", "graph");
+
+  await page.getByTestId("chem-route-start").selectOption("acyl-chloride");
+  await page.getByTestId("chem-route-target").selectOption("amide");
+  await page.getByTestId("chem-route-search").click();
+  await expect(page.getByTestId("chem-route-progress")).toHaveAttribute(
+    "data-chem-route-step-count",
+    "1",
+  );
+  await expectChemistryEdgeLabelsReadable(page, [
+    "acyl-chloride-to-amide-ammonolysis",
+  ]);
+  await expectChemistryGraphItemsInsideViewport(page, [
+    "chem-edge-path-acyl-chloride-to-amide-ammonolysis",
+    "chem-edge-direction-acyl-chloride-to-amide-ammonolysis",
+    "chem-edge-acyl-chloride-to-amide-ammonolysis",
   ]);
   await page.getByTestId("chem-route-clear").click();
   await expect(viewport).toHaveAttribute("data-chem-camera-mode", "graph");

@@ -22,21 +22,22 @@ import { ChemistryInlineNotation } from "./ChemistryNotation";
 const NODE_WIDTH = 228;
 const NODE_HEIGHT = 124;
 const SCENE_PADDING = 72;
-const MIN_SCALE = 0.36;
+const MIN_SCALE = 0.32;
 const MAX_SCALE = 2.25;
 const MIN_SCALE_PERCENT = Math.round(MIN_SCALE * 100);
 const MAX_SCALE_PERCENT = Math.round(MAX_SCALE * 100);
 const ZOOM_FACTOR = 1.16;
 const KEYBOARD_PAN_STEP = 64;
-const FIT_MARGIN = 28;
+const FIT_MARGIN = 48;
 const CONTEXT_PADDING = 88;
-const ROUTE_CONTEXT_PADDING = 52;
+const GRAPH_CONTEXT_PADDING = 116;
+const ROUTE_CONTEXT_PADDING = 72;
 const NODE_CONTEXT_PADDING = 56;
 const NODE_SELECTION_MAX_AUTO_SCALE = 0.95;
 const NODE_SELECTION_VIEWPORT_PADDING = 72;
-const EDGE_CAMERA_PATH_PADDING = 28;
-const EDGE_CAMERA_LABEL_HALF_WIDTH = 112;
-const EDGE_CAMERA_LABEL_HALF_HEIGHT = 48;
+const EDGE_CAMERA_PATH_PADDING = 34;
+const EDGE_CAMERA_LABEL_HALF_WIDTH = 188;
+const EDGE_CAMERA_LABEL_HALF_HEIGHT = 92;
 const MIN_VISIBLE_SCENE_EDGE = 96;
 const PAN_AFFORDANCE_THRESHOLD = 24;
 const EDGE_LABEL_TARGET_VISUAL_SCALE = 0.84;
@@ -156,6 +157,20 @@ const GRAPH_NODE_Z_INDEX = {
 
 type GraphLayerPriority = keyof typeof GRAPH_NODE_Z_INDEX;
 
+const EDGE_MAP_LABEL_OVERRIDES: Partial<Record<ChemistryEdge["label"], string>> = {
+  "Hydrohalogenation": "Hydrohalo.",
+  "Radical substitution": "Radical subst.",
+  "Substitution to haloalkane": "Subst. to haloalkane",
+  "Substitution to nitrile": "Subst. to nitrile",
+  "Substitution to amine": "Subst. to amine",
+  "Hydrolysis to alcohol": "Hydrolysis",
+  "Hydrolysis to carboxylic acid": "Hydrolysis",
+  "Oxidation to aldehyde": "Oxidation",
+  "Oxidation to ketone": "Oxidation",
+  "Oxidation to carboxylic acid": "Oxidation",
+  "Reduction to alcohol": "Reduction",
+};
+
 function clampScale(scale: number) {
   return Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale));
 }
@@ -166,6 +181,11 @@ function joinClasses(...classes: Array<string | undefined | false>) {
 
 function getCompactEdgeMapLabel(edge: ChemistryEdge) {
   const label = edge.label.trim();
+  const override = EDGE_MAP_LABEL_OVERRIDES[label];
+  if (override) {
+    return override;
+  }
+
   const suffixSeparators = [" to ", " into ", "成", "為"];
   for (const separator of suffixSeparators) {
     const separatorIndex = label.indexOf(separator);
@@ -364,6 +384,49 @@ function getEdgeSceneBounds(
       maxY: labelCenter.y + EDGE_CAMERA_LABEL_HALF_HEIGHT,
     },
   ]);
+}
+
+function getNodeSceneBounds(layout: ChemistryGraphLayout, nodeId: ChemistryNode["id"]) {
+  const position = layout.nodePositions[nodeId];
+  if (!position) {
+    return null;
+  }
+
+  return {
+    minX: position.x,
+    minY: position.y,
+    maxX: position.x + NODE_WIDTH,
+    maxY: position.y + NODE_HEIGHT,
+  };
+}
+
+function getGraphSceneBounds(
+  nodes: readonly ChemistryNode[],
+  edges: readonly ChemistryEdge[],
+  layout: ChemistryGraphLayout,
+  sceneWidth: number,
+  sceneHeight: number,
+) {
+  const nodeBounds = nodes
+    .map((node) => getNodeSceneBounds(layout, node.id))
+    .filter((bounds): bounds is SceneBounds => Boolean(bounds));
+  const edgeBounds = edges.map((edge) => getEdgeSceneBounds(edge, layout));
+  const graphBounds = [...nodeBounds, ...edgeBounds];
+
+  if (!graphBounds.length) {
+    return {
+      minX: 0,
+      minY: 0,
+      maxX: sceneWidth,
+      maxY: sceneHeight,
+    };
+  }
+
+  return clampSceneBounds(
+    expandSceneBounds(combineSceneBounds(graphBounds), GRAPH_CONTEXT_PADDING),
+    sceneWidth,
+    sceneHeight,
+  );
 }
 
 function isNodeAttachedToEdge(
@@ -1203,12 +1266,13 @@ export function ChemistryReactionGraph({
   }, [edges, nodeFlowBandById]);
   const activeCameraBounds = useMemo<SceneBounds>(() => {
     if (!activeCamera.nodeIds.length) {
-      return {
-        minX: 0,
-        minY: 0,
-        maxX: sceneWidth,
-        maxY: sceneHeight,
-      };
+      return getGraphSceneBounds(
+        nodes,
+        edges,
+        shiftedLayout,
+        sceneWidth,
+        sceneHeight,
+      );
     }
 
     const connectedNodeIds = new Set(activeCamera.nodeIds);
@@ -1285,6 +1349,7 @@ export function ChemistryReactionGraph({
     comparedEdgeIds,
     edges,
     edgeById,
+    nodes,
     routeEdgeIds,
     sceneHeight,
     sceneWidth,
@@ -3519,6 +3584,8 @@ export function ChemistryReactionGraph({
                 data-chem-label-radius="low"
                 data-chem-label-size="small"
                 data-chem-map-label={compactEdgeLabel}
+                data-chem-full-label={edge.label}
+                data-chem-label-fit="wrapped"
                 data-chem-crosses-flow-band={
                   edgeFlowTransition
                     ? edgeFlowTransition.crossesBand
@@ -3529,7 +3596,7 @@ export function ChemistryReactionGraph({
                 data-chem-interactive="true"
                 data-chem-label-scale={edgeLabelCounterScale.toFixed(2)}
                 className={[
-                  "absolute z-10 inline-flex max-w-[7rem] items-center justify-center gap-1 overflow-hidden rounded-[5px] border px-1 py-[0.125rem] text-center text-[0.6rem] font-bold leading-tight transition focus-visible:rounded-[5px] focus-visible:bg-paper/92 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                  "absolute z-10 inline-flex min-h-[1.55rem] w-[8.25rem] max-w-[8.25rem] items-center justify-center gap-1 overflow-hidden rounded-[5px] border px-1.5 py-[0.16rem] text-center text-[0.6rem] font-bold leading-tight transition focus-visible:rounded-[5px] focus-visible:bg-paper/92 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
                   selected
                     ? "rounded-[6px] border-teal-700 bg-paper/90 text-teal-950 shadow-[0_3px_8px_rgba(15,118,110,0.12)] ring-1 ring-teal-600/35"
                     : routeEdgeSet.has(edge.id)
@@ -3595,7 +3662,8 @@ export function ChemistryReactionGraph({
                   <span
                     data-testid={`chem-edge-map-label-${edge.id}`}
                     data-chem-overflow-guard="pathway-map-label"
-                    className="block max-w-full truncate"
+                    data-chem-label-fit="wrapped"
+                    className="block max-w-full overflow-hidden whitespace-normal break-words leading-tight"
                     title={edge.label}
                   >
                     {compactEdgeLabel}

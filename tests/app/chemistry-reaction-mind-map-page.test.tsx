@@ -98,13 +98,20 @@ describe("chemistry reaction mind map route", () => {
       "bg-transparent",
       "text-[0.6rem]",
       "rounded-[5px]",
-      "max-w-[7rem]",
+      "max-w-[8.25rem]",
     );
+    expect(hydrationEdge).toHaveAttribute("data-chem-label-fit", "wrapped");
     expect(hydrationEdge).not.toHaveClass(
       "rounded-full",
       "rounded-[16px]",
       "bg-paper",
     );
+    expect(
+      screen.getByTestId("chem-edge-alkene-to-haloalkane-hydrohalogenation"),
+    ).toHaveAttribute("data-chem-map-label", "Hydrohalo.");
+    expect(
+      screen.getByTestId("chem-edge-alkane-to-haloalkane-radical-substitution"),
+    ).toHaveAttribute("data-chem-map-label", "Radical subst.");
 
     await user.click(alcoholNode);
     expect(alcoholNode).toHaveAttribute("data-chem-visual-weight", "selected");
