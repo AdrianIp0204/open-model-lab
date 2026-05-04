@@ -344,13 +344,13 @@ export function CircuitWorkspace({
 
     let targetPoint: CircuitPoint | null = pointerWorld;
     let targetDirection = { x: 0, y: 0 };
-    const ignoredComponentIds = [fromComponent.id];
+    let targetComponentId: string | undefined;
     if (activeTerminalRef && !isSameTerminal(pendingWireStart, activeTerminalRef)) {
       const activeComponent = getCircuitComponentById(document, activeTerminalRef.componentId);
       if (activeComponent) {
         targetPoint = getComponentTerminalPoint(activeComponent, activeTerminalRef.terminal);
         targetDirection = getComponentTerminalDirection(activeComponent, activeTerminalRef.terminal);
-        ignoredComponentIds.push(activeComponent.id);
+        targetComponentId = activeComponent.id;
       }
     }
 
@@ -366,7 +366,8 @@ export function CircuitWorkspace({
       targetDirection,
       {
         components: document.components,
-        ignoredComponentIds,
+        fromComponentId: fromComponent.id,
+        toComponentId: targetComponentId,
       },
     );
 

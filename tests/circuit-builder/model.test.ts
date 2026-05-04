@@ -62,12 +62,12 @@ function segmentIntersectsBox(start: CircuitPoint, end: CircuitPoint, box: {
   if (start.x === end.x) {
     const minY = Math.min(start.y, end.y);
     const maxY = Math.max(start.y, end.y);
-    return start.x >= box.left && start.x <= box.right && maxY >= box.top && minY <= box.bottom;
+    return start.x > box.left && start.x < box.right && maxY > box.top && minY < box.bottom;
   }
   if (start.y === end.y) {
     const minX = Math.min(start.x, end.x);
     const maxX = Math.max(start.x, end.x);
-    return start.y >= box.top && start.y <= box.bottom && maxX >= box.left && minX <= box.right;
+    return start.y > box.top && start.y < box.bottom && maxX > box.left && minX < box.right;
   }
   return false;
 }
@@ -79,6 +79,83 @@ function inflateBox(box: ReturnType<typeof getComponentBoundingBox>, padding: nu
     top: box.top - padding,
     bottom: box.bottom + padding,
   };
+}
+
+function expectCoreRouteAvoidsBoxes(points: CircuitPoint[], boxes: ReturnType<typeof inflateBox>[]) {
+  for (let index = 1; index < points.length - 2; index += 1) {
+    for (const box of boxes) {
+      expect(
+        segmentIntersectsBox(points[index]!, points[index + 1]!, box),
+      ).toBe(false);
+    }
+  }
+}
+
+function getPathLength(points: CircuitPoint[]) {
+  return points.reduce((total, point, index) => {
+    if (index === 0) {
+      return total;
+    }
+
+    const previous = points[index - 1]!;
+    return total + Math.abs(point.x - previous.x) + Math.abs(point.y - previous.y);
+  }, 0);
+}
+
+function getPathBounds(points: CircuitPoint[]) {
+  return points.reduce(
+    (bounds, point) => ({
+      left: Math.min(bounds.left, point.x),
+      right: Math.max(bounds.right, point.x),
+      top: Math.min(bounds.top, point.y),
+      bottom: Math.max(bounds.bottom, point.y),
+    }),
+    {
+      left: points[0]?.x ?? 0,
+      right: points[0]?.x ?? 0,
+      top: points[0]?.y ?? 0,
+      bottom: points[0]?.y ?? 0,
+    },
+  );
+}
+
+function getBoxArea(box: { left: number; right: number; top: number; bottom: number }) {
+  return Math.max(1, box.right - box.left) * Math.max(1, box.bottom - box.top);
+}
+
+function combineBoxes(boxes: { left: number; right: number; top: number; bottom: number }[]) {
+  return boxes.reduce(
+    (combined, box) => ({
+      left: Math.min(combined.left, box.left),
+      right: Math.max(combined.right, box.right),
+      top: Math.min(combined.top, box.top),
+      bottom: Math.max(combined.bottom, box.bottom),
+    }),
+    boxes[0]!,
+  );
+}
+
+function countBends(points: CircuitPoint[]) {
+  let bends = 0;
+  for (let index = 1; index < points.length - 1; index += 1) {
+    const previous = points[index - 1]!;
+    const current = points[index]!;
+    const next = points[index + 1]!;
+    const incoming = {
+      x: Math.sign(current.x - previous.x),
+      y: Math.sign(current.y - previous.y),
+    };
+    const outgoing = {
+      x: Math.sign(next.x - current.x),
+      y: Math.sign(next.y - current.y),
+    };
+
+    if (incoming.x !== outgoing.x || incoming.y !== outgoing.y) {
+      bends += 1;
+    }
+  }
+
+  return bends;
 }
 
 describe("circuit builder model serialization", () => {
@@ -300,7 +377,8 @@ describe("circuit builder wire routing", () => {
       getComponentTerminalDirection(resistor, "a"),
       {
         components: document.components,
-        ignoredComponentIds: ["battery-1", "resistor-1"],
+        fromComponentId: "battery-1",
+        toComponentId: "resistor-1",
       },
     );
 
@@ -373,5 +451,92 @@ describe("circuit builder wire routing", () => {
     expect(routed!.points.length).toBeLessThanOrEqual(5);
     expect(routed!.points.some((point) => point.y === 512)).toBe(true);
     expectOrthogonalCleanPath(routed!.points);
+  });
+
+  it("keeps endpoint component bodies out of the routed core for nearby battery and ammeter loops", () => {
+    const ammeter: CircuitComponentInstance = {
+      id: "ammeter-1",
+      label: "Ammeter 1",
+      type: "ammeter",
+      x: 640,
+      y: 224,
+      rotation: 0,
+      properties: {},
+    };
+    const loopDocument = createDocument(
+      [
+        {
+          ...battery,
+          x: 480,
+          y: 384,
+        },
+        ammeter,
+      ],
+      [
+        {
+          id: "wire-1",
+          from: { componentId: "battery-1", terminal: "b" },
+          to: { componentId: "ammeter-1", terminal: "a" },
+        },
+        {
+          id: "wire-2",
+          from: { componentId: "ammeter-1", terminal: "b" },
+          to: { componentId: "battery-1", terminal: "a" },
+        },
+      ],
+    );
+    const keepouts = loopDocument.components.map((component) =>
+      inflateBox(getComponentBoundingBox(component), 20),
+    );
+
+    for (const wire of loopDocument.wires) {
+      const routed = buildWirePathFromRefs(loopDocument, wire);
+
+      expect(routed).not.toBeNull();
+      expectOrthogonalCleanPath(routed!.points);
+      expectCoreRouteAvoidsBoxes(routed!.points, keepouts);
+      expect(getPathLength(routed!.points)).toBeLessThan(900);
+    }
+  });
+
+  it("prefers a local dogleg instead of a giant route around nearby endpoints", () => {
+    const nearbyAmmeter: CircuitComponentInstance = {
+      id: "ammeter-1",
+      label: "Ammeter 1",
+      type: "ammeter",
+      x: 640,
+      y: 480,
+      rotation: 0,
+      properties: {},
+    };
+    const doglegDocument = createDocument(
+      [
+        {
+          ...battery,
+          x: 480,
+          y: 384,
+        },
+        nearbyAmmeter,
+      ],
+      [
+        {
+          id: "wire-1",
+          from: { componentId: "battery-1", terminal: "b" },
+          to: { componentId: "ammeter-1", terminal: "a" },
+        },
+      ],
+    );
+    const routed = buildWirePathFromRefs(doglegDocument, doglegDocument.wires[0]!);
+    const endpointKeepouts = doglegDocument.components.map((component) =>
+      inflateBox(getComponentBoundingBox(component), 20),
+    );
+    const combinedEndpointArea = getBoxArea(combineBoxes(endpointKeepouts));
+    const routeArea = getBoxArea(getPathBounds(routed!.points));
+
+    expect(routed).not.toBeNull();
+    expectOrthogonalCleanPath(routed!.points);
+    expectCoreRouteAvoidsBoxes(routed!.points, endpointKeepouts);
+    expect(countBends(routed!.points)).toBeLessThanOrEqual(4);
+    expect(routeArea).toBeLessThan(combinedEndpointArea * 2.4);
   });
 });

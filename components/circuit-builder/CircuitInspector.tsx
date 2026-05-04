@@ -2,6 +2,7 @@
 
 import { LineGraph } from "@/components/graphs/LineGraph";
 import { formatMeasurement } from "@/lib/physics/math";
+import { useEffect, useRef } from "react";
 import {
   buildCircuitContextNote,
   buildCircuitInspectorGraph,
@@ -57,6 +58,8 @@ export function CircuitInspector({
   onMoveComponent,
   className = "",
 }: CircuitInspectorProps) {
+  const panelRef = useRef<HTMLDivElement | null>(null);
+  const selectionKey = selection ? `${selection.kind}:${selection.id}` : "empty";
   const panelClassName = [
     "lab-panel h-full min-h-0 overflow-y-auto p-2.5 sm:p-3",
     className,
@@ -69,13 +72,27 @@ export function CircuitInspector({
   const inspectorDangerActionClassName =
     "rounded-full border border-coral-500/30 bg-coral-500/10 px-2.5 py-1.5 text-xs font-semibold text-coral-700 disabled:cursor-not-allowed disabled:border-line disabled:bg-paper disabled:text-ink-500";
   const compactInputClassName =
-    "w-full rounded-xl border border-line bg-paper-strong px-2.5 py-1.5 text-sm text-ink-950 disabled:cursor-not-allowed disabled:opacity-60";
+    "min-w-0 w-full rounded-xl border border-line bg-paper-strong px-2.5 py-1.5 text-sm text-ink-950 disabled:cursor-not-allowed disabled:opacity-60";
   const compactRowClassName =
     "rounded-[16px] border border-line bg-paper px-3 py-2 text-sm text-ink-800";
   const readoutPillClassName =
-    "rounded-[16px] border border-line bg-paper px-3 py-2";
+    "rounded-xl border border-line bg-paper px-2.5 py-1.5";
   const detailsClassName =
-    "rounded-[16px] border border-line bg-paper px-3 py-2 text-sm leading-6 text-ink-700";
+    "rounded-xl border border-line bg-paper px-2.5 py-2 text-sm leading-5 text-ink-700";
+
+  useEffect(() => {
+    const panel = panelRef.current;
+    if (!panel) {
+      return;
+    }
+
+    if (typeof panel.scrollTo === "function") {
+      panel.scrollTo({ top: 0 });
+      return;
+    }
+
+    panel.scrollTop = 0;
+  }, [selectionKey]);
 
   if (selection?.kind === "wire") {
     const wire = getCircuitWireById(document, selection.id);
@@ -90,6 +107,7 @@ export function CircuitInspector({
     const sharedNode = sharedNodeId ? solveResult.nodeResults[sharedNodeId] : null;
     return (
       <div
+        ref={panelRef}
         className={panelClassName}
         aria-label="Circuit inspector"
         data-circuit-inspector-panel=""
@@ -191,6 +209,7 @@ export function CircuitInspector({
   if (selection?.kind !== "component") {
     return (
       <div
+        ref={panelRef}
         className={panelClassName}
         aria-label="Circuit inspector"
         data-circuit-inspector-panel=""
@@ -305,6 +324,7 @@ export function CircuitInspector({
 
   return (
     <div
+      ref={panelRef}
       className={panelClassName}
       aria-label="Circuit inspector"
       data-circuit-inspector-panel=""
@@ -379,33 +399,41 @@ export function CircuitInspector({
               return (
                 <label
                   key={field.key}
-                  className="grid gap-2 rounded-[16px] border border-line bg-paper px-3 py-2 text-sm text-ink-800 sm:grid-cols-[minmax(0,1fr)_8rem_auto] sm:items-center"
+                  className="block rounded-xl border border-line bg-paper px-3 py-2 text-sm text-ink-800"
                 >
-                  <span className="block font-semibold text-ink-950">{field.label}</span>
-                  {field.help ? <span className="text-xs text-ink-600 sm:col-start-1">{field.help}</span> : null}
-                  <input
-                    type="number"
-                    aria-label={field.label}
-                    min={field.min}
-                    max={field.max}
-                    step={field.step}
-                    value={Number(fieldValue ?? 0)}
-                    disabled={selectionActionsLocked}
-                    onChange={(event) => {
-                      const nextValue = parseFiniteNumberInput(event.target.value);
-                      if (nextValue === null) {
-                        return;
-                      }
+                  <span className="block min-w-0">
+                    <span className="block font-semibold text-ink-950">{field.label}</span>
+                    {field.help ? (
+                      <span className="mt-0.5 block break-normal text-xs leading-4 text-ink-600">
+                        {field.help}
+                      </span>
+                    ) : null}
+                  </span>
+                  <span className="mt-2 flex min-w-0 items-center gap-2">
+                    <input
+                      type="number"
+                      aria-label={field.label}
+                      min={field.min}
+                      max={field.max}
+                      step={field.step}
+                      value={Number(fieldValue ?? 0)}
+                      disabled={selectionActionsLocked}
+                      onChange={(event) => {
+                        const nextValue = parseFiniteNumberInput(event.target.value);
+                        if (nextValue === null) {
+                          return;
+                        }
 
-                      onUpdateProperty(component.id, field.key, nextValue);
-                    }}
-                    className={compactInputClassName}
-                  />
-                  {field.suffix ? (
-                    <span className="w-fit rounded-full border border-line bg-paper-strong px-2 py-1 text-xs font-semibold text-ink-600">
-                      {field.suffix}
+                        onUpdateProperty(component.id, field.key, nextValue);
+                      }}
+                      className={compactInputClassName}
+                    />
+                    {field.suffix ? (
+                      <span className="shrink-0 rounded-full border border-line bg-paper-strong px-2 py-1 text-xs font-semibold text-ink-600">
+                        {field.suffix}
+                      </span>
+                    ) : null}
                     </span>
-                  ) : null}
                 </label>
               );
             })}
@@ -415,8 +443,8 @@ export function CircuitInspector({
 
       <div className="mt-3 space-y-2">
         <p className="lab-label">Placement</p>
-        <div className="grid gap-2 sm:grid-cols-2">
-          <label className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-2 rounded-[16px] border border-line bg-paper px-3 py-2 text-sm text-ink-800">
+        <div className="grid grid-cols-2 gap-1.5">
+          <label className="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] items-center gap-2 rounded-xl border border-line bg-paper px-2.5 py-1.5 text-sm text-ink-800">
             <span className="font-semibold text-ink-950">X</span>
             <input
               type="number"
@@ -435,7 +463,7 @@ export function CircuitInspector({
               className={compactInputClassName}
             />
           </label>
-          <label className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-2 rounded-[16px] border border-line bg-paper px-3 py-2 text-sm text-ink-800">
+          <label className="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] items-center gap-2 rounded-xl border border-line bg-paper px-2.5 py-1.5 text-sm text-ink-800">
             <span className="font-semibold text-ink-950">Y</span>
             <input
               type="number"
@@ -455,7 +483,7 @@ export function CircuitInspector({
             />
           </label>
         </div>
-        <div className="flex flex-wrap gap-1.5">
+        <div className="grid grid-cols-4 gap-1.5">
           <button
             type="button"
             disabled={selectionActionsLocked}
@@ -498,19 +526,19 @@ export function CircuitInspector({
       {readouts.length > 0 ? (
         <div className="mt-3">
           <p className="lab-label">Computed values</p>
-          <div className="mt-2 grid gap-2 sm:grid-cols-2">
+          <dl className="mt-2 grid gap-1.5">
             {readouts.map((readout) => (
               <div
                 key={readout.label}
-                className={readoutPillClassName}
+                className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-line bg-paper px-2.5 py-1.5 text-sm"
               >
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">
+                <dt className="min-w-0 text-xs font-semibold uppercase tracking-[0.12em] text-ink-500">
                   {readout.label}
-                </p>
-                <p className="mt-1 text-base font-semibold text-ink-950">{readout.value}</p>
+                </dt>
+                <dd className="shrink-0 font-semibold text-ink-950">{readout.value}</dd>
               </div>
             ))}
-          </div>
+          </dl>
         </div>
       ) : null}
 
@@ -540,7 +568,7 @@ export function CircuitInspector({
         </div>
       ) : null}
 
-      <details open className={["mt-3", detailsClassName].join(" ")}>
+      <details className={["mt-3", detailsClassName].join(" ")}>
         <summary className="cursor-pointer text-xs font-semibold uppercase tracking-[0.16em] text-ink-600">
           Symbol, model, and context
         </summary>

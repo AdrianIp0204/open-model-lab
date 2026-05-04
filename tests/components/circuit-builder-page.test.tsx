@@ -437,6 +437,41 @@ describe("CircuitBuilderPage", () => {
     expect(screen.queryByText("Nothing selected")).not.toBeInTheDocument();
   });
 
+  it("resets inspector scroll on selection changes and keeps educational details collapsed", async () => {
+    const user = userEvent.setup();
+    const { container } = render(<CircuitBuilderPage />);
+
+    await user.click(getPaletteButton("Add Battery"));
+    await user.click(getPaletteButton("Add Resistor"));
+    fireEvent.click(screen.getAllByRole("button", { name: "Battery 1" })[0]!);
+
+    const inspector = container.querySelector(
+      "[data-circuit-inspector-panel]",
+    ) as HTMLElement;
+    const batteryInspector = within(inspector);
+    const details = batteryInspector
+      .getByText("Symbol, model, and context")
+      .closest("details");
+    const voltageRow = batteryInspector.getByText("Voltage").closest("label");
+
+    expect(details).not.toHaveAttribute("open");
+    expect(voltageRow).not.toBeNull();
+    expect(voltageRow?.className).not.toContain("sm:grid-cols");
+    expect(
+      within(voltageRow as HTMLElement).getByText(
+        "Ideal source voltage across the positive and negative terminals.",
+      ),
+    ).toBeVisible();
+
+    inspector.scrollTop = 160;
+    fireEvent.click(screen.getAllByRole("button", { name: "Resistor 1" })[0]!);
+
+    await waitFor(() => {
+      expect(inspector.scrollTop).toBe(0);
+    });
+    expect(screen.getAllByRole("heading", { name: "Resistor 1" }).length).toBeGreaterThan(0);
+  });
+
   it("summarizes workspace zoom, circuit counts, and current interaction guidance in the workspace header", async () => {
     const user = userEvent.setup();
     const { container } = render(<CircuitBuilderPage />);
