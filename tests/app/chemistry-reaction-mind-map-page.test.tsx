@@ -1827,12 +1827,17 @@ describe("chemistry reaction mind map route", () => {
 
     await user.click(screen.getByTestId("chem-node-alcohol"));
     expect(viewport).toHaveAttribute("data-chem-camera-mode", "node");
+    expect(viewport).toHaveAttribute(
+      "data-chem-camera-behavior",
+      "preserve-context",
+    );
     expect(viewport).toHaveAttribute("data-chem-fit-scope", "active-context");
 
     await user.click(
       screen.getByTestId("chem-edge-alcohol-to-aldehyde-oxidation"),
     );
     expect(viewport).toHaveAttribute("data-chem-camera-mode", "edge");
+    expect(viewport).toHaveAttribute("data-chem-camera-behavior", "active-fit");
 
     await user.selectOptions(screen.getByTestId("chem-route-start"), "alkene");
     await user.selectOptions(
@@ -1841,9 +1846,14 @@ describe("chemistry reaction mind map route", () => {
     );
     await user.click(screen.getByTestId("chem-route-search"));
     expect(viewport).toHaveAttribute("data-chem-camera-mode", "route");
+    expect(viewport).toHaveAttribute(
+      "data-chem-camera-behavior",
+      "route-focus",
+    );
 
     await user.click(screen.getByTestId("chem-route-clear"));
     expect(viewport).toHaveAttribute("data-chem-camera-mode", "graph");
+    expect(viewport).toHaveAttribute("data-chem-camera-behavior", "full-fit");
     expect(viewport).toHaveAttribute("data-chem-fit-scope", "full-graph");
   });
 

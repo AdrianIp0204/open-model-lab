@@ -30,6 +30,9 @@ const KEYBOARD_PAN_STEP = 64;
 const FIT_MARGIN = 28;
 const CONTEXT_PADDING = 88;
 const ROUTE_CONTEXT_PADDING = 52;
+const NODE_CONTEXT_PADDING = 56;
+const NODE_SELECTION_MAX_AUTO_SCALE = 0.95;
+const NODE_SELECTION_VIEWPORT_PADDING = 72;
 const EDGE_CAMERA_PATH_PADDING = 28;
 const EDGE_CAMERA_LABEL_HALF_WIDTH = 112;
 const EDGE_CAMERA_LABEL_HALF_HEIGHT = 48;
@@ -436,6 +439,116 @@ function clampViewToVisibleScene(
     x: Math.round(Math.min(maxX, Math.max(minX, view.x))),
     y: Math.round(Math.min(maxY, Math.max(minY, view.y))),
   };
+}
+
+function capViewScaleAroundCenter(
+  view: GraphViewState,
+  maxScale: number,
+  viewportWidth: number,
+  viewportHeight: number,
+) {
+  if (view.scale <= maxScale) {
+    return view;
+  }
+
+  return zoomAroundPoint(view, maxScale / view.scale, {
+    x: viewportWidth / 2,
+    y: viewportHeight / 2,
+  });
+}
+
+function panViewToIncludeSceneBounds(
+  view: GraphViewState,
+  viewportSize: ViewportSize,
+  bounds: SceneBounds,
+  sceneWidth: number,
+  sceneHeight: number,
+  padding: number,
+) {
+  if (viewportSize.width <= 0 || viewportSize.height <= 0) {
+    return view;
+  }
+
+  const viewportPadding = Math.max(
+    16,
+    Math.min(padding, viewportSize.width / 3, viewportSize.height / 3),
+  );
+  const boundsWidth = (bounds.maxX - bounds.minX) * view.scale;
+  const boundsHeight = (bounds.maxY - bounds.minY) * view.scale;
+  const boundsCenterX = ((bounds.minX + bounds.maxX) / 2) * view.scale;
+  const boundsCenterY = ((bounds.minY + bounds.maxY) / 2) * view.scale;
+  const usableWidth = Math.max(
+    viewportSize.width - viewportPadding * 2,
+    viewportSize.width * 0.48,
+  );
+  const usableHeight = Math.max(
+    viewportSize.height - viewportPadding * 2,
+    viewportSize.height * 0.48,
+  );
+  let nextX = view.x;
+  let nextY = view.y;
+
+  if (boundsWidth > usableWidth) {
+    nextX = viewportSize.width / 2 - boundsCenterX;
+  } else {
+    const left = bounds.minX * view.scale + nextX;
+    const right = bounds.maxX * view.scale + nextX;
+
+    if (left < viewportPadding) {
+      nextX += viewportPadding - left;
+    } else if (right > viewportSize.width - viewportPadding) {
+      nextX -= right - (viewportSize.width - viewportPadding);
+    }
+  }
+
+  if (boundsHeight > usableHeight) {
+    nextY = viewportSize.height / 2 - boundsCenterY;
+  } else {
+    const top = bounds.minY * view.scale + nextY;
+    const bottom = bounds.maxY * view.scale + nextY;
+
+    if (top < viewportPadding) {
+      nextY += viewportPadding - top;
+    } else if (bottom > viewportSize.height - viewportPadding) {
+      nextY -= bottom - (viewportSize.height - viewportPadding);
+    }
+  }
+
+  return clampViewToVisibleScene(
+    {
+      ...view,
+      x: Math.round(nextX),
+      y: Math.round(nextY),
+    },
+    viewportSize.width,
+    viewportSize.height,
+    sceneWidth,
+    sceneHeight,
+  );
+}
+
+function preserveNodeSelectionView(
+  view: GraphViewState,
+  viewportSize: ViewportSize,
+  bounds: SceneBounds,
+  sceneWidth: number,
+  sceneHeight: number,
+) {
+  const cappedView = capViewScaleAroundCenter(
+    view,
+    NODE_SELECTION_MAX_AUTO_SCALE,
+    viewportSize.width,
+    viewportSize.height,
+  );
+
+  return panViewToIncludeSceneBounds(
+    cappedView,
+    viewportSize,
+    bounds,
+    sceneWidth,
+    sceneHeight,
+    NODE_SELECTION_VIEWPORT_PADDING,
+  );
 }
 
 function getEdgeLabelCounterScale(viewScale: number) {
@@ -1084,7 +1197,28 @@ export function ChemistryReactionGraph({
       };
     }
 
-    const uniqueNodeIds = [...new Set(activeCamera.nodeIds)];
+    const connectedNodeIds = new Set(activeCamera.nodeIds);
+    const nodeContextEdgeIds =
+      activeCamera.mode === "node"
+        ? edges
+            .filter((edge) =>
+              activeCamera.nodeIds.some((nodeId) =>
+                isNodeAttachedToEdge(nodeId, edge),
+              ),
+            )
+            .map((edge) => {
+              connectedNodeIds.add(edge.from);
+              connectedNodeIds.add(edge.to);
+              return edge.id;
+            })
+        : [];
+    const uniqueNodeIds = [
+      ...new Set(
+        activeCamera.mode === "node"
+          ? [...connectedNodeIds]
+          : activeCamera.nodeIds,
+      ),
+    ];
     const nodeBounds = uniqueNodeIds
       .map((nodeId) => shiftedLayout.nodePositions[nodeId])
       .filter(Boolean)
@@ -1101,7 +1235,9 @@ export function ChemistryReactionGraph({
           ? [selectedEdge.id]
           : activeCamera.mode === "compare"
             ? comparedEdgeIds
-            : [];
+            : activeCamera.mode === "node"
+              ? nodeContextEdgeIds
+              : [];
     const edgeBounds = activeEdgeIds
       .map((edgeId) => edgeById.get(edgeId))
       .filter((edge): edge is ChemistryEdge => Boolean(edge))
@@ -1119,7 +1255,11 @@ export function ChemistryReactionGraph({
     }
 
     const contextPadding =
-      activeCamera.mode === "route" ? ROUTE_CONTEXT_PADDING : CONTEXT_PADDING;
+      activeCamera.mode === "route"
+        ? ROUTE_CONTEXT_PADDING
+        : activeCamera.mode === "node"
+          ? NODE_CONTEXT_PADDING
+          : CONTEXT_PADDING;
 
     return clampSceneBounds(
       expandSceneBounds(combineSceneBounds(cameraBounds), contextPadding),
@@ -1129,6 +1269,7 @@ export function ChemistryReactionGraph({
   }, [
     activeCamera,
     comparedEdgeIds,
+    edges,
     edgeById,
     routeEdgeIds,
     sceneHeight,
@@ -1258,11 +1399,20 @@ export function ChemistryReactionGraph({
         width: viewport.clientWidth,
         height: viewport.clientHeight,
       };
-      const nextFit = buildFitView(
+      const rawFit = buildFitView(
         nextViewportSize.width,
         nextViewportSize.height,
         activeCameraBounds,
       );
+      const nextFit =
+        activeCamera.mode === "node"
+          ? capViewScaleAroundCenter(
+              rawFit,
+              NODE_SELECTION_MAX_AUTO_SCALE,
+              nextViewportSize.width,
+              nextViewportSize.height,
+            )
+          : rawFit;
 
       setViewportSize((current) =>
         current.width === nextViewportSize.width &&
@@ -1271,12 +1421,24 @@ export function ChemistryReactionGraph({
           : nextViewportSize,
       );
       fitViewRef.current = nextFit;
-      if (!hasAdjustedViewRef.current) {
+      if (activeCamera.mode === "node") {
+        setViewState((current) =>
+          preserveNodeSelectionView(
+            current,
+            nextViewportSize,
+            activeCameraBounds,
+            sceneWidth,
+            sceneHeight,
+          ),
+        );
+      } else if (!hasAdjustedViewRef.current) {
         setViewState(nextFit);
       }
     };
 
-    hasAdjustedViewRef.current = false;
+    if (activeCamera.mode !== "node") {
+      hasAdjustedViewRef.current = false;
+    }
     updateFitView();
 
     const observer = new ResizeObserver(() => {
@@ -1287,7 +1449,13 @@ export function ChemistryReactionGraph({
     return () => {
       observer.disconnect();
     };
-  }, [activeCameraBounds, activeCameraKey]);
+  }, [
+    activeCamera.mode,
+    activeCameraBounds,
+    activeCameraKey,
+    sceneHeight,
+    sceneWidth,
+  ]);
 
   const handleZoom = (factor: number) => {
     const viewport = viewportRef.current;
@@ -1766,6 +1934,15 @@ export function ChemistryReactionGraph({
         data-chem-offset-x={viewState.x}
         data-chem-offset-y={viewState.y}
         data-chem-camera-mode={activeCamera.mode}
+        data-chem-camera-behavior={
+          activeCamera.mode === "node"
+            ? "preserve-context"
+            : activeCamera.mode === "route"
+              ? "route-focus"
+              : activeCamera.mode === "graph"
+                ? "full-fit"
+                : "active-fit"
+        }
         data-chem-fit-scope={
           activeCamera.mode === "graph" ? "full-graph" : "active-context"
         }

@@ -478,9 +478,22 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
   await page.keyboard.press("Enter");
   await expect(page.getByTestId("chem-node-details")).toBeVisible();
   await expect(viewport).toHaveAttribute("data-chem-camera-mode", "node");
+  await expect(viewport).toHaveAttribute(
+    "data-chem-camera-behavior",
+    "preserve-context",
+  );
   await expect(viewport).toHaveAttribute("data-chem-fit-scope", "active-context");
   const nodeScale = await viewport.getAttribute("data-chem-scale");
-  expect(Number(nodeScale)).toBeGreaterThan(Number(fitScale));
+  const fitScaleNumber = Number(fitScale);
+  const nodeScaleNumber = Number(nodeScale);
+  expect(nodeScaleNumber).toBeLessThanOrEqual(fitScaleNumber + 0.05);
+  expect(nodeScaleNumber).toBeLessThanOrEqual(0.95);
+  await expectChemistryGraphItemsInsideViewport(page, [
+    "chem-node-alcohol",
+    "chem-node-alkene",
+    "chem-node-aldehyde",
+    "chem-node-ketone",
+  ]);
 
   const windowScrollBefore = await page.evaluate(() => window.scrollY);
   const inspectorBox = await inspector.boundingBox();
@@ -525,6 +538,10 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
   await page.getByTestId("chem-route-search").click();
   await expect(page.getByTestId("chemistry-route-panel")).toBeVisible();
   await expect(viewport).toHaveAttribute("data-chem-camera-mode", "route");
+  await expect(viewport).toHaveAttribute(
+    "data-chem-camera-behavior",
+    "route-focus",
+  );
   await expect(viewport).toHaveAttribute("data-chem-fit-scope", "active-context");
   const routeProgress = page.getByTestId("chem-route-progress");
   await expect(routeProgress).toBeVisible();
