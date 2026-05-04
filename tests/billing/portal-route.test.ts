@@ -90,7 +90,9 @@ describe("billing portal route", () => {
       "Subscription management is unavailable because the billing portal return URL is invalid.",
     );
 
-    const response = await POST(new Request("http://localhost/api/billing/portal"));
+    const response = await POST(
+      new Request("https://preview-openmodellab.example/api/billing/portal"),
+    );
     const payload = (await response.json()) as {
       code: string;
       error: string;
@@ -116,7 +118,9 @@ describe("billing portal route", () => {
       "Subscription management is unavailable because the Stripe webhook secret is missing.",
     );
 
-    const response = await POST(new Request("http://localhost/api/billing/portal"));
+    const response = await POST(
+      new Request("https://preview-openmodellab.example/api/billing/portal"),
+    );
     const payload = (await response.json()) as {
       code: string;
       error: string;
@@ -178,7 +182,9 @@ describe("billing portal route", () => {
       url: "https://billing.stripe.test/session",
     });
 
-    const response = await POST(new Request("http://localhost/api/billing/portal"));
+    const response = await POST(
+      new Request("https://preview-openmodellab.example/api/billing/portal"),
+    );
     const payload = (await response.json()) as {
       ok: boolean;
       url: string;
@@ -187,8 +193,12 @@ describe("billing portal route", () => {
     expect(response.status).toBe(200);
     expect(payload.ok).toBe(true);
     expect(payload.url).toBe("https://billing.stripe.test/session");
+    expect(mocks.getStripeBillingConfigMock).toHaveBeenCalledWith({
+      requestOrigin: "https://preview-openmodellab.example",
+    });
     expect(mocks.createStripeBillingPortalSessionMock).toHaveBeenCalledWith({
       customerId: "cus_premium",
+      requestOrigin: "https://preview-openmodellab.example",
     });
   });
 
@@ -224,9 +234,14 @@ describe("billing portal route", () => {
     );
 
     expect(response.status).toBe(200);
+    expect(mocks.getStripeBillingConfigMock).toHaveBeenCalledWith({
+      locale: "zh-HK",
+      requestOrigin: "http://localhost",
+    });
     expect(mocks.createStripeBillingPortalSessionMock).toHaveBeenCalledWith({
       customerId: "cus_premium",
       locale: "zh-HK",
+      requestOrigin: "http://localhost",
     });
   });
 

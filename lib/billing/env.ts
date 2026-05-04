@@ -1,7 +1,8 @@
 import { addLocalePrefix, type AppLocale } from "@/i18n/routing";
-import { getAbsoluteUrl } from "@/lib/metadata/site";
 
 export const STRIPE_API_VERSION = "2026-02-25.clover";
+const PRODUCTION_BILLING_RETURN_URL_BASE = "https://openmodellab.com";
+const LOCAL_BILLING_RETURN_URL_BASE = "http://localhost:3000";
 
 function readEnv(name: string) {
   const value = process.env[name]?.trim();
@@ -19,6 +20,12 @@ export type StripeBillingConfig = {
   portalReturnUrl: string;
 };
 
+export type StripeBillingConfigUrlOptions = {
+  locale?: AppLocale;
+  requestOrigin?: string | null;
+  returnUrlBase?: string | null;
+};
+
 export type StripeBillingConfigIssue =
   | "missing_secret_key"
   | "missing_webhook_secret"
@@ -27,12 +34,20 @@ export type StripeBillingConfigIssue =
   | "invalid_checkout_cancel_url"
   | "invalid_portal_return_url";
 
+function normalizeBillingHostname(hostname: string) {
+  return hostname.trim().toLowerCase().replace(/^\[(.*)\]$/, "$1");
+}
+
 function isLocalDevelopmentHostname(hostname: string) {
+  const normalizedHostname = normalizeBillingHostname(hostname);
+
   return (
-    hostname === "localhost" ||
-    hostname === "127.0.0.1" ||
-    hostname === "0.0.0.0" ||
-    hostname.endsWith(".local")
+    normalizedHostname === "localhost" ||
+    normalizedHostname === "0.0.0.0" ||
+    normalizedHostname === "::1" ||
+    normalizedHostname === "127.0.0.1" ||
+    normalizedHostname.startsWith("127.") ||
+    normalizedHostname.endsWith(".local")
   );
 }
 
@@ -201,31 +216,109 @@ function localizeBillingReturnPath(path: string, locale?: AppLocale) {
   return `${addLocalePrefix(url.pathname, locale)}${url.search}${url.hash}`;
 }
 
-export function buildStripeBillingConfigUrls(locale?: AppLocale) {
+function shouldDefaultBillingBaseToHttp(value: string) {
+  const normalizedValue = value.trim().toLowerCase();
+
+  return (
+    normalizedValue.startsWith("localhost") ||
+    normalizedValue.startsWith("127.") ||
+    normalizedValue.startsWith("0.0.0.0") ||
+    normalizedValue.startsWith("[::1]") ||
+    normalizedValue.startsWith("::1")
+  );
+}
+
+function normalizeBillingReturnUrlBase(value: string | null | undefined) {
+  const configuredValue = value?.trim();
+
+  if (!configuredValue) {
+    return null;
+  }
+
+  const valueWithProtocol = /^[a-z][a-z\d+\-.]*:\/\//i.test(configuredValue)
+    ? configuredValue
+    : `${shouldDefaultBillingBaseToHttp(configuredValue) ? "http" : "https"}://${configuredValue}`;
+
+  try {
+    const parsedUrl = new URL(valueWithProtocol);
+    parsedUrl.pathname = "/";
+    parsedUrl.search = "";
+    parsedUrl.hash = "";
+
+    return parsedUrl.toString();
+  } catch {
+    return null;
+  }
+}
+
+function readConfiguredBillingReturnUrlBase() {
+  return (
+    readEnv("OPEN_MODEL_LAB_BILLING_RETURN_URL_BASE") ??
+    readEnv("NEXT_PUBLIC_OPEN_MODEL_LAB_SITE_URL") ??
+    readEnv("OPEN_MODEL_LAB_SITE_URL") ??
+    readEnv("NEXT_PUBLIC_SITE_URL") ??
+    readEnv("SITE_URL")
+  );
+}
+
+function normalizeStripeBillingConfigUrlOptions(
+  input?: AppLocale | StripeBillingConfigUrlOptions,
+): StripeBillingConfigUrlOptions {
+  return typeof input === "string" ? { locale: input } : input ?? {};
+}
+
+function getBillingReturnUrlBase(options: StripeBillingConfigUrlOptions) {
+  return (
+    normalizeBillingReturnUrlBase(options.returnUrlBase) ??
+    normalizeBillingReturnUrlBase(options.requestOrigin) ??
+    normalizeBillingReturnUrlBase(readConfiguredBillingReturnUrlBase()) ??
+    (process.env.NODE_ENV === "production"
+      ? PRODUCTION_BILLING_RETURN_URL_BASE
+      : LOCAL_BILLING_RETURN_URL_BASE)
+  );
+}
+
+function buildBillingReturnUrl(
+  path: string,
+  options: StripeBillingConfigUrlOptions,
+) {
+  return new URL(
+    localizeBillingReturnPath(path, options.locale),
+    getBillingReturnUrlBase(options),
+  ).toString();
+}
+
+export function buildStripeBillingConfigUrls(
+  input?: AppLocale | StripeBillingConfigUrlOptions,
+) {
+  const options = normalizeStripeBillingConfigUrlOptions(input);
+
   return {
-    checkoutSuccessUrl: getAbsoluteUrl(
-      localizeBillingReturnPath(
-        "/account?billing=checkout-returned&session_id={CHECKOUT_SESSION_ID}",
-        locale,
-      ),
+    checkoutSuccessUrl: buildBillingReturnUrl(
+      "/account?billing=checkout-returned&session_id={CHECKOUT_SESSION_ID}",
+      options,
     ),
-    checkoutCancelUrl: getAbsoluteUrl(
-      localizeBillingReturnPath("/pricing?billing=checkout-canceled#compare", locale),
+    checkoutCancelUrl: buildBillingReturnUrl(
+      "/pricing?billing=checkout-canceled#compare",
+      options,
     ),
-    portalReturnUrl: getAbsoluteUrl(
-      localizeBillingReturnPath("/account?billing=portal-returned", locale),
+    portalReturnUrl: buildBillingReturnUrl(
+      "/account?billing=portal-returned",
+      options,
     ),
   };
 }
 
-export function getStripeBillingConfig(): StripeBillingConfig {
+export function getStripeBillingConfig(
+  input?: AppLocale | StripeBillingConfigUrlOptions,
+): StripeBillingConfig {
   return {
     apiBaseUrl: readEnv("STRIPE_API_BASE_URL") ?? "https://api.stripe.com",
     secretKey: readEnv("STRIPE_SECRET_KEY"),
     webhookSecret: readEnv("STRIPE_WEBHOOK_SECRET"),
     premiumPriceId: readEnv("STRIPE_PREMIUM_PRICE_ID"),
     achievementRewardCouponId: readEnv("STRIPE_PREMIUM_ACHIEVEMENT_COUPON_ID"),
-    ...buildStripeBillingConfigUrls(),
+    ...buildStripeBillingConfigUrls(input),
   };
 }
 

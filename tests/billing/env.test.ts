@@ -77,6 +77,67 @@ describe("billing env helpers", () => {
     );
   });
 
+  it("builds Stripe return URLs from an explicit preview request origin", () => {
+    const urls = buildStripeBillingConfigUrls({
+      requestOrigin: "https://preview-openmodellab.example",
+    });
+
+    expect(urls.checkoutSuccessUrl).toBe(
+      "https://preview-openmodellab.example/account?billing=checkout-returned&session_id={CHECKOUT_SESSION_ID}",
+    );
+    expect(urls.checkoutCancelUrl).toBe(
+      "https://preview-openmodellab.example/pricing?billing=checkout-canceled#compare",
+    );
+    expect(urls.portalReturnUrl).toBe(
+      "https://preview-openmodellab.example/account?billing=portal-returned",
+    );
+  });
+
+  it("uses a local billing return URL base outside production when no origin or env is available", () => {
+    vi.stubEnv("NODE_ENV", "test");
+    vi.stubEnv("OPEN_MODEL_LAB_BILLING_RETURN_URL_BASE", "");
+    vi.stubEnv("NEXT_PUBLIC_OPEN_MODEL_LAB_SITE_URL", "");
+    vi.stubEnv("OPEN_MODEL_LAB_SITE_URL", "");
+    vi.stubEnv("NEXT_PUBLIC_SITE_URL", "");
+    vi.stubEnv("SITE_URL", "");
+
+    const urls = buildStripeBillingConfigUrls();
+
+    expect(urls.checkoutSuccessUrl).toBe(
+      "http://localhost:3000/account?billing=checkout-returned&session_id={CHECKOUT_SESSION_ID}",
+    );
+    expect(urls.checkoutCancelUrl).toBe(
+      "http://localhost:3000/pricing?billing=checkout-canceled#compare",
+    );
+    expect(urls.portalReturnUrl).toBe(
+      "http://localhost:3000/account?billing=portal-returned",
+    );
+    expect(Object.values(urls).some((url) => url.startsWith("https://openmodellab.com"))).toBe(
+      false,
+    );
+  });
+
+  it("falls back to the production billing return URL base in production when no origin or env is available", () => {
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("OPEN_MODEL_LAB_BILLING_RETURN_URL_BASE", "");
+    vi.stubEnv("NEXT_PUBLIC_OPEN_MODEL_LAB_SITE_URL", "");
+    vi.stubEnv("OPEN_MODEL_LAB_SITE_URL", "");
+    vi.stubEnv("NEXT_PUBLIC_SITE_URL", "");
+    vi.stubEnv("SITE_URL", "");
+
+    const urls = buildStripeBillingConfigUrls();
+
+    expect(urls.checkoutSuccessUrl).toBe(
+      "https://openmodellab.com/account?billing=checkout-returned&session_id={CHECKOUT_SESSION_ID}",
+    );
+    expect(urls.checkoutCancelUrl).toBe(
+      "https://openmodellab.com/pricing?billing=checkout-canceled#compare",
+    );
+    expect(urls.portalReturnUrl).toBe(
+      "https://openmodellab.com/account?billing=portal-returned",
+    );
+  });
+
   it("builds locale-prefixed Stripe return URLs when a locale is provided", () => {
     const urls = buildStripeBillingConfigUrls("zh-HK");
 
@@ -93,8 +154,8 @@ describe("billing env helpers", () => {
     vi.stubEnv("NODE_ENV", "production");
 
     const config = buildConfig({
-      checkoutSuccessUrl: "http://localhost:3000/account?billing=checkout-returned",
-      checkoutCancelUrl: "http://localhost:3000/pricing?billing=checkout-canceled#compare",
+      checkoutSuccessUrl: "http://127.4.5.6:3000/account?billing=checkout-returned",
+      checkoutCancelUrl: "http://[::1]:3000/pricing?billing=checkout-canceled#compare",
     });
 
     expect(getStripeCheckoutConfigIssues(config)).toEqual([
