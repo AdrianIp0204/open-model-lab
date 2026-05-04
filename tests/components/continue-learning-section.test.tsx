@@ -128,9 +128,13 @@ describe("ContinueLearningSection", () => {
 
     render(<ContinueLearningSection concepts={concepts} />);
 
-    expect(screen.getByTestId("continue-learning-primary-concept-cta-simple-harmonic-motion")).toHaveAttribute(
+    expect(screen.getAllByRole("link", { name: /continue concept/i })[0]).toHaveAttribute(
       "href",
       "/concepts/simple-harmonic-motion",
+    );
+    expect(screen.getAllByTestId("learning-visual")[0]).toHaveAttribute(
+      "data-visual-motif",
+      "simple-harmonic-motion",
     );
     expect(screen.getByTestId("continue-learning-test-cta-simple-harmonic-motion")).toHaveTextContent(
       "Take test",
@@ -152,7 +156,7 @@ describe("ContinueLearningSection", () => {
 
     render(<ContinueLearningSection concepts={concepts} />);
 
-    expect(screen.getByRole("link", { name: /繼續概念/i })).toHaveAttribute(
+    expect(screen.getAllByRole("link", { name: /繼續概念/i })[0]).toHaveAttribute(
       "href",
       "/zh-HK/concepts/simple-harmonic-motion",
     );

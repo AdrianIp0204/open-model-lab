@@ -25,6 +25,7 @@ import {
   type SavedContinueLearningState,
 } from "@/lib/progress";
 import type { ConceptSummary } from "@/components/concepts/concept-catalog";
+import { getConceptSurfaceVisualDescriptor } from "@/components/visuals/learningVisualDescriptors";
 import { MasteryStateBadge } from "./MasteryStateBadge";
 import { ProgressStatusBadge } from "./ProgressStatusBadge";
 import { AccountAwareReviewRemediationList } from "./AccountAwareReviewRemediationList";
@@ -288,6 +289,10 @@ export function ReviewQueueSection({
               usingSyncedQueue ? "synced" : "local",
               locale,
             );
+            const visual = getConceptSurfaceVisualDescriptor("progress", {
+              slug: item.slug,
+              title: conceptsBySlug.get(item.slug)?.title ?? item.title,
+            });
 
             return (
               <article
@@ -327,12 +332,11 @@ export function ReviewQueueSection({
                   className="mt-4 block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
                 >
                   <LearningVisual
-                    kind={reviewVisual?.kind ?? "progress"}
-                    motif={reviewVisual?.motif}
-                    overlay={reviewVisual?.overlay}
-                    isFallback={reviewVisual?.isFallback}
-                    fallbackKind={reviewVisual?.fallbackKind}
-                    tone={reviewVisual?.tone ?? (index === 0 ? "coral" : "amber")}
+                    kind={visual.kind}
+                    motif={visual.motif}
+                    isFallback={visual.isFallback}
+                    fallbackKind={visual.fallbackKind}
+                    tone={index === 0 ? "coral" : "amber"}
                     compact
                     className="h-20 rounded-[18px] sm:h-24"
                   />

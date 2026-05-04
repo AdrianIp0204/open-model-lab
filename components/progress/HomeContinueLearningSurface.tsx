@@ -52,10 +52,7 @@ import {
 import { StarterTrackRecommendationList } from "@/components/tracks/StarterTrackRecommendationList";
 import { ConceptLearningSurfaceTestCta } from "@/components/tests/ConceptLearningSurfaceTestCta";
 import { LearningVisual } from "@/components/visuals/LearningVisual";
-import {
-  getConceptVisualDescriptor,
-  getStarterTrackVisualDescriptor,
-} from "@/components/visuals/learningVisualDescriptors";
+import { getConceptSurfaceVisualDescriptor } from "@/components/visuals/learningVisualDescriptors";
 import { MasteryStateBadge } from "./MasteryStateBadge";
 import { ProgressStatusBadge } from "./ProgressStatusBadge";
 import { AccountAwareReviewRemediationList } from "./AccountAwareReviewRemediationList";
@@ -749,22 +746,21 @@ export function HomeContinueLearningSurface({
   const primaryVisualLabel = displayPrimaryConcept
     ? displayPrimaryConcept.title
     : quickStartConcept
-      ? getConceptDisplayTitle(quickStartConcept, locale)
+      ? getConceptDisplayShortTitle(quickStartConcept, locale) ??
+        getConceptDisplayTitle(quickStartConcept, locale)
       : t("actions.startConcept");
-  const primaryVisualConcept = displayPrimaryConcept
-    ? conceptsBySlug.get(displayPrimaryConcept.slug) ?? null
-    : quickStartConcept;
-  const primaryVisual = primaryVisualConcept
-    ? getConceptVisualDescriptor(primaryVisualConcept)
-    : null;
-  const followUpVisualConcept = displayFollowUpCandidate
-    ? conceptsBySlug.get(displayFollowUpCandidate.conceptSlug) ?? null
-    : displayNextRecommendation
-      ? conceptsBySlug.get(displayNextRecommendation.conceptSlug) ?? null
+  const primaryVisual = displayPrimaryConcept
+    ? getConceptSurfaceVisualDescriptor("progress", {
+        slug: displayPrimaryConcept.slug,
+        title: displayPrimaryConcept.title,
+      })
+    : quickStartConcept
+      ? getConceptSurfaceVisualDescriptor("progress", {
+          slug: quickStartConcept.slug,
+          title: quickStartConcept.title,
+          subject: quickStartConcept.subject,
+        })
       : null;
-  const followUpVisual = followUpVisualConcept
-    ? getConceptVisualDescriptor(followUpVisualConcept)
-    : null;
 
   return (
     <section className={["space-y-5", className].filter(Boolean).join(" ")}>
@@ -799,12 +795,11 @@ export function HomeContinueLearningSurface({
             <LearningVisual
               kind={primaryVisual?.kind ?? "progress"}
               motif={primaryVisual?.motif}
-              overlay={primaryVisual?.overlay}
-              isFallback={primaryVisual?.isFallback}
+              isFallback={primaryVisual?.isFallback ?? true}
               fallbackKind={primaryVisual?.fallbackKind}
-              tone={primaryVisual?.tone ?? primaryVisualConcept?.accent ?? "teal"}
+              tone={primaryVisual?.tone ?? "teal"}
               compact
-              className="h-28 rounded-[18px] md:h-full md:min-h-32"
+              className="h-28 md:h-full"
             />
           </Link>
           <div className="min-w-0">

@@ -15,7 +15,7 @@ import {
 } from "@/lib/progress";
 import { ConceptLearningSurfaceTestCta } from "@/components/tests/ConceptLearningSurfaceTestCta";
 import { LearningVisual } from "@/components/visuals/LearningVisual";
-import { getConceptVisualDescriptor } from "@/components/visuals/learningVisualDescriptors";
+import { getConceptSurfaceVisualDescriptor } from "@/components/visuals/learningVisualDescriptors";
 import { formatProgressMonthDay } from "./dateFormatting";
 import { MasteryStateBadge } from "./MasteryStateBadge";
 import { ProgressStatusBadge } from "./ProgressStatusBadge";
@@ -59,6 +59,21 @@ export function ContinueLearningSection({
   const primaryLastActiveLabel = primary?.lastActivityAt
     ? formatProgressMonthDay(primary.lastActivityAt, "local", locale)
     : null;
+  const primaryVisual = primary
+    ? getConceptSurfaceVisualDescriptor("progress", {
+        slug: primary.concept.slug,
+        title: primary.concept.title ?? primary.concept.slug,
+      })
+    : null;
+  const primaryVisualLabel = primary
+    ? getConceptDisplayTitle(
+        {
+          slug: primary.concept.slug,
+          title: primary.concept.title ?? primary.concept.slug,
+        },
+        locale,
+      )
+    : t("actions.continueConcept");
 
   return (
     <section className={["space-y-3", className].filter(Boolean).join(" ")}>
@@ -77,24 +92,17 @@ export function ContinueLearningSection({
           <article className="lab-panel grid gap-4 p-5 sm:grid-cols-[8rem_minmax(0,1fr)] sm:items-start">
             <Link
               href={localizeShareHref(`/concepts/${primary.concept.slug}`, locale)}
-              aria-label={getConceptDisplayTitle(
-                {
-                  slug: primary.concept.slug,
-                  title: primary.concept.title ?? primary.concept.slug,
-                },
-                locale,
-              )}
+              aria-label={primaryVisualLabel}
               className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
             >
               <LearningVisual
                 kind={primaryVisual?.kind ?? "progress"}
                 motif={primaryVisual?.motif}
-                overlay={primaryVisual?.overlay}
-                isFallback={primaryVisual?.isFallback}
+                isFallback={primaryVisual?.isFallback ?? true}
                 fallbackKind={primaryVisual?.fallbackKind}
-                tone={primaryVisual?.tone ?? primaryConceptSummary?.accent ?? "teal"}
+                tone={primaryVisual?.tone ?? "teal"}
                 compact
-                className="h-24 rounded-[18px] sm:min-h-28"
+                className="h-28 sm:min-h-28"
               />
             </Link>
             <div className="min-w-0">

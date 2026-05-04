@@ -8,16 +8,15 @@ import {
   getChallengeVisualDescriptor,
   getConceptAssessmentVisualDescriptor,
   getConceptVisualDescriptor,
-  getPackAssessmentVisualDescriptor,
-  getStarterTrackVisualDescriptor,
-  getSubjectVisualDescriptor,
-  getTopicAssessmentVisualDescriptor,
+  getConceptSurfaceVisualDescriptor,
+  getGuidedCollectionVisualDescriptor,
   getTopicVisualDescriptor,
+  getTopicSurfaceVisualDescriptor,
   getToolVisualDescriptor,
 } from "@/components/visuals/learningVisualDescriptors";
 import {
   getConceptSummaries,
-  getStarterTrackBySlug,
+  getGuidedCollectionBySlug,
   getSubjectDiscoverySummaries,
 } from "@/lib/content";
 import { localizeConceptSummaryDisplay } from "@/lib/i18n/content";
@@ -586,6 +585,53 @@ describe("learning visual descriptors", () => {
     });
   });
 
+  it("can reuse topic-specific motifs across progress and test surfaces", () => {
+    expect(
+      getConceptSurfaceVisualDescriptor("progress", getConceptSummary("simple-harmonic-motion")),
+    ).toMatchObject({
+      kind: "progress",
+      motif: "simple-harmonic-motion",
+      fallbackKind: "topic-specific",
+      isFallback: false,
+    });
+
+    expect(
+      getTopicSurfaceVisualDescriptor("test", {
+        slug: "oscillations",
+        title: "Oscillations",
+        subject: "Physics",
+        description: "Check the main oscillator ideas across the topic branch.",
+      }),
+    ).toMatchObject({
+      kind: "test",
+      motif: "simple-harmonic-motion",
+      fallbackKind: "topic-specific",
+      isFallback: false,
+    });
+  });
+
+  it("derives guided collection motifs from the collection topics when available", () => {
+    expect(
+      getGuidedCollectionVisualDescriptor(getGuidedCollectionBySlug("waves-evidence-loop")),
+    ).toMatchObject({
+      kind: "guided",
+      motif: "wave-motion",
+      fallbackKind: "topic-specific",
+      isFallback: false,
+    });
+
+    expect(
+      getGuidedCollectionVisualDescriptor(
+        getGuidedCollectionBySlug("algorithms-and-search-playlist"),
+      ),
+    ).toMatchObject({
+      kind: "guided",
+      motif: "binary-search",
+      fallbackKind: "topic-specific",
+      isFallback: false,
+    });
+  });
+
   it("renders concept cards with the descriptor motif in English and zh-HK", () => {
     const concept = getConceptSummary("uniform-circular-motion");
 
@@ -686,9 +732,16 @@ describe("learning visual descriptors", () => {
       "data-visual-fallback-kind",
       "topic-specific",
     );
-    expect(screen.getByTestId("learning-visual")).toHaveAttribute(
-      "data-visual-overlay",
-      "assessment",
+    expect(screen.getByTestId("learning-visual").querySelector("svg")).toHaveAttribute(
+      "preserveAspectRatio",
+      "xMidYMid meet",
+    );
+    expect(screen.getByTestId("learning-visual").querySelector("svg")).toHaveAttribute(
+      "aria-hidden",
+      "true",
+    );
+    expect(screen.getByTestId("learning-visual").querySelector("svg")).toHaveClass(
+      "pointer-events-none",
     );
   });
 

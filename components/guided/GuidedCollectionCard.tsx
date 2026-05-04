@@ -11,6 +11,7 @@ import {
 } from "@/lib/i18n/content";
 import { guidedCollectionShareAnchorIds } from "@/lib/share-links";
 import { LearningVisual } from "@/components/visuals/LearningVisual";
+import { getGuidedCollectionVisualDescriptor } from "@/components/visuals/learningVisualDescriptors";
 
 type GuidedCollectionCardProps = {
   collection: GuidedCollectionSummary;
@@ -50,6 +51,7 @@ export function GuidedCollectionCard({
   const openLabel = t("actions.openFormat", {
     format: t(`formats.${collection.format}`).toLowerCase(),
   });
+  const visualDescriptor = getGuidedCollectionVisualDescriptor(collection);
   const compactMeta = [
     t("meta.steps", { count: collection.steps.length }),
     t("meta.concepts", { count: collection.conceptCount }),
@@ -59,8 +61,11 @@ export function GuidedCollectionCard({
   const visual = (className?: string) => (
     <Link href={collection.path} aria-label={openLabel} className={visualLinkClass}>
       <LearningVisual
-        kind="guided"
-        tone={collection.accent}
+        kind={visualDescriptor.kind}
+        motif={visualDescriptor.motif}
+        isFallback={visualDescriptor.isFallback}
+        fallbackKind={visualDescriptor.fallbackKind}
+        tone={visualDescriptor.tone ?? collection.accent}
         compact={!className?.includes("h-32")}
         className={className}
       />
