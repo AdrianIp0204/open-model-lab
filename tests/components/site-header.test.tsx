@@ -61,6 +61,14 @@ describe("SiteHeader", () => {
       "href",
       "/account",
     );
+    expect(screen.getByRole("link", { name: /start learning/i })).toHaveAttribute(
+      "href",
+      "/start",
+    );
+    const primaryNav = screen.getByRole("navigation", { name: /^primary$/i });
+    expect(
+      within(primaryNav).queryByRole("link", { name: /^start$/i }),
+    ).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: /tools/i })).toHaveAttribute("href", "/tools");
     expect(screen.getByRole("link", { name: /practice/i })).toHaveAttribute(
       "href",
@@ -78,7 +86,7 @@ describe("SiteHeader", () => {
 
     const mobileNav = screen.getByRole("navigation", { name: /mobile primary/i });
     const mobileNavPanel = document.getElementById("mobile-primary-nav");
-    const firstNavLink = within(mobileNav).getByRole("link", { name: /start/i });
+    const firstNavLink = within(mobileNav).getByRole("link", { name: /simulations/i });
 
     expect(mobileNavPanel).toHaveClass("overflow-y-auto", "overscroll-contain");
     expect(mobileNavPanel?.className).toContain("max-h-[calc(100dvh-4.25rem)]");
@@ -88,7 +96,10 @@ describe("SiteHeader", () => {
     });
 
     expect(
-      within(mobileNav).getByText(/get a recommended first step or resume where you left off/i),
+      within(mobileNav).queryByRole("link", { name: /^start$/i }),
+    ).not.toBeInTheDocument();
+    expect(
+      within(mobileNav).getByText(/open visual concept labs by subject, topic, or track/i),
     ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /^search$/i })).toHaveAttribute(
       "href",
@@ -169,6 +180,53 @@ describe("SiteHeader", () => {
 
     expect(accountLink).toHaveAttribute("href", "/dashboard");
     expect(accountLink).toHaveTextContent(/supporter/i);
+  });
+
+  it("marks the start CTA current and keeps the continue label when progress exists", async () => {
+    const user = userEvent.setup();
+
+    useAccountSessionMock.mockReturnValue({
+      initialized: true,
+      status: "signed-out",
+      user: null,
+      entitlement: resolveAccountEntitlement({
+        tier: "free",
+        source: "anonymous-default",
+      }),
+    });
+    useProgressSyncStateMock.mockReturnValue({
+      mode: "local",
+    });
+    useProgressSnapshotMock.mockReturnValue({
+      concepts: {
+        "simple-harmonic-motion": {},
+      },
+    });
+    globalThis.__TEST_PATHNAME__ = "/start/physics";
+
+    render(<SiteHeader />);
+
+    expect(screen.getByText(/pick a first step/i)).toBeInTheDocument();
+
+    const desktopCta = screen.getByRole("link", { name: /continue learning/i });
+    expect(desktopCta).toHaveAttribute("href", "/start");
+    expect(desktopCta).toHaveAttribute("aria-current", "page");
+
+    await user.click(
+      screen.getByRole("button", {
+        name: /open navigation menu/i,
+      }),
+    );
+
+    const startCtas = screen.getAllByRole("link", { name: /continue learning/i });
+    expect(startCtas).toHaveLength(2);
+    expect(
+      startCtas.every(
+        (link) =>
+          link.getAttribute("href") === "/start" &&
+          link.getAttribute("aria-current") === "page",
+      ),
+    ).toBe(true);
   });
 
   it("renders zh-HK navigation labels from the active locale context", () => {

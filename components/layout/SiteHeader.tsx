@@ -97,6 +97,7 @@ export function SiteHeader() {
     Object.keys(progressSnapshot.topicTests ?? {}).length > 0 ||
     Object.keys(progressSnapshot.packTests ?? {}).length > 0;
   const continueHref = "/start";
+  const isStartRoute = routePath === "/start" || routePath.startsWith("/start/");
   const continueLabel = hasRecordedProgress
     ? t("common.continueLearning")
     : t("common.startLearning");
@@ -219,6 +220,7 @@ export function SiteHeader() {
           <div className="hidden md:block">
             <Link
               href={continueHref}
+              aria-current={isStartRoute ? "page" : undefined}
               data-onboarding-target="continue-learning"
               className="cta-primary"
             >
@@ -336,6 +338,7 @@ export function SiteHeader() {
           <div className="grid gap-2 sm:grid-cols-2">
             <Link
               href={continueHref}
+              aria-current={isStartRoute ? "page" : undefined}
               onClick={() => setMobileOpen(false)}
               className="cta-primary"
             >

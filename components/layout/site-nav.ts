@@ -4,7 +4,6 @@ import {
 } from "@/lib/tools/learning-tools";
 
 type PrimaryNavLabelKey =
-  | "start"
   | "challenges"
   | "tests"
   | "explore"
@@ -18,7 +17,6 @@ type PrimaryNavItem = {
 };
 
 export const primaryNavItems: readonly PrimaryNavItem[] = [
-  { href: "/start", labelKey: "start" },
   { href: "/concepts", labelKey: "explore" },
   { href: "/guided", labelKey: "guided" },
   { href: "/challenges", labelKey: "challenges" },
