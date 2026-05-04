@@ -169,6 +169,24 @@ describe("chemistry reaction mind map route", () => {
     expect(nitrileDetailsText).toContain("R-C≡N");
     expect(nitrileDetailsText).toContain("-C≡N");
     expect(nitrileDetailsText).not.toContain("-C=N");
+    const nitrileFormulaNotation = nitrileDetails.querySelector(
+      '[data-chem-notation-source="R-C≡N"]',
+    );
+    expect(nitrileFormulaNotation).not.toBeNull();
+    expect(
+      Array.from(nitrileFormulaNotation?.querySelectorAll("sub") ?? [])
+        .map((item) => item.textContent)
+        .join(""),
+    ).not.toContain("≡");
+    const nitrileFunctionalGroupNotation = screen
+      .getByTestId("chem-node-nitrile")
+      .querySelector('[data-chem-notation-source="-C≡N"]');
+    expect(nitrileFunctionalGroupNotation).not.toBeNull();
+    expect(
+      Array.from(nitrileFunctionalGroupNotation?.querySelectorAll("sub") ?? [])
+        .map((item) => item.textContent)
+        .join(""),
+    ).not.toContain("≡");
     expect(nitrileDetails).toHaveTextContent(/hydrolyzed to carboxylic acids/i);
 
     await user.click(
