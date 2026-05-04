@@ -87,8 +87,24 @@ describe("chemistry reaction mind map route", () => {
       "data-chem-label-visual",
       "inline-annotation",
     );
-    expect(hydrationEdge).toHaveClass("bg-transparent", "text-[0.66rem]");
-    expect(hydrationEdge).not.toHaveClass("rounded-[16px]", "bg-paper");
+    expect(hydrationEdge).toHaveAttribute(
+      "data-chem-label-shape",
+      "compact-annotation",
+    );
+    expect(hydrationEdge).toHaveAttribute("data-chem-label-radius", "low");
+    expect(hydrationEdge).toHaveAttribute("data-chem-label-size", "small");
+    expect(hydrationEdge).toHaveAttribute("data-chem-map-label", "Hydration");
+    expect(hydrationEdge).toHaveClass(
+      "bg-transparent",
+      "text-[0.6rem]",
+      "rounded-[5px]",
+      "max-w-[7rem]",
+    );
+    expect(hydrationEdge).not.toHaveClass(
+      "rounded-full",
+      "rounded-[16px]",
+      "bg-paper",
+    );
 
     await user.click(alcoholNode);
     expect(alcoholNode).toHaveAttribute("data-chem-visual-weight", "selected");
@@ -475,6 +491,13 @@ describe("chemistry reaction mind map route", () => {
       "data-chem-label-visual",
       "inline-annotation",
     );
+    expect(edgeLabel).toHaveAttribute(
+      "data-chem-label-shape",
+      "compact-annotation",
+    );
+    expect(edgeLabel).toHaveAttribute("data-chem-label-radius", "low");
+    expect(edgeLabel).toHaveAttribute("data-chem-label-size", "small");
+    expect(edgeLabel).toHaveAttribute("data-chem-map-label", "Oxidation");
     expect(edgeLabel.getAttribute("style")).toContain("z-index: 10");
     expect(edgeLabel.getAttribute("style")).toContain(
       "translate(-50%, -50%) scale(",
@@ -488,6 +511,16 @@ describe("chemistry reaction mind map route", () => {
       "chem-edge-alcohol-to-aldehyde-oxidation",
     );
 
+    expect(
+      within(edgeLabel).getByTestId(
+        "chem-edge-map-label-alcohol-to-aldehyde-oxidation",
+      ),
+    ).toHaveTextContent("Oxidation");
+    expect(
+      within(edgeLabel).getByTestId(
+        "chem-edge-map-label-alcohol-to-aldehyde-oxidation",
+      ),
+    ).toHaveAttribute("data-chem-overflow-guard", "pathway-map-label");
     expect(
       within(edgeLabel).getByTestId(
         "chem-edge-endpoints-alcohol-to-aldehyde-oxidation",

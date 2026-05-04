@@ -126,6 +126,63 @@ async function expectChemistryGraphItemsInsideViewport(
   expect(outsideItems).toEqual([]);
 }
 
+async function expectNoChemistryEdgeLabelNodeTitleOverlap(page: Page) {
+  const overlapIssues = await page.evaluate(() => {
+    const getRect = (element: Element) => {
+      const rect = element.getBoundingClientRect();
+      return {
+        left: rect.left,
+        right: rect.right,
+        top: rect.top,
+        bottom: rect.bottom,
+      };
+    };
+    const getOverlapArea = (
+      first: ReturnType<typeof getRect>,
+      second: ReturnType<typeof getRect>,
+    ) => {
+      const width = Math.max(
+        0,
+        Math.min(first.right, second.right) - Math.max(first.left, second.left),
+      );
+      const height = Math.max(
+        0,
+        Math.min(first.bottom, second.bottom) - Math.max(first.top, second.top),
+      );
+
+      return Math.round(width * height);
+    };
+    const edgeLabels = Array.from(
+      document.querySelectorAll('[data-chem-label-role="pathway-secondary"]'),
+    ).filter((item): item is HTMLElement => item instanceof HTMLElement);
+    const nodeTitles = Array.from(
+      document.querySelectorAll('[data-chem-label-role="family-primary"]'),
+    ).filter((item): item is HTMLElement => item instanceof HTMLElement);
+
+    return edgeLabels.flatMap((edgeLabel) => {
+      const edgeStyle = getComputedStyle(edgeLabel);
+      if (edgeStyle.display === "none" || Number(edgeStyle.opacity) < 0.05) {
+        return [];
+      }
+
+      const edgeRect = getRect(edgeLabel);
+      return nodeTitles.flatMap((nodeTitle) => {
+        const titleRect = getRect(nodeTitle);
+        const overlapArea = getOverlapArea(edgeRect, titleRect);
+        return overlapArea > 12
+          ? [
+              `${edgeLabel.getAttribute("data-testid") ?? "edge"}/${
+                nodeTitle.textContent?.trim() ?? "node"
+              }:${overlapArea}`,
+            ]
+          : [];
+      });
+    });
+  });
+
+  expect(overlapIssues).toEqual([]);
+}
+
 test("chemistry reaction mind map is map-first on initial desktop load", async ({
   page,
 }) => {
@@ -233,13 +290,28 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
     const nodeFontSize = Number.parseFloat(getComputedStyle(alcoholLabel).fontSize);
     const edgeFontSize = Number.parseFloat(getComputedStyle(hydrationEdge).fontSize);
     const edgeBackground = getComputedStyle(hydrationEdge).backgroundColor;
+    const edgeBorderRadius = Number.parseFloat(getComputedStyle(hydrationEdge).borderTopLeftRadius);
     const previewStyle = getComputedStyle(previewStatus);
     const alcoholNode = document.querySelector('[data-testid="chem-node-alcohol"]');
+    const alcoholNodeStyle =
+      alcoholNode instanceof HTMLElement ? getComputedStyle(alcoholNode) : null;
     const nodeBorderWidth =
       alcoholNode instanceof HTMLElement
         ? Number.parseFloat(getComputedStyle(alcoholNode).borderTopWidth)
         : 0;
+    const nodeBorderRadius =
+      alcoholNodeStyle !== null
+        ? Number.parseFloat(alcoholNodeStyle.borderTopLeftRadius)
+        : 0;
     const edgeBorderWidth = Number.parseFloat(getComputedStyle(hydrationEdge).borderTopWidth);
+    const edgeOverflowGuards = edgeLabelElements.flatMap((edgeLabel) =>
+      Array.from(
+        edgeLabel.querySelectorAll('[data-chem-overflow-guard="pathway-map-label"]'),
+      ).filter((item): item is HTMLElement => item instanceof HTMLElement),
+    );
+    const overflowingEdgeLabels = edgeOverflowGuards
+      .filter((element) => getComputedStyle(element).overflowX !== "hidden")
+      .map((element) => element.getAttribute("data-testid") ?? element.textContent ?? "");
 
     return {
       density: worksurface.getAttribute("data-chemistry-density"),
@@ -260,7 +332,9 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
           ? Number(alcoholNode.getAttribute("data-chem-node-height"))
           : 0,
       nodeBorderWidth,
+      nodeBorderRadius,
       edgeBorderWidth,
+      edgeBorderRadius,
       nodeVisualKind:
         alcoholNode instanceof HTMLElement
           ? alcoholNode.getAttribute("data-chem-visual-kind")
@@ -272,9 +346,14 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
       edgeVisualKind: hydrationEdge.getAttribute("data-chem-visual-kind"),
       edgeVisualWeight: hydrationEdge.getAttribute("data-chem-visual-weight"),
       edgeLabelVisual: hydrationEdge.getAttribute("data-chem-label-visual"),
+      edgeLabelShape: hydrationEdge.getAttribute("data-chem-label-shape"),
+      edgeLabelRadius: hydrationEdge.getAttribute("data-chem-label-radius"),
+      edgeLabelSize: hydrationEdge.getAttribute("data-chem-label-size"),
+      edgeMapLabel: hydrationEdge.getAttribute("data-chem-map-label"),
       edgeBackground,
       nodeLabelWeight: alcoholLabel.getAttribute("data-chem-label-weight"),
       edgeLabelWeight: hydrationEdge.getAttribute("data-chem-label-weight"),
+      overflowingEdgeLabels,
       toolbarHeightMode: toolbar.getAttribute("data-chem-toolbar-height"),
       toolbarOverflowMode: toolbarStatus.getAttribute("data-chem-toolbar-overflow"),
       toolbarOverflowX: getComputedStyle(toolbarStatus).overflowX,
@@ -306,11 +385,17 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
   expect(firstScreen.nodeWidth).toBeGreaterThanOrEqual(228);
   expect(firstScreen.nodeHeight).toBeGreaterThanOrEqual(124);
   expect(firstScreen.nodeBorderWidth).toBeGreaterThan(firstScreen.edgeBorderWidth);
+  expect(firstScreen.nodeBorderRadius).toBeGreaterThan(firstScreen.edgeBorderRadius);
+  expect(firstScreen.edgeBorderRadius).toBeLessThanOrEqual(6);
   expect(firstScreen.nodeVisualKind).toBe("compound-family");
   expect(firstScreen.nodeVisualWeight).toBe("primary");
   expect(firstScreen.edgeVisualKind).toBe("reaction-pathway");
   expect(firstScreen.edgeVisualWeight).toBe("secondary");
   expect(firstScreen.edgeLabelVisual).toBe("inline-annotation");
+  expect(firstScreen.edgeLabelShape).toBe("compact-annotation");
+  expect(firstScreen.edgeLabelRadius).toBe("low");
+  expect(firstScreen.edgeLabelSize).toBe("small");
+  expect(firstScreen.edgeMapLabel).toBe("Hydration");
   expect(firstScreen.edgeBackground).toBe("rgba(0, 0, 0, 0)");
   expect(firstScreen.nodeLabelWeight).toBe("primary");
   expect(firstScreen.edgeLabelWeight).toBe("secondary");
@@ -327,6 +412,7 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
   expect(firstScreen.overflowY).toBe("hidden");
   expect(firstScreen.nodeOverlaps).toEqual([]);
   expect(firstScreen.edgeNodeLabelOverlaps).toEqual([]);
+  expect(firstScreen.overflowingEdgeLabels).toEqual([]);
 
   guard.assertNoActionableIssues();
 });
@@ -552,6 +638,7 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
     "chem-node-aldehyde",
     "chem-node-ketone",
   ]);
+  await expectNoChemistryEdgeLabelNodeTitleOverlap(page);
   const alcoholOverlapPoint = await page.evaluate(() => {
     const node = document.querySelector('[data-testid="chem-node-alcohol"]');
     const candidates = Array.from(
@@ -758,6 +845,7 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
     "chem-edge-direction-aldehyde-to-carboxylic-acid-oxidation",
     "chem-edge-aldehyde-to-carboxylic-acid-oxidation",
   ]);
+  await expectNoChemistryEdgeLabelNodeTitleOverlap(page);
   await expect(page.getByTestId("chem-edge-alkene-to-alcohol-hydration")).toHaveAttribute(
     "data-chem-route-step",
     "1",
@@ -813,6 +901,7 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
         '[data-chem-notation-source="CH3COOH(l) + CH3CH2OH(l) <=> CH3COOCH2CH3(l) + H2O(l)"]',
       ),
   ).toHaveCount(1);
+  await expectNoChemistryEdgeLabelNodeTitleOverlap(page);
   await page.getByTestId("chem-route-clear").click();
   await expect(viewport).toHaveAttribute("data-chem-camera-mode", "graph");
 

@@ -1218,7 +1218,7 @@ export const chemistryReactionGraphLayout: ChemistryGraphLayout = {
     "alkene-to-haloalkane-hydrohalogenation": { x: -92, y: 86 },
     "haloalkane-to-alcohol-hydrolysis": { x: -88, y: -82 },
     "alcohol-to-haloalkane-substitution": { x: 92, y: 82 },
-    "alcohol-to-aldehyde-oxidation": { x: 66, y: -96 },
+    "alcohol-to-aldehyde-oxidation": { x: -18, y: -76 },
     "aldehyde-to-alcohol-reduction": { x: -66, y: 96 },
     "alcohol-to-ketone-oxidation": { x: 66, y: 96 },
     "ketone-to-alcohol-reduction": { x: -66, y: -96 },

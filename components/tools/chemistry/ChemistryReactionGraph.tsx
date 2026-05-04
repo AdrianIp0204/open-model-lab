@@ -164,6 +164,19 @@ function joinClasses(...classes: Array<string | undefined | false>) {
   return classes.filter(Boolean).join(" ");
 }
 
+function getCompactEdgeMapLabel(edge: ChemistryEdge) {
+  const label = edge.label.trim();
+  const suffixSeparators = [" to ", " into ", "成", "為"];
+  for (const separator of suffixSeparators) {
+    const separatorIndex = label.indexOf(separator);
+    if (separatorIndex > 1) {
+      return label.slice(0, separatorIndex).trim();
+    }
+  }
+
+  return label;
+}
+
 function getMinimapNodeLabel(name: string) {
   if (name.length <= MINIMAP_NODE_LABEL_MAX_LENGTH) {
     return name;
@@ -3394,6 +3407,7 @@ export function ChemistryReactionGraph({
               x: 0,
               y: 0,
             };
+            const compactEdgeLabel = getCompactEdgeMapLabel(edge);
             const sourceName = nodeNameById.get(edge.from) ?? edge.from;
             const targetName = nodeNameById.get(edge.to) ?? edge.to;
             const selected =
@@ -3501,6 +3515,10 @@ export function ChemistryReactionGraph({
                 data-chem-visual-kind="reaction-pathway"
                 data-chem-visual-weight={edgeVisualWeight}
                 data-chem-label-visual={edgeLabelVisualMode}
+                data-chem-label-shape="compact-annotation"
+                data-chem-label-radius="low"
+                data-chem-label-size="small"
+                data-chem-map-label={compactEdgeLabel}
                 data-chem-crosses-flow-band={
                   edgeFlowTransition
                     ? edgeFlowTransition.crossesBand
@@ -3511,18 +3529,18 @@ export function ChemistryReactionGraph({
                 data-chem-interactive="true"
                 data-chem-label-scale={edgeLabelCounterScale.toFixed(2)}
                 className={[
-                  "absolute z-10 inline-flex max-w-[8.5rem] items-center justify-center gap-1 border px-1.5 py-0.5 text-center text-[0.66rem] font-bold leading-tight transition focus-visible:rounded-full focus-visible:bg-paper/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                  "absolute z-10 inline-flex max-w-[7rem] items-center justify-center gap-1 overflow-hidden rounded-[5px] border px-1 py-[0.125rem] text-center text-[0.6rem] font-bold leading-tight transition focus-visible:rounded-[5px] focus-visible:bg-paper/92 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
                   selected
-                    ? "rounded-full border-teal-700 bg-paper/95 text-teal-950 shadow-[0_4px_12px_rgba(15,118,110,0.16)] ring-2 ring-teal-600/35"
+                    ? "rounded-[6px] border-teal-700 bg-paper/90 text-teal-950 shadow-[0_3px_8px_rgba(15,118,110,0.12)] ring-1 ring-teal-600/35"
                     : routeEdgeSet.has(edge.id)
-                      ? "rounded-full border-amber-500/50 bg-paper/94 text-amber-950 shadow-[0_4px_12px_rgba(217,119,6,0.12)] ring-1 ring-amber-500/25"
+                      ? "rounded-[6px] border-amber-500/45 bg-paper/88 text-amber-950 shadow-[0_3px_8px_rgba(217,119,6,0.1)] ring-1 ring-amber-500/20"
                       : context === "compared"
-                        ? "rounded-full border-teal-500/25 bg-paper/88 text-teal-900"
+                        ? "border-teal-500/20 bg-paper/72 text-teal-900"
                         : context === "connected"
-                          ? "rounded-full border-transparent bg-paper/72 text-teal-900"
+                          ? "border-transparent bg-transparent text-teal-900"
                           : context === "dimmed"
                             ? "border-transparent bg-transparent text-ink-500 opacity-20"
-                            : "border-transparent bg-transparent text-ink-700 opacity-88 hover:rounded-full hover:bg-paper/88 hover:text-ink-950",
+                            : "border-transparent bg-transparent text-ink-700 opacity-88 hover:bg-paper/76 hover:text-ink-950",
                 ].join(" ")}
                 style={{
                   left: labelPoint.x + labelOffset.x,
@@ -3549,7 +3567,7 @@ export function ChemistryReactionGraph({
                   <span
                     aria-hidden="true"
                     data-testid={`chem-edge-route-step-${edge.id}`}
-                    className="grid size-3.5 shrink-0 place-items-center rounded-full bg-amber-500 text-[0.5rem] font-bold leading-none text-ink-950 shadow-sm"
+                    className="grid size-3 shrink-0 place-items-center rounded-[4px] bg-amber-500 text-[0.46rem] font-bold leading-none text-ink-950 shadow-sm"
                   >
                     {routeStep}
                   </span>
@@ -3564,7 +3582,7 @@ export function ChemistryReactionGraph({
                       edgeFlowTransition.crossesBand ? "true" : "false"
                     }
                     className={joinClasses(
-                      "grid size-3 shrink-0 place-items-center rounded-full border text-[0.44rem] font-black leading-none",
+                      "grid size-2.5 shrink-0 place-items-center rounded-[3px] border text-[0.4rem] font-black leading-none",
                       edgeFlowTransition.crossesBand
                         ? "border-teal-500/30 bg-teal-500/10 text-teal-900"
                         : "border-line bg-paper-strong text-ink-500",
@@ -3573,15 +3591,23 @@ export function ChemistryReactionGraph({
                     {edgeFlowTransition.label}
                   </span>
                 ) : null}
-                <span className="min-w-0 space-y-0.5">
-                  <span className="block">{edge.label}</span>
+                <span className="min-w-0 max-w-full space-y-0.5 overflow-hidden">
+                  <span
+                    data-testid={`chem-edge-map-label-${edge.id}`}
+                    data-chem-overflow-guard="pathway-map-label"
+                    className="block max-w-full truncate"
+                    title={edge.label}
+                  >
+                    {compactEdgeLabel}
+                  </span>
                   <span
                     aria-hidden="true"
                     data-testid={`chem-edge-endpoints-${edge.id}`}
                     className={joinClasses(
-                      "text-[0.64rem] font-medium leading-tight text-current opacity-70",
+                      "max-w-full truncate text-[0.58rem] font-medium leading-tight text-current opacity-70",
                       showEdgeDetail ? "block" : "hidden",
                     )}
+                    title={`${sourceName} -> ${targetName}`}
                   >
                     {sourceName} → {targetName}
                   </span>
@@ -3589,9 +3615,10 @@ export function ChemistryReactionGraph({
                     aria-hidden="true"
                     data-testid={`chem-edge-reaction-type-${edge.id}`}
                     className={joinClasses(
-                      "mx-auto mt-1 w-fit rounded-full border border-current/15 bg-paper/70 px-1.5 py-0.5 text-[0.5rem] font-bold uppercase tracking-[0.1em] opacity-65",
+                      "mx-auto mt-1 max-w-full truncate rounded-[4px] border border-current/10 bg-paper/55 px-1 py-0.5 text-[0.46rem] font-bold uppercase tracking-[0.08em] opacity-60",
                       showEdgeDetail ? "block" : "hidden",
                     )}
+                    title={edge.reactionType}
                   >
                     {edge.reactionType}
                   </span>
@@ -3939,13 +3966,18 @@ export function ChemistryReactionGraph({
                   <span
                     data-chem-label-role="family-primary"
                     data-chem-label-weight="primary"
-                    className="block text-[1.55rem] font-black leading-tight tracking-[0.01em] text-ink-950"
+                    data-chem-overflow-guard="node-title"
+                    className="block max-w-full break-words text-[1.55rem] font-black leading-tight tracking-[0.01em] text-ink-950"
                   >
                     {node.name}
                   </span>
                 </div>
                 <div className="flex w-full items-end justify-between gap-2">
-                  <span className="min-w-0 text-[0.72rem] leading-5 text-ink-600">
+                  <span
+                    title={node.generalFormula}
+                    data-chem-overflow-guard="node-formula"
+                    className="min-w-0 max-w-[10.5rem] truncate text-[0.72rem] leading-5 text-ink-600"
+                  >
                     <ChemistryInlineNotation value={node.generalFormula} />
                   </span>
                   <span className="flex shrink-0 flex-col items-end gap-1">
