@@ -149,6 +149,44 @@ describe("chemistry reaction mind map route", () => {
     ).toBeInTheDocument();
   });
 
+  it("renders expanded synthesis families, pathway details, and new route options", async () => {
+    const user = userEvent.setup();
+
+    render(await ChemistryReactionMindMapRoute());
+
+    expect(screen.getByTestId("chem-node-alkane")).toBeInTheDocument();
+    expect(screen.getByTestId("chem-node-nitrile")).toBeInTheDocument();
+    expect(screen.getByTestId("chem-node-acyl-chloride")).toBeInTheDocument();
+    expect(screen.getByTestId("chem-node-amide")).toBeInTheDocument();
+    expect(
+      screen.getByTestId("chem-edge-haloalkane-to-nitrile-cyanide-substitution"),
+    ).toHaveAttribute("data-chem-label-role", "pathway-secondary");
+
+    await user.click(screen.getByTestId("chem-node-nitrile"));
+    const nitrileDetails = screen.getByTestId("chem-node-details");
+    expect(nitrileDetails).toHaveTextContent(/nitrile/i);
+    expect(nitrileDetails.textContent?.replace(/\s+/g, "")).toContain("R-CN");
+    expect(nitrileDetails).toHaveTextContent(/hydrolyzed to carboxylic acids/i);
+
+    await user.click(
+      screen.getByTestId("chem-edge-carboxylic-acid-to-acyl-chloride-chlorination"),
+    );
+    const acylEdgeDetails = screen.getByTestId("chem-edge-details");
+    expect(acylEdgeDetails).toHaveTextContent(/thionyl chloride/i);
+    expect(acylEdgeDetails).toHaveTextContent(/reactive acyl chloride/i);
+
+    await user.selectOptions(screen.getByTestId("chem-route-start"), "haloalkane");
+    await user.selectOptions(screen.getByTestId("chem-route-target"), "nitrile");
+    await user.click(screen.getByTestId("chem-route-search"));
+    expect(screen.getByTestId("chemistry-route-panel")).toHaveTextContent(
+      /routes from haloalkane to nitrile/i,
+    );
+    expect(screen.getByTestId("chemistry-route-panel")).toHaveTextContent(/1 route found/i);
+    expect(screen.getByTestId("chemistry-route-panel")).toHaveTextContent(
+      /substitution to nitrile/i,
+    );
+  });
+
   it("shows incoming and outgoing adjacency sections from the data when a node is selected", async () => {
     const user = userEvent.setup();
 
@@ -726,7 +764,7 @@ describe("chemistry reaction mind map route", () => {
     ).toHaveAttribute("data-chem-flow-transition", "2→3");
     expect(cameraStatus).toHaveTextContent(/view: full reaction map/i);
     expect(scopeStatus).toHaveTextContent(
-      /7 nodes · 11 pathways in active view/i,
+      /14 nodes · 25 pathways in active view/i,
     );
     expect(flowStatus).toHaveTextContent(/flow: all stages/i);
     expect(
@@ -734,7 +772,7 @@ describe("chemistry reaction mind map route", () => {
     ).not.toBeInTheDocument();
     expect(viewport).toHaveAccessibleDescription(/view: full reaction map/i);
     expect(viewport).toHaveAccessibleDescription(
-      /7 nodes · 11 pathways in active view/i,
+      /14 nodes · 25 pathways in active view/i,
     );
     expect(viewport).toHaveAccessibleDescription(/flow: all stages/i);
     expect(viewport).toHaveAccessibleDescription(
@@ -1760,7 +1798,7 @@ describe("chemistry reaction mind map route", () => {
       "whitespace-nowrap",
     );
     expect(screen.getByTestId("chem-scope-status")).toHaveTextContent(
-      /7 nodes · 11 pathways in active view/i,
+      /14 nodes · 25 pathways in active view/i,
     );
     expect(screen.getByTestId("chem-flow-status")).toHaveTextContent(
       /flow: all stages/i,
@@ -1768,8 +1806,8 @@ describe("chemistry reaction mind map route", () => {
     expect(screen.getByTestId("chem-preview-status")).toHaveTextContent(
       /focus or hover a node or pathway to trace connections/i,
     );
-    expect(viewport).toHaveAttribute("data-chem-scope-nodes", "7");
-    expect(viewport).toHaveAttribute("data-chem-scope-pathways", "11");
+    expect(viewport).toHaveAttribute("data-chem-scope-nodes", "14");
+    expect(viewport).toHaveAttribute("data-chem-scope-pathways", "25");
     expect(viewport).toHaveAttribute(
       "data-chem-active-flow-summary",
       "All stages",

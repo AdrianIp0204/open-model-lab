@@ -1,6 +1,23 @@
 export const chemistryReactionLocaleOverlays = {
   "zh-HK": {
     nodes: {
+      alkane: {
+        name: "烷烴",
+        representativeStructureLabel: "代表成員：乙烷，CH3CH3",
+        functionalGroup: "飽和的 C-C 與 C-H 單鍵",
+        boilingPoint: {
+          summary: "較小成員沸點通常偏低，因為烷烴非極性，主要依靠倫敦力。",
+        },
+        solubility: {
+          summary: "不溶於水，但可溶於非極性有機溶劑。",
+        },
+        acidityBasicity: {
+          summary: "在一般有機化學描述下可視為中性。",
+        },
+        notableProperties: [
+          "相對惰性，但可燃燒、裂解，並在紫外光下進行自由基取代。",
+        ],
+      },
       alkene: {
         name: "烯烴",
         representativeStructureLabel: "代表成員：乙烯，CH2=CH2",
@@ -67,6 +84,42 @@ export const chemistryReactionLocaleOverlays = {
           "由氯代烷到碘代烷，C-X 鍵通常愈弱，因此反應性常會增加。",
           "可在不同條件下進行取代或消去反應。",
           "是製備醇、胺及其他取代產物的重要中間體。",
+        ],
+      },
+      nitrile: {
+        name: "腈",
+        representativeStructureLabel: "代表成員：乙腈，CH3CN",
+        functionalGroup: "氰基，-C≡N",
+        boilingPoint: {
+          summary: "因氰基具強極性，沸點通常高於相近大小的烴。",
+        },
+        solubility: {
+          summary: "較小的腈可與水有一定相容性，但碳鏈變長時溶解度下降。",
+        },
+        acidityBasicity: {
+          summary: "在入門層次通常視為大致中性，鹼性遠弱於胺。",
+        },
+        notableProperties: [
+          "可由鹵烷與氰離子取代製備，並把碳鏈延長一個碳。",
+          "可水解成羧酸，亦可還原成一級胺。",
+        ],
+      },
+      amine: {
+        name: "胺",
+        representativeStructureLabel: "代表成員：乙胺，CH3CH2NH2",
+        functionalGroup: "氨基，-NH2",
+        boilingPoint: {
+          summary: "較小一級胺可形成氫鍵，沸點通常高於相近烷烴，但低於相近醇。",
+        },
+        solubility: {
+          summary: "較小胺可溶於水；碳鏈變長時水溶性降低。",
+        },
+        acidityBasicity: {
+          summary: "氮原子的孤電子對可接受 H+，因此胺是弱鹼。",
+        },
+        notableProperties: [
+          "可由腈還原，或由鹵烷與氨取代製備。",
+          "與酸反應時可形成較易溶於水的銨鹽。",
         ],
       },
       alcohol: {
@@ -173,6 +226,24 @@ export const chemistryReactionLocaleOverlays = {
           "較小的酮常是良好的有機溶劑，因為能與多種物質互溶。",
         ],
       },
+      hydroxynitrile: {
+        name: "羥基腈",
+        representativeStructureLabel: "代表產物：2-羥基丙腈，CH3CH(OH)CN",
+        functionalGroup: "同一碳骨架上同時有羥基與氰基",
+        boilingPoint: {
+          summary: "因同時具羥基與極性氰基，沸點通常高於母體羰基化合物。",
+        },
+        solubility: {
+          summary: "較小成員可透過羥基與氰基和水作用，但仍受碳鏈長度影響。",
+        },
+        acidityBasicity: {
+          summary: "在這張家族反應圖中通常視為大致中性。",
+        },
+        notableProperties: [
+          "由醛或酮與 HCN 進行親核加成生成。",
+          "常用來說明從羰基化合物形成新的 C-C 鍵。",
+        ],
+      },
       "carboxylic-acid": {
         name: "羧酸",
         representativeStructureLabel: "代表成員：乙酸，CH3COOH",
@@ -206,6 +277,42 @@ export const chemistryReactionLocaleOverlays = {
           "較小的羧酸常有酸味或刺激性氣味。",
           "可在酸性條件下與醇進行酯化反應。",
           "同時具有羰基化學與一般酸性行為。",
+        ],
+      },
+      "carboxylate-salt": {
+        name: "羧酸鹽",
+        representativeStructureLabel: "代表成員：乙酸鈉，CH3COO- Na+",
+        functionalGroup: "羧酸根離子，-COO-",
+        boilingPoint: {
+          summary: "作為離子鹽，通常以較高熔點來描述，而不是簡單低沸點。",
+        },
+        solubility: {
+          summary: "許多較小的鈉鹽或鉀鹽羧酸鹽可溶於水。",
+        },
+        acidityBasicity: {
+          summary: "羧酸根是羧酸的共軛鹼，具弱鹼性。",
+        },
+        notableProperties: [
+          "由羧酸與鹼中和生成。",
+          "鹼性水解酯時會先得到羧酸鹽，酸化後才得到羧酸。",
+        ],
+      },
+      "acyl-chloride": {
+        name: "酰氯",
+        representativeStructureLabel: "代表成員：乙酰氯，CH3COCl",
+        functionalGroup: "酰氯基，-COCl",
+        boilingPoint: {
+          summary: "較小成員通常具揮發性，極性使其沸點高於相近烴。",
+        },
+        solubility: {
+          summary: "不宜以普通水溶性描述，因為酰氯會迅速與水反應。",
+        },
+        acidityBasicity: {
+          summary: "此處重點不是酸鹼性，而是高度活潑的酰基轉移反應。",
+        },
+        notableProperties: [
+          "是非常活潑的羧酸衍生物。",
+          "可與醇形成酯，亦可與氨或胺形成酰胺。",
         ],
       },
       ester: {
@@ -242,8 +349,58 @@ export const chemistryReactionLocaleOverlays = {
           "常用作溶劑、香料和調味分子。",
         ],
       },
+      amide: {
+        name: "酰胺",
+        representativeStructureLabel: "代表成員：乙酰胺，CH3CONH2",
+        functionalGroup: "酰胺基，-CONH2",
+        boilingPoint: {
+          summary: "較小一級酰胺通常沸點或熔點較高，因為酰胺基極性強並可形成氫鍵。",
+        },
+        solubility: {
+          summary: "較小酰胺常可溶於水；碳鏈變長時溶解度下降。",
+        },
+        acidityBasicity: {
+          summary: "酰胺的氮孤電子對與羰基離域，因此鹼性遠弱於胺。",
+        },
+        notableProperties: [
+          "可由酰氯與氨或胺反應製備。",
+          "具有穩定的羰基-氮鍵，是蛋白質和許多材料中的重要連結。",
+        ],
+      },
     },
     edges: {
+      "alkane-to-haloalkane-radical-substitution": {
+        label: "自由基取代",
+        reactionType: "自由基取代",
+        applicability: {
+          kind: "general",
+          summary: "烷烴可在紫外光下與鹵素進行自由基取代，生成鹵烷；較大分子常有產物混合物。",
+        },
+        reagents: [{ name: "氯或溴", formula: "Cl2(g) / Br2(l)" }],
+        conditions: ["紫外光"],
+      },
+      "alkane-to-alkene-cracking": {
+        label: "裂解",
+        reactionType: "熱裂解或催化裂解",
+        applicability: {
+          kind: "subgroup-specific",
+          summary: "主要適用於較長鏈烷烴，裂解會產生較短烷烴和烯烴的混合物。",
+        },
+        reagents: ["較長鏈烷烴原料"],
+        catalysts: [{ name: "沸石或氧化鋁催化劑", formula: "Al2O3 / SiO2" }],
+        conditions: ["高溫", "催化裂解使用熱催化劑表面"],
+      },
+      "alkene-to-alkane-hydrogenation": {
+        label: "加氫",
+        reactionType: "催化加成",
+        applicability: {
+          kind: "general",
+          summary: "氫氣加到 C=C 雙鍵上，形成相應的飽和烷烴。",
+        },
+        reagents: [{ name: "氫氣", formula: "H2(g)" }],
+        catalysts: [{ name: "鎳催化劑", formula: "Ni" }],
+        conditions: ["與催化劑一同溫和加熱"],
+      },
       "alkene-to-alcohol-hydration": {
         label: "水合",
         reactionType: "親電加成",
@@ -328,6 +485,26 @@ export const chemistryReactionLocaleOverlays = {
         notes: [
           "這裡用溴乙烷作代表例子，因為整個家族不能靠單一化合物完全代表；而三級例子的機構在更高層次通常會另作處理。",
         ],
+      },
+      "haloalkane-to-nitrile-cyanide-substitution": {
+        label: "氰化取代",
+        reactionType: "親核取代",
+        applicability: {
+          kind: "general",
+          summary: "鹵烷可與氰離子取代生成腈，並把碳鏈延長一個碳。",
+        },
+        reagents: [{ name: "乙醇中的氰化鉀", formula: "KCN(ethanol)" }],
+        conditions: ["加熱迴流"],
+      },
+      "haloalkane-to-amine-ammonia-substitution": {
+        label: "氨取代",
+        reactionType: "親核取代",
+        applicability: {
+          kind: "general",
+          summary: "鹵烷可與過量氨反應生成一級胺，但若控制不好會有進一步取代。",
+        },
+        reagents: [{ name: "乙醇中的過量氨", formula: "NH3(ethanol)" }],
+        conditions: ["密封管或加壓加熱"],
       },
       "alcohol-to-haloalkane-substitution": {
         label: "取代成鹵烷",
@@ -493,6 +670,58 @@ export const chemistryReactionLocaleOverlays = {
           "在入門有機化學中，這類還原常以硼氫化鈉配合 [H] 簡寫來表示。",
         ],
       },
+      "aldehyde-to-hydroxynitrile-cyanohydrin-addition": {
+        label: "加成",
+        reactionType: "親核加成",
+        applicability: {
+          kind: "general",
+          summary: "醛可與 HCN 加成，形成羥基腈；這是由羰基化合物形成新 C-C 鍵的常見例子。",
+        },
+        reagents: [
+          { name: "氰化氫", formula: "HCN" },
+          { name: "少量氰離子催化", formula: "KCN / H+" },
+        ],
+        conditions: ["控制 pH", "室溫或輕微冷卻"],
+      },
+      "ketone-to-hydroxynitrile-cyanohydrin-addition": {
+        label: "加成",
+        reactionType: "親核加成",
+        applicability: {
+          kind: "general",
+          summary: "酮可與 HCN 加成形成羥基腈；某些酮因位阻較大，反應會比醛慢。",
+        },
+        reagents: [
+          { name: "氰化氫", formula: "HCN" },
+          { name: "少量氰離子催化", formula: "KCN / H+" },
+        ],
+        conditions: ["控制 pH", "室溫或輕微冷卻"],
+      },
+      "nitrile-to-carboxylic-acid-hydrolysis": {
+        label: "水解",
+        reactionType: "水解",
+        applicability: {
+          kind: "general",
+          summary: "腈可在酸性水解，或鹼性水解後酸化，轉化為羧酸。",
+        },
+        reagents: [
+          { name: "稀酸與水", formula: "H+(aq) / H2O(l)" },
+          { name: "或氫氧化物後酸化", formula: "OH-(aq), then H+" },
+        ],
+        conditions: ["加熱迴流"],
+      },
+      "nitrile-to-amine-reduction": {
+        label: "還原",
+        reactionType: "還原",
+        applicability: {
+          kind: "general",
+          summary: "腈可被還原成一級胺，氰基中的碳會保留在碳鏈中。",
+        },
+        reagents: [
+          { name: "氫化鋁鋰", formula: "LiAlH4" },
+          { name: "或氫氣與鎳", formula: "H2 / Ni" },
+        ],
+        conditions: ["LiAlH4 需乾醚後水解", "或催化加氫條件"],
+      },
       "carboxylic-acid-to-ester-esterification": {
         label: "酯化",
         reactionType: "縮合／親核酰基取代",
@@ -522,6 +751,56 @@ export const chemistryReactionLocaleOverlays = {
           "額外所需的有機共反應物放在邊的資料中，因為節點仍然代表整個家族，而不是超圖中的多輸入節點。",
         ],
       },
+      "carboxylic-acid-to-carboxylate-salt-neutralisation": {
+        label: "中和",
+        reactionType: "酸鹼反應",
+        applicability: {
+          kind: "general",
+          summary: "羧酸可與鹼反應生成羧酸鹽和水。",
+        },
+        reagents: [
+          { name: "氫氧化鈉水溶液", formula: "NaOH(aq)" },
+          { name: "或碳酸鈉", formula: "Na2CO3(aq)" },
+        ],
+        conditions: ["室溫或輕微加熱"],
+      },
+      "carboxylic-acid-to-acyl-chloride-chlorination": {
+        label: "氯化",
+        reactionType: "轉化為酰氯",
+        applicability: {
+          kind: "general",
+          summary: "羧酸可用氯化試劑轉化為更活潑的酰氯。",
+        },
+        reagents: [
+          { name: "亞硫酰氯", formula: "SOCl2" },
+          { name: "或五氯化磷", formula: "PCl5" },
+        ],
+        conditions: ["乾燥條件", "需要時輕微加熱"],
+      },
+      "acyl-chloride-to-ester-alcoholysis": {
+        label: "醇解",
+        reactionType: "親核酰基取代",
+        applicability: {
+          kind: "general",
+          summary: "酰氯會很快與醇反應生成酯和氯化氫。",
+        },
+        additionalOrganicReactants: ["醇家族"],
+        reagents: ["醇家族"],
+        conditions: ["室溫", "常用乾燥條件"],
+      },
+      "acyl-chloride-to-amide-ammonolysis": {
+        label: "成酰胺",
+        reactionType: "親核酰基取代",
+        applicability: {
+          kind: "general",
+          summary: "酰氯可與氨或胺反應生成酰胺。",
+        },
+        reagents: [
+          { name: "氨", formula: "NH3" },
+          { name: "或一級胺", formula: "RNH2" },
+        ],
+        conditions: ["室溫", "常用乾燥條件"],
+      },
       "ester-to-carboxylic-acid-hydrolysis": {
         label: "水解成羧酸",
         reactionType: "水解",
@@ -549,6 +828,16 @@ export const chemistryReactionLocaleOverlays = {
         notes: [
           "代表例子同時生成醇，但這條有向邊把羧酸家族視為這條逆反應的主要目的地。",
         ],
+      },
+      "ester-to-carboxylate-salt-alkaline-hydrolysis": {
+        label: "皂化",
+        reactionType: "鹼性水解／皂化",
+        applicability: {
+          kind: "general",
+          summary: "酯在鹼性條件下水解會先生成羧酸鹽和醇，酸化後才得到羧酸。",
+        },
+        reagents: [{ name: "氫氧化鈉水溶液", formula: "NaOH(aq)" }],
+        conditions: ["加熱迴流"],
       },
     },
   },
