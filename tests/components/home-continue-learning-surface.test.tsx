@@ -163,10 +163,11 @@ describe("HomeContinueLearningSurface", () => {
       "href",
       "/concepts/vectors-components",
     );
-    expect(screen.getAllByTestId("learning-visual")[0]).toHaveAttribute(
-      "data-visual-motif",
-      "vectors-components",
-    );
+    expect(
+      screen.getByRole("link", { name: "Vectors and Components" }).querySelector(
+        '[data-testid="learning-visual"]',
+      ),
+    ).toHaveAttribute("data-visual-motif", "vectors-components");
     expect(screen.getByTestId("home-primary-test-cta-vectors-components")).toHaveTextContent(
       "Take test",
     );

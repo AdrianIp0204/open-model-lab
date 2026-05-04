@@ -132,10 +132,11 @@ describe("ContinueLearningSection", () => {
       "href",
       "/concepts/simple-harmonic-motion",
     );
-    expect(screen.getAllByTestId("learning-visual")[0]).toHaveAttribute(
-      "data-visual-motif",
-      "simple-harmonic-motion",
-    );
+    expect(
+      screen.getByRole("link", { name: "Simple Harmonic Motion" }).querySelector(
+        '[data-testid="learning-visual"]',
+      ),
+    ).toHaveAttribute("data-visual-motif", "simple-harmonic-motion");
     expect(screen.getByTestId("continue-learning-test-cta-simple-harmonic-motion")).toHaveTextContent(
       "Take test",
     );

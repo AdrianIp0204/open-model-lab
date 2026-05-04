@@ -799,7 +799,7 @@ export function HomeContinueLearningSurface({
               fallbackKind={primaryVisual?.fallbackKind}
               tone={primaryVisual?.tone ?? "teal"}
               compact
-              className="h-28 md:h-full"
+              className="h-28 md:h-32"
             />
           </Link>
           <div className="min-w-0">
