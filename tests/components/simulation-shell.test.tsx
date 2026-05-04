@@ -50,6 +50,18 @@ describe("SimulationShell", () => {
         Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
     expect(
+      (sceneSlot as HTMLElement).compareDocumentPosition(controlsSlot as HTMLElement) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(
+      (controlsSlot as HTMLElement).compareDocumentPosition(transportSlot as HTMLElement) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(
+      (transportSlot as HTMLElement).compareDocumentPosition(graphsSlot as HTMLElement) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(
       (benchEquationsSlot as HTMLElement).compareDocumentPosition(graphsSlot as HTMLElement) &
         Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();

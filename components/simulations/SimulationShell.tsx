@@ -72,56 +72,32 @@ export function SimulationShell({
           </div>
         </div>
         <div className="mt-2 space-y-2 md:space-y-2.5">
-          {transport ? (
-            <div
-              data-testid="simulation-shell-transport"
-              className="min-w-0"
-            >
-              {transport}
-            </div>
-          ) : null}
           <div className="grid gap-2 md:gap-2.5 lg:grid-cols-[minmax(0,1.18fr)_minmax(18rem,20.5rem)] 2xl:grid-cols-[minmax(0,1.24fr)_minmax(19rem,22rem)] lg:items-start">
             {benchHeader ? (
               <div
                 data-testid="simulation-shell-bench-header"
-                className="order-2 min-w-0 lg:order-1 lg:col-span-2"
+                className="order-4 min-w-0 sm:order-2 lg:order-2 lg:col-span-2"
               >
                 {benchHeader}
               </div>
             ) : null}
             <div
-              className={[
-                "contents lg:block lg:min-w-0 lg:space-y-3 lg:col-start-1",
-                benchHeader ? "order-1 lg:order-2" : "order-1",
-              ].join(" ")}
+              data-testid="simulation-shell-scene"
+              className="relative order-1 min-w-0 sm:order-2 lg:order-2 lg:col-start-1"
             >
-              <div
-                data-testid="simulation-shell-scene"
-                className="relative order-1 min-w-0"
-              >
-                {scene}
-                {benchEquations ? (
-                  <div
-                    data-testid="simulation-shell-bench-equations"
-                    className="pointer-events-none absolute left-1.5 top-1.5 z-20 max-w-[min(17rem,calc(100%-0.75rem))] sm:left-2 sm:top-2"
-                  >
-                    {benchEquations}
-                  </div>
-                ) : null}
-              </div>
-              <div
-                data-testid="simulation-shell-graphs"
-                className={benchHeader ? "order-3 min-w-0" : "order-2 min-w-0"}
-              >
-                {graphs}
-              </div>
+              {scene}
+              {benchEquations ? (
+                <div
+                  data-testid="simulation-shell-bench-equations"
+                  className="pointer-events-none absolute left-1.5 top-1.5 z-20 max-w-[min(17rem,calc(100%-0.75rem))] sm:left-2 sm:top-2"
+                >
+                  {benchEquations}
+                </div>
+              ) : null}
             </div>
             <div
               data-testid="simulation-shell-controls"
-              className={[
-                "min-w-0 lg:col-start-2 lg:row-span-2",
-                benchHeader ? "order-3 lg:order-3" : "order-2",
-              ].join(" ")}
+              className="order-2 min-w-0 sm:order-4 lg:order-3 lg:col-start-2 lg:row-span-2"
             >
               <div className="space-y-2.5 lg:sticky lg:top-4">
                 {interactionRail ? (
@@ -140,6 +116,23 @@ export function SimulationShell({
                   {controls}
                 </div>
               </div>
+            </div>
+            {transport ? (
+              <div
+                data-testid="simulation-shell-transport"
+                className="order-3 min-w-0 sm:order-1 lg:order-1 lg:col-span-2"
+              >
+                {transport}
+              </div>
+            ) : null}
+            <div
+              data-testid="simulation-shell-graphs"
+              className={[
+                "min-w-0 sm:order-3 lg:order-4 lg:col-start-1",
+                benchHeader ? "order-5" : "order-4",
+              ].join(" ")}
+            >
+              {graphs}
             </div>
           </div>
           {afterBench ? (

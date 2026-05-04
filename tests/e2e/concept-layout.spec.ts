@@ -35,6 +35,29 @@ const viewportCases: ViewportCase[] = [
     deviceScaleFactor: 3,
   },
 ];
+const requiredPhoneViewportCases: ViewportCase[] = [
+  {
+    name: "phone-360x740",
+    viewport: { width: 360, height: 740 },
+    isMobile: true,
+    hasTouch: true,
+    deviceScaleFactor: 3,
+  },
+  {
+    name: "phone-390x844",
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+    deviceScaleFactor: 3,
+  },
+  {
+    name: "phone-412x915",
+    viewport: { width: 412, height: 915 },
+    isMobile: true,
+    hasTouch: true,
+    deviceScaleFactor: 3,
+  },
+];
 
 async function openConceptPage(
   browser: Browser,
@@ -56,6 +79,7 @@ async function openConceptPage(
   const page = await context.newPage();
   const browserGuard = await installBrowserGuards(page);
 
+  await setHarnessSession(page, "signed-out");
   await gotoAndExpectOk(page, path);
   await expect(page.locator("h1", { hasText: title })).toBeVisible();
 
@@ -80,6 +104,7 @@ async function openConceptPageFromHome(
   const page = await context.newPage();
   const browserGuard = await installBrowserGuards(page);
 
+  await setHarnessSession(page, "signed-out");
   await gotoAndExpectOk(page, "/");
   await expect(
     page.getByRole("heading", {
@@ -110,6 +135,7 @@ async function assertInitialViewportLayout(
 ) {
   const scene = page.getByTestId("simulation-shell-scene");
   const controls = page.getByTestId("simulation-shell-controls");
+  const transport = page.getByTestId("simulation-shell-transport");
   const graphs = page.getByTestId("simulation-shell-graphs");
   const benchEquations = page.getByTestId("bench-equation-strip");
   const benchEquationsSlot = page.getByTestId("simulation-shell-bench-equations");
@@ -135,6 +161,11 @@ async function assertInitialViewportLayout(
   await expect(guidedStepSlot).toBeVisible();
   await expect(firstPrimaryControl).toBeVisible();
 
+  const hasTransport = await transport.count().then((count) => count > 0);
+  if (hasTransport) {
+    await expect(transport).toBeVisible();
+  }
+
   const [
     sceneBox,
     controlsBox,
@@ -154,6 +185,7 @@ async function assertInitialViewportLayout(
     guidedStepSlot.boundingBox(),
     firstPrimaryControl.boundingBox(),
   ]);
+  const transportBox = hasTransport ? await transport.boundingBox() : null;
 
   expect(sceneBox).not.toBeNull();
   expect(controlsBox).not.toBeNull();
@@ -172,12 +204,26 @@ async function assertInitialViewportLayout(
   expect(widthMetrics.scrollWidth).toBe(widthMetrics.innerWidth);
   expect(sceneBox!.y).toBeLessThan(viewportCase.viewport.height);
   if (viewportCase.viewport.width >= 640) {
+    if (transportBox) {
+      expect(transportBox.y).toBeLessThanOrEqual(sceneBox!.y);
+    }
     expect(controlsBox!.y).toBeLessThan(viewportCase.viewport.height);
     expect(firstActionBox!.y).toBeLessThan(viewportCase.viewport.height);
     expect(firstPrimaryControlBox!.y).toBeLessThan(viewportCase.viewport.height);
   } else {
-    expect(sceneBox!.y).toBeLessThan(graphsBox!.y);
-    expect(graphsBox!.y).toBeLessThan(controlsBox!.y);
+    expect(sceneBox!.y).toBeLessThan(controlsBox!.y);
+    expect(controlsBox!.y).toBeLessThanOrEqual(sceneBox!.y + sceneBox!.height + 24);
+    if (transportBox) {
+      expect(controlsBox!.y).toBeLessThan(transportBox.y);
+      expect(transportBox.y).toBeLessThan(graphsBox!.y);
+      expect(firstActionBox!.y).toBeLessThan(transportBox.y);
+      expect(firstPrimaryControlBox!.y).toBeLessThan(transportBox.y);
+    } else {
+      expect(controlsBox!.y).toBeLessThan(graphsBox!.y);
+      expect(firstActionBox!.y).toBeLessThan(graphsBox!.y);
+      expect(firstPrimaryControlBox!.y).toBeLessThan(graphsBox!.y);
+    }
+    expect(graphsBox!.y).toBeLessThan(guidedStepBox!.y);
     expect(controlsBox!.y).toBeLessThan(guidedStepBox!.y);
     expect(firstActionBox!.y).toBeLessThan(guidedStepBox!.y);
     expect(firstPrimaryControlBox!.y).toBeLessThan(guidedStepBox!.y);
@@ -243,6 +289,28 @@ test("keeps the guided live lab reachable and the primary bench surfaces visible
 
       try {
         await assertInitialViewportLayout(page, viewportCase, testInfo);
+      } finally {
+        await context.close();
+      }
+    });
+  }
+});
+
+test("keeps Projectile Motion interaction-first on required phone viewports", async ({
+  browser,
+}, testInfo) => {
+  for (const viewportCase of requiredPhoneViewportCases) {
+    await test.step(viewportCase.name, async () => {
+      const { context, page, browserGuard } = await openConceptPage(
+        browser,
+        viewportCase,
+        "/en/concepts/projectile-motion",
+        "Projectile Motion",
+      );
+
+      try {
+        await assertInitialViewportLayout(page, viewportCase, testInfo);
+        browserGuard.assertNoActionableIssues();
       } finally {
         await context.close();
       }
@@ -431,6 +499,7 @@ test("shows a meaningful visual entry and first action on the circuit builder", 
   page,
 }) => {
   const browserGuard = await installBrowserGuards(page);
+  await setHarnessSession(page, "signed-out");
   await gotoAndExpectOk(page, "/en/circuit-builder");
 
   await expect(
@@ -498,6 +567,7 @@ test("keeps the mobile V2 lesson order sane for a migrated chemistry concept", a
   const browserGuard = await installBrowserGuards(page);
 
   try {
+    await setHarnessSession(page, "signed-out");
     await gotoAndExpectOk(page, "/concepts/acid-base-ph-intuition");
     await expect(
       page.locator("h1", { hasText: "Acid-Base / pH Intuition" }),
@@ -505,6 +575,7 @@ test("keeps the mobile V2 lesson order sane for a migrated chemistry concept", a
 
     const scene = page.getByTestId("simulation-shell-scene");
     const controls = page.getByTestId("simulation-shell-controls");
+    const transport = page.getByTestId("simulation-shell-transport");
     const stepCardSlot = page.getByTestId("concept-v2-step-card-slot");
     const graphs = page.getByTestId("simulation-shell-graphs");
     const wrapUp = page.getByTestId("concept-v2-wrap-up");
@@ -515,6 +586,7 @@ test("keeps the mobile V2 lesson order sane for a migrated chemistry concept", a
       expect(page.getByTestId("concept-v2-start-here")).toHaveCount(0),
       expect(scene).toBeVisible(),
       expect(controls).toBeVisible(),
+      expect(transport).toHaveCount(0),
       expect(stepCardSlot).toBeVisible(),
       expect(graphs).toBeVisible(),
       expect(wrapUp).toBeVisible(),
@@ -550,7 +622,7 @@ test("keeps the mobile V2 lesson order sane for a migrated chemistry concept", a
 
     expect(sceneBox!.y).toBeLessThan(controlsBox!.y);
     expect(sceneBox!.y).toBeLessThan(graphsBox!.y);
-    expect(graphsBox!.y).toBeLessThan(controlsBox!.y);
+    expect(controlsBox!.y).toBeLessThan(graphsBox!.y);
     expect(firstPrimaryControlBox!.y).toBeLessThan(stepCardBox!.y);
     expect(graphsBox!.y).toBeLessThan(wrapUpBox!.y);
     expect(wrapUpBox!.y).toBeLessThan(referenceBox!.y);
