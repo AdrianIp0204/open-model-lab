@@ -20,10 +20,28 @@ type ViewportCase = {
   userAgent?: string;
 };
 
+type ShellSlot = "scene" | "controls" | "transport" | "graphs";
+
+type ShellFocusStop = {
+  slot: ShellSlot | "other";
+  label: string;
+  tabIndex: number;
+  y: number;
+};
+
 const conceptPath = "/concepts/simple-harmonic-motion";
 const conceptTitle = "Simple Harmonic Motion";
 const ucmConceptPath = "/en/concepts/uniform-circular-motion";
 const ucmConceptTitle = "Uniform Circular Motion";
+const focusableSelector = [
+  'a[href]:not([tabindex="-1"])',
+  'button:not([disabled]):not([tabindex="-1"])',
+  'input:not([disabled]):not([tabindex="-1"])',
+  'select:not([disabled]):not([tabindex="-1"])',
+  'textarea:not([disabled]):not([tabindex="-1"])',
+  'summary:not([tabindex="-1"])',
+  '[tabindex]:not([tabindex="-1"])',
+].join(", ");
 const viewportCases: ViewportCase[] = [
   { name: "desktop-1440x900", viewport: { width: 1440, height: 900 } },
   { name: "tablet-landscape-1024x768", viewport: { width: 1024, height: 768 } },
@@ -35,6 +53,10 @@ const viewportCases: ViewportCase[] = [
     deviceScaleFactor: 3,
   },
 ];
+const smViewportCase: ViewportCase = {
+  name: "sm-640x900",
+  viewport: { width: 640, height: 900 },
+};
 const requiredPhoneViewportCases: ViewportCase[] = [
   {
     name: "phone-360x740",
@@ -59,6 +81,28 @@ const requiredPhoneViewportCases: ViewportCase[] = [
   },
 ];
 
+async function expectShellBreakpoint(page: Page, viewportCase: ViewportCase) {
+  await expect(page.locator("[data-simulation-shell-breakpoint]").first()).toHaveAttribute(
+    "data-simulation-shell-breakpoint",
+    viewportCase.viewport.width >= 640 ? "sm" : "phone",
+  );
+}
+
+async function installDeterministicIdleCallback(page: Page) {
+  await page.addInitScript(() => {
+    window.requestIdleCallback = (callback: IdleRequestCallback) =>
+      window.setTimeout(
+        () =>
+          callback({
+            didTimeout: false,
+            timeRemaining: () => 50,
+          }),
+        1,
+      );
+    window.cancelIdleCallback = (handle: number) => window.clearTimeout(handle);
+  });
+}
+
 async function openConceptPage(
   browser: Browser,
   viewportCase: ViewportCase,
@@ -77,11 +121,13 @@ async function openConceptPage(
     userAgent: viewportCase.userAgent,
   });
   const page = await context.newPage();
+  await installDeterministicIdleCallback(page);
   const browserGuard = await installBrowserGuards(page);
 
   await setHarnessSession(page, "signed-out");
   await gotoAndExpectOk(page, path);
   await expect(page.locator("h1", { hasText: title })).toBeVisible();
+  await expectShellBreakpoint(page, viewportCase);
 
   return { context, page, browserGuard };
 }
@@ -89,6 +135,7 @@ async function openConceptPage(
 async function openConceptPageFromHome(
   browser: Browser,
   viewportCase: ViewportCase,
+  expectShellAfterNavigation = true,
 ): Promise<{
   context: BrowserContext;
   page: Page;
@@ -102,6 +149,7 @@ async function openConceptPageFromHome(
     userAgent: viewportCase.userAgent,
   });
   const page = await context.newPage();
+  await installDeterministicIdleCallback(page);
   const browserGuard = await installBrowserGuards(page);
 
   await setHarnessSession(page, "signed-out");
@@ -124,8 +172,184 @@ async function openConceptPageFromHome(
     conceptLink.click(),
   ]);
   await expect(page.locator("h1", { hasText: conceptTitle })).toBeVisible();
+  if (expectShellAfterNavigation) {
+    await expectShellBreakpoint(page, viewportCase);
+  }
 
   return { context, page, browserGuard };
+}
+
+async function getShellFocusStops(page: Page): Promise<ShellFocusStop[]> {
+  return page.evaluate((selector) => {
+    const shell = document.querySelector("[data-simulation-shell-breakpoint]");
+    if (!shell) {
+      return [];
+    }
+
+    const slotSelectors = [
+      { slot: "scene", selector: '[data-testid="simulation-shell-scene"]' },
+      { slot: "controls", selector: '[data-testid="simulation-shell-controls"]' },
+      { slot: "transport", selector: '[data-testid="simulation-shell-transport"]' },
+      { slot: "graphs", selector: '[data-testid="simulation-shell-graphs"]' },
+    ] as const;
+
+    function isElementVisible(element: HTMLElement) {
+      const rect = element.getBoundingClientRect();
+      const styles = window.getComputedStyle(element);
+      return (
+        rect.width > 0 &&
+        rect.height > 0 &&
+        styles.display !== "none" &&
+        styles.visibility !== "hidden"
+      );
+    }
+
+    return Array.from(shell.querySelectorAll<HTMLElement>(selector))
+      .filter(isElementVisible)
+      .map((element) => {
+        const rect = element.getBoundingClientRect();
+        const slot =
+          slotSelectors.find((candidate) => element.closest(candidate.selector))?.slot ?? "other";
+        const label =
+          element.getAttribute("aria-label") ??
+          element.textContent?.replace(/\s+/g, " ").trim().slice(0, 96) ??
+          element.id ??
+          element.tagName.toLowerCase();
+
+        return {
+          slot,
+          label,
+          tabIndex: element.tabIndex,
+          y: rect.y,
+        };
+      });
+  }, focusableSelector);
+}
+
+async function getActiveShellSlot(page: Page): Promise<ShellSlot | "other" | null> {
+  return page.evaluate(() => {
+    const activeElement = document.activeElement;
+    if (!(activeElement instanceof Element)) {
+      return null;
+    }
+
+    const slotSelectors = [
+      { slot: "scene", selector: '[data-testid="simulation-shell-scene"]' },
+      { slot: "controls", selector: '[data-testid="simulation-shell-controls"]' },
+      { slot: "transport", selector: '[data-testid="simulation-shell-transport"]' },
+      { slot: "graphs", selector: '[data-testid="simulation-shell-graphs"]' },
+    ] as const;
+
+    return slotSelectors.find((candidate) => activeElement.closest(candidate.selector))?.slot ?? "other";
+  });
+}
+
+function firstSlotIndex(stops: ShellFocusStop[], slot: ShellSlot) {
+  return stops.findIndex((stop) => stop.slot === slot);
+}
+
+function lastSlotIndex(stops: ShellFocusStop[], slot: ShellSlot) {
+  for (let index = stops.length - 1; index >= 0; index -= 1) {
+    if (stops[index]?.slot === slot) {
+      return index;
+    }
+  }
+
+  return -1;
+}
+
+function expectSlotFocusOrder(stops: ShellFocusStop[], before: ShellSlot, after: ShellSlot) {
+  const beforeFirstIndex = firstSlotIndex(stops, before);
+  const beforeLastIndex = lastSlotIndex(stops, before);
+  const afterFirstIndex = firstSlotIndex(stops, after);
+
+  if (beforeFirstIndex === -1 || afterFirstIndex === -1) {
+    return;
+  }
+
+  expect(
+    beforeLastIndex,
+    `Expected all ${before} focus stops to come before ${after}. Focus stops: ${JSON.stringify(stops)}`,
+  ).toBeLessThan(afterFirstIndex);
+}
+
+async function expectCanFocusFirstStopInSlot(
+  page: Page,
+  slot: ShellSlot,
+) {
+  const focusedFirstStop = await page.evaluate(
+    ({ selector, slot }) => {
+      const slotRoot = document.querySelector(`[data-testid="simulation-shell-${slot}"]`);
+      if (!slotRoot) {
+        return false;
+      }
+
+      function isElementVisible(element: HTMLElement) {
+        const rect = element.getBoundingClientRect();
+        const styles = window.getComputedStyle(element);
+        return (
+          rect.width > 0 &&
+          rect.height > 0 &&
+          styles.display !== "none" &&
+          styles.visibility !== "hidden"
+        );
+      }
+
+      const focusableStops = Array.from(slotRoot.querySelectorAll<HTMLElement>(selector)).filter(
+        isElementVisible,
+      );
+      const target = focusableStops[0];
+      if (!target) {
+        return false;
+      }
+
+      target.focus();
+      return document.activeElement === target;
+    },
+    { selector: focusableSelector, slot },
+  );
+
+  expect(focusedFirstStop).toBe(true);
+  await expect.poll(() => getActiveShellSlot(page)).toBe(slot);
+}
+
+async function assertShellFocusOrder(page: Page, viewportCase: ViewportCase) {
+  await expectShellBreakpoint(page, viewportCase);
+
+  const allStops = await getShellFocusStops(page);
+  const shellStops = allStops.filter((stop) => stop.slot !== "other");
+
+  expect(
+    allStops.filter((stop) => stop.tabIndex > 0),
+    `Positive tabindex would make shell focus order harder to reason about. Focus stops: ${JSON.stringify(allStops)}`,
+  ).toEqual([]);
+  expect(
+    shellStops.filter((stop) => stop.slot === "controls").length,
+    `Expected controls to expose keyboard-reachable stops. Focus stops: ${JSON.stringify(allStops)}`,
+  ).toBeGreaterThan(0);
+  expect(
+    shellStops.filter((stop) => stop.slot === "transport").length,
+    `Expected Projectile Motion transport to expose keyboard-reachable stops. Focus stops: ${JSON.stringify(allStops)}`,
+  ).toBeGreaterThan(0);
+
+  if (viewportCase.viewport.width < 640) {
+    if (firstSlotIndex(shellStops, "scene") !== -1) {
+      expect(shellStops[0]?.slot).toBe("scene");
+      expectSlotFocusOrder(shellStops, "scene", "controls");
+      await expectCanFocusFirstStopInSlot(page, "scene");
+    } else {
+      expect(shellStops[0]?.slot).toBe("controls");
+    }
+    expectSlotFocusOrder(shellStops, "controls", "transport");
+    expectSlotFocusOrder(shellStops, "transport", "graphs");
+    await expectCanFocusFirstStopInSlot(page, "controls");
+    return;
+  }
+
+  expect(shellStops[0]?.slot).toBe("transport");
+  expectSlotFocusOrder(shellStops, "transport", "graphs");
+  expectSlotFocusOrder(shellStops, "graphs", "controls");
+  await expectCanFocusFirstStopInSlot(page, "transport");
 }
 
 async function assertInitialViewportLayout(
@@ -133,6 +357,8 @@ async function assertInitialViewportLayout(
   viewportCase: ViewportCase,
   testInfo: TestInfo,
 ) {
+  await expectShellBreakpoint(page, viewportCase);
+
   const scene = page.getByTestId("simulation-shell-scene");
   const controls = page.getByTestId("simulation-shell-controls");
   const transport = page.getByTestId("simulation-shell-transport");
@@ -203,6 +429,7 @@ async function assertInitialViewportLayout(
 
   expect(widthMetrics.scrollWidth).toBe(widthMetrics.innerWidth);
   expect(sceneBox!.y).toBeLessThan(viewportCase.viewport.height);
+  expect(sceneBox!.y + sceneBox!.height).toBeGreaterThan(0);
   if (viewportCase.viewport.width >= 640) {
     if (transportBox) {
       expect(transportBox.y).toBeLessThanOrEqual(sceneBox!.y);
@@ -211,6 +438,13 @@ async function assertInitialViewportLayout(
     expect(firstActionBox!.y).toBeLessThan(viewportCase.viewport.height);
     expect(firstPrimaryControlBox!.y).toBeLessThan(viewportCase.viewport.height);
   } else {
+    expect(controlsBox!.y).toBeLessThan(viewportCase.viewport.height);
+    expect(controlsBox!.y + controlsBox!.height).toBeGreaterThan(0);
+    expect(
+      firstPrimaryControlBox!.y < viewportCase.viewport.height ||
+        controlsBox!.y < viewportCase.viewport.height,
+      "Expected the first primary control, or at minimum the top of the core controls panel, to start in the initial phone viewport.",
+    ).toBe(true);
     expect(sceneBox!.y).toBeLessThan(controlsBox!.y);
     expect(controlsBox!.y).toBeLessThanOrEqual(sceneBox!.y + sceneBox!.height + 24);
     if (transportBox) {
@@ -310,6 +544,34 @@ test("keeps Projectile Motion interaction-first on required phone viewports", as
 
       try {
         await assertInitialViewportLayout(page, viewportCase, testInfo);
+        browserGuard.assertNoActionableIssues();
+      } finally {
+        await context.close();
+      }
+    });
+  }
+});
+
+test("keeps Projectile Motion shell focus order aligned with responsive visual order", async ({
+  browser,
+}) => {
+  const focusViewportCases = [
+    requiredPhoneViewportCases.find((item) => item.name === "phone-390x844"),
+    smViewportCase,
+    viewportCases.find((item) => item.name === "desktop-1440x900"),
+  ].filter((item): item is ViewportCase => Boolean(item));
+
+  for (const viewportCase of focusViewportCases) {
+    await test.step(viewportCase.name, async () => {
+      const { context, page, browserGuard } = await openConceptPage(
+        browser,
+        viewportCase,
+        "/en/concepts/projectile-motion",
+        "Projectile Motion",
+      );
+
+      try {
+        await assertShellFocusOrder(page, viewportCase);
         browserGuard.assertNoActionableIssues();
       } finally {
         await context.close();
@@ -529,6 +791,7 @@ test("keeps zh-HK homepage and concept pages mobile-rendered with the shared lab
     deviceScaleFactor: 3,
   });
   const page = await context.newPage();
+  await installDeterministicIdleCallback(page);
   const browserGuard = await installBrowserGuards(page);
 
   try {
@@ -540,6 +803,7 @@ test("keeps zh-HK homepage and concept pages mobile-rendered with the shared lab
     await gotoAndExpectOk(page, "/zh-HK/concepts/uniform-circular-motion");
     await page.evaluate(() => window.scrollTo(0, 0));
     await expect(page.locator("html")).toHaveAttribute("lang", "zh-HK");
+    await expectShellBreakpoint(page, viewportCase!);
     await expect(page.getByTestId("simulation-shell-scene")).toBeVisible();
     await expect(page.getByTestId("simulation-shell-controls")).toBeVisible();
 
@@ -564,6 +828,7 @@ test("keeps the mobile V2 lesson order sane for a migrated chemistry concept", a
     deviceScaleFactor: 3,
   });
   const page = await context.newPage();
+  await installDeterministicIdleCallback(page);
   const browserGuard = await installBrowserGuards(page);
 
   try {
@@ -572,6 +837,13 @@ test("keeps the mobile V2 lesson order sane for a migrated chemistry concept", a
     await expect(
       page.locator("h1", { hasText: "Acid-Base / pH Intuition" }),
     ).toBeVisible();
+    await expectShellBreakpoint(page, {
+      name: "phone-390x844",
+      viewport: { width: 390, height: 844 },
+      isMobile: true,
+      hasTouch: true,
+      deviceScaleFactor: 3,
+    });
 
     const scene = page.getByTestId("simulation-shell-scene");
     const controls = page.getByTestId("simulation-shell-controls");
@@ -670,6 +942,7 @@ test("shows the iPhone Safari manual-load CTA on home navigation and mounts the 
   const { context, page, browserGuard } = await openConceptPageFromHome(
     browser,
     iphoneSafariViewport,
+    false,
   );
 
   try {
@@ -681,6 +954,7 @@ test("shows the iPhone Safari manual-load CTA on home navigation and mounts the 
 
     await page.getByRole("button", { name: /load live lab/i }).click();
 
+    await expectShellBreakpoint(page, iphoneSafariViewport);
     await expect(page.getByTestId("simulation-shell-scene")).toBeVisible();
     await expect(page.getByTestId("simulation-shell-controls")).toBeVisible();
     await expect(page.getByTestId("concept-v2-step-card-slot")).toBeVisible();

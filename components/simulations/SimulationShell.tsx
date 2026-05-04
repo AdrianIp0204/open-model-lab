@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { useSyncExternalStore } from "react";
 import { useTranslations } from "next-intl";
 
 type SimulationShellProps = {
@@ -24,6 +25,39 @@ type SimulationShellProps = {
   status: ReactNode;
   className?: string;
 };
+
+const TAILWIND_SM_QUERY = "(min-width: 640px)";
+
+function subscribeToSmViewport(onStoreChange: () => void) {
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+    return () => undefined;
+  }
+
+  const mediaQuery = window.matchMedia(TAILWIND_SM_QUERY);
+  mediaQuery.addEventListener("change", onStoreChange);
+
+  return () => mediaQuery.removeEventListener("change", onStoreChange);
+}
+
+function getSmViewportSnapshot() {
+  return (
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia(TAILWIND_SM_QUERY).matches
+  );
+}
+
+function getServerSmViewportSnapshot() {
+  return false;
+}
+
+function useIsSmViewportOrWider() {
+  return useSyncExternalStore(
+    subscribeToSmViewport,
+    getSmViewportSnapshot,
+    getServerSmViewportSnapshot,
+  );
+}
 
 export function SimulationShell({
   accessibilityDescription,
@@ -49,9 +83,109 @@ export function SimulationShell({
   const t = useTranslations("SimulationShell");
   const guideStack = [notice].filter(Boolean);
   const hasLowerDock = Boolean(equations || supportDock);
+  const isSmViewportOrWider = useIsSmViewportOrWider();
+
+  const benchHeaderSlot = benchHeader ? (
+    <div
+      key="bench-header"
+      data-testid="simulation-shell-bench-header"
+      className={isSmViewportOrWider ? "order-2 min-w-0 lg:order-1 lg:col-span-2" : "min-w-0"}
+    >
+      {benchHeader}
+    </div>
+  ) : null;
+  const sceneSlot = (
+    <div
+      key="scene"
+      data-testid="simulation-shell-scene"
+      className={isSmViewportOrWider ? "relative order-1 min-w-0" : "relative min-w-0"}
+    >
+      {scene}
+      {benchEquations ? (
+        <div
+          data-testid="simulation-shell-bench-equations"
+          className="pointer-events-none absolute left-1.5 top-1.5 z-20 max-w-[min(17rem,calc(100%-0.75rem))] sm:left-2 sm:top-2"
+        >
+          {benchEquations}
+        </div>
+      ) : null}
+    </div>
+  );
+  const controlsSlot = (
+    <div
+      key="controls"
+      data-testid="simulation-shell-controls"
+      className={[
+        "min-w-0",
+        isSmViewportOrWider
+          ? [
+              "lg:col-start-2 lg:row-span-2",
+              benchHeader ? "order-3 lg:order-3" : "order-2",
+            ].join(" ")
+          : "",
+      ].join(" ")}
+    >
+      <div className="space-y-2.5 lg:sticky lg:top-4">
+        {interactionRail ? (
+          <div data-testid="simulation-shell-first-action">
+            {interactionRail}
+          </div>
+        ) : null}
+        <div
+          id={controlsAnchorId}
+          data-testid="simulation-shell-control-panel"
+          className={controlsAnchorId ? "scroll-mt-24" : undefined}
+          role={controlsAnchorId ? "region" : undefined}
+          aria-label={controlsAnchorLabel}
+          tabIndex={controlsAnchorId ? -1 : undefined}
+        >
+          {controls}
+        </div>
+      </div>
+    </div>
+  );
+  const transportSlot = transport ? (
+    <div
+      key="transport"
+      data-testid="simulation-shell-transport"
+      className="min-w-0"
+    >
+      {transport}
+    </div>
+  ) : null;
+  const graphsSlot = (
+    <div
+      key="graphs"
+      data-testid="simulation-shell-graphs"
+      className={
+        isSmViewportOrWider
+          ? benchHeader
+            ? "order-3 min-w-0"
+            : "order-2 min-w-0"
+          : "min-w-0"
+      }
+    >
+      {graphs}
+    </div>
+  );
+  const wideBenchStack = (
+    <div
+      key="bench-stack"
+      className={[
+        "contents lg:block lg:min-w-0 lg:space-y-3 lg:col-start-1",
+        benchHeader ? "order-1 lg:order-2" : "order-1",
+      ].join(" ")}
+    >
+      {sceneSlot}
+      {graphsSlot}
+    </div>
+  );
 
   return (
-    <section className={["page-hero-surface overflow-hidden p-1 sm:p-1.5 md:p-2", className ?? ""].join(" ")}>
+    <section
+      data-simulation-shell-breakpoint={isSmViewportOrWider ? "sm" : "phone"}
+      className={["page-hero-surface overflow-hidden p-1 sm:p-1.5 md:p-2", className ?? ""].join(" ")}
+    >
       <div className="relative overflow-hidden rounded-[22px] border border-line bg-paper-strong/85 p-2.5 sm:p-3">
         <div className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#1ea6a2,#f0ab3c,#f16659)]" />
         <p className="sr-only" aria-live="polite">
@@ -72,68 +206,24 @@ export function SimulationShell({
           </div>
         </div>
         <div className="mt-2 space-y-2 md:space-y-2.5">
+          {/* Keep responsive visual order and keyboard order aligned without duplicating live bench controls. */}
+          {isSmViewportOrWider ? transportSlot : null}
           <div className="grid gap-2 md:gap-2.5 lg:grid-cols-[minmax(0,1.18fr)_minmax(18rem,20.5rem)] 2xl:grid-cols-[minmax(0,1.24fr)_minmax(19rem,22rem)] lg:items-start">
-            {benchHeader ? (
-              <div
-                data-testid="simulation-shell-bench-header"
-                className="order-4 min-w-0 sm:order-2 lg:order-2 lg:col-span-2"
-              >
-                {benchHeader}
-              </div>
-            ) : null}
-            <div
-              data-testid="simulation-shell-scene"
-              className="relative order-1 min-w-0 sm:order-2 lg:order-2 lg:col-start-1"
-            >
-              {scene}
-              {benchEquations ? (
-                <div
-                  data-testid="simulation-shell-bench-equations"
-                  className="pointer-events-none absolute left-1.5 top-1.5 z-20 max-w-[min(17rem,calc(100%-0.75rem))] sm:left-2 sm:top-2"
-                >
-                  {benchEquations}
-                </div>
-              ) : null}
-            </div>
-            <div
-              data-testid="simulation-shell-controls"
-              className="order-2 min-w-0 sm:order-4 lg:order-3 lg:col-start-2 lg:row-span-2"
-            >
-              <div className="space-y-2.5 lg:sticky lg:top-4">
-                {interactionRail ? (
-                  <div data-testid="simulation-shell-first-action">
-                    {interactionRail}
-                  </div>
-                ) : null}
-                <div
-                  id={controlsAnchorId}
-                  data-testid="simulation-shell-control-panel"
-                  className={controlsAnchorId ? "scroll-mt-24" : undefined}
-                  role={controlsAnchorId ? "region" : undefined}
-                  aria-label={controlsAnchorLabel}
-                  tabIndex={controlsAnchorId ? -1 : undefined}
-                >
-                  {controls}
-                </div>
-              </div>
-            </div>
-            {transport ? (
-              <div
-                data-testid="simulation-shell-transport"
-                className="order-3 min-w-0 sm:order-1 lg:order-1 lg:col-span-2"
-              >
-                {transport}
-              </div>
-            ) : null}
-            <div
-              data-testid="simulation-shell-graphs"
-              className={[
-                "min-w-0 sm:order-3 lg:order-4 lg:col-start-1",
-                benchHeader ? "order-5" : "order-4",
-              ].join(" ")}
-            >
-              {graphs}
-            </div>
+            {isSmViewportOrWider ? (
+              <>
+                {benchHeaderSlot}
+                {wideBenchStack}
+                {controlsSlot}
+              </>
+            ) : (
+              <>
+                {sceneSlot}
+                {controlsSlot}
+                {transportSlot}
+                {graphsSlot}
+                {benchHeaderSlot}
+              </>
+            )}
           </div>
           {afterBench ? (
             <div

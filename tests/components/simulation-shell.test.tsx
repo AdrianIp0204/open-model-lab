@@ -1,8 +1,35 @@
 import { render } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { SimulationShell } from "@/components/simulations/SimulationShell";
 
+const originalMatchMedia = window.matchMedia;
+
+function mockMatchMedia(matches: boolean) {
+  Object.defineProperty(window, "matchMedia", {
+    configurable: true,
+    writable: true,
+    value: vi.fn().mockImplementation((query: string) => ({
+      matches,
+      media: query,
+      onchange: null,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    })),
+  });
+}
+
 describe("SimulationShell", () => {
+  afterEach(() => {
+    Object.defineProperty(window, "matchMedia", {
+      configurable: true,
+      writable: true,
+      value: originalMatchMedia,
+    });
+  });
+
   it("renders dedicated shell slots and keeps support content below the main bench", () => {
     const { container } = render(
       <SimulationShell
@@ -65,6 +92,48 @@ describe("SimulationShell", () => {
       (benchEquationsSlot as HTMLElement).compareDocumentPosition(graphsSlot as HTMLElement) &
         Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
+  });
+
+  it("preserves the transport-first shell order at the sm breakpoint and wider", () => {
+    mockMatchMedia(true);
+
+    const { container } = render(
+      <SimulationShell
+        accessibilityDescription="Interactive lab status"
+        transport={<button type="button">Transport</button>}
+        benchHeader={<div data-testid="bench-header">Bench header</div>}
+        scene={<div data-testid="scene">Scene</div>}
+        benchEquations={<div data-testid="bench-equations">Bench equations</div>}
+        controls={<button type="button">Controls</button>}
+        graphs={<button type="button">Graphs</button>}
+        equations={<div data-testid="equations">Equations</div>}
+        status={<div data-testid="status">Status</div>}
+      />,
+    );
+
+    const shell = container.querySelector("[data-simulation-shell-breakpoint]");
+    const sceneSlot = container.querySelector('[data-testid="simulation-shell-scene"]');
+    const controlsSlot = container.querySelector('[data-testid="simulation-shell-controls"]');
+    const graphsSlot = container.querySelector('[data-testid="simulation-shell-graphs"]');
+    const transportSlot = container.querySelector('[data-testid="simulation-shell-transport"]');
+    const benchHeaderSlot = container.querySelector('[data-testid="simulation-shell-bench-header"]');
+
+    expect(shell).toHaveAttribute("data-simulation-shell-breakpoint", "sm");
+    expect(transportSlot?.compareDocumentPosition(benchHeaderSlot as HTMLElement)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(
+      (transportSlot as HTMLElement).compareDocumentPosition(sceneSlot as HTMLElement) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(
+      (graphsSlot as HTMLElement).compareDocumentPosition(controlsSlot as HTMLElement) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(benchHeaderSlot).toHaveClass("order-2", "lg:order-1");
+    expect(sceneSlot).toHaveClass("order-1");
+    expect(graphsSlot).toHaveClass("order-3");
+    expect(controlsSlot).toHaveClass("order-3", "lg:order-3");
   });
 
   it("docks the first action with controls when only the interaction rail exists", () => {
