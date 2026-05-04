@@ -12,6 +12,25 @@ vi.mock("@/components/layout/PageShell", () => ({
 import ChemistryReactionMindMapRoute from "@/app/tools/chemistry-reaction-mind-map/page";
 import LocalizedChemistryReactionMindMapPage from "@/app/[locale]/tools/chemistry-reaction-mind-map/page";
 
+function mockElementRect(
+  element: Element,
+  rect: { left: number; top: number; width: number; height: number },
+) {
+  const domRect = {
+    x: rect.left,
+    y: rect.top,
+    left: rect.left,
+    top: rect.top,
+    width: rect.width,
+    height: rect.height,
+    right: rect.left + rect.width,
+    bottom: rect.top + rect.height,
+    toJSON: () => ({}),
+  } as DOMRect;
+
+  vi.spyOn(element, "getBoundingClientRect").mockReturnValue(domRect);
+}
+
 describe("chemistry reaction mind map route", () => {
   it("shows a useful default inspector state before anything is selected", async () => {
     render(await ChemistryReactionMindMapRoute());
@@ -40,11 +59,60 @@ describe("chemistry reaction mind map route", () => {
 
     const alcoholNode = screen.getByTestId("chem-node-alcohol");
     expect(alcoholNode).toHaveClass("z-20");
+    expect(alcoholNode).toHaveAttribute(
+      "data-chem-visual-kind",
+      "compound-family",
+    );
+    expect(alcoholNode).toHaveAttribute("data-chem-visual-weight", "primary");
+    expect(alcoholNode).toHaveAttribute("data-chem-node-width", "228");
+    expect(alcoholNode).toHaveAttribute("data-chem-node-height", "124");
+    expect(
+      alcoholNode.querySelector('[data-chem-label-role="family-primary"]'),
+    ).toHaveClass("text-[1.55rem]", "font-black");
+    expect(
+      alcoholNode.querySelector('[data-chem-label-role="family-primary"]'),
+    ).toHaveAttribute("data-chem-label-weight", "primary");
+    const hydrationEdge = screen.getByTestId("chem-edge-alkene-to-alcohol-hydration");
+    expect(hydrationEdge).toHaveAttribute(
+      "data-chem-label-role",
+      "pathway-secondary",
+    );
+    expect(hydrationEdge).toHaveAttribute(
+      "data-chem-visual-kind",
+      "reaction-pathway",
+    );
+    expect(hydrationEdge).toHaveAttribute("data-chem-visual-weight", "secondary");
+    expect(hydrationEdge).toHaveAttribute("data-chem-label-weight", "secondary");
+    expect(hydrationEdge).toHaveAttribute(
+      "data-chem-label-visual",
+      "inline-annotation",
+    );
+    expect(hydrationEdge).toHaveAttribute(
+      "data-chem-label-shape",
+      "compact-annotation",
+    );
+    expect(hydrationEdge).toHaveAttribute("data-chem-label-radius", "low");
+    expect(hydrationEdge).toHaveAttribute("data-chem-label-size", "small");
+    expect(hydrationEdge).toHaveAttribute("data-chem-map-label", "Hydration");
+    expect(hydrationEdge).toHaveClass(
+      "bg-transparent",
+      "text-[0.6rem]",
+      "rounded-[5px]",
+      "max-w-[7rem]",
+    );
+    expect(hydrationEdge).not.toHaveClass(
+      "rounded-full",
+      "rounded-[16px]",
+      "bg-paper",
+    );
 
     await user.click(alcoholNode);
+    expect(alcoholNode).toHaveAttribute("data-chem-visual-weight", "selected");
+    expect(alcoholNode).toHaveClass("border-teal-800", "bg-paper");
 
     const nodeDetails = screen.getByTestId("chem-node-details");
     expect(nodeDetails).toBeInTheDocument();
+    expect(nodeDetails).toHaveAttribute("data-chem-inspector-density", "compact");
     expect(
       within(nodeDetails).getByText(
         /higher than alkanes and haloalkanes of similar size/i,
@@ -58,9 +126,16 @@ describe("chemistry reaction mind map route", () => {
     await user.click(
       screen.getByTestId("chem-edge-alcohol-to-aldehyde-oxidation"),
     );
+    expect(
+      screen.getByTestId("chem-edge-alcohol-to-aldehyde-oxidation"),
+    ).toHaveAttribute("data-chem-visual-weight", "selected");
+    expect(
+      screen.getByTestId("chem-edge-alcohol-to-aldehyde-oxidation"),
+    ).toHaveAttribute("data-chem-label-visual", "active-callout");
 
     const edgeDetails = screen.getByTestId("chem-edge-details");
     expect(edgeDetails).toBeInTheDocument();
+    expect(edgeDetails).toHaveAttribute("data-chem-inspector-density", "compact");
     expect(screen.getByText(/primary alcohols only/i)).toBeInTheDocument();
     expect(
       within(edgeDetails).getByLabelText(
@@ -407,8 +482,22 @@ describe("chemistry reaction mind map route", () => {
     expect(
       Number(edgeLabel.getAttribute("data-chem-label-scale")),
     ).toBeGreaterThan(1);
+    expect(
+      Number(edgeLabel.getAttribute("data-chem-label-scale")),
+    ).toBeLessThan(1.2);
     expect(edgeLabel).toHaveStyle({ transformOrigin: "center" });
     expect(edgeLabel).toHaveAttribute("data-chem-layer-priority", "default");
+    expect(edgeLabel).toHaveAttribute(
+      "data-chem-label-visual",
+      "inline-annotation",
+    );
+    expect(edgeLabel).toHaveAttribute(
+      "data-chem-label-shape",
+      "compact-annotation",
+    );
+    expect(edgeLabel).toHaveAttribute("data-chem-label-radius", "low");
+    expect(edgeLabel).toHaveAttribute("data-chem-label-size", "small");
+    expect(edgeLabel).toHaveAttribute("data-chem-map-label", "Oxidation");
     expect(edgeLabel.getAttribute("style")).toContain("z-index: 10");
     expect(edgeLabel.getAttribute("style")).toContain(
       "translate(-50%, -50%) scale(",
@@ -422,6 +511,16 @@ describe("chemistry reaction mind map route", () => {
       "chem-edge-alcohol-to-aldehyde-oxidation",
     );
 
+    expect(
+      within(edgeLabel).getByTestId(
+        "chem-edge-map-label-alcohol-to-aldehyde-oxidation",
+      ),
+    ).toHaveTextContent("Oxidation");
+    expect(
+      within(edgeLabel).getByTestId(
+        "chem-edge-map-label-alcohol-to-aldehyde-oxidation",
+      ),
+    ).toHaveAttribute("data-chem-overflow-guard", "pathway-map-label");
     expect(
       within(edgeLabel).getByTestId(
         "chem-edge-endpoints-alcohol-to-aldehyde-oxidation",
@@ -1101,6 +1200,22 @@ describe("chemistry reaction mind map route", () => {
       screen.getByTestId("chem-edge-alkene-to-alcohol-hydration"),
     ).toHaveAttribute("data-chem-context", "connected");
     expect(
+      screen.getByTestId("chem-edge-alkene-to-alcohol-hydration"),
+    ).toHaveAttribute("data-chem-visual-weight", "route-active");
+    expect(
+      screen.getByTestId("chem-edge-alkene-to-alcohol-hydration"),
+    ).toHaveAttribute("data-chem-label-visual", "active-callout");
+    expect(
+      screen.getByTestId("chem-edge-path-alkene-to-alcohol-hydration"),
+    ).toHaveAttribute("data-chem-visual-kind", "reaction-arrow");
+    expect(
+      screen.getByTestId("chem-edge-path-alkene-to-alcohol-hydration"),
+    ).toHaveAttribute("data-chem-visual-weight", "route-active");
+    expect(screen.getByTestId("chem-node-alkene")).toHaveAttribute(
+      "data-chem-visual-weight",
+      "route-endpoint",
+    );
+    expect(
       screen.getByTestId("chem-minimap-edge-alkene-to-alcohol-hydration"),
     ).toHaveAttribute("data-chem-route-context", "route");
     expect(
@@ -1576,6 +1691,14 @@ describe("chemistry reaction mind map route", () => {
       "data-chemistry-layout",
       "split-panel",
     );
+    expect(screen.getByTestId("chemistry-worksurface")).toHaveAttribute(
+      "data-chemistry-density",
+      "map-first",
+    );
+    expect(screen.getByTestId("chemistry-route-controls")).toHaveAttribute(
+      "data-chem-route-density",
+      "compact",
+    );
     expect(screen.getByTestId("chemistry-inspector-scroll")).toHaveAttribute(
       "data-scroll-mode",
       "self",
@@ -1618,6 +1741,24 @@ describe("chemistry reaction mind map route", () => {
       /keyboard shortcuts.*arrow keys pan.*\+ \/ - zoom.*0 fits active view/i,
     );
     expect(zoomStatus).toHaveAttribute("aria-live", "polite");
+    expect(screen.getByTestId("chemistry-graph-toolbar")).toHaveAttribute(
+      "data-chem-toolbar-height",
+      "stable",
+    );
+    expect(screen.getByTestId("chemistry-graph-toolbar-status")).toHaveAttribute(
+      "data-chem-toolbar-overflow",
+      "stable-single-line",
+    );
+    expect(screen.getByTestId("chem-preview-status")).toHaveAttribute(
+      "data-chem-preview-layout",
+      "single-line",
+    );
+    expect(screen.getByTestId("chem-preview-status").className).toContain(
+      "truncate",
+    );
+    expect(screen.getByTestId("chem-preview-status").className).toContain(
+      "whitespace-nowrap",
+    );
     expect(screen.getByTestId("chem-scope-status")).toHaveTextContent(
       /7 nodes · 11 pathways in active view/i,
     );
@@ -1634,6 +1775,8 @@ describe("chemistry reaction mind map route", () => {
       "All stages",
     );
     expect(viewport).toHaveAttribute("data-chem-pan-guard", "visible-scene");
+    expect(viewport).toHaveAttribute("data-chem-navigation-mode", "drag-pan");
+    expect(viewport).toHaveAttribute("data-chem-wheel-mode", "page-scroll");
     expect(screen.getByTestId("chem-pan-affordance")).toHaveAttribute(
       "data-chem-pan-edges",
       "none",
@@ -1681,7 +1824,7 @@ describe("chemistry reaction mind map route", () => {
     expect(zoomIn).toBeEnabled();
   });
 
-  it("keeps extreme wheel panning within a visible-scene guard", async () => {
+  it("keeps ordinary wheel input for page scrolling while modifier wheel zooms", async () => {
     render(await ChemistryReactionMindMapRoute());
 
     const viewport = screen.getByTestId("chemistry-graph-viewport");
@@ -1694,21 +1837,22 @@ describe("chemistry reaction mind map route", () => {
       value: 360,
     });
 
-    fireEvent.wheel(viewport, { deltaX: -10_000, deltaY: -10_000 });
-    expect(Number(viewport.getAttribute("data-chem-offset-x"))).toBeLessThan(
-      1_000,
-    );
-    expect(Number(viewport.getAttribute("data-chem-offset-y"))).toBeLessThan(
-      1_000,
-    );
+    const initialOffsetX = viewport.getAttribute("data-chem-offset-x");
+    const initialOffsetY = viewport.getAttribute("data-chem-offset-y");
+    const initialScale = viewport.getAttribute("data-chem-scale");
 
-    fireEvent.wheel(viewport, { deltaX: 10_000, deltaY: 10_000 });
-    expect(Number(viewport.getAttribute("data-chem-offset-x"))).toBeGreaterThan(
-      -1_000,
-    );
-    expect(Number(viewport.getAttribute("data-chem-offset-y"))).toBeGreaterThan(
-      -1_000,
-    );
+    fireEvent.wheel(viewport, { deltaX: -10_000, deltaY: -10_000 });
+    expect(viewport).toHaveAttribute("data-chem-offset-x", initialOffsetX ?? "");
+    expect(viewport).toHaveAttribute("data-chem-offset-y", initialOffsetY ?? "");
+    expect(viewport).toHaveAttribute("data-chem-scale", initialScale ?? "");
+
+    fireEvent.wheel(viewport, {
+      clientX: 120,
+      clientY: 120,
+      ctrlKey: true,
+      deltaY: -120,
+    });
+    expect(viewport.getAttribute("data-chem-scale")).not.toBe(initialScale);
   });
 
   it("keeps graph keyboard shortcuts available from focused map controls", async () => {
@@ -1755,12 +1899,17 @@ describe("chemistry reaction mind map route", () => {
 
     await user.click(screen.getByTestId("chem-node-alcohol"));
     expect(viewport).toHaveAttribute("data-chem-camera-mode", "node");
+    expect(viewport).toHaveAttribute(
+      "data-chem-camera-behavior",
+      "preserve-context",
+    );
     expect(viewport).toHaveAttribute("data-chem-fit-scope", "active-context");
 
     await user.click(
       screen.getByTestId("chem-edge-alcohol-to-aldehyde-oxidation"),
     );
     expect(viewport).toHaveAttribute("data-chem-camera-mode", "edge");
+    expect(viewport).toHaveAttribute("data-chem-camera-behavior", "active-fit");
 
     await user.selectOptions(screen.getByTestId("chem-route-start"), "alkene");
     await user.selectOptions(
@@ -1769,10 +1918,105 @@ describe("chemistry reaction mind map route", () => {
     );
     await user.click(screen.getByTestId("chem-route-search"));
     expect(viewport).toHaveAttribute("data-chem-camera-mode", "route");
+    expect(viewport).toHaveAttribute(
+      "data-chem-camera-behavior",
+      "route-focus",
+    );
 
     await user.click(screen.getByTestId("chem-route-clear"));
     expect(viewport).toHaveAttribute("data-chem-camera-mode", "graph");
+    expect(viewport).toHaveAttribute("data-chem-camera-behavior", "full-fit");
     expect(viewport).toHaveAttribute("data-chem-fit-scope", "full-graph");
+  });
+
+  it("gives node hitboxes priority over overlapping edge hover and clicks", async () => {
+    render(await ChemistryReactionMindMapRoute());
+
+    const viewport = screen.getByTestId("chemistry-graph-viewport");
+    const alcoholNode = screen.getByTestId("chem-node-alcohol");
+    const oxidationEdge = screen.getByTestId(
+      "chem-edge-alcohol-to-aldehyde-oxidation",
+    );
+    mockElementRect(alcoholNode, {
+      left: 100,
+      top: 100,
+      width: 228,
+      height: 124,
+    });
+    const initialScale = viewport.getAttribute("data-chem-scale");
+
+    fireEvent.pointerEnter(oxidationEdge, {
+      pointerId: 11,
+      pointerType: "mouse",
+      clientX: 140,
+      clientY: 140,
+    });
+    expect(viewport).toHaveAttribute("data-chem-hover-target", "node:alcohol");
+    expect(viewport).toHaveAttribute("data-chem-hover-camera", "none");
+    expect(oxidationEdge).toHaveAttribute("data-chem-hover-context", "node");
+    expect(viewport).toHaveAttribute("data-chem-camera-mode", "graph");
+    expect(viewport).toHaveAttribute("data-chem-scale", initialScale ?? "");
+
+    fireEvent.pointerMove(viewport, {
+      pointerId: 11,
+      pointerType: "mouse",
+      clientX: 150,
+      clientY: 150,
+    });
+    expect(viewport).toHaveAttribute("data-chem-hover-target", "node:alcohol");
+    expect(viewport).toHaveAttribute("data-chem-scale", initialScale ?? "");
+
+    fireEvent.click(oxidationEdge, {
+      clientX: 150,
+      clientY: 150,
+      detail: 1,
+    });
+    expect(screen.getByTestId("chem-node-details")).toBeInTheDocument();
+    expect(screen.getByTestId("chemistry-selection-summary")).toHaveTextContent(
+      /selected group: alcohol/i,
+    );
+    expect(viewport).toHaveAttribute("data-chem-camera-mode", "node");
+  });
+
+  it("still allows exposed pathway hover and selection outside node hitboxes", async () => {
+    render(await ChemistryReactionMindMapRoute());
+
+    const viewport = screen.getByTestId("chemistry-graph-viewport");
+    const alcoholNode = screen.getByTestId("chem-node-alcohol");
+    const oxidationEdge = screen.getByTestId(
+      "chem-edge-alcohol-to-aldehyde-oxidation",
+    );
+    mockElementRect(alcoholNode, {
+      left: 100,
+      top: 100,
+      width: 228,
+      height: 124,
+    });
+    const initialScale = viewport.getAttribute("data-chem-scale");
+
+    fireEvent.pointerEnter(oxidationEdge, {
+      pointerId: 12,
+      pointerType: "mouse",
+      clientX: 460,
+      clientY: 260,
+    });
+    expect(viewport).toHaveAttribute(
+      "data-chem-hover-target",
+      "edge:alcohol-to-aldehyde-oxidation",
+    );
+    expect(oxidationEdge).toHaveAttribute("data-chem-hover-context", "edge");
+    expect(viewport).toHaveAttribute("data-chem-scale", initialScale ?? "");
+
+    fireEvent.click(oxidationEdge, {
+      clientX: 460,
+      clientY: 260,
+      detail: 1,
+    });
+    expect(screen.getByTestId("chem-edge-details")).toBeInTheDocument();
+    expect(screen.getByTestId("chemistry-selection-summary")).toHaveTextContent(
+      /selected pathway: oxidation to aldehyde/i,
+    );
+    expect(viewport).toHaveAttribute("data-chem-camera-mode", "edge");
   });
 
   it("supports background drag-to-pan without breaking subsequent selection", async () => {

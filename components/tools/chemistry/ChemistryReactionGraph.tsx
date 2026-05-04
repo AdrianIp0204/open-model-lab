@@ -7,6 +7,7 @@ import {
   useState,
   type ChangeEvent as ReactChangeEvent,
   type KeyboardEvent as ReactKeyboardEvent,
+  type MouseEvent as ReactMouseEvent,
   type PointerEvent as ReactPointerEvent,
   type WheelEvent as ReactWheelEvent,
 } from "react";
@@ -18,21 +19,28 @@ import type {
 } from "@/lib/tools/chemistry-reaction-mind-map";
 import { ChemistryInlineNotation } from "./ChemistryNotation";
 
-const NODE_WIDTH = 192;
-const NODE_HEIGHT = 98;
+const NODE_WIDTH = 228;
+const NODE_HEIGHT = 124;
 const SCENE_PADDING = 72;
-const MIN_SCALE = 0.42;
+const MIN_SCALE = 0.36;
 const MAX_SCALE = 2.25;
 const MIN_SCALE_PERCENT = Math.round(MIN_SCALE * 100);
 const MAX_SCALE_PERCENT = Math.round(MAX_SCALE * 100);
 const ZOOM_FACTOR = 1.16;
 const KEYBOARD_PAN_STEP = 64;
-const FIT_MARGIN = 48;
+const FIT_MARGIN = 28;
 const CONTEXT_PADDING = 88;
+const ROUTE_CONTEXT_PADDING = 52;
+const NODE_CONTEXT_PADDING = 56;
+const NODE_SELECTION_MAX_AUTO_SCALE = 0.95;
+const NODE_SELECTION_VIEWPORT_PADDING = 72;
+const EDGE_CAMERA_PATH_PADDING = 28;
+const EDGE_CAMERA_LABEL_HALF_WIDTH = 112;
+const EDGE_CAMERA_LABEL_HALF_HEIGHT = 48;
 const MIN_VISIBLE_SCENE_EDGE = 96;
 const PAN_AFFORDANCE_THRESHOLD = 24;
-const EDGE_LABEL_TARGET_VISUAL_SCALE = 0.94;
-const EDGE_LABEL_DETAIL_SCALE = 0.86;
+const EDGE_LABEL_TARGET_VISUAL_SCALE = 0.84;
+const EDGE_LABEL_DETAIL_SCALE = 1.05;
 const MIN_EDGE_LABEL_COUNTER_SCALE = 0.58;
 const MAX_EDGE_LABEL_COUNTER_SCALE = 1.72;
 const ZOOM_BOUNDARY_EPSILON = 0.001;
@@ -156,6 +164,19 @@ function joinClasses(...classes: Array<string | undefined | false>) {
   return classes.filter(Boolean).join(" ");
 }
 
+function getCompactEdgeMapLabel(edge: ChemistryEdge) {
+  const label = edge.label.trim();
+  const suffixSeparators = [" to ", " into ", "成", "為"];
+  for (const separator of suffixSeparators) {
+    const separatorIndex = label.indexOf(separator);
+    if (separatorIndex > 1) {
+      return label.slice(0, separatorIndex).trim();
+    }
+  }
+
+  return label;
+}
+
 function getMinimapNodeLabel(name: string) {
   if (name.length <= MINIMAP_NODE_LABEL_MAX_LENGTH) {
     return name;
@@ -262,6 +283,9 @@ function getEdgeGeometry(edge: ChemistryEdge, layout: ChemistryGraphLayout) {
   const directionAngle = Math.atan2(tangent.y, tangent.x) * (180 / Math.PI);
 
   return {
+    start,
+    end,
+    control,
     path: bend
       ? `M ${start.x} ${start.y} Q ${control.x} ${control.y} ${end.x} ${end.y}`
       : `M ${start.x} ${start.y} L ${end.x} ${end.y}`,
@@ -269,6 +293,77 @@ function getEdgeGeometry(edge: ChemistryEdge, layout: ChemistryGraphLayout) {
     directionPoint,
     directionAngle,
   };
+}
+
+function combineSceneBounds(bounds: readonly SceneBounds[]) {
+  return {
+    minX: Math.min(...bounds.map((item) => item.minX)),
+    minY: Math.min(...bounds.map((item) => item.minY)),
+    maxX: Math.max(...bounds.map((item) => item.maxX)),
+    maxY: Math.max(...bounds.map((item) => item.maxY)),
+  };
+}
+
+function expandSceneBounds(bounds: SceneBounds, padding: number) {
+  return {
+    minX: bounds.minX - padding,
+    minY: bounds.minY - padding,
+    maxX: bounds.maxX + padding,
+    maxY: bounds.maxY + padding,
+  };
+}
+
+function clampSceneBounds(
+  bounds: SceneBounds,
+  sceneWidth: number,
+  sceneHeight: number,
+) {
+  return {
+    minX: Math.max(bounds.minX, 0),
+    minY: Math.max(bounds.minY, 0),
+    maxX: Math.min(bounds.maxX, sceneWidth),
+    maxY: Math.min(bounds.maxY, sceneHeight),
+  };
+}
+
+function getPointSceneBounds(
+  points: ReadonlyArray<{ x: number; y: number }>,
+  padding = 0,
+) {
+  return expandSceneBounds(
+    {
+      minX: Math.min(...points.map((point) => point.x)),
+      minY: Math.min(...points.map((point) => point.y)),
+      maxX: Math.max(...points.map((point) => point.x)),
+      maxY: Math.max(...points.map((point) => point.y)),
+    },
+    padding,
+  );
+}
+
+function getEdgeSceneBounds(
+  edge: ChemistryEdge,
+  layout: ChemistryGraphLayout,
+) {
+  const geometry = getEdgeGeometry(edge, layout);
+  const labelOffset = layout.edgeLabelOffsets[edge.id] ?? { x: 0, y: 0 };
+  const labelCenter = {
+    x: geometry.labelPoint.x + labelOffset.x,
+    y: geometry.labelPoint.y + labelOffset.y,
+  };
+
+  return combineSceneBounds([
+    getPointSceneBounds(
+      [geometry.start, geometry.end, geometry.control, geometry.directionPoint],
+      EDGE_CAMERA_PATH_PADDING,
+    ),
+    {
+      minX: labelCenter.x - EDGE_CAMERA_LABEL_HALF_WIDTH,
+      minY: labelCenter.y - EDGE_CAMERA_LABEL_HALF_HEIGHT,
+      maxX: labelCenter.x + EDGE_CAMERA_LABEL_HALF_WIDTH,
+      maxY: labelCenter.y + EDGE_CAMERA_LABEL_HALF_HEIGHT,
+    },
+  ]);
 }
 
 function isNodeAttachedToEdge(
@@ -358,6 +453,116 @@ function clampViewToVisibleScene(
     x: Math.round(Math.min(maxX, Math.max(minX, view.x))),
     y: Math.round(Math.min(maxY, Math.max(minY, view.y))),
   };
+}
+
+function capViewScaleAroundCenter(
+  view: GraphViewState,
+  maxScale: number,
+  viewportWidth: number,
+  viewportHeight: number,
+) {
+  if (view.scale <= maxScale) {
+    return view;
+  }
+
+  return zoomAroundPoint(view, maxScale / view.scale, {
+    x: viewportWidth / 2,
+    y: viewportHeight / 2,
+  });
+}
+
+function panViewToIncludeSceneBounds(
+  view: GraphViewState,
+  viewportSize: ViewportSize,
+  bounds: SceneBounds,
+  sceneWidth: number,
+  sceneHeight: number,
+  padding: number,
+) {
+  if (viewportSize.width <= 0 || viewportSize.height <= 0) {
+    return view;
+  }
+
+  const viewportPadding = Math.max(
+    16,
+    Math.min(padding, viewportSize.width / 3, viewportSize.height / 3),
+  );
+  const boundsWidth = (bounds.maxX - bounds.minX) * view.scale;
+  const boundsHeight = (bounds.maxY - bounds.minY) * view.scale;
+  const boundsCenterX = ((bounds.minX + bounds.maxX) / 2) * view.scale;
+  const boundsCenterY = ((bounds.minY + bounds.maxY) / 2) * view.scale;
+  const usableWidth = Math.max(
+    viewportSize.width - viewportPadding * 2,
+    viewportSize.width * 0.48,
+  );
+  const usableHeight = Math.max(
+    viewportSize.height - viewportPadding * 2,
+    viewportSize.height * 0.48,
+  );
+  let nextX = view.x;
+  let nextY = view.y;
+
+  if (boundsWidth > usableWidth) {
+    nextX = viewportSize.width / 2 - boundsCenterX;
+  } else {
+    const left = bounds.minX * view.scale + nextX;
+    const right = bounds.maxX * view.scale + nextX;
+
+    if (left < viewportPadding) {
+      nextX += viewportPadding - left;
+    } else if (right > viewportSize.width - viewportPadding) {
+      nextX -= right - (viewportSize.width - viewportPadding);
+    }
+  }
+
+  if (boundsHeight > usableHeight) {
+    nextY = viewportSize.height / 2 - boundsCenterY;
+  } else {
+    const top = bounds.minY * view.scale + nextY;
+    const bottom = bounds.maxY * view.scale + nextY;
+
+    if (top < viewportPadding) {
+      nextY += viewportPadding - top;
+    } else if (bottom > viewportSize.height - viewportPadding) {
+      nextY -= bottom - (viewportSize.height - viewportPadding);
+    }
+  }
+
+  return clampViewToVisibleScene(
+    {
+      ...view,
+      x: Math.round(nextX),
+      y: Math.round(nextY),
+    },
+    viewportSize.width,
+    viewportSize.height,
+    sceneWidth,
+    sceneHeight,
+  );
+}
+
+function preserveNodeSelectionView(
+  view: GraphViewState,
+  viewportSize: ViewportSize,
+  bounds: SceneBounds,
+  sceneWidth: number,
+  sceneHeight: number,
+) {
+  const cappedView = capViewScaleAroundCenter(
+    view,
+    NODE_SELECTION_MAX_AUTO_SCALE,
+    viewportSize.width,
+    viewportSize.height,
+  );
+
+  return panViewToIncludeSceneBounds(
+    cappedView,
+    viewportSize,
+    bounds,
+    sceneWidth,
+    sceneHeight,
+    NODE_SELECTION_VIEWPORT_PADDING,
+  );
 }
 
 function getEdgeLabelCounterScale(viewScale: number) {
@@ -517,12 +722,19 @@ export function ChemistryReactionGraph({
       ),
     [nodes],
   );
+  const edgeById = useMemo(
+    () =>
+      new Map<ChemistryEdge["id"], ChemistryEdge>(
+        edges.map((edge) => [edge.id, edge]),
+      ),
+    [edges],
+  );
   const selectedEdge =
     selection?.kind === "edge"
-      ? (edges.find((edge) => edge.id === selection.id) ?? null)
+      ? (edgeById.get(selection.id) ?? null)
       : null;
   const hoveredEdge = hoveredEdgeId
-    ? (edges.find((edge) => edge.id === hoveredEdgeId) ?? null)
+    ? (edgeById.get(hoveredEdgeId) ?? null)
     : null;
   const directionEdge = hoveredEdge ?? selectedEdge;
   const compareActive = comparedNodeIds.length > 0;
@@ -999,18 +1211,55 @@ export function ChemistryReactionGraph({
       };
     }
 
-    const uniqueNodeIds = [...new Set(activeCamera.nodeIds)];
+    const connectedNodeIds = new Set(activeCamera.nodeIds);
+    const nodeContextEdgeIds =
+      activeCamera.mode === "node"
+        ? edges
+            .filter((edge) =>
+              activeCamera.nodeIds.some((nodeId) =>
+                isNodeAttachedToEdge(nodeId, edge),
+              ),
+            )
+            .map((edge) => {
+              connectedNodeIds.add(edge.from);
+              connectedNodeIds.add(edge.to);
+              return edge.id;
+            })
+        : [];
+    const uniqueNodeIds = [
+      ...new Set(
+        activeCamera.mode === "node"
+          ? [...connectedNodeIds]
+          : activeCamera.nodeIds,
+      ),
+    ];
     const nodeBounds = uniqueNodeIds
-      .map((nodeId) => layout.nodePositions[nodeId])
+      .map((nodeId) => shiftedLayout.nodePositions[nodeId])
       .filter(Boolean)
       .map((position) => ({
-        minX: position.x + SCENE_PADDING,
-        minY: position.y + SCENE_PADDING,
-        maxX: position.x + SCENE_PADDING + NODE_WIDTH,
-        maxY: position.y + SCENE_PADDING + NODE_HEIGHT,
+        minX: position.x,
+        minY: position.y,
+        maxX: position.x + NODE_WIDTH,
+        maxY: position.y + NODE_HEIGHT,
       }));
+    const activeEdgeIds =
+      activeCamera.mode === "route"
+        ? routeEdgeIds
+        : activeCamera.mode === "edge" && selectedEdge
+          ? [selectedEdge.id]
+          : activeCamera.mode === "compare"
+            ? comparedEdgeIds
+            : activeCamera.mode === "node"
+              ? nodeContextEdgeIds
+              : [];
+    const edgeBounds = activeEdgeIds
+      .map((edgeId) => edgeById.get(edgeId))
+      .filter((edge): edge is ChemistryEdge => Boolean(edge))
+      .map((edge) => getEdgeSceneBounds(edge, shiftedLayout));
 
-    if (!nodeBounds.length) {
+    const cameraBounds = [...nodeBounds, ...edgeBounds];
+
+    if (!cameraBounds.length) {
       return {
         minX: 0,
         minY: 0,
@@ -1019,25 +1268,29 @@ export function ChemistryReactionGraph({
       };
     }
 
-    return {
-      minX: Math.max(
-        Math.min(...nodeBounds.map((bounds) => bounds.minX)) - CONTEXT_PADDING,
-        0,
-      ),
-      minY: Math.max(
-        Math.min(...nodeBounds.map((bounds) => bounds.minY)) - CONTEXT_PADDING,
-        0,
-      ),
-      maxX: Math.min(
-        Math.max(...nodeBounds.map((bounds) => bounds.maxX)) + CONTEXT_PADDING,
-        sceneWidth,
-      ),
-      maxY: Math.min(
-        Math.max(...nodeBounds.map((bounds) => bounds.maxY)) + CONTEXT_PADDING,
-        sceneHeight,
-      ),
-    };
-  }, [activeCamera, layout.nodePositions, sceneHeight, sceneWidth]);
+    const contextPadding =
+      activeCamera.mode === "route"
+        ? ROUTE_CONTEXT_PADDING
+        : activeCamera.mode === "node"
+          ? NODE_CONTEXT_PADDING
+          : CONTEXT_PADDING;
+
+    return clampSceneBounds(
+      expandSceneBounds(combineSceneBounds(cameraBounds), contextPadding),
+      sceneWidth,
+      sceneHeight,
+    );
+  }, [
+    activeCamera,
+    comparedEdgeIds,
+    edges,
+    edgeById,
+    routeEdgeIds,
+    sceneHeight,
+    sceneWidth,
+    selectedEdge,
+    shiftedLayout,
+  ]);
   const activeScopeMetrics = useMemo(() => {
     const scopedNodeIds = new Set<ChemistryNode["id"]>();
     const scopedEdgeIds = new Set<ChemistryEdge["id"]>();
@@ -1160,11 +1413,20 @@ export function ChemistryReactionGraph({
         width: viewport.clientWidth,
         height: viewport.clientHeight,
       };
-      const nextFit = buildFitView(
+      const rawFit = buildFitView(
         nextViewportSize.width,
         nextViewportSize.height,
         activeCameraBounds,
       );
+      const nextFit =
+        activeCamera.mode === "node"
+          ? capViewScaleAroundCenter(
+              rawFit,
+              NODE_SELECTION_MAX_AUTO_SCALE,
+              nextViewportSize.width,
+              nextViewportSize.height,
+            )
+          : rawFit;
 
       setViewportSize((current) =>
         current.width === nextViewportSize.width &&
@@ -1173,12 +1435,24 @@ export function ChemistryReactionGraph({
           : nextViewportSize,
       );
       fitViewRef.current = nextFit;
-      if (!hasAdjustedViewRef.current) {
+      if (activeCamera.mode === "node") {
+        setViewState((current) =>
+          preserveNodeSelectionView(
+            current,
+            nextViewportSize,
+            activeCameraBounds,
+            sceneWidth,
+            sceneHeight,
+          ),
+        );
+      } else if (!hasAdjustedViewRef.current) {
         setViewState(nextFit);
       }
     };
 
-    hasAdjustedViewRef.current = false;
+    if (activeCamera.mode !== "node") {
+      hasAdjustedViewRef.current = false;
+    }
     updateFitView();
 
     const observer = new ResizeObserver(() => {
@@ -1189,7 +1463,13 @@ export function ChemistryReactionGraph({
     return () => {
       observer.disconnect();
     };
-  }, [activeCameraBounds, activeCameraKey]);
+  }, [
+    activeCamera.mode,
+    activeCameraBounds,
+    activeCameraKey,
+    sceneHeight,
+    sceneWidth,
+  ]);
 
   const handleZoom = (factor: number) => {
     const viewport = viewportRef.current;
@@ -1210,6 +1490,118 @@ export function ChemistryReactionGraph({
         sceneHeight,
       ),
     );
+  };
+
+  const getNodeIdAtPointer = (
+    clientX: number,
+    clientY: number,
+  ): ChemistryNode["id"] | null => {
+    const viewport = viewportRef.current;
+    if (!viewport || clientX === 0 || clientY === 0) {
+      return null;
+    }
+
+    const nodeElements = Array.from(
+      viewport.querySelectorAll<HTMLElement>("[data-chem-node-hitbox='true']"),
+    );
+
+    for (const nodeElement of nodeElements) {
+      const rect = nodeElement.getBoundingClientRect();
+      if (
+        clientX >= rect.left &&
+        clientX <= rect.right &&
+        clientY >= rect.top &&
+        clientY <= rect.bottom
+      ) {
+        return nodeElement.dataset.chemNodeId ?? null;
+      }
+    }
+
+    return null;
+  };
+
+  const setHoverTargets = (
+    nodeId: ChemistryNode["id"] | null,
+    edgeId: ChemistryEdge["id"] | null,
+  ) => {
+    setHoveredNodeId((current) => (current === nodeId ? current : nodeId));
+    setHoveredEdgeId((current) => (current === edgeId ? current : edgeId));
+  };
+
+  const handleNodePointerEnter = (nodeId: ChemistryNode["id"]) => {
+    if (dragRef.current.active) {
+      return;
+    }
+
+    setHoverTargets(nodeId, null);
+  };
+
+  const handleNodePointerLeave = (
+    nodeId: ChemistryNode["id"],
+    event: ReactPointerEvent<Element>,
+  ) => {
+    if (dragRef.current.active) {
+      return;
+    }
+
+    const nodeIdAtPointer = getNodeIdAtPointer(event.clientX, event.clientY);
+    if (nodeIdAtPointer === nodeId) {
+      setHoverTargets(nodeId, null);
+      return;
+    }
+
+    setHoveredNodeId((current) => (current === nodeId ? null : current));
+  };
+
+  const handleEdgePointerEnter = (
+    edgeId: ChemistryEdge["id"],
+    event: ReactPointerEvent<Element>,
+  ) => {
+    if (dragRef.current.active) {
+      return;
+    }
+
+    const nodeIdAtPointer = getNodeIdAtPointer(event.clientX, event.clientY);
+    if (nodeIdAtPointer) {
+      setHoverTargets(nodeIdAtPointer, null);
+      return;
+    }
+
+    setHoverTargets(null, edgeId);
+  };
+
+  const handleEdgePointerLeave = (
+    edgeId: ChemistryEdge["id"],
+    event: ReactPointerEvent<Element>,
+  ) => {
+    if (dragRef.current.active) {
+      return;
+    }
+
+    const nodeIdAtPointer = getNodeIdAtPointer(event.clientX, event.clientY);
+    if (nodeIdAtPointer) {
+      setHoverTargets(nodeIdAtPointer, null);
+      return;
+    }
+
+    setHoveredEdgeId((current) => (current === edgeId ? null : current));
+  };
+
+  const handleEdgeClick = (
+    edgeId: ChemistryEdge["id"],
+    event: ReactMouseEvent<Element>,
+  ) => {
+    if (event.detail > 0) {
+      const nodeIdAtPointer = getNodeIdAtPointer(event.clientX, event.clientY);
+      if (nodeIdAtPointer) {
+        event.preventDefault();
+        event.stopPropagation();
+        onSelectNode(nodeIdAtPointer);
+        return;
+      }
+    }
+
+    onSelectEdge(edgeId);
   };
 
   const handleZoomSliderChange = (
@@ -1242,34 +1634,20 @@ export function ChemistryReactionGraph({
       return;
     }
 
-    event.preventDefault();
-    hasAdjustedViewRef.current = true;
-
-    if (event.ctrlKey || event.metaKey) {
-      const viewportBox = viewport.getBoundingClientRect();
-      const zoomFactor = event.deltaY < 0 ? ZOOM_FACTOR : 1 / ZOOM_FACTOR;
-      setViewState((current) =>
-        clampViewToVisibleScene(
-          zoomAroundPoint(current, zoomFactor, {
-            x: event.clientX - viewportBox.left,
-            y: event.clientY - viewportBox.top,
-          }),
-          viewport.clientWidth,
-          viewport.clientHeight,
-          sceneWidth,
-          sceneHeight,
-        ),
-      );
+    if (!event.ctrlKey && !event.metaKey) {
       return;
     }
 
+    event.preventDefault();
+    hasAdjustedViewRef.current = true;
+    const viewportBox = viewport.getBoundingClientRect();
+    const zoomFactor = event.deltaY < 0 ? ZOOM_FACTOR : 1 / ZOOM_FACTOR;
     setViewState((current) =>
       clampViewToVisibleScene(
-        {
-          ...current,
-          x: Math.round(current.x - event.deltaX),
-          y: Math.round(current.y - event.deltaY),
-        },
+        zoomAroundPoint(current, zoomFactor, {
+          x: event.clientX - viewportBox.left,
+          y: event.clientY - viewportBox.top,
+        }),
         viewport.clientWidth,
         viewport.clientHeight,
         sceneWidth,
@@ -1373,9 +1751,17 @@ export function ChemistryReactionGraph({
       !dragRef.current.active ||
       dragRef.current.pointerId !== event.pointerId
     ) {
+      const nodeIdAtPointer = getNodeIdAtPointer(event.clientX, event.clientY);
+      if (nodeIdAtPointer) {
+        setHoverTargets(nodeIdAtPointer, null);
+      } else if (hoveredNodeId) {
+        setHoveredNodeId(null);
+      }
+
       return;
     }
 
+    setHoverTargets(null, null);
     hasAdjustedViewRef.current = true;
     const viewportWidth = event.currentTarget.clientWidth;
     const viewportHeight = event.currentTarget.clientHeight;
@@ -1414,26 +1800,35 @@ export function ChemistryReactionGraph({
       return;
     }
 
+    setHoverTargets(null, null);
     endPan(event.pointerId);
   };
 
   return (
     <div
       className={joinClasses(
-        "flex h-full min-h-0 flex-col gap-3 overflow-hidden min-[1100px]:gap-2",
+        "flex h-full min-h-0 flex-col gap-2 overflow-hidden",
         className,
       )}
     >
-      <div className="flex flex-wrap items-center justify-between gap-3 min-[1100px]:flex-nowrap">
-        <div className="flex min-w-0 flex-1 flex-nowrap items-center gap-2 overflow-x-auto pb-1 text-sm text-ink-700 [scrollbar-width:thin] [&>span]:shrink-0">
-          <span className="rounded-full border border-line bg-paper px-3 py-2">
+      <div
+        data-testid="chemistry-graph-toolbar"
+        data-chem-toolbar-height="stable"
+        className="flex min-h-10 flex-wrap items-start justify-between gap-2 overflow-hidden min-[1100px]:max-h-10 min-[1100px]:flex-nowrap"
+      >
+        <div
+          data-testid="chemistry-graph-toolbar-status"
+          data-chem-toolbar-overflow="stable-single-line"
+          className="flex h-10 min-w-0 flex-1 flex-nowrap items-center gap-1.5 overflow-hidden text-xs text-ink-700 [&>span]:shrink-0"
+        >
+          <span className="whitespace-nowrap rounded-full border border-line bg-paper px-2.5 py-1.5">
             {t("navigation.dragHint")}
           </span>
           <span
             id="chemistry-graph-zoom-status"
             aria-live="polite"
             data-testid="chem-zoom-status"
-            className="rounded-full border border-line bg-paper px-3 py-2"
+            className="whitespace-nowrap rounded-full border border-line bg-paper px-2.5 py-1.5"
           >
             {t("navigation.zoom", { percent: zoomPercent })}
           </span>
@@ -1441,7 +1836,8 @@ export function ChemistryReactionGraph({
             id="chemistry-graph-camera-status"
             aria-live="polite"
             data-testid="chem-camera-status"
-            className="rounded-full border border-teal-500/20 bg-teal-500/10 px-3 py-2 font-medium text-teal-900"
+            title={activeCameraSummary}
+            className="max-w-[18rem] truncate whitespace-nowrap rounded-full border border-teal-500/20 bg-teal-500/10 px-2.5 py-1.5 font-medium text-teal-900"
           >
             {activeCameraSummary}
           </span>
@@ -1450,7 +1846,8 @@ export function ChemistryReactionGraph({
             aria-live="polite"
             data-testid="chem-scope-status"
             data-chem-scope-summary={activeScopeSummary}
-            className="rounded-full border border-line bg-paper px-3 py-2 font-medium text-ink-700"
+            title={activeScopeSummary}
+            className="max-w-[16rem] truncate whitespace-nowrap rounded-full border border-line bg-paper px-2.5 py-1.5 font-medium text-ink-700 max-[1279px]:sr-only"
           >
             {activeScopeSummary}
           </span>
@@ -1459,7 +1856,10 @@ export function ChemistryReactionGraph({
             aria-live="polite"
             data-testid="chem-flow-status"
             data-chem-active-flow-summary={activeGraphFlowSummary}
-            className="rounded-full border border-line bg-paper px-3 py-2 font-medium text-ink-700"
+            title={t("graphStatus.flow.active", {
+              stages: activeGraphFlowSummary,
+            })}
+            className="max-w-[18rem] truncate whitespace-nowrap rounded-full border border-line bg-paper px-2.5 py-1.5 font-medium text-ink-700 max-[1279px]:sr-only"
           >
             {t("graphStatus.flow.active", { stages: activeGraphFlowSummary })}
           </span>
@@ -1467,15 +1867,17 @@ export function ChemistryReactionGraph({
             id="chemistry-graph-preview-status"
             aria-live="polite"
             data-testid="chem-preview-status"
-            className="rounded-full border border-line bg-paper px-3 py-2 font-medium text-ink-700"
+            data-chem-preview-layout="single-line"
+            title={interactionPreviewSummary}
+            className="min-w-0 max-w-[min(30rem,34vw)] truncate whitespace-nowrap rounded-full border border-line bg-paper px-2.5 py-1.5 font-medium text-ink-700 max-[1279px]:sr-only"
           >
             {interactionPreviewSummary}
           </span>
         </div>
-        <div className="flex shrink-0 flex-wrap items-center gap-2">
+        <div className="flex shrink-0 flex-wrap items-center gap-1.5">
           <label
             data-testid="chem-zoom-slider-control"
-            className="flex min-w-[10rem] items-center gap-2 rounded-full border border-line bg-paper px-3 py-2 text-sm text-ink-700 shadow-sm"
+            className="flex min-w-[8.5rem] items-center gap-2 rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs text-ink-700 shadow-sm"
           >
             <span className="sr-only">
               {t("navigation.zoom", { percent: zoomPercent })}
@@ -1489,7 +1891,7 @@ export function ChemistryReactionGraph({
               value={zoomPercent}
               aria-labelledby="chemistry-graph-zoom-status"
               aria-valuetext={`${zoomPercent}%`}
-              className="h-2 w-28 accent-teal-600 sm:w-36"
+              className="h-2 w-24 accent-teal-600 sm:w-28"
               onChange={handleZoomSliderChange}
             />
           </label>
@@ -1499,7 +1901,7 @@ export function ChemistryReactionGraph({
             disabled={zoomBoundary === "min"}
             aria-disabled={zoomBoundary === "min"}
             className={joinClasses(
-              "rounded-full border border-line bg-paper px-3 py-2 text-sm font-medium text-ink-800 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+              "rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs font-medium text-ink-800 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
               zoomBoundary === "min"
                 ? "cursor-not-allowed opacity-50"
                 : "hover:border-ink-950/20 hover:bg-paper-strong",
@@ -1514,7 +1916,7 @@ export function ChemistryReactionGraph({
             disabled={zoomBoundary === "max"}
             aria-disabled={zoomBoundary === "max"}
             className={joinClasses(
-              "rounded-full border border-line bg-paper px-3 py-2 text-sm font-medium text-ink-800 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+              "rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs font-medium text-ink-800 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
               zoomBoundary === "max"
                 ? "cursor-not-allowed opacity-50"
                 : "hover:border-ink-950/20 hover:bg-paper-strong",
@@ -1526,7 +1928,7 @@ export function ChemistryReactionGraph({
           <button
             type="button"
             data-testid="chem-fit-view"
-            className="rounded-full border border-line bg-paper px-3 py-2 text-sm font-medium text-ink-800 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+            className="rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs font-medium text-ink-800 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
             onClick={resetView}
           >
             {t("navigation.fitToView")}
@@ -1678,6 +2080,15 @@ export function ChemistryReactionGraph({
         data-chem-offset-x={viewState.x}
         data-chem-offset-y={viewState.y}
         data-chem-camera-mode={activeCamera.mode}
+        data-chem-camera-behavior={
+          activeCamera.mode === "node"
+            ? "preserve-context"
+            : activeCamera.mode === "route"
+              ? "route-focus"
+              : activeCamera.mode === "graph"
+                ? "full-fit"
+                : "active-fit"
+        }
         data-chem-fit-scope={
           activeCamera.mode === "graph" ? "full-graph" : "active-context"
         }
@@ -1687,7 +2098,18 @@ export function ChemistryReactionGraph({
         data-chem-active-flow-summary={activeGraphFlowSummary}
         data-chem-visible-coverage={visibleSceneCoveragePercent}
         data-chem-trace-active={hoverTraceActive ? "true" : "false"}
+        data-chem-hover-target={
+          hoveredNodeId
+            ? `node:${hoveredNodeId}`
+            : hoveredEdgeId
+              ? `edge:${hoveredEdgeId}`
+              : "none"
+        }
+        data-chem-hit-priority="node-over-edge"
+        data-chem-hover-camera="none"
         data-chem-pan-guard="visible-scene"
+        data-chem-navigation-mode="drag-pan"
+        data-chem-wheel-mode="page-scroll"
         data-chem-zoom-boundary={zoomBoundary}
         role="region"
         tabIndex={0}
@@ -1695,7 +2117,7 @@ export function ChemistryReactionGraph({
         aria-describedby={graphDescriptionIds}
         aria-keyshortcuts="ArrowUp ArrowDown ArrowLeft ArrowRight + - 0"
         className={joinClasses(
-          "relative min-h-[26rem] flex-1 overflow-hidden rounded-[24px] border border-line bg-paper-strong/70 select-none touch-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper min-[1100px]:min-h-0",
+          "relative min-h-[31rem] flex-1 overflow-hidden rounded-[22px] border border-line bg-paper-strong/70 select-none touch-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper min-[1100px]:min-h-0",
           isPanning ? "cursor-grabbing" : "cursor-grab",
         )}
         onWheel={handleWheel}
@@ -2818,6 +3240,32 @@ export function ChemistryReactionGraph({
                     : "default"
                 : "default";
               const edgeFlowTransition = edgeFlowTransitionById.get(edge.id);
+              const edgeVisualWeight = selected
+                ? "selected"
+                : routeEdgeSet.has(edge.id)
+                  ? "route-active"
+                  : edgeIsHighlighted
+                    ? "active-context"
+                    : context === "dimmed"
+                      ? "background"
+                      : "secondary";
+              const edgeStrokeWidth = selected
+                ? 4.2
+                : routeEdgeSet.has(edge.id)
+                  ? 3.7
+                  : edgeIsHighlighted
+                    ? 3.1
+                    : 2.15;
+              const edgeStrokeDasharray =
+                selected || routeEdgeSet.has(edge.id)
+                  ? undefined
+                  : edgeIsHighlighted
+                    ? undefined
+                    : context === "dimmed"
+                      ? "4 8"
+                      : undefined;
+              const edgeStrokeOpacity =
+                context === "dimmed" ? 0.18 : edgeIsHighlighted ? 0.9 : 0.62;
 
               return (
                 <g key={edge.id}>
@@ -2842,13 +3290,13 @@ export function ChemistryReactionGraph({
                         : undefined
                     }
                     data-chem-interactive="true"
-                    onPointerEnter={() => setHoveredEdgeId(edge.id)}
-                    onPointerLeave={() =>
-                      setHoveredEdgeId((current) =>
-                        current === edge.id ? null : current,
-                      )
+                    onPointerEnter={(event) =>
+                      handleEdgePointerEnter(edge.id, event)
                     }
-                    onClick={() => onSelectEdge(edge.id)}
+                    onPointerLeave={(event) =>
+                      handleEdgePointerLeave(edge.id, event)
+                    }
+                    onClick={(event) => handleEdgeClick(edge.id, event)}
                   />
                   {context !== "dimmed" &&
                   (edgeIsHighlighted || routeEdgeSet.has(edge.id)) ? (
@@ -2860,9 +3308,9 @@ export function ChemistryReactionGraph({
                           ? "var(--amber-500)"
                           : "var(--teal-500)"
                       }
-                      strokeWidth={
-                        selected || routeEdgeSet.has(edge.id) ? 12 : 10
-                      }
+                    strokeWidth={
+                      selected || routeEdgeSet.has(edge.id) ? 12 : 10
+                    }
                       opacity={
                         selected || routeEdgeSet.has(edge.id) ? 0.16 : 0.1
                       }
@@ -2881,18 +3329,11 @@ export function ChemistryReactionGraph({
                           ? "var(--amber-600)"
                           : edgeIsHighlighted
                             ? "var(--teal-500)"
-                            : "var(--line)"
+                            : "var(--ink-700)"
                     }
-                    strokeWidth={
-                      selected
-                        ? 4
-                        : routeEdgeSet.has(edge.id)
-                          ? 3.5
-                          : edgeIsHighlighted
-                            ? 3.25
-                            : 2.5
-                    }
-                    opacity={context === "dimmed" ? 0.35 : 1}
+                    strokeWidth={edgeStrokeWidth}
+                    strokeDasharray={edgeStrokeDasharray}
+                    opacity={edgeStrokeOpacity}
                     strokeLinecap="round"
                     markerEnd={
                       routeEdgeSet.has(edge.id)
@@ -2906,6 +3347,8 @@ export function ChemistryReactionGraph({
                     data-chem-context={context}
                     data-chem-route-context={routeContext}
                     data-chem-hover-context={hoverContext}
+                    data-chem-visual-kind="reaction-arrow"
+                    data-chem-visual-weight={edgeVisualWeight}
                     data-chem-flow-transition={edgeFlowTransition?.label}
                     data-chem-flow-source={edgeFlowTransition?.source.id}
                     data-chem-flow-target={edgeFlowTransition?.target.id}
@@ -2964,6 +3407,7 @@ export function ChemistryReactionGraph({
               x: 0,
               y: 0,
             };
+            const compactEdgeLabel = getCompactEdgeMapLabel(edge);
             const sourceName = nodeNameById.get(edge.from) ?? edge.from;
             const targetName = nodeNameById.get(edge.to) ?? edge.to;
             const selected =
@@ -3023,6 +3467,23 @@ export function ChemistryReactionGraph({
                       : context === "dimmed"
                         ? "dimmed"
                         : "default";
+            const edgeVisualWeight = selected
+              ? "selected"
+              : routeEdgeSelected
+                ? "route-active"
+                : context === "compared" || context === "connected"
+                  ? "active-context"
+                  : context === "dimmed"
+                    ? "background"
+                    : "secondary";
+            const edgeLabelVisualMode =
+              selected || routeEdgeSelected
+                ? "active-callout"
+                : hoveredByEdge || hoveredByNode || context === "connected"
+                  ? "focus-annotation"
+                  : context === "dimmed"
+                    ? "background-annotation"
+                    : "inline-annotation";
 
             return (
               <button
@@ -3049,6 +3510,15 @@ export function ChemistryReactionGraph({
                 data-chem-flow-source={edgeFlowTransition?.source.id}
                 data-chem-flow-target={edgeFlowTransition?.target.id}
                 data-chem-layer-priority={edgeLayerPriority}
+                data-chem-label-role="pathway-secondary"
+                data-chem-label-weight="secondary"
+                data-chem-visual-kind="reaction-pathway"
+                data-chem-visual-weight={edgeVisualWeight}
+                data-chem-label-visual={edgeLabelVisualMode}
+                data-chem-label-shape="compact-annotation"
+                data-chem-label-radius="low"
+                data-chem-label-size="small"
+                data-chem-map-label={compactEdgeLabel}
                 data-chem-crosses-flow-band={
                   edgeFlowTransition
                     ? edgeFlowTransition.crossesBand
@@ -3059,18 +3529,18 @@ export function ChemistryReactionGraph({
                 data-chem-interactive="true"
                 data-chem-label-scale={edgeLabelCounterScale.toFixed(2)}
                 className={[
-                  "absolute z-10 inline-flex max-w-[12.5rem] items-center justify-center gap-1.5 rounded-[1.35rem] border px-3 py-2 text-center text-xs font-semibold leading-tight transition shadow-sm backdrop-blur focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                  "absolute z-10 inline-flex max-w-[7rem] items-center justify-center gap-1 overflow-hidden rounded-[5px] border px-1 py-[0.125rem] text-center text-[0.6rem] font-bold leading-tight transition focus-visible:rounded-[5px] focus-visible:bg-paper/92 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
                   selected
-                    ? "border-teal-700 bg-teal-500/15 text-teal-900 ring-2 ring-teal-600/40"
+                    ? "rounded-[6px] border-teal-700 bg-paper/90 text-teal-950 shadow-[0_3px_8px_rgba(15,118,110,0.12)] ring-1 ring-teal-600/35"
                     : routeEdgeSet.has(edge.id)
-                      ? "border-amber-500/40 bg-amber-500/10 text-amber-950"
+                      ? "rounded-[6px] border-amber-500/45 bg-paper/88 text-amber-950 shadow-[0_3px_8px_rgba(217,119,6,0.1)] ring-1 ring-amber-500/20"
                       : context === "compared"
-                        ? "border-teal-500/30 bg-teal-500/10 text-teal-900"
+                        ? "border-teal-500/20 bg-paper/72 text-teal-900"
                         : context === "connected"
-                          ? "border-teal-500/30 bg-teal-500/10 text-teal-900"
+                          ? "border-transparent bg-transparent text-teal-900"
                           : context === "dimmed"
-                            ? "border-line bg-paper text-ink-500 opacity-45"
-                            : "border-line bg-paper text-ink-700 hover:border-ink-950/20",
+                            ? "border-transparent bg-transparent text-ink-500 opacity-20"
+                            : "border-transparent bg-transparent text-ink-700 opacity-88 hover:bg-paper/76 hover:text-ink-950",
                 ].join(" ")}
                 style={{
                   left: labelPoint.x + labelOffset.x,
@@ -3079,11 +3549,11 @@ export function ChemistryReactionGraph({
                   transform: `translate(-50%, -50%) scale(${edgeLabelCounterScale})`,
                   transformOrigin: "center",
                 }}
-                onPointerEnter={() => setHoveredEdgeId(edge.id)}
-                onPointerLeave={() =>
-                  setHoveredEdgeId((current) =>
-                    current === edge.id ? null : current,
-                  )
+                onPointerEnter={(event) =>
+                  handleEdgePointerEnter(edge.id, event)
+                }
+                onPointerLeave={(event) =>
+                  handleEdgePointerLeave(edge.id, event)
                 }
                 onFocus={() => setHoveredEdgeId(edge.id)}
                 onBlur={() =>
@@ -3091,13 +3561,13 @@ export function ChemistryReactionGraph({
                     current === edge.id ? null : current,
                   )
                 }
-                onClick={() => onSelectEdge(edge.id)}
+                onClick={(event) => handleEdgeClick(edge.id, event)}
               >
                 {routeStep ? (
                   <span
                     aria-hidden="true"
                     data-testid={`chem-edge-route-step-${edge.id}`}
-                    className="grid size-5 shrink-0 place-items-center rounded-full bg-amber-500 text-[0.68rem] font-bold leading-none text-ink-950 shadow-sm"
+                    className="grid size-3 shrink-0 place-items-center rounded-[4px] bg-amber-500 text-[0.46rem] font-bold leading-none text-ink-950 shadow-sm"
                   >
                     {routeStep}
                   </span>
@@ -3112,7 +3582,7 @@ export function ChemistryReactionGraph({
                       edgeFlowTransition.crossesBand ? "true" : "false"
                     }
                     className={joinClasses(
-                      "grid size-5 shrink-0 place-items-center rounded-full border text-[0.58rem] font-black leading-none shadow-sm",
+                      "grid size-2.5 shrink-0 place-items-center rounded-[3px] border text-[0.4rem] font-black leading-none",
                       edgeFlowTransition.crossesBand
                         ? "border-teal-500/30 bg-teal-500/10 text-teal-900"
                         : "border-line bg-paper-strong text-ink-500",
@@ -3121,15 +3591,23 @@ export function ChemistryReactionGraph({
                     {edgeFlowTransition.label}
                   </span>
                 ) : null}
-                <span className="min-w-0 space-y-0.5">
-                  <span className="block">{edge.label}</span>
+                <span className="min-w-0 max-w-full space-y-0.5 overflow-hidden">
+                  <span
+                    data-testid={`chem-edge-map-label-${edge.id}`}
+                    data-chem-overflow-guard="pathway-map-label"
+                    className="block max-w-full truncate"
+                    title={edge.label}
+                  >
+                    {compactEdgeLabel}
+                  </span>
                   <span
                     aria-hidden="true"
                     data-testid={`chem-edge-endpoints-${edge.id}`}
                     className={joinClasses(
-                      "text-[0.64rem] font-medium leading-tight text-current opacity-70",
+                      "max-w-full truncate text-[0.58rem] font-medium leading-tight text-current opacity-70",
                       showEdgeDetail ? "block" : "hidden",
                     )}
+                    title={`${sourceName} -> ${targetName}`}
                   >
                     {sourceName} → {targetName}
                   </span>
@@ -3137,9 +3615,10 @@ export function ChemistryReactionGraph({
                     aria-hidden="true"
                     data-testid={`chem-edge-reaction-type-${edge.id}`}
                     className={joinClasses(
-                      "mx-auto mt-1 w-fit rounded-full border border-current/15 bg-paper/70 px-1.5 py-0.5 text-[0.56rem] font-bold uppercase tracking-[0.12em] opacity-75",
+                      "mx-auto mt-1 max-w-full truncate rounded-[4px] border border-current/10 bg-paper/55 px-1 py-0.5 text-[0.46rem] font-bold uppercase tracking-[0.08em] opacity-60",
                       showEdgeDetail ? "block" : "hidden",
                     )}
+                    title={edge.reactionType}
                   >
                     {edge.reactionType}
                   </span>
@@ -3281,8 +3760,21 @@ export function ChemistryReactionGraph({
                       : context === "connected"
                         ? "connected"
                         : context === "dimmed"
-                          ? "dimmed"
-                          : "default";
+                        ? "dimmed"
+                        : "default";
+            const nodeVisualWeight = selected
+              ? "selected"
+              : routeEndpointSet.has(node.id)
+                ? "route-endpoint"
+                : routeNodeSet.has(node.id)
+                  ? "route"
+                  : context === "compared"
+                    ? "compared"
+                    : context === "connected"
+                      ? "connected"
+                      : context === "dimmed"
+                        ? "background"
+                        : "primary";
 
             return (
               <button
@@ -3311,21 +3803,27 @@ export function ChemistryReactionGraph({
                 data-chem-flow-tone={nodeFlowBand?.tone}
                 data-chem-layer-priority={nodeLayerPriority}
                 data-chem-interactive="true"
+                data-chem-node-hitbox="true"
+                data-chem-node-id={node.id}
+                data-chem-node-width={NODE_WIDTH}
+                data-chem-node-height={NODE_HEIGHT}
+                data-chem-visual-kind="compound-family"
+                data-chem-visual-weight={nodeVisualWeight}
                 className={[
-                  "absolute z-20 flex flex-col items-start justify-between overflow-hidden rounded-[24px] border p-4 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                  "absolute z-20 flex flex-col items-start justify-between overflow-hidden rounded-[16px] border-2 p-4 text-left shadow-[0_3px_0_rgba(15,28,36,0.08)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
                   selected
-                    ? "border-teal-700 bg-teal-500/15 shadow-sm ring-2 ring-teal-600/40"
+                    ? "border-teal-800 bg-paper shadow-[0_0_0_4px_rgba(20,184,166,0.18),0_4px_0_rgba(15,118,110,0.16)]"
                     : routeEndpointSet.has(node.id)
-                      ? "border-amber-600 bg-amber-500/12 shadow-sm ring-2 ring-amber-500/30"
+                      ? "border-amber-600 bg-paper shadow-[0_0_0_4px_rgba(245,158,11,0.16),0_4px_0_rgba(217,119,6,0.12)]"
                       : routeNodeSet.has(node.id)
-                        ? "border-amber-500/35 bg-amber-500/10"
+                        ? "border-amber-500/65 bg-paper"
                         : context === "compared"
-                          ? "border-teal-700 bg-teal-500/15 shadow-sm ring-2 ring-teal-600/30"
+                          ? "border-teal-700 bg-paper shadow-[0_0_0_3px_rgba(20,184,166,0.14),0_3px_0_rgba(15,118,110,0.1)]"
                           : context === "connected"
-                            ? "border-teal-500/30 bg-teal-500/10"
+                            ? "border-teal-500/55 bg-paper"
                             : context === "dimmed"
-                              ? "border-line bg-paper text-ink-500 opacity-55"
-                              : "border-line bg-paper hover:border-ink-950/20 hover:bg-paper-strong",
+                              ? "border-line/75 bg-paper/72 text-ink-500 opacity-42 shadow-none"
+                              : "border-ink-950/22 bg-paper hover:border-ink-950/34 hover:bg-paper-strong",
                 ].join(" ")}
                 style={{
                   left: position.x + SCENE_PADDING,
@@ -3334,11 +3832,9 @@ export function ChemistryReactionGraph({
                   height: NODE_HEIGHT,
                   zIndex: GRAPH_NODE_Z_INDEX[nodeLayerPriority],
                 }}
-                onPointerEnter={() => setHoveredNodeId(node.id)}
-                onPointerLeave={() =>
-                  setHoveredNodeId((current) =>
-                    current === node.id ? null : current,
-                  )
+                onPointerEnter={() => handleNodePointerEnter(node.id)}
+                onPointerLeave={(event) =>
+                  handleNodePointerLeave(node.id, event)
                 }
                 onFocus={() => setHoveredNodeId(node.id)}
                 onBlur={() =>
@@ -3467,12 +3963,21 @@ export function ChemistryReactionGraph({
                       />
                     ) : null}
                   </span>
-                  <span className="block text-lg font-semibold text-ink-950">
+                  <span
+                    data-chem-label-role="family-primary"
+                    data-chem-label-weight="primary"
+                    data-chem-overflow-guard="node-title"
+                    className="block max-w-full break-words text-[1.55rem] font-black leading-tight tracking-[0.01em] text-ink-950"
+                  >
                     {node.name}
                   </span>
                 </div>
                 <div className="flex w-full items-end justify-between gap-2">
-                  <span className="min-w-0 text-xs leading-5 text-ink-600">
+                  <span
+                    title={node.generalFormula}
+                    data-chem-overflow-guard="node-formula"
+                    className="min-w-0 max-w-[10.5rem] truncate text-[0.72rem] leading-5 text-ink-600"
+                  >
                     <ChemistryInlineNotation value={node.generalFormula} />
                   </span>
                   <span className="flex shrink-0 flex-col items-end gap-1">
