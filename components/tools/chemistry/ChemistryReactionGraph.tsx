@@ -3305,6 +3305,18 @@ export function ChemistryReactionGraph({
                     : "default"
                 : "default";
               const edgeFlowTransition = edgeFlowTransitionById.get(edge.id);
+              const labelOffset = shiftedLayout.edgeLabelOffsets[edge.id] ?? {
+                x: 0,
+                y: 0,
+              };
+              const labelAnchorPoint = {
+                x: geometry.labelPoint.x + labelOffset.x,
+                y: geometry.labelPoint.y + labelOffset.y,
+              };
+              const labelLeaderLength = Math.hypot(
+                labelOffset.x,
+                labelOffset.y,
+              );
               const edgeVisualWeight = selected
                 ? "selected"
                 : routeEdgeSet.has(edge.id)
@@ -3426,6 +3438,42 @@ export function ChemistryReactionGraph({
                     }
                     data-chem-interactive="true"
                   />
+                  {context !== "dimmed" && labelLeaderLength > 28 ? (
+                    <line
+                      aria-hidden="true"
+                      pointerEvents="none"
+                      data-testid={`chem-edge-label-leader-${edge.id}`}
+                      data-chem-label-owner={edge.id}
+                      data-chem-label-attachment="leader-line"
+                      data-chem-route-context={routeContext}
+                      data-chem-context={context}
+                      x1={geometry.labelPoint.x}
+                      y1={geometry.labelPoint.y}
+                      x2={labelAnchorPoint.x}
+                      y2={labelAnchorPoint.y}
+                      stroke={
+                        routeEdgeSet.has(edge.id)
+                          ? "var(--amber-600)"
+                          : edgeIsHighlighted
+                            ? "var(--teal-600)"
+                            : "var(--ink-600)"
+                      }
+                      strokeWidth={
+                        selected || routeEdgeSet.has(edge.id) ? 2.2 : 1.35
+                      }
+                      strokeLinecap="round"
+                      strokeDasharray={
+                        selected || routeEdgeSet.has(edge.id) ? "none" : "5 7"
+                      }
+                      opacity={
+                        selected || routeEdgeSet.has(edge.id)
+                          ? 0.46
+                          : edgeIsHighlighted
+                            ? 0.34
+                            : 0.18
+                      }
+                    />
+                  ) : null}
                   {context !== "dimmed" && edgeIsHighlighted ? (
                     <g
                       aria-hidden="true"
@@ -3586,6 +3634,9 @@ export function ChemistryReactionGraph({
                 data-chem-map-label={compactEdgeLabel}
                 data-chem-full-label={edge.label}
                 data-chem-label-fit="wrapped"
+                data-chem-edge-id={edge.id}
+                data-chem-label-owner={edge.id}
+                data-chem-label-attachment="leader-line"
                 data-chem-crosses-flow-band={
                   edgeFlowTransition
                     ? edgeFlowTransition.crossesBand
@@ -3663,6 +3714,9 @@ export function ChemistryReactionGraph({
                     data-testid={`chem-edge-map-label-${edge.id}`}
                     data-chem-overflow-guard="pathway-map-label"
                     data-chem-label-fit="wrapped"
+                    data-chem-edge-id={edge.id}
+                    data-chem-label-owner={edge.id}
+                    data-chem-label-attachment="leader-line"
                     className="block max-w-full overflow-hidden whitespace-normal break-words leading-tight"
                     title={edge.label}
                   >

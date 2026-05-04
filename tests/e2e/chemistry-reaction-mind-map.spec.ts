@@ -102,6 +102,31 @@ async function waitForStableChemistryCamera(page: Page) {
   });
 }
 
+const CHEMISTRY_RIGHT_SIDE_NODE_IDS = [
+  "aldehyde",
+  "ketone",
+  "hydroxynitrile",
+  "carboxylic-acid",
+  "ester",
+  "acyl-chloride",
+  "amide",
+  "carboxylate-salt",
+] as const;
+
+const CHEMISTRY_RIGHT_SIDE_EDGE_IDS = [
+  "aldehyde-to-carboxylic-acid-oxidation",
+  "aldehyde-to-hydroxynitrile-cyanohydrin-addition",
+  "ketone-to-hydroxynitrile-cyanohydrin-addition",
+  "nitrile-to-carboxylic-acid-hydrolysis",
+  "carboxylic-acid-to-ester-esterification",
+  "ester-to-carboxylic-acid-hydrolysis",
+  "carboxylic-acid-to-carboxylate-salt-neutralisation",
+  "carboxylic-acid-to-acyl-chloride-chlorination",
+  "acyl-chloride-to-ester-alcoholysis",
+  "acyl-chloride-to-amide-ammonolysis",
+  "ester-to-carboxylate-salt-alkaline-hydrolysis",
+] as const;
+
 async function expectChemistryGraphItemsInsideViewport(
   page: Page,
   testIds: readonly string[],
@@ -261,6 +286,282 @@ async function expectNoChemistryEdgeLabelNodeTitleOverlap(page: Page) {
   });
 
   expect(overlapIssues).toEqual([]);
+}
+
+async function expectChemistryRightSideClusterReadable(page: Page) {
+  const issues = await page.evaluate(
+    ({ nodeIds, edgeIds }) => {
+      const viewport = document.querySelector(
+        '[data-testid="chemistry-graph-viewport"]',
+      );
+
+      if (!(viewport instanceof HTMLElement)) {
+        return ["chemistry-graph-viewport:missing"];
+      }
+
+      const viewportRect = viewport.getBoundingClientRect();
+      const getRect = (element: Element) => {
+        const rect = element.getBoundingClientRect();
+        return {
+          left: rect.left,
+          right: rect.right,
+          top: rect.top,
+          bottom: rect.bottom,
+        };
+      };
+      const getOverlapArea = (
+        first: ReturnType<typeof getRect>,
+        second: ReturnType<typeof getRect>,
+      ) => {
+        const width = Math.max(
+          0,
+          Math.min(first.right, second.right) - Math.max(first.left, second.left),
+        );
+        const height = Math.max(
+          0,
+          Math.min(first.bottom, second.bottom) - Math.max(first.top, second.top),
+        );
+
+        return Math.round(width * height);
+      };
+      const nodeRects = nodeIds.map((id) => {
+        const node = document.querySelector(`[data-testid="chem-node-${id}"]`);
+        const title = node?.querySelector(
+          '[data-chem-label-role="family-primary"]',
+        );
+
+        return node instanceof HTMLElement && title instanceof HTMLElement
+          ? { id, rect: getRect(node), titleRect: getRect(title) }
+          : null;
+      });
+      const labelRects = edgeIds.map((id) => {
+        const label = document.querySelector(
+          `[data-testid="chem-edge-map-label-${id}"]`,
+        );
+
+        if (!(label instanceof HTMLElement)) {
+          return null;
+        }
+
+        const shell = document.querySelector(`[data-testid="chem-edge-${id}"]`);
+        if (!(shell instanceof HTMLElement)) {
+          return null;
+        }
+
+        const style = getComputedStyle(shell);
+        if (style.display === "none" || Number(style.opacity) < 0.05) {
+          return null;
+        }
+
+        return {
+          id,
+          rect: getRect(label),
+          owner: label.getAttribute("data-chem-label-owner"),
+          attachment: label.getAttribute("data-chem-label-attachment"),
+          scrollWidth: label.scrollWidth,
+          scrollHeight: label.scrollHeight,
+          clientWidth: label.clientWidth,
+          clientHeight: label.clientHeight,
+        };
+      });
+      const missingNodes = nodeRects.flatMap((node, index) =>
+        node ? [] : [`${nodeIds[index]}:node-missing`],
+      );
+      const missingLabels = labelRects.flatMap((label, index) =>
+        label ? [] : [`${edgeIds[index]}:label-missing`],
+      );
+      const presentNodes = nodeRects.filter(
+        (node): node is NonNullable<typeof node> => node !== null,
+      );
+      const presentLabels = labelRects.filter(
+        (label): label is NonNullable<typeof label> => label !== null,
+      );
+      const nodeOverlaps: string[] = [];
+      for (let index = 0; index < presentNodes.length; index += 1) {
+        for (
+          let nextIndex = index + 1;
+          nextIndex < presentNodes.length;
+          nextIndex += 1
+        ) {
+          const overlapArea = getOverlapArea(
+            presentNodes[index].rect,
+            presentNodes[nextIndex].rect,
+          );
+          if (overlapArea > 1) {
+            nodeOverlaps.push(
+              `${presentNodes[index].id}/${presentNodes[nextIndex].id}:${overlapArea}`,
+            );
+          }
+        }
+      }
+      const labelNodeOverlaps = presentLabels.flatMap((label) =>
+        presentNodes.flatMap((node) => {
+          const overlapArea = getOverlapArea(label.rect, node.titleRect);
+          return overlapArea > 12
+            ? [`${label.id}/${node.id}:${overlapArea}`]
+            : [];
+        }),
+      );
+      const labelLabelOverlaps: string[] = [];
+      for (let index = 0; index < presentLabels.length; index += 1) {
+        for (
+          let nextIndex = index + 1;
+          nextIndex < presentLabels.length;
+          nextIndex += 1
+        ) {
+          const overlapArea = getOverlapArea(
+            presentLabels[index].rect,
+            presentLabels[nextIndex].rect,
+          );
+          if (overlapArea > 12) {
+            labelLabelOverlaps.push(
+              `${presentLabels[index].id}/${presentLabels[nextIndex].id}:${overlapArea}`,
+            );
+          }
+        }
+      }
+      const labelIssues = presentLabels.flatMap((label) => {
+        const outOfViewport =
+          label.rect.left < viewportRect.left - 4 ||
+          label.rect.right > viewportRect.right + 4 ||
+          label.rect.top < viewportRect.top - 4 ||
+          label.rect.bottom > viewportRect.bottom + 4;
+        const clipped =
+          label.scrollWidth > label.clientWidth + 2 ||
+          label.scrollHeight > label.clientHeight + 2;
+
+        return [
+          label.owner === label.id ? null : `${label.id}:owner:${label.owner}`,
+          label.attachment === "leader-line"
+            ? null
+            : `${label.id}:attachment:${label.attachment}`,
+          outOfViewport ? `${label.id}:outside-viewport` : null,
+          clipped ? `${label.id}:text-clipped` : null,
+        ].filter((issue): issue is string => Boolean(issue));
+      });
+
+      return [
+        ...missingNodes,
+        ...missingLabels,
+        ...nodeOverlaps,
+        ...labelNodeOverlaps,
+        ...labelLabelOverlaps,
+        ...labelIssues,
+      ];
+    },
+    {
+      nodeIds: CHEMISTRY_RIGHT_SIDE_NODE_IDS,
+      edgeIds: CHEMISTRY_RIGHT_SIDE_EDGE_IDS,
+    },
+  );
+
+  expect(issues).toEqual([]);
+}
+
+async function expectChemistryActiveRouteLabelsOwned(
+  page: Page,
+  edgeIds: readonly string[],
+) {
+  const issues = await page.evaluate((ids) => {
+    const viewport = document.querySelector(
+      '[data-testid="chemistry-graph-viewport"]',
+    );
+    const minimap = document.querySelector('[data-testid="chem-graph-minimap"]');
+
+    if (!(viewport instanceof HTMLElement)) {
+      return ["chemistry-graph-viewport:missing"];
+    }
+
+    const viewportRect = viewport.getBoundingClientRect();
+    const minimapRect =
+      minimap instanceof HTMLElement ? minimap.getBoundingClientRect() : null;
+    const getRect = (element: Element) => {
+      const rect = element.getBoundingClientRect();
+      return {
+        left: rect.left,
+        right: rect.right,
+        top: rect.top,
+        bottom: rect.bottom,
+      };
+    };
+    const getOverlapArea = (
+      first: ReturnType<typeof getRect>,
+      second: ReturnType<typeof getRect>,
+    ) => {
+      const width = Math.max(
+        0,
+        Math.min(first.right, second.right) - Math.max(first.left, second.left),
+      );
+      const height = Math.max(
+        0,
+        Math.min(first.bottom, second.bottom) - Math.max(first.top, second.top),
+      );
+
+      return Math.round(width * height);
+    };
+    const nodeTitles = Array.from(
+      document.querySelectorAll('[data-chem-label-role="family-primary"]'),
+    ).filter((item): item is HTMLElement => item instanceof HTMLElement);
+
+    return ids.flatMap((id) => {
+      const shell = document.querySelector(`[data-testid="chem-edge-${id}"]`);
+      const label = document.querySelector(
+        `[data-testid="chem-edge-map-label-${id}"]`,
+      );
+      const leader = document.querySelector(
+        `[data-testid="chem-edge-label-leader-${id}"]`,
+      );
+
+      if (!(shell instanceof HTMLElement) || !(label instanceof HTMLElement)) {
+        return [`${id}:label-missing`];
+      }
+
+      const labelRect = getRect(label);
+      const activeNodeOverlaps = nodeTitles.flatMap((nodeTitle) => {
+        const overlapArea = getOverlapArea(labelRect, getRect(nodeTitle));
+        return overlapArea > 16
+          ? [
+              `${id}/${
+                nodeTitle.textContent?.trim() ?? "node"
+              }:${overlapArea}`,
+            ]
+          : [];
+      });
+      const outOfViewport =
+        labelRect.left < viewportRect.left - 4 ||
+        labelRect.right > viewportRect.right + 4 ||
+        labelRect.top < viewportRect.top - 4 ||
+        labelRect.bottom > viewportRect.bottom + 4;
+      const underMinimap =
+        minimapRect !== null && getOverlapArea(labelRect, minimapRect) > 8;
+
+      return [
+        shell.getAttribute("data-chem-label-owner") === id
+          ? null
+          : `${id}:shell-owner:${shell.getAttribute("data-chem-label-owner")}`,
+        label.getAttribute("data-chem-label-owner") === id
+          ? null
+          : `${id}:label-owner:${label.getAttribute("data-chem-label-owner")}`,
+        label.getAttribute("data-chem-label-attachment") === "leader-line"
+          ? null
+          : `${id}:label-attachment:${label.getAttribute(
+              "data-chem-label-attachment",
+            )}`,
+        leader instanceof SVGElement
+          ? null
+          : `${id}:leader-missing`,
+        leader instanceof SVGElement &&
+        leader.getAttribute("data-chem-label-owner") === id
+          ? null
+          : `${id}:leader-owner`,
+        outOfViewport ? `${id}:outside-viewport` : null,
+        underMinimap ? `${id}:under-minimap` : null,
+        ...activeNodeOverlaps,
+      ].filter((issue): issue is string => Boolean(issue));
+    });
+  }, edgeIds);
+
+  expect(issues).toEqual([]);
 }
 
 test("chemistry reaction mind map is map-first on initial desktop load", async ({
@@ -544,6 +845,7 @@ test("chemistry reaction mind map keeps the graph viewport clipped inside the sp
   await gotoAndExpectOk(page, "/tools/chemistry-reaction-mind-map");
   await page.getByTestId("chemistry-worksurface").scrollIntoViewIfNeeded();
   await waitForStableChemistryGraph(page);
+  await waitForStableChemistryCamera(page);
 
   const bounds = await page.evaluate(() => {
     const worksurface = document.querySelector('[data-testid="chemistry-worksurface"]');
@@ -577,6 +879,7 @@ test("chemistry reaction mind map keeps the graph viewport clipped inside the sp
   expect(bounds.viewportHeight).toBeGreaterThanOrEqual(400);
   expect(bounds.viewportBottom).toBeLessThanOrEqual(bounds.worksurfaceBottom + 1);
   expect(bounds.footerTop).toBeGreaterThan(bounds.worksurfaceBottom - 1);
+  await expectChemistryRightSideClusterReadable(page);
 
   guard.assertNoActionableIssues();
 });
@@ -584,6 +887,8 @@ test("chemistry reaction mind map keeps the graph viewport clipped inside the sp
 test("chemistry reaction mind map supports focused camera, route exploration, and localized details", async ({
   page,
 }) => {
+  test.setTimeout(60_000);
+
   await page.setViewportSize({ width: 1180, height: 1000 });
   await disableOnboardingPrompt(page);
   const guard = await installBrowserGuards(page);
@@ -967,6 +1272,11 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
     "alcohol-to-aldehyde-oxidation",
     "aldehyde-to-carboxylic-acid-oxidation",
   ]);
+  await expectChemistryActiveRouteLabelsOwned(page, [
+    "alkene-to-alcohol-hydration",
+    "alcohol-to-aldehyde-oxidation",
+    "aldehyde-to-carboxylic-acid-oxidation",
+  ]);
   await expectNoChemistryEdgeLabelNodeTitleOverlap(page);
   await expect(page.getByTestId("chem-edge-alkene-to-alcohol-hydration")).toHaveAttribute(
     "data-chem-route-step",
@@ -1027,6 +1337,9 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
   await expectChemistryEdgeLabelsReadable(page, [
     "carboxylic-acid-to-ester-esterification",
   ]);
+  await expectChemistryActiveRouteLabelsOwned(page, [
+    "carboxylic-acid-to-ester-esterification",
+  ]);
   await page.getByTestId("chem-route-clear").click();
   await expect(viewport).toHaveAttribute("data-chem-camera-mode", "graph");
 
@@ -1048,6 +1361,36 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
   await expectChemistryEdgeLabelsReadable(page, [
     "alkene-to-haloalkane-hydrohalogenation",
   ]);
+  await expectChemistryActiveRouteLabelsOwned(page, [
+    "alkene-to-haloalkane-hydrohalogenation",
+  ]);
+  await page.getByTestId("chem-route-clear").click();
+  await expect(viewport).toHaveAttribute("data-chem-camera-mode", "graph");
+
+  await page.getByTestId("chem-route-start").selectOption("carboxylic-acid");
+  await page.getByTestId("chem-route-target").selectOption("acyl-chloride");
+  await expect(page.getByTestId("chem-route-start")).toHaveValue(
+    "carboxylic-acid",
+  );
+  await expect(page.getByTestId("chem-route-target")).toHaveValue(
+    "acyl-chloride",
+  );
+  await page.getByTestId("chem-route-search").click();
+  await expect(page.getByTestId("chem-route-progress")).toHaveAttribute(
+    "data-chem-route-step-count",
+    "1",
+  );
+  await expectChemistryEdgeLabelsReadable(page, [
+    "carboxylic-acid-to-acyl-chloride-chlorination",
+  ]);
+  await expectChemistryActiveRouteLabelsOwned(page, [
+    "carboxylic-acid-to-acyl-chloride-chlorination",
+  ]);
+  await expectChemistryGraphItemsInsideViewport(page, [
+    "chem-edge-path-carboxylic-acid-to-acyl-chloride-chlorination",
+    "chem-edge-direction-carboxylic-acid-to-acyl-chloride-chlorination",
+    "chem-edge-carboxylic-acid-to-acyl-chloride-chlorination",
+  ]);
   await page.getByTestId("chem-route-clear").click();
   await expect(viewport).toHaveAttribute("data-chem-camera-mode", "graph");
 
@@ -1059,6 +1402,9 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
     "1",
   );
   await expectChemistryEdgeLabelsReadable(page, [
+    "ester-to-carboxylate-salt-alkaline-hydrolysis",
+  ]);
+  await expectChemistryActiveRouteLabelsOwned(page, [
     "ester-to-carboxylate-salt-alkaline-hydrolysis",
   ]);
   await expectChemistryGraphItemsInsideViewport(page, [
@@ -1079,6 +1425,9 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
   await expectChemistryEdgeLabelsReadable(page, [
     "acyl-chloride-to-ester-alcoholysis",
   ]);
+  await expectChemistryActiveRouteLabelsOwned(page, [
+    "acyl-chloride-to-ester-alcoholysis",
+  ]);
   await expectChemistryGraphItemsInsideViewport(page, [
     "chem-edge-path-acyl-chloride-to-ester-alcoholysis",
     "chem-edge-direction-acyl-chloride-to-ester-alcoholysis",
@@ -1097,10 +1446,75 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
   await expectChemistryEdgeLabelsReadable(page, [
     "acyl-chloride-to-amide-ammonolysis",
   ]);
+  await expectChemistryActiveRouteLabelsOwned(page, [
+    "acyl-chloride-to-amide-ammonolysis",
+  ]);
   await expectChemistryGraphItemsInsideViewport(page, [
     "chem-edge-path-acyl-chloride-to-amide-ammonolysis",
     "chem-edge-direction-acyl-chloride-to-amide-ammonolysis",
     "chem-edge-acyl-chloride-to-amide-ammonolysis",
+  ]);
+  await page.getByTestId("chem-route-clear").click();
+  await expect(viewport).toHaveAttribute("data-chem-camera-mode", "graph");
+
+  await page.getByTestId("chem-route-start").selectOption("carboxylic-acid");
+  await page.getByTestId("chem-route-target").selectOption("amide");
+  await expect(page.getByTestId("chem-route-start")).toHaveValue(
+    "carboxylic-acid",
+  );
+  await expect(page.getByTestId("chem-route-target")).toHaveValue("amide");
+  await page.getByTestId("chem-route-search").click();
+  await expect(page.getByTestId("chem-route-progress")).toHaveAttribute(
+    "data-chem-route-step-count",
+    "2",
+  );
+  await expectChemistryEdgeLabelsReadable(page, [
+    "carboxylic-acid-to-acyl-chloride-chlorination",
+    "acyl-chloride-to-amide-ammonolysis",
+  ]);
+  await expectChemistryActiveRouteLabelsOwned(page, [
+    "carboxylic-acid-to-acyl-chloride-chlorination",
+    "acyl-chloride-to-amide-ammonolysis",
+  ]);
+  await page.getByTestId("chem-route-clear").click();
+  await expect(viewport).toHaveAttribute("data-chem-camera-mode", "graph");
+
+  await page.getByTestId("chem-route-start").selectOption("aldehyde");
+  await page.getByTestId("chem-route-target").selectOption("hydroxynitrile");
+  await expect(page.getByTestId("chem-route-start")).toHaveValue("aldehyde");
+  await expect(page.getByTestId("chem-route-target")).toHaveValue(
+    "hydroxynitrile",
+  );
+  await page.getByTestId("chem-route-search").click();
+  await expect(page.getByTestId("chem-route-progress")).toHaveAttribute(
+    "data-chem-route-step-count",
+    "1",
+  );
+  await expectChemistryEdgeLabelsReadable(page, [
+    "aldehyde-to-hydroxynitrile-cyanohydrin-addition",
+  ]);
+  await expectChemistryActiveRouteLabelsOwned(page, [
+    "aldehyde-to-hydroxynitrile-cyanohydrin-addition",
+  ]);
+  await page.getByTestId("chem-route-clear").click();
+  await expect(viewport).toHaveAttribute("data-chem-camera-mode", "graph");
+
+  await page.getByTestId("chem-route-start").selectOption("ketone");
+  await page.getByTestId("chem-route-target").selectOption("hydroxynitrile");
+  await expect(page.getByTestId("chem-route-start")).toHaveValue("ketone");
+  await expect(page.getByTestId("chem-route-target")).toHaveValue(
+    "hydroxynitrile",
+  );
+  await page.getByTestId("chem-route-search").click();
+  await expect(page.getByTestId("chem-route-progress")).toHaveAttribute(
+    "data-chem-route-step-count",
+    "1",
+  );
+  await expectChemistryEdgeLabelsReadable(page, [
+    "ketone-to-hydroxynitrile-cyanohydrin-addition",
+  ]);
+  await expectChemistryActiveRouteLabelsOwned(page, [
+    "ketone-to-hydroxynitrile-cyanohydrin-addition",
   ]);
   await page.getByTestId("chem-route-clear").click();
   await expect(viewport).toHaveAttribute("data-chem-camera-mode", "graph");
