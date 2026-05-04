@@ -158,11 +158,11 @@ const GRAPH_NODE_Z_INDEX = {
 type GraphLayerPriority = keyof typeof GRAPH_NODE_Z_INDEX;
 
 const EDGE_MAP_LABEL_OVERRIDES: Partial<Record<ChemistryEdge["label"], string>> = {
-  "Hydrohalogenation": "Hydrohalo.",
+  "Hydrohalogenation": "Add HX",
   "Radical substitution": "Radical subst.",
-  "Substitution to haloalkane": "Subst. to haloalkane",
-  "Substitution to nitrile": "Subst. to nitrile",
-  "Substitution to amine": "Subst. to amine",
+  "Substitution to haloalkane": "Substitution",
+  "Substitution to nitrile": "Add CN",
+  "Substitution to amine": "Add NH3",
   "Hydrolysis to alcohol": "Hydrolysis",
   "Hydrolysis to carboxylic acid": "Hydrolysis",
   "Oxidation to aldehyde": "Oxidation",

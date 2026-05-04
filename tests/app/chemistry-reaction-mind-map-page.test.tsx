@@ -108,7 +108,17 @@ describe("chemistry reaction mind map route", () => {
     );
     expect(
       screen.getByTestId("chem-edge-alkene-to-haloalkane-hydrohalogenation"),
-    ).toHaveAttribute("data-chem-map-label", "Hydrohalo.");
+    ).toHaveAttribute("data-chem-map-label", "Add HX");
+    expect(
+      screen.getByTestId("chem-edge-alkene-to-haloalkane-hydrohalogenation"),
+    ).toHaveAttribute("data-chem-full-label", "Hydrohalogenation");
+    expect(screen.queryByText("Hydrohalo.")).not.toBeInTheDocument();
+    expect(
+      screen.getByTestId("chem-edge-haloalkane-to-nitrile-cyanide-substitution"),
+    ).toHaveAttribute("data-chem-map-label", "Add CN");
+    expect(
+      screen.getByTestId("chem-edge-haloalkane-to-amine-ammonia-substitution"),
+    ).toHaveAttribute("data-chem-map-label", "Add NH3");
     expect(
       screen.getByTestId("chem-edge-alkane-to-haloalkane-radical-substitution"),
     ).toHaveAttribute("data-chem-map-label", "Radical subst.");

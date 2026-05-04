@@ -127,6 +127,34 @@ const CHEMISTRY_RIGHT_SIDE_EDGE_IDS = [
   "ester-to-carboxylate-salt-alkaline-hydrolysis",
 ] as const;
 
+const CHEMISTRY_LEFT_SIDE_NODE_IDS = [
+  "alkane",
+  "alkene",
+  "haloalkane",
+  "alcohol",
+  "nitrile",
+  "amine",
+] as const;
+
+const CHEMISTRY_LEFT_SIDE_EDGE_IDS = [
+  "alkane-to-haloalkane-radical-substitution",
+  "alkane-to-alkene-cracking",
+  "alkene-to-alkane-hydrogenation",
+  "alkene-to-alcohol-hydration",
+  "alkene-to-haloalkane-hydrohalogenation",
+  "haloalkane-to-alcohol-hydrolysis",
+  "haloalkane-to-nitrile-cyanide-substitution",
+  "haloalkane-to-amine-ammonia-substitution",
+  "alcohol-to-haloalkane-substitution",
+] as const;
+
+const CHEMISTRY_LEFT_SIDE_EXPECTED_LABELS = {
+  "alkene-to-haloalkane-hydrohalogenation": "Add HX",
+  "haloalkane-to-nitrile-cyanide-substitution": "Add CN",
+  "haloalkane-to-amine-ammonia-substitution": "Add NH3",
+  "alcohol-to-haloalkane-substitution": "Substitution",
+} as const;
+
 async function expectChemistryGraphItemsInsideViewport(
   page: Page,
   testIds: readonly string[],
@@ -286,6 +314,186 @@ async function expectNoChemistryEdgeLabelNodeTitleOverlap(page: Page) {
   });
 
   expect(overlapIssues).toEqual([]);
+}
+
+async function expectChemistryLeftSideClusterReadable(page: Page) {
+  const issues = await page.evaluate(
+    ({ nodeIds, edgeIds, expectedLabels }) => {
+      const viewport = document.querySelector(
+        '[data-testid="chemistry-graph-viewport"]',
+      );
+
+      if (!(viewport instanceof HTMLElement)) {
+        return ["chemistry-graph-viewport:missing"];
+      }
+
+      const viewportRect = viewport.getBoundingClientRect();
+      const getRect = (element: Element) => {
+        const rect = element.getBoundingClientRect();
+        return {
+          left: rect.left,
+          right: rect.right,
+          top: rect.top,
+          bottom: rect.bottom,
+        };
+      };
+      const getOverlapArea = (
+        first: ReturnType<typeof getRect>,
+        second: ReturnType<typeof getRect>,
+      ) => {
+        const width = Math.max(
+          0,
+          Math.min(first.right, second.right) - Math.max(first.left, second.left),
+        );
+        const height = Math.max(
+          0,
+          Math.min(first.bottom, second.bottom) - Math.max(first.top, second.top),
+        );
+
+        return Math.round(width * height);
+      };
+      const nodeRects = nodeIds.map((id) => {
+        const node = document.querySelector(`[data-testid="chem-node-${id}"]`);
+        const title = node?.querySelector(
+          '[data-chem-label-role="family-primary"]',
+        );
+
+        return node instanceof HTMLElement && title instanceof HTMLElement
+          ? { id, rect: getRect(node), titleRect: getRect(title) }
+          : null;
+      });
+      const labelRects = edgeIds.map((id) => {
+        const label = document.querySelector(
+          `[data-testid="chem-edge-map-label-${id}"]`,
+        );
+        const shell = document.querySelector(`[data-testid="chem-edge-${id}"]`);
+
+        if (!(label instanceof HTMLElement) || !(shell instanceof HTMLElement)) {
+          return null;
+        }
+
+        const style = getComputedStyle(shell);
+        if (style.display === "none" || Number(style.opacity) < 0.05) {
+          return null;
+        }
+
+        return {
+          id,
+          rect: getRect(label),
+          text: label.textContent?.replace(/\s+/g, " ").trim() ?? "",
+          fullLabel: shell.getAttribute("data-chem-full-label"),
+          owner: label.getAttribute("data-chem-label-owner"),
+          attachment: label.getAttribute("data-chem-label-attachment"),
+          scrollWidth: label.scrollWidth,
+          scrollHeight: label.scrollHeight,
+          clientWidth: label.clientWidth,
+          clientHeight: label.clientHeight,
+        };
+      });
+      const missingNodes = nodeRects.flatMap((node, index) =>
+        node ? [] : [`${nodeIds[index]}:node-missing`],
+      );
+      const missingLabels = labelRects.flatMap((label, index) =>
+        label ? [] : [`${edgeIds[index]}:label-missing`],
+      );
+      const presentNodes = nodeRects.filter(
+        (node): node is NonNullable<typeof node> => node !== null,
+      );
+      const presentLabels = labelRects.filter(
+        (label): label is NonNullable<typeof label> => label !== null,
+      );
+      const nodeOverlaps: string[] = [];
+      for (let index = 0; index < presentNodes.length; index += 1) {
+        for (
+          let nextIndex = index + 1;
+          nextIndex < presentNodes.length;
+          nextIndex += 1
+        ) {
+          const overlapArea = getOverlapArea(
+            presentNodes[index].rect,
+            presentNodes[nextIndex].rect,
+          );
+          if (overlapArea > 1) {
+            nodeOverlaps.push(
+              `${presentNodes[index].id}/${presentNodes[nextIndex].id}:${overlapArea}`,
+            );
+          }
+        }
+      }
+      const labelNodeOverlaps = presentLabels.flatMap((label) =>
+        presentNodes.flatMap((node) => {
+          const overlapArea = getOverlapArea(label.rect, node.titleRect);
+          return overlapArea > 12
+            ? [`${label.id}/${node.id}:${overlapArea}`]
+            : [];
+        }),
+      );
+      const labelLabelOverlaps: string[] = [];
+      for (let index = 0; index < presentLabels.length; index += 1) {
+        for (
+          let nextIndex = index + 1;
+          nextIndex < presentLabels.length;
+          nextIndex += 1
+        ) {
+          const overlapArea = getOverlapArea(
+            presentLabels[index].rect,
+            presentLabels[nextIndex].rect,
+          );
+          if (overlapArea > 12) {
+            labelLabelOverlaps.push(
+              `${presentLabels[index].id}/${presentLabels[nextIndex].id}:${overlapArea}`,
+            );
+          }
+        }
+      }
+      const labelIssues = presentLabels.flatMap((label) => {
+        const outOfViewport =
+          label.rect.left < viewportRect.left - 4 ||
+          label.rect.right > viewportRect.right + 4 ||
+          label.rect.top < viewportRect.top - 4 ||
+          label.rect.bottom > viewportRect.bottom + 4;
+        const clipped =
+          label.scrollWidth > label.clientWidth + 2 ||
+          label.scrollHeight > label.clientHeight + 2;
+        const expectedLabel = (expectedLabels as Record<string, string>)[
+          label.id
+        ];
+
+        return [
+          label.owner === label.id ? null : `${label.id}:owner:${label.owner}`,
+          label.attachment === "leader-line"
+            ? null
+            : `${label.id}:attachment:${label.attachment}`,
+          outOfViewport ? `${label.id}:outside-viewport` : null,
+          clipped ? `${label.id}:text-clipped` : null,
+          label.text === "Hydrohalo." ? `${label.id}:confusing-label` : null,
+          expectedLabel && label.text !== expectedLabel
+            ? `${label.id}:label:${label.text}`
+            : null,
+          label.id === "alkene-to-haloalkane-hydrohalogenation" &&
+          label.fullLabel !== "Hydrohalogenation"
+            ? `${label.id}:full-label:${label.fullLabel}`
+            : null,
+        ].filter((issue): issue is string => Boolean(issue));
+      });
+
+      return [
+        ...missingNodes,
+        ...missingLabels,
+        ...nodeOverlaps,
+        ...labelNodeOverlaps,
+        ...labelLabelOverlaps,
+        ...labelIssues,
+      ];
+    },
+    {
+      nodeIds: CHEMISTRY_LEFT_SIDE_NODE_IDS,
+      edgeIds: CHEMISTRY_LEFT_SIDE_EDGE_IDS,
+      expectedLabels: CHEMISTRY_LEFT_SIDE_EXPECTED_LABELS,
+    },
+  );
+
+  expect(issues).toEqual([]);
 }
 
 async function expectChemistryRightSideClusterReadable(page: Page) {
@@ -831,6 +1039,20 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
     "alkene-to-haloalkane-hydrohalogenation",
     "alkene-to-alcohol-hydration",
   ]);
+  await expect(page.getByText("Hydrohalo.")).toHaveCount(0);
+  await expect(
+    page.getByTestId("chem-edge-alkene-to-haloalkane-hydrohalogenation"),
+  ).toHaveAttribute("data-chem-map-label", "Add HX");
+  await expect(
+    page.getByTestId("chem-edge-alkene-to-haloalkane-hydrohalogenation"),
+  ).toHaveAttribute("data-chem-full-label", "Hydrohalogenation");
+  await expect(
+    page.getByTestId("chem-edge-haloalkane-to-nitrile-cyanide-substitution"),
+  ).toHaveAttribute("data-chem-map-label", "Add CN");
+  await expect(
+    page.getByTestId("chem-edge-haloalkane-to-amine-ammonia-substitution"),
+  ).toHaveAttribute("data-chem-map-label", "Add NH3");
+  await expectChemistryLeftSideClusterReadable(page);
 
   guard.assertNoActionableIssues();
 });
@@ -1364,6 +1586,47 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
   await expectChemistryActiveRouteLabelsOwned(page, [
     "alkene-to-haloalkane-hydrohalogenation",
   ]);
+  await expect(
+    page.getByTestId("chem-edge-alkene-to-haloalkane-hydrohalogenation"),
+  ).toHaveAttribute("data-chem-map-label", "Add HX");
+  await page.getByTestId("chem-route-clear").click();
+  await expect(viewport).toHaveAttribute("data-chem-camera-mode", "graph");
+
+  await page.getByTestId("chem-route-start").selectOption("haloalkane");
+  await page.getByTestId("chem-route-target").selectOption("nitrile");
+  await page.getByTestId("chem-route-search").click();
+  await expect(page.getByTestId("chem-route-progress")).toHaveAttribute(
+    "data-chem-route-step-count",
+    "1",
+  );
+  await expectChemistryEdgeLabelsReadable(page, [
+    "haloalkane-to-nitrile-cyanide-substitution",
+  ]);
+  await expectChemistryActiveRouteLabelsOwned(page, [
+    "haloalkane-to-nitrile-cyanide-substitution",
+  ]);
+  await expect(
+    page.getByTestId("chem-edge-haloalkane-to-nitrile-cyanide-substitution"),
+  ).toHaveAttribute("data-chem-map-label", "Add CN");
+  await page.getByTestId("chem-route-clear").click();
+  await expect(viewport).toHaveAttribute("data-chem-camera-mode", "graph");
+
+  await page.getByTestId("chem-route-start").selectOption("haloalkane");
+  await page.getByTestId("chem-route-target").selectOption("amine");
+  await page.getByTestId("chem-route-search").click();
+  await expect(page.getByTestId("chem-route-progress")).toHaveAttribute(
+    "data-chem-route-step-count",
+    "1",
+  );
+  await expectChemistryEdgeLabelsReadable(page, [
+    "haloalkane-to-amine-ammonia-substitution",
+  ]);
+  await expectChemistryActiveRouteLabelsOwned(page, [
+    "haloalkane-to-amine-ammonia-substitution",
+  ]);
+  await expect(
+    page.getByTestId("chem-edge-haloalkane-to-amine-ammonia-substitution"),
+  ).toHaveAttribute("data-chem-map-label", "Add NH3");
   await page.getByTestId("chem-route-clear").click();
   await expect(viewport).toHaveAttribute("data-chem-camera-mode", "graph");
 
