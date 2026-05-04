@@ -64,9 +64,11 @@ describe("chemistry reaction mind map route", () => {
       "compound-family",
     );
     expect(alcoholNode).toHaveAttribute("data-chem-visual-weight", "primary");
+    expect(alcoholNode).toHaveAttribute("data-chem-node-width", "228");
+    expect(alcoholNode).toHaveAttribute("data-chem-node-height", "124");
     expect(
       alcoholNode.querySelector('[data-chem-label-role="family-primary"]'),
-    ).toHaveClass("text-[1.45rem]", "font-black");
+    ).toHaveClass("text-[1.55rem]", "font-black");
     expect(
       alcoholNode.querySelector('[data-chem-label-role="family-primary"]'),
     ).toHaveAttribute("data-chem-label-weight", "primary");
@@ -1706,6 +1708,24 @@ describe("chemistry reaction mind map route", () => {
       /keyboard shortcuts.*arrow keys pan.*\+ \/ - zoom.*0 fits active view/i,
     );
     expect(zoomStatus).toHaveAttribute("aria-live", "polite");
+    expect(screen.getByTestId("chemistry-graph-toolbar")).toHaveAttribute(
+      "data-chem-toolbar-height",
+      "stable",
+    );
+    expect(screen.getByTestId("chemistry-graph-toolbar-status")).toHaveAttribute(
+      "data-chem-toolbar-overflow",
+      "stable-single-line",
+    );
+    expect(screen.getByTestId("chem-preview-status")).toHaveAttribute(
+      "data-chem-preview-layout",
+      "single-line",
+    );
+    expect(screen.getByTestId("chem-preview-status").className).toContain(
+      "truncate",
+    );
+    expect(screen.getByTestId("chem-preview-status").className).toContain(
+      "whitespace-nowrap",
+    );
     expect(screen.getByTestId("chem-scope-status")).toHaveTextContent(
       /7 nodes · 11 pathways in active view/i,
     );
@@ -1887,8 +1907,8 @@ describe("chemistry reaction mind map route", () => {
     mockElementRect(alcoholNode, {
       left: 100,
       top: 100,
-      width: 200,
-      height: 104,
+      width: 228,
+      height: 124,
     });
     const initialScale = viewport.getAttribute("data-chem-scale");
 
@@ -1936,8 +1956,8 @@ describe("chemistry reaction mind map route", () => {
     mockElementRect(alcoholNode, {
       left: 100,
       top: 100,
-      width: 200,
-      height: 104,
+      width: 228,
+      height: 124,
     });
     const initialScale = viewport.getAttribute("data-chem-scale");
 

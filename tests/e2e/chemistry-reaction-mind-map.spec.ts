@@ -140,7 +140,9 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
     const heading = document.querySelector("h1");
     const worksurface = document.querySelector('[data-testid="chemistry-worksurface"]');
     const viewport = document.querySelector('[data-testid="chemistry-graph-viewport"]');
+    const toolbar = document.querySelector('[data-testid="chemistry-graph-toolbar"]');
     const toolbarStatus = document.querySelector('[data-testid="chemistry-graph-toolbar-status"]');
+    const previewStatus = document.querySelector('[data-testid="chem-preview-status"]');
     const alcoholLabel = document.querySelector(
       '[data-testid="chem-node-alcohol"] [data-chem-label-role="family-primary"]',
     );
@@ -167,7 +169,9 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
       !(heading instanceof HTMLElement) ||
       !(worksurface instanceof HTMLElement) ||
       !(viewport instanceof HTMLElement) ||
+      !(toolbar instanceof HTMLElement) ||
       !(toolbarStatus instanceof HTMLElement) ||
+      !(previewStatus instanceof HTMLElement) ||
       !(alcoholLabel instanceof HTMLElement) ||
       !(hydrationEdge instanceof HTMLElement) ||
       nodeElements.length !== nodeIds.length ||
@@ -225,9 +229,11 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
     const headingRect = heading.getBoundingClientRect();
     const worksurfaceRect = worksurface.getBoundingClientRect();
     const viewportRect = viewport.getBoundingClientRect();
+    const toolbarRect = toolbar.getBoundingClientRect();
     const nodeFontSize = Number.parseFloat(getComputedStyle(alcoholLabel).fontSize);
     const edgeFontSize = Number.parseFloat(getComputedStyle(hydrationEdge).fontSize);
     const edgeBackground = getComputedStyle(hydrationEdge).backgroundColor;
+    const previewStyle = getComputedStyle(previewStatus);
     const alcoholNode = document.querySelector('[data-testid="chem-node-alcohol"]');
     const nodeBorderWidth =
       alcoholNode instanceof HTMLElement
@@ -242,8 +248,17 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
       viewportTop: Math.round(viewportRect.top),
       viewportBottom: Math.round(viewportRect.bottom),
       viewportHeight: Math.round(viewportRect.height),
+      toolbarHeight: Math.round(toolbarRect.height),
       nodeFontSize,
       edgeFontSize,
+      nodeWidth:
+        alcoholNode instanceof HTMLElement
+          ? Number(alcoholNode.getAttribute("data-chem-node-width"))
+          : 0,
+      nodeHeight:
+        alcoholNode instanceof HTMLElement
+          ? Number(alcoholNode.getAttribute("data-chem-node-height"))
+          : 0,
       nodeBorderWidth,
       edgeBorderWidth,
       nodeVisualKind:
@@ -260,8 +275,13 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
       edgeBackground,
       nodeLabelWeight: alcoholLabel.getAttribute("data-chem-label-weight"),
       edgeLabelWeight: hydrationEdge.getAttribute("data-chem-label-weight"),
+      toolbarHeightMode: toolbar.getAttribute("data-chem-toolbar-height"),
       toolbarOverflowMode: toolbarStatus.getAttribute("data-chem-toolbar-overflow"),
       toolbarOverflowX: getComputedStyle(toolbarStatus).overflowX,
+      previewLayout: previewStatus.getAttribute("data-chem-preview-layout"),
+      previewOverflowX: previewStyle.overflowX,
+      previewTextOverflow: previewStyle.textOverflow,
+      previewWhiteSpace: previewStyle.whiteSpace,
       navigationMode: viewport.getAttribute("data-chem-navigation-mode"),
       wheelMode: viewport.getAttribute("data-chem-wheel-mode"),
       nodeOverlaps,
@@ -281,7 +301,10 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
   expect(firstScreen.viewportTop).toBeLessThan(650);
   expect(firstScreen.viewportBottom).toBeGreaterThan(620);
   expect(firstScreen.viewportHeight).toBeGreaterThanOrEqual(320);
+  expect(firstScreen.toolbarHeight).toBeLessThanOrEqual(42);
   expect(firstScreen.nodeFontSize).toBeGreaterThan(firstScreen.edgeFontSize);
+  expect(firstScreen.nodeWidth).toBeGreaterThanOrEqual(228);
+  expect(firstScreen.nodeHeight).toBeGreaterThanOrEqual(124);
   expect(firstScreen.nodeBorderWidth).toBeGreaterThan(firstScreen.edgeBorderWidth);
   expect(firstScreen.nodeVisualKind).toBe("compound-family");
   expect(firstScreen.nodeVisualWeight).toBe("primary");
@@ -291,9 +314,13 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
   expect(firstScreen.edgeBackground).toBe("rgba(0, 0, 0, 0)");
   expect(firstScreen.nodeLabelWeight).toBe("primary");
   expect(firstScreen.edgeLabelWeight).toBe("secondary");
-  expect(firstScreen.toolbarOverflowMode).toBe("wrapped");
-  expect(firstScreen.toolbarOverflowX).not.toBe("scroll");
-  expect(firstScreen.toolbarOverflowX).not.toBe("auto");
+  expect(firstScreen.toolbarHeightMode).toBe("stable");
+  expect(firstScreen.toolbarOverflowMode).toBe("stable-single-line");
+  expect(firstScreen.toolbarOverflowX).toBe("hidden");
+  expect(firstScreen.previewLayout).toBe("single-line");
+  expect(firstScreen.previewOverflowX).toBe("hidden");
+  expect(firstScreen.previewTextOverflow).toBe("ellipsis");
+  expect(firstScreen.previewWhiteSpace).toBe("nowrap");
   expect(firstScreen.navigationMode).toBe("drag-pan");
   expect(firstScreen.wheelMode).toBe("page-scroll");
   expect(firstScreen.overflowX).toBe("hidden");
@@ -565,12 +592,60 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
   if (!alcoholOverlapPoint) {
     throw new Error("Could not resolve an Alcohol hover overlap point.");
   }
+  const hoverLayoutBefore = await page.evaluate(() => {
+    const toolbar = document.querySelector('[data-testid="chemistry-graph-toolbar"]');
+    const viewportElement = document.querySelector(
+      '[data-testid="chemistry-graph-viewport"]',
+    );
+    if (
+      !(toolbar instanceof HTMLElement) ||
+      !(viewportElement instanceof HTMLElement)
+    ) {
+      return null;
+    }
+    const toolbarRect = toolbar.getBoundingClientRect();
+    const viewportRect = viewportElement.getBoundingClientRect();
+    return {
+      toolbarHeight: toolbarRect.height,
+      viewportTop: viewportRect.top,
+    };
+  });
+  if (!hoverLayoutBefore) {
+    throw new Error("Could not resolve chemistry hover layout metrics.");
+  }
   await page.mouse.move(alcoholOverlapPoint.x, alcoholOverlapPoint.y);
   await expect(viewport).toHaveAttribute("data-chem-hover-target", /node:alcohol/);
   await expect(viewport).toHaveAttribute("data-chem-hover-camera", "none");
   const overlapHoverScale = await viewport.getAttribute("data-chem-scale");
   await waitForStableChemistryCamera(page);
   await expect(viewport).toHaveAttribute("data-chem-scale", overlapHoverScale ?? "");
+  const hoverLayoutAfter = await page.evaluate(() => {
+    const toolbar = document.querySelector('[data-testid="chemistry-graph-toolbar"]');
+    const viewportElement = document.querySelector(
+      '[data-testid="chemistry-graph-viewport"]',
+    );
+    if (
+      !(toolbar instanceof HTMLElement) ||
+      !(viewportElement instanceof HTMLElement)
+    ) {
+      return null;
+    }
+    const toolbarRect = toolbar.getBoundingClientRect();
+    const viewportRect = viewportElement.getBoundingClientRect();
+    return {
+      toolbarHeight: toolbarRect.height,
+      viewportTop: viewportRect.top,
+    };
+  });
+  if (!hoverLayoutAfter) {
+    throw new Error("Could not resolve chemistry hover layout metrics after hover.");
+  }
+  expect(
+    Math.abs(hoverLayoutAfter.toolbarHeight - hoverLayoutBefore.toolbarHeight),
+  ).toBeLessThanOrEqual(1);
+  expect(
+    Math.abs(hoverLayoutAfter.viewportTop - hoverLayoutBefore.viewportTop),
+  ).toBeLessThanOrEqual(1);
   await page.mouse.click(alcoholOverlapPoint.x, alcoholOverlapPoint.y);
   await expect(page.getByTestId("chem-node-details")).toBeVisible();
   await expect(page.getByTestId("chemistry-selection-summary")).toContainText(

@@ -19,8 +19,8 @@ import type {
 } from "@/lib/tools/chemistry-reaction-mind-map";
 import { ChemistryInlineNotation } from "./ChemistryNotation";
 
-const NODE_WIDTH = 200;
-const NODE_HEIGHT = 104;
+const NODE_WIDTH = 228;
+const NODE_HEIGHT = 124;
 const SCENE_PADDING = 72;
 const MIN_SCALE = 0.36;
 const MAX_SCALE = 2.25;
@@ -1798,20 +1798,24 @@ export function ChemistryReactionGraph({
         className,
       )}
     >
-      <div className="flex flex-wrap items-center justify-between gap-2 min-[1100px]:flex-nowrap">
+      <div
+        data-testid="chemistry-graph-toolbar"
+        data-chem-toolbar-height="stable"
+        className="flex min-h-10 flex-wrap items-start justify-between gap-2 overflow-hidden min-[1100px]:max-h-10 min-[1100px]:flex-nowrap"
+      >
         <div
           data-testid="chemistry-graph-toolbar-status"
-          data-chem-toolbar-overflow="wrapped"
-          className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 text-xs text-ink-700 [&>span]:shrink-0"
+          data-chem-toolbar-overflow="stable-single-line"
+          className="flex h-10 min-w-0 flex-1 flex-nowrap items-center gap-1.5 overflow-hidden text-xs text-ink-700 [&>span]:shrink-0"
         >
-          <span className="rounded-full border border-line bg-paper px-2.5 py-1.5">
+          <span className="whitespace-nowrap rounded-full border border-line bg-paper px-2.5 py-1.5">
             {t("navigation.dragHint")}
           </span>
           <span
             id="chemistry-graph-zoom-status"
             aria-live="polite"
             data-testid="chem-zoom-status"
-            className="rounded-full border border-line bg-paper px-2.5 py-1.5"
+            className="whitespace-nowrap rounded-full border border-line bg-paper px-2.5 py-1.5"
           >
             {t("navigation.zoom", { percent: zoomPercent })}
           </span>
@@ -1819,7 +1823,8 @@ export function ChemistryReactionGraph({
             id="chemistry-graph-camera-status"
             aria-live="polite"
             data-testid="chem-camera-status"
-            className="rounded-full border border-teal-500/20 bg-teal-500/10 px-2.5 py-1.5 font-medium text-teal-900"
+            title={activeCameraSummary}
+            className="max-w-[18rem] truncate whitespace-nowrap rounded-full border border-teal-500/20 bg-teal-500/10 px-2.5 py-1.5 font-medium text-teal-900"
           >
             {activeCameraSummary}
           </span>
@@ -1828,7 +1833,8 @@ export function ChemistryReactionGraph({
             aria-live="polite"
             data-testid="chem-scope-status"
             data-chem-scope-summary={activeScopeSummary}
-            className="rounded-full border border-line bg-paper px-2.5 py-1.5 font-medium text-ink-700 max-[1279px]:sr-only"
+            title={activeScopeSummary}
+            className="max-w-[16rem] truncate whitespace-nowrap rounded-full border border-line bg-paper px-2.5 py-1.5 font-medium text-ink-700 max-[1279px]:sr-only"
           >
             {activeScopeSummary}
           </span>
@@ -1837,7 +1843,10 @@ export function ChemistryReactionGraph({
             aria-live="polite"
             data-testid="chem-flow-status"
             data-chem-active-flow-summary={activeGraphFlowSummary}
-            className="rounded-full border border-line bg-paper px-2.5 py-1.5 font-medium text-ink-700 max-[1279px]:sr-only"
+            title={t("graphStatus.flow.active", {
+              stages: activeGraphFlowSummary,
+            })}
+            className="max-w-[18rem] truncate whitespace-nowrap rounded-full border border-line bg-paper px-2.5 py-1.5 font-medium text-ink-700 max-[1279px]:sr-only"
           >
             {t("graphStatus.flow.active", { stages: activeGraphFlowSummary })}
           </span>
@@ -1845,7 +1854,9 @@ export function ChemistryReactionGraph({
             id="chemistry-graph-preview-status"
             aria-live="polite"
             data-testid="chem-preview-status"
-            className="rounded-full border border-line bg-paper px-2.5 py-1.5 font-medium text-ink-700 max-[1279px]:sr-only"
+            data-chem-preview-layout="single-line"
+            title={interactionPreviewSummary}
+            className="min-w-0 max-w-[min(30rem,34vw)] truncate whitespace-nowrap rounded-full border border-line bg-paper px-2.5 py-1.5 font-medium text-ink-700 max-[1279px]:sr-only"
           >
             {interactionPreviewSummary}
           </span>
@@ -3767,6 +3778,8 @@ export function ChemistryReactionGraph({
                 data-chem-interactive="true"
                 data-chem-node-hitbox="true"
                 data-chem-node-id={node.id}
+                data-chem-node-width={NODE_WIDTH}
+                data-chem-node-height={NODE_HEIGHT}
                 data-chem-visual-kind="compound-family"
                 data-chem-visual-weight={nodeVisualWeight}
                 className={[
@@ -3926,7 +3939,7 @@ export function ChemistryReactionGraph({
                   <span
                     data-chem-label-role="family-primary"
                     data-chem-label-weight="primary"
-                    className="block text-[1.45rem] font-black leading-tight tracking-[0.01em] text-ink-950"
+                    className="block text-[1.55rem] font-black leading-tight tracking-[0.01em] text-ink-950"
                   >
                     {node.name}
                   </span>
