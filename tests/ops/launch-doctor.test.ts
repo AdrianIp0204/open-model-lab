@@ -327,4 +327,92 @@ describe("launch doctor", () => {
       fs.rmSync(tempRoot, { recursive: true, force: true });
     }
   });
+
+  it("flags incomplete AI coach runtime config when the feature is enabled", async () => {
+    const { buildLaunchDoctorReport } = await importScriptModule(
+      "scripts/launch-doctor.mjs",
+    );
+    const report = buildLaunchDoctorReport(process.cwd(), {
+      NODE_ENV: "development",
+      NEXT_PUBLIC_OPEN_MODEL_LAB_SITE_URL: "https://openmodellab.test",
+      NEXT_PUBLIC_SUPABASE_URL: "https://supabase.openmodellab.test",
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_key_123",
+      SUPABASE_SERVICE_ROLE_KEY: "sb_service_role_key_123",
+      STRIPE_SECRET_KEY: "sk_test_123",
+      STRIPE_PREMIUM_PRICE_ID: "price_123",
+      STRIPE_WEBHOOK_SECRET: "whsec_123",
+      NEXT_PUBLIC_FEEDBACK_EMAIL: "hello@openmodellab.test",
+      RESEND_API_KEY: "re_test_feedback_key",
+      FEEDBACK_FROM_EMAIL: "Open Model Lab <feedback@openmodellab.test>",
+      FEEDBACK_TO_EMAIL: "inbox@openmodellab.test",
+      AI_FEATURES_ENABLED: "true",
+      AI_LOGGING_ENABLED: "true",
+      GEMINI_MODEL: "gemini-2.5-flash-lite",
+      AI_MONTHLY_TOKEN_LIMIT: "10000000",
+    });
+
+    expect(report.summary.aiCoachReady).toBe(false);
+    expect(report.findings.errors.map((finding: { code: string }) => finding.code)).toContain(
+      "missing_ai_gemini_api_key",
+    );
+  });
+
+  it("reports AI coach ready when runtime secrets and quota migration are present", async () => {
+    const { buildLaunchDoctorReport } = await importScriptModule(
+      "scripts/launch-doctor.mjs",
+    );
+    const tempRoot = fs.mkdtempSync(
+      path.join(os.tmpdir(), "open-model-lab-launch-doctor-ai-"),
+    );
+
+    try {
+      writeLaunchDoctorFixtureRepo(tempRoot);
+      const migrationPath = path.join(
+        tempRoot,
+        "supabase",
+        "migrations",
+        "20260505120000_create_user_ai_token_usage.sql",
+      );
+      fs.mkdirSync(path.dirname(migrationPath), { recursive: true });
+      fs.writeFileSync(migrationPath, "-- fixture\n");
+      fs.writeFileSync(
+        path.join(tempRoot, ".dev.vars"),
+        [
+          "RESEND_API_KEY=re_test_feedback_key",
+          "SUPABASE_SERVICE_ROLE_KEY=sb_service_role_key_123",
+          "STRIPE_SECRET_KEY=sk_test_123",
+          "STRIPE_WEBHOOK_SECRET=whsec_123",
+        ].join("\n"),
+      );
+
+      const report = buildLaunchDoctorReport(tempRoot, {
+        NODE_ENV: "development",
+        NEXT_PUBLIC_OPEN_MODEL_LAB_SITE_URL: "https://openmodellab.test",
+        NEXT_PUBLIC_SUPABASE_URL: "https://supabase.openmodellab.test",
+        NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_key_123",
+        SUPABASE_SERVICE_ROLE_KEY: "sb_service_role_key_123",
+        STRIPE_SECRET_KEY: "sk_test_123",
+        STRIPE_PREMIUM_PRICE_ID: "price_123",
+        STRIPE_WEBHOOK_SECRET: "whsec_123",
+        NEXT_PUBLIC_FEEDBACK_EMAIL: "hello@openmodellab.test",
+        RESEND_API_KEY: "re_test_feedback_key",
+        FEEDBACK_FROM_EMAIL: "Open Model Lab <feedback@openmodellab.test>",
+        FEEDBACK_TO_EMAIL: "inbox@openmodellab.test",
+        AI_FEATURES_ENABLED: "true",
+        AI_LOGGING_ENABLED: "true",
+        GEMINI_API_KEY: "test_gemini_key",
+        GEMINI_MODEL: "gemini-2.5-flash-lite",
+        AI_MONTHLY_TOKEN_LIMIT: "10000000",
+      });
+
+      expect(report.summary.aiCoachReady).toBe(true);
+      expect(
+        report.findings.errors
+          .map((finding: { code: string }) => finding.code)
+          .filter((code: string) => code.startsWith("missing_ai_")),
+      ).toEqual([]);
+    } finally {
+      fs.rmSync(tempRoot, { recursive: true, force: true });
+    }
+  });
 });

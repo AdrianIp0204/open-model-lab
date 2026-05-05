@@ -801,6 +801,46 @@ describe("AI coach route", () => {
     expect(mocks.generateCoachResponseWithGeminiResultMock).toHaveBeenCalledTimes(1);
   });
 
+  it("rate-limits premium users before monthly quota lookup or Gemini", async () => {
+    process.env.AI_RATE_LIMIT_MAX_REQUESTS = "1";
+
+    const firstResponse = await postCoachRequest();
+    expect(firstResponse.status).toBe(200);
+
+    mocks.getAiMonthlyTokenUsageForUserMock.mockClear();
+    mocks.incrementAiMonthlyTokenUsageForUserMock.mockClear();
+    mocks.generateCoachResponseWithGeminiResultMock.mockClear();
+
+    const secondResponse = await postCoachRequest();
+    const payload = (await secondResponse.json()) as { code: string };
+
+    expect(secondResponse.status).toBe(429);
+    expect(payload.code).toBe("rate_limited");
+    expect(mocks.getAiMonthlyTokenUsageForUserMock).not.toHaveBeenCalled();
+    expect(mocks.incrementAiMonthlyTokenUsageForUserMock).not.toHaveBeenCalled();
+    expect(mocks.generateCoachResponseWithGeminiResultMock).not.toHaveBeenCalled();
+  });
+
+  it("returns a specific setup error when monthly quota storage is unavailable", async () => {
+    mocks.getAiMonthlyTokenUsageForUserMock.mockRejectedValue(
+      new Error("quota table unavailable"),
+    );
+
+    const response = await postCoachRequest();
+    const payload = (await response.json()) as {
+      code: string;
+      requestId?: string;
+      details?: { period?: string; resetAt?: string };
+    };
+
+    expect(response.status).toBe(503);
+    expect(payload.code).toBe("ai_quota_storage_unavailable");
+    expect(payload.requestId).toEqual(expect.any(String));
+    expect(payload.details?.period).toBe("2026-05");
+    expect(payload.details?.resetAt).toBe("2026-06-01T00:00:00.000Z");
+    expect(mocks.generateCoachResponseWithGeminiResultMock).not.toHaveBeenCalled();
+  });
+
   it("returns 429 when the monthly quota is exhausted and does not call Gemini", async () => {
     mocks.getAiMonthlyTokenUsageForUserMock.mockResolvedValue(buildMonthlyUsage(10_000_000));
 
@@ -859,6 +899,62 @@ describe("AI coach route", () => {
         estimated: true,
       },
     });
+  });
+
+  it("returns a specific setup error when provider config is missing", async () => {
+    mocks.generateCoachResponseWithGeminiResultMock.mockResolvedValue({
+      response: aiCoachFallbackResponse,
+      fallbackUsed: true,
+      failureCode: "provider_unconfigured",
+      failureReason: "Gemini API key is not configured.",
+      attempts: 0,
+    });
+
+    const response = await postCoachRequest();
+    const payload = (await response.json()) as { code: string; requestId?: string };
+
+    expect(response.status).toBe(503);
+    expect(payload.code).toBe("ai_provider_unconfigured");
+    expect(payload.requestId).toEqual(expect.any(String));
+    expect(mocks.incrementAiMonthlyTokenUsageForUserMock).not.toHaveBeenCalled();
+  });
+
+  it("returns a specific provider error when Gemini transport fails", async () => {
+    mocks.generateCoachResponseWithGeminiResultMock.mockResolvedValue({
+      response: aiCoachFallbackResponse,
+      fallbackUsed: true,
+      failureCode: "provider_unavailable",
+      failureReason: "Gemini request failed.",
+      attempts: 2,
+    });
+
+    const response = await postCoachRequest();
+    const payload = (await response.json()) as { code: string; requestId?: string };
+
+    expect(response.status).toBe(503);
+    expect(payload.code).toBe("ai_provider_unavailable");
+    expect(payload.requestId).toEqual(expect.any(String));
+    expect(mocks.incrementAiMonthlyTokenUsageForUserMock).not.toHaveBeenCalled();
+  });
+
+  it("returns a specific setup error when token usage cannot be recorded", async () => {
+    mocks.incrementAiMonthlyTokenUsageForUserMock.mockRejectedValue(
+      new Error("quota rpc unavailable"),
+    );
+
+    const response = await postCoachRequest();
+    const payload = (await response.json()) as {
+      code: string;
+      requestId?: string;
+      details?: { period?: string; resetAt?: string };
+    };
+
+    expect(response.status).toBe(503);
+    expect(payload.code).toBe("ai_quota_record_failed");
+    expect(payload.requestId).toEqual(expect.any(String));
+    expect(payload.details?.period).toBe("2026-05");
+    expect(payload.details?.resetAt).toBe("2026-06-01T00:00:00.000Z");
+    expect(mocks.generateCoachResponseWithGeminiResultMock).toHaveBeenCalledTimes(1);
   });
 
   it("keeps the request-rate limiter on the trusted premium user id", async () => {

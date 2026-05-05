@@ -3056,6 +3056,54 @@
       "hide": "隱藏回饋"
     }
   },
+  "AiLearningCoach": {
+    "label": "AI 引導",
+    "title": "AI 學習教練",
+    "description": "取得一個可嘗試的動作、一個要留意的變化，以及一條思考問題。",
+    "actions": {
+      "close": "關閉",
+      "guide": "引導我",
+      "thinking": "思考中...",
+      "trigger": "AI 教練",
+      "hide": "隱藏 AI 教練",
+      "viewSupporterOptions": "查看支持者選項"
+    },
+    "states": {
+      "checking": "正在確認支持者權限...",
+      "loading": "正在想一個有用的下一步...",
+      "empty": "當你想在即時實驗台取得一個具體下一步時，可以使用這裡。"
+    },
+    "locked": {
+      "description": "AI 教練是支持者功能，因為模型呼叫有實際 API 成本。"
+    },
+    "response": {
+      "try": "嘗試",
+      "notice": "留意",
+      "think": "思考"
+    },
+    "citations": {
+      "groundedIn": "依據",
+      "types": {
+        "page": "頁面",
+        "simulation": "模擬",
+        "formula": "公式",
+        "learning-flow": "學習流程"
+      }
+    },
+    "errors": {
+      "featuresDisabled": "此部署未啟用 AI 教練。",
+      "authRequired": "請使用支持者帳戶登入以使用 AI 教練。",
+      "premiumRequired": "AI 教練是支持者功能，因為模型呼叫有實際 API 成本。",
+      "monthlyQuotaExceeded": "此帳戶已達到本月 AI 教練使用上限。",
+      "rateLimited": "AI 教練需要稍等一下才可再次請求。",
+      "quotaStorageUnavailable": "此部署的 AI 教練設定尚未完成。",
+      "quotaRecordFailed": "AI 教練未能記錄今次用量。請稍後再試。",
+      "providerUnconfigured": "此部署尚未設定 AI 教練。",
+      "providerUnavailable": "AI 教練暫時無法使用。",
+      "default": "AI 教練暫時無法使用。請先改變一個模擬控制，觀察有甚麼變化。",
+      "requestId": "請求 ID：{requestId}"
+    }
+  },
   "ShareLinksPanel": {
     "title": "可分享連結",
     "description": "複製穩定入口連結。這些連結保持公開，不會帶有本機進度或即時控制狀態。",

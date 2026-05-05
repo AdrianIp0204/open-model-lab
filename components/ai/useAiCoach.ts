@@ -9,26 +9,9 @@ import type {
 } from "@/lib/ai/types";
 
 type AiCoachErrorState = {
-  message: string;
   code?: string;
+  requestId?: string;
 };
-
-function getAiCoachErrorMessage(code: string | undefined) {
-  switch (code) {
-    case "ai_features_disabled":
-      return "The AI coach is not enabled for this deployment.";
-    case "ai_auth_required":
-      return "Sign in with a Supporter account to use the AI coach.";
-    case "ai_premium_required":
-      return "AI Coach is a Supporter feature because model calls have real API cost.";
-    case "ai_monthly_quota_exceeded":
-      return "This account has reached the monthly AI Coach limit.";
-    case "rate_limited":
-      return "The AI coach needs a short break before another request.";
-    default:
-      return "The AI coach is unavailable right now.";
-  }
-}
 
 export function useAiCoach() {
   const [response, setResponse] = useState<AiCoachResponse | null>(null);
@@ -55,12 +38,14 @@ export function useAiCoach() {
           const body = (await result.json().catch(() => null)) as {
             code?: string;
             error?: string;
+            requestId?: string;
           } | null;
-          const code = body?.code;
-          const message = getAiCoachErrorMessage(code);
 
           setResponse(null);
-          setError({ message, code });
+          setError({
+            code: body?.code,
+            requestId: body?.requestId,
+          });
           return;
         }
 
@@ -69,7 +54,7 @@ export function useAiCoach() {
       } catch {
         setResponse(null);
         setError({
-          message: "The AI coach is unavailable right now.",
+          code: "network_error",
         });
       } finally {
         setIsLoading(false);

@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import { aiCoachRequestSchema } from "@/lib/ai/schema";
 import { consumeAiRateLimitSlot } from "@/lib/ai/rate-limit";
-import { generateCoachResponseWithGeminiResult } from "@/lib/ai/providers/gemini";
+import {
+  generateCoachResponseWithGeminiResult,
+  type GeminiCoachGenerationResult,
+} from "@/lib/ai/providers/gemini";
 import {
   getAiMonthlyQuotaResetAt,
   getAiMonthlyTokenLimit,
@@ -21,7 +24,10 @@ type AiCoachErrorCode =
   | "invalid_json"
   | "invalid_payload"
   | "rate_limited"
-  | "coach_unavailable";
+  | "ai_quota_storage_unavailable"
+  | "ai_quota_record_failed"
+  | "ai_provider_unconfigured"
+  | "ai_provider_unavailable";
 
 function buildAiCoachErrorResponse({
   code,
@@ -53,8 +59,11 @@ function buildAiCoachErrorResponse({
       headers: retryAfterSeconds
         ? {
             "retry-after": String(retryAfterSeconds),
+            "x-ai-request-id": requestId,
           }
-        : undefined,
+        : {
+            "x-ai-request-id": requestId,
+          },
     },
   );
 }
@@ -83,6 +92,27 @@ function getPremiumAiRateLimitKey(session: AccountSession) {
   // headers. The AI endpoint is Premium-only, so the server-resolved account id
   // is the only identity used for quota and short-window rate limiting.
   return `user:${session.user.id}`;
+}
+
+function getProviderErrorForRoute(result: GeminiCoachGenerationResult): {
+  code: AiCoachErrorCode;
+  reason: string;
+} | null {
+  if (result.failureCode === "provider_unconfigured") {
+    return {
+      code: "ai_provider_unconfigured",
+      reason: "provider_unconfigured",
+    };
+  }
+
+  if (result.failureCode === "provider_unavailable") {
+    return {
+      code: "ai_provider_unavailable",
+      reason: "provider_unavailable",
+    };
+  }
+
+  return null;
 }
 
 function logAiCoachMetadata(metadata: {
@@ -194,6 +224,31 @@ export async function POST(request: Request) {
     });
   }
 
+  const rateLimitDecision = consumeAiRateLimitSlot(getPremiumAiRateLimitKey(session));
+
+  if (!rateLimitDecision.allowed) {
+    logAiCoachMetadata({
+      requestId,
+      timestamp: new Date(startedAt).toISOString(),
+      mode: parsed.data.mode,
+      pageSlug: parsed.data.context.page.slug,
+      simulationId: parsed.data.context.simulation?.id,
+      success: false,
+      fallbackUsed: false,
+      rateLimitKeyKind: "user",
+      validationFailureReason: "rate_limited",
+      latencyMs: Date.now() - startedAt,
+    });
+
+    return buildAiCoachErrorResponse({
+      code: "rate_limited",
+      error: "Too many AI coach requests came from this account recently.",
+      requestId,
+      retryAfterSeconds: rateLimitDecision.retryAfterSeconds,
+      status: 429,
+    });
+  }
+
   const quotaPeriod = getCurrentAiUsagePeriod();
   const quotaLimit = getAiMonthlyTokenLimit();
   const quotaResetAt = getAiMonthlyQuotaResetAt(quotaPeriod);
@@ -218,10 +273,14 @@ export async function POST(request: Request) {
     });
 
     return buildAiCoachErrorResponse({
-      code: "coach_unavailable",
-      error: "The AI coach is unavailable right now.",
+      code: "ai_quota_storage_unavailable",
+      error: "AI Coach setup is not complete for this deployment yet.",
       requestId,
       status: 503,
+      details: {
+        period: quotaPeriod,
+        resetAt: quotaResetAt,
+      },
     });
   }
 
@@ -254,32 +313,6 @@ export async function POST(request: Request) {
     });
   }
 
-  const rateLimitDecision = consumeAiRateLimitSlot(getPremiumAiRateLimitKey(session));
-
-  if (!rateLimitDecision.allowed) {
-    logAiCoachMetadata({
-      requestId,
-      timestamp: new Date(startedAt).toISOString(),
-      mode: parsed.data.mode,
-      pageSlug: parsed.data.context.page.slug,
-      simulationId: parsed.data.context.simulation?.id,
-      success: false,
-      fallbackUsed: false,
-      rateLimitKeyKind: "user",
-      validationFailureReason: "rate_limited",
-      quotaPeriod,
-      latencyMs: Date.now() - startedAt,
-    });
-
-    return buildAiCoachErrorResponse({
-      code: "rate_limited",
-      error: "Too many AI coach requests came from this account recently.",
-      requestId,
-      retryAfterSeconds: rateLimitDecision.retryAfterSeconds,
-      status: 429,
-    });
-  }
-
   try {
     const result = await generateCoachResponseWithGeminiResult(parsed.data);
 
@@ -298,7 +331,7 @@ export async function POST(request: Request) {
           pageSlug: parsed.data.context.page.slug,
           simulationId: parsed.data.context.simulation?.id,
           success: false,
-          fallbackUsed: true,
+          fallbackUsed: result.fallbackUsed,
           rateLimitKeyKind: "user",
           validationFailureReason: "quota_increment_failed",
           quotaPeriod,
@@ -308,12 +341,47 @@ export async function POST(request: Request) {
         });
 
         return buildAiCoachErrorResponse({
-          code: "coach_unavailable",
-          error: "The AI coach is unavailable right now.",
+          code: "ai_quota_record_failed",
+          error: "AI Coach could not record usage for this request. Try again later.",
           requestId,
           status: 503,
+          details: {
+            period: quotaPeriod,
+            resetAt: quotaResetAt,
+          },
         });
       }
+    }
+
+    const providerError = getProviderErrorForRoute(result);
+
+    if (providerError) {
+      logAiCoachMetadata({
+        requestId,
+        timestamp: new Date(startedAt).toISOString(),
+        mode: parsed.data.mode,
+        pageSlug: parsed.data.context.page.slug,
+        simulationId: parsed.data.context.simulation?.id,
+        success: false,
+        fallbackUsed: result.fallbackUsed,
+        rateLimitKeyKind: "user",
+        validationFailureReason: providerError.reason,
+        quotaPeriod,
+        usageTotalTokens: result.usage?.totalTokenCount,
+        usageEstimated: result.usage?.estimated,
+        usageUnavailable: !result.usage,
+        latencyMs: Date.now() - startedAt,
+      });
+
+      return buildAiCoachErrorResponse({
+        code: providerError.code,
+        error:
+          providerError.code === "ai_provider_unconfigured"
+            ? "AI Coach is not configured for this deployment yet."
+            : "AI Coach is unavailable right now.",
+        requestId,
+        status: 503,
+      });
     }
 
     logAiCoachMetadata({
@@ -348,15 +416,15 @@ export async function POST(request: Request) {
       success: false,
       fallbackUsed: true,
       rateLimitKeyKind: "user",
-      validationFailureReason: "coach_unavailable",
+      validationFailureReason: "provider_unavailable",
       quotaPeriod,
       usageUnavailable: true,
       latencyMs: Date.now() - startedAt,
     });
 
     return buildAiCoachErrorResponse({
-      code: "coach_unavailable",
-      error: "The AI coach is unavailable right now.",
+      code: "ai_provider_unavailable",
+      error: "AI Coach is unavailable right now.",
       requestId,
       status: 503,
     });

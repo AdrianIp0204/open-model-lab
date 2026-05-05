@@ -42,6 +42,12 @@ Keep `GEMINI_API_KEY` server-side. Do not expose it through `NEXT_PUBLIC_` varia
 
 For Cloudflare/OpenNext deployment, the non-secret AI variables can be placed in Wrangler `vars` or Cloudflare dashboard variables. `GEMINI_API_KEY` must be configured as a Cloudflare runtime secret, for example with `wrangler secret put GEMINI_API_KEY`, and must not be placed in `wrangler.jsonc` `vars`. Setting the key only as a build variable is not enough because `/api/ai/coach` reads it at Worker runtime when the learner clicks the coach. See [launch readiness](./launch-readiness.md#ai-learning-coach-runtime-variables).
 
+The Supporter AI route also needs the existing Supabase service-role runtime
+configuration used by `createSupabaseServiceRoleClient`. Apply the
+`user_ai_token_usage` migration before enabling the feature, confirm the
+`increment_user_ai_token_usage` RPC is available to `service_role`, and use a
+signed-in Supporter test account when validating the live button.
+
 ## Supporter Access And Quota
 
 `/api/ai/coach` is signed-in Supporter-only. The client hides the model request path for signed-out and free users, but the server enforces the same boundary authoritatively:
@@ -50,6 +56,10 @@ For Cloudflare/OpenNext deployment, the non-secret AI variables can be placed in
 - `401 ai_auth_required` when no server-authenticated account session exists
 - `403 ai_premium_required` when the signed-in account does not have the `canUseAiCoach` capability
 - `429 ai_monthly_quota_exceeded` when the account has reached the monthly token cap
+- `503 ai_quota_storage_unavailable` when the deployment cannot read the persistent quota store
+- `503 ai_quota_record_failed` when a Gemini result was returned but usage could not be recorded
+- `503 ai_provider_unconfigured` when the provider is enabled but runtime configuration is incomplete
+- `503 ai_provider_unavailable` when the provider request fails safely
 
 Internal entitlement tiers remain `free | premium`. The user-facing Supporter wording maps to the existing `premium` entitlement; it does not introduce a second billing tier.
 

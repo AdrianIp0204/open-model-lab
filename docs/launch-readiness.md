@@ -205,7 +205,11 @@ set it to `false` if quieter logs are preferred.
 `AI_MONTHLY_TOKEN_LIMIT` defaults to 10,000,000 Gemini tokens per signed-in
 Premium/Supporter account per UTC month. Usage is persisted in Supabase through
 `public.user_ai_token_usage`, so the Supabase migration for that table must be
-applied before enabling the AI coach in a real environment.
+applied before enabling the AI coach in a real environment. The
+`increment_user_ai_token_usage` RPC must also be available to `service_role`,
+and the Worker needs the same Supabase service-role runtime secret/config used
+by `createSupabaseServiceRoleClient`. A Supporter/premium entitlement must be
+present on the test account before the live Guide me button can call Gemini.
 
 Set `AI_TRUST_CLOUDFLARE_CONNECTING_IP=true` only when requests are guaranteed
 to reach the Worker through Cloudflare. Local, self-hosted, or direct
@@ -218,6 +222,12 @@ committed variable and not as a `NEXT_PUBLIC_*` value:
 
 ```bash
 wrangler secret put GEMINI_API_KEY
+```
+
+Also keep the existing Supabase service-role secret configured at runtime:
+
+```bash
+wrangler secret put SUPABASE_SERVICE_ROLE_KEY
 ```
 
 Do not put `GEMINI_API_KEY` in `wrangler.jsonc` `vars`, and never create

@@ -226,6 +226,7 @@ describe("ConceptPageFramework V2", () => {
     await user.click(trigger);
 
     expect(screen.getByRole("dialog", { name: /ai learning coach/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /close/i })).toHaveFocus();
 
     await user.keyboard("{Escape}");
 
@@ -233,6 +234,22 @@ describe("ConceptPageFramework V2", () => {
       expect(screen.queryByRole("dialog", { name: /ai learning coach/i })).not.toBeInTheDocument();
     });
     expect(trigger).toHaveFocus();
+  });
+
+  it("uses an opaque floating AI coach panel surface", async () => {
+    const user = userEvent.setup();
+
+    renderFramework("simple-harmonic-motion");
+
+    await user.click(screen.getByTestId("ai-learning-coach-trigger"));
+
+    const panel = screen.getByTestId("ai-learning-coach-panel");
+    const body = screen.getByTestId("ai-learning-coach-body");
+
+    expect(panel.className).toContain("bg-paper-strong");
+    expect(body.className).toContain("bg-white");
+    expect(panel.className).not.toContain("/85");
+    expect(body.className).not.toContain("/85");
   });
 
   it("lets a premium user request AI guidance", async () => {
@@ -252,6 +269,30 @@ describe("ConceptPageFramework V2", () => {
       );
     });
     expect(await screen.findByText(/Try:/)).toBeInTheDocument();
+  });
+
+  it("shows server request ids for non-auth AI coach errors", async () => {
+    const user = userEvent.setup();
+    fetchMock.mockResolvedValueOnce(
+      new Response(
+        JSON.stringify({
+          code: "ai_quota_storage_unavailable",
+          error: "AI Coach setup is not complete for this deployment yet.",
+          requestId: "req-ai-coach-123",
+        }),
+        { status: 503 },
+      ),
+    );
+
+    renderFramework("simple-harmonic-motion");
+
+    await user.click(screen.getByTestId("ai-learning-coach-trigger"));
+    await user.click(screen.getByRole("button", { name: /guide me/i }));
+
+    expect(
+      await screen.findByText(/ai coach setup is not complete for this deployment yet/i),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Request ID: req-ai-coach-123")).toBeInTheDocument();
   });
 
   it("shows signed-out users the supporter lock state without calling the AI API", async () => {
@@ -298,6 +339,22 @@ describe("ConceptPageFramework V2", () => {
     expect(screen.getByText(/supporter feature because model calls have real api cost/i)).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /guide me/i })).not.toBeInTheDocument();
     expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("renders localized AI coach UI copy on zh-HK concept pages", async () => {
+    const user = userEvent.setup();
+    globalThis.__TEST_LOCALE__ = "zh-HK";
+
+    renderFramework("simple-harmonic-motion");
+
+    const trigger = screen.getByTestId("ai-learning-coach-trigger");
+    expect(trigger).toHaveTextContent("AI 教練");
+
+    await user.click(trigger);
+
+    expect(screen.getByRole("dialog", { name: /AI 學習教練/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "引導我" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /guide me/i })).not.toBeInTheDocument();
   });
 
   it("keeps the title compact and leaves only status in the post-lab context", () => {

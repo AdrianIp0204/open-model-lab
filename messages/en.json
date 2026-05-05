@@ -3205,6 +3205,54 @@
       "hide": "Hide feedback"
     }
   },
+  "AiLearningCoach": {
+    "label": "AI guidance",
+    "title": "AI Learning Coach",
+    "description": "Get one thing to try, one thing to notice, and one question to think about.",
+    "actions": {
+      "close": "Close",
+      "guide": "Guide me",
+      "thinking": "Thinking...",
+      "trigger": "AI Coach",
+      "hide": "Hide AI Coach",
+      "viewSupporterOptions": "View supporter options"
+    },
+    "states": {
+      "checking": "Checking supporter access...",
+      "loading": "Thinking of a useful next step...",
+      "empty": "Use this when you want one concrete next move on the live bench."
+    },
+    "locked": {
+      "description": "AI Coach is a Supporter feature because model calls have real API cost."
+    },
+    "response": {
+      "try": "Try",
+      "notice": "Notice",
+      "think": "Think"
+    },
+    "citations": {
+      "groundedIn": "Grounded in",
+      "types": {
+        "page": "Page",
+        "simulation": "Simulation",
+        "formula": "Formula",
+        "learning-flow": "Learning flow"
+      }
+    },
+    "errors": {
+      "featuresDisabled": "The AI coach is not enabled for this deployment.",
+      "authRequired": "Sign in with a Supporter account to use the AI coach.",
+      "premiumRequired": "AI Coach is a Supporter feature because model calls have real API cost.",
+      "monthlyQuotaExceeded": "This account has reached the monthly AI Coach limit.",
+      "rateLimited": "The AI coach needs a short break before another request.",
+      "quotaStorageUnavailable": "AI Coach setup is not complete for this deployment yet.",
+      "quotaRecordFailed": "AI Coach could not record usage for this request. Try again later.",
+      "providerUnconfigured": "AI Coach is not configured for this deployment yet.",
+      "providerUnavailable": "AI Coach is unavailable right now.",
+      "default": "The AI coach is unavailable right now. Try changing one simulation control and watching what changes.",
+      "requestId": "Request ID: {requestId}"
+    }
+  },
   "OnboardingHelp": {
     "prompt": {
       "label": "New here?",

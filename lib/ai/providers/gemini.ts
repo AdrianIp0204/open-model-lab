@@ -42,10 +42,17 @@ export class GeminiRequestError extends Error {
 export type GeminiCoachGenerationResult = {
   response: AiCoachResponse;
   fallbackUsed: boolean;
+  failureCode?: GeminiCoachFailureCode;
   failureReason?: string;
   attempts: number;
   usage?: AiTokenUsage;
 };
+
+export type GeminiCoachFailureCode =
+  | "provider_unconfigured"
+  | "provider_unavailable"
+  | "response_validation_failed"
+  | "grounding_failed";
 
 function getConfiguredGeminiModel() {
   return process.env.GEMINI_MODEL?.trim() || DEFAULT_GEMINI_MODEL;
@@ -139,10 +146,12 @@ function fallbackResult(
   reason: string,
   attempts: number,
   usage?: AiTokenUsage,
+  failureCode: GeminiCoachFailureCode = "provider_unavailable",
 ): GeminiCoachGenerationResult {
   return {
     response: aiCoachFallbackResponse,
     fallbackUsed: true,
+    failureCode,
     failureReason: reason,
     attempts,
     ...(usage ? { usage } : {}),
@@ -206,11 +215,17 @@ export async function generateCoachResponseWithGeminiResult(
   const apiKey = process.env.GEMINI_API_KEY?.trim();
 
   if (!apiKey) {
-    return fallbackResult("Gemini API key is not configured.", 0);
+    return fallbackResult(
+      "Gemini API key is not configured.",
+      0,
+      undefined,
+      "provider_unconfigured",
+    );
   }
 
   const model = getConfiguredGeminiModel();
   let lastFailureReason = "Gemini response could not be validated.";
+  let lastFailureCode: GeminiCoachFailureCode = "response_validation_failed";
   let attempts = 0;
   let accumulatedUsage: AiTokenUsage | undefined;
 
@@ -227,6 +242,7 @@ export async function generateCoachResponseWithGeminiResult(
 
       if (!text) {
         lastFailureReason = "Gemini returned an empty response.";
+        lastFailureCode = "response_validation_failed";
         continue;
       }
 
@@ -234,6 +250,7 @@ export async function generateCoachResponseWithGeminiResult(
 
       if (!parsed.ok) {
         lastFailureReason = parsed.reason;
+        lastFailureCode = "response_validation_failed";
         continue;
       }
 
@@ -244,6 +261,7 @@ export async function generateCoachResponseWithGeminiResult(
 
       if (!grounding.ok) {
         lastFailureReason = grounding.reason;
+        lastFailureCode = "grounding_failed";
         continue;
       }
 
@@ -256,16 +274,27 @@ export async function generateCoachResponseWithGeminiResult(
     } catch (error) {
       lastFailureReason =
         error instanceof Error ? error.message : "Gemini request failed.";
+      lastFailureCode = "provider_unavailable";
 
       if (isRetryableGeminiError(error) && attempt < 2) {
         continue;
       }
 
-      return fallbackResult(lastFailureReason, attempt, accumulatedUsage);
+      return fallbackResult(
+        lastFailureReason,
+        attempt,
+        accumulatedUsage,
+        lastFailureCode,
+      );
     }
   }
 
-  return fallbackResult(lastFailureReason, attempts, accumulatedUsage);
+  return fallbackResult(
+    lastFailureReason,
+    attempts,
+    accumulatedUsage,
+    lastFailureCode,
+  );
 }
 
 export async function generateCoachResponseWithGemini(
