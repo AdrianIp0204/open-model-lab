@@ -36,6 +36,8 @@ Keep `GEMINI_API_KEY` server-side. Do not expose it through `NEXT_PUBLIC_` varia
 
 `GEMINI_MODEL` defaults to `gemini-2.5-flash-lite` in code when the variable is absent. Keep the value configurable because Gemini model names and endpoint behavior can change.
 
+For Cloudflare/OpenNext deployment, the non-secret AI variables can be placed in Wrangler `vars` or Cloudflare dashboard variables. `GEMINI_API_KEY` must be configured as a Cloudflare runtime secret, for example with `wrangler secret put GEMINI_API_KEY`, and must not be placed in `wrangler.jsonc` `vars`. Setting the key only as a build variable is not enough because `/api/ai/coach` reads it at Worker runtime when the learner clicks the coach. See [launch readiness](./launch-readiness.md#ai-learning-coach-runtime-variables).
+
 ## Privacy
 
 The model prompt receives only scoped learning context. The prompt builder strips `userId` before sending context to Gemini. Do not add names, emails, account state, raw learner identity, or private account records to the AI context.

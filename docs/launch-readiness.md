@@ -177,6 +177,48 @@ is not sufficient before a Workers Builds deploy command such as
 `wrangler versions upload`. For local operator deploys from a shell, `pnpm deploy`
 still runs the private config preparation through its `predeploy` step.
 
+### AI Learning Coach runtime variables
+
+`OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT` is private build/deploy material used to
+generate ignored `wrangler.jsonc`. It is not the Gemini runtime secret itself.
+`GEMINI_API_KEY` is read at Worker runtime by `/api/ai/coach` when a learner asks
+the AI Learning Coach for guidance, so setting it only as a build variable is not
+enough.
+
+Non-secret AI runtime variables can live in `wrangler.jsonc` `vars` or in the
+Cloudflare dashboard variable layer:
+
+```text
+AI_FEATURES_ENABLED=true
+AI_LOGGING_ENABLED=true
+GEMINI_MODEL=gemini-2.5-flash-lite
+AI_RATE_LIMIT_MAX_REQUESTS=20
+AI_RATE_LIMIT_WINDOW_SECONDS=600
+```
+
+`AI_LOGGING_ENABLED=true` is useful for staging and development. Production can
+set it to `false` if quieter logs are preferred.
+
+The Gemini API key must be configured as a Cloudflare runtime secret, not as a
+committed variable and not as a `NEXT_PUBLIC_*` value:
+
+```bash
+wrangler secret put GEMINI_API_KEY
+```
+
+Do not put `GEMINI_API_KEY` in `wrangler.jsonc` `vars`, and never create
+`NEXT_PUBLIC_GEMINI_API_KEY`. Keep `keep_vars: true` enabled so deploys preserve
+dashboard-managed runtime variables and secrets. If you bypass the repo scripts
+and run Wrangler directly, preserve that same behavior with the equivalent
+Wrangler keep-vars flow for the deploy command you are using.
+
+To validate private Wrangler content against the public example shape without
+writing ignored config:
+
+```bash
+OPEN_MODEL_LAB_WRANGLER_JSONC_SOURCE=wrangler.example.jsonc pnpm wrangler:check
+```
+
 If the owner does not want preview branch deployments, disable non-production
 branch builds instead of relying on production private variables being available
 to previews. If preview branch builds stay enabled, the same required private

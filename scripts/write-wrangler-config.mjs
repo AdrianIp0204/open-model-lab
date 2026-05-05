@@ -169,6 +169,80 @@ function requireString(config, pathSegments) {
   return value;
 }
 
+function hasOwn(object, key) {
+  return Object.prototype.hasOwnProperty.call(object, key);
+}
+
+function requireVarsObject(config) {
+  if (!hasOwn(config, "vars")) {
+    return null;
+  }
+
+  if (!config.vars || typeof config.vars !== "object" || Array.isArray(config.vars)) {
+    throw new Error("Wrangler config vars must be an object when set.");
+  }
+
+  return config.vars;
+}
+
+function validateBooleanStringVar(vars, key) {
+  if (!hasOwn(vars, key)) {
+    return;
+  }
+
+  if (vars[key] !== "true" && vars[key] !== "false") {
+    throw new Error(`Wrangler config vars.${key} must be "true" or "false" when set.`);
+  }
+}
+
+function validatePositiveIntegerVar(vars, key) {
+  if (!hasOwn(vars, key)) {
+    return;
+  }
+
+  const value = vars[key];
+  const isValid =
+    (typeof value === "number" && Number.isInteger(value) && value > 0) ||
+    (typeof value === "string" && /^[1-9]\d*$/u.test(value.trim()));
+
+  if (!isValid) {
+    throw new Error(`Wrangler config vars.${key} must be a positive integer when set.`);
+  }
+}
+
+function validateNonEmptyStringVar(vars, key) {
+  if (!hasOwn(vars, key)) {
+    return;
+  }
+
+  if (typeof vars[key] !== "string" || vars[key].trim().length === 0) {
+    throw new Error(`Wrangler config vars.${key} must be a non-empty string when set.`);
+  }
+}
+
+function validateAiRuntimeVars(config) {
+  const vars = requireVarsObject(config);
+
+  if (!vars) {
+    return;
+  }
+
+  if (hasOwn(vars, "GEMINI_API_KEY")) {
+    throw new Error("Wrangler config vars.GEMINI_API_KEY is not allowed. Configure it as a Cloudflare runtime secret.");
+  }
+
+  const publicGeminiVar = Object.keys(vars).find((key) => key.startsWith("NEXT_PUBLIC_GEMINI"));
+  if (publicGeminiVar) {
+    throw new Error(`Wrangler config vars.${publicGeminiVar} is not allowed. Gemini credentials must never use NEXT_PUBLIC_ variables.`);
+  }
+
+  validateBooleanStringVar(vars, "AI_FEATURES_ENABLED");
+  validateBooleanStringVar(vars, "AI_LOGGING_ENABLED");
+  validatePositiveIntegerVar(vars, "AI_RATE_LIMIT_MAX_REQUESTS");
+  validatePositiveIntegerVar(vars, "AI_RATE_LIMIT_WINDOW_SECONDS");
+  validateNonEmptyStringVar(vars, "GEMINI_MODEL");
+}
+
 function validateWranglerConfigContent(content) {
   if (!content.trim()) {
     throw new Error("Wrangler config content is empty.");
@@ -203,6 +277,8 @@ function validateWranglerConfigContent(content) {
   if (!Array.isArray(config.compatibility_flags) || !config.compatibility_flags.includes("nodejs_compat")) {
     throw new Error("Wrangler config must include the nodejs_compat compatibility flag.");
   }
+
+  validateAiRuntimeVars(config);
 
   return {
     workerName,
