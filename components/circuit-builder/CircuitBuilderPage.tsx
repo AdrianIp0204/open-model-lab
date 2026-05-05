@@ -25,18 +25,23 @@ import {
   CIRCUIT_RENDER_MODE_STORAGE_KEY,
   buildCircuitJsonExport,
   buildCircuitSvgExport,
+  circuitBuilderCopyEn,
   clampComponentPoint,
+  clearCircuitLocaleHandoffFromStorage,
   clearCircuitDraftFromStorage,
+  consumeCircuitLocaleHandoffFromStorage,
   circuitBuilderPresets,
   convertViewPointToWorld,
   createComponentInstance,
+  createDefaultCircuitEnvironment,
   createEmptyCircuitDocument,
   downloadTextFile,
   formatCircuitDraftSavedAt,
   getCircuitComponentById,
   getCircuitComponentDefinition,
   getVisibleWorldCenter,
-  getCircuitWireDisplayLabel,
+  formatCircuitComponentDisplayLabel,
+  formatCircuitWireDisplayLabel,
   getSavedCircuitsDiscardedCount,
   normalizeCircuitDocument,
   normalizeCircuitRenderMode,
@@ -49,8 +54,10 @@ import {
   solveCircuitDocument,
   useSavedCircuits,
   deleteSavedCircuit,
+  writeCircuitLocaleHandoffToStorage,
   writeCircuitDraftToStorage,
   type CircuitComponentType,
+  type CircuitBuilderCopy,
   type CircuitDocument,
   type CircuitPoint,
   type CircuitRenderMode,
@@ -68,6 +75,12 @@ type BuilderSelection =
   | { kind: "component"; id: string }
   | { kind: "wire"; id: string }
   | null;
+
+type LocaleHandoffWriteSnapshot = {
+  document: CircuitDocument;
+  renderMode: CircuitRenderMode;
+  selection: BuilderSelection;
+};
 
 type ActiveSavedCircuitRef =
   | { kind: "local"; id: string }
@@ -97,6 +110,11 @@ type BuilderAction =
       document: CircuitDocument;
       label: string;
       activeSavedCircuitRef?: ActiveSavedCircuitRef;
+    }
+  | {
+      type: "restore-locale-handoff";
+      document: CircuitDocument;
+      selection: BuilderSelection;
     }
   | { type: "set-active-saved-circuit-ref"; savedCircuitRef: ActiveSavedCircuitRef }
   | { type: "set-tool"; tool: "select" | "wire" }
@@ -141,40 +159,43 @@ const defaultCircuitView = {
   offsetX: 120,
   offsetY: 82,
 } satisfies CircuitDocument["view"];
+const defaultCircuitEnvironment = createDefaultCircuitEnvironment();
 const minimumWorkspaceZoom = 0.45;
 const maximumWorkspaceZoom = 2.4;
-const maximumFitWorkspaceZoom = 1.65;
+const maximumFitWorkspaceZoom = 2.25;
 const circuitCanvasCenter = {
   x: CIRCUIT_CANVAS_WIDTH / 2,
   y: CIRCUIT_CANVAS_HEIGHT / 2,
 };
-const fitViewPadding = 144;
+const fitViewPadding = 80;
 const componentFitRadius = {
   x: 128,
   y: 112,
 };
 const circuitViewEqualityEpsilon = 0.0001;
-const circuitRenderModeLabels: Record<CircuitRenderMode, string> = {
-  schematic: "Schematic",
-  modern: "Modern",
-};
 const circuitRenderModeOptions: CircuitRenderMode[] = ["schematic", "modern"];
+
+function circuitStatusText(copy: CircuitBuilderCopy, english: string, zhHk: string) {
+  return copy.locale === "zh-HK" ? zhHk : english;
+}
 
 function CircuitRenderModeSwitch({
   value,
   onChange,
+  copy,
 }: {
   value: CircuitRenderMode;
   onChange: (mode: CircuitRenderMode) => void;
+  copy: CircuitBuilderCopy;
 }) {
   return (
     <div
       className="inline-flex items-center gap-0.5 rounded-full border border-line bg-paper-strong p-0.5 text-xs font-semibold text-ink-700 shadow-sm"
-      aria-label="Circuit render mode"
+      aria-label={copy.renderMode.ariaLabel}
       data-circuit-render-mode-switch=""
     >
       <span className="px-1.5 text-[0.66rem] font-semibold uppercase tracking-[0.12em] text-ink-500">
-        View
+        {copy.renderMode.label}
       </span>
       {circuitRenderModeOptions.map((mode) => {
         const selected = value === mode;
@@ -192,7 +213,7 @@ function CircuitRenderModeSwitch({
             data-circuit-render-mode-option={mode}
             onClick={() => onChange(mode)}
           >
-            {circuitRenderModeLabels[mode]}
+            {copy.renderMode.modes[mode]}
           </button>
         );
       })}
@@ -205,6 +226,55 @@ function circuitViewsEqual(a: CircuitDocument["view"], b: CircuitDocument["view"
     Math.abs(a.zoom - b.zoom) < circuitViewEqualityEpsilon &&
     Math.abs(a.offsetX - b.offsetX) < circuitViewEqualityEpsilon &&
     Math.abs(a.offsetY - b.offsetY) < circuitViewEqualityEpsilon
+  );
+}
+
+function circuitEnvironmentsEqual(
+  a: CircuitDocument["environment"],
+  b: CircuitDocument["environment"],
+) {
+  return (
+    Math.abs(a.temperatureC - b.temperatureC) < circuitViewEqualityEpsilon &&
+    Math.abs(a.lightLevelPercent - b.lightLevelPercent) <
+      circuitViewEqualityEpsilon
+  );
+}
+
+function isMeaningfulLocaleHandoffSnapshot({
+  document,
+  selection,
+}: LocaleHandoffWriteSnapshot) {
+  return (
+    document.components.length > 0 ||
+    document.wires.length > 0 ||
+    selection !== null ||
+    !circuitViewsEqual(document.view, defaultCircuitView) ||
+    !circuitEnvironmentsEqual(document.environment, defaultCircuitEnvironment)
+  );
+}
+
+function writeMeaningfulLocaleHandoff(snapshot: LocaleHandoffWriteSnapshot) {
+  if (!isMeaningfulLocaleHandoffSnapshot(snapshot)) {
+    clearCircuitLocaleHandoffFromStorage();
+    return;
+  }
+
+  writeCircuitLocaleHandoffToStorage(snapshot);
+}
+
+function isDocumentReloadNavigation() {
+  if (
+    typeof window === "undefined" ||
+    typeof window.performance?.getEntriesByType !== "function"
+  ) {
+    return false;
+  }
+
+  const navigationEntry = window.performance.getEntriesByType("navigation")[0];
+  return (
+    typeof PerformanceNavigationTiming !== "undefined" &&
+    navigationEntry instanceof PerformanceNavigationTiming &&
+    navigationEntry.type === "reload"
   );
 }
 
@@ -259,6 +329,25 @@ function sameTerminal(a: CircuitTerminalRef | null, b: CircuitTerminalRef | null
       a.componentId === b.componentId &&
       a.terminal === b.terminal,
   );
+}
+
+function normalizeBuilderSelection(
+  document: CircuitDocument,
+  selection: BuilderSelection,
+): BuilderSelection {
+  if (selection?.kind === "component") {
+    return document.components.some((component) => component.id === selection.id)
+      ? selection
+      : null;
+  }
+
+  if (selection?.kind === "wire") {
+    return document.wires.some((wire) => wire.id === selection.id)
+      ? selection
+      : null;
+  }
+
+  return null;
 }
 
 function formatSavedCircuitTimestamp(timestamp: string) {
@@ -346,6 +435,20 @@ function reducer(state: BuilderState, action: BuilderAction): BuilderState {
         activeTool: "select",
         pendingWireStart: null,
       };
+    case "restore-locale-handoff": {
+      const normalized = action.document;
+      return {
+        ...state,
+        document: normalized,
+        selection: normalizeBuilderSelection(normalized, action.selection),
+        activeSavedCircuitRef: null,
+        activeTool: "select",
+        pendingWireStart: null,
+        past: [],
+        future: [],
+        historySession: null,
+      };
+    }
     case "set-active-saved-circuit-ref":
       return {
         ...state,
@@ -712,13 +815,24 @@ function createInitialState(): BuilderState {
   };
 }
 
-export function CircuitBuilderPage() {
+export function CircuitBuilderPage({
+  copy = circuitBuilderCopyEn,
+}: {
+  copy?: CircuitBuilderCopy;
+}) {
   const initialDocumentRef = useRef(createEmptyCircuitDocument());
   const workspaceRegionRef = useRef<HTMLElement | null>(null);
   const loadJsonInputRef = useRef<HTMLInputElement | null>(null);
   const autosaveHasWrittenRef = useRef(false);
+  const localeHandoffConsumedRef = useRef(false);
+  const latestLocaleHandoffRef = useRef<{
+    document: CircuitDocument;
+    renderMode: CircuitRenderMode;
+    selection: BuilderSelection;
+  } | null>(null);
   const [state, dispatch] = useReducer(reducer, undefined, createInitialState);
   const [hasHydrated, setHasHydrated] = useState(false);
+  const [localeHandoffReady, setLocaleHandoffReady] = useState(false);
   const [exportStatus, setExportStatus] = useState<string | null>(null);
   const [renderMode, setRenderMode] = useState<CircuitRenderMode>("schematic");
   const [draftRecoveryState, setDraftRecoveryState] = useState<"checking" | "pending" | "dismissed" | "ready">("checking");
@@ -756,6 +870,39 @@ export function CircuitBuilderPage() {
     }
   }, []);
 
+  useEffect(() => {
+    if (isDocumentReloadNavigation()) {
+      clearCircuitLocaleHandoffFromStorage();
+      setLocaleHandoffReady(true);
+      return;
+    }
+
+    const result = consumeCircuitLocaleHandoffFromStorage();
+    if (
+      result.kind === "ready" &&
+      isMeaningfulLocaleHandoffSnapshot(result.handoff)
+    ) {
+      localeHandoffConsumedRef.current = true;
+      initialDocumentRef.current = result.handoff.document;
+      dispatch({
+        type: "restore-locale-handoff",
+        document: result.handoff.document,
+        selection: result.handoff.selection,
+      });
+      setRenderMode(result.handoff.renderMode);
+      try {
+        window.localStorage.setItem(
+          CIRCUIT_RENDER_MODE_STORAGE_KEY,
+          result.handoff.renderMode,
+        );
+      } catch {
+        // Locale handoff still restores the live page state without storage.
+      }
+      setDraftRecoveryState("ready");
+    }
+    setLocaleHandoffReady(true);
+  }, []);
+
   const updateCircuitRenderMode = useCallback((mode: CircuitRenderMode) => {
     setRenderMode(mode);
     try {
@@ -763,8 +910,8 @@ export function CircuitBuilderPage() {
     } catch {
       // Rendering can still switch even when storage is unavailable.
     }
-    setExportStatus(`View switched to ${circuitRenderModeLabels[mode]} mode.`);
-  }, []);
+    setExportStatus(copy.renderMode.status[mode] ?? copy.status.renderModeFallback);
+  }, [copy]);
 
   const solveResult = useMemo(
     () => solveCircuitDocument(state.document),
@@ -807,18 +954,42 @@ export function CircuitBuilderPage() {
     : false;
   const saveStateSummary = activeSavedCircuitTitle
     ? hasSavedCircuitChanges
-      ? `Unsaved changes to ${activeSavedCircuitTitle}`
-      : `${activeSavedCircuitTitle} is up to date`
+      ? circuitStatusText(
+          copy,
+          `Unsaved changes to ${activeSavedCircuitTitle}`,
+          `「${activeSavedCircuitTitle}」有未儲存變更`,
+        )
+      : circuitStatusText(
+          copy,
+          `${activeSavedCircuitTitle} is up to date`,
+          `「${activeSavedCircuitTitle}」已是最新`,
+        )
     : canSaveCurrentCircuit
-      ? "Unsaved new circuit"
-      : "Empty workspace";
+      ? copy.toolbar.unsavedNewCircuit
+      : copy.toolbar.emptyWorkspace;
   const saveStateDetail = activeSavedCircuitTitle
     ? hasSavedCircuitChanges
-      ? `Use Update ${activeSavedCircuitKind === "account" ? "account save" : "saved"} when you are ready to keep these edits.`
-      : `Current ${activeSavedCircuitKind === "account" ? "account" : "local"} save is up to date.`
+      ? circuitStatusText(
+          copy,
+          `Use Update ${activeSavedCircuitKind === "account" ? "account save" : "saved"} when you are ready to keep these edits.`,
+          `準備保留這些編輯時，請使用「${activeSavedCircuitKind === "account" ? copy.toolbar.updateAccountSave : copy.toolbar.updateSaved}」。`,
+        )
+      : circuitStatusText(
+          copy,
+          `Current ${activeSavedCircuitKind === "account" ? "account" : "local"} save is up to date.`,
+          `目前${activeSavedCircuitKind === "account" ? "帳戶" : "本機"}儲存已是最新。`,
+        )
     : canSaveCurrentCircuit
-      ? "Use Save locally or Save to account to name this circuit. Autosave still protects recovery separately."
-      : "Add a component to enable named saves. Autosave recovery stays idle for an empty workspace.";
+      ? circuitStatusText(
+          copy,
+          "Use Save locally or Save to account to name this circuit. Autosave still protects recovery separately.",
+          "可用「本機儲存」或「儲存到帳戶」為此電路命名。自動儲存復原仍會獨立保護。",
+        )
+      : circuitStatusText(
+          copy,
+          "Add a component to enable named saves. Autosave recovery stays idle for an empty workspace.",
+          "加入元件後即可使用命名儲存。空白工作區不會啟動自動復原。",
+        );
   const hasPendingHistoryChange = state.historySession
     ? !documentsEqual(state.historySession.document, state.document)
     : false;
@@ -830,25 +1001,97 @@ export function CircuitBuilderPage() {
   const redoHistoryLabel = !hasPendingHistoryChange ? state.future[0]?.label ?? null : null;
   const historyStateSummary = undoHistoryLabel
     ? redoHistoryLabel
-      ? `Undo ${undoHistoryLabel} · Redo ${redoHistoryLabel}`
-      : `Undo ${undoHistoryLabel}`
+      ? circuitStatusText(
+          copy,
+          `Undo ${undoHistoryLabel} · Redo ${redoHistoryLabel}`,
+          `復原「${undoHistoryLabel}」 · 重做「${redoHistoryLabel}」`,
+        )
+      : circuitStatusText(copy, `Undo ${undoHistoryLabel}`, `復原「${undoHistoryLabel}」`)
     : redoHistoryLabel
-      ? `Redo ${redoHistoryLabel}`
-      : "No history yet";
+      ? circuitStatusText(copy, `Redo ${redoHistoryLabel}`, `重做「${redoHistoryLabel}」`)
+      : copy.toolbar.historyEmpty;
   const historyStateDetail = hasPendingHistoryChange
-    ? `A ${undoHistoryLabel} adjustment is in progress. Finish it before redoing another step.`
+    ? circuitStatusText(
+        copy,
+        `A ${undoHistoryLabel} adjustment is in progress. Finish it before redoing another step.`,
+        `「${undoHistoryLabel}」調整仍在進行中。完成後才可重做另一個步驟。`,
+      )
     : undoHistoryLabel || redoHistoryLabel
       ? [
-          undoHistoryLabel ? `Next undo: ${undoHistoryLabel}.` : null,
-          redoHistoryLabel ? `Next redo: ${redoHistoryLabel}.` : null,
+          undoHistoryLabel
+            ? circuitStatusText(copy, `Next undo: ${undoHistoryLabel}.`, `下一個復原：「${undoHistoryLabel}」。`)
+            : null,
+          redoHistoryLabel
+            ? circuitStatusText(copy, `Next redo: ${redoHistoryLabel}.`, `下一個重做：「${redoHistoryLabel}」。`)
+            : null,
         ].filter(Boolean).join(" ")
-      : "Make a circuit change to enable undo history.";
+      : circuitStatusText(
+          copy,
+          "Make a circuit change to enable undo history.",
+          "變更電路後即可使用復原歷史。",
+        );
   const canUseAccountSaves =
     accountSession.status === "signed-in" &&
     accountSession.entitlement.capabilities.canSaveCompareSetups;
   const selectionActionsLocked = state.activeTool === "wire" || Boolean(state.pendingWireStart);
 
   useEffect(() => {
+    latestLocaleHandoffRef.current = {
+      document: state.document,
+      renderMode,
+      selection: state.selection,
+    };
+
+    if (!localeHandoffReady) {
+      return;
+    }
+
+    writeMeaningfulLocaleHandoff({
+      document: state.document,
+      renderMode,
+      selection: state.selection,
+    });
+  }, [localeHandoffReady, renderMode, state.document, state.selection]);
+
+  useEffect(() => {
+    if (!localeHandoffReady) {
+      return;
+    }
+
+    function writeLatestHandoff() {
+      const snapshot = latestLocaleHandoffRef.current;
+      if (!snapshot) {
+        return;
+      }
+
+      writeMeaningfulLocaleHandoff(snapshot);
+    }
+
+    function handleVisibilityChange() {
+      if (window.document.visibilityState === "hidden") {
+        writeLatestHandoff();
+      }
+    }
+
+    window.addEventListener("pagehide", writeLatestHandoff);
+    window.document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      writeLatestHandoff();
+      window.removeEventListener("pagehide", writeLatestHandoff);
+      window.document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [localeHandoffReady]);
+
+  useEffect(() => {
+    if (!localeHandoffReady) {
+      return;
+    }
+
+    if (localeHandoffConsumedRef.current) {
+      setDraftRecoveryState("ready");
+      return;
+    }
+
     const result = readCircuitDraftFromStorage();
 
     if (result.kind === "ready") {
@@ -863,16 +1106,20 @@ export function CircuitBuilderPage() {
     }
 
     setDraftRecoveryState("ready");
-  }, []);
+  }, [localeHandoffReady]);
 
   useEffect(() => {
     const discardedCount = getSavedCircuitsDiscardedCount();
     if (discardedCount > 0) {
       setExportStatus(
-        `Removed ${discardedCount} unreadable saved circuit${discardedCount === 1 ? "" : "s"} from local storage.`,
+        circuitStatusText(
+          copy,
+          `Removed ${discardedCount} unreadable saved circuit${discardedCount === 1 ? "" : "s"} from local storage.`,
+          `已從本機儲存移除 ${discardedCount} 個無法讀取的已儲存電路。`,
+        ),
       );
     }
-  }, []);
+  }, [copy]);
 
   const refreshAccountSavedCircuits = useCallback(async () => {
     if (!canUseAccountSaves) {
@@ -919,15 +1166,20 @@ export function CircuitBuilderPage() {
     setClearWorkspaceArmed((wasArmed) => {
       if (wasArmed) {
         setExportStatus((current) =>
-          current?.startsWith("Clear workspace ready:")
-            ? "Clear workspace confirmation reset because the workspace changed."
+          current?.startsWith("Clear workspace ready:") ||
+          current?.includes("清空工作區已準備好")
+            ? circuitStatusText(
+                copy,
+                "Clear workspace confirmation reset because the workspace changed.",
+                "工作區已改變，清空確認已重設。",
+              )
             : current,
         );
       }
 
       return false;
     });
-  }, [state.document]);
+  }, [copy, state.document]);
 
   useEffect(() => {
     if (draftRecoveryState === "checking" || draftRecoveryState === "pending") {
@@ -970,10 +1222,13 @@ export function CircuitBuilderPage() {
       },
     );
     const componentDefinition = getCircuitComponentDefinition(componentType);
+    const componentDisplayLabel = copy.components[componentType].label;
     const nextOrdinal = state.document.components.filter(
       (component) => component.type === componentType,
     ).length + 1;
     const nextLabel = `${componentDefinition.label} ${nextOrdinal}`;
+    const nextDisplayLabel =
+      copy.locale === "zh-HK" ? `${componentDisplayLabel} ${nextOrdinal}` : nextLabel;
 
     dispatch({
       type: "add-component",
@@ -982,11 +1237,15 @@ export function CircuitBuilderPage() {
     });
     if (wasWiring) {
       setExportStatus(
-        `${componentDefinition.label} added. Wire mode cleared so the loose wire was not connected accidentally.`,
+        copy.locale === "zh-HK"
+          ? `已加入${componentDisplayLabel}。導線模式已清除，避免未完成導線被意外連接。`
+          : `${componentDefinition.label} added. Wire mode cleared so the loose wire was not connected accidentally.`,
       );
     } else if (point) {
       setExportStatus(
-        `${nextLabel} dropped at ${nextPoint.x}, ${nextPoint.y} and selected. Drag it or use arrow keys to refine the placement.`,
+        copy.locale === "zh-HK"
+          ? `${nextDisplayLabel} 已放在 ${nextPoint.x}, ${nextPoint.y} 並選取。可拖曳或用方向鍵微調位置。`
+          : `${nextLabel} dropped at ${nextPoint.x}, ${nextPoint.y} and selected. Drag it or use arrow keys to refine the placement.`,
       );
     }
     if (point) {
@@ -996,15 +1255,20 @@ export function CircuitBuilderPage() {
 
   const appendClearWorkspaceCancellation = useCallback((
     message: string,
-    cancellationDetail = "Clear workspace confirmation was cancelled; nothing was removed.",
+    cancellationDetail?: string,
   ) => {
     if (!clearWorkspaceArmed) {
       return message;
     }
 
     setClearWorkspaceArmed(false);
-    return `${message} ${cancellationDetail}`;
-  }, [clearWorkspaceArmed]);
+    const resolvedCancellationDetail = cancellationDetail ?? circuitStatusText(
+      copy,
+      "Clear workspace confirmation was cancelled; nothing was removed.",
+      "清空工作區確認已取消；未移除任何內容。",
+    );
+    return `${message} ${resolvedCancellationDetail}`;
+  }, [clearWorkspaceArmed, copy]);
 
   function setCircuitTool(tool: "select" | "wire") {
     if (tool === state.activeTool) {
@@ -1015,8 +1279,10 @@ export function CircuitBuilderPage() {
     setExportStatus(
       appendClearWorkspaceCancellation(
         tool === "wire"
-          ? "Wire tool active. Click a terminal to start a connection."
-          : "Wire tool turned off. Empty canvas returned to select mode.",
+          ? copy.toolbar.activeToolDetails.wire
+          : copy.locale === "zh-HK"
+            ? "導線工具已關閉。空白畫布已返回選取模式。"
+            : "Wire tool turned off. Empty canvas returned to select mode.",
       ),
     );
     focusWorkspaceRegion();
@@ -1061,19 +1327,24 @@ export function CircuitBuilderPage() {
       return;
     }
     if (selectionActionsLocked) {
-      setExportStatus("Finish or cancel wiring before moving the selected component.");
+      setExportStatus(
+        copy.locale === "zh-HK"
+          ? "請先完成或取消接線，才移動已選元件。"
+          : "Finish or cancel wiring before moving the selected component.",
+      );
       focusWorkspaceRegion();
       return;
     }
+    const componentLabel = formatCircuitComponentDisplayLabel(component, copy);
     dispatch({
       type: "move-component",
       componentId,
       point: snapPointToGrid(clampComponentPoint({ x, y })),
-      historyLabel: `move ${component.label}`,
+      historyLabel: copy.locale === "zh-HK" ? `移動${componentLabel}` : `move ${component.label}`,
     });
     setExportStatus(
       appendClearWorkspaceCancellation(
-        `${component.label} moved.`,
+        copy.locale === "zh-HK" ? `${componentLabel} 已移動。` : `${component.label} moved.`,
         "Clear workspace confirmation was cancelled before this edit.",
       ),
     );
@@ -1082,21 +1353,29 @@ export function CircuitBuilderPage() {
   async function copyJsonState() {
     try {
       await navigator.clipboard.writeText(serializeCircuitDocument(state.document));
-      setExportStatus("Circuit JSON copied.");
+      setExportStatus(circuitStatusText(copy, "Circuit JSON copied.", "已複製電路 JSON。"));
     } catch {
-      setExportStatus("Clipboard export was unavailable in this browser context.");
+      setExportStatus(circuitStatusText(
+        copy,
+        "Clipboard export was unavailable in this browser context.",
+        "此瀏覽器環境無法使用剪貼簿匯出。",
+      ));
     }
   }
 
   function downloadJsonDocument() {
     const exportPayload = buildCircuitJsonExport(state.document);
     downloadTextFile(exportPayload.filename, exportPayload.json, "application/json");
-    setExportStatus("Circuit JSON downloaded.");
+    setExportStatus(circuitStatusText(copy, "Circuit JSON downloaded.", "已下載電路 JSON。"));
   }
 
   function downloadSvgDiagram() {
     if (!canExportDiagram) {
-      setExportStatus("Add at least one component before exporting a diagram.");
+      setExportStatus(circuitStatusText(
+        copy,
+        "Add at least one component before exporting a diagram.",
+        "請先加入至少一個元件，才可匯出圖像。",
+      ));
       return;
     }
 
@@ -1104,8 +1383,12 @@ export function CircuitBuilderPage() {
     downloadTextFile(exportPayload.filename, exportPayload.svg, "image/svg+xml");
     setExportStatus(
       solveResult.issues.length > 0
-        ? "SVG diagram downloaded. Warning banners are intentionally excluded from the schematic."
-        : "SVG diagram downloaded.",
+        ? circuitStatusText(
+            copy,
+            "SVG diagram downloaded. Warning banners are intentionally excluded from the schematic.",
+            "已下載 SVG 圖像。警告橫幅會刻意排除於電路圖之外。",
+          )
+        : circuitStatusText(copy, "SVG diagram downloaded.", "已下載 SVG 圖像。"),
     );
   }
 
@@ -1119,10 +1402,14 @@ export function CircuitBuilderPage() {
     setExportStatus(
       appendClearWorkspaceCancellation(
         message,
-        "Clear workspace confirmation was cancelled before changing the view.",
+        circuitStatusText(
+          copy,
+          "Clear workspace confirmation was cancelled before changing the view.",
+          "變更視圖前已取消清空工作區確認。",
+        ),
       ),
     );
-  }, [appendClearWorkspaceCancellation]);
+  }, [appendClearWorkspaceCancellation, copy]);
 
   const zoomWorkspaceViewBy = useCallback((delta: number) => {
     const nextZoom = Math.max(
@@ -1136,7 +1423,9 @@ export function CircuitBuilderPage() {
         ? "Zoom out or reset the view to see more context."
         : "Zoom in or fit the circuit when you need more detail.";
       announceWorkspaceViewChange(
-        `Workspace already at ${Math.round(nextZoom * 100)}% zoom; cannot zoom ${direction} further. ${recoveryHint}`,
+        copy.locale === "zh-HK"
+          ? `工作區已在 ${Math.round(nextZoom * 100)}% 縮放，不能再${delta > 0 ? "放大" : "縮小"}。`
+          : `Workspace already at ${Math.round(nextZoom * 100)}% zoom; cannot zoom ${direction} further. ${recoveryHint}`,
       );
       focusWorkspaceRegion();
       return;
@@ -1153,27 +1442,37 @@ export function CircuitBuilderPage() {
       },
     });
     announceWorkspaceViewChange(
-      `Workspace zoom ${Math.round(nextZoom * 100)}%. Press 0 to reset the view.`,
+      copy.locale === "zh-HK"
+        ? `工作區縮放 ${Math.round(nextZoom * 100)}%。按 0 可重設視圖。`
+        : `Workspace zoom ${Math.round(nextZoom * 100)}%. Press 0 to reset the view.`,
     );
     focusWorkspaceRegion();
-  }, [announceWorkspaceViewChange, focusWorkspaceRegion, state.document.view]);
+  }, [announceWorkspaceViewChange, copy.locale, focusWorkspaceRegion, state.document.view]);
 
   const canResetWorkspaceView = !circuitViewsEqual(state.document.view, defaultCircuitView);
   const resetWorkspaceView = useCallback(() => {
     if (circuitViewsEqual(state.document.view, defaultCircuitView)) {
-      announceWorkspaceViewChange("Workspace view is already at the default zoom and pan.");
+      announceWorkspaceViewChange(
+        copy.locale === "zh-HK"
+          ? "工作區視圖已是預設縮放和平移。"
+          : "Workspace view is already at the default zoom and pan.",
+      );
       focusWorkspaceRegion();
       return;
     }
 
     dispatch({ type: "update-view", view: defaultCircuitView });
-    announceWorkspaceViewChange("Workspace view reset.");
+    announceWorkspaceViewChange(copy.locale === "zh-HK" ? "工作區視圖已重設。" : "Workspace view reset.");
     focusWorkspaceRegion();
-  }, [announceWorkspaceViewChange, focusWorkspaceRegion, state.document.view]);
+  }, [announceWorkspaceViewChange, copy.locale, focusWorkspaceRegion, state.document.view]);
 
   const fitWorkspaceView = useCallback(() => {
     if (state.document.components.length === 0) {
-      announceWorkspaceViewChange("Add a component before fitting the workspace view.");
+      announceWorkspaceViewChange(
+        copy.locale === "zh-HK"
+          ? "先加入元件，才可適合工作區視圖。"
+          : "Add a component before fitting the workspace view.",
+      );
       focusWorkspaceRegion();
       return;
     }
@@ -1181,10 +1480,12 @@ export function CircuitBuilderPage() {
     const nextView = buildFittedCircuitView(state.document);
     dispatch({ type: "update-view", view: nextView });
     announceWorkspaceViewChange(
-      `Fitted view to ${state.document.components.length} part${state.document.components.length === 1 ? "" : "s"} at ${Math.round(nextView.zoom * 100)}% zoom.`,
+      copy.locale === "zh-HK"
+        ? `視圖已適合 ${state.document.components.length} 個元件，縮放 ${Math.round(nextView.zoom * 100)}%。`
+        : `Fitted view to ${state.document.components.length} part${state.document.components.length === 1 ? "" : "s"} at ${Math.round(nextView.zoom * 100)}% zoom.`,
     );
     focusWorkspaceRegion();
-  }, [announceWorkspaceViewChange, focusWorkspaceRegion, state.document]);
+  }, [announceWorkspaceViewChange, copy.locale, focusWorkspaceRegion, state.document]);
 
   function openJsonDialog() {
     loadJsonInputRef.current?.click();
@@ -1202,13 +1503,23 @@ export function CircuitBuilderPage() {
       const document = parseCircuitDocumentJson(await file.text());
       dispatch({ type: "load-document", document, label: "load JSON" });
       setActiveAccountSavedCircuitId(null);
-      setExportStatus(`${wiringStatusPrefix}Loaded ${file.name}.`);
+      setExportStatus(
+        `${wiringStatusPrefix}${circuitStatusText(
+          copy,
+          `Loaded ${file.name}.`,
+          `已載入 ${file.name}。`,
+        )}`,
+      );
       focusWorkspaceRegion();
     } catch (error) {
       setExportStatus(
         error instanceof Error
           ? error.message
-          : "The selected file could not be loaded as a circuit JSON document.",
+          : circuitStatusText(
+              copy,
+              "The selected file could not be loaded as a circuit JSON document.",
+              "無法把所選檔案載入為電路 JSON 文件。",
+            ),
       );
     } finally {
       event.target.value = "";
@@ -1229,14 +1540,19 @@ export function CircuitBuilderPage() {
       return;
     }
     if (selectionActionsLocked) {
-      setExportStatus("Finish or cancel wiring before rotating the selected component.");
+      setExportStatus(
+        copy.locale === "zh-HK"
+          ? "請先完成或取消接線，才旋轉已選元件。"
+          : "Finish or cancel wiring before rotating the selected component.",
+      );
       focusWorkspaceRegion();
       return;
     }
     dispatch({ type: "rotate-component", componentId });
+    const componentLabel = formatCircuitComponentDisplayLabel(component, copy);
     setExportStatus(
       appendClearWorkspaceCancellation(
-        `${component.label} rotated.`,
+        copy.locale === "zh-HK" ? `${componentLabel} 已旋轉。` : `${component.label} rotated.`,
         "Clear workspace confirmation was cancelled before this edit.",
       ),
     );
@@ -1249,14 +1565,19 @@ export function CircuitBuilderPage() {
       return;
     }
     if (selectionActionsLocked) {
-      setExportStatus("Finish or cancel wiring before deleting the selected item.");
+      setExportStatus(
+        copy.locale === "zh-HK"
+          ? "請先完成或取消接線，才刪除已選項目。"
+          : "Finish or cancel wiring before deleting the selected item.",
+      );
       focusWorkspaceRegion();
       return;
     }
     dispatch({ type: "delete-component", componentId });
+    const componentLabel = formatCircuitComponentDisplayLabel(component, copy);
     setExportStatus(
       appendClearWorkspaceCancellation(
-        `${component.label} deleted.`,
+        copy.locale === "zh-HK" ? `${componentLabel} 已刪除。` : `${component.label} deleted.`,
         "Clear workspace confirmation was cancelled before deleting the selected part.",
       ),
     );
@@ -1270,15 +1591,23 @@ export function CircuitBuilderPage() {
       return;
     }
     if (selectionActionsLocked) {
-      setExportStatus("Finish or cancel wiring before deleting the selected item.");
+      setExportStatus(circuitStatusText(
+        copy,
+        "Finish or cancel wiring before deleting the selected item.",
+        "請先完成或取消接線，才刪除已選項目。",
+      ));
       focusWorkspaceRegion();
       return;
     }
     dispatch({ type: "delete-wire", wireId });
     setExportStatus(
       appendClearWorkspaceCancellation(
-        "Selected wire deleted.",
-        "Clear workspace confirmation was cancelled before deleting the selected connection.",
+        circuitStatusText(copy, "Selected wire deleted.", "已刪除已選導線。"),
+        circuitStatusText(
+          copy,
+          "Clear workspace confirmation was cancelled before deleting the selected connection.",
+          "刪除已選連接前已取消清空工作區確認。",
+        ),
       ),
     );
     focusWorkspaceRegion();
@@ -1294,8 +1623,16 @@ export function CircuitBuilderPage() {
     if (hadClearConfirmation) {
       setExportStatus(
         componentId
-          ? "Clear workspace confirmation cancelled because a component was selected. Nothing was removed."
-          : "Clear workspace confirmation cancelled. Nothing was removed.",
+          ? circuitStatusText(
+              copy,
+              "Clear workspace confirmation cancelled because a component was selected. Nothing was removed.",
+              "因為已選取元件，清空工作區確認已取消。未移除任何內容。",
+            )
+          : circuitStatusText(
+              copy,
+              "Clear workspace confirmation cancelled. Nothing was removed.",
+              "清空工作區確認已取消。未移除任何內容。",
+            ),
       );
       focusWorkspaceRegion();
     }
@@ -1309,7 +1646,11 @@ export function CircuitBuilderPage() {
       }
       dispatch({ type: "select-wire", wireId: null });
       if (hadClearConfirmation) {
-        setExportStatus("Clear workspace confirmation cancelled. Nothing was removed.");
+        setExportStatus(circuitStatusText(
+          copy,
+          "Clear workspace confirmation cancelled. Nothing was removed.",
+          "清空工作區確認已取消。未移除任何內容。",
+        ));
         focusWorkspaceRegion();
       }
       return;
@@ -1321,7 +1662,7 @@ export function CircuitBuilderPage() {
       return;
     }
 
-    const wireLabel = getCircuitWireDisplayLabel(state.document, wire);
+    const wireLabel = formatCircuitWireDisplayLabel(state.document, wire, copy);
     const wasCompletingWire = Boolean(state.pendingWireStart);
     const wasWireToolActive = state.activeTool === "wire";
 
@@ -1331,7 +1672,11 @@ export function CircuitBuilderPage() {
     dispatch({ type: "select-wire", wireId });
     setExportStatus(
       appendClearWorkspaceCancellation(
-        `${wasCompletingWire ? "Loose wire cancelled. " : wasWireToolActive ? "Wire tool turned off. " : ""}${wireLabel} selected. Use Delete to remove it, or pick another connection.`,
+        circuitStatusText(
+          copy,
+          `${wasCompletingWire ? "Loose wire cancelled. " : wasWireToolActive ? "Wire tool turned off. " : ""}${wireLabel} selected. Use Delete to remove it, or pick another connection.`,
+          `${wasCompletingWire ? "未完成導線已取消。" : wasWireToolActive ? "導線工具已關閉。" : ""}已選取${wireLabel}。可按 Delete 移除，或選另一條連接。`,
+        ),
       ),
     );
     focusWorkspaceRegion();
@@ -1341,7 +1686,11 @@ export function CircuitBuilderPage() {
     if (!state.selection) {
       if (clearWorkspaceArmed) {
         setClearWorkspaceArmed(false);
-        setExportStatus("Clear workspace confirmation cancelled. Nothing was removed.");
+        setExportStatus(circuitStatusText(
+          copy,
+          "Clear workspace confirmation cancelled. Nothing was removed.",
+          "清空工作區確認已取消。未移除任何內容。",
+        ));
         focusWorkspaceRegion();
       }
       return;
@@ -1349,7 +1698,9 @@ export function CircuitBuilderPage() {
 
     dispatch({ type: "select-component", componentId: null });
     setExportStatus(
-      appendClearWorkspaceCancellation("Selection cleared."),
+      appendClearWorkspaceCancellation(
+        circuitStatusText(copy, "Selection cleared.", "已清除選取。"),
+      ),
     );
     focusWorkspaceRegion();
   }
@@ -1368,20 +1719,20 @@ export function CircuitBuilderPage() {
   function getTerminalStatusLabel(ref: CircuitTerminalRef) {
     const component = getCircuitComponentById(state.document, ref.componentId);
     if (!component) {
-      return "selected terminal";
+      return copy.status.selectedTerminalFallback;
     }
 
-    const definition = getCircuitComponentDefinition(component.type);
-    return `${component.label} ${definition.terminalLabels[ref.terminal]}`;
+    const terminalLabel = copy.components[component.type].terminalLabels[ref.terminal];
+    return `${formatCircuitComponentDisplayLabel(component, copy)} ${terminalLabel}`;
   }
 
   function getWiringResetStatusPrefix() {
     if (state.pendingWireStart) {
-      return "Loose wire cancelled. ";
+      return circuitStatusText(copy, "Loose wire cancelled. ", "未完成導線已取消。");
     }
 
     if (state.activeTool === "wire") {
-      return "Wire tool turned off. ";
+      return circuitStatusText(copy, "Wire tool turned off. ", "導線工具已關閉。");
     }
 
     return "";
@@ -1401,7 +1752,11 @@ export function CircuitBuilderPage() {
   function startWireFromTerminal(ref: CircuitTerminalRef) {
     dispatch({ type: "start-wire", ref });
     setExportStatus(
-      `${getTerminalStatusLabel(ref)} selected. Choose a second terminal to finish the wire.`,
+      circuitStatusText(
+        copy,
+        `${getTerminalStatusLabel(ref)} selected. Choose a second terminal to finish the wire.`,
+        `已選取${getTerminalStatusLabel(ref)}。請選第二個端子完成導線。`,
+      ),
     );
   }
 
@@ -1414,7 +1769,11 @@ export function CircuitBuilderPage() {
     if (sameTerminal(state.pendingWireStart, ref)) {
       dispatch({ type: "cancel-wire" });
       setExportStatus(
-        "Starting terminal cleared. Choose any terminal to start again, or press Esc to leave wire mode.",
+        circuitStatusText(
+          copy,
+          "Starting terminal cleared. Choose any terminal to start again, or press Esc to leave wire mode.",
+          "起始端子已清除。請選任一端子重新開始，或按 Esc 離開導線模式。",
+        ),
       );
       focusWorkspaceRegion();
       return;
@@ -1426,7 +1785,11 @@ export function CircuitBuilderPage() {
       dispatch({ type: "set-tool", tool: "select" });
       dispatch({ type: "select-wire", wireId: existingWire.id });
       setExportStatus(
-        `A wire already connects ${getTerminalStatusLabel(state.pendingWireStart)} and ${getTerminalStatusLabel(ref)}. The existing wire is selected instead.`,
+        circuitStatusText(
+          copy,
+          `A wire already connects ${getTerminalStatusLabel(state.pendingWireStart)} and ${getTerminalStatusLabel(ref)}. The existing wire is selected instead.`,
+          `${getTerminalStatusLabel(state.pendingWireStart)}和${getTerminalStatusLabel(ref)}之間已有導線。已改為選取現有導線。`,
+        ),
       );
       focusWorkspaceRegion();
       return;
@@ -1434,7 +1797,11 @@ export function CircuitBuilderPage() {
 
     dispatch({ type: "add-wire", ref });
     setExportStatus(
-      `Connected ${getTerminalStatusLabel(state.pendingWireStart)} to ${getTerminalStatusLabel(ref)}.`,
+      circuitStatusText(
+        copy,
+        `Connected ${getTerminalStatusLabel(state.pendingWireStart)} to ${getTerminalStatusLabel(ref)}.`,
+        `已連接${getTerminalStatusLabel(state.pendingWireStart)}至${getTerminalStatusLabel(ref)}。`,
+      ),
     );
     focusWorkspaceRegion();
   }
@@ -1442,7 +1809,11 @@ export function CircuitBuilderPage() {
   function cancelPendingWire() {
     dispatch({ type: "cancel-wire" });
     setExportStatus(
-      "Wire cancelled. Choose any terminal to start again, or press Esc to leave wire mode.",
+      circuitStatusText(
+        copy,
+        "Wire cancelled. Choose any terminal to start again, or press Esc to leave wire mode.",
+        "導線已取消。請選任一端子重新開始，或按 Esc 離開導線模式。",
+      ),
     );
     focusWorkspaceRegion();
   }
@@ -1467,7 +1838,9 @@ export function CircuitBuilderPage() {
           : "";
       setClearWorkspaceArmed(true);
       setExportStatus(
-        `${wiringStatusPrefix}Clear workspace ready: ${partCount} part${partCount === 1 ? "" : "s"} and ${wireCount} wire${wireCount === 1 ? "" : "s"} will be removed. Choose Confirm clear to continue; Undo can restore it.`,
+        copy.locale === "zh-HK"
+          ? `${wiringStatusPrefix}清空工作區已準備好：將移除 ${partCount} 個元件和 ${wireCount} 條導線。選擇「${copy.workspace.confirmClear}」繼續；復原可還原。`
+          : `${wiringStatusPrefix}Clear workspace ready: ${partCount} part${partCount === 1 ? "" : "s"} and ${wireCount} wire${wireCount === 1 ? "" : "s"} will be removed. Choose Confirm clear to continue; Undo can restore it.`,
       );
       focusWorkspaceRegion();
       return;
@@ -1480,7 +1853,11 @@ export function CircuitBuilderPage() {
       document: createEmptyCircuitDocument(),
       label: "clear workspace",
     });
-    setExportStatus("Workspace cleared. Press Undo to restore the cleared circuit.");
+    setExportStatus(
+      copy.locale === "zh-HK"
+        ? "工作區已清空。按復原可還原已清空的電路。"
+        : "Workspace cleared. Press Undo to restore the cleared circuit.",
+    );
     focusWorkspaceRegion();
   }
 
@@ -1488,15 +1865,18 @@ export function CircuitBuilderPage() {
     const document = preset.buildDocument();
     const partCount = document.components.length;
     const wiringStatusPrefix = getWiringResetStatusPrefix();
+    const presetLabel = copy.presets.items[preset.id]?.label ?? preset.label;
 
     setActiveAccountSavedCircuitId(null);
     dispatch({
       type: "load-document",
       document,
-      label: `load ${preset.label}`,
+      label: copy.locale === "zh-HK" ? `載入${presetLabel}` : `load ${preset.label}`,
     });
     setExportStatus(
-      `${wiringStatusPrefix}${preset.label} loaded with ${partCount} part${partCount === 1 ? "" : "s"}. Press Undo to restore the previous workspace.`,
+      copy.locale === "zh-HK"
+        ? `${wiringStatusPrefix}${presetLabel} 已載入，包含 ${partCount} 個元件。按復原可還原上一個工作區。`
+        : `${wiringStatusPrefix}${preset.label} loaded with ${partCount} part${partCount === 1 ? "" : "s"}. Press Undo to restore the previous workspace.`,
     );
     focusWorkspaceRegion();
   }
@@ -1518,8 +1898,16 @@ export function CircuitBuilderPage() {
     setActiveAccountSavedCircuitId(null);
     setExportStatus(
       pendingDraft.savedAt
-        ? `${wiringStatusPrefix}Restored local draft saved ${formatCircuitDraftSavedAt(pendingDraft.savedAt)}.`
-        : `${wiringStatusPrefix}Restored local draft.`,
+        ? `${wiringStatusPrefix}${circuitStatusText(
+            copy,
+            `Restored local draft saved ${formatCircuitDraftSavedAt(pendingDraft.savedAt)}.`,
+            `已還原於 ${formatCircuitDraftSavedAt(pendingDraft.savedAt)} 儲存的本機草稿。`,
+          )}`
+        : `${wiringStatusPrefix}${circuitStatusText(
+            copy,
+            "Restored local draft.",
+            "已還原本機草稿。",
+          )}`,
     );
     focusWorkspaceRegion();
   }
@@ -1534,15 +1922,19 @@ export function CircuitBuilderPage() {
     autosaveHasWrittenRef.current = false;
     setDraftRecoveryState("ready");
     setPendingDraft(null);
-    setExportStatus("Saved local draft discarded.");
+    setExportStatus(circuitStatusText(copy, "Saved local draft discarded.", "已丟棄本機草稿。"));
   }
 
   function buildDefaultSavedCircuitTitle() {
     const firstComponent = state.document.components[0];
     if (firstComponent) {
-      return `${firstComponent.label} circuit`;
+      return circuitStatusText(
+        copy,
+        `${firstComponent.label} circuit`,
+        `${formatCircuitComponentDisplayLabel(firstComponent, copy)} 電路`,
+      );
     }
-    return `Circuit ${savedCircuits.length + 1}`;
+    return circuitStatusText(copy, `Circuit ${savedCircuits.length + 1}`, `電路 ${savedCircuits.length + 1}`);
   }
 
   function openSavePanel() {
@@ -1567,7 +1959,11 @@ export function CircuitBuilderPage() {
     setActiveAccountSavedCircuitId(null);
     setSavePanelOpen(false);
     setSaveNameDraft("");
-    setExportStatus(`Saved locally as ${result.savedCircuit.title}.`);
+    setExportStatus(circuitStatusText(
+      copy,
+      `Saved locally as ${result.savedCircuit.title}.`,
+      `已本機儲存為「${result.savedCircuit.title}」。`,
+    ));
   }
 
   function updateCurrentSavedCircuit() {
@@ -1579,7 +1975,11 @@ export function CircuitBuilderPage() {
       document: state.document,
       existingId: activeLocalSavedCircuit.id,
     });
-    setExportStatus(`Updated ${result.savedCircuit.title}.`);
+    setExportStatus(circuitStatusText(
+      copy,
+      `Updated ${result.savedCircuit.title}.`,
+      `已更新「${result.savedCircuit.title}」。`,
+    ));
   }
 
   function openSavedCircuit(savedCircuitId: string) {
@@ -1598,7 +1998,11 @@ export function CircuitBuilderPage() {
     setActiveAccountSavedCircuitId(null);
     setEditingSavedCircuitId(null);
     setRenameDraft("");
-    setExportStatus(`${wiringStatusPrefix}Opened ${savedCircuit.title}.`);
+    setExportStatus(`${wiringStatusPrefix}${circuitStatusText(
+      copy,
+      `Opened ${savedCircuit.title}.`,
+      `已開啟「${savedCircuit.title}」。`,
+    )}`);
     focusWorkspaceRegion();
   }
 
@@ -1615,12 +2019,16 @@ export function CircuitBuilderPage() {
   function confirmRenameSavedCircuit(savedCircuitId: string) {
     const renamed = renameSavedCircuit(savedCircuitId, renameDraft);
     if (!renamed) {
-      setExportStatus("Saved circuit rename failed.");
+      setExportStatus(circuitStatusText(copy, "Saved circuit rename failed.", "重新命名已儲存電路失敗。"));
       return;
     }
     setEditingSavedCircuitId(null);
     setRenameDraft("");
-    setExportStatus(`Renamed saved circuit to ${renamed.title}.`);
+    setExportStatus(circuitStatusText(
+      copy,
+      `Renamed saved circuit to ${renamed.title}.`,
+      `已將已儲存電路重新命名為「${renamed.title}」。`,
+    ));
   }
 
   function removeSavedCircuit(savedCircuitId: string) {
@@ -1638,7 +2046,11 @@ export function CircuitBuilderPage() {
       setEditingSavedCircuitId(null);
       setRenameDraft("");
     }
-    setExportStatus(`Deleted saved circuit ${deleted.title}.`);
+    setExportStatus(circuitStatusText(
+      copy,
+      `Deleted saved circuit ${deleted.title}.`,
+      `已刪除已儲存電路「${deleted.title}」。`,
+    ));
   }
 
   function openAccountSavePanel() {
@@ -1661,12 +2073,20 @@ export function CircuitBuilderPage() {
       setActiveAccountSavedCircuitId(result.savedCircuit.id);
       setAccountSavePanelOpen(false);
       setAccountSaveNameDraft("");
-      setExportStatus(`Saved to account as ${result.savedCircuit.title}.`);
+      setExportStatus(circuitStatusText(
+        copy,
+        `Saved to account as ${result.savedCircuit.title}.`,
+        `已儲存到帳戶為「${result.savedCircuit.title}」。`,
+      ));
     } catch (error) {
       setExportStatus(
         error instanceof Error
           ? error.message
-          : "Account-backed save could not be created right now.",
+          : circuitStatusText(
+              copy,
+              "Account-backed save could not be created right now.",
+              "目前無法建立帳戶儲存。",
+            ),
       );
     }
   }
@@ -1683,12 +2103,20 @@ export function CircuitBuilderPage() {
         document: state.document,
       });
       setAccountSavedCircuits(result.items);
-      setExportStatus(`Updated account save ${result.savedCircuit.title}.`);
+      setExportStatus(circuitStatusText(
+        copy,
+        `Updated account save ${result.savedCircuit.title}.`,
+        `已更新帳戶儲存「${result.savedCircuit.title}」。`,
+      ));
     } catch (error) {
       setExportStatus(
         error instanceof Error
           ? error.message
-          : "Account-backed save could not be updated right now.",
+          : circuitStatusText(
+              copy,
+              "Account-backed save could not be updated right now.",
+              "目前無法更新帳戶儲存。",
+            ),
       );
     }
   }
@@ -1704,7 +2132,11 @@ export function CircuitBuilderPage() {
     setActiveAccountSavedCircuitId(savedCircuit.id);
     setEditingAccountSavedCircuitId(null);
     setAccountRenameDraft("");
-    setExportStatus(`${wiringStatusPrefix}Opened account save ${savedCircuit.title}.`);
+    setExportStatus(`${wiringStatusPrefix}${circuitStatusText(
+      copy,
+      `Opened account save ${savedCircuit.title}.`,
+      `已開啟帳戶儲存「${savedCircuit.title}」。`,
+    )}`);
     focusWorkspaceRegion();
   }
 
@@ -1727,12 +2159,16 @@ export function CircuitBuilderPage() {
       setAccountSavedCircuits(result.items);
       setEditingAccountSavedCircuitId(null);
       setAccountRenameDraft("");
-      setExportStatus(`Renamed account save to ${result.savedCircuit.title}.`);
+      setExportStatus(circuitStatusText(
+        copy,
+        `Renamed account save to ${result.savedCircuit.title}.`,
+        `已將帳戶儲存重新命名為「${result.savedCircuit.title}」。`,
+      ));
     } catch (error) {
       setExportStatus(
         error instanceof Error
           ? error.message
-          : "Account save rename failed.",
+          : circuitStatusText(copy, "Account save rename failed.", "重新命名帳戶儲存失敗。"),
       );
     }
   }
@@ -1748,19 +2184,23 @@ export function CircuitBuilderPage() {
         setEditingAccountSavedCircuitId(null);
         setAccountRenameDraft("");
       }
-      setExportStatus("Deleted account-saved circuit.");
+      setExportStatus(circuitStatusText(copy, "Deleted account-saved circuit.", "已刪除帳戶已儲存電路。"));
     } catch (error) {
       setExportStatus(
         error instanceof Error
           ? error.message
-          : "Account save deletion failed.",
+          : circuitStatusText(copy, "Account save deletion failed.", "刪除帳戶儲存失敗。"),
       );
     }
   }
 
   const undoHistory = useCallback(() => {
     if (!undoHistoryLabel) {
-      setExportStatus("Nothing to undo yet. Make a circuit change first.");
+      setExportStatus(circuitStatusText(
+        copy,
+        "Nothing to undo yet. Make a circuit change first.",
+        "暫時沒有可復原的步驟。請先變更電路。",
+      ));
       focusWorkspaceRegion();
       return;
     }
@@ -1769,26 +2209,34 @@ export function CircuitBuilderPage() {
     }
     dispatch({ type: "undo" });
     setActiveAccountSavedCircuitId(null);
-    setExportStatus(`Undid ${undoHistoryLabel}.`);
+    setExportStatus(circuitStatusText(copy, `Undid ${undoHistoryLabel}.`, `已復原「${undoHistoryLabel}」。`));
     focusWorkspaceRegion();
-  }, [focusWorkspaceRegion, state.historySession, undoHistoryLabel]);
+  }, [copy, focusWorkspaceRegion, state.historySession, undoHistoryLabel]);
 
   const redoHistory = useCallback(() => {
     if (hasPendingHistoryChange) {
-      setExportStatus("Finish the current adjustment before redoing another change.");
+      setExportStatus(circuitStatusText(
+        copy,
+        "Finish the current adjustment before redoing another change.",
+        "請先完成目前調整，才重做另一個變更。",
+      ));
       focusWorkspaceRegion();
       return;
     }
     if (!redoHistoryLabel) {
-      setExportStatus("Nothing to redo yet. Undo a change before using redo.");
+      setExportStatus(circuitStatusText(
+        copy,
+        "Nothing to redo yet. Undo a change before using redo.",
+        "暫時沒有可重做的步驟。請先復原一個變更。",
+      ));
       focusWorkspaceRegion();
       return;
     }
     dispatch({ type: "redo" });
     setActiveAccountSavedCircuitId(null);
-    setExportStatus(`Redid ${redoHistoryLabel}.`);
+    setExportStatus(circuitStatusText(copy, `Redid ${redoHistoryLabel}.`, `已重做「${redoHistoryLabel}」。`));
     focusWorkspaceRegion();
-  }, [focusWorkspaceRegion, hasPendingHistoryChange, redoHistoryLabel]);
+  }, [copy, focusWorkspaceRegion, hasPendingHistoryChange, redoHistoryLabel]);
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
@@ -1837,7 +2285,11 @@ export function CircuitBuilderPage() {
         if (state.pendingWireStart) {
           event.preventDefault();
           dispatch({ type: "cancel-wire" });
-          setExportStatus("Wire cancelled. Choose a terminal when you are ready to try again.");
+          setExportStatus(circuitStatusText(
+            copy,
+            "Wire cancelled. Choose a terminal when you are ready to try again.",
+            "導線已取消。準備好後請選一個端子再試。",
+          ));
           focusWorkspaceRegion();
           return;
         }
@@ -1845,7 +2297,7 @@ export function CircuitBuilderPage() {
         if (state.activeTool === "wire") {
           event.preventDefault();
           dispatch({ type: "set-tool", tool: "select" });
-          setExportStatus("Wire tool turned off.");
+          setExportStatus(circuitStatusText(copy, "Wire tool turned off.", "導線工具已關閉。"));
           focusWorkspaceRegion();
           return;
         }
@@ -1853,7 +2305,11 @@ export function CircuitBuilderPage() {
         if (clearWorkspaceArmed) {
           event.preventDefault();
           setClearWorkspaceArmed(false);
-          setExportStatus("Clear workspace cancelled. Nothing was removed.");
+          setExportStatus(circuitStatusText(
+            copy,
+            "Clear workspace cancelled. Nothing was removed.",
+            "清空工作區已取消。未移除任何內容。",
+          ));
           focusWorkspaceRegion();
           return;
         }
@@ -1861,7 +2317,7 @@ export function CircuitBuilderPage() {
         if (state.selection) {
           event.preventDefault();
           dispatch({ type: "select-component", componentId: null });
-          setExportStatus("Selection cleared.");
+          setExportStatus(circuitStatusText(copy, "Selection cleared.", "已清除選取。"));
           focusWorkspaceRegion();
         }
         return;
@@ -1870,7 +2326,11 @@ export function CircuitBuilderPage() {
       if (key === "delete" || key === "backspace") {
         if (selectionActionsLocked && state.selection) {
           event.preventDefault();
-          setExportStatus("Finish or cancel wiring before deleting the selected item.");
+          setExportStatus(circuitStatusText(
+            copy,
+            "Finish or cancel wiring before deleting the selected item.",
+            "請先完成或取消接線，才刪除已選項目。",
+          ));
           focusWorkspaceRegion();
           return;
         }
@@ -1880,8 +2340,16 @@ export function CircuitBuilderPage() {
           dispatch({ type: "delete-component", componentId: selectedComponent.id });
           setExportStatus(
             appendClearWorkspaceCancellation(
-              `${selectedComponent.label} deleted.`,
-              "Clear workspace confirmation was cancelled before deleting the selected part.",
+              circuitStatusText(
+                copy,
+                `${selectedComponent.label} deleted.`,
+                `${formatCircuitComponentDisplayLabel(selectedComponent, copy)}已刪除。`,
+              ),
+              circuitStatusText(
+                copy,
+                "Clear workspace confirmation was cancelled before deleting the selected part.",
+                "刪除已選元件前已取消清空工作區確認。",
+              ),
             ),
           );
           focusWorkspaceRegion();
@@ -1893,8 +2361,12 @@ export function CircuitBuilderPage() {
           dispatch({ type: "delete-wire", wireId: selectedWire.id });
           setExportStatus(
             appendClearWorkspaceCancellation(
-              "Selected wire deleted.",
-              "Clear workspace confirmation was cancelled before deleting the selected connection.",
+              circuitStatusText(copy, "Selected wire deleted.", "已刪除已選導線。"),
+              circuitStatusText(
+                copy,
+                "Clear workspace confirmation was cancelled before deleting the selected connection.",
+                "刪除已選連接前已取消清空工作區確認。",
+              ),
             ),
           );
           focusWorkspaceRegion();
@@ -1905,15 +2377,27 @@ export function CircuitBuilderPage() {
       if (key === "r" && selectedComponent) {
         event.preventDefault();
         if (selectionActionsLocked) {
-          setExportStatus("Finish or cancel wiring before rotating the selected component.");
+          setExportStatus(circuitStatusText(
+            copy,
+            "Finish or cancel wiring before rotating the selected component.",
+            "請先完成或取消接線，才旋轉已選元件。",
+          ));
           focusWorkspaceRegion();
           return;
         }
         dispatch({ type: "rotate-component", componentId: selectedComponent.id });
         setExportStatus(
           appendClearWorkspaceCancellation(
-            `${selectedComponent.label} rotated.`,
-            "Clear workspace confirmation was cancelled before this edit.",
+            circuitStatusText(
+              copy,
+              `${selectedComponent.label} rotated.`,
+              `${formatCircuitComponentDisplayLabel(selectedComponent, copy)}已旋轉。`,
+            ),
+            circuitStatusText(
+              copy,
+              "Clear workspace confirmation was cancelled before this edit.",
+              "此編輯前已取消清空工作區確認。",
+            ),
           ),
         );
         focusWorkspaceRegion();
@@ -1933,7 +2417,11 @@ export function CircuitBuilderPage() {
       if (selectedComponent && arrowDelta) {
         event.preventDefault();
         if (selectionActionsLocked) {
-          setExportStatus("Finish or cancel wiring before moving the selected component.");
+          setExportStatus(circuitStatusText(
+            copy,
+            "Finish or cancel wiring before moving the selected component.",
+            "請先完成或取消接線，才移動已選元件。",
+          ));
           focusWorkspaceRegion();
           return;
         }
@@ -1946,7 +2434,11 @@ export function CircuitBuilderPage() {
         );
 
         if (nextPoint.x === selectedComponent.x && nextPoint.y === selectedComponent.y) {
-          setExportStatus(`${selectedComponent.label} is already at the workspace edge.`);
+          setExportStatus(circuitStatusText(
+            copy,
+            `${selectedComponent.label} is already at the workspace edge.`,
+            `${formatCircuitComponentDisplayLabel(selectedComponent, copy)}已在工作區邊緣。`,
+          ));
           focusWorkspaceRegion();
           return;
         }
@@ -1959,8 +2451,16 @@ export function CircuitBuilderPage() {
         });
         setExportStatus(
           appendClearWorkspaceCancellation(
-            `${selectedComponent.label} moved to ${nextPoint.x}, ${nextPoint.y}. Use Shift+arrow for larger steps.`,
-            "Clear workspace confirmation was cancelled before this edit.",
+            circuitStatusText(
+              copy,
+              `${selectedComponent.label} moved to ${nextPoint.x}, ${nextPoint.y}. Use Shift+arrow for larger steps.`,
+              `${formatCircuitComponentDisplayLabel(selectedComponent, copy)}已移至 ${nextPoint.x}, ${nextPoint.y}。用 Shift+方向鍵可大步移動。`,
+            ),
+            circuitStatusText(
+              copy,
+              "Clear workspace confirmation was cancelled before this edit.",
+              "此編輯前已取消清空工作區確認。",
+            ),
           ),
         );
         focusWorkspaceRegion();
@@ -1994,7 +2494,11 @@ export function CircuitBuilderPage() {
       if (key === "w") {
         event.preventDefault();
         const clearWorkspaceCancellation = clearWorkspaceArmed
-          ? " Clear workspace confirmation was cancelled; nothing was removed."
+          ? circuitStatusText(
+              copy,
+              " Clear workspace confirmation was cancelled; nothing was removed.",
+              " 清空工作區確認已取消；未移除任何內容。",
+            )
           : "";
         if (clearWorkspaceArmed) {
           setClearWorkspaceArmed(false);
@@ -2002,7 +2506,11 @@ export function CircuitBuilderPage() {
         if (state.pendingWireStart) {
           dispatch({ type: "set-tool", tool: "select" });
           setExportStatus(
-            `Wire cancelled and wire tool turned off.${clearWorkspaceCancellation}`,
+            `${circuitStatusText(
+              copy,
+              "Wire cancelled and wire tool turned off.",
+              "導線已取消，導線工具已關閉。",
+            )}${clearWorkspaceCancellation}`,
           );
           focusWorkspaceRegion();
           return;
@@ -2010,11 +2518,15 @@ export function CircuitBuilderPage() {
 
         if (state.activeTool === "wire") {
           dispatch({ type: "set-tool", tool: "select" });
-          setExportStatus(`Wire tool turned off.${clearWorkspaceCancellation}`);
+          setExportStatus(`${circuitStatusText(copy, "Wire tool turned off.", "導線工具已關閉。")}${clearWorkspaceCancellation}`);
         } else {
           dispatch({ type: "set-tool", tool: "wire" });
           setExportStatus(
-            `Wire tool active. Click a terminal to start a connection.${clearWorkspaceCancellation}`,
+            `${circuitStatusText(
+              copy,
+              "Wire tool active. Click a terminal to start a connection.",
+              "導線工具已啟用。按端子開始連接。",
+            )}${clearWorkspaceCancellation}`,
           );
         }
         focusWorkspaceRegion();
@@ -2026,6 +2538,7 @@ export function CircuitBuilderPage() {
   }, [
     appendClearWorkspaceCancellation,
     clearWorkspaceArmed,
+    copy,
     fitWorkspaceView,
     focusWorkspaceRegion,
     redoHistory,
@@ -2041,56 +2554,71 @@ export function CircuitBuilderPage() {
   ]);
 
   const selectedWireLabel = selectedWire
-    ? getCircuitWireDisplayLabel(state.document, selectedWire)
+    ? formatCircuitWireDisplayLabel(state.document, selectedWire, copy)
     : null;
   const selectionSummary =
     state.selection?.kind === "component"
-      ? state.document.components.find((component) => component.id === state.selection?.id)?.label
+      ? (() => {
+          const component =
+            state.document.components.find((entry) => entry.id === state.selection?.id) ?? null;
+          return component ? formatCircuitComponentDisplayLabel(component, copy) : null;
+        })()
       : state.selection?.kind === "wire"
-        ? selectedWireLabel ?? "Wire selected"
-        : "Nothing selected";
+        ? selectedWireLabel ?? copy.toolbar.wireSelected
+        : copy.toolbar.nothingSelected;
   const wireSelectionHint =
     state.selection?.kind === "wire"
       ? selectedWireLabel
-        ? `${selectedWireLabel} selected. Delete removes this connection; rotate only applies to components.`
-        : "A wire is selected. Delete removes this connection; rotate only applies to components."
+        ? circuitStatusText(
+            copy,
+            `${selectedWireLabel} selected. Delete removes this connection; rotate only applies to components.`,
+            `已選取${selectedWireLabel}。Delete 會移除此連接；旋轉只適用於元件。`,
+          )
+        : circuitStatusText(
+            copy,
+            "A wire is selected. Delete removes this connection; rotate only applies to components.",
+            "已選取導線。Delete 會移除此連接；旋轉只適用於元件。",
+          )
       : null;
   const issueSummary =
     solveResult.issues.length > 0
-      ? `${solveResult.issues.length} issue${solveResult.issues.length === 1 ? "" : "s"}`
-      : "Solver ready";
+      ? `${solveResult.issues.length} ${
+          solveResult.issues.length === 1 ? copy.toolbar.issueSingular : copy.toolbar.issuePlural
+        }`
+      : copy.toolbar.solverReady;
   const activeToolSummary = state.pendingWireStart
-    ? "Wire: choose end"
+    ? copy.toolbar.wireChooseEnd
     : state.activeTool === "wire"
-      ? "Wire mode"
-      : "Select mode";
+      ? copy.toolbar.wireMode
+      : copy.toolbar.selectMode;
   const activeToolDetail = state.pendingWireStart
-    ? "One terminal is selected; choose a second terminal, use the empty canvas to cancel, or press Esc."
+    ? copy.toolbar.activeToolDetails.pending
     : state.activeTool === "wire"
-      ? "Wire mode is active. Click any terminal to start a connection, or press W/Esc to leave."
-      : "Select mode is active. Click parts or wires to inspect, move, rotate, or delete them.";
+      ? copy.toolbar.activeToolDetails.wire
+      : copy.toolbar.activeToolDetails.select;
   const keyboardShortcutSummary = state.pendingWireStart
-    ? "Shortcuts: Esc or empty canvas cancels the current wire, +/- zooms, Ctrl/Cmd+wheel zooms around pointer, F fits, Ctrl/Cmd+Z undoes."
+    ? copy.toolbar.shortcuts.pending
     : state.activeTool === "wire"
-      ? "Shortcuts: W or Esc leaves the wire tool, +/- zooms, Ctrl/Cmd+wheel zooms around pointer, F fits, 0 resets view."
+      ? copy.toolbar.shortcuts.wire
       : clearWorkspaceArmed
-        ? "Shortcuts: Esc cancels the clear confirmation, +/- zooms, Ctrl/Cmd+wheel zooms around pointer, F fits, 0 resets view."
+        ? copy.toolbar.shortcuts.clearArmed
         : state.selection?.kind === "component"
-        ? "Shortcuts: R rotates the selected part, Arrow keys move it, Shift+arrow jumps farther, Delete removes it, Esc clears it, Ctrl/Cmd+wheel zooms, F fits view."
+        ? copy.toolbar.shortcuts.component
         : state.selection?.kind === "wire"
-          ? "Shortcuts: Delete removes the selected wire, Esc clears it, W starts wiring, +/- zooms, Ctrl/Cmd+wheel zooms, F fits view."
-        : "Shortcuts: W starts wiring, +/- zooms, Ctrl/Cmd+wheel zooms around pointer, F fits, 0 resets view, Ctrl/Cmd+Z undoes, Ctrl/Cmd+Y redoes.";
+          ? copy.toolbar.shortcuts.wireSelected
+        : copy.toolbar.shortcuts.idle;
   const toolbarNotice = exportStatus ?? wireSelectionHint ?? (
     !canExportDiagram
-      ? "Diagram export stays disabled until the workspace contains at least one component. JSON state export still works for an empty workspace."
+      ? copy.toolbar.diagramExportDisabled
       : solveResult.issues.length > 0
-        ? "SVG export uses the current schematic layout even when the circuit still has warnings."
+        ? copy.toolbar.svgWarning
         : activeToolDetail
   );
   const desktopEnvironmentControl = (
     <div className="hidden xl:block">
       <CircuitEnvironmentControl
         mode="desktop"
+        copy={copy}
         temperatureC={state.document.environment.temperatureC}
         lightLevelPercent={state.document.environment.lightLevelPercent}
         onTemperatureChange={updateAmbientTemperature}
@@ -2102,7 +2630,7 @@ export function CircuitBuilderPage() {
     </div>
   );
   const workspaceControlsSlot = (
-    <CircuitRenderModeSwitch value={renderMode} onChange={updateCircuitRenderMode} />
+    <CircuitRenderModeSwitch value={renderMode} onChange={updateCircuitRenderMode} copy={copy} />
   );
   const builderGridColumnClass = isLibraryCollapsed
     ? isInspectorCollapsed
@@ -2112,12 +2640,17 @@ export function CircuitBuilderPage() {
       ? "xl:grid-cols-[14rem_minmax(0,1fr)_3.25rem]"
       : "xl:grid-cols-[14rem_minmax(0,1fr)_18rem]";
   const inspectorCollapsedLabel = solveResult.issues.length > 0
-    ? `Expand inspector; ${solveResult.issues.length} circuit ${solveResult.issues.length === 1 ? "issue" : "issues"}`
-    : "Expand inspector";
+    ? `${copy.locale === "zh-HK" ? "展開檢視器" : "Expand inspector"}; ${
+        solveResult.issues.length
+      } ${
+        solveResult.issues.length === 1 ? copy.toolbar.issueSingular : copy.toolbar.issuePlural
+      }`
+    : copy.locale === "zh-HK" ? "展開檢視器" : "Expand inspector";
   const mobileEnvironmentControl = (
     <div className="xl:hidden">
       <CircuitEnvironmentControl
         mode="mobile"
+        copy={copy}
         temperatureC={state.document.environment.temperatureC}
         lightLevelPercent={state.document.environment.lightLevelPercent}
         onTemperatureChange={updateAmbientTemperature}
@@ -2130,8 +2663,8 @@ export function CircuitBuilderPage() {
   );
   const savedCircuitsPanel = (
     <DisclosurePanel
-      title="Saved circuits"
-      summary="Named local saves live here. Autosave draft recovery stays separate and only protects against accidental loss."
+      title={copy.saves.panelTitle}
+      summary={copy.saves.panelSummary}
       defaultOpen={
         savedCircuits.length > 0 ||
         savePanelOpen ||
@@ -2142,10 +2675,10 @@ export function CircuitBuilderPage() {
       <div className="space-y-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <p className="max-w-3xl text-sm leading-6 text-ink-700">
-            Save locally keeps reusable browser-only circuits here. Account saves stay in the account section below, and autosave draft recovery stays reserved for accidental refresh loss.
+            {copy.saves.intro}
           </p>
           <span className="rounded-full border border-line bg-paper px-3 py-1 text-sm font-medium text-ink-700">
-            {savedCircuits.length} local
+            {savedCircuits.length} {copy.saves.localCount}
           </span>
         </div>
 
@@ -2153,11 +2686,11 @@ export function CircuitBuilderPage() {
           <div className="rounded-[22px] border border-line bg-paper p-4">
             <label className="block">
               <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">
-                Saved circuit name
+                {copy.saves.savedCircuitName}
               </span>
               <input
                 type="text"
-                aria-label="Saved circuit name"
+                aria-label={copy.saves.savedCircuitName}
                 value={saveNameDraft}
                 onChange={(event) => setSaveNameDraft(event.target.value)}
                 maxLength={80}
@@ -2171,14 +2704,14 @@ export function CircuitBuilderPage() {
                 className="rounded-full border border-teal-500/25 bg-teal-500 px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:border-line disabled:bg-paper-strong disabled:text-ink-500"
                 onClick={confirmSaveLocally}
               >
-                Save circuit
+                {copy.saves.saveCircuit}
               </button>
               <button
                 type="button"
                 className="rounded-full border border-line bg-paper px-4 py-2 text-sm font-semibold text-ink-950"
                 onClick={cancelSavePanel}
               >
-                Cancel
+                {copy.saves.cancel}
               </button>
             </div>
           </div>
@@ -2186,7 +2719,7 @@ export function CircuitBuilderPage() {
 
         {savedCircuits.length === 0 ? (
           <div className="rounded-[22px] border border-line bg-paper p-4 text-sm leading-6 text-ink-700">
-            No named saved circuits yet. Use <span className="font-semibold text-ink-950">Save locally</span> to keep a reusable circuit here. Autosave drafts stay separate and are only for recovery after accidental loss.
+            {copy.saves.emptyLocal}
           </div>
         ) : (
           <div className="grid gap-3">
@@ -2207,17 +2740,17 @@ export function CircuitBuilderPage() {
                       <div className="flex flex-wrap gap-2">
                         {isCurrent ? (
                           <span className="rounded-full border border-teal-500/25 bg-teal-500/10 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-teal-700">
-                            Current
+                            {copy.saves.current}
                           </span>
                         ) : null}
                         <span className="rounded-full border border-line bg-paper-strong px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">
-                          {savedCircuit.document.components.length} parts
+                          {savedCircuit.document.components.length} {copy.saves.parts}
                         </span>
                       </div>
                       <div>
                         <p className="text-sm font-semibold text-ink-950">{savedCircuit.title}</p>
                         <p className="mt-1 text-xs leading-5 text-ink-600">
-                          {updatedAtLabel ? `Updated ${updatedAtLabel}` : "Saved locally"}
+                          {updatedAtLabel ? `${copy.saves.updated} ${updatedAtLabel}` : copy.saves.savedLocally}
                         </p>
                       </div>
                     </div>
@@ -2225,30 +2758,30 @@ export function CircuitBuilderPage() {
                       <div className="flex flex-wrap gap-2">
                         <button
                           type="button"
-                          aria-label={`Open saved circuit ${savedCircuit.title}`}
-                          title={`Open saved circuit ${savedCircuit.title}`}
+                          aria-label={`${copy.saves.open} ${savedCircuit.title}`}
+                          title={`${copy.saves.open} ${savedCircuit.title}`}
                           className="rounded-full border border-line bg-paper px-3 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-800"
                           onClick={() => openSavedCircuit(savedCircuit.id)}
                         >
-                          Open
+                          {copy.saves.open}
                         </button>
                         <button
                           type="button"
-                          aria-label={`Rename saved circuit ${savedCircuit.title}`}
-                          title={`Rename saved circuit ${savedCircuit.title}`}
+                          aria-label={`${copy.saves.rename} ${savedCircuit.title}`}
+                          title={`${copy.saves.rename} ${savedCircuit.title}`}
                           className="rounded-full border border-line bg-paper px-3 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-800"
                           onClick={() => startRenameSavedCircuit(savedCircuit.id, savedCircuit.title)}
                         >
-                          Rename
+                          {copy.saves.rename}
                         </button>
                         <button
                           type="button"
-                          aria-label={`Delete saved circuit ${savedCircuit.title}`}
-                          title={`Delete saved circuit ${savedCircuit.title}`}
+                          aria-label={`${copy.saves.delete} ${savedCircuit.title}`}
+                          title={`${copy.saves.delete} ${savedCircuit.title}`}
                           className="rounded-full border border-line bg-paper px-3 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-700"
                           onClick={() => removeSavedCircuit(savedCircuit.id)}
                         >
-                          Delete
+                          {copy.saves.delete}
                         </button>
                       </div>
                     ) : null}
@@ -2258,11 +2791,11 @@ export function CircuitBuilderPage() {
                     <div className="mt-3 grid gap-2 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
                       <label className="block">
                         <span className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">
-                          Rename saved circuit
+                          {copy.saves.renameSavedCircuit}
                         </span>
                         <input
                           type="text"
-                          aria-label="Rename saved circuit"
+                          aria-label={copy.saves.renameSavedCircuit}
                           value={renameDraft}
                           onChange={(event) => setRenameDraft(event.target.value)}
                           maxLength={80}
@@ -2276,14 +2809,14 @@ export function CircuitBuilderPage() {
                           className="rounded-full border border-teal-500/25 bg-teal-500 px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white disabled:cursor-not-allowed disabled:border-line disabled:bg-paper-strong disabled:text-ink-500"
                           onClick={() => confirmRenameSavedCircuit(savedCircuit.id)}
                         >
-                          Save name
+                          {copy.saves.saveName}
                         </button>
                         <button
                           type="button"
                           className="rounded-full border border-line bg-paper px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-ink-700"
                           onClick={cancelRenameSavedCircuit}
                         >
-                          Cancel
+                          {copy.saves.cancel}
                         </button>
                       </div>
                     </div>
@@ -2297,14 +2830,14 @@ export function CircuitBuilderPage() {
         <div className="rounded-[22px] border border-line bg-paper p-4">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
-              <p className="lab-label">Account saved circuits</p>
+              <p className="lab-label">{copy.saves.accountTitle}</p>
               <p className="mt-1 text-sm leading-6 text-ink-700">
-                Account saves are cross-device named circuits for eligible signed-in users. They stay separate from local browser saves and the autosave recovery draft.
+                {copy.saves.accountDescription}
               </p>
             </div>
             {canUseAccountSaves ? (
               <span className="rounded-full border border-line bg-paper-strong px-3 py-1 text-sm font-medium text-ink-700">
-                {accountSavedCircuits.length} account saves
+                {accountSavedCircuits.length} {copy.saves.accountCount}
               </span>
             ) : null}
           </div>
@@ -2312,8 +2845,8 @@ export function CircuitBuilderPage() {
           {!canUseAccountSaves ? (
             <div className="mt-4">
               <PremiumFeatureNotice
-                title="Account-saved circuits"
-                description="Account-backed saved circuits reopen your custom builds across devices while local saves and autosave recovery remain available in this browser."
+                title={copy.saves.accountFeatureTitle}
+                description={copy.saves.accountFeatureDescription}
               />
             </div>
           ) : (
@@ -2322,11 +2855,11 @@ export function CircuitBuilderPage() {
                 <div className="rounded-[20px] border border-line bg-paper-strong p-4">
                   <label className="block">
                     <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">
-                      Account save name
+                      {copy.saves.accountSaveName}
                     </span>
                     <input
                       type="text"
-                      aria-label="Account save name"
+                      aria-label={copy.saves.accountSaveName}
                       value={accountSaveNameDraft}
                       onChange={(event) => setAccountSaveNameDraft(event.target.value)}
                       maxLength={80}
@@ -2340,14 +2873,14 @@ export function CircuitBuilderPage() {
                       className="rounded-full border border-teal-500/25 bg-teal-500 px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:border-line disabled:bg-paper-strong disabled:text-ink-500"
                       onClick={() => void confirmSaveToAccount()}
                     >
-                      Save to account
+                      {copy.toolbar.saveToAccount}
                     </button>
                     <button
                       type="button"
                       className="rounded-full border border-line bg-paper px-4 py-2 text-sm font-semibold text-ink-950"
                       onClick={cancelAccountSavePanel}
                     >
-                      Cancel
+                      {copy.saves.cancel}
                     </button>
                   </div>
                 </div>
@@ -2355,11 +2888,11 @@ export function CircuitBuilderPage() {
 
               {accountSavedCircuitsLoading ? (
                 <div className="rounded-[20px] border border-line bg-paper-strong p-4 text-sm text-ink-700">
-                  Loading account-saved circuits...
+                  {copy.saves.loadingAccount}
                 </div>
               ) : accountSavedCircuits.length === 0 ? (
                 <div className="rounded-[20px] border border-line bg-paper-strong p-4 text-sm leading-6 text-ink-700">
-                  No account-saved circuits yet. Use <span className="font-semibold text-ink-950">Save to account</span> to keep a cross-device named save here.
+                  {copy.saves.emptyAccount}
                 </div>
               ) : (
                 <div className="grid gap-3">
@@ -2367,6 +2900,21 @@ export function CircuitBuilderPage() {
                     const updatedAtLabel = formatSavedCircuitTimestamp(savedCircuit.updatedAt);
                     const isCurrent = activeAccountSavedCircuitId === savedCircuit.id;
                     const isEditing = editingAccountSavedCircuitId === savedCircuit.id;
+                    const accountOpenLabel = circuitStatusText(
+                      copy,
+                      "Open account save",
+                      "開啟帳戶儲存",
+                    );
+                    const accountRenameLabel = circuitStatusText(
+                      copy,
+                      "Rename account save",
+                      "重新命名帳戶儲存",
+                    );
+                    const accountDeleteLabel = circuitStatusText(
+                      copy,
+                      "Delete account save",
+                      "刪除帳戶儲存",
+                    );
 
                     return (
                       <article
@@ -2378,17 +2926,17 @@ export function CircuitBuilderPage() {
                             <div className="flex flex-wrap gap-2">
                               {isCurrent ? (
                                 <span className="rounded-full border border-teal-500/25 bg-teal-500/10 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-teal-700">
-                                  Current
+                                  {copy.saves.current}
                                 </span>
                               ) : null}
                               <span className="rounded-full border border-line bg-paper px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">
-                                {savedCircuit.document.components.length} parts
+                                {savedCircuit.document.components.length} {copy.saves.parts}
                               </span>
                             </div>
                             <div>
                               <p className="text-sm font-semibold text-ink-950">{savedCircuit.title}</p>
                               <p className="mt-1 text-xs leading-5 text-ink-600">
-                                {updatedAtLabel ? `Updated ${updatedAtLabel}` : "Saved to account"}
+                                {updatedAtLabel ? `${copy.saves.updated} ${updatedAtLabel}` : copy.saves.savedToAccount}
                               </p>
                             </div>
                           </div>
@@ -2396,30 +2944,30 @@ export function CircuitBuilderPage() {
                             <div className="flex flex-wrap gap-2">
                               <button
                                 type="button"
-                                aria-label={`Open account save ${savedCircuit.title}`}
-                                title={`Open account save ${savedCircuit.title}`}
+                                aria-label={`${accountOpenLabel} ${savedCircuit.title}`}
+                                title={`${accountOpenLabel} ${savedCircuit.title}`}
                                 className="rounded-full border border-line bg-paper px-3 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-800"
                                 onClick={() => openAccountSavedCircuit(savedCircuit)}
                               >
-                                Open
+                                {accountOpenLabel}
                               </button>
                               <button
                                 type="button"
-                                aria-label={`Rename account save ${savedCircuit.title}`}
-                                title={`Rename account save ${savedCircuit.title}`}
+                                aria-label={`${accountRenameLabel} ${savedCircuit.title}`}
+                                title={`${accountRenameLabel} ${savedCircuit.title}`}
                                 className="rounded-full border border-line bg-paper px-3 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-800"
                                 onClick={() => startRenameAccountSavedCircuit(savedCircuit)}
                               >
-                                Rename
+                                {accountRenameLabel}
                               </button>
                               <button
                                 type="button"
-                                aria-label={`Delete account save ${savedCircuit.title}`}
-                                title={`Delete account save ${savedCircuit.title}`}
+                                aria-label={`${accountDeleteLabel} ${savedCircuit.title}`}
+                                title={`${accountDeleteLabel} ${savedCircuit.title}`}
                                 className="rounded-full border border-line bg-paper px-3 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-700"
                                 onClick={() => void removeAccountSavedCircuit(savedCircuit.id)}
                               >
-                                Delete
+                                {accountDeleteLabel}
                               </button>
                             </div>
                           ) : null}
@@ -2429,11 +2977,11 @@ export function CircuitBuilderPage() {
                           <div className="mt-3 grid gap-2 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
                             <label className="block">
                               <span className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">
-                                Rename account save
+                                {copy.saves.renameAccountSave}
                               </span>
                               <input
                                 type="text"
-                                aria-label="Rename account save"
+                                aria-label={copy.saves.renameAccountSave}
                                 value={accountRenameDraft}
                                 onChange={(event) => setAccountRenameDraft(event.target.value)}
                                 maxLength={80}
@@ -2447,14 +2995,14 @@ export function CircuitBuilderPage() {
                                 className="rounded-full border border-teal-500/25 bg-teal-500 px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white disabled:cursor-not-allowed disabled:border-line disabled:bg-paper-strong disabled:text-ink-500"
                                 onClick={() => void confirmRenameAccountSavedCircuit(savedCircuit.id)}
                               >
-                                Save name
+                                {copy.saves.saveName}
                               </button>
                               <button
                                 type="button"
                                 className="rounded-full border border-line bg-paper px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-ink-700"
                                 onClick={cancelRenameAccountSavedCircuit}
                               >
-                                Cancel
+                                {copy.saves.cancel}
                               </button>
                             </div>
                           </div>
@@ -2476,18 +3024,22 @@ export function CircuitBuilderPage() {
       data-testid="circuit-builder-preset-strip"
     >
       <span className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-500">
-        Start
+        {copy.presets.label}
       </span>
-      {circuitBuilderPresets.map((preset) => (
-        <button
-          key={preset.id}
-          type="button"
-          className="rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs font-semibold text-ink-950 transition hover:border-ink-950/20 hover:bg-paper-strong"
-          onClick={() => loadPresetCircuit(preset)}
-        >
-          {preset.label}
-        </button>
-      ))}
+      {circuitBuilderPresets.map((preset) => {
+        const presetCopy = copy.presets.items[preset.id] ?? preset;
+        return (
+          <button
+            key={preset.id}
+            type="button"
+            title={presetCopy.description}
+            className="rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs font-semibold text-ink-950 transition hover:border-ink-950/20 hover:bg-paper-strong"
+            onClick={() => loadPresetCircuit(preset)}
+          >
+            {presetCopy.label}
+          </button>
+        );
+      })}
     </div>
   );
 
@@ -2500,12 +3052,12 @@ export function CircuitBuilderPage() {
       <div className="motion-enter motion-enter-tight page-band p-2.5 sm:p-3">
         <div className="grid gap-2 lg:grid-cols-[minmax(0,28rem)_1fr] lg:items-center">
           <div className="min-w-0 space-y-1">
-            <p className="lab-label">Circuit Builder</p>
+            <p className="lab-label">{copy.hero.eyebrow}</p>
             <h1 className="max-w-4xl text-[1.2rem] font-semibold leading-tight text-ink-950 sm:text-[1.35rem]">
-              Build a live circuit and explain what it is doing.
+              {copy.hero.title}
             </h1>
             <p className="max-w-3xl text-xs leading-5 text-ink-700">
-              Free-build, inspect live values, and keep the three-panel bench in view.
+              {copy.hero.subtitle}
             </p>
           </div>
           <div className="flex min-w-0 lg:justify-end">
@@ -2515,12 +3067,12 @@ export function CircuitBuilderPage() {
       </div>
 
       {draftRecoveryState === "pending" && pendingDraft ? (
-        <section className="lab-panel px-3 py-2.5" aria-label="Local draft recovery">
+        <section className="lab-panel px-3 py-2.5" aria-label={copy.draft.ariaLabel}>
           <div className="flex flex-wrap items-center justify-between gap-2.5">
             <div className="min-w-0">
-              <p className="text-sm font-semibold text-ink-950">Local draft available</p>
+              <p className="text-sm font-semibold text-ink-950">{copy.draft.title}</p>
               <p className="text-xs leading-5 text-ink-700">
-                Saved {formatCircuitDraftSavedAt(pendingDraft.savedAt)}. Restore it, keep this session, or discard the draft.
+                {copy.draft.savedPrefix} {formatCircuitDraftSavedAt(pendingDraft.savedAt)}. {copy.draft.savedSuffix}
               </p>
             </div>
             <div className="flex shrink-0 flex-wrap gap-1.5">
@@ -2529,21 +3081,21 @@ export function CircuitBuilderPage() {
                 className="rounded-full border border-line bg-paper px-3 py-1.5 text-xs font-semibold text-ink-950"
                 onClick={restorePendingDraft}
               >
-                Restore draft
+                {copy.draft.restore}
               </button>
               <button
                 type="button"
                 className="rounded-full border border-line bg-paper px-3 py-1.5 text-xs font-semibold text-ink-950"
                 onClick={dismissPendingDraft}
               >
-                Dismiss for now
+                {copy.draft.dismiss}
               </button>
               <button
                 type="button"
                 className="rounded-full border border-coral-500/30 bg-coral-500/10 px-3 py-1.5 text-xs font-semibold text-coral-700"
                 onClick={discardPendingDraft}
               >
-                Discard saved draft
+                {copy.draft.discard}
               </button>
             </div>
           </div>
@@ -2560,19 +3112,19 @@ export function CircuitBuilderPage() {
         {isLibraryCollapsed ? (
           <aside
             className="hidden h-full min-h-0 flex-col items-center justify-between rounded-[26px] border border-line bg-paper-strong p-2 xl:flex"
-            aria-label="Collapsed component library"
+            aria-label={copy.palette.collapsedAria}
             data-circuit-palette-collapsed=""
           >
             <button
               type="button"
-              aria-label="Expand component library"
+              aria-label={copy.palette.expandAria}
               className="flex h-10 w-10 items-center justify-center rounded-full border border-line bg-paper text-lg font-semibold text-ink-950 shadow-sm transition hover:border-teal-500/35"
               onClick={() => setIsLibraryCollapsed(false)}
             >
               →
             </button>
             <span className="rotate-180 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-600 [writing-mode:vertical-rl]">
-              Parts
+              {copy.palette.collapsedLabel}
             </span>
             <span className="rounded-full border border-line bg-paper px-2 py-1 text-xs font-semibold text-ink-700">
               {state.document.components.length}
@@ -2583,7 +3135,7 @@ export function CircuitBuilderPage() {
             <div className="relative h-full min-h-0">
               <button
                 type="button"
-                aria-label="Collapse component library"
+                aria-label={copy.palette.collapseAria}
                 className="absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-line bg-paper text-sm font-semibold text-ink-950 shadow-sm transition hover:border-teal-500/35"
                 onClick={() => setIsLibraryCollapsed(true)}
               >
@@ -2594,6 +3146,7 @@ export function CircuitBuilderPage() {
                 className="h-full min-h-0"
                 activeTool={state.activeTool}
                 renderMode={renderMode}
+                copy={copy}
                 onAddComponent={addComponent}
                 onSetTool={setCircuitTool}
               />
@@ -2610,6 +3163,7 @@ export function CircuitBuilderPage() {
             document={state.document}
             solveResult={solveResult}
             renderMode={renderMode}
+            copy={copy}
             selection={state.selection}
             activeTool={state.activeTool}
             pendingWireStart={state.pendingWireStart}
@@ -2645,17 +3199,20 @@ export function CircuitBuilderPage() {
           {state.document.wires.length ? (
             <section
               className="lab-panel p-3.5 xl:max-h-44 xl:min-h-0 xl:overflow-y-auto"
-              aria-label="Connections"
+              aria-label={copy.connections.ariaLabel}
             >
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <p className="lab-label">Connections</p>
+                  <p className="lab-label">{copy.connections.title}</p>
                   <p className="mt-1 text-sm leading-6 text-ink-700">
-                    Select a wire here if it is hard to target on the canvas, especially on smaller screens.
+                    {copy.connections.help}
                   </p>
                 </div>
                 <span className="rounded-full border border-line bg-paper px-3 py-1 text-sm font-medium text-ink-700">
-                  {state.document.wires.length} wire{state.document.wires.length === 1 ? "" : "s"}
+                  {state.document.wires.length}{" "}
+                  {state.document.wires.length === 1
+                    ? copy.workspace.wireSingular
+                    : copy.workspace.wirePlural}
                 </span>
               </div>
               <div className="mt-3 grid gap-2">
@@ -2675,7 +3232,7 @@ export function CircuitBuilderPage() {
                       ].join(" ")}
                       onClick={() => selectWireById(wire.id)}
                     >
-                      {getCircuitWireDisplayLabel(state.document, wire)}
+                      {formatCircuitWireDisplayLabel(state.document, wire, copy)}
                     </button>
                   );
                 })}
@@ -2687,7 +3244,7 @@ export function CircuitBuilderPage() {
         {isInspectorCollapsed ? (
           <aside
             className="hidden h-full min-h-0 flex-col items-center justify-between rounded-[26px] border border-line bg-paper-strong p-2 xl:flex"
-            aria-label="Collapsed circuit inspector"
+            aria-label={copy.locale === "zh-HK" ? "已收合的電路檢視器" : "Collapsed circuit inspector"}
             data-circuit-inspector-collapsed=""
           >
             <button
@@ -2699,7 +3256,7 @@ export function CircuitBuilderPage() {
               ←
             </button>
             <span className="rotate-180 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-600 [writing-mode:vertical-rl]">
-              Inspector
+              {copy.inspector.eyebrow}
             </span>
             <span
               className={[
@@ -2727,6 +3284,7 @@ export function CircuitBuilderPage() {
                 className="h-full min-h-0"
                 document={state.document}
                 solveResult={solveResult}
+                copy={copy}
                 selection={state.selection}
                 activeTool={state.activeTool}
                 pendingWireStart={state.pendingWireStart}
@@ -2748,7 +3306,7 @@ export function CircuitBuilderPage() {
       <div className="page-band p-2.5">
         <div className="grid gap-2 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-center">
           <div className="min-w-0 space-y-1.5">
-            <p className="lab-label">Status and tools</p>
+            <p className="lab-label">{copy.toolbar.title}</p>
             <div
               className="flex flex-wrap items-center gap-1.5"
               data-circuit-toolbar-status=""
@@ -2817,24 +3375,24 @@ export function CircuitBuilderPage() {
             >
               <div
                 role="group"
-                aria-label="History actions"
+                aria-label={copy.toolbar.groupAria.history}
                 data-circuit-toolbar-group="history"
                 className={toolbarGroupClass}
               >
                 <span className="hidden text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500 lg:inline">
-                  History
+                  {copy.toolbar.history}
                 </span>
                 <span id="circuit-undo-description" className="sr-only">
                   {undoHistoryLabel
                     ? `Undo ${undoHistoryLabel}. Shortcut: Ctrl or Command plus Z.`
-                    : "No undo step is available yet. Shortcut: Ctrl or Command plus Z."}
+                    : copy.toolbar.descriptions.noUndo}
                 </span>
                 <span id="circuit-redo-description" className="sr-only">
                   {hasPendingHistoryChange
                     ? "Finish the current adjustment before redoing another step. Shortcut: Ctrl or Command plus Y, or Ctrl or Command plus Shift plus Z."
                     : redoHistoryLabel
                       ? `Redo ${redoHistoryLabel}. Shortcut: Ctrl or Command plus Y, or Ctrl or Command plus Shift plus Z.`
-                      : "No redo step is available yet. Shortcut: Ctrl or Command plus Y, or Ctrl or Command plus Shift plus Z."}
+                      : copy.toolbar.descriptions.noRedo}
                 </span>
                 <button
                   type="button"
@@ -2842,10 +3400,10 @@ export function CircuitBuilderPage() {
                   className={toolbarButtonClass}
                   aria-describedby="circuit-undo-description"
                   aria-keyshortcuts="Control+Z Meta+Z"
-                  title="Undo (shortcut: Ctrl/⌘+Z)"
+                  title={circuitStatusText(copy, "Undo (shortcut: Ctrl/⌘+Z)", "復原（快捷鍵：Ctrl/⌘+Z）")}
                   onClick={undoHistory}
                 >
-                  Undo
+                  {copy.toolbar.undo}
                 </button>
                 <button
                   type="button"
@@ -2853,16 +3411,20 @@ export function CircuitBuilderPage() {
                   className={toolbarButtonClass}
                   aria-describedby="circuit-redo-description"
                   aria-keyshortcuts="Control+Y Meta+Y Control+Shift+Z Meta+Shift+Z"
-                  title="Redo (shortcut: Ctrl/⌘+Y or Ctrl/⌘+Shift+Z)"
+                  title={circuitStatusText(
+                    copy,
+                    "Redo (shortcut: Ctrl/⌘+Y or Ctrl/⌘+Shift+Z)",
+                    "重做（快捷鍵：Ctrl/⌘+Y 或 Ctrl/⌘+Shift+Z）",
+                  )}
                   onClick={redoHistory}
                 >
-                  Redo
+                  {copy.toolbar.redo}
                 </button>
               </div>
 
               <div
                 role="group"
-                aria-label="Selection actions"
+                aria-label={copy.toolbar.groupAria.selection}
                 data-circuit-toolbar-group="selection"
                 className={[
                   toolbarGroupClass,
@@ -2870,21 +3432,21 @@ export function CircuitBuilderPage() {
                 ].join(" ")}
               >
                 <span className="hidden text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500 lg:inline">
-                  Selection
+                  {copy.toolbar.selection}
                 </span>
                 <span id="circuit-rotate-selection-description" className="sr-only">
                   {selectedComponent
                     ? selectionActionsLocked
-                      ? "Finish or cancel wiring before rotating the selected component. Shortcut: R."
-                      : "Rotate the selected component. Shortcut: R."
-                    : "Select a component before rotating. Shortcut: R."}
+                      ? copy.toolbar.descriptions.rotateLocked
+                      : copy.toolbar.descriptions.rotateSelected
+                    : copy.toolbar.descriptions.rotateMissing}
                 </span>
                 <span id="circuit-delete-selection-description" className="sr-only">
                   {state.selection
                     ? selectionActionsLocked
-                      ? "Finish or cancel wiring before deleting the selected component or wire. Shortcut: Delete or Backspace."
-                      : "Delete the selected component or wire. Shortcut: Delete or Backspace."
-                    : "Select a component or wire before deleting. Shortcut: Delete or Backspace."}
+                      ? copy.toolbar.descriptions.deleteLocked
+                      : copy.toolbar.descriptions.deleteSelected
+                    : copy.toolbar.descriptions.deleteMissing}
                 </span>
                 <button
                   type="button"
@@ -2892,10 +3454,10 @@ export function CircuitBuilderPage() {
                   className={toolbarButtonClass}
                   aria-describedby="circuit-rotate-selection-description"
                   aria-keyshortcuts="R"
-                  title="Rotate selected component (shortcut: R)"
+                  title={circuitStatusText(copy, "Rotate selected component (shortcut: R)", "旋轉已選元件（快捷鍵：R）")}
                   onClick={rotateSelectedComponent}
                 >
-                  Rotate selected
+                  {copy.toolbar.rotateSelected}
                 </button>
                 <button
                   type="button"
@@ -2903,27 +3465,31 @@ export function CircuitBuilderPage() {
                   className={toolbarButtonClass}
                   aria-describedby="circuit-delete-selection-description"
                   aria-keyshortcuts="Delete Backspace"
-                  title="Delete selected item (shortcut: Delete/Backspace)"
+                  title={circuitStatusText(
+                    copy,
+                    "Delete selected item (shortcut: Delete/Backspace)",
+                    "刪除已選項目（快捷鍵：Delete/Backspace）",
+                  )}
                   onClick={deleteSelectedItem}
                 >
-                  Delete selected
+                  {copy.toolbar.deleteSelected}
                 </button>
               </div>
 
               <CircuitToolbarMenu
                 menuId="saves"
-                label="Saves"
-                ariaLabel="Saves"
-                panelTitle="Save and reopen circuits"
-                panelDescription="Local saves stay in this browser. Account saves reopen across devices for eligible users."
+                label={copy.toolbar.saves}
+                ariaLabel={copy.toolbar.saves}
+                panelTitle={copy.saves.panelTitle}
+                panelDescription={copy.saves.panelSummary}
               >
                 {({ closeMenu }) => (
                   <div className="space-y-4">
                     <div className="space-y-2">
                       <div>
-                        <p className="lab-label">Local saves</p>
+                        <p className="lab-label">{copy.saves.localSaves}</p>
                         <p className="mt-1 text-xs leading-5 text-ink-600">
-                          Browser-local named saves. Autosave recovery stays separate.
+                          {copy.saves.localSavesHelp}
                         </p>
                       </div>
                       <div className="flex flex-wrap gap-2">
@@ -2936,7 +3502,7 @@ export function CircuitBuilderPage() {
                             openSavePanel();
                           }}
                         >
-                          Save locally
+                          {copy.toolbar.saveLocally}
                         </button>
                         <button
                           type="button"
@@ -2947,13 +3513,17 @@ export function CircuitBuilderPage() {
                             updateCurrentSavedCircuit();
                           }}
                         >
-                          Update saved
+                          {copy.toolbar.updateSaved}
                         </button>
                       </div>
                       <p className="text-xs leading-5 text-ink-600">
                         {activeLocalSavedCircuit
-                          ? `Current local save: ${activeLocalSavedCircuit.title}.`
-                          : "No local named save is currently loaded."}
+                          ? circuitStatusText(
+                              copy,
+                              `Current local save: ${activeLocalSavedCircuit.title}.`,
+                              `目前本機儲存：「${activeLocalSavedCircuit.title}」。`,
+                            )
+                          : copy.saves.noLocalLoaded}
                       </p>
                       <p className="rounded-2xl border border-line bg-paper-strong px-3 py-2 text-xs leading-5 text-ink-700">
                         {saveStateDetail}
@@ -2962,9 +3532,9 @@ export function CircuitBuilderPage() {
 
                     <div className="space-y-2 border-t border-line pt-3">
                       <div>
-                        <p className="lab-label">Account saves</p>
+                        <p className="lab-label">{copy.saves.accountSaves}</p>
                         <p className="mt-1 text-xs leading-5 text-ink-600">
-                          Cross-device saves remain separate from local saves and autosave recovery.
+                          {copy.saves.accountSavesHelp}
                         </p>
                       </div>
                       {canUseAccountSaves ? (
@@ -2979,7 +3549,7 @@ export function CircuitBuilderPage() {
                                 openAccountSavePanel();
                               }}
                             >
-                              Save to account
+                              {copy.toolbar.saveToAccount}
                             </button>
                             <button
                               type="button"
@@ -2990,13 +3560,17 @@ export function CircuitBuilderPage() {
                                 void updateCurrentAccountSave();
                               }}
                             >
-                              Update account save
+                              {copy.toolbar.updateAccountSave}
                             </button>
                           </div>
                           <p className="text-xs leading-5 text-ink-600">
                             {activeAccountSavedCircuit
-                              ? `Current account save: ${activeAccountSavedCircuit.title}.`
-                              : "No account-backed save is currently loaded."}
+                              ? circuitStatusText(
+                                  copy,
+                                  `Current account save: ${activeAccountSavedCircuit.title}.`,
+                                  `目前帳戶儲存：「${activeAccountSavedCircuit.title}」。`,
+                                )
+                              : copy.saves.noAccountLoaded}
                           </p>
                           <p className="rounded-2xl border border-line bg-paper-strong px-3 py-2 text-xs leading-5 text-ink-700">
                             {saveStateDetail}
@@ -3010,19 +3584,19 @@ export function CircuitBuilderPage() {
                               disabled
                               className={toolbarButtonClass}
                             >
-                              Save to account
+                              {copy.toolbar.saveToAccount}
                             </button>
                             <button
                               type="button"
                               disabled
                               className={toolbarButtonClass}
                             >
-                              Update account save
+                              {copy.toolbar.updateAccountSave}
                             </button>
                           </div>
                           <PremiumFeatureNotice
-                            title="Account saves"
-                            description="Keep named circuits in your account and reopen them across devices."
+                            title={copy.saves.accountFeatureTitle}
+                            description={copy.saves.accountFeatureDescription}
                           />
                         </div>
                       )}
@@ -3033,12 +3607,12 @@ export function CircuitBuilderPage() {
 
               <div
                 role="group"
-                aria-label="File and export actions"
+                aria-label={copy.toolbar.groupAria.file}
                 data-circuit-toolbar-group="file"
                 className={toolbarGroupClass}
               >
                 <span className="hidden text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500 lg:inline">
-                  File
+                  {copy.toolbar.file}
                 </span>
                 <button
                   type="button"
@@ -3046,14 +3620,14 @@ export function CircuitBuilderPage() {
                   className={toolbarButtonClass}
                   onClick={downloadSvgDiagram}
                 >
-                  Download SVG
+                  {copy.toolbar.downloadSvg}
                 </button>
                 <CircuitToolbarMenu
                   menuId="file"
-                  label="File"
-                  ariaLabel="File"
-                  panelTitle="File and export actions"
-                  panelDescription="Use JSON tools for portable save/open while keeping workspace reset beside the canvas controls."
+                  label={copy.toolbar.file}
+                  ariaLabel={copy.toolbar.file}
+                  panelTitle={copy.saves.fileMenuTitle}
+                  panelDescription={copy.saves.fileMenuDescription}
                 >
                   {({ closeMenu }) => (
                     <div className="space-y-3">
@@ -3066,7 +3640,7 @@ export function CircuitBuilderPage() {
                             downloadJsonDocument();
                           }}
                         >
-                          Download JSON
+                          {copy.toolbar.downloadJson}
                         </button>
                         <button
                           type="button"
@@ -3076,7 +3650,7 @@ export function CircuitBuilderPage() {
                             openJsonDialog();
                           }}
                         >
-                          Load JSON
+                          {copy.toolbar.loadJson}
                         </button>
                         <button
                           type="button"
@@ -3086,11 +3660,11 @@ export function CircuitBuilderPage() {
                             copyJsonState();
                           }}
                         >
-                          Copy JSON state
+                          {copy.toolbar.copyJsonState}
                         </button>
                       </div>
                       <p className="text-xs leading-5 text-ink-600">
-                        JSON export and import preserve the same circuit document used by autosave, saved circuits, and SVG export.
+                        {copy.saves.fileMenuHelp}
                       </p>
                     </div>
                   )}
@@ -3101,7 +3675,7 @@ export function CircuitBuilderPage() {
                 ref={loadJsonInputRef}
                 type="file"
                 accept=".json,application/json"
-                aria-label="Load circuit JSON file"
+                aria-label={copy.locale === "zh-HK" ? "載入電路 JSON 檔案" : "Load circuit JSON file"}
                 className="sr-only"
                 onChange={handleJsonFileChange}
               />
@@ -3128,14 +3702,15 @@ export function CircuitBuilderPage() {
 
       <div className="xl:hidden">
         <DisclosurePanel
-          title="Component library"
-          summary="Add parts, switch to the wire tool, then return to the workspace without losing the current circuit."
+          title={copy.mobile.paletteTitle}
+          summary={copy.mobile.paletteSummary}
           defaultOpen={state.document.components.length === 0}
         >
           <CircuitPalette
             panelKind="mobile"
             activeTool={state.activeTool}
             renderMode={renderMode}
+            copy={copy}
             onAddComponent={addComponent}
             onSetTool={setCircuitTool}
           />
@@ -3144,13 +3719,14 @@ export function CircuitBuilderPage() {
 
       <div className="xl:hidden">
         <DisclosurePanel
-          title="Inspector"
-          summary="Component details, live readouts, warnings, and graph panels move here on smaller screens."
+          title={copy.mobile.inspectorTitle}
+          summary={copy.mobile.inspectorSummary}
           defaultOpen={Boolean(state.selection)}
         >
           <CircuitInspector
             document={state.document}
             solveResult={solveResult}
+            copy={copy}
             selection={state.selection}
             activeTool={state.activeTool}
             pendingWireStart={state.pendingWireStart}
@@ -3168,26 +3744,15 @@ export function CircuitBuilderPage() {
       </div>
 
       <DisclosurePanel
-        title="Solver notes and model assumptions"
-        summary="This v1 builder prefers an explicit, teachable DC steady-state model over perfect electronics fidelity."
+        title={copy.solverNotes.title}
+        summary={copy.solverNotes.summary}
       >
         <div className="grid gap-3 text-sm leading-6 text-ink-700 sm:grid-cols-2">
-          <div className="rounded-[22px] border border-line bg-paper px-4 py-3">
-            Batteries are ideal voltage sources. Resistors, bulbs, thermistors, LDRs, meters,
-            closed switches, and intact fuses are linear or near-linear elements in the steady-state solve.
-          </div>
-          <div className="rounded-[22px] border border-line bg-paper px-4 py-3">
-            Capacitors are treated as open circuits after settling. Diodes use a simplified
-            threshold model, bulbs are resistive loads, and fuses trip instantly once the steady-state current exceeds their rating.
-          </div>
-          <div className="rounded-[22px] border border-line bg-paper px-4 py-3">
-            Wires collapse terminals into shared nodes, so branch currents and voltage drops come
-            from the same graph-based circuit solve instead of separate per-widget math.
-          </div>
-          <div className="rounded-[22px] border border-line bg-paper px-4 py-3">
-            SVG and JSON export both use the same document model, so future formats can reuse
-            this pipeline without changing the builder state shape.
-          </div>
+          {copy.solverNotes.cards.map((card) => (
+            <div key={card} className="rounded-[22px] border border-line bg-paper px-4 py-3">
+              {card}
+            </div>
+          ))}
         </div>
       </DisclosurePanel>
     </section>

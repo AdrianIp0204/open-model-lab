@@ -7,12 +7,15 @@ import {
   buildCircuitContextNote,
   buildCircuitInspectorGraph,
   buildCircuitInspectorReadouts,
-  getCircuitInspectorFields,
-  buildCircuitStaticEducation,
+  circuitBuilderCopyEn,
   componentSupportsReset,
+  formatCircuitComponentDisplayLabel,
+  formatCircuitIssue,
+  formatCircuitWireDisplayLabel,
   getCircuitComponentById,
-  getCircuitWireDisplayLabel,
+  getLocalizedCircuitInspectorFields,
   getCircuitWireById,
+  type CircuitBuilderCopy,
   type CircuitDocument,
   type CircuitScalar,
   type CircuitSolveResult,
@@ -31,6 +34,7 @@ type CircuitInspectorProps = {
   onResetFuse: (componentId: string) => void;
   onCancelWire: () => void;
   onMoveComponent: (componentId: string, x: number, y: number) => void;
+  copy?: CircuitBuilderCopy;
   className?: string;
 };
 
@@ -56,6 +60,7 @@ export function CircuitInspector({
   onResetFuse,
   onCancelWire,
   onMoveComponent,
+  copy = circuitBuilderCopyEn,
   className = "",
 }: CircuitInspectorProps) {
   const panelRef = useRef<HTMLDivElement | null>(null);
@@ -109,38 +114,38 @@ export function CircuitInspector({
       <div
         ref={panelRef}
         className={panelClassName}
-        aria-label="Circuit inspector"
+        aria-label={copy.inspector.ariaLabel}
         data-circuit-inspector-panel=""
         data-onboarding-target="circuit-inspector"
       >
-        <p className="lab-label">Wire inspector</p>
-        <h2 className="mt-1 text-lg font-semibold text-ink-950">Selected connection</h2>
+        <p className="lab-label">{copy.inspector.wireEyebrow}</p>
+        <h2 className="mt-1 text-lg font-semibold text-ink-950">{copy.inspector.selectedConnection}</h2>
         <p className="mt-1 text-sm leading-5 text-ink-700">
           {wire
-            ? `${getCircuitWireDisplayLabel(document, wire)}.`
-            : "The selected wire no longer exists."}
+            ? `${formatCircuitWireDisplayLabel(document, wire, copy)}.`
+            : copy.inspector.missingWire}
         </p>
         {wire ? (
           <div className="mt-3 grid gap-2 sm:grid-cols-2">
             <div className={readoutPillClassName}>
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">
-                Shared node voltage
+                {copy.inspector.sharedNodeVoltage}
               </p>
               <p className="mt-1 text-base font-semibold text-ink-950">
                 {sharedNode?.voltage !== null && sharedNode?.voltage !== undefined
                   ? formatMeasurement(sharedNode.voltage, "V")
-                  : "floating"}
+                  : copy.inspector.floating}
               </p>
             </div>
             <div className={readoutPillClassName}>
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">
-                Model
+                {copy.inspector.model}
               </p>
               <p className="mt-1 text-sm font-semibold text-ink-950">
-                Ideal connection
+                {copy.inspector.idealConnection}
               </p>
               <p className="mt-0.5 text-xs text-ink-700">
-                Voltage drop is treated as negligible and current is not tracked per individual wire.
+                {copy.inspector.wireModelDescription}
               </p>
             </div>
           </div>
@@ -148,23 +153,30 @@ export function CircuitInspector({
         {wire ? (
           <details className={["mt-3", detailsClassName].join(" ")}>
             <summary className="cursor-pointer text-xs font-semibold uppercase tracking-[0.16em] text-ink-600">
-              Wire details
+              {copy.inspector.wireDetails}
             </summary>
             <div className="mt-2 space-y-2">
-              <p className="lab-label">What the wire does</p>
+              <p className="lab-label">{copy.inspector.whatWireDoes}</p>
               <p className="mt-1">
-                In this builder a wire is an ideal conductor that collapses both ends into the same electrical node.
+                {copy.inspector.wireDoesDescription}
               </p>
-              <p className="lab-label">What to notice</p>
+              <p className="lab-label">{copy.inspector.whatToNotice}</p>
               <p className="mt-1">
-                Removing this wire can split one shared node into separate nodes, which may create open circuits or change branch currents immediately.
+                {copy.inspector.wireNotice}
               </p>
               {sharedNode ? (
                 <div>
-                  <p className="lab-label">Current circuit context</p>
+                  <p className="lab-label">{copy.inspector.currentCircuitContext}</p>
                   <p className="mt-1">
-                    This wire belongs to a node with {sharedNode.terminalRefs.length} attached terminal{sharedNode.terminalRefs.length === 1 ? "" : "s"} and
-                    {sharedNode.sourceConnected ? " is on an active source path." : " is not connected to an active source path."}
+                    {copy.locale === "zh-HK" ? "此導線所屬節點有 " : "This wire belongs to a node with "}
+                    {sharedNode.terminalRefs.length}{" "}
+                    {sharedNode.terminalRefs.length === 1
+                      ? copy.inspector.nodeAttachedTerminalSingular
+                      : copy.inspector.nodeAttachedTerminalPlural}{" "}
+                    {copy.locale === "zh-HK" ? "，並且" : "and "}
+                    {sharedNode.sourceConnected
+                      ? copy.inspector.nodeSourceConnected
+                      : copy.inspector.nodeSourceDisconnected}
                   </p>
                 </div>
               ) : null}
@@ -173,11 +185,11 @@ export function CircuitInspector({
         ) : null}
         {wire && selectionActionsLocked ? (
           <div className="mt-3 rounded-[16px] border border-teal-500/25 bg-teal-500/8 px-3 py-2 text-sm leading-5 text-ink-700">
-            <p className="font-semibold text-ink-950">Connection edits are locked while wiring</p>
+            <p className="font-semibold text-ink-950">{copy.inspector.connectionLockedTitle}</p>
             <p className="mt-1">
               {pendingWireStart
-                ? "Finish this loose wire or cancel it before deleting the selected connection."
-                : "Leave the wire tool before deleting the selected connection."}
+                ? copy.inspector.connectionLockedPending
+                : copy.inspector.connectionLockedTool}
             </p>
             {pendingWireStart ? (
               <button
@@ -185,7 +197,7 @@ export function CircuitInspector({
                 className="mt-2 rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs font-semibold text-ink-950"
                 onClick={onCancelWire}
               >
-                Cancel wire
+                {copy.inspector.cancelWire}
               </button>
             ) : null}
           </div>
@@ -193,13 +205,13 @@ export function CircuitInspector({
         {wire ? (
           <button
             type="button"
-            aria-label="Delete selected wire"
+            aria-label={copy.inspector.deleteSelectedWireAria}
             disabled={selectionActionsLocked}
             className="mt-3 rounded-full border border-coral-500/30 bg-coral-500/10 px-3 py-1.5 text-xs font-semibold text-coral-700 disabled:cursor-not-allowed disabled:border-line disabled:bg-paper disabled:text-ink-500"
-            title={selectionActionsLocked ? "Finish or cancel wiring before deleting this wire." : undefined}
+            title={selectionActionsLocked ? copy.inspector.deleteWireLockedTitle : undefined}
             onClick={() => onDeleteWire(wire.id)}
           >
-            Delete wire
+            {copy.inspector.deleteWire}
           </button>
         ) : null}
       </div>
@@ -211,30 +223,29 @@ export function CircuitInspector({
       <div
         ref={panelRef}
         className={panelClassName}
-        aria-label="Circuit inspector"
+        aria-label={copy.inspector.ariaLabel}
         data-circuit-inspector-panel=""
         data-onboarding-target="circuit-inspector"
       >
-        <p className="lab-label">Inspector</p>
-        <h2 className="mt-1 text-lg font-semibold text-ink-950">Select a part to inspect it</h2>
+        <p className="lab-label">{copy.inspector.eyebrow}</p>
+        <h2 className="mt-1 text-lg font-semibold text-ink-950">{copy.inspector.emptyTitle}</h2>
         <p className="mt-1 text-sm leading-5 text-ink-700">
-          The inspector explains what each symbol means, which properties you can edit,
-          and how the part is behaving inside the current circuit.
+          {copy.inspector.emptyDescription}
         </p>
 
         <div className="mt-3 grid gap-1.5 text-sm leading-5 text-ink-700">
-          <p className={compactRowClassName}>1. Add a source and one load.</p>
-          <p className={compactRowClassName}>2. Use the wire tool to connect terminals.</p>
-          <p className={compactRowClassName}>3. Select a part for edits and live readouts.</p>
+          {copy.inspector.emptySteps.map((step) => (
+            <p key={step} className={compactRowClassName}>{step}</p>
+          ))}
         </div>
 
         {activeTool === "wire" || pendingWireStart ? (
           <div className="mt-3 rounded-[16px] border border-teal-500/30 bg-teal-500/8 p-3 text-sm leading-5 text-ink-700">
-            <p className="font-semibold text-ink-950">Wire tool active</p>
+            <p className="font-semibold text-ink-950">{copy.inspector.wireToolActiveTitle}</p>
             <p className="mt-1">
               {pendingWireStart
-                ? "One terminal is already selected. Click a second terminal to finish the wire, or cancel the current wire."
-                : "Click any terminal to start a wire, then click a second terminal to complete the connection."}
+                ? copy.inspector.wireToolPendingDescription
+                : copy.inspector.wireToolDescription}
             </p>
             {pendingWireStart ? (
               <button
@@ -242,7 +253,7 @@ export function CircuitInspector({
                 className="mt-2 rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs font-semibold text-ink-950"
                 onClick={onCancelWire}
               >
-                Cancel wire
+                {copy.inspector.cancelWire}
               </button>
             ) : null}
           </div>
@@ -250,21 +261,23 @@ export function CircuitInspector({
 
         {solveResult.issues.length > 0 ? (
           <div className="mt-3 space-y-2">
-            <p className="lab-label">Warnings and errors</p>
-            {solveResult.issues.slice(0, 4).map((issue) => (
+            <p className="lab-label">{copy.inspector.warningsAndErrors}</p>
+            {solveResult.issues.slice(0, 4).map((issue) => {
+              const localizedIssue = formatCircuitIssue(issue, document, copy);
+              return (
               <div
                 key={issue.id}
                 className="rounded-[16px] border border-line bg-paper px-3 py-2 text-sm leading-5 text-ink-700"
               >
-                <p className="font-semibold text-ink-950">{issue.title}</p>
-                <p className="mt-1">{issue.detail}</p>
+                <p className="font-semibold text-ink-950">{localizedIssue.title}</p>
+                <p className="mt-1">{localizedIssue.detail}</p>
               </div>
-            ))}
+            );
+            })}
           </div>
         ) : (
           <div className="mt-3 rounded-[16px] border border-teal-500/20 bg-teal-500/6 p-3 text-sm leading-5 text-ink-700">
-            The current circuit solves cleanly. Select a component to see its local
-            explanation and computed values.
+            {copy.inspector.cleanCircuit}
           </div>
         )}
       </div>
@@ -276,14 +289,16 @@ export function CircuitInspector({
     return null;
   }
 
-  const definition = buildCircuitStaticEducation(component.id, document);
-  const inspectorFields = getCircuitInspectorFields(component);
-  const readouts = buildCircuitInspectorReadouts(document, solveResult, component.id);
-  const contextNote = buildCircuitContextNote(document, solveResult, component.id);
+  const componentCopy = copy.components[component.type];
+  const componentLabel = formatCircuitComponentDisplayLabel(component, copy);
+  const inspectorFields = getLocalizedCircuitInspectorFields(component, copy);
+  const readouts = buildCircuitInspectorReadouts(document, solveResult, component.id, copy);
+  const contextNote = buildCircuitContextNote(document, solveResult, component.id, copy);
   const graph = buildCircuitInspectorGraph({
     document,
     componentId: component.id,
     solveResult,
+    copy,
   });
   const linkedMarker =
     graph?.marker
@@ -326,49 +341,49 @@ export function CircuitInspector({
     <div
       ref={panelRef}
       className={panelClassName}
-      aria-label="Circuit inspector"
+      aria-label={copy.inspector.ariaLabel}
       data-circuit-inspector-panel=""
       data-onboarding-target="circuit-inspector"
     >
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div className="min-w-0">
-          <p className="lab-label">Component inspector</p>
-          <h2 className="mt-1 text-lg font-semibold text-ink-950">{component.label}</h2>
-          <p className="mt-1 text-sm leading-5 text-ink-700">{definition?.summary}</p>
+          <p className="lab-label">{copy.inspector.componentEyebrow}</p>
+          <h2 className="mt-1 text-lg font-semibold text-ink-950">{componentLabel}</h2>
+          <p className="mt-1 text-sm leading-5 text-ink-700">{componentCopy.summary}</p>
         </div>
         <div className="flex flex-wrap gap-1.5">
           <button
             type="button"
-            aria-label={`Rotate ${component.label}`}
+            aria-label={`${copy.inspector.rotate} ${componentLabel}`}
             disabled={selectionActionsLocked}
             className={inspectorActionClassName}
-            title={selectionActionsLocked ? "Finish or cancel wiring before rotating this component." : undefined}
+            title={selectionActionsLocked ? copy.inspector.rotateLockedTitle : undefined}
             onClick={() => onRotateComponent(component.id)}
           >
-            Rotate
+            {copy.inspector.rotate}
           </button>
           <button
             type="button"
-            aria-label={`Delete ${component.label}`}
+            aria-label={`${copy.inspector.delete} ${componentLabel}`}
             disabled={selectionActionsLocked}
             className={inspectorDangerActionClassName}
-            title={selectionActionsLocked ? "Finish or cancel wiring before deleting this component." : undefined}
+            title={selectionActionsLocked ? copy.inspector.deleteLockedTitle : undefined}
             onClick={() => onDeleteComponent(component.id)}
           >
-            Delete
+            {copy.inspector.delete}
           </button>
         </div>
       </div>
 
       {selectionActionsLocked ? (
         <div className="mt-3 rounded-[16px] border border-teal-500/25 bg-teal-500/8 px-3 py-2 text-sm leading-5 text-ink-700">
-          Finish or cancel wiring before editing, moving, rotating, or deleting this selected part.
+          {copy.inspector.editLocked}
         </div>
       ) : null}
 
       {inspectorFields.length ? (
         <div className="mt-3 space-y-2">
-          <p className="lab-label">Editable properties</p>
+          <p className="lab-label">{copy.inspector.editableProperties}</p>
           <div className="grid gap-2">
             {inspectorFields.map((field) => {
               const fieldValue = component.properties[field.key];
@@ -442,13 +457,13 @@ export function CircuitInspector({
       ) : null}
 
       <div className="mt-3 space-y-2">
-        <p className="lab-label">Placement</p>
+        <p className="lab-label">{copy.inspector.placement}</p>
         <div className="grid grid-cols-2 gap-1.5">
           <label className="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] items-center gap-2 rounded-xl border border-line bg-paper px-2.5 py-1.5 text-sm text-ink-800">
             <span className="font-semibold text-ink-950">X</span>
             <input
               type="number"
-              aria-label="Position X"
+              aria-label={copy.inspector.positionX}
               step={32}
               value={component.x}
               disabled={selectionActionsLocked}
@@ -467,7 +482,7 @@ export function CircuitInspector({
             <span className="font-semibold text-ink-950">Y</span>
             <input
               type="number"
-              aria-label="Position Y"
+              aria-label={copy.inspector.positionY}
               step={32}
               value={component.y}
               disabled={selectionActionsLocked}
@@ -488,44 +503,44 @@ export function CircuitInspector({
             type="button"
             disabled={selectionActionsLocked}
             className={inspectorActionClassName}
-            aria-label="Nudge left"
+            aria-label={copy.inspector.nudgeLeft}
             onClick={() => onMoveComponent(component.id, component.x - 32, component.y)}
           >
-            Left
+            {copy.inspector.nudgeLeft}
           </button>
           <button
             type="button"
             disabled={selectionActionsLocked}
             className={inspectorActionClassName}
-            aria-label="Nudge right"
+            aria-label={copy.inspector.nudgeRight}
             onClick={() => onMoveComponent(component.id, component.x + 32, component.y)}
           >
-            Right
+            {copy.inspector.nudgeRight}
           </button>
           <button
             type="button"
             disabled={selectionActionsLocked}
             className={inspectorActionClassName}
-            aria-label="Nudge up"
+            aria-label={copy.inspector.nudgeUp}
             onClick={() => onMoveComponent(component.id, component.x, component.y - 32)}
           >
-            Up
+            {copy.inspector.nudgeUp}
           </button>
           <button
             type="button"
             disabled={selectionActionsLocked}
             className={inspectorActionClassName}
-            aria-label="Nudge down"
+            aria-label={copy.inspector.nudgeDown}
             onClick={() => onMoveComponent(component.id, component.x, component.y + 32)}
           >
-            Down
+            {copy.inspector.nudgeDown}
           </button>
         </div>
       </div>
 
       {readouts.length > 0 ? (
         <div className="mt-3">
-          <p className="lab-label">Computed values</p>
+          <p className="lab-label">{copy.inspector.computedValues}</p>
           <dl className="mt-2 grid gap-1.5">
             {readouts.map((readout) => (
               <div
@@ -549,46 +564,49 @@ export function CircuitInspector({
           className="mt-3 rounded-full border border-line bg-paper px-3 py-1.5 text-xs font-semibold text-ink-950 disabled:cursor-not-allowed disabled:opacity-50"
           onClick={() => onResetFuse(component.id)}
         >
-          Reset fuse
+          {copy.inspector.resetFuse}
         </button>
       ) : null}
 
       {issues.length > 0 ? (
         <div className="mt-3 space-y-2">
-          <p className="lab-label">Component warnings</p>
-          {issues.map((issue) => (
+          <p className="lab-label">{copy.inspector.componentWarnings}</p>
+          {issues.map((issue) => {
+            const localizedIssue = formatCircuitIssue(issue, document, copy);
+            return (
             <div
               key={issue.id}
               className="rounded-[16px] border border-coral-500/20 bg-coral-500/6 px-3 py-2 text-sm leading-5 text-ink-700"
             >
-              <p className="font-semibold text-ink-950">{issue.title}</p>
-              <p className="mt-1">{issue.detail}</p>
+              <p className="font-semibold text-ink-950">{localizedIssue.title}</p>
+              <p className="mt-1">{localizedIssue.detail}</p>
             </div>
-          ))}
+          );
+          })}
         </div>
       ) : null}
 
       <details className={["mt-3", detailsClassName].join(" ")}>
         <summary className="cursor-pointer text-xs font-semibold uppercase tracking-[0.16em] text-ink-600">
-          Symbol, model, and context
+          {copy.inspector.detailsSummary}
         </summary>
         <div className="mt-2 space-y-2">
           <div>
-            <p className="lab-label">What the symbol means</p>
-            <p className="mt-1">{definition?.symbolMeaning}</p>
+            <p className="lab-label">{copy.inspector.symbolMeaning}</p>
+            <p className="mt-1">{componentCopy.symbolMeaning}</p>
           </div>
           <div>
-            <p className="lab-label">Model and behavior</p>
-            <p className="mt-1">{definition?.behavior}</p>
-            <p className="mt-1 text-xs text-ink-600">{definition?.simplification}</p>
+            <p className="lab-label">{copy.inspector.modelAndBehavior}</p>
+            <p className="mt-1">{componentCopy.behavior}</p>
+            <p className="mt-1 text-xs text-ink-600">{componentCopy.simplification}</p>
           </div>
           <div>
-            <p className="lab-label">Current circuit context</p>
+            <p className="lab-label">{copy.inspector.context}</p>
             <p className="mt-1">{contextNote}</p>
           </div>
           <div>
-            <p className="lab-label">What to notice</p>
-            <p className="mt-1">{definition?.notice}</p>
+            <p className="lab-label">{copy.inspector.notice}</p>
+            <p className="mt-1">{componentCopy.notice}</p>
           </div>
         </div>
       </details>

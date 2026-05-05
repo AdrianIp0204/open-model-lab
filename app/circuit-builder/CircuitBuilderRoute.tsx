@@ -3,6 +3,7 @@ import { getScopedTranslator, resolveServerLocaleFallback } from "@/i18n/server"
 import { buildPageMetadata } from "@/lib/metadata";
 import { PageShell } from "@/components/layout/PageShell";
 import { CircuitBuilderPage } from "@/components/circuit-builder/CircuitBuilderPage";
+import { getCircuitBuilderCopy } from "@/lib/circuit-builder/copy";
 
 export async function buildCircuitBuilderMetadata(locale: AppLocale) {
   const t = await getScopedTranslator(locale, "CircuitBuilderRoute");
@@ -41,7 +42,7 @@ export async function CircuitBuilderRoute({
       }}
       className="mx-auto w-full max-w-[96rem] px-4 pb-16 pt-4 sm:px-6 sm:pt-5 lg:px-8"
     >
-      <CircuitBuilderPage key={locale} />
+      <CircuitBuilderPage copy={getCircuitBuilderCopy(locale)} />
     </PageShell>
   );
 }

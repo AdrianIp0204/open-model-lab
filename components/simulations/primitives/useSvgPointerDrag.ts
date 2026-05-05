@@ -13,6 +13,8 @@ type UseSvgPointerDragOptions<T> = {
   width: number;
   height: number;
   onDrag: (target: T, location: SvgPointerLocation) => void;
+  onDragStart?: (target: T) => void;
+  dragThreshold?: number;
 };
 
 export function useSvgPointerDrag<T>({
@@ -20,15 +22,32 @@ export function useSvgPointerDrag<T>({
   width,
   height,
   onDrag,
+  onDragStart,
+  dragThreshold = 0,
 }: UseSvgPointerDragOptions<T>) {
   const [activePointerId, setActivePointerId] = useState<number | null>(null);
   const activePointerIdRef = useRef<number | null>(null);
   const activeTargetRef = useRef<T | null>(null);
+  const startClientPointRef = useRef<{ x: number; y: number } | null>(null);
+  const hasExceededThresholdRef = useRef(false);
   const onDragRef = useRef(onDrag);
+  const onDragStartRef = useRef(onDragStart);
 
   useEffect(() => {
     onDragRef.current = onDrag;
   }, [onDrag]);
+
+  useEffect(() => {
+    onDragStartRef.current = onDragStart;
+  }, [onDragStart]);
+
+  function beginDrag(target: T, clientX: number, clientY: number) {
+    if (!hasExceededThresholdRef.current) {
+      hasExceededThresholdRef.current = true;
+      onDragStartRef.current?.(target);
+    }
+    emitDrag(target, clientX, clientY);
+  }
 
   function emitDrag(target: T, clientX: number, clientY: number) {
     const svg = svgRef.current;
@@ -58,6 +77,8 @@ export function useSvgPointerDrag<T>({
 
     activePointerIdRef.current = null;
     activeTargetRef.current = null;
+    startClientPointRef.current = null;
+    hasExceededThresholdRef.current = false;
     setActivePointerId(null);
   }
 
@@ -68,11 +89,17 @@ export function useSvgPointerDrag<T>({
       return;
     }
 
-    svg.setPointerCapture(pointerId);
+    if (typeof svg.setPointerCapture === "function") {
+      svg.setPointerCapture(pointerId);
+    }
     activePointerIdRef.current = pointerId;
     activeTargetRef.current = target;
+    startClientPointRef.current = { x: clientX, y: clientY };
+    hasExceededThresholdRef.current = false;
     setActivePointerId(pointerId);
-    emitDrag(target, clientX, clientY);
+    if (dragThreshold <= 0) {
+      beginDrag(target, clientX, clientY);
+    }
   }
 
   function handlePointerMove(pointerId: number, clientX: number, clientY: number) {
@@ -80,7 +107,15 @@ export function useSvgPointerDrag<T>({
       return;
     }
 
-    emitDrag(activeTargetRef.current, clientX, clientY);
+    if (!hasExceededThresholdRef.current) {
+      const start = startClientPointRef.current;
+      const distance = start ? Math.hypot(clientX - start.x, clientY - start.y) : 0;
+      if (distance < dragThreshold) {
+        return;
+      }
+    }
+
+    beginDrag(activeTargetRef.current, clientX, clientY);
   }
 
   function handlePointerUp(pointerId: number) {
@@ -104,5 +139,8 @@ export function useSvgPointerDrag<T>({
     handlePointerUp,
     handlePointerCancel,
     handleLostPointerCapture,
+    hasExceededThreshold: (pointerId?: number) =>
+      (pointerId === undefined || activePointerIdRef.current === pointerId) &&
+      hasExceededThresholdRef.current,
   };
 }

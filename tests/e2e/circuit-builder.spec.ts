@@ -9,6 +9,7 @@ import {
 
 let browserGuard: BrowserGuard;
 const draftStorageKey = "open-model-lab.circuit-builder.draft.v1";
+const localeHandoffStorageKey = "open-model-lab:circuit-builder-locale-handoff:v1";
 const onboardingStorageKey = "open-model-lab.onboarding.v1";
 const renderModeStorageKey = "open-model-lab:circuit-builder-render-mode:v1";
 
@@ -128,6 +129,30 @@ async function buildBulbLoop(page: Page) {
       },
     ],
   });
+}
+
+async function getWorkspaceZoomPercent(page: Page) {
+  return Number(
+    await page
+      .locator("[data-circuit-workspace-view-status]")
+      .getAttribute("data-circuit-workspace-zoom-percent"),
+  );
+}
+
+async function getWorkspaceOffsets(page: Page) {
+  const layer = page.locator("[data-circuit-workspace-world-layer]");
+  return {
+    x: Number(await layer.getAttribute("data-circuit-workspace-offset-x")),
+    y: Number(await layer.getAttribute("data-circuit-workspace-offset-y")),
+  };
+}
+
+async function getComponentPosition(page: Page, componentId: string) {
+  const component = page.locator(`[data-circuit-component-id="${componentId}"]`);
+  return {
+    x: Number(await component.getAttribute("data-circuit-component-x")),
+    y: Number(await component.getAttribute("data-circuit-component-y")),
+  };
 }
 
 async function buildThermistorLoop(page: Page) {
@@ -367,6 +392,217 @@ test("renders modern visual mode with powered bulb glow and electron flow", asyn
   await expect(page.locator("[data-circuit-electron-flow-wire-id]")).toHaveCount(0);
   await expect(page.locator("[data-circuit-modern-wire-highlight]")).toHaveCount(0);
   await expect(page.locator("[data-circuit-modern-legend]")).toHaveCount(0);
+});
+
+test("preserves the live circuit, view, and render mode while switching locale routes", async ({
+  page,
+}) => {
+  await setHarnessSession(page, "signed-out");
+  await page.setViewportSize({ width: 1440, height: 980 });
+  await openCircuitBuilder(page);
+  await buildBulbLoop(page);
+  await page.getByRole("button", { name: "Modern" }).click();
+  await page
+    .locator("[data-circuit-workspace-controls]")
+    .getByRole("button", { name: "Fit circuit" })
+    .click();
+
+  const beforeZoom = await getWorkspaceZoomPercent(page);
+  const beforeOffsets = await getWorkspaceOffsets(page);
+  expect(beforeZoom).toBeGreaterThanOrEqual(180);
+  await expect(page.locator("[data-circuit-component-id]")).toHaveCount(2);
+  await expect(page.locator('[data-circuit-modern-powered-wire="true"]')).toHaveCount(2);
+  await page.waitForFunction(
+    ([key]) => {
+      const raw = window.sessionStorage.getItem(key);
+      if (!raw) {
+        return false;
+      }
+      const parsed = JSON.parse(raw) as {
+        renderMode?: string;
+        document?: { components?: unknown[]; wires?: unknown[] };
+      };
+      return (
+        parsed.renderMode === "modern" &&
+        parsed.document?.components?.length === 2 &&
+        parsed.document?.wires?.length === 2
+      );
+    },
+    [localeHandoffStorageKey],
+  );
+
+  await gotoAndExpectOk(page, "/zh-HK/circuit-builder");
+  await expect(page.locator("[data-circuit-builder-ready]")).toBeVisible();
+  await expect(page.getByRole("region", { name: "電路工作區" })).toBeVisible();
+  await expect(page.locator("[data-circuit-workspace-panel]")).toHaveAttribute(
+    "data-circuit-render-mode",
+    "modern",
+  );
+  await expect(page.locator("[data-circuit-component-id]")).toHaveCount(2);
+  await expect(page.locator('[data-circuit-component-id="battery-modern"]')).toHaveAttribute(
+    "data-circuit-component-label",
+    "電池 1",
+  );
+  await expect(page.locator('[data-circuit-modern-powered-wire="true"]')).toHaveCount(2);
+  expect(await getWorkspaceZoomPercent(page)).toBe(beforeZoom);
+  expect(await getWorkspaceOffsets(page)).toEqual(beforeOffsets);
+  await expect(page.locator('[aria-label="本機草稿復原"]')).toHaveCount(0);
+
+  await gotoAndExpectOk(page, "/en/circuit-builder");
+  await expect(page.locator("[data-circuit-builder-ready]")).toBeVisible();
+  await expect(page.locator("[data-circuit-workspace-panel]")).toHaveAttribute(
+    "data-circuit-render-mode",
+    "modern",
+  );
+  await expect(page.locator("[data-circuit-component-id]")).toHaveCount(2);
+  await expect(page.locator('[data-circuit-component-id="battery-modern"]')).toHaveAttribute(
+    "data-circuit-component-label",
+    "Battery 1",
+  );
+  await expect(page.locator('[data-circuit-modern-powered-wire="true"]')).toHaveCount(2);
+});
+
+test("clicking and dragging components does not unexpectedly change workspace view", async ({
+  page,
+}) => {
+  await setHarnessSession(page, "signed-out");
+  await page.setViewportSize({ width: 1440, height: 980 });
+  await openCircuitBuilder(page);
+  await buildBulbLoop(page);
+  const controls = page.locator("[data-circuit-workspace-controls]");
+  await controls.getByRole("button", { name: "Zoom +" }).click();
+  await controls.getByRole("button", { name: "Zoom +" }).click();
+  const beforeClickZoom = await getWorkspaceZoomPercent(page);
+  const beforeClickOffsets = await getWorkspaceOffsets(page);
+  const beforeClickPosition = await getComponentPosition(page, "battery-modern");
+
+  await page.getByRole("button", { name: "Battery 1", exact: true }).click();
+
+  expect(await getWorkspaceZoomPercent(page)).toBe(beforeClickZoom);
+  expect(await getWorkspaceOffsets(page)).toEqual(beforeClickOffsets);
+  expect(await getComponentPosition(page, "battery-modern")).toEqual(beforeClickPosition);
+
+  const battery = page.locator('[data-circuit-component-id="battery-modern"]');
+  const box = await battery.boundingBox();
+  expect(box).not.toBeNull();
+  const beforeDragZoom = await getWorkspaceZoomPercent(page);
+  const beforeDragOffsets = await getWorkspaceOffsets(page);
+
+  await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(box!.x + box!.width / 2 + 96, box!.y + box!.height / 2 + 64, {
+    steps: 10,
+  });
+  await page.mouse.up();
+
+  await expect
+    .poll(() => getComponentPosition(page, "battery-modern"))
+    .not.toEqual(beforeClickPosition);
+  expect(await getWorkspaceZoomPercent(page)).toBe(beforeDragZoom);
+  expect(await getWorkspaceOffsets(page)).toEqual(beforeDragOffsets);
+});
+
+test("fits small circuits large enough for readable workspace labels and readouts", async ({
+  page,
+}) => {
+  await setHarnessSession(page, "signed-out");
+  await page.setViewportSize({ width: 1440, height: 980 });
+  await openCircuitBuilder(page);
+  await buildBulbLoop(page);
+  await page.getByRole("button", { name: "Light bulb 1", exact: true }).click();
+  await page
+    .locator("[data-circuit-workspace-controls]")
+    .getByRole("button", { name: "Fit circuit" })
+    .click();
+
+  await expect
+    .poll(() => getWorkspaceZoomPercent(page))
+    .toBeGreaterThanOrEqual(180);
+  await expect(page.locator('[data-circuit-component-label="Battery 1"]')).toBeVisible();
+  await expect(page.locator('[data-circuit-component-label="Light bulb 1"]')).toBeVisible();
+  await expect(page.locator("[data-circuit-readout-chip]").first()).toBeVisible();
+});
+
+test("localizes the zh-HK Circuit Builder surface and keeps modern visuals active", async ({
+  page,
+}) => {
+  await setHarnessSession(page, "signed-out");
+  await page.setViewportSize({ width: 1440, height: 980 });
+  await gotoAndExpectOk(page, "/zh-HK/circuit-builder");
+  await expect(page.locator("[data-circuit-builder-ready]")).toBeVisible();
+
+  await expect(page.getByRole("complementary", { name: "元件庫" }).first()).toBeVisible();
+  await expect(page.getByRole("region", { name: "電路工作區" })).toBeVisible();
+  await expect(page.getByText("檢視器").first()).toBeVisible();
+  await expect(page.getByText("顯示")).toBeVisible();
+  await expect(page.getByRole("button", { name: "電路圖" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "現代視覺" })).toBeVisible();
+
+  await page.getByRole("button", { name: "現代視覺" }).click();
+  const workspace = page.locator("[data-circuit-workspace-panel]");
+  await expect(workspace).toHaveAttribute("data-circuit-render-mode", "modern");
+  await expect(page.locator("[data-circuit-modern-legend]")).toContainText("現代視覺");
+
+  await page.locator('input[type="file"]').setInputFiles({
+    name: "zh-hk-bulb-loop.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(JSON.stringify({
+      version: 1,
+      environment: { temperatureC: 25, lightLevelPercent: 35 },
+      view: { zoom: 0.78, offsetX: 76, offsetY: 92 },
+      components: [
+        {
+          id: "battery-zh",
+          label: "Battery 1",
+          type: "battery",
+          x: 240,
+          y: 320,
+          rotation: 0,
+          properties: { voltage: 9 },
+        },
+        {
+          id: "bulb-zh",
+          label: "Light bulb 1",
+          type: "lightBulb",
+          x: 560,
+          y: 320,
+          rotation: 0,
+          properties: { ratedVoltage: 6, ratedPower: 3 },
+        },
+      ],
+      wires: [
+        {
+          id: "wire-positive-zh",
+          from: { componentId: "battery-zh", terminal: "a" },
+          to: { componentId: "bulb-zh", terminal: "a" },
+        },
+        {
+          id: "wire-negative-zh",
+          from: { componentId: "bulb-zh", terminal: "b" },
+          to: { componentId: "battery-zh", terminal: "b" },
+        },
+      ],
+    })),
+  });
+
+  await expect(page.getByRole("button", { name: "電池 1", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "燈泡 1", exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("region", { name: "連接" }).getByRole("button", {
+      name: /連接「電池 1 正極端子」至「燈泡 1 端子 A」的導線/,
+    }),
+  ).toBeVisible();
+  await expect(page.locator('[data-circuit-light-bulb-glow="on"]')).toBeVisible();
+  await expect(page.locator('[data-circuit-electron-flow-active="true"]')).not.toHaveCount(0);
+  await expect(page.locator('[data-circuit-modern-wire-highlight="true"]')).not.toHaveCount(0);
+
+  const desktopPalette = page.locator('[data-circuit-palette-panel="desktop"]');
+  await desktopPalette.getByLabel("搜尋元件").fill("battery");
+  await expect(desktopPalette.getByRole("button", { name: "加入 電池" })).toBeVisible();
+  await desktopPalette.getByLabel("搜尋元件").fill("光敏電阻");
+  await expect(desktopPalette.getByRole("button", { name: "加入 光敏電阻" })).toBeVisible();
+  await desktopPalette.getByLabel("搜尋元件").fill("ldr");
+  await expect(desktopPalette.getByRole("button", { name: "加入 光敏電阻" })).toBeVisible();
 });
 
 test("searches the desktop component library, adds a lower component quickly, and clears from the workspace controls with undo recovery", async ({
