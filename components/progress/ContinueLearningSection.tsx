@@ -48,14 +48,6 @@ export function ContinueLearningSection({
   const primaryConceptSummary = primary
     ? concepts.find((concept) => concept.slug === primary.concept.slug)
     : null;
-  const primaryVisual = primary
-    ? getConceptVisualDescriptor(
-        primaryConceptSummary ?? {
-          slug: primary.concept.slug,
-          title: primary.concept.title ?? primary.concept.slug,
-        },
-      )
-    : null;
   const primaryLastActiveLabel = primary?.lastActivityAt
     ? formatProgressMonthDay(primary.lastActivityAt, "local", locale)
     : null;
@@ -63,6 +55,9 @@ export function ContinueLearningSection({
     ? getConceptSurfaceVisualDescriptor("progress", {
         slug: primary.concept.slug,
         title: primary.concept.title ?? primary.concept.slug,
+        subject: primaryConceptSummary?.subject,
+        topic: primaryConceptSummary?.topic,
+        accent: primaryConceptSummary?.accent,
       })
     : null;
   const primaryVisualLabel = primary

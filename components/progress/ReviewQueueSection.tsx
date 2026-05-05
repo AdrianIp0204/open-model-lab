@@ -13,7 +13,6 @@ import {
   shouldUseGenericProgressCopy,
 } from "@/lib/i18n/progress";
 import { LearningVisual } from "@/components/visuals/LearningVisual";
-import { getConceptVisualDescriptor } from "@/components/visuals/learningVisualDescriptors";
 import type { GuidedCollectionSummary, StarterTrackSummary } from "@/lib/content";
 import {
   resolveAccountProgressSnapshot,
@@ -255,9 +254,6 @@ export function ReviewQueueSection({
               ? getConceptDisplayTitle(conceptsBySlug.get(item.slug)!, locale)
               : item.title;
             const reviewVisualConcept = conceptsBySlug.get(item.slug) ?? null;
-            const reviewVisual = reviewVisualConcept
-              ? getConceptVisualDescriptor(reviewVisualConcept)
-              : null;
             const trackCueTitle =
               item.trackCue && starterTracksBySlug.get(item.trackCue.trackSlug)
                 ? getStarterTrackDisplayTitle(
@@ -292,6 +288,9 @@ export function ReviewQueueSection({
             const visual = getConceptSurfaceVisualDescriptor("progress", {
               slug: item.slug,
               title: conceptsBySlug.get(item.slug)?.title ?? item.title,
+              subject: reviewVisualConcept?.subject,
+              topic: reviewVisualConcept?.topic,
+              accent: reviewVisualConcept?.accent,
             });
 
             return (

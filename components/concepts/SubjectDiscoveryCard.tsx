@@ -60,7 +60,6 @@ export function SubjectDiscoveryCard({
   const bridgeTrack = subject.bridgeStarterTracks[0] ?? null;
   const bestFirstTrack = subject.featuredStarterTracks[0] ?? null;
   const bestFirstConcept = subject.featuredConcepts[0] ?? null;
-  const subjectVisual = getSubjectVisualDescriptor(subject);
   const compactMeta = [
     t("meta.topics", { count: subject.topicCount }),
     t("meta.concepts", { count: subject.conceptCount }),

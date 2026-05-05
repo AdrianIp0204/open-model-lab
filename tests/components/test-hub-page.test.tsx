@@ -161,7 +161,7 @@ describe("TestHubPage", () => {
       screen.getByTestId("test-hub-card-pack-physics-connected-models"),
     ).getByTestId("learning-visual");
     expect(packVisual).toHaveAttribute("data-visual-kind", "test");
-    expect(packVisual).toHaveAttribute("data-visual-motif", "projectile-motion");
+    expect(packVisual).toHaveAttribute("data-visual-motif", "vectors-components");
     expect(packVisual).toHaveAttribute("data-visual-overlay", "assessment");
     expect(packVisual).toHaveAttribute("data-visual-fallback", "false");
     const packStartLink = within(

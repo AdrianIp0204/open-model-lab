@@ -44,9 +44,9 @@ import {
   type LearningVisualTone,
 } from "@/components/visuals/LearningVisual";
 import {
-  getConceptSurfaceVisualDescriptor,
-  getPackSurfaceVisualDescriptor,
-  getTopicSurfaceVisualDescriptor,
+  getConceptAssessmentVisualDescriptor,
+  getPackAssessmentVisualDescriptor,
+  getTopicAssessmentVisualDescriptor,
 } from "@/components/visuals/learningVisualDescriptors";
 import {
   buildTestHubSummary,
@@ -380,6 +380,7 @@ function getPackTestVisual(
     | "subjectTitle"
     | "includedTopicSlugs"
     | "includedTopicTitles"
+    | "includedConceptSlugs"
   >,
 ) {
   return getPackAssessmentVisualDescriptor({
@@ -389,6 +390,7 @@ function getPackTestVisual(
     summary: entry.summary,
     includedTopicSlugs: entry.includedTopicSlugs,
     includedTopicTitles: entry.includedTopicTitles,
+    includedConceptSlugs: entry.includedConceptSlugs,
   });
 }
 
@@ -403,20 +405,6 @@ function getEntryAssessmentVisual(
     case "pack":
       return getPackTestVisual(entry);
   }
-}
-
-function getCatalogEntryAssessmentVisual(
-  entry: LocalizedConceptEntry | LocalizedTopicEntry | LocalizedPackEntry,
-) {
-  if ("conceptSlug" in entry) {
-    return getConceptTestVisual(entry);
-  }
-
-  if ("topicSlug" in entry) {
-    return getTopicTestVisual(entry);
-  }
-
-  return getPackTestVisual(entry);
 }
 
 function TestHubVisualLink({
@@ -439,6 +427,7 @@ function TestHubVisualLink({
       <LearningVisual
         kind={visual.kind}
         motif={visual.motif}
+        overlay={visual.overlay}
         isFallback={visual.isFallback}
         fallbackKind={visual.fallbackKind}
         tone={visual.tone ?? fallbackTone}
@@ -452,71 +441,7 @@ function TestHubVisualLink({
 function getTestVisualDescriptor(
   entry: TestHubSuggestion["entry"] | GuidedTestTrackStep["entry"],
 ): LearningVisualDescriptor {
-  switch (entry.kind) {
-    case "concept":
-      return getConceptSurfaceVisualDescriptor("test", {
-        slug: entry.conceptSlug,
-        title: entry.title,
-        subject: entry.subject,
-        topic: entry.topic,
-      });
-    case "topic":
-      return getTopicSurfaceVisualDescriptor("test", {
-        slug: entry.topicSlug,
-        title: entry.title,
-        subject: entry.subject,
-        description: entry.summary,
-      });
-    case "pack":
-      return getPackSurfaceVisualDescriptor("test", {
-        title: entry.title,
-        summary: entry.summary,
-        subject: entry.subjectTitle,
-        includedTopicSlugs: entry.includedTopicSlugs,
-        includedTopicTitles: entry.includedTopicTitles,
-        includedConceptSlugs: entry.includedConceptSlugs,
-      });
-  }
-}
-
-function getGuidedVisualDescriptor(
-  nextStep: GuidedTestTrackStep | null,
-): LearningVisualDescriptor {
-  if (!nextStep) {
-    return {
-      kind: "guided",
-      isFallback: true,
-      fallbackKind: "category-specific",
-      label: "guided testing track",
-    };
-  }
-
-  if (nextStep.kind === "concept") {
-    return getConceptSurfaceVisualDescriptor("guided", {
-      slug: nextStep.entry.conceptSlug,
-      title: nextStep.entry.title,
-      subject: nextStep.entry.subject,
-      topic: nextStep.entry.topic,
-    });
-  }
-
-  if (nextStep.kind === "topic") {
-    return getTopicSurfaceVisualDescriptor("guided", {
-      slug: nextStep.entry.topicSlug,
-      title: nextStep.entry.title,
-      subject: nextStep.entry.subject,
-      description: nextStep.entry.summary,
-    });
-  }
-
-  return getPackSurfaceVisualDescriptor("guided", {
-    title: nextStep.entry.title,
-    summary: nextStep.entry.summary,
-    subject: nextStep.entry.subjectTitle,
-    includedTopicSlugs: nextStep.entry.includedTopicSlugs,
-    includedTopicTitles: nextStep.entry.includedTopicTitles,
-    includedConceptSlugs: nextStep.entry.includedConceptSlugs,
-  });
+  return getEntryAssessmentVisual(entry);
 }
 
 function getEntryResumeMatch(
@@ -1342,7 +1267,7 @@ function GuidedTrackCard({
   const currentStepHref = assessmentReady
     ? nextStep?.entry.testHref ?? `/concepts/topics/${track.topicSlug}`
     : `/concepts/topics/${track.topicSlug}`;
-  const trackVisual = nextStep
+  const visual = nextStep
     ? getEntryAssessmentVisual(nextStep.entry)
     : getTopicAssessmentVisualDescriptor(getTopicDiscoverySummaryBySlug(track.topicSlug));
   const displayState = resolveAssessmentDisplayState({
@@ -1366,8 +1291,6 @@ function GuidedTrackCard({
         ready: assessmentReady,
       })
     : "open";
-  const visual = getGuidedVisualDescriptor(nextStep ?? null);
-
   return (
     <article
       className="lab-panel flex h-full flex-col gap-3 p-4"

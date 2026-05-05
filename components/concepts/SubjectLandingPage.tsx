@@ -73,7 +73,6 @@ export async function SubjectLandingPage({
   const firstTrack = subject.featuredStarterTracks[0] ?? subject.starterTracks[0] ?? null;
   const firstTopic = subject.featuredTopics[0] ?? subject.topics[0] ?? null;
   const firstConcept = subject.featuredConcepts[0] ?? subject.concepts[0] ?? null;
-  const subjectVisual = getSubjectVisualDescriptor(subject);
   return (
     <>
       {leadIn ? <div className="mb-6 space-y-3 sm:mb-8">{leadIn}</div> : null}

@@ -10,8 +10,11 @@ import {
   getConceptVisualDescriptor,
   getConceptSurfaceVisualDescriptor,
   getGuidedCollectionVisualDescriptor,
+  getPackAssessmentVisualDescriptor,
   getPackSurfaceVisualDescriptor,
+  getStarterTrackVisualDescriptor,
   getSubjectVisualDescriptor,
+  getTopicAssessmentVisualDescriptor,
   getTopicVisualDescriptor,
   getTopicSurfaceVisualDescriptor,
   getToolVisualDescriptor,
@@ -19,6 +22,8 @@ import {
 import {
   getConceptSummaries,
   getGuidedCollectionBySlug,
+  getStarterTrackBySlug,
+  getSubjectDiscoverySummaries,
   getSubjectDiscoverySummaryBySlug,
 } from "@/lib/content";
 import { localizeConceptSummaryDisplay } from "@/lib/i18n/content";
@@ -489,7 +494,7 @@ describe("learning visual descriptors", () => {
     });
   });
 
-  it("maps first-class subject cards to subject-specific visual motifs", () => {
+  it("maps first-class subject cards to their lead topic motifs", () => {
     const subjects = getSubjectDiscoverySummaries();
 
     expect(
@@ -498,10 +503,10 @@ describe("learning visual descriptors", () => {
         getSubjectVisualDescriptor(subject).motif,
       ]),
     ).toEqual([
-      ["physics", "subject-physics"],
-      ["math", "subject-math"],
-      ["chemistry", "subject-chemistry"],
-      ["computer-science", "subject-computer-science"],
+      ["physics", "projectile-motion"],
+      ["math", "graph-transformations"],
+      ["chemistry", "chemistry-reaction"],
+      ["computer-science", "binary-search"],
     ]);
   });
 

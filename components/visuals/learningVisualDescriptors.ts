@@ -160,10 +160,37 @@ type SubjectVisualInput = {
   description?: string;
   accent?: LearningVisualTone;
   featuredTopic?: Pick<TopicVisualInput, "slug" | "title"> | null;
+  featuredTopics?: readonly Pick<TopicVisualInput, "slug" | "title">[];
   featuredConcept?: Pick<ConceptVisualInput, "slug" | "title" | "subject"> | null;
+  featuredConcepts?: readonly Pick<ConceptVisualInput, "slug" | "title" | "subject">[];
+};
+
+type StarterTrackVisualInput = {
+  slug: string;
+  title: string;
+  summary?: string | null;
+  highlights?: readonly string[];
+  concepts?: readonly ConceptVisualInput[];
+  accent?: LearningVisualTone;
+};
+
+type ChallengeVisualInput = {
+  id?: string;
+  title: string;
+  prompt?: string;
+  style?: string;
+  concept: ConceptVisualInput;
+  topic?: TopicVisualInput;
+  cueLabels?: readonly string[];
+  requirementLabels?: readonly string[];
+  targetLabels?: readonly string[];
+  targetMetrics?: readonly string[];
+  targetParams?: readonly string[];
+  accent?: LearningVisualTone;
 };
 
 type AssessmentPackVisualInput = {
+  slug?: string;
   title: string;
   summary?: string;
   subject?: string;
@@ -188,6 +215,7 @@ const exactConceptMotifs: Record<string, LearningVisualMotif> = {
   "atomic-spectra": "atomic-spectra",
   "basic-circuits": "circuit",
   "binary-search-halving-the-search-space": "binary-search",
+  "bohr-model": "bohr-energy-levels",
   "buffers-and-neutralization": "acid-base",
   "complex-numbers-on-the-plane": "complex-plane",
   "conservation-of-momentum": "momentum-carts",
@@ -517,6 +545,26 @@ function withDescriptorKind(
   };
 }
 
+function withDescriptorOverlay(
+  descriptor: LearningVisualDescriptor,
+  input: {
+    kind: LearningVisualKind;
+    overlay: LearningVisualOverlay;
+    labelSuffix: string;
+    tone?: LearningVisualTone;
+  },
+): LearningVisualDescriptor {
+  return {
+    ...descriptor,
+    kind: input.kind,
+    overlay: input.overlay,
+    tone: input.tone ?? descriptor.tone,
+    label: descriptor.label.includes(input.labelSuffix)
+      ? descriptor.label
+      : `${descriptor.label} ${input.labelSuffix}`,
+  };
+}
+
 export function getConceptVisualDescriptor(
   concept: ConceptVisualInput,
 ): LearningVisualDescriptor {
@@ -654,23 +702,40 @@ export function getTopicSurfaceVisualDescriptor(
 export function getSubjectVisualDescriptor(
   subject: SubjectVisualInput,
 ): LearningVisualDescriptor {
-  if (subject.featuredTopic) {
+  const featuredTopic = subject.featuredTopic ?? subject.featuredTopics?.[0] ?? null;
+
+  if (featuredTopic) {
     return getTopicSurfaceVisualDescriptor("subject", {
-      slug: subject.featuredTopic.slug,
-      title: subject.featuredTopic.title,
+      slug: featuredTopic.slug,
+      title: featuredTopic.title,
       subject: subject.title,
       description: subject.description,
       accent: subject.accent,
     });
   }
 
-  if (subject.featuredConcept) {
+  const featuredConcept = subject.featuredConcept ?? subject.featuredConcepts?.[0] ?? null;
+
+  if (featuredConcept) {
     return getConceptSurfaceVisualDescriptor("subject", {
-      slug: subject.featuredConcept.slug,
-      title: subject.featuredConcept.title,
-      subject: subject.featuredConcept.subject,
+      slug: featuredConcept.slug,
+      title: featuredConcept.title,
+      subject: featuredConcept.subject,
       accent: subject.accent,
     });
+  }
+
+  const exactMotif = exactSubjectMotifs[subject.slug];
+
+  if (exactMotif) {
+    return {
+      kind: "subject",
+      motif: exactMotif,
+      tone: subject.accent,
+      isFallback: false,
+      fallbackKind: "topic-specific",
+      label: exactMotif,
+    };
   }
 
   const match = findTopicMotif([subject.slug, subject.title, subject.description]);
@@ -693,6 +758,167 @@ export function getSubjectVisualDescriptor(
     fallbackKind: "category-specific",
     label: "subject roadmap",
   };
+}
+
+export function getStarterTrackVisualDescriptor(
+  track: StarterTrackVisualInput,
+): LearningVisualDescriptor {
+  const exactMotif = exactStarterTrackMotifs[track.slug];
+
+  if (exactMotif) {
+    return {
+      kind: "guided",
+      motif: exactMotif.motif,
+      tone: track.accent,
+      isFallback: false,
+      fallbackKind: "topic-specific",
+      label: exactMotif.label,
+    };
+  }
+
+  const leadConcept = track.concepts?.[0];
+
+  if (leadConcept) {
+    return getConceptSurfaceVisualDescriptor("guided", {
+      ...leadConcept,
+      accent: track.accent ?? leadConcept.accent,
+    });
+  }
+
+  const match = findTopicMotif([
+    track.slug,
+    track.title,
+    track.summary,
+    ...(track.highlights ?? []),
+  ]);
+
+  if (match) {
+    return {
+      kind: "guided",
+      motif: match.motif,
+      tone: track.accent,
+      isFallback: false,
+      fallbackKind: "topic-specific",
+      label: `${match.label} track`,
+    };
+  }
+
+  return {
+    kind: "guided",
+    tone: track.accent,
+    isFallback: true,
+    fallbackKind: "category-specific",
+    label: "starter track",
+  };
+}
+
+export function getChallengeVisualDescriptor(
+  challenge: ChallengeVisualInput,
+): LearningVisualDescriptor {
+  const challengeMatch = challengeMotifs.find((candidate) =>
+    candidate.pattern.test(
+      compactSearchText([
+        challenge.id,
+        challenge.title,
+        challenge.prompt,
+        challenge.style,
+        ...(challenge.cueLabels ?? []),
+        ...(challenge.requirementLabels ?? []),
+        ...(challenge.targetLabels ?? []),
+        ...(challenge.targetMetrics ?? []),
+        ...(challenge.targetParams ?? []),
+      ]),
+    ),
+  );
+
+  if (challengeMatch) {
+    return {
+      kind: "challenge",
+      motif: challengeMatch.motif,
+      tone: challenge.accent ?? challenge.concept.accent,
+      overlay: "challenge",
+      isFallback: false,
+      fallbackKind: "topic-specific",
+      label: challengeMatch.label,
+    };
+  }
+
+  const conceptVisual = getConceptVisualDescriptor(challenge.concept);
+
+  if (!conceptVisual.isFallback || conceptVisual.motif) {
+    return withDescriptorOverlay(conceptVisual, {
+      kind: "challenge",
+      overlay: "challenge",
+      labelSuffix: "challenge",
+      tone: challenge.accent ?? challenge.concept.accent,
+    });
+  }
+
+  if (challenge.topic) {
+    const topicVisual = getTopicVisualDescriptor(challenge.topic);
+
+    if (!topicVisual.isFallback || topicVisual.motif) {
+      return withDescriptorOverlay(topicVisual, {
+        kind: "challenge",
+        overlay: "challenge",
+        labelSuffix: "challenge",
+        tone: challenge.accent ?? challenge.topic.accent,
+      });
+    }
+  }
+
+  return {
+    kind: "challenge",
+    tone: challenge.accent ?? challenge.concept.accent,
+    overlay: "challenge",
+    isFallback: true,
+    fallbackKind: "category-specific",
+    label: "challenge target",
+  };
+}
+
+export function getConceptAssessmentVisualDescriptor(
+  concept: ConceptVisualInput,
+): LearningVisualDescriptor {
+  return withDescriptorOverlay(getConceptVisualDescriptor(concept), {
+    kind: "test",
+    overlay: "assessment",
+    labelSuffix: "assessment",
+    tone: concept.accent,
+  });
+}
+
+export function getConceptCheckpointVisualDescriptor(
+  concept: ConceptVisualInput,
+): LearningVisualDescriptor {
+  return withDescriptorOverlay(getConceptVisualDescriptor(concept), {
+    kind: "progress",
+    overlay: "checkpoint",
+    labelSuffix: "checkpoint",
+    tone: concept.accent,
+  });
+}
+
+export function getTopicAssessmentVisualDescriptor(
+  topic: TopicVisualInput,
+): LearningVisualDescriptor {
+  return withDescriptorOverlay(getTopicVisualDescriptor(topic), {
+    kind: "test",
+    overlay: "assessment",
+    labelSuffix: "assessment",
+    tone: topic.accent,
+  });
+}
+
+export function getPackAssessmentVisualDescriptor(
+  pack: AssessmentPackVisualInput,
+): LearningVisualDescriptor {
+  return withDescriptorOverlay(getPackSurfaceVisualDescriptor("test", pack), {
+    kind: "test",
+    overlay: "assessment",
+    labelSuffix: "assessment",
+    tone: pack.accent,
+  });
 }
 
 export function getPackSurfaceVisualDescriptor(

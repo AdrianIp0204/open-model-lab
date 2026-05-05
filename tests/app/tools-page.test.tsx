@@ -10,14 +10,6 @@ vi.mock("@/components/layout/PageShell", () => ({
 
 import ToolsDirectoryRoute from "@/app/tools/ToolsDirectoryRoute";
 
-function expectAnyLinkHref(name: RegExp, href: string) {
-  expect(
-    screen
-      .getAllByRole("link", { name })
-      .some((link) => link.getAttribute("href") === href),
-  ).toBe(true);
-}
-
 describe("tools directory route", () => {
   it("renders the learning tools hub with circuit and chemistry entries", async () => {
     render(await ToolsDirectoryRoute());

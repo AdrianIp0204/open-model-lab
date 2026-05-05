@@ -53,6 +53,9 @@ import {
   type LearningVisualKind,
 } from "@/components/visuals/LearningVisual";
 import {
+  getConceptVisualDescriptor,
+  getStarterTrackVisualDescriptor,
+  getSubjectVisualDescriptor,
   getConceptSurfaceVisualDescriptor,
   getTopicSurfaceVisualDescriptor,
 } from "@/components/visuals/learningVisualDescriptors";
@@ -583,6 +586,7 @@ export function StartLearningPage({
   const activeSubjectVisual = activeSubject
     ? getSubjectVisualDescriptor(activeSubject)
     : getSubjectVisualDescriptor({
+        slug: "selected-subject",
         title: t("chooser.selected"),
         accent: "sky",
       });

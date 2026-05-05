@@ -52,7 +52,10 @@ import {
 import { StarterTrackRecommendationList } from "@/components/tracks/StarterTrackRecommendationList";
 import { ConceptLearningSurfaceTestCta } from "@/components/tests/ConceptLearningSurfaceTestCta";
 import { LearningVisual } from "@/components/visuals/LearningVisual";
-import { getConceptSurfaceVisualDescriptor } from "@/components/visuals/learningVisualDescriptors";
+import {
+  getConceptSurfaceVisualDescriptor,
+  getStarterTrackVisualDescriptor,
+} from "@/components/visuals/learningVisualDescriptors";
 import { MasteryStateBadge } from "./MasteryStateBadge";
 import { ProgressStatusBadge } from "./ProgressStatusBadge";
 import { AccountAwareReviewRemediationList } from "./AccountAwareReviewRemediationList";
@@ -738,6 +741,30 @@ export function HomeContinueLearningSurface({
   const fallbackTrackVisual = fallbackTrack
     ? getStarterTrackVisualDescriptor(fallbackTrack)
     : null;
+  const followUpVisualConcept = displayFollowUpCandidate
+    ? conceptsBySlug.get(displayFollowUpCandidate.conceptSlug) ?? null
+    : null;
+  const followUpVisual = displayFollowUpCandidate
+    ? getConceptSurfaceVisualDescriptor("progress", {
+        slug: displayFollowUpCandidate.conceptSlug,
+        title: displayFollowUpCandidate.title,
+        subject: followUpVisualConcept?.subject,
+        topic: followUpVisualConcept?.topic,
+        accent: followUpVisualConcept?.accent,
+      })
+    : null;
+  const nextRecommendationVisualConcept = displayNextRecommendation
+    ? conceptsBySlug.get(displayNextRecommendation.conceptSlug) ?? null
+    : null;
+  const nextRecommendationVisual = displayNextRecommendation
+    ? getConceptSurfaceVisualDescriptor("progress", {
+        slug: displayNextRecommendation.conceptSlug,
+        title: displayNextRecommendation.title,
+        subject: nextRecommendationVisualConcept?.subject,
+        topic: nextRecommendationVisualConcept?.topic,
+        accent: nextRecommendationVisualConcept?.accent,
+      })
+    : null;
   const primaryVisualHref = displayPrimaryConcept
     ? `/concepts/${displayPrimaryConcept.slug}`
     : quickStartConcept
@@ -1209,19 +1236,19 @@ export function HomeContinueLearningSurface({
             ) : displayNextRecommendation ? (
               <>
                 <div className="grid gap-3 sm:grid-cols-[5.5rem_minmax(0,1fr)] sm:items-start">
-                  {followUpVisual ? (
+                  {nextRecommendationVisual ? (
                     <Link
                       href={`/concepts/${displayNextRecommendation.conceptSlug}`}
                       aria-label={displayNextRecommendation.title}
                       className="block rounded-[18px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
                     >
                       <LearningVisual
-                        kind={followUpVisual.kind}
-                        motif={followUpVisual.motif}
-                        overlay={followUpVisual.overlay}
-                        isFallback={followUpVisual.isFallback}
-                        fallbackKind={followUpVisual.fallbackKind}
-                        tone={followUpVisual.tone ?? followUpVisualConcept?.accent ?? "sky"}
+                        kind={nextRecommendationVisual.kind}
+                        motif={nextRecommendationVisual.motif}
+                        overlay={nextRecommendationVisual.overlay}
+                        isFallback={nextRecommendationVisual.isFallback}
+                        fallbackKind={nextRecommendationVisual.fallbackKind}
+                        tone={nextRecommendationVisual.tone ?? nextRecommendationVisualConcept?.accent ?? "sky"}
                         compact
                         className="h-20 rounded-[18px] sm:h-24"
                       />

@@ -21,6 +21,8 @@ import {
   type LearningVisualDescriptor,
 } from "@/components/visuals/LearningVisual";
 import {
+  getChallengeVisualDescriptor,
+  getConceptCheckpointVisualDescriptor,
   getConceptSurfaceVisualDescriptor,
   getGuidedCollectionVisualDescriptor,
   getSubjectVisualDescriptor,
@@ -89,8 +91,35 @@ function getTrackSlugFromHref(href: string) {
   return href.match(/^\/tracks\/([^/?#]+)/)?.[1] ?? null;
 }
 
+function getSubjectSlugFromHref(href: string) {
+  return href.match(/^\/concepts\/subjects\/([^/?#]+)/)?.[1] ?? null;
+}
+
 function getGuidedSlugFromHref(href: string) {
   return href.match(/^\/guided\/([^/?#]+)/)?.[1] ?? null;
+}
+
+function EntityVisual({
+  visual,
+  fallbackTone,
+  className,
+}: {
+  visual: LearningVisualDescriptor;
+  fallbackTone?: LearningVisualDescriptor["tone"];
+  className?: string;
+}) {
+  return (
+    <LearningVisual
+      kind={visual.kind}
+      motif={visual.motif}
+      overlay={visual.overlay}
+      isFallback={visual.isFallback}
+      fallbackKind={visual.fallbackKind}
+      tone={visual.tone ?? fallbackTone ?? "teal"}
+      compact
+      className={className}
+    />
+  );
 }
 
 function withProgressKind(
@@ -208,6 +237,56 @@ function getProgressRecapVisualDescriptor(
     fallbackKind: "category-specific",
     label: "progress overview",
     tone: "teal",
+  };
+}
+
+function getDisplayVisual(item: {
+  kind: "challenge" | "checkpoint" | "concept" | "track" | "guided";
+  title: string;
+  href: string;
+}): LearningVisualDescriptor {
+  const conceptSlug = getConceptSlugFromHref(item.href);
+
+  if (conceptSlug && (item.kind === "challenge" || item.kind === "checkpoint")) {
+    const concept = getConceptBySlug(conceptSlug);
+
+    if (concept) {
+      if (item.kind === "checkpoint") {
+        return getConceptCheckpointVisualDescriptor({
+          slug: concept.slug,
+          title: concept.title,
+          subject: concept.subject,
+          topic: concept.topic,
+          accent: concept.accent,
+        });
+      }
+
+      return getChallengeVisualDescriptor({
+        title: item.title,
+        concept: {
+          slug: concept.slug,
+          title: concept.title,
+          subject: concept.subject,
+          topic: concept.topic,
+          accent: concept.accent,
+        },
+        accent: concept.accent,
+      });
+    }
+  }
+
+  const visual = getProgressVisualFromHref(item.href);
+
+  if (visual) {
+    return visual;
+  }
+
+  return {
+    kind: "progress",
+    isFallback: true,
+    fallbackKind: item.kind === "concept" ? "generic" : "category-specific",
+    label: item.title,
+    tone: item.kind === "checkpoint" ? "amber" : "teal",
   };
 }
 
@@ -490,8 +569,9 @@ export function FreeTierProgressRecapPanel({
                         item.subjectTitle,
                         locale,
                       );
+                      const subjectSlug = item.path ? getSubjectSlugFromHref(item.path) : null;
                       const subjectVisual = getSubjectVisualDescriptor({
-                        slug: getSubjectSlugFromHref(item.path),
+                        slug: subjectSlug ?? item.subjectTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
                         title: displaySubjectTitle,
                         accent: "teal",
                       });
