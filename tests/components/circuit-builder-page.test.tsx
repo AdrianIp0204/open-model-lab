@@ -5,6 +5,7 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   CIRCUIT_DRAFT_STORAGE_KEY,
+  CIRCUIT_RENDER_MODE_STORAGE_KEY,
   localSavedCircuitsStore,
 } from "@/lib/circuit-builder";
 import { CircuitBuilderPage } from "@/components/circuit-builder/CircuitBuilderPage";
@@ -39,6 +40,54 @@ async function openToolbarMenu(
   await user.click(button);
 }
 
+function createBatteryBulbDocument({ closed }: { closed: boolean }) {
+  return {
+    version: 1,
+    environment: { temperatureC: 25, lightLevelPercent: 35 },
+    view: { zoom: 0.78, offsetX: 120, offsetY: 82 },
+    components: [
+      {
+        id: "battery-visual",
+        label: "Battery 1",
+        type: "battery",
+        x: 240,
+        y: 320,
+        rotation: 0,
+        properties: { voltage: 9 },
+      },
+      {
+        id: "bulb-visual",
+        label: "Light bulb 1",
+        type: "lightBulb",
+        x: 560,
+        y: 320,
+        rotation: 0,
+        properties: { ratedVoltage: 6, ratedPower: 3 },
+      },
+    ],
+    wires: closed
+      ? [
+          {
+            id: "wire-positive",
+            from: { componentId: "battery-visual", terminal: "a" },
+            to: { componentId: "bulb-visual", terminal: "a" },
+          },
+          {
+            id: "wire-negative",
+            from: { componentId: "bulb-visual", terminal: "b" },
+            to: { componentId: "battery-visual", terminal: "b" },
+          },
+        ]
+      : [
+          {
+            id: "wire-positive",
+            from: { componentId: "battery-visual", terminal: "a" },
+            to: { componentId: "bulb-visual", terminal: "a" },
+          },
+        ],
+  };
+}
+
 describe("CircuitBuilderPage", () => {
   afterEach(() => {
     window.localStorage.clear();
@@ -69,6 +118,103 @@ describe("CircuitBuilderPage", () => {
     expect(screen.getAllByText("Voltmeter").length).toBeGreaterThan(0);
     expect(screen.getAllByText("Thermistor").length).toBeGreaterThan(0);
     expect(screen.getAllByText("Light-dependent resistor").length).toBeGreaterThan(0);
+  });
+
+  it("defaults to schematic render mode, switches to modern visuals, and persists the UI preference", async () => {
+    const user = userEvent.setup();
+    const { container, unmount } = render(<CircuitBuilderPage />);
+    const workspacePanel = container.querySelector("[data-circuit-workspace-panel]");
+    const desktopPalette = container.querySelector('[data-circuit-palette-panel="desktop"]');
+
+    expect(screen.getByRole("button", { name: "Schematic" })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByRole("button", { name: "Modern" })).toHaveAttribute("aria-pressed", "false");
+    expect(workspacePanel).toHaveAttribute("data-circuit-render-mode", "schematic");
+    expect(desktopPalette).toHaveAttribute("data-circuit-render-mode", "schematic");
+    expect(container.querySelector("[data-circuit-modern-palette-thumbnail]")).toBeNull();
+    expect(container.querySelector("[data-circuit-modern-legend]")).toBeNull();
+
+    await user.click(screen.getByRole("button", { name: "Modern" }));
+
+    expect(screen.getByRole("button", { name: "Modern" })).toHaveAttribute("aria-pressed", "true");
+    expect(workspacePanel).toHaveAttribute("data-circuit-render-mode", "modern");
+    expect(desktopPalette).toHaveAttribute("data-circuit-render-mode", "modern");
+    expect(window.localStorage.getItem(CIRCUIT_RENDER_MODE_STORAGE_KEY)).toBe("modern");
+    expect(container.querySelector("[data-circuit-modern-legend]")).not.toBeNull();
+    for (const type of [
+      "wire",
+      "ammeter",
+      "voltmeter",
+      "resistor",
+      "switch",
+      "lightBulb",
+      "diode",
+      "battery",
+      "capacitor",
+      "thermistor",
+      "ldr",
+      "fuse",
+    ]) {
+      expect(container.querySelector(`[data-circuit-modern-palette-thumbnail="${type}"]`)).not.toBeNull();
+    }
+
+    await user.click(getPaletteButton("Add Light bulb"));
+    expect(container.querySelector('[data-circuit-modern-component="lightBulb"]')).not.toBeNull();
+
+    unmount();
+    const rerendered = render(<CircuitBuilderPage />);
+    await waitFor(() =>
+      expect(
+        rerendered.container.querySelector("[data-circuit-workspace-panel]"),
+      ).toHaveAttribute("data-circuit-render-mode", "modern"),
+    );
+  });
+
+  it("renders powered bulb glow and electron flow only in modern mode", async () => {
+    const user = userEvent.setup();
+    const { container } = render(<CircuitBuilderPage />);
+    const fileInput = screen.getByLabelText("Load circuit JSON file");
+
+    await user.upload(
+      fileInput,
+      new File(
+        [JSON.stringify(createBatteryBulbDocument({ closed: true }))],
+        "closed-bulb-loop.json",
+        { type: "application/json" },
+      ),
+    );
+    await user.click(screen.getByRole("button", { name: "Modern" }));
+
+    const poweredGlow = container.querySelector('[data-circuit-light-bulb-glow="on"]');
+    expect(container.querySelector('[data-circuit-modern-component="lightBulb"]')).not.toBeNull();
+    expect(poweredGlow).not.toBeNull();
+    expect(Number(poweredGlow?.getAttribute("data-circuit-light-bulb-glow-intensity"))).toBeGreaterThan(0);
+    expect(container.querySelector('[data-circuit-electron-flow-active="true"]')).not.toBeNull();
+    expect(container.querySelector('[data-circuit-modern-powered-wire="true"]')).not.toBeNull();
+    expect(container.querySelector('[data-circuit-modern-wire-highlight="true"]')).not.toBeNull();
+    expect(container.querySelector('[data-circuit-electron-marker="lead"]')).not.toBeNull();
+    expect(container.querySelector("[data-circuit-electron-label]")).not.toBeNull();
+
+    await user.upload(
+      fileInput,
+      new File(
+        [JSON.stringify(createBatteryBulbDocument({ closed: false }))],
+        "open-bulb-loop.json",
+        { type: "application/json" },
+      ),
+    );
+
+    expect(container.querySelector('[data-circuit-light-bulb-glow="off"]')).not.toBeNull();
+    expect(container.querySelector('[data-circuit-electron-flow-active="true"]')).toBeNull();
+    expect(container.querySelector('[data-circuit-modern-powered-wire="true"]')).toBeNull();
+    expect(container.querySelector('[data-circuit-modern-wire-highlight="true"]')).toBeNull();
+
+    await user.click(screen.getByRole("button", { name: "Schematic" }));
+
+    expect(container.querySelector("[data-circuit-modern-component]")).toBeNull();
+    expect(container.querySelector("[data-circuit-light-bulb-glow]")).toBeNull();
+    expect(container.querySelector("[data-circuit-electron-flow-wire-id]")).toBeNull();
+    expect(container.querySelector("[data-circuit-modern-wire-highlight]")).toBeNull();
+    expect(container.querySelector("[data-circuit-modern-legend]")).toBeNull();
   });
 
   it("filters the desktop component library by search text and aliases, shows no-results, and clears cleanly", async () => {
@@ -1591,6 +1737,7 @@ describe("CircuitBuilderPage", () => {
     );
 
     await user.click(screen.getByRole("button", { name: "LDR light explorer" }));
+    await user.click(screen.getByRole("button", { name: "Modern" }));
     await user.type(desktopPalette.getByLabelText("Search components"), "bulb");
     fireEvent.change(screen.getAllByLabelText("Light intensity")[0]!, {
       target: { value: "80" },
@@ -1611,6 +1758,8 @@ describe("CircuitBuilderPage", () => {
     ).toBe(true);
     expect("query" in payload).toBe(false);
     expect("search" in payload).toBe(false);
+    expect("renderMode" in payload).toBe(false);
+    expect("viewMode" in payload).toBe(false);
     expect("past" in payload).toBe(false);
     expect("future" in payload).toBe(false);
     expect("historySession" in payload).toBe(false);

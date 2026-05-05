@@ -5,6 +5,7 @@ import {
   useMemo,
   useRef,
   useState,
+  useSyncExternalStore,
   type DragEvent as ReactDragEvent,
   type MouseEvent as ReactMouseEvent,
   type ReactNode,
@@ -21,6 +22,8 @@ import {
   buildWirePreviewPoints,
   clampComponentPoint,
   convertViewPointToWorld,
+  deriveLightBulbGlow,
+  deriveWireElectronFlow,
   getCircuitComponentById,
   getCircuitComponentDefinition,
   getCircuitWireDisplayLabel,
@@ -30,9 +33,12 @@ import {
   type CircuitComponentType,
   type CircuitDocument,
   type CircuitPoint,
+  type CircuitRenderMode,
   type CircuitSolveResult,
   type CircuitTerminalRef,
+  type CircuitWireElectronFlow,
 } from "@/lib/circuit-builder";
+import { CircuitPartVisual } from "./CircuitPartVisual";
 import { CircuitSymbol } from "./CircuitSymbol";
 
 const draggableComponentTypes = new Set<CircuitComponentType>([
@@ -58,6 +64,7 @@ function isDraggableComponentType(value: string): value is CircuitComponentType 
 type CircuitWorkspaceProps = {
   document: CircuitDocument;
   solveResult: CircuitSolveResult;
+  renderMode: CircuitRenderMode;
   selection: { kind: "component" | "wire"; id: string } | null;
   activeTool: "select" | "wire";
   pendingWireStart: CircuitTerminalRef | null;
@@ -86,6 +93,7 @@ type CircuitWorkspaceProps = {
   regionRef?: RefObject<HTMLElement | null>;
   className?: string;
   headerSlot?: ReactNode;
+  controlsSlot?: ReactNode;
 };
 
 type DragTarget = {
@@ -106,6 +114,154 @@ type PanState = {
 type WorkspaceDragPreview = CircuitComponentType | "unknown";
 
 const nodePalette = ["#178c91", "#f0ab3c", "#4ea6df", "#f16659", "#315063", "#106f73"];
+const reducedMotionQuery = "(prefers-reduced-motion: reduce)";
+
+function formatVisualMetric(value: number) {
+  return value.toFixed(2);
+}
+
+function sanitizeSvgId(value: string) {
+  return value.replace(/[^a-zA-Z0-9_-]/g, "-");
+}
+
+function getPathLength(points: CircuitPoint[]) {
+  return points.reduce((total, point, index) => {
+    if (index === 0) {
+      return total;
+    }
+
+    const previous = points[index - 1]!;
+    return total + Math.abs(point.x - previous.x) + Math.abs(point.y - previous.y);
+  }, 0);
+}
+
+function getPathMidpoint(points: CircuitPoint[]) {
+  if (points.length === 0) {
+    return { x: 0, y: 0 };
+  }
+
+  return points[Math.floor(points.length / 2)] ?? points[0]!;
+}
+
+function subscribeToReducedMotion(callback: () => void) {
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+    return () => {};
+  }
+
+  const query = window.matchMedia(reducedMotionQuery);
+  query.addEventListener("change", callback);
+  return () => query.removeEventListener("change", callback);
+}
+
+function getReducedMotionSnapshot() {
+  return typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia(reducedMotionQuery).matches;
+}
+
+function getReducedMotionServerSnapshot() {
+  return false;
+}
+
+function usePrefersReducedMotion() {
+  return useSyncExternalStore(
+    subscribeToReducedMotion,
+    getReducedMotionSnapshot,
+    getReducedMotionServerSnapshot,
+  );
+}
+
+function CircuitElectronFlowLayer({
+  wireId,
+  path,
+  points,
+  flow,
+  reducedMotion,
+}: {
+  wireId: string;
+  path: string;
+  points: CircuitPoint[];
+  flow: CircuitWireElectronFlow;
+  reducedMotion: boolean;
+}) {
+  const motionPathId = `circuit-electron-motion-${sanitizeSvgId(wireId)}`;
+  const motionPath = flow.direction === "to-from"
+    ? buildWirePathData(points.slice().reverse())
+    : path;
+  const markerCount = Math.max(1, Math.min(5, Math.ceil(getPathLength(points) / 190)));
+  const midpoint = getPathMidpoint(points);
+  const beadOpacity = 0.72 + flow.intensity * 0.22;
+  const haloOpacity = 0.22 + flow.intensity * 0.22;
+
+  return (
+    <g
+      pointerEvents="none"
+      data-circuit-electron-flow-wire-id={wireId}
+      data-circuit-electron-flow-active={flow.active ? "true" : "false"}
+      data-circuit-electron-flow-direction={flow.direction ?? "none"}
+      data-circuit-electron-flow-speed={formatVisualMetric(flow.speed)}
+      data-circuit-electron-flow-reduced-motion={reducedMotion ? "true" : "false"}
+    >
+      {flow.active ? (
+        <>
+          <path id={motionPathId} d={motionPath} fill="none" stroke="none" />
+          {reducedMotion ? (
+            <g
+              transform={`translate(${midpoint.x} ${midpoint.y})`}
+              opacity="0.82"
+              data-circuit-electron-flow-static=""
+              data-circuit-electron-marker="static"
+            >
+              <circle r="14" fill="#f0ab3c" opacity={haloOpacity * 0.55} />
+              <circle r="7" fill="#f0ab3c" stroke="#fffdf8" strokeWidth="2.2" />
+              <g transform="translate(12 -20)" data-circuit-electron-label="">
+                <rect x="-10" y="-9" width="30" height="18" rx="9" fill="#fffdf8" stroke="rgba(15,28,36,0.24)" />
+                <text x="5" y="4" textAnchor="middle" fontSize="11.5" fontWeight="800" fill="#0f1c24">
+                  e-
+                </text>
+              </g>
+            </g>
+          ) : (
+            Array.from({ length: markerCount }).map((_, index) => {
+              const stagger = (flow.durationSeconds / markerCount) * index;
+              const leading = index === 0;
+              return (
+                <g
+                  key={`${wireId}-electron-${index}`}
+                  opacity={leading ? 1 : beadOpacity}
+                  data-circuit-electron-marker={leading ? "lead" : "trail"}
+                >
+                  <circle r={leading ? 14 : 8.5} fill="#f0ab3c" opacity={leading ? haloOpacity : haloOpacity * 0.52} />
+                  <circle
+                    r={leading ? 7.2 : 5.8}
+                    fill={leading ? "#f0ab3c" : "#2fb7b5"}
+                    stroke="#fffdf8"
+                    strokeWidth={leading ? "2.2" : "2"}
+                  />
+                  {leading ? (
+                    <g transform="translate(12 -20)" data-circuit-electron-label="">
+                      <rect x="-10" y="-9" width="30" height="18" rx="9" fill="#fffdf8" stroke="rgba(15,28,36,0.24)" />
+                      <text x="5" y="4" textAnchor="middle" fontSize="11.5" fontWeight="800" fill="#0f1c24">
+                        e-
+                      </text>
+                    </g>
+                  ) : null}
+                  <animateMotion
+                    dur={`${formatVisualMetric(flow.durationSeconds)}s`}
+                    begin={`${formatVisualMetric(-stagger)}s`}
+                    repeatCount="indefinite"
+                  >
+                    <mpath href={`#${motionPathId}`} />
+                  </animateMotion>
+                </g>
+              );
+            })
+          )}
+        </>
+      ) : null}
+    </g>
+  );
+}
 
 function isSameTerminal(a: CircuitTerminalRef | null, b: CircuitTerminalRef | null) {
   return Boolean(
@@ -218,6 +374,7 @@ function chip(
 export function CircuitWorkspace({
   document,
   solveResult,
+  renderMode,
   selection,
   activeTool,
   pendingWireStart,
@@ -246,8 +403,10 @@ export function CircuitWorkspace({
   regionRef,
   className = "",
   headerSlot = null,
+  controlsSlot = null,
 }: CircuitWorkspaceProps) {
   const svgRef = useRef<SVGSVGElement | null>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
   const [hoveredComponentId, setHoveredComponentId] = useState<string | null>(null);
   const [activeTerminalRef, setActiveTerminalRef] = useState<CircuitTerminalRef | null>(null);
   const [pointerWorld, setPointerWorld] = useState<CircuitPoint | null>(null);
@@ -743,6 +902,7 @@ export function CircuitWorkspace({
       aria-label="Circuit workspace"
       tabIndex={-1}
       data-circuit-workspace-panel=""
+      data-circuit-render-mode={renderMode}
       data-onboarding-target="circuit-builder-workspace"
     >
       <div className="border-b border-line px-3 py-2 sm:px-3.5">
@@ -786,6 +946,15 @@ export function CircuitWorkspace({
             <span aria-hidden="true">·</span>
             <span>{workspaceModeLabel}</span>
           </div>
+          {controlsSlot}
+          {renderMode === "modern" ? (
+            <div
+              className="rounded-full border border-teal-500/20 bg-teal-500/8 px-2.5 py-1.5 text-xs font-semibold text-teal-800"
+              data-circuit-modern-legend=""
+            >
+              Modern: bulb glow follows power; e- dots show electron flow.
+            </div>
+          ) : null}
           <button
             type="button"
             disabled={!canZoomOut}
@@ -884,6 +1053,7 @@ export function CircuitWorkspace({
           role="img"
           aria-label={`Interactive circuit workspace. ${workspaceModeLabel}. ${pointerPositionLabel}.`}
           data-circuit-workspace-canvas=""
+          data-circuit-render-mode={renderMode}
           onPointerMove={handleWorkspacePointerMove}
           onPointerUp={handleWorkspacePointerUp}
           onPointerLeave={() => setPointerWorld(null)}
@@ -1003,6 +1173,9 @@ export function CircuitWorkspace({
               }
               const selected = selection?.kind === "wire" && selection.id === wire.id;
               const wireLabel = getCircuitWireDisplayLabel(document, wire);
+              const electronFlow = renderMode === "modern"
+                ? deriveWireElectronFlow(document, solveResult, wire)
+                : null;
               const selectWire = () => {
                 onSelectWire(wire.id);
               };
@@ -1052,6 +1225,9 @@ export function CircuitWorkspace({
               return (
                 <g
                   key={wire.id}
+                  data-circuit-modern-powered-wire={
+                    electronFlow ? (electronFlow.active ? "true" : "false") : undefined
+                  }
                   onClick={handleWireClick}
                   onPointerDown={handleWirePointerDown}
                   onKeyDown={(event) => {
@@ -1061,6 +1237,18 @@ export function CircuitWorkspace({
                     }
                   }}
                 >
+                  {electronFlow?.active ? (
+                    <path
+                      d={path.path}
+                      fill="none"
+                      stroke="rgba(240,171,60,0.42)"
+                      strokeWidth="10"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      pointerEvents="none"
+                      data-circuit-modern-wire-highlight="true"
+                    />
+                  ) : null}
                   <path
                     d={path.path}
                     fill="none"
@@ -1082,6 +1270,15 @@ export function CircuitWorkspace({
                     onClick={handleWireClick}
                     onPointerDown={handleWirePointerDown}
                   />
+                  {electronFlow ? (
+                    <CircuitElectronFlowLayer
+                      wireId={wire.id}
+                      path={path.path}
+                      points={path.points}
+                      flow={electronFlow}
+                      reducedMotion={prefersReducedMotion}
+                    />
+                  ) : null}
                   {midpoint ? (
                     <circle
                       cx={midpoint.x}
@@ -1191,12 +1388,27 @@ export function CircuitWorkspace({
                       pointerEvents="none"
                     />
                   ) : null}
-                  <CircuitSymbol
-                    type={component.type}
-                    embedded
-                    active={selected || hoveredComponentId === component.id}
-                    openSwitch={component.type === "switch" && !component.properties.closed}
-                  />
+                  {renderMode === "modern" ? (
+                    <CircuitPartVisual
+                      type={component.type}
+                      embedded
+                      active={selected || hoveredComponentId === component.id}
+                      openSwitch={component.type === "switch" && !component.properties.closed}
+                      blown={component.type === "fuse" && Boolean(component.properties.blown)}
+                      glow={
+                        component.type === "lightBulb"
+                          ? deriveLightBulbGlow(component, result)
+                          : undefined
+                      }
+                    />
+                  ) : (
+                    <CircuitSymbol
+                      type={component.type}
+                      embedded
+                      active={selected || hoveredComponentId === component.id}
+                      openSwitch={component.type === "switch" && !component.properties.closed}
+                    />
+                  )}
                   <text
                     x="0"
                     y="56"

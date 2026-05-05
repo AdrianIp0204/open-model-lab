@@ -21,6 +21,7 @@ export type CircuitComponentType =
   | "voltmeter";
 
 export type CircuitPaletteItemType = CircuitComponentType | "wire";
+export type CircuitRenderMode = "schematic" | "modern";
 
 export type CircuitScalar = boolean | number | string;
 export type CircuitComponentProperties = Record<string, CircuitScalar>;

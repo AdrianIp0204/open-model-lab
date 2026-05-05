@@ -5,13 +5,16 @@ import {
   circuitPaletteEntries,
   type CircuitComponentType,
   type CircuitPaletteItemType,
+  type CircuitRenderMode,
 } from "@/lib/circuit-builder";
+import { CircuitPartVisual } from "./CircuitPartVisual";
 import { CircuitSymbol } from "./CircuitSymbol";
 
 type CircuitPaletteProps = {
   activeTool: "select" | "wire";
   onAddComponent: (type: CircuitComponentType) => void;
   onSetTool: (tool: "select" | "wire") => void;
+  renderMode: CircuitRenderMode;
   className?: string;
   panelKind?: "desktop" | "mobile";
 };
@@ -20,6 +23,7 @@ export function CircuitPalette({
   activeTool,
   onAddComponent,
   onSetTool,
+  renderMode,
   className = "",
   panelKind = "desktop",
 }: CircuitPaletteProps) {
@@ -86,6 +90,7 @@ export function CircuitPalette({
       ].join(" ").trim()}
       aria-label="Component library"
       data-circuit-palette-panel={panelKind}
+      data-circuit-render-mode={renderMode}
       data-onboarding-target="circuit-component-library"
     >
       <div className="space-y-1">
@@ -203,12 +208,21 @@ export function CircuitPalette({
               ].join(" ")}
             >
               <div className="flex h-11 w-14 shrink-0 items-center justify-center rounded-[14px] border border-line bg-paper">
-                <CircuitSymbol
-                  type={entry.type}
-                  className="h-8 w-11"
-                  active={isActive}
-                  openSwitch={entry.type === "switch" && !isActive}
-                />
+                {renderMode === "modern" ? (
+                  <CircuitPartVisual
+                    type={entry.type}
+                    className="h-9 w-12"
+                    active={isActive}
+                    openSwitch={entry.type === "switch" && !isActive}
+                  />
+                ) : (
+                  <CircuitSymbol
+                    type={entry.type}
+                    className="h-8 w-11"
+                    active={isActive}
+                    openSwitch={entry.type === "switch" && !isActive}
+                  />
+                )}
               </div>
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">

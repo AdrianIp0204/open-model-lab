@@ -22,6 +22,7 @@ import { DisclosurePanel } from "@/components/layout/DisclosurePanel";
 import {
   CIRCUIT_CANVAS_HEIGHT,
   CIRCUIT_CANVAS_WIDTH,
+  CIRCUIT_RENDER_MODE_STORAGE_KEY,
   buildCircuitJsonExport,
   buildCircuitSvgExport,
   clampComponentPoint,
@@ -38,6 +39,7 @@ import {
   getCircuitWireDisplayLabel,
   getSavedCircuitsDiscardedCount,
   normalizeCircuitDocument,
+  normalizeCircuitRenderMode,
   parseCircuitDocumentJson,
   readCircuitDraftFromStorage,
   renameSavedCircuit,
@@ -51,6 +53,7 @@ import {
   type CircuitComponentType,
   type CircuitDocument,
   type CircuitPoint,
+  type CircuitRenderMode,
   type CircuitScalar,
   type CircuitDraftSnapshot,
   type CircuitTerminalRef,
@@ -151,6 +154,51 @@ const componentFitRadius = {
   y: 112,
 };
 const circuitViewEqualityEpsilon = 0.0001;
+const circuitRenderModeLabels: Record<CircuitRenderMode, string> = {
+  schematic: "Schematic",
+  modern: "Modern",
+};
+const circuitRenderModeOptions: CircuitRenderMode[] = ["schematic", "modern"];
+
+function CircuitRenderModeSwitch({
+  value,
+  onChange,
+}: {
+  value: CircuitRenderMode;
+  onChange: (mode: CircuitRenderMode) => void;
+}) {
+  return (
+    <div
+      className="inline-flex items-center gap-0.5 rounded-full border border-line bg-paper-strong p-0.5 text-xs font-semibold text-ink-700 shadow-sm"
+      aria-label="Circuit render mode"
+      data-circuit-render-mode-switch=""
+    >
+      <span className="px-1.5 text-[0.66rem] font-semibold uppercase tracking-[0.12em] text-ink-500">
+        View
+      </span>
+      {circuitRenderModeOptions.map((mode) => {
+        const selected = value === mode;
+        return (
+          <button
+            key={mode}
+            type="button"
+            aria-pressed={selected}
+            className={[
+              "rounded-full px-2 py-1 transition",
+              selected
+                ? "bg-ink-950 text-white"
+                : "text-ink-700 hover:bg-paper hover:text-ink-950",
+            ].join(" ")}
+            data-circuit-render-mode-option={mode}
+            onClick={() => onChange(mode)}
+          >
+            {circuitRenderModeLabels[mode]}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
 
 function circuitViewsEqual(a: CircuitDocument["view"], b: CircuitDocument["view"]) {
   return (
@@ -672,6 +720,7 @@ export function CircuitBuilderPage() {
   const [state, dispatch] = useReducer(reducer, undefined, createInitialState);
   const [hasHydrated, setHasHydrated] = useState(false);
   const [exportStatus, setExportStatus] = useState<string | null>(null);
+  const [renderMode, setRenderMode] = useState<CircuitRenderMode>("schematic");
   const [draftRecoveryState, setDraftRecoveryState] = useState<"checking" | "pending" | "dismissed" | "ready">("checking");
   const [pendingDraft, setPendingDraft] = useState<CircuitDraftSnapshot | null>(null);
   const [accountSavedCircuits, setAccountSavedCircuits] = useState<AccountSavedCircuitRecord[]>([]);
@@ -693,6 +742,28 @@ export function CircuitBuilderPage() {
 
   useEffect(() => {
     setHasHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    try {
+      setRenderMode(
+        normalizeCircuitRenderMode(
+          window.localStorage.getItem(CIRCUIT_RENDER_MODE_STORAGE_KEY),
+        ),
+      );
+    } catch {
+      setRenderMode("schematic");
+    }
+  }, []);
+
+  const updateCircuitRenderMode = useCallback((mode: CircuitRenderMode) => {
+    setRenderMode(mode);
+    try {
+      window.localStorage.setItem(CIRCUIT_RENDER_MODE_STORAGE_KEY, mode);
+    } catch {
+      // Rendering can still switch even when storage is unavailable.
+    }
+    setExportStatus(`View switched to ${circuitRenderModeLabels[mode]} mode.`);
   }, []);
 
   const solveResult = useMemo(
@@ -2030,6 +2101,9 @@ export function CircuitBuilderPage() {
       />
     </div>
   );
+  const workspaceControlsSlot = (
+    <CircuitRenderModeSwitch value={renderMode} onChange={updateCircuitRenderMode} />
+  );
   const builderGridColumnClass = isLibraryCollapsed
     ? isInspectorCollapsed
       ? "xl:grid-cols-[3.25rem_minmax(0,1fr)_3.25rem]"
@@ -2519,6 +2593,7 @@ export function CircuitBuilderPage() {
                 panelKind="desktop"
                 className="h-full min-h-0"
                 activeTool={state.activeTool}
+                renderMode={renderMode}
                 onAddComponent={addComponent}
                 onSetTool={setCircuitTool}
               />
@@ -2531,8 +2606,10 @@ export function CircuitBuilderPage() {
             regionRef={workspaceRegionRef}
             className="xl:flex-1 xl:min-h-0"
             headerSlot={desktopEnvironmentControl}
+            controlsSlot={workspaceControlsSlot}
             document={state.document}
             solveResult={solveResult}
+            renderMode={renderMode}
             selection={state.selection}
             activeTool={state.activeTool}
             pendingWireStart={state.pendingWireStart}
@@ -3058,6 +3135,7 @@ export function CircuitBuilderPage() {
           <CircuitPalette
             panelKind="mobile"
             activeTool={state.activeTool}
+            renderMode={renderMode}
             onAddComponent={addComponent}
             onSetTool={setCircuitTool}
           />

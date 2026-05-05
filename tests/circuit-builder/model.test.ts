@@ -4,12 +4,15 @@ import {
   buildWirePreviewPoints,
   buildCircuitJsonExport,
   createDefaultCircuitEnvironment,
+  deriveLightBulbGlow,
+  deriveWireElectronFlow,
   getComponentBoundingBox,
   getComponentTerminalDirection,
   getComponentTerminalPoint,
   normalizeCircuitDocument,
   parseCircuitDocumentJson,
   serializeCircuitDocument,
+  solveCircuitDocument,
   type CircuitComponentInstance,
   type CircuitDocument,
   type CircuitPoint,
@@ -316,6 +319,92 @@ describe("circuit builder model serialization", () => {
     expect(() => parseCircuitDocumentJson("{not valid json")).toThrow(
       "The selected file is not valid JSON.",
     );
+  });
+});
+
+describe("circuit builder modern visual helpers", () => {
+  const battery: CircuitComponentInstance = {
+    id: "battery-1",
+    label: "Battery 1",
+    type: "battery",
+    x: 240,
+    y: 320,
+    rotation: 0,
+    properties: { voltage: 9 },
+  };
+  const bulb: CircuitComponentInstance = {
+    id: "bulb-1",
+    label: "Light bulb 1",
+    type: "lightBulb",
+    x: 560,
+    y: 320,
+    rotation: 0,
+    properties: { ratedVoltage: 6, ratedPower: 3 },
+  };
+
+  function createBulbLoop(): CircuitDocument {
+    return createDocument(
+      [battery, bulb],
+      [
+        {
+          id: "wire-positive",
+          from: { componentId: "battery-1", terminal: "a" },
+          to: { componentId: "bulb-1", terminal: "a" },
+        },
+        {
+          id: "wire-negative",
+          from: { componentId: "bulb-1", terminal: "b" },
+          to: { componentId: "battery-1", terminal: "b" },
+        },
+      ],
+    );
+  }
+
+  it("derives light bulb glow only from comparable positive solved power", () => {
+    const document = createBulbLoop();
+    const solveResult = solveCircuitDocument(document);
+    const bulbResult = solveResult.componentResults["bulb-1"]!;
+    const poweredGlow = deriveLightBulbGlow(bulb, bulbResult);
+    const lowGlow = deriveLightBulbGlow(bulb, {
+      ...bulbResult,
+      power: 0.03,
+    });
+    const highGlow = deriveLightBulbGlow(bulb, {
+      ...bulbResult,
+      power: 300,
+    });
+
+    expect(deriveLightBulbGlow(bulb, null)).toEqual({ active: false, intensity: 0 });
+    expect(deriveLightBulbGlow(bulb, { ...bulbResult, power: null })).toEqual({
+      active: false,
+      intensity: 0,
+    });
+    expect(deriveLightBulbGlow(bulb, { ...bulbResult, power: 0 })).toEqual({
+      active: false,
+      intensity: 0,
+    });
+    expect(poweredGlow.active).toBe(true);
+    expect(lowGlow.intensity).toBeGreaterThan(0);
+    expect(poweredGlow.intensity).toBeGreaterThan(lowGlow.intensity);
+    expect(highGlow.intensity).toBe(1);
+  });
+
+  it("derives stable electron flow for a powered loop and disables it for open circuits", () => {
+    const document = createBulbLoop();
+    const solveResult = solveCircuitDocument(document);
+    const positiveWireFlow = deriveWireElectronFlow(document, solveResult, document.wires[0]!);
+    const returnWireFlow = deriveWireElectronFlow(document, solveResult, document.wires[1]!);
+    const openDocument = createDocument([battery, bulb], [document.wires[0]!]);
+    const openSolveResult = solveCircuitDocument(openDocument);
+    const openFlow = deriveWireElectronFlow(openDocument, openSolveResult, openDocument.wires[0]!);
+
+    expect(positiveWireFlow.active).toBe(true);
+    expect(positiveWireFlow.direction).toBe("to-from");
+    expect(positiveWireFlow.speed).toBeGreaterThan(0);
+    expect(returnWireFlow.active).toBe(true);
+    expect(returnWireFlow.direction).toBe("to-from");
+    expect(openFlow.active).toBe(false);
+    expect(openFlow.direction).toBeNull();
   });
 });
 
