@@ -30,6 +30,7 @@ import { ConceptProgressCard } from "@/components/progress/ConceptProgressCard";
 import { ConceptShareLinksPanel } from "@/components/share/ConceptShareLinksPanel";
 import { PublicExperimentCard } from "@/components/share/PublicExperimentCard";
 import { DeferredConceptSimulationRenderer } from "@/components/simulations/DeferredConceptSimulationRenderer";
+import { AiLearningCoachPanel } from "@/components/ai/AiLearningCoachPanel";
 import { ConceptAchievementTrackerProvider } from "./ConceptAchievementTracker";
 import { ConceptLearningBridgeProvider } from "./ConceptLearningBridge";
 import { ConceptPageStatusSurface } from "./ConceptPageStatusSurface";
@@ -167,6 +168,13 @@ export function ConceptPageFramework({
         initialChallengeItemId={initialChallengeItemId}
         initialSimulationState={initialSimulationState}
         starterGuidePlacement="external"
+        afterBench={
+          <AiLearningCoachPanel
+            concept={concept}
+            simulationSource={simulationSource}
+            locale={resolvedLocale}
+          />
+        }
       />
     </div>,
   ]);
