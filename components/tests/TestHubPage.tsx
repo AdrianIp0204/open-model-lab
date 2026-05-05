@@ -41,7 +41,6 @@ import { PageSection } from "@/components/layout/PageSection";
 import {
   LearningVisual,
   type LearningVisualDescriptor,
-  type LearningVisualKind,
   type LearningVisualTone,
 } from "@/components/visuals/LearningVisual";
 import {
@@ -381,6 +380,7 @@ function getPackTestVisual(
     | "subjectTitle"
     | "includedTopicSlugs"
     | "includedTopicTitles"
+    | "includedConceptSlugs"
   >,
 ) {
   return getPackAssessmentVisualDescriptor({
@@ -390,6 +390,7 @@ function getPackTestVisual(
     summary: entry.summary,
     includedTopicSlugs: entry.includedTopicSlugs,
     includedTopicTitles: entry.includedTopicTitles,
+    includedConceptSlugs: entry.includedConceptSlugs,
   });
 }
 
@@ -406,32 +407,16 @@ function getEntryAssessmentVisual(
   }
 }
 
-function getCatalogEntryAssessmentVisual(
-  entry: LocalizedConceptEntry | LocalizedTopicEntry | LocalizedPackEntry,
-) {
-  if ("conceptSlug" in entry) {
-    return getConceptTestVisual(entry);
-  }
-
-  if ("topicSlug" in entry) {
-    return getTopicTestVisual(entry);
-  }
-
-  return getPackTestVisual(entry);
-}
-
 function TestHubVisualLink({
   href,
   titleId,
-  kind = "test",
-  tone,
   visual,
+  fallbackTone,
 }: {
   href: string;
   titleId: string;
-  kind?: LearningVisualKind;
-  tone: LearningVisualTone;
-  visual?: LearningVisualDescriptor;
+  visual: LearningVisualDescriptor;
+  fallbackTone: LearningVisualTone;
 }) {
   return (
     <Link
@@ -440,17 +425,23 @@ function TestHubVisualLink({
       className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
     >
       <LearningVisual
-        kind={visual?.kind ?? kind}
-        motif={visual?.motif}
-        overlay={visual?.overlay}
-        isFallback={visual?.isFallback}
-        fallbackKind={visual?.fallbackKind}
-        tone={visual?.tone ?? tone}
+        kind={visual.kind}
+        motif={visual.motif}
+        overlay={visual.overlay}
+        isFallback={visual.isFallback}
+        fallbackKind={visual.fallbackKind}
+        tone={visual.tone ?? fallbackTone}
         compact
         className="h-24"
       />
     </Link>
   );
+}
+
+function getTestVisualDescriptor(
+  entry: TestHubSuggestion["entry"] | GuidedTestTrackStep["entry"],
+): LearningVisualDescriptor {
+  return getEntryAssessmentVisual(entry);
 }
 
 function getEntryResumeMatch(
@@ -679,6 +670,7 @@ function ConceptTestCard({
     resumeMatch,
     ready: assessmentReady,
   });
+  const visual = getTestVisualDescriptor(entry);
 
   return (
     <article
@@ -709,12 +701,7 @@ function ConceptTestCard({
         </span>
       </div>
 
-      <TestHubVisualLink
-        href={entry.testHref}
-        titleId={titleId}
-        tone="teal"
-        visual={getConceptTestVisual(entry)}
-      />
+      <TestHubVisualLink href={entry.testHref} titleId={titleId} visual={visual} fallbackTone="teal" />
 
       <div className="space-y-2">
         <p className="lab-label">{entry.displaySubject}</p>
@@ -792,6 +779,7 @@ function TopicTestCard({
     resumeMatch,
     ready: assessmentReady,
   });
+  const visual = getTestVisualDescriptor(entry);
 
   return (
     <article
@@ -822,12 +810,7 @@ function TopicTestCard({
         </span>
       </div>
 
-      <TestHubVisualLink
-        href={entry.testHref}
-        titleId={titleId}
-        tone="sky"
-        visual={getTopicTestVisual(entry)}
-      />
+      <TestHubVisualLink href={entry.testHref} titleId={titleId} visual={visual} fallbackTone="sky" />
 
       <div className="space-y-2">
         <p className="lab-label">{entry.displaySubject}</p>
@@ -902,6 +885,7 @@ function PackTestCard({
     resumeMatch,
     ready: assessmentReady,
   });
+  const visual = getTestVisualDescriptor(entry);
 
   return (
     <article
@@ -932,12 +916,7 @@ function PackTestCard({
         </span>
       </div>
 
-      <TestHubVisualLink
-        href={entry.testHref}
-        titleId={titleId}
-        tone="amber"
-        visual={getPackTestVisual(entry)}
-      />
+      <TestHubVisualLink href={entry.testHref} titleId={titleId} visual={visual} fallbackTone="amber" />
 
       <div className="space-y-2">
         <p className="lab-label">{entry.displaySubject}</p>
@@ -1015,6 +994,7 @@ function SuggestedTestCard({
     resumeMatch,
     ready: assessmentReady,
   });
+  const visual = getTestVisualDescriptor(suggestion.entry);
 
   return (
     <article
@@ -1042,8 +1022,8 @@ function SuggestedTestCard({
       <TestHubVisualLink
         href={getEntryTestHref(suggestion.entry)}
         titleId={titleId}
-        tone="coral"
-        visual={getEntryAssessmentVisual(suggestion.entry)}
+        visual={visual}
+        fallbackTone="coral"
       />
 
       <div className="space-y-2">
@@ -1118,6 +1098,7 @@ function QuickStartPanel({
 
   if (!assessmentReady || !suggestion) {
     const previewTitle = suggestion ? getEntryDisplayTitle(suggestion.entry, locale) : null;
+    const fallbackVisual = suggestion ? getTestVisualDescriptor(suggestion.entry) : null;
 
     return (
       <section
@@ -1130,8 +1111,8 @@ function QuickStartPanel({
             <TestHubVisualLink
               href={getEntryTestHref(suggestion.entry)}
               titleId="test-hub-quick-start-title"
-              tone="teal"
-              visual={getEntryAssessmentVisual(suggestion.entry)}
+              visual={fallbackVisual!}
+              fallbackTone="teal"
             />
           ) : (
             <LearningVisual kind="test" tone="teal" overlay="assessment" compact className="h-24" />
@@ -1179,6 +1160,7 @@ function QuickStartPanel({
     resumeMatch,
     ready: assessmentReady,
   });
+  const visual = getTestVisualDescriptor(suggestion.entry);
   const statusLabel =
     displayState === "resume"
       ? t("quickStart.resumeLabel")
@@ -1202,8 +1184,8 @@ function QuickStartPanel({
         <TestHubVisualLink
           href={getEntryTestHref(suggestion.entry)}
           titleId="test-hub-quick-start-title"
-          tone="teal"
-          visual={getEntryAssessmentVisual(suggestion.entry)}
+          visual={visual}
+          fallbackTone="teal"
         />
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2">
@@ -1285,7 +1267,7 @@ function GuidedTrackCard({
   const currentStepHref = assessmentReady
     ? nextStep?.entry.testHref ?? `/concepts/topics/${track.topicSlug}`
     : `/concepts/topics/${track.topicSlug}`;
-  const trackVisual = nextStep
+  const visual = nextStep
     ? getEntryAssessmentVisual(nextStep.entry)
     : getTopicAssessmentVisualDescriptor(getTopicDiscoverySummaryBySlug(track.topicSlug));
   const displayState = resolveAssessmentDisplayState({
@@ -1309,7 +1291,6 @@ function GuidedTrackCard({
         ready: assessmentReady,
       })
     : "open";
-
   return (
     <article
       className="lab-panel flex h-full flex-col gap-3 p-4"
@@ -1340,9 +1321,8 @@ function GuidedTrackCard({
       <TestHubVisualLink
         href={currentStepHref}
         titleId={titleId}
-        kind="guided"
-        tone="sky"
-        visual={trackVisual}
+        visual={visual}
+        fallbackTone="sky"
       />
 
       <div className="space-y-2">
@@ -1884,8 +1864,8 @@ export function TestHubPage({
               <TestHubVisualLink
                 href={fallbackStartEntry.testHref}
                 titleId="test-hub-fallback-start-title"
-                tone="teal"
-                visual={getCatalogEntryAssessmentVisual(fallbackStartEntry)}
+                visual={getTestVisualDescriptor(fallbackStartEntry)}
+                fallbackTone="teal"
               />
               <div className="space-y-1.5">
                 <p className="lab-label">{t("quickStart.eyebrow")}</p>

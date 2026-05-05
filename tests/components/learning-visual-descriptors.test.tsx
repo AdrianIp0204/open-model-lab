@@ -8,17 +8,23 @@ import {
   getChallengeVisualDescriptor,
   getConceptAssessmentVisualDescriptor,
   getConceptVisualDescriptor,
+  getConceptSurfaceVisualDescriptor,
+  getGuidedCollectionVisualDescriptor,
   getPackAssessmentVisualDescriptor,
+  getPackSurfaceVisualDescriptor,
   getStarterTrackVisualDescriptor,
   getSubjectVisualDescriptor,
   getTopicAssessmentVisualDescriptor,
   getTopicVisualDescriptor,
+  getTopicSurfaceVisualDescriptor,
   getToolVisualDescriptor,
 } from "@/components/visuals/learningVisualDescriptors";
 import {
   getConceptSummaries,
+  getGuidedCollectionBySlug,
   getStarterTrackBySlug,
   getSubjectDiscoverySummaries,
+  getSubjectDiscoverySummaryBySlug,
 } from "@/lib/content";
 import { localizeConceptSummaryDisplay } from "@/lib/i18n/content";
 
@@ -40,6 +46,7 @@ describe("learning visual descriptors", () => {
       getConceptVisualDescriptor(getConceptSummary("vectors-components")),
       getConceptVisualDescriptor(getConceptSummary("torque")),
       getConceptVisualDescriptor(getConceptSummary("graph-transformations")),
+      getConceptVisualDescriptor(getConceptSummary("acid-base-ph-intuition")),
       getConceptVisualDescriptor(getConceptSummary("binary-search-halving-the-search-space")),
       getConceptVisualDescriptor(getConceptSummary("conservation-of-momentum")),
       getConceptVisualDescriptor(getConceptSummary("collisions")),
@@ -55,11 +62,8 @@ describe("learning visual descriptors", () => {
     expect(descriptors[2]?.motif).toBe("vectors-components");
     expect(descriptors[3]?.motif).toBe("torque");
     expect(descriptors[4]?.motif).toBe("graph-transformations");
-    expect(descriptors[5]?.motif).toBe("binary-search");
-    expect(descriptors[6]?.motif).toBe("momentum-carts");
-    expect(descriptors[7]?.motif).toBe("collisions");
-    expect(descriptors[8]?.motif).toBe("rotational-inertia");
-    expect(descriptors[9]?.motif).toBe("orbital-speed");
+    expect(descriptors[5]?.motif).toBe("acid-base");
+    expect(descriptors[6]?.motif).toBe("binary-search");
     expect(new Set(descriptors.map((descriptor) => descriptor.motif)).size).toBe(
       descriptors.length,
     );
@@ -490,7 +494,7 @@ describe("learning visual descriptors", () => {
     });
   });
 
-  it("maps first-class subject cards to subject-specific visual motifs", () => {
+  it("maps first-class subject cards to their lead topic motifs", () => {
     const subjects = getSubjectDiscoverySummaries();
 
     expect(
@@ -499,10 +503,10 @@ describe("learning visual descriptors", () => {
         getSubjectVisualDescriptor(subject).motif,
       ]),
     ).toEqual([
-      ["physics", "subject-physics"],
-      ["math", "subject-math"],
-      ["chemistry", "subject-chemistry"],
-      ["computer-science", "subject-computer-science"],
+      ["physics", "projectile-motion"],
+      ["math", "graph-transformations"],
+      ["chemistry", "chemistry-reaction"],
+      ["computer-science", "binary-search"],
     ]);
   });
 
@@ -586,6 +590,101 @@ describe("learning visual descriptors", () => {
     });
   });
 
+  it("reuses exact topic-specific motifs across progress, guided, and test surfaces", () => {
+    expect(
+      getConceptSurfaceVisualDescriptor("progress", getConceptSummary("buffers-and-neutralization")),
+    ).toMatchObject({
+      kind: "progress",
+      motif: "acid-base",
+      fallbackKind: "topic-specific",
+      isFallback: false,
+    });
+
+    expect(
+      getTopicSurfaceVisualDescriptor("guided", {
+        slug: "oscillations",
+        title: "Oscillations",
+        subject: "Physics",
+        description: "Keep one oscillator in view while displacement and resonance stay linked.",
+      }),
+    ).toMatchObject({
+      kind: "guided",
+      motif: "simple-harmonic-motion",
+      fallbackKind: "topic-specific",
+      isFallback: false,
+    });
+
+    expect(
+      getTopicSurfaceVisualDescriptor("test", {
+        slug: "algorithms-and-search",
+        title: "Algorithms and Search",
+        subject: "Computer Science",
+        description: "Keep binary search and the ordered search interval on the same compact branch.",
+      }),
+    ).toMatchObject({
+      kind: "test",
+      motif: "binary-search",
+      fallbackKind: "topic-specific",
+      isFallback: false,
+    });
+  });
+
+  it("derives guided collection motifs from the collection topics when available", () => {
+    expect(
+      getGuidedCollectionVisualDescriptor(getGuidedCollectionBySlug("waves-evidence-loop")),
+    ).toMatchObject({
+      kind: "guided",
+      motif: "wave-motion",
+      fallbackKind: "topic-specific",
+      isFallback: false,
+    });
+
+    expect(
+      getGuidedCollectionVisualDescriptor(
+        getGuidedCollectionBySlug("algorithms-and-search-playlist"),
+      ),
+    ).toMatchObject({
+      kind: "guided",
+      motif: "binary-search",
+      fallbackKind: "topic-specific",
+      isFallback: false,
+    });
+  });
+
+  it("derives subject and pack motifs from representative featured topics and concepts", () => {
+    expect(
+      getSubjectVisualDescriptor({
+        slug: "computer-science",
+        title: "Computer Science",
+        description: "Keep binary search and graph work on one bounded branch.",
+        featuredTopic: {
+          slug: "algorithms-and-search",
+          title: "Algorithms and Search",
+        },
+      }),
+    ).toMatchObject({
+      kind: "subject",
+      motif: "binary-search",
+      fallbackKind: "topic-specific",
+      isFallback: false,
+    });
+
+    expect(
+      getPackSurfaceVisualDescriptor("test", {
+        title: "Physics Connections Pack",
+        summary: "Connect motion, oscillation, and orbit ideas across one compact assessment.",
+        subject: "Physics",
+        includedTopicSlugs: ["mechanics", "oscillations"],
+        includedConceptSlugs: ["vectors-components", "simple-harmonic-motion"],
+      }),
+    ).toMatchObject({
+      kind: "test",
+      motif: "vectors-components",
+      fallbackKind: "topic-specific",
+      isFallback: false,
+    });
+  });
+
   it("renders concept cards with the descriptor motif in English and zh-HK", () => {
     const concept = getConceptSummary("uniform-circular-motion");
 
@@ -649,17 +748,17 @@ describe("learning visual descriptors", () => {
   });
 
   it("keeps subject card visuals inside the primary subject link region", () => {
-    const subject = getSubjectDiscoverySummaries()[0];
-
-    if (!subject) {
-      throw new Error("Expected at least one subject summary");
-    }
+    const subject = getSubjectDiscoverySummaryBySlug("computer-science");
 
     render(<SubjectDiscoveryCard subject={subject} variant="compact" />);
 
     expect(screen.getByTestId("learning-visual")).toHaveAttribute(
       "data-visual-motif",
-      `subject-${subject.slug === "math" ? "math" : subject.slug}`,
+      "binary-search",
+    );
+    expect(screen.getByTestId("learning-visual")).toHaveAttribute(
+      "data-visual-fallback-kind",
+      "topic-specific",
     );
     expect(screen.getByTestId("learning-visual").closest("a")).toHaveAttribute(
       "href",
@@ -686,9 +785,16 @@ describe("learning visual descriptors", () => {
       "data-visual-fallback-kind",
       "topic-specific",
     );
-    expect(screen.getByTestId("learning-visual")).toHaveAttribute(
-      "data-visual-overlay",
-      "assessment",
+    expect(screen.getByTestId("learning-visual").querySelector("svg")).toHaveAttribute(
+      "preserveAspectRatio",
+      "xMidYMid meet",
+    );
+    expect(screen.getByTestId("learning-visual").querySelector("svg")).toHaveAttribute(
+      "aria-hidden",
+      "true",
+    );
+    expect(screen.getByTestId("learning-visual").querySelector("svg")).toHaveClass(
+      "pointer-events-none",
     );
   });
 

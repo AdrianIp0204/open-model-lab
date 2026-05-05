@@ -148,7 +148,7 @@ describe("StartLearningPage", () => {
       "aria-pressed",
       "true",
     );
-    expect(document.querySelector('[data-visual-motif="subject-math"]')).not.toBeNull();
+    expect(document.querySelector('[data-visual-motif="graph-transformations"]')).not.toBeNull();
     expect(
       screen
         .getAllByRole("link", { name: /start functions and change/i })

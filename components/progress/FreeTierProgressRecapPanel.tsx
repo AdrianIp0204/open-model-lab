@@ -5,6 +5,7 @@ import {
   getConceptBySlug,
   getGuidedCollectionBySlug,
   getStarterTrackBySlug,
+  getSubjectDiscoverySummaryBySlug,
 } from "@/lib/content";
 import { Link } from "@/i18n/navigation";
 import type { AppLocale } from "@/i18n/routing";
@@ -15,12 +16,15 @@ import {
   getSubjectDisplayTitleFromValue,
 } from "@/lib/i18n/content";
 import type { FreeTierProgressRecapSummary } from "@/lib/progress";
-import { LearningVisual, type LearningVisualDescriptor } from "@/components/visuals/LearningVisual";
+import {
+  LearningVisual,
+  type LearningVisualDescriptor,
+} from "@/components/visuals/LearningVisual";
 import {
   getChallengeVisualDescriptor,
   getConceptCheckpointVisualDescriptor,
-  getConceptVisualDescriptor,
-  getStarterTrackVisualDescriptor,
+  getConceptSurfaceVisualDescriptor,
+  getGuidedCollectionVisualDescriptor,
   getSubjectVisualDescriptor,
 } from "@/components/visuals/learningVisualDescriptors";
 import { formatProgressMonthDay } from "./dateFormatting";
@@ -76,6 +80,10 @@ function CompletionKindBadge({
 }
 
 function getConceptSlugFromHref(href: string) {
+  if (href.startsWith("/concepts/subjects/") || href.startsWith("/concepts/topics/")) {
+    return null;
+  }
+
   return href.match(/^\/concepts\/([^/?#]+)/)?.[1] ?? null;
 }
 
@@ -83,85 +91,21 @@ function getTrackSlugFromHref(href: string) {
   return href.match(/^\/tracks\/([^/?#]+)/)?.[1] ?? null;
 }
 
+function getSubjectSlugFromHref(href: string) {
+  return href.match(/^\/concepts\/subjects\/([^/?#]+)/)?.[1] ?? null;
+}
+
 function getGuidedSlugFromHref(href: string) {
   return href.match(/^\/guided\/([^/?#]+)/)?.[1] ?? null;
 }
 
-function getSubjectSlugFromHref(href: string | null | undefined) {
-  return href?.match(/^\/concepts\/subjects\/([^/?#]+)/)?.[1] ?? null;
-}
-
-function getConceptForHref(href: string) {
-  const conceptSlug = getConceptSlugFromHref(href);
-
-  if (!conceptSlug) {
-    return null;
-  }
-
-  try {
-    return getConceptBySlug(conceptSlug);
-  } catch {
-    return null;
-  }
-}
-
-function getDisplayVisual(item: {
-  kind: "challenge" | "checkpoint" | "concept" | "track" | "guided";
-  title: string;
-  href: string;
-  note?: string;
-}): LearningVisualDescriptor {
-  const concept = getConceptForHref(item.href);
-
-  if (concept) {
-    if (item.kind === "challenge") {
-      return getChallengeVisualDescriptor({
-        title: item.title,
-        prompt: item.note,
-        concept,
-      });
-    }
-
-    if (item.kind === "checkpoint") {
-      return getConceptCheckpointVisualDescriptor(concept);
-    }
-
-    return getConceptVisualDescriptor(concept);
-  }
-
-  if (item.kind === "track") {
-    const trackSlug = getTrackSlugFromHref(item.href);
-
-    if (trackSlug) {
-      try {
-        return getStarterTrackVisualDescriptor(getStarterTrackBySlug(trackSlug));
-      } catch {
-        return {
-          kind: "guided",
-          tone: "coral",
-          isFallback: true,
-          fallbackKind: "category-specific",
-          label: "starter track",
-        };
-      }
-    }
-  }
-
-  return {
-    kind: item.kind === "challenge" ? "challenge" : item.kind === "guided" ? "guided" : "progress",
-    tone: item.kind === "challenge" ? "teal" : "amber",
-    overlay: item.kind === "challenge" ? "challenge" : item.kind === "checkpoint" ? "checkpoint" : undefined,
-    isFallback: true,
-    fallbackKind: "category-specific",
-    label: `${item.kind} card`,
-  };
-}
-
 function EntityVisual({
   visual,
+  fallbackTone,
   className,
 }: {
   visual: LearningVisualDescriptor;
+  fallbackTone?: LearningVisualDescriptor["tone"];
   className?: string;
 }) {
   return (
@@ -171,11 +115,179 @@ function EntityVisual({
       overlay={visual.overlay}
       isFallback={visual.isFallback}
       fallbackKind={visual.fallbackKind}
-      tone={visual.tone ?? "teal"}
+      tone={visual.tone ?? fallbackTone ?? "teal"}
       compact
       className={className}
     />
   );
+}
+
+function withProgressKind(
+  descriptor: LearningVisualDescriptor,
+): LearningVisualDescriptor {
+  if (descriptor.kind === "progress") {
+    return descriptor;
+  }
+
+  return {
+    ...descriptor,
+    kind: "progress",
+  };
+}
+
+function getProgressVisualFromHref(href: string): LearningVisualDescriptor | null {
+  const conceptSlug = getConceptSlugFromHref(href);
+
+  if (conceptSlug) {
+    const concept = getConceptBySlug(conceptSlug);
+
+    if (concept) {
+      return getConceptSurfaceVisualDescriptor("progress", {
+        slug: concept.slug,
+        title: concept.title,
+        subject: concept.subject,
+        topic: concept.topic,
+        accent: concept.accent,
+      });
+    }
+  }
+
+  const trackSlug = getTrackSlugFromHref(href);
+
+  if (trackSlug) {
+    const track = getStarterTrackBySlug(trackSlug);
+    const leadConcept = track?.concepts[0]
+      ? getConceptBySlug(track.concepts[0].slug)
+      : null;
+
+    if (leadConcept) {
+      return getConceptSurfaceVisualDescriptor("progress", {
+        slug: leadConcept.slug,
+        title: leadConcept.title,
+        subject: leadConcept.subject,
+        topic: leadConcept.topic,
+        accent: leadConcept.accent,
+      });
+    }
+  }
+
+  const guidedSlug = getGuidedSlugFromHref(href);
+
+  if (guidedSlug) {
+    const guidedCollection = getGuidedCollectionBySlug(guidedSlug);
+
+    if (guidedCollection) {
+      return withProgressKind(getGuidedCollectionVisualDescriptor(guidedCollection));
+    }
+  }
+
+  const subjectSlug = href.match(/^\/concepts\/subjects\/([^/?#]+)/)?.[1] ?? null;
+
+  if (subjectSlug) {
+    const subject = getSubjectDiscoverySummaryBySlug(subjectSlug);
+
+    if (subject) {
+      return withProgressKind(
+        getSubjectVisualDescriptor({
+          slug: subject.slug,
+          title: subject.title,
+          description: subject.description,
+          accent: subject.accent,
+          featuredTopic: subject.featuredTopics[0]
+            ? {
+                slug: subject.featuredTopics[0].slug,
+                title: subject.featuredTopics[0].title,
+              }
+            : null,
+          featuredConcept: subject.featuredConcepts[0]
+            ? {
+                slug: subject.featuredConcepts[0].slug,
+                title: subject.featuredConcepts[0].title,
+                subject: subject.featuredConcepts[0].subject,
+              }
+            : null,
+        }),
+      );
+    }
+  }
+
+  return null;
+}
+
+function getProgressRecapVisualDescriptor(
+  summary: FreeTierProgressRecapSummary,
+): LearningVisualDescriptor {
+  const previewHref =
+    summary.nextPrompts[0]?.href ??
+    summary.recentCompletions[0]?.href ??
+    summary.subjectMomentum[0]?.path ??
+    null;
+
+  if (previewHref) {
+    const descriptor = getProgressVisualFromHref(previewHref);
+
+    if (descriptor) {
+      return descriptor;
+    }
+  }
+
+  return {
+    kind: "progress",
+    isFallback: true,
+    fallbackKind: "category-specific",
+    label: "progress overview",
+    tone: "teal",
+  };
+}
+
+function getDisplayVisual(item: {
+  kind: "challenge" | "checkpoint" | "concept" | "track" | "guided";
+  title: string;
+  href: string;
+}): LearningVisualDescriptor {
+  const conceptSlug = getConceptSlugFromHref(item.href);
+
+  if (conceptSlug && (item.kind === "challenge" || item.kind === "checkpoint")) {
+    const concept = getConceptBySlug(conceptSlug);
+
+    if (concept) {
+      if (item.kind === "checkpoint") {
+        return getConceptCheckpointVisualDescriptor({
+          slug: concept.slug,
+          title: concept.title,
+          subject: concept.subject,
+          topic: concept.topic,
+          accent: concept.accent,
+        });
+      }
+
+      return getChallengeVisualDescriptor({
+        title: item.title,
+        concept: {
+          slug: concept.slug,
+          title: concept.title,
+          subject: concept.subject,
+          topic: concept.topic,
+          accent: concept.accent,
+        },
+        accent: concept.accent,
+      });
+    }
+  }
+
+  const visual = getProgressVisualFromHref(item.href);
+
+  if (visual) {
+    return visual;
+  }
+
+  return {
+    kind: "progress",
+    isFallback: true,
+    fallbackKind: item.kind === "concept" ? "generic" : "category-specific",
+    label: item.title,
+    tone: item.kind === "checkpoint" ? "amber" : "teal",
+  };
 }
 
 export function FreeTierProgressRecapPanel({
@@ -199,6 +311,7 @@ export function FreeTierProgressRecapPanel({
   const resolvedEmptyTitle = emptyTitle ?? t("empty.title");
   const resolvedEmptyNote = emptyNote ?? t("empty.note");
   const resolvedBrowseLabel = browseLabel ?? t("actions.browseConcepts");
+  const summaryVisual = getProgressRecapVisualDescriptor(summary);
   const displayProgressSourceLabel =
     progressSourceLabel === "Saved local progress"
       ? t("progressSources.local")
@@ -303,7 +416,15 @@ export function FreeTierProgressRecapPanel({
   return (
     <section className={["lab-panel p-5", className].filter(Boolean).join(" ")}>
       <div className="grid gap-4 lg:grid-cols-[8rem_minmax(0,1fr)_auto] lg:items-start">
-        <LearningVisual kind="progress" tone="teal" compact className="h-24 lg:h-full" />
+        <LearningVisual
+          kind={summaryVisual.kind}
+          motif={summaryVisual.motif}
+          isFallback={summaryVisual.isFallback}
+          fallbackKind={summaryVisual.fallbackKind}
+          tone={summaryVisual.tone ?? "teal"}
+          compact
+          className="h-24 lg:h-full"
+        />
         <div className="space-y-2">
           <p className="lab-label">{resolvedEyebrow}</p>
           <h2 className="text-2xl font-semibold text-ink-950">{resolvedTitle}</h2>
@@ -448,8 +569,9 @@ export function FreeTierProgressRecapPanel({
                         item.subjectTitle,
                         locale,
                       );
+                      const subjectSlug = item.path ? getSubjectSlugFromHref(item.path) : null;
                       const subjectVisual = getSubjectVisualDescriptor({
-                        slug: getSubjectSlugFromHref(item.path),
+                        slug: subjectSlug ?? item.subjectTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
                         title: displaySubjectTitle,
                         accent: "teal",
                       });

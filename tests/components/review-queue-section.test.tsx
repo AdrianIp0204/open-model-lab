@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ReviewQueueSection } from "@/components/progress/ReviewQueueSection";
 import type { ConceptSummary } from "@/components/concepts/concept-catalog";
@@ -145,14 +145,21 @@ describe("ReviewQueueSection", () => {
     expect(
       screen.getByText(/motion and circular motion entry diagnostic still needs flat long shot/i),
     ).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /open projectile checkpoint/i })).toHaveAttribute(
+    expect(
+      screen.getAllByRole("link", { name: /open projectile checkpoint/i })[0],
+    ).toHaveAttribute(
       "href",
       "/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
     );
-    expect(screen.getByRole("link", { name: /resume concept/i })).toHaveAttribute(
+    expect(screen.getAllByRole("link", { name: /resume concept/i })[0]).toHaveAttribute(
       "href",
       "/concepts/simple-harmonic-motion",
     );
+    expect(
+      within(screen.getByText("Projectile Motion").closest("article")!).getByTestId(
+        "learning-visual",
+      ),
+    ).toHaveAttribute("data-visual-motif", "projectile-motion");
   });
 
   it("labels repeated quick-test misses as review work worth resurfacing", () => {
@@ -186,7 +193,7 @@ describe("ReviewQueueSection", () => {
     expect(
       screen.getAllByText(/quick test has ended with missed questions 2 times in a row/i).length,
     ).toBeGreaterThan(0);
-    expect(screen.getByTestId("review-primary-action-projectile-motion")).toHaveAttribute(
+    expect(screen.getAllByRole("link", { name: /retry quick test/i })[0]).toHaveAttribute(
       "href",
       "/concepts/projectile-motion#quick-test",
     );
@@ -329,7 +336,7 @@ describe("ReviewQueueSection", () => {
     );
 
     expect(screen.getByText(/synced across devices/i)).toBeInTheDocument();
-    expect(screen.getByTestId("review-primary-action-projectile-motion")).toHaveAttribute(
+    expect(screen.getAllByRole("link", { name: /retry quick test/i })[0]).toHaveAttribute(
       "href",
       "/concepts/projectile-motion#quick-test",
     );
@@ -376,7 +383,7 @@ describe("ReviewQueueSection", () => {
     );
 
     expect(screen.getAllByText(/checkpoint/i).length).toBeGreaterThan(0);
-    expect(screen.getByTestId("review-primary-action-projectile-motion")).toHaveAttribute(
+    expect(screen.getAllByRole("link", { name: /open checkpoint/i })[0]).toHaveAttribute(
       "href",
       "/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
     );
@@ -411,7 +418,7 @@ describe("ReviewQueueSection", () => {
     render(<ReviewQueueSection concepts={concepts} starterTracks={starterTracks} />);
 
     expect(screen.getAllByText(/checkpoint/i).length).toBeGreaterThan(0);
-    expect(screen.getByTestId("review-primary-action-projectile-motion")).toHaveAttribute(
+    expect(screen.getAllByRole("link", { name: /open checkpoint/i })[0]).toHaveAttribute(
       "href",
       "/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
     );

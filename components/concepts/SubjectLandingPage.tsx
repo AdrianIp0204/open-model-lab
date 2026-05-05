@@ -51,10 +51,28 @@ export async function SubjectLandingPage({
   const subjectTitle = getSubjectDisplayTitle(subject, locale);
   const subjectDescription = getSubjectDisplayDescription(subject, locale);
   const subjectIntroduction = getSubjectDisplayIntroduction(subject, locale);
+  const subjectVisual = getSubjectVisualDescriptor({
+    slug: subject.slug,
+    title: subjectTitle,
+    description: subjectDescription,
+    accent: subject.accent,
+    featuredTopic: subject.featuredTopics[0]
+      ? {
+          slug: subject.featuredTopics[0].slug,
+          title: getTopicDisplayTitle(subject.featuredTopics[0], locale),
+        }
+      : null,
+    featuredConcept: subject.featuredConcepts[0]
+      ? {
+          slug: subject.featuredConcepts[0].slug,
+          title: subject.featuredConcepts[0].title,
+          subject: subject.featuredConcepts[0].subject,
+        }
+      : null,
+  });
   const firstTrack = subject.featuredStarterTracks[0] ?? subject.starterTracks[0] ?? null;
   const firstTopic = subject.featuredTopics[0] ?? subject.topics[0] ?? null;
   const firstConcept = subject.featuredConcepts[0] ?? subject.concepts[0] ?? null;
-  const subjectVisual = getSubjectVisualDescriptor(subject);
   return (
     <>
       {leadIn ? <div className="mb-6 space-y-3 sm:mb-8">{leadIn}</div> : null}
@@ -96,7 +114,6 @@ export async function SubjectLandingPage({
               <LearningVisual
                 kind={subjectVisual.kind}
                 motif={subjectVisual.motif}
-                overlay={subjectVisual.overlay}
                 isFallback={subjectVisual.isFallback}
                 fallbackKind={subjectVisual.fallbackKind}
                 tone={subjectVisual.tone ?? subject.accent}

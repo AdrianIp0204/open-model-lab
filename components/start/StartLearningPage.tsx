@@ -50,12 +50,14 @@ import { PageSection } from "@/components/layout/PageSection";
 import {
   LearningVisual,
   type LearningVisualDescriptor,
+  type LearningVisualKind,
 } from "@/components/visuals/LearningVisual";
 import {
   getConceptVisualDescriptor,
   getStarterTrackVisualDescriptor,
   getSubjectVisualDescriptor,
-  getTopicVisualDescriptor,
+  getConceptSurfaceVisualDescriptor,
+  getTopicSurfaceVisualDescriptor,
 } from "@/components/visuals/learningVisualDescriptors";
 
 type StartLearningPageProps = {
@@ -330,51 +332,82 @@ function RecommendationCard({
     topicBySlug,
     trackBySlug,
   ]);
+  const visualKind: LearningVisualKind =
+    recommendation.kind === "concept"
+      ? "simulation"
+      : recommendation.kind === "topic"
+        ? "topic"
+        : recommendation.kind === "track"
+          ? "guided"
+          : "subject";
   const visual = useMemo<LearningVisualDescriptor>(() => {
     if (recommendation.kind === "concept" && recommendation.entitySlug) {
-      return getConceptVisualDescriptor(
-        conceptBySlug.get(recommendation.entitySlug) ?? {
-          slug: recommendation.entitySlug,
-          title: recommendation.title,
-          subject: localizedSubjectTitle ?? undefined,
+      const concept = conceptBySlug.get(recommendation.entitySlug);
+
+      if (concept) {
+        return getConceptSurfaceVisualDescriptor(visualKind, {
+          slug: concept.slug,
+          title: concept.title,
+          subject: concept.subject,
           accent: recommendation.accent,
-        },
-      );
+        });
+      }
     }
 
     if (recommendation.kind === "topic" && recommendation.entitySlug) {
-      return getTopicVisualDescriptor(
-        topicBySlug.get(recommendation.entitySlug) ?? {
-          slug: recommendation.entitySlug,
-          title: recommendation.title,
-          subject: localizedSubjectTitle ?? undefined,
+      const topic = topicBySlug.get(recommendation.entitySlug);
+
+      if (topic) {
+        return getTopicSurfaceVisualDescriptor(visualKind, {
+          slug: topic.slug,
+          title: topic.title,
+          subject: topic.subject,
+          description: topic.description,
           accent: recommendation.accent,
-        },
-      );
+        });
+      }
     }
 
     if (recommendation.kind === "track" && recommendation.entitySlug) {
-      return getStarterTrackVisualDescriptor(
-        trackBySlug.get(recommendation.entitySlug) ?? {
-          slug: recommendation.entitySlug,
-          title: recommendation.title,
-          summary: recommendation.highlights.join(" "),
+      const track = trackBySlug.get(recommendation.entitySlug);
+      const leadConcept = track?.concepts[0]
+        ? conceptBySlug.get(track.concepts[0].slug)
+        : null;
+
+      if (leadConcept) {
+        return getConceptSurfaceVisualDescriptor(visualKind, {
+          slug: leadConcept.slug,
+          title: leadConcept.title,
+          subject: leadConcept.subject,
           accent: recommendation.accent,
-        },
-      );
+        });
+      }
     }
 
-    return getSubjectVisualDescriptor({
-      slug: recommendation.subjectSlug,
-      title: localizedSubjectTitle ?? recommendation.title,
-      accent: recommendation.accent,
-    });
+    if (localizedSubject?.featuredTopics[0]) {
+      return getTopicSurfaceVisualDescriptor(visualKind, {
+        slug: localizedSubject.featuredTopics[0].slug,
+        title: localizedSubject.featuredTopics[0].title,
+        subject: localizedSubject.title,
+        description: localizedSubject.description,
+        accent: recommendation.accent,
+      });
+    }
+
+    return {
+      kind: visualKind,
+      isFallback: true,
+      fallbackKind: "category-specific",
+      label: `${recommendation.kind} learning route`,
+      tone: recommendation.accent,
+    };
   }, [
     conceptBySlug,
-    localizedSubjectTitle,
+    localizedSubject,
     recommendation,
     topicBySlug,
     trackBySlug,
+    visualKind,
   ]);
 
   return (
@@ -389,7 +422,15 @@ function RecommendationCard({
         aria-label={display.actionLabel}
         className="mb-4 block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
       >
-        <EntityVisual visual={visual} fallbackTone={recommendation.accent} className="h-24" />
+        <LearningVisual
+          kind={visual.kind}
+          motif={visual.motif}
+          isFallback={visual.isFallback}
+          fallbackKind={visual.fallbackKind}
+          tone={visual.tone ?? recommendation.accent}
+          compact
+          className="h-24"
+        />
       </Link>
       <div className="flex flex-wrap items-center gap-2">
         <span className="lab-label">
@@ -545,6 +586,7 @@ export function StartLearningPage({
   const activeSubjectVisual = activeSubject
     ? getSubjectVisualDescriptor(activeSubject)
     : getSubjectVisualDescriptor({
+        slug: "selected-subject",
         title: t("chooser.selected"),
         accent: "sky",
       });

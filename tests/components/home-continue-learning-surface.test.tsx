@@ -159,10 +159,15 @@ describe("HomeContinueLearningSurface", () => {
         name: /resume saved work or take the next bounded step/i,
       }),
     ).toBeInTheDocument();
-    expect(screen.getByTestId("home-primary-concept-cta-vectors-components")).toHaveAttribute(
+    expect(screen.getAllByRole("link", { name: /continue concept/i })[0]).toHaveAttribute(
       "href",
       "/concepts/vectors-components",
     );
+    expect(
+      screen.getByRole("link", { name: "Vectors and Components" }).querySelector(
+        '[data-testid="learning-visual"]',
+      ),
+    ).toHaveAttribute("data-visual-motif", "vectors-components");
     expect(screen.getByTestId("home-primary-test-cta-vectors-components")).toHaveTextContent(
       "Take test",
     );
@@ -400,7 +405,7 @@ describe("HomeContinueLearningSurface", () => {
     );
 
     expect(screen.getAllByText("Synced").length).toBeGreaterThan(0);
-    expect(screen.getByTestId("home-primary-concept-cta-vectors-components")).toHaveAttribute(
+    expect(screen.getAllByRole("link", { name: /continue concept/i })[0]).toHaveAttribute(
       "href",
       "/concepts/vectors-components",
     );
@@ -445,7 +450,7 @@ describe("HomeContinueLearningSurface", () => {
       />,
     );
 
-    expect(screen.getByTestId("home-primary-concept-cta-projectile-motion")).toHaveAttribute(
+    expect(screen.getAllByRole("link", { name: /continue concept/i })[0]).toHaveAttribute(
       "href",
       "/concepts/projectile-motion",
     );
@@ -521,7 +526,7 @@ describe("HomeContinueLearningSurface", () => {
       />,
     );
 
-    expect(screen.getByTestId("home-first-visit-concept-cta-simple-harmonic-motion")).toHaveAttribute(
+    expect(screen.getAllByRole("link", { name: /start shm/i })[0]).toHaveAttribute(
       "href",
       "/concepts/simple-harmonic-motion",
     );

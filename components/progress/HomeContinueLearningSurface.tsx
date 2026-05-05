@@ -53,7 +53,7 @@ import { StarterTrackRecommendationList } from "@/components/tracks/StarterTrack
 import { ConceptLearningSurfaceTestCta } from "@/components/tests/ConceptLearningSurfaceTestCta";
 import { LearningVisual } from "@/components/visuals/LearningVisual";
 import {
-  getConceptVisualDescriptor,
+  getConceptSurfaceVisualDescriptor,
   getStarterTrackVisualDescriptor,
 } from "@/components/visuals/learningVisualDescriptors";
 import { MasteryStateBadge } from "./MasteryStateBadge";
@@ -741,6 +741,30 @@ export function HomeContinueLearningSurface({
   const fallbackTrackVisual = fallbackTrack
     ? getStarterTrackVisualDescriptor(fallbackTrack)
     : null;
+  const followUpVisualConcept = displayFollowUpCandidate
+    ? conceptsBySlug.get(displayFollowUpCandidate.conceptSlug) ?? null
+    : null;
+  const followUpVisual = displayFollowUpCandidate
+    ? getConceptSurfaceVisualDescriptor("progress", {
+        slug: displayFollowUpCandidate.conceptSlug,
+        title: displayFollowUpCandidate.title,
+        subject: followUpVisualConcept?.subject,
+        topic: followUpVisualConcept?.topic,
+        accent: followUpVisualConcept?.accent,
+      })
+    : null;
+  const nextRecommendationVisualConcept = displayNextRecommendation
+    ? conceptsBySlug.get(displayNextRecommendation.conceptSlug) ?? null
+    : null;
+  const nextRecommendationVisual = displayNextRecommendation
+    ? getConceptSurfaceVisualDescriptor("progress", {
+        slug: displayNextRecommendation.conceptSlug,
+        title: displayNextRecommendation.title,
+        subject: nextRecommendationVisualConcept?.subject,
+        topic: nextRecommendationVisualConcept?.topic,
+        accent: nextRecommendationVisualConcept?.accent,
+      })
+    : null;
   const primaryVisualHref = displayPrimaryConcept
     ? `/concepts/${displayPrimaryConcept.slug}`
     : quickStartConcept
@@ -749,22 +773,21 @@ export function HomeContinueLearningSurface({
   const primaryVisualLabel = displayPrimaryConcept
     ? displayPrimaryConcept.title
     : quickStartConcept
-      ? getConceptDisplayTitle(quickStartConcept, locale)
+      ? getConceptDisplayShortTitle(quickStartConcept, locale) ??
+        getConceptDisplayTitle(quickStartConcept, locale)
       : t("actions.startConcept");
-  const primaryVisualConcept = displayPrimaryConcept
-    ? conceptsBySlug.get(displayPrimaryConcept.slug) ?? null
-    : quickStartConcept;
-  const primaryVisual = primaryVisualConcept
-    ? getConceptVisualDescriptor(primaryVisualConcept)
-    : null;
-  const followUpVisualConcept = displayFollowUpCandidate
-    ? conceptsBySlug.get(displayFollowUpCandidate.conceptSlug) ?? null
-    : displayNextRecommendation
-      ? conceptsBySlug.get(displayNextRecommendation.conceptSlug) ?? null
+  const primaryVisual = displayPrimaryConcept
+    ? getConceptSurfaceVisualDescriptor("progress", {
+        slug: displayPrimaryConcept.slug,
+        title: displayPrimaryConcept.title,
+      })
+    : quickStartConcept
+      ? getConceptSurfaceVisualDescriptor("progress", {
+          slug: quickStartConcept.slug,
+          title: quickStartConcept.title,
+          subject: quickStartConcept.subject,
+        })
       : null;
-  const followUpVisual = followUpVisualConcept
-    ? getConceptVisualDescriptor(followUpVisualConcept)
-    : null;
 
   return (
     <section className={["space-y-5", className].filter(Boolean).join(" ")}>
@@ -799,12 +822,11 @@ export function HomeContinueLearningSurface({
             <LearningVisual
               kind={primaryVisual?.kind ?? "progress"}
               motif={primaryVisual?.motif}
-              overlay={primaryVisual?.overlay}
-              isFallback={primaryVisual?.isFallback}
+              isFallback={primaryVisual?.isFallback ?? true}
               fallbackKind={primaryVisual?.fallbackKind}
-              tone={primaryVisual?.tone ?? primaryVisualConcept?.accent ?? "teal"}
+              tone={primaryVisual?.tone ?? "teal"}
               compact
-              className="h-28 rounded-[18px] md:h-full md:min-h-32"
+              className="h-28 md:h-32"
             />
           </Link>
           <div className="min-w-0">
@@ -1214,19 +1236,19 @@ export function HomeContinueLearningSurface({
             ) : displayNextRecommendation ? (
               <>
                 <div className="grid gap-3 sm:grid-cols-[5.5rem_minmax(0,1fr)] sm:items-start">
-                  {followUpVisual ? (
+                  {nextRecommendationVisual ? (
                     <Link
                       href={`/concepts/${displayNextRecommendation.conceptSlug}`}
                       aria-label={displayNextRecommendation.title}
                       className="block rounded-[18px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
                     >
                       <LearningVisual
-                        kind={followUpVisual.kind}
-                        motif={followUpVisual.motif}
-                        overlay={followUpVisual.overlay}
-                        isFallback={followUpVisual.isFallback}
-                        fallbackKind={followUpVisual.fallbackKind}
-                        tone={followUpVisual.tone ?? followUpVisualConcept?.accent ?? "sky"}
+                        kind={nextRecommendationVisual.kind}
+                        motif={nextRecommendationVisual.motif}
+                        overlay={nextRecommendationVisual.overlay}
+                        isFallback={nextRecommendationVisual.isFallback}
+                        fallbackKind={nextRecommendationVisual.fallbackKind}
+                        tone={nextRecommendationVisual.tone ?? nextRecommendationVisualConcept?.accent ?? "sky"}
                         compact
                         className="h-20 rounded-[18px] sm:h-24"
                       />

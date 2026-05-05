@@ -137,7 +137,7 @@ describe("SearchPage", () => {
     expect(screen.getByPlaceholderText(/search inside math/i)).toBeInTheDocument();
     expect(screen.getByText("Use Subject for the broad branch first.")).toBeInTheDocument();
     expect(screen.getByText("Searching inside Math")).toBeInTheDocument();
-    expect(document.querySelector('[data-visual-motif="subject-math"]')).not.toBeNull();
+    expect(document.querySelector('[data-visual-motif="graph-transformations"]')).not.toBeNull();
     expect(
       screen.getByText("Now showing topics inside Math. Add one when you want a tighter concept list."),
     ).toBeInTheDocument();

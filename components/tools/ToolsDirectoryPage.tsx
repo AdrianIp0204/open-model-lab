@@ -2,11 +2,19 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { learningToolDefinitions } from "@/lib/tools/learning-tools";
 import { LearningVisual } from "@/components/visuals/LearningVisual";
+import { getToolVisualDescriptor } from "@/components/visuals/learningVisualDescriptors";
 import { ToolDirectoryCard } from "./ToolDirectoryCard";
 
 export function ToolsDirectoryPage() {
   const t = useTranslations("ToolsDirectoryPage");
   const firstTool = learningToolDefinitions[0] ?? null;
+  const firstToolVisual = firstTool
+    ? getToolVisualDescriptor({
+        title: t(`tools.${firstTool.messageKey}.title`),
+        href: firstTool.href,
+        accent: firstTool.accent,
+      })
+    : null;
 
   return (
     <section className="space-y-6 sm:space-y-7">
@@ -36,7 +44,14 @@ export function ToolsDirectoryPage() {
               aria-label={t(`tools.${firstTool.messageKey}.cta`)}
               className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
             >
-              <LearningVisual kind="tool" tone="teal" compact />
+              <LearningVisual
+                kind={firstToolVisual?.kind ?? "tool"}
+                motif={firstToolVisual?.motif}
+                isFallback={firstToolVisual?.isFallback}
+                fallbackKind={firstToolVisual?.fallbackKind}
+                tone={firstToolVisual?.tone ?? firstTool.accent}
+                compact
+              />
             </Link>
           ) : (
             <LearningVisual kind="tool" tone="teal" compact />

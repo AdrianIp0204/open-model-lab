@@ -21,6 +21,7 @@ import {
 } from "@/lib/i18n/content";
 import { DisclosurePanel } from "@/components/layout/DisclosurePanel";
 import { LearningVisual } from "@/components/visuals/LearningVisual";
+import { getGuidedCollectionVisualDescriptor } from "@/components/visuals/learningVisualDescriptors";
 import { GuidedCollectionCard } from "./GuidedCollectionCard";
 import { RecommendedGoalPathList } from "./RecommendedGoalPathList";
 
@@ -180,6 +181,9 @@ export function GuidedCollectionsHub({
       : null) ??
     collectionSummaries[0] ??
     null;
+  const featuredVisual = featuredCollection
+    ? getGuidedCollectionVisualDescriptor(featuredCollection.collection)
+    : null;
 
   const lessonSets = collectionSummaries.filter(
     (summary) => summary.collection.format === "lesson-set",
@@ -271,7 +275,14 @@ export function GuidedCollectionsHub({
             }
             className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
           >
-            <LearningVisual kind="guided" tone="sky" compact />
+            <LearningVisual
+              kind={featuredVisual?.kind ?? "guided"}
+              motif={featuredVisual?.motif}
+              isFallback={featuredVisual?.isFallback ?? true}
+              fallbackKind={featuredVisual?.fallbackKind}
+              tone={featuredVisual?.tone ?? "sky"}
+              compact
+            />
           </Link>
           <div className="space-y-4">
             <div className="space-y-2">

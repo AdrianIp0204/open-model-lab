@@ -1634,11 +1634,13 @@ export function LearningVisual({
       aria-label={ariaLabel}
       aria-hidden={ariaLabel ? undefined : true}
     >
-      <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.72),transparent_58%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.72),transparent_58%)]" />
       <svg
         viewBox="0 0 126 120"
-        className="absolute inset-0 h-full w-full"
+        preserveAspectRatio="xMidYMid meet"
+        className="pointer-events-none absolute inset-0 h-full w-full"
         focusable="false"
+        aria-hidden="true"
       >
         {renderGlyph(kind, motif)}
         {renderOverlay(overlay)}
