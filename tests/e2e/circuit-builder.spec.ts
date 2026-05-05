@@ -10,8 +10,12 @@ import {
 let browserGuard: BrowserGuard;
 const draftStorageKey = "open-model-lab.circuit-builder.draft.v1";
 const onboardingStorageKey = "open-model-lab.onboarding.v1";
+const renderModeStorageKey = "open-model-lab:circuit-builder-render-mode:v1";
 
 async function suppressOnboardingPrompt(page: Page) {
+  await page.addInitScript((key) => {
+    window.localStorage.removeItem(key);
+  }, renderModeStorageKey);
   await page.addInitScript((key) => {
     window.localStorage.setItem(
       key,
@@ -81,6 +85,46 @@ async function buildSimpleLoop(page: Page) {
         id: "w2",
         from: { componentId: "resistor-simple", terminal: "b" },
         to: { componentId: "battery-simple", terminal: "b" },
+      },
+    ],
+  });
+}
+
+async function buildBulbLoop(page: Page) {
+  await loadCircuitDocument(page, "bulb-loop.json", {
+    version: 1,
+    environment: { temperatureC: 25, lightLevelPercent: 35 },
+    view: { zoom: 0.78, offsetX: 76, offsetY: 92 },
+    components: [
+      {
+        id: "battery-modern",
+        label: "Battery 1",
+        type: "battery",
+        x: 240,
+        y: 320,
+        rotation: 0,
+        properties: { voltage: 9 },
+      },
+      {
+        id: "bulb-modern",
+        label: "Light bulb 1",
+        type: "lightBulb",
+        x: 560,
+        y: 320,
+        rotation: 0,
+        properties: { ratedVoltage: 6, ratedPower: 3 },
+      },
+    ],
+    wires: [
+      {
+        id: "wire-positive",
+        from: { componentId: "battery-modern", terminal: "a" },
+        to: { componentId: "bulb-modern", terminal: "a" },
+      },
+      {
+        id: "wire-negative",
+        from: { componentId: "bulb-modern", terminal: "b" },
+        to: { componentId: "battery-modern", terminal: "b" },
       },
     ],
   });
@@ -275,6 +319,45 @@ test("keeps the builder row visible on desktop, scrolls the palette internally, 
   await expect(
     page.getByLabel("Circuit inspector").first().getByText(/current ambient temperature of 100\s*°?\s*C/i),
   ).toBeVisible();
+});
+
+test("renders modern visual mode with powered bulb glow and electron flow", async ({
+  page,
+}) => {
+  await setHarnessSession(page, "signed-out");
+  await page.setViewportSize({ width: 1440, height: 980 });
+  await openCircuitBuilder(page);
+  await buildBulbLoop(page);
+
+  const workspace = page.locator("[data-circuit-workspace-panel]");
+  await expect(workspace).toHaveAttribute("data-circuit-render-mode", "schematic");
+  await expect(page.locator("[data-circuit-modern-component]")).toHaveCount(0);
+
+  await page.getByRole("button", { name: "Modern" }).click();
+
+  await expect(workspace).toHaveAttribute("data-circuit-render-mode", "modern");
+  await expect(page.locator('[data-circuit-modern-palette-thumbnail="lightBulb"]').first()).toBeVisible();
+  await expect(page.locator('[data-circuit-modern-component="lightBulb"]')).toBeVisible();
+  await expect(page.locator('[data-circuit-light-bulb-glow="on"]')).toBeVisible();
+  await expect(page.locator('[data-circuit-electron-flow-active="true"]')).not.toHaveCount(0);
+
+  await page.getByRole("button", { name: "Light bulb 1", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "Light bulb 1" })).toBeVisible();
+
+  await page.getByRole("button", {
+    name: /Select Wire linking Battery 1 positive terminal to Light bulb 1 terminal A/i,
+  }).click();
+  await expect(page.getByText(/Wire linking .* selected/i).first()).toBeVisible();
+  await page.getByRole("button", { name: "Delete selected", exact: true }).click();
+
+  await expect(page.locator('[data-circuit-light-bulb-glow="off"]')).toBeVisible();
+  await expect(page.locator('[data-circuit-electron-flow-active="true"]')).toHaveCount(0);
+
+  await page.getByRole("button", { name: "Schematic" }).click();
+  await expect(workspace).toHaveAttribute("data-circuit-render-mode", "schematic");
+  await expect(page.locator("[data-circuit-modern-component]")).toHaveCount(0);
+  await expect(page.locator("[data-circuit-light-bulb-glow]")).toHaveCount(0);
+  await expect(page.locator("[data-circuit-electron-flow-wire-id]")).toHaveCount(0);
 });
 
 test("searches the desktop component library, adds a lower component quickly, and clears from the workspace controls with undo recovery", async ({

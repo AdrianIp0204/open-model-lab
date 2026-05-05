@@ -6,6 +6,7 @@ export * from "./solver";
 export * from "./graphing";
 export * from "./education";
 export * from "./symbol-geometry";
+export * from "./visual-mode";
 export * from "./export-svg";
 export * from "./export-download";
 export * from "./draft-storage";
