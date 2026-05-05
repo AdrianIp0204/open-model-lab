@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { aiCoachRequestSchema } from "@/lib/ai/schema";
 import { consumeAiRateLimitSlot } from "@/lib/ai/rate-limit";
 import { generateCoachResponseWithGeminiResult } from "@/lib/ai/providers/gemini";
+import { getAccountSessionForCookieHeader } from "@/lib/account/supabase";
 
 type AiCoachErrorCode =
   | "ai_features_disabled"
@@ -51,39 +52,51 @@ function isAiLoggingEnabled() {
   return process.env.AI_LOGGING_ENABLED === "true";
 }
 
-function getClientAddress(request: Request) {
-  const forwardedFor = request.headers.get("x-forwarded-for");
+type AiRateLimitKeyKind = "user" | "cloudflare-ip" | "host";
 
-  if (forwardedFor) {
-    const [firstAddress] = forwardedFor.split(",");
-    const normalizedAddress = firstAddress?.trim();
+type TrustedAiRateLimitKey = {
+  key: string;
+  kind: AiRateLimitKeyKind;
+};
 
-    if (normalizedAddress) {
-      return normalizedAddress;
-    }
-  }
-
-  return (
-    request.headers.get("cf-connecting-ip")?.trim() ||
-    request.headers.get("x-real-ip")?.trim() ||
-    request.headers.get("x-client-ip")?.trim() ||
-    null
-  );
+function getTrustedClientAddress(request: Request) {
+  return request.headers.get("cf-connecting-ip")?.trim() || null;
 }
 
-function getAiRateLimitKey(request: Request, userId?: string) {
-  if (userId) {
-    return `user:${userId}`;
-  }
-
-  const clientAddress = getClientAddress(request);
-  const userAgent = request.headers.get("user-agent")?.trim().slice(0, 120) || "unknown-agent";
+function getTrustedNetworkRateLimitKey(request: Request): TrustedAiRateLimitKey {
+  const clientAddress = getTrustedClientAddress(request);
 
   if (clientAddress) {
-    return `ip:${clientAddress}:${userAgent}`;
+    return {
+      key: `cloudflare-ip:${clientAddress}`,
+      kind: "cloudflare-ip",
+    };
   }
 
-  return `host:${new URL(request.url).host}:${userAgent}`;
+  return {
+    key: `host:${new URL(request.url).host}`,
+    kind: "host",
+  };
+}
+
+async function getTrustedAiRateLimitKey(request: Request): Promise<TrustedAiRateLimitKey> {
+  try {
+    const session = await getAccountSessionForCookieHeader(request.headers.get("cookie"));
+
+    if (session?.user.id) {
+      return {
+        key: `user:${session.user.id}`,
+        kind: "user",
+      };
+    }
+  } catch {
+    // Auth/vendor config can be absent in development or previews. Do not fail the
+    // AI coach because session resolution failed; just fall back to network scope.
+  }
+
+  // Deliberately ignore client-supplied context.userId and spoofable proxy/client
+  // headers such as x-forwarded-for, x-real-ip, x-client-ip, and user-agent.
+  return getTrustedNetworkRateLimitKey(request);
 }
 
 function logAiCoachMetadata(metadata: {
@@ -94,6 +107,7 @@ function logAiCoachMetadata(metadata: {
   simulationId?: string;
   success: boolean;
   fallbackUsed: boolean;
+  rateLimitKeyKind?: AiRateLimitKeyKind;
   validationFailureReason?: string;
   latencyMs: number;
 }) {
@@ -151,9 +165,8 @@ export async function POST(request: Request) {
     });
   }
 
-  const rateLimitDecision = consumeAiRateLimitSlot(
-    getAiRateLimitKey(request, parsed.data.context.userId),
-  );
+  const rateLimitKey = await getTrustedAiRateLimitKey(request);
+  const rateLimitDecision = consumeAiRateLimitSlot(rateLimitKey.key);
 
   if (!rateLimitDecision.allowed) {
     logAiCoachMetadata({
@@ -164,6 +177,7 @@ export async function POST(request: Request) {
       simulationId: parsed.data.context.simulation?.id,
       success: false,
       fallbackUsed: false,
+      rateLimitKeyKind: rateLimitKey.kind,
       validationFailureReason: "rate_limited",
       latencyMs: Date.now() - startedAt,
     });
@@ -188,6 +202,7 @@ export async function POST(request: Request) {
       simulationId: parsed.data.context.simulation?.id,
       success: !result.fallbackUsed,
       fallbackUsed: result.fallbackUsed,
+      rateLimitKeyKind: rateLimitKey.kind,
       validationFailureReason: result.failureReason,
       latencyMs: Date.now() - startedAt,
     });
@@ -206,6 +221,7 @@ export async function POST(request: Request) {
       simulationId: parsed.data.context.simulation?.id,
       success: false,
       fallbackUsed: true,
+      rateLimitKeyKind: rateLimitKey.kind,
       validationFailureReason: "coach_unavailable",
       latencyMs: Date.now() - startedAt,
     });

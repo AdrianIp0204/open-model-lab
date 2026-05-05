@@ -24,11 +24,16 @@ import type { ConceptPageRuntimeSnapshot } from "@/lib/learning/conceptPageRunti
 
 const mocks = vi.hoisted(() => ({
   generateCoachResponseWithGeminiResultMock: vi.fn(),
+  getAccountSessionForCookieHeaderMock: vi.fn(),
 }));
 
 vi.mock("@/lib/ai/providers/gemini", () => ({
   generateCoachResponseWithGeminiResult:
     mocks.generateCoachResponseWithGeminiResultMock,
+}));
+
+vi.mock("@/lib/account/supabase", () => ({
+  getAccountSessionForCookieHeader: mocks.getAccountSessionForCookieHeaderMock,
 }));
 
 const originalEnv = {
@@ -77,6 +82,24 @@ const validResponse: AiCoachResponse = {
     { type: "simulation", label: "amplitude control" },
   ],
 };
+
+async function postCoachRequest({
+  headers,
+  request = buildRequest(),
+  url = "http://learning.example/api/ai/coach",
+}: {
+  headers?: HeadersInit;
+  request?: AiCoachRequest;
+  url?: string;
+} = {}) {
+  return POST(
+    new Request(url, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(request),
+    }),
+  );
+}
 
 function buildRequest(overrides?: Partial<AiCoachRequest>): AiCoachRequest {
   return {
@@ -260,6 +283,7 @@ describe("AI coach route", () => {
     process.env.AI_LOGGING_ENABLED = "false";
     process.env.AI_RATE_LIMIT_MAX_REQUESTS = "20";
     process.env.AI_RATE_LIMIT_WINDOW_SECONDS = "600";
+    mocks.getAccountSessionForCookieHeaderMock.mockResolvedValue(null);
     mocks.generateCoachResponseWithGeminiResultMock.mockResolvedValue({
       response: validResponse,
       fallbackUsed: false,
@@ -270,6 +294,7 @@ describe("AI coach route", () => {
   afterEach(() => {
     resetAiRateLimitForTests();
     mocks.generateCoachResponseWithGeminiResultMock.mockReset();
+    mocks.getAccountSessionForCookieHeaderMock.mockReset();
     process.env.AI_FEATURES_ENABLED = originalEnv.AI_FEATURES_ENABLED;
     process.env.AI_LOGGING_ENABLED = originalEnv.AI_LOGGING_ENABLED;
     process.env.AI_RATE_LIMIT_MAX_REQUESTS = originalEnv.AI_RATE_LIMIT_MAX_REQUESTS;
@@ -308,5 +333,138 @@ describe("AI coach route", () => {
     expect(response.status).toBe(503);
     expect(payload.code).toBe("ai_features_disabled");
     expect(mocks.generateCoachResponseWithGeminiResultMock).not.toHaveBeenCalled();
+  });
+
+  it("ignores client-supplied context.userId when rate limiting", async () => {
+    process.env.AI_RATE_LIMIT_MAX_REQUESTS = "1";
+
+    const firstResponse = await postCoachRequest({
+      request: buildRequest({
+        context: {
+          ...validContext,
+          userId: "client-claimed-user-1",
+        },
+      }),
+    });
+    const secondResponse = await postCoachRequest({
+      request: buildRequest({
+        context: {
+          ...validContext,
+          userId: "client-claimed-user-2",
+        },
+      }),
+    });
+
+    expect(firstResponse.status).toBe(200);
+    expect(secondResponse.status).toBe(429);
+    expect(mocks.generateCoachResponseWithGeminiResultMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not let spoofed forwarding headers or user-agent rotation bypass host fallback", async () => {
+    process.env.AI_RATE_LIMIT_MAX_REQUESTS = "1";
+
+    const firstResponse = await postCoachRequest({
+      headers: {
+        "user-agent": "rotating-agent-1",
+        "x-forwarded-for": "198.51.100.10",
+      },
+    });
+    const secondResponse = await postCoachRequest({
+      headers: {
+        "user-agent": "rotating-agent-2",
+        "x-forwarded-for": "203.0.113.20",
+      },
+    });
+
+    expect(firstResponse.status).toBe(200);
+    expect(secondResponse.status).toBe(429);
+    expect(mocks.generateCoachResponseWithGeminiResultMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("uses cf-connecting-ip as the trusted signed-out network key", async () => {
+    process.env.AI_RATE_LIMIT_MAX_REQUESTS = "1";
+
+    const firstResponse = await postCoachRequest({
+      headers: {
+        "cf-connecting-ip": "203.0.113.10",
+        "x-forwarded-for": "198.51.100.1",
+      },
+    });
+    const secondResponse = await postCoachRequest({
+      headers: {
+        "cf-connecting-ip": "203.0.113.10",
+        "x-forwarded-for": "198.51.100.2",
+      },
+    });
+    const thirdResponse = await postCoachRequest({
+      headers: {
+        "cf-connecting-ip": "203.0.113.11",
+        "x-forwarded-for": "198.51.100.2",
+      },
+    });
+
+    expect(firstResponse.status).toBe(200);
+    expect(secondResponse.status).toBe(429);
+    expect(thirdResponse.status).toBe(200);
+    expect(mocks.generateCoachResponseWithGeminiResultMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("uses server-resolved signed-in user identity before body userId or Cloudflare IP", async () => {
+    process.env.AI_RATE_LIMIT_MAX_REQUESTS = "1";
+    mocks.getAccountSessionForCookieHeaderMock.mockResolvedValue({
+      user: {
+        id: "trusted-session-user",
+      },
+    });
+
+    const firstResponse = await postCoachRequest({
+      headers: {
+        cookie: "sb-auth-token=1",
+        "cf-connecting-ip": "203.0.113.10",
+      },
+      request: buildRequest({
+        context: {
+          ...validContext,
+          userId: "client-claimed-user-1",
+        },
+      }),
+    });
+    const secondResponse = await postCoachRequest({
+      headers: {
+        cookie: "sb-auth-token=1",
+        "cf-connecting-ip": "203.0.113.11",
+      },
+      request: buildRequest({
+        context: {
+          ...validContext,
+          userId: "client-claimed-user-2",
+        },
+      }),
+    });
+
+    expect(firstResponse.status).toBe(200);
+    expect(secondResponse.status).toBe(429);
+    expect(mocks.getAccountSessionForCookieHeaderMock).toHaveBeenCalledWith("sb-auth-token=1");
+    expect(mocks.generateCoachResponseWithGeminiResultMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("falls back to trusted network identity when server session lookup fails", async () => {
+    process.env.AI_RATE_LIMIT_MAX_REQUESTS = "1";
+    mocks.getAccountSessionForCookieHeaderMock.mockRejectedValue(new Error("auth unavailable"));
+
+    const firstResponse = await postCoachRequest({
+      headers: {
+        "cf-connecting-ip": "203.0.113.10",
+      },
+    });
+    const secondResponse = await postCoachRequest({
+      headers: {
+        "cf-connecting-ip": "203.0.113.10",
+      },
+    });
+
+    expect(firstResponse.status).toBe(200);
+    expect(secondResponse.status).toBe(429);
+    expect(mocks.generateCoachResponseWithGeminiResultMock).toHaveBeenCalledTimes(1);
   });
 });
