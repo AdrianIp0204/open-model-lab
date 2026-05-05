@@ -20,16 +20,21 @@ import {
   buildWirePathData,
   buildWirePathFromRefs,
   buildWirePreviewPoints,
+  circuitBuilderCopyEn,
   clampComponentPoint,
   convertViewPointToWorld,
   deriveLightBulbGlow,
   deriveWireElectronFlow,
+  formatCircuitComponentDisplayLabel,
+  formatCircuitIssue,
+  formatCircuitStateLabel,
+  formatCircuitTerminalDisplayLabel,
+  formatCircuitWireDisplayLabel,
   getCircuitComponentById,
-  getCircuitComponentDefinition,
-  getCircuitWireDisplayLabel,
   getComponentTerminalDirection,
   getComponentTerminalPoint,
   snapPointToGrid,
+  type CircuitBuilderCopy,
   type CircuitComponentType,
   type CircuitDocument,
   type CircuitPoint,
@@ -94,6 +99,7 @@ type CircuitWorkspaceProps = {
   className?: string;
   headerSlot?: ReactNode;
   controlsSlot?: ReactNode;
+  copy?: CircuitBuilderCopy;
 };
 
 type DragTarget = {
@@ -404,6 +410,7 @@ export function CircuitWorkspace({
   className = "",
   headerSlot = null,
   controlsSlot = null,
+  copy = circuitBuilderCopyEn,
 }: CircuitWorkspaceProps) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -533,21 +540,25 @@ export function CircuitWorkspace({
     return buildWirePathData(points);
   }, [activeTerminalRef, document, pendingWireStart, pointerWorld]);
   const workspaceZoomPercent = Math.round(document.view.zoom * 100);
-  const workspacePartLabel = `${document.components.length} part${document.components.length === 1 ? "" : "s"}`;
-  const workspaceWireLabel = `${document.wires.length} wire${document.wires.length === 1 ? "" : "s"}`;
+  const workspacePartLabel = `${document.components.length} ${
+    document.components.length === 1 ? copy.workspace.partSingular : copy.workspace.partPlural
+  }`;
+  const workspaceWireLabel = `${document.wires.length} ${
+    document.wires.length === 1 ? copy.workspace.wireSingular : copy.workspace.wirePlural
+  }`;
   const pointerPositionLabel = panState
-    ? "Dragging view"
+    ? copy.workspace.pointerDragging
     : pointerWorld
       ? `Pointer ${Math.round(pointerWorld.x)}, ${Math.round(pointerWorld.y)}`
-      : "Pan by dragging empty space";
-  const visiblePointerStatusLabel = panState ? "Dragging view" : "Pan by dragging empty space";
+      : copy.workspace.panEmpty;
+  const visiblePointerStatusLabel = panState ? copy.workspace.pointerDragging : copy.workspace.panEmpty;
   const workspaceModeLabel = pendingWireStart
-    ? "Choose wire end"
+    ? copy.workspace.chooseWireEnd
     : activeTool === "wire"
-      ? "Terminal pick mode"
+      ? copy.workspace.terminalPickMode
       : panState
-        ? "Panning canvas"
-        : "32 px snap grid";
+        ? copy.workspace.panningCanvas
+        : copy.workspace.snapGrid;
   const workspaceCanvasCursorClass = pendingWireStart || activeTool === "wire"
     ? "cursor-crosshair"
     : panState
@@ -563,9 +574,8 @@ export function CircuitWorkspace({
       return null;
     }
 
-    const definition = getCircuitComponentDefinition(component.type);
-    return `${component.label} ${definition.terminalLabels[activeTerminalRef.terminal]}`;
-  }, [activeTerminalRef, document]);
+    return formatCircuitTerminalDisplayLabel(document, activeTerminalRef, copy);
+  }, [activeTerminalRef, copy, document]);
   const workspaceGuidance = useMemo(() => {
     if (pendingWireStart) {
       const component = getCircuitComponentById(
@@ -574,81 +584,91 @@ export function CircuitWorkspace({
       );
       if (activeTerminalLabel) {
         return isSameTerminal(pendingWireStart, activeTerminalRef)
-          ? "That terminal is already selected. Choose a different terminal, click empty canvas, or press Esc to cancel."
-          : `Connect to ${activeTerminalLabel} to finish the wire.`;
+          ? copy.workspace.alreadySelectedTerminal
+          : `${copy.workspace.connectToPrefix} ${activeTerminalLabel} ${copy.workspace.connectToSuffix}`;
       }
       if (component) {
-        const definition = getCircuitComponentDefinition(component.type);
-        return `Wiring from ${component.label} ${definition.terminalLabels[pendingWireStart.terminal]}. Select a second terminal, click empty canvas, or press Esc to cancel.`;
+        return `${copy.workspace.wiringFromPrefix} ${formatCircuitTerminalDisplayLabel(
+          document,
+          pendingWireStart,
+          copy,
+        )}. ${copy.workspace.wiringFromSuffix}`;
       }
 
-      return "Select a second terminal to finish the wire, or click empty canvas / press Esc to cancel.";
+      return copy.workspace.selectSecondTerminal;
     }
 
     if (activeTool === "wire") {
       if (activeTerminalLabel) {
-        return `Start wire from ${activeTerminalLabel}.`;
+        return `${copy.workspace.startWireFromPrefix} ${activeTerminalLabel}${copy.locale === "zh-HK" ? "" : "."} ${copy.workspace.startWireFromSuffix}`.trim();
       }
 
-      return "Wire tool active. Click a terminal to begin, or click empty canvas / press W/Esc to leave.";
+      return copy.workspace.wireToolActive;
     }
 
     if (activeTerminalLabel) {
-      return `${activeTerminalLabel}. Click or press Enter/Space to start a wire from this terminal.`;
+      return `${activeTerminalLabel}. ${copy.workspace.terminalHoverSuffix}`;
     }
 
     if (selection?.kind === "component") {
       const component = getCircuitComponentById(document, selection.id);
       if (component) {
-        return `${component.label} selected. Drag it, use arrow keys to nudge, or edit details in the inspector.`;
+        return `${formatCircuitComponentDisplayLabel(component, copy)} ${copy.workspace.selectedComponentSuffix}`;
       }
     }
 
     if (selection?.kind === "wire") {
       const wire = document.wires.find((entry) => entry.id === selection.id);
       if (wire) {
-        return `${getCircuitWireDisplayLabel(document, wire)} selected. Use Delete or the inspector to remove it if needed.`;
+        return `${formatCircuitWireDisplayLabel(document, wire, copy)} ${copy.workspace.selectedWireSuffix}`;
       }
     }
 
-    return "Drag parts, rotate them in the inspector, and pan the canvas by dragging empty space.";
-  }, [activeTerminalLabel, activeTerminalRef, activeTool, document, pendingWireStart, selection]);
+    return copy.workspace.guidanceDefault;
+  }, [activeTerminalLabel, activeTerminalRef, activeTool, copy, document, pendingWireStart, selection]);
   const workspaceDragLabel = workspaceDragPreview && workspaceDragPreview !== "unknown"
-    ? getCircuitComponentDefinition(workspaceDragPreview).label
-    : "the part";
-  const workspaceDropHint = `${workspaceDragLabel === "the part" ? "Drop the part" : `Drop ${workspaceDragLabel}`} on the 32 px snap grid`;
+    ? copy.components[workspaceDragPreview].label
+    : copy.workspace.dropPartFallback;
+  const workspaceDropHint = `${copy.workspace.dropPrefix} ${workspaceDragLabel} ${copy.workspace.dropSuffix}`;
   const topIssue = solveResult.issues[0] ?? null;
+  const localizedTopIssue = topIssue ? formatCircuitIssue(topIssue, document, copy) : null;
   const issueComponent = topIssue?.componentId
     ? getCircuitComponentById(document, topIssue.componentId)
     : null;
-  const issueCountLabel = `${solveResult.issues.length} circuit ${
-    solveResult.issues.length === 1 ? "issue" : "issues"
+  const issueCountLabel = `${solveResult.issues.length} ${
+    copy.locale === "en"
+      ? solveResult.issues.length === 1
+        ? "circuit issue"
+        : "circuit issues"
+      : solveResult.issues.length === 1
+        ? copy.toolbar.issueSingular
+        : copy.toolbar.issuePlural
   }`;
   const fitViewDescription = canFitView
-    ? "Fit the whole circuit into the workspace view. Shortcut: F."
-    : "Add at least one component before fitting the workspace view.";
+    ? copy.workspace.fitViewDescriptionEnabled
+    : copy.workspace.fitViewDescriptionDisabled;
   const canZoomOut = document.view.zoom > minimumWorkspaceZoom;
   const canZoomIn = document.view.zoom < maximumWorkspaceZoom;
   const zoomOutDescription = canZoomOut
-    ? "Zoom out from the current centered workspace view. Shortcut: minus. Ctrl/Cmd plus wheel zooms around the pointer."
-    : "Workspace is already at the minimum 45% zoom. Shortcut: minus.";
+    ? copy.workspace.zoomOutDescriptionEnabled
+    : copy.workspace.zoomOutDescriptionDisabled;
   const zoomInDescription = canZoomIn
-    ? "Zoom in on the current centered workspace view. Shortcut: plus. Ctrl/Cmd plus wheel zooms around the pointer."
-    : "Workspace is already at the maximum 240% zoom. Shortcut: plus.";
+    ? copy.workspace.zoomInDescriptionEnabled
+    : copy.workspace.zoomInDescriptionDisabled;
   const resetViewDescription = canResetView
-    ? "Reset the workspace to the default zoom and pan. Shortcut: 0."
-    : "Workspace is already at the default zoom and pan. Shortcut: 0.";
+    ? copy.workspace.resetViewDescriptionEnabled
+    : copy.workspace.resetViewDescriptionDisabled;
   const clearWorkspaceDescription = canClearWorkspace
     ? clearWorkspaceArmed
-      ? "Clear workspace is ready. Confirm to remove every component and wire, or press Escape to cancel; Undo can restore the cleared circuit."
-      : "Clear every component and wire from the workspace. A second click confirms the clear, and Undo can restore it."
-    : "Add at least one component before clearing the workspace.";
+      ? copy.workspace.clearDescriptionArmed
+      : copy.workspace.clearDescriptionEnabled
+    : copy.workspace.clearDescriptionDisabled;
 
   function zoomAround(nextZoom: number, focusPoint: CircuitPoint) {
     const clampedZoom = Math.max(minimumWorkspaceZoom, Math.min(maximumWorkspaceZoom, nextZoom));
     if (clampedZoom === document.view.zoom) {
       onAnnounceViewChange(
-        `Workspace zoom already at ${Math.round(clampedZoom * 100)}%.`,
+        `${copy.workspace.zoomAlreadyAtPrefix} ${Math.round(clampedZoom * 100)}%.`,
       );
       return;
     }
@@ -661,7 +681,7 @@ export function CircuitWorkspace({
       offsetY: focusPoint.y - world.y * clampedZoom,
     });
     onAnnounceViewChange(
-      `Workspace zoom ${Math.round(clampedZoom * 100)}%. Ctrl/Cmd plus wheel uses the pointer as its anchor.`,
+      `${copy.workspace.zoomStatusPrefix} ${Math.round(clampedZoom * 100)}%. ${copy.workspace.zoomStatusSuffix}`,
     );
   }
 
@@ -766,7 +786,7 @@ export function CircuitWorkspace({
       releasePanPointer(event.pointerId);
       setPanState(null);
       if (shouldAnnouncePan) {
-        onAnnounceViewChange("Workspace panned. Drag empty canvas again to keep navigating.");
+        onAnnounceViewChange(copy.workspace.panAnnounced);
       }
     }
   }
@@ -814,12 +834,12 @@ export function CircuitWorkspace({
         offsetY: activePanState.offsetY,
       });
       setPanState(null);
-      onAnnounceViewChange("Workspace pan cancelled. View returned to where it started.");
+      onAnnounceViewChange(copy.workspace.panCancelled);
     }
 
     window.addEventListener("keydown", handlePanCancel);
     return () => window.removeEventListener("keydown", handlePanCancel);
-  }, [document.view, onAnnounceViewChange, onUpdateView, panState]);
+  }, [copy.workspace.panCancelled, document.view, onAnnounceViewChange, onUpdateView, panState]);
 
   function handleWorkspaceDragEnter(event: ReactDragEvent<HTMLDivElement>) {
     const dragPreview = getWorkspaceDragPreview(event);
@@ -899,7 +919,7 @@ export function CircuitWorkspace({
         "lab-panel flex min-h-0 w-full min-w-0 flex-col overflow-hidden xl:h-full",
         className,
       ].join(" ").trim()}
-      aria-label="Circuit workspace"
+      aria-label={copy.workspace.ariaLabel}
       tabIndex={-1}
       data-circuit-workspace-panel=""
       data-circuit-render-mode={renderMode}
@@ -908,7 +928,7 @@ export function CircuitWorkspace({
       <div className="border-b border-line px-3 py-2 sm:px-3.5">
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0 space-y-1">
-            <p className="lab-label">Workspace</p>
+            <p className="lab-label">{copy.workspace.eyebrow}</p>
             <p className="max-w-3xl text-sm leading-5 text-ink-700 sm:line-clamp-1" aria-live="polite">
               {workspaceGuidance}
             </p>
@@ -933,10 +953,10 @@ export function CircuitWorkspace({
           </span>
           <div
             className="flex w-full min-w-0 max-w-full items-center justify-start gap-1.5 overflow-x-auto whitespace-nowrap rounded-full border border-line bg-paper-strong px-3 py-1.5 text-xs font-semibold text-ink-700 sm:w-auto sm:min-w-[15rem] sm:justify-center sm:overflow-visible"
-            aria-label={`Workspace view status. ${workspaceZoomPercent}% zoom, ${workspacePartLabel}, ${workspaceWireLabel}, ${pointerPositionLabel}, ${workspaceModeLabel}.`}
+            aria-label={`${copy.workspace.statusAriaPrefix} ${workspaceZoomPercent}% ${copy.workspace.zoom}, ${workspacePartLabel}, ${workspaceWireLabel}, ${pointerPositionLabel}, ${workspaceModeLabel}.`}
             data-circuit-workspace-view-status=""
           >
-            <span className="text-ink-950">{workspaceZoomPercent}% zoom</span>
+            <span className="text-ink-950">{workspaceZoomPercent}% {copy.workspace.zoom}</span>
             <span aria-hidden="true">·</span>
             <span>{workspacePartLabel}</span>
             <span aria-hidden="true">·</span>
@@ -952,7 +972,7 @@ export function CircuitWorkspace({
               className="rounded-full border border-teal-500/20 bg-teal-500/8 px-2.5 py-1.5 text-xs font-semibold text-teal-800"
               data-circuit-modern-legend=""
             >
-              Modern: bulb glow follows power; e- dots show electron flow.
+              {copy.workspace.modernLegend}
             </div>
           ) : null}
           <button
@@ -961,10 +981,10 @@ export function CircuitWorkspace({
             className="rounded-full border border-line bg-paper px-2.5 py-1.5 text-sm font-semibold text-ink-950 disabled:cursor-not-allowed disabled:opacity-50"
             aria-describedby="circuit-zoom-out-description"
             aria-keyshortcuts="-"
-            title={canZoomOut ? "Zoom out (shortcut: -)" : "Minimum zoom reached"}
+            title={canZoomOut ? copy.workspace.zoomOutTitle : copy.workspace.minimumZoomTitle}
             onClick={onZoomOut}
           >
-            Zoom -
+            {copy.workspace.zoomOut}
           </button>
           <button
             type="button"
@@ -972,10 +992,10 @@ export function CircuitWorkspace({
             className="rounded-full border border-line bg-paper px-2.5 py-1.5 text-sm font-semibold text-ink-950 disabled:cursor-not-allowed disabled:opacity-50"
             aria-describedby="circuit-zoom-in-description"
             aria-keyshortcuts="+"
-            title={canZoomIn ? "Zoom in (shortcut: +)" : "Maximum zoom reached"}
+            title={canZoomIn ? copy.workspace.zoomInTitle : copy.workspace.maximumZoomTitle}
             onClick={onZoomIn}
           >
-            Zoom +
+            {copy.workspace.zoomIn}
           </button>
           <button
             type="button"
@@ -983,10 +1003,10 @@ export function CircuitWorkspace({
             className="rounded-full border border-line bg-paper px-2.5 py-1.5 text-sm font-semibold text-ink-950 disabled:cursor-not-allowed disabled:opacity-50"
             aria-describedby="circuit-reset-view-description"
             aria-keyshortcuts="0"
-            title={canResetView ? "Reset workspace view (shortcut: 0)" : "Default view already active"}
+            title={canResetView ? copy.workspace.resetViewTitle : copy.workspace.defaultViewTitle}
             onClick={onResetView}
           >
-            Reset view
+            {copy.workspace.resetView}
           </button>
           <button
             type="button"
@@ -997,7 +1017,7 @@ export function CircuitWorkspace({
             title={fitViewDescription}
             onClick={onFitView}
           >
-            Fit circuit
+            {copy.workspace.fitCircuit}
           </button>
           <button
             type="button"
@@ -1008,7 +1028,7 @@ export function CircuitWorkspace({
             title={clearWorkspaceDescription}
             onClick={onClearWorkspace}
           >
-            {clearWorkspaceArmed ? "Confirm clear" : "Clear workspace"}
+            {clearWorkspaceArmed ? copy.workspace.confirmClear : copy.workspace.clearWorkspace}
           </button>
         </div>
       </div>
@@ -1051,7 +1071,7 @@ export function CircuitWorkspace({
           viewBox={`0 0 ${CIRCUIT_CANVAS_WIDTH} ${CIRCUIT_CANVAS_HEIGHT}`}
           className={["h-full w-full touch-none bg-paper/40", workspaceCanvasCursorClass].join(" ")}
           role="img"
-          aria-label={`Interactive circuit workspace. ${workspaceModeLabel}. ${pointerPositionLabel}.`}
+          aria-label={`${copy.workspace.canvasAriaPrefix} ${workspaceModeLabel}. ${pointerPositionLabel}.`}
           data-circuit-workspace-canvas=""
           data-circuit-render-mode={renderMode}
           onPointerMove={handleWorkspacePointerMove}
@@ -1072,7 +1092,7 @@ export function CircuitWorkspace({
               });
               setPanState(null);
               onAnnounceViewChange(
-                "Workspace pan interrupted. View returned to where it started.",
+                copy.workspace.panInterrupted,
               );
             }
           }}
@@ -1088,7 +1108,7 @@ export function CircuitWorkspace({
                 offsetY: panState.offsetY,
               });
               onAnnounceViewChange(
-                "Workspace pan interrupted. View returned to where it started.",
+                copy.workspace.panInterrupted,
               );
             }
             setPanState(null);
@@ -1151,13 +1171,13 @@ export function CircuitWorkspace({
                 stroke="rgba(15,28,36,0.1)"
               />
               <text x="0" y="-20" textAnchor="middle" className="fill-ink-950 text-[22px] font-semibold">
-                Start with a source and one load
+                {copy.workspace.emptyTitle}
               </text>
               <text x="0" y="14" textAnchor="middle" className="fill-ink-700 text-[14px]">
-                Click a palette item to add it here, then connect terminals with the wire tool.
+                {copy.workspace.emptySubtitle}
               </text>
               <text x="0" y="40" textAnchor="middle" className="fill-ink-600 text-[13px]">
-                Example: battery -&gt; resistor -&gt; back to the battery for a complete loop.
+                {copy.workspace.emptyExample}
               </text>
             </g>
           ) : null}
@@ -1172,7 +1192,7 @@ export function CircuitWorkspace({
                 return null;
               }
               const selected = selection?.kind === "wire" && selection.id === wire.id;
-              const wireLabel = getCircuitWireDisplayLabel(document, wire);
+              const wireLabel = formatCircuitWireDisplayLabel(document, wire, copy);
               const electronFlow = renderMode === "modern"
                 ? deriveWireElectronFlow(document, solveResult, wire)
                 : null;
@@ -1319,18 +1339,18 @@ export function CircuitWorkspace({
             ) : null}
 
             {document.components.map((component) => {
-              const definition = getCircuitComponentDefinition(component.type);
               const result = solveResult.componentResults[component.id];
               const selected =
                 selection?.kind === "component" && selection.id === component.id;
               const componentDescriptionId = `circuit-component-${component.id}-description`;
+              const componentLabel = formatCircuitComponentDisplayLabel(component, copy);
               const componentAccessibleDescription = pendingWireStart
-                ? `${component.label} body is locked while a wire is pending; use its terminals to finish the wire or press Escape to cancel.`
+                ? `${componentLabel} ${copy.workspace.componentDescriptions.pending}`
                 : activeTool === "wire"
-                  ? `${component.label} body is locked while wiring; use its terminals to start a wire or press W/Escape to return to select mode.`
+                  ? `${componentLabel} ${copy.workspace.componentDescriptions.wireMode}`
                   : selected
-                    ? `${component.label} is selected. Drag it, press arrow keys to nudge it, press R to rotate, or press Delete to remove it.`
-                    : `${component.label}. Press Enter or Space to select it; use its terminals to start wiring.`;
+                    ? `${componentLabel} ${copy.workspace.componentDescriptions.selected}`
+                    : `${componentLabel}. ${copy.workspace.componentDescriptions.idle}`;
 
               return (
                 <g
@@ -1338,7 +1358,7 @@ export function CircuitWorkspace({
                   transform={`translate(${component.x} ${component.y}) rotate(${component.rotation})`}
                   role="button"
                   tabIndex={0}
-                  aria-label={component.label}
+                  aria-label={componentLabel}
                   aria-describedby={componentDescriptionId}
                   aria-current={selected ? "true" : undefined}
                   onClick={(event) => {
@@ -1415,7 +1435,7 @@ export function CircuitWorkspace({
                     textAnchor="middle"
                     className="fill-ink-950 text-[11px] font-semibold"
                   >
-                    {component.label}
+                    {componentLabel}
                   </text>
                   {result?.stateLabel ? (
                     <text
@@ -1424,7 +1444,7 @@ export function CircuitWorkspace({
                       textAnchor="middle"
                       className="fill-ink-600 text-[10px] font-medium uppercase tracking-[0.12em]"
                     >
-                      {result.stateLabel}
+                      {formatCircuitStateLabel(result.stateLabel, copy)}
                     </text>
                   ) : null}
                   {(["a", "b"] as const).map((terminal) => {
@@ -1440,25 +1460,25 @@ export function CircuitWorkspace({
                     const targeted = isSameTerminal(activeTerminalRef, terminalRef);
                     const terminalActionLabel = pendingWireStart
                       ? pending
-                        ? "Pick another end"
-                        : "Connect here"
+                        ? copy.workspace.terminalActions.pickAnotherEnd
+                        : copy.workspace.terminalActions.connectHere
                       : activeTool === "wire"
-                        ? "Start here"
+                        ? copy.workspace.terminalActions.startHere
                         : targeted
-                          ? "Enter/Space to wire"
+                          ? copy.workspace.terminalActions.enterSpaceToWire
                           : null;
                     const terminalActionLabelWidth = terminalActionLabel
                       ? Math.max(84, terminalActionLabel.length * 6.4 + 20)
                       : 84;
-                    const terminalName = `${component.label} ${definition.terminalLabels[terminal]}`;
+                    const terminalName = formatCircuitTerminalDisplayLabel(document, terminalRef, copy);
                     const terminalDescriptionId = `circuit-terminal-${component.id}-${terminal}-description`;
                     const terminalAccessibleDescription = pendingWireStart
                       ? pending
-                        ? "This terminal is already selected. Choose a different terminal, click empty canvas, or press Escape to cancel the wire."
-                        : `Connect the pending wire to ${terminalName}.`
+                        ? copy.workspace.terminalDescriptions.pendingSame
+                        : `${copy.workspace.terminalDescriptions.pendingOtherPrefix} ${terminalName}.`
                       : activeTool === "wire"
-                        ? `Start a wire from ${terminalName}.`
-                        : `Press Enter or Space to start a wire from ${terminalName}.`;
+                        ? `${copy.workspace.terminalDescriptions.wireModePrefix} ${terminalName}.`
+                        : `${copy.workspace.terminalDescriptions.idlePrefix} ${terminalName}.`;
 
                     return (
                       <g key={terminal}>
@@ -1539,7 +1559,7 @@ export function CircuitWorkspace({
                   {chip(
                     node.center.x,
                     node.center.y - 18,
-                    node.voltage !== null ? formatMeasurement(node.voltage, "V") : "floating",
+                    node.voltage !== null ? formatMeasurement(node.voltage, "V") : copy.workspace.floating,
                     node.sourceConnected ? "teal" : "sky",
                   )}
                 </g>
@@ -1574,18 +1594,18 @@ export function CircuitWorkspace({
           </div>
         ) : null}
 
-        {topIssue ? (
+        {localizedTopIssue ? (
           <div className="border-t border-line bg-coral-500/6 px-4 py-3" aria-live="polite">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex min-w-0 flex-wrap items-center gap-2">
                 <span className="rounded-full border border-coral-500/30 bg-coral-500/10 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-coral-700">
                   {solveResult.issues.filter((issue) => issue.severity === "error").length > 0
-                    ? "Needs attention"
-                    : "Warnings"}
+                    ? copy.workspace.issueNeedsAttention
+                    : copy.workspace.issueWarnings}
                 </span>
                 <span className="text-sm font-semibold text-ink-950">{issueCountLabel}</span>
                 <span className="text-sm text-ink-700">
-                  {topIssue.title}: {topIssue.detail}
+                  {localizedTopIssue.title}: {localizedTopIssue.detail}
                 </span>
               </div>
               {issueComponent ? (
@@ -1594,7 +1614,7 @@ export function CircuitWorkspace({
                   className="rounded-full border border-coral-500/25 bg-paper px-3 py-1.5 text-xs font-semibold text-coral-700 transition hover:border-coral-500/40 hover:bg-coral-500/10"
                   onClick={() => inspectIssueComponent(issueComponent.id)}
                 >
-                  Inspect {issueComponent.label}
+                  {copy.workspace.inspectPrefix} {formatCircuitComponentDisplayLabel(issueComponent, copy)}
                 </button>
               ) : null}
             </div>

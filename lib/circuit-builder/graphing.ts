@@ -1,6 +1,10 @@
 import type { GraphSeries } from "@/lib/physics/types";
 import { formatMeasurement, sampleRange } from "@/lib/physics/math";
 import {
+  circuitBuilderCopyEn,
+  type CircuitBuilderCopy,
+} from "./copy";
+import {
   deriveLdrResistance,
   deriveThermistorResistance,
   getCircuitComponentById,
@@ -32,13 +36,14 @@ function makeSeries(
 function buildThermistorGraph(
   document: CircuitDocument,
   component: CircuitComponentInstance,
+  copy: CircuitBuilderCopy,
 ): CircuitGraphDescriptor {
   const baseResistance = Math.max(0.1, Number(component.properties.baseResistance ?? 220));
   const environment = getCircuitEnvironment(document);
   const temperatures = sampleRange(0, 100, 51);
   const series = makeSeries(
     "thermistor-resistance",
-    "Effective resistance",
+    copy.graphs.effectiveResistance,
     "#f0ab3c",
     temperatures.map((temperatureC) => ({
       x: temperatureC,
@@ -48,21 +53,20 @@ function buildThermistorGraph(
   const ambientLinked = thermistorUsesAmbientTemperature(component);
 
   return {
-    title: "Thermistor response",
-    xLabel: "Temperature (C)",
-    yLabel: "Resistance (ohm)",
-    summary:
-      "This simplified thermistor uses an NTC-style curve, so its resistance falls as temperature rises.",
+    title: copy.graphs.thermistorResponse,
+    xLabel: copy.graphs.temperatureAxis,
+    yLabel: copy.graphs.resistanceAxis,
+    summary: copy.graphs.thermistorSummary,
     description: ambientLinked
-      ? `The current ambient temperature is ${formatMeasurement(
-          environment.temperatureC,
-          "C",
-        )}, so the highlighted operating point follows the page temperature control.`
-      : "Manual mode keeps the resistance fixed. Turn on ambient-linked mode to drive this curve from the page temperature control.",
+      ? copy.graphs.thermistorAmbientDescription.replace(
+          "{value}",
+          formatMeasurement(environment.temperatureC, "C"),
+        )
+      : copy.graphs.thermistorManualDescription,
     series: [series],
     marker: ambientLinked
       ? {
-          label: "Current operating point",
+          label: copy.graphs.currentOperatingPoint,
           xValue: environment.temperatureC,
           seriesId: series.id,
           point: {
@@ -77,13 +81,14 @@ function buildThermistorGraph(
 function buildLdrGraph(
   document: CircuitDocument,
   component: CircuitComponentInstance,
+  copy: CircuitBuilderCopy,
 ): CircuitGraphDescriptor {
   const baseResistance = Math.max(1, Number(component.properties.baseResistance ?? 900));
   const environment = getCircuitEnvironment(document);
   const samples = sampleRange(0, 100, 51);
   const series = makeSeries(
     "ldr-resistance",
-    "Effective resistance",
+    copy.graphs.effectiveResistance,
     "#4ea6df",
     samples.map((lightLevelPercent) => ({
       x: lightLevelPercent,
@@ -93,20 +98,20 @@ function buildLdrGraph(
   const ambientLinked = ldrUsesAmbientLight(component);
 
   return {
-    title: "LDR response",
-    xLabel: "Light level (%)",
-    yLabel: "Resistance (ohm)",
-    summary:
-      "This simplified LDR uses a falling resistance curve so brighter light makes the branch easier to drive.",
+    title: copy.graphs.ldrResponse,
+    xLabel: copy.graphs.lightAxis,
+    yLabel: copy.graphs.resistanceAxis,
+    summary: copy.graphs.ldrSummary,
     description: ambientLinked
-      ? `The current ambient light intensity is ${Math.round(
-          environment.lightLevelPercent,
-        )}%, so the highlighted operating point follows the page light intensity control.`
-      : "Manual mode keeps the resistance fixed. Turn on ambient-linked mode to drive this curve from the page light intensity control.",
+      ? copy.graphs.ldrAmbientDescription.replace(
+          "{value}",
+          String(Math.round(environment.lightLevelPercent)),
+        )
+      : copy.graphs.ldrManualDescription,
     series: [series],
     marker: ambientLinked
       ? {
-          label: "Current operating point",
+          label: copy.graphs.currentOperatingPoint,
           xValue: environment.lightLevelPercent,
           seriesId: series.id,
           point: {
@@ -122,6 +127,7 @@ function simpleRcGraph(
   document: CircuitDocument,
   component: CircuitComponentInstance,
   solveResult: CircuitSolveResult,
+  copy: CircuitBuilderCopy,
 ): CircuitGraphDescriptor | null {
   const batteries = document.components.filter((entry) => entry.type === "battery");
   const capacitors = document.components.filter((entry) => entry.type === "capacitor");
@@ -160,22 +166,18 @@ function simpleRcGraph(
   const samples = sampleRange(0, duration, 81);
 
   return {
-    title: "Simple RC charging estimate",
-    xLabel: "Time (s)",
-    yLabel: "Response",
-    summary:
-      "The graph assumes one source and a single equivalent series resistance around the selected capacitor.",
-    description: `Using R_total = ${formatMeasurement(
-      resistiveTotal,
-      "ohm",
-    )} and C = ${formatMeasurement(capacitance, "F")}, tau = ${formatMeasurement(
-      tau,
-      "s",
-    )}.`,
+    title: copy.graphs.rcTitle,
+    xLabel: copy.graphs.timeAxis,
+    yLabel: copy.graphs.responseAxis,
+    summary: copy.graphs.rcSummary,
+    description: copy.graphs.rcDescription
+      .replace("{resistance}", formatMeasurement(resistiveTotal, "ohm"))
+      .replace("{capacitance}", formatMeasurement(capacitance, "F"))
+      .replace("{tau}", formatMeasurement(tau, "s")),
     series: [
       makeSeries(
         "capacitor-voltage",
-        "Capacitor voltage",
+        copy.graphs.capacitorVoltage,
         "#4ea6df",
         samples.map((time) => ({
           x: time,
@@ -184,7 +186,7 @@ function simpleRcGraph(
       ),
       makeSeries(
         "current-decay",
-        "Current decay",
+        copy.graphs.currentDecay,
         "#f16659",
         samples.map((time) => ({
           x: time,
@@ -199,19 +201,22 @@ export function buildCircuitInspectorGraph(input: {
   document: CircuitDocument;
   componentId: string;
   solveResult: CircuitSolveResult;
+  copy?: CircuitBuilderCopy;
 }): CircuitGraphDescriptor | null {
   const component = getCircuitComponentById(input.document, input.componentId);
   if (!component) {
     return null;
   }
 
+  const copy = input.copy ?? circuitBuilderCopyEn;
+
   switch (component.type) {
     case "thermistor":
-      return buildThermistorGraph(input.document, component);
+      return buildThermistorGraph(input.document, component, copy);
     case "ldr":
-      return buildLdrGraph(input.document, component);
+      return buildLdrGraph(input.document, component, copy);
     case "capacitor":
-      return simpleRcGraph(input.document, component, input.solveResult);
+      return simpleRcGraph(input.document, component, input.solveResult, copy);
     default:
       return null;
   }

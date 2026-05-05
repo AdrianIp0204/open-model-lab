@@ -40,7 +40,7 @@ describe("circuit builder route", () => {
     expect(screen.getByRole("button", { name: /Starter series loop/i })).toBeInTheDocument();
   });
 
-  it("localizes the route metadata context in zh-HK without changing the builder surface yet", async () => {
+  it("localizes the route metadata context and builder surface in zh-HK", async () => {
     globalThis.__TEST_LOCALE__ = "zh-HK";
 
     render(await CircuitBuilderRoute());
@@ -49,8 +49,10 @@ describe("circuit builder route", () => {
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: /build a live circuit and explain what it is doing/i,
+        name: "建立即時電路，並解釋它正在做甚麼。",
       }),
     ).toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: "加入 電池" }).length).toBeGreaterThan(0);
+    expect(screen.getByRole("button", { name: "入門串聯迴路" })).toBeInTheDocument();
   });
 });

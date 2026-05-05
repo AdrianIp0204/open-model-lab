@@ -6,6 +6,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   CIRCUIT_DRAFT_STORAGE_KEY,
   CIRCUIT_RENDER_MODE_STORAGE_KEY,
+  getCircuitBuilderCopy,
   localSavedCircuitsStore,
 } from "@/lib/circuit-builder";
 import { CircuitBuilderPage } from "@/components/circuit-builder/CircuitBuilderPage";
@@ -167,6 +168,60 @@ describe("CircuitBuilderPage", () => {
         rerendered.container.querySelector("[data-circuit-workspace-panel]"),
       ).toHaveAttribute("data-circuit-render-mode", "modern"),
     );
+  });
+
+  it("renders Traditional Chinese circuit builder copy, labels, mode text, and search aliases", async () => {
+    const user = userEvent.setup();
+    const { container } = render(<CircuitBuilderPage copy={getCircuitBuilderCopy("zh-HK")} />);
+    const desktopPalette = within(
+      container.querySelector('[data-circuit-palette-panel="desktop"]') as HTMLElement,
+    );
+
+    expect(screen.getByText("電路建構器")).toBeInTheDocument();
+    expect(screen.getAllByRole("complementary", { name: "元件庫" }).length).toBeGreaterThan(0);
+    expect(screen.getByRole("region", { name: "電路工作區" })).toBeInTheDocument();
+    expect(screen.getAllByText("檢視器").length).toBeGreaterThan(0);
+    expect(screen.getByText("顯示")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "電路圖" })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByRole("button", { name: "現代視覺" })).toBeInTheDocument();
+    expect(desktopPalette.getByRole("button", { name: "加入 電池" })).toBeVisible();
+    expect(desktopPalette.getByRole("button", { name: "加入 燈泡" })).toBeVisible();
+    expect(desktopPalette.getByRole("button", { name: "加入 開關" })).toBeVisible();
+
+    await user.click(screen.getByRole("button", { name: "現代視覺" }));
+    expect(container.querySelector("[data-circuit-modern-legend]")).toHaveTextContent(
+      "現代視覺：燈泡亮度跟隨功率；e− 點顯示電子流。",
+    );
+
+    const searchInput = desktopPalette.getByLabelText("搜尋元件");
+    await user.type(searchInput, "電池");
+    expect(desktopPalette.getByRole("button", { name: "加入 電池" })).toBeVisible();
+
+    await user.clear(searchInput);
+    await user.type(searchInput, "battery");
+    expect(desktopPalette.getByRole("button", { name: "加入 電池" })).toBeVisible();
+
+    await user.clear(searchInput);
+    await user.type(searchInput, "ldr");
+    expect(desktopPalette.getByRole("button", { name: "加入 光敏電阻" })).toBeVisible();
+
+    await user.clear(searchInput);
+    await user.click(desktopPalette.getByRole("button", { name: "加入 電池" }));
+    await user.click(desktopPalette.getByRole("button", { name: "加入 燈泡" }));
+
+    expect(screen.getAllByText("電池 1").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("燈泡 1").length).toBeGreaterThan(0);
+
+    await user.click(desktopPalette.getByRole("button", { name: "啟用導線工具" }));
+    fireEvent.click(screen.getByLabelText("電池 1 正極端子"));
+    fireEvent.click(screen.getByLabelText("燈泡 1 端子 A"));
+
+    const connections = within(screen.getByRole("region", { name: "連接" }));
+    expect(
+      connections.getByRole("button", {
+        name: /連接「電池 1 正極端子」至「燈泡 1 端子 A」的導線/,
+      }),
+    ).toBeVisible();
   });
 
   it("renders powered bulb glow and electron flow only in modern mode", async () => {

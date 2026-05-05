@@ -1,5 +1,10 @@
 "use client";
 
+import {
+  circuitBuilderCopyEn,
+  type CircuitBuilderCopy,
+} from "@/lib/circuit-builder";
+
 type CircuitEnvironmentControlProps = {
   temperatureC: number;
   lightLevelPercent: number;
@@ -9,6 +14,7 @@ type CircuitEnvironmentControlProps = {
   onLightBegin: () => void;
   onCommit: () => void;
   mode: "desktop" | "mobile";
+  copy?: CircuitBuilderCopy;
 };
 
 function ThermometerIcon() {
@@ -78,6 +84,7 @@ export function CircuitEnvironmentControl({
   onLightBegin,
   onCommit,
   mode,
+  copy = circuitBuilderCopyEn,
 }: CircuitEnvironmentControlProps) {
   const isDesktop = mode === "desktop";
 
@@ -99,7 +106,7 @@ export function CircuitEnvironmentControl({
       >
         <div className="min-w-0 space-y-1">
           <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">
-            Environment
+            {copy.environment.title}
           </p>
           <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-ink-700">
             <span className="inline-flex items-center gap-1 rounded-full border border-line bg-paper px-2 py-1">
@@ -122,20 +129,20 @@ export function CircuitEnvironmentControl({
 
       <div className="space-y-3 border-t border-line px-3 pb-3 pt-3">
         <p className="text-xs leading-5 text-ink-600">
-          Ambient-linked thermistors follow temperature and ambient-linked LDRs follow light intensity. Manual mode ignores these sliders.
+          {copy.environment.description}
         </p>
 
         <label className="block rounded-[16px] border border-line bg-paper px-3 py-2 text-sm text-ink-800">
           <span className="flex items-center justify-between gap-3">
             <span className="inline-flex items-center gap-2 font-semibold text-ink-950">
               <ThermometerIcon />
-              Temperature
+              {copy.environment.temperature}
             </span>
             <span className="text-xs font-semibold text-ink-600">{Math.round(temperatureC)} C</span>
           </span>
           <input
             type="range"
-            aria-label="Ambient temperature"
+            aria-label={copy.environment.temperatureAria}
             min={0}
             max={100}
             step={1}
@@ -162,13 +169,13 @@ export function CircuitEnvironmentControl({
           <span className="flex items-center justify-between gap-3">
             <span className="inline-flex items-center gap-2 font-semibold text-ink-950">
               <LightIcon />
-              Light intensity
+              {copy.environment.light}
             </span>
             <span className="text-xs font-semibold text-ink-600">{Math.round(lightLevelPercent)}%</span>
           </span>
           <input
             type="range"
-            aria-label="Light intensity"
+            aria-label={copy.environment.lightAria}
             min={0}
             max={100}
             step={1}

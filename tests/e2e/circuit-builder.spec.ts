@@ -369,6 +369,88 @@ test("renders modern visual mode with powered bulb glow and electron flow", asyn
   await expect(page.locator("[data-circuit-modern-legend]")).toHaveCount(0);
 });
 
+test("localizes the zh-HK Circuit Builder surface and keeps modern visuals active", async ({
+  page,
+}) => {
+  await setHarnessSession(page, "signed-out");
+  await page.setViewportSize({ width: 1440, height: 980 });
+  await gotoAndExpectOk(page, "/zh-HK/circuit-builder");
+  await expect(page.locator("[data-circuit-builder-ready]")).toBeVisible();
+
+  await expect(page.getByRole("complementary", { name: "元件庫" }).first()).toBeVisible();
+  await expect(page.getByRole("region", { name: "電路工作區" })).toBeVisible();
+  await expect(page.getByText("檢視器").first()).toBeVisible();
+  await expect(page.getByText("顯示")).toBeVisible();
+  await expect(page.getByRole("button", { name: "電路圖" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "現代視覺" })).toBeVisible();
+
+  await page.getByRole("button", { name: "現代視覺" }).click();
+  const workspace = page.locator("[data-circuit-workspace-panel]");
+  await expect(workspace).toHaveAttribute("data-circuit-render-mode", "modern");
+  await expect(page.locator("[data-circuit-modern-legend]")).toContainText("現代視覺");
+
+  await page.locator('input[type="file"]').setInputFiles({
+    name: "zh-hk-bulb-loop.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(JSON.stringify({
+      version: 1,
+      environment: { temperatureC: 25, lightLevelPercent: 35 },
+      view: { zoom: 0.78, offsetX: 76, offsetY: 92 },
+      components: [
+        {
+          id: "battery-zh",
+          label: "Battery 1",
+          type: "battery",
+          x: 240,
+          y: 320,
+          rotation: 0,
+          properties: { voltage: 9 },
+        },
+        {
+          id: "bulb-zh",
+          label: "Light bulb 1",
+          type: "lightBulb",
+          x: 560,
+          y: 320,
+          rotation: 0,
+          properties: { ratedVoltage: 6, ratedPower: 3 },
+        },
+      ],
+      wires: [
+        {
+          id: "wire-positive-zh",
+          from: { componentId: "battery-zh", terminal: "a" },
+          to: { componentId: "bulb-zh", terminal: "a" },
+        },
+        {
+          id: "wire-negative-zh",
+          from: { componentId: "bulb-zh", terminal: "b" },
+          to: { componentId: "battery-zh", terminal: "b" },
+        },
+      ],
+    })),
+  });
+
+  await expect(page.getByRole("button", { name: "電池 1", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "燈泡 1", exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("region", { name: "連接" }).getByRole("button", {
+      name: /連接「電池 1 正極端子」至「燈泡 1 端子 A」的導線/,
+    }),
+  ).toBeVisible();
+  await expect(page.locator('[data-circuit-light-bulb-glow="on"]')).toBeVisible();
+  await expect(page.locator('[data-circuit-electron-flow-active="true"]')).not.toHaveCount(0);
+  await expect(page.locator('[data-circuit-modern-wire-highlight="true"]')).not.toHaveCount(0);
+
+  const desktopPalette = page.locator('[data-circuit-palette-panel="desktop"]');
+  await desktopPalette.getByLabel("搜尋元件").fill("battery");
+  await expect(desktopPalette.getByRole("button", { name: "加入 電池" })).toBeVisible();
+  await desktopPalette.getByLabel("搜尋元件").fill("光敏電阻");
+  await expect(desktopPalette.getByRole("button", { name: "加入 光敏電阻" })).toBeVisible();
+  await desktopPalette.getByLabel("搜尋元件").fill("ldr");
+  await expect(desktopPalette.getByRole("button", { name: "加入 光敏電阻" })).toBeVisible();
+});
+
 test("searches the desktop component library, adds a lower component quickly, and clears from the workspace controls with undo recovery", async ({
   page,
 }) => {
