@@ -52,6 +52,10 @@ function isAiLoggingEnabled() {
   return process.env.AI_LOGGING_ENABLED === "true";
 }
 
+function shouldTrustCloudflareConnectingIp() {
+  return process.env.AI_TRUST_CLOUDFLARE_CONNECTING_IP === "true";
+}
+
 type AiRateLimitKeyKind = "user" | "cloudflare-ip" | "host";
 
 type TrustedAiRateLimitKey = {
@@ -60,6 +64,10 @@ type TrustedAiRateLimitKey = {
 };
 
 function getTrustedClientAddress(request: Request) {
+  if (!shouldTrustCloudflareConnectingIp()) {
+    return null;
+  }
+
   return request.headers.get("cf-connecting-ip")?.trim() || null;
 }
 
@@ -96,6 +104,8 @@ async function getTrustedAiRateLimitKey(request: Request): Promise<TrustedAiRate
 
   // Deliberately ignore client-supplied context.userId and spoofable proxy/client
   // headers such as x-forwarded-for, x-real-ip, x-client-ip, and user-agent.
+  // cf-connecting-ip is only trusted when the deployment explicitly guarantees
+  // requests reached the Worker through Cloudflare.
   return getTrustedNetworkRateLimitKey(request);
 }
 

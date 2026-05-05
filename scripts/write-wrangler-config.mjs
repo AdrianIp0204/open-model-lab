@@ -238,8 +238,10 @@ function validateAiRuntimeVars(config) {
 
   validateBooleanStringVar(vars, "AI_FEATURES_ENABLED");
   validateBooleanStringVar(vars, "AI_LOGGING_ENABLED");
+  validateBooleanStringVar(vars, "AI_TRUST_CLOUDFLARE_CONNECTING_IP");
   validatePositiveIntegerVar(vars, "AI_RATE_LIMIT_MAX_REQUESTS");
   validatePositiveIntegerVar(vars, "AI_RATE_LIMIT_WINDOW_SECONDS");
+  validatePositiveIntegerVar(vars, "AI_RATE_LIMIT_MAX_BUCKETS");
   validateNonEmptyStringVar(vars, "GEMINI_MODEL");
 }
 

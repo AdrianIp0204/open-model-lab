@@ -6,6 +6,8 @@ import { buildAiLearningContext } from "@/lib/ai/context";
 import { checkAiCoachGrounding } from "@/lib/ai/grounding";
 import {
   consumeAiRateLimitSlot,
+  getAiRateLimitBucketCountForTests,
+  pruneExpiredAiRateLimitBucketsForTests,
   resetAiRateLimitForTests,
 } from "@/lib/ai/rate-limit";
 import {
@@ -36,12 +38,28 @@ vi.mock("@/lib/account/supabase", () => ({
   getAccountSessionForCookieHeader: mocks.getAccountSessionForCookieHeaderMock,
 }));
 
+vi.mock("server-only", () => ({}));
+
 const originalEnv = {
   AI_FEATURES_ENABLED: process.env.AI_FEATURES_ENABLED,
   AI_LOGGING_ENABLED: process.env.AI_LOGGING_ENABLED,
   AI_RATE_LIMIT_MAX_REQUESTS: process.env.AI_RATE_LIMIT_MAX_REQUESTS,
   AI_RATE_LIMIT_WINDOW_SECONDS: process.env.AI_RATE_LIMIT_WINDOW_SECONDS,
+  AI_RATE_LIMIT_MAX_BUCKETS: process.env.AI_RATE_LIMIT_MAX_BUCKETS,
+  AI_TRUST_CLOUDFLARE_CONNECTING_IP:
+    process.env.AI_TRUST_CLOUDFLARE_CONNECTING_IP,
+  GEMINI_API_KEY: process.env.GEMINI_API_KEY,
+  GEMINI_MODEL: process.env.GEMINI_MODEL,
 };
+
+function restoreEnvValue(key: string, value: string | undefined) {
+  if (value === undefined) {
+    delete process.env[key];
+    return;
+  }
+
+  process.env[key] = value;
+}
 
 const validContext: AiLearningContext = {
   language: "en",
@@ -176,6 +194,52 @@ describe("AI coach grounding", () => {
     expect(result.ok).toBe(true);
   });
 
+  it("matches LaTeX fractions against plain formula text", () => {
+    const result = checkAiCoachGrounding({
+      request: {
+        mode: "guide",
+        context: {
+          ...validContext,
+          page: {
+            ...validContext.page,
+            formulas: ["Ohm relationship: I = \\frac{V}{R}"],
+          },
+        },
+      },
+      response: {
+        action: "Try setting voltage while resistance stays fixed.",
+        observe: "Watch whether I = V/R changes in the readout.",
+        question: "What should happen to current?",
+        citations: [{ type: "formula", label: "I = V/R" }],
+      },
+    });
+
+    expect(result.ok).toBe(true);
+  });
+
+  it("matches common LaTeX symbols against plain symbol names", () => {
+    const result = checkAiCoachGrounding({
+      request: {
+        mode: "guide",
+        context: {
+          ...validContext,
+          page: {
+            ...validContext.page,
+            formulas: ["Restoring pattern: a(t) = -\\omega^2 x(t)"],
+          },
+        },
+      },
+      response: {
+        action: "Try moving the mass away from equilibrium.",
+        observe: "Watch whether a(t) = -omega^2 x(t) points back.",
+        question: "What direction should the acceleration have?",
+        citations: [{ type: "formula", label: "a(t) = -omega^2 x(t)" }],
+      },
+    });
+
+    expect(result.ok).toBe(true);
+  });
+
   it("rejects unknown formula citations", () => {
     const result = checkAiCoachGrounding({
       request: buildRequest(),
@@ -210,9 +274,18 @@ describe("AI coach rate limiter", () => {
 
   afterEach(() => {
     resetAiRateLimitForTests();
-    process.env.AI_RATE_LIMIT_MAX_REQUESTS = originalEnv.AI_RATE_LIMIT_MAX_REQUESTS;
-    process.env.AI_RATE_LIMIT_WINDOW_SECONDS =
-      originalEnv.AI_RATE_LIMIT_WINDOW_SECONDS;
+    restoreEnvValue(
+      "AI_RATE_LIMIT_MAX_REQUESTS",
+      originalEnv.AI_RATE_LIMIT_MAX_REQUESTS,
+    );
+    restoreEnvValue(
+      "AI_RATE_LIMIT_WINDOW_SECONDS",
+      originalEnv.AI_RATE_LIMIT_WINDOW_SECONDS,
+    );
+    restoreEnvValue(
+      "AI_RATE_LIMIT_MAX_BUCKETS",
+      originalEnv.AI_RATE_LIMIT_MAX_BUCKETS,
+    );
   });
 
   it("blocks excessive requests inside the window", () => {
@@ -225,6 +298,129 @@ describe("AI coach rate limiter", () => {
     if (!blocked.allowed) {
       expect(blocked.retryAfterSeconds).toBe(60);
     }
+  });
+
+  it("prunes expired buckets when a new key is consumed", () => {
+    consumeAiRateLimitSlot("learner-1", 1_000);
+    consumeAiRateLimitSlot("learner-2", 1_001);
+
+    expect(getAiRateLimitBucketCountForTests()).toBe(2);
+
+    consumeAiRateLimitSlot("learner-3", 61_001);
+
+    expect(getAiRateLimitBucketCountForTests()).toBe(1);
+  });
+
+  it("resets an expired bucket for the same key cleanly", () => {
+    expect(consumeAiRateLimitSlot("learner-1", 1_000).allowed).toBe(true);
+    expect(consumeAiRateLimitSlot("learner-1", 61_000).allowed).toBe(true);
+
+    const nextDecision = consumeAiRateLimitSlot("learner-1", 61_001);
+
+    expect(nextDecision.allowed).toBe(true);
+    expect(getAiRateLimitBucketCountForTests()).toBe(1);
+  });
+
+  it("keeps the bucket map bounded by the configured cap", () => {
+    process.env.AI_RATE_LIMIT_MAX_BUCKETS = "2";
+
+    consumeAiRateLimitSlot("learner-1", 1_000);
+    consumeAiRateLimitSlot("learner-2", 1_001);
+    consumeAiRateLimitSlot("learner-3", 1_002);
+
+    expect(getAiRateLimitBucketCountForTests()).toBe(2);
+
+    pruneExpiredAiRateLimitBucketsForTests(61_002);
+
+    expect(getAiRateLimitBucketCountForTests()).toBe(0);
+  });
+});
+
+describe("Gemini coach provider", () => {
+  function buildGeminiPayload(response: AiCoachResponse) {
+    return {
+      candidates: [
+        {
+          content: {
+            parts: [{ text: JSON.stringify(response) }],
+          },
+        },
+      ],
+    };
+  }
+
+  beforeEach(() => {
+    process.env.GEMINI_API_KEY = "test-gemini-key";
+    process.env.GEMINI_MODEL = "gemini-test-model";
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    restoreEnvValue("GEMINI_API_KEY", originalEnv.GEMINI_API_KEY);
+    restoreEnvValue("GEMINI_MODEL", originalEnv.GEMINI_MODEL);
+  });
+
+  it("retries one transient Gemini HTTP failure before returning a valid response", async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(new Response("temporary failure", { status: 503 }))
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify(buildGeminiPayload(validResponse)), {
+          status: 200,
+        }),
+      );
+    vi.stubGlobal("fetch", fetchMock);
+    const { generateCoachResponseWithGeminiResult } =
+      await vi.importActual<typeof import("@/lib/ai/providers/gemini")>(
+        "@/lib/ai/providers/gemini",
+      );
+
+    const result = await generateCoachResponseWithGeminiResult(buildRequest());
+
+    expect(result.fallbackUsed).toBe(false);
+    expect(result.response).toEqual(validResponse);
+    expect(result.attempts).toBe(2);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("retries one thrown Gemini fetch failure before returning a valid response", async () => {
+    const fetchMock = vi
+      .fn()
+      .mockRejectedValueOnce(new TypeError("fetch failed"))
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify(buildGeminiPayload(validResponse)), {
+          status: 200,
+        }),
+      );
+    vi.stubGlobal("fetch", fetchMock);
+    const { generateCoachResponseWithGeminiResult } =
+      await vi.importActual<typeof import("@/lib/ai/providers/gemini")>(
+        "@/lib/ai/providers/gemini",
+      );
+
+    const result = await generateCoachResponseWithGeminiResult(buildRequest());
+
+    expect(result.fallbackUsed).toBe(false);
+    expect(result.response).toEqual(validResponse);
+    expect(result.attempts).toBe(2);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("does not retry non-retryable Gemini authentication failures", async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(new Response("unauthorized", { status: 401 }));
+    vi.stubGlobal("fetch", fetchMock);
+    const { generateCoachResponseWithGeminiResult } =
+      await vi.importActual<typeof import("@/lib/ai/providers/gemini")>(
+        "@/lib/ai/providers/gemini",
+      );
+
+    const result = await generateCoachResponseWithGeminiResult(buildRequest());
+
+    expect(result.fallbackUsed).toBe(true);
+    expect(result.attempts).toBe(1);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 });
 
@@ -283,6 +479,8 @@ describe("AI coach route", () => {
     process.env.AI_LOGGING_ENABLED = "false";
     process.env.AI_RATE_LIMIT_MAX_REQUESTS = "20";
     process.env.AI_RATE_LIMIT_WINDOW_SECONDS = "600";
+    process.env.AI_RATE_LIMIT_MAX_BUCKETS = "5000";
+    delete process.env.AI_TRUST_CLOUDFLARE_CONNECTING_IP;
     mocks.getAccountSessionForCookieHeaderMock.mockResolvedValue(null);
     mocks.generateCoachResponseWithGeminiResultMock.mockResolvedValue({
       response: validResponse,
@@ -295,11 +493,24 @@ describe("AI coach route", () => {
     resetAiRateLimitForTests();
     mocks.generateCoachResponseWithGeminiResultMock.mockReset();
     mocks.getAccountSessionForCookieHeaderMock.mockReset();
-    process.env.AI_FEATURES_ENABLED = originalEnv.AI_FEATURES_ENABLED;
-    process.env.AI_LOGGING_ENABLED = originalEnv.AI_LOGGING_ENABLED;
-    process.env.AI_RATE_LIMIT_MAX_REQUESTS = originalEnv.AI_RATE_LIMIT_MAX_REQUESTS;
-    process.env.AI_RATE_LIMIT_WINDOW_SECONDS =
-      originalEnv.AI_RATE_LIMIT_WINDOW_SECONDS;
+    restoreEnvValue("AI_FEATURES_ENABLED", originalEnv.AI_FEATURES_ENABLED);
+    restoreEnvValue("AI_LOGGING_ENABLED", originalEnv.AI_LOGGING_ENABLED);
+    restoreEnvValue(
+      "AI_RATE_LIMIT_MAX_REQUESTS",
+      originalEnv.AI_RATE_LIMIT_MAX_REQUESTS,
+    );
+    restoreEnvValue(
+      "AI_RATE_LIMIT_WINDOW_SECONDS",
+      originalEnv.AI_RATE_LIMIT_WINDOW_SECONDS,
+    );
+    restoreEnvValue(
+      "AI_RATE_LIMIT_MAX_BUCKETS",
+      originalEnv.AI_RATE_LIMIT_MAX_BUCKETS,
+    );
+    restoreEnvValue(
+      "AI_TRUST_CLOUDFLARE_CONNECTING_IP",
+      originalEnv.AI_TRUST_CLOUDFLARE_CONNECTING_IP,
+    );
   });
 
   it("returns 400 for invalid payloads", async () => {
@@ -381,8 +592,49 @@ describe("AI coach route", () => {
     expect(mocks.generateCoachResponseWithGeminiResultMock).toHaveBeenCalledTimes(1);
   });
 
-  it("uses cf-connecting-ip as the trusted signed-out network key", async () => {
+  it("does not trust cf-connecting-ip when the Cloudflare trust flag is missing or false", async () => {
     process.env.AI_RATE_LIMIT_MAX_REQUESTS = "1";
+
+    const firstResponse = await postCoachRequest({
+      headers: {
+        "cf-connecting-ip": "203.0.113.10",
+        "x-forwarded-for": "198.51.100.1",
+      },
+    });
+    const secondResponse = await postCoachRequest({
+      headers: {
+        "cf-connecting-ip": "203.0.113.11",
+        "x-forwarded-for": "198.51.100.2",
+      },
+    });
+
+    expect(firstResponse.status).toBe(200);
+    expect(secondResponse.status).toBe(429);
+    expect(mocks.generateCoachResponseWithGeminiResultMock).toHaveBeenCalledTimes(1);
+
+    resetAiRateLimitForTests();
+    mocks.generateCoachResponseWithGeminiResultMock.mockClear();
+    process.env.AI_TRUST_CLOUDFLARE_CONNECTING_IP = "false";
+
+    const thirdResponse = await postCoachRequest({
+      headers: {
+        "cf-connecting-ip": "203.0.113.20",
+      },
+    });
+    const fourthResponse = await postCoachRequest({
+      headers: {
+        "cf-connecting-ip": "203.0.113.21",
+      },
+    });
+
+    expect(thirdResponse.status).toBe(200);
+    expect(fourthResponse.status).toBe(429);
+    expect(mocks.generateCoachResponseWithGeminiResultMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("uses cf-connecting-ip as the trusted signed-out key only when enabled", async () => {
+    process.env.AI_RATE_LIMIT_MAX_REQUESTS = "1";
+    process.env.AI_TRUST_CLOUDFLARE_CONNECTING_IP = "true";
 
     const firstResponse = await postCoachRequest({
       headers: {
@@ -411,6 +663,7 @@ describe("AI coach route", () => {
 
   it("uses server-resolved signed-in user identity before body userId or Cloudflare IP", async () => {
     process.env.AI_RATE_LIMIT_MAX_REQUESTS = "1";
+    process.env.AI_TRUST_CLOUDFLARE_CONNECTING_IP = "true";
     mocks.getAccountSessionForCookieHeaderMock.mockResolvedValue({
       user: {
         id: "trusted-session-user",
@@ -450,6 +703,7 @@ describe("AI coach route", () => {
 
   it("falls back to trusted network identity when server session lookup fails", async () => {
     process.env.AI_RATE_LIMIT_MAX_REQUESTS = "1";
+    process.env.AI_TRUST_CLOUDFLARE_CONNECTING_IP = "true";
     mocks.getAccountSessionForCookieHeaderMock.mockRejectedValue(new Error("auth unavailable"));
 
     const firstResponse = await postCoachRequest({

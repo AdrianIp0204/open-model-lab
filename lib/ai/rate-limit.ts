@@ -18,6 +18,7 @@ export type AiRateLimitDecision =
 
 const DEFAULT_MAX_REQUESTS = 20;
 const DEFAULT_WINDOW_SECONDS = 600;
+const DEFAULT_MAX_BUCKETS = 5_000;
 const buckets = new Map<string, AiRateLimitBucket>();
 
 function readPositiveInteger(value: string | undefined, fallback: number) {
@@ -40,27 +41,66 @@ export function getAiRateLimitConfig() {
       process.env.AI_RATE_LIMIT_WINDOW_SECONDS,
       DEFAULT_WINDOW_SECONDS,
     ),
+    maxBuckets: readPositiveInteger(
+      process.env.AI_RATE_LIMIT_MAX_BUCKETS,
+      DEFAULT_MAX_BUCKETS,
+    ),
   };
+}
+
+function pruneExpiredAiRateLimitBuckets(now: number) {
+  for (const [key, bucket] of buckets.entries()) {
+    if (bucket.resetAt <= now) {
+      buckets.delete(key);
+    }
+  }
+}
+
+function enforceAiRateLimitBucketCap(maxBuckets: number, protectedKey: string) {
+  if (buckets.size <= maxBuckets) {
+    return;
+  }
+
+  const evictionCandidates = [...buckets.entries()]
+    .filter(([key]) => key !== protectedKey)
+    .sort(
+      ([leftKey, leftBucket], [rightKey, rightBucket]) =>
+        leftBucket.resetAt - rightBucket.resetAt || leftKey.localeCompare(rightKey),
+    );
+
+  for (const [key] of evictionCandidates) {
+    if (buckets.size <= maxBuckets) {
+      return;
+    }
+
+    buckets.delete(key);
+  }
 }
 
 export function consumeAiRateLimitSlot(
   key: string,
   now = Date.now(),
 ): AiRateLimitDecision {
-  const { maxRequests, windowSeconds } = getAiRateLimitConfig();
+  const { maxRequests, windowSeconds, maxBuckets } = getAiRateLimitConfig();
   const normalizedKey = key.trim() || "anonymous";
+
+  pruneExpiredAiRateLimitBuckets(now);
+
   const existing = buckets.get(normalizedKey);
 
   if (!existing || existing.resetAt <= now) {
+    const resetAt = now + windowSeconds * 1000;
+
     buckets.set(normalizedKey, {
       count: 1,
-      resetAt: now + windowSeconds * 1000,
+      resetAt,
     });
+    enforceAiRateLimitBucketCap(maxBuckets, normalizedKey);
 
     return {
       allowed: true,
       remaining: Math.max(0, maxRequests - 1),
-      resetAt: now + windowSeconds * 1000,
+      resetAt,
     };
   }
 
@@ -84,4 +124,12 @@ export function consumeAiRateLimitSlot(
 
 export function resetAiRateLimitForTests() {
   buckets.clear();
+}
+
+export function getAiRateLimitBucketCountForTests() {
+  return buckets.size;
+}
+
+export function pruneExpiredAiRateLimitBucketsForTests(now = Date.now()) {
+  pruneExpiredAiRateLimitBuckets(now);
 }

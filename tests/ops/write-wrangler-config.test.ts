@@ -27,7 +27,9 @@ const validAiVars = `{
   "AI_LOGGING_ENABLED": "true",
   "GEMINI_MODEL": "gemini-2.5-flash-lite",
   "AI_RATE_LIMIT_MAX_REQUESTS": "20",
-  "AI_RATE_LIMIT_WINDOW_SECONDS": "600"
+  "AI_RATE_LIMIT_WINDOW_SECONDS": "600",
+  "AI_RATE_LIMIT_MAX_BUCKETS": "5000",
+  "AI_TRUST_CLOUDFLARE_CONNECTING_IP": "true"
 }`;
 
 function cleanEnv(overrides: EnvOverrides = {}) {
@@ -199,6 +201,17 @@ describe("write-wrangler-config", () => {
 
     expect(result.status).toBe(1);
     expect(result.stderr).toContain("vars.AI_RATE_LIMIT_MAX_REQUESTS must be a positive integer");
+  });
+
+  it("rejects malformed AI Cloudflare IP trust vars", () => {
+    const result = runCheckWithContent(buildWranglerJsoncWith({
+      vars: `{
+    "AI_TRUST_CLOUDFLARE_CONNECTING_IP": "yes"
+  }`,
+    }));
+
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain('vars.AI_TRUST_CLOUDFLARE_CONNECTING_IP must be "true" or "false"');
   });
 
   it("accepts valid non-secret AI vars", () => {

@@ -11,6 +11,15 @@ export type AiGroundingResult =
 
 function normalizeForMatch(value: string) {
   return value
+    .replace(/\\(?:frac|dfrac|tfrac)\s*\{([^{}]+)\}\s*\{([^{}]+)\}/gu, "$1/$2")
+    .replace(/\\mathrm\s*\{([^{}]+)\}/gu, "$1")
+    .replace(/\\(?:cdot|times)\b/gu, "*")
+    .replace(/\\omega\b/gu, "omega")
+    .replace(/\\phi\b/gu, "phi")
+    .replace(/\\theta\b/gu, "theta")
+    .replace(/\\pi\b/gu, "pi")
+    .replace(/\\Delta\b/gu, "delta")
+    .replace(/[{}]/gu, "")
     .toLowerCase()
     .replace(/\\[a-z]+/g, "")
     .replace(/[^a-z0-9=+\-*/^().]+/g, "");

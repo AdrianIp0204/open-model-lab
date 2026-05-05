@@ -30,6 +30,8 @@ AI_FEATURES_ENABLED=true
 AI_LOGGING_ENABLED=true
 AI_RATE_LIMIT_MAX_REQUESTS=20
 AI_RATE_LIMIT_WINDOW_SECONDS=600
+AI_RATE_LIMIT_MAX_BUCKETS=5000
+AI_TRUST_CLOUDFLARE_CONNECTING_IP=false
 ```
 
 Keep `GEMINI_API_KEY` server-side. Do not expose it through `NEXT_PUBLIC_` variables.
@@ -50,8 +52,11 @@ AI logging is metadata-only when `AI_LOGGING_ENABLED=true`. Logs should include 
 
 - `AI_RATE_LIMIT_MAX_REQUESTS=20`
 - `AI_RATE_LIMIT_WINDOW_SECONDS=600`
+- `AI_RATE_LIMIT_MAX_BUCKETS=5000`
 
-Server rate limiting ignores any `context.userId` supplied by the client. For signed-in learners, `/api/ai/coach` resolves identity from the server-side account session using the incoming cookie header. For signed-out or unknown learners, the limiter uses Cloudflare's trusted `cf-connecting-ip` header when available. If no trusted network identity is available, it falls back to a coarse `host:<request-host>` bucket. Spoofable headers such as `x-forwarded-for`, `x-real-ip`, `x-client-ip`, and `user-agent` are intentionally not used for limiter identity. This is a development foundation, not a production paid quota system.
+Expired limiter buckets are pruned during request handling, and `AI_RATE_LIMIT_MAX_BUCKETS` bounds the in-memory bucket map before expiry.
+
+Server rate limiting ignores any `context.userId` supplied by the client. For signed-in learners, `/api/ai/coach` resolves identity from the server-side account session using the incoming cookie header. For signed-out or unknown learners, the limiter uses Cloudflare's `cf-connecting-ip` header only when `AI_TRUST_CLOUDFLARE_CONNECTING_IP=true`. Enable that flag only when requests are guaranteed to pass through Cloudflare or equivalent trusted proxy protection. Local, self-hosted, and direct environments should leave it false; then signed-out requests fall back to a coarse `host:<request-host>` bucket. Spoofable headers such as `x-forwarded-for`, `x-real-ip`, `x-client-ip`, and `user-agent` are intentionally not used for limiter identity. This is a development foundation, not a production paid quota system.
 
 ## Validation And Grounding
 

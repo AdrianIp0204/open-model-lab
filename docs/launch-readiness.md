@@ -194,10 +194,18 @@ AI_LOGGING_ENABLED=true
 GEMINI_MODEL=gemini-2.5-flash-lite
 AI_RATE_LIMIT_MAX_REQUESTS=20
 AI_RATE_LIMIT_WINDOW_SECONDS=600
+AI_RATE_LIMIT_MAX_BUCKETS=5000
+AI_TRUST_CLOUDFLARE_CONNECTING_IP=true
 ```
 
 `AI_LOGGING_ENABLED=true` is useful for staging and development. Production can
 set it to `false` if quieter logs are preferred.
+
+Set `AI_TRUST_CLOUDFLARE_CONNECTING_IP=true` only when requests are guaranteed
+to reach the Worker through Cloudflare. Local, self-hosted, or direct
+environments should leave it `false`; signed-out AI coach requests then use a
+coarse host-level rate-limit bucket instead of trusting a caller-supplied
+`cf-connecting-ip` header.
 
 The Gemini API key must be configured as a Cloudflare runtime secret, not as a
 committed variable and not as a `NEXT_PUBLIC_*` value:

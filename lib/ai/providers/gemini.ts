@@ -23,6 +23,16 @@ type GeminiGenerateContentResponse = {
   }>;
 };
 
+export class GeminiRequestError extends Error {
+  status?: number;
+
+  constructor(message: string, status?: number) {
+    super(message);
+    this.name = "GeminiRequestError";
+    this.status = status;
+  }
+}
+
 export type GeminiCoachGenerationResult = {
   response: AiCoachResponse;
   fallbackUsed: boolean;
@@ -62,6 +72,24 @@ function fallbackResult(reason: string, attempts: number): GeminiCoachGeneration
   };
 }
 
+function isRetryableGeminiError(error: unknown) {
+  if (error instanceof GeminiRequestError) {
+    return (
+      error.status === undefined ||
+      error.status === 408 ||
+      error.status === 409 ||
+      error.status === 429 ||
+      (error.status >= 500 && error.status <= 599)
+    );
+  }
+
+  if (error instanceof SyntaxError) {
+    return false;
+  }
+
+  return error instanceof Error;
+}
+
 async function callGemini(prompt: string, apiKey: string, model?: string) {
   const response = await fetch(buildGeminiGenerateContentUrl(model), {
     method: "POST",
@@ -86,7 +114,10 @@ async function callGemini(prompt: string, apiKey: string, model?: string) {
   });
 
   if (!response.ok) {
-    throw new Error(`Gemini request failed with status ${response.status}.`);
+    throw new GeminiRequestError(
+      `Gemini request failed with status ${response.status}.`,
+      response.status,
+    );
   }
 
   return (await response.json()) as GeminiGenerateContentResponse;
@@ -103,8 +134,11 @@ export async function generateCoachResponseWithGeminiResult(
 
   const model = getConfiguredGeminiModel();
   let lastFailureReason = "Gemini response could not be validated.";
+  let attempts = 0;
 
   for (let attempt = 1; attempt <= 2; attempt += 1) {
+    attempts = attempt;
+
     try {
       const prompt = buildAiCoachPrompt(request, { stricter: attempt > 1 });
       const payload = await callGemini(prompt, apiKey, model);
@@ -140,11 +174,16 @@ export async function generateCoachResponseWithGeminiResult(
     } catch (error) {
       lastFailureReason =
         error instanceof Error ? error.message : "Gemini request failed.";
-      break;
+
+      if (isRetryableGeminiError(error) && attempt < 2) {
+        continue;
+      }
+
+      return fallbackResult(lastFailureReason, attempt);
     }
   }
 
-  return fallbackResult(lastFailureReason, 2);
+  return fallbackResult(lastFailureReason, attempts);
 }
 
 export async function generateCoachResponseWithGemini(

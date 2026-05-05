@@ -70,6 +70,10 @@
     "GEMINI_MODEL": "gemini-2.5-flash-lite",
     "AI_RATE_LIMIT_MAX_REQUESTS": "20",
     "AI_RATE_LIMIT_WINDOW_SECONDS": "600",
+    "AI_RATE_LIMIT_MAX_BUCKETS": "5000",
+    // Enable only for Cloudflare-routed Worker traffic. Local or direct
+    // self-hosted environments should leave this false.
+    "AI_TRUST_CLOUDFLARE_CONNECTING_IP": "true",
 
     "NEXT_PUBLIC_OPEN_MODEL_LAB_ADSENSE_ENABLED": "false",
     "NEXT_PUBLIC_OPEN_MODEL_LAB_ADSENSE_CLIENT_ID": "your_adsense_client_id_here",
