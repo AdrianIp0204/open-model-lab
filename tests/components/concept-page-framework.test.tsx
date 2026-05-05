@@ -1,6 +1,7 @@
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import type { ReactNode } from "react";
 import { ConceptPageFramework } from "@/components/concepts/ConceptPageFramework";
 import { useConceptPagePhase } from "@/components/concepts/ConceptPagePhaseContext";
 import { conceptPageV2CurrentStepHeadingId } from "@/components/concepts/ConceptPageV2Panels";
@@ -49,11 +50,16 @@ function GuidedLabProbe() {
 vi.mock("@/components/simulations/DeferredConceptSimulationRenderer", () => ({
   DeferredConceptSimulationRenderer: ({
     concept,
+    afterBench,
   }: {
     concept: ConceptSimulationSource;
+    afterBench?: ReactNode;
   }) => (
     <div data-testid="deferred-simulation-probe">
-      <div>{concept.title}</div>
+      {[
+        <div key="simulation-title">{concept.title}</div>,
+        afterBench,
+      ]}
       <GuidedLabProbe />
     </div>
   ),
@@ -172,6 +178,28 @@ describe("ConceptPageFramework V2", () => {
     const equationSnapshot = screen.getByTestId("concept-v2-equation-snapshot");
     expect(equationSnapshot).toHaveTextContent(/equation snapshot/i);
     expect(equationSnapshot).toHaveTextContent(/restoring pattern/i);
+  });
+
+  it("passes the AI coach panel into the live lab without a React key warning", () => {
+    const originalError = console.error;
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation((...args) => {
+      originalError(...args);
+    });
+
+    try {
+      renderFramework("simple-harmonic-motion");
+
+      expect(screen.getByTestId("ai-learning-coach-panel")).toBeInTheDocument();
+      expect(
+        consoleErrorSpy.mock.calls.some((args) =>
+          args.some((arg) =>
+            String(arg).includes('Each child in a list should have a unique "key" prop'),
+          ),
+        ),
+      ).toBe(false);
+    } finally {
+      consoleErrorSpy.mockRestore();
+    }
   });
 
   it("keeps the title compact and leaves only status in the post-lab context", () => {

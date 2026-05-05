@@ -170,6 +170,7 @@ export function ConceptPageFramework({
         starterGuidePlacement="external"
         afterBench={
           <AiLearningCoachPanel
+            key="ai-learning-coach"
             concept={concept}
             simulationSource={simulationSource}
             locale={resolvedLocale}
