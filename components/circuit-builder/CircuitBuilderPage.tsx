@@ -19,7 +19,6 @@ import {
   saveAccountCircuitSave,
 } from "@/lib/circuit-builder/account-saves-client";
 import { DisclosurePanel } from "@/components/layout/DisclosurePanel";
-import { LearningVisual } from "@/components/visuals/LearningVisual";
 import {
   CIRCUIT_CANVAS_HEIGHT,
   CIRCUIT_CANVAS_WIDTH,
@@ -131,9 +130,9 @@ const positionOffsets: CircuitPoint[] = [
 ];
 const MAX_HISTORY_ENTRIES = 80;
 const toolbarButtonClass =
-  "rounded-full border border-line bg-paper px-3 py-1.5 text-[0.92rem] font-semibold text-ink-950 transition hover:border-ink-950/20 hover:bg-paper-strong disabled:cursor-not-allowed disabled:opacity-50";
+  "rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs font-semibold text-ink-950 transition hover:border-ink-950/20 hover:bg-paper-strong disabled:cursor-not-allowed disabled:opacity-50";
 const toolbarGroupClass =
-  "flex items-center gap-2 rounded-[20px] border border-line bg-paper-strong/90 px-2.5 py-2";
+  "inline-flex max-w-full flex-wrap items-center gap-1.5 rounded-[18px] border border-line bg-paper-strong/90 px-2 py-1.5";
 const defaultCircuitView = {
   zoom: 0.78,
   offsetX: 120,
@@ -2000,16 +1999,16 @@ export function CircuitBuilderPage() {
       ? "Wire mode is active. Click any terminal to start a connection, or press W/Esc to leave."
       : "Select mode is active. Click parts or wires to inspect, move, rotate, or delete them.";
   const keyboardShortcutSummary = state.pendingWireStart
-    ? "Shortcuts: Esc or empty canvas cancels the current wire, +/- zooms, F fits, Ctrl/⌘+Z undoes the last edit."
+    ? "Shortcuts: Esc or empty canvas cancels the current wire, +/- zooms, Ctrl/Cmd+wheel zooms around pointer, F fits, Ctrl/Cmd+Z undoes."
     : state.activeTool === "wire"
-      ? "Shortcuts: W or Esc leaves the wire tool, +/- zooms, F fits, 0 resets view."
+      ? "Shortcuts: W or Esc leaves the wire tool, +/- zooms, Ctrl/Cmd+wheel zooms around pointer, F fits, 0 resets view."
       : clearWorkspaceArmed
-        ? "Shortcuts: Esc cancels the clear confirmation, +/- zooms, F fits, 0 resets view."
+        ? "Shortcuts: Esc cancels the clear confirmation, +/- zooms, Ctrl/Cmd+wheel zooms around pointer, F fits, 0 resets view."
         : state.selection?.kind === "component"
-        ? "Shortcuts: R rotates the selected part, Arrow keys move it, Shift+arrow jumps farther, Delete removes it, Esc clears it, F fits view."
+        ? "Shortcuts: R rotates the selected part, Arrow keys move it, Shift+arrow jumps farther, Delete removes it, Esc clears it, Ctrl/Cmd+wheel zooms, F fits view."
         : state.selection?.kind === "wire"
-          ? "Shortcuts: Delete removes the selected wire, Esc clears it, W starts wiring, +/- zooms, F fits view."
-        : "Shortcuts: W starts wiring, +/- zooms, F fits, 0 resets view, Ctrl/⌘+Z undoes, Ctrl/⌘+Y redoes.";
+          ? "Shortcuts: Delete removes the selected wire, Esc clears it, W starts wiring, +/- zooms, Ctrl/Cmd+wheel zooms, F fits view."
+        : "Shortcuts: W starts wiring, +/- zooms, Ctrl/Cmd+wheel zooms around pointer, F fits, 0 resets view, Ctrl/Cmd+Z undoes, Ctrl/Cmd+Y redoes.";
   const toolbarNotice = exportStatus ?? wireSelectionHint ?? (
     !canExportDiagram
       ? "Diagram export stays disabled until the workspace contains at least one component. JSON state export still works for an empty workspace."
@@ -2397,90 +2396,77 @@ export function CircuitBuilderPage() {
       </div>
       </DisclosurePanel>
   );
-  const presetStrip = (
-    <div className="page-band p-3" data-testid="circuit-builder-preset-strip">
-      <div className="space-y-2.5">
-        <div className="space-y-1.5">
-          <p className="lab-label">Suggested starting points</p>
-          <div className="flex flex-wrap gap-2">
-            {circuitBuilderPresets.map((preset) => (
-              <button
-                key={preset.id}
-                type="button"
-                className="rounded-full border border-line bg-paper px-3.5 py-2 text-sm font-semibold text-ink-950"
-                onClick={() => loadPresetCircuit(preset)}
-              >
-                {preset.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
+  const presetChips = (
+    <div
+      className="flex min-w-0 flex-wrap items-center gap-1.5"
+      data-testid="circuit-builder-preset-strip"
+    >
+      <span className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-500">
+        Start
+      </span>
+      {circuitBuilderPresets.map((preset) => (
+        <button
+          key={preset.id}
+          type="button"
+          className="rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs font-semibold text-ink-950 transition hover:border-ink-950/20 hover:bg-paper-strong"
+          onClick={() => loadPresetCircuit(preset)}
+        >
+          {preset.label}
+        </button>
+      ))}
     </div>
   );
 
   return (
     <section
       id="circuit-builder-workspace"
-      className="space-y-4 sm:space-y-5"
+      className="space-y-3"
       data-circuit-builder-ready={hasHydrated ? "" : undefined}
     >
-      <div className="motion-enter motion-enter-tight grid gap-4 page-band p-4 sm:p-5 lg:grid-cols-[minmax(0,1fr)_14rem] lg:items-center">
-        <div className="space-y-1.5">
-          <p className="lab-label">Circuit Builder</p>
-          <h1 className="max-w-4xl text-[1.65rem] font-semibold leading-tight text-ink-950 sm:text-[1.95rem]">
-            Build a live circuit and explain what it is doing.
-          </h1>
-          <p className="max-w-3xl text-sm leading-6 text-ink-700 sm:text-[0.95rem]">
-            Free-build on the canvas, inspect live values, and keep the builder bench in view while you work through bounded DC assumptions.
-          </p>
+      <div className="motion-enter motion-enter-tight page-band p-2.5 sm:p-3">
+        <div className="grid gap-2 lg:grid-cols-[minmax(0,28rem)_1fr] lg:items-center">
+          <div className="min-w-0 space-y-1">
+            <p className="lab-label">Circuit Builder</p>
+            <h1 className="max-w-4xl text-[1.2rem] font-semibold leading-tight text-ink-950 sm:text-[1.35rem]">
+              Build a live circuit and explain what it is doing.
+            </h1>
+            <p className="max-w-3xl text-xs leading-5 text-ink-700">
+              Free-build, inspect live values, and keep the three-panel bench in view.
+            </p>
+          </div>
+          <div className="flex min-w-0 lg:justify-end">
+            {presetChips}
+          </div>
         </div>
-        <a
-          href="#circuit-builder-workspace"
-          aria-label="Jump to circuit workspace"
-          className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
-        >
-          <LearningVisual
-            kind="circuit"
-            motif="circuit"
-            tone="sky"
-            compact
-            className="h-28"
-          />
-        </a>
       </div>
 
       {draftRecoveryState === "pending" && pendingDraft ? (
-        <section className="lab-panel p-4 sm:p-5" aria-label="Local draft recovery">
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div className="max-w-3xl space-y-2">
-              <p className="lab-label">Local draft available</p>
-              <p className="text-sm leading-6 text-ink-700">
-                A local Circuit Builder draft was found {formatCircuitDraftSavedAt(pendingDraft.savedAt)}.
-                Restore it to recover work after a refresh, or keep the current blank session for now.
-              </p>
-              <p className="text-xs leading-5 text-ink-600">
-                Local draft recovery is a convenience feature. JSON export and import remain the portable save/open path.
+        <section className="lab-panel px-3 py-2.5" aria-label="Local draft recovery">
+          <div className="flex flex-wrap items-center justify-between gap-2.5">
+            <div className="min-w-0">
+              <p className="text-sm font-semibold text-ink-950">Local draft available</p>
+              <p className="text-xs leading-5 text-ink-700">
+                Saved {formatCircuitDraftSavedAt(pendingDraft.savedAt)}. Restore it, keep this session, or discard the draft.
               </p>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex shrink-0 flex-wrap gap-1.5">
               <button
                 type="button"
-                className="rounded-full border border-line bg-paper px-4 py-2 text-sm font-semibold text-ink-950"
+                className="rounded-full border border-line bg-paper px-3 py-1.5 text-xs font-semibold text-ink-950"
                 onClick={restorePendingDraft}
               >
                 Restore draft
               </button>
               <button
                 type="button"
-                className="rounded-full border border-line bg-paper px-4 py-2 text-sm font-semibold text-ink-950"
+                className="rounded-full border border-line bg-paper px-3 py-1.5 text-xs font-semibold text-ink-950"
                 onClick={dismissPendingDraft}
               >
                 Dismiss for now
               </button>
               <button
                 type="button"
-                className="rounded-full border border-coral-500/30 bg-coral-500/10 px-4 py-2 text-sm font-semibold text-coral-700"
+                className="rounded-full border border-coral-500/30 bg-coral-500/10 px-3 py-1.5 text-xs font-semibold text-coral-700"
                 onClick={discardPendingDraft}
               >
                 Discard saved draft
@@ -2489,8 +2475,6 @@ export function CircuitBuilderPage() {
           </div>
         </section>
       ) : null}
-
-      {presetStrip}
 
       <div
         className={[
@@ -2684,12 +2668,12 @@ export function CircuitBuilderPage() {
         )}
       </div>
 
-      <div className="page-band p-3">
-        <div className="flex flex-col gap-2.5 xl:flex-row xl:items-start xl:justify-end">
-          <div className="space-y-2 xl:max-w-[54rem] xl:text-right">
+      <div className="page-band p-2.5">
+        <div className="grid gap-2 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-center">
+          <div className="min-w-0 space-y-1.5">
             <p className="lab-label">Status and tools</p>
             <div
-              className="flex flex-wrap gap-2 xl:justify-end"
+              className="flex flex-wrap items-center gap-1.5"
               data-circuit-toolbar-status=""
             >
               <span
@@ -2751,7 +2735,7 @@ export function CircuitBuilderPage() {
               </span>
             </div>
             <div
-              className="flex flex-wrap items-start gap-2 xl:justify-end"
+              className="flex flex-wrap items-center gap-1.5 xl:justify-end"
               data-circuit-toolbar=""
             >
               <div
@@ -3047,15 +3031,15 @@ export function CircuitBuilderPage() {
             </div>
           </div>
         </div>
-        <div className="mt-3 min-h-[5.5rem] space-y-1.5" data-circuit-toolbar-stable-status="">
-          <p role="status" className="text-sm leading-6 text-ink-700">
+        <div className="mt-2 grid gap-1 border-t border-line/70 pt-2 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-center" data-circuit-toolbar-stable-status="">
+          <p role="status" className="text-xs leading-5 text-ink-700">
             {toolbarNotice}
           </p>
           {toolbarNotice !== activeToolDetail ? (
-            <p className="text-sm leading-6 text-ink-700">{activeToolDetail}</p>
+            <p className="text-xs leading-5 text-ink-700 xl:text-right">{activeToolDetail}</p>
           ) : null}
           <p
-            className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500"
+            className="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-ink-500 xl:text-right"
             data-circuit-keyboard-hints=""
           >
             {keyboardShortcutSummary}

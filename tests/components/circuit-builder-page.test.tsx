@@ -437,6 +437,41 @@ describe("CircuitBuilderPage", () => {
     expect(screen.queryByText("Nothing selected")).not.toBeInTheDocument();
   });
 
+  it("resets inspector scroll on selection changes and keeps educational details collapsed", async () => {
+    const user = userEvent.setup();
+    const { container } = render(<CircuitBuilderPage />);
+
+    await user.click(getPaletteButton("Add Battery"));
+    await user.click(getPaletteButton("Add Resistor"));
+    fireEvent.click(screen.getAllByRole("button", { name: "Battery 1" })[0]!);
+
+    const inspector = container.querySelector(
+      "[data-circuit-inspector-panel]",
+    ) as HTMLElement;
+    const batteryInspector = within(inspector);
+    const details = batteryInspector
+      .getByText("Symbol, model, and context")
+      .closest("details");
+    const voltageRow = batteryInspector.getByText("Voltage").closest("label");
+
+    expect(details).not.toHaveAttribute("open");
+    expect(voltageRow).not.toBeNull();
+    expect(voltageRow?.className).not.toContain("sm:grid-cols");
+    expect(
+      within(voltageRow as HTMLElement).getByText(
+        "Ideal source voltage across the positive and negative terminals.",
+      ),
+    ).toBeVisible();
+
+    inspector.scrollTop = 160;
+    fireEvent.click(screen.getAllByRole("button", { name: "Resistor 1" })[0]!);
+
+    await waitFor(() => {
+      expect(inspector.scrollTop).toBe(0);
+    });
+    expect(screen.getAllByRole("heading", { name: "Resistor 1" }).length).toBeGreaterThan(0);
+  });
+
   it("summarizes workspace zoom, circuit counts, and current interaction guidance in the workspace header", async () => {
     const user = userEvent.setup();
     const { container } = render(<CircuitBuilderPage />);
@@ -648,7 +683,7 @@ describe("CircuitBuilderPage", () => {
       toJSON: () => ({}),
     } as DOMRect);
 
-    expect(screen.getByText(/\+\/- zooms, F fits, 0 resets view/i)).toBeVisible();
+    expect(screen.getByText(/Ctrl\/Cmd\+wheel zooms around pointer/i)).toBeVisible();
 
     const zoomInButton = screen.getByRole("button", { name: "Zoom +" });
     const zoomOutButton = screen.getByRole("button", { name: "Zoom -" });
@@ -693,13 +728,17 @@ describe("CircuitBuilderPage", () => {
     expect(screen.getByRole("status")).toHaveTextContent(/Workspace view reset/i);
 
     fireEvent.wheel(canvas, { deltaY: -80, clientX: 300, clientY: 160 });
+    expect(viewStatus.getByText("78% zoom")).toBeVisible();
+    expect(screen.getByRole("status")).not.toHaveTextContent(/pointer as its anchor/i);
+
+    fireEvent.wheel(canvas, { deltaY: -80, clientX: 300, clientY: 160, ctrlKey: true });
     await waitFor(() => {
       expect(screen.getByRole("status")).toHaveTextContent(/Workspace zoom 86%/i);
     });
     expect(screen.getByRole("status")).toHaveTextContent(/pointer as its anchor/i);
     expect(viewStatus.getByText("86% zoom")).toBeVisible();
 
-    fireEvent.wheel(canvas, { deltaY: 80, clientX: 300, clientY: 160 });
+    fireEvent.wheel(canvas, { deltaY: 80, clientX: 300, clientY: 160, metaKey: true });
     await waitFor(() => {
       expect(screen.getByRole("status")).toHaveTextContent(/Workspace zoom 78%/i);
     });

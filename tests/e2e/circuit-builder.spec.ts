@@ -105,6 +105,20 @@ async function openDesktopEnvironmentControl(page: Page) {
   await control.locator("summary").click();
 }
 
+async function openInspectorContextDetails(page: Page) {
+  const details = page
+    .getByLabel("Circuit inspector")
+    .first()
+    .locator("details")
+    .filter({ hasText: "Symbol, model, and context" })
+    .first();
+  if ((await details.getAttribute("open")) !== null) {
+    return;
+  }
+
+  await details.locator("summary").click();
+}
+
 async function openSaveActions(page: Page) {
   const button = page
     .locator('[data-circuit-toolbar-menu="saves"]')
@@ -208,19 +222,25 @@ test("keeps the builder row visible on desktop, scrolls the palette internally, 
   page,
 }) => {
   await setHarnessSession(page, "signed-out");
-  await page.setViewportSize({ width: 1440, height: 980 });
+  await page.setViewportSize({ width: 1440, height: 900 });
   await openCircuitBuilder(page);
 
   const builderRow = page.locator("[data-circuit-builder-row]");
   const workspacePanel = page.locator("[data-circuit-workspace-panel]");
   const palettePanel = page.locator('[data-circuit-palette-panel="desktop"]');
+  const inspectorPanel = page.locator('[data-circuit-inspector-panel]').first();
   const paletteScroll = page.locator('[data-circuit-palette-scroll="desktop"]');
   const workspaceBox = await workspacePanel.boundingBox();
   const paletteBox = await palettePanel.boundingBox();
+  const inspectorBox = await inspectorPanel.boundingBox();
 
   expect(workspaceBox).not.toBeNull();
   expect(paletteBox).not.toBeNull();
-  expect(workspaceBox!.y).toBeLessThan(620);
+  expect(inspectorBox).not.toBeNull();
+  expect(workspaceBox!.y).toBeLessThan(240);
+  expect(paletteBox!.y).toBeLessThan(240);
+  expect(inspectorBox!.y).toBeLessThan(240);
+  expect(workspaceBox!.y + workspaceBox!.height).toBeGreaterThan(780);
   expect(Math.abs((workspaceBox?.height ?? 0) - (paletteBox?.height ?? 0))).toBeLessThan(48);
   await expect(builderRow).toBeVisible();
 
@@ -251,6 +271,7 @@ test("keeps the builder row visible on desktop, scrolls the palette internally, 
   expect(environmentBox!.y).toBeLessThan((workspaceBox?.y ?? 0) + 80);
   await environmentSummary.click();
   await page.getByRole("slider", { name: "Ambient temperature" }).press("End");
+  await openInspectorContextDetails(page);
   await expect(
     page.getByLabel("Circuit inspector").first().getByText(/current ambient temperature of 100\s*°?\s*C/i),
   ).toBeVisible();
@@ -322,6 +343,48 @@ test("keeps toolbar groups compact and usable on a narrower laptop viewport", as
   await expect(fileMenu.getByRole("button", { name: "Copy JSON state", exact: true })).toBeVisible();
 });
 
+test("resets the inspector scroll and keeps component context collapsed by default", async ({
+  page,
+}) => {
+  await setHarnessSession(page, "signed-out");
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await openCircuitBuilder(page);
+
+  await page.getByRole("button", { name: "Add Battery" }).click();
+  await page.getByRole("button", { name: "Add Ammeter" }).click();
+  await page.getByRole("button", { name: "Battery 1", exact: true }).click();
+
+  const inspector = page.getByLabel("Circuit inspector").first();
+  const details = inspector
+    .locator("details")
+    .filter({ hasText: "Symbol, model, and context" })
+    .first();
+  const voltageRow = inspector.getByText("Voltage", { exact: true }).first().locator("..");
+
+  await expect(details).not.toHaveAttribute("open", "");
+  await expect(
+    voltageRow.getByText("Ideal source voltage across the positive and negative terminals."),
+  ).toBeVisible();
+
+  await inspector.evaluate((element) => {
+    element.scrollTop = element.scrollHeight;
+  });
+  await expect.poll(() => inspector.evaluate((element) => element.scrollTop)).toBeGreaterThan(0);
+
+  await page.getByRole("button", { name: "Ammeter 1", exact: true }).click();
+  await expect.poll(() => inspector.evaluate((element) => element.scrollTop)).toBe(0);
+  await expect(inspector.getByRole("heading", { name: "Ammeter 1" })).toBeVisible();
+
+  await inspector.evaluate((element) => {
+    element.scrollTop = element.scrollHeight;
+  });
+  await expect.poll(() => inspector.evaluate((element) => element.scrollTop)).toBeGreaterThan(0);
+
+  await page.getByRole("button", { name: "Battery 1", exact: true }).click();
+  await expect.poll(() => inspector.evaluate((element) => element.scrollTop)).toBe(0);
+  await expect(inspector.getByRole("heading", { name: "Battery 1" })).toBeVisible();
+});
+
 test("updates thermistor inspector values when ambient temperature changes through the live UI", async ({
   page,
 }) => {
@@ -340,6 +403,7 @@ test("updates thermistor inspector values when ambient temperature changes throu
 
   const afterText = await effectiveResistanceCard.textContent();
   expect(afterText).not.toBe(beforeText);
+  await openInspectorContextDetails(page);
   await expect(inspector.getByText(/current ambient temperature of 100\s*°?\s*C/i)).toBeVisible();
 });
 
@@ -361,6 +425,7 @@ test("updates LDR inspector values when ambient light intensity changes through 
 
   const afterText = await effectiveResistanceCard.textContent();
   expect(afterText).not.toBe(beforeText);
+  await openInspectorContextDetails(page);
   await expect(inspector.getByText(/current light intensity of 100%/i)).toBeVisible();
   await expect(inspector.getByRole("img", { name: /LDR response/i })).toBeVisible();
 });
@@ -419,6 +484,7 @@ test("round-trips a saved circuit json through download and import without losin
 
   await page.getByRole("button", { name: "Light-dependent resistor 1", exact: true }).click();
   const inspector = page.getByLabel("Circuit inspector").first();
+  await openInspectorContextDetails(page);
   await expect(inspector.getByText(/current light intensity of 100%/i)).toBeVisible();
   await expect(inspector.getByText("Ambient-linked").first()).toBeVisible();
 
@@ -454,6 +520,7 @@ test("restores a local autosaved draft after reload without breaking ambient or 
   await expect(page.getByRole("slider", { name: "Light intensity" })).toHaveValue("100");
   await page.getByRole("button", { name: "Light-dependent resistor 1", exact: true }).click();
   const inspector = page.getByLabel("Circuit inspector").first();
+  await openInspectorContextDetails(page);
   await expect(inspector.getByText(/current light intensity of 100%/i)).toBeVisible();
 
   const [svgDownload] = await Promise.all([
@@ -491,12 +558,14 @@ test("saves a named local circuit and reopens it after replacing the current doc
   await page.getByRole("button", { name: "Open saved circuit Browser save", exact: true }).click();
   await page.getByRole("button", { name: "Light-dependent resistor 1", exact: true }).click();
   const inspector = page.getByLabel("Circuit inspector").first();
+  await openInspectorContextDetails(page);
   await expect(inspector.getByText(/current light intensity of 21%/i)).toBeVisible();
 
   await page.keyboard.press("ControlOrMeta+z");
   await expect(page.getByRole("button", { name: "Thermistor 1", exact: true })).toBeVisible();
   await page.keyboard.press("ControlOrMeta+Shift+z");
   await page.getByRole("button", { name: "Light-dependent resistor 1", exact: true }).click();
+  await openInspectorContextDetails(page);
   await expect(inspector.getByText(/current light intensity of 21%/i)).toBeVisible();
 
   const [svgDownload] = await Promise.all([
@@ -540,6 +609,7 @@ test("saves and reopens an account-backed circuit for an eligible user", async (
   await page.getByRole("button", { name: `Open account save ${saveTitle}`, exact: true }).click();
   await page.getByRole("button", { name: "Light-dependent resistor 1", exact: true }).click();
   const inspector = page.getByLabel("Circuit inspector").first();
+  await openInspectorContextDetails(page);
   await expect(inspector.getByText(/current light intensity of 100%/i)).toBeVisible();
   await openDesktopEnvironmentControl(page);
   await page.getByRole("slider", { name: "Light intensity" }).press("Home");
@@ -550,6 +620,7 @@ test("saves and reopens an account-backed circuit for an eligible user", async (
   await expect(page.getByText(saveTitle, { exact: true }).last()).toBeVisible();
   await page.getByRole("button", { name: `Open account save ${saveTitle}`, exact: true }).click();
   await page.getByRole("button", { name: "Light-dependent resistor 1", exact: true }).click();
+  await openInspectorContextDetails(page);
   await expect(inspector.getByText(/current light intensity of 0%/i)).toBeVisible();
 
   const [svgDownload] = await Promise.all([
