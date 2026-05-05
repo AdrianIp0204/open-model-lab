@@ -61,6 +61,7 @@ const draggableComponentTypes = new Set<CircuitComponentType>([
 ]);
 const minimumWorkspaceZoom = 0.45;
 const maximumWorkspaceZoom = 2.4;
+const componentDragThresholdPx = 5;
 
 function isDraggableComponentType(value: string): value is CircuitComponentType {
   return draggableComponentTypes.has(value as CircuitComponentType);
@@ -351,24 +352,24 @@ function chip(
       text: "#106f73",
     },
   }[tone];
-  const width = Math.max(48, label.length * 6.9 + 18);
+  const width = Math.max(60, label.length * 7.8 + 24);
 
   return (
-    <g transform={`translate(${x} ${y})`} pointerEvents="none">
+    <g transform={`translate(${x} ${y})`} pointerEvents="none" data-circuit-readout-chip="">
       <rect
         x={-width / 2}
-        y={-11}
+        y={-14}
         width={width}
-        height="22"
-        rx="11"
+        height="28"
+        rx="14"
         fill={palette.fill}
         stroke={palette.stroke}
       />
       <text
         x="0"
-        y="4"
+        y="5"
         textAnchor="middle"
-        className="fill-current text-[10px] font-semibold"
+        className="fill-current text-[12px] font-semibold"
         style={{ color: palette.text }}
       >
         {label}
@@ -423,6 +424,10 @@ export function CircuitWorkspace({
     svgRef,
     width: CIRCUIT_CANVAS_WIDTH,
     height: CIRCUIT_CANVAS_HEIGHT,
+    dragThreshold: componentDragThresholdPx,
+    onDragStart: (target) => {
+      onBeginMoveComponent(target.componentId);
+    },
     onDrag: (target, location) => {
       const world = convertViewPointToWorld(
         { x: location.svgX, y: location.svgY },
@@ -711,6 +716,9 @@ export function CircuitWorkspace({
       return;
     }
 
+    event.preventDefault();
+    event.stopPropagation();
+
     if (activeTool === "wire") {
       return;
     }
@@ -720,7 +728,6 @@ export function CircuitWorkspace({
     }
 
     onSelectComponent(componentId);
-    onBeginMoveComponent(componentId);
 
     const svg = svgRef.current;
     if (!svg) {
@@ -776,7 +783,7 @@ export function CircuitWorkspace({
   }
 
   function handleWorkspacePointerUp(event: ReactPointerEvent<SVGSVGElement>) {
-    const shouldCommitMove = drag.activePointerId === event.pointerId;
+    const shouldCommitMove = drag.hasExceededThreshold(event.pointerId);
     drag.handlePointerUp(event.pointerId);
     if (shouldCommitMove) {
       onCommitMoveComponent();
@@ -955,6 +962,7 @@ export function CircuitWorkspace({
             className="flex w-full min-w-0 max-w-full items-center justify-start gap-1.5 overflow-x-auto whitespace-nowrap rounded-full border border-line bg-paper-strong px-3 py-1.5 text-xs font-semibold text-ink-700 sm:w-auto sm:min-w-[15rem] sm:justify-center sm:overflow-visible"
             aria-label={`${copy.workspace.statusAriaPrefix} ${workspaceZoomPercent}% ${copy.workspace.zoom}, ${workspacePartLabel}, ${workspaceWireLabel}, ${pointerPositionLabel}, ${workspaceModeLabel}.`}
             data-circuit-workspace-view-status=""
+            data-circuit-workspace-zoom-percent={workspaceZoomPercent}
           >
             <span className="text-ink-950">{workspaceZoomPercent}% {copy.workspace.zoom}</span>
             <span aria-hidden="true">·</span>
@@ -1078,7 +1086,7 @@ export function CircuitWorkspace({
           onPointerUp={handleWorkspacePointerUp}
           onPointerLeave={() => setPointerWorld(null)}
           onPointerCancel={(event) => {
-            const shouldCommitMove = drag.activePointerId === event.pointerId;
+            const shouldCommitMove = drag.hasExceededThreshold(event.pointerId);
             drag.handlePointerCancel(event.pointerId);
             if (shouldCommitMove) {
               onCommitMoveComponent();
@@ -1097,7 +1105,7 @@ export function CircuitWorkspace({
             }
           }}
           onLostPointerCapture={() => {
-            if (drag.activePointerId !== null) {
+            if (drag.hasExceededThreshold()) {
               onCommitMoveComponent();
             }
             drag.handleLostPointerCapture();
@@ -1123,6 +1131,10 @@ export function CircuitWorkspace({
             }
 
             event.preventDefault();
+            if (drag.activePointerId !== null) {
+              return;
+            }
+
             const bounds = svgRef.current?.getBoundingClientRect();
             if (!bounds) {
               return;
@@ -1185,6 +1197,8 @@ export function CircuitWorkspace({
           <g
             transform={`translate(${document.view.offsetX} ${document.view.offsetY}) scale(${document.view.zoom})`}
             data-circuit-workspace-world-layer=""
+            data-circuit-workspace-offset-x={Math.round(document.view.offsetX)}
+            data-circuit-workspace-offset-y={Math.round(document.view.offsetY)}
           >
             {document.wires.map((wire) => {
               const path = buildWirePathFromRefs(document, wire);
@@ -1358,6 +1372,10 @@ export function CircuitWorkspace({
                   transform={`translate(${component.x} ${component.y}) rotate(${component.rotation})`}
                   role="button"
                   tabIndex={0}
+                  data-circuit-component-id={component.id}
+                  data-circuit-component-x={component.x}
+                  data-circuit-component-y={component.y}
+                  data-circuit-component-label={componentLabel}
                   aria-label={componentLabel}
                   aria-describedby={componentDescriptionId}
                   aria-current={selected ? "true" : undefined}
@@ -1397,10 +1415,10 @@ export function CircuitWorkspace({
                   />
                   {selected ? (
                     <rect
-                      x="-84"
-                      y="-58"
-                      width="168"
-                      height="116"
+                      x="-92"
+                      y="-66"
+                      width="184"
+                      height="150"
                       rx="24"
                       fill="rgba(23,140,145,0.08)"
                       stroke="#178c91"
@@ -1431,18 +1449,18 @@ export function CircuitWorkspace({
                   )}
                   <text
                     x="0"
-                    y="56"
+                    y="62"
                     textAnchor="middle"
-                    className="fill-ink-950 text-[11px] font-semibold"
+                    className="fill-ink-950 text-[14px] font-semibold"
                   >
                     {componentLabel}
                   </text>
                   {result?.stateLabel ? (
                     <text
                       x="0"
-                      y="72"
+                      y="82"
                       textAnchor="middle"
-                      className="fill-ink-600 text-[10px] font-medium uppercase tracking-[0.12em]"
+                      className="fill-ink-600 text-[11px] font-medium uppercase tracking-[0.12em]"
                     >
                       {formatCircuitStateLabel(result.stateLabel, copy)}
                     </text>
@@ -1468,7 +1486,7 @@ export function CircuitWorkspace({
                           ? copy.workspace.terminalActions.enterSpaceToWire
                           : null;
                     const terminalActionLabelWidth = terminalActionLabel
-                      ? Math.max(84, terminalActionLabel.length * 6.4 + 20)
+                      ? Math.max(96, terminalActionLabel.length * 7.1 + 24)
                       : 84;
                     const terminalName = formatCircuitTerminalDisplayLabel(document, terminalRef, copy);
                     const terminalDescriptionId = `circuit-terminal-${component.id}-${terminal}-description`;
@@ -1528,18 +1546,18 @@ export function CircuitWorkspace({
                           <g transform={`translate(${localPoint.x} ${localPoint.y - 28})`} pointerEvents="none">
                             <rect
                               x={-terminalActionLabelWidth / 2}
-                              y="-12"
+                              y="-13"
                               width={terminalActionLabelWidth}
-                              height="24"
-                              rx="12"
+                              height="26"
+                              rx="13"
                               fill={pending ? "rgba(240,171,60,0.16)" : "rgba(23,140,145,0.14)"}
                               stroke={pending ? "rgba(184,112,0,0.34)" : "rgba(16,111,115,0.32)"}
                             />
                             <text
                               x="0"
-                              y="4"
+                              y="4.5"
                               textAnchor="middle"
-                              className="fill-ink-950 text-[10px] font-semibold"
+                              className="fill-ink-950 text-[11px] font-semibold"
                             >
                               {terminalActionLabel}
                             </text>
@@ -1558,7 +1576,7 @@ export function CircuitWorkspace({
                 <g key={node.id} pointerEvents="none">
                   {chip(
                     node.center.x,
-                    node.center.y - 18,
+                    node.center.y - 24,
                     node.voltage !== null ? formatMeasurement(node.voltage, "V") : copy.workspace.floating,
                     node.sourceConnected ? "teal" : "sky",
                   )}
@@ -1572,10 +1590,10 @@ export function CircuitWorkspace({
               return (
                 <g key={`measure-${entry.component.id}`} pointerEvents="none">
                   {entry.currentLabel
-                    ? chip(entry.component.x, entry.component.y - 74, `I ${entry.currentLabel}`, "teal")
+                    ? chip(entry.component.x, entry.component.y - 84, `I ${entry.currentLabel}`, "teal")
                     : null}
                   {entry.voltageLabel
-                    ? chip(entry.component.x, entry.component.y + 90, `V ${entry.voltageLabel}`, "amber")
+                    ? chip(entry.component.x, entry.component.y + 104, `V ${entry.voltageLabel}`, "amber")
                     : null}
                 </g>
               );

@@ -9,6 +9,7 @@ import {
 
 let browserGuard: BrowserGuard;
 const draftStorageKey = "open-model-lab.circuit-builder.draft.v1";
+const localeHandoffStorageKey = "open-model-lab:circuit-builder-locale-handoff:v1";
 const onboardingStorageKey = "open-model-lab.onboarding.v1";
 const renderModeStorageKey = "open-model-lab:circuit-builder-render-mode:v1";
 
@@ -128,6 +129,30 @@ async function buildBulbLoop(page: Page) {
       },
     ],
   });
+}
+
+async function getWorkspaceZoomPercent(page: Page) {
+  return Number(
+    await page
+      .locator("[data-circuit-workspace-view-status]")
+      .getAttribute("data-circuit-workspace-zoom-percent"),
+  );
+}
+
+async function getWorkspaceOffsets(page: Page) {
+  const layer = page.locator("[data-circuit-workspace-world-layer]");
+  return {
+    x: Number(await layer.getAttribute("data-circuit-workspace-offset-x")),
+    y: Number(await layer.getAttribute("data-circuit-workspace-offset-y")),
+  };
+}
+
+async function getComponentPosition(page: Page, componentId: string) {
+  const component = page.locator(`[data-circuit-component-id="${componentId}"]`);
+  return {
+    x: Number(await component.getAttribute("data-circuit-component-x")),
+    y: Number(await component.getAttribute("data-circuit-component-y")),
+  };
 }
 
 async function buildThermistorLoop(page: Page) {
@@ -367,6 +392,135 @@ test("renders modern visual mode with powered bulb glow and electron flow", asyn
   await expect(page.locator("[data-circuit-electron-flow-wire-id]")).toHaveCount(0);
   await expect(page.locator("[data-circuit-modern-wire-highlight]")).toHaveCount(0);
   await expect(page.locator("[data-circuit-modern-legend]")).toHaveCount(0);
+});
+
+test("preserves the live circuit, view, and render mode while switching locale routes", async ({
+  page,
+}) => {
+  await setHarnessSession(page, "signed-out");
+  await page.setViewportSize({ width: 1440, height: 980 });
+  await openCircuitBuilder(page);
+  await buildBulbLoop(page);
+  await page.getByRole("button", { name: "Modern" }).click();
+  await page
+    .locator("[data-circuit-workspace-controls]")
+    .getByRole("button", { name: "Fit circuit" })
+    .click();
+
+  const beforeZoom = await getWorkspaceZoomPercent(page);
+  const beforeOffsets = await getWorkspaceOffsets(page);
+  expect(beforeZoom).toBeGreaterThanOrEqual(180);
+  await expect(page.locator("[data-circuit-component-id]")).toHaveCount(2);
+  await expect(page.locator('[data-circuit-modern-powered-wire="true"]')).toHaveCount(2);
+  await page.waitForFunction(
+    ([key]) => {
+      const raw = window.sessionStorage.getItem(key);
+      if (!raw) {
+        return false;
+      }
+      const parsed = JSON.parse(raw) as {
+        renderMode?: string;
+        document?: { components?: unknown[]; wires?: unknown[] };
+      };
+      return (
+        parsed.renderMode === "modern" &&
+        parsed.document?.components?.length === 2 &&
+        parsed.document?.wires?.length === 2
+      );
+    },
+    [localeHandoffStorageKey],
+  );
+
+  await gotoAndExpectOk(page, "/zh-HK/circuit-builder");
+  await expect(page.locator("[data-circuit-builder-ready]")).toBeVisible();
+  await expect(page.getByRole("region", { name: "電路工作區" })).toBeVisible();
+  await expect(page.locator("[data-circuit-workspace-panel]")).toHaveAttribute(
+    "data-circuit-render-mode",
+    "modern",
+  );
+  await expect(page.locator("[data-circuit-component-id]")).toHaveCount(2);
+  await expect(page.locator('[data-circuit-component-id="battery-modern"]')).toHaveAttribute(
+    "data-circuit-component-label",
+    "電池 1",
+  );
+  await expect(page.locator('[data-circuit-modern-powered-wire="true"]')).toHaveCount(2);
+  expect(await getWorkspaceZoomPercent(page)).toBe(beforeZoom);
+  expect(await getWorkspaceOffsets(page)).toEqual(beforeOffsets);
+  await expect(page.locator('[aria-label="本機草稿復原"]')).toHaveCount(0);
+
+  await gotoAndExpectOk(page, "/en/circuit-builder");
+  await expect(page.locator("[data-circuit-builder-ready]")).toBeVisible();
+  await expect(page.locator("[data-circuit-workspace-panel]")).toHaveAttribute(
+    "data-circuit-render-mode",
+    "modern",
+  );
+  await expect(page.locator("[data-circuit-component-id]")).toHaveCount(2);
+  await expect(page.locator('[data-circuit-component-id="battery-modern"]')).toHaveAttribute(
+    "data-circuit-component-label",
+    "Battery 1",
+  );
+  await expect(page.locator('[data-circuit-modern-powered-wire="true"]')).toHaveCount(2);
+});
+
+test("clicking and dragging components does not unexpectedly change workspace view", async ({
+  page,
+}) => {
+  await setHarnessSession(page, "signed-out");
+  await page.setViewportSize({ width: 1440, height: 980 });
+  await openCircuitBuilder(page);
+  await buildBulbLoop(page);
+  const controls = page.locator("[data-circuit-workspace-controls]");
+  await controls.getByRole("button", { name: "Zoom +" }).click();
+  await controls.getByRole("button", { name: "Zoom +" }).click();
+  const beforeClickZoom = await getWorkspaceZoomPercent(page);
+  const beforeClickOffsets = await getWorkspaceOffsets(page);
+  const beforeClickPosition = await getComponentPosition(page, "battery-modern");
+
+  await page.getByRole("button", { name: "Battery 1", exact: true }).click();
+
+  expect(await getWorkspaceZoomPercent(page)).toBe(beforeClickZoom);
+  expect(await getWorkspaceOffsets(page)).toEqual(beforeClickOffsets);
+  expect(await getComponentPosition(page, "battery-modern")).toEqual(beforeClickPosition);
+
+  const battery = page.locator('[data-circuit-component-id="battery-modern"]');
+  const box = await battery.boundingBox();
+  expect(box).not.toBeNull();
+  const beforeDragZoom = await getWorkspaceZoomPercent(page);
+  const beforeDragOffsets = await getWorkspaceOffsets(page);
+
+  await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(box!.x + box!.width / 2 + 96, box!.y + box!.height / 2 + 64, {
+    steps: 10,
+  });
+  await page.mouse.up();
+
+  await expect
+    .poll(() => getComponentPosition(page, "battery-modern"))
+    .not.toEqual(beforeClickPosition);
+  expect(await getWorkspaceZoomPercent(page)).toBe(beforeDragZoom);
+  expect(await getWorkspaceOffsets(page)).toEqual(beforeDragOffsets);
+});
+
+test("fits small circuits large enough for readable workspace labels and readouts", async ({
+  page,
+}) => {
+  await setHarnessSession(page, "signed-out");
+  await page.setViewportSize({ width: 1440, height: 980 });
+  await openCircuitBuilder(page);
+  await buildBulbLoop(page);
+  await page.getByRole("button", { name: "Light bulb 1", exact: true }).click();
+  await page
+    .locator("[data-circuit-workspace-controls]")
+    .getByRole("button", { name: "Fit circuit" })
+    .click();
+
+  await expect
+    .poll(() => getWorkspaceZoomPercent(page))
+    .toBeGreaterThanOrEqual(180);
+  await expect(page.locator('[data-circuit-component-label="Battery 1"]')).toBeVisible();
+  await expect(page.locator('[data-circuit-component-label="Light bulb 1"]')).toBeVisible();
+  await expect(page.locator("[data-circuit-readout-chip]").first()).toBeVisible();
 });
 
 test("localizes the zh-HK Circuit Builder surface and keeps modern visuals active", async ({

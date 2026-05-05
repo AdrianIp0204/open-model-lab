@@ -27,10 +27,13 @@ import {
   buildCircuitSvgExport,
   circuitBuilderCopyEn,
   clampComponentPoint,
+  clearCircuitLocaleHandoffFromStorage,
   clearCircuitDraftFromStorage,
+  consumeCircuitLocaleHandoffFromStorage,
   circuitBuilderPresets,
   convertViewPointToWorld,
   createComponentInstance,
+  createDefaultCircuitEnvironment,
   createEmptyCircuitDocument,
   downloadTextFile,
   formatCircuitDraftSavedAt,
@@ -51,6 +54,7 @@ import {
   solveCircuitDocument,
   useSavedCircuits,
   deleteSavedCircuit,
+  writeCircuitLocaleHandoffToStorage,
   writeCircuitDraftToStorage,
   type CircuitComponentType,
   type CircuitBuilderCopy,
@@ -71,6 +75,12 @@ type BuilderSelection =
   | { kind: "component"; id: string }
   | { kind: "wire"; id: string }
   | null;
+
+type LocaleHandoffWriteSnapshot = {
+  document: CircuitDocument;
+  renderMode: CircuitRenderMode;
+  selection: BuilderSelection;
+};
 
 type ActiveSavedCircuitRef =
   | { kind: "local"; id: string }
@@ -100,6 +110,11 @@ type BuilderAction =
       document: CircuitDocument;
       label: string;
       activeSavedCircuitRef?: ActiveSavedCircuitRef;
+    }
+  | {
+      type: "restore-locale-handoff";
+      document: CircuitDocument;
+      selection: BuilderSelection;
     }
   | { type: "set-active-saved-circuit-ref"; savedCircuitRef: ActiveSavedCircuitRef }
   | { type: "set-tool"; tool: "select" | "wire" }
@@ -144,14 +159,15 @@ const defaultCircuitView = {
   offsetX: 120,
   offsetY: 82,
 } satisfies CircuitDocument["view"];
+const defaultCircuitEnvironment = createDefaultCircuitEnvironment();
 const minimumWorkspaceZoom = 0.45;
 const maximumWorkspaceZoom = 2.4;
-const maximumFitWorkspaceZoom = 1.65;
+const maximumFitWorkspaceZoom = 2.25;
 const circuitCanvasCenter = {
   x: CIRCUIT_CANVAS_WIDTH / 2,
   y: CIRCUIT_CANVAS_HEIGHT / 2,
 };
-const fitViewPadding = 144;
+const fitViewPadding = 80;
 const componentFitRadius = {
   x: 128,
   y: 112,
@@ -213,6 +229,55 @@ function circuitViewsEqual(a: CircuitDocument["view"], b: CircuitDocument["view"
   );
 }
 
+function circuitEnvironmentsEqual(
+  a: CircuitDocument["environment"],
+  b: CircuitDocument["environment"],
+) {
+  return (
+    Math.abs(a.temperatureC - b.temperatureC) < circuitViewEqualityEpsilon &&
+    Math.abs(a.lightLevelPercent - b.lightLevelPercent) <
+      circuitViewEqualityEpsilon
+  );
+}
+
+function isMeaningfulLocaleHandoffSnapshot({
+  document,
+  selection,
+}: LocaleHandoffWriteSnapshot) {
+  return (
+    document.components.length > 0 ||
+    document.wires.length > 0 ||
+    selection !== null ||
+    !circuitViewsEqual(document.view, defaultCircuitView) ||
+    !circuitEnvironmentsEqual(document.environment, defaultCircuitEnvironment)
+  );
+}
+
+function writeMeaningfulLocaleHandoff(snapshot: LocaleHandoffWriteSnapshot) {
+  if (!isMeaningfulLocaleHandoffSnapshot(snapshot)) {
+    clearCircuitLocaleHandoffFromStorage();
+    return;
+  }
+
+  writeCircuitLocaleHandoffToStorage(snapshot);
+}
+
+function isDocumentReloadNavigation() {
+  if (
+    typeof window === "undefined" ||
+    typeof window.performance?.getEntriesByType !== "function"
+  ) {
+    return false;
+  }
+
+  const navigationEntry = window.performance.getEntriesByType("navigation")[0];
+  return (
+    typeof PerformanceNavigationTiming !== "undefined" &&
+    navigationEntry instanceof PerformanceNavigationTiming &&
+    navigationEntry.type === "reload"
+  );
+}
+
 function buildFittedCircuitView(document: CircuitDocument) {
   if (document.components.length === 0) {
     return defaultCircuitView;
@@ -264,6 +329,25 @@ function sameTerminal(a: CircuitTerminalRef | null, b: CircuitTerminalRef | null
       a.componentId === b.componentId &&
       a.terminal === b.terminal,
   );
+}
+
+function normalizeBuilderSelection(
+  document: CircuitDocument,
+  selection: BuilderSelection,
+): BuilderSelection {
+  if (selection?.kind === "component") {
+    return document.components.some((component) => component.id === selection.id)
+      ? selection
+      : null;
+  }
+
+  if (selection?.kind === "wire") {
+    return document.wires.some((wire) => wire.id === selection.id)
+      ? selection
+      : null;
+  }
+
+  return null;
 }
 
 function formatSavedCircuitTimestamp(timestamp: string) {
@@ -351,6 +435,20 @@ function reducer(state: BuilderState, action: BuilderAction): BuilderState {
         activeTool: "select",
         pendingWireStart: null,
       };
+    case "restore-locale-handoff": {
+      const normalized = action.document;
+      return {
+        ...state,
+        document: normalized,
+        selection: normalizeBuilderSelection(normalized, action.selection),
+        activeSavedCircuitRef: null,
+        activeTool: "select",
+        pendingWireStart: null,
+        past: [],
+        future: [],
+        historySession: null,
+      };
+    }
     case "set-active-saved-circuit-ref":
       return {
         ...state,
@@ -726,8 +824,15 @@ export function CircuitBuilderPage({
   const workspaceRegionRef = useRef<HTMLElement | null>(null);
   const loadJsonInputRef = useRef<HTMLInputElement | null>(null);
   const autosaveHasWrittenRef = useRef(false);
+  const localeHandoffConsumedRef = useRef(false);
+  const latestLocaleHandoffRef = useRef<{
+    document: CircuitDocument;
+    renderMode: CircuitRenderMode;
+    selection: BuilderSelection;
+  } | null>(null);
   const [state, dispatch] = useReducer(reducer, undefined, createInitialState);
   const [hasHydrated, setHasHydrated] = useState(false);
+  const [localeHandoffReady, setLocaleHandoffReady] = useState(false);
   const [exportStatus, setExportStatus] = useState<string | null>(null);
   const [renderMode, setRenderMode] = useState<CircuitRenderMode>("schematic");
   const [draftRecoveryState, setDraftRecoveryState] = useState<"checking" | "pending" | "dismissed" | "ready">("checking");
@@ -763,6 +868,39 @@ export function CircuitBuilderPage({
     } catch {
       setRenderMode("schematic");
     }
+  }, []);
+
+  useEffect(() => {
+    if (isDocumentReloadNavigation()) {
+      clearCircuitLocaleHandoffFromStorage();
+      setLocaleHandoffReady(true);
+      return;
+    }
+
+    const result = consumeCircuitLocaleHandoffFromStorage();
+    if (
+      result.kind === "ready" &&
+      isMeaningfulLocaleHandoffSnapshot(result.handoff)
+    ) {
+      localeHandoffConsumedRef.current = true;
+      initialDocumentRef.current = result.handoff.document;
+      dispatch({
+        type: "restore-locale-handoff",
+        document: result.handoff.document,
+        selection: result.handoff.selection,
+      });
+      setRenderMode(result.handoff.renderMode);
+      try {
+        window.localStorage.setItem(
+          CIRCUIT_RENDER_MODE_STORAGE_KEY,
+          result.handoff.renderMode,
+        );
+      } catch {
+        // Locale handoff still restores the live page state without storage.
+      }
+      setDraftRecoveryState("ready");
+    }
+    setLocaleHandoffReady(true);
   }, []);
 
   const updateCircuitRenderMode = useCallback((mode: CircuitRenderMode) => {
@@ -898,6 +1036,62 @@ export function CircuitBuilderPage({
   const selectionActionsLocked = state.activeTool === "wire" || Boolean(state.pendingWireStart);
 
   useEffect(() => {
+    latestLocaleHandoffRef.current = {
+      document: state.document,
+      renderMode,
+      selection: state.selection,
+    };
+
+    if (!localeHandoffReady) {
+      return;
+    }
+
+    writeMeaningfulLocaleHandoff({
+      document: state.document,
+      renderMode,
+      selection: state.selection,
+    });
+  }, [localeHandoffReady, renderMode, state.document, state.selection]);
+
+  useEffect(() => {
+    if (!localeHandoffReady) {
+      return;
+    }
+
+    function writeLatestHandoff() {
+      const snapshot = latestLocaleHandoffRef.current;
+      if (!snapshot) {
+        return;
+      }
+
+      writeMeaningfulLocaleHandoff(snapshot);
+    }
+
+    function handleVisibilityChange() {
+      if (window.document.visibilityState === "hidden") {
+        writeLatestHandoff();
+      }
+    }
+
+    window.addEventListener("pagehide", writeLatestHandoff);
+    window.document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      writeLatestHandoff();
+      window.removeEventListener("pagehide", writeLatestHandoff);
+      window.document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [localeHandoffReady]);
+
+  useEffect(() => {
+    if (!localeHandoffReady) {
+      return;
+    }
+
+    if (localeHandoffConsumedRef.current) {
+      setDraftRecoveryState("ready");
+      return;
+    }
+
     const result = readCircuitDraftFromStorage();
 
     if (result.kind === "ready") {
@@ -912,7 +1106,7 @@ export function CircuitBuilderPage({
     }
 
     setDraftRecoveryState("ready");
-  }, []);
+  }, [localeHandoffReady]);
 
   useEffect(() => {
     const discardedCount = getSavedCircuitsDiscardedCount();
@@ -1032,9 +1226,9 @@ export function CircuitBuilderPage({
     const nextOrdinal = state.document.components.filter(
       (component) => component.type === componentType,
     ).length + 1;
-    const nextLabel = copy.locale === "zh-HK"
-      ? `${componentDisplayLabel} ${nextOrdinal}`
-      : `${componentDefinition.label} ${nextOrdinal}`;
+    const nextLabel = `${componentDefinition.label} ${nextOrdinal}`;
+    const nextDisplayLabel =
+      copy.locale === "zh-HK" ? `${componentDisplayLabel} ${nextOrdinal}` : nextLabel;
 
     dispatch({
       type: "add-component",
@@ -1050,7 +1244,7 @@ export function CircuitBuilderPage({
     } else if (point) {
       setExportStatus(
         copy.locale === "zh-HK"
-          ? `${nextLabel} 已放在 ${nextPoint.x}, ${nextPoint.y} 並選取。可拖曳或用方向鍵微調位置。`
+          ? `${nextDisplayLabel} 已放在 ${nextPoint.x}, ${nextPoint.y} 並選取。可拖曳或用方向鍵微調位置。`
           : `${nextLabel} dropped at ${nextPoint.x}, ${nextPoint.y} and selected. Drag it or use arrow keys to refine the placement.`,
       );
     }

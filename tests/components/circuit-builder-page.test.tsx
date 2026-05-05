@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
@@ -8,6 +8,7 @@ import {
   CIRCUIT_RENDER_MODE_STORAGE_KEY,
   getCircuitBuilderCopy,
   localSavedCircuitsStore,
+  parseCircuitLocaleHandoff,
 } from "@/lib/circuit-builder";
 import { CircuitBuilderPage } from "@/components/circuit-builder/CircuitBuilderPage";
 
@@ -91,7 +92,9 @@ function createBatteryBulbDocument({ closed }: { closed: boolean }) {
 
 describe("CircuitBuilderPage", () => {
   afterEach(() => {
+    cleanup();
     window.localStorage.clear();
+    window.sessionStorage.clear();
     localSavedCircuitsStore.resetForTests();
     vi.useRealTimers();
     vi.restoreAllMocks();
@@ -222,6 +225,71 @@ describe("CircuitBuilderPage", () => {
         name: /連接「電池 1 正極端子」至「燈泡 1 端子 A」的導線/,
       }),
     ).toBeVisible();
+  });
+
+  it("updates localized display copy without wiping the current document", async () => {
+    const user = userEvent.setup();
+    const { rerender } = render(<CircuitBuilderPage copy={getCircuitBuilderCopy("en")} />);
+
+    await user.click(getPaletteButton("Add Battery"));
+    await user.click(screen.getByRole("button", { name: "Modern" }));
+    expect(screen.getAllByRole("button", { name: "Battery 1" }).length).toBeGreaterThan(0);
+    expect(screen.getByText("1 part")).toBeVisible();
+
+    rerender(<CircuitBuilderPage copy={getCircuitBuilderCopy("zh-HK")} />);
+
+    expect(screen.getAllByRole("button", { name: "電池 1" }).length).toBeGreaterThan(0);
+    expect(screen.getByText("1 個元件")).toBeVisible();
+    expect(screen.getByRole("button", { name: "現代視覺" })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.queryByText("0 個元件")).not.toBeInTheDocument();
+  });
+
+  it("accepts only recent valid locale handoff payloads and preserves high workspace zoom", () => {
+    const document = createBatteryBulbDocument({ closed: true });
+    const recent = parseCircuitLocaleHandoff(
+      JSON.stringify({
+        version: 1,
+        savedAtMs: 1_000,
+        renderMode: "modern",
+        selection: { kind: "component", id: "battery-visual" },
+        document: {
+          ...document,
+          view: { zoom: 2.2, offsetX: -180, offsetY: 64 },
+        },
+      }),
+      1_500,
+    );
+
+    expect(recent.kind).toBe("ready");
+    if (recent.kind === "ready") {
+      expect(recent.handoff.renderMode).toBe("modern");
+      expect(recent.handoff.document.view).toEqual({ zoom: 2.2, offsetX: -180, offsetY: 64 });
+      expect(recent.handoff.selection).toEqual({ kind: "component", id: "battery-visual" });
+    }
+
+    expect(
+      parseCircuitLocaleHandoff(
+        JSON.stringify({
+          version: 1,
+          savedAtMs: 1_000,
+          renderMode: "modern",
+          document,
+        }),
+        40_000,
+      ).kind,
+    ).toBe("stale");
+
+    expect(
+      parseCircuitLocaleHandoff(
+        JSON.stringify({
+          version: 1,
+          savedAtMs: 1_000,
+          renderMode: "modern",
+          document: { ...document, components: [{ ...document.components[0]!, id: "same" }, { ...document.components[1]!, id: "same" }] },
+        }),
+        1_500,
+      ).kind,
+    ).toBe("invalid");
   });
 
   it("renders powered bulb glow and electron flow only in modern mode", async () => {
@@ -965,19 +1033,19 @@ describe("CircuitBuilderPage", () => {
     expect(fitCircuitButton).toHaveAccessibleDescription(/Shortcut: F/i);
     await user.click(fitCircuitButton);
 
-    expect(screen.getByRole("status")).toHaveTextContent(/Fitted view to 1 part at 165% zoom/i);
-    expect(viewStatus.getByText("165% zoom")).toBeVisible();
+    expect(screen.getByRole("status")).toHaveTextContent(/Fitted view to 1 part at 225% zoom/i);
+    expect(viewStatus.getByText("225% zoom")).toBeVisible();
     expect(workspaceControls.getByRole("button", { name: "Zoom +" })).toBeEnabled();
 
     fireEvent.keyDown(window, { key: "+" });
-    expect(screen.getByRole("status")).toHaveTextContent(/Workspace zoom 177%/i);
+    expect(screen.getByRole("status")).toHaveTextContent(/Workspace zoom 237%/i);
 
     fireEvent.keyDown(window, { key: "0" });
     expect(viewStatus.getByText("78% zoom")).toBeVisible();
 
     fireEvent.keyDown(window, { key: "f" });
-    expect(screen.getByRole("status")).toHaveTextContent(/Fitted view to 1 part at 165% zoom/i);
-    expect(viewStatus.getByText("165% zoom")).toBeVisible();
+    expect(screen.getByRole("status")).toHaveTextContent(/Fitted view to 1 part at 225% zoom/i);
+    expect(viewStatus.getByText("225% zoom")).toBeVisible();
   });
 
   it("keeps canvas panning state clear while dragging and after pointer release", () => {

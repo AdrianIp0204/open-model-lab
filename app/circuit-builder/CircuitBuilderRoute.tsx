@@ -42,7 +42,7 @@ export async function CircuitBuilderRoute({
       }}
       className="mx-auto w-full max-w-[96rem] px-4 pb-16 pt-4 sm:px-6 sm:pt-5 lg:px-8"
     >
-      <CircuitBuilderPage key={locale} copy={getCircuitBuilderCopy(locale)} />
+      <CircuitBuilderPage copy={getCircuitBuilderCopy(locale)} />
     </PageShell>
   );
 }
