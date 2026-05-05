@@ -131,6 +131,7 @@ describe("CircuitBuilderPage", () => {
     expect(workspacePanel).toHaveAttribute("data-circuit-render-mode", "schematic");
     expect(desktopPalette).toHaveAttribute("data-circuit-render-mode", "schematic");
     expect(container.querySelector("[data-circuit-modern-palette-thumbnail]")).toBeNull();
+    expect(container.querySelector("[data-circuit-modern-legend]")).toBeNull();
 
     await user.click(screen.getByRole("button", { name: "Modern" }));
 
@@ -138,6 +139,7 @@ describe("CircuitBuilderPage", () => {
     expect(workspacePanel).toHaveAttribute("data-circuit-render-mode", "modern");
     expect(desktopPalette).toHaveAttribute("data-circuit-render-mode", "modern");
     expect(window.localStorage.getItem(CIRCUIT_RENDER_MODE_STORAGE_KEY)).toBe("modern");
+    expect(container.querySelector("[data-circuit-modern-legend]")).not.toBeNull();
     for (const type of [
       "wire",
       "ammeter",
@@ -187,6 +189,10 @@ describe("CircuitBuilderPage", () => {
     expect(poweredGlow).not.toBeNull();
     expect(Number(poweredGlow?.getAttribute("data-circuit-light-bulb-glow-intensity"))).toBeGreaterThan(0);
     expect(container.querySelector('[data-circuit-electron-flow-active="true"]')).not.toBeNull();
+    expect(container.querySelector('[data-circuit-modern-powered-wire="true"]')).not.toBeNull();
+    expect(container.querySelector('[data-circuit-modern-wire-highlight="true"]')).not.toBeNull();
+    expect(container.querySelector('[data-circuit-electron-marker="lead"]')).not.toBeNull();
+    expect(container.querySelector("[data-circuit-electron-label]")).not.toBeNull();
 
     await user.upload(
       fileInput,
@@ -199,12 +205,16 @@ describe("CircuitBuilderPage", () => {
 
     expect(container.querySelector('[data-circuit-light-bulb-glow="off"]')).not.toBeNull();
     expect(container.querySelector('[data-circuit-electron-flow-active="true"]')).toBeNull();
+    expect(container.querySelector('[data-circuit-modern-powered-wire="true"]')).toBeNull();
+    expect(container.querySelector('[data-circuit-modern-wire-highlight="true"]')).toBeNull();
 
     await user.click(screen.getByRole("button", { name: "Schematic" }));
 
     expect(container.querySelector("[data-circuit-modern-component]")).toBeNull();
     expect(container.querySelector("[data-circuit-light-bulb-glow]")).toBeNull();
     expect(container.querySelector("[data-circuit-electron-flow-wire-id]")).toBeNull();
+    expect(container.querySelector("[data-circuit-modern-wire-highlight]")).toBeNull();
+    expect(container.querySelector("[data-circuit-modern-legend]")).toBeNull();
   });
 
   it("filters the desktop component library by search text and aliases, shows no-results, and clears cleanly", async () => {

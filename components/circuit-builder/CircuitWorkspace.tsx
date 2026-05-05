@@ -93,6 +93,7 @@ type CircuitWorkspaceProps = {
   regionRef?: RefObject<HTMLElement | null>;
   className?: string;
   headerSlot?: ReactNode;
+  controlsSlot?: ReactNode;
 };
 
 type DragTarget = {
@@ -187,8 +188,10 @@ function CircuitElectronFlowLayer({
   const motionPath = flow.direction === "to-from"
     ? buildWirePathData(points.slice().reverse())
     : path;
-  const markerCount = Math.max(1, Math.min(5, Math.round(getPathLength(points) / 180)));
+  const markerCount = Math.max(1, Math.min(5, Math.ceil(getPathLength(points) / 190)));
   const midpoint = getPathMidpoint(points);
+  const beadOpacity = 0.72 + flow.intensity * 0.22;
+  const haloOpacity = 0.22 + flow.intensity * 0.22;
 
   return (
     <g
@@ -203,51 +206,53 @@ function CircuitElectronFlowLayer({
         <>
           <path id={motionPathId} d={motionPath} fill="none" stroke="none" />
           {reducedMotion ? (
-            <circle
-              cx={midpoint.x}
-              cy={midpoint.y}
-              r="4.5"
-              fill="#f0ab3c"
-              opacity={0.25 + flow.intensity * 0.35}
+            <g
+              transform={`translate(${midpoint.x} ${midpoint.y})`}
+              opacity="0.82"
               data-circuit-electron-flow-static=""
-            />
+              data-circuit-electron-marker="static"
+            >
+              <circle r="14" fill="#f0ab3c" opacity={haloOpacity * 0.55} />
+              <circle r="7" fill="#f0ab3c" stroke="#fffdf8" strokeWidth="2.2" />
+              <g transform="translate(12 -20)" data-circuit-electron-label="">
+                <rect x="-10" y="-9" width="30" height="18" rx="9" fill="#fffdf8" stroke="rgba(15,28,36,0.24)" />
+                <text x="5" y="4" textAnchor="middle" fontSize="11.5" fontWeight="800" fill="#0f1c24">
+                  e-
+                </text>
+              </g>
+            </g>
           ) : (
             Array.from({ length: markerCount }).map((_, index) => {
               const stagger = (flow.durationSeconds / markerCount) * index;
+              const leading = index === 0;
               return (
                 <g
                   key={`${wireId}-electron-${index}`}
-                  opacity={0.34 + flow.intensity * 0.46}
-                  data-circuit-electron-marker=""
+                  opacity={leading ? 1 : beadOpacity}
+                  data-circuit-electron-marker={leading ? "lead" : "trail"}
                 >
-                  <circle r={index === 0 ? 5 : 4} fill={index === 0 ? "#f0ab3c" : "#178c91"}>
-                    <animateMotion
-                      dur={`${formatVisualMetric(flow.durationSeconds)}s`}
-                      begin={`${formatVisualMetric(-stagger)}s`}
-                      repeatCount="indefinite"
-                    >
-                      <mpath href={`#${motionPathId}`} />
-                    </animateMotion>
-                  </circle>
-                  {index === 0 ? (
-                    <text
-                      x="8"
-                      y="-7"
-                      fontSize="10"
-                      fontWeight="800"
-                      fill="#0f1c24"
-                      opacity="0.78"
-                    >
-                      e-
-                      <animateMotion
-                        dur={`${formatVisualMetric(flow.durationSeconds)}s`}
-                        begin="0s"
-                        repeatCount="indefinite"
-                      >
-                        <mpath href={`#${motionPathId}`} />
-                      </animateMotion>
-                    </text>
+                  <circle r={leading ? 14 : 8.5} fill="#f0ab3c" opacity={leading ? haloOpacity : haloOpacity * 0.52} />
+                  <circle
+                    r={leading ? 7.2 : 5.8}
+                    fill={leading ? "#f0ab3c" : "#2fb7b5"}
+                    stroke="#fffdf8"
+                    strokeWidth={leading ? "2.2" : "2"}
+                  />
+                  {leading ? (
+                    <g transform="translate(12 -20)" data-circuit-electron-label="">
+                      <rect x="-10" y="-9" width="30" height="18" rx="9" fill="#fffdf8" stroke="rgba(15,28,36,0.24)" />
+                      <text x="5" y="4" textAnchor="middle" fontSize="11.5" fontWeight="800" fill="#0f1c24">
+                        e-
+                      </text>
+                    </g>
                   ) : null}
+                  <animateMotion
+                    dur={`${formatVisualMetric(flow.durationSeconds)}s`}
+                    begin={`${formatVisualMetric(-stagger)}s`}
+                    repeatCount="indefinite"
+                  >
+                    <mpath href={`#${motionPathId}`} />
+                  </animateMotion>
                 </g>
               );
             })
@@ -398,6 +403,7 @@ export function CircuitWorkspace({
   regionRef,
   className = "",
   headerSlot = null,
+  controlsSlot = null,
 }: CircuitWorkspaceProps) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -940,6 +946,15 @@ export function CircuitWorkspace({
             <span aria-hidden="true">·</span>
             <span>{workspaceModeLabel}</span>
           </div>
+          {controlsSlot}
+          {renderMode === "modern" ? (
+            <div
+              className="rounded-full border border-teal-500/20 bg-teal-500/8 px-2.5 py-1.5 text-xs font-semibold text-teal-800"
+              data-circuit-modern-legend=""
+            >
+              Modern: bulb glow follows power; e- dots show electron flow.
+            </div>
+          ) : null}
           <button
             type="button"
             disabled={!canZoomOut}
@@ -1210,6 +1225,9 @@ export function CircuitWorkspace({
               return (
                 <g
                   key={wire.id}
+                  data-circuit-modern-powered-wire={
+                    electronFlow ? (electronFlow.active ? "true" : "false") : undefined
+                  }
                   onClick={handleWireClick}
                   onPointerDown={handleWirePointerDown}
                   onKeyDown={(event) => {
@@ -1219,6 +1237,18 @@ export function CircuitWorkspace({
                     }
                   }}
                 >
+                  {electronFlow?.active ? (
+                    <path
+                      d={path.path}
+                      fill="none"
+                      stroke="rgba(240,171,60,0.42)"
+                      strokeWidth="10"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      pointerEvents="none"
+                      data-circuit-modern-wire-highlight="true"
+                    />
+                  ) : null}
                   <path
                     d={path.path}
                     fill="none"

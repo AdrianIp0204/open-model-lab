@@ -339,7 +339,12 @@ test("renders modern visual mode with powered bulb glow and electron flow", asyn
   await expect(page.locator('[data-circuit-modern-palette-thumbnail="lightBulb"]').first()).toBeVisible();
   await expect(page.locator('[data-circuit-modern-component="lightBulb"]')).toBeVisible();
   await expect(page.locator('[data-circuit-light-bulb-glow="on"]')).toBeVisible();
+  await expect(page.locator("[data-circuit-modern-legend]")).toBeVisible();
   await expect(page.locator('[data-circuit-electron-flow-active="true"]')).not.toHaveCount(0);
+  await expect(page.locator('[data-circuit-modern-powered-wire="true"]')).not.toHaveCount(0);
+  await expect(page.locator('[data-circuit-modern-wire-highlight="true"]')).not.toHaveCount(0);
+  await expect(page.locator('[data-circuit-electron-marker="lead"]')).not.toHaveCount(0);
+  await expect(page.locator("[data-circuit-electron-label]")).not.toHaveCount(0);
 
   await page.getByRole("button", { name: "Light bulb 1", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Light bulb 1" })).toBeVisible();
@@ -352,12 +357,16 @@ test("renders modern visual mode with powered bulb glow and electron flow", asyn
 
   await expect(page.locator('[data-circuit-light-bulb-glow="off"]')).toBeVisible();
   await expect(page.locator('[data-circuit-electron-flow-active="true"]')).toHaveCount(0);
+  await expect(page.locator('[data-circuit-modern-powered-wire="true"]')).toHaveCount(0);
+  await expect(page.locator('[data-circuit-modern-wire-highlight="true"]')).toHaveCount(0);
 
   await page.getByRole("button", { name: "Schematic" }).click();
   await expect(workspace).toHaveAttribute("data-circuit-render-mode", "schematic");
   await expect(page.locator("[data-circuit-modern-component]")).toHaveCount(0);
   await expect(page.locator("[data-circuit-light-bulb-glow]")).toHaveCount(0);
   await expect(page.locator("[data-circuit-electron-flow-wire-id]")).toHaveCount(0);
+  await expect(page.locator("[data-circuit-modern-wire-highlight]")).toHaveCount(0);
+  await expect(page.locator("[data-circuit-modern-legend]")).toHaveCount(0);
 });
 
 test("searches the desktop component library, adds a lower component quickly, and clears from the workspace controls with undo recovery", async ({

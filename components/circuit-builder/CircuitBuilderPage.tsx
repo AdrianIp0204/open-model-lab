@@ -169,11 +169,11 @@ function CircuitRenderModeSwitch({
 }) {
   return (
     <div
-      className="inline-flex items-center gap-1 rounded-full border border-line bg-paper-strong p-1 text-xs font-semibold text-ink-700 shadow-sm"
+      className="inline-flex items-center gap-0.5 rounded-full border border-line bg-paper-strong p-0.5 text-xs font-semibold text-ink-700 shadow-sm"
       aria-label="Circuit render mode"
       data-circuit-render-mode-switch=""
     >
-      <span className="px-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-ink-500">
+      <span className="px-1.5 text-[0.66rem] font-semibold uppercase tracking-[0.12em] text-ink-500">
         View
       </span>
       {circuitRenderModeOptions.map((mode) => {
@@ -184,7 +184,7 @@ function CircuitRenderModeSwitch({
             type="button"
             aria-pressed={selected}
             className={[
-              "rounded-full px-2.5 py-1 transition",
+              "rounded-full px-2 py-1 transition",
               selected
                 ? "bg-ink-950 text-white"
                 : "text-ink-700 hover:bg-paper hover:text-ink-950",
@@ -2101,11 +2101,8 @@ export function CircuitBuilderPage() {
       />
     </div>
   );
-  const workspaceHeaderSlot = (
-    <div className="flex flex-wrap items-center justify-end gap-2">
-      <CircuitRenderModeSwitch value={renderMode} onChange={updateCircuitRenderMode} />
-      {desktopEnvironmentControl}
-    </div>
+  const workspaceControlsSlot = (
+    <CircuitRenderModeSwitch value={renderMode} onChange={updateCircuitRenderMode} />
   );
   const builderGridColumnClass = isLibraryCollapsed
     ? isInspectorCollapsed
@@ -2608,7 +2605,8 @@ export function CircuitBuilderPage() {
           <CircuitWorkspace
             regionRef={workspaceRegionRef}
             className="xl:flex-1 xl:min-h-0"
-            headerSlot={workspaceHeaderSlot}
+            headerSlot={desktopEnvironmentControl}
+            controlsSlot={workspaceControlsSlot}
             document={state.document}
             solveResult={solveResult}
             renderMode={renderMode}
