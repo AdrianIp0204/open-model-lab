@@ -71,6 +71,7 @@
     "AI_RATE_LIMIT_MAX_REQUESTS": "20",
     "AI_RATE_LIMIT_WINDOW_SECONDS": "600",
     "AI_RATE_LIMIT_MAX_BUCKETS": "5000",
+    "AI_MONTHLY_TOKEN_LIMIT": "10000000",
     // Enable only for Cloudflare-routed Worker traffic. Local or direct
     // self-hosted environments should leave this false.
     "AI_TRUST_CLOUDFLARE_CONNECTING_IP": "true",

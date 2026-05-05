@@ -13,6 +13,23 @@ type AiCoachErrorState = {
   code?: string;
 };
 
+function getAiCoachErrorMessage(code: string | undefined) {
+  switch (code) {
+    case "ai_features_disabled":
+      return "The AI coach is not enabled for this deployment.";
+    case "ai_auth_required":
+      return "Sign in with a Supporter account to use the AI coach.";
+    case "ai_premium_required":
+      return "AI Coach is a Supporter feature because model calls have real API cost.";
+    case "ai_monthly_quota_exceeded":
+      return "This account has reached the monthly AI Coach limit.";
+    case "rate_limited":
+      return "The AI coach needs a short break before another request.";
+    default:
+      return "The AI coach is unavailable right now.";
+  }
+}
+
 export function useAiCoach() {
   const [response, setResponse] = useState<AiCoachResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -40,12 +57,7 @@ export function useAiCoach() {
             error?: string;
           } | null;
           const code = body?.code;
-          const message =
-            code === "ai_features_disabled"
-              ? "The AI coach is not enabled for this deployment."
-              : code === "rate_limited"
-                ? "The AI coach needs a short break before another request."
-                : "The AI coach is unavailable right now.";
+          const message = getAiCoachErrorMessage(code);
 
           setResponse(null);
           setError({ message, code });

@@ -1,6 +1,6 @@
 # AI Learning Coach
 
-The AI Learning Coach is the first shared AI foundation for Open Model Lab. It gives learners one compact piece of guidance on concept pages: one thing to try, one thing to notice, and one question to think about.
+The AI Learning Coach is the first shared AI foundation for Open Model Lab. It is a Supporter feature that gives learners one compact piece of guidance on concept pages: one thing to try, one thing to notice, and one question to think about.
 
 The AI coach is designed to guide learners through existing page and simulation content. It should not be treated as the source of truth. Validated concept metadata, formulas, and deterministic simulation logic remain the source of truth.
 
@@ -10,6 +10,7 @@ The AI coach is designed to guide learners through existing page and simulation 
 - Sends that scoped context to the server-only AI provider through `POST /api/ai/coach`.
 - Returns a short JSON response with `action`, `observe`, `question`, and `citations`.
 - Falls back to a safe generic guide when the model response is missing, invalid, or ungrounded.
+- Enforces signed-in Supporter access on the server before any Gemini request is made.
 
 ## What It Does Not Do
 
@@ -31,6 +32,7 @@ AI_LOGGING_ENABLED=true
 AI_RATE_LIMIT_MAX_REQUESTS=20
 AI_RATE_LIMIT_WINDOW_SECONDS=600
 AI_RATE_LIMIT_MAX_BUCKETS=5000
+AI_MONTHLY_TOKEN_LIMIT=10000000
 AI_TRUST_CLOUDFLARE_CONNECTING_IP=false
 ```
 
@@ -40,6 +42,21 @@ Keep `GEMINI_API_KEY` server-side. Do not expose it through `NEXT_PUBLIC_` varia
 
 For Cloudflare/OpenNext deployment, the non-secret AI variables can be placed in Wrangler `vars` or Cloudflare dashboard variables. `GEMINI_API_KEY` must be configured as a Cloudflare runtime secret, for example with `wrangler secret put GEMINI_API_KEY`, and must not be placed in `wrangler.jsonc` `vars`. Setting the key only as a build variable is not enough because `/api/ai/coach` reads it at Worker runtime when the learner clicks the coach. See [launch readiness](./launch-readiness.md#ai-learning-coach-runtime-variables).
 
+## Supporter Access And Quota
+
+`/api/ai/coach` is signed-in Supporter-only. The client hides the model request path for signed-out and free users, but the server enforces the same boundary authoritatively:
+
+- `503 ai_features_disabled` when `AI_FEATURES_ENABLED` is not `true`
+- `401 ai_auth_required` when no server-authenticated account session exists
+- `403 ai_premium_required` when the signed-in account does not have the `canUseAiCoach` capability
+- `429 ai_monthly_quota_exceeded` when the account has reached the monthly token cap
+
+Internal entitlement tiers remain `free | premium`. The user-facing Supporter wording maps to the existing `premium` entitlement; it does not introduce a second billing tier.
+
+The monthly token cap defaults to `AI_MONTHLY_TOKEN_LIMIT=10000000` total Gemini tokens per user per UTC month. Usage is stored server-side in Supabase/Postgres in `public.user_ai_token_usage`, keyed by account id and `YYYY-MM` period. The table is protected with RLS and is updated through server/service-role paths only.
+
+The Gemini provider records `usageMetadata` when Gemini returns it. If a successful Gemini response payload does not include usage metadata, the server records a conservative estimate from prompt and response text length. Successful Gemini attempts that return a payload count toward quota even when that payload later fails JSON validation or grounding.
+
 ## Privacy
 
 The model prompt receives only scoped learning context. The prompt builder strips `userId` before sending context to Gemini. Do not add names, emails, account state, raw learner identity, or private account records to the AI context.
@@ -48,7 +65,7 @@ AI logging is metadata-only when `AI_LOGGING_ENABLED=true`. Logs should include 
 
 ## Rate Limiting
 
-`/api/ai/coach` uses a server-side in-memory rate limiter. Defaults are 20 requests per 10 minutes:
+`/api/ai/coach` uses a short-window server-side in-memory rate limiter in addition to the persistent monthly token quota. Defaults are 20 requests per 10 minutes:
 
 - `AI_RATE_LIMIT_MAX_REQUESTS=20`
 - `AI_RATE_LIMIT_WINDOW_SECONDS=600`
@@ -56,7 +73,7 @@ AI logging is metadata-only when `AI_LOGGING_ENABLED=true`. Logs should include 
 
 Expired limiter buckets are pruned during request handling, and `AI_RATE_LIMIT_MAX_BUCKETS` bounds the in-memory bucket map before expiry.
 
-Server rate limiting ignores any `context.userId` supplied by the client. For signed-in learners, `/api/ai/coach` resolves identity from the server-side account session using the incoming cookie header. For signed-out or unknown learners, the limiter uses Cloudflare's `cf-connecting-ip` header only when `AI_TRUST_CLOUDFLARE_CONNECTING_IP=true`. Enable that flag only when requests are guaranteed to pass through Cloudflare or equivalent trusted proxy protection. Local, self-hosted, and direct environments should leave it false; then signed-out requests fall back to a coarse `host:<request-host>` bucket. Spoofable headers such as `x-forwarded-for`, `x-real-ip`, `x-client-ip`, and `user-agent` are intentionally not used for limiter identity. This is a development foundation, not a production paid quota system.
+Server rate limiting ignores any `context.userId` supplied by the client. Because the AI coach is signed-in Supporter-only, `/api/ai/coach` resolves identity from the server-side account session using the incoming cookie header and keys the limiter by that trusted account id. Spoofable headers such as `x-forwarded-for`, `x-real-ip`, `x-client-ip`, and `user-agent` are intentionally not used for limiter identity. `cf-connecting-ip` is not needed for normal AI coach access; `AI_TRUST_CLOUDFLARE_CONNECTING_IP` remains documented for environments that reuse lower-level AI/network helpers and should only be enabled when requests are guaranteed to pass through Cloudflare or equivalent trusted proxy protection.
 
 ## Validation And Grounding
 

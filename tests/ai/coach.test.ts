@@ -21,12 +21,20 @@ import {
   aiLearningContextSchema,
 } from "@/lib/ai/schema";
 import type { AiCoachRequest, AiCoachResponse, AiLearningContext } from "@/lib/ai/types";
+import { resolveAccountEntitlement } from "@/lib/account/entitlements";
+import type { AccountSession } from "@/lib/account/model";
+import { getDefaultAccountBillingSummary } from "@/lib/billing/model";
 import { getConceptBySlug } from "@/lib/content";
 import type { ConceptPageRuntimeSnapshot } from "@/lib/learning/conceptPageRuntime";
 
 const mocks = vi.hoisted(() => ({
   generateCoachResponseWithGeminiResultMock: vi.fn(),
   getAccountSessionForCookieHeaderMock: vi.fn(),
+  getAiMonthlyTokenUsageForUserMock: vi.fn(),
+  incrementAiMonthlyTokenUsageForUserMock: vi.fn(),
+  getAiMonthlyTokenLimitMock: vi.fn(),
+  getCurrentAiUsagePeriodMock: vi.fn(),
+  getAiMonthlyQuotaResetAtMock: vi.fn(),
 }));
 
 vi.mock("@/lib/ai/providers/gemini", () => ({
@@ -38,6 +46,14 @@ vi.mock("@/lib/account/supabase", () => ({
   getAccountSessionForCookieHeader: mocks.getAccountSessionForCookieHeaderMock,
 }));
 
+vi.mock("@/lib/ai/token-quota", () => ({
+  getAiMonthlyTokenUsageForUser: mocks.getAiMonthlyTokenUsageForUserMock,
+  incrementAiMonthlyTokenUsageForUser: mocks.incrementAiMonthlyTokenUsageForUserMock,
+  getAiMonthlyTokenLimit: mocks.getAiMonthlyTokenLimitMock,
+  getCurrentAiUsagePeriod: mocks.getCurrentAiUsagePeriodMock,
+  getAiMonthlyQuotaResetAt: mocks.getAiMonthlyQuotaResetAtMock,
+}));
+
 vi.mock("server-only", () => ({}));
 
 const originalEnv = {
@@ -46,6 +62,7 @@ const originalEnv = {
   AI_RATE_LIMIT_MAX_REQUESTS: process.env.AI_RATE_LIMIT_MAX_REQUESTS,
   AI_RATE_LIMIT_WINDOW_SECONDS: process.env.AI_RATE_LIMIT_WINDOW_SECONDS,
   AI_RATE_LIMIT_MAX_BUCKETS: process.env.AI_RATE_LIMIT_MAX_BUCKETS,
+  AI_MONTHLY_TOKEN_LIMIT: process.env.AI_MONTHLY_TOKEN_LIMIT,
   AI_TRUST_CLOUDFLARE_CONNECTING_IP:
     process.env.AI_TRUST_CLOUDFLARE_CONNECTING_IP,
   GEMINI_API_KEY: process.env.GEMINI_API_KEY,
@@ -124,6 +141,45 @@ function buildRequest(overrides?: Partial<AiCoachRequest>): AiCoachRequest {
     mode: "guide",
     context: validContext,
     ...overrides,
+  };
+}
+
+function buildAccountSession({
+  userId = "trusted-premium-user",
+  tier = "premium",
+}: {
+  userId?: string;
+  tier?: "free" | "premium";
+} = {}): AccountSession {
+  const entitlement = resolveAccountEntitlement({
+    tier,
+    source: tier === "premium" ? "stored" : "account-default",
+    updatedAt: tier === "premium" ? "2026-05-05T00:00:00.000Z" : null,
+  });
+
+  return {
+    user: {
+      id: userId,
+      email: `${userId}@example.test`,
+      displayName: "Test learner",
+      createdAt: "2026-05-05T00:00:00.000Z",
+      lastSignedInAt: null,
+    },
+    entitlement,
+    billing: getDefaultAccountBillingSummary(entitlement),
+  };
+}
+
+function buildMonthlyUsage(totalTokens = 0) {
+  return {
+    userId: "trusted-premium-user",
+    periodYyyymm: "2026-05",
+    totalTokens,
+    promptTokens: 0,
+    completionTokens: 0,
+    thoughtsTokens: 0,
+    requestCount: 0,
+    updatedAt: null,
   };
 }
 
@@ -337,7 +393,15 @@ describe("AI coach rate limiter", () => {
 });
 
 describe("Gemini coach provider", () => {
-  function buildGeminiPayload(response: AiCoachResponse) {
+  function buildGeminiPayload(
+    response: AiCoachResponse,
+    usageMetadata?: {
+      promptTokenCount?: number;
+      candidatesTokenCount?: number;
+      thoughtsTokenCount?: number;
+      totalTokenCount?: number;
+    },
+  ) {
     return {
       candidates: [
         {
@@ -346,6 +410,7 @@ describe("Gemini coach provider", () => {
           },
         },
       ],
+      ...(usageMetadata ? { usageMetadata } : {}),
     };
   }
 
@@ -381,6 +446,108 @@ describe("Gemini coach provider", () => {
     expect(result.response).toEqual(validResponse);
     expect(result.attempts).toBe(2);
     expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("returns Gemini usage metadata when the response includes token counts", async () => {
+    const fetchMock = vi.fn().mockResolvedValueOnce(
+      new Response(
+        JSON.stringify(
+          buildGeminiPayload(validResponse, {
+            promptTokenCount: 20,
+            candidatesTokenCount: 30,
+            thoughtsTokenCount: 4,
+            totalTokenCount: 54,
+          }),
+        ),
+        { status: 200 },
+      ),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+    const { generateCoachResponseWithGeminiResult } =
+      await vi.importActual<typeof import("@/lib/ai/providers/gemini")>(
+        "@/lib/ai/providers/gemini",
+      );
+
+    const result = await generateCoachResponseWithGeminiResult(buildRequest());
+
+    expect(result.fallbackUsed).toBe(false);
+    expect(result.usage).toEqual({
+      promptTokenCount: 20,
+      candidatesTokenCount: 30,
+      thoughtsTokenCount: 4,
+      totalTokenCount: 54,
+    });
+  });
+
+  it("accumulates usage across invalid and retried Gemini payloads", async () => {
+    const invalidPayload = {
+      candidates: [
+        {
+          content: {
+            parts: [{ text: "{not-valid-json" }],
+          },
+        },
+      ],
+      usageMetadata: {
+        promptTokenCount: 4,
+        candidatesTokenCount: 6,
+        totalTokenCount: 10,
+      },
+    };
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify(invalidPayload), {
+          status: 200,
+        }),
+      )
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify(
+            buildGeminiPayload(validResponse, {
+              promptTokenCount: 8,
+              candidatesTokenCount: 12,
+              totalTokenCount: 20,
+            }),
+          ),
+          { status: 200 },
+        ),
+      );
+    vi.stubGlobal("fetch", fetchMock);
+    const { generateCoachResponseWithGeminiResult } =
+      await vi.importActual<typeof import("@/lib/ai/providers/gemini")>(
+        "@/lib/ai/providers/gemini",
+      );
+
+    const result = await generateCoachResponseWithGeminiResult(buildRequest());
+
+    expect(result.fallbackUsed).toBe(false);
+    expect(result.attempts).toBe(2);
+    expect(result.usage).toEqual({
+      promptTokenCount: 12,
+      candidatesTokenCount: 18,
+      thoughtsTokenCount: 0,
+      totalTokenCount: 30,
+    });
+  });
+
+  it("estimates Gemini usage when a successful response omits usage metadata", async () => {
+    const fetchMock = vi.fn().mockResolvedValueOnce(
+      new Response(JSON.stringify(buildGeminiPayload(validResponse)), {
+        status: 200,
+      }),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+    const { generateCoachResponseWithGeminiResult } =
+      await vi.importActual<typeof import("@/lib/ai/providers/gemini")>(
+        "@/lib/ai/providers/gemini",
+      );
+
+    const result = await generateCoachResponseWithGeminiResult(buildRequest());
+
+    expect(result.fallbackUsed).toBe(false);
+    expect(result.usage?.estimated).toBe(true);
+    expect(result.usage?.totalTokenCount).toBeGreaterThan(0);
   });
 
   it("retries one thrown Gemini fetch failure before returning a valid response", async () => {
@@ -480,12 +647,24 @@ describe("AI coach route", () => {
     process.env.AI_RATE_LIMIT_MAX_REQUESTS = "20";
     process.env.AI_RATE_LIMIT_WINDOW_SECONDS = "600";
     process.env.AI_RATE_LIMIT_MAX_BUCKETS = "5000";
+    process.env.AI_MONTHLY_TOKEN_LIMIT = "10000000";
     delete process.env.AI_TRUST_CLOUDFLARE_CONNECTING_IP;
-    mocks.getAccountSessionForCookieHeaderMock.mockResolvedValue(null);
+    mocks.getAccountSessionForCookieHeaderMock.mockResolvedValue(buildAccountSession());
+    mocks.getAiMonthlyTokenUsageForUserMock.mockResolvedValue(buildMonthlyUsage(0));
+    mocks.incrementAiMonthlyTokenUsageForUserMock.mockResolvedValue(buildMonthlyUsage(12));
+    mocks.getAiMonthlyTokenLimitMock.mockReturnValue(10_000_000);
+    mocks.getCurrentAiUsagePeriodMock.mockReturnValue("2026-05");
+    mocks.getAiMonthlyQuotaResetAtMock.mockReturnValue("2026-06-01T00:00:00.000Z");
     mocks.generateCoachResponseWithGeminiResultMock.mockResolvedValue({
       response: validResponse,
       fallbackUsed: false,
       attempts: 1,
+      usage: {
+        promptTokenCount: 5,
+        candidatesTokenCount: 7,
+        thoughtsTokenCount: 0,
+        totalTokenCount: 12,
+      },
     });
   });
 
@@ -493,6 +672,11 @@ describe("AI coach route", () => {
     resetAiRateLimitForTests();
     mocks.generateCoachResponseWithGeminiResultMock.mockReset();
     mocks.getAccountSessionForCookieHeaderMock.mockReset();
+    mocks.getAiMonthlyTokenUsageForUserMock.mockReset();
+    mocks.incrementAiMonthlyTokenUsageForUserMock.mockReset();
+    mocks.getAiMonthlyTokenLimitMock.mockReset();
+    mocks.getCurrentAiUsagePeriodMock.mockReset();
+    mocks.getAiMonthlyQuotaResetAtMock.mockReset();
     restoreEnvValue("AI_FEATURES_ENABLED", originalEnv.AI_FEATURES_ENABLED);
     restoreEnvValue("AI_LOGGING_ENABLED", originalEnv.AI_LOGGING_ENABLED);
     restoreEnvValue(
@@ -507,6 +691,7 @@ describe("AI coach route", () => {
       "AI_RATE_LIMIT_MAX_BUCKETS",
       originalEnv.AI_RATE_LIMIT_MAX_BUCKETS,
     );
+    restoreEnvValue("AI_MONTHLY_TOKEN_LIMIT", originalEnv.AI_MONTHLY_TOKEN_LIMIT);
     restoreEnvValue(
       "AI_TRUST_CLOUDFLARE_CONNECTING_IP",
       originalEnv.AI_TRUST_CLOUDFLARE_CONNECTING_IP,
@@ -546,8 +731,53 @@ describe("AI coach route", () => {
     expect(mocks.generateCoachResponseWithGeminiResultMock).not.toHaveBeenCalled();
   });
 
-  it("ignores client-supplied context.userId when rate limiting", async () => {
+  it("returns 401 for signed-out requests and does not call Gemini", async () => {
+    mocks.getAccountSessionForCookieHeaderMock.mockResolvedValue(null);
+
+    const response = await postCoachRequest();
+    const payload = (await response.json()) as { code: string };
+
+    expect(response.status).toBe(401);
+    expect(payload.code).toBe("ai_auth_required");
+    expect(mocks.generateCoachResponseWithGeminiResultMock).not.toHaveBeenCalled();
+    expect(mocks.getAiMonthlyTokenUsageForUserMock).not.toHaveBeenCalled();
+  });
+
+  it("returns 403 for signed-in free requests and does not call Gemini", async () => {
+    mocks.getAccountSessionForCookieHeaderMock.mockResolvedValue(
+      buildAccountSession({
+        userId: "trusted-free-user",
+        tier: "free",
+      }),
+    );
+
+    const response = await postCoachRequest();
+    const payload = (await response.json()) as { code: string };
+
+    expect(response.status).toBe(403);
+    expect(payload.code).toBe("ai_premium_required");
+    expect(mocks.generateCoachResponseWithGeminiResultMock).not.toHaveBeenCalled();
+    expect(mocks.getAiMonthlyTokenUsageForUserMock).not.toHaveBeenCalled();
+  });
+
+  it("allows signed-in premium requests to call Gemini", async () => {
+    const response = await postCoachRequest();
+    const payload = (await response.json()) as AiCoachResponse;
+
+    expect(response.status).toBe(200);
+    expect(payload).toEqual(validResponse);
+    expect(mocks.getAccountSessionForCookieHeaderMock).toHaveBeenCalled();
+    expect(mocks.generateCoachResponseWithGeminiResultMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("ignores client-supplied context.userId when rate limiting premium users", async () => {
     process.env.AI_RATE_LIMIT_MAX_REQUESTS = "1";
+    mocks.getAccountSessionForCookieHeaderMock.mockResolvedValue(
+      buildAccountSession({
+        userId: "trusted-session-user",
+        tier: "premium",
+      }),
+    );
 
     const firstResponse = await postCoachRequest({
       request: buildRequest({
@@ -571,149 +801,87 @@ describe("AI coach route", () => {
     expect(mocks.generateCoachResponseWithGeminiResultMock).toHaveBeenCalledTimes(1);
   });
 
-  it("does not let spoofed forwarding headers or user-agent rotation bypass host fallback", async () => {
+  it("returns 429 when the monthly quota is exhausted and does not call Gemini", async () => {
+    mocks.getAiMonthlyTokenUsageForUserMock.mockResolvedValue(buildMonthlyUsage(10_000_000));
+
+    const response = await postCoachRequest();
+    const payload = (await response.json()) as {
+      code: string;
+      details?: { period?: string; resetAt?: string };
+    };
+
+    expect(response.status).toBe(429);
+    expect(payload.code).toBe("ai_monthly_quota_exceeded");
+    expect(payload.details?.period).toBe("2026-05");
+    expect(payload.details?.resetAt).toBe("2026-06-01T00:00:00.000Z");
+    expect(mocks.generateCoachResponseWithGeminiResultMock).not.toHaveBeenCalled();
+  });
+
+  it("records Gemini usage metadata after a successful response", async () => {
+    await postCoachRequest();
+
+    expect(mocks.incrementAiMonthlyTokenUsageForUserMock).toHaveBeenCalledWith({
+      userId: "trusted-premium-user",
+      periodYyyymm: "2026-05",
+      usage: {
+        promptTokenCount: 5,
+        candidatesTokenCount: 7,
+        thoughtsTokenCount: 0,
+        totalTokenCount: 12,
+      },
+    });
+  });
+
+  it("records estimated Gemini usage when the provider returns an estimate", async () => {
+    mocks.generateCoachResponseWithGeminiResultMock.mockResolvedValue({
+      response: validResponse,
+      fallbackUsed: false,
+      attempts: 1,
+      usage: {
+        promptTokenCount: 11,
+        candidatesTokenCount: 13,
+        thoughtsTokenCount: 0,
+        totalTokenCount: 24,
+        estimated: true,
+      },
+    });
+
+    await postCoachRequest();
+
+    expect(mocks.incrementAiMonthlyTokenUsageForUserMock).toHaveBeenCalledWith({
+      userId: "trusted-premium-user",
+      periodYyyymm: "2026-05",
+      usage: {
+        promptTokenCount: 11,
+        candidatesTokenCount: 13,
+        thoughtsTokenCount: 0,
+        totalTokenCount: 24,
+        estimated: true,
+      },
+    });
+  });
+
+  it("keeps the request-rate limiter on the trusted premium user id", async () => {
     process.env.AI_RATE_LIMIT_MAX_REQUESTS = "1";
+    mocks.getAccountSessionForCookieHeaderMock.mockResolvedValue(
+      buildAccountSession({
+        userId: "trusted-session-user",
+        tier: "premium",
+      }),
+    );
 
     const firstResponse = await postCoachRequest({
       headers: {
+        "cf-connecting-ip": "203.0.113.10",
         "user-agent": "rotating-agent-1",
-        "x-forwarded-for": "198.51.100.10",
+        "x-forwarded-for": "198.51.100.1",
       },
     });
     const secondResponse = await postCoachRequest({
       headers: {
+        "cf-connecting-ip": "203.0.113.11",
         "user-agent": "rotating-agent-2",
-        "x-forwarded-for": "203.0.113.20",
-      },
-    });
-
-    expect(firstResponse.status).toBe(200);
-    expect(secondResponse.status).toBe(429);
-    expect(mocks.generateCoachResponseWithGeminiResultMock).toHaveBeenCalledTimes(1);
-  });
-
-  it("does not trust cf-connecting-ip when the Cloudflare trust flag is missing or false", async () => {
-    process.env.AI_RATE_LIMIT_MAX_REQUESTS = "1";
-
-    const firstResponse = await postCoachRequest({
-      headers: {
-        "cf-connecting-ip": "203.0.113.10",
-        "x-forwarded-for": "198.51.100.1",
-      },
-    });
-    const secondResponse = await postCoachRequest({
-      headers: {
-        "cf-connecting-ip": "203.0.113.11",
         "x-forwarded-for": "198.51.100.2",
-      },
-    });
-
-    expect(firstResponse.status).toBe(200);
-    expect(secondResponse.status).toBe(429);
-    expect(mocks.generateCoachResponseWithGeminiResultMock).toHaveBeenCalledTimes(1);
-
-    resetAiRateLimitForTests();
-    mocks.generateCoachResponseWithGeminiResultMock.mockClear();
-    process.env.AI_TRUST_CLOUDFLARE_CONNECTING_IP = "false";
-
-    const thirdResponse = await postCoachRequest({
-      headers: {
-        "cf-connecting-ip": "203.0.113.20",
-      },
-    });
-    const fourthResponse = await postCoachRequest({
-      headers: {
-        "cf-connecting-ip": "203.0.113.21",
-      },
-    });
-
-    expect(thirdResponse.status).toBe(200);
-    expect(fourthResponse.status).toBe(429);
-    expect(mocks.generateCoachResponseWithGeminiResultMock).toHaveBeenCalledTimes(1);
-  });
-
-  it("uses cf-connecting-ip as the trusted signed-out key only when enabled", async () => {
-    process.env.AI_RATE_LIMIT_MAX_REQUESTS = "1";
-    process.env.AI_TRUST_CLOUDFLARE_CONNECTING_IP = "true";
-
-    const firstResponse = await postCoachRequest({
-      headers: {
-        "cf-connecting-ip": "203.0.113.10",
-        "x-forwarded-for": "198.51.100.1",
-      },
-    });
-    const secondResponse = await postCoachRequest({
-      headers: {
-        "cf-connecting-ip": "203.0.113.10",
-        "x-forwarded-for": "198.51.100.2",
-      },
-    });
-    const thirdResponse = await postCoachRequest({
-      headers: {
-        "cf-connecting-ip": "203.0.113.11",
-        "x-forwarded-for": "198.51.100.2",
-      },
-    });
-
-    expect(firstResponse.status).toBe(200);
-    expect(secondResponse.status).toBe(429);
-    expect(thirdResponse.status).toBe(200);
-    expect(mocks.generateCoachResponseWithGeminiResultMock).toHaveBeenCalledTimes(2);
-  });
-
-  it("uses server-resolved signed-in user identity before body userId or Cloudflare IP", async () => {
-    process.env.AI_RATE_LIMIT_MAX_REQUESTS = "1";
-    process.env.AI_TRUST_CLOUDFLARE_CONNECTING_IP = "true";
-    mocks.getAccountSessionForCookieHeaderMock.mockResolvedValue({
-      user: {
-        id: "trusted-session-user",
-      },
-    });
-
-    const firstResponse = await postCoachRequest({
-      headers: {
-        cookie: "sb-auth-token=1",
-        "cf-connecting-ip": "203.0.113.10",
-      },
-      request: buildRequest({
-        context: {
-          ...validContext,
-          userId: "client-claimed-user-1",
-        },
-      }),
-    });
-    const secondResponse = await postCoachRequest({
-      headers: {
-        cookie: "sb-auth-token=1",
-        "cf-connecting-ip": "203.0.113.11",
-      },
-      request: buildRequest({
-        context: {
-          ...validContext,
-          userId: "client-claimed-user-2",
-        },
-      }),
-    });
-
-    expect(firstResponse.status).toBe(200);
-    expect(secondResponse.status).toBe(429);
-    expect(mocks.getAccountSessionForCookieHeaderMock).toHaveBeenCalledWith("sb-auth-token=1");
-    expect(mocks.generateCoachResponseWithGeminiResultMock).toHaveBeenCalledTimes(1);
-  });
-
-  it("falls back to trusted network identity when server session lookup fails", async () => {
-    process.env.AI_RATE_LIMIT_MAX_REQUESTS = "1";
-    process.env.AI_TRUST_CLOUDFLARE_CONNECTING_IP = "true";
-    mocks.getAccountSessionForCookieHeaderMock.mockRejectedValue(new Error("auth unavailable"));
-
-    const firstResponse = await postCoachRequest({
-      headers: {
-        "cf-connecting-ip": "203.0.113.10",
-      },
-    });
-    const secondResponse = await postCoachRequest({
-      headers: {
-        "cf-connecting-ip": "203.0.113.10",
       },
     });
 

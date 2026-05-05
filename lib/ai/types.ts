@@ -54,3 +54,11 @@ export type AiCoachResponse = {
   safetyNote?: string;
   citations: AiCoachCitation[];
 };
+
+export type AiTokenUsage = {
+  promptTokenCount: number;
+  candidatesTokenCount: number;
+  thoughtsTokenCount: number;
+  totalTokenCount: number;
+  estimated?: boolean;
+};

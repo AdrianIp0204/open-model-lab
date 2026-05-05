@@ -6,7 +6,7 @@ import {
   safeParseAiCoachResponseText,
 } from "../response";
 import { buildAiCoachPrompt, aiCoachResponseJsonSchema } from "../prompt";
-import type { AiCoachRequest, AiCoachResponse } from "../types";
+import type { AiCoachRequest, AiCoachResponse, AiTokenUsage } from "../types";
 
 const DEFAULT_GEMINI_MODEL = "gemini-2.5-flash-lite";
 const GEMINI_API_BASE_URL = "https://generativelanguage.googleapis.com/v1beta";
@@ -21,6 +21,12 @@ type GeminiGenerateContentResponse = {
       parts?: GeminiPart[];
     };
   }>;
+  usageMetadata?: {
+    promptTokenCount?: number;
+    candidatesTokenCount?: number;
+    thoughtsTokenCount?: number;
+    totalTokenCount?: number;
+  };
 };
 
 export class GeminiRequestError extends Error {
@@ -38,6 +44,7 @@ export type GeminiCoachGenerationResult = {
   fallbackUsed: boolean;
   failureReason?: string;
   attempts: number;
+  usage?: AiTokenUsage;
 };
 
 function getConfiguredGeminiModel() {
@@ -63,12 +70,82 @@ function extractGeminiText(payload: GeminiGenerateContentResponse) {
   );
 }
 
-function fallbackResult(reason: string, attempts: number): GeminiCoachGenerationResult {
+function readTokenCount(value: number | undefined) {
+  return typeof value === "number" && Number.isFinite(value) && value > 0
+    ? Math.trunc(value)
+    : 0;
+}
+
+function extractGeminiUsageMetadata(
+  payload: GeminiGenerateContentResponse,
+): AiTokenUsage | null {
+  if (!payload.usageMetadata) {
+    return null;
+  }
+
+  const promptTokenCount = readTokenCount(payload.usageMetadata.promptTokenCount);
+  const candidatesTokenCount = readTokenCount(payload.usageMetadata.candidatesTokenCount);
+  const thoughtsTokenCount = readTokenCount(payload.usageMetadata.thoughtsTokenCount);
+  const explicitTotalTokenCount = readTokenCount(payload.usageMetadata.totalTokenCount);
+  const totalTokenCount =
+    explicitTotalTokenCount || promptTokenCount + candidatesTokenCount + thoughtsTokenCount;
+
+  if (totalTokenCount <= 0) {
+    return null;
+  }
+
+  return {
+    promptTokenCount,
+    candidatesTokenCount,
+    thoughtsTokenCount,
+    totalTokenCount,
+  };
+}
+
+function estimateTokenCountFromText(value: string) {
+  return Math.max(1, Math.ceil(value.length / 4));
+}
+
+function estimateGeminiUsage(prompt: string, responseText: string): AiTokenUsage {
+  const promptTokenCount = estimateTokenCountFromText(prompt);
+  const candidatesTokenCount = responseText
+    ? estimateTokenCountFromText(responseText)
+    : 0;
+
+  return {
+    promptTokenCount,
+    candidatesTokenCount,
+    thoughtsTokenCount: 0,
+    totalTokenCount: promptTokenCount + candidatesTokenCount,
+    estimated: true,
+  };
+}
+
+function addTokenUsage(left: AiTokenUsage | undefined, right: AiTokenUsage) {
+  if (!left) {
+    return { ...right };
+  }
+
+  return {
+    promptTokenCount: left.promptTokenCount + right.promptTokenCount,
+    candidatesTokenCount: left.candidatesTokenCount + right.candidatesTokenCount,
+    thoughtsTokenCount: left.thoughtsTokenCount + right.thoughtsTokenCount,
+    totalTokenCount: left.totalTokenCount + right.totalTokenCount,
+    estimated: Boolean(left.estimated || right.estimated) || undefined,
+  };
+}
+
+function fallbackResult(
+  reason: string,
+  attempts: number,
+  usage?: AiTokenUsage,
+): GeminiCoachGenerationResult {
   return {
     response: aiCoachFallbackResponse,
     fallbackUsed: true,
     failureReason: reason,
     attempts,
+    ...(usage ? { usage } : {}),
   };
 }
 
@@ -135,6 +212,7 @@ export async function generateCoachResponseWithGeminiResult(
   const model = getConfiguredGeminiModel();
   let lastFailureReason = "Gemini response could not be validated.";
   let attempts = 0;
+  let accumulatedUsage: AiTokenUsage | undefined;
 
   for (let attempt = 1; attempt <= 2; attempt += 1) {
     attempts = attempt;
@@ -143,6 +221,9 @@ export async function generateCoachResponseWithGeminiResult(
       const prompt = buildAiCoachPrompt(request, { stricter: attempt > 1 });
       const payload = await callGemini(prompt, apiKey, model);
       const text = extractGeminiText(payload);
+      const usage =
+        extractGeminiUsageMetadata(payload) ?? estimateGeminiUsage(prompt, text);
+      accumulatedUsage = addTokenUsage(accumulatedUsage, usage);
 
       if (!text) {
         lastFailureReason = "Gemini returned an empty response.";
@@ -170,6 +251,7 @@ export async function generateCoachResponseWithGeminiResult(
         response: parsed.response,
         fallbackUsed: false,
         attempts: attempt,
+        usage: accumulatedUsage,
       };
     } catch (error) {
       lastFailureReason =
@@ -179,11 +261,11 @@ export async function generateCoachResponseWithGeminiResult(
         continue;
       }
 
-      return fallbackResult(lastFailureReason, attempt);
+      return fallbackResult(lastFailureReason, attempt, accumulatedUsage);
     }
   }
 
-  return fallbackResult(lastFailureReason, attempts);
+  return fallbackResult(lastFailureReason, attempts, accumulatedUsage);
 }
 
 export async function generateCoachResponseWithGemini(

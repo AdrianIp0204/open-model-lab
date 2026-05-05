@@ -168,14 +168,6 @@ export function ConceptPageFramework({
         initialChallengeItemId={initialChallengeItemId}
         initialSimulationState={initialSimulationState}
         starterGuidePlacement="external"
-        afterBench={
-          <AiLearningCoachPanel
-            key="ai-learning-coach"
-            concept={concept}
-            simulationSource={simulationSource}
-            locale={resolvedLocale}
-          />
-        }
       />
     </div>,
   ]);
@@ -356,6 +348,11 @@ export function ConceptPageFramework({
               </div>
             }
             afterPhasedSections={afterPhasedSectionContent}
+          />
+          <AiLearningCoachPanel
+            concept={concept}
+            simulationSource={simulationSource}
+            locale={resolvedLocale}
           />
         </ConceptLearningBridgeProvider>
       </ConceptAchievementTrackerProvider>

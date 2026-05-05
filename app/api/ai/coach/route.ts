@@ -2,10 +2,22 @@ import { NextResponse } from "next/server";
 import { aiCoachRequestSchema } from "@/lib/ai/schema";
 import { consumeAiRateLimitSlot } from "@/lib/ai/rate-limit";
 import { generateCoachResponseWithGeminiResult } from "@/lib/ai/providers/gemini";
+import {
+  getAiMonthlyQuotaResetAt,
+  getAiMonthlyTokenLimit,
+  getAiMonthlyTokenUsageForUser,
+  getCurrentAiUsagePeriod,
+  incrementAiMonthlyTokenUsageForUser,
+} from "@/lib/ai/token-quota";
+import { hasAccountEntitlementCapability } from "@/lib/account/entitlements";
 import { getAccountSessionForCookieHeader } from "@/lib/account/supabase";
+import type { AccountSession } from "@/lib/account/model";
 
 type AiCoachErrorCode =
   | "ai_features_disabled"
+  | "ai_auth_required"
+  | "ai_premium_required"
+  | "ai_monthly_quota_exceeded"
   | "invalid_json"
   | "invalid_payload"
   | "rate_limited"
@@ -18,6 +30,7 @@ function buildAiCoachErrorResponse({
   retryAfterSeconds,
   status,
   fieldErrors,
+  details,
 }: {
   code: AiCoachErrorCode;
   error: string;
@@ -25,6 +38,7 @@ function buildAiCoachErrorResponse({
   retryAfterSeconds?: number;
   status: number;
   fieldErrors?: Record<string, string[] | undefined>;
+  details?: Record<string, unknown>;
 }) {
   return NextResponse.json(
     {
@@ -32,6 +46,7 @@ function buildAiCoachErrorResponse({
       error,
       requestId,
       ...(fieldErrors ? { fieldErrors } : {}),
+      ...(details ? { details } : {}),
     },
     {
       status,
@@ -52,61 +67,22 @@ function isAiLoggingEnabled() {
   return process.env.AI_LOGGING_ENABLED === "true";
 }
 
-function shouldTrustCloudflareConnectingIp() {
-  return process.env.AI_TRUST_CLOUDFLARE_CONNECTING_IP === "true";
-}
-
-type AiRateLimitKeyKind = "user" | "cloudflare-ip" | "host";
-
-type TrustedAiRateLimitKey = {
-  key: string;
-  kind: AiRateLimitKeyKind;
-};
-
-function getTrustedClientAddress(request: Request) {
-  if (!shouldTrustCloudflareConnectingIp()) {
+async function getServerAccountSessionForAiRequest(request: Request) {
+  try {
+    return await getAccountSessionForCookieHeader(request.headers.get("cookie"));
+  } catch {
+    // Auth/vendor config can be absent in local previews. The AI coach is still
+    // signed-in Premium only, so a failed server session lookup resolves as no
+    // authenticated AI access instead of falling back to client-controlled fields.
     return null;
   }
-
-  return request.headers.get("cf-connecting-ip")?.trim() || null;
 }
 
-function getTrustedNetworkRateLimitKey(request: Request): TrustedAiRateLimitKey {
-  const clientAddress = getTrustedClientAddress(request);
-
-  if (clientAddress) {
-    return {
-      key: `cloudflare-ip:${clientAddress}`,
-      kind: "cloudflare-ip",
-    };
-  }
-
-  return {
-    key: `host:${new URL(request.url).host}`,
-    kind: "host",
-  };
-}
-
-async function getTrustedAiRateLimitKey(request: Request): Promise<TrustedAiRateLimitKey> {
-  try {
-    const session = await getAccountSessionForCookieHeader(request.headers.get("cookie"));
-
-    if (session?.user.id) {
-      return {
-        key: `user:${session.user.id}`,
-        kind: "user",
-      };
-    }
-  } catch {
-    // Auth/vendor config can be absent in development or previews. Do not fail the
-    // AI coach because session resolution failed; just fall back to network scope.
-  }
-
-  // Deliberately ignore client-supplied context.userId and spoofable proxy/client
-  // headers such as x-forwarded-for, x-real-ip, x-client-ip, and user-agent.
-  // cf-connecting-ip is only trusted when the deployment explicitly guarantees
-  // requests reached the Worker through Cloudflare.
-  return getTrustedNetworkRateLimitKey(request);
+function getPremiumAiRateLimitKey(session: AccountSession) {
+  // Deliberately ignore client-supplied context.userId and mutable network
+  // headers. The AI endpoint is Premium-only, so the server-resolved account id
+  // is the only identity used for quota and short-window rate limiting.
+  return `user:${session.user.id}`;
 }
 
 function logAiCoachMetadata(metadata: {
@@ -117,8 +93,12 @@ function logAiCoachMetadata(metadata: {
   simulationId?: string;
   success: boolean;
   fallbackUsed: boolean;
-  rateLimitKeyKind?: AiRateLimitKeyKind;
+  rateLimitKeyKind?: "user";
   validationFailureReason?: string;
+  quotaPeriod?: string;
+  usageTotalTokens?: number;
+  usageEstimated?: boolean;
+  usageUnavailable?: boolean;
   latencyMs: number;
 }) {
   if (!isAiLoggingEnabled()) {
@@ -150,6 +130,45 @@ export async function POST(request: Request) {
     });
   }
 
+  const session = await getServerAccountSessionForAiRequest(request);
+
+  if (!session?.user?.id) {
+    logAiCoachMetadata({
+      requestId,
+      timestamp: new Date(startedAt).toISOString(),
+      success: false,
+      fallbackUsed: false,
+      validationFailureReason: "ai_auth_required",
+      latencyMs: Date.now() - startedAt,
+    });
+
+    return buildAiCoachErrorResponse({
+      code: "ai_auth_required",
+      error: "Sign in with a Supporter account to use the AI coach.",
+      requestId,
+      status: 401,
+    });
+  }
+
+  if (!hasAccountEntitlementCapability(session.entitlement, "canUseAiCoach")) {
+    logAiCoachMetadata({
+      requestId,
+      timestamp: new Date(startedAt).toISOString(),
+      success: false,
+      fallbackUsed: false,
+      rateLimitKeyKind: "user",
+      validationFailureReason: "ai_premium_required",
+      latencyMs: Date.now() - startedAt,
+    });
+
+    return buildAiCoachErrorResponse({
+      code: "ai_premium_required",
+      error: "AI Coach is a Supporter feature.",
+      requestId,
+      status: 403,
+    });
+  }
+
   let payload: unknown;
 
   try {
@@ -175,8 +194,67 @@ export async function POST(request: Request) {
     });
   }
 
-  const rateLimitKey = await getTrustedAiRateLimitKey(request);
-  const rateLimitDecision = consumeAiRateLimitSlot(rateLimitKey.key);
+  const quotaPeriod = getCurrentAiUsagePeriod();
+  const quotaLimit = getAiMonthlyTokenLimit();
+  const quotaResetAt = getAiMonthlyQuotaResetAt(quotaPeriod);
+
+  let currentUsage;
+
+  try {
+    currentUsage = await getAiMonthlyTokenUsageForUser(session.user.id, quotaPeriod);
+  } catch {
+    logAiCoachMetadata({
+      requestId,
+      timestamp: new Date(startedAt).toISOString(),
+      mode: parsed.data.mode,
+      pageSlug: parsed.data.context.page.slug,
+      simulationId: parsed.data.context.simulation?.id,
+      success: false,
+      fallbackUsed: false,
+      rateLimitKeyKind: "user",
+      validationFailureReason: "quota_lookup_failed",
+      quotaPeriod,
+      latencyMs: Date.now() - startedAt,
+    });
+
+    return buildAiCoachErrorResponse({
+      code: "coach_unavailable",
+      error: "The AI coach is unavailable right now.",
+      requestId,
+      status: 503,
+    });
+  }
+
+  if (currentUsage.totalTokens >= quotaLimit) {
+    logAiCoachMetadata({
+      requestId,
+      timestamp: new Date(startedAt).toISOString(),
+      mode: parsed.data.mode,
+      pageSlug: parsed.data.context.page.slug,
+      simulationId: parsed.data.context.simulation?.id,
+      success: false,
+      fallbackUsed: false,
+      rateLimitKeyKind: "user",
+      validationFailureReason: "ai_monthly_quota_exceeded",
+      quotaPeriod,
+      latencyMs: Date.now() - startedAt,
+    });
+
+    return buildAiCoachErrorResponse({
+      code: "ai_monthly_quota_exceeded",
+      error: "This account has reached the monthly AI Coach token limit.",
+      requestId,
+      status: 429,
+      details: {
+        period: quotaPeriod,
+        limit: quotaLimit,
+        totalTokens: currentUsage.totalTokens,
+        resetAt: quotaResetAt,
+      },
+    });
+  }
+
+  const rateLimitDecision = consumeAiRateLimitSlot(getPremiumAiRateLimitKey(session));
 
   if (!rateLimitDecision.allowed) {
     logAiCoachMetadata({
@@ -187,14 +265,15 @@ export async function POST(request: Request) {
       simulationId: parsed.data.context.simulation?.id,
       success: false,
       fallbackUsed: false,
-      rateLimitKeyKind: rateLimitKey.kind,
+      rateLimitKeyKind: "user",
       validationFailureReason: "rate_limited",
+      quotaPeriod,
       latencyMs: Date.now() - startedAt,
     });
 
     return buildAiCoachErrorResponse({
       code: "rate_limited",
-      error: "Too many AI coach requests came from this browser or network recently.",
+      error: "Too many AI coach requests came from this account recently.",
       requestId,
       retryAfterSeconds: rateLimitDecision.retryAfterSeconds,
       status: 429,
@@ -204,6 +283,39 @@ export async function POST(request: Request) {
   try {
     const result = await generateCoachResponseWithGeminiResult(parsed.data);
 
+    if (result.usage) {
+      try {
+        await incrementAiMonthlyTokenUsageForUser({
+          userId: session.user.id,
+          periodYyyymm: quotaPeriod,
+          usage: result.usage,
+        });
+      } catch {
+        logAiCoachMetadata({
+          requestId,
+          timestamp: new Date(startedAt).toISOString(),
+          mode: parsed.data.mode,
+          pageSlug: parsed.data.context.page.slug,
+          simulationId: parsed.data.context.simulation?.id,
+          success: false,
+          fallbackUsed: true,
+          rateLimitKeyKind: "user",
+          validationFailureReason: "quota_increment_failed",
+          quotaPeriod,
+          usageTotalTokens: result.usage.totalTokenCount,
+          usageEstimated: result.usage.estimated,
+          latencyMs: Date.now() - startedAt,
+        });
+
+        return buildAiCoachErrorResponse({
+          code: "coach_unavailable",
+          error: "The AI coach is unavailable right now.",
+          requestId,
+          status: 503,
+        });
+      }
+    }
+
     logAiCoachMetadata({
       requestId,
       timestamp: new Date(startedAt).toISOString(),
@@ -212,8 +324,12 @@ export async function POST(request: Request) {
       simulationId: parsed.data.context.simulation?.id,
       success: !result.fallbackUsed,
       fallbackUsed: result.fallbackUsed,
-      rateLimitKeyKind: rateLimitKey.kind,
+      rateLimitKeyKind: "user",
       validationFailureReason: result.failureReason,
+      quotaPeriod,
+      usageTotalTokens: result.usage?.totalTokenCount,
+      usageEstimated: result.usage?.estimated,
+      usageUnavailable: !result.usage,
       latencyMs: Date.now() - startedAt,
     });
 
@@ -231,8 +347,10 @@ export async function POST(request: Request) {
       simulationId: parsed.data.context.simulation?.id,
       success: false,
       fallbackUsed: true,
-      rateLimitKeyKind: rateLimitKey.kind,
+      rateLimitKeyKind: "user",
       validationFailureReason: "coach_unavailable",
+      quotaPeriod,
+      usageUnavailable: true,
       latencyMs: Date.now() - startedAt,
     });
 

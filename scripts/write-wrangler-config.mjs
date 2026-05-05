@@ -242,6 +242,7 @@ function validateAiRuntimeVars(config) {
   validatePositiveIntegerVar(vars, "AI_RATE_LIMIT_MAX_REQUESTS");
   validatePositiveIntegerVar(vars, "AI_RATE_LIMIT_WINDOW_SECONDS");
   validatePositiveIntegerVar(vars, "AI_RATE_LIMIT_MAX_BUCKETS");
+  validatePositiveIntegerVar(vars, "AI_MONTHLY_TOKEN_LIMIT");
   validateNonEmptyStringVar(vars, "GEMINI_MODEL");
 }
 
