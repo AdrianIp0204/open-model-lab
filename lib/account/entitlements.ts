@@ -16,6 +16,7 @@ export type AccountEntitlementCapabilities = {
   canSaveCompareSetups: boolean;
   canShareStateLinks: boolean;
   canUseAdvancedStudyTools: boolean;
+  canUseAiCoach: boolean;
 };
 
 export type WorkedExampleAccessMode = "frozen" | "live";
@@ -38,6 +39,7 @@ const FREE_ANONYMOUS_CAPABILITIES: AccountEntitlementCapabilities = {
   canSaveCompareSetups: false,
   canShareStateLinks: false,
   canUseAdvancedStudyTools: false,
+  canUseAiCoach: false,
 };
 
 const FREE_SIGNED_IN_CAPABILITIES: AccountEntitlementCapabilities = {
@@ -51,6 +53,7 @@ const PREMIUM_CAPABILITIES: AccountEntitlementCapabilities = {
   canSaveCompareSetups: true,
   canShareStateLinks: true,
   canUseAdvancedStudyTools: true,
+  canUseAiCoach: true,
 };
 
 export function getAccountEntitlementCapabilities(

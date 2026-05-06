@@ -200,6 +200,19 @@ function isTruthyFlag(value) {
   return /^(1|true|yes|on)$/iu.test(value?.trim() ?? "");
 }
 
+function isBooleanEnvLiteral(value) {
+  return value === "true" || value === "false";
+}
+
+function isPositiveIntegerEnvLiteral(value) {
+  if (!value) {
+    return true;
+  }
+
+  const parsed = Number.parseInt(value, 10);
+  return /^\d+$/u.test(value) && Number.isFinite(parsed) && parsed > 0;
+}
+
 function normalizeUrl(value) {
   return value.endsWith("/") ? value.slice(0, -1) : value;
 }
@@ -724,6 +737,112 @@ function evaluateFeedbackConfig(env, report) {
   );
 }
 
+function hasAiTokenUsageMigration(repoRoot) {
+  const migrationsPath = path.join(repoRoot, "supabase", "migrations");
+
+  try {
+    return fs
+      .readdirSync(migrationsPath)
+      .some((fileName) => /create_user_ai_token_usage\.sql$/u.test(fileName));
+  } catch {
+    return false;
+  }
+}
+
+function evaluateAiCoachConfig(repoRoot, env, report) {
+  const featureFlag = normalizeText(env.AI_FEATURES_ENABLED);
+  const loggingFlag = normalizeText(env.AI_LOGGING_ENABLED);
+  const geminiApiKey = normalizeText(env.GEMINI_API_KEY);
+  const geminiModel = normalizeText(env.GEMINI_MODEL);
+  const monthlyTokenLimit = normalizeText(env.AI_MONTHLY_TOKEN_LIMIT);
+  const serviceRoleKey = normalizeText(env.SUPABASE_SERVICE_ROLE_KEY);
+  const tokenUsageMigrationPresent = hasAiTokenUsageMigration(repoRoot);
+
+  report.summary.aiCoachReady = false;
+
+  if (featureFlag && !isBooleanEnvLiteral(featureFlag)) {
+    addFinding(
+      report,
+      "errors",
+      "invalid_ai_features_enabled",
+      "AI_FEATURES_ENABLED must be true or false when set.",
+    );
+  }
+
+  if (loggingFlag && !isBooleanEnvLiteral(loggingFlag)) {
+    addFinding(
+      report,
+      "errors",
+      "invalid_ai_logging_enabled",
+      "AI_LOGGING_ENABLED must be true or false when set.",
+    );
+  }
+
+  if (!isPositiveIntegerEnvLiteral(monthlyTokenLimit)) {
+    addFinding(
+      report,
+      "errors",
+      "invalid_ai_monthly_token_limit",
+      "AI_MONTHLY_TOKEN_LIMIT must be a positive integer when set.",
+    );
+  }
+
+  if (featureFlag !== "true") {
+    return;
+  }
+
+  if (!geminiApiKey) {
+    addFinding(
+      report,
+      "errors",
+      "missing_ai_gemini_api_key",
+      "GEMINI_API_KEY must be configured as a runtime secret before enabling the Supporter AI Coach.",
+    );
+  } else if (looksLikePlaceholder(geminiApiKey)) {
+    addFinding(
+      report,
+      "warnings",
+      "placeholder_ai_gemini_api_key",
+      "GEMINI_API_KEY still looks like placeholder launch copy.",
+    );
+  }
+
+  if (!geminiModel) {
+    addFinding(
+      report,
+      "warnings",
+      "missing_ai_gemini_model",
+      "GEMINI_MODEL is unset. The route has a code default, but deployments should pin the intended model in runtime variables.",
+    );
+  }
+
+  if (!serviceRoleKey) {
+    addFinding(
+      report,
+      "errors",
+      "missing_ai_supabase_service_role_key",
+      "SUPABASE_SERVICE_ROLE_KEY is required at runtime for AI monthly token quota reads and writes.",
+    );
+  }
+
+  if (!tokenUsageMigrationPresent) {
+    addFinding(
+      report,
+      "errors",
+      "missing_ai_token_usage_migration",
+      "The user_ai_token_usage migration must be present and applied before enabling the Supporter AI Coach.",
+      "supabase/migrations",
+    );
+  }
+
+  report.summary.aiCoachReady = Boolean(
+    geminiApiKey &&
+      serviceRoleKey &&
+      tokenUsageMigrationPresent &&
+      isPositiveIntegerEnvLiteral(monthlyTokenLimit),
+  );
+}
+
 function evaluateDevHarness(env, report) {
   const enabled = isTruthyFlag(env.ENABLE_DEV_ACCOUNT_HARNESS);
   report.summary.devHarnessEnabled = enabled;
@@ -855,6 +974,7 @@ function buildLaunchDoctorReport(repoRoot = process.cwd(), env = process.env) {
       stripePortalReady: false,
       stripeWebhookReady: false,
       feedbackDeliveryReady: false,
+      aiCoachReady: false,
       devHarnessEnabled: false,
       cloudflarePreviewParityReady: false,
     },
@@ -869,6 +989,7 @@ function buildLaunchDoctorReport(repoRoot = process.cwd(), env = process.env) {
   evaluateSupabaseConfig(env, report);
   evaluateStripeConfig(env, report);
   evaluateFeedbackConfig(env, report);
+  evaluateAiCoachConfig(repoRoot, env, report);
   evaluateDevHarness(env, report);
   evaluateCloudflareCutoverParity(repoRoot, env, report);
 
@@ -901,6 +1022,7 @@ function printLaunchDoctorReport(report) {
   lines.push(
     `Feedback delivery: ${report.summary.feedbackDeliveryReady ? "direct email ready" : "fallback only"}`,
   );
+  lines.push(`AI Learning Coach: ${formatSummaryBoolean(report.summary.aiCoachReady)}`);
   lines.push(
     `Dev harness: ${report.summary.devHarnessEnabled ? "enabled" : "disabled"}`,
   );

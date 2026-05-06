@@ -69,7 +69,10 @@ tmp-chrome-profile/
 # agent
 automation/runs/
 
-supabase/
+# Supabase local state is private; SQL migrations are intentionally tracked.
+supabase/*
+!supabase/migrations/
+!supabase/migrations/*.sql
 
 tmp/
 

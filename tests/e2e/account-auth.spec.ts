@@ -18,6 +18,7 @@ function buildSignedOutPayload(authMode: "supabase" | "dev-harness" = "supabase"
         canSaveCompareSetups: false,
         canShareStateLinks: false,
         canUseAdvancedStudyTools: false,
+        canUseAiCoach: false,
       },
     },
     authMode,
@@ -44,6 +45,7 @@ function buildSignedInFreePayload() {
           canSaveCompareSetups: false,
           canShareStateLinks: false,
           canUseAdvancedStudyTools: false,
+          canUseAiCoach: false,
         },
       },
       billing: {
@@ -65,6 +67,7 @@ function buildSignedInFreePayload() {
         canSaveCompareSetups: false,
         canShareStateLinks: false,
         canUseAdvancedStudyTools: false,
+        canUseAiCoach: false,
       },
     },
     authMode: "supabase",

@@ -14,7 +14,7 @@ legal policies, and deployment process. Real official deployment config, secrets
 
 - Free vs premium entitlement with premium ad-free behavior
 - Account-linked core learning progress sync for signed-in users
-- Premium-gated saved compare setups, exact-state share tools, live worked examples, and advanced review surfaces
+- Premium-gated saved compare setups, exact-state share tools, live worked examples, AI Learning Coach access, and advanced review surfaces
 - Manual-first Google AdSense integration through the shared ad seam
 - Dormant-by-default activation through an explicit feature flag
 - A private/deploy-time static `public/ads.txt` materialization path, with `public/ads.example.txt` kept as the committed format reference
@@ -176,6 +176,72 @@ materialize private deployment config or create the OpenNext Worker bundle, so i
 is not sufficient before a Workers Builds deploy command such as
 `wrangler versions upload`. For local operator deploys from a shell, `pnpm deploy`
 still runs the private config preparation through its `predeploy` step.
+
+### AI Learning Coach runtime variables
+
+`OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT` is private build/deploy material used to
+generate ignored `wrangler.jsonc`. It is not the Gemini runtime secret itself.
+`GEMINI_API_KEY` is read at Worker runtime by `/api/ai/coach` when a learner asks
+the AI Learning Coach for guidance, so setting it only as a build variable is not
+enough.
+
+Non-secret AI runtime variables can live in `wrangler.jsonc` `vars` or in the
+Cloudflare dashboard variable layer:
+
+```text
+AI_FEATURES_ENABLED=true
+AI_LOGGING_ENABLED=true
+GEMINI_MODEL=gemini-2.5-flash-lite
+AI_RATE_LIMIT_MAX_REQUESTS=20
+AI_RATE_LIMIT_WINDOW_SECONDS=600
+AI_RATE_LIMIT_MAX_BUCKETS=5000
+AI_MONTHLY_TOKEN_LIMIT=10000000
+AI_TRUST_CLOUDFLARE_CONNECTING_IP=true
+```
+
+`AI_LOGGING_ENABLED=true` is useful for staging and development. Production can
+set it to `false` if quieter logs are preferred.
+
+`AI_MONTHLY_TOKEN_LIMIT` defaults to 10,000,000 Gemini tokens per signed-in
+Premium/Supporter account per UTC month. Usage is persisted in Supabase through
+`public.user_ai_token_usage`, so the Supabase migration for that table must be
+applied before enabling the AI coach in a real environment. The
+`increment_user_ai_token_usage` RPC must also be available to `service_role`,
+and the Worker needs the same Supabase service-role runtime secret/config used
+by `createSupabaseServiceRoleClient`. A Supporter/premium entitlement must be
+present on the test account before the live Guide me button can call Gemini.
+
+Set `AI_TRUST_CLOUDFLARE_CONNECTING_IP=true` only when requests are guaranteed
+to reach the Worker through Cloudflare. Local, self-hosted, or direct
+environments should leave it `false`. The AI coach itself is signed-in
+Supporter-only and keys request limits from the server-resolved account id, not
+from client-supplied ids or mutable request headers.
+
+The Gemini API key must be configured as a Cloudflare runtime secret, not as a
+committed variable and not as a `NEXT_PUBLIC_*` value:
+
+```bash
+wrangler secret put GEMINI_API_KEY
+```
+
+Also keep the existing Supabase service-role secret configured at runtime:
+
+```bash
+wrangler secret put SUPABASE_SERVICE_ROLE_KEY
+```
+
+Do not put `GEMINI_API_KEY` in `wrangler.jsonc` `vars`, and never create
+`NEXT_PUBLIC_GEMINI_API_KEY`. Keep `keep_vars: true` enabled so deploys preserve
+dashboard-managed runtime variables and secrets. If you bypass the repo scripts
+and run Wrangler directly, preserve that same behavior with the equivalent
+Wrangler keep-vars flow for the deploy command you are using.
+
+To validate private Wrangler content against the public example shape without
+writing ignored config:
+
+```bash
+OPEN_MODEL_LAB_WRANGLER_JSONC_SOURCE=wrangler.example.jsonc pnpm wrangler:check
+```
 
 If the owner does not want preview branch deployments, disable non-production
 branch builds instead of relying on production private variables being available

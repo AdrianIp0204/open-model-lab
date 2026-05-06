@@ -22,6 +22,17 @@ const validWranglerJsonc = `{
   "keep_vars": true,
 }`;
 
+const validAiVars = `{
+  "AI_FEATURES_ENABLED": "true",
+  "AI_LOGGING_ENABLED": "true",
+  "GEMINI_MODEL": "gemini-2.5-flash-lite",
+  "AI_RATE_LIMIT_MAX_REQUESTS": "20",
+  "AI_RATE_LIMIT_WINDOW_SECONDS": "600",
+  "AI_RATE_LIMIT_MAX_BUCKETS": "5000",
+  "AI_MONTHLY_TOKEN_LIMIT": "10000000",
+  "AI_TRUST_CLOUDFLARE_CONNECTING_IP": "true"
+}`;
+
 function cleanEnv(overrides: EnvOverrides = {}) {
   const baseEnv = { ...process.env };
   delete baseEnv.OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT;
@@ -41,6 +52,35 @@ function runScript(args: string[], env: EnvOverrides = {}) {
     env: cleanEnv(env),
     windowsHide: true,
   });
+}
+
+function runCheckWithContent(content: string) {
+  return runScript(["--check"], {
+    OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT: content,
+  });
+}
+
+function buildWranglerJsoncWith({
+  compatibilityFlags = `"nodejs_compat"`,
+  includeKeepVars = true,
+  keepVars = "true",
+  vars = null,
+}: {
+  compatibilityFlags?: string;
+  includeKeepVars?: boolean;
+  keepVars?: string;
+  vars?: string | null;
+} = {}) {
+  return `{
+  "main": ".open-next/worker.js",
+  "name": "private-worker-name",
+  "compatibility_date": "2026-03-29",
+  "compatibility_flags": [${compatibilityFlags}],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  }${includeKeepVars ? `,\n  "keep_vars": ${keepVars}` : ""}${vars ? `,\n  "vars": ${vars}` : ""}
+}`;
 }
 
 describe("write-wrangler-config", () => {
@@ -91,4 +131,105 @@ describe("write-wrangler-config", () => {
     expect(result.status).toBe(0);
     expect(result.stdout).toContain("skipping because --allow-missing is set");
   }, 15_000);
+
+  it("accepts the committed Wrangler example config", () => {
+    const result = runScript(["--check"], {
+      OPEN_MODEL_LAB_WRANGLER_JSONC_SOURCE: path.resolve(process.cwd(), "wrangler.example.jsonc"),
+    });
+
+    expect(result.status).toBe(0);
+    expect(result.stdout).toContain("passed validation");
+  });
+
+  it("rejects Wrangler config when keep_vars is missing or false", () => {
+    const missingResult = runCheckWithContent(buildWranglerJsoncWith({ includeKeepVars: false }));
+    const falseResult = runCheckWithContent(buildWranglerJsoncWith({ keepVars: "false" }));
+
+    expect(missingResult.status).toBe(1);
+    expect(missingResult.stderr).toContain("must set keep_vars to true");
+    expect(falseResult.status).toBe(1);
+    expect(falseResult.stderr).toContain("must set keep_vars to true");
+  });
+
+  it("rejects Wrangler config without nodejs_compat", () => {
+    const result = runCheckWithContent(buildWranglerJsoncWith({
+      compatibilityFlags: `"streams_enable_constructors"`,
+    }));
+
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain("must include the nodejs_compat compatibility flag");
+  });
+
+  it("rejects Gemini secrets in Wrangler vars", () => {
+    const result = runCheckWithContent(buildWranglerJsoncWith({
+      vars: `{
+    "GEMINI_API_KEY": "do-not-commit"
+  }`,
+    }));
+
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain("vars.GEMINI_API_KEY is not allowed");
+  });
+
+  it("rejects public Gemini vars in Wrangler vars", () => {
+    const result = runCheckWithContent(buildWranglerJsoncWith({
+      vars: `{
+    "NEXT_PUBLIC_GEMINI_API_KEY": "do-not-ship"
+  }`,
+    }));
+
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain("vars.NEXT_PUBLIC_GEMINI_API_KEY is not allowed");
+  });
+
+  it("rejects malformed AI boolean vars", () => {
+    const result = runCheckWithContent(buildWranglerJsoncWith({
+      vars: `{
+    "AI_FEATURES_ENABLED": "yes"
+  }`,
+    }));
+
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain('vars.AI_FEATURES_ENABLED must be "true" or "false"');
+  });
+
+  it("rejects malformed AI rate-limit vars", () => {
+    const result = runCheckWithContent(buildWranglerJsoncWith({
+      vars: `{
+    "AI_RATE_LIMIT_MAX_REQUESTS": "0"
+  }`,
+    }));
+
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain("vars.AI_RATE_LIMIT_MAX_REQUESTS must be a positive integer");
+  });
+
+  it("rejects malformed AI monthly quota vars", () => {
+    const result = runCheckWithContent(buildWranglerJsoncWith({
+      vars: `{
+    "AI_MONTHLY_TOKEN_LIMIT": "0"
+  }`,
+    }));
+
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain("vars.AI_MONTHLY_TOKEN_LIMIT must be a positive integer");
+  });
+
+  it("rejects malformed AI Cloudflare IP trust vars", () => {
+    const result = runCheckWithContent(buildWranglerJsoncWith({
+      vars: `{
+    "AI_TRUST_CLOUDFLARE_CONNECTING_IP": "yes"
+  }`,
+    }));
+
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain('vars.AI_TRUST_CLOUDFLARE_CONNECTING_IP must be "true" or "false"');
+  });
+
+  it("accepts valid non-secret AI vars", () => {
+    const result = runCheckWithContent(buildWranglerJsoncWith({ vars: validAiVars }));
+
+    expect(result.status).toBe(0);
+    expect(result.stdout).toContain("passed validation");
+  });
 });

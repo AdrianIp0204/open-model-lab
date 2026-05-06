@@ -28,6 +28,7 @@ describe("account entitlements", () => {
     expect(entitlement.tier).toBe("free");
     expect(hasAccountEntitlementCapability(entitlement, "shouldShowAds")).toBe(true);
     expect(hasAccountEntitlementCapability(entitlement, "canSyncProgress")).toBe(false);
+    expect(hasAccountEntitlementCapability(entitlement, "canUseAiCoach")).toBe(false);
   });
 
   it("derives premium capabilities from the tier", () => {
@@ -42,6 +43,7 @@ describe("account entitlements", () => {
     expect(hasAccountEntitlementCapability(entitlement, "canSaveCompareSetups")).toBe(true);
     expect(hasAccountEntitlementCapability(entitlement, "canShareStateLinks")).toBe(true);
     expect(hasAccountEntitlementCapability(entitlement, "canUseAdvancedStudyTools")).toBe(true);
+    expect(hasAccountEntitlementCapability(entitlement, "canUseAiCoach")).toBe(true);
     expect(resolveWorkedExampleAccessMode(entitlement)).toBe("live");
   });
 
@@ -68,5 +70,6 @@ describe("account entitlements", () => {
     expect(entitlement.tier).toBe("free");
     expect(entitlement.source).toBe("account-default");
     expect(hasAccountEntitlementCapability(entitlement, "canSyncProgress")).toBe(true);
+    expect(hasAccountEntitlementCapability(entitlement, "canUseAiCoach")).toBe(false);
   });
 });
