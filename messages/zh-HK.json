@@ -2405,7 +2405,7 @@
       "baselineSummary": "基準設定已就緒",
       "variantSummary": "變體設定已就緒"
     },
-    "explorePrompt": "先讓即時模型跑起來，再一次只改一個變數。",
+    "explorePrompt": "先用一組設定開始，再一次只改一個變數或控制，觀察有甚麼更新。",
     "noticeTypes": {
       "observation": "觀察",
       "compare": "比較",
@@ -2451,7 +2451,7 @@
       "noticeLabel": "留意",
       "explainLabel": "解釋",
       "checkLabel": "檢查",
-      "checkFallback": "跑完這組設定後，用目前步驟卡裡的小檢查確認一次。",
+      "checkFallback": "試完這組設定後，用目前步驟卡裡的小檢查確認一次。",
       "evidenceLabel": "要留在視野中的證據",
       "revealKinds": {
         "control": "控制",

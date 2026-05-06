@@ -122,8 +122,13 @@ function drawChip(x: number, y: number, chip: ChemistryVesselChip) {
   const width = Math.max(92, chip.label.length * 6.3 + 18);
 
   return (
-    <g key={`${chip.label}-${x}-${y}`} transform={`translate(${x} ${y})`}>
+    <g
+      key={`${chip.label}-${x}-${y}`}
+      transform={`translate(${x} ${y})`}
+      data-simulation-surface="chemistry-chip"
+    >
       <rect
+        data-simulation-panel="chip"
         x={-width / 2}
         y="-12"
         width={width}
@@ -431,8 +436,9 @@ export function ChemistryVessel({
     ];
 
   return (
-    <g transform={`translate(${x} ${y})`}>
+    <g transform={`translate(${x} ${y})`} data-simulation-surface="chemistry-vessel">
       <rect
+        data-simulation-panel="frame"
         width={width}
         height={height}
         rx="26"
@@ -476,6 +482,7 @@ export function ChemistryVessel({
       </g>
 
       <rect
+        data-simulation-panel="well"
         x={vesselX}
         y={vesselY}
         width={vesselWidth}
@@ -496,6 +503,7 @@ export function ChemistryVessel({
             {mixtureTitle}
           </text>
           <rect
+            data-simulation-panel="track"
             x={vesselX}
             y={vesselY - 2}
             width={vesselWidth}
@@ -504,6 +512,7 @@ export function ChemistryVessel({
             fill="rgba(15,28,36,0.06)"
           />
           <rect
+            data-simulation-panel="track-fill"
             x={vesselX}
             y={vesselY - 2}
             width={vesselWidth * reactantShare}
@@ -512,6 +521,7 @@ export function ChemistryVessel({
             fill={reactantPalette.fill}
           />
           <rect
+            data-simulation-panel="track-fill"
             x={vesselX + vesselWidth * reactantShare}
             y={vesselY - 2}
             width={vesselWidth * (1 - reactantShare)}
@@ -654,6 +664,7 @@ export function ChemistryVessel({
             {forwardLabel}
           </text>
           <rect
+            data-simulation-panel="track"
             x={vesselX + vesselWidth + 22}
             y={vesselY + 42}
             width="92"
@@ -662,6 +673,7 @@ export function ChemistryVessel({
             fill="rgba(15,28,36,0.06)"
           />
           <rect
+            data-simulation-panel="track-fill"
             x={vesselX + vesselWidth + 22}
             y={vesselY + 42}
             width={92 * (forwardRate / balanceMax)}
@@ -677,6 +689,7 @@ export function ChemistryVessel({
             {reverseLabel}
           </text>
           <rect
+            data-simulation-panel="track"
             x={vesselX + vesselWidth + 22}
             y={vesselY + 78}
             width="92"
@@ -685,6 +698,7 @@ export function ChemistryVessel({
             fill="rgba(15,28,36,0.06)"
           />
           <rect
+            data-simulation-panel="track-fill"
             x={vesselX + vesselWidth + 22}
             y={vesselY + 78}
             width={92 * (reverseRate / balanceMax)}

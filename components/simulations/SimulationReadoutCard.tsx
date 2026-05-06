@@ -48,9 +48,11 @@ export function SimulationReadoutCard({
       transform={`translate(${x} ${y})`}
       pointerEvents="none"
       data-testid={compact ? "simulation-readout-hud" : "simulation-readout-card"}
+      data-simulation-surface="readout-card"
       data-readout-variant={variant}
     >
       <rect
+        data-simulation-panel="frame"
         x="0"
         y="0"
         width={width}
@@ -114,6 +116,7 @@ export function SimulationReadoutCard({
       {resolvedNoteLines.length ? (
         <>
           <line
+            data-simulation-panel="divider"
             x1={compact ? "12" : "14"}
             x2={width - (compact ? 12 : 14)}
             y1={noteStartY - (compact ? 7 : 10)}

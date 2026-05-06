@@ -406,9 +406,54 @@ select {
     fill: rgba(203, 213, 225, 0.76);
   }
 
+  .simulation-shell--focus-stage :where([data-focus-surface="scene"], [data-focus-surface="graphs"]) svg :where(.fill-teal-700, .fill-teal-600, .fill-emerald-700, .fill-emerald-600) {
+    fill: rgba(94, 234, 212, 0.92);
+  }
+
+  .simulation-shell--focus-stage :where([data-focus-surface="scene"], [data-focus-surface="graphs"]) svg :where(.fill-sky-700, .fill-sky-600, .fill-blue-700, .fill-blue-600) {
+    fill: rgba(125, 211, 252, 0.92);
+  }
+
+  .simulation-shell--focus-stage :where([data-focus-surface="scene"], [data-focus-surface="graphs"]) svg :where(.fill-coral-700, .fill-red-700, .fill-red-600, .fill-rose-700, .fill-rose-600) {
+    fill: rgba(252, 165, 165, 0.94);
+  }
+
+  .simulation-shell--focus-stage :where([data-focus-surface="scene"], [data-focus-surface="graphs"]) svg :where(.fill-amber-700, .fill-amber-600, .fill-yellow-700, .fill-yellow-600) {
+    fill: rgba(253, 224, 71, 0.94);
+  }
+
   .simulation-shell--focus-stage :where([data-focus-surface="scene"], [data-focus-surface="graphs"]) svg :where(line[stroke^="rgba(15,28,36"], rect[stroke^="rgba(15,28,36"]),
   .simulation-shell--focus-stage [data-focus-surface="graphs"] svg :where(line[stroke^="rgba(15, 28, 36"], rect[stroke^="rgba(15, 28, 36"]) {
     stroke: rgba(226, 232, 240, 0.18);
+  }
+
+  .simulation-shell--focus-stage :where([data-focus-surface="scene"], [data-focus-surface="graphs"]) svg [data-simulation-surface="readout-card"] > [data-simulation-panel="frame"] {
+    fill: rgba(8, 19, 28, 0.84);
+    stroke: rgba(226, 232, 240, 0.2);
+  }
+
+  .simulation-shell--focus-stage :where([data-focus-surface="scene"], [data-focus-surface="graphs"]) svg [data-simulation-surface="readout-card"] [data-simulation-panel="divider"] {
+    stroke: rgba(226, 232, 240, 0.16);
+  }
+
+  .simulation-shell--focus-stage :where([data-focus-surface="scene"], [data-focus-surface="graphs"]) svg [data-simulation-surface="chemistry-vessel"] > [data-simulation-panel="frame"],
+  .simulation-shell--focus-stage :where([data-focus-surface="scene"], [data-focus-surface="graphs"]) svg [data-simulation-surface="algorithm-array-lane"] [data-simulation-panel="frame"] {
+    fill: rgba(8, 19, 28, 0.72);
+    stroke: rgba(226, 232, 240, 0.18);
+  }
+
+  .simulation-shell--focus-stage :where([data-focus-surface="scene"], [data-focus-surface="graphs"]) svg [data-simulation-surface="chemistry-vessel"] [data-simulation-panel="well"] {
+    fill: rgba(248, 250, 252, 0.08);
+    stroke: rgba(226, 232, 240, 0.14);
+  }
+
+  .simulation-shell--focus-stage :where([data-focus-surface="scene"], [data-focus-surface="graphs"]) svg :where([data-simulation-panel="track"], [data-simulation-panel="chip"]) {
+    fill-opacity: 0.88;
+    stroke-opacity: 0.92;
+  }
+
+  .simulation-shell--focus-stage :where([data-focus-surface="scene"], [data-focus-surface="graphs"]) svg [data-simulation-surface="chemistry-chip"] text {
+    fill: rgba(248, 250, 252, 0.92);
   }
 
   .page-band {

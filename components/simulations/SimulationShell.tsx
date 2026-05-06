@@ -132,7 +132,11 @@ export function SimulationShell({
       {benchEquations ? (
         <div
           data-testid="simulation-shell-bench-equations"
-          className="pointer-events-none absolute left-1.5 top-1.5 z-20 max-w-[min(17rem,calc(100%-0.75rem))] sm:left-2 sm:top-2"
+          className={
+            isSmViewportOrWider
+              ? "pointer-events-none absolute left-1.5 top-1.5 z-20 max-w-[min(17rem,calc(100%-0.75rem))] sm:left-2 sm:top-2"
+              : "pointer-events-none mt-2 max-w-full"
+          }
         >
           {benchEquations}
         </div>

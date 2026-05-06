@@ -6689,7 +6689,7 @@ function GuidedConceptBenchBrief({
               <RichMathText
                 as="span"
                 content={item.text}
-                className="mt-0.5 hidden min-w-0 break-words text-[0.8rem] font-medium leading-4 text-ink-800 sm:line-clamp-1 sm:block"
+                className="mt-0.5 hidden min-w-0 break-words text-[0.8rem] font-medium leading-4 text-ink-800 sm:block"
               />
             </span>
           </li>

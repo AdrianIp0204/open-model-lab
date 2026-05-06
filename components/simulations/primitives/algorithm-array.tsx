@@ -128,9 +128,10 @@ export function AlgorithmArrayLane({
   }
 
   return (
-    <g opacity={cardOpacity}>
+    <g opacity={cardOpacity} data-simulation-surface="algorithm-array-lane">
       <g transform={`translate(${x} ${y})`}>
         <rect
+          data-simulation-panel="frame"
           width={width}
           height={height}
           rx="24"
@@ -151,6 +152,7 @@ export function AlgorithmArrayLane({
         {summaryChip ? (
           <g transform={`translate(${width - 18} 19)`}>
             <rect
+              data-simulation-panel="chip"
               x={-(Math.max(84, summaryChip.length * 6 + 22))}
               y="-10"
               width={Math.max(84, summaryChip.length * 6 + 22)}

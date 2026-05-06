@@ -2554,7 +2554,7 @@
       "baselineSummary": "Baseline setup ready",
       "variantSummary": "Variant setup ready"
     },
-    "explorePrompt": "Let the live model run, then change one variable at a time.",
+    "explorePrompt": "Start with one setup, then change one variable or control at a time and watch what updates.",
     "noticeTypes": {
       "observation": "Observation",
       "compare": "Compare",
@@ -2600,7 +2600,7 @@
       "noticeLabel": "Notice",
       "explainLabel": "Explain",
       "checkLabel": "Check",
-      "checkFallback": "Use the quick check in the current step card after you run the setup.",
+      "checkFallback": "Use the quick check in the current step card after you try the setup.",
       "evidenceLabel": "Evidence to keep visible",
       "revealKinds": {
         "control": "Control",

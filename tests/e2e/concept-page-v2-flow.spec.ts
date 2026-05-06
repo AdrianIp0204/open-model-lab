@@ -104,13 +104,16 @@ test.describe("concept page v2 flow", () => {
 
   test("uses the shared concept bench shell beyond simple harmonic motion", async ({
     browser,
-  }) => {
-    test.setTimeout(120_000);
+  }, testInfo) => {
+    testInfo.setTimeout(120_000);
     const context = await browser.newContext({ viewport: { width: 1366, height: 768 } });
     const page = await newConceptFlowPage(context);
     await installBrowserGuards(page);
 
     const representativeSlugs = [
+      "derivative-as-slope-local-rate-of-change",
+      "acid-base-ph-intuition",
+      "binary-search-halving-the-search-space",
       "electric-fields",
       "matrix-transformations",
       "reaction-rate-collision-theory",
@@ -123,6 +126,7 @@ test.describe("concept page v2 flow", () => {
         await gotoAndExpectOk(page, `/en/concepts/${slug}`);
 
         const benchBrief = page.getByTestId("concept-v2-bench-brief");
+        const firstAction = page.getByTestId("simulation-shell-first-action");
         const focusStageShell = page.locator('[data-stage-tone="focus"]');
 
         await expect(focusStageShell).toBeVisible();
@@ -133,6 +137,9 @@ test.describe("concept page v2 flow", () => {
         await expect(benchBrief).toContainText("Notice");
         await expect(benchBrief).toContainText("Explain");
         await expect(benchBrief).toContainText("Check");
+        await expect(benchBrief).not.toContainText(/run the loop|live model run/i);
+        await expect(firstAction).toContainText("Start with one setup");
+        await expect(firstAction).not.toContainText(/Let the live model run/i);
         await expect(page.getByTestId("concept-v2-step-card-slot")).toBeVisible();
       }
     } finally {
@@ -496,8 +503,8 @@ test.describe("concept page v2 flow", () => {
     }
   });
 
-  test("smokes newly migrated authored V2 lessons across subjects", async ({ browser }) => {
-    test.setTimeout(120_000);
+  test("smokes newly migrated authored V2 lessons across subjects", async ({ browser }, testInfo) => {
+    testInfo.setTimeout(120_000);
 
     const coverageCases = [
       {

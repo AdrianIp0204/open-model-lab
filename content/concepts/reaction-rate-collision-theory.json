@@ -168,6 +168,45 @@
           ],
           "questionIds": [
             "rr-qt-catalyst"
+          ]
+        }
+      },
+      {
+        "id": "check-what-you-can-explain",
+        "title": "Check what you know",
+        "goal": "Use one rate claim to prove you can separate attempts, energy, and catalyst effects.",
+        "doThis": "Pick the setup that best tests the claim, then use the quick check or mini challenge before reading the wrap-up.",
+        "notice": "A complete answer names which part changed: collision attempts, successful fraction, or the activation threshold.",
+        "explain": "If you can point to the control, graph, and collision cue that changed, the rate explanation is no longer a memorized slogan.",
+        "reveal": {
+          "controlIds": [
+            "temperature",
+            "concentration",
+            "activation-energy",
+            "catalyst"
+          ],
+          "graphIds": [
+            "rate-temperature",
+            "success-temperature"
+          ],
+          "overlayIds": [
+            "successfulCollisions",
+            "energyCue",
+            "thresholdGate"
+          ]
+        },
+        "setup": {
+          "presetId": "catalyzed-threshold",
+          "graphId": "success-temperature",
+          "overlayIds": [
+            "successfulCollisions",
+            "energyCue",
+            "thresholdGate"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "rr-qt-catalyst"
           ],
           "includeMiniChallenge": true
         }

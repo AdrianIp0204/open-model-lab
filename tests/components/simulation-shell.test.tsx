@@ -31,6 +31,8 @@ describe("SimulationShell", () => {
   });
 
   it("renders dedicated shell slots and keeps support content below the main bench", () => {
+    mockMatchMedia(true);
+
     const { container } = render(
       <SimulationShell
         accessibilityDescription="Interactive lab status"
@@ -81,7 +83,7 @@ describe("SimulationShell", () => {
         Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
     expect(
-      (controlsSlot as HTMLElement).compareDocumentPosition(transportSlot as HTMLElement) &
+      (transportSlot as HTMLElement).compareDocumentPosition(controlsSlot as HTMLElement) &
         Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
     expect(
