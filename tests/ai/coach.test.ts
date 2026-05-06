@@ -19,6 +19,7 @@ import {
 import {
   aiCoachRequestSchema,
   aiLearningContextSchema,
+  MAX_AI_COACH_REQUEST_BYTES,
 } from "@/lib/ai/schema";
 import type { AiCoachRequest, AiCoachResponse, AiLearningContext } from "@/lib/ai/types";
 import { resolveAccountEntitlement } from "@/lib/account/entitlements";
@@ -133,6 +134,27 @@ async function postCoachRequest({
       headers,
       body: JSON.stringify(request),
     }),
+  );
+}
+
+async function postStreamedCoachBody(chunks: string[]) {
+  const encoder = new TextEncoder();
+  const stream = new ReadableStream<Uint8Array>({
+    start(controller) {
+      for (const chunk of chunks) {
+        controller.enqueue(encoder.encode(chunk));
+      }
+
+      controller.close();
+    },
+  });
+
+  return POST(
+    new Request("http://learning.example/api/ai/coach", {
+      method: "POST",
+      body: stream,
+      duplex: "half",
+    } as RequestInit & { duplex: "half" }),
   );
 }
 
@@ -814,6 +836,27 @@ describe("AI coach route", () => {
     expect(validResponseAfterInvalidPayload.status).toBe(200);
   });
 
+  it("rejects chunked oversized bodies before rate limit, quota, or Gemini", async () => {
+    process.env.AI_RATE_LIMIT_MAX_REQUESTS = "1";
+
+    const oversizedResponse = await postStreamedCoachBody([
+      '{"mode":"guide","context":',
+      `"${"x".repeat(MAX_AI_COACH_REQUEST_BYTES + 1)}"`,
+      "}",
+    ]);
+    const oversizedPayload = (await oversizedResponse.json()) as { code: string };
+
+    expect(oversizedResponse.status).toBe(400);
+    expect(oversizedPayload.code).toBe("invalid_payload");
+    expect(mocks.getAiMonthlyTokenUsageForUserMock).not.toHaveBeenCalled();
+    expect(mocks.recordAiMonthlyTokenUsageForUserMock).not.toHaveBeenCalled();
+    expect(mocks.generateCoachResponseWithGeminiResultMock).not.toHaveBeenCalled();
+
+    const validResponseAfterInvalidPayload = await postCoachRequest();
+
+    expect(validResponseAfterInvalidPayload.status).toBe(200);
+  });
+
   it("returns 503 when AI features are disabled", async () => {
     process.env.AI_FEATURES_ENABLED = "false";
 
@@ -1002,7 +1045,7 @@ describe("AI coach route", () => {
     });
   });
 
-  it("returns 429 when atomic token recording exceeds the monthly quota", async () => {
+  it("returns the generated response when atomic recording crosses the monthly quota", async () => {
     mocks.getAiMonthlyTokenUsageForUserMock.mockResolvedValue(
       buildMonthlyUsage(9_999_990),
     );
@@ -1012,16 +1055,15 @@ describe("AI coach route", () => {
     });
 
     const response = await postCoachRequest();
-    const payload = (await response.json()) as {
-      code: string;
-      details?: { limit?: number; totalTokens?: number; period?: string };
-    };
+    const payload = (await response.json()) as AiCoachResponse;
 
-    expect(response.status).toBe(429);
-    expect(payload.code).toBe("ai_monthly_quota_exceeded");
-    expect(payload.details?.limit).toBe(10_000_000);
-    expect(payload.details?.totalTokens).toBe(10_000_002);
-    expect(payload.details?.period).toBe("2026-05");
+    expect(response.status).toBe(200);
+    expect(response.headers.get("x-ai-monthly-quota-exceeded")).toBe("true");
+    expect(response.headers.get("x-ai-monthly-quota-period")).toBe("2026-05");
+    expect(response.headers.get("x-ai-monthly-quota-reset-at")).toBe(
+      "2026-06-01T00:00:00.000Z",
+    );
+    expect(payload).toEqual(validResponse);
     expect(mocks.generateCoachResponseWithGeminiResultMock).toHaveBeenCalledTimes(1);
     expect(mocks.recordAiMonthlyTokenUsageForUserMock).toHaveBeenCalledWith({
       userId: "trusted-premium-user",

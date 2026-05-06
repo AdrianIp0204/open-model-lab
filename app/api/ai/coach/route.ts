@@ -91,6 +91,59 @@ function isAiCoachRequestBodyTooLarge(request: Request) {
   return Number.isFinite(parsed) && parsed > MAX_AI_COACH_REQUEST_BYTES;
 }
 
+async function readAiCoachJsonPayload(
+  request: Request,
+): Promise<
+  | { ok: true; payload: unknown }
+  | { ok: false; reason: "invalid_json" | "too_large" }
+> {
+  if (isAiCoachRequestBodyTooLarge(request)) {
+    return { ok: false, reason: "too_large" };
+  }
+
+  if (!request.body) {
+    return { ok: false, reason: "invalid_json" };
+  }
+
+  const reader = request.body.getReader();
+  const decoder = new TextDecoder();
+  let bytesRead = 0;
+  let text = "";
+
+  try {
+    for (;;) {
+      const { done, value } = await reader.read();
+
+      if (done) {
+        break;
+      }
+
+      if (!value) {
+        continue;
+      }
+
+      bytesRead += value.byteLength;
+
+      if (bytesRead > MAX_AI_COACH_REQUEST_BYTES) {
+        await reader.cancel().catch(() => {});
+        return { ok: false, reason: "too_large" };
+      }
+
+      text += decoder.decode(value, { stream: true });
+    }
+
+    text += decoder.decode();
+  } catch {
+    return { ok: false, reason: "invalid_json" };
+  }
+
+  try {
+    return { ok: true, payload: JSON.parse(text) };
+  } catch {
+    return { ok: false, reason: "invalid_json" };
+  }
+}
+
 async function getServerAccountSessionForAiRequest(request: Request) {
   try {
     return await getAccountSessionForCookieHeader(request.headers.get("cookie"));
@@ -214,9 +267,9 @@ export async function POST(request: Request) {
     });
   }
 
-  let payload: unknown;
+  const bodyResult = await readAiCoachJsonPayload(request);
 
-  if (isAiCoachRequestBodyTooLarge(request)) {
+  if (!bodyResult.ok && bodyResult.reason === "too_large") {
     return buildAiCoachErrorResponse({
       code: "invalid_payload",
       error: "AI coach payload is too large.",
@@ -225,9 +278,7 @@ export async function POST(request: Request) {
     });
   }
 
-  try {
-    payload = await request.json();
-  } catch {
+  if (!bodyResult.ok) {
     return buildAiCoachErrorResponse({
       code: "invalid_json",
       error: "AI coach payload must be valid JSON.",
@@ -236,7 +287,7 @@ export async function POST(request: Request) {
     });
   }
 
-  const parsed = aiCoachRequestSchema.safeParse(payload);
+  const parsed = aiCoachRequestSchema.safeParse(bodyResult.payload);
 
   if (!parsed.success) {
     return buildAiCoachErrorResponse({
@@ -396,16 +447,12 @@ export async function POST(request: Request) {
           latencyMs: Date.now() - startedAt,
         });
 
-        return buildAiCoachErrorResponse({
-          code: "ai_monthly_quota_exceeded",
-          error: "This account has reached the monthly AI Coach token limit.",
-          requestId,
-          status: 429,
-          details: {
-            period: quotaPeriod,
-            limit: quotaLimit,
-            totalTokens: quotaRecordResult.usage.totalTokens,
-            resetAt: quotaResetAt,
+        return NextResponse.json(result.response, {
+          headers: {
+            "x-ai-request-id": requestId,
+            "x-ai-monthly-quota-exceeded": "true",
+            "x-ai-monthly-quota-period": quotaPeriod,
+            "x-ai-monthly-quota-reset-at": quotaResetAt,
           },
         });
       }
