@@ -97,11 +97,11 @@ export function PageSectionFrame({
   const sidebarSurfaceClassName =
     variant === "compact"
       ? [
-          "h-full min-h-full border-r border-line/80 bg-[linear-gradient(180deg,rgba(251,248,241,0.985)_0%,rgba(246,241,232,0.97)_100%)] shadow-[inset_-1px_0_0_rgba(117,96,72,0.08)]",
+          "h-full min-h-full border-r border-line/80 bg-[radial-gradient(circle_at_20%_0%,rgba(45,212,191,0.10),transparent_32%),linear-gradient(180deg,rgba(11,24,34,0.98)_0%,rgba(6,16,24,0.96)_100%)] shadow-[inset_-1px_0_0_rgba(226,232,240,0.08)]",
           desktopMode === "collapsed" ? "lg:px-2 lg:py-4" : "lg:px-3 lg:py-5 xl:px-4",
         ].join(" ")
       : [
-          "h-full min-h-full border-r border-line/80 bg-[linear-gradient(180deg,rgba(251,248,241,0.985)_0%,rgba(246,241,232,0.97)_100%)] shadow-[inset_-1px_0_0_rgba(117,96,72,0.08)]",
+          "h-full min-h-full border-r border-line/80 bg-[radial-gradient(circle_at_20%_0%,rgba(45,212,191,0.10),transparent_32%),linear-gradient(180deg,rgba(11,24,34,0.98)_0%,rgba(6,16,24,0.96)_100%)] shadow-[inset_-1px_0_0_rgba(226,232,240,0.08)]",
           desktopMode === "collapsed" ? "lg:px-2.5 lg:py-4" : "lg:px-4 lg:py-5 xl:px-5",
         ].join(" ");
   const contentContainerClassName =

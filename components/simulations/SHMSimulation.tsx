@@ -178,7 +178,7 @@ function renderTurningPointMarkers(
             cx={x}
             cy={laneY}
             r="5"
-            fill="rgba(255,253,247,0.96)"
+            fill="rgba(248,250,252,0.92)"
             stroke={stroke}
             strokeWidth="2"
           />
@@ -219,8 +219,8 @@ function renderEnergyBarsCard(
         width={ENERGY_CARD_WIDTH}
         height="72"
         rx="18"
-        fill="rgba(255,253,247,0.94)"
-        stroke="rgba(15,28,36,0.12)"
+        fill="rgba(15,28,36,0.88)"
+        stroke="rgba(226,232,240,0.16)"
         strokeWidth="1.5"
       />
       <text x="14" y="20" className="fill-ink-500 text-[11px] font-semibold uppercase tracking-[0.18em]">
@@ -449,7 +449,7 @@ export function SHMSimulation({
             <stop offset="100%" stopColor="#f16659" />
           </linearGradient>
         </defs>
-        <rect width={WIDTH} height={HEIGHT} fill="rgba(255,255,255,0.5)" />
+        <rect width={WIDTH} height={HEIGHT} fill="rgba(6,16,24,0.74)" />
         {SCALE_TICKS.map((tick) => {
           const x = displacementToX(tick);
           return (
@@ -459,7 +459,7 @@ export function SHMSimulation({
                 x2={x}
                 y1={28}
                 y2={HEIGHT - 36}
-                stroke={tick === 0 ? "rgba(15,28,36,0.18)" : "rgba(15,28,36,0.08)"}
+                stroke={tick === 0 ? "rgba(226,232,240,0.22)" : "rgba(226,232,240,0.1)"}
                 strokeDasharray={tick === 0 ? "10 8" : "4 10"}
                 strokeWidth={tick === 0 ? "2" : "1.5"}
               />
@@ -474,11 +474,11 @@ export function SHMSimulation({
         </text>
         {compareEnabled ? (
           <>
-            <line x1="40" x2={WIDTH - 40} y1={activeLaneY} y2={activeLaneY} stroke="rgba(15,28,36,0.16)" strokeWidth="3" />
-            <line x1="40" x2={WIDTH - 40} y1={compareLaneY} y2={compareLaneY} stroke="rgba(15,28,36,0.16)" strokeWidth="3" />
+            <line x1="40" x2={WIDTH - 40} y1={activeLaneY} y2={activeLaneY} stroke="rgba(226,232,240,0.18)" strokeWidth="3" />
+            <line x1="40" x2={WIDTH - 40} y1={compareLaneY} y2={compareLaneY} stroke="rgba(226,232,240,0.18)" strokeWidth="3" />
           </>
         ) : (
-          <line x1="40" x2={WIDTH - 40} y1={TRACK_Y} y2={TRACK_Y} stroke="rgba(15,28,36,0.2)" strokeWidth="3" />
+          <line x1="40" x2={WIDTH - 40} y1={TRACK_Y} y2={TRACK_Y} stroke="rgba(226,232,240,0.2)" strokeWidth="3" />
         )}
         {showEnergyBars
           ? renderEnergyBarsCard(

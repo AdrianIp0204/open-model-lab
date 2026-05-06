@@ -42,7 +42,7 @@ export default async function RootLayout({
   const messages = await getLocaleMessages(locale);
 
   return (
-    <html lang={locale}>
+    <html lang={locale} data-theme="dark-lab">
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <LocaleDocumentSync locale={locale} />

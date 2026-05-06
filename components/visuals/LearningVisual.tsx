@@ -29,11 +29,11 @@ type LearningVisualProps = {
 };
 
 const toneClasses: Record<LearningVisualTone, string> = {
-  amber: "border-amber-500/24 bg-amber-500/10 text-amber-700",
-  coral: "border-coral-500/24 bg-coral-500/10 text-coral-700",
-  ink: "border-ink-950/15 bg-ink-950/5 text-ink-800",
-  sky: "border-sky-500/24 bg-sky-500/10 text-sky-700",
-  teal: "border-teal-500/24 bg-teal-500/10 text-teal-700",
+  amber: "border-amber-500/32 bg-amber-500/12 text-amber-500",
+  coral: "border-coral-500/32 bg-coral-500/12 text-coral-500",
+  ink: "border-ink-950/20 bg-ink-950/6 text-ink-700",
+  sky: "border-sky-500/32 bg-sky-500/12 text-sky-500",
+  teal: "border-teal-500/32 bg-teal-500/12 text-teal-500",
 };
 
 const accentStyles: Record<LearningVisualTone, CSSProperties> = {
@@ -1618,7 +1618,7 @@ export function LearningVisual({
   return (
     <div
       className={[
-        "relative overflow-hidden rounded-[22px] border shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]",
+        "relative overflow-hidden rounded-[22px] border shadow-[inset_0_1px_0_rgba(226,232,240,0.18)]",
         compact ? "h-24" : "h-32",
         toneClasses[tone],
         className ?? "",
@@ -1634,7 +1634,7 @@ export function LearningVisual({
       aria-label={ariaLabel}
       aria-hidden={ariaLabel ? undefined : true}
     >
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.72),transparent_58%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(226,232,240,0.10),transparent_58%)]" />
       <svg
         viewBox="0 0 126 120"
         preserveAspectRatio="xMidYMid meet"

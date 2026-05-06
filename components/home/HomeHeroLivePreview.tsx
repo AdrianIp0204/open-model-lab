@@ -85,21 +85,21 @@ const PREVIEW_CUES: ReadonlyArray<{
     cue: "amplitude",
     positionClass: "left-6 top-6",
     activeClass:
-      "border-amber-500/45 bg-amber-100/75 text-ink-950 shadow-[0_12px_30px_rgba(240,171,60,0.12)]",
+      "border-amber-500/45 bg-amber-500/18 text-ink-950 shadow-[0_12px_30px_rgba(251,191,36,0.12)]",
     dotClass: "bg-amber-500",
   },
   {
     cue: "velocity",
     positionClass: "right-6 top-6",
     activeClass:
-      "border-teal-500/45 bg-teal-100/80 text-ink-950 shadow-[0_12px_30px_rgba(30,166,162,0.14)]",
+      "border-teal-500/45 bg-teal-500/18 text-ink-950 shadow-[0_12px_30px_rgba(45,212,191,0.14)]",
     dotClass: "bg-teal-500",
   },
   {
     cue: "acceleration",
     positionClass: "bottom-6 left-6",
     activeClass:
-      "border-coral-500/45 bg-coral-100/80 text-ink-950 shadow-[0_12px_30px_rgba(241,102,89,0.14)]",
+      "border-coral-500/45 bg-coral-500/18 text-ink-950 shadow-[0_12px_30px_rgba(251,113,133,0.14)]",
     dotClass: "bg-coral-500",
   },
 ] as const;
@@ -469,7 +469,7 @@ export function HomeHeroLivePreview() {
 
   return (
     <div
-      className="lab-grid relative min-h-[280px] overflow-hidden rounded-[22px] border border-line bg-[#f7f5ef] sm:min-h-[330px] lg:min-h-[360px]"
+      className="lab-grid relative min-h-[280px] overflow-hidden rounded-[22px] border border-line bg-[#07131d] sm:min-h-[330px] lg:min-h-[360px]"
       role="group"
       aria-label={t("ariaLabel")}
       data-home-live-preview="true"
@@ -568,7 +568,7 @@ export function HomeHeroLivePreview() {
             x2={GRAPH_RIGHT}
             y1={GRAPH_DISPLACEMENT_BASELINE}
             y2={GRAPH_DISPLACEMENT_BASELINE}
-            stroke="rgba(15, 28, 36, 0.08)"
+            stroke="rgba(226, 232, 240, 0.16)"
             strokeWidth="2"
           />
           <line
@@ -576,7 +576,7 @@ export function HomeHeroLivePreview() {
             x2={GRAPH_RIGHT}
             y1={GRAPH_VELOCITY_BASELINE}
             y2={GRAPH_VELOCITY_BASELINE}
-            stroke="rgba(15, 28, 36, 0.08)"
+            stroke="rgba(226, 232, 240, 0.16)"
             strokeWidth="2"
           />
           <line
@@ -586,7 +586,7 @@ export function HomeHeroLivePreview() {
             x2={initialFrame.guideX}
             y1="18"
             y2="202"
-            stroke="rgba(15, 28, 36, 0.14)"
+            stroke="rgba(226, 232, 240, 0.22)"
             strokeWidth="3"
             strokeDasharray="8 10"
           />

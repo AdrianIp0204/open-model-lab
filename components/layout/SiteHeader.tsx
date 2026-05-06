@@ -231,10 +231,10 @@ export function SiteHeader() {
             <Link
               href={accountHref}
               data-onboarding-target="account-sync"
-              className="cta-secondary items-center gap-2"
+              className="cta-secondary min-w-max items-center gap-2 whitespace-nowrap"
             >
-              <span>{accountLabel}</span>
-              <span className="rounded-full border border-line bg-paper px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-ink-500">
+              <span className="whitespace-nowrap">{accountLabel}</span>
+              <span className="shrink-0 rounded-full border border-line bg-paper px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-ink-600">
                 {accountStatusLabel}
               </span>
             </Link>
