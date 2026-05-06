@@ -33,6 +33,9 @@ const localeSegmentPattern = /^\/(?:en|zh-HK)(?=\/|$)/;
 const automaticPromptExcludedPrefixes = [
   "/",
   "/start",
+  "/search",
+  "/tests",
+  "/tools",
   "/account",
   "/auth",
   "/billing",

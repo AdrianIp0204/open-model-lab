@@ -47,7 +47,7 @@ describe("OnboardingExperience", () => {
 
   it("shows the first-time prompt and starts a non-blocking tour", async () => {
     vi.useFakeTimers();
-    globalThis.__TEST_PATHNAME__ = "/search";
+    globalThis.__TEST_PATHNAME__ = "/guided";
 
     render(<OnboardingExperience />);
     await showAutomaticPrompt();
@@ -66,7 +66,7 @@ describe("OnboardingExperience", () => {
 
   it("persists Skip for now so the automatic prompt does not repeat", async () => {
     vi.useFakeTimers();
-    globalThis.__TEST_PATHNAME__ = "/search";
+    globalThis.__TEST_PATHNAME__ = "/guided";
     const { rerender } = render(<OnboardingExperience />);
 
     await showAutomaticPrompt();
@@ -87,7 +87,7 @@ describe("OnboardingExperience", () => {
 
   it("suppresses automatic prompts after Don't show again but keeps manual help available", async () => {
     vi.useFakeTimers();
-    globalThis.__TEST_PATHNAME__ = "/search";
+    globalThis.__TEST_PATHNAME__ = "/guided";
 
     render(<OnboardingExperience />);
     await showAutomaticPrompt();
@@ -99,14 +99,22 @@ describe("OnboardingExperience", () => {
 
     await openManualHelp();
 
-    expect(screen.getByRole("dialog", { name: /search and discovery/i })).toBeInTheDocument();
+    expect(screen.getByRole("dialog", { name: /guided paths/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /start quick tour/i })).toBeInTheDocument();
   });
 
   it("keeps automatic prompts off high-intent entry pages while manual help stays available", async () => {
     vi.useFakeTimers();
 
-    for (const pathname of ["/", "/start"] as const) {
+    const highIntentEntryPages = {
+      "/": /^home$/i,
+      "/start": /^start$/i,
+      "/search": /search and discovery/i,
+      "/tests": /^practice$/i,
+      "/tools": /^learning tools$/i,
+    } as const;
+
+    for (const [pathname, helpTitle] of Object.entries(highIntentEntryPages)) {
       cleanup();
       window.localStorage.clear();
       globalThis.__TEST_PATHNAME__ = pathname;
@@ -122,7 +130,7 @@ describe("OnboardingExperience", () => {
 
       expect(
         screen.getByRole("dialog", {
-          name: pathname === "/" ? /^home$/i : /^start$/i,
+          name: helpTitle,
         }),
       ).toBeInTheDocument();
       expect(screen.getByRole("button", { name: /start quick tour/i })).toBeInTheDocument();
@@ -158,7 +166,7 @@ describe("OnboardingExperience", () => {
     cleanup();
     window.localStorage.clear();
 
-    globalThis.__TEST_PATHNAME__ = "/search";
+    globalThis.__TEST_PATHNAME__ = "/guided";
     render(<OnboardingExperience />);
     await showAutomaticPrompt();
 

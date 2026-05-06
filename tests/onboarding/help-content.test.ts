@@ -12,7 +12,10 @@ describe("onboarding help route behavior", () => {
     expect(shouldSuppressAutomaticOnboarding("/zh-HK")).toBe(true);
   });
 
-  it("keeps manual assessment help available while suppressing automatic test overlays", () => {
+  it("keeps manual help available while suppressing automatic overlays on high-intent learner hubs", () => {
+    expect(getOnboardingRouteKey("/search")).toBe("search");
+    expect(getOnboardingRouteKey("/tests")).toBe("tests");
+    expect(getOnboardingRouteKey("/tools")).toBe("tools");
     expect(getOnboardingRouteKey("/en/tests/concepts/simple-harmonic-motion")).toBe(
       "assessment",
     );
@@ -21,6 +24,9 @@ describe("onboarding help route behavior", () => {
       "assessment",
     );
 
+    expect(shouldSuppressAutomaticOnboarding("/search")).toBe(true);
+    expect(shouldSuppressAutomaticOnboarding("/tests")).toBe(true);
+    expect(shouldSuppressAutomaticOnboarding("/tools")).toBe(true);
     expect(
       shouldSuppressAutomaticOnboarding("/en/tests/concepts/simple-harmonic-motion"),
     ).toBe(true);
@@ -28,6 +34,5 @@ describe("onboarding help route behavior", () => {
     expect(
       shouldSuppressAutomaticOnboarding("/tests/packs/physics-connected-models"),
     ).toBe(true);
-    expect(shouldSuppressAutomaticOnboarding("/tests")).toBe(false);
   });
 });
