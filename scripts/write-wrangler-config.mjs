@@ -39,7 +39,7 @@ function parseArgs(argv) {
   return parsed;
 }
 
-function readWranglerConfigContent(env = process.env) {
+function readWranglerConfigContent(env = process.env, existingOutputPath = DEFAULT_OUTPUT_PATH) {
   const directContent = env.OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT?.trim();
   const sourcePath = env.OPEN_MODEL_LAB_WRANGLER_JSONC_SOURCE?.trim();
 
@@ -65,6 +65,13 @@ function readWranglerConfigContent(env = process.env) {
     return {
       content: fs.readFileSync(absoluteSourcePath, "utf8"),
       source: "OPEN_MODEL_LAB_WRANGLER_JSONC_SOURCE",
+    };
+  }
+
+  if (fs.existsSync(existingOutputPath)) {
+    return {
+      content: fs.readFileSync(existingOutputPath, "utf8"),
+      source: path.relative(process.cwd(), existingOutputPath) || existingOutputPath,
     };
   }
 
@@ -295,7 +302,7 @@ function normalizeWranglerConfigContent(content) {
 
 function main() {
   const options = parseArgs(process.argv.slice(2));
-  const resolved = readWranglerConfigContent();
+  const resolved = readWranglerConfigContent(process.env, options.outputPath);
 
   if (!resolved) {
     if (options.allowMissing) {
@@ -304,7 +311,7 @@ function main() {
     }
 
     throw new Error(
-      "Missing Wrangler config content. Set OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT or OPEN_MODEL_LAB_WRANGLER_JSONC_SOURCE.",
+      "Missing Wrangler config content. Set OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT, set OPEN_MODEL_LAB_WRANGLER_JSONC_SOURCE, or place an ignored wrangler.jsonc at the output path.",
     );
   }
 
