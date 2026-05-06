@@ -91,35 +91,4 @@ begin
 end;
 $$;
 
-comment on function public.record_user_ai_token_usage_with_limit(
-  uuid,
-  text,
-  bigint,
-  bigint,
-  bigint,
-  bigint,
-  bigint
-) is
-  'Atomically records AI Coach token usage and returns whether the request remained within the monthly limit.';
-
-revoke all on function public.record_user_ai_token_usage_with_limit(
-  uuid,
-  text,
-  bigint,
-  bigint,
-  bigint,
-  bigint,
-  bigint
-) from public, anon, authenticated;
-
-grant execute on function public.record_user_ai_token_usage_with_limit(
-  uuid,
-  text,
-  bigint,
-  bigint,
-  bigint,
-  bigint,
-  bigint
-) to service_role;
-
 notify pgrst, 'reload schema';
