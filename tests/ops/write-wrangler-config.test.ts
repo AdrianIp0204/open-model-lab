@@ -126,7 +126,10 @@ describe("write-wrangler-config", () => {
   });
 
   it("can intentionally skip missing config in allow-missing mode", () => {
-    const result = runScript(["--allow-missing"]);
+    const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "oml-wrangler-missing-"));
+    const missingOutputPath = path.join(tempRoot, "wrangler.jsonc");
+
+    const result = runScript(["--allow-missing", "--output", missingOutputPath]);
 
     expect(result.status).toBe(0);
     expect(result.stdout).toContain("skipping because --allow-missing is set");

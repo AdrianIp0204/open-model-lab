@@ -17,7 +17,49 @@ function getCurrentLocale() {
   return globalThis.__TEST_LOCALE__ ?? "en";
 }
 
+function createMemoryStorage(): Storage {
+  const store = new Map<string, string>();
+
+  return {
+    get length() {
+      return store.size;
+    },
+    clear() {
+      store.clear();
+    },
+    getItem(key: string) {
+      return store.get(String(key)) ?? null;
+    },
+    key(index: number) {
+      return Array.from(store.keys())[index] ?? null;
+    },
+    removeItem(key: string) {
+      store.delete(String(key));
+    },
+    setItem(key: string, value: string) {
+      store.set(String(key), String(value));
+    },
+  };
+}
+
+function ensureTestLocalStorage() {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  const memoryStorage = createMemoryStorage();
+  Object.defineProperty(window, "localStorage", {
+    configurable: true,
+    value: memoryStorage,
+  });
+  Object.defineProperty(globalThis, "localStorage", {
+    configurable: true,
+    value: memoryStorage,
+  });
+}
+
 beforeEach(() => {
+  ensureTestLocalStorage();
   globalThis.__TEST_LOCALE__ = undefined;
   globalThis.__TEST_PATHNAME__ = undefined;
   globalThis.__TEST_SEARCH_PARAMS__ = undefined;
