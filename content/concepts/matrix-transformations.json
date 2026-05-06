@@ -37,6 +37,169 @@
     "definition": "Use one 2 by 2 matrix as a visible action on the whole plane: read the basis-vector columns, then watch the grid, unit square, and sample triangle stretch, shear, or reflect together.",
     "keyTakeaway": "The columns of the matrix are the images of the basis vectors, so they already tell you how the unit square and the grid will lean, stretch, or reflect."
   },
+  "v2": {
+    "intuition": "Treat the matrix columns as the two basis-vector landing points, then watch the whole plane follow those two moves.",
+    "whyItMatters": "Matrix transformations stop feeling like table arithmetic when every entry has a visible job on the grid, square, and sample shape.",
+    "estimatedMinutes": 14,
+    "equationSnapshot": {
+      "title": "Column-first map",
+      "note": "Read the columns before tracking an individual point.",
+      "equationIds": [
+        "matrix-form",
+        "basis-columns",
+        "matrix-action"
+      ]
+    },
+    "startSetup": {
+      "presetId": "shear-right",
+      "graphId": "probe-image-blend",
+      "overlayIds": [
+        "referenceGrid",
+        "basisVectors",
+        "unitSquare",
+        "sampleShape"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-two-columns",
+        "title": "Read the two columns",
+        "goal": "Name where the two basis vectors land before watching the sample triangle.",
+        "doThis": "Keep the basis vectors and unit square visible, then compare the first and second matrix columns.",
+        "notice": "The two displayed basis arrows already predict how the unit square leans, stretches, or flips.",
+        "explain": "A 2 by 2 matrix is a rule for the whole plane because the images of e1 and e2 define every linear combination.",
+        "reveal": {
+          "controlIds": [
+            "m11",
+            "m21",
+            "m12",
+            "m22"
+          ],
+          "graphIds": [
+            "probe-image-blend"
+          ],
+          "overlayIds": [
+            "basisVectors",
+            "unitSquare"
+          ]
+        },
+        "setup": {
+          "presetId": "identity",
+          "graphId": "probe-image-blend",
+          "overlayIds": [
+            "referenceGrid",
+            "basisVectors",
+            "unitSquare"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "mt-qt-columns"
+          ]
+        }
+      },
+      {
+        "id": "make-a-shear-visible",
+        "title": "Make a shear visible",
+        "goal": "Change one off-diagonal entry and explain why the square leans instead of simply scaling.",
+        "doThis": "Apply the right-shear setup, then raise the second-column x entry while the first column stays anchored.",
+        "notice": "The top edge slides sideways and the unit square becomes a parallelogram while the grid lines remain straight.",
+        "explain": "A shear appears when one basis direction gains a component of the other direction, so the plane leans without losing linear structure.",
+        "reveal": {
+          "controlIds": [
+            "m12",
+            "m22"
+          ],
+          "graphIds": [
+            "probe-image-blend"
+          ],
+          "overlayIds": [
+            "basisVectors",
+            "unitSquare",
+            "sampleShape"
+          ]
+        },
+        "setup": {
+          "presetId": "shear-right",
+          "graphId": "probe-image-blend",
+          "overlayIds": [
+            "basisVectors",
+            "unitSquare",
+            "sampleShape"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "mt-predict-shear-right"
+          ],
+          "questionIds": [
+            "mt-qt-shear"
+          ]
+        }
+      },
+      {
+        "id": "explain-a-whole-plane-flip",
+        "title": "Explain a whole-plane flip",
+        "goal": "Use the reflection case to show why a matrix changes the whole coordinate plane, not just one shape.",
+        "doThis": "Open the y-axis reflection and compare the basis arrows, reference grid, and sample triangle together.",
+        "notice": "The sample triangle flips because the first basis column flips; the grid and unit square tell the same story.",
+        "explain": "Once the basis-image columns change, every point follows the same matrix rule, so the visible shape is only one example of the plane action.",
+        "reveal": {
+          "controlIds": [
+            "m11",
+            "m21"
+          ],
+          "graphIds": [
+            "basis-length-blend"
+          ],
+          "overlayIds": [
+            "referenceGrid",
+            "basisVectors",
+            "sampleShape"
+          ]
+        },
+        "setup": {
+          "presetId": "reflect-y",
+          "graphId": "basis-length-blend",
+          "overlayIds": [
+            "referenceGrid",
+            "basisVectors",
+            "sampleShape"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "mt-predict-reflect-y"
+          ],
+          "questionIds": [
+            "mt-qt-reflection",
+            "mt-qt-basis-first"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "The two matrix columns are the images of the two basis vectors.",
+        "Shear, stretch, and reflection are visible whole-plane actions, not separate tricks.",
+        "A sample point or triangle is evidence for the same linear rule that moves the grid."
+      ],
+      "misconception": "Do not start with one isolated point and ignore the basis arrows; the columns are the cleaner first reading.",
+      "workedExampleRefs": [
+        "read-the-current-basis-images",
+        "send-the-tracked-point-through-the-matrix"
+      ],
+      "testCta": true,
+      "freePlayPrompt": "Create a matrix where the unit square leans but does not flip, then explain the two columns out loud."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "accessibility"
+    ]
+  },
   "sections": {
     "explanation": {
       "paragraphs": [

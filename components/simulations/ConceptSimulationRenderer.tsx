@@ -6620,39 +6620,39 @@ function GuidedConceptBenchBrief({
   return (
     <section
       data-testid="concept-v2-bench-brief"
-      className="overflow-hidden rounded-[22px] border border-teal-500/18 bg-[linear-gradient(135deg,rgba(20,184,166,0.10),rgba(14,165,233,0.08)_42%,rgba(255,255,255,0.86))] px-3 py-2.5 shadow-[0_1px_0_rgba(255,255,255,0.82)_inset] sm:px-4"
+      className="overflow-hidden rounded-[22px] border border-teal-500/18 bg-[linear-gradient(135deg,rgba(20,184,166,0.10),rgba(14,165,233,0.08)_42%,rgba(255,255,255,0.88))] px-3 py-2.5 shadow-[0_1px_0_rgba(255,255,255,0.82)_inset] sm:px-4"
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0 max-w-3xl">
-          <p className="lab-label">{copy.label}</p>
+          <p className="text-xs font-semibold leading-5 text-teal-800">{copy.label}</p>
           <RichMathText
             as="p"
             content={copy.title({ concept: conceptTitle })}
-            className="mt-1 break-words text-sm font-semibold leading-5 text-ink-950 sm:text-base sm:leading-6"
+            className="mt-0.5 break-words text-base font-semibold leading-6 text-ink-950 sm:text-lg sm:leading-7"
           />
           <p className="sr-only">
             {copy.description}
           </p>
           <div
             data-testid="concept-v2-bench-active-prompt"
-            className="mt-2 flex flex-col gap-1 rounded-[14px] border border-white/80 bg-white/76 px-2.5 py-1.5 shadow-sm sm:flex-row sm:items-start sm:gap-2"
+            className="mt-2 flex flex-col gap-1 rounded-[14px] border border-white/80 bg-white/76 px-2.5 py-1.5 shadow-sm sm:flex-row sm:items-start sm:gap-2.5"
           >
-            <p className="shrink-0 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-teal-700">
+            <p className="shrink-0 text-xs font-semibold leading-5 text-teal-800">
               {copy.activePromptLabel}
             </p>
             <RichMathText
               as="p"
               content={activeStep.goal}
-              className="min-w-0 break-words text-xs font-semibold leading-5 text-ink-950 sm:line-clamp-1"
+              className="min-w-0 break-words text-sm font-semibold leading-5 text-ink-950 sm:leading-6"
             />
           </div>
         </div>
-        <span className="inline-flex shrink-0 rounded-full border border-line bg-white/88 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-600 shadow-sm">
+        <span className="inline-flex shrink-0 rounded-full border border-line bg-white/88 px-3 py-1 text-xs font-semibold text-ink-600 shadow-sm">
           {copy.stepCounter({ current: guidedStep.index + 1, total: guidedStep.count })}
         </span>
       </div>
 
-      <div className="mt-2.5 flex flex-wrap items-center gap-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-500">
+      <div className="mt-2.5 flex flex-wrap items-center gap-1.5 text-xs font-semibold text-ink-600">
         <span>{copy.tryLabel}</span>
         <span aria-hidden="true" className="text-ink-400">→</span>
         <span>{copy.noticeLabel}</span>
@@ -6678,18 +6678,18 @@ function GuidedConceptBenchBrief({
           >
             <span
               aria-hidden="true"
-              className="mt-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full border border-white/80 bg-white/82 text-[0.58rem] font-semibold shadow-sm"
+              className="mt-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full border border-white/80 bg-white/82 text-[0.68rem] font-semibold shadow-sm"
             >
               {index + 1}
             </span>
             <span className="min-w-0">
-              <span className="block text-[0.62rem] font-semibold uppercase tracking-[0.14em]">
+              <span className="block text-xs font-semibold leading-4">
                 {item.label}
               </span>
               <RichMathText
                 as="span"
                 content={item.text}
-                className="mt-0.5 hidden min-w-0 break-words text-[0.72rem] font-medium leading-4 text-ink-800 sm:line-clamp-1 sm:block"
+                className="mt-0.5 hidden min-w-0 break-words text-[0.8rem] font-medium leading-4 text-ink-800 sm:line-clamp-1 sm:block"
               />
             </span>
           </li>
@@ -6701,7 +6701,7 @@ function GuidedConceptBenchBrief({
           data-testid="concept-v2-bench-evidence"
           className="mt-2 flex flex-wrap items-center gap-1.5 rounded-[16px] border border-line/80 bg-white/70 px-2.5 py-2"
         >
-          <p className="mr-1 text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-ink-500">
+          <p className="mr-1 text-xs font-semibold leading-5 text-ink-600">
             {copy.evidenceLabel}
           </p>
           <ul className="flex flex-wrap gap-1.5">
@@ -6709,7 +6709,7 @@ function GuidedConceptBenchBrief({
               <li
                 key={`${item.kind}-${item.id}`}
                 className={[
-                  "inline-flex max-w-full rounded-full border px-2 py-0.5 text-[0.68rem] font-semibold shadow-sm",
+                  "inline-flex max-w-full rounded-full border px-2 py-0.5 text-xs font-semibold shadow-sm",
                   guidedBenchBriefEvidenceClasses[item.kind],
                 ].join(" ")}
               >
@@ -8489,35 +8489,35 @@ export function ConceptSimulationRenderer({
         {afterBench}
       </div>
     ) : null;
-  const guidedBenchBrief =
-    concept.slug === "simple-harmonic-motion" && guidedStep ? (
-      <GuidedConceptBenchBrief
-        conceptTitle={concept.title}
-        guidedStep={guidedStep}
-        copy={{
-          label: t("benchBrief.label"),
-          title: (values) => t("benchBrief.title", values),
-          description: t("benchBrief.description"),
-          stepCounter: (values) => t("benchBrief.stepCounter", values),
-          activePromptLabel: t("benchBrief.activePromptLabel"),
-          flowAria: t("benchBrief.flowAria"),
-          tryLabel: t("benchBrief.tryLabel"),
-          noticeLabel: t("benchBrief.noticeLabel"),
-          explainLabel: t("benchBrief.explainLabel"),
-          checkLabel: t("benchBrief.checkLabel"),
-          checkFallback: t("benchBrief.checkFallback"),
-          evidenceLabel: t("benchBrief.evidenceLabel"),
-          revealKinds: {
-            control: t("benchBrief.revealKinds.control"),
-            graph: t("benchBrief.revealKinds.graph"),
-            overlay: t("benchBrief.revealKinds.overlay"),
-            tool: t("benchBrief.revealKinds.tool"),
-            section: t("benchBrief.revealKinds.section"),
-          },
-        }}
-      />
-    ) : null;
-  const stageTone = concept.slug === "simple-harmonic-motion" ? "focus" : "paper";
+  const isGuidedConceptBench = Boolean(guidedStep);
+  const guidedBenchBrief = guidedStep ? (
+    <GuidedConceptBenchBrief
+      conceptTitle={concept.title}
+      guidedStep={guidedStep}
+      copy={{
+        label: t("benchBrief.label"),
+        title: (values) => t("benchBrief.title", values),
+        description: t("benchBrief.description"),
+        stepCounter: (values) => t("benchBrief.stepCounter", values),
+        activePromptLabel: t("benchBrief.activePromptLabel"),
+        flowAria: t("benchBrief.flowAria"),
+        tryLabel: t("benchBrief.tryLabel"),
+        noticeLabel: t("benchBrief.noticeLabel"),
+        explainLabel: t("benchBrief.explainLabel"),
+        checkLabel: t("benchBrief.checkLabel"),
+        checkFallback: t("benchBrief.checkFallback"),
+        evidenceLabel: t("benchBrief.evidenceLabel"),
+        revealKinds: {
+          control: t("benchBrief.revealKinds.control"),
+          graph: t("benchBrief.revealKinds.graph"),
+          overlay: t("benchBrief.revealKinds.overlay"),
+          tool: t("benchBrief.revealKinds.tool"),
+          section: t("benchBrief.revealKinds.section"),
+        },
+      }}
+    />
+  ) : null;
+  const stageTone = isGuidedConceptBench ? "focus" : "paper";
 
   useEffect(() => {
     if (!isChallengeHashActive || typeof window === "undefined") {

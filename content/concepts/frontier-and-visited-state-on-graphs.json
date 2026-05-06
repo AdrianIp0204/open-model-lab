@@ -40,6 +40,157 @@
     "whyItMatters": "That bookkeeping is what keeps graph search from walking around a cycle forever or counting the same work twice.",
     "keyTakeaway": "Frontier means discovered and waiting; visited means already expanded, so repeat edges can be skipped honestly."
   },
+  "v2": {
+    "intuition": "Run one cyclic graph slowly enough to keep current, frontier, and visited state from collapsing into one blob.",
+    "whyItMatters": "Search algorithms stay correct on cycles because the bookkeeping says which work is waiting, finished, or safe to skip.",
+    "estimatedMinutes": 12,
+    "equationSnapshot": {
+      "title": "Search bookkeeping",
+      "note": "Keep the update rule and repeat-skip count close to the graph state.",
+      "equationIds": [
+        "frontier-visited-update",
+        "repeat-skip-count"
+      ]
+    },
+    "startSetup": {
+      "presetId": "bridge-cycle-bfs",
+      "graphId": "visited-frontier-history",
+      "overlayIds": [
+        "adjacencyCue",
+        "frontierCue",
+        "visitedCue"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "name-the-three-roles",
+        "title": "Name the three roles",
+        "goal": "Point to the current node, the waiting frontier, and the already-expanded visited set separately.",
+        "doThis": "Open bridge-cycle BFS and keep frontier and visited cues visible before stepping forward.",
+        "notice": "A node can be discovered and waiting without being visited yet; visited means its neighbors have already been checked.",
+        "explain": "Frontier and visited are different states of work, so merging them hides whether the traversal still has honest work to do.",
+        "reveal": {
+          "controlIds": [
+            "traversal-mode"
+          ],
+          "graphIds": [
+            "visited-frontier-history"
+          ],
+          "overlayIds": [
+            "frontierCue",
+            "visitedCue"
+          ]
+        },
+        "setup": {
+          "presetId": "bridge-cycle-bfs",
+          "graphId": "visited-frontier-history",
+          "overlayIds": [
+            "frontierCue",
+            "visitedCue"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "fvsg-qt-frontier-vs-visited"
+          ]
+        }
+      },
+      {
+        "id": "catch-the-repeat-skip",
+        "title": "Catch the repeat skip",
+        "goal": "Use a backward edge to decide why revisiting finished work would trap the search in a cycle.",
+        "doThis": "Step to a repeat edge on the bridge-cycle graph and watch what happens to the frontier instead of reopening the visited node.",
+        "notice": "The traversal records the repeat skip while the remaining frontier keeps the search moving forward.",
+        "explain": "The visited set protects completed expansion work; repeat edges should be counted or ignored, not turned into duplicate frontier work.",
+        "reveal": {
+          "controlIds": [
+            "graph-index",
+            "start-node"
+          ],
+          "graphIds": [
+            "neighbor-check-history"
+          ],
+          "overlayIds": [
+            "adjacencyCue",
+            "frontierCue",
+            "visitedCue"
+          ]
+        },
+        "setup": {
+          "presetId": "bridge-cycle-bfs",
+          "graphId": "neighbor-check-history",
+          "overlayIds": [
+            "adjacencyCue",
+            "frontierCue",
+            "visitedCue"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "fvsg-predict-repeat-skip"
+          ],
+          "questionIds": [
+            "fvsg-qt-repeat-skip"
+          ]
+        }
+      },
+      {
+        "id": "compare-bfs-and-dfs-bookkeeping",
+        "title": "Compare BFS and DFS bookkeeping",
+        "goal": "Change traversal mode and explain what changes without losing the frontier-versus-visited rule.",
+        "doThis": "Switch from bridge-cycle BFS to bridge-cycle DFS, then name what is waiting and what is finished in the new order.",
+        "notice": "The order of expansion changes, but frontier still means waiting work and visited still means already expanded work.",
+        "explain": "BFS and DFS choose different next nodes, yet both need the same bookkeeping to handle cycles safely.",
+        "reveal": {
+          "controlIds": [
+            "traversal-mode",
+            "target-node"
+          ],
+          "graphIds": [
+            "visited-frontier-history"
+          ],
+          "overlayIds": [
+            "frontierCue",
+            "visitedCue"
+          ]
+        },
+        "setup": {
+          "presetId": "bridge-cycle-dfs",
+          "graphId": "visited-frontier-history",
+          "overlayIds": [
+            "frontierCue",
+            "visitedCue"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "fvsg-qt-frontier-not-finished",
+            "fvsg-qt-current-node"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Frontier means discovered and waiting to be expanded.",
+        "Visited means the node's neighbors have already been checked.",
+        "Repeat edges become safe skips only when the visited set is tracked honestly."
+      ],
+      "misconception": "Frontier and visited are not two names for the same set; they mark different stages of graph-search work.",
+      "workedExampleRefs": [
+        "separate-frontier-from-visited"
+      ],
+      "testCta": true,
+      "freePlayPrompt": "Run the same cyclic graph once with BFS and once with DFS, then pause at a repeat edge and name the current, frontier, and visited nodes."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "accessibility"
+    ]
+  },
   "sections": {
     "explanation": {
       "paragraphs": [

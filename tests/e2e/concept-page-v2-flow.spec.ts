@@ -66,7 +66,7 @@ test.describe("concept page v2 flow", () => {
         await expect(focusStageShell).toHaveClass(/simulation-shell--focus-stage/);
         await expect(guidedLiveLab).toBeVisible();
         await expect(benchBrief).toBeVisible();
-        await expect(benchBrief).toContainText("Concept Bench V2");
+        await expect(benchBrief).toContainText("Concept bench");
         await expect(benchBrief).toContainText("Try");
         await expect(benchBrief).toContainText("Notice");
         await expect(benchBrief).toContainText("Explain");
@@ -99,6 +99,44 @@ test.describe("concept page v2 flow", () => {
       } finally {
         await context.close();
       }
+    }
+  });
+
+  test("uses the shared concept bench shell beyond simple harmonic motion", async ({
+    browser,
+  }) => {
+    test.setTimeout(120_000);
+    const context = await browser.newContext({ viewport: { width: 1366, height: 768 } });
+    const page = await newConceptFlowPage(context);
+    await installBrowserGuards(page);
+
+    const representativeSlugs = [
+      "electric-fields",
+      "matrix-transformations",
+      "reaction-rate-collision-theory",
+      "frontier-and-visited-state-on-graphs",
+      "conservation-of-momentum",
+    ] as const;
+
+    try {
+      for (const slug of representativeSlugs) {
+        await gotoAndExpectOk(page, `/en/concepts/${slug}`);
+
+        const benchBrief = page.getByTestId("concept-v2-bench-brief");
+        const focusStageShell = page.locator('[data-stage-tone="focus"]');
+
+        await expect(focusStageShell).toBeVisible();
+        await expect(focusStageShell).toHaveClass(/simulation-shell--focus-stage/);
+        await expect(benchBrief).toBeVisible();
+        await expect(benchBrief).toContainText("Concept bench");
+        await expect(benchBrief).toContainText("Try");
+        await expect(benchBrief).toContainText("Notice");
+        await expect(benchBrief).toContainText("Explain");
+        await expect(benchBrief).toContainText("Check");
+        await expect(page.getByTestId("concept-v2-step-card-slot")).toBeVisible();
+      }
+    } finally {
+      await context.close();
     }
   });
 

@@ -16,9 +16,13 @@ const migratedSlugs = [
   "integral-as-accumulation-area",
   "concentration-and-dilution",
   "solubility-and-saturation",
+  "reaction-rate-collision-theory",
   "graph-representation-and-adjacency-intuition",
   "breadth-first-search-and-layered-frontiers",
   "depth-first-search-and-backtracking-paths",
+  "frontier-and-visited-state-on-graphs",
+  "electric-fields",
+  "matrix-transformations",
 ] as const;
 
 describe("concept page v2 coverage", () => {
@@ -36,7 +40,7 @@ describe("concept page v2 coverage", () => {
     }
 
     const fallbackRecord = summary.fallback.find(
-      (entry) => entry.slug === "reaction-rate-collision-theory",
+      (entry) => entry.slug === "conservation-of-momentum",
     );
     expect(fallbackRecord).toBeTruthy();
   });

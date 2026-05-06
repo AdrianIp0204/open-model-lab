@@ -20,6 +20,159 @@
     "definition": "See how source-charge sign, distance, and superposition set the electric field at one probe, then watch a test charge turn that field into a force without changing the field itself.",
     "keyTakeaway": "Positive source charges send the field away from themselves, while negative source charges pull the field toward themselves."
   },
+  "v2": {
+    "intuition": "Move one probe through a two-source field and make the direction rule visible before using equations.",
+    "whyItMatters": "Electric fields become reusable when you can separate source charge, probe position, and test-charge force instead of mixing all three into one arrow.",
+    "estimatedMinutes": 15,
+    "equationSnapshot": {
+      "title": "Field first, force second",
+      "note": "Keep the source-field rule, vector sum, and test-charge force relationship side by side.",
+      "equationIds": [
+        "field-from-source",
+        "net-field",
+        "force-on-test-charge"
+      ]
+    },
+    "startSetup": {
+      "presetId": "dipole-reference",
+      "graphId": "direction-scan",
+      "overlayIds": [
+        "fieldGrid",
+        "fieldVectors",
+        "forceVector"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-source-sign",
+        "title": "Read source sign first",
+        "goal": "Predict the field direction from the source charges before changing the test charge.",
+        "doThis": "Open the single-source reference, flip a source from positive to negative, and keep the field vectors visible.",
+        "notice": "The field arrow reverses when the source sign reverses, even though the probe stays in the same place.",
+        "explain": "A positive source sends field away from itself; a negative source pulls field toward itself, so sign chooses the radial direction before vector addition begins.",
+        "reveal": {
+          "controlIds": [
+            "sourceChargeA",
+            "sourceChargeB"
+          ],
+          "graphIds": [
+            "direction-scan"
+          ],
+          "overlayIds": [
+            "fieldGrid",
+            "fieldVectors"
+          ]
+        },
+        "setup": {
+          "presetId": "single-source-reference",
+          "graphId": "direction-scan",
+          "overlayIds": [
+            "fieldGrid",
+            "fieldVectors"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "ef-pred-sign-flip"
+          ]
+        }
+      },
+      {
+        "id": "add-two-source-contributions",
+        "title": "Add both sources",
+        "goal": "Use the graph and field arrows to decide when two source contributions cancel or reinforce.",
+        "doThis": "Switch between midpoint cancel and like-charge arch, then move the probe along the scan line.",
+        "notice": "At some probe positions, horizontal components cancel; at others, one nearby or stronger source dominates the net field.",
+        "explain": "Superposition means the probe reads one vector sum from both sources, not two separate field answers.",
+        "reveal": {
+          "controlIds": [
+            "sourceSeparation",
+            "probeX",
+            "probeY"
+          ],
+          "graphIds": [
+            "field-scan"
+          ],
+          "overlayIds": [
+            "fieldVectors",
+            "scanLine"
+          ]
+        },
+        "setup": {
+          "presetId": "midpoint-cancel",
+          "graphId": "field-scan",
+          "overlayIds": [
+            "fieldGrid",
+            "fieldVectors",
+            "scanLine"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "ef-qt-midpoint-cancel",
+            "ef-qt-dipole-above-midpoint"
+          ]
+        }
+      },
+      {
+        "id": "separate-field-from-force",
+        "title": "Separate field from force",
+        "goal": "Explain why flipping the test charge changes the force arrow without changing the electric field.",
+        "doThis": "Open the negative-test-charge preset and compare the teal field arrow with the coral force arrow.",
+        "notice": "The force reverses with test-charge sign, but the source-generated field and field graph stay tied to the source charges.",
+        "explain": "The field is a property of the sources at the probe point; the test charge only multiplies that field into a force.",
+        "reveal": {
+          "controlIds": [
+            "testCharge"
+          ],
+          "graphIds": [
+            "direction-scan"
+          ],
+          "overlayIds": [
+            "fieldVectors",
+            "forceVector"
+          ]
+        },
+        "setup": {
+          "presetId": "negative-test-charge",
+          "graphId": "direction-scan",
+          "overlayIds": [
+            "fieldVectors",
+            "forceVector"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "ef-pred-test-charge-flip"
+          ],
+          "questionIds": [
+            "ef-qt-test-charge-sign"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "Source-charge sign chooses whether field points away from or toward that source.",
+        "The net electric field is a vector sum at one probe point.",
+        "A test charge changes the force reading, not the source-generated field."
+      ],
+      "misconception": "Do not use the test-charge sign to redraw the electric field; use it only after the field is already known.",
+      "workedExampleRefs": [
+        "current-net-field",
+        "current-test-charge-force"
+      ],
+      "testCta": true,
+      "freePlayPrompt": "Place the probe where one source nearly cancels the other, then flip only the test charge and explain what did and did not change."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "accessibility"
+    ]
+  },
   "sections": {
     "explanation": {
       "paragraphs": [

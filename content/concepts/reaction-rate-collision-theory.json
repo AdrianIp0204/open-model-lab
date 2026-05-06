@@ -41,6 +41,159 @@
     "whyItMatters": "It lets you explain temperature, concentration, and catalysts with one visible cause-and-effect model instead of memorized rate slogans.",
     "keyTakeaway": "A reaction speeds up only when collision attempts increase, the successful fraction increases, or both happen together."
   },
+  "v2": {
+    "intuition": "Watch collision attempts and successful collisions separately so rate changes have a visible cause.",
+    "whyItMatters": "Temperature, concentration, and catalysts all affect rate, but they do not all change the same part of the collision story.",
+    "estimatedMinutes": 12,
+    "equationSnapshot": {
+      "title": "Attempts × success",
+      "note": "Keep the attempt rate, threshold story, and catalyst shortcut visible together.",
+      "equationIds": [
+        "rate-story",
+        "threshold-story",
+        "catalyst-story"
+      ]
+    },
+    "startSetup": {
+      "presetId": "baseline",
+      "graphId": "rate-temperature",
+      "overlayIds": [
+        "energyCue",
+        "thresholdGate",
+        "successfulCollisions"
+      ]
+    },
+    "guidedSteps": [
+      {
+        "id": "separate-attempts-from-success",
+        "title": "Separate attempts from success",
+        "goal": "Predict whether a rate change comes from more meetings, more successful hits, or both.",
+        "doThis": "Compare the baseline mixture with the crowded-but-cool setup while keeping collision pulses visible.",
+        "notice": "Crowding creates more attempts, but the successful share still depends on whether collisions clear the energy threshold.",
+        "explain": "Reaction rate follows successful collisions, so total collisions and success fraction have to be read as two linked pieces.",
+        "reveal": {
+          "controlIds": [
+            "temperature",
+            "concentration"
+          ],
+          "graphIds": [
+            "rate-temperature"
+          ],
+          "overlayIds": [
+            "successfulCollisions",
+            "energyCue"
+          ]
+        },
+        "setup": {
+          "presetId": "crowded-but-cool",
+          "graphId": "rate-temperature",
+          "overlayIds": [
+            "successfulCollisions",
+            "energyCue"
+          ]
+        },
+        "inlineCheck": {
+          "questionIds": [
+            "rr-qt-collision-vs-success"
+          ]
+        }
+      },
+      {
+        "id": "raise-temperature-with-same-crowding",
+        "title": "Raise temperature",
+        "goal": "Use the same mixture to see why heating changes more than particle busyness.",
+        "doThis": "Open the hotter setup and compare the rate-temperature graph with the energy cue.",
+        "notice": "Heating makes particles collide more energetically, so a larger share can clear the threshold.",
+        "explain": "Temperature affects collision energy as well as motion, which is why heating can increase successful collisions even without adding particles.",
+        "reveal": {
+          "controlIds": [
+            "temperature"
+          ],
+          "graphIds": [
+            "rate-temperature"
+          ],
+          "overlayIds": [
+            "energyCue",
+            "thresholdGate"
+          ]
+        },
+        "setup": {
+          "presetId": "hot-and-dilute",
+          "graphId": "rate-temperature",
+          "overlayIds": [
+            "energyCue",
+            "thresholdGate"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "rr-predict-hotter"
+          ],
+          "questionIds": [
+            "rr-qt-heating"
+          ]
+        }
+      },
+      {
+        "id": "lower-the-barrier",
+        "title": "Lower the barrier",
+        "goal": "Explain a catalyst as a threshold change rather than a hidden temperature boost.",
+        "doThis": "Switch on the catalyzed-threshold setup and compare the success-temperature graph before changing concentration.",
+        "notice": "The successful-collision share rises because the barrier is lower, not because the particles had to become hotter first.",
+        "explain": "A catalyst changes the path and activation threshold, so the same particle energy can produce more successful collisions.",
+        "reveal": {
+          "controlIds": [
+            "activation-energy",
+            "catalyst"
+          ],
+          "graphIds": [
+            "success-temperature"
+          ],
+          "overlayIds": [
+            "thresholdGate",
+            "energyCue"
+          ]
+        },
+        "setup": {
+          "presetId": "catalyzed-threshold",
+          "graphId": "success-temperature",
+          "overlayIds": [
+            "thresholdGate",
+            "energyCue"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "rr-predict-catalyst"
+          ],
+          "questionIds": [
+            "rr-qt-catalyst"
+          ],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "More collision attempts matter only when enough of them clear the threshold.",
+        "Heating changes the energy story as well as particle motion.",
+        "A catalyst raises the successful fraction by lowering the effective barrier."
+      ],
+      "misconception": "Do not treat every collision as a reaction; read attempts and success fraction separately.",
+      "workedExampleRefs": [
+        "successful-versus-total-collisions",
+        "lower-the-barrier-without-heating"
+      ],
+      "testCta": true,
+      "freePlayPrompt": "Make one setup faster by crowding and another faster by catalysis, then explain which part of the collision story changed."
+    },
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "accessibility"
+    ]
+  },
   "sections": {
     "explanation": {
       "paragraphs": [

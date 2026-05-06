@@ -2441,8 +2441,8 @@
       "description": "先完成這幾步，再打開更多選項。"
     },
     "benchBrief": {
-      "label": "概念實驗台 V2",
-      "title": "{concept}：先跑一次循環，再讀公式",
+      "label": "概念實驗台",
+      "title": "{concept}：先試、再觀察、再解釋",
       "description": "把即時模型當作課程核心：先試一組設定，留意證據，解釋規則，再在實驗台仍可見時完成檢查。",
       "stepCounter": "步驟 {current}/{total}",
       "activePromptLabel": "目前提示",

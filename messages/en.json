@@ -2590,8 +2590,8 @@
       "description": "Work through these steps before you open more options."
     },
     "benchBrief": {
-      "label": "Concept Bench V2",
-      "title": "{concept}: run the loop before reading it",
+      "label": "Concept bench",
+      "title": "{concept}: try it, notice it, explain it",
       "description": "Use the live model as the lesson core: try one setup, notice the evidence, explain the rule, then answer the check while the bench stays visible.",
       "stepCounter": "Step {current}/{total}",
       "activePromptLabel": "Active prompt",
