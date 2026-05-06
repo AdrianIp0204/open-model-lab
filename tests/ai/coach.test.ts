@@ -532,6 +532,10 @@ describe("Gemini coach provider", () => {
       thoughtsTokenCount: 4,
       totalTokenCount: 54,
     });
+    const requestBody = JSON.parse(
+      String(fetchMock.mock.calls[0]?.[1]?.body ?? "{}"),
+    ) as { generationConfig?: { maxOutputTokens?: number } };
+    expect(requestBody.generationConfig?.maxOutputTokens).toBe(512);
   });
 
   it("accumulates usage across invalid and retried Gemini payloads", async () => {

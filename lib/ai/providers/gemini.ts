@@ -10,6 +10,7 @@ import type { AiCoachRequest, AiCoachResponse, AiTokenUsage } from "../types";
 
 const DEFAULT_GEMINI_MODEL = "gemini-2.5-flash-lite";
 const GEMINI_API_BASE_URL = "https://generativelanguage.googleapis.com/v1beta";
+const GEMINI_COACH_MAX_OUTPUT_TOKENS = 512;
 
 type GeminiPart = {
   text?: string;
@@ -192,6 +193,7 @@ async function callGemini(prompt: string, apiKey: string, model?: string) {
       ],
       store: false,
       generationConfig: {
+        maxOutputTokens: GEMINI_COACH_MAX_OUTPUT_TOKENS,
         temperature: 0.35,
         responseMimeType: "application/json",
         responseSchema: aiCoachResponseJsonSchema,
