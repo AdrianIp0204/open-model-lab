@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 
 type SimulationShellProps = {
   accessibilityDescription: string;
+  stageTone?: "paper" | "focus";
   setupAnchorId?: string;
   setupAnchorLabel?: string;
   controlsAnchorId?: string;
@@ -61,6 +62,7 @@ function useIsSmViewportOrWider() {
 
 export function SimulationShell({
   accessibilityDescription,
+  stageTone = "paper",
   setupAnchorId,
   setupAnchorLabel,
   controlsAnchorId,
@@ -84,11 +86,33 @@ export function SimulationShell({
   const guideStack = [notice].filter(Boolean);
   const hasLowerDock = Boolean(equations || supportDock);
   const isSmViewportOrWider = useIsSmViewportOrWider();
+  const isFocusStage = stageTone === "focus";
+  const shellClassName = [
+    "page-hero-surface overflow-hidden p-1 sm:p-1.5 md:p-2",
+    isFocusStage ? "simulation-shell--focus-stage" : "",
+    className ?? "",
+  ].join(" ");
+  const innerFrameClassName = isFocusStage
+    ? "relative overflow-hidden rounded-[22px] border border-white/10 bg-[radial-gradient(circle_at_18%_0%,rgba(30,166,162,0.20),transparent_34%),radial-gradient(circle_at_88%_18%,rgba(240,171,60,0.16),transparent_28%),linear-gradient(135deg,#07131c,#101e2a_56%,#152330)] p-2.5 text-paper-strong shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] sm:p-3"
+    : "relative overflow-hidden rounded-[22px] border border-line bg-paper-strong/85 p-2.5 sm:p-3";
+  const setupDividerClassName = isFocusStage
+    ? "border-b border-white/10 pb-1.5"
+    : "border-b border-line/80 pb-1.5";
+  const setupLabelClassName = isFocusStage
+    ? "lab-label text-teal-100/75"
+    : "lab-label";
+  const focusSurfaceClassName = isFocusStage
+    ? "rounded-[24px] bg-white/[0.035] p-1 ring-1 ring-white/10 shadow-[0_18px_50px_rgba(0,0,0,0.20)]"
+    : "";
+  const statusClassName = isFocusStage
+    ? "rounded-[16px] border border-white/10 bg-white/[0.07] px-3 py-2 text-sm leading-6 text-teal-50/88"
+    : "rounded-[16px] border border-line bg-white/70 px-3 py-2 text-sm leading-6 text-ink-700";
 
   const benchHeaderSlot = benchHeader ? (
     <div
       key="bench-header"
       data-testid="simulation-shell-bench-header"
+      data-focus-surface="bench-header"
       className={isSmViewportOrWider ? "order-2 min-w-0 lg:order-1 lg:col-span-2" : "min-w-0"}
     >
       {benchHeader}
@@ -98,7 +122,11 @@ export function SimulationShell({
     <div
       key="scene"
       data-testid="simulation-shell-scene"
-      className={isSmViewportOrWider ? "relative order-1 min-w-0" : "relative min-w-0"}
+      data-focus-surface="scene"
+      className={[
+        isSmViewportOrWider ? "relative order-1 min-w-0" : "relative min-w-0",
+        focusSurfaceClassName,
+      ].join(" ")}
     >
       {scene}
       {benchEquations ? (
@@ -127,7 +155,7 @@ export function SimulationShell({
     >
       <div className="space-y-2.5 lg:sticky lg:top-4">
         {interactionRail ? (
-          <div data-testid="simulation-shell-first-action">
+          <div data-testid="simulation-shell-first-action" data-focus-surface="rail">
             {interactionRail}
           </div>
         ) : null}
@@ -157,12 +185,16 @@ export function SimulationShell({
     <div
       key="graphs"
       data-testid="simulation-shell-graphs"
+      data-focus-surface="graphs"
       className={
-        isSmViewportOrWider
-          ? benchHeader
-            ? "order-3 min-w-0"
-            : "order-2 min-w-0"
-          : "min-w-0"
+        [
+          isSmViewportOrWider
+            ? benchHeader
+              ? "order-3 min-w-0"
+              : "order-2 min-w-0"
+            : "min-w-0",
+          focusSurfaceClassName,
+        ].join(" ")
       }
     >
       {graphs}
@@ -184,9 +216,10 @@ export function SimulationShell({
   return (
     <section
       data-simulation-shell-breakpoint={isSmViewportOrWider ? "sm" : "phone"}
-      className={["page-hero-surface overflow-hidden p-1 sm:p-1.5 md:p-2", className ?? ""].join(" ")}
+      data-stage-tone={stageTone}
+      className={shellClassName}
     >
-      <div className="relative overflow-hidden rounded-[22px] border border-line bg-paper-strong/85 p-2.5 sm:p-3">
+      <div className={innerFrameClassName}>
         <div className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#1ea6a2,#f0ab3c,#f16659)]" />
         <p className="sr-only" aria-live="polite">
           {accessibilityDescription}
@@ -198,8 +231,8 @@ export function SimulationShell({
           aria-label={setupAnchorLabel}
           tabIndex={setupAnchorId ? -1 : undefined}
         >
-          <div className="border-b border-line/80 pb-1.5">
-            <p className="lab-label">{t("title")}</p>
+          <div className={setupDividerClassName}>
+            <p className={setupLabelClassName}>{t("title")}</p>
             <p className="sr-only">
               {t("description")}
             </p>
@@ -265,7 +298,7 @@ export function SimulationShell({
           </div>
         ) : null}
         <div className="mt-2">
-          <div className="rounded-[16px] border border-line bg-white/70 px-3 py-2 text-sm leading-6 text-ink-700">
+          <div className={statusClassName}>
             {status}
           </div>
         </div>

@@ -283,6 +283,129 @@ select {
     @apply relative overflow-hidden rounded-[32px] border border-line bg-paper-strong/96 shadow-surface;
   }
 
+  .simulation-shell--focus-stage {
+    border-color: rgba(15, 28, 36, 0.22);
+    background:
+      radial-gradient(circle at 18% 0%, rgba(30, 166, 162, 0.18), transparent 34%),
+      radial-gradient(circle at 88% 12%, rgba(240, 171, 60, 0.14), transparent 30%),
+      linear-gradient(135deg, rgba(8, 19, 28, 0.98), rgba(21, 35, 48, 0.96));
+    box-shadow: 0 28px 82px rgba(15, 28, 36, 0.18);
+  }
+
+  .simulation-shell--focus-stage [data-focus-surface="bench-header"] > section,
+  .simulation-shell--focus-stage [data-focus-surface="rail"] > section {
+    color: rgba(248, 250, 252, 0.92);
+    border-color: rgba(226, 232, 240, 0.16);
+    background:
+      radial-gradient(circle at 18% 0%, rgba(30, 166, 162, 0.18), transparent 34%),
+      linear-gradient(135deg, rgba(9, 24, 34, 0.94), rgba(18, 39, 52, 0.9));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 16px 42px rgba(0, 0, 0, 0.18);
+  }
+
+  .simulation-shell--focus-stage [data-focus-surface="bench-header"] > section :where(.lab-label, .text-ink-500, .text-ink-600),
+  .simulation-shell--focus-stage [data-focus-surface="rail"] > section :where(.lab-label, .text-ink-500, .text-ink-600) {
+    color: rgba(153, 246, 228, 0.82);
+  }
+
+  .simulation-shell--focus-stage [data-focus-surface="bench-header"] > section :where(.text-ink-950, .text-ink-900, .text-ink-800, .text-teal-800, .text-sky-800, .text-violet-800, .text-amber-800),
+  .simulation-shell--focus-stage [data-focus-surface="rail"] > section :where(.text-ink-950, .text-ink-900, .text-ink-800, .text-teal-800, .text-sky-800, .text-violet-800, .text-amber-800) {
+    color: rgba(248, 250, 252, 0.94);
+  }
+
+  .simulation-shell--focus-stage [data-focus-surface="bench-header"] > section :where(.text-ink-700, .text-teal-700, .text-sky-700, .text-violet-700, .text-amber-700),
+  .simulation-shell--focus-stage [data-focus-surface="rail"] > section :where(.text-ink-700, .text-teal-700, .text-sky-700, .text-violet-700, .text-amber-700) {
+    color: rgba(204, 251, 241, 0.88);
+  }
+
+  .simulation-shell--focus-stage [data-focus-surface="bench-header"] [data-testid="concept-v2-bench-active-prompt"],
+  .simulation-shell--focus-stage [data-focus-surface="bench-header"] [data-testid="concept-v2-bench-evidence"],
+  .simulation-shell--focus-stage [data-focus-surface="rail"] > section :where(.bg-white\/55, .bg-white\/45, .bg-white\/70, .bg-white\/76, .bg-white\/80) {
+    border-color: rgba(226, 232, 240, 0.18);
+    background-color: rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  .simulation-shell--focus-stage [data-focus-surface="bench-header"] [data-testid^="concept-v2-bench-flow-"] {
+    border-color: rgba(226, 232, 240, 0.16);
+    background-color: rgba(255, 255, 255, 0.09);
+  }
+
+  .simulation-shell--focus-stage [data-focus-surface="bench-header"] [data-testid^="concept-v2-bench-flow-"] > span:first-child,
+  .simulation-shell--focus-stage [data-focus-surface="bench-header"] > section > div:first-child > span,
+  .simulation-shell--focus-stage [data-focus-surface="bench-header"] [data-testid="concept-v2-bench-evidence"] li {
+    border-color: rgba(226, 232, 240, 0.2);
+    background-color: rgba(255, 255, 255, 0.16);
+    color: rgba(248, 250, 252, 0.94);
+  }
+
+  .simulation-shell--focus-stage [data-focus-surface="bench-header"] :where(.text-ink-400) {
+    color: rgba(148, 163, 184, 0.78);
+  }
+
+  .simulation-shell--focus-stage [data-focus-surface="scene"] > section,
+  .simulation-shell--focus-stage [data-focus-surface="graphs"] > section,
+  .simulation-shell--focus-stage [data-focus-surface="graphs"] figure {
+    color: rgba(248, 250, 252, 0.92);
+    border-color: rgba(226, 232, 240, 0.15);
+    background:
+      radial-gradient(circle at 22% 0%, rgba(30, 166, 162, 0.13), transparent 32%),
+      linear-gradient(180deg, rgba(15, 28, 36, 0.92), rgba(7, 19, 28, 0.94));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.07),
+      0 18px 46px rgba(0, 0, 0, 0.2);
+  }
+
+  .simulation-shell--focus-stage [data-focus-surface="scene"] > section > div:first-child,
+  .simulation-shell--focus-stage [data-focus-surface="graphs"] > section > div:first-child {
+    border-color: rgba(226, 232, 240, 0.12);
+    background: linear-gradient(135deg, rgba(30, 166, 162, 0.13), rgba(78, 166, 223, 0.08));
+  }
+
+  .simulation-shell--focus-stage [data-focus-surface="scene"] > section .lab-label,
+  .simulation-shell--focus-stage [data-focus-surface="graphs"] .lab-label {
+    color: rgba(153, 246, 228, 0.78);
+  }
+
+  .simulation-shell--focus-stage [data-focus-surface="scene"] > section :where(.text-ink-950, .text-ink-900, .text-ink-800),
+  .simulation-shell--focus-stage [data-focus-surface="graphs"] :where(.text-ink-950, .text-ink-900, .text-ink-800) {
+    color: rgba(248, 250, 252, 0.9);
+  }
+
+  .simulation-shell--focus-stage [data-focus-surface="scene"] > section :where(.text-ink-700, .text-ink-600, .text-ink-500),
+  .simulation-shell--focus-stage [data-focus-surface="graphs"] :where(.text-ink-700, .text-ink-600, .text-ink-500) {
+    color: rgba(203, 213, 225, 0.78);
+  }
+
+  .simulation-shell--focus-stage [data-focus-surface="graphs"] :where(.bg-paper, .bg-paper-strong) {
+    border-color: rgba(226, 232, 240, 0.13);
+    background-color: rgba(255, 255, 255, 0.075);
+  }
+
+  .simulation-shell--focus-stage [data-focus-surface="scene"] svg > rect:first-of-type,
+  .simulation-shell--focus-stage [data-focus-surface="graphs"] svg > rect:first-of-type {
+    fill: rgba(5, 16, 24, 0.74);
+  }
+
+  .simulation-shell--focus-stage [data-focus-surface="graphs"] svg > rect:nth-of-type(2) {
+    fill: rgba(255, 255, 255, 0.045);
+    stroke: rgba(226, 232, 240, 0.14);
+  }
+
+  .simulation-shell--focus-stage :where([data-focus-surface="scene"], [data-focus-surface="graphs"]) svg :where(.fill-ink-950, .fill-ink-900, .fill-ink-800) {
+    fill: rgba(248, 250, 252, 0.86);
+  }
+
+  .simulation-shell--focus-stage :where([data-focus-surface="scene"], [data-focus-surface="graphs"]) svg :where(.fill-ink-700, .fill-ink-600, .fill-ink-500) {
+    fill: rgba(203, 213, 225, 0.76);
+  }
+
+  .simulation-shell--focus-stage :where([data-focus-surface="scene"], [data-focus-surface="graphs"]) svg :where(line[stroke^="rgba(15,28,36"], rect[stroke^="rgba(15,28,36"]),
+  .simulation-shell--focus-stage [data-focus-surface="graphs"] svg :where(line[stroke^="rgba(15, 28, 36"], rect[stroke^="rgba(15, 28, 36"]) {
+    stroke: rgba(226, 232, 240, 0.18);
+  }
+
   .page-band {
     @apply rounded-[28px] border border-line bg-paper-strong/94 shadow-surface;
   }

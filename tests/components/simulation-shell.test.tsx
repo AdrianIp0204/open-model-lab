@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { SimulationShell } from "@/components/simulations/SimulationShell";
 
@@ -169,6 +169,35 @@ describe("SimulationShell", () => {
         Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
     expect(guides).toBeNull();
+  });
+
+  it("marks the focus-stage tone for concept benches that need stronger visual hierarchy", () => {
+    const { container } = render(
+      <SimulationShell
+        accessibilityDescription="Interactive lab status"
+        stageTone="focus"
+        transport={<div data-testid="transport">Transport</div>}
+        benchHeader={<section data-testid="bench-header">Bench header</section>}
+        scene={<section data-testid="scene">Scene</section>}
+        controls={<div data-testid="controls">Controls</div>}
+        interactionRail={<section data-testid="interaction-rail">Interaction rail</section>}
+        graphs={<section data-testid="graphs">Graphs</section>}
+        equations={<div data-testid="equations">Equations</div>}
+        status={<div data-testid="status">Status</div>}
+      />,
+    );
+
+    const shell = container.querySelector('[data-stage-tone="focus"]');
+    const benchHeaderSlot = container.querySelector('[data-focus-surface="bench-header"]');
+    const sceneSlot = container.querySelector('[data-focus-surface="scene"]');
+    const railSlot = container.querySelector('[data-focus-surface="rail"]');
+    const graphsSlot = container.querySelector('[data-focus-surface="graphs"]');
+
+    expect(shell).toHaveClass("simulation-shell--focus-stage");
+    expect(benchHeaderSlot).toContainElement(screen.getByTestId("bench-header"));
+    expect(sceneSlot).toContainElement(screen.getByTestId("scene"));
+    expect(railSlot).toContainElement(screen.getByTestId("interaction-rail"));
+    expect(graphsSlot).toContainElement(screen.getByTestId("graphs"));
   });
 
   it("keeps notice prompts below the bench while the first action stays by controls", () => {

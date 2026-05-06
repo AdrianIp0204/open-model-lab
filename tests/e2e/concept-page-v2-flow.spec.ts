@@ -50,6 +50,7 @@ test.describe("concept page v2 flow", () => {
         await gotoAndExpectOk(page, "/en/concepts/simple-harmonic-motion");
 
         const guidedLiveLab = page.getByTestId("concept-v2-guided-live-lab");
+        const focusStageShell = page.locator('[data-stage-tone="focus"]');
         const scene = page.getByTestId("simulation-shell-scene");
         const benchBrief = page.getByTestId("concept-v2-bench-brief");
         const stepSlot = page.getByTestId("concept-v2-step-card-slot");
@@ -61,6 +62,8 @@ test.describe("concept page v2 flow", () => {
         const stepMap = page.getByTestId("concept-v2-step-map");
 
         await expect(page.getByTestId("concept-v2-start-here")).toHaveCount(0);
+        await expect(focusStageShell).toBeVisible();
+        await expect(focusStageShell).toHaveClass(/simulation-shell--focus-stage/);
         await expect(guidedLiveLab).toBeVisible();
         await expect(benchBrief).toBeVisible();
         await expect(benchBrief).toContainText("Concept Bench V2");

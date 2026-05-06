@@ -8517,6 +8517,7 @@ export function ConceptSimulationRenderer({
         }}
       />
     ) : null;
+  const stageTone = concept.slug === "simple-harmonic-motion" ? "focus" : "paper";
 
   useEffect(() => {
     if (!isChallengeHashActive || typeof window === "undefined") {
@@ -8582,6 +8583,7 @@ export function ConceptSimulationRenderer({
     >
       <SimulationShell
         className={className}
+        stageTone={stageTone}
         accessibilityDescription={`${simulationDescription} ${stateDescription}`}
         setupAnchorId={conceptShareAnchorIds.liveBench}
         setupAnchorLabel={t("setupAnchorLabel", { title: concept.title })}
