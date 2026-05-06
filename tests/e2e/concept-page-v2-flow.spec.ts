@@ -51,6 +51,7 @@ test.describe("concept page v2 flow", () => {
 
         const guidedLiveLab = page.getByTestId("concept-v2-guided-live-lab");
         const scene = page.getByTestId("simulation-shell-scene");
+        const benchBrief = page.getByTestId("concept-v2-bench-brief");
         const stepSlot = page.getByTestId("concept-v2-step-card-slot");
         const currentStepCard = page.getByTestId("concept-v2-current-step-card");
         const railInlineCheck = page.getByTestId("concept-v2-rail-inline-check");
@@ -61,6 +62,18 @@ test.describe("concept page v2 flow", () => {
 
         await expect(page.getByTestId("concept-v2-start-here")).toHaveCount(0);
         await expect(guidedLiveLab).toBeVisible();
+        await expect(benchBrief).toBeVisible();
+        await expect(benchBrief).toContainText("Concept Bench V2");
+        await expect(benchBrief).toContainText("Try");
+        await expect(benchBrief).toContainText("Notice");
+        await expect(benchBrief).toContainText("Explain");
+        await expect(benchBrief).toContainText("Check");
+        await expect(benchBrief.getByTestId("concept-v2-bench-flow-try")).toContainText(
+          "Press play",
+        );
+        await expect(benchBrief.getByTestId("concept-v2-bench-evidence")).toContainText(
+          "Graph: Displacement over time",
+        );
         await expect(scene).toBeInViewport();
         await expect(stepSlot).toBeVisible();
         await expect(currentStepCard).toBeVisible();

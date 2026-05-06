@@ -442,6 +442,7 @@ import { SavedCompareSetupsCard } from "@/components/concepts/SavedCompareSetups
 import {
   getConceptPageBenchSupportTargetId,
   useConceptPagePhase,
+  type ConceptPageGuidedStepContext,
 } from "@/components/concepts/ConceptPagePhaseContext";
 import { WhatToNoticePanel } from "@/components/concepts/WhatToNoticePanel";
 import { useConceptAchievementTracker } from "@/components/concepts/ConceptAchievementTracker";
@@ -6551,6 +6552,181 @@ function shouldResetLiveClockOnSetupChange(kind: SimulationKind) {
   );
 }
 
+type GuidedBenchBriefCopy = {
+  label: string;
+  title: (values: { concept: string }) => string;
+  description: string;
+  stepCounter: (values: { current: number; total: number }) => string;
+  activePromptLabel: string;
+  flowAria: string;
+  tryLabel: string;
+  noticeLabel: string;
+  explainLabel: string;
+  checkLabel: string;
+  checkFallback: string;
+  evidenceLabel: string;
+  revealKinds: Record<"control" | "graph" | "overlay" | "tool" | "section", string>;
+};
+
+const guidedBenchBriefFlowClasses: Record<string, string> = {
+  try: "border-teal-500/22 bg-teal-500/9 text-teal-800",
+  notice: "border-sky-500/22 bg-sky-500/9 text-sky-800",
+  explain: "border-violet-500/20 bg-violet-500/9 text-violet-800",
+  check: "border-amber-500/24 bg-amber-500/10 text-amber-800",
+};
+
+const guidedBenchBriefEvidenceClasses: Record<string, string> = {
+  control: "border-teal-500/20 bg-teal-500/8 text-teal-800",
+  graph: "border-sky-500/20 bg-sky-500/8 text-sky-800",
+  overlay: "border-violet-500/20 bg-violet-500/8 text-violet-800",
+  tool: "border-amber-500/24 bg-amber-500/10 text-amber-800",
+  section: "border-line bg-paper text-ink-700",
+};
+
+function GuidedConceptBenchBrief({
+  conceptTitle,
+  guidedStep,
+  copy,
+}: {
+  conceptTitle: string;
+  guidedStep: ConceptPageGuidedStepContext;
+  copy: GuidedBenchBriefCopy;
+}) {
+  const activeStep = guidedStep.step;
+  const flowItems = [
+    {
+      id: "try",
+      label: copy.tryLabel,
+      text: activeStep.doThis,
+    },
+    {
+      id: "notice",
+      label: copy.noticeLabel,
+      text: activeStep.notice,
+    },
+    {
+      id: "explain",
+      label: copy.explainLabel,
+      text: activeStep.explain,
+    },
+    {
+      id: "check",
+      label: copy.checkLabel,
+      text: activeStep.inlineCheck?.title ?? copy.checkFallback,
+    },
+  ] as const;
+  const evidenceItems = activeStep.revealItems.slice(0, 5);
+
+  return (
+    <section
+      data-testid="concept-v2-bench-brief"
+      className="overflow-hidden rounded-[22px] border border-teal-500/18 bg-[linear-gradient(135deg,rgba(20,184,166,0.10),rgba(14,165,233,0.08)_42%,rgba(255,255,255,0.86))] px-3 py-2.5 shadow-[0_1px_0_rgba(255,255,255,0.82)_inset] sm:px-4"
+    >
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="min-w-0 max-w-3xl">
+          <p className="lab-label">{copy.label}</p>
+          <RichMathText
+            as="p"
+            content={copy.title({ concept: conceptTitle })}
+            className="mt-1 break-words text-sm font-semibold leading-5 text-ink-950 sm:text-base sm:leading-6"
+          />
+          <p className="sr-only">
+            {copy.description}
+          </p>
+          <div
+            data-testid="concept-v2-bench-active-prompt"
+            className="mt-2 flex flex-col gap-1 rounded-[14px] border border-white/80 bg-white/76 px-2.5 py-1.5 shadow-sm sm:flex-row sm:items-start sm:gap-2"
+          >
+            <p className="shrink-0 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-teal-700">
+              {copy.activePromptLabel}
+            </p>
+            <RichMathText
+              as="p"
+              content={activeStep.goal}
+              className="min-w-0 break-words text-xs font-semibold leading-5 text-ink-950 sm:line-clamp-1"
+            />
+          </div>
+        </div>
+        <span className="inline-flex shrink-0 rounded-full border border-line bg-white/88 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-600 shadow-sm">
+          {copy.stepCounter({ current: guidedStep.index + 1, total: guidedStep.count })}
+        </span>
+      </div>
+
+      <div className="mt-2.5 flex flex-wrap items-center gap-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-500">
+        <span>{copy.tryLabel}</span>
+        <span aria-hidden="true" className="text-ink-400">→</span>
+        <span>{copy.noticeLabel}</span>
+        <span aria-hidden="true" className="text-ink-400">→</span>
+        <span>{copy.explainLabel}</span>
+        <span aria-hidden="true" className="text-ink-400">→</span>
+        <span>{copy.checkLabel}</span>
+      </div>
+
+      <ol
+        data-testid="concept-v2-bench-flow"
+        aria-label={copy.flowAria}
+        className="mt-2 grid gap-2 md:grid-cols-2 lg:grid-cols-4"
+      >
+        {flowItems.map((item, index) => (
+          <li
+            key={item.id}
+            data-testid={`concept-v2-bench-flow-${item.id}`}
+            className={[
+              "grid grid-cols-[auto_minmax(0,1fr)] items-start gap-1.5 rounded-[14px] border px-2 py-1.5",
+              guidedBenchBriefFlowClasses[item.id],
+            ].join(" ")}
+          >
+            <span
+              aria-hidden="true"
+              className="mt-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full border border-white/80 bg-white/82 text-[0.58rem] font-semibold shadow-sm"
+            >
+              {index + 1}
+            </span>
+            <span className="min-w-0">
+              <span className="block text-[0.62rem] font-semibold uppercase tracking-[0.14em]">
+                {item.label}
+              </span>
+              <RichMathText
+                as="span"
+                content={item.text}
+                className="mt-0.5 hidden min-w-0 break-words text-[0.72rem] font-medium leading-4 text-ink-800 sm:line-clamp-1 sm:block"
+              />
+            </span>
+          </li>
+        ))}
+      </ol>
+
+      {evidenceItems.length ? (
+        <div
+          data-testid="concept-v2-bench-evidence"
+          className="mt-2 flex flex-wrap items-center gap-1.5 rounded-[16px] border border-line/80 bg-white/70 px-2.5 py-2"
+        >
+          <p className="mr-1 text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-ink-500">
+            {copy.evidenceLabel}
+          </p>
+          <ul className="flex flex-wrap gap-1.5">
+            {evidenceItems.map((item) => (
+              <li
+                key={`${item.kind}-${item.id}`}
+                className={[
+                  "inline-flex max-w-full rounded-full border px-2 py-0.5 text-[0.68rem] font-semibold shadow-sm",
+                  guidedBenchBriefEvidenceClasses[item.kind],
+                ].join(" ")}
+              >
+                <RichMathText
+                  as="span"
+                  content={`${copy.revealKinds[item.kind]}: ${item.label}`}
+                  className="min-w-0 line-clamp-1 break-words"
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+    </section>
+  );
+}
+
 export function ConceptSimulationRenderer({
   concept,
   readNext = [],
@@ -6570,6 +6746,7 @@ export function ConceptSimulationRenderer({
   const activeConceptPagePhaseId = conceptPagePhase?.activePhaseId ?? null;
   const guidedStepCard = conceptPagePhase?.guidedStepCard ?? null;
   const guidedReveal = conceptPagePhase?.guidedReveal ?? null;
+  const guidedStep = conceptPagePhase?.guidedStep ?? null;
   const isGuidedLessonMode = Boolean(guidedStepCard);
   const [activeLocationHash, setActiveLocationHash] = useState<string>(() =>
     typeof window === "undefined" ? "" : window.location.hash,
@@ -8312,6 +8489,34 @@ export function ConceptSimulationRenderer({
         {afterBench}
       </div>
     ) : null;
+  const guidedBenchBrief =
+    concept.slug === "simple-harmonic-motion" && guidedStep ? (
+      <GuidedConceptBenchBrief
+        conceptTitle={concept.title}
+        guidedStep={guidedStep}
+        copy={{
+          label: t("benchBrief.label"),
+          title: (values) => t("benchBrief.title", values),
+          description: t("benchBrief.description"),
+          stepCounter: (values) => t("benchBrief.stepCounter", values),
+          activePromptLabel: t("benchBrief.activePromptLabel"),
+          flowAria: t("benchBrief.flowAria"),
+          tryLabel: t("benchBrief.tryLabel"),
+          noticeLabel: t("benchBrief.noticeLabel"),
+          explainLabel: t("benchBrief.explainLabel"),
+          checkLabel: t("benchBrief.checkLabel"),
+          checkFallback: t("benchBrief.checkFallback"),
+          evidenceLabel: t("benchBrief.evidenceLabel"),
+          revealKinds: {
+            control: t("benchBrief.revealKinds.control"),
+            graph: t("benchBrief.revealKinds.graph"),
+            overlay: t("benchBrief.revealKinds.overlay"),
+            tool: t("benchBrief.revealKinds.tool"),
+            section: t("benchBrief.revealKinds.section"),
+          },
+        }}
+      />
+    ) : null;
 
   useEffect(() => {
     if (!isChallengeHashActive || typeof window === "undefined") {
@@ -8400,7 +8605,7 @@ export function ConceptSimulationRenderer({
             />
           ) : null
         }
-        benchHeader={null}
+        benchHeader={guidedBenchBrief}
         notice={null}
         scene={
           <RuntimeScene

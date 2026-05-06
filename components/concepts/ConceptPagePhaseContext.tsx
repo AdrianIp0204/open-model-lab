@@ -2,8 +2,15 @@
 
 import { createContext, useContext, type ReactNode } from "react";
 import type { ConceptLearningPhaseId } from "@/lib/content/concept-learning-phases";
+import type { ResolvedConceptPageV2Step } from "@/lib/content/concept-page-v2";
 import type { ConceptPageV2Reveal } from "@/lib/content/schema";
 export { getConceptPageBenchSupportTargetId } from "./concept-page-phase-support";
+
+export type ConceptPageGuidedStepContext = {
+  step: ResolvedConceptPageV2Step;
+  index: number;
+  count: number;
+};
 
 type ConceptPagePhaseContextValue = {
   activePhaseId?: ConceptLearningPhaseId | null;
@@ -12,6 +19,7 @@ type ConceptPagePhaseContextValue = {
   }) => void;
   guidedStepCard?: ReactNode;
   guidedStepSupport?: ReactNode;
+  guidedStep?: ConceptPageGuidedStepContext | null;
   guidedReveal?: ConceptPageV2Reveal | null;
 };
 
@@ -24,6 +32,7 @@ export function ConceptPagePhaseProvider({
   returnToSetupArea,
   guidedStepCard,
   guidedStepSupport,
+  guidedStep,
   guidedReveal,
   children,
 }: {
@@ -33,6 +42,7 @@ export function ConceptPagePhaseProvider({
   }) => void;
   guidedStepCard?: ReactNode;
   guidedStepSupport?: ReactNode;
+  guidedStep?: ConceptPageGuidedStepContext | null;
   guidedReveal?: ConceptPageV2Reveal | null;
   children: ReactNode;
 }) {
@@ -43,6 +53,7 @@ export function ConceptPagePhaseProvider({
         returnToSetupArea,
         guidedStepCard,
         guidedStepSupport,
+        guidedStep,
         guidedReveal,
       }}
     >

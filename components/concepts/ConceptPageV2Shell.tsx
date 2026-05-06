@@ -332,6 +332,19 @@ export function ConceptPageV2Shell({
 
   const activeStep =
     model.steps.find((step) => step.id === activeStepId) ?? model.steps[0] ?? null;
+  const activeStepIndex = activeStep
+    ? Math.max(
+        0,
+        model.steps.findIndex((step) => step.id === activeStep.id),
+      )
+    : -1;
+  const guidedStepContext = activeStep
+    ? {
+        step: activeStep,
+        index: activeStepIndex,
+        count: model.steps.length,
+      }
+    : null;
 
   const handleSelectStep = useCallback(
     (stepId: string, options?: { focusLab?: boolean }) => {
@@ -476,6 +489,7 @@ export function ConceptPageV2Shell({
           returnToSetupArea={handleReturnToSetupArea}
           guidedStepCard={lessonRail}
           guidedStepSupport={lessonSupport}
+          guidedStep={guidedStepContext}
           guidedReveal={activeStep?.reveal ?? null}
         >
           {liveLabContent}

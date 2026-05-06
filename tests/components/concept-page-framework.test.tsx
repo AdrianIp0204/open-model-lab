@@ -42,6 +42,17 @@ function GuidedLabProbe() {
       <pre data-testid="guided-reveal-probe">
         {JSON.stringify(context?.guidedReveal ?? null)}
       </pre>
+      <pre data-testid="guided-step-context-probe">
+        {context?.guidedStep
+          ? JSON.stringify({
+              label: context.guidedStep.step.label,
+              index: context.guidedStep.index,
+              count: context.guidedStep.count,
+              doThis: context.guidedStep.step.doThis,
+              inlineCheck: context.guidedStep.step.inlineCheck?.title ?? null,
+            })
+          : "null"}
+      </pre>
       <div data-testid="phase-probe">{context?.activePhaseId ?? "none"}</div>
     </div>
   );
@@ -398,6 +409,12 @@ describe("ConceptPageFramework V2", () => {
     const guidedLiveLab = screen.getByRole("region", { name: "Lesson path" });
     expect(guidedLiveLab).toHaveAttribute("data-testid", "concept-v2-guided-live-lab");
     expect(screen.getByTestId("guided-step-slot")).toHaveTextContent("See one full cycle");
+    expect(screen.getByTestId("guided-step-context-probe")).toHaveTextContent(
+      "See one full cycle",
+    );
+    expect(screen.getByTestId("guided-step-context-probe")).toHaveTextContent(
+      "Predict the next wider swing",
+    );
     expect(screen.getByTestId("guided-reveal-probe")).toHaveTextContent("amplitude");
     expect(screen.getByTestId("phase-probe")).toHaveTextContent("explore");
     expect(screen.getByTestId("concept-v2-current-step-card")).toBeInTheDocument();

@@ -2440,6 +2440,27 @@
       "title": "先按這個探索順序開始",
       "description": "先完成這幾步，再打開更多選項。"
     },
+    "benchBrief": {
+      "label": "概念實驗台 V2",
+      "title": "{concept}：先跑一次循環，再讀公式",
+      "description": "把即時模型當作課程核心：先試一組設定，留意證據，解釋規則，再在實驗台仍可見時完成檢查。",
+      "stepCounter": "步驟 {current}/{total}",
+      "activePromptLabel": "目前提示",
+      "flowAria": "試、留意、解釋、檢查",
+      "tryLabel": "試做",
+      "noticeLabel": "留意",
+      "explainLabel": "解釋",
+      "checkLabel": "檢查",
+      "checkFallback": "跑完這組設定後，用目前步驟卡裡的小檢查確認一次。",
+      "evidenceLabel": "要留在視野中的證據",
+      "revealKinds": {
+        "control": "控制",
+        "graph": "圖表",
+        "overlay": "疊層",
+        "tool": "工具",
+        "section": "段落"
+      }
+    },
     "supportDock": {
       "label": "更多支援",
       "description": "例題、疊加層與額外提示會靠近實驗台，但保持較安靜。"
