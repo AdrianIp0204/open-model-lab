@@ -141,8 +141,14 @@ function getDefaultFocusedOverlayId(
 function mapRuntimeMode(
   runtimeSnapshot: ConceptPageRuntimeSnapshot | null | undefined,
 ): NonNullable<AiLearningContext["simulation"]>["selectedMode"] {
-  if (runtimeSnapshot?.interactionMode === "compare") {
+  const interactionMode = runtimeSnapshot?.interactionMode;
+
+  if (interactionMode === "compare") {
     return "compare";
+  }
+
+  if (interactionMode === "predict") {
+    return "prediction";
   }
 
   return "explore";

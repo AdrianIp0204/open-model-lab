@@ -17,6 +17,10 @@ type StoredAiTokenUsageRow = {
   updated_at: string | null;
 };
 
+type StoredAiTokenUsageRecordRow = StoredAiTokenUsageRow & {
+  accepted: boolean | null;
+};
+
 export type AiMonthlyTokenUsage = {
   userId: string;
   periodYyyymm: string;
@@ -26,6 +30,11 @@ export type AiMonthlyTokenUsage = {
   thoughtsTokens: number;
   requestCount: number;
   updatedAt: string | null;
+};
+
+export type AiMonthlyTokenUsageRecordResult = {
+  accepted: boolean;
+  usage: AiMonthlyTokenUsage;
 };
 
 function readPositiveInteger(value: string | undefined, fallback: number) {
@@ -162,6 +171,53 @@ export async function incrementAiMonthlyTokenUsageForUser(input: {
 
   return normalizeAiMonthlyTokenUsageRow(
     data as StoredAiTokenUsageRow | null,
+    input.userId,
+    periodYyyymm,
+  );
+}
+
+function normalizeAiMonthlyTokenUsageRecordResult(
+  data: StoredAiTokenUsageRecordRow | StoredAiTokenUsageRecordRow[] | null,
+  userId: string,
+  periodYyyymm: string,
+): AiMonthlyTokenUsageRecordResult {
+  const row = Array.isArray(data) ? data[0] : data;
+
+  return {
+    accepted: Boolean(row?.accepted),
+    usage: normalizeAiMonthlyTokenUsageRow(row, userId, periodYyyymm),
+  };
+}
+
+export async function recordAiMonthlyTokenUsageForUser(input: {
+  userId: string;
+  periodYyyymm?: string;
+  usage: AiTokenUsage;
+  monthlyTokenLimit?: number;
+}): Promise<AiMonthlyTokenUsageRecordResult> {
+  const periodYyyymm = input.periodYyyymm ?? getCurrentAiUsagePeriod();
+  const usage = normalizeUsageForStorage(input.usage);
+  const monthlyTokenLimit = Math.max(
+    0,
+    Math.trunc(input.monthlyTokenLimit ?? getAiMonthlyTokenLimit()),
+  );
+  const supabase = createSupabaseServiceRoleClient();
+  const { data, error } = await supabase.rpc("record_user_ai_token_usage_with_limit", {
+    p_user_id: input.userId,
+    p_period_yyyymm: periodYyyymm,
+    p_prompt_tokens: usage.promptTokens,
+    p_completion_tokens: usage.completionTokens,
+    p_thoughts_tokens: usage.thoughtsTokens,
+    p_total_tokens: usage.totalTokens,
+    p_monthly_limit: monthlyTokenLimit,
+  });
+
+  if (error) {
+    throw error;
+  }
+
+  return normalizeAiMonthlyTokenUsageRecordResult(
+    data as StoredAiTokenUsageRecordRow | StoredAiTokenUsageRecordRow[] | null,
     input.userId,
     periodYyyymm,
   );

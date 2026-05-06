@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
-import { aiCoachRequestSchema } from "@/lib/ai/schema";
+import {
+  aiCoachRequestSchema,
+  MAX_AI_COACH_REQUEST_BYTES,
+} from "@/lib/ai/schema";
 import { consumeAiRateLimitSlot } from "@/lib/ai/rate-limit";
 import {
   generateCoachResponseWithGeminiResult,
@@ -10,7 +13,7 @@ import {
   getAiMonthlyTokenLimit,
   getAiMonthlyTokenUsageForUser,
   getCurrentAiUsagePeriod,
-  incrementAiMonthlyTokenUsageForUser,
+  recordAiMonthlyTokenUsageForUser,
 } from "@/lib/ai/token-quota";
 import { hasAccountEntitlementCapability } from "@/lib/account/entitlements";
 import { getAccountSessionForCookieHeader } from "@/lib/account/supabase";
@@ -74,6 +77,18 @@ function isAiFeatureEnabled() {
 
 function isAiLoggingEnabled() {
   return process.env.AI_LOGGING_ENABLED === "true";
+}
+
+function isAiCoachRequestBodyTooLarge(request: Request) {
+  const contentLength = request.headers.get("content-length");
+
+  if (!contentLength) {
+    return false;
+  }
+
+  const parsed = Number.parseInt(contentLength, 10);
+
+  return Number.isFinite(parsed) && parsed > MAX_AI_COACH_REQUEST_BYTES;
 }
 
 async function getServerAccountSessionForAiRequest(request: Request) {
@@ -201,6 +216,15 @@ export async function POST(request: Request) {
 
   let payload: unknown;
 
+  if (isAiCoachRequestBodyTooLarge(request)) {
+    return buildAiCoachErrorResponse({
+      code: "invalid_payload",
+      error: "AI coach payload is too large.",
+      requestId,
+      status: 400,
+    });
+  }
+
   try {
     payload = await request.json();
   } catch {
@@ -317,11 +341,14 @@ export async function POST(request: Request) {
     const result = await generateCoachResponseWithGeminiResult(parsed.data);
 
     if (result.usage) {
+      let quotaRecordResult;
+
       try {
-        await incrementAiMonthlyTokenUsageForUser({
+        quotaRecordResult = await recordAiMonthlyTokenUsageForUser({
           userId: session.user.id,
           periodYyyymm: quotaPeriod,
           usage: result.usage,
+          monthlyTokenLimit: quotaLimit,
         });
       } catch {
         logAiCoachMetadata({
@@ -347,6 +374,37 @@ export async function POST(request: Request) {
           status: 503,
           details: {
             period: quotaPeriod,
+            resetAt: quotaResetAt,
+          },
+        });
+      }
+
+      if (!quotaRecordResult.accepted) {
+        logAiCoachMetadata({
+          requestId,
+          timestamp: new Date(startedAt).toISOString(),
+          mode: parsed.data.mode,
+          pageSlug: parsed.data.context.page.slug,
+          simulationId: parsed.data.context.simulation?.id,
+          success: false,
+          fallbackUsed: result.fallbackUsed,
+          rateLimitKeyKind: "user",
+          validationFailureReason: "ai_monthly_quota_exceeded_after_record",
+          quotaPeriod,
+          usageTotalTokens: result.usage.totalTokenCount,
+          usageEstimated: result.usage.estimated,
+          latencyMs: Date.now() - startedAt,
+        });
+
+        return buildAiCoachErrorResponse({
+          code: "ai_monthly_quota_exceeded",
+          error: "This account has reached the monthly AI Coach token limit.",
+          requestId,
+          status: 429,
+          details: {
+            period: quotaPeriod,
+            limit: quotaLimit,
+            totalTokens: quotaRecordResult.usage.totalTokens,
             resetAt: quotaResetAt,
           },
         });

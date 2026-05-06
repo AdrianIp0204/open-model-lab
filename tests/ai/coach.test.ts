@@ -31,7 +31,7 @@ const mocks = vi.hoisted(() => ({
   generateCoachResponseWithGeminiResultMock: vi.fn(),
   getAccountSessionForCookieHeaderMock: vi.fn(),
   getAiMonthlyTokenUsageForUserMock: vi.fn(),
-  incrementAiMonthlyTokenUsageForUserMock: vi.fn(),
+  recordAiMonthlyTokenUsageForUserMock: vi.fn(),
   getAiMonthlyTokenLimitMock: vi.fn(),
   getCurrentAiUsagePeriodMock: vi.fn(),
   getAiMonthlyQuotaResetAtMock: vi.fn(),
@@ -48,7 +48,7 @@ vi.mock("@/lib/account/supabase", () => ({
 
 vi.mock("@/lib/ai/token-quota", () => ({
   getAiMonthlyTokenUsageForUser: mocks.getAiMonthlyTokenUsageForUserMock,
-  incrementAiMonthlyTokenUsageForUser: mocks.incrementAiMonthlyTokenUsageForUserMock,
+  recordAiMonthlyTokenUsageForUser: mocks.recordAiMonthlyTokenUsageForUserMock,
   getAiMonthlyTokenLimit: mocks.getAiMonthlyTokenLimitMock,
   getCurrentAiUsagePeriod: mocks.getCurrentAiUsagePeriodMock,
   getAiMonthlyQuotaResetAt: mocks.getAiMonthlyQuotaResetAtMock,
@@ -186,6 +186,39 @@ function buildMonthlyUsage(totalTokens = 0) {
 describe("AI coach schemas", () => {
   it("accepts a valid AI learning context", () => {
     expect(aiLearningContextSchema.parse(validContext)).toEqual(validContext);
+  });
+
+  it("rejects oversized learning objective text", () => {
+    const parsed = aiCoachRequestSchema.safeParse(
+      buildRequest({
+        context: {
+          ...validContext,
+          page: {
+            ...validContext.page,
+            learningObjectives: ["x".repeat(801)],
+          },
+        },
+      }),
+    );
+
+    expect(parsed.success).toBe(false);
+  });
+
+  it("rejects oversized formula and key idea arrays", () => {
+    const parsed = aiCoachRequestSchema.safeParse(
+      buildRequest({
+        context: {
+          ...validContext,
+          page: {
+            ...validContext.page,
+            keyIdeas: Array.from({ length: 17 }, (_, index) => `idea ${index}`),
+            formulas: Array.from({ length: 17 }, (_, index) => `formula ${index}`),
+          },
+        },
+      }),
+    );
+
+    expect(parsed.success).toBe(false);
   });
 
   it("rejects an invalid coach mode", () => {
@@ -637,6 +670,42 @@ describe("AI learning context builder", () => {
     expect(context.simulation?.currentState.time).toBe(1.5);
     expect(context.simulation?.selectedMode).toBe("compare");
   });
+
+  it("maps prediction runtime mode into AI prediction context", () => {
+    const concept = getConceptBySlug("simple-harmonic-motion");
+    const runtimeSnapshot: ConceptPageRuntimeSnapshot = {
+      slug: concept.slug,
+      title: concept.title,
+      topic: concept.topic,
+      params: concept.simulation.defaults,
+      time: 0,
+      timeSource: "live",
+      activeGraphId: concept.graphs[0].id,
+      interactionMode: "predict",
+      activeCompareTarget: null,
+      activePresetId: null,
+      overlayValues: {},
+      focusedOverlayId: null,
+      compare: null,
+      featureAvailability: {
+        prediction: true,
+        compare: true,
+        challenge: true,
+        guidedOverlays: true,
+        noticePrompts: true,
+        workedExamples: true,
+        quickTest: true,
+      },
+    };
+
+    const context = buildAiLearningContext({
+      concept,
+      runtimeSnapshot,
+      locale: "en",
+    });
+
+    expect(context.simulation?.selectedMode).toBe("prediction");
+  });
 });
 
 describe("AI coach route", () => {
@@ -651,7 +720,10 @@ describe("AI coach route", () => {
     delete process.env.AI_TRUST_CLOUDFLARE_CONNECTING_IP;
     mocks.getAccountSessionForCookieHeaderMock.mockResolvedValue(buildAccountSession());
     mocks.getAiMonthlyTokenUsageForUserMock.mockResolvedValue(buildMonthlyUsage(0));
-    mocks.incrementAiMonthlyTokenUsageForUserMock.mockResolvedValue(buildMonthlyUsage(12));
+    mocks.recordAiMonthlyTokenUsageForUserMock.mockResolvedValue({
+      accepted: true,
+      usage: buildMonthlyUsage(12),
+    });
     mocks.getAiMonthlyTokenLimitMock.mockReturnValue(10_000_000);
     mocks.getCurrentAiUsagePeriodMock.mockReturnValue("2026-05");
     mocks.getAiMonthlyQuotaResetAtMock.mockReturnValue("2026-06-01T00:00:00.000Z");
@@ -673,7 +745,7 @@ describe("AI coach route", () => {
     mocks.generateCoachResponseWithGeminiResultMock.mockReset();
     mocks.getAccountSessionForCookieHeaderMock.mockReset();
     mocks.getAiMonthlyTokenUsageForUserMock.mockReset();
-    mocks.incrementAiMonthlyTokenUsageForUserMock.mockReset();
+    mocks.recordAiMonthlyTokenUsageForUserMock.mockReset();
     mocks.getAiMonthlyTokenLimitMock.mockReset();
     mocks.getCurrentAiUsagePeriodMock.mockReset();
     mocks.getAiMonthlyQuotaResetAtMock.mockReset();
@@ -713,6 +785,33 @@ describe("AI coach route", () => {
     expect(response.status).toBe(400);
     expect(payload.code).toBe("invalid_payload");
     expect(mocks.generateCoachResponseWithGeminiResultMock).not.toHaveBeenCalled();
+  });
+
+  it("rejects oversized context before rate limit, quota, or Gemini", async () => {
+    process.env.AI_RATE_LIMIT_MAX_REQUESTS = "1";
+
+    const oversizedResponse = await postCoachRequest({
+      request: buildRequest({
+        context: {
+          ...validContext,
+          page: {
+            ...validContext.page,
+            learningObjectives: ["x".repeat(801)],
+          },
+        },
+      }),
+    });
+    const oversizedPayload = (await oversizedResponse.json()) as { code: string };
+
+    expect(oversizedResponse.status).toBe(400);
+    expect(oversizedPayload.code).toBe("invalid_payload");
+    expect(mocks.getAiMonthlyTokenUsageForUserMock).not.toHaveBeenCalled();
+    expect(mocks.recordAiMonthlyTokenUsageForUserMock).not.toHaveBeenCalled();
+    expect(mocks.generateCoachResponseWithGeminiResultMock).not.toHaveBeenCalled();
+
+    const validResponseAfterInvalidPayload = await postCoachRequest();
+
+    expect(validResponseAfterInvalidPayload.status).toBe(200);
   });
 
   it("returns 503 when AI features are disabled", async () => {
@@ -808,7 +907,7 @@ describe("AI coach route", () => {
     expect(firstResponse.status).toBe(200);
 
     mocks.getAiMonthlyTokenUsageForUserMock.mockClear();
-    mocks.incrementAiMonthlyTokenUsageForUserMock.mockClear();
+    mocks.recordAiMonthlyTokenUsageForUserMock.mockClear();
     mocks.generateCoachResponseWithGeminiResultMock.mockClear();
 
     const secondResponse = await postCoachRequest();
@@ -817,7 +916,7 @@ describe("AI coach route", () => {
     expect(secondResponse.status).toBe(429);
     expect(payload.code).toBe("rate_limited");
     expect(mocks.getAiMonthlyTokenUsageForUserMock).not.toHaveBeenCalled();
-    expect(mocks.incrementAiMonthlyTokenUsageForUserMock).not.toHaveBeenCalled();
+    expect(mocks.recordAiMonthlyTokenUsageForUserMock).not.toHaveBeenCalled();
     expect(mocks.generateCoachResponseWithGeminiResultMock).not.toHaveBeenCalled();
   });
 
@@ -860,9 +959,10 @@ describe("AI coach route", () => {
   it("records Gemini usage metadata after a successful response", async () => {
     await postCoachRequest();
 
-    expect(mocks.incrementAiMonthlyTokenUsageForUserMock).toHaveBeenCalledWith({
+    expect(mocks.recordAiMonthlyTokenUsageForUserMock).toHaveBeenCalledWith({
       userId: "trusted-premium-user",
       periodYyyymm: "2026-05",
+      monthlyTokenLimit: 10_000_000,
       usage: {
         promptTokenCount: 5,
         candidatesTokenCount: 7,
@@ -888,15 +988,50 @@ describe("AI coach route", () => {
 
     await postCoachRequest();
 
-    expect(mocks.incrementAiMonthlyTokenUsageForUserMock).toHaveBeenCalledWith({
+    expect(mocks.recordAiMonthlyTokenUsageForUserMock).toHaveBeenCalledWith({
       userId: "trusted-premium-user",
       periodYyyymm: "2026-05",
+      monthlyTokenLimit: 10_000_000,
       usage: {
         promptTokenCount: 11,
         candidatesTokenCount: 13,
         thoughtsTokenCount: 0,
         totalTokenCount: 24,
         estimated: true,
+      },
+    });
+  });
+
+  it("returns 429 when atomic token recording exceeds the monthly quota", async () => {
+    mocks.getAiMonthlyTokenUsageForUserMock.mockResolvedValue(
+      buildMonthlyUsage(9_999_990),
+    );
+    mocks.recordAiMonthlyTokenUsageForUserMock.mockResolvedValue({
+      accepted: false,
+      usage: buildMonthlyUsage(10_000_002),
+    });
+
+    const response = await postCoachRequest();
+    const payload = (await response.json()) as {
+      code: string;
+      details?: { limit?: number; totalTokens?: number; period?: string };
+    };
+
+    expect(response.status).toBe(429);
+    expect(payload.code).toBe("ai_monthly_quota_exceeded");
+    expect(payload.details?.limit).toBe(10_000_000);
+    expect(payload.details?.totalTokens).toBe(10_000_002);
+    expect(payload.details?.period).toBe("2026-05");
+    expect(mocks.generateCoachResponseWithGeminiResultMock).toHaveBeenCalledTimes(1);
+    expect(mocks.recordAiMonthlyTokenUsageForUserMock).toHaveBeenCalledWith({
+      userId: "trusted-premium-user",
+      periodYyyymm: "2026-05",
+      monthlyTokenLimit: 10_000_000,
+      usage: {
+        promptTokenCount: 5,
+        candidatesTokenCount: 7,
+        thoughtsTokenCount: 0,
+        totalTokenCount: 12,
       },
     });
   });
@@ -916,7 +1051,7 @@ describe("AI coach route", () => {
     expect(response.status).toBe(503);
     expect(payload.code).toBe("ai_provider_unconfigured");
     expect(payload.requestId).toEqual(expect.any(String));
-    expect(mocks.incrementAiMonthlyTokenUsageForUserMock).not.toHaveBeenCalled();
+    expect(mocks.recordAiMonthlyTokenUsageForUserMock).not.toHaveBeenCalled();
   });
 
   it("returns a specific provider error when Gemini transport fails", async () => {
@@ -934,11 +1069,11 @@ describe("AI coach route", () => {
     expect(response.status).toBe(503);
     expect(payload.code).toBe("ai_provider_unavailable");
     expect(payload.requestId).toEqual(expect.any(String));
-    expect(mocks.incrementAiMonthlyTokenUsageForUserMock).not.toHaveBeenCalled();
+    expect(mocks.recordAiMonthlyTokenUsageForUserMock).not.toHaveBeenCalled();
   });
 
   it("returns a specific setup error when token usage cannot be recorded", async () => {
-    mocks.incrementAiMonthlyTokenUsageForUserMock.mockRejectedValue(
+    mocks.recordAiMonthlyTokenUsageForUserMock.mockRejectedValue(
       new Error("quota rpc unavailable"),
     );
 
