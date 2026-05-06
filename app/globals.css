@@ -560,6 +560,34 @@ html[data-theme="dark-lab"] :where(
   background-color: rgba(19, 40, 55, 0.88);
 }
 
+html[data-theme="dark-lab"] .hover\:bg-white:hover,
+html[data-theme="dark-lab"] .hover\:bg-white\/92:hover,
+html[data-theme="dark-lab"] .hover\:bg-white\/90:hover,
+html[data-theme="dark-lab"] .hover\:bg-white\/88:hover,
+html[data-theme="dark-lab"] .hover\:bg-white\/86:hover,
+html[data-theme="dark-lab"] .hover\:bg-white\/85:hover,
+html[data-theme="dark-lab"] .hover\:bg-white\/82:hover,
+html[data-theme="dark-lab"] .hover\:bg-white\/80:hover,
+html[data-theme="dark-lab"] .hover\:bg-white\/78:hover,
+html[data-theme="dark-lab"] .hover\:bg-white\/75:hover,
+html[data-theme="dark-lab"] .hover\:bg-white\/70:hover,
+html[data-theme="dark-lab"] .disabled\:hover\:bg-white\/86:disabled:hover {
+  background-color: rgba(27, 52, 68, 0.96);
+}
+
+html[data-theme="dark-lab"] .group:hover :where(.group-hover\:bg-white) {
+  background-color: rgba(27, 52, 68, 0.96);
+}
+
+html[data-theme="dark-lab"] :where(
+  [class*="bg-[linear-gradient"][class*="rgba(255,255,255"],
+  [class*="bg-[radial-gradient"][class*="rgba(255,255,255"]
+) {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(45, 212, 191, 0.16), transparent 34%),
+    linear-gradient(135deg, rgba(9, 24, 34, 0.96), rgba(19, 40, 55, 0.92));
+}
+
 html[data-theme="dark-lab"] [data-home-live-preview="true"] {
   background-color: #07131d;
 }
