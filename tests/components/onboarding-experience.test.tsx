@@ -103,21 +103,30 @@ describe("OnboardingExperience", () => {
     expect(screen.getByRole("button", { name: /start quick tour/i })).toBeInTheDocument();
   });
 
-  it("keeps the automatic prompt off the home page while manual help stays available", async () => {
+  it("keeps automatic prompts off high-intent entry pages while manual help stays available", async () => {
     vi.useFakeTimers();
-    globalThis.__TEST_PATHNAME__ = "/";
 
-    render(<OnboardingExperience />);
-    await showAutomaticPrompt();
+    for (const pathname of ["/", "/start"] as const) {
+      cleanup();
+      window.localStorage.clear();
+      globalThis.__TEST_PATHNAME__ = pathname;
 
-    expect(
-      screen.queryByRole("dialog", { name: /take a quick look around/i }),
-    ).not.toBeInTheDocument();
+      render(<OnboardingExperience />);
+      await showAutomaticPrompt();
 
-    await openManualHelp();
+      expect(
+        screen.queryByRole("dialog", { name: /take a quick look around/i }),
+      ).not.toBeInTheDocument();
 
-    expect(screen.getByRole("dialog", { name: /^home$/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /start quick tour/i })).toBeInTheDocument();
+      await openManualHelp();
+
+      expect(
+        screen.getByRole("dialog", {
+          name: pathname === "/" ? /^home$/i : /^start$/i,
+        }),
+      ).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: /start quick tour/i })).toBeInTheDocument();
+    }
   });
 
   it("shows contextual help for the current route", async () => {
