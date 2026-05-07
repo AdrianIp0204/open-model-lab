@@ -937,6 +937,93 @@
             "max": 0.034
           }
         ]
+      },
+      {
+        "id": "pfli-ch-higher-same-loudness",
+        "title": "Higher, same loudness cue",
+        "style": "parameter-match",
+        "prompt": "Enter compare mode and make Setup B higher in pitch than Setup A while keeping the amplitude and intensity cue matched.",
+        "successMessage": "Setup B has the higher pitch because frequency rose and the compression spacing tightened, while loudness stays matched because amplitude and the intensity cue did not change.",
+        "setup": {
+          "presetId": "conversation",
+          "interactionMode": "compare",
+          "graphId": "displacement",
+          "overlayIds": [
+            "compressionBands",
+            "motionDirections"
+          ],
+          "note": "Clone Conversation tone into A and B, then edit only Setup B frequency. Do not use amplitude to fake a higher pitch."
+        },
+        "hints": [
+          "Pitch follows frequency, so Setup B needs the higher frequency readout.",
+          "Keep both amplitudes matched if the loudness / intensity cue is supposed to stay the same.",
+          "The compression bands should get closer together for Setup B at the same medium speed."
+        ],
+        "checks": [
+          {
+            "type": "compare-active",
+            "label": "Switch into compare mode and edit Setup B.",
+            "target": "b"
+          },
+          {
+            "type": "graph-active",
+            "label": "Keep the displacement graph open so the tighter spacing is visible.",
+            "graphId": "displacement"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Show the compression-spacing guide.",
+            "overlayId": "compressionBands"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup A near the conversation frequency.",
+            "setup": "a",
+            "param": "frequency",
+            "min": 1.05,
+            "max": 1.15
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Raise Setup B to the higher-pitch frequency.",
+            "setup": "b",
+            "param": "frequency",
+            "min": 1.6,
+            "max": 1.7
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup A on the baseline amplitude.",
+            "setup": "a",
+            "param": "amplitude",
+            "min": 0.095,
+            "max": 0.105
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup B on the same amplitude.",
+            "setup": "b",
+            "param": "amplitude",
+            "min": 0.095,
+            "max": 0.105
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Keep Setup A on the baseline intensity cue.",
+            "setup": "a",
+            "metric": "intensityCue",
+            "min": 0.009,
+            "max": 0.011
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Keep Setup B on the same intensity cue.",
+            "setup": "b",
+            "metric": "intensityCue",
+            "min": 0.009,
+            "max": 0.011
+          }
+        ]
       }
     ]
   },

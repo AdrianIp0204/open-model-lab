@@ -684,7 +684,7 @@ test("opens Standing Waves on its tailored second-harmonic first action", async 
   }
 });
 
-test("opens sound and air-column concepts on their tailored first-action benches", async ({
+test("opens sound concepts on their tailored first-action benches", async ({
   browser,
 }, testInfo) => {
   const desktopCase = viewportCases.find((item) => item.name === "desktop-1440x900");
@@ -705,6 +705,16 @@ test("opens sound and air-column concepts on their tailored first-action benches
       path: "/en/concepts/resonance-air-columns-open-closed-pipes",
       title: "Resonance in Air Columns / Open and Closed Pipes",
       expectedTexts: ["Open tube fundamental", "Start with the boundary overlay"],
+    },
+    {
+      path: "/en/concepts/beats",
+      title: "Beats",
+      expectedTexts: ["Start from Near unison", "Envelope guide"],
+    },
+    {
+      path: "/en/concepts/pitch-frequency-loudness-intensity",
+      title: "Pitch, Frequency, and Loudness / Intensity",
+      expectedTexts: ["Start from Conversation tone", "Controls pitch while the medium speed stays fixed"],
     },
   ];
 

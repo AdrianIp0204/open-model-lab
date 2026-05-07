@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-07T14:02:26.374Z",
+  "generatedAt": "2026-05-07T17:03:30.062Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -487,7 +487,7 @@
       "title": "Pitch, Frequency, and Loudness / Intensity",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/pitch-frequency-loudness-intensity.json",
-      "canonicalSourceHash": "c63c52c428dff694d4a9b8ee4db08c5967f4b0671794c71d5358c5ba156b5f85",
+      "canonicalSourceHash": "c4e2b651356631f15f2c690cb073c6a9f0f2f3d558eea7b15d76f3d8241b7110",
       "subject": "Physics",
       "topic": "Sound",
       "subtopic": "Sound character",
@@ -531,8 +531,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "c63c52c428dff694d4a9b8ee4db08c5967f4b0671794c71d5358c5ba156b5f85",
-          "currentSourceHash": "c63c52c428dff694d4a9b8ee4db08c5967f4b0671794c71d5358c5ba156b5f85"
+          "recordedSourceHash": "c4e2b651356631f15f2c690cb073c6a9f0f2f3d558eea7b15d76f3d8241b7110",
+          "currentSourceHash": "c4e2b651356631f15f2c690cb073c6a9f0f2f3d558eea7b15d76f3d8241b7110"
         },
         "provider": null,
         "translatedAt": null,
@@ -559,7 +559,7 @@
             "variant": "original",
             "locale": "en",
             "recordedSourceHash": "5435e08dba1480e66a003540db661b4a438951d72880c4f11d4f4df1a5b97dcd",
-            "currentSourceHash": "c63c52c428dff694d4a9b8ee4db08c5967f4b0671794c71d5358c5ba156b5f85"
+            "currentSourceHash": "c4e2b651356631f15f2c690cb073c6a9f0f2f3d558eea7b15d76f3d8241b7110"
           },
           "provider": "ollama",
           "translatedAt": "2026-04-29T21:00:11.624Z",
@@ -569,7 +569,7 @@
           "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 19,
+          "fallbackFieldCount": 35,
           "fallbackFieldPaths": [
             "sections.workedExamples.items.id:pitch-from-frequency.resultTemplate",
             "sections.workedExamples.items.id:loudness-from-amplitude.resultTemplate",
@@ -589,7 +589,13 @@
             "simulation.overlays.id:compressionBands.whatToNotice.0",
             "simulation.overlays.id:compressionBands.whyItMatters",
             "simulation.overlays.id:energyTransfer.whatToNotice.0",
-            "simulation.overlays.id:energyTransfer.whyItMatters"
+            "simulation.overlays.id:energyTransfer.whyItMatters",
+            "challengeMode.items.id:pfli-ch-higher-same-loudness.title",
+            "challengeMode.items.id:pfli-ch-higher-same-loudness.prompt",
+            "challengeMode.items.id:pfli-ch-higher-same-loudness.successMessage",
+            "challengeMode.items.id:pfli-ch-higher-same-loudness.setup.note",
+            "challengeMode.items.id:pfli-ch-higher-same-loudness.hints.0",
+            "challengeMode.items.id:pfli-ch-higher-same-loudness.hints.1"
           ]
         }
       }
