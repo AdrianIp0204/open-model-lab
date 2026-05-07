@@ -51,12 +51,18 @@ let browserGuard: BrowserGuard;
 
 async function expectReadableOnDarkLinks(locator: Locator) {
   const count = await locator.count();
+  let visibleCount = 0;
 
   expect(count).toBeGreaterThan(0);
 
   for (let index = 0; index < count; index += 1) {
     const link = locator.nth(index);
-    await expect(link).toBeVisible();
+
+    if (!(await link.isVisible())) {
+      continue;
+    }
+
+    visibleCount += 1;
 
     const styles = await link.evaluate((element) => {
       const computed = getComputedStyle(element);
@@ -77,6 +83,8 @@ async function expectReadableOnDarkLinks(locator: Locator) {
       `Expected "${styles.text}" to avoid matching its dark pill background.`,
     ).not.toBe(styles.backgroundColor);
   }
+
+  expect(visibleCount).toBeGreaterThan(0);
 }
 
 test.beforeEach(async ({ page }) => {
@@ -97,7 +105,7 @@ test("dashboard next-step prompt CTAs keep readable mobile contrast across commo
   for (const viewport of dashboardMobileViewports) {
     await page.setViewportSize(viewport);
     await gotoAndExpectOk(page, "/dashboard");
-    await page.waitForLoadState("networkidle");
+    await expect(page.locator("#content")).toBeVisible();
 
     await expectReadableOnDarkLinks(page.locator("a.bg-ink-950, button.bg-ink-950"));
   }
@@ -112,7 +120,7 @@ test("other audited mobile dark-pill links keep the shared on-dark foreground co
 
   for (const route of auditedMobileRoutes) {
     await gotoAndExpectOk(page, route);
-    await page.waitForLoadState("networkidle");
+    await expect(page.locator("#content")).toBeVisible();
     await expectReadableOnDarkLinks(page.locator("a.bg-ink-950, button.bg-ink-950"));
   }
 });

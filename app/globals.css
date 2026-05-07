@@ -17,7 +17,7 @@
   --ink-700: #d6e0ea;
   --ink-600: #b4c2d0;
   --ink-500: #9aa9b8;
-  --line: rgba(226, 232, 240, 0.16);
+  --line: rgba(226, 232, 240, 0.22);
   --teal-500: #2dd4bf;
   --teal-600: #5eead4;
   --amber-500: #fbbf24;
@@ -162,7 +162,11 @@ select {
 
 @layer utilities {
   .bg-ink-950 {
-    color: var(--paper-strong);
+    color: #fffdf7 !important;
+  }
+
+  .bg-ink-950.text-paper-strong {
+    color: #fffdf7 !important;
   }
 
   .lab-panel {
@@ -254,7 +258,11 @@ select {
   }
 
   .motion-button-solid.bg-ink-950 {
-    color: var(--paper-strong);
+    color: #fffdf7 !important;
+  }
+
+  .motion-button-solid.bg-ink-950.text-paper-strong {
+    color: #fffdf7 !important;
   }
 
   .motion-button-solid:hover,
@@ -527,12 +535,25 @@ html[data-theme="dark-lab"] :where(.text-sky-700, .text-sky-800, .text-sky-900, 
   color: var(--sky-500);
 }
 
+html[data-theme="dark-lab"] :where(.text-emerald-600, .text-emerald-700, .text-emerald-800, .text-emerald-900, .text-emerald-950) {
+  color: #86efac;
+}
+
 html[data-theme="dark-lab"] :where(.text-violet-700, .text-violet-800, .text-violet-900, .text-violet-950) {
   color: #c4b5fd;
 }
 
 html[data-theme="dark-lab"] .bg-ink-950 {
   background-color: #07131d;
+  color: #fffdf7 !important;
+}
+
+html[data-theme="dark-lab"] :where(
+  .disabled\:opacity-45:disabled,
+  .disabled\:opacity-50:disabled,
+  .disabled\:opacity-60:disabled
+) {
+  opacity: 0.78;
 }
 
 html[data-theme="dark-lab"] :where(

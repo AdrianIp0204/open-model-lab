@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { resolveServerLocaleFallback } from "@/i18n/server";

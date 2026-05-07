@@ -565,8 +565,12 @@ export function buildRelativeShareUrl(pathname: string, options: ShareUrlOptions
   return `${url.pathname}${search ? `?${search}` : ""}${normalizedHash ? `#${normalizedHash}` : ""}`;
 }
 
+function isExternalHref(href: string) {
+  return /^[a-z][a-z\d+.-]*:/i.test(href) || href.startsWith("//");
+}
+
 export function localizeShareHref(href: string, locale?: AppLocale) {
-  if (!locale || locale === "en" || href.startsWith("#") || href.startsWith("?")) {
+  if (!locale || href.startsWith("#") || href.startsWith("?") || isExternalHref(href)) {
     return href;
   }
 

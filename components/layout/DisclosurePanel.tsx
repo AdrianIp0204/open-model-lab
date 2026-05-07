@@ -26,6 +26,7 @@ export function DisclosurePanel({
   return (
     <details
       id={id}
+      suppressHydrationWarning
       {...(defaultOpen ? { open: true } : {})}
       className={[
         "group rounded-[28px] border border-line bg-paper-strong/96 p-5 shadow-surface sm:p-6",

@@ -34,7 +34,7 @@ export function PageShell({
 }: PageShellProps) {
   const t = useTranslations("Layout");
   const usesSectionShell = layoutMode === "section-shell" || Boolean(sectionNav);
-  const bottomSafeSpaceClass = showFeedbackWidget ? "pb-28 sm:pb-16" : "pb-16";
+  const bottomSafeSpaceClass = showFeedbackWidget ? "pb-36 sm:pb-16" : "pb-16";
   const mainClassName = usesSectionShell
     ? `page-enter w-full ${bottomSafeSpaceClass} ${className}`.trim()
     : `page-enter mx-auto w-full max-w-[88rem] px-4 ${bottomSafeSpaceClass} pt-4 sm:px-6 sm:pt-5 lg:px-8 ${className}`.trim();
@@ -44,7 +44,7 @@ export function PageShell({
       <a
         href="#content"
         className="pointer-events-none fixed left-4 top-4 z-[60] -translate-y-24 rounded-full bg-ink-950 px-4 py-2 text-sm font-medium opacity-0 shadow-lg transition focus:pointer-events-auto focus:translate-y-0 focus:opacity-100"
-        style={{ color: "var(--paper-strong)" }}
+        style={{ color: "#fffdf7" }}
       >
         {t("skipToContent")}
       </a>

@@ -8,7 +8,7 @@ import {
   type KeyboardEvent,
   type ReactNode,
 } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useLocale } from "next-intl";
 import type { AppLocale } from "@/i18n/routing";
 import { localizeShareHref } from "@/lib/share-links";

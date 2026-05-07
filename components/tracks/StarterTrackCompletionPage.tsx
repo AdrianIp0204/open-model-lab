@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useEffect } from "react";
 import { useLocale } from "next-intl";
 import { AchievementCelebrationToasts } from "@/components/account/AchievementCelebrationToasts";

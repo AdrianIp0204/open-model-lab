@@ -70,11 +70,23 @@ describe("concept page v2 resolver", () => {
     expect(model.wrapUp.reviewHref).toBe("/concepts/oscillation-energy#interactive-lab");
   });
 
-  it("keeps query-only and hash-only concept links on the current localized route", () => {
+  it("keeps query-only, hash-only, and external links out of locale rewriting", () => {
     expect(localizeShareHref("?phase=check#challenge-mode", "zh-HK")).toBe(
       "?phase=check#challenge-mode",
     );
     expect(localizeShareHref("#live-bench", "zh-HK")).toBe("#live-bench");
+    expect(localizeShareHref("https://example.com/demo", "en")).toBe(
+      "https://example.com/demo",
+    );
+    expect(localizeShareHref("//example.com/demo", "zh-HK")).toBe(
+      "//example.com/demo",
+    );
+  });
+
+  it("prefixes default-locale internal links for locale-aware routing", () => {
+    expect(localizeShareHref("/concepts/simple-harmonic-motion", "en")).toBe(
+      "/en/concepts/simple-harmonic-motion",
+    );
   });
 
   it("keeps challenge wrap-up links on the current localized concept route", () => {
