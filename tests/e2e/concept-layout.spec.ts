@@ -168,6 +168,7 @@ async function openConceptPageFromHome(
   await Promise.all([
     page.waitForURL(new RegExp(`${conceptPath.replace(/\//g, "\\/")}$`), {
       timeout: 15_000,
+      waitUntil: "domcontentloaded",
     }),
     conceptLink.click(),
   ]);
@@ -692,7 +693,9 @@ test("renders topic-specific clickable visuals on concept discovery", async ({
   ).toHaveCount(0);
 
   await Promise.all([
-    page.waitForURL(/\/en\/concepts\/uniform-circular-motion$/),
+    page.waitForURL(/\/en\/concepts\/uniform-circular-motion$/, {
+      waitUntil: "domcontentloaded",
+    }),
     ucmCard.locator('[data-testid="learning-visual"]').click(),
   ]);
   browserGuard.assertNoActionableIssues();

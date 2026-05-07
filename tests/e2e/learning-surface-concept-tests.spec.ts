@@ -51,9 +51,12 @@ test("home continue-learning surface keeps concept review primary and opens the 
 
   const testCta = page.getByTestId("home-primary-test-cta-vectors-components");
   await expect(testCta).toHaveText("Take test");
-  await testCta.click();
-
-  await expect(page).toHaveURL(/\/(?:[a-zA-Z-]+\/)?tests\/concepts\/vectors-components$/);
+  await Promise.all([
+    page.waitForURL(/\/(?:[a-zA-Z-]+\/)?tests\/concepts\/vectors-components$/, {
+      waitUntil: "domcontentloaded",
+    }),
+    testCta.click(),
+  ]);
   await expect(page.getByTestId("standalone-concept-test-page")).toBeVisible();
 });
 
@@ -89,7 +92,9 @@ test("starter-track concept steps expose Resume test and restore exact state on 
     /\/(?:[a-zA-Z-]+\/)?tests\/concepts\/simple-harmonic-motion$/,
   );
   await Promise.all([
-    page.waitForURL(/\/(?:[a-zA-Z-]+\/)?tests\/concepts\/simple-harmonic-motion$/),
+    page.waitForURL(/\/(?:[a-zA-Z-]+\/)?tests\/concepts\/simple-harmonic-motion$/, {
+      waitUntil: "domcontentloaded",
+    }),
     testCta.click(),
   ]);
 

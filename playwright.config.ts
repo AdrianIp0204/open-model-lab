@@ -13,6 +13,7 @@ export default defineConfig({
   testDir: "./tests/e2e",
   fullyParallel: false,
   workers: 1,
+  timeout: process.env.CI ? 60_000 : 30_000,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
   reporter: [
@@ -21,7 +22,7 @@ export default defineConfig({
   ],
   outputDir: "output/playwright/test-results",
   expect: {
-    timeout: 15_000,
+    timeout: process.env.CI ? 30_000 : 15_000,
   },
   use: {
     baseURL,

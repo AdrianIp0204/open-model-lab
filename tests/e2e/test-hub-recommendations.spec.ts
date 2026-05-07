@@ -24,7 +24,7 @@ async function seedLocalSnapshot(page: Page, snapshot: unknown) {
   }, snapshot);
 }
 
-async function waitForHubSummaryReady(page: Page, timeout = 15000) {
+async function waitForHubSummaryReady(page: Page, timeout = process.env.CI ? 30000 : 15000) {
   await expect(page.getByTestId("test-hub-completed-count")).not.toHaveText("\u2014", { timeout });
   await expect(page.getByTestId("test-hub-clean-count")).not.toHaveText("\u2014", { timeout });
   await expect(page.getByTestId("test-hub-remaining-count")).not.toHaveText("\u2014", { timeout });

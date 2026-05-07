@@ -69,6 +69,7 @@ test("open first challenge uses the canonical first challenge for the path and b
       /\/en\/concepts\/vectors-components\?challenge=vc-ch-equal-components#challenge-mode$/,
       {
         timeout: 20_000,
+        waitUntil: "domcontentloaded",
       },
     ),
     motionPathCard.getByRole("link", { name: /open first challenge/i }).click(),

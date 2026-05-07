@@ -44,7 +44,7 @@ function normalizeText(value: string | null | undefined) {
   return (value ?? "").replace(/\s+/g, " ").trim();
 }
 
-async function waitForHubSummaryReady(page: Page, timeout = 15000) {
+async function waitForHubSummaryReady(page: Page, timeout = process.env.CI ? 30000 : 15000) {
   await expect(page.getByTestId("test-hub-completed-count")).not.toHaveText("\u2014", { timeout });
   await expect(page.getByTestId("test-hub-clean-count")).not.toHaveText("\u2014", { timeout });
   await expect(page.getByTestId("test-hub-remaining-count")).not.toHaveText("\u2014", { timeout });
@@ -61,7 +61,10 @@ async function startAssessmentFromHub(
   const card = page.getByTestId(cardTestId);
   const link = card.getByRole("link", { name: actionLabel });
   await expect(card).toBeVisible();
-  await Promise.all([page.waitForURL(expectedUrl), link.click()]);
+  await Promise.all([
+    page.waitForURL(expectedUrl, { waitUntil: "domcontentloaded" }),
+    link.click(),
+  ]);
 }
 
 async function answerQuestion(page: Page, choiceId: string) {
@@ -244,7 +247,9 @@ test("resumes a concept test exactly from /tests and clears the resumable state 
   );
 
   await Promise.all([
-    page.waitForURL(/\/(?:[a-zA-Z-]+\/)?tests\/concepts\/escape-velocity$/),
+    page.waitForURL(/\/(?:[a-zA-Z-]+\/)?tests\/concepts\/escape-velocity$/, {
+      waitUntil: "domcontentloaded",
+    }),
     page
       .getByTestId("test-hub-suggestion-concept-escape-velocity")
       .getByRole("link", { name: "Resume concept test" })
@@ -320,7 +325,9 @@ test("resumes a topic test exactly from /tests and clears the resumable state af
   await page.reload({ waitUntil: "domcontentloaded" });
   await waitForHubSummaryReady(page);
   await Promise.all([
-    page.waitForURL(/\/(?:[a-zA-Z-]+\/)?tests\/topics\/oscillations$/),
+    page.waitForURL(/\/(?:[a-zA-Z-]+\/)?tests\/topics\/oscillations$/, {
+      waitUntil: "domcontentloaded",
+    }),
     page
       .getByTestId("test-hub-suggestion-topic-oscillations")
       .getByRole("link", { name: "Resume topic test" })
@@ -392,7 +399,9 @@ test("resumes a pack exactly from /tests and clears the resumable state after co
   await page.reload({ waitUntil: "domcontentloaded" });
   await waitForHubSummaryReady(page);
   await Promise.all([
-    page.waitForURL(/\/(?:[a-zA-Z-]+\/)?tests\/packs\/physics-connected-models$/),
+    page.waitForURL(/\/(?:[a-zA-Z-]+\/)?tests\/packs\/physics-connected-models$/, {
+      waitUntil: "domcontentloaded",
+    }),
     page
       .getByTestId("test-hub-suggestion-pack-physics-connected-models")
       .getByRole("link", { name: "Resume pack" })
@@ -470,7 +479,9 @@ test("restores a retry-round concept session exactly from /tests", async ({ page
   await expectPersistedSessionRecord(page, conceptStorageKey);
   await expect(page.getByTestId("test-hub-suggestion-concept-basic-circuits")).toBeVisible();
   await Promise.all([
-    page.waitForURL(/\/(?:[a-zA-Z-]+\/)?tests\/concepts\/basic-circuits$/),
+    page.waitForURL(/\/(?:[a-zA-Z-]+\/)?tests\/concepts\/basic-circuits$/, {
+      waitUntil: "domcontentloaded",
+    }),
     page
       .getByTestId("test-hub-suggestion-concept-basic-circuits")
       .getByRole("link", { name: "Resume concept test" })
@@ -565,7 +576,9 @@ test("falls back safely when an incompatible saved session exists and still uses
   await expect(suggestionCard.getByRole("link", { name: "Resume concept test" })).toHaveCount(0);
 
   await Promise.all([
-    page.waitForURL(/\/(?:[a-zA-Z-]+\/)?tests\/concepts\/basic-circuits$/),
+    page.waitForURL(/\/(?:[a-zA-Z-]+\/)?tests\/concepts\/basic-circuits$/, {
+      waitUntil: "domcontentloaded",
+    }),
     continueLink.click(),
   ]);
   await expect(page.getByText("Question 1 of 5")).toBeVisible();

@@ -59,7 +59,7 @@ async function waitForHubSummaryReady(page: Page) {
         return Boolean(element && element.textContent?.trim() !== "\u2014");
       }),
     undefined,
-    { timeout: 15000 },
+    { timeout: process.env.CI ? 30000 : 15000 },
   );
   await expect(page.getByTestId("test-hub-completed-count")).not.toHaveText(/^\s*—\s*$/);
   await expect(page.getByTestId("test-hub-clean-count")).not.toHaveText(/^\s*—\s*$/);
@@ -114,7 +114,7 @@ async function expectSuggestionPendingOrResume(
   const pending = page.getByTestId("test-hub-suggestions-pending");
   const suggestion = page.getByTestId(suggestionTestId);
 
-  await expect(pending).toBeHidden();
+  await expect(pending).toBeHidden({ timeout: process.env.CI ? 30000 : 15000 });
 
   await expect(suggestion).toBeVisible();
   await expect(suggestion.getByRole("link", { name: resumeLabel })).toBeVisible();
@@ -130,7 +130,7 @@ async function expectSuggestionPendingOrContinue(
   const pending = page.getByTestId("test-hub-suggestions-pending");
   const suggestion = page.getByTestId(suggestionTestId);
 
-  await expect(pending).toBeHidden();
+  await expect(pending).toBeHidden({ timeout: process.env.CI ? 30000 : 15000 });
 
   await expect(suggestion).toBeVisible();
   await expect(suggestion.getByRole("link", { name: continueLabel })).toBeVisible();

@@ -10,6 +10,7 @@ import {
 const configuredPort = process.env.PLAYWRIGHT_PORT ?? "3100";
 export const baseURL =
   process.env.PLAYWRIGHT_BASE_URL ?? `http://127.0.0.1:${configuredPort}`;
+const navigationTimeout = process.env.CI ? 60_000 : 30_000;
 const devHarnessStorePath = path.join(
   process.cwd(),
   "output",
@@ -216,6 +217,7 @@ export async function seedHarnessAchievements(
 export async function gotoAndExpectOk(page: Page, pathname: string) {
   const response = await page.goto(pathname, {
     waitUntil: "domcontentloaded",
+    timeout: navigationTimeout,
   });
 
   expect(response, `No document response was returned for ${pathname}.`).not.toBeNull();

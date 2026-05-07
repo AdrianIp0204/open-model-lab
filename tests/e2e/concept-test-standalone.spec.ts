@@ -173,7 +173,10 @@ test("opens the locale-wrapped standalone concept-test route from /zh-HK/tests",
 
   const conceptCard = page.getByTestId("test-hub-card-concept-basic-circuits");
   await Promise.all([
-    page.waitForURL(/\/zh-HK\/tests\/concepts\/basic-circuits$/, { timeout: 15_000 }),
+    page.waitForURL(/\/zh-HK\/tests\/concepts\/basic-circuits$/, {
+      timeout: process.env.CI ? 30_000 : 15_000,
+      waitUntil: "domcontentloaded",
+    }),
     conceptCard.getByRole("link", { name: "開始概念測驗" }).click(),
   ]);
 

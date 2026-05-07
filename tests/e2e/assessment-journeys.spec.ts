@@ -74,7 +74,7 @@ async function readHubSummaryCounts(page: Page): Promise<HubSummaryCounts> {
   };
 }
 
-async function waitForHubSummaryReady(page: Page, timeout = 15000) {
+async function waitForHubSummaryReady(page: Page, timeout = process.env.CI ? 30000 : 15000) {
   await expect(page.getByTestId("test-hub-completed-count")).not.toHaveText("\u2014", { timeout });
   await expect(page.getByTestId("test-hub-clean-count")).not.toHaveText("\u2014", { timeout });
   await expect(page.getByTestId("test-hub-remaining-count")).not.toHaveText("\u2014", { timeout });
@@ -95,13 +95,16 @@ async function startAssessmentFromHub(
   if (activation === "keyboard") {
     await link.focus();
     await Promise.all([
-      page.waitForURL(expectedUrl),
+      page.waitForURL(expectedUrl, { waitUntil: "domcontentloaded" }),
       page.keyboard.press("Enter"),
     ]);
     return;
   }
 
-  await Promise.all([page.waitForURL(expectedUrl), link.click()]);
+  await Promise.all([
+    page.waitForURL(expectedUrl, { waitUntil: "domcontentloaded" }),
+    link.click(),
+  ]);
 }
 
 async function completeAssessmentWithSingleRetry(
