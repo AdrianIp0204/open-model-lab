@@ -238,6 +238,49 @@ describe("ConceptPageFramework V2", () => {
     expect(initialState.focusedOverlayId).toBe("nodes");
   });
 
+  it.each([
+    {
+      slug: "sound-waves-longitudinal-motion",
+      activePresetId: "baseline",
+      activeGraphId: "displacement",
+      paramChecks: { waveSpeed: 2.4, wavelength: 1.8, probeX: 2.25 },
+      overlays: ["motionDirections", "compressionBands"],
+      focusedOverlayId: "motionDirections",
+    },
+    {
+      slug: "doppler-effect",
+      activePresetId: "city-pass",
+      activeGraphId: "source-spacing",
+      paramChecks: { sourceSpeed: 0.55, observerSpeed: 0, observerAhead: true },
+      overlays: ["frontBackSpacing", "motionVectors"],
+      focusedOverlayId: "frontBackSpacing",
+    },
+    {
+      slug: "resonance-air-columns-open-closed-pipes",
+      activePresetId: "open-open-fundamental",
+      activeGraphId: "shape",
+      paramChecks: { length: 1.2, closedEnd: false, resonanceOrder: 1, probeX: 0.3 },
+      overlays: ["boundaryRules", "motionNodes"],
+      focusedOverlayId: "boundaryRules",
+    },
+  ])("applies $slug authored first-action setup to the live bench", (fixture) => {
+    renderFramework(fixture.slug);
+
+    const initialState = JSON.parse(
+      screen.getByTestId("initial-simulation-state-probe").textContent ?? "null",
+    ) as ResolvedConceptSimulationState;
+
+    expect(initialState.activePresetId).toBe(fixture.activePresetId);
+    expect(initialState.activeGraphId).toBe(fixture.activeGraphId);
+    for (const [param, expectedValue] of Object.entries(fixture.paramChecks)) {
+      expect(initialState.params[param]).toBe(expectedValue);
+    }
+    for (const overlayId of fixture.overlays) {
+      expect(initialState.overlayValues[overlayId]).toBe(true);
+    }
+    expect(initialState.focusedOverlayId).toBe(fixture.focusedOverlayId);
+  });
+
   it("keeps restored or shared bench state ahead of the concept V2 start setup", () => {
     const concept = getConceptBySlug("damping-resonance");
     const restoredState: ResolvedConceptSimulationState = {

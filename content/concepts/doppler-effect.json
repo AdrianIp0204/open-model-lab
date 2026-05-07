@@ -514,12 +514,25 @@
     "ui": {
       "initialGraphId": "source-spacing",
       "primaryGraphIds": [
-        "source-spacing"
+        "source-spacing",
+        "observer-response",
+        "displacement"
       ],
       "primaryControlIds": [
-        "sourceSpeed"
+        "sourceSpeed",
+        "observerAhead",
+        "observerSpeed"
       ],
-      "primaryPresetIds": []
+      "primaryPresetIds": [
+        "city-pass",
+        "approaching-listener",
+        "behind-trailing"
+      ],
+      "starterExploreTasks": [
+        "Start from City pass and compare the compressed front spacing with the stretched rear spacing.",
+        "Switch the listener behind the same moving source and predict the pitch shift before opening the observer graph.",
+        "Move the observer toward or away and separate arrival-rate changes from wavefront spacing already in the medium."
+      ]
     },
     "controls": [
       {

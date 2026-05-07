@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-07T12:24:26.259Z",
+  "generatedAt": "2026-05-07T14:02:26.374Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -369,7 +369,7 @@
       "title": "Sound Waves and Longitudinal Motion",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/sound-waves-longitudinal-motion.json",
-      "canonicalSourceHash": "fb1034cde3f9aa044e31f6a6b1ddf10f51802279a2dd32541cbaef1d65e401af",
+      "canonicalSourceHash": "93680afbe2c5c8c694639d73891bbe6622a4646e197bc8a38a15b53303050e59",
       "subject": "Physics",
       "topic": "Sound",
       "subtopic": "Sound in a medium",
@@ -412,8 +412,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "fb1034cde3f9aa044e31f6a6b1ddf10f51802279a2dd32541cbaef1d65e401af",
-          "currentSourceHash": "fb1034cde3f9aa044e31f6a6b1ddf10f51802279a2dd32541cbaef1d65e401af"
+          "recordedSourceHash": "93680afbe2c5c8c694639d73891bbe6622a4646e197bc8a38a15b53303050e59",
+          "currentSourceHash": "93680afbe2c5c8c694639d73891bbe6622a4646e197bc8a38a15b53303050e59"
         },
         "provider": null,
         "translatedAt": null,
@@ -440,7 +440,7 @@
             "variant": "original",
             "locale": "en",
             "recordedSourceHash": "146a5d4b29ef3a787d703fe0a479fcb2ed0bb3dc5bd93473dd4b7a95234dcb23",
-            "currentSourceHash": "fb1034cde3f9aa044e31f6a6b1ddf10f51802279a2dd32541cbaef1d65e401af"
+            "currentSourceHash": "93680afbe2c5c8c694639d73891bbe6622a4646e197bc8a38a15b53303050e59"
           },
           "provider": "manual",
           "translatedAt": "2026-04-29T19:29:25.657Z",
@@ -450,7 +450,7 @@
           "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 91,
+          "fallbackFieldCount": 94,
           "fallbackFieldPaths": [
             "sections.workedExamples.items.id:sound-travel-timing.resultTemplate",
             "sections.workedExamples.items.id:local-compression-cue.variables.id:time.label",
@@ -468,15 +468,15 @@
             "simulation.ui.primaryPresetIds.0",
             "simulation.ui.primaryPresetIds.1",
             "simulation.ui.primaryPresetIds.2",
+            "simulation.ui.starterExploreTasks.0",
+            "simulation.ui.starterExploreTasks.1",
+            "simulation.ui.starterExploreTasks.2",
             "simulation.presets.id:fast-medium.label",
             "simulation.presets.id:fast-medium.description",
             "simulation.presets.id:closer-compressions.label",
             "simulation.presets.id:closer-compressions.description",
             "simulation.presets.id:strong-compression.label",
-            "simulation.presets.id:strong-compression.description",
-            "simulation.presets.id:far-probe.label",
-            "simulation.presets.id:far-probe.description",
-            "simulation.presets.id:one-wavelength-farther.label"
+            "simulation.presets.id:strong-compression.description"
           ]
         }
       }
@@ -717,7 +717,7 @@
       "title": "Doppler Effect",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/doppler-effect.json",
-      "canonicalSourceHash": "471108c85c9925605e4f09578d2b69dd7e2b91808a4d184d17a71d742670e4c2",
+      "canonicalSourceHash": "4f151b211bde54e6bc9a19c2730e246b0f32ba899a1a9f2b33d7b5ad928dcf70",
       "subject": "Physics",
       "topic": "Waves",
       "subtopic": "Sound with motion",
@@ -760,8 +760,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "471108c85c9925605e4f09578d2b69dd7e2b91808a4d184d17a71d742670e4c2",
-          "currentSourceHash": "471108c85c9925605e4f09578d2b69dd7e2b91808a4d184d17a71d742670e4c2"
+          "recordedSourceHash": "4f151b211bde54e6bc9a19c2730e246b0f32ba899a1a9f2b33d7b5ad928dcf70",
+          "currentSourceHash": "4f151b211bde54e6bc9a19c2730e246b0f32ba899a1a9f2b33d7b5ad928dcf70"
         },
         "provider": null,
         "translatedAt": null,
@@ -788,7 +788,7 @@
             "variant": "original",
             "locale": "en",
             "recordedSourceHash": "38f0da0d680955811ad37278d9d4cb194b0da17cefe703b9d58260d781180060",
-            "currentSourceHash": "471108c85c9925605e4f09578d2b69dd7e2b91808a4d184d17a71d742670e4c2"
+            "currentSourceHash": "4f151b211bde54e6bc9a19c2730e246b0f32ba899a1a9f2b33d7b5ad928dcf70"
           },
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
@@ -800,14 +800,24 @@
           ],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 82,
+          "fallbackFieldCount": 92,
           "fallbackFieldPaths": [
             "sections.workedExamples.items.id:heard-frequency-from-motion.resultTemplate",
             "pageIntro.definition",
             "pageIntro.keyTakeaway",
             "simulation.ui.initialGraphId",
             "simulation.ui.primaryGraphIds.0",
+            "simulation.ui.primaryGraphIds.1",
+            "simulation.ui.primaryGraphIds.2",
             "simulation.ui.primaryControlIds.0",
+            "simulation.ui.primaryControlIds.1",
+            "simulation.ui.primaryControlIds.2",
+            "simulation.ui.primaryPresetIds.0",
+            "simulation.ui.primaryPresetIds.1",
+            "simulation.ui.primaryPresetIds.2",
+            "simulation.ui.starterExploreTasks.0",
+            "simulation.ui.starterExploreTasks.1",
+            "simulation.ui.starterExploreTasks.2",
             "simulation.controls.id:sourceFrequency.description",
             "simulation.controls.id:sourceSpeed.description",
             "simulation.controls.id:observerSpeed.description",
@@ -816,17 +826,7 @@
             "simulation.presets.id:steady-siren.label",
             "simulation.presets.id:steady-siren.description",
             "simulation.presets.id:city-pass.label",
-            "simulation.presets.id:city-pass.description",
-            "simulation.presets.id:approaching-listener.label",
-            "simulation.presets.id:approaching-listener.description",
-            "simulation.presets.id:behind-trailing.label",
-            "simulation.presets.id:behind-trailing.description",
-            "simulation.presets.id:listener-away.label",
-            "simulation.presets.id:listener-away.description",
-            "simulation.overlays.id:motionVectors.label",
-            "simulation.overlays.id:motionVectors.shortDescription",
-            "simulation.overlays.id:motionVectors.whatToNotice.0",
-            "simulation.overlays.id:motionVectors.whyItMatters"
+            "simulation.presets.id:city-pass.description"
           ]
         }
       }
@@ -1077,7 +1077,7 @@
       "title": "Resonance in Air Columns / Open and Closed Pipes",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/resonance-air-columns-open-closed-pipes.json",
-      "canonicalSourceHash": "fbaf9e663e9517d8ff939e1046bf4ea898fc1cdfcf696aca3c638022edc35a92",
+      "canonicalSourceHash": "7961df3f780c659f345961c70dce6dfec3ab9c151f6269f1d9241c686d737e9b",
       "subject": "Physics",
       "topic": "Sound",
       "subtopic": "Air-column resonance",
@@ -1119,8 +1119,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "fbaf9e663e9517d8ff939e1046bf4ea898fc1cdfcf696aca3c638022edc35a92",
-          "currentSourceHash": "fbaf9e663e9517d8ff939e1046bf4ea898fc1cdfcf696aca3c638022edc35a92"
+          "recordedSourceHash": "7961df3f780c659f345961c70dce6dfec3ab9c151f6269f1d9241c686d737e9b",
+          "currentSourceHash": "7961df3f780c659f345961c70dce6dfec3ab9c151f6269f1d9241c686d737e9b"
         },
         "provider": null,
         "translatedAt": null,
@@ -1147,7 +1147,7 @@
             "variant": "original",
             "locale": "en",
             "recordedSourceHash": "d869076e51cff9c9fa83441782fbc02ede5c7b8658c1ab2393566d1e0709e85d",
-            "currentSourceHash": "fbaf9e663e9517d8ff939e1046bf4ea898fc1cdfcf696aca3c638022edc35a92"
+            "currentSourceHash": "7961df3f780c659f345961c70dce6dfec3ab9c151f6269f1d9241c686d737e9b"
           },
           "provider": "ollama",
           "translatedAt": "2026-04-29T23:45:25.114186Z",
@@ -1157,7 +1157,7 @@
           "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 125,
+          "fallbackFieldCount": 136,
           "fallbackFieldPaths": [
             "sections.workedExamples.items.id:allowed-frequency.resultTemplate",
             "sections.workedExamples.items.id:probe-motion-vs-pressure.variables.id:time.label",
@@ -1167,23 +1167,23 @@
             "pageIntro.keyTakeaway",
             "simulation.ui.initialGraphId",
             "simulation.ui.primaryGraphIds.0",
+            "simulation.ui.primaryGraphIds.1",
+            "simulation.ui.primaryGraphIds.2",
             "simulation.ui.primaryControlIds.0",
             "simulation.ui.primaryControlIds.1",
+            "simulation.ui.primaryControlIds.2",
+            "simulation.ui.primaryControlIds.3",
+            "simulation.ui.primaryPresetIds.0",
+            "simulation.ui.primaryPresetIds.1",
+            "simulation.ui.primaryPresetIds.2",
+            "simulation.ui.primaryPresetIds.3",
+            "simulation.ui.starterExploreTasks.0",
+            "simulation.ui.starterExploreTasks.1",
+            "simulation.ui.starterExploreTasks.2",
             "simulation.controls.id:length.description",
             "simulation.controls.id:closedEnd.label",
             "simulation.controls.id:closedEnd.description",
-            "simulation.controls.id:resonanceOrder.description",
-            "simulation.controls.id:probeX.description",
-            "simulation.controls.id:amplitude.description",
-            "simulation.presets.id:open-open-fundamental.label",
-            "simulation.presets.id:open-open-fundamental.description",
-            "simulation.presets.id:open-open-second.label",
-            "simulation.presets.id:open-open-second.description",
-            "simulation.presets.id:closed-open-fundamental.label",
-            "simulation.presets.id:closed-open-fundamental.description",
-            "simulation.presets.id:closed-open-third.label",
-            "simulation.presets.id:closed-open-third.description",
-            "simulation.presets.id:closed-end-pressure.label"
+            "simulation.controls.id:resonanceOrder.description"
           ]
         }
       }

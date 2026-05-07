@@ -684,6 +684,52 @@ test("opens Standing Waves on its tailored second-harmonic first action", async 
   }
 });
 
+test("opens sound and air-column concepts on their tailored first-action benches", async ({
+  browser,
+}, testInfo) => {
+  const desktopCase = viewportCases.find((item) => item.name === "desktop-1440x900");
+  expect(desktopCase, "Expected the desktop-1440x900 viewport case to exist.").toBeTruthy();
+
+  const routes = [
+    {
+      path: "/en/concepts/sound-waves-longitudinal-motion",
+      title: "Sound Waves and Longitudinal Motion",
+      expectedTexts: ["Start from Baseline", "motion-directions overlay"],
+    },
+    {
+      path: "/en/concepts/doppler-effect",
+      title: "Doppler Effect",
+      expectedTexts: ["Start from City pass", "front-and-rear spacing overlay"],
+    },
+    {
+      path: "/en/concepts/resonance-air-columns-open-closed-pipes",
+      title: "Resonance in Air Columns / Open and Closed Pipes",
+      expectedTexts: ["Open tube fundamental", "Start with the boundary overlay"],
+    },
+  ];
+
+  for (const route of routes) {
+    await test.step(route.path, async () => {
+      const { context, page, browserGuard } = await openConceptPage(
+        browser,
+        desktopCase!,
+        route.path,
+        route.title,
+      );
+
+      try {
+        await assertInitialViewportLayout(page, desktopCase!, testInfo);
+        for (const expectedText of route.expectedTexts) {
+          await expect(page.getByText(expectedText).first()).toBeVisible();
+        }
+        browserGuard.assertNoActionableIssues();
+      } finally {
+        await context.close();
+      }
+    });
+  }
+});
+
 test("renders topic-specific clickable visuals on concept discovery", async ({
   page,
 }) => {

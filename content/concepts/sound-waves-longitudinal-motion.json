@@ -336,6 +336,11 @@
         "strong-compression",
         "closer-compressions",
         "far-probe"
+      ],
+      "starterExploreTasks": [
+        "Watch the parcel arrows reverse while the disturbance travels right, then explain why the medium is not streaming down the tube.",
+        "Move the probe into a compression band and compare parcel shift with the pressure cue on the probe graph.",
+        "Shorten the wavelength or move the probe farther away, then connect spacing, frequency, and travel delay."
       ]
     },
     "controls": [

@@ -350,13 +350,27 @@
     "ui": {
       "initialGraphId": "shape",
       "primaryGraphIds": [
-        "shape"
+        "shape",
+        "ladder",
+        "displacement"
       ],
       "primaryControlIds": [
         "closedEnd",
-        "resonanceOrder"
+        "resonanceOrder",
+        "length",
+        "probeX"
       ],
-      "primaryPresetIds": []
+      "primaryPresetIds": [
+        "open-open-fundamental",
+        "closed-open-fundamental",
+        "closed-open-third",
+        "closed-end-pressure"
+      ],
+      "starterExploreTasks": [
+        "Start on the open-tube fundamental and point out the two displacement antinodes at the mouths.",
+        "Close one end without changing the length, then use the harmonic ladder to compare the new fundamental frequency.",
+        "Move the probe onto the closed wall and explain why parcel motion vanishes while the pressure cue becomes strongest."
+      ]
     },
     "controls": [
       {
