@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-07T18:31:15.523Z",
+  "generatedAt": "2026-05-07T18:39:30.864Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -2244,7 +2244,7 @@
       "title": "Conservation of Momentum",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/conservation-of-momentum.json",
-      "canonicalSourceHash": "611145dea6c5cafc48f6a1114d8b97dbf9f9823d14ea77ecaa182b46329fc4ed",
+      "canonicalSourceHash": "b69f67757322240be6ea255cc4656639bcdef67eec30ad457be33448763926d6",
       "subject": "Physics",
       "topic": "Mechanics",
       "subtopic": "Multi-object interactions",
@@ -2285,8 +2285,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "611145dea6c5cafc48f6a1114d8b97dbf9f9823d14ea77ecaa182b46329fc4ed",
-          "currentSourceHash": "611145dea6c5cafc48f6a1114d8b97dbf9f9823d14ea77ecaa182b46329fc4ed"
+          "recordedSourceHash": "b69f67757322240be6ea255cc4656639bcdef67eec30ad457be33448763926d6",
+          "currentSourceHash": "b69f67757322240be6ea255cc4656639bcdef67eec30ad457be33448763926d6"
         },
         "provider": null,
         "translatedAt": null,
@@ -2313,7 +2313,7 @@
             "variant": "original",
             "locale": "en",
             "recordedSourceHash": "069f5bdea155c0322205ae8cb42eb64bd5a75c707bb281981af9d844c075963b",
-            "currentSourceHash": "611145dea6c5cafc48f6a1114d8b97dbf9f9823d14ea77ecaa182b46329fc4ed"
+            "currentSourceHash": "b69f67757322240be6ea255cc4656639bcdef67eec30ad457be33448763926d6"
           },
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
@@ -2325,7 +2325,7 @@
           ],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 104,
+          "fallbackFieldCount": 145,
           "fallbackFieldPaths": [
             "sections.workedExamples.items.id:current-total-momentum.resultTemplate",
             "sections.workedExamples.items.id:final-momentum-split.resultTemplate",
@@ -2333,25 +2333,25 @@
             "pageIntro.keyTakeaway",
             "simulation.ui.initialGraphId",
             "simulation.ui.primaryGraphIds.0",
+            "simulation.ui.primaryGraphIds.1",
+            "simulation.ui.primaryGraphIds.2",
             "simulation.ui.primaryControlIds.0",
             "simulation.ui.primaryControlIds.1",
+            "simulation.ui.primaryControlIds.2",
+            "simulation.ui.primaryControlIds.3",
+            "simulation.ui.primaryPresetIds.0",
+            "simulation.ui.primaryPresetIds.1",
+            "simulation.ui.primaryPresetIds.2",
+            "simulation.ui.starterExploreTasks.0",
+            "simulation.ui.starterExploreTasks.1",
+            "simulation.ui.starterExploreTasks.2",
             "simulation.controls.id:massA.description",
             "simulation.controls.id:massB.description",
             "simulation.controls.id:systemVelocity.label",
             "simulation.controls.id:systemVelocity.description",
             "simulation.controls.id:interactionForce.label",
             "simulation.controls.id:interactionForce.description",
-            "simulation.controls.id:interactionDuration.label",
-            "simulation.controls.id:interactionDuration.description",
-            "simulation.presets.id:short-strong-split.label",
-            "simulation.presets.id:short-strong-split.description",
-            "simulation.presets.id:long-gentle-split.label",
-            "simulation.presets.id:long-gentle-split.description",
-            "simulation.presets.id:equal-mass-rest.label",
-            "simulation.presets.id:equal-mass-rest.description",
-            "simulation.presets.id:heavy-right-cart.label",
-            "simulation.presets.id:heavy-right-cart.description",
-            "simulation.presets.id:moving-system.label"
+            "simulation.controls.id:interactionDuration.label"
           ]
         }
       }

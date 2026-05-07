@@ -59,6 +59,7 @@ import {
   sampleDragTerminalVelocityState,
   resolveSpecificHeatPhaseChangeParams,
   resolveTemperatureInternalEnergyParams,
+  resolveConservationMomentumParams,
   resolveAngularMomentumParams,
   resolveRollingMotionParams,
   resolveRotationalInertiaParams,
@@ -124,6 +125,7 @@ import {
   sampleIdealGasLawKineticTheoryState,
   sampleSpecificHeatPhaseChangeState,
   sampleTemperatureInternalEnergyState,
+  sampleConservationMomentumState,
   sampleAngularMomentumState,
   sampleRollingMotionState,
   sampleRotationalInertiaState,
@@ -935,6 +937,63 @@ function resolveMetricValue(
           return snapshot.totalKineticEnergy;
         case "staticFriction":
           return snapshot.staticFriction;
+        default:
+          return null;
+      }
+    }
+    case "conservation-of-momentum": {
+      const resolved = resolveConservationMomentumParams(params);
+      const snapshot = sampleConservationMomentumState(resolved, runtime.time);
+
+      switch (metric) {
+        case "massA":
+          return snapshot.massA;
+        case "massB":
+          return snapshot.massB;
+        case "totalMass":
+          return snapshot.totalMass;
+        case "systemVelocity":
+          return snapshot.systemVelocity;
+        case "interactionForce":
+          return snapshot.interactionForce;
+        case "interactionDuration":
+          return snapshot.interactionDuration;
+        case "positionA":
+          return snapshot.positionA;
+        case "positionB":
+          return snapshot.positionB;
+        case "velocityA":
+          return snapshot.velocityA;
+        case "velocityB":
+          return snapshot.velocityB;
+        case "finalVelocityA":
+          return snapshot.finalVelocityA;
+        case "finalVelocityB":
+          return snapshot.finalVelocityB;
+        case "momentumA":
+          return snapshot.momentumA;
+        case "momentumB":
+          return snapshot.momentumB;
+        case "totalMomentum":
+          return snapshot.totalMomentum;
+        case "initialMomentumA":
+          return snapshot.initialMomentumA;
+        case "initialMomentumB":
+          return snapshot.initialMomentumB;
+        case "finalMomentumA":
+          return snapshot.finalMomentumA;
+        case "finalMomentumB":
+          return snapshot.finalMomentumB;
+        case "deltaMomentumA":
+          return snapshot.deltaMomentumA;
+        case "deltaMomentumB":
+          return snapshot.deltaMomentumB;
+        case "totalImpulseMagnitude":
+          return snapshot.totalImpulseMagnitude;
+        case "centerOfMassPosition":
+          return snapshot.centerOfMassPosition;
+        case "centerOfMassVelocity":
+          return snapshot.centerOfMassVelocity;
         default:
           return null;
       }

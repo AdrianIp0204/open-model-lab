@@ -1193,6 +1193,88 @@ describe("challenge mode evaluator", () => {
     expect(evaluation.matchedCount).toBe(evaluation.totalCount);
   });
 
+  it("evaluates the conservation-of-momentum reverse-A-but-positive-total target", () => {
+    const concept = getConceptBySlug("conservation-of-momentum");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "cm-ch-reverse-a-total-positive",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        massA: 1.2,
+        massB: 2.4,
+        systemVelocity: 0.5,
+        interactionForce: 2.3,
+        interactionDuration: 0.5,
+      },
+      activeGraphId: "momenta",
+      overlayValues: {
+        systemBoundary: true,
+        centerOfMass: true,
+        forcePair: true,
+        momentumBars: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
+  it("evaluates the conservation-of-momentum same-impulse compare target", () => {
+    const concept = getConceptBySlug("conservation-of-momentum");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "cm-ch-same-impulse-different-shape",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        massA: 1.2,
+        massB: 2.4,
+        systemVelocity: 0,
+        interactionForce: 1,
+        interactionDuration: 0.8,
+      },
+      activeGraphId: "forces",
+      overlayValues: {
+        systemBoundary: true,
+        centerOfMass: true,
+        forcePair: true,
+        momentumBars: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: {
+        activeTarget: "b",
+        setupA: {
+          massA: 1.2,
+          massB: 2.4,
+          systemVelocity: 0,
+          interactionForce: 2,
+          interactionDuration: 0.4,
+        },
+        setupB: {
+          massA: 1.2,
+          massB: 2.4,
+          systemVelocity: 0,
+          interactionForce: 1,
+          interactionDuration: 0.8,
+        },
+      },
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
   it("evaluates the capacitance voltage-only target from the live capacitor state", () => {
     const concept = getConceptBySlug("capacitance-and-stored-electric-energy");
     const source = buildSimulationSource(concept);

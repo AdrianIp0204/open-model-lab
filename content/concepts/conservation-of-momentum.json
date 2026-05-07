@@ -327,13 +327,26 @@
     "ui": {
       "initialGraphId": "momenta",
       "primaryGraphIds": [
-        "momenta"
+        "momenta",
+        "forces",
+        "velocity"
       ],
       "primaryControlIds": [
         "interactionForce",
-        "systemVelocity"
+        "systemVelocity",
+        "massB",
+        "interactionDuration"
       ],
-      "primaryPresetIds": []
+      "primaryPresetIds": [
+        "short-strong-split",
+        "long-gentle-split",
+        "moving-system"
+      ],
+      "starterExploreTasks": [
+        "Start with the momentum graph and watch p_A and p_B tilt in opposite directions while p_tot stays flat.",
+        "Compare Short strong split with Long gentle split to see equal impulse hidden under different force-time shapes.",
+        "Apply Moving system, then strengthen the internal force until cart A reverses while the center of mass keeps drifting right."
+      ]
     },
     "controls": [
       {
@@ -1059,6 +1072,188 @@
       "internal forces",
       "center of mass",
       "physics simulation"
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the two-cart bench to keep object momentum, total momentum, internal impulse, and center-of-mass motion separate.",
+    "items": [
+      {
+        "id": "cm-ch-reverse-a-total-positive",
+        "title": "Reverse A, keep total positive",
+        "style": "parameter-match",
+        "prompt": "Make cart A end up moving left while the isolated two-cart system still has positive total momentum and a rightward center-of-mass drift.",
+        "successMessage": "Cart A reverses, but the system total remains positive because cart B carries enough rightward momentum. Conservation constrains the sum, not each cart direction.",
+        "setup": {
+          "presetId": "moving-system",
+          "graphId": "momenta",
+          "overlayIds": [
+            "systemBoundary",
+            "centerOfMass",
+            "momentumBars"
+          ],
+          "note": "Start from the moving-system preset, then increase the internal force. Watch the total line and CM marker instead of only cart A."
+        },
+        "hints": [
+          "Give the system a rightward drift of about 0.5 m/s.",
+          "Use a strong positive internal force for about half a second so cart A reverses while the center of mass keeps moving right."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Keep the object-and-total momentum graph open.",
+            "graphId": "momenta"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the system boundary visible.",
+            "overlayId": "systemBoundary",
+            "value": true
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the center-of-mass marker visible.",
+            "overlayId": "centerOfMass",
+            "value": true
+          },
+          {
+            "type": "param-range",
+            "label": "Give the whole system a rightward drift.",
+            "param": "systemVelocity",
+            "min": 0.48,
+            "max": 0.52,
+            "displayUnit": "m/s"
+          },
+          {
+            "type": "param-range",
+            "label": "Use a strong positive internal force.",
+            "param": "interactionForce",
+            "min": 2.25,
+            "max": 2.4,
+            "displayUnit": "N"
+          },
+          {
+            "type": "metric-range",
+            "label": "Cart A should finish moving left.",
+            "metric": "finalVelocityA",
+            "min": -0.55,
+            "max": -0.35,
+            "displayUnit": "m/s"
+          },
+          {
+            "type": "metric-range",
+            "label": "The system total momentum should still be positive.",
+            "metric": "totalMomentum",
+            "min": 1.75,
+            "max": 1.85,
+            "displayUnit": "kg m/s"
+          },
+          {
+            "type": "metric-range",
+            "label": "The center of mass should keep drifting right.",
+            "metric": "centerOfMassVelocity",
+            "min": 0.48,
+            "max": 0.52,
+            "displayUnit": "m/s"
+          }
+        ]
+      },
+      {
+        "id": "cm-ch-same-impulse-different-shape",
+        "title": "Same impulse, different force shape",
+        "style": "parameter-match",
+        "prompt": "Enter compare mode: keep Setup A as a short strong split and make Setup B a longer gentler split with the same total internal impulse.",
+        "successMessage": "Both setups deliver the same impulse magnitude, so the final momentum split matches even though the force graph shape is different.",
+        "setup": {
+          "presetId": "short-strong-split",
+          "interactionMode": "compare",
+          "graphId": "forces",
+          "overlayIds": [
+            "forcePair",
+            "momentumBars"
+          ],
+          "note": "Match FΔt, not peak force. Setup B should trade lower force for longer duration."
+        },
+        "hints": [
+          "Setup A can stay at 2.0 N for 0.40 s, giving about 0.80 N s.",
+          "For Setup B, try 1.0 N for 0.80 s. The rectangle gets lower and wider, but the area stays the same."
+        ],
+        "checks": [
+          {
+            "type": "compare-active",
+            "label": "Switch into compare mode and edit Setup B.",
+            "target": "b"
+          },
+          {
+            "type": "graph-active",
+            "label": "Keep the internal-force graph open.",
+            "graphId": "forces"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup A force near the short-strong value.",
+            "setup": "a",
+            "param": "interactionForce",
+            "min": 1.95,
+            "max": 2.05,
+            "displayUnit": "N"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup A duration short.",
+            "setup": "a",
+            "param": "interactionDuration",
+            "min": 0.38,
+            "max": 0.42,
+            "displayUnit": "s"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Lower Setup B force.",
+            "setup": "b",
+            "param": "interactionForce",
+            "min": 0.95,
+            "max": 1.05,
+            "displayUnit": "N"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Lengthen Setup B duration.",
+            "setup": "b",
+            "param": "interactionDuration",
+            "min": 0.78,
+            "max": 0.8,
+            "displayUnit": "s"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup A impulse magnitude is about 0.80 N s.",
+            "setup": "a",
+            "metric": "totalImpulseMagnitude",
+            "min": 0.78,
+            "max": 0.82,
+            "displayUnit": "N s"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B impulse magnitude matches at about 0.80 N s.",
+            "setup": "b",
+            "metric": "totalImpulseMagnitude",
+            "min": 0.78,
+            "max": 0.82,
+            "displayUnit": "N s"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B final cart-A momentum should match the same leftward transfer.",
+            "setup": "b",
+            "metric": "finalMomentumA",
+            "min": -0.82,
+            "max": -0.78,
+            "displayUnit": "kg m/s"
+          }
+        ]
+      }
     ]
   }
 }
