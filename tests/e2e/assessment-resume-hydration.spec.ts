@@ -114,10 +114,7 @@ async function expectSuggestionPendingOrResume(
   const pending = page.getByTestId("test-hub-suggestions-pending");
   const suggestion = page.getByTestId(suggestionTestId);
 
-  if (await pending.isVisible().catch(() => false)) {
-    await expect(suggestion).toHaveCount(0);
-    return;
-  }
+  await expect(pending).toBeHidden();
 
   await expect(suggestion).toBeVisible();
   await expect(suggestion.getByRole("link", { name: resumeLabel })).toBeVisible();
@@ -133,10 +130,7 @@ async function expectSuggestionPendingOrContinue(
   const pending = page.getByTestId("test-hub-suggestions-pending");
   const suggestion = page.getByTestId(suggestionTestId);
 
-  if (await pending.isVisible().catch(() => false)) {
-    await expect(suggestion).toHaveCount(0);
-    return;
-  }
+  await expect(pending).toBeHidden();
 
   await expect(suggestion).toBeVisible();
   await expect(suggestion.getByRole("link", { name: continueLabel })).toBeVisible();
