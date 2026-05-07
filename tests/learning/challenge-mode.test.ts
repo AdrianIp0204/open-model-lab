@@ -1115,6 +1115,84 @@ describe("challenge mode evaluator", () => {
     expect(evaluation.matchedCount).toBe(evaluation.totalCount);
   });
 
+  it("evaluates the light-spectrum infrared-but-still-EM-wave target", () => {
+    const concept = getConceptBySlug("light-spectrum-linkage");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "light-ch-infrared-still-em-wave",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        fieldAmplitude: 1.05,
+        logWavelength: -5.92,
+        mediumIndex: 1,
+        probeCycles: 1,
+      },
+      activeGraphId: "space-profile",
+      overlayValues: {
+        visibleWindow: true,
+        mediumCompression: true,
+        probeDelay: true,
+        fieldTriad: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
+  it("evaluates the light-spectrum green-glass same-frequency compare target", () => {
+    const concept = getConceptBySlug("light-spectrum-linkage");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "light-ch-green-glass-frequency-fixed",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        fieldAmplitude: 1.05,
+        logWavelength: -6.27,
+        mediumIndex: 1.52,
+        probeCycles: 1,
+      },
+      activeGraphId: "source-probe",
+      overlayValues: {
+        visibleWindow: true,
+        mediumCompression: true,
+        probeDelay: true,
+        fieldTriad: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: {
+        activeTarget: "b",
+        setupA: {
+          fieldAmplitude: 1.05,
+          logWavelength: -6.27,
+          mediumIndex: 1,
+          probeCycles: 1,
+        },
+        setupB: {
+          fieldAmplitude: 1.05,
+          logWavelength: -6.27,
+          mediumIndex: 1.52,
+          probeCycles: 1,
+        },
+      },
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
   it("evaluates the capacitance voltage-only target from the live capacitor state", () => {
     const concept = getConceptBySlug("capacitance-and-stored-electric-energy");
     const source = buildSimulationSource(concept);

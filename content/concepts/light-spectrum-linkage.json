@@ -523,12 +523,25 @@
     "ui": {
       "initialGraphId": "space-profile",
       "primaryGraphIds": [
-        "space-profile"
+        "space-profile",
+        "probe-fields",
+        "source-probe"
       ],
       "primaryControlIds": [
-        "logWavelength"
+        "logWavelength",
+        "mediumIndex",
+        "probeCycles"
       ],
-      "primaryPresetIds": []
+      "primaryPresetIds": [
+        "visible-green",
+        "green-glass",
+        "infrared-heat"
+      ],
+      "starterExploreTasks": [
+        "Start on green light, then jump to infrared and watch the marker leave the visible window while the E/B field pair keeps running.",
+        "Apply Green in glass and compare frequency, speed, and in-medium wavelength on the readout card.",
+        "Move the probe spacing and separate propagation delay from the color or band identity of the source."
+      ]
     },
     "controls": [
       {
@@ -1178,6 +1191,168 @@
       "visible light wavelength",
       "frequency and color",
       "optics bridge"
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the spectrum rail and field-pair bench to keep color, source frequency, medium speed, and propagation delay separate.",
+    "items": [
+      {
+        "id": "light-ch-infrared-still-em-wave",
+        "title": "Leave visible, keep the wave",
+        "style": "parameter-match",
+        "prompt": "Move the source just beyond visible red into infrared while keeping the field pair visible and the visible-window overlay on.",
+        "successMessage": "The marker has left the visible strip, but the electromagnetic field pair is still running. Infrared is outside human-visible color, not outside the EM-wave story.",
+        "setup": {
+          "presetId": "visible-green",
+          "graphId": "space-profile",
+          "overlayIds": [
+            "visibleWindow",
+            "fieldTriad"
+          ],
+          "note": "Change wavelength/band identity, not field amplitude. The visible color cue should disappear while the wave sketch remains active."
+        },
+        "hints": [
+          "Move toward longer wavelengths beyond visible red, or apply the Infrared preset.",
+          "Use the visible-window overlay to check that the marker is outside the human-visible strip while the field triad remains on."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Keep the display-space field sketch open.",
+            "graphId": "space-profile"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the visible-window overlay on.",
+            "overlayId": "visibleWindow",
+            "value": true
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the field-triad overlay on.",
+            "overlayId": "fieldTriad",
+            "value": true
+          },
+          {
+            "type": "metric-range",
+            "label": "Move just beyond visible red into infrared.",
+            "metric": "logWavelength",
+            "min": -5.96,
+            "max": -5.88,
+            "displayUnit": "log10(m)"
+          },
+          {
+            "type": "metric-range",
+            "label": "Make the vacuum wavelength longer than visible red.",
+            "metric": "vacuumWavelength",
+            "min": 1.1e-06,
+            "max": 1.3e-06,
+            "displayUnit": "m"
+          },
+          {
+            "type": "param-range",
+            "label": "Do not solve it by changing field amplitude.",
+            "param": "fieldAmplitude",
+            "min": 1.0,
+            "max": 1.1,
+            "displayUnit": "arb."
+          }
+        ]
+      },
+      {
+        "id": "light-ch-green-glass-frequency-fixed",
+        "title": "Green enters glass",
+        "style": "parameter-match",
+        "prompt": "Enter compare mode with Setup A as green light in air and Setup B as the same green source in glass. Keep source frequency matched while speed and in-medium wavelength drop in B.",
+        "successMessage": "Setup B is the same green source in glass: frequency stays matched to Setup A, while v and lambda_m shrink because the medium index is larger.",
+        "setup": {
+          "presetId": "visible-green",
+          "interactionMode": "compare",
+          "graphId": "source-probe",
+          "overlayIds": [
+            "mediumCompression",
+            "probeDelay"
+          ],
+          "note": "Keep both setups on green source wavelength; change only Setup B medium index toward glass."
+        },
+        "hints": [
+          "Leave both setups at the green wavelength around 537 nm.",
+          "Raise only Setup B medium index to about 1.52, then check that both source-frequency ranges still match."
+        ],
+        "checks": [
+          {
+            "type": "compare-active",
+            "label": "Switch into compare mode and edit Setup B.",
+            "target": "b"
+          },
+          {
+            "type": "graph-active",
+            "label": "Keep the source-probe graph open.",
+            "graphId": "source-probe"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup A in air.",
+            "setup": "a",
+            "param": "mediumIndex",
+            "min": 1.0,
+            "max": 1.02
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Put Setup B in glass.",
+            "setup": "b",
+            "param": "mediumIndex",
+            "min": 1.5,
+            "max": 1.54
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup B on the same green source wavelength.",
+            "setup": "b",
+            "param": "logWavelength",
+            "min": -6.29,
+            "max": -6.25,
+            "displayUnit": "log10(m)"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup A frequency stays in the green-source range.",
+            "setup": "a",
+            "metric": "frequency",
+            "min": 550000000000000.0,
+            "max": 565000000000000.0,
+            "displayUnit": "Hz"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B frequency remains matched to the same green source.",
+            "setup": "b",
+            "metric": "frequency",
+            "min": 550000000000000.0,
+            "max": 565000000000000.0,
+            "displayUnit": "Hz"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B speed drops to about 0.66c.",
+            "setup": "b",
+            "metric": "phaseVelocityFractionC",
+            "min": 0.64,
+            "max": 0.68
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B in-medium wavelength shortens to about 353 nm.",
+            "setup": "b",
+            "metric": "mediumWavelength",
+            "min": 3.45e-07,
+            "max": 3.6e-07,
+            "displayUnit": "m"
+          }
+        ]
+      }
     ]
   }
 }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-07T18:22:35.222Z",
+  "generatedAt": "2026-05-07T18:31:15.523Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -5889,7 +5889,7 @@
       "title": "Light as an Electromagnetic Wave",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/light-spectrum-linkage.json",
-      "canonicalSourceHash": "b2dbae7616a31525cec60f092a88c11d76c4bfc82192e09e691d01e08293d1bf",
+      "canonicalSourceHash": "65094a50efc91f4c3da0985cb83c4d63e99a3b6eeba11510ef204e0b45864dc7",
       "subject": "Physics",
       "topic": "Optics",
       "subtopic": "Wave view of light",
@@ -5935,8 +5935,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "b2dbae7616a31525cec60f092a88c11d76c4bfc82192e09e691d01e08293d1bf",
-          "currentSourceHash": "b2dbae7616a31525cec60f092a88c11d76c4bfc82192e09e691d01e08293d1bf"
+          "recordedSourceHash": "65094a50efc91f4c3da0985cb83c4d63e99a3b6eeba11510ef204e0b45864dc7",
+          "currentSourceHash": "65094a50efc91f4c3da0985cb83c4d63e99a3b6eeba11510ef204e0b45864dc7"
         },
         "provider": null,
         "translatedAt": null,
@@ -5963,7 +5963,7 @@
             "variant": "original",
             "locale": "en",
             "recordedSourceHash": "7ff1e6191dc22bcf9be6b661197eb219dd262da3046b8cce4619a3243993e690",
-            "currentSourceHash": "b2dbae7616a31525cec60f092a88c11d76c4bfc82192e09e691d01e08293d1bf"
+            "currentSourceHash": "65094a50efc91f4c3da0985cb83c4d63e99a3b6eeba11510ef204e0b45864dc7"
           },
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
@@ -5973,7 +5973,7 @@
           "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 93,
+          "fallbackFieldCount": 132,
           "fallbackFieldPaths": [
             "sections.workedExamples.items.id:visible-band-frequency.variables.id:vacuum-wavelength.label",
             "sections.workedExamples.items.id:visible-band-frequency.resultTemplate",
@@ -5985,21 +5985,21 @@
             "pageIntro.keyTakeaway",
             "simulation.ui.initialGraphId",
             "simulation.ui.primaryGraphIds.0",
+            "simulation.ui.primaryGraphIds.1",
+            "simulation.ui.primaryGraphIds.2",
             "simulation.ui.primaryControlIds.0",
+            "simulation.ui.primaryControlIds.1",
+            "simulation.ui.primaryControlIds.2",
+            "simulation.ui.primaryPresetIds.0",
+            "simulation.ui.primaryPresetIds.1",
+            "simulation.ui.primaryPresetIds.2",
+            "simulation.ui.starterExploreTasks.0",
+            "simulation.ui.starterExploreTasks.1",
+            "simulation.ui.starterExploreTasks.2",
             "simulation.controls.id:fieldAmplitude.description",
             "simulation.controls.id:logWavelength.description",
             "simulation.controls.id:mediumIndex.description",
-            "simulation.controls.id:probeCycles.description",
-            "simulation.presets.id:visible-green.label",
-            "simulation.presets.id:visible-green.description",
-            "simulation.presets.id:visible-violet.label",
-            "simulation.presets.id:visible-violet.description",
-            "simulation.presets.id:visible-red.label",
-            "simulation.presets.id:visible-red.description",
-            "simulation.presets.id:green-glass.label",
-            "simulation.presets.id:green-glass.description",
-            "simulation.presets.id:infrared-heat.label",
-            "simulation.presets.id:infrared-heat.description"
+            "simulation.controls.id:probeCycles.description"
           ]
         }
       }
