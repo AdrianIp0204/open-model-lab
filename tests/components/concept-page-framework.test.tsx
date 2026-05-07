@@ -14,6 +14,7 @@ import {
 import type { ConceptSimulationSource } from "@/lib/physics";
 import { resolveAccountEntitlement } from "@/lib/account/entitlements";
 import { localConceptProgressStore } from "@/lib/progress";
+import type { ResolvedConceptSimulationState } from "@/lib/share-links";
 
 const useAccountSessionMock = vi.fn();
 const fetchMock = vi.fn();
@@ -61,11 +62,16 @@ function GuidedLabProbe() {
 vi.mock("@/components/simulations/DeferredConceptSimulationRenderer", () => ({
   DeferredConceptSimulationRenderer: ({
     concept,
+    initialSimulationState,
   }: {
     concept: ConceptSimulationSource;
+    initialSimulationState?: ResolvedConceptSimulationState | null;
   }) => (
     <div data-testid="deferred-simulation-probe">
       <div>{concept.title}</div>
+      <pre data-testid="initial-simulation-state-probe">
+        {JSON.stringify(initialSimulationState ?? null)}
+      </pre>
       <GuidedLabProbe />
     </div>
   ),
@@ -131,8 +137,10 @@ function renderFramework(slug: string) {
   return renderConceptFramework(concept);
 }
 
-function renderConceptFramework(concept: ConceptContent) {
-
+function renderConceptFramework(
+  concept: ConceptContent,
+  options: { initialSimulationState?: ResolvedConceptSimulationState | null } = {},
+) {
   return render(
     <ConceptPageFramework
       concept={concept}
@@ -146,6 +154,7 @@ function renderConceptFramework(concept: ConceptContent) {
         title: concept.topic,
         path: "/concepts/topics/oscillations",
       }}
+      initialSimulationState={options.initialSimulationState ?? null}
     />,
   );
 }
@@ -198,6 +207,43 @@ describe("ConceptPageFramework V2", () => {
     const equationSnapshot = screen.getByTestId("concept-v2-equation-snapshot");
     expect(equationSnapshot).toHaveTextContent(/equation snapshot/i);
     expect(equationSnapshot).toHaveTextContent(/restoring pattern/i);
+  });
+
+  it("applies a concept V2 start setup as the default live-bench state", () => {
+    renderFramework("damping-resonance");
+
+    const initialState = JSON.parse(
+      screen.getByTestId("initial-simulation-state-probe").textContent ?? "null",
+    ) as ResolvedConceptSimulationState;
+
+    expect(initialState.activePresetId).toBe("free-swing");
+    expect(initialState.activeGraphId).toBe("transient");
+    expect(initialState.overlayValues.responseEnvelope).toBe(true);
+    expect(initialState.focusedOverlayId).toBe("responseEnvelope");
+    expect(initialState.inspectTime).toBeNull();
+  });
+
+  it("keeps restored or shared bench state ahead of the concept V2 start setup", () => {
+    const concept = getConceptBySlug("damping-resonance");
+    const restoredState: ResolvedConceptSimulationState = {
+      params: concept.simulation.defaults,
+      activePresetId: null,
+      activeGraphId: "response",
+      overlayValues: Object.fromEntries(
+        (concept.simulation.overlays ?? []).map((overlay) => [overlay.id, false]),
+      ),
+      focusedOverlayId: null,
+      inspectTime: 1.5,
+      compare: null,
+    };
+
+    renderConceptFramework(concept, { initialSimulationState: restoredState });
+
+    const initialState = JSON.parse(
+      screen.getByTestId("initial-simulation-state-probe").textContent ?? "null",
+    ) as ResolvedConceptSimulationState;
+
+    expect(initialState).toEqual(restoredState);
   });
 
   it("renders the AI coach as a floating widget outside the live lab without a React key warning", () => {

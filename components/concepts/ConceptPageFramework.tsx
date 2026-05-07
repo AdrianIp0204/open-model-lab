@@ -20,6 +20,7 @@ import type { ProgressSnapshot } from "@/lib/progress";
 import { hasConceptQuizSupport } from "@/lib/quiz";
 import {
   buildConceptShareTargets,
+  buildConceptSimulationStateFromSetup,
   conceptShareAnchorIds,
   type ResolvedConceptSimulationState,
   type ResolvedPublicExperimentCard,
@@ -61,6 +62,39 @@ type ConceptPageFrameworkProps = {
   } | null;
   locale?: AppLocale;
 };
+
+function buildStartSetupSimulationState(
+  concept: ConceptContent,
+): ResolvedConceptSimulationState | null {
+  const setup = concept.v2?.startSetup;
+
+  if (!setup) {
+    return null;
+  }
+
+  const state = buildConceptSimulationStateFromSetup(
+    {
+      slug: concept.slug,
+      simulation: {
+        defaults: concept.simulation.defaults,
+        presets: concept.simulation.presets,
+        graphs: concept.graphs,
+        overlays: concept.simulation.overlays,
+      },
+    },
+    setup,
+  );
+
+  return {
+    params: state.params,
+    activePresetId: state.activePresetId,
+    activeGraphId: state.activeGraphId,
+    overlayValues: state.overlayValues,
+    focusedOverlayId: state.focusedOverlayId,
+    inspectTime: state.timeSource === "inspect" ? state.time : null,
+    compare: state.compare,
+  };
+}
 
 function getOnboardingSurfaces(
   concept: ConceptContent,
@@ -118,9 +152,11 @@ export function ConceptPageFramework({
     readNext,
     locale: resolvedLocale,
   });
+  const resolvedInitialSimulationState =
+    initialSimulationState ?? buildStartSetupSimulationState(concept);
   const initialRuntimeSnapshot = buildInitialConceptPageRuntimeSnapshot(
     concept,
-    initialSimulationState,
+    resolvedInitialSimulationState,
   );
   const onboardingSurfaces = getOnboardingSurfaces(concept, t);
   const conceptSubjectLabel = getSubjectDisplayTitleFromValue(concept.subject, resolvedLocale);
@@ -166,7 +202,7 @@ export function ConceptPageFramework({
         readNext={readNext}
         initialSyncedSnapshot={initialSyncedSnapshot}
         initialChallengeItemId={initialChallengeItemId}
-        initialSimulationState={initialSimulationState}
+        initialSimulationState={resolvedInitialSimulationState}
         starterGuidePlacement="external"
       />
     </div>,

@@ -13,6 +13,12 @@
       "note": "Keep the damping term, natural frequency, and response-amplitude formula visible while you compare the time trace with the resonance curve.",
       "equationIds": ["damped-oscillator", "natural-frequency", "resonance-response"]
     },
+    "startSetup": {
+      "presetId": "free-swing",
+      "graphId": "transient",
+      "overlayIds": ["responseEnvelope"],
+      "note": "Open on one damped free swing so the first task starts with visible energy loss before resonance-response comparisons."
+    },
     "guidedSteps": [
       {
         "id": "watch-energy-leak-away",
