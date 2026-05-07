@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-07T20:11:18.628Z",
+  "generatedAt": "2026-05-07T20:16:46.449Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -1781,7 +1781,7 @@
       "title": "Rotational Inertia / Moment of Inertia",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/rotational-inertia.json",
-      "canonicalSourceHash": "2d96ac22aa60147efd6b7d032e0a4a98be2264370c196bd0eecbd3b294c66274",
+      "canonicalSourceHash": "00d3d9c11cb00c556c914dc619064f775d3cb7107dc3d702217c5706b4203376",
       "subject": "Physics",
       "topic": "Mechanics",
       "subtopic": "Mass distribution and rotational response",
@@ -1824,8 +1824,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "2d96ac22aa60147efd6b7d032e0a4a98be2264370c196bd0eecbd3b294c66274",
-          "currentSourceHash": "2d96ac22aa60147efd6b7d032e0a4a98be2264370c196bd0eecbd3b294c66274"
+          "recordedSourceHash": "00d3d9c11cb00c556c914dc619064f775d3cb7107dc3d702217c5706b4203376",
+          "currentSourceHash": "00d3d9c11cb00c556c914dc619064f775d3cb7107dc3d702217c5706b4203376"
         },
         "provider": null,
         "translatedAt": null,
@@ -1852,7 +1852,7 @@
             "variant": "original",
             "locale": "en",
             "recordedSourceHash": "faad5bb8312cafb9f881645d07ce7ed081f55e5e7d882917fb023e6a5294d9f1",
-            "currentSourceHash": "2d96ac22aa60147efd6b7d032e0a4a98be2264370c196bd0eecbd3b294c66274"
+            "currentSourceHash": "00d3d9c11cb00c556c914dc619064f775d3cb7107dc3d702217c5706b4203376"
           },
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
@@ -1862,7 +1862,7 @@
           "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 116,
+          "fallbackFieldCount": 134,
           "fallbackFieldPaths": [
             "sections.workedExamples.items.id:current-inertia-response.variables.id:totalMass.label",
             "sections.workedExamples.items.id:current-inertia-response.resultTemplate",
@@ -1873,22 +1873,22 @@
             "pageIntro.keyTakeaway",
             "simulation.ui.initialGraphId",
             "simulation.ui.primaryGraphIds.0",
+            "simulation.ui.primaryGraphIds.1",
+            "simulation.ui.primaryGraphIds.2",
             "simulation.ui.primaryControlIds.0",
+            "simulation.ui.primaryControlIds.1",
+            "simulation.ui.primaryPresetIds.0",
+            "simulation.ui.primaryPresetIds.1",
+            "simulation.ui.primaryPresetIds.2",
+            "simulation.ui.starterExploreTasks.0",
+            "simulation.ui.starterExploreTasks.1",
+            "simulation.ui.starterExploreTasks.2",
             "simulation.controls.id:appliedTorque.description",
             "simulation.controls.id:massRadius.description",
             "simulation.presets.id:lab-baseline.label",
             "simulation.presets.id:lab-baseline.description",
             "simulation.presets.id:compact-core.label",
-            "simulation.presets.id:compact-core.description",
-            "simulation.presets.id:middle-spread.label",
-            "simulation.presets.id:middle-spread.description",
-            "simulation.presets.id:wide-rim.label",
-            "simulation.presets.id:wide-rim.description",
-            "simulation.presets.id:wide-rim-strong-motor.label",
-            "simulation.presets.id:wide-rim-strong-motor.description",
-            "simulation.overlays.id:radiusGuides.label",
-            "simulation.overlays.id:radiusGuides.shortDescription",
-            "simulation.overlays.id:radiusGuides.whatToNotice.0"
+            "simulation.presets.id:compact-core.description"
           ]
         }
       }

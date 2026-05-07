@@ -261,12 +261,24 @@
     "ui": {
       "initialGraphId": "spin-up-map",
       "primaryGraphIds": [
-        "spin-up-map"
+        "spin-up-map",
+        "inertia-map",
+        "angular-speed"
       ],
       "primaryControlIds": [
-        "massRadius"
+        "massRadius",
+        "appliedTorque"
       ],
-      "primaryPresetIds": []
+      "primaryPresetIds": [
+        "lab-baseline",
+        "compact-core",
+        "wide-rim"
+      ],
+      "starterExploreTasks": [
+        "Start with Lab baseline and the spin-up map, then slide the same equal masses inward without touching torque and watch angular acceleration jump.",
+        "Switch to Wide rim and the inertia map to prove the rotor did not gain mass; the same six pucks simply count more because they sit farther from the axis.",
+        "Use Compact core versus Wide rim in compare mode, keep the motor torque matched, and explain why the angular-speed curves split apart."
+      ]
     },
     "controls": [
       {
@@ -649,14 +661,16 @@
           "presetId": "lab-baseline",
           "graphId": "spin-up-map",
           "overlayIds": [
-            "radiusGuides"
+            "radiusGuides",
+            "referenceCore"
           ],
           "note": "Use the spin-up map to keep the angular-acceleration target tied to the same live layout."
         },
         "requirements": {
           "graphId": "spin-up-map",
           "overlayIds": [
-            "radiusGuides"
+            "radiusGuides",
+            "referenceCore"
           ]
         },
         "hints": [
@@ -685,6 +699,24 @@
             "max": 5.4,
             "displayUnit": "rad/s^2"
           }
+        ],
+        "checks": [
+          {
+            "type": "metric-range",
+            "label": "Keep the total moment of inertia compact, not merely the radius slider near compact.",
+            "metric": "momentOfInertia",
+            "min": 0.75,
+            "max": 0.9,
+            "displayUnit": "kg m^2"
+          },
+          {
+            "type": "metric-range",
+            "label": "Make the same baseline torque produce a sharply larger angular acceleration.",
+            "metric": "angularAcceleration",
+            "min": 4.8,
+            "max": 5.2,
+            "displayUnit": "rad/s^2"
+          }
         ]
       },
       {
@@ -697,7 +729,8 @@
           "presetId": "compact-core",
           "graphId": "angular-speed",
           "overlayIds": [
-            "referenceCore"
+            "referenceCore",
+            "radiusGuides"
           ],
           "interactionMode": "compare",
           "note": "Clone the compact setup, then move only Setup B outward while keeping both torques matched."
@@ -705,9 +738,11 @@
         "requirements": {
           "graphId": "angular-speed",
           "overlayIds": [
-            "referenceCore"
+            "referenceCore",
+            "radiusGuides"
           ],
-          "compareTarget": "b"
+          "compareTarget": "b",
+          "compareActive": true
         },
         "hints": [
           "Setup A can stay compact. The main job is to spread Setup B outward without sneaking in a different torque.",
@@ -754,6 +789,44 @@
             "max": 0.8,
             "displayUnit": "rad/s^2"
           }
+        ],
+        "checks": [
+          {
+            "type": "compare-metric-range",
+            "label": "Setup A should remain compact with a small moment of inertia.",
+            "setup": "a",
+            "metric": "momentOfInertia",
+            "min": 0.75,
+            "max": 0.9,
+            "displayUnit": "kg m^2"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup A should spin up quickly under the matched torque.",
+            "setup": "a",
+            "metric": "angularAcceleration",
+            "min": 4.8,
+            "max": 5.2,
+            "displayUnit": "rad/s^2"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B should carry a much larger moment of inertia from the wide mass radius.",
+            "setup": "b",
+            "metric": "momentOfInertia",
+            "min": 5.7,
+            "max": 6.0,
+            "displayUnit": "kg m^2"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B should spin up slowly even though the torque is still matched.",
+            "setup": "b",
+            "metric": "angularAcceleration",
+            "min": 0.65,
+            "max": 0.72,
+            "displayUnit": "rad/s^2"
+          }
         ]
       },
       {
@@ -766,7 +839,8 @@
           "presetId": "wide-rim",
           "graphId": "angular-speed",
           "overlayIds": [
-            "equalMassMarkers"
+            "equalMassMarkers",
+            "radiusGuides"
           ],
           "inspectTime": 2.4,
           "note": "Keep the layout wide, then use the end-of-clip inspect state to tune the final angular speed."
@@ -774,7 +848,8 @@
         "requirements": {
           "graphId": "angular-speed",
           "overlayIds": [
-            "equalMassMarkers"
+            "equalMassMarkers",
+            "radiusGuides"
           ],
           "timeSource": "inspect",
           "timeRange": {
@@ -808,6 +883,31 @@
             "min": 2.2,
             "max": 2.5,
             "displayUnit": "rad/s"
+          }
+        ],
+        "checks": [
+          {
+            "type": "time-range",
+            "label": "Inspect the end of the clip so the final angular speed is meaningful.",
+            "min": 2.35,
+            "max": 2.4,
+            "displayUnit": "s"
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep the wide-rim layout high-inertia while increasing torque.",
+            "metric": "momentOfInertia",
+            "min": 5.7,
+            "max": 6.0,
+            "displayUnit": "kg m^2"
+          },
+          {
+            "type": "metric-range",
+            "label": "Recover spin-up with stronger torque without erasing the inertia penalty.",
+            "metric": "angularAcceleration",
+            "min": 0.95,
+            "max": 1.03,
+            "displayUnit": "rad/s^2"
           }
         ]
       }

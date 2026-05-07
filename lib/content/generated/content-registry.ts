@@ -418,7 +418,7 @@ export const conceptContentLastModified = {
   "refraction-snells-law": "2026-05-05T07:34:50.000Z",
   "resonance-air-columns-open-closed-pipes": "2026-05-07T14:17:42.000Z",
   "rolling-motion": "2026-05-05T07:34:50.000Z",
-  "rotational-inertia": "2026-05-05T07:34:50.000Z",
+  "rotational-inertia": "2026-05-07T20:19:06.000Z",
   "series-parallel-circuits": "2026-05-05T07:34:50.000Z",
   "simple-harmonic-motion": "2026-05-05T07:34:50.000Z",
   "solubility-and-saturation": "2026-05-05T07:34:50.000Z",

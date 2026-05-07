@@ -2145,6 +2145,103 @@ describe("challenge mode evaluator", () => {
     expect(evaluation.matchedCount).toBe(evaluation.totalCount);
   });
 
+  it("evaluates the rotational-inertia compact spin-up challenge", () => {
+    const concept = getConceptBySlug("rotational-inertia");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "rotational-inertia-ch-compact-spin-up",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        appliedTorque: 4,
+        massRadius: 0.24,
+      },
+      activeGraphId: "spin-up-map",
+      overlayValues: {
+        radiusGuides: true,
+        equalMassMarkers: true,
+        referenceCore: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
+  it("evaluates the rotational-inertia same-torque compare challenge", () => {
+    const concept = getConceptBySlug("rotational-inertia");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "rotational-inertia-ch-compare-same-torque",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        appliedTorque: 4,
+        massRadius: 0.95,
+      },
+      activeGraphId: "angular-speed",
+      overlayValues: {
+        radiusGuides: true,
+        equalMassMarkers: true,
+        referenceCore: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: {
+        activeTarget: "b",
+        setupA: {
+          appliedTorque: 4,
+          massRadius: 0.24,
+        },
+        setupB: {
+          appliedTorque: 4,
+          massRadius: 0.95,
+        },
+      },
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
+  it("evaluates the rotational-inertia strong-motor wide-rim challenge", () => {
+    const concept = getConceptBySlug("rotational-inertia");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "rotational-inertia-ch-strong-motor-rim",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        appliedTorque: 5.8,
+        massRadius: 0.95,
+      },
+      activeGraphId: "angular-speed",
+      overlayValues: {
+        radiusGuides: true,
+        equalMassMarkers: true,
+        referenceCore: true,
+      },
+      time: 2.4,
+      timeSource: "inspect",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
   it("evaluates the new centripetal-force live target challenge from the same UCM state", () => {
     const concept = getConceptBySlug("uniform-circular-motion");
     const source = buildSimulationSource(concept);
