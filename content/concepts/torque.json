@@ -297,6 +297,11 @@
         "handle-right-angle",
         "near-hinge-right-angle",
         "line-through-pivot"
+      ],
+      "starterExploreTasks": [
+        "Start with Handle right-angle push and compare the force arrow, moment arm, and flat torque graph before changing any control.",
+        "Switch to Near-hinge same push without changing force size or angle, then explain why the rotation shrinks even though the push still looks perpendicular.",
+        "Apply Line through pivot, turn on the line of action, and use the direction map to prove why a large force can create almost no turning effect."
       ]
     },
     "controls": [
@@ -757,14 +762,20 @@
         "prompt": "Keep the push point near the handle but make the bar feel almost no turning effect.",
         "successMessage": "You kept the long lever arm and still removed the twist by aiming the force so its line of action passes through the pivot.",
         "setup": {
-          "presetId": "handle-right-angle",
+          "presetId": "line-through-pivot",
           "graphId": "direction-map",
-          "note": "Turn on the line of action and use the torque-angle map together."
+          "note": "Turn on the line of action and use the torque-angle map together.",
+          "overlayIds": [
+            "lineOfAction",
+            "momentArm",
+            "perpendicularComponent"
+          ]
         },
         "requirements": {
           "graphId": "direction-map",
           "overlayIds": [
-            "lineOfAction"
+            "lineOfAction",
+            "momentArm"
           ]
         },
         "hints": [
@@ -786,6 +797,32 @@
             "max": 0.12,
             "displayUnit": "N m"
           }
+        ],
+        "checks": [
+          {
+            "type": "param-range",
+            "label": "Keep the force large enough that zero torque comes from geometry, not from a tiny push.",
+            "param": "forceMagnitude",
+            "min": 3.5,
+            "max": 5,
+            "displayUnit": "N"
+          },
+          {
+            "type": "param-range",
+            "label": "Aim the force almost along the bar so the line of action passes through the pivot.",
+            "param": "forceAngle",
+            "min": 175,
+            "max": 180,
+            "displayUnit": "deg"
+          },
+          {
+            "type": "metric-range",
+            "label": "Collapse the moment arm even while the hand stays near the handle.",
+            "metric": "momentArm",
+            "min": -0.12,
+            "max": 0.12,
+            "displayUnit": "m"
+          }
         ]
       },
       {
@@ -796,14 +833,22 @@
         "successMessage": "You matched the turning effect across two different geometries, which means you compensated through the perpendicular part of the force instead of relying on distance alone.",
         "setup": {
           "presetId": "handle-right-angle",
-          "note": "Clone the handle push, then shorten only Setup B while keeping the torque graph aligned."
+          "note": "Clone the handle push, then shorten only Setup B while keeping the torque graph aligned.",
+          "graphId": "torque",
+          "overlayIds": [
+            "momentArm",
+            "perpendicularComponent"
+          ],
+          "interactionMode": "compare"
         },
         "requirements": {
           "graphId": "torque",
           "overlayIds": [
-            "momentArm"
+            "momentArm",
+            "perpendicularComponent"
           ],
-          "compareTarget": "b"
+          "compareTarget": "b",
+          "compareActive": true
         },
         "hints": [
           "Setup A can stay at the handle. Shorten only Setup B, then rebuild the same torque by changing the perpendicular part of the push.",
@@ -842,6 +887,35 @@
             "max": 3.25,
             "displayUnit": "N m"
           }
+        ],
+        "checks": [
+          {
+            "type": "compare-metric-range",
+            "label": "Setup A should keep the reference perpendicular force near 2 N.",
+            "setup": "a",
+            "metric": "forcePerpendicular",
+            "min": 1.9,
+            "max": 2.1,
+            "displayUnit": "N"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B should compensate for the shorter lever arm with a larger perpendicular force.",
+            "setup": "b",
+            "metric": "forcePerpendicular",
+            "min": 3.9,
+            "max": 4.1,
+            "displayUnit": "N"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B should still use a short moment arm instead of copying the handle geometry.",
+            "setup": "b",
+            "metric": "momentArm",
+            "min": 0.75,
+            "max": 0.85,
+            "displayUnit": "m"
+          }
         ]
       },
       {
@@ -854,7 +928,8 @@
           "presetId": "clockwise-push",
           "graphId": "rotation-angle",
           "overlayIds": [
-            "perpendicularComponent"
+            "perpendicularComponent",
+            "momentArm"
           ],
           "inspectTime": 2.4,
           "note": "Use the end-of-clip inspect state so the speed and angle readouts refer to the same moment."
@@ -862,7 +937,8 @@
         "requirements": {
           "graphId": "rotation-angle",
           "overlayIds": [
-            "perpendicularComponent"
+            "perpendicularComponent",
+            "momentArm"
           ],
           "timeSource": "inspect",
           "timeRange": {
@@ -896,6 +972,24 @@
             "min": -1.08,
             "max": -0.9,
             "displayUnit": "rad"
+          }
+        ],
+        "checks": [
+          {
+            "type": "param-range",
+            "label": "Keep the push at the intended lever arm instead of solving only by sliding the hand.",
+            "param": "applicationDistance",
+            "min": 1.15,
+            "max": 1.25,
+            "displayUnit": "m"
+          },
+          {
+            "type": "metric-range",
+            "label": "Use a negative perpendicular component so the torque is genuinely clockwise.",
+            "metric": "forcePerpendicular",
+            "min": -2.1,
+            "max": -1.9,
+            "displayUnit": "N"
           }
         ]
       }

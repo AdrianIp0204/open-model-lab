@@ -601,6 +601,30 @@ test("opens Vectors and Components on its component split bench", async ({
   }
 });
 
+test("opens Torque on its lever-arm turning bench", async ({
+  browser,
+}, testInfo) => {
+  const desktopCase = viewportCases.find((item) => item.name === "desktop-1440x900");
+  expect(desktopCase, "Expected the desktop-1440x900 viewport case to exist.").toBeTruthy();
+
+  const { context, page, browserGuard } = await openConceptPage(
+    browser,
+    desktopCase!,
+    "/en/concepts/torque",
+    "Torque",
+  );
+
+  try {
+    await assertInitialViewportLayout(page, desktopCase!, testInfo);
+    await expect(page.getByText("One pivoted bar").first()).toBeVisible();
+    await expect(page.getByText("turning = r F_perp").first()).toBeVisible();
+    await expect(page.getByText("Handle right-angle push").first()).toBeVisible();
+    browserGuard.assertNoActionableIssues();
+  } finally {
+    await context.close();
+  }
+});
+
 test("keeps Projectile Motion shell focus order aligned with responsive visual order", async ({
   browser,
 }) => {

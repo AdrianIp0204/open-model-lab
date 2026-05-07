@@ -429,7 +429,7 @@ export const conceptContentLastModified = {
   "static-equilibrium-centre-of-mass": "2026-05-05T07:34:50.000Z",
   "stoichiometric-ratios-and-recipe-batches": "2026-05-05T07:34:50.000Z",
   "temperature-and-internal-energy": "2026-05-05T07:34:50.000Z",
-  "torque": "2026-05-05T07:34:50.000Z",
+  "torque": "2026-05-07T20:13:22.000Z",
   "total-internal-reflection": "2026-05-05T07:34:50.000Z",
   "trig-identities-from-unit-circle-geometry": "2026-05-05T07:34:50.000Z",
   "uniform-circular-motion": "2026-05-05T07:34:50.000Z",

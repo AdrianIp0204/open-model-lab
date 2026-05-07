@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-07T20:04:15.792Z",
+  "generatedAt": "2026-05-07T20:11:18.628Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -1542,7 +1542,7 @@
       "title": "Torque",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/torque.json",
-      "canonicalSourceHash": "256d439840ef94cc7c38fda15637a3d45748fcd131f97a3fc5ea711b5a8b397b",
+      "canonicalSourceHash": "054baf9ded8c3a0e19fe731968d8d20c0d563e56d062f0b19a1a3667731ad2bd",
       "subject": "Physics",
       "topic": "Mechanics",
       "subtopic": "Turning effects of force",
@@ -1587,8 +1587,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "256d439840ef94cc7c38fda15637a3d45748fcd131f97a3fc5ea711b5a8b397b",
-          "currentSourceHash": "256d439840ef94cc7c38fda15637a3d45748fcd131f97a3fc5ea711b5a8b397b"
+          "recordedSourceHash": "054baf9ded8c3a0e19fe731968d8d20c0d563e56d062f0b19a1a3667731ad2bd",
+          "currentSourceHash": "054baf9ded8c3a0e19fe731968d8d20c0d563e56d062f0b19a1a3667731ad2bd"
         },
         "provider": null,
         "translatedAt": null,
@@ -1615,7 +1615,7 @@
             "variant": "original",
             "locale": "en",
             "recordedSourceHash": "dbafe92d142aec2c142b1736fafa116d22c85c185531f456bd7ca96a61fb18d8",
-            "currentSourceHash": "256d439840ef94cc7c38fda15637a3d45748fcd131f97a3fc5ea711b5a8b397b"
+            "currentSourceHash": "054baf9ded8c3a0e19fe731968d8d20c0d563e56d062f0b19a1a3667731ad2bd"
           },
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
@@ -1627,7 +1627,7 @@
           ],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 125,
+          "fallbackFieldCount": 136,
           "fallbackFieldPaths": [
             "sections.workedExamples.items.id:current-torque.resultTemplate",
             "sections.workedExamples.items.id:current-turning-state.variables.id:time.label",
@@ -1645,15 +1645,15 @@
             "simulation.ui.primaryPresetIds.0",
             "simulation.ui.primaryPresetIds.1",
             "simulation.ui.primaryPresetIds.2",
+            "simulation.ui.starterExploreTasks.0",
+            "simulation.ui.starterExploreTasks.1",
+            "simulation.ui.starterExploreTasks.2",
             "simulation.controls.id:forceMagnitude.description",
             "simulation.controls.id:forceAngle.description",
             "simulation.controls.id:applicationDistance.label",
             "simulation.controls.id:applicationDistance.description",
             "simulation.presets.id:handle-right-angle.label",
-            "simulation.presets.id:handle-right-angle.description",
-            "simulation.presets.id:near-hinge-right-angle.label",
-            "simulation.presets.id:near-hinge-right-angle.description",
-            "simulation.presets.id:shallow-strong-push.label"
+            "simulation.presets.id:handle-right-angle.description"
           ]
         }
       }

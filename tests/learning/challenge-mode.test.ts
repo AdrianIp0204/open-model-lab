@@ -2045,6 +2045,106 @@ describe("challenge mode evaluator", () => {
     expect(evaluation.matchedCount).toBe(evaluation.totalCount);
   });
 
+  it("evaluates the torque zero-turn challenge from a line-through-pivot state", () => {
+    const concept = getConceptBySlug("torque");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find((entry) => entry.id === "torque-ch-zero-turn");
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        forceMagnitude: 4,
+        forceAngle: 180,
+        applicationDistance: 1.6,
+      },
+      activeGraphId: "direction-map",
+      overlayValues: {
+        perpendicularComponent: true,
+        lineOfAction: true,
+        momentArm: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
+  it("evaluates the torque matched-product compare challenge", () => {
+    const concept = getConceptBySlug("torque");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "torque-ch-same-torque-new-geometry",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        forceMagnitude: 4,
+        forceAngle: 90,
+        applicationDistance: 0.8,
+      },
+      activeGraphId: "torque",
+      overlayValues: {
+        perpendicularComponent: true,
+        lineOfAction: true,
+        momentArm: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: {
+        activeTarget: "b",
+        setupA: {
+          forceMagnitude: 2,
+          forceAngle: 90,
+          applicationDistance: 1.6,
+        },
+        setupB: {
+          forceMagnitude: 4,
+          forceAngle: 90,
+          applicationDistance: 0.8,
+        },
+      },
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
+  it("evaluates the torque clockwise-finish challenge at end inspect time", () => {
+    const concept = getConceptBySlug("torque");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "torque-ch-clockwise-finish",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        forceMagnitude: 2,
+        forceAngle: -90,
+        applicationDistance: 1.2,
+      },
+      activeGraphId: "rotation-angle",
+      overlayValues: {
+        perpendicularComponent: true,
+        lineOfAction: true,
+        momentArm: true,
+      },
+      time: 2.4,
+      timeSource: "inspect",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
   it("evaluates the new centripetal-force live target challenge from the same UCM state", () => {
     const concept = getConceptBySlug("uniform-circular-motion");
     const source = buildSimulationSource(concept);
