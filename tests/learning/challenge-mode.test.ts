@@ -2453,6 +2453,111 @@ describe("challenge mode evaluator", () => {
     expect(evaluation.matchedCount).toBe(evaluation.totalCount);
   });
 
+  it("evaluates the rolling-motion fast same-ramp challenge", () => {
+    const concept = getConceptBySlug("rolling-motion");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "rolling-motion-ch-fast-run",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        slopeAngle: 12,
+        radius: 0.22,
+        inertiaFactor: 0.4,
+      },
+      activeGraphId: "acceleration-map",
+      overlayValues: {
+        noSlipLink: true,
+        massLayout: true,
+        energySplit: true,
+        frictionTorque: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
+  it("evaluates the rolling-motion sphere-vs-hoop compare challenge", () => {
+    const concept = getConceptBySlug("rolling-motion");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "rolling-motion-ch-compare-race",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        slopeAngle: 12,
+        radius: 0.22,
+        inertiaFactor: 1,
+      },
+      activeGraphId: "distance",
+      overlayValues: {
+        noSlipLink: true,
+        massLayout: true,
+        energySplit: true,
+        frictionTorque: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: {
+        activeTarget: "b",
+        setupA: {
+          slopeAngle: 12,
+          radius: 0.22,
+          inertiaFactor: 0.4,
+        },
+        setupB: {
+          slopeAngle: 12,
+          radius: 0.22,
+          inertiaFactor: 1,
+        },
+      },
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
+  it("evaluates the rolling-motion small-radius spin challenge", () => {
+    const concept = getConceptBySlug("rolling-motion");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "rolling-motion-ch-small-radius-spin",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        slopeAngle: 12,
+        radius: 0.16,
+        inertiaFactor: 0.4,
+      },
+      activeGraphId: "speed-link",
+      overlayValues: {
+        noSlipLink: true,
+        massLayout: true,
+        energySplit: true,
+        frictionTorque: true,
+      },
+      time: 1.8,
+      timeSource: "inspect",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
   it("evaluates the new centripetal-force live target challenge from the same UCM state", () => {
     const concept = getConceptBySlug("uniform-circular-motion");
     const source = buildSimulationSource(concept);

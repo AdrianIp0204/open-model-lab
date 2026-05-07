@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-07T21:32:43.683Z",
+  "generatedAt": "2026-05-07T21:41:01.120Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -1899,7 +1899,7 @@
       "title": "Rolling Motion",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/rolling-motion.json",
-      "canonicalSourceHash": "c661356dad7c692e4255202dccfa7a4b70d0f29454c617715ec700d0fa93c86d",
+      "canonicalSourceHash": "2d720a982ceb2ccf02edf9590a104c821643f682764ca83f592981e3da780e84",
       "subject": "Physics",
       "topic": "Mechanics",
       "subtopic": "Rolling without slipping",
@@ -1941,8 +1941,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "c661356dad7c692e4255202dccfa7a4b70d0f29454c617715ec700d0fa93c86d",
-          "currentSourceHash": "c661356dad7c692e4255202dccfa7a4b70d0f29454c617715ec700d0fa93c86d"
+          "recordedSourceHash": "2d720a982ceb2ccf02edf9590a104c821643f682764ca83f592981e3da780e84",
+          "currentSourceHash": "2d720a982ceb2ccf02edf9590a104c821643f682764ca83f592981e3da780e84"
         },
         "provider": null,
         "translatedAt": null,
@@ -1969,7 +1969,7 @@
             "variant": "original",
             "locale": "en",
             "recordedSourceHash": "4f8c093ca1662520b03a95a3aa9ec9cb0ee1c8a846afc3529042fce654e0b964",
-            "currentSourceHash": "c661356dad7c692e4255202dccfa7a4b70d0f29454c617715ec700d0fa93c86d"
+            "currentSourceHash": "2d720a982ceb2ccf02edf9590a104c821643f682764ca83f592981e3da780e84"
           },
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
@@ -1979,7 +1979,7 @@
           "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 133,
+          "fallbackFieldCount": 154,
           "fallbackFieldPaths": [
             "sections.workedExamples.items.id:current-rolling-acceleration.resultTemplate",
             "sections.workedExamples.items.id:current-no-slip-state.variables.id:time.label",
@@ -1989,23 +1989,23 @@
             "simulation.ui.initialGraphId",
             "simulation.ui.primaryGraphIds.0",
             "simulation.ui.primaryGraphIds.1",
+            "simulation.ui.primaryGraphIds.2",
             "simulation.ui.primaryControlIds.0",
+            "simulation.ui.primaryControlIds.1",
+            "simulation.ui.primaryControlIds.2",
+            "simulation.ui.primaryPresetIds.0",
+            "simulation.ui.primaryPresetIds.1",
+            "simulation.ui.primaryPresetIds.2",
+            "simulation.ui.primaryPresetIds.3",
+            "simulation.ui.starterExploreTasks.0",
+            "simulation.ui.starterExploreTasks.1",
+            "simulation.ui.starterExploreTasks.2",
             "simulation.controls.id:slopeAngle.description",
             "simulation.controls.id:radius.description",
             "simulation.controls.id:inertiaFactor.label",
             "simulation.controls.id:inertiaFactor.description",
             "simulation.presets.id:solid-sphere-baseline.label",
-            "simulation.presets.id:solid-sphere-baseline.description",
-            "simulation.presets.id:solid-cylinder-baseline.label",
-            "simulation.presets.id:solid-cylinder-baseline.description",
-            "simulation.presets.id:hoop-baseline.label",
-            "simulation.presets.id:hoop-baseline.description",
-            "simulation.presets.id:steep-sphere.label",
-            "simulation.presets.id:steep-sphere.description",
-            "simulation.presets.id:small-sphere-fast-spin.label",
-            "simulation.presets.id:small-sphere-fast-spin.description",
-            "simulation.presets.id:custom-rim-loaded.label",
-            "simulation.presets.id:custom-rim-loaded.description"
+            "simulation.presets.id:solid-sphere-baseline.description"
           ]
         }
       }

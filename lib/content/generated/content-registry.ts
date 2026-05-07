@@ -342,7 +342,7 @@ export const conceptContentFilePaths = {
 
 export const conceptContentLastModified = {
   "acid-base-ph-intuition": "2026-05-05T07:34:50.000Z",
-  "angular-momentum": "2026-05-07T21:35:15.000Z",
+  "angular-momentum": "2026-05-07T21:35:41.000Z",
   "atomic-spectra": "2026-05-05T07:34:50.000Z",
   "basic-circuits": "2026-05-05T07:34:50.000Z",
   "beats": "2026-05-07T18:17:37.000Z",
@@ -417,7 +417,7 @@ export const conceptContentLastModified = {
   "reaction-rate-collision-theory": "2026-05-06T15:07:19.000Z",
   "refraction-snells-law": "2026-05-05T07:34:50.000Z",
   "resonance-air-columns-open-closed-pipes": "2026-05-07T14:17:42.000Z",
-  "rolling-motion": "2026-05-05T07:34:50.000Z",
+  "rolling-motion": "2026-05-07T21:43:05.000Z",
   "rotational-inertia": "2026-05-07T20:19:06.000Z",
   "series-parallel-circuits": "2026-05-05T07:34:50.000Z",
   "simple-harmonic-motion": "2026-05-05T07:34:50.000Z",

@@ -275,12 +275,25 @@
       "initialGraphId": "distance",
       "primaryGraphIds": [
         "distance",
-        "acceleration-map"
+        "acceleration-map",
+        "speed-link"
       ],
       "primaryControlIds": [
-        "inertiaFactor"
+        "inertiaFactor",
+        "slopeAngle",
+        "radius"
       ],
-      "primaryPresetIds": []
+      "primaryPresetIds": [
+        "solid-sphere-baseline",
+        "solid-cylinder-baseline",
+        "hoop-baseline",
+        "small-sphere-fast-spin"
+      ],
+      "starterExploreTasks": [
+        "Start with Solid cylinder and read the no-slip link: the centre speed and angular speed are tied by radius, not freely chosen.",
+        "Switch between Solid sphere and Hoop while keeping the same ramp and radius; the acceleration map should change because mass distribution changes $k$.",
+        "Apply Small fast-spin sphere and inspect near the end of the run: the centre speed stays sphere-like, but the smaller radius demands a larger angular speed."
+      ]
     },
     "controls": [
       {
@@ -776,6 +789,32 @@
             "max": 1.86,
             "displayUnit": "s"
           }
+        ],
+        "checks": [
+          {
+            "type": "metric-range",
+            "label": "Keep the centre-of-mass acceleration in the sphere-like range for this same ramp.",
+            "metric": "acceleration",
+            "min": 1.42,
+            "max": 1.49,
+            "displayUnit": "m/s^2"
+          },
+          {
+            "type": "metric-range",
+            "label": "Use a normal baseline radius so the fast finish comes from lower inertia factor, not a radius trick.",
+            "metric": "angularAcceleration",
+            "min": 6.4,
+            "max": 6.9,
+            "displayUnit": "rad/s^2"
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep static friction in the sphere-like rolling-torque range.",
+            "metric": "staticFriction",
+            "min": 0.66,
+            "max": 0.74,
+            "displayUnit": "N"
+          }
         ]
       },
       {
@@ -860,6 +899,44 @@
             "max": 2.22,
             "displayUnit": "s"
           }
+        ],
+        "checks": [
+          {
+            "type": "compare-metric-range",
+            "label": "Setup A should keep the larger sphere-like centre acceleration.",
+            "setup": "a",
+            "metric": "acceleration",
+            "min": 1.42,
+            "max": 1.49,
+            "displayUnit": "m/s^2"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup A should keep the quick sphere-like travel time.",
+            "setup": "a",
+            "metric": "travelTime",
+            "min": 1.78,
+            "max": 1.86,
+            "displayUnit": "s"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B should have the smaller hoop-like centre acceleration on the same ramp.",
+            "setup": "b",
+            "metric": "acceleration",
+            "min": 0.99,
+            "max": 1.05,
+            "displayUnit": "m/s^2"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B should need more static-friction torque to spin the rim-loaded shape.",
+            "setup": "b",
+            "metric": "staticFriction",
+            "min": 1.18,
+            "max": 1.27,
+            "displayUnit": "N"
+          }
         ]
       },
       {
@@ -913,6 +990,40 @@
             "min": 15.5,
             "max": 17.5,
             "displayUnit": "rad/s"
+          }
+        ],
+        "checks": [
+          {
+            "type": "metric-range",
+            "label": "Keep the full-ramp travel time sphere-like while changing radius.",
+            "metric": "travelTime",
+            "min": 1.78,
+            "max": 1.86,
+            "displayUnit": "s"
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep the centre speed near the late-run sphere value so $\\omega$ rises because radius is small.",
+            "metric": "linearSpeed",
+            "min": 2.55,
+            "max": 2.7,
+            "displayUnit": "m/s"
+          },
+          {
+            "type": "metric-range",
+            "label": "Make the small radius demand a high angular acceleration through $a/r$.",
+            "metric": "angularAcceleration",
+            "min": 8.8,
+            "max": 9.3,
+            "displayUnit": "rad/s^2"
+          },
+          {
+            "type": "metric-range",
+            "label": "Let the small radius produce many radians of rotation by the inspected end state.",
+            "metric": "rotationAngle",
+            "min": 14.3,
+            "max": 15.2,
+            "displayUnit": "rad"
           }
         ]
       }

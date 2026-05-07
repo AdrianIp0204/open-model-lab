@@ -673,6 +673,30 @@ test("opens Angular Momentum on its same-L rotor bench", async ({
   }
 });
 
+test("opens Rolling Motion on its no-slip incline bench", async ({
+  browser,
+}, testInfo) => {
+  const desktopCase = viewportCases.find((item) => item.name === "desktop-1440x900");
+  expect(desktopCase, "Expected the desktop-1440x900 viewport case to exist.").toBeTruthy();
+
+  const { context, page, browserGuard } = await openConceptPage(
+    browser,
+    desktopCase!,
+    "/en/concepts/rolling-motion",
+    "Rolling Motion",
+  );
+
+  try {
+    await assertInitialViewportLayout(page, desktopCase!, testInfo);
+    await expect(page.getByText("bounded no-slip model").first()).toBeVisible();
+    await expect(page.getByText("Rolling state").first()).toBeVisible();
+    await expect(page.getByText("v = r omega").first()).toBeVisible();
+    browserGuard.assertNoActionableIssues();
+  } finally {
+    await context.close();
+  }
+});
+
 test("opens Static Equilibrium on its centre-of-mass support bench", async ({
   browser,
 }, testInfo) => {
