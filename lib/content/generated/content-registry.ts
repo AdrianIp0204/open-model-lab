@@ -345,7 +345,7 @@ export const conceptContentLastModified = {
   "angular-momentum": "2026-05-05T07:34:50.000Z",
   "atomic-spectra": "2026-05-05T07:34:50.000Z",
   "basic-circuits": "2026-05-05T07:34:50.000Z",
-  "beats": "2026-05-05T07:34:50.000Z",
+  "beats": "2026-05-07T18:17:37.000Z",
   "bernoullis-principle": "2026-05-05T07:34:50.000Z",
   "binary-search-halving-the-search-space": "2026-05-05T07:34:50.000Z",
   "bohr-model": "2026-05-05T07:34:50.000Z",

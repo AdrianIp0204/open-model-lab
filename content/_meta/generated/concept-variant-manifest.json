@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-07T18:15:08.824Z",
+  "generatedAt": "2026-05-07T18:22:35.222Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -5763,7 +5763,7 @@
       "title": "Electromagnetic Waves",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/electromagnetic-waves.json",
-      "canonicalSourceHash": "b6060e1507766c37300b3ff5bbec654a0855d0bb60956af4a4d616ab072755f0",
+      "canonicalSourceHash": "74b45daadf6364837622f7eb7e05ef1e985d5f58d1dd76d4b6fe98a9fc05ec72",
       "subject": "Physics",
       "topic": "Electromagnetism",
       "subtopic": "Changing fields and propagation",
@@ -5812,8 +5812,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "b6060e1507766c37300b3ff5bbec654a0855d0bb60956af4a4d616ab072755f0",
-          "currentSourceHash": "b6060e1507766c37300b3ff5bbec654a0855d0bb60956af4a4d616ab072755f0"
+          "recordedSourceHash": "74b45daadf6364837622f7eb7e05ef1e985d5f58d1dd76d4b6fe98a9fc05ec72",
+          "currentSourceHash": "74b45daadf6364837622f7eb7e05ef1e985d5f58d1dd76d4b6fe98a9fc05ec72"
         },
         "provider": null,
         "translatedAt": null,
@@ -5840,7 +5840,7 @@
             "variant": "original",
             "locale": "en",
             "recordedSourceHash": "4ddc4d7b1b5eacdeb188bbb3e8446269a0e398cb8b1c480e230356acfae70a60",
-            "currentSourceHash": "b6060e1507766c37300b3ff5bbec654a0855d0bb60956af4a4d616ab072755f0"
+            "currentSourceHash": "74b45daadf6364837622f7eb7e05ef1e985d5f58d1dd76d4b6fe98a9fc05ec72"
           },
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
@@ -5852,7 +5852,7 @@
           ],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 76,
+          "fallbackFieldCount": 113,
           "fallbackFieldPaths": [
             "sections.workedExamples.items.id:local-field-pair.resultTemplate",
             "sections.workedExamples.items.id:source-probe-delay.resultTemplate",
@@ -5860,7 +5860,16 @@
             "pageIntro.keyTakeaway",
             "simulation.ui.initialGraphId",
             "simulation.ui.primaryGraphIds.0",
+            "simulation.ui.primaryGraphIds.1",
             "simulation.ui.primaryControlIds.0",
+            "simulation.ui.primaryControlIds.1",
+            "simulation.ui.primaryControlIds.2",
+            "simulation.ui.primaryPresetIds.0",
+            "simulation.ui.primaryPresetIds.1",
+            "simulation.ui.primaryPresetIds.2",
+            "simulation.ui.starterExploreTasks.0",
+            "simulation.ui.starterExploreTasks.1",
+            "simulation.ui.starterExploreTasks.2",
             "simulation.controls.id:electricAmplitude.label",
             "simulation.controls.id:electricAmplitude.description",
             "simulation.controls.id:waveSpeed.description",
@@ -5869,16 +5878,7 @@
             "simulation.presets.id:slower-medium.label",
             "simulation.presets.id:slower-medium.description",
             "simulation.presets.id:faster-medium.label",
-            "simulation.presets.id:faster-medium.description",
-            "simulation.presets.id:longer-wavelength.label",
-            "simulation.presets.id:longer-wavelength.description",
-            "simulation.presets.id:one-wavelength-lag.label",
-            "simulation.presets.id:one-wavelength-lag.description",
-            "simulation.overlays.id:wavelengthGuide.label",
-            "simulation.overlays.id:wavelengthGuide.shortDescription",
-            "simulation.overlays.id:wavelengthGuide.whatToNotice.0",
-            "simulation.overlays.id:wavelengthGuide.whyItMatters",
-            "simulation.overlays.id:probeGuide.label"
+            "simulation.presets.id:faster-medium.description"
           ]
         }
       }

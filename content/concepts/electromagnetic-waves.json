@@ -501,12 +501,24 @@
     "ui": {
       "initialGraphId": "probe-fields",
       "primaryGraphIds": [
-        "probe-fields"
+        "probe-fields",
+        "source-probe"
       ],
       "primaryControlIds": [
-        "probeX"
+        "probeX",
+        "waveSpeed",
+        "wavelength"
       ],
-      "primaryPresetIds": []
+      "primaryPresetIds": [
+        "baseline-coupled-wave",
+        "slower-medium",
+        "one-wavelength-lag"
+      ],
+      "starterExploreTasks": [
+        "Keep the probe-field graph open and watch the electric and magnetic readings reverse together at one point.",
+        "Move the probe to one wavelength from the source, then compare phase lag with the travel-delay readout.",
+        "Apply Slower propagation and explain why the delay and magnetic scale change while the wavelength stays fixed."
+      ]
     },
     "controls": [
       {
@@ -1095,6 +1107,161 @@
       "magnetic field",
       "wave propagation",
       "electromagnetism simulation"
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Use the field-pair bench to separate local E/B pairing from downstream delay and wave-speed changes.",
+    "items": [
+      {
+        "id": "emw-ch-one-wavelength-delay",
+        "title": "One wavelength downstream",
+        "style": "parameter-match",
+        "prompt": "Starting from the baseline wave, place the probe exactly one wavelength downstream so the source and probe have the same phase one full cycle later.",
+        "successMessage": "The probe is one wavelength from the source: the local phase repeats, but the probe still represents a delayed copy of the same traveling wave.",
+        "setup": {
+          "presetId": "baseline-coupled-wave",
+          "graphId": "source-probe",
+          "overlayIds": [
+            "probeGuide",
+            "wavelengthGuide"
+          ],
+          "note": "Use the source-probe graph, the wavelength guide, and the phase-lag readout together."
+        },
+        "hints": [
+          "One full wavelength of spacing means a phase lag of one full cycle.",
+          "With the baseline wavelength at 1.8 m, the probe should sit near x = 1.8 m while the wave speed and wavelength stay unchanged."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Open the source-probe electric field graph.",
+            "graphId": "source-probe"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the probe delay guide visible.",
+            "overlayId": "probeGuide",
+            "value": true
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the wavelength guide visible.",
+            "overlayId": "wavelengthGuide",
+            "value": true
+          },
+          {
+            "type": "param-range",
+            "label": "Keep the baseline wavelength near 1.8 m.",
+            "param": "wavelength",
+            "min": 1.75,
+            "max": 1.85,
+            "displayUnit": "m"
+          },
+          {
+            "type": "metric-range",
+            "label": "Place the probe about one wavelength from the source.",
+            "metric": "probeX",
+            "min": 1.75,
+            "max": 1.85,
+            "displayUnit": "m"
+          },
+          {
+            "type": "metric-range",
+            "label": "Make the source-probe lag one full cycle.",
+            "metric": "phaseLagCycles",
+            "min": 0.98,
+            "max": 1.02
+          }
+        ]
+      },
+      {
+        "id": "emw-ch-slower-same-wavelength",
+        "title": "Slower wave, same spacing",
+        "style": "parameter-match",
+        "prompt": "Enter compare mode and make Setup B use the same electric amplitude, wavelength, and probe position as Setup A, but a slower wave speed.",
+        "successMessage": "Setup B keeps the same spatial wave shape but travels more slowly, so its source frequency drops, its probe delay grows, and its magnetic amplitude is larger in this model.",
+        "setup": {
+          "presetId": "baseline-coupled-wave",
+          "interactionMode": "compare",
+          "graphId": "probe-fields",
+          "overlayIds": [
+            "propagationTriad",
+            "probeGuide"
+          ],
+          "note": "Clone the baseline into A and B, then edit Setup B speed while leaving the electric amplitude, wavelength, and probe position matched."
+        },
+        "hints": [
+          "Lower only Setup B wave speed toward the Slower propagation preset.",
+          "At fixed wavelength, lower speed means lower frequency; because this bench uses B = E/v, the magnetic amplitude increases too."
+        ],
+        "checks": [
+          {
+            "type": "compare-active",
+            "label": "Switch into compare mode and edit Setup B.",
+            "target": "b"
+          },
+          {
+            "type": "graph-active",
+            "label": "Keep the probe field pair graph open.",
+            "graphId": "probe-fields"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup A on the baseline wave speed.",
+            "setup": "a",
+            "param": "waveSpeed",
+            "min": 2.75,
+            "max": 2.85,
+            "displayUnit": "m/s"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Slow Setup B down.",
+            "setup": "b",
+            "param": "waveSpeed",
+            "min": 1.75,
+            "max": 1.85,
+            "displayUnit": "m/s"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup B wavelength matched to Setup A.",
+            "setup": "b",
+            "param": "wavelength",
+            "min": 1.75,
+            "max": 1.85,
+            "displayUnit": "m"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B frequency should drop to about 1.0 Hz.",
+            "setup": "b",
+            "metric": "frequency",
+            "min": 0.98,
+            "max": 1.02,
+            "displayUnit": "Hz"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B probe delay should grow to about 1.5 s.",
+            "setup": "b",
+            "metric": "travelDelay",
+            "min": 1.45,
+            "max": 1.55,
+            "displayUnit": "s"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B magnetic amplitude should be larger for the same electric amplitude.",
+            "setup": "b",
+            "metric": "magneticAmplitude",
+            "min": 0.64,
+            "max": 0.69,
+            "displayUnit": "arb."
+          }
+        ]
+      }
     ]
   }
 }

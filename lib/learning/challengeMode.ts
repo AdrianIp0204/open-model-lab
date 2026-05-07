@@ -27,6 +27,7 @@ import {
   resolveInternalResistanceTerminalVoltageParams,
   resolveDopplerEffectParams,
   resolveElectromagneticInductionParams,
+  resolveElectromagneticWavesParams,
   resolveLightSpectrumLinkageParams,
   resolveDispersionRefractiveIndexColorParams,
   resolvePolarizationParams,
@@ -99,6 +100,7 @@ import {
   sampleInternalResistanceTerminalVoltageState,
   sampleDopplerEffectState,
   sampleElectromagneticInductionState,
+  sampleElectromagneticWavesState,
   sampleLightSpectrumLinkageState,
   sampleDispersionRefractiveIndexColorState,
   samplePolarizationState,
@@ -1763,6 +1765,43 @@ function resolveMetricValue(
           return snapshot.emf;
         case "current":
           return snapshot.current;
+        default:
+          return null;
+      }
+    }
+    case "electromagnetic-waves": {
+      const resolved = resolveElectromagneticWavesParams(params);
+      const snapshot = sampleElectromagneticWavesState(resolved, runtime.time);
+
+      switch (metric) {
+        case "electricAmplitude":
+          return resolved.electricAmplitude;
+        case "magneticAmplitude":
+          return snapshot.magneticAmplitude;
+        case "waveSpeed":
+          return resolved.waveSpeed;
+        case "wavelength":
+          return resolved.wavelength;
+        case "probeX":
+          return snapshot.probeX;
+        case "frequency":
+          return snapshot.frequency;
+        case "period":
+          return snapshot.period;
+        case "travelDelay":
+          return snapshot.travelDelay;
+        case "phaseLagCycles":
+          return snapshot.phaseLagCycles;
+        case "electricField":
+          return snapshot.electricField;
+        case "magneticField":
+          return snapshot.magneticField;
+        case "displayMagneticField":
+          return snapshot.displayMagneticField;
+        case "sourceElectricField":
+          return snapshot.sourceElectricField;
+        case "sourceMagneticField":
+          return snapshot.sourceMagneticField;
         default:
           return null;
       }

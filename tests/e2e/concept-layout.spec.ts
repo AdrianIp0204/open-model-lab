@@ -684,6 +684,30 @@ test("opens Standing Waves on its tailored second-harmonic first action", async 
   }
 });
 
+test("opens Electromagnetic Waves on its tailored field-pair first action", async ({
+  browser,
+}, testInfo) => {
+  const desktopCase = viewportCases.find((item) => item.name === "desktop-1440x900");
+  expect(desktopCase, "Expected the desktop-1440x900 viewport case to exist.").toBeTruthy();
+
+  const { context, page, browserGuard } = await openConceptPage(
+    browser,
+    desktopCase!,
+    "/en/concepts/electromagnetic-waves",
+    "Electromagnetic Waves",
+  );
+
+  try {
+    await assertInitialViewportLayout(page, desktopCase!, testInfo);
+    await expect(page.getByText("Live coupled fields").first()).toBeVisible();
+    await expect(page.getByText("PROPAGATES RIGHT").first()).toBeVisible();
+    await expect(page.getByText(/Probe delay =/).first()).toBeVisible();
+    browserGuard.assertNoActionableIssues();
+  } finally {
+    await context.close();
+  }
+});
+
 test("opens sound concepts on their tailored first-action benches", async ({
   browser,
 }, testInfo) => {

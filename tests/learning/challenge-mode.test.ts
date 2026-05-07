@@ -1039,6 +1039,82 @@ describe("challenge mode evaluator", () => {
     expect(evaluation.matchedCount).toBe(evaluation.totalCount);
   });
 
+  it("evaluates the electromagnetic wave one-wavelength delay target", () => {
+    const concept = getConceptBySlug("electromagnetic-waves");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "emw-ch-one-wavelength-delay",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        electricAmplitude: 1.2,
+        waveSpeed: 2.8,
+        wavelength: 1.8,
+        probeX: 1.8,
+      },
+      activeGraphId: "source-probe",
+      overlayValues: {
+        wavelengthGuide: true,
+        probeGuide: true,
+        propagationTriad: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
+  it("evaluates the electromagnetic wave slower same-wavelength compare target", () => {
+    const concept = getConceptBySlug("electromagnetic-waves");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "emw-ch-slower-same-wavelength",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        electricAmplitude: 1.2,
+        waveSpeed: 1.8,
+        wavelength: 1.8,
+        probeX: 2.7,
+      },
+      activeGraphId: "probe-fields",
+      overlayValues: {
+        wavelengthGuide: true,
+        probeGuide: true,
+        propagationTriad: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: {
+        activeTarget: "b",
+        setupA: {
+          electricAmplitude: 1.2,
+          waveSpeed: 2.8,
+          wavelength: 1.8,
+          probeX: 2.7,
+        },
+        setupB: {
+          electricAmplitude: 1.2,
+          waveSpeed: 1.8,
+          wavelength: 1.8,
+          probeX: 2.7,
+        },
+      },
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
   it("evaluates the capacitance voltage-only target from the live capacitor state", () => {
     const concept = getConceptBySlug("capacitance-and-stored-electric-energy");
     const source = buildSimulationSource(concept);
