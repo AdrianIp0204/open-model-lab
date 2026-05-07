@@ -449,17 +449,26 @@
     "ui": {
       "initialGraphId": "concentration-history",
       "primaryGraphIds": [
-        "concentration-history"
+        "concentration-history",
+        "rate-balance",
+        "equilibrium-share"
       ],
       "primaryControlIds": [
-        "reactant-amount"
+        "reactant-amount",
+        "product-amount",
+        "product-favor"
       ],
-      "primaryPresetIds": [],
+      "primaryPresetIds": [
+        "reactant-heavy-start",
+        "product-heavy-start",
+        "product-favored",
+        "reactant-favored"
+      ],
       "starterExploreTasks": [
-        "Let the system settle until the mixture changes slowly.",
-        "Increase the reactant amount and watch the mixture-over-time graph bend toward a new balance.",
-        "Use the exchange cue to confirm that the reaction is still active while the mixture rebalances.",
-        "Compare the new settled mix with the earlier equilibrium before you open more controls."
+        "Start with Reactant-heavy start and let the system run: the mixture changes, but the reversible pulses never stop.",
+        "Switch to Rate balance and wait near the end of the run; equilibrium means forward and reverse rates nearly match, not that both rates vanish.",
+        "Apply Product-favored conditions, then Reactant-favored conditions; the target band should move because the product-favor setting changed the equilibrium position.",
+        "Use Product-heavy start to see the reverse direction win first, then compare the settled mix with the earlier equilibrium target."
       ]
     },
     "controls": [
@@ -954,6 +963,133 @@
             "label": "Bring the forward-reverse rate gap down below 0.14.",
             "min": 0,
             "max": 0.14
+          }
+        ],
+        "checks": [
+          {
+            "type": "metric-range",
+            "label": "Set the new equilibrium target clearly above sixty percent products.",
+            "metric": "equilibriumProductShare",
+            "min": 0.62,
+            "max": 0.66
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep some reactants present so the forward reaction is still active.",
+            "metric": "reactantsCurrent",
+            "min": 6.3,
+            "max": 7.1
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep products near the new settled amount, not the original start amount.",
+            "metric": "productsCurrent",
+            "min": 10.9,
+            "max": 11.7
+          },
+          {
+            "type": "metric-range",
+            "label": "Forward rate should still be non-zero near equilibrium.",
+            "metric": "forwardRate",
+            "min": 1.7,
+            "max": 1.9
+          },
+          {
+            "type": "metric-range",
+            "label": "Reverse rate should nearly match the forward rate, not disappear.",
+            "metric": "reverseRate",
+            "min": 1.6,
+            "max": 1.8
+          }
+        ]
+      },
+      {
+        "id": "de-ch-reactant-favored-rebalance",
+        "title": "Rebalance the other way",
+        "style": "visible-condition",
+        "prompt": "Move the same reversible bench toward reactants and wait until the rates nearly match again. The product share should fall because the equilibrium target moved, not because the reaction stopped.",
+        "successMessage": "You pushed the equilibrium target toward reactants and still kept both reaction directions alive. The nearly matched rates make the new balance dynamic.",
+        "setup": {
+          "presetId": "reactant-favored",
+          "graphId": "rate-balance",
+          "overlayIds": [
+            "dynamicExchange",
+            "balanceBars",
+            "targetBand"
+          ],
+          "note": "Wait near the end of the run. The product share should settle near the lower target while both rates remain visible."
+        },
+        "requirements": {
+          "graphId": "rate-balance",
+          "overlayIds": [
+            "dynamicExchange",
+            "balanceBars",
+            "targetBand"
+          ],
+          "timeSource": "live",
+          "timeRange": {
+            "min": 7.5,
+            "label": "Let the bench run long enough to approach the reactant-favored balance."
+          }
+        },
+        "hints": [
+          "Use a product-favor value below one so the settled target moves toward reactants.",
+          "If the product share is still far from the target, let the live clock run longer before checking the rate gap."
+        ],
+        "targets": [
+          {
+            "metric": "productFavor",
+            "label": "Use a clearly reactant-favored setting between 0.80 and 0.86.",
+            "min": 0.8,
+            "max": 0.86
+          },
+          {
+            "metric": "productShare",
+            "label": "Keep the current product share in the lower settled band, between 39% and 43%.",
+            "min": 0.39,
+            "max": 0.43
+          },
+          {
+            "metric": "netRate",
+            "label": "Let the reverse direction still be slightly ahead but close to zero net change.",
+            "min": -0.08,
+            "max": -0.01
+          },
+          {
+            "metric": "rateGap",
+            "label": "Bring the forward-reverse rate gap below 0.08.",
+            "min": 0,
+            "max": 0.08
+          }
+        ],
+        "checks": [
+          {
+            "type": "metric-range",
+            "label": "Set the equilibrium target near forty percent products.",
+            "metric": "equilibriumProductShare",
+            "min": 0.39,
+            "max": 0.42
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep a product population present even after the reactant-favored shift.",
+            "metric": "productsCurrent",
+            "min": 7.0,
+            "max": 7.7
+          },
+          {
+            "type": "metric-range",
+            "label": "Forward rate remains active near the new balance.",
+            "metric": "forwardRate",
+            "min": 1.65,
+            "max": 1.85
+          },
+          {
+            "type": "metric-range",
+            "label": "Reverse rate remains active and nearly matched.",
+            "metric": "reverseRate",
+            "min": 1.7,
+            "max": 1.9
           }
         ]
       }

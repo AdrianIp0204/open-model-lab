@@ -746,6 +746,30 @@ test("opens Reaction Rate / Collision Theory on its collision bench", async ({
   }
 });
 
+test("opens Dynamic Equilibrium on its reversible bench", async ({
+  browser,
+}, testInfo) => {
+  const desktopCase = viewportCases.find((item) => item.name === "desktop-1440x900");
+  expect(desktopCase, "Expected the desktop-1440x900 viewport case to exist.").toBeTruthy();
+
+  const { context, page, browserGuard } = await openConceptPage(
+    browser,
+    desktopCase!,
+    "/en/concepts/dynamic-equilibrium-le-chateliers-principle",
+    "Dynamic Equilibrium / Le Chatelier's Principle",
+  );
+
+  try {
+    await assertInitialViewportLayout(page, desktopCase!, testInfo);
+    await expect(page.getByText("Reversible bench").first()).toBeVisible();
+    await expect(page.getByText("Equilibrium readout").first()).toBeVisible();
+    await expect(page.getByText("even at equilibrium, particles keep changing both ways").first()).toBeVisible();
+    browserGuard.assertNoActionableIssues();
+  } finally {
+    await context.close();
+  }
+});
+
 test("opens Static Equilibrium on its centre-of-mass support bench", async ({
   browser,
 }, testInfo) => {

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-07T21:57:02.730Z",
+  "generatedAt": "2026-05-07T22:02:50.794Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -9769,7 +9769,7 @@
       "title": "Dynamic Equilibrium / Le Chatelier's Principle",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/dynamic-equilibrium-le-chateliers-principle.json",
-      "canonicalSourceHash": "e8d9d96201635d9445d8e3465a09ad3faacc064dae881fe26841e252cd29ab25",
+      "canonicalSourceHash": "703935772ff3c189729052c3058c9f235b85e451f232a21ed125cace408ca427",
       "subject": "Chemistry",
       "topic": "Rates and Equilibrium",
       "subtopic": "Equilibrium shifts",
@@ -9808,8 +9808,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "e8d9d96201635d9445d8e3465a09ad3faacc064dae881fe26841e252cd29ab25",
-          "currentSourceHash": "e8d9d96201635d9445d8e3465a09ad3faacc064dae881fe26841e252cd29ab25"
+          "recordedSourceHash": "703935772ff3c189729052c3058c9f235b85e451f232a21ed125cace408ca427",
+          "currentSourceHash": "703935772ff3c189729052c3058c9f235b85e451f232a21ed125cace408ca427"
         },
         "provider": null,
         "translatedAt": null,
@@ -9836,7 +9836,7 @@
             "variant": "original",
             "locale": "en",
             "recordedSourceHash": "4d70e24d471933ff2c9ddf1244cd7abc1f8bdaccc0d38d61ab7f936740977b36",
-            "currentSourceHash": "e8d9d96201635d9445d8e3465a09ad3faacc064dae881fe26841e252cd29ab25"
+            "currentSourceHash": "703935772ff3c189729052c3058c9f235b85e451f232a21ed125cace408ca427"
           },
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
@@ -9848,7 +9848,7 @@
           ],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 84,
+          "fallbackFieldCount": 111,
           "fallbackFieldPaths": [
             "sections.workedExamples.items.id:read-the-current-balance.variables.id:time.label",
             "sections.workedExamples.items.id:read-the-current-balance.resultTemplate",
@@ -9860,21 +9860,21 @@
             "pageIntro.keyTakeaway",
             "simulation.ui.initialGraphId",
             "simulation.ui.primaryGraphIds.0",
+            "simulation.ui.primaryGraphIds.1",
+            "simulation.ui.primaryGraphIds.2",
             "simulation.ui.primaryControlIds.0",
+            "simulation.ui.primaryControlIds.1",
+            "simulation.ui.primaryControlIds.2",
+            "simulation.ui.primaryPresetIds.0",
+            "simulation.ui.primaryPresetIds.1",
+            "simulation.ui.primaryPresetIds.2",
+            "simulation.ui.primaryPresetIds.3",
             "simulation.ui.starterExploreTasks.0",
             "simulation.ui.starterExploreTasks.1",
             "simulation.ui.starterExploreTasks.2",
             "simulation.ui.starterExploreTasks.3",
             "simulation.controls.id:reactant-amount.label",
-            "simulation.controls.id:reactant-amount.description",
-            "simulation.controls.id:product-amount.label",
-            "simulation.controls.id:product-amount.description",
-            "simulation.controls.id:product-favor.description",
-            "simulation.presets.id:reactant-heavy-start.label",
-            "simulation.presets.id:reactant-heavy-start.description",
-            "simulation.presets.id:product-heavy-start.label",
-            "simulation.presets.id:product-heavy-start.description",
-            "simulation.presets.id:product-favored.label"
+            "simulation.controls.id:reactant-amount.description"
           ]
         }
       }

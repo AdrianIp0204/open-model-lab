@@ -2682,6 +2682,66 @@ describe("challenge mode evaluator", () => {
     expect(evaluation.matchedCount).toBe(evaluation.totalCount);
   });
 
+  it("evaluates the dynamic-equilibrium product-favored rebalance challenge", () => {
+    const concept = getConceptBySlug("dynamic-equilibrium-le-chateliers-principle");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "de-ch-disturb-then-rebalance",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        reactantAmount: 14,
+        productAmount: 4,
+        productFavor: 1.34,
+      },
+      activeGraphId: "rate-balance",
+      overlayValues: {
+        dynamicExchange: true,
+        balanceBars: true,
+        targetBand: true,
+      },
+      time: 8,
+      timeSource: "live",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
+  it("evaluates the dynamic-equilibrium reactant-favored rebalance challenge", () => {
+    const concept = getConceptBySlug("dynamic-equilibrium-le-chateliers-principle");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "de-ch-reactant-favored-rebalance",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        reactantAmount: 8,
+        productAmount: 10,
+        productFavor: 0.82,
+      },
+      activeGraphId: "rate-balance",
+      overlayValues: {
+        dynamicExchange: true,
+        balanceBars: true,
+        targetBand: true,
+      },
+      time: 8,
+      timeSource: "live",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
   it("evaluates the new centripetal-force live target challenge from the same UCM state", () => {
     const concept = getConceptBySlug("uniform-circular-motion");
     const source = buildSimulationSource(concept);
