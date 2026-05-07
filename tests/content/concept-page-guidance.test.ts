@@ -157,8 +157,8 @@ describe("resolveConceptPageGuidance", () => {
     expect(guidance?.usedOverrides.hints).toBe(false);
     expect(guidance?.hints.map((hint) => hint.label)).toEqual(
       expect.arrayContaining([
+        "Concentration",
         "Rate vs concentration",
-        "Hover graph",
       ]),
     );
   });

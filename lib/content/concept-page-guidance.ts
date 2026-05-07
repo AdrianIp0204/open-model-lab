@@ -976,6 +976,24 @@ function buildCapabilityHints(
   return hints;
 }
 
+function sortGuidanceHints(
+  hints: Array<ResolvedConceptPageGuidanceHint & { priority: number }>,
+) {
+  return [...hints].sort((left, right) => right.priority - left.priority);
+}
+
+function stripGuidanceHintPriority(
+  hint: ResolvedConceptPageGuidanceHint & { priority: number },
+): ResolvedConceptPageGuidanceHint {
+  return {
+    id: hint.id,
+    kind: hint.kind,
+    label: hint.label,
+    hidden: hint.hidden,
+    surface: hint.surface,
+  };
+}
+
 function finalizeHints(
   concept: ConceptContent,
   rawHints: Array<ResolvedConceptPageGuidanceHint & { priority: number }>,
@@ -984,26 +1002,38 @@ function finalizeHints(
   action: string,
 ) {
   const seen = new Set<string>();
-  const hints: Array<ResolvedConceptPageGuidanceHint & { priority: number }> = [];
+  const combinedHints: Array<ResolvedConceptPageGuidanceHint & { priority: number }> = [];
 
   for (const hint of rawHints) {
-    pushHint(hints, seen, hint);
+    pushHint(combinedHints, seen, hint);
   }
 
   for (const hint of buildCapabilityHints(concept, activeGraphId, prompt, action)) {
-    pushHint(hints, seen, hint);
+    pushHint(combinedHints, seen, hint);
   }
 
-  return hints
-    .sort((left, right) => right.priority - left.priority)
+  const selectedSeen = new Set<string>();
+  const selectedHints: Array<ResolvedConceptPageGuidanceHint & { priority: number }> = [];
+  const conceptSpecificHints = sortGuidanceHints(
+    rawHints.filter((hint) => hint.kind !== "tool"),
+  );
+  const minimumConceptSpecificHintCount = Math.min(2, conceptSpecificHints.length);
+
+  for (const hint of conceptSpecificHints.slice(0, minimumConceptSpecificHintCount)) {
+    pushHint(selectedHints, selectedSeen, hint);
+  }
+
+  for (const hint of sortGuidanceHints(combinedHints)) {
+    if (selectedHints.length >= 4) {
+      break;
+    }
+
+    pushHint(selectedHints, selectedSeen, hint);
+  }
+
+  return sortGuidanceHints(selectedHints)
     .slice(0, 4)
-    .map((hint) => ({
-      id: hint.id,
-      kind: hint.kind,
-      label: hint.label,
-      hidden: hint.hidden,
-      surface: hint.surface,
-    }));
+    .map(stripGuidanceHintPriority);
 }
 
 export function resolveConceptPageGuidance(
