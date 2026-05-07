@@ -697,6 +697,30 @@ test("opens Rolling Motion on its no-slip incline bench", async ({
   }
 });
 
+test("opens Momentum and Impulse on its force-pulse bench", async ({
+  browser,
+}, testInfo) => {
+  const desktopCase = viewportCases.find((item) => item.name === "desktop-1440x900");
+  expect(desktopCase, "Expected the desktop-1440x900 viewport case to exist.").toBeTruthy();
+
+  const { context, page, browserGuard } = await openConceptPage(
+    browser,
+    desktopCase!,
+    "/en/concepts/momentum-impulse",
+    "Momentum and Impulse",
+  );
+
+  try {
+    await assertInitialViewportLayout(page, desktopCase!, testInfo);
+    await expect(page.getByText("one timed force pulse").first()).toBeVisible();
+    await expect(page.getByText("Pulse state").first()).toBeVisible();
+    await expect(page.getByText("The accumulated impulse and change in momentum should match").first()).toBeVisible();
+    browserGuard.assertNoActionableIssues();
+  } finally {
+    await context.close();
+  }
+});
+
 test("opens Static Equilibrium on its centre-of-mass support bench", async ({
   browser,
 }, testInfo) => {

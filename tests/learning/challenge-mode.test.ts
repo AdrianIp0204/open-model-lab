@@ -2558,6 +2558,68 @@ describe("challenge mode evaluator", () => {
     expect(evaluation.matchedCount).toBe(evaluation.totalCount);
   });
 
+  it("evaluates the momentum-impulse equal-area gentle-pulse challenge", () => {
+    const concept = getConceptBySlug("momentum-impulse");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "mi-ch-match-final-momentum-with-gentler-pulse",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        mass: 1,
+        initialVelocity: 0.5,
+        force: 1.5,
+        pulseDuration: 0.8,
+      },
+      activeGraphId: "impulse",
+      overlayValues: {
+        forceArrow: true,
+        pulseWindow: true,
+        momentumBars: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
+  it("evaluates the momentum-impulse signed braking challenge", () => {
+    const concept = getConceptBySlug("momentum-impulse");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "mi-ch-brake-with-negative-impulse",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        mass: 1.4,
+        initialVelocity: 1,
+        force: -2.4,
+        pulseDuration: 0.5,
+      },
+      activeGraphId: "force",
+      overlayValues: {
+        forceArrow: true,
+        pulseWindow: true,
+        momentumBars: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
   it("evaluates the new centripetal-force live target challenge from the same UCM state", () => {
     const concept = getConceptBySlug("uniform-circular-motion");
     const source = buildSimulationSource(concept);

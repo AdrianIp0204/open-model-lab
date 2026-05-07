@@ -61,6 +61,7 @@ import {
   resolveTemperatureInternalEnergyParams,
   resolveConservationMomentumParams,
   resolveCollisionsParams,
+  resolveMomentumImpulseParams,
   resolveAngularMomentumParams,
   resolveRollingMotionParams,
   resolveRotationalInertiaParams,
@@ -128,6 +129,7 @@ import {
   sampleTemperatureInternalEnergyState,
   sampleConservationMomentumState,
   sampleCollisionsState,
+  sampleMomentumImpulseState,
   sampleAngularMomentumState,
   sampleRollingMotionState,
   sampleRotationalInertiaState,
@@ -939,6 +941,36 @@ function resolveMetricValue(
           return snapshot.totalKineticEnergy;
         case "staticFriction":
           return snapshot.staticFriction;
+        default:
+          return null;
+      }
+    }
+    case "momentum-impulse": {
+      const resolved = resolveMomentumImpulseParams(params);
+      const snapshot = sampleMomentumImpulseState(resolved, runtime.time);
+
+      switch (metric) {
+        case "mass":
+          return resolved.mass;
+        case "initialVelocity":
+          return resolved.initialVelocity;
+        case "force":
+          return resolved.force;
+        case "pulseDuration":
+          return resolved.pulseDuration;
+        case "position":
+          return snapshot.position;
+        case "velocity":
+          return snapshot.velocity;
+        case "momentum":
+          return snapshot.momentum;
+        case "initialMomentum":
+          return snapshot.initialMomentum;
+        case "finalMomentum":
+          return snapshot.finalMomentum;
+        case "impulse":
+        case "deltaMomentum":
+          return snapshot.totalImpulse;
         default:
           return null;
       }

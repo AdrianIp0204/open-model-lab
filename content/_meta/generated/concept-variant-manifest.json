@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-07T21:41:01.120Z",
+  "generatedAt": "2026-05-07T21:48:54.070Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -2135,7 +2135,7 @@
       "title": "Momentum and Impulse",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/momentum-impulse.json",
-      "canonicalSourceHash": "14713c78a5806d9ad37ae78e9145e15630067356db73e0566b92a7de71690308",
+      "canonicalSourceHash": "a44ace475d0b6956b720fc8d238eefedb9e242598f1b2797fc1fd74aa521f5ea",
       "subject": "Physics",
       "topic": "Mechanics",
       "subtopic": "Momentum and force over time",
@@ -2177,8 +2177,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "14713c78a5806d9ad37ae78e9145e15630067356db73e0566b92a7de71690308",
-          "currentSourceHash": "14713c78a5806d9ad37ae78e9145e15630067356db73e0566b92a7de71690308"
+          "recordedSourceHash": "a44ace475d0b6956b720fc8d238eefedb9e242598f1b2797fc1fd74aa521f5ea",
+          "currentSourceHash": "a44ace475d0b6956b720fc8d238eefedb9e242598f1b2797fc1fd74aa521f5ea"
         },
         "provider": null,
         "translatedAt": null,
@@ -2205,7 +2205,7 @@
             "variant": "original",
             "locale": "en",
             "recordedSourceHash": "e66703d2bfd4bcd4f5409d0e0bca5f90c2eb53ac16b6ae0294c9b62f5debfb0a",
-            "currentSourceHash": "14713c78a5806d9ad37ae78e9145e15630067356db73e0566b92a7de71690308"
+            "currentSourceHash": "a44ace475d0b6956b720fc8d238eefedb9e242598f1b2797fc1fd74aa521f5ea"
           },
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
@@ -2217,7 +2217,7 @@
           ],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 114,
+          "fallbackFieldCount": 126,
           "fallbackFieldPaths": [
             "sections.workedExamples.items.id:current-momentum.resultTemplate",
             "sections.workedExamples.items.id:pulse-impulse.resultTemplate",
@@ -2235,15 +2235,15 @@
             "simulation.ui.primaryPresetIds.1",
             "simulation.ui.primaryPresetIds.2",
             "simulation.ui.primaryPresetIds.3",
+            "simulation.ui.starterExploreTasks.0",
+            "simulation.ui.starterExploreTasks.1",
+            "simulation.ui.starterExploreTasks.2",
             "simulation.controls.id:mass.description",
             "simulation.controls.id:initialVelocity.description",
             "simulation.controls.id:force.description",
             "simulation.controls.id:pulseDuration.description",
             "simulation.presets.id:short-hard-push.label",
-            "simulation.presets.id:short-hard-push.description",
-            "simulation.presets.id:long-gentle-push.label",
-            "simulation.presets.id:long-gentle-push.description",
-            "simulation.presets.id:heavy-cart.label"
+            "simulation.presets.id:short-hard-push.description"
           ]
         }
       }
