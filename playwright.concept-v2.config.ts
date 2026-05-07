@@ -44,7 +44,10 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: `pnpm build && pnpm exec next start --hostname 127.0.0.1 --port ${resolvedPort}`,
+    // This suite includes dev-account-harness layout flows. `next start` runs with
+    // NODE_ENV=production, where that harness is intentionally disabled, so use
+    // the dev server here and keep production-build confidence in the release gates.
+    command: `pnpm exec next dev --webpack --hostname 127.0.0.1 --port ${resolvedPort}`,
     url: baseURL,
     reuseExistingServer: false,
     timeout: 120_000,

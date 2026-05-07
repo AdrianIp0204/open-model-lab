@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { useDeferredValue, useState } from "react";
+import { useDeferredValue, useEffect, useRef, useState } from "react";
 import type {
   ChallengeDepth,
   ChallengeDiscoveryEntry,
@@ -365,6 +365,8 @@ export function ChallengeDiscoveryHub({
     progressDisplay.source === "local" ? "local" : "synced";
   const snapshot = progressDisplay.snapshot;
   const [search, setSearch] = useState(() => initialFilters?.search?.trim() ?? "");
+  const challengeHubRef = useRef<HTMLElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const [topicFilter, setTopicFilter] = useState(() =>
     resolveInitialTopicFilter(index, initialFilters?.topic),
   );
@@ -379,6 +381,25 @@ export function ChallengeDiscoveryHub({
   );
   const deferredSearch = useDeferredValue(search);
   const normalizedSearch = normalizeSearchText(deferredSearch);
+
+  useEffect(() => {
+    const challengeHubElement = challengeHubRef.current;
+
+    challengeHubElement?.setAttribute("data-challenge-hub-ready", "");
+
+    const hydrationTimer = window.setTimeout(() => {
+      const hydratedSearch = searchInputRef.current?.value.trim();
+
+      if (hydratedSearch) {
+        setSearch((currentSearch) => currentSearch || hydratedSearch);
+      }
+    }, 0);
+
+    return () => {
+      challengeHubElement?.removeAttribute("data-challenge-hub-ready");
+      window.clearTimeout(hydrationTimer);
+    };
+  }, []);
 
   const progressEntries = index.entries.map((entry) =>
     buildChallengeProgressEntry(
@@ -612,7 +633,7 @@ export function ChallengeDiscoveryHub({
   };
 
   return (
-    <section className="space-y-6 sm:space-y-7">
+    <section ref={challengeHubRef} className="space-y-6 sm:space-y-7">
       <PageSection
         id="challenge-overview"
         as="section"
@@ -937,6 +958,7 @@ export function ChallengeDiscoveryHub({
                 {t("filters.search.label")}
               </label>
               <input
+                ref={searchInputRef}
                 id="challenge-search"
                 type="search"
                 value={search}

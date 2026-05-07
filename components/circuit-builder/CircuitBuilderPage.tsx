@@ -65,6 +65,7 @@ import {
   type CircuitDraftSnapshot,
   type CircuitTerminalRef,
 } from "@/lib/circuit-builder";
+import { LearningVisual } from "@/components/visuals/LearningVisual";
 import { CircuitInspector } from "./CircuitInspector";
 import { CircuitEnvironmentControl } from "./CircuitEnvironmentControl";
 import { CircuitPalette } from "./CircuitPalette";
@@ -3060,7 +3061,15 @@ export function CircuitBuilderPage({
               {copy.hero.subtitle}
             </p>
           </div>
-          <div className="flex min-w-0 lg:justify-end">
+          <div className="flex min-w-0 flex-col gap-2 lg:items-end">
+            <LearningVisual
+              kind="tool"
+              motif="circuit"
+              tone="amber"
+              compact
+              className="hidden h-20 w-full max-w-sm rounded-[18px] sm:block"
+              ariaLabel={copy.hero.title}
+            />
             {presetChips}
           </div>
         </div>

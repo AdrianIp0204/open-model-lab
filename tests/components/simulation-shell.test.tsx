@@ -96,7 +96,7 @@ describe("SimulationShell", () => {
     ).toBeTruthy();
   });
 
-  it("preserves the transport-first shell order at the sm breakpoint and wider", () => {
+  it("preserves transport-first keyboard order while keeping the stage first in wide guided benches", () => {
     mockMatchMedia(true);
 
     const { container } = render(
@@ -132,10 +132,10 @@ describe("SimulationShell", () => {
       (graphsSlot as HTMLElement).compareDocumentPosition(controlsSlot as HTMLElement) &
         Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
-    expect(benchHeaderSlot).toHaveClass("order-2", "lg:order-1");
+    expect(benchHeaderSlot).toHaveClass("order-2", "lg:order-3", "lg:row-start-2");
     expect(sceneSlot).toHaveClass("order-1");
     expect(graphsSlot).toHaveClass("order-3");
-    expect(controlsSlot).toHaveClass("order-3", "lg:order-3");
+    expect(controlsSlot).toHaveClass("order-3", "lg:order-3", "lg:row-start-1");
   });
 
   it("docks the first action with controls when only the interaction rail exists", () => {

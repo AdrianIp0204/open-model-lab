@@ -717,6 +717,7 @@ test("renders challenge cards with meaningful visuals and readable unit text", a
   const browserGuard = await installBrowserGuards(page);
   await setHarnessSession(page, "signed-out");
   await gotoAndExpectOk(page, "/en/challenges");
+  await expect(page.locator("[data-challenge-hub-ready]")).toBeVisible();
 
   await page.getByRole("searchbox", { name: /search/i }).fill("short-period force band");
 
@@ -742,6 +743,7 @@ test("keeps zh-HK challenge and tests hubs visually covered", async ({ page }) =
 
   await gotoAndExpectOk(page, "/zh-HK/challenges");
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-HK");
+  await expect(page.locator("[data-challenge-hub-ready]")).toBeVisible();
   await expect(
     page.locator(
       'article[data-card-visual-layout="compact-side"] [data-testid="learning-visual"][data-visual-kind="challenge"]',

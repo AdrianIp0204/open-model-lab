@@ -113,7 +113,7 @@ export function SimulationShell({
       key="bench-header"
       data-testid="simulation-shell-bench-header"
       data-focus-surface="bench-header"
-      className={isSmViewportOrWider ? "order-2 min-w-0 lg:order-1 lg:col-span-2" : "min-w-0"}
+      className={isSmViewportOrWider ? "order-2 min-w-0 lg:order-3 lg:col-start-1 lg:row-start-2" : "min-w-0"}
     >
       {benchHeader}
     </div>
@@ -152,6 +152,7 @@ export function SimulationShell({
         isSmViewportOrWider
           ? [
               "lg:col-start-2 lg:row-span-2",
+              benchHeader ? "lg:row-start-1" : "",
               benchHeader ? "order-3 lg:order-3" : "order-2",
             ].join(" ")
           : "",
@@ -209,7 +210,7 @@ export function SimulationShell({
       key="bench-stack"
       className={[
         "contents lg:block lg:min-w-0 lg:space-y-3 lg:col-start-1",
-        benchHeader ? "order-1 lg:order-2" : "order-1",
+        benchHeader ? "order-1 lg:order-1 lg:row-start-1" : "order-1",
       ].join(" ")}
     >
       {sceneSlot}
