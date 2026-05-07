@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-07T17:03:30.062Z",
+  "generatedAt": "2026-05-07T18:15:08.824Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -606,7 +606,7 @@
       "title": "Beats",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/beats.json",
-      "canonicalSourceHash": "37e11700f0966627504a3a108e17a4295a94419236b9205e5cbdd81a2519b726",
+      "canonicalSourceHash": "e298ffef578ca2dc123b33e89a0ae6ea6a6e7675a50d56680cc1064276e10e36",
       "subject": "Physics",
       "topic": "Sound",
       "subtopic": "Sound superposition",
@@ -648,8 +648,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "37e11700f0966627504a3a108e17a4295a94419236b9205e5cbdd81a2519b726",
-          "currentSourceHash": "37e11700f0966627504a3a108e17a4295a94419236b9205e5cbdd81a2519b726"
+          "recordedSourceHash": "e298ffef578ca2dc123b33e89a0ae6ea6a6e7675a50d56680cc1064276e10e36",
+          "currentSourceHash": "e298ffef578ca2dc123b33e89a0ae6ea6a6e7675a50d56680cc1064276e10e36"
         },
         "provider": null,
         "translatedAt": null,
@@ -676,7 +676,7 @@
             "variant": "original",
             "locale": "en",
             "recordedSourceHash": "bd3823f96951cf9e5b43df552909f112f5acef5aeede2ab28d71dc33151abaee",
-            "currentSourceHash": "37e11700f0966627504a3a108e17a4295a94419236b9205e5cbdd81a2519b726"
+            "currentSourceHash": "e298ffef578ca2dc123b33e89a0ae6ea6a6e7675a50d56680cc1064276e10e36"
           },
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
@@ -686,7 +686,7 @@
           "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 95,
+          "fallbackFieldCount": 109,
           "fallbackFieldPaths": [
             "sections.workedExamples.items.id:beat-rate-from-frequencies.variables.id:average-frequency.label",
             "sections.workedExamples.items.id:beat-rate-from-frequencies.resultTemplate",
@@ -706,13 +706,13 @@
             "simulation.ui.primaryPresetIds.0",
             "simulation.ui.primaryPresetIds.1",
             "simulation.ui.primaryPresetIds.2",
+            "simulation.ui.starterExploreTasks.0",
+            "simulation.ui.starterExploreTasks.1",
+            "simulation.ui.starterExploreTasks.2",
             "simulation.controls.id:amplitude.description",
             "simulation.controls.id:frequencyA.description",
             "simulation.controls.id:frequencyB.description",
-            "simulation.presets.id:near-unison.label",
-            "simulation.presets.id:near-unison.description",
-            "simulation.presets.id:slow-pulses.label",
-            "simulation.presets.id:slow-pulses.description"
+            "simulation.presets.id:near-unison.label"
           ]
         }
       }

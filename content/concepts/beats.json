@@ -524,6 +524,11 @@
         "near-unison",
         "no-beats",
         "same-beat-higher-carrier"
+      ],
+      "starterExploreTasks": [
+        "Use the envelope graph to count one loud-soft cycle while both source traces keep steady amplitudes.",
+        "Widen the frequency split, then compare the difference callout with the beat-frequency readout.",
+        "Apply No beats and explain why matching the frequencies removes the pulse without turning either source down."
       ]
     },
     "controls": [
@@ -1010,6 +1015,63 @@
             "min": 4.7,
             "max": 5.6,
             "displayUnit": "s"
+          }
+        ]
+      },
+      {
+        "id": "beats-ch-remove-envelope-without-muting",
+        "title": "Remove the beat without muting",
+        "style": "parameter-match",
+        "prompt": "Starting near unison, make the loud-soft beat disappear while keeping the source amplitude near the baseline.",
+        "successMessage": "You removed the separate beat by matching the two source frequencies. The sources are still driving; the frequency difference is what went to zero.",
+        "setup": {
+          "presetId": "near-unison",
+          "graphId": "envelope",
+          "overlayIds": [
+            "envelopeGuide",
+            "differenceGuide"
+          ],
+          "note": "Use the difference callout and envelope graph; do not solve it by shrinking amplitude."
+        },
+        "hints": [
+          "The target is a frequency difference near zero, not a smaller amplitude.",
+          "Bring Source A and Source B to the same frequency, then check that amplitude stayed near 0.12 m."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Keep the envelope graph open.",
+            "graphId": "envelope"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the frequency-difference callout on.",
+            "overlayId": "differenceGuide",
+            "value": true
+          },
+          {
+            "type": "param-range",
+            "label": "Keep the source amplitude near the baseline.",
+            "param": "amplitude",
+            "min": 0.11,
+            "max": 0.13,
+            "displayUnit": "m"
+          },
+          {
+            "type": "metric-range",
+            "label": "Bring the beat frequency down to zero.",
+            "metric": "beatFrequency",
+            "min": 0,
+            "max": 0.02,
+            "displayUnit": "Hz"
+          },
+          {
+            "type": "metric-range",
+            "label": "Make the two source frequencies match.",
+            "metric": "frequencyDifference",
+            "min": 0,
+            "max": 0.02,
+            "displayUnit": "Hz"
           }
         ]
       },

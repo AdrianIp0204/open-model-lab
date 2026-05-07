@@ -967,6 +967,36 @@ describe("challenge mode evaluator", () => {
     expect(evaluation.matchedCount).toBe(evaluation.totalCount);
   });
 
+  it("evaluates the beats no-envelope target without shrinking source amplitude", () => {
+    const concept = getConceptBySlug("beats");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "beats-ch-remove-envelope-without-muting",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        amplitude: 0.12,
+        frequencyA: 1.1,
+        frequencyB: 1.1,
+      },
+      activeGraphId: "envelope",
+      overlayValues: {
+        envelopeGuide: true,
+        loudnessCue: true,
+        differenceGuide: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
   it("evaluates the beats compare target from the real A/B carrier setups", () => {
     const concept = getConceptBySlug("beats");
     const source = buildSimulationSource(concept);

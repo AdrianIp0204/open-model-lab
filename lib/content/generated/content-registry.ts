@@ -405,7 +405,7 @@ export const conceptContentLastModified = {
   "parametric-curves-motion-from-equations": "2026-05-05T07:34:50.000Z",
   "percent-yield-and-reaction-extent": "2026-05-05T07:34:50.000Z",
   "photoelectric-effect": "2026-05-05T07:34:50.000Z",
-  "pitch-frequency-loudness-intensity": "2026-05-05T07:34:50.000Z",
+  "pitch-frequency-loudness-intensity": "2026-05-07T17:10:11.000Z",
   "polar-coordinates-radius-and-angle": "2026-05-05T07:34:50.000Z",
   "polarization": "2026-05-05T07:34:50.000Z",
   "power-energy-circuits": "2026-05-05T07:34:50.000Z",
