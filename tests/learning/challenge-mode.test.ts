@@ -2353,6 +2353,106 @@ describe("challenge mode evaluator", () => {
     expect(evaluation.matchedCount).toBe(evaluation.totalCount);
   });
 
+  it("evaluates the angular-momentum wide same-L challenge", () => {
+    const concept = getConceptBySlug("angular-momentum");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "angular-momentum-ch-wide-same-l",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        massRadius: 0.95,
+        angularSpeed: 0.93,
+      },
+      activeGraphId: "conserved-spin-map",
+      overlayValues: {
+        radiusGuide: true,
+        tangentialSpeed: true,
+        equalMassMarkers: true,
+        sameLReference: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
+  it("evaluates the angular-momentum compact-vs-wide same-L compare challenge", () => {
+    const concept = getConceptBySlug("angular-momentum");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "angular-momentum-ch-compare-same-l",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        massRadius: 0.95,
+        angularSpeed: 0.93,
+      },
+      activeGraphId: "rotation-angle",
+      overlayValues: {
+        radiusGuide: true,
+        tangentialSpeed: true,
+        equalMassMarkers: true,
+        sameLReference: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: {
+        activeTarget: "b",
+        setupA: {
+          massRadius: 0.28,
+          angularSpeed: 5.91,
+        },
+        setupB: {
+          massRadius: 0.95,
+          angularSpeed: 0.93,
+        },
+      },
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
+  it("evaluates the angular-momentum end-angle consequence challenge", () => {
+    const concept = getConceptBySlug("angular-momentum");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "angular-momentum-ch-end-angle",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        massRadius: 0.95,
+        angularSpeed: 0.93,
+      },
+      activeGraphId: "rotation-angle",
+      overlayValues: {
+        radiusGuide: true,
+        tangentialSpeed: true,
+        equalMassMarkers: true,
+        sameLReference: true,
+      },
+      time: 2.4,
+      timeSource: "inspect",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
   it("evaluates the new centripetal-force live target challenge from the same UCM state", () => {
     const concept = getConceptBySlug("uniform-circular-motion");
     const source = buildSimulationSource(concept);

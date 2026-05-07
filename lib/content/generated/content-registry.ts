@@ -342,7 +342,7 @@ export const conceptContentFilePaths = {
 
 export const conceptContentLastModified = {
   "acid-base-ph-intuition": "2026-05-05T07:34:50.000Z",
-  "angular-momentum": "2026-05-05T07:34:50.000Z",
+  "angular-momentum": "2026-05-07T21:35:15.000Z",
   "atomic-spectra": "2026-05-05T07:34:50.000Z",
   "basic-circuits": "2026-05-05T07:34:50.000Z",
   "beats": "2026-05-07T18:17:37.000Z",
@@ -426,7 +426,7 @@ export const conceptContentLastModified = {
   "sound-waves-longitudinal-motion": "2026-05-07T14:17:42.000Z",
   "specific-heat-and-phase-change": "2026-05-05T07:34:50.000Z",
   "standing-waves": "2026-05-07T12:26:04.000Z",
-  "static-equilibrium-centre-of-mass": "2026-05-05T07:34:50.000Z",
+  "static-equilibrium-centre-of-mass": "2026-05-07T21:27:35.000Z",
   "stoichiometric-ratios-and-recipe-batches": "2026-05-05T07:34:50.000Z",
   "temperature-and-internal-energy": "2026-05-05T07:34:50.000Z",
   "torque": "2026-05-07T20:13:22.000Z",

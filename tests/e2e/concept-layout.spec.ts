@@ -649,6 +649,30 @@ test("opens Rotational Inertia on its mass-distribution spin-up bench", async ({
   }
 });
 
+test("opens Angular Momentum on its same-L rotor bench", async ({
+  browser,
+}, testInfo) => {
+  const desktopCase = viewportCases.find((item) => item.name === "desktop-1440x900");
+  expect(desktopCase, "Expected the desktop-1440x900 viewport case to exist.").toBeTruthy();
+
+  const { context, page, browserGuard } = await openConceptPage(
+    browser,
+    desktopCase!,
+    "/en/concepts/angular-momentum",
+    "Angular Momentum",
+  );
+
+  try {
+    await assertInitialViewportLayout(page, desktopCase!, testInfo);
+    await expect(page.getByText("Angular momentum bench").first()).toBeVisible();
+    await expect(page.getByText("Rotational state").first()).toBeVisible();
+    await expect(page.getByText("same L at r").first()).toBeVisible();
+    browserGuard.assertNoActionableIssues();
+  } finally {
+    await context.close();
+  }
+});
+
 test("opens Static Equilibrium on its centre-of-mass support bench", async ({
   browser,
 }, testInfo) => {

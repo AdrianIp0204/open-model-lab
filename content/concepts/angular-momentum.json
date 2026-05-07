@@ -270,13 +270,24 @@
       "initialGraphId": "momentum-map",
       "primaryGraphIds": [
         "momentum-map",
-        "conserved-spin-map"
+        "conserved-spin-map",
+        "rotation-angle"
       ],
       "primaryControlIds": [
         "angularSpeed",
         "massRadius"
       ],
-      "primaryPresetIds": []
+      "primaryPresetIds": [
+        "lab-baseline",
+        "wide-same-speed",
+        "wide-same-l",
+        "compact-same-l"
+      ],
+      "starterExploreTasks": [
+        "Start with Lab baseline and raise only angular speed: the angular-momentum map should rise while the mass-radius guide stays fixed.",
+        "Apply Wide, same speed and compare it with the baseline so the same spin rate produces a larger angular-momentum readout.",
+        "Switch to Wide, same L and read the same-L map: the mass sits farther out while the spin rate drops to keep the product nearly matched."
+      ]
     },
     "controls": [
       {
@@ -770,6 +781,24 @@
             "max": 1.05,
             "displayUnit": "rad/s"
           }
+        ],
+        "checks": [
+          {
+            "type": "metric-range",
+            "label": "Make the wide layout carry a large moment of inertia rather than merely slowing the baseline rotor.",
+            "metric": "momentOfInertia",
+            "min": 5.7,
+            "max": 6,
+            "displayUnit": "kg m^2"
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep the rim motion slow enough that same-L comes from the radius-speed tradeoff.",
+            "metric": "tangentialSpeed",
+            "min": 0.82,
+            "max": 1,
+            "displayUnit": "m/s"
+          }
         ]
       },
       {
@@ -848,6 +877,35 @@
             "max": 1.05,
             "displayUnit": "rad/s"
           }
+        ],
+        "checks": [
+          {
+            "type": "compare-metric-range",
+            "label": "Setup A should stay compact with a small moment of inertia.",
+            "setup": "a",
+            "metric": "momentOfInertia",
+            "min": 0.88,
+            "max": 0.96,
+            "displayUnit": "kg m^2"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B should get its same angular momentum from a much larger moment of inertia.",
+            "setup": "b",
+            "metric": "momentOfInertia",
+            "min": 5.7,
+            "max": 6,
+            "displayUnit": "kg m^2"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B should have a much smaller rim speed even while angular momentum stays matched.",
+            "setup": "b",
+            "metric": "tangentialSpeed",
+            "min": 0.82,
+            "max": 1,
+            "displayUnit": "m/s"
+          }
         ]
       },
       {
@@ -902,6 +960,24 @@
             "min": 2.1,
             "max": 2.5,
             "displayUnit": "rad"
+          }
+        ],
+        "checks": [
+          {
+            "type": "metric-range",
+            "label": "Keep the wide rotor high-inertia at the inspected end state.",
+            "metric": "momentOfInertia",
+            "min": 5.7,
+            "max": 6,
+            "displayUnit": "kg m^2"
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep the slow same-L spin rate responsible for the smaller swept angle.",
+            "metric": "angularSpeed",
+            "min": 0.85,
+            "max": 1.05,
+            "displayUnit": "rad/s"
           }
         ]
       }

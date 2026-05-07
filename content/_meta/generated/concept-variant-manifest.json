@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-07T20:22:22.821Z",
+  "generatedAt": "2026-05-07T21:32:43.683Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -2016,7 +2016,7 @@
       "title": "Angular Momentum",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/angular-momentum.json",
-      "canonicalSourceHash": "44e94def553dd1209e8856ae0d9019882fdf419d870c996135326f3e78a3a855",
+      "canonicalSourceHash": "01f43dc36bd63ea84e3f753259f87a31ee7887d1fd16f409b6203194e6240de7",
       "subject": "Physics",
       "topic": "Mechanics",
       "subtopic": "Rotational momentum and conservation",
@@ -2058,8 +2058,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "44e94def553dd1209e8856ae0d9019882fdf419d870c996135326f3e78a3a855",
-          "currentSourceHash": "44e94def553dd1209e8856ae0d9019882fdf419d870c996135326f3e78a3a855"
+          "recordedSourceHash": "01f43dc36bd63ea84e3f753259f87a31ee7887d1fd16f409b6203194e6240de7",
+          "currentSourceHash": "01f43dc36bd63ea84e3f753259f87a31ee7887d1fd16f409b6203194e6240de7"
         },
         "provider": null,
         "translatedAt": null,
@@ -2086,7 +2086,7 @@
             "variant": "original",
             "locale": "en",
             "recordedSourceHash": "c1206578f2a40082b393797198f0cd100adc007a979f1d66a1e6d91a3269df2f",
-            "currentSourceHash": "44e94def553dd1209e8856ae0d9019882fdf419d870c996135326f3e78a3a855"
+            "currentSourceHash": "01f43dc36bd63ea84e3f753259f87a31ee7887d1fd16f409b6203194e6240de7"
           },
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
@@ -2098,7 +2098,7 @@
           ],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 122,
+          "fallbackFieldCount": 137,
           "fallbackFieldPaths": [
             "sections.workedExamples.items.id:current-angular-momentum.resultTemplate",
             "sections.workedExamples.items.id:compact-reference-spin.resultTemplate",
@@ -2107,8 +2107,16 @@
             "simulation.ui.initialGraphId",
             "simulation.ui.primaryGraphIds.0",
             "simulation.ui.primaryGraphIds.1",
+            "simulation.ui.primaryGraphIds.2",
             "simulation.ui.primaryControlIds.0",
             "simulation.ui.primaryControlIds.1",
+            "simulation.ui.primaryPresetIds.0",
+            "simulation.ui.primaryPresetIds.1",
+            "simulation.ui.primaryPresetIds.2",
+            "simulation.ui.primaryPresetIds.3",
+            "simulation.ui.starterExploreTasks.0",
+            "simulation.ui.starterExploreTasks.1",
+            "simulation.ui.starterExploreTasks.2",
             "simulation.controls.id:massRadius.description",
             "simulation.controls.id:angularSpeed.description",
             "simulation.presets.id:lab-baseline.label",
@@ -2116,15 +2124,7 @@
             "simulation.presets.id:compact-same-l.label",
             "simulation.presets.id:compact-same-l.description",
             "simulation.presets.id:mid-same-l.label",
-            "simulation.presets.id:mid-same-l.description",
-            "simulation.presets.id:wide-same-l.label",
-            "simulation.presets.id:wide-same-l.description",
-            "simulation.presets.id:wide-same-speed.label",
-            "simulation.presets.id:wide-same-speed.description",
-            "simulation.overlays.id:radiusGuide.label",
-            "simulation.overlays.id:radiusGuide.shortDescription",
-            "simulation.overlays.id:radiusGuide.whatToNotice.0",
-            "simulation.overlays.id:radiusGuide.whatToNotice.1"
+            "simulation.presets.id:mid-same-l.description"
           ]
         }
       }
