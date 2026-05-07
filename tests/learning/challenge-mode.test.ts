@@ -2242,6 +2242,117 @@ describe("challenge mode evaluator", () => {
     expect(evaluation.matchedCount).toBe(evaluation.totalCount);
   });
 
+  it("evaluates the static-equilibrium heavy-load balance challenge", () => {
+    const concept = getConceptBySlug("static-equilibrium-centre-of-mass");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "secm-ch-balance-heavy-right-load",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        cargoMass: 4,
+        cargoPosition: 1.2,
+        supportCenter: 0.6,
+        supportWidth: 1,
+      },
+      activeGraphId: "support-torque",
+      overlayValues: {
+        weightLines: true,
+        combinedCenterOfMass: true,
+        supportRegion: true,
+        supportReactions: true,
+        torqueArms: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
+  it("evaluates the static-equilibrium barely-stable support challenge", () => {
+    const concept = getConceptBySlug("static-equilibrium-centre-of-mass");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find((entry) => entry.id === "secm-ch-barely-stable");
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        cargoMass: 4,
+        cargoPosition: 1.2,
+        supportCenter: 0.15,
+        supportWidth: 1,
+      },
+      activeGraphId: "cargo-stability",
+      overlayValues: {
+        weightLines: true,
+        combinedCenterOfMass: true,
+        supportRegion: true,
+        supportReactions: true,
+        torqueArms: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
+  it("evaluates the static-equilibrium same-centre-of-mass compare challenge", () => {
+    const concept = getConceptBySlug("static-equilibrium-centre-of-mass");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "secm-ch-same-com-compare",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        cargoMass: 5,
+        cargoPosition: 1.08,
+        supportCenter: 0.6,
+        supportWidth: 1,
+      },
+      activeGraphId: "support-torque",
+      overlayValues: {
+        weightLines: true,
+        combinedCenterOfMass: true,
+        supportRegion: true,
+        supportReactions: true,
+        torqueArms: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: {
+        activeTarget: "b",
+        setupA: {
+          cargoMass: 4,
+          cargoPosition: 1.2,
+          supportCenter: 0.6,
+          supportWidth: 1,
+        },
+        setupB: {
+          cargoMass: 5,
+          cargoPosition: 1.08,
+          supportCenter: 0.6,
+          supportWidth: 1,
+        },
+      },
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
   it("evaluates the new centripetal-force live target challenge from the same UCM state", () => {
     const concept = getConceptBySlug("uniform-circular-motion");
     const source = buildSimulationSource(concept);

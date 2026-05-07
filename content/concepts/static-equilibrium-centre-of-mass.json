@@ -310,12 +310,25 @@
     "ui": {
       "initialGraphId": "cargo-stability",
       "primaryGraphIds": [
-        "cargo-stability"
+        "cargo-stability",
+        "support-torque",
+        "support-reactions"
       ],
       "primaryControlIds": [
-        "cargoPosition"
+        "cargoPosition",
+        "supportCenter",
+        "supportWidth"
       ],
-      "primaryPresetIds": []
+      "primaryPresetIds": [
+        "balanced-shifted-support",
+        "support-under-load",
+        "tips-right"
+      ],
+      "starterExploreTasks": [
+        "Start with Balanced shifted support and trace the separate weight lines into the combined centre-of-mass line before moving anything.",
+        "Apply Tips right, then move only the support centre until the torque graph crosses zero and the centre-of-mass line returns inside the support region.",
+        "Switch to Barely stable and compare support reactions to the margin graph: one side can stay positive while being very close to losing contact."
+      ]
     },
     "controls": [
       {
@@ -830,7 +843,8 @@
           "graphId": "support-torque",
           "overlayIds": [
             "combinedCenterOfMass",
-            "supportRegion"
+            "supportRegion",
+            "torqueArms"
           ]
         },
         "hints": [
@@ -859,6 +873,48 @@
             "max": 0.55,
             "displayUnit": "m"
           }
+        ],
+        "checks": [
+          {
+            "type": "param-range",
+            "label": "Keep the heavy right cargo fixed so equilibrium is restored by moving the support, not the load.",
+            "param": "cargoMass",
+            "min": 3.9,
+            "max": 4.1,
+            "displayUnit": "kg"
+          },
+          {
+            "type": "param-range",
+            "label": "Keep the cargo at the right-hand loading position.",
+            "param": "cargoPosition",
+            "min": 1.15,
+            "max": 1.25,
+            "displayUnit": "m"
+          },
+          {
+            "type": "metric-range",
+            "label": "Put the combined centre of mass directly over the shifted support centre.",
+            "metric": "centerOfMassX",
+            "min": 0.58,
+            "max": 0.62,
+            "displayUnit": "m"
+          },
+          {
+            "type": "metric-range",
+            "label": "Make the left reaction physically positive and close to the right reaction.",
+            "metric": "leftReaction",
+            "min": 37,
+            "max": 41,
+            "displayUnit": "N"
+          },
+          {
+            "type": "metric-range",
+            "label": "Make the right reaction physically positive and close to the left reaction.",
+            "metric": "rightReaction",
+            "min": 37,
+            "max": 41,
+            "displayUnit": "N"
+          }
         ]
       },
       {
@@ -879,7 +935,8 @@
         "requirements": {
           "graphId": "cargo-stability",
           "overlayIds": [
-            "supportRegion"
+            "supportRegion",
+            "supportReactions"
           ]
         },
         "hints": [
@@ -908,6 +965,40 @@
             "max": 0.08,
             "displayUnit": "m"
           }
+        ],
+        "checks": [
+          {
+            "type": "param-range",
+            "label": "Keep the heavy load fixed so the edge case comes from the support shift.",
+            "param": "cargoMass",
+            "min": 3.9,
+            "max": 4.1,
+            "displayUnit": "kg"
+          },
+          {
+            "type": "param-range",
+            "label": "Keep the cargo at the right-hand loading position.",
+            "param": "cargoPosition",
+            "min": 1.15,
+            "max": 1.25,
+            "displayUnit": "m"
+          },
+          {
+            "type": "metric-range",
+            "label": "Leave the left reaction barely positive rather than letting the plank tip.",
+            "metric": "leftReaction",
+            "min": 2,
+            "max": 6,
+            "displayUnit": "N"
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep the right reaction carrying most of the load near the edge of stability.",
+            "metric": "rightReaction",
+            "min": 72,
+            "max": 77,
+            "displayUnit": "N"
+          }
         ]
       },
       {
@@ -931,7 +1022,8 @@
             "combinedCenterOfMass",
             "supportRegion"
           ],
-          "compareTarget": "b"
+          "compareTarget": "b",
+          "compareActive": true
         },
         "hints": [
           "Heavier cargo does not have to sit as far out to pull the same weighted average.",
@@ -969,6 +1061,53 @@
             "min": 0.58,
             "max": 0.62,
             "displayUnit": "m"
+          }
+        ],
+        "checks": [
+          {
+            "type": "compare-metric-range",
+            "label": "Setup A should keep the original heavy right-load centre of mass.",
+            "setup": "a",
+            "metric": "centerOfMassX",
+            "min": 0.58,
+            "max": 0.62,
+            "displayUnit": "m"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B should land on the same combined centre of mass.",
+            "setup": "b",
+            "metric": "centerOfMassX",
+            "min": 0.58,
+            "max": 0.62,
+            "displayUnit": "m"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup A keeps the 8 kg total from plank plus 4 kg cargo.",
+            "setup": "a",
+            "metric": "totalMass",
+            "min": 7.9,
+            "max": 8.1,
+            "displayUnit": "kg"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B should be heavier overall while matching the same centre of mass.",
+            "setup": "b",
+            "metric": "totalMass",
+            "min": 8.9,
+            "max": 9.1,
+            "displayUnit": "kg"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B should also balance about the same shifted support centre.",
+            "setup": "b",
+            "metric": "torqueAboutSupportCenter",
+            "min": -0.8,
+            "max": 0.8,
+            "displayUnit": "N m"
           }
         ]
       }

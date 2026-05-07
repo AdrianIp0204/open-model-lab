@@ -649,6 +649,30 @@ test("opens Rotational Inertia on its mass-distribution spin-up bench", async ({
   }
 });
 
+test("opens Static Equilibrium on its centre-of-mass support bench", async ({
+  browser,
+}, testInfo) => {
+  const desktopCase = viewportCases.find((item) => item.name === "desktop-1440x900");
+  expect(desktopCase, "Expected the desktop-1440x900 viewport case to exist.").toBeTruthy();
+
+  const { context, page, browserGuard } = await openConceptPage(
+    browser,
+    desktopCase!,
+    "/en/concepts/static-equilibrium-centre-of-mass",
+    "Static Equilibrium / Centre of Mass",
+  );
+
+  try {
+    await assertInitialViewportLayout(page, desktopCase!, testInfo);
+    await expect(page.getByText("Balance state").first()).toBeVisible();
+    await expect(page.getByText("x_CM").first()).toBeVisible();
+    await expect(page.getByText("support").first()).toBeVisible();
+    browserGuard.assertNoActionableIssues();
+  } finally {
+    await context.close();
+  }
+});
+
 test("keeps Projectile Motion shell focus order aligned with responsive visual order", async ({
   browser,
 }) => {

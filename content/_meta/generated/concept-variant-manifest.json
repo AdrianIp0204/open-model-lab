@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-07T20:16:46.449Z",
+  "generatedAt": "2026-05-07T20:22:22.821Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -1664,7 +1664,7 @@
       "title": "Static Equilibrium / Centre of Mass",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/static-equilibrium-centre-of-mass.json",
-      "canonicalSourceHash": "ea49bfa6cfcef47ff48fb58e317e6005af28dde96ae1210ee404a8682e62c7bd",
+      "canonicalSourceHash": "ffab66981d081825e6c6beae751b489dc8b4931f7b551d1c7c39486d16545224",
       "subject": "Physics",
       "topic": "Mechanics",
       "subtopic": "Balance, support, and centre of mass",
@@ -1706,8 +1706,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "ea49bfa6cfcef47ff48fb58e317e6005af28dde96ae1210ee404a8682e62c7bd",
-          "currentSourceHash": "ea49bfa6cfcef47ff48fb58e317e6005af28dde96ae1210ee404a8682e62c7bd"
+          "recordedSourceHash": "ffab66981d081825e6c6beae751b489dc8b4931f7b551d1c7c39486d16545224",
+          "currentSourceHash": "ffab66981d081825e6c6beae751b489dc8b4931f7b551d1c7c39486d16545224"
         },
         "provider": null,
         "translatedAt": null,
@@ -1734,7 +1734,7 @@
             "variant": "original",
             "locale": "en",
             "recordedSourceHash": "c538b43f3c0990b9e1d5f8ef6b3765d32bf37cea4458ae24b4b13e34be69cc7d",
-            "currentSourceHash": "ea49bfa6cfcef47ff48fb58e317e6005af28dde96ae1210ee404a8682e62c7bd"
+            "currentSourceHash": "ffab66981d081825e6c6beae751b489dc8b4931f7b551d1c7c39486d16545224"
           },
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
@@ -1744,7 +1744,7 @@
           "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 123,
+          "fallbackFieldCount": 147,
           "fallbackFieldPaths": [
             "sections.workedExamples.items.id:current-centre-of-mass.variables.id:plankMass.label",
             "sections.workedExamples.items.id:current-centre-of-mass.resultTemplate",
@@ -1754,23 +1754,23 @@
             "pageIntro.keyTakeaway",
             "simulation.ui.initialGraphId",
             "simulation.ui.primaryGraphIds.0",
+            "simulation.ui.primaryGraphIds.1",
+            "simulation.ui.primaryGraphIds.2",
             "simulation.ui.primaryControlIds.0",
+            "simulation.ui.primaryControlIds.1",
+            "simulation.ui.primaryControlIds.2",
+            "simulation.ui.primaryPresetIds.0",
+            "simulation.ui.primaryPresetIds.1",
+            "simulation.ui.primaryPresetIds.2",
+            "simulation.ui.starterExploreTasks.0",
+            "simulation.ui.starterExploreTasks.1",
+            "simulation.ui.starterExploreTasks.2",
             "simulation.controls.id:cargoMass.description",
             "simulation.controls.id:cargoPosition.description",
             "simulation.controls.id:supportCenter.description",
             "simulation.controls.id:supportWidth.description",
             "simulation.presets.id:balanced-shifted-support.label",
-            "simulation.presets.id:balanced-shifted-support.description",
-            "simulation.presets.id:bare-plank.label",
-            "simulation.presets.id:bare-plank.description",
-            "simulation.presets.id:support-under-load.label",
-            "simulation.presets.id:support-under-load.description",
-            "simulation.presets.id:narrow-near-edge.label",
-            "simulation.presets.id:narrow-near-edge.description",
-            "simulation.presets.id:tips-right.label",
-            "simulation.presets.id:tips-right.description",
-            "simulation.presets.id:heavier-inboard-load.label",
-            "simulation.presets.id:heavier-inboard-load.description"
+            "simulation.presets.id:balanced-shifted-support.description"
           ]
         }
       }
