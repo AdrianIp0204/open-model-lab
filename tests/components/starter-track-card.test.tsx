@@ -27,11 +27,11 @@ describe("StarterTrackCard", () => {
     expect(screen.getByText("0 / 3 concepts and 0 / 2 checkpoints cleared.")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /start track/i })).toHaveAttribute(
       "href",
-      "/tracks/motion-and-circular-motion",
+      "/en/tracks/motion-and-circular-motion",
     );
     expect(screen.getByRole("link", { name: /jump to vectors/i })).toHaveAttribute(
       "href",
-      "/concepts/vectors-components",
+      "/en/concepts/vectors-components",
     );
   });
 
@@ -46,11 +46,11 @@ describe("StarterTrackCard", () => {
 
     expect(screen.getByRole("link", { name: /continue track/i })).toHaveAttribute(
       "href",
-      "/tracks/waves",
+      "/en/tracks/waves",
     );
     expect(screen.getByRole("link", { name: /open recap/i })).toHaveAttribute(
       "href",
-      "/tracks/waves?mode=recap",
+      "/en/tracks/waves?mode=recap",
     );
     expect(screen.getByText("0 / 11 moments complete")).toBeInTheDocument();
   });
@@ -74,11 +74,11 @@ describe("StarterTrackCard", () => {
     expect(screen.getByText("In progress")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /continue track/i })).toHaveAttribute(
       "href",
-      "/tracks/motion-and-circular-motion",
+      "/en/tracks/motion-and-circular-motion",
     );
     expect(screen.getByRole("link", { name: /open recap/i })).toHaveAttribute(
       "href",
-      "/tracks/motion-and-circular-motion?mode=recap",
+      "/en/tracks/motion-and-circular-motion?mode=recap",
     );
   });
 
@@ -90,11 +90,11 @@ describe("StarterTrackCard", () => {
     expect(screen.getByText("0 / 3 concepts and 0 / 3 checkpoints cleared.")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /start track/i })).toHaveAttribute(
       "href",
-      "/tracks/magnetic-fields",
+      "/en/tracks/magnetic-fields",
     );
     expect(screen.getByRole("link", { name: /jump to b-fields/i })).toHaveAttribute(
       "href",
-      "/concepts/magnetic-fields",
+      "/en/concepts/magnetic-fields",
     );
   });
 
@@ -150,11 +150,11 @@ describe("StarterTrackCard", () => {
 
     expect(screen.getByRole("link", { name: /track completion/i })).toHaveAttribute(
       "href",
-      "/tracks/oscillations-and-energy/complete",
+      "/en/tracks/oscillations-and-energy/complete",
     );
     expect(screen.getByRole("link", { name: /open recap/i })).toHaveAttribute(
       "href",
-      "/tracks/oscillations-and-energy?mode=recap",
+      "/en/tracks/oscillations-and-energy?mode=recap",
     );
   });
 });

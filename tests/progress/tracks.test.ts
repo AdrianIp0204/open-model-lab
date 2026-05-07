@@ -50,7 +50,7 @@ describe("starter track progress", () => {
     const summary = getStarterTrackProgressSummary(createEmptyProgressSnapshot(), membership.track);
 
     expect(getStarterTrackMembershipAction(membership, summary)).toMatchObject({
-      href: "/concepts/simple-harmonic-motion",
+      href: "/en/concepts/simple-harmonic-motion",
       label: "Start from track beginning",
     });
   });
@@ -77,7 +77,7 @@ describe("starter track progress", () => {
     );
 
     expect(getStarterTrackMembershipAction(membership, summary)).toMatchObject({
-      href: "/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
+      href: "/en/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
       label: "Open checkpoint",
     });
 
@@ -172,7 +172,7 @@ describe("starter track progress", () => {
     );
 
     expect(getStarterTrackMembershipAction(membership, summary)).toMatchObject({
-      href: "/tracks/waves/complete",
+      href: "/en/tracks/waves/complete",
       label: "Track completion page",
     });
   });
@@ -195,7 +195,7 @@ describe("starter track progress", () => {
     );
 
     expect(getStarterTrackPrimaryAction(track, summary)).toMatchObject({
-      href: "/concepts/simple-harmonic-motion",
+      href: "/en/concepts/simple-harmonic-motion",
       label: "Continue with SHM",
     });
   });
@@ -250,7 +250,7 @@ describe("starter track progress", () => {
     expect(summary.nextCheckpoint?.checkpoint.id).toBe("motion-projectile-checkpoint");
     expect(getStarterTrackPrimaryAction(track, summary)).toMatchObject({
       kind: "checkpoint",
-      href: "/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
+      href: "/en/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
       label: "Open checkpoint",
       targetConcept: expect.objectContaining({ slug: "projectile-motion" }),
       targetCheckpoint: expect.objectContaining({ id: "motion-projectile-checkpoint" }),
@@ -281,7 +281,7 @@ describe("starter track progress", () => {
     expect(summary.nextCheckpoint?.checkpoint.id).toBe("electricity-voltage-bridge-checkpoint");
     expect(getStarterTrackPrimaryAction(track, summary)).toMatchObject({
       kind: "checkpoint",
-      href: "/concepts/electric-potential?challenge=ep-ch-positive-midpoint-plateau#challenge-mode",
+      href: "/en/concepts/electric-potential?challenge=ep-ch-positive-midpoint-plateau#challenge-mode",
       targetConcept: expect.objectContaining({ slug: "electric-potential" }),
       targetCheckpoint: expect.objectContaining({ id: "electricity-voltage-bridge-checkpoint" }),
     });
@@ -312,7 +312,7 @@ describe("starter track progress", () => {
     expect(summary.nextCheckpoint?.checkpoint.id).toBe("modern-physics-threshold-line-checkpoint");
     expect(getStarterTrackPrimaryAction(track, summary)).toMatchObject({
       kind: "checkpoint",
-      href: "/concepts/atomic-spectra?challenge=as-ch-two-visible-emission#challenge-mode",
+      href: "/en/concepts/atomic-spectra?challenge=as-ch-two-visible-emission#challenge-mode",
       targetConcept: expect.objectContaining({ slug: "atomic-spectra" }),
       targetCheckpoint: expect.objectContaining({
         id: "modern-physics-threshold-line-checkpoint",
@@ -348,7 +348,7 @@ describe("starter track progress", () => {
     expect(summary.nextCheckpoint?.checkpoint.id).toBe("wave-optics-diffraction-checkpoint");
     expect(getStarterTrackPrimaryAction(track, summary)).toMatchObject({
       kind: "checkpoint",
-      href: "/concepts/diffraction?challenge=diff-ch-find-dark-band#challenge-mode",
+      href: "/en/concepts/diffraction?challenge=diff-ch-find-dark-band#challenge-mode",
       targetConcept: expect.objectContaining({ slug: "diffraction" }),
       targetCheckpoint: expect.objectContaining({ id: "wave-optics-diffraction-checkpoint" }),
     });
@@ -382,7 +382,7 @@ describe("starter track progress", () => {
     expect(summary.nextCheckpoint?.checkpoint.id).toBe("thermo-gas-bridge-checkpoint");
     expect(getStarterTrackPrimaryAction(track, summary)).toMatchObject({
       kind: "checkpoint",
-      href: "/concepts/ideal-gas-law-and-kinetic-theory?challenge=igkt-ch-same-pressure-different-cause#challenge-mode",
+      href: "/en/concepts/ideal-gas-law-and-kinetic-theory?challenge=igkt-ch-same-pressure-different-cause#challenge-mode",
       targetConcept: expect.objectContaining({ slug: "ideal-gas-law-and-kinetic-theory" }),
       targetCheckpoint: expect.objectContaining({ id: "thermo-gas-bridge-checkpoint" }),
     });
@@ -424,7 +424,7 @@ describe("starter track progress", () => {
     expect(summary.nextCheckpoint?.checkpoint.id).toBe("fluids-flow-pressure-checkpoint");
     expect(getStarterTrackPrimaryAction(track, summary)).toMatchObject({
       kind: "checkpoint",
-      href: "/concepts/bernoullis-principle?challenge=bp-ch-wider-b-recovers-pressure#challenge-mode",
+      href: "/en/concepts/bernoullis-principle?challenge=bp-ch-wider-b-recovers-pressure#challenge-mode",
       targetConcept: expect.objectContaining({ slug: "bernoullis-principle" }),
       targetCheckpoint: expect.objectContaining({ id: "fluids-flow-pressure-checkpoint" }),
     });
@@ -453,7 +453,7 @@ describe("starter track progress", () => {
     expect(summary.nextCheckpoint?.checkpoint.id).toBe("magnetic-fields-superposition-checkpoint");
     expect(getStarterTrackPrimaryAction(track, summary)).toMatchObject({
       kind: "checkpoint",
-      href: "/concepts/magnetic-fields?challenge=mf-ch-build-upward-bridge#challenge-mode",
+      href: "/en/concepts/magnetic-fields?challenge=mf-ch-build-upward-bridge#challenge-mode",
       targetConcept: expect.objectContaining({ slug: "magnetic-fields" }),
       targetCheckpoint: expect.objectContaining({
         id: "magnetic-fields-superposition-checkpoint",
@@ -505,7 +505,7 @@ describe("starter track progress", () => {
     expect(summary.nextCheckpoint?.checkpoint.id).toBe("functions-change-derivative-checkpoint");
     expect(getStarterTrackPrimaryAction(track, summary)).toMatchObject({
       kind: "checkpoint",
-      href: "/concepts/derivative-as-slope-local-rate-of-change?challenge=ds-ch-catch-the-flat-tangent#challenge-mode",
+      href: "/en/concepts/derivative-as-slope-local-rate-of-change?challenge=ds-ch-catch-the-flat-tangent#challenge-mode",
       targetConcept: expect.objectContaining({
         slug: "derivative-as-slope-local-rate-of-change",
       }),
@@ -566,7 +566,7 @@ describe("starter track progress", () => {
     );
     expect(getStarterTrackPrimaryAction(track, summary)).toMatchObject({
       kind: "checkpoint",
-      href: "/concepts/inverse-trig-angle-from-ratio?challenge=iatr-ch-quadrant-two-ratio-recovery#challenge-mode",
+      href: "/en/concepts/inverse-trig-angle-from-ratio?challenge=iatr-ch-quadrant-two-ratio-recovery#challenge-mode",
       targetConcept: expect.objectContaining({ slug: "inverse-trig-angle-from-ratio" }),
       targetCheckpoint: expect.objectContaining({
         id: "complex-parametric-inverse-angle-checkpoint",
@@ -597,7 +597,7 @@ describe("starter track progress", () => {
     expect(summary.nextCheckpoint?.checkpoint.id).toBe("vectors-bridge-combination-checkpoint");
     expect(getStarterTrackPrimaryAction(track, summary)).toMatchObject({
       kind: "checkpoint",
-      href: "/concepts/vectors-in-2d?challenge=v2d-ch-near-zero-result#challenge-mode",
+      href: "/en/concepts/vectors-in-2d?challenge=v2d-ch-near-zero-result#challenge-mode",
       targetConcept: expect.objectContaining({ slug: "vectors-in-2d" }),
       targetCheckpoint: expect.objectContaining({
         id: "vectors-bridge-combination-checkpoint",
@@ -639,7 +639,7 @@ describe("starter track progress", () => {
       concept: expect.objectContaining({ slug: "simple-harmonic-motion" }),
       focusKind: "priority",
       action: {
-        href: "/concepts/simple-harmonic-motion",
+        href: "/en/concepts/simple-harmonic-motion",
         label: "Skim concept",
         kind: "concept",
       },
@@ -648,7 +648,7 @@ describe("starter track progress", () => {
       concept: expect.objectContaining({ slug: "simple-harmonic-motion" }),
       focusKind: "priority",
       action: {
-        href: "/concepts/simple-harmonic-motion",
+        href: "/en/concepts/simple-harmonic-motion",
         label: "Skim concept",
         kind: "concept",
       },
@@ -707,11 +707,11 @@ describe("starter track progress", () => {
         }),
         expect.objectContaining({
           kind: "topic",
-          href: "/concepts/topics/oscillations",
+          href: "/en/concepts/topics/oscillations",
         }),
         expect.objectContaining({
           kind: "track",
-          href: "/tracks/waves",
+          href: "/en/tracks/waves",
         }),
       ]),
     );
@@ -757,7 +757,7 @@ describe("starter track progress", () => {
         expect.objectContaining({
           kind: "track",
           title: "Rotational Mechanics",
-          href: "/tracks/rotational-mechanics",
+          href: "/en/tracks/rotational-mechanics",
           note: expect.stringMatching(
             /authored to build directly on Motion and Circular Motion/i,
           ),
@@ -820,7 +820,7 @@ describe("starter track progress", () => {
         expect.objectContaining({
           kind: "track",
           title: "Gravity and Orbits",
-          href: "/tracks/gravity-and-orbits",
+          href: "/en/tracks/gravity-and-orbits",
         }),
       ]),
     );
@@ -896,7 +896,7 @@ describe("starter track progress", () => {
         expect.objectContaining({
           kind: "track",
           title: "Sound and Acoustics",
-          href: "/tracks/sound-and-acoustics",
+          href: "/en/tracks/sound-and-acoustics",
           note: expect.stringMatching(/build directly on Waves/i),
         }),
       ]),
@@ -1031,7 +1031,7 @@ describe("starter track progress", () => {
         expect.objectContaining({
           kind: "track",
           title: "Complex and Parametric Motion",
-          href: "/tracks/complex-and-parametric-motion",
+          href: "/en/tracks/complex-and-parametric-motion",
         }),
       ]),
     );
@@ -1074,7 +1074,7 @@ describe("starter track progress", () => {
         expect.objectContaining({
           kind: "track",
           title: "Motion and Circular Motion",
-          href: "/tracks/motion-and-circular-motion",
+          href: "/en/tracks/motion-and-circular-motion",
         }),
       ]),
     );
@@ -1131,13 +1131,13 @@ describe("starter track progress", () => {
         expect.objectContaining({
           kind: "challenge",
           title: "Magnetism challenges",
-          href: "/challenges?track=magnetic-fields",
+          href: "/en/challenges?track=magnetic-fields",
           actionLabel: "Open Magnetism challenges",
         }),
         expect.objectContaining({
           kind: "topic",
           title: "Magnetism",
-          href: "/concepts/topics/magnetism",
+          href: "/en/concepts/topics/magnetism",
           actionLabel: "Open Magnetism",
         }),
       ]),

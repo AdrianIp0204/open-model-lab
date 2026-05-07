@@ -28,6 +28,7 @@ import {
   useProgressSnapshot,
   type ProgressSnapshot,
 } from "@/lib/progress";
+import { localizeShareHref } from "@/lib/share-links";
 import { formatProgressMonthDay } from "@/components/progress/dateFormatting";
 import { StarterTrackRecommendationList } from "@/components/tracks/StarterTrackRecommendationList";
 import { MasteryStateBadge } from "@/components/progress/MasteryStateBadge";
@@ -278,7 +279,7 @@ export function TopicLandingPage({
 
   if (continueLearning.primary) {
     primaryAction = {
-      href: `/concepts/${continueLearning.primary.concept.slug}`,
+      href: localizeShareHref(`/concepts/${continueLearning.primary.concept.slug}`, locale),
       label: t("actions.continueConcept"),
       note: primaryResurfacingCue?.reason ?? continueLearning.primary.mastery.note,
     };
@@ -290,7 +291,7 @@ export function TopicLandingPage({
     };
   } else if (topic.featuredConcepts[0]) {
     primaryAction = {
-      href: `/concepts/${topic.featuredConcepts[0].slug}`,
+      href: localizeShareHref(`/concepts/${topic.featuredConcepts[0].slug}`, locale),
       label: t("actions.startWithConcept", {
         title: getConceptDisplayShortTitle(topic.featuredConcepts[0], locale),
       }),
@@ -298,7 +299,7 @@ export function TopicLandingPage({
     };
   } else {
     primaryAction = {
-      href: `/concepts/${topic.concepts[0]?.slug ?? ""}`,
+      href: localizeShareHref(`/concepts/${topic.concepts[0]?.slug ?? ""}`, locale),
       label: t("actions.openFirstConcept"),
       note: t("notes.primaryFallback"),
     };
@@ -314,7 +315,7 @@ export function TopicLandingPage({
     };
   } else if (!continueLearning.primary && displayStarterTracks[0]) {
     secondaryAction = {
-      href: `/tracks/${displayStarterTracks[0].slug}`,
+      href: localizeShareHref(`/tracks/${displayStarterTracks[0].slug}`, locale),
       label: t("actions.openStarterTrack"),
       note: t("notes.secondaryStarterTrack", {
         title: getStarterTrackDisplayTitle(displayStarterTracks[0], locale),
@@ -322,7 +323,7 @@ export function TopicLandingPage({
     };
   } else {
     secondaryAction = {
-      href: "/concepts",
+      href: localizeShareHref("/concepts", locale),
       label: t("actions.browseLibrary"),
       note: t("notes.secondaryBrowseLibrary"),
     };
@@ -403,7 +404,7 @@ export function TopicLandingPage({
                   </span>
                 ))}
                 <Link
-                  href="/concepts"
+                  href={localizeShareHref("/concepts", locale)}
                   className="motion-link inline-flex items-center text-sm font-medium text-ink-600 underline decoration-ink-300 underline-offset-4 hover:text-ink-950"
                 >
                   {t("actions.browseLibrary")}
@@ -488,7 +489,7 @@ export function TopicLandingPage({
                       {topic.relatedTopics.map((relatedTopic) => (
                         <Link
                           key={relatedTopic.slug}
-                          href={relatedTopic.path}
+                          href={localizeShareHref(relatedTopic.path, locale)}
                           className="rounded-full border border-line bg-paper px-3 py-1 text-xs font-semibold text-ink-800 transition-colors hover:border-ink-950/20 hover:text-ink-950"
                         >
                           {getTopicDisplayTitle(relatedTopic, locale)}
@@ -544,7 +545,7 @@ export function TopicLandingPage({
                   className={`rounded-[24px] border p-4 ${accentPanelClasses[topic.accent]}`}
                 >
                   <Link
-                    href={`/concepts/${concept.slug}`}
+                    href={localizeShareHref(`/concepts/${concept.slug}`, locale)}
                     aria-label={t("actions.openConcept")}
                     className="block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
                   >
@@ -603,7 +604,7 @@ export function TopicLandingPage({
                     ))}
                   </div>
                   <Link
-                    href={`/concepts/${concept.slug}`}
+                    href={localizeShareHref(`/concepts/${concept.slug}`, locale)}
                     className="mt-4 inline-flex items-center rounded-full bg-ink-950 px-4 py-2.5 text-sm font-semibold transition-transform duration-200 hover:-translate-y-0.5"
                     style={{ color: "var(--paper-strong)" }}
                   >
@@ -655,7 +656,7 @@ export function TopicLandingPage({
                 </p>
               </div>
               <Link
-                href="/guided"
+                href={localizeShareHref("/guided", locale)}
                 className="inline-flex items-center rounded-full border border-line bg-paper-strong px-5 py-3 text-sm font-medium text-ink-950 transition-colors hover:border-ink-950/25"
               >
                 {t("actions.viewAllGuidedGoals")}
@@ -682,7 +683,7 @@ export function TopicLandingPage({
               </p>
             </div>
             <Link
-              href="/concepts"
+              href={localizeShareHref("/concepts", locale)}
               className="inline-flex items-center rounded-full border border-line bg-paper-strong px-5 py-3 text-sm font-medium text-ink-950 transition-colors hover:border-ink-950/25"
             >
               {t("actions.backToConceptLibrary")}

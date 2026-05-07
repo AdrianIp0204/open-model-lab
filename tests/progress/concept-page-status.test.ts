@@ -154,7 +154,7 @@ describe("resolveConceptPageStatusModel", () => {
 
     expect(model.overallStatus).toBe("completed");
     expect(model.primaryAction.kind).toBe("next-track-step");
-    expect(model.primaryAction.href).toMatch(/^\/concepts\//);
+    expect(model.primaryAction.href).toMatch(/^\/en\/concepts\//);
     expect(model.secondaryAction?.kind).toBe("review-concept");
   });
 

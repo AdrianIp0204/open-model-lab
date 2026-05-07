@@ -35,10 +35,10 @@ describe("AuthCallbackPage", () => {
           code: "exchange-code-123",
         }),
       }),
-    ).rejects.toThrow("redirect:/auth/confirm?next=%2Fdashboard&code=exchange-code-123");
+    ).rejects.toThrow("redirect:/en/auth/confirm?next=%2Fen%2Fdashboard&code=exchange-code-123");
 
     expect(mocks.redirectMock).toHaveBeenCalledWith(
-      "/auth/confirm?next=%2Fdashboard&code=exchange-code-123",
+      "/en/auth/confirm?next=%2Fen%2Fdashboard&code=exchange-code-123",
     );
   });
 
@@ -52,11 +52,11 @@ describe("AuthCallbackPage", () => {
         }),
       }),
     ).rejects.toThrow(
-      "redirect:/auth/confirm?next=%2Fdashboard&token_hash=token-123&type=email",
+      "redirect:/en/auth/confirm?next=%2Fen%2Fdashboard&token_hash=token-123&type=email",
     );
 
     expect(mocks.redirectMock).toHaveBeenCalledWith(
-      "/auth/confirm?next=%2Fdashboard&token_hash=token-123&type=email",
+      "/en/auth/confirm?next=%2Fen%2Fdashboard&token_hash=token-123&type=email",
     );
   });
 
@@ -94,7 +94,7 @@ describe("AuthCallbackPage", () => {
 
     render(page);
 
-    expect(screen.getByText("Auth callback client: /dashboard")).toBeInTheDocument();
+    expect(screen.getByText("Auth callback client: /en/dashboard")).toBeInTheDocument();
   });
 
   it("redirects provider callback failures into bounded account auth states", async () => {
@@ -105,9 +105,9 @@ describe("AuthCallbackPage", () => {
           error_description: "The link has expired",
         }),
       }),
-    ).rejects.toThrow("redirect:/account?auth=expired");
+    ).rejects.toThrow("redirect:/en/account?auth=expired");
 
-    expect(mocks.redirectMock).toHaveBeenCalledWith("/account?auth=expired");
+    expect(mocks.redirectMock).toHaveBeenCalledWith("/en/account?auth=expired");
   });
 
   it("routes recovery callback failures back to reset-password with a bounded state", async () => {
@@ -120,10 +120,10 @@ describe("AuthCallbackPage", () => {
           error_description: "NEXT_PUBLIC_SUPABASE_URL is not set",
         }),
       }),
-    ).rejects.toThrow("redirect:/account/reset-password?auth=unavailable");
+    ).rejects.toThrow("redirect:/en/account/reset-password?auth=unavailable");
 
     expect(mocks.redirectMock).toHaveBeenCalledWith(
-      "/account/reset-password?auth=unavailable",
+      "/en/account/reset-password?auth=unavailable",
     );
   });
 

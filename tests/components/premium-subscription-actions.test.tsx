@@ -169,11 +169,11 @@ describe("PremiumSubscriptionActions", () => {
     expect(screen.getByText(/sign in first so stripe can attach supporter/i)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Sign in first" })).toHaveAttribute(
       "href",
-      "/account",
+      "/en/account",
     );
     expect(
       screen.getByRole("link", { name: "Billing / cancellation / refunds" }),
-    ).toHaveAttribute("href", "/billing");
+    ).toHaveAttribute("href", "/en/billing");
   });
 
   it("renders zh-HK pricing and billing actions through the locale catalogs", () => {
@@ -217,7 +217,7 @@ describe("PremiumSubscriptionActions", () => {
     ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Sign in first" })).toHaveAttribute(
       "href",
-      "/account",
+      "/en/account",
     );
   });
 
@@ -231,7 +231,7 @@ describe("PremiumSubscriptionActions", () => {
     ).toBeInTheDocument();
     expect(
       screen.getAllByRole("link", { name: "Billing / cancellation / refunds" })[0],
-    ).toHaveAttribute("href", "/billing");
+    ).toHaveAttribute("href", "/en/billing");
   });
 
   it("uses the provided initial session before the client account store finishes hydrating", () => {

@@ -78,7 +78,7 @@ describe("DevAccountHarnessPage", () => {
     expect(screen.getByRole("button", { name: "Clear override" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Projectile motion" })).toHaveAttribute(
       "href",
-      "/concepts/projectile-motion",
+      "/en/concepts/projectile-motion",
     );
   });
 

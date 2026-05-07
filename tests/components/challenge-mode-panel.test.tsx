@@ -236,7 +236,7 @@ describe("ChallengeModePanel", () => {
     await userEvent.click(screen.getByRole("button", { name: /share|分享/i }));
 
     expect(writeText).toHaveBeenCalledWith(
-      `${window.location.origin}/concepts/projectile-motion?challenge=pm-ch-steeper-shot#challenge-mode`,
+      `${window.location.origin}/en/concepts/projectile-motion?challenge=pm-ch-steeper-shot#challenge-mode`,
     );
   });
 

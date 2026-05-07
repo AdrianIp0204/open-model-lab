@@ -86,7 +86,7 @@ describe("StarterTrackCues", () => {
     expect(screen.getByText(/also appears in motion and circular motion\./i)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /open checkpoint/i })).toHaveAttribute(
       "href",
-      "/concepts/vectors-components?challenge=vc-ch-equal-components#challenge-mode",
+      "/en/concepts/vectors-components?challenge=vc-ch-equal-components#challenge-mode",
     );
   });
 

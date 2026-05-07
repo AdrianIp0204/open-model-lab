@@ -8,7 +8,7 @@ import {
   getSubjectDiscoverySummaryBySlug,
 } from "@/lib/content";
 import { Link } from "@/i18n/navigation";
-import type { AppLocale } from "@/i18n/routing";
+import { stripLocalePrefix, type AppLocale } from "@/i18n/routing";
 import {
   getConceptDisplayTitle,
   getGuidedCollectionDisplayTitle,
@@ -80,23 +80,25 @@ function CompletionKindBadge({
 }
 
 function getConceptSlugFromHref(href: string) {
-  if (href.startsWith("/concepts/subjects/") || href.startsWith("/concepts/topics/")) {
+  const normalizedHref = stripLocalePrefix(href);
+
+  if (normalizedHref.startsWith("/concepts/subjects/") || normalizedHref.startsWith("/concepts/topics/")) {
     return null;
   }
 
-  return href.match(/^\/concepts\/([^/?#]+)/)?.[1] ?? null;
+  return normalizedHref.match(/^\/concepts\/([^/?#]+)/)?.[1] ?? null;
 }
 
 function getTrackSlugFromHref(href: string) {
-  return href.match(/^\/tracks\/([^/?#]+)/)?.[1] ?? null;
+  return stripLocalePrefix(href).match(/^\/tracks\/([^/?#]+)/)?.[1] ?? null;
 }
 
 function getSubjectSlugFromHref(href: string) {
-  return href.match(/^\/concepts\/subjects\/([^/?#]+)/)?.[1] ?? null;
+  return stripLocalePrefix(href).match(/^\/concepts\/subjects\/([^/?#]+)/)?.[1] ?? null;
 }
 
 function getGuidedSlugFromHref(href: string) {
-  return href.match(/^\/guided\/([^/?#]+)/)?.[1] ?? null;
+  return stripLocalePrefix(href).match(/^\/guided\/([^/?#]+)/)?.[1] ?? null;
 }
 
 function EntityVisual({
@@ -181,7 +183,7 @@ function getProgressVisualFromHref(href: string): LearningVisualDescriptor | nul
     }
   }
 
-  const subjectSlug = href.match(/^\/concepts\/subjects\/([^/?#]+)/)?.[1] ?? null;
+  const subjectSlug = getSubjectSlugFromHref(href);
 
   if (subjectSlug) {
     const subject = getSubjectDiscoverySummaryBySlug(subjectSlug);
@@ -337,12 +339,12 @@ export function FreeTierProgressRecapPanel({
       const concept = getConceptBySlug(conceptSlug);
       const displayTitle = getConceptDisplayTitle(concept, locale);
 
-      if (item.kind === "challenge") {
-        return t("dynamic.challengeTitle", { title: displayTitle });
+      if (item.kind === "checkpoint") {
+        return item.title;
       }
 
-      if (item.kind === "checkpoint") {
-        return t("dynamic.checkpointTitle", { title: displayTitle });
+      if (item.kind === "challenge") {
+        return t("dynamic.challengeTitle", { title: displayTitle });
       }
 
       return displayTitle;

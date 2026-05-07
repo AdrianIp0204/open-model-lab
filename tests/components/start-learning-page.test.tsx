@@ -56,7 +56,7 @@ describe("StartLearningPage", () => {
       "true",
     );
     expect(screen.getByTestId("start-primary-cta").getAttribute("href")).toMatch(
-      /^\/concepts\//,
+      /^\/en\/concepts\//,
     );
     expect(screen.getByRole("link", { name: /adjust filters/i })).toHaveAttribute(
       "href",
@@ -123,12 +123,12 @@ describe("StartLearningPage", () => {
     ).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: /rates and equilibrium lesson set/i }),
-    ).toHaveAttribute("href", "/guided/rates-and-equilibrium-lesson-set");
+    ).toHaveAttribute("href", "/en/guided/rates-and-equilibrium-lesson-set");
     expect(
       screen.getByRole("link", {
         name: /build computer-science intuition through algorithms and search/i,
       }),
-    ).toHaveAttribute("href", "/guided#goal-algorithms-and-search");
+    ).toHaveAttribute("href", "/en/guided#goal-algorithms-and-search");
   });
 
   it("can prefill a subject and map the chooser from track start to topic-first browse", async () => {
@@ -152,12 +152,12 @@ describe("StartLearningPage", () => {
     expect(
       screen
         .getAllByRole("link", { name: /start functions and change/i })
-        .some((link) => link.getAttribute("href") === "/tracks/functions-and-change"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/functions-and-change"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link", { name: /search concepts and topics/i })
-        .some((link) => link.getAttribute("href") === "/search?subject=math"),
+        .some((link) => link.getAttribute("href") === "/en/search?subject=math"),
     ).toBe(true);
 
     await user.click(screen.getByRole("button", { name: "Quick start" }));
@@ -166,7 +166,7 @@ describe("StartLearningPage", () => {
     expect(
       screen
         .getAllByRole("link", { name: /^Open Functions$/i })
-        .some((link) => link.getAttribute("href") === "/concepts/topics/functions"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/topics/functions"),
     ).toBe(true);
   });
 
@@ -192,7 +192,7 @@ describe("StartLearningPage", () => {
         .getAllByRole("link", { name: /start algorithms and search foundations/i })
         .some(
           (link) =>
-            link.getAttribute("href") === "/tracks/algorithms-and-search-foundations",
+            link.getAttribute("href") === "/en/tracks/algorithms-and-search-foundations",
         ),
     ).toBe(true);
 
@@ -204,7 +204,7 @@ describe("StartLearningPage", () => {
         .getAllByRole("link", { name: /^Open Algorithms and Search$/i })
         .some(
           (link) =>
-            link.getAttribute("href") === "/concepts/topics/algorithms-and-search",
+            link.getAttribute("href") === "/en/concepts/topics/algorithms-and-search",
         ),
     ).toBe(true);
   });
@@ -239,7 +239,7 @@ describe("StartLearningPage", () => {
     expect(
       screen
         .getAllByRole("link", { name: /continue concept/i })
-        .some((link) => link.getAttribute("href") === "/concepts/graph-transformations"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/graph-transformations"),
     ).toBe(true);
     expect(
       screen
@@ -248,7 +248,7 @@ describe("StartLearningPage", () => {
     ).not.toBeNull();
     expect(
       screen.getByRole("link", { name: /continue this subject/i }),
-    ).toHaveAttribute("href", "/concepts/subjects/math");
+    ).toHaveAttribute("href", "/en/concepts/subjects/math");
     expect(
       screen.getByRole("button", { name: "Math" }),
     ).toHaveAttribute("aria-pressed", "true");
@@ -290,13 +290,13 @@ describe("StartLearningPage", () => {
         name: /recent wins and a few good next moves/i,
       }),
     ).toBeInTheDocument();
-    expect(screen.getAllByText(/projectile motion checkpoint/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/trajectory checkpoint/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/subject momentum/i).length).toBeGreaterThan(0);
     expect(document.querySelector('[data-visual-overlay="checkpoint"]')).not.toBeNull();
     expect(document.querySelector('[data-visual-motif="subject-physics"]')).not.toBeNull();
     expect(screen.getByRole("link", { name: /reopen checkpoint/i })).toHaveAttribute(
       "href",
-      "/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
+      "/en/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
     );
   });
 });

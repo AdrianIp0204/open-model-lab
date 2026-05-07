@@ -22,11 +22,11 @@ describe("entry diagnostics", () => {
     expect(diagnostic).toMatchObject({
       recommendationKind: "review-prerequisite",
       primaryAction: {
-        href: "/tracks/electricity",
+        href: "/en/tracks/electricity",
         label: "Start Electricity prerequisite track",
       },
       secondaryAction: {
-        href: "/concepts/magnetic-fields",
+        href: "/en/concepts/magnetic-fields",
         label: "Begin with Magnetic Fields",
       },
     });
@@ -70,11 +70,11 @@ describe("entry diagnostics", () => {
     expect(diagnostic).toMatchObject({
       recommendationKind: "take-recap",
       primaryAction: {
-        href: "/tracks/waves?mode=recap",
+        href: "/en/tracks/waves?mode=recap",
         label: "Use recap mode",
       },
       secondaryAction: {
-        href: "/concepts/simple-harmonic-motion",
+        href: "/en/concepts/simple-harmonic-motion",
         label: "Resume at Simple Harmonic Motion",
       },
       readyProbeCount: 3,
@@ -105,7 +105,7 @@ describe("entry diagnostics", () => {
     expect(diagnostic).toMatchObject({
       recommendationKind: "take-recap",
       primaryAction: {
-        href: "/tracks/waves?mode=recap",
+        href: "/en/tracks/waves?mode=recap",
         label: "Use recap mode",
       },
     });
@@ -201,7 +201,7 @@ describe("entry diagnostics", () => {
     expect(diagnostic).toMatchObject({
       recommendationKind: "skip-ahead",
       primaryAction: {
-        href: "/concepts/maxwells-equations-synthesis",
+        href: "/en/concepts/maxwells-equations-synthesis",
         label: "Skip to Add Maxwell's four-law synthesis as the capstone concept",
       },
       readyProbeCount: 2,
@@ -260,7 +260,7 @@ describe("entry diagnostics", () => {
     expect(teaser).toMatchObject({
       sourceKind: "guided-collection",
       sourceTitle: "Waves Evidence Loop",
-      sourceHref: "/guided/waves-evidence-loop",
+      sourceHref: "/en/guided/waves-evidence-loop",
       diagnostic: {
         recommendationKind: "start-at-beginning",
       },

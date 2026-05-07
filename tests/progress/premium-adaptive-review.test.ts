@@ -86,7 +86,7 @@ describe("premium adaptive review summary", () => {
       outcomeLabel: "Checkpoint outcome",
       primaryAction: {
         kind: "checkpoint",
-        href: "/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
+        href: "/en/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
       },
     });
     expect(summary.items[0]?.whyChosen).toMatch(
@@ -97,7 +97,7 @@ describe("premium adaptive review summary", () => {
         expect.objectContaining({
           kind: "track-recap",
           action: expect.objectContaining({
-            href: "/tracks/motion-and-circular-motion?mode=recap",
+            href: "/en/tracks/motion-and-circular-motion?mode=recap",
           }),
         }),
       ]),

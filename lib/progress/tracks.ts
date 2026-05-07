@@ -825,11 +825,14 @@ export function getStarterTrackCompletionSummary(
       eyebrow: copyText(locale, "Keep practicing", "繼續練習"),
       title: `${displayTrackTitle} challenges`,
       note: buildChallengeHubTrackNote(track, locale),
-      href: buildRelativeShareUrl("/challenges", {
-        query: {
-          track: track.slug,
-        },
-      }),
+      href: localizeShareHref(
+        buildRelativeShareUrl("/challenges", {
+          query: {
+            track: track.slug,
+          },
+        }),
+        locale,
+      ),
       actionLabel: copyText(
         locale,
         `Open ${displayTrackTitle} challenges`,
@@ -855,7 +858,7 @@ export function getStarterTrackCompletionSummary(
               `This topic page keeps the broader idea around the ${relatedTopicCandidate.sharedConceptCount} concepts from this track.`,
               `這個主題頁會把這條路徑中的 ${relatedTopicCandidate.sharedConceptCount} 個概念放回更完整的脈絡中。`,
             ),
-      href: relatedTopicCandidate.path,
+      href: localizeShareHref(relatedTopicCandidate.path, locale),
       actionLabel: copyText(
         locale,
         `Open ${displayRelatedTopicTitle}`,

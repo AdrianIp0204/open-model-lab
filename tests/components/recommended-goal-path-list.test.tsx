@@ -27,7 +27,7 @@ describe("RecommendedGoalPathList", () => {
     expect(
       screen
         .getAllByRole("link", { name: /start electricity/i })
-        .every((link) => link.getAttribute("href") === "/tracks/electricity"),
+        .every((link) => link.getAttribute("href") === "/en/tracks/electricity"),
     ).toBe(true);
   });
 
@@ -58,7 +58,7 @@ describe("RecommendedGoalPathList", () => {
     expect(
       screen
         .getAllByRole("link", { name: /continue concept/i })
-        .every((link) => link.getAttribute("href") === "/concepts/wave-interference"),
+        .every((link) => link.getAttribute("href") === "/en/concepts/wave-interference"),
     ).toBe(true);
     expect(screen.getByRole("link", { name: /view on guided page/i })).toHaveAttribute(
       "href",

@@ -87,7 +87,7 @@ describe("SubjectLandingProgressPanel", () => {
     expect(screen.getByText(/trajectory checkpoint/i)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /reopen checkpoint/i })).toHaveAttribute(
       "href",
-      "/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
+      "/en/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
     );
   });
 

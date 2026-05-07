@@ -4,6 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import type { ExpandedSubjectSpotlight } from "@/lib/content";
 import { Link } from "@/i18n/navigation";
 import type { AppLocale } from "@/i18n/routing";
+import { localizeShareHref } from "@/lib/share-links";
 import {
   getConceptDisplayShortTitle,
   getGoalPathDisplayTitle,
@@ -59,10 +60,12 @@ function SpotlightLinkTile({
   label,
   title,
   href,
+  locale,
 }: {
   label: string;
   title: string;
   href: string;
+  locale: AppLocale;
 }) {
   return (
     <div className="rounded-[20px] border border-line bg-paper-strong p-3">
@@ -70,7 +73,7 @@ function SpotlightLinkTile({
         {label}
       </p>
       <Link
-        href={href}
+        href={localizeShareHref(href, locale)}
         className="motion-link mt-2 block text-sm font-semibold text-ink-950 transition-colors hover:text-teal-700"
       >
         {title}
@@ -170,6 +173,7 @@ export function ExpandedSubjectSpotlightGrid({
                     label={t("labels.topic")}
                     title={featuredTopicTitle ?? spotlight.featuredTopic.title}
                     href={`/concepts/topics/${spotlight.featuredTopic.slug}`}
+                    locale={locale}
                   />
                 ) : null}
                 {spotlight.starterTrack ? (
@@ -177,6 +181,7 @@ export function ExpandedSubjectSpotlightGrid({
                     label={t("labels.starterTrack")}
                     title={starterTrackTitle ?? spotlight.starterTrack.title}
                     href={`/tracks/${spotlight.starterTrack.slug}`}
+                    locale={locale}
                   />
                 ) : null}
                 {spotlight.guidedCollection ? (
@@ -184,6 +189,7 @@ export function ExpandedSubjectSpotlightGrid({
                     label={collectionLabel ?? t("labels.guidedCollection")}
                     title={collectionTitle ?? spotlight.guidedCollection.title}
                     href={spotlight.guidedCollection.path}
+                    locale={locale}
                   />
                 ) : null}
                 {spotlight.goalPath ? (
@@ -191,13 +197,14 @@ export function ExpandedSubjectSpotlightGrid({
                     label={t("labels.goalPath")}
                     title={goalPathTitle ?? spotlight.goalPath.title}
                     href={spotlight.goalPath.path}
+                    locale={locale}
                   />
                 ) : null}
               </div>
 
               <div className="flex flex-wrap gap-3">
                 <Link
-                  href={spotlight.subject.path}
+                  href={localizeShareHref(spotlight.subject.path, locale)}
                   className="motion-button-solid inline-flex items-center rounded-full bg-ink-950 px-4 py-2.5 text-sm font-semibold"
                   style={{ color: "var(--paper-strong)" }}
                 >
@@ -205,7 +212,7 @@ export function ExpandedSubjectSpotlightGrid({
                 </Link>
                 {spotlight.starterTrack ? (
                   <Link
-                    href={`/tracks/${spotlight.starterTrack.slug}`}
+                    href={localizeShareHref(`/tracks/${spotlight.starterTrack.slug}`, locale)}
                     className="motion-button-outline inline-flex items-center rounded-full border border-line bg-paper-strong px-4 py-2.5 text-sm font-semibold text-ink-950 hover:border-ink-950/20"
                   >
                     {t("actions.startTrack", {
@@ -214,7 +221,7 @@ export function ExpandedSubjectSpotlightGrid({
                   </Link>
                 ) : spotlight.featuredConcept ? (
                   <Link
-                    href={`/concepts/${spotlight.featuredConcept.slug}`}
+                    href={localizeShareHref(`/concepts/${spotlight.featuredConcept.slug}`, locale)}
                     className="motion-button-outline inline-flex items-center rounded-full border border-line bg-paper-strong px-4 py-2.5 text-sm font-semibold text-ink-950 hover:border-ink-950/20"
                   >
                     {t("actions.startConcept", {

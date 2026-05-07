@@ -14,7 +14,7 @@ describe("recommended goal path progress", () => {
 
     expect(summary.status).toBe("not-started");
     expect(summary.primaryAction).toMatchObject({
-      href: "/tracks/electricity",
+      href: "/en/tracks/electricity",
       label: "Start Electricity",
     });
     expect(summary.prerequisiteRecommendations[0]?.note).toMatch(
@@ -39,7 +39,7 @@ describe("recommended goal path progress", () => {
 
     expect(summary.status).toBe("in-progress");
     expect(summary.primaryAction).toMatchObject({
-      href: "/concepts/wave-interference",
+      href: "/en/concepts/wave-interference",
       label: "Continue concept",
     });
   });

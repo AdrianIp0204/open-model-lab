@@ -720,7 +720,7 @@ describe("learning visual descriptors", () => {
     );
     expect(screen.getByTestId("learning-visual").closest("a")).toHaveAttribute(
       "href",
-      "/concepts/uniform-circular-motion",
+      "/zh-HK/concepts/uniform-circular-motion",
     );
   });
 

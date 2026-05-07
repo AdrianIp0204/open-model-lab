@@ -4,6 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import type { ConceptSummary } from "./concept-catalog";
 import { Link } from "@/i18n/navigation";
 import type { AppLocale } from "@/i18n/routing";
+import { localizeShareHref } from "@/lib/share-links";
 import {
   getConceptDisplayHighlights,
   getConceptDisplaySubtopic,
@@ -67,7 +68,7 @@ export function ConceptTile({
   const displayHighlights = getConceptDisplayHighlights(concept, locale);
   const displaySubtopic = getConceptDisplaySubtopic(concept, locale);
   const displaySubject = getSubjectDisplayTitleFromValue(concept.subject, locale);
-  const conceptHref = `/concepts/${concept.slug}`;
+  const conceptHref = localizeShareHref(`/concepts/${concept.slug}`, locale);
   const localProgressSummary = useConceptProgressSummary({
     id: concept.id,
     slug: concept.slug,

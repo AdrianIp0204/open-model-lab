@@ -604,11 +604,11 @@ describe("AccountDashboardPanel", () => {
         name: /recent clears, subject momentum, and the next few honest prompts/i,
       }),
     ).toBeInTheDocument();
-    expect(screen.getAllByText(/projectile motion checkpoint/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/trajectory checkpoint/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/physics/i).length).toBeGreaterThan(0);
     expect(screen.getByRole("link", { name: /reopen checkpoint/i })).toHaveAttribute(
       "href",
-      "/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
+      "/en/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
     );
   });
 

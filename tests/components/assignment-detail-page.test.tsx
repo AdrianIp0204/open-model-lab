@@ -66,7 +66,7 @@ describe("AssignmentDetailPage", () => {
     expect(screen.getByRole("button", { name: /copy assignment page link/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /continue challenge/i })).toHaveAttribute(
       "href",
-      "/concepts/wave-interference?challenge=wi-ch-find-dark-band#challenge-mode",
+      "/en/concepts/wave-interference?challenge=wi-ch-find-dark-band#challenge-mode",
     );
   });
 

@@ -361,7 +361,7 @@ describe("LearningAnalyticsPanel", () => {
     );
     expect(screen.getByRole("link", { name: /resume waves evidence loop/i })).toHaveAttribute(
       "href",
-      "/guided/waves-evidence-loop",
+      "/en/guided/waves-evidence-loop",
     );
     expect(screen.getByRole("link", { name: "Resume concept" })).toHaveAttribute(
       "href",

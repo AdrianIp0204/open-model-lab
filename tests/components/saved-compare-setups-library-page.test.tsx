@@ -90,7 +90,7 @@ describe("SavedCompareSetupsLibraryPage", () => {
     expect(screen.getByText("Earth shot vs Moon hop")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Open" })).toHaveAttribute(
       "href",
-      "/concepts/projectile-motion?state=v1.earth-vs-moon&experiment=v1.earth-vs-moon-card#live-bench",
+      "/en/concepts/projectile-motion?state=v1.earth-vs-moon&experiment=v1.earth-vs-moon-card#live-bench",
     );
 
     await user.click(screen.getByRole("button", { name: "Rename" }));

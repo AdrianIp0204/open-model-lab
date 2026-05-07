@@ -116,7 +116,7 @@ describe("premium learning analytics", () => {
       expect.arrayContaining([
         expect.objectContaining({
           topicSlug: "mechanics",
-          href: "/concepts/topics/mechanics",
+          href: "/en/concepts/topics/mechanics",
         }),
       ]),
     );
@@ -124,7 +124,7 @@ describe("premium learning analytics", () => {
       expect.arrayContaining([
         expect.objectContaining({
           topicSlug: "waves",
-          href: "/concepts/topics/waves",
+          href: "/en/concepts/topics/waves",
         }),
       ]),
     );
@@ -136,13 +136,13 @@ describe("premium learning analytics", () => {
       outcomeKind: "quick-test",
       primaryAction: {
         kind: "quick-test",
-        href: "/concepts/wave-speed-wavelength#quick-test",
+        href: "/en/concepts/wave-speed-wavelength#quick-test",
       },
     });
     expect(analytics.adaptiveReview.items[0]?.remediationSuggestions.length).toBeGreaterThan(0);
     expect(analytics.nextSteps[0]).toMatchObject({
       title: "Wave Interference",
-      href: "/concepts/wave-interference",
+      href: "/en/concepts/wave-interference",
     });
     expect(analytics.coverage).toEqual(
       expect.arrayContaining([

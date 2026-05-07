@@ -232,7 +232,7 @@ describe("concept public experiment card route", () => {
     expect(
       screen
         .getAllByRole("link", { name: /open default bench/i })
-        .some((link) => link.getAttribute("href") === "/concepts/projectile-motion#interactive-lab"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/projectile-motion#interactive-lab"),
     ).toBe(true);
     expect(screen.queryByText(/^Setup link$/i)).not.toBeInTheDocument();
   });

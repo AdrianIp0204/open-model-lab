@@ -37,27 +37,27 @@ describe("TopicLandingPage", () => {
     expect(
       screen
         .getAllByRole("link", { name: /start with vectors/i })
-        .some((link) => link.getAttribute("href") === "/concepts/vectors-components"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/vectors-components"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link", { name: /^Rotational Mechanics$/i })
-        .some((link) => link.getAttribute("href") === "/tracks/rotational-mechanics"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/rotational-mechanics"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link", { name: /^Motion and Circular Motion$/i })
-        .some((link) => link.getAttribute("href") === "/tracks/motion-and-circular-motion"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/motion-and-circular-motion"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link")
-        .some((link) => link.getAttribute("href") === "/tracks/rotational-mechanics"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/rotational-mechanics"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link")
-        .some((link) => link.getAttribute("href") === "/tracks/motion-and-circular-motion"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/motion-and-circular-motion"),
     ).toBe(true);
     expect(
       screen.queryByRole("link", { name: /open recommended concept/i }),
@@ -100,13 +100,13 @@ describe("TopicLandingPage", () => {
     expect(
       screen
         .getAllByRole("link", { name: /continue concept/i })
-        .some((link) => link.getAttribute("href") === "/concepts/projectile-motion"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/projectile-motion"),
     ).toBe(true);
     expect(screen.getAllByText(/continue here/i).length).toBeGreaterThan(0);
     expect(
       screen
         .getAllByRole("link", { name: /retry quick test/i })
-        .some((link) => link.getAttribute("href") === "/concepts/momentum-impulse#quick-test"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/momentum-impulse#quick-test"),
     ).toBe(true);
     expect(
       screen.queryByRole("link", { name: /open secondary recommendation/i }),
@@ -144,7 +144,7 @@ describe("TopicLandingPage", () => {
     expect(
       screen
         .getAllByRole("link", { name: /continue concept/i })
-        .some((link) => link.getAttribute("href") === "/concepts/projectile-motion"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/projectile-motion"),
     ).toBe(true);
     expect(screen.getAllByText(/quick-test follow-up/i).length).toBeGreaterThan(0);
     expect(screen.queryByText(/on this browser/i)).not.toBeInTheDocument();
@@ -162,12 +162,12 @@ describe("TopicLandingPage", () => {
     expect(
       screen
         .getAllByRole("link", { name: /^Sound and Acoustics$/i })
-        .some((link) => link.getAttribute("href") === "/tracks/sound-and-acoustics"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/sound-and-acoustics"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link", { name: /open starter track/i })
-        .some((link) => link.getAttribute("href") === "/tracks/sound-and-acoustics"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/sound-and-acoustics"),
     ).toBe(true);
   });
 
@@ -184,25 +184,25 @@ describe("TopicLandingPage", () => {
     expect(
       screen
         .getAllByRole("link", { name: /open starter track/i })
-        .some((link) => link.getAttribute("href") === "/tracks/electricity"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/electricity"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link", { name: /^Circuits$/i })
         .map((link) => link.getAttribute("href")),
-    ).toContain("/concepts/topics/circuits");
+    ).toContain("/en/concepts/topics/circuits");
     expect(
       screen
         .getAllByRole("link", { name: /^Electromagnetism$/i })
         .map((link) => link.getAttribute("href")),
-    ).toContain("/concepts/topics/electromagnetism");
+    ).toContain("/en/concepts/topics/electromagnetism");
     expect(
       screen
         .getAllByRole("link", { name: /capacitance and stored electric energy/i })
         .some(
           (link) =>
             link.getAttribute("href") ===
-            "/concepts/capacitance-and-stored-electric-energy",
+            "/en/concepts/capacitance-and-stored-electric-energy",
         ),
     ).toBe(true);
     expect(screen.getAllByText(/specific learning goals/i).length).toBeGreaterThan(0);
@@ -220,7 +220,7 @@ describe("TopicLandingPage", () => {
     expect(
       screen
         .getAllByRole("link", { name: /kirchhoff loop and junction rules/i })
-        .some((link) => link.getAttribute("href") === "/concepts/kirchhoff-loop-and-junction-rules"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/kirchhoff-loop-and-junction-rules"),
     ).toBe(true);
     expect(
       screen.getByRole("heading", { name: /storage and time response/i, level: 3 }),
@@ -228,7 +228,7 @@ describe("TopicLandingPage", () => {
     expect(
       screen
         .getAllByRole("link", { name: /rc charging and discharging/i })
-        .some((link) => link.getAttribute("href") === "/concepts/rc-charging-and-discharging"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/rc-charging-and-discharging"),
     ).toBe(true);
     expect(
       screen.getByRole("heading", { name: /real sources under load/i, level: 3 }),
@@ -239,7 +239,7 @@ describe("TopicLandingPage", () => {
         .some(
           (link) =>
             link.getAttribute("href") ===
-            "/concepts/internal-resistance-and-terminal-voltage",
+            "/en/concepts/internal-resistance-and-terminal-voltage",
         ),
     ).toBe(true);
   });
@@ -253,18 +253,18 @@ describe("TopicLandingPage", () => {
     expect(
       screen
         .getAllByRole("link", { name: /start with temperature vs u/i })
-        .some((link) => link.getAttribute("href") === "/concepts/temperature-and-internal-energy"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/temperature-and-internal-energy"),
     ).toBe(true);
     expect(screen.getAllByText(/ideal gas law and kinetic theory/i).length).toBeGreaterThan(0);
     expect(
       screen
         .getAllByRole("link", { name: /open concept/i })
-        .some((link) => link.getAttribute("href") === "/concepts/ideal-gas-law-and-kinetic-theory"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/ideal-gas-law-and-kinetic-theory"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link", { name: /open starter track/i })
-        .some((link) => link.getAttribute("href") === "/tracks/thermodynamics-and-kinetic-theory"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/thermodynamics-and-kinetic-theory"),
     ).toBe(true);
     expect(
       screen.getByRole("heading", { name: /^Heat Transfer$/i, level: 3 }),
@@ -272,7 +272,7 @@ describe("TopicLandingPage", () => {
     expect(
       screen
         .getAllByRole("link", { name: /open concept/i })
-        .some((link) => link.getAttribute("href") === "/concepts/heat-transfer"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/heat-transfer"),
     ).toBe(true);
     expect(
       screen.getByRole("heading", { name: /^Specific Heat and Phase Change$/i, level: 3 }),
@@ -280,18 +280,18 @@ describe("TopicLandingPage", () => {
     expect(
       screen
         .getAllByRole("link", { name: /open concept/i })
-        .some((link) => link.getAttribute("href") === "/concepts/specific-heat-and-phase-change"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/specific-heat-and-phase-change"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link", { name: /^Mechanics$/i })
         .map((link) => link.getAttribute("href")),
-    ).toContain("/concepts/topics/mechanics");
+    ).toContain("/en/concepts/topics/mechanics");
     expect(
       screen
         .getAllByRole("link", { name: /^Electricity$/i })
         .map((link) => link.getAttribute("href")),
-    ).toContain("/concepts/topics/electricity");
+    ).toContain("/en/concepts/topics/electricity");
   });
 
   it("keeps the fluids topic pressure-first while branching through flow, buoyancy, and terminal-speed drag", () => {
@@ -315,51 +315,51 @@ describe("TopicLandingPage", () => {
       screen
         .getAllByRole("link", { name: /start with pressure in fluids/i })
         .some(
-          (link) => link.getAttribute("href") === "/concepts/pressure-and-hydrostatic-pressure",
+          (link) => link.getAttribute("href") === "/en/concepts/pressure-and-hydrostatic-pressure",
         ),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link", { name: /open starter track/i })
-        .some((link) => link.getAttribute("href") === "/tracks/fluid-and-pressure"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/fluid-and-pressure"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link", { name: /^Fluid and Pressure$/i })
-        .some((link) => link.getAttribute("href") === "/tracks/fluid-and-pressure"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/fluid-and-pressure"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link", { name: /open concept/i })
-        .some((link) => link.getAttribute("href") === "/concepts/continuity-equation"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/continuity-equation"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link", { name: /open concept/i })
-        .some((link) => link.getAttribute("href") === "/concepts/bernoullis-principle"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/bernoullis-principle"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link", { name: /open concept/i })
         .some(
-          (link) => link.getAttribute("href") === "/concepts/buoyancy-and-archimedes-principle",
+          (link) => link.getAttribute("href") === "/en/concepts/buoyancy-and-archimedes-principle",
         ),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link", { name: /open concept/i })
-        .some((link) => link.getAttribute("href") === "/concepts/drag-and-terminal-velocity"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/drag-and-terminal-velocity"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link", { name: /^Mechanics$/i })
         .map((link) => link.getAttribute("href")),
-    ).toContain("/concepts/topics/mechanics");
+    ).toContain("/en/concepts/topics/mechanics");
     expect(
       screen
         .getAllByRole("link", { name: /^Thermodynamics$/i })
         .map((link) => link.getAttribute("href")),
-    ).toContain("/concepts/topics/thermodynamics");
+    ).toContain("/en/concepts/topics/thermodynamics");
   });
 
   it("positions electromagnetism between the magnetism topic and the optics branch", () => {
@@ -377,23 +377,23 @@ describe("TopicLandingPage", () => {
     expect(
       screen
         .getAllByRole("link")
-        .some((link) => link.getAttribute("href") === "/tracks/magnetic-fields"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/magnetic-fields"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link")
-        .some((link) => link.getAttribute("href") === "/concepts/topics/magnetism"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/topics/magnetism"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link")
-        .some((link) => link.getAttribute("href") === "/concepts/topics/optics"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/topics/optics"),
     ).toBe(true);
     expect(screen.getByText(/recommended prerequisite tracks/i)).toBeInTheDocument();
     expect(
       screen
         .getAllByRole("link")
-        .some((link) => link.getAttribute("href") === "/tracks/magnetic-fields"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/magnetic-fields"),
     ).toBe(true);
   });
 
@@ -410,17 +410,17 @@ describe("TopicLandingPage", () => {
     expect(
       screen
         .getAllByRole("link", { name: /start with light and spectrum/i })
-        .some((link) => link.getAttribute("href") === "/concepts/light-spectrum-linkage"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/light-spectrum-linkage"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link")
-        .some((link) => link.getAttribute("href") === "/concepts/polarization"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/polarization"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link")
-        .some((link) => link.getAttribute("href") === "/concepts/diffraction"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/diffraction"),
     ).toBe(true);
     expect(
       screen.getByRole("heading", { name: /^Double-Slit Interference$/i, level: 3 }),
@@ -434,22 +434,22 @@ describe("TopicLandingPage", () => {
     expect(
       screen
         .getAllByRole("link")
-        .some((link) => link.getAttribute("href") === "/tracks/wave-optics"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/wave-optics"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link")
-        .some((link) => link.getAttribute("href") === "/concepts/topics/electromagnetism"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/topics/electromagnetism"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link")
-        .some((link) => link.getAttribute("href") === "/concepts/topics/waves"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/topics/waves"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link")
-        .some((link) => link.getAttribute("href") === "/concepts/topics/mirrors-and-lenses"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/topics/mirrors-and-lenses"),
     ).toBe(true);
   });
 
@@ -462,32 +462,32 @@ describe("TopicLandingPage", () => {
     expect(
       screen
         .getAllByRole("link", { name: /start with photoelectric effect/i })
-        .some((link) => link.getAttribute("href") === "/concepts/photoelectric-effect"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/photoelectric-effect"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link", { name: /open starter track/i })
-        .some((link) => link.getAttribute("href") === "/tracks/modern-physics"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/modern-physics"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link", { name: /^Modern Physics$/i })
-        .some((link) => link.getAttribute("href") === "/tracks/modern-physics"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/modern-physics"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link")
-        .some((link) => link.getAttribute("href") === "/concepts/topics/optics"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/topics/optics"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link")
-        .some((link) => link.getAttribute("href") === "/concepts/topics/electromagnetism"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/topics/electromagnetism"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link")
-        .some((link) => link.getAttribute("href") === "/concepts/topics/waves"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/topics/waves"),
     ).toBe(true);
   });
 
@@ -504,13 +504,13 @@ describe("TopicLandingPage", () => {
     expect(
       screen
         .getAllByRole("link", { name: /open starter track/i })
-        .some((link) => link.getAttribute("href") === "/tracks/functions-and-change"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/functions-and-change"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link", { name: /^Calculus$/i })
         .map((link) => link.getAttribute("href")),
-    ).toContain("/concepts/topics/calculus");
+    ).toContain("/en/concepts/topics/calculus");
     expect(screen.getAllByText(/specific learning goals/i).length).toBeGreaterThan(0);
     expect(screen.getByText(/build function and rate intuition from the graph first/i)).toBeInTheDocument();
   });
@@ -528,13 +528,13 @@ describe("TopicLandingPage", () => {
     expect(
       screen
         .getAllByRole("link", { name: /open starter track/i })
-        .some((link) => link.getAttribute("href") === "/tracks/vectors-and-motion-bridge"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/vectors-and-motion-bridge"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link", { name: /^Mechanics$/i })
         .map((link) => link.getAttribute("href")),
-    ).toContain("/concepts/topics/mechanics");
+    ).toContain("/en/concepts/topics/mechanics");
     expect(screen.getAllByText(/specific learning goals/i).length).toBeGreaterThan(0);
     expect(screen.getByText(/bridge plane vectors into motion/i)).toBeInTheDocument();
   });
@@ -554,13 +554,13 @@ describe("TopicLandingPage", () => {
     expect(
       screen
         .getAllByRole("link", { name: /open starter track/i })
-        .some((link) => link.getAttribute("href") === "/tracks/rates-and-equilibrium"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/rates-and-equilibrium"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link", { name: /^Thermodynamics$/i })
         .map((link) => link.getAttribute("href")),
-    ).toContain("/concepts/topics/thermodynamics");
+    ).toContain("/en/concepts/topics/thermodynamics");
     expect(screen.getAllByText(/specific learning goals/i).length).toBeGreaterThan(0);
     expect(
       screen.getByText(/build chemistry intuition through rates and equilibrium/i),
@@ -580,7 +580,7 @@ describe("TopicLandingPage", () => {
     expect(
       screen
         .getAllByRole("link", { name: zhHkMessages.TopicLandingPage.actions.browseLibrary })
-        .some((link) => link.getAttribute("href") === "/concepts"),
+        .some((link) => link.getAttribute("href") === "/zh-HK/concepts"),
     ).toBe(true);
   });
 });

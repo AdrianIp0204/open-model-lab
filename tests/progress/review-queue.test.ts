@@ -48,11 +48,11 @@ describe("adaptive review queue", () => {
     expect(queue[0]?.reasonKind).toBe("stale");
     expect(queue[0]?.primaryAction).toMatchObject({
       kind: "concept",
-      href: "/concepts/projectile-motion",
+      href: "/en/concepts/projectile-motion",
     });
     expect(queue[0]?.secondaryAction).toMatchObject({
       kind: "track-recap",
-      href: "/tracks/motion-and-circular-motion?mode=recap",
+      href: "/en/tracks/motion-and-circular-motion?mode=recap",
     });
   });
 
@@ -166,7 +166,7 @@ describe("adaptive review queue", () => {
       focusKind: "checkpoint",
       action: {
         kind: "checkpoint",
-        href: "/concepts/vectors-components?challenge=vc-ch-equal-components#challenge-mode",
+        href: "/en/concepts/vectors-components?challenge=vc-ch-equal-components#challenge-mode",
       },
     });
   });
@@ -204,7 +204,7 @@ describe("adaptive review queue", () => {
     expect(queue[0]?.reasonKind).toBe("diagnostic");
     expect(queue[0]?.primaryAction).toMatchObject({
       kind: "challenge",
-      href: "/concepts/wave-interference?challenge=wi-ch-find-dark-band#challenge-mode",
+      href: "/en/concepts/wave-interference?challenge=wi-ch-find-dark-band#challenge-mode",
     });
     expect(queue[0]?.reason).toMatch(/entry diagnostic/i);
   });
@@ -298,7 +298,7 @@ describe("adaptive review queue", () => {
         expect.objectContaining({
           kind: "prerequisite-concept",
           action: expect.objectContaining({
-            href: "/concepts/vectors-components",
+            href: "/en/concepts/vectors-components",
           }),
         }),
       ]),
@@ -403,7 +403,7 @@ describe("adaptive review queue", () => {
         expect.objectContaining({
           kind: "guided-collection",
           action: expect.objectContaining({
-            href: "/guided/waves-evidence-loop",
+            href: "/en/guided/waves-evidence-loop",
           }),
         }),
       ]),
@@ -544,7 +544,7 @@ describe("adaptive review queue", () => {
           action: expect.objectContaining({
             label: "Open focus bundle",
             href: expect.stringMatching(
-              /^\/guided\/electricity-bridge-lesson-set\?bundle=v1\.[A-Za-z0-9_-]+#concept-bundle$/,
+              /^\/en\/guided\/electricity-bridge-lesson-set\?bundle=v1\.[A-Za-z0-9_-]+#concept-bundle$/,
             ),
           }),
         }),

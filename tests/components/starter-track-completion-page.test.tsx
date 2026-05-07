@@ -29,7 +29,7 @@ describe("StarterTrackCompletionPage", () => {
     ).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: /start with vectors/i }),
-    ).toHaveAttribute("href", "/concepts/vectors-components");
+    ).toHaveAttribute("href", "/en/concepts/vectors-components");
     expect(
       screen.getByText(
         /remaining concepts: vectors and components, projectile motion, uniform circular motion\./i,
@@ -85,7 +85,7 @@ describe("StarterTrackCompletionPage", () => {
     ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /start rotational mechanics/i })).toHaveAttribute(
       "href",
-      "/tracks/rotational-mechanics",
+      "/en/tracks/rotational-mechanics",
     );
   });
 
@@ -198,7 +198,7 @@ describe("StarterTrackCompletionPage", () => {
     ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /start gravity and orbits/i })).toHaveAttribute(
       "href",
-      "/tracks/gravity-and-orbits",
+      "/en/tracks/gravity-and-orbits",
     );
   });
 
@@ -252,15 +252,15 @@ describe("StarterTrackCompletionPage", () => {
     expect(screen.getByText(/you also cleared 2 track checkpoints/i)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /open recap mode/i })).toHaveAttribute(
       "href",
-      "/tracks/oscillations-and-energy?mode=recap",
+      "/en/tracks/oscillations-and-energy?mode=recap",
     );
     expect(screen.getByRole("link", { name: /open oscillations/i })).toHaveAttribute(
       "href",
-      "/concepts/topics/oscillations",
+      "/en/concepts/topics/oscillations",
     );
     expect(screen.getByRole("link", { name: /continue waves/i })).toHaveAttribute(
       "href",
-      "/tracks/waves",
+      "/en/tracks/waves",
     );
     expect(screen.getByRole("button", { name: /copy completion page link/i })).toBeInTheDocument();
   });
@@ -421,7 +421,7 @@ describe("StarterTrackCompletionPage", () => {
     ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /open recap mode/i })).toHaveAttribute(
       "href",
-      "/tracks/oscillations-and-energy?mode=recap",
+      "/en/tracks/oscillations-and-energy?mode=recap",
     );
   });
 
@@ -475,12 +475,12 @@ describe("StarterTrackCompletionPage", () => {
     expect(screen.getByText(/magnetic force direction checkpoint/i)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /open magnetism challenges/i })).toHaveAttribute(
       "href",
-      "/challenges?track=magnetic-fields",
+      "/en/challenges?track=magnetic-fields",
     );
     expect(
       screen
         .getAllByRole("link")
-        .some((link) => link.getAttribute("href") === "/concepts/topics/magnetism"),
+        .some((link) => link.getAttribute("href") === "/en/concepts/topics/magnetism"),
     ).toBe(true);
   });
 });

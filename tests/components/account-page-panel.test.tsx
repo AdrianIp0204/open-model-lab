@@ -326,9 +326,9 @@ describe("AccountPagePanel", () => {
     expect(signInWithPasswordMock).toHaveBeenCalledWith(
       "student@example.com",
       "password-123",
-      "/dashboard",
+      "/en/dashboard",
     );
-    expect(pushMock).toHaveBeenCalledWith("/dashboard");
+    expect(pushMock).toHaveBeenCalledWith("/en/dashboard");
   });
 
   it("preserves the requested next route for password sign-in and email-link requests", async () => {
@@ -343,9 +343,9 @@ describe("AccountPagePanel", () => {
     expect(signInWithPasswordMock).toHaveBeenCalledWith(
       "student@example.com",
       "password-123",
-      "/concepts/projectile-motion",
+      "/en/concepts/projectile-motion",
     );
-    expect(pushMock).toHaveBeenCalledWith("/concepts/projectile-motion");
+    expect(pushMock).toHaveBeenCalledWith("/en/concepts/projectile-motion");
 
     await user.clear(screen.getByLabelText("Email for sign-in link"));
     await user.type(screen.getByLabelText("Email for sign-in link"), "first-timer@example.com");
@@ -353,7 +353,7 @@ describe("AccountPagePanel", () => {
 
     expect(requestMagicLinkMock).toHaveBeenCalledWith(
       "first-timer@example.com",
-      "/concepts/projectile-motion",
+      "/en/concepts/projectile-motion",
     );
   });
 
@@ -397,7 +397,7 @@ describe("AccountPagePanel", () => {
 
     expect(requestMagicLinkMock).toHaveBeenCalledWith(
       "first-timer@example.com",
-      "/dashboard",
+      "/en/dashboard",
     );
     expect(signInWithPasswordMock).not.toHaveBeenCalled();
   });
@@ -437,7 +437,7 @@ describe("AccountPagePanel", () => {
 
     expect(requestPasswordResetMock).toHaveBeenCalledWith(
       "student@example.com",
-      "/account/reset-password",
+      "/en/account/reset-password",
     );
     expect(requestMagicLinkMock).not.toHaveBeenCalled();
   });
@@ -452,7 +452,7 @@ describe("AccountPagePanel", () => {
 
     expect(requestPasswordResetMock).toHaveBeenCalledWith(
       "student@example.com",
-      "/account/reset-password",
+      "/en/account/reset-password",
     );
     expect(screen.getByText(/password-reset email has been sent/i)).toBeInTheDocument();
     expect(screen.getByText(/check your inbox and spam/i)).toBeInTheDocument();
@@ -772,7 +772,7 @@ describe("AccountPagePanel", () => {
 
     expect(requestPasswordResetMock).toHaveBeenCalledWith(
       "student@example.com",
-      "/account/reset-password",
+      "/en/account/reset-password",
     );
   });
 

@@ -79,7 +79,7 @@ describe("PostConfirmationPasswordSetupPanel", () => {
     ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Skip to dashboard" })).toHaveAttribute(
       "href",
-      "/dashboard",
+      "/en/dashboard",
     );
   });
 
@@ -97,7 +97,7 @@ describe("PostConfirmationPasswordSetupPanel", () => {
     await user.click(screen.getByRole("button", { name: "Save password and continue" }));
 
     expect(updateAccountPasswordMock).toHaveBeenCalledWith("new-password-123");
-    expect(pushMock).toHaveBeenCalledWith("/concepts/projectile-motion");
+    expect(pushMock).toHaveBeenCalledWith("/en/concepts/projectile-motion");
   });
 
   it("keeps the saved-password continue route localized in zh-HK", async () => {
@@ -154,7 +154,7 @@ describe("PostConfirmationPasswordSetupPanel", () => {
     expect(screen.getByText(/finish the email confirmation first/i)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Back to account" })).toHaveAttribute(
       "href",
-      "/account",
+      "/en/account",
     );
   });
 
@@ -198,7 +198,7 @@ describe("PostConfirmationPasswordSetupPanel", () => {
     ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Open dev account harness" })).toHaveAttribute(
       "href",
-      "/dev/account-harness",
+      "/en/dev/account-harness",
     );
   });
 

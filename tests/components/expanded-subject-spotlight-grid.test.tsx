@@ -9,6 +9,7 @@ import {
   getRecommendedGoalPaths,
   getSubjectDiscoverySummaries,
 } from "@/lib/content";
+import { localizeShareHref } from "@/lib/share-links";
 
 describe("ExpandedSubjectSpotlightGrid", () => {
   const spotlights = buildExpandedSubjectSpotlights({
@@ -27,18 +28,21 @@ describe("ExpandedSubjectSpotlightGrid", () => {
 
     expect(screen.getByRole("link", { name: /open math/i })).toHaveAttribute(
       "href",
-      "/concepts/subjects/math",
+      "/en/concepts/subjects/math",
     );
     expect(
       screen.getByRole("link", { name: /functions and change lesson set/i }),
-    ).toHaveAttribute("href", "/guided/functions-and-change-lesson-set");
+    ).toHaveAttribute("href", "/en/guided/functions-and-change-lesson-set");
     expect(
       screen.getByRole("link", {
         name: chemistrySpotlight?.goalPath?.title ?? "",
       }),
-    ).toHaveAttribute("href", chemistrySpotlight?.goalPath?.path ?? "");
+    ).toHaveAttribute(
+      "href",
+      localizeShareHref(chemistrySpotlight?.goalPath?.path ?? "", "en"),
+    );
     expect(
       screen.getByRole("link", { name: /algorithms and search playlist/i }),
-    ).toHaveAttribute("href", "/guided/algorithms-and-search-playlist");
+    ).toHaveAttribute("href", "/en/guided/algorithms-and-search-playlist");
   });
 });

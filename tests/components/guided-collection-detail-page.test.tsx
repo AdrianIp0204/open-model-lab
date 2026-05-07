@@ -62,7 +62,7 @@ describe("GuidedCollectionDetailPage", () => {
       expect(
         screen
           .getAllByRole("link", { name: /open topic page/i })
-          .every((link) => link.getAttribute("href") === "/concepts/topics/electricity"),
+          .every((link) => link.getAttribute("href") === "/en/concepts/topics/electricity"),
       ).toBe(true);
     },
     10000,
@@ -108,7 +108,7 @@ describe("GuidedCollectionDetailPage", () => {
         .some(
           (link) =>
             link.getAttribute("href") ===
-            "/concepts/wave-interference?challenge=wi-ch-find-dark-band#challenge-mode",
+            "/en/concepts/wave-interference?challenge=wi-ch-find-dark-band#challenge-mode",
         ),
     ).toBe(true);
   });
@@ -177,7 +177,7 @@ describe("GuidedCollectionDetailPage", () => {
         .some(
           (link) =>
             link.getAttribute("href") ===
-            "/concepts/electric-potential?challenge=ep-ch-positive-midpoint-plateau#challenge-mode",
+            "/en/concepts/electric-potential?challenge=ep-ch-positive-midpoint-plateau#challenge-mode",
         ),
     ).toBe(true);
   });
@@ -221,7 +221,7 @@ describe("GuidedCollectionDetailPage", () => {
       screen.getByRole("link", {
         name: /skip to add maxwell's four-law synthesis as the capstone concept/i,
       }),
-    ).toHaveAttribute("href", "/concepts/maxwells-equations-synthesis");
+    ).toHaveAttribute("href", "/en/concepts/maxwells-equations-synthesis");
   });
 
   it("renders a shared concept bundle preview and launch order on the guided collection page", async () => {

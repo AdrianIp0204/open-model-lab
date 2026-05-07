@@ -40,7 +40,7 @@ describe("saved study plan progress", () => {
 
     expect(summary.status).toBe("in-progress");
     expect(summary.primaryAction).toMatchObject({
-      href: "/concepts/projectile-motion",
+      href: "/en/concepts/projectile-motion",
       label: "Start concept",
     });
     expect(summary.nextEntry?.entry.kind).toBe("concept");
@@ -79,7 +79,7 @@ describe("saved study plan progress", () => {
 
     expect(summary.status).toBe("completed");
     expect(summary.primaryAction).toMatchObject({
-      href: "/concepts/projectile-motion",
+      href: "/en/concepts/projectile-motion",
       label: "Review concept",
     });
     expect(summary.completedEntryCount).toBe(1);

@@ -96,7 +96,7 @@ describe("ResetPasswordPagePanel", () => {
     expect(screen.getByText(/that recovery link expired/i)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Back to account" })).toHaveAttribute(
       "href",
-      "/account",
+      "/en/account",
     );
   });
 
@@ -110,7 +110,7 @@ describe("ResetPasswordPagePanel", () => {
     ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Back to account" })).toHaveAttribute(
       "href",
-      "/account",
+      "/en/account",
     );
   });
 
@@ -154,7 +154,7 @@ describe("ResetPasswordPagePanel", () => {
     ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Open dev account harness" })).toHaveAttribute(
       "href",
-      "/dev/account-harness",
+      "/en/dev/account-harness",
     );
   });
 

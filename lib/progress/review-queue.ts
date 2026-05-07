@@ -773,6 +773,7 @@ export function selectAdaptiveReviewQueue(
     locale?: AppLocale;
   } = {},
 ) {
+  const locale = options.locale ?? "en";
   const now = options.now ?? new Date();
   const continueLearning = selectContinueLearning(snapshot, concepts, 1);
   const continueSlug = continueLearning.primary?.concept.slug ?? null;
@@ -781,7 +782,7 @@ export function selectAdaptiveReviewQueue(
   const trackContextByConceptSlug = getTrackRecapContextMap(
     snapshot,
     starterTracks,
-    options.locale,
+    locale,
   );
   const baseQueue = selectReviewQueue(snapshot, concepts, concepts.length, { now });
   const checkpointCandidates = getCheckpointRecoveryCandidates(
@@ -790,14 +791,14 @@ export function selectAdaptiveReviewQueue(
     starterTracks,
     continueSlug,
     now,
-    options.locale,
+    locale,
   );
   const diagnosticCandidates = getDiagnosticRecoveryCandidates(
     snapshot,
     conceptsBySlug,
     starterTracks,
     continueSlug,
-    options.locale,
+    locale,
   );
 
   for (const item of baseQueue) {
@@ -818,12 +819,12 @@ export function selectAdaptiveReviewQueue(
   return [...candidateMap.values()]
     .map((item) => {
       const trackContext = trackContextByConceptSlug.get(item.concept.slug) ?? null;
-      const primaryAction = buildPrimaryReviewAction(item, trackContext, options.locale);
+      const primaryAction = buildPrimaryReviewAction(item, trackContext, locale);
       const secondaryAction = buildSecondaryReviewAction(
         item,
         primaryAction,
         trackContext,
-        options.locale,
+        locale,
       );
       const supportReasons = uniqueStrings([
         ...item.supportReasons,
@@ -852,7 +853,7 @@ export function selectAdaptiveReviewQueue(
           allConcepts: options.allConcepts,
           starterTracks,
           guidedCollections: options.guidedCollections,
-          locale: options.locale,
+          locale,
         },
       );
 

@@ -1884,7 +1884,7 @@ describe("ConceptPageV2WrapUp", () => {
     expect(primaryPracticeAction).toHaveAccessibleDescription(
       "Check whether the idea transfers without the lab open.",
     );
-    expect(primaryPracticeAction).toHaveAttribute("href", "/tests/concepts/sample");
+    expect(primaryPracticeAction).toHaveAttribute("href", "/en/tests/concepts/sample");
     expect(primaryPracticeAction).toHaveClass(
       "group/action",
       "grid-cols-[auto_minmax(0,1fr)]",
@@ -1979,7 +1979,7 @@ describe("ConceptPageV2WrapUp", () => {
     expect(highlightedChallenge).toHaveAccessibleDescription(
       "Push the pattern one step further.",
     );
-    expect(highlightedChallenge).toHaveAttribute("href", "/concepts/sample#challenge");
+    expect(highlightedChallenge).toHaveAttribute("href", "/en/concepts/sample#challenge");
     expect(highlightedChallenge).toHaveClass(
       "group/action",
       "grid-cols-[auto_minmax(0,1fr)]",
@@ -2021,7 +2021,7 @@ describe("ConceptPageV2WrapUp", () => {
 
     const primaryPracticeAction = screen.getByTestId("concept-v2-primary-practice-action");
     expect(primaryPracticeAction).toHaveTextContent("Review on the bench");
-    expect(primaryPracticeAction).toHaveAttribute("href", "/concepts/sample#bench");
+    expect(primaryPracticeAction).toHaveAttribute("href", "/en/concepts/sample#bench");
     expect(screen.queryByRole("link", { name: /Open concept test/ })).not.toBeInTheDocument();
 
     const practiceDisclosure = screen.getByTestId("concept-v2-more-practice-options");

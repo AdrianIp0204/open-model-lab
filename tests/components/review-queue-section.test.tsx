@@ -149,11 +149,11 @@ describe("ReviewQueueSection", () => {
       screen.getAllByRole("link", { name: /open projectile checkpoint/i })[0],
     ).toHaveAttribute(
       "href",
-      "/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
+      "/en/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
     );
     expect(screen.getAllByRole("link", { name: /resume concept/i })[0]).toHaveAttribute(
       "href",
-      "/concepts/simple-harmonic-motion",
+      "/en/concepts/simple-harmonic-motion",
     );
     expect(
       within(screen.getByText("Projectile Motion").closest("article")!).getByTestId(
@@ -195,11 +195,11 @@ describe("ReviewQueueSection", () => {
     ).toBeGreaterThan(0);
     expect(screen.getAllByRole("link", { name: /retry quick test/i })[0]).toHaveAttribute(
       "href",
-      "/concepts/projectile-motion#quick-test",
+      "/en/concepts/projectile-motion#quick-test",
     );
     expect(screen.getByRole("link", { name: /review vectors/i })).toHaveAttribute(
       "href",
-      "/concepts/vectors-components",
+      "/en/concepts/vectors-components",
     );
   });
 
@@ -294,7 +294,7 @@ describe("ReviewQueueSection", () => {
 
     const bundleLink = screen.getByRole("link", { name: /open focus bundle/i });
     expect(bundleLink.getAttribute("href")).toMatch(
-      /^\/guided\/electricity-bridge-lesson-set\?bundle=v1\.[A-Za-z0-9_-]+#concept-bundle$/,
+      /^\/en\/guided\/electricity-bridge-lesson-set\?bundle=v1\.[A-Za-z0-9_-]+#concept-bundle$/,
     );
   });
 
@@ -338,7 +338,7 @@ describe("ReviewQueueSection", () => {
     expect(screen.getByText(/synced across devices/i)).toBeInTheDocument();
     expect(screen.getAllByRole("link", { name: /retry quick test/i })[0]).toHaveAttribute(
       "href",
-      "/concepts/projectile-motion#quick-test",
+      "/en/concepts/projectile-motion#quick-test",
     );
     expect(screen.getByText("Last active Mar 26")).toBeInTheDocument();
   });
@@ -385,7 +385,7 @@ describe("ReviewQueueSection", () => {
     expect(screen.getAllByText(/checkpoint/i).length).toBeGreaterThan(0);
     expect(screen.getAllByRole("link", { name: /open checkpoint/i })[0]).toHaveAttribute(
       "href",
-      "/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
+      "/en/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
     );
   });
 
@@ -420,7 +420,7 @@ describe("ReviewQueueSection", () => {
     expect(screen.getAllByText(/checkpoint/i).length).toBeGreaterThan(0);
     expect(screen.getAllByRole("link", { name: /open checkpoint/i })[0]).toHaveAttribute(
       "href",
-      "/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
+      "/en/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
     );
   });
 
@@ -499,7 +499,7 @@ describe("ReviewQueueSection", () => {
 
     expect(screen.getByRole("link", { name: /open saved setup/i })).toHaveAttribute(
       "href",
-      "/concepts/compare-practice?state=v1.saved&experiment=v1.saved#live-bench",
+      "/en/concepts/compare-practice?state=v1.saved&experiment=v1.saved#live-bench",
     );
   });
 

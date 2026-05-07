@@ -84,7 +84,7 @@ describe("SavedSetupsLibraryPage", () => {
     expect(screen.getByText("Earth shot")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Open" })).toHaveAttribute(
       "href",
-      "/concepts/projectile-motion?state=v1.earth-state&experiment=v1.earth-card#interactive-lab",
+      "/en/concepts/projectile-motion?state=v1.earth-state&experiment=v1.earth-card#interactive-lab",
     );
 
     await user.click(screen.getByRole("button", { name: "Rename" }));

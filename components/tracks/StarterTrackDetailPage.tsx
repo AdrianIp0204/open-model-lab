@@ -34,6 +34,7 @@ import {
 import {
   buildTrackCompletionHref,
   buildTrackRecapHref,
+  localizeShareHref,
   buildTrackShareTargets,
   trackShareAnchorIds,
 } from "@/lib/share-links";
@@ -310,8 +311,10 @@ function getDifficultyLabel(difficulty: string, locale: AppLocale) {
   }
 }
 
-function getTrackViewHref(trackSlug: string, mode: StarterTrackViewMode) {
-  return mode === "recap" ? buildTrackRecapHref(trackSlug) : `/tracks/${trackSlug}`;
+function getTrackViewHref(trackSlug: string, mode: StarterTrackViewMode, locale: AppLocale) {
+  return mode === "recap"
+    ? buildTrackRecapHref(trackSlug, locale)
+    : localizeShareHref(`/tracks/${trackSlug}`, locale);
 }
 
 export function StarterTrackDetailPage({
@@ -362,7 +365,7 @@ export function StarterTrackDetailPage({
   const displayTrackTitle = getStarterTrackDisplayTitle(track, locale);
   const displayTrackSummary = getStarterTrackDisplaySummary(track, locale);
   const displayTrackHighlights = getStarterTrackDisplayHighlights(track, locale);
-  const completionHref = buildTrackCompletionHref(track.slug);
+  const completionHref = buildTrackCompletionHref(track.slug, locale);
   const isRecapMode = initialMode === "recap";
   const guidedPrimaryHref = progress.status === "completed" ? completionHref : primaryAction.href;
   const guidedPrimaryLabel =
@@ -380,8 +383,8 @@ export function StarterTrackDetailPage({
           : "You have completed every concept in this track on this browser. Use the completion page for a compact reflection, then drop back into recap or concept review when you want."
       : primaryAction.note;
   const heroSecondaryHref = isRecapMode
-    ? `/tracks/${track.slug}`
-    : getTrackViewHref(track.slug, "recap");
+    ? localizeShareHref(`/tracks/${track.slug}`, locale)
+    : getTrackViewHref(track.slug, "recap", locale);
   const heroSecondaryLabel = isRecapMode
     ? copyText(locale, "Open full track", "打開完整路徑")
     : copyText(locale, "Use recap mode", "使用重溫模式");
@@ -437,7 +440,7 @@ export function StarterTrackDetailPage({
     trackLearningEvent(
       progress.status === "not-started" ? "track_started" : "track_continued",
       {
-        pagePath: `/tracks/${track.slug}`,
+        pagePath: localizeShareHref(`/tracks/${track.slug}`, locale),
         pageTitle: displayTrackTitle,
         pageKind: "track",
         trackSlug: track.slug,
@@ -454,14 +457,14 @@ export function StarterTrackDetailPage({
     <section className="space-y-5 sm:space-y-6">
       <div className="flex flex-wrap items-center gap-2 text-sm text-ink-600">
         <Link
-          href="/"
+          href={localizeShareHref("/", locale)}
           className="rounded-full border border-line bg-paper-strong px-3 py-1 transition-colors hover:border-ink-950/20 hover:text-ink-950"
         >
           {copyText(locale, "Home", "首頁")}
         </Link>
         <span aria-hidden="true">/</span>
         <Link
-          href="/concepts"
+          href={localizeShareHref("/concepts", locale)}
           className="rounded-full border border-line bg-paper-strong px-3 py-1 transition-colors hover:border-ink-950/20 hover:text-ink-950"
         >
           {copyText(locale, "Concepts", "概念庫")}
@@ -505,7 +508,7 @@ export function StarterTrackDetailPage({
           aria-label={copyText(locale, "Track view mode", "路徑檢視模式")}
         >
           <Link
-            href={getTrackViewHref(track.slug, "guided")}
+            href={getTrackViewHref(track.slug, "guided", locale)}
             role="tab"
             aria-selected={!isRecapMode}
             className={[
@@ -516,7 +519,7 @@ export function StarterTrackDetailPage({
             {copyText(locale, "Full track", "完整路徑")}
           </Link>
           <Link
-            href={getTrackViewHref(track.slug, "recap")}
+            href={getTrackViewHref(track.slug, "recap", locale)}
             role="tab"
             aria-selected={isRecapMode}
             className={[
@@ -592,7 +595,7 @@ export function StarterTrackDetailPage({
                   data-testid="track-primary-cta"
                 >
                   {isRecapMode
-                    ? recap.primaryStep?.action.label ?? copyText(locale, "Open recap", "æ‰“é–‹é‡æº«")
+                    ? recap.primaryStep?.action.label ?? copyText(locale, "Open recap", "打開重溫")
                     : guidedPrimaryLabel}
                 </Link>
                 <Link href={heroSecondaryHref} className="cta-secondary">
@@ -906,7 +909,7 @@ export function StarterTrackDetailPage({
                         <div className="space-y-2">
                           <h3 className="text-2xl font-semibold text-ink-950">
                             <Link
-                              href={`/concepts/${step.concept.slug}`}
+                              href={localizeShareHref(`/concepts/${step.concept.slug}`, locale)}
                               onClick={() =>
                                 trackTrackEngagement("track-recap-step-title", step.concept.slug)
                               }
@@ -958,7 +961,7 @@ export function StarterTrackDetailPage({
                       <div className="flex shrink-0 flex-wrap gap-3">
                         {step.action.kind !== "concept" ? (
                           <Link
-                            href={`/concepts/${step.concept.slug}`}
+                            href={localizeShareHref(`/concepts/${step.concept.slug}`, locale)}
                             className="motion-link inline-flex text-sm font-semibold text-ink-700 underline underline-offset-4 transition-colors hover:text-ink-950"
                           >
                             {copyText(locale, "Open concept", "打開概念")}
@@ -1050,7 +1053,7 @@ export function StarterTrackDetailPage({
                           <div className="space-y-2">
                             <h3 className="text-2xl font-semibold text-ink-950">
                               <Link
-                                href={`/concepts/${concept.slug}`}
+                                href={localizeShareHref(`/concepts/${concept.slug}`, locale)}
                                 onClick={() =>
                                   trackTrackEngagement("track-guided-step-title", concept.slug)
                                 }
@@ -1094,7 +1097,7 @@ export function StarterTrackDetailPage({
 
                         <div className="flex shrink-0 flex-wrap gap-3">
                           <Link
-                            href={`/concepts/${concept.slug}`}
+                            href={localizeShareHref(`/concepts/${concept.slug}`, locale)}
                             onClick={() =>
                               trackTrackEngagement("track-guided-step-action", concept.slug)
                             }
@@ -1281,7 +1284,7 @@ export function StarterTrackDetailPage({
                                 {primaryLabel}
                               </Link>
                               <Link
-                                href={`/concepts/${checkpoint.challenge.concept.slug}`}
+                                href={localizeShareHref(`/concepts/${checkpoint.challenge.concept.slug}`, locale)}
                                 onClick={() =>
                                   trackTrackEngagement(
                                     "track-guided-checkpoint-concept",

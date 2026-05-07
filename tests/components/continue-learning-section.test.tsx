@@ -130,7 +130,7 @@ describe("ContinueLearningSection", () => {
 
     expect(screen.getAllByRole("link", { name: /continue concept/i })[0]).toHaveAttribute(
       "href",
-      "/concepts/simple-harmonic-motion",
+      "/en/concepts/simple-harmonic-motion",
     );
     expect(
       screen.getByRole("link", { name: "Simple Harmonic Motion" }).querySelector(

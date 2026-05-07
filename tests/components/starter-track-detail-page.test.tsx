@@ -44,7 +44,7 @@ describe("StarterTrackDetailPage", () => {
     expect(screen.getByText(/restoring-force loop/i)).toBeInTheDocument();
     expect(screen.getByTestId("track-primary-cta")).toHaveAttribute(
       "href",
-      "/concepts/simple-harmonic-motion",
+      "/en/concepts/simple-harmonic-motion",
     );
     expect(screen.getByTestId("starter-track-test-cta-simple-harmonic-motion")).toHaveTextContent(
       "Take test",
@@ -91,7 +91,7 @@ describe("StarterTrackDetailPage", () => {
 
     expect(screen.getByTestId("track-primary-cta")).toHaveAttribute(
       "href",
-      "/concepts/simple-harmonic-motion",
+      "/en/concepts/simple-harmonic-motion",
     );
     expect(
       screen.getAllByText(
@@ -145,11 +145,11 @@ describe("StarterTrackDetailPage", () => {
     expect(
       screen
         .getAllByRole("link", { name: /use recap mode/i })
-        .some((link) => link.getAttribute("href") === "/tracks/waves?mode=recap"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/waves?mode=recap"),
     ).toBe(true);
     expect(screen.getByRole("link", { name: /resume at simple harmonic motion/i })).toHaveAttribute(
       "href",
-      "/concepts/simple-harmonic-motion",
+      "/en/concepts/simple-harmonic-motion",
     );
   });
 
@@ -189,7 +189,7 @@ describe("StarterTrackDetailPage", () => {
         .every(
           (link) =>
             link.getAttribute("href") ===
-            "/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
+            "/en/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
         ),
     ).toBe(true);
   });
@@ -224,7 +224,7 @@ describe("StarterTrackDetailPage", () => {
         .every(
           (link) =>
             link.getAttribute("href") ===
-            "/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
+            "/en/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
         ),
     ).toBe(true);
   });
@@ -284,7 +284,7 @@ describe("StarterTrackDetailPage", () => {
         .every(
           (link) =>
             link.getAttribute("href") ===
-            "/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
+            "/en/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
         ),
     ).toBe(true);
   });
@@ -312,7 +312,7 @@ describe("StarterTrackDetailPage", () => {
         .every(
           (link) =>
             link.getAttribute("href") ===
-            "/concepts/electric-potential?challenge=ep-ch-positive-midpoint-plateau#challenge-mode",
+            "/en/concepts/electric-potential?challenge=ep-ch-positive-midpoint-plateau#challenge-mode",
         ),
     ).toBe(true);
   });
@@ -330,7 +330,7 @@ describe("StarterTrackDetailPage", () => {
     ).toBeInTheDocument();
     expect(screen.getByTestId("track-primary-cta")).toHaveAttribute(
       "href",
-      "/concepts/temperature-and-internal-energy",
+      "/en/concepts/temperature-and-internal-energy",
     );
     expect(
       screen.getAllByRole("heading", { name: /gas-pressure bridge checkpoint/i, level: 3 }).length,
@@ -354,7 +354,7 @@ describe("StarterTrackDetailPage", () => {
     ).toBeInTheDocument();
     expect(screen.getByTestId("track-primary-cta")).toHaveAttribute(
       "href",
-      "/concepts/pressure-and-hydrostatic-pressure",
+      "/en/concepts/pressure-and-hydrostatic-pressure",
     );
     expect(
       screen.getAllByRole("heading", { name: /hydrostatic checkpoint/i, level: 3 }).length,
@@ -385,7 +385,7 @@ describe("StarterTrackDetailPage", () => {
     ).toBeInTheDocument();
     expect(screen.getByTestId("track-primary-cta")).toHaveAttribute(
       "href",
-      "/concepts/torque",
+      "/en/concepts/torque",
     );
     await openTrackDetails(user);
     expect(screen.getByText(/recommended prep/i)).toBeInTheDocument();
@@ -397,7 +397,7 @@ describe("StarterTrackDetailPage", () => {
     expect(
       screen
         .getAllByRole("link")
-        .some((link) => link.getAttribute("href") === "/tracks/motion-and-circular-motion"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/motion-and-circular-motion"),
     ).toBe(true);
     expect(
       screen.getAllByRole("heading", { name: /balance checkpoint/i, level: 3 }).length,
@@ -426,7 +426,7 @@ describe("StarterTrackDetailPage", () => {
     expect(screen.getByText(/check the gravity bridge before you enter orbits/i)).toBeInTheDocument();
     expect(screen.getByTestId("track-primary-cta")).toHaveAttribute(
       "href",
-      "/concepts/gravitational-fields",
+      "/en/concepts/gravitational-fields",
     );
     await openTrackDetails(user);
     expect(screen.getByText(/recommended prep/i)).toBeInTheDocument();
@@ -436,7 +436,7 @@ describe("StarterTrackDetailPage", () => {
     expect(
       screen
         .getAllByRole("link")
-        .some((link) => link.getAttribute("href") === "/tracks/motion-and-circular-motion"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/motion-and-circular-motion"),
     ).toBe(true);
   });
 
@@ -458,7 +458,7 @@ describe("StarterTrackDetailPage", () => {
     expect(
       screen
         .getAllByRole("link")
-        .some((link) => link.getAttribute("href") === "/tracks/electricity"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/electricity"),
     ).toBe(true);
   });
 
@@ -486,11 +486,11 @@ describe("StarterTrackDetailPage", () => {
     expect(
       screen
         .getAllByRole("link")
-        .some((link) => link.getAttribute("href") === "/tracks/waves"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/waves"),
     ).toBe(true);
     expect(screen.getByTestId("track-primary-cta")).toHaveAttribute(
       "href",
-      "/concepts/sound-waves-longitudinal-motion",
+      "/en/concepts/sound-waves-longitudinal-motion",
     );
   });
 
@@ -505,7 +505,7 @@ describe("StarterTrackDetailPage", () => {
     ).toBeInTheDocument();
     expect(screen.getByTestId("track-primary-cta")).toHaveAttribute(
       "href",
-      "/concepts/photoelectric-effect",
+      "/en/concepts/photoelectric-effect",
     );
     expect(
       screen.getAllByRole("heading", { name: /threshold-to-line checkpoint/i, level: 3 }).length,
@@ -540,11 +540,11 @@ describe("StarterTrackDetailPage", () => {
     expect(
       screen
         .getAllByRole("link")
-        .some((link) => link.getAttribute("href") === "/tracks/waves"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/waves"),
     ).toBe(true);
     expect(screen.getByTestId("track-primary-cta")).toHaveAttribute(
       "href",
-      "/concepts/polarization",
+      "/en/concepts/polarization",
     );
     expect(
       screen.getAllByRole("heading", { name: /single-slit checkpoint/i, level: 3 }).length,
@@ -606,7 +606,7 @@ describe("StarterTrackDetailPage", () => {
         .every(
           (link) =>
             link.getAttribute("href") ===
-            "/concepts/magnetic-force-moving-charges-currents?challenge=mfmc-ch-charge-down-wire-up#challenge-mode",
+            "/en/concepts/magnetic-force-moving-charges-currents?challenge=mfmc-ch-charge-down-wire-up#challenge-mode",
         ),
     ).toBe(true);
   });
@@ -648,7 +648,7 @@ describe("StarterTrackDetailPage", () => {
 
     expect(screen.getByTestId("track-primary-cta")).toHaveAttribute(
       "href",
-      "/tracks/oscillations-and-energy/complete",
+      "/en/tracks/oscillations-and-energy/complete",
     );
   });
 
@@ -692,12 +692,12 @@ describe("StarterTrackDetailPage", () => {
     expect(
       screen
         .getAllByRole("link", { name: /retry quick test/i })
-        .every((link) => link.getAttribute("href") === "/concepts/wave-speed-wavelength#quick-test"),
+        .every((link) => link.getAttribute("href") === "/en/concepts/wave-speed-wavelength#quick-test"),
     ).toBe(true);
     expect(
       screen
         .getAllByRole("link", { name: /open full track/i })
-        .some((link) => link.getAttribute("href") === "/tracks/waves"),
+        .some((link) => link.getAttribute("href") === "/en/tracks/waves"),
     ).toBe(true);
     await openTrackDetails(user);
     expect(screen.getByRole("button", { name: /copy recap mode link/i })).toBeInTheDocument();
@@ -721,7 +721,7 @@ describe("StarterTrackDetailPage", () => {
       expect.objectContaining({
         name: "track_started",
         payload: expect.objectContaining({
-          pagePath: "/tracks/oscillations-and-energy",
+          pagePath: "/en/tracks/oscillations-and-energy",
           pageKind: "track",
           trackSlug: "oscillations-and-energy",
           status: "not-started",
@@ -748,7 +748,7 @@ describe("StarterTrackDetailPage", () => {
       expect.objectContaining({
         name: "track_continued",
         payload: expect.objectContaining({
-          pagePath: "/tracks/waves",
+          pagePath: "/en/tracks/waves",
           pageKind: "track",
           trackSlug: "waves",
           status: "in-progress",

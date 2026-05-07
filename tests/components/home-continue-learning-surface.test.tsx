@@ -187,7 +187,7 @@ describe("HomeContinueLearningSurface", () => {
     ).toHaveAttribute("data-visual-motif", "track-motion-circular");
     expect(screen.getByRole("link", { name: /continue with vectors/i })).toHaveAttribute(
       "href",
-      "/concepts/vectors-components",
+      "/en/concepts/vectors-components",
     );
     expect(screen.getByRole("link", { name: /continue track/i })).toHaveAttribute(
       "href",
@@ -238,7 +238,7 @@ describe("HomeContinueLearningSurface", () => {
     expect(screen.getByText(/^quick test$/i)).toBeInTheDocument();
     expect(screen.getByTestId("home-follow-up-primary-action-projectile-motion")).toHaveAttribute(
       "href",
-      "/concepts/projectile-motion#quick-test",
+      "/en/concepts/projectile-motion#quick-test",
     );
     expect(
       screen.getAllByText(/quick test has ended with missed questions 2 times in a row/i).length,
@@ -247,7 +247,7 @@ describe("HomeContinueLearningSurface", () => {
     expect(screen.getByTestId("home-recovery-details")).not.toHaveAttribute("open");
     expect(screen.getByRole("link", { name: /review vectors/i })).toHaveAttribute(
       "href",
-      "/concepts/vectors-components",
+      "/en/concepts/vectors-components",
     );
   });
 
@@ -366,11 +366,11 @@ describe("HomeContinueLearningSurface", () => {
 
     expect(screen.getByRole("link", { name: /review concept/i })).toHaveAttribute(
       "href",
-      "/concepts/wave-interference",
+      "/en/concepts/wave-interference",
     );
     expect(screen.getByRole("link", { name: /open track recap/i })).toHaveAttribute(
       "href",
-      "/tracks/waves?mode=recap",
+      "/en/tracks/waves?mode=recap",
     );
   });
 
@@ -411,7 +411,7 @@ describe("HomeContinueLearningSurface", () => {
     );
     expect(screen.getByRole("link", { name: /continue with vectors/i })).toHaveAttribute(
       "href",
-      "/concepts/vectors-components",
+      "/en/concepts/vectors-components",
     );
     expect(screen.getAllByText("Last active Mar 27").length).toBeGreaterThan(0);
   });
@@ -511,7 +511,7 @@ describe("HomeContinueLearningSurface", () => {
         .some(
           (link) =>
             link.getAttribute("href") ===
-            "/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
+            "/en/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
         ),
     ).toBe(true);
   });
@@ -640,7 +640,7 @@ describe("HomeContinueLearningSurface", () => {
     expect(screen.getByText(/recommended prep/i)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /open recommended track/i })).toHaveAttribute(
       "href",
-      "/tracks/electricity",
+      "/en/tracks/electricity",
     );
     expect(
       within(screen.getByTestId("starter-track-recommendation-visual-electricity")).getByTestId(
@@ -729,7 +729,7 @@ describe("HomeContinueLearningSurface", () => {
 
     expect(screen.getByRole("link", { name: /open saved setup/i })).toHaveAttribute(
       "href",
-      "/concepts/compare-practice?state=v1.saved&experiment=v1.saved#live-bench",
+      "/en/concepts/compare-practice?state=v1.saved&experiment=v1.saved#live-bench",
     );
   });
 

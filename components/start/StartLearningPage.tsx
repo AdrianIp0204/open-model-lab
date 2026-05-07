@@ -16,6 +16,7 @@ import type {
 } from "@/lib/content";
 import type { AppLocale } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
+import { localizeShareHref } from "@/lib/share-links";
 import {
   buildStartLearningSubjectChoices,
   getStartLearningRecommendationSet,
@@ -54,6 +55,7 @@ import {
 } from "@/components/visuals/LearningVisual";
 import {
   getConceptVisualDescriptor,
+  getConceptCheckpointVisualDescriptor,
   getStarterTrackVisualDescriptor,
   getSubjectVisualDescriptor,
   getConceptSurfaceVisualDescriptor,
@@ -409,6 +411,7 @@ function RecommendationCard({
     trackBySlug,
     visualKind,
   ]);
+  const recommendationHref = localizeShareHref(recommendation.href, locale);
 
   return (
     <article
@@ -418,7 +421,7 @@ function RecommendationCard({
       ].join(" ")}
     >
       <Link
-        href={recommendation.href}
+        href={recommendationHref}
         aria-label={display.actionLabel}
         className="mb-4 block rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
       >
@@ -468,7 +471,7 @@ function RecommendationCard({
         </div>
       ) : null}
       <Link
-        href={recommendation.href}
+        href={recommendationHref}
         className={[
           "mt-5 inline-flex items-center",
           emphasis === "primary" ? "cta-primary" : "cta-secondary",
@@ -581,7 +584,10 @@ export function StartLearningPage({
     ? getConceptVisualDescriptor(primaryConceptSummary)
     : null;
   const currentTrackVisual = currentTrackSummary
-    ? getStarterTrackVisualDescriptor(currentTrackSummary)
+    ? resumeSummary.currentTrack?.primaryAction?.kind === "checkpoint" &&
+      resumeSummary.currentTrack.primaryAction.targetConcept
+      ? getConceptCheckpointVisualDescriptor(resumeSummary.currentTrack.primaryAction.targetConcept)
+      : getStarterTrackVisualDescriptor(currentTrackSummary)
     : null;
   const activeSubjectVisual = activeSubject
     ? getSubjectVisualDescriptor(activeSubject)
@@ -640,7 +646,7 @@ export function StartLearningPage({
                 <div className="page-band grid gap-4 p-5 sm:grid-cols-[7rem_minmax(0,1fr)] sm:items-start">
                   {primaryConceptVisual ? (
                     <Link
-                      href={`/concepts/${resumeSummary.primaryConcept.slug}`}
+                      href={localizeShareHref(`/concepts/${resumeSummary.primaryConcept.slug}`, locale)}
                       aria-label={primaryConceptTitle ?? resumeSummary.primaryConcept.title}
                       data-testid={`start-resume-concept-visual-${resumeSummary.primaryConcept.slug}`}
                       className="block rounded-[18px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
@@ -660,7 +666,7 @@ export function StartLearningPage({
                     </p>
                     <div className="mt-4 flex flex-wrap gap-3">
                       <Link
-                        href={`/concepts/${resumeSummary.primaryConcept.slug}`}
+                        href={localizeShareHref(`/concepts/${resumeSummary.primaryConcept.slug}`, locale)}
                         className="cta-primary"
                         data-testid="start-primary-cta"
                       >
@@ -668,7 +674,7 @@ export function StartLearningPage({
                       </Link>
                       {resumeSummary.activeSubject ? (
                         <Link
-                          href={resumeSummary.activeSubject.path}
+                          href={localizeShareHref(resumeSummary.activeSubject.path, locale)}
                           className="cta-secondary"
                         >
                           {t("actions.continueSubject")}
@@ -713,7 +719,7 @@ export function StartLearningPage({
                     <Link
                       href={
                         resumeSummary.currentTrack.primaryAction?.href ??
-                        `/tracks/${resumeSummary.currentTrack.track.slug}`
+                        localizeShareHref(`/tracks/${resumeSummary.currentTrack.track.slug}`, locale)
                       }
                       aria-label={currentTrackTitle ?? resumeSummary.currentTrack.track.title}
                       data-testid={`start-current-track-visual-${resumeSummary.currentTrack.track.slug}`}
@@ -737,7 +743,7 @@ export function StartLearningPage({
                       <Link
                         href={
                           resumeSummary.currentTrack.primaryAction?.href ??
-                          `/tracks/${resumeSummary.currentTrack.track.slug}`
+                          localizeShareHref(`/tracks/${resumeSummary.currentTrack.track.slug}`, locale)
                         }
                         className="cta-primary"
                         data-testid="start-primary-cta"
@@ -771,7 +777,7 @@ export function StartLearningPage({
                   </p>
                   <div className="mt-4 flex flex-wrap gap-3">
                     <Link
-                      href={resumeSummary.reviewAction.href}
+                      href={localizeShareHref(resumeSummary.reviewAction.href, locale)}
                       className="cta-primary"
                       data-testid="start-primary-cta"
                     >
@@ -796,7 +802,7 @@ export function StartLearningPage({
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <Link
-                    href={recommendations.primary.href}
+                    href={localizeShareHref(recommendations.primary.href, locale)}
                     className="cta-primary"
                     data-testid="start-primary-cta"
                   >
@@ -828,34 +834,34 @@ export function StartLearningPage({
                   {getInterestButtonLabel(activeSubject, interest, t, locale)}
                 </h2>
                 <div className="flex flex-wrap gap-2 text-sm text-ink-700">
-                <span className="rounded-full border border-line bg-paper-strong px-3 py-1.5 font-medium">
-                  {t("filters.interest.label")}: {getInterestButtonLabel(activeSubject, interest, t, locale)}
-                </span>
-                <span className="rounded-full border border-line bg-paper-strong px-3 py-1.5 font-medium">
-                  {t("filters.confidence.label")}: {t(`filters.confidence.${confidence}`)}
-                </span>
-                <span className="rounded-full border border-line bg-paper-strong px-3 py-1.5 font-medium">
-                  {t("filters.commitment.label")}: {t(`filters.commitment.${commitment}`)}
-                </span>
-              </div>
-              <p className="text-base leading-7 text-ink-700">
-                {interest === startLearningInterestNotSure
-                  ? t("chooser.notSureDescription")
-                  : t("chooser.subjectDescription", {
-                      subject: activeSubjectTitle,
-                    })}
-              </p>
+                  <span className="rounded-full border border-line bg-paper-strong px-3 py-1.5 font-medium">
+                    {t("filters.interest.label")}: {getInterestButtonLabel(activeSubject, interest, t, locale)}
+                  </span>
+                  <span className="rounded-full border border-line bg-paper-strong px-3 py-1.5 font-medium">
+                    {t("filters.confidence.label")}: {t(`filters.confidence.${confidence}`)}
+                  </span>
+                  <span className="rounded-full border border-line bg-paper-strong px-3 py-1.5 font-medium">
+                    {t("filters.commitment.label")}: {t(`filters.commitment.${commitment}`)}
+                  </span>
+                </div>
+                <p className="text-base leading-7 text-ink-700">
+                  {interest === startLearningInterestNotSure
+                    ? t("chooser.notSureDescription")
+                    : t("chooser.subjectDescription", {
+                        subject: activeSubjectTitle,
+                      })}
+                </p>
               </div>
             </div>
             <div className="mt-4 flex flex-wrap gap-3">
               <Link
-                href={recommendations.primary.href}
+                href={localizeShareHref(recommendations.primary.href, locale)}
                 className="cta-primary"
-                  >
+              >
                 {recommendations.primary.actionLabel}
               </Link>
               <Link
-                href={recommendations.browse.href}
+                href={localizeShareHref(recommendations.browse.href, locale)}
                 className="cta-secondary"
               >
                 {recommendations.browse.actionLabel}
@@ -865,15 +871,15 @@ export function StartLearningPage({
               <Link
                 href={
                   activeSubject
-                    ? `/search?subject=${encodeURIComponent(activeSubject.slug)}`
-                    : "/search"
+                    ? localizeShareHref(`/search?subject=${encodeURIComponent(activeSubject.slug)}`, locale)
+                    : localizeShareHref("/search", locale)
                 }
                 className="motion-link inline-flex items-center text-sm font-medium text-ink-600 underline decoration-ink-300 underline-offset-4 hover:text-ink-950"
               >
                 {t("actions.searchDirectly")}
               </Link>
               <Link
-                href="/concepts/subjects"
+                href={localizeShareHref("/concepts/subjects", locale)}
                 className="motion-link inline-flex items-center text-sm font-medium text-ink-600 underline decoration-ink-300 underline-offset-4 hover:text-ink-950"
               >
                 {t("actions.browseAllSubjects")}
@@ -893,7 +899,7 @@ export function StartLearningPage({
           eyebrow={t("savedTraction.eyebrow")}
           title={t("savedTraction.title")}
           description={t("savedTraction.description")}
-          browseHref="/challenges"
+          browseHref={localizeShareHref("/challenges", locale)}
           browseLabel={t("savedTraction.browseLabel")}
         />
       ) : null}

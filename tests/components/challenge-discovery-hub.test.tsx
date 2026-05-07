@@ -179,7 +179,7 @@ describe("ChallengeDiscoveryHub", () => {
       within(solvedCard as HTMLElement).getByRole("link", { name: /open challenge/i }),
     ).toHaveAttribute(
       "href",
-      "/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
+      "/en/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode",
     );
 
     await user.click(screen.getByRole("button", { name: /^Started \(/i }));
@@ -423,6 +423,7 @@ describe("ChallengeDiscoveryHub", () => {
     const trackTargets = resolveChallengeTrackCtaTargets(
       challengeDiscoveryIndex,
       "motion-and-circular-motion",
+      "en",
     );
 
     expect(trackTargets).not.toBeNull();
@@ -469,6 +470,6 @@ describe("ChallengeDiscoveryHub", () => {
     expect(within(challengeCard as HTMLElement).getAllByRole("link")).toHaveLength(1);
     expect(
       within(challengeCard as HTMLElement).getByRole("link", { name: /open challenge/i }),
-    ).toHaveAttribute("href", "/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode");
+    ).toHaveAttribute("href", "/en/concepts/projectile-motion?challenge=pm-ch-flat-far-shot#challenge-mode");
   });
 });

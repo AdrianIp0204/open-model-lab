@@ -17,7 +17,7 @@ import {
   useProgressSnapshot,
   type ProgressSnapshot,
 } from "@/lib/progress";
-import { buildTrackCompletionHref, buildTrackRecapHref } from "@/lib/share-links";
+import { buildTrackCompletionHref, buildTrackRecapHref, localizeShareHref } from "@/lib/share-links";
 import { formatProgressMonthDay } from "@/components/progress/dateFormatting";
 
 type StarterTrackCardProps = {
@@ -83,8 +83,9 @@ export function StarterTrackCard({
     locale,
   );
   const primaryAction = getStarterTrackPrimaryAction(track, progress, locale);
-  const recapHref = buildTrackRecapHref(track.slug);
-  const completionHref = buildTrackCompletionHref(track.slug);
+  const trackHref = localizeShareHref(`/tracks/${track.slug}`, locale);
+  const recapHref = buildTrackRecapHref(track.slug, locale);
+  const completionHref = buildTrackCompletionHref(track.slug, locale);
   const visibleHighlights = displayHighlights.slice(
     0,
     compact ? 2 : displayHighlights.length,
@@ -149,7 +150,7 @@ export function StarterTrackCard({
           <div className="space-y-2">
             <h3 className="text-lg font-semibold text-ink-950 sm:text-xl">
               <Link
-                href={`/tracks/${track.slug}`}
+                href={trackHref}
                 className="motion-link transition-colors hover:text-teal-700"
               >
                 {displayTitle}
@@ -174,7 +175,7 @@ export function StarterTrackCard({
 
           <div>
             <Link
-              href={progress.status === "completed" ? completionHref : `/tracks/${track.slug}`}
+              href={progress.status === "completed" ? completionHref : trackHref}
               className="motion-button-solid inline-flex items-center justify-center rounded-full bg-ink-950 px-4 py-2.5 text-sm font-semibold"
               style={{ color: "var(--paper-strong)" }}
             >
@@ -212,7 +213,7 @@ export function StarterTrackCard({
           <div className="flex flex-wrap items-center gap-2">
             <h3 className="text-2xl font-semibold text-ink-950">
               <Link
-                href={`/tracks/${track.slug}`}
+                href={trackHref}
                 className="motion-link transition-colors hover:text-teal-700"
               >
                 {displayTitle}
@@ -329,7 +330,7 @@ export function StarterTrackCard({
           </p>
           <div className="flex shrink-0 flex-wrap gap-3">
             <Link
-              href={progress.status === "completed" ? completionHref : `/tracks/${track.slug}`}
+              href={progress.status === "completed" ? completionHref : trackHref}
               className="motion-button-solid inline-flex items-center justify-center rounded-full bg-ink-950 px-4 py-2.5 text-sm font-semibold"
               style={{ color: "var(--paper-strong)" }}
             >

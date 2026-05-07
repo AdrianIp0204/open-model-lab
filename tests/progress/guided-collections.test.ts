@@ -23,7 +23,7 @@ describe("guided collection progress", () => {
     expect(summary.stepProgress[0]).toMatchObject({
       status: "not-started",
       primaryAction: {
-        href: "/concepts/topics/electricity",
+        href: "/en/concepts/topics/electricity",
         label: "Open topic page",
       },
     });
@@ -58,7 +58,7 @@ describe("guided collection progress", () => {
     expect(summary.stepProgress[2]).toMatchObject({
       status: "in-progress",
       primaryAction: {
-        href: "/concepts/electric-potential",
+        href: "/en/concepts/electric-potential",
         label: "Continue concept",
       },
     });
@@ -131,7 +131,7 @@ describe("guided collection progress", () => {
     expect(summary.stepProgress[2]).toMatchObject({
       status: "completed",
       primaryAction: {
-        href: "/concepts/wave-interference?challenge=wi-ch-find-dark-band#challenge-mode",
+        href: "/en/concepts/wave-interference?challenge=wi-ch-find-dark-band#challenge-mode",
         label: "Review challenge",
       },
     });
@@ -182,7 +182,7 @@ describe("guided collection progress", () => {
     expect(summary.stepProgress[2]).toMatchObject({
       status: "in-progress",
       primaryAction: {
-        href: "/concepts/electric-potential?challenge=ep-ch-positive-midpoint-plateau#challenge-mode",
+        href: "/en/concepts/electric-potential?challenge=ep-ch-positive-midpoint-plateau#challenge-mode",
         label: "Continue challenge",
       },
     });
@@ -294,7 +294,7 @@ describe("guided collection progress", () => {
     expect(summary.stepProgress[1]).toMatchObject({
       status: "in-progress",
       primaryAction: {
-        href: "/concepts/electric-potential?challenge=ep-ch-positive-midpoint-plateau#challenge-mode",
+        href: "/en/concepts/electric-potential?challenge=ep-ch-positive-midpoint-plateau#challenge-mode",
         label: "Continue challenge",
       },
     });
