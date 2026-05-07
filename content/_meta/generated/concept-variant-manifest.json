@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-07T19:47:24.501Z",
+  "generatedAt": "2026-05-07T19:57:28.735Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -2478,7 +2478,7 @@
       "title": "Projectile Motion",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/projectile-motion.json",
-      "canonicalSourceHash": "00e1d7f0b220dbab833c13a762689deafc79b03ae5cb6c3d1606ddde8c480728",
+      "canonicalSourceHash": "f224c89c1a88eca96c2a84d8437221e5566c6002f8e3442925eb0928fa503ccc",
       "subject": "Physics",
       "topic": "Mechanics",
       "subtopic": "Two-dimensional motion",
@@ -2521,8 +2521,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "00e1d7f0b220dbab833c13a762689deafc79b03ae5cb6c3d1606ddde8c480728",
-          "currentSourceHash": "00e1d7f0b220dbab833c13a762689deafc79b03ae5cb6c3d1606ddde8c480728"
+          "recordedSourceHash": "f224c89c1a88eca96c2a84d8437221e5566c6002f8e3442925eb0928fa503ccc",
+          "currentSourceHash": "f224c89c1a88eca96c2a84d8437221e5566c6002f8e3442925eb0928fa503ccc"
         },
         "provider": null,
         "translatedAt": null,
@@ -2549,7 +2549,7 @@
             "variant": "original",
             "locale": "en",
             "recordedSourceHash": "b7fafedb4e98ae60f5a680536a1f8470f5efd19cdf1bf64906c218b8d69dc500",
-            "currentSourceHash": "00e1d7f0b220dbab833c13a762689deafc79b03ae5cb6c3d1606ddde8c480728"
+            "currentSourceHash": "f224c89c1a88eca96c2a84d8437221e5566c6002f8e3442925eb0928fa503ccc"
           },
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
@@ -2561,7 +2561,7 @@
           ],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 16,
+          "fallbackFieldCount": 41,
           "fallbackFieldPaths": [
             "sections.workedExamples.items.id:predicted-range.resultTemplate",
             "sections.workedExamples.items.id:current-velocity-components.variables.id:time.label",
@@ -2578,7 +2578,16 @@
             "simulation.ui.primaryControlIds.2",
             "simulation.ui.primaryPresetIds.0",
             "simulation.ui.primaryPresetIds.1",
-            "simulation.ui.primaryPresetIds.2"
+            "simulation.ui.primaryPresetIds.2",
+            "simulation.ui.starterExploreTasks.0",
+            "simulation.ui.starterExploreTasks.1",
+            "simulation.ui.starterExploreTasks.2",
+            "challengeMode.items.id:pm-ch-flat-far-shot.checks.0.label",
+            "challengeMode.items.id:pm-ch-flat-far-shot.checks.1.label",
+            "challengeMode.items.id:pm-ch-apex-freeze.checks.0.label",
+            "challengeMode.items.id:pm-ch-apex-freeze.checks.1.label",
+            "challengeMode.items.id:pm-ch-complementary-angle-compare.title",
+            "challengeMode.items.id:pm-ch-complementary-angle-compare.prompt"
           ]
         }
       }

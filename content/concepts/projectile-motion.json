@@ -333,6 +333,11 @@
         "earth-shot",
         "shallow-arc",
         "moon-hop"
+      ],
+      "starterExploreTasks": [
+        "Start with Earth shot and the component graph, then trace how the velocity arrow splits into steady sideways motion and changing vertical motion.",
+        "Switch to the trajectory graph, drag the launch angle lower, and compare the range marker with the apex marker before guessing which shot goes farther.",
+        "Apply Moon hop without changing the launch speed, then explain why the horizontal component looks familiar while the flight time and range stretch outward."
       ]
     },
     "controls": [
@@ -775,7 +780,8 @@
         "requirements": {
           "graphId": "trajectory",
           "overlayIds": [
-            "rangeMarker"
+            "rangeMarker",
+            "apexMarker"
           ]
         },
         "hints": [
@@ -797,6 +803,24 @@
             "max": 10,
             "displayUnit": "m"
           }
+        ],
+        "checks": [
+          {
+            "type": "param-range",
+            "label": "Keep gravity Earth-like so the task tests angle, speed, height, and range instead of low-gravity airtime.",
+            "param": "gravity",
+            "min": 9.7,
+            "max": 9.9,
+            "displayUnit": "m/s^2"
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep the horizontal launch component strong enough to stretch the landing point.",
+            "metric": "vx",
+            "min": 14.5,
+            "max": 15.2,
+            "displayUnit": "m/s"
+          }
         ]
       },
       {
@@ -807,11 +831,21 @@
         "successMessage": "You used inspect time correctly: the apex is the instant where $v_y = 0$, not the instant where the whole motion stops.",
         "setup": {
           "presetId": "earth-shot",
-          "note": "Pause the motion and scrub until the vertical-velocity curve crosses zero."
+          "note": "Pause the motion and scrub until the vertical-velocity curve crosses zero.",
+          "graphId": "velocity",
+          "overlayIds": [
+            "apexMarker",
+            "componentVectors",
+            "velocityVector"
+          ]
         },
         "requirements": {
           "graphId": "velocity",
-          "timeSource": "inspect"
+          "timeSource": "inspect",
+          "overlayIds": [
+            "apexMarker",
+            "componentVectors"
+          ]
         },
         "hints": [
           "The apex is easier to find on the velocity graph than on the trajectory alone.",
@@ -831,6 +865,161 @@
             "min": 8,
             "max": 8.6,
             "displayUnit": "m"
+          }
+        ],
+        "checks": [
+          {
+            "type": "time-range",
+            "label": "Inspect near the Earth-shot apex time instead of the launch or landing frame.",
+            "min": 1.2,
+            "max": 1.4,
+            "displayUnit": "s"
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep the horizontal velocity nonzero at the top of the arc.",
+            "metric": "vx",
+            "min": 12.5,
+            "max": 12.9,
+            "displayUnit": "m/s"
+          }
+        ]
+      },
+      {
+        "id": "pm-ch-complementary-angle-compare",
+        "title": "Same range, different height",
+        "style": "parameter-match",
+        "prompt": "Open compare mode and build two Earth-gravity launches with the same speed: Setup A near 30 degrees and Setup B near 60 degrees. Make their ranges match while the apex heights and airtimes separate clearly.",
+        "successMessage": "You isolated the complementary-angle tradeoff: equal speed and Earth gravity can give matching range, but the steeper shot buys height and airtime by giving up horizontal speed.",
+        "setup": {
+          "presetId": "earth-shot",
+          "graphId": "trajectory",
+          "overlayIds": [
+            "rangeMarker",
+            "apexMarker",
+            "componentVectors"
+          ],
+          "interactionMode": "compare",
+          "note": "Keep the speed and gravity matched in both setups; change the angles so the comparison is about component split, not a different launch energy."
+        },
+        "requirements": {
+          "graphId": "trajectory",
+          "overlayIds": [
+            "rangeMarker",
+            "apexMarker",
+            "componentVectors"
+          ],
+          "compareActive": true,
+          "compareTarget": "b"
+        },
+        "hints": [
+          "Complementary angles have the same sin(2θ), so 30 degrees and 60 degrees can land at the same range when speed and gravity match.",
+          "The steeper setup should climb higher and stay in the air longer, even though it lands at about the same distance."
+        ],
+        "targets": [
+          {
+            "setup": "a",
+            "param": "speed",
+            "label": "Keep Setup A launch speed near 18 m/s.",
+            "min": 17.8,
+            "max": 18.2,
+            "displayUnit": "m/s"
+          },
+          {
+            "setup": "b",
+            "param": "speed",
+            "label": "Keep Setup B launch speed matched near 18 m/s.",
+            "min": 17.8,
+            "max": 18.2,
+            "displayUnit": "m/s"
+          },
+          {
+            "setup": "a",
+            "param": "gravity",
+            "label": "Keep Setup A on Earth gravity.",
+            "min": 9.7,
+            "max": 9.9,
+            "displayUnit": "m/s^2"
+          },
+          {
+            "setup": "b",
+            "param": "gravity",
+            "label": "Keep Setup B on Earth gravity.",
+            "min": 9.7,
+            "max": 9.9,
+            "displayUnit": "m/s^2"
+          },
+          {
+            "setup": "a",
+            "param": "angle",
+            "label": "Make Setup A the shallow complementary launch near 30 degrees.",
+            "min": 29,
+            "max": 31,
+            "displayUnit": "deg"
+          },
+          {
+            "setup": "b",
+            "param": "angle",
+            "label": "Make Setup B the steep complementary launch near 60 degrees.",
+            "min": 59,
+            "max": 61,
+            "displayUnit": "deg"
+          }
+        ],
+        "checks": [
+          {
+            "type": "compare-metric-range",
+            "label": "Setup A should land near the shared complementary-angle range.",
+            "setup": "a",
+            "metric": "range",
+            "min": 28.3,
+            "max": 29.0,
+            "displayUnit": "m"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B should land at essentially the same range.",
+            "setup": "b",
+            "metric": "range",
+            "min": 28.3,
+            "max": 29.0,
+            "displayUnit": "m"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup A should stay low enough to show the shallow tradeoff.",
+            "setup": "a",
+            "metric": "maxHeight",
+            "min": 4.0,
+            "max": 4.3,
+            "displayUnit": "m"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B should climb much higher than Setup A.",
+            "setup": "b",
+            "metric": "maxHeight",
+            "min": 12.0,
+            "max": 12.8,
+            "displayUnit": "m"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup A should have the shorter airtime.",
+            "setup": "a",
+            "metric": "flightTime",
+            "min": 1.75,
+            "max": 1.95,
+            "displayUnit": "s"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B should have the longer airtime.",
+            "setup": "b",
+            "metric": "flightTime",
+            "min": 3.1,
+            "max": 3.3,
+            "displayUnit": "s"
           }
         ]
       }

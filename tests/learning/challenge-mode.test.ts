@@ -1638,6 +1638,86 @@ describe("challenge mode evaluator", () => {
     expect(evaluation.matchedCount).toBe(evaluation.totalCount);
   });
 
+  it("evaluates the projectile apex-freeze challenge from inspected time", () => {
+    const concept = getConceptBySlug("projectile-motion");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find((entry) => entry.id === "pm-ch-apex-freeze");
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        speed: 18,
+        angle: 45,
+        gravity: 9.8,
+        velocityVector: true,
+        componentVectors: true,
+        apexMarker: true,
+        rangeMarker: true,
+      },
+      activeGraphId: "velocity",
+      overlayValues: {
+        velocityVector: true,
+        componentVectors: true,
+        apexMarker: true,
+        rangeMarker: true,
+      },
+      time: 1.3,
+      timeSource: "inspect",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
+  it("evaluates the projectile complementary-angle compare challenge", () => {
+    const concept = getConceptBySlug("projectile-motion");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "pm-ch-complementary-angle-compare",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        speed: 18,
+        angle: 60,
+        gravity: 9.8,
+        velocityVector: true,
+        componentVectors: true,
+        apexMarker: true,
+        rangeMarker: true,
+      },
+      activeGraphId: "trajectory",
+      overlayValues: {
+        velocityVector: true,
+        componentVectors: true,
+        apexMarker: true,
+        rangeMarker: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: {
+        activeTarget: "b",
+        setupA: {
+          speed: 18,
+          angle: 30,
+          gravity: 9.8,
+        },
+        setupB: {
+          speed: 18,
+          angle: 60,
+          gravity: 9.8,
+        },
+      },
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
   it("evaluates the graph-transformations landmark target from the live transformed state", () => {
     const concept = getConceptBySlug("graph-transformations");
     const source = buildSimulationSource(concept);

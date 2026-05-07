@@ -553,6 +553,30 @@ test("keeps Projectile Motion interaction-first on required phone viewports", as
   }
 });
 
+test("opens Projectile Motion on its component launch bench", async ({
+  browser,
+}, testInfo) => {
+  const desktopCase = viewportCases.find((item) => item.name === "desktop-1440x900");
+  expect(desktopCase, "Expected the desktop-1440x900 viewport case to exist.").toBeTruthy();
+
+  const { context, page, browserGuard } = await openConceptPage(
+    browser,
+    desktopCase!,
+    "/en/concepts/projectile-motion",
+    "Projectile Motion",
+  );
+
+  try {
+    await assertInitialViewportLayout(page, desktopCase!, testInfo);
+    await expect(page.getByText("Projectile launch lab").first()).toBeVisible();
+    await expect(page.getByText("Live launch state").first()).toBeVisible();
+    await expect(page.getByText("distance (m)").first()).toBeVisible();
+    browserGuard.assertNoActionableIssues();
+  } finally {
+    await context.close();
+  }
+});
+
 test("keeps Projectile Motion shell focus order aligned with responsive visual order", async ({
   browser,
 }) => {
