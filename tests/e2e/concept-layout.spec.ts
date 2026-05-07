@@ -721,6 +721,31 @@ test("opens Momentum and Impulse on its force-pulse bench", async ({
   }
 });
 
+test("opens Reaction Rate / Collision Theory on its collision bench", async ({
+  browser,
+}, testInfo) => {
+  const desktopCase = viewportCases.find((item) => item.name === "desktop-1440x900");
+  expect(desktopCase, "Expected the desktop-1440x900 viewport case to exist.").toBeTruthy();
+
+  const { context, page, browserGuard } = await openConceptPage(
+    browser,
+    desktopCase!,
+    "/en/concepts/reaction-rate-collision-theory",
+    "Reaction Rate / Collision Theory",
+  );
+
+  try {
+    await assertInitialViewportLayout(page, desktopCase!, testInfo);
+    await expect(page.getByText("Reaction rate and collision theory").first()).toBeVisible();
+    await expect(page.getByText("Collision bench").first()).toBeVisible();
+    await expect(page.getByText("Rate readout").first()).toBeVisible();
+    await expect(page.getByText("Successful hits stay on the bench").first()).toBeVisible();
+    browserGuard.assertNoActionableIssues();
+  } finally {
+    await context.close();
+  }
+});
+
 test("opens Static Equilibrium on its centre-of-mass support bench", async ({
   browser,
 }, testInfo) => {

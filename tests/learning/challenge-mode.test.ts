@@ -2620,6 +2620,68 @@ describe("challenge mode evaluator", () => {
     expect(evaluation.matchedCount).toBe(evaluation.totalCount);
   });
 
+  it("evaluates the reaction-rate hot-but-not-crowded challenge", () => {
+    const concept = getConceptBySlug("reaction-rate-collision-theory");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "rrct-ch-more-success-not-just-more-hits",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        temperature: 4.3,
+        concentration: 1,
+        activationEnergy: 2.8,
+        catalyst: false,
+      },
+      activeGraphId: "rate-temperature",
+      overlayValues: {
+        energyCue: true,
+        thresholdGate: true,
+        successfulCollisions: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
+  it("evaluates the reaction-rate catalyst-not-heat challenge", () => {
+    const concept = getConceptBySlug("reaction-rate-collision-theory");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "rrct-ch-catalyst-not-heat",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        temperature: 3.1,
+        concentration: 1.35,
+        activationEnergy: 2.8,
+        catalyst: true,
+      },
+      activeGraphId: "success-temperature",
+      overlayValues: {
+        energyCue: true,
+        thresholdGate: true,
+        successfulCollisions: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
   it("evaluates the new centripetal-force live target challenge from the same UCM state", () => {
     const concept = getConceptBySlug("uniform-circular-motion");
     const source = buildSimulationSource(concept);

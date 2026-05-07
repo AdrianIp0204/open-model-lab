@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-07T21:48:54.070Z",
+  "generatedAt": "2026-05-07T21:57:02.730Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -9655,7 +9655,7 @@
       "title": "Reaction Rate / Collision Theory",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/reaction-rate-collision-theory.json",
-      "canonicalSourceHash": "63ea440b118ad97adabd6617033b988c5205dcde6dfd341466dbedc6d2cdd5dc",
+      "canonicalSourceHash": "2256992b3aa0d3637ef0735ea134f53f6ecdf6ff93e7268202f04bb54b15485e",
       "subject": "Chemistry",
       "topic": "Rates and Equilibrium",
       "subtopic": "Collision theory",
@@ -9692,8 +9692,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "63ea440b118ad97adabd6617033b988c5205dcde6dfd341466dbedc6d2cdd5dc",
-          "currentSourceHash": "63ea440b118ad97adabd6617033b988c5205dcde6dfd341466dbedc6d2cdd5dc"
+          "recordedSourceHash": "2256992b3aa0d3637ef0735ea134f53f6ecdf6ff93e7268202f04bb54b15485e",
+          "currentSourceHash": "2256992b3aa0d3637ef0735ea134f53f6ecdf6ff93e7268202f04bb54b15485e"
         },
         "provider": null,
         "translatedAt": null,
@@ -9720,7 +9720,7 @@
             "variant": "original",
             "locale": "en",
             "recordedSourceHash": "b84b496e492b1d9f8d122ed9971d1f6f71f25bff0e931ba01666c2207f418f90",
-            "currentSourceHash": "63ea440b118ad97adabd6617033b988c5205dcde6dfd341466dbedc6d2cdd5dc"
+            "currentSourceHash": "2256992b3aa0d3637ef0735ea134f53f6ecdf6ff93e7268202f04bb54b15485e"
           },
           "provider": "manual",
           "translatedAt": "2026-04-16T05:14:42.888331Z",
@@ -9732,7 +9732,7 @@
           ],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 8,
+          "fallbackFieldCount": 37,
           "fallbackFieldPaths": [
             "sections.workedExamples.items.id:successful-versus-total-collisions.resultTemplate",
             "sections.workedExamples.items.id:lower-the-barrier-without-heating.resultTemplate",
@@ -9740,8 +9740,25 @@
             "quickTest.questions.id:rr-qt-catalyst.selectedWrongExplanations.a",
             "simulation.ui.initialGraphId",
             "simulation.ui.primaryGraphIds.0",
+            "simulation.ui.primaryGraphIds.1",
+            "simulation.ui.primaryGraphIds.2",
             "simulation.ui.primaryControlIds.0",
-            "simulation.ui.primaryControlIds.1"
+            "simulation.ui.primaryControlIds.1",
+            "simulation.ui.primaryControlIds.2",
+            "simulation.ui.primaryControlIds.3",
+            "simulation.ui.primaryPresetIds.0",
+            "simulation.ui.primaryPresetIds.1",
+            "simulation.ui.primaryPresetIds.2",
+            "simulation.ui.primaryPresetIds.3",
+            "simulation.ui.starterExploreTasks.0",
+            "simulation.ui.starterExploreTasks.1",
+            "simulation.ui.starterExploreTasks.2",
+            "challengeMode.items.id:rrct-ch-more-success-not-just-more-hits.checks.0.label",
+            "challengeMode.items.id:rrct-ch-more-success-not-just-more-hits.checks.1.label",
+            "challengeMode.items.id:rrct-ch-more-success-not-just-more-hits.checks.2.label",
+            "challengeMode.items.id:rrct-ch-catalyst-not-heat.title",
+            "challengeMode.items.id:rrct-ch-catalyst-not-heat.prompt",
+            "challengeMode.items.id:rrct-ch-catalyst-not-heat.successMessage"
           ]
         }
       }

@@ -493,13 +493,27 @@
     "ui": {
       "initialGraphId": "rate-temperature",
       "primaryGraphIds": [
-        "rate-temperature"
+        "rate-temperature",
+        "success-temperature",
+        "rate-concentration"
       ],
       "primaryControlIds": [
         "temperature",
-        "concentration"
+        "concentration",
+        "activation-energy",
+        "catalyst"
       ],
-      "primaryPresetIds": []
+      "primaryPresetIds": [
+        "baseline",
+        "crowded-but-cool",
+        "hot-and-dilute",
+        "catalyzed-threshold"
+      ],
+      "starterExploreTasks": [
+        "Start with Baseline mixture and compare all collision attempts with successful collisions: the reaction rate is not just how busy the box looks.",
+        "Switch to Hot and dilute and watch the successful fraction graph: fewer particles can still react faster when more hits clear the threshold.",
+        "Apply Catalyzed threshold and keep temperature steady; the rate changes because the effective barrier falls, not because the particles became hotter."
+      ]
     },
     "controls": [
       {
@@ -1001,6 +1015,18 @@
             "max": 1.15
           },
           {
+            "param": "temperature",
+            "label": "Heat the mixture to the $4.1$ to $4.5$ band.",
+            "min": 4.1,
+            "max": 4.5
+          },
+          {
+            "param": "activationEnergy",
+            "label": "Keep the original activation threshold near $2.8$.",
+            "min": 2.7,
+            "max": 2.9
+          },
+          {
             "metric": "successfulCollisionRate",
             "label": "Raise the successful-collision rate into the 12 to 15 range.",
             "min": 12,
@@ -1011,6 +1037,118 @@
             "label": "Make the successful share clearly strong, between 48% and 62%.",
             "min": 0.48,
             "max": 0.62
+          }
+        ],
+        "checks": [
+          {
+            "type": "metric-range",
+            "label": "Keep the total collision-attempt rate moderate rather than crowding the box.",
+            "metric": "attemptRate",
+            "min": 27.5,
+            "max": 31.5
+          },
+          {
+            "type": "metric-range",
+            "label": "Raise the average particle energy enough to explain the stronger success fraction.",
+            "metric": "averageEnergy",
+            "min": 4.45,
+            "max": 4.85
+          },
+          {
+            "type": "metric-range",
+            "label": "Leave a visible unsuccessful-collision population so success still means clearing a threshold.",
+            "metric": "unsuccessfulCollisionRate",
+            "min": 13,
+            "max": 16.5
+          }
+        ]
+      },
+      {
+        "id": "rrct-ch-catalyst-not-heat",
+        "title": "Catalyst, not heat",
+        "style": "visible-condition",
+        "prompt": "Use the catalyst to raise the success story while keeping temperature near baseline. Prove the barrier changed instead of pretending the particles got hotter.",
+        "successMessage": "You kept the mixture near the same temperature and used the catalyst to lower the effective barrier. The successful fraction rose for a barrier reason, not a heating reason.",
+        "setup": {
+          "presetId": "catalyzed-threshold",
+          "graphId": "success-temperature",
+          "overlayIds": [
+            "energyCue",
+            "thresholdGate",
+            "successfulCollisions"
+          ],
+          "note": "Keep temperature near baseline. The clean move is to lower the effective barrier with the catalyst."
+        },
+        "requirements": {
+          "graphId": "success-temperature",
+          "overlayIds": [
+            "thresholdGate",
+            "successfulCollisions"
+          ]
+        },
+        "hints": [
+          "Do not solve this by heating. The temperature should stay around the baseline value.",
+          "The original activation threshold can stay near $2.8$ while the catalyst lowers the effective threshold."
+        ],
+        "targets": [
+          {
+            "param": "temperature",
+            "label": "Keep temperature near baseline, between $3.0$ and $3.2$.",
+            "min": 3,
+            "max": 3.2
+          },
+          {
+            "param": "concentration",
+            "label": "Keep concentration moderate, between $1.25$ and $1.45$.",
+            "min": 1.25,
+            "max": 1.45
+          },
+          {
+            "param": "activationEnergy",
+            "label": "Keep the stated activation threshold near $2.8$.",
+            "min": 2.7,
+            "max": 2.9
+          },
+          {
+            "metric": "effectiveActivationEnergy",
+            "label": "Lower the effective barrier into the catalyzed band, about $2.0$.",
+            "min": 1.95,
+            "max": 2.15
+          },
+          {
+            "metric": "successFraction",
+            "label": "Lift the successful share to roughly the half-success band.",
+            "min": 0.46,
+            "max": 0.52
+          },
+          {
+            "metric": "successfulCollisionRate",
+            "label": "Reach a strong successful-collision rate without heating.",
+            "min": 14.5,
+            "max": 16.2
+          }
+        ],
+        "checks": [
+          {
+            "type": "metric-range",
+            "label": "Keep average particle energy in the baseline band, proving this was not a heating solution.",
+            "metric": "averageEnergy",
+            "min": 3.45,
+            "max": 3.65
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep collision attempts moderate so the catalyst story is not hidden by crowding.",
+            "metric": "attemptRate",
+            "min": 30,
+            "max": 33
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep some unsuccessful collisions visible: the catalyst lowers the barrier, it does not make every hit react.",
+            "metric": "unsuccessfulCollisionRate",
+            "min": 15,
+            "max": 17.5
           }
         ]
       }
