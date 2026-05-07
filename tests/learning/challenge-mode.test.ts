@@ -1275,6 +1275,121 @@ describe("challenge mode evaluator", () => {
     expect(evaluation.matchedCount).toBe(evaluation.totalCount);
   });
 
+  it("evaluates the collisions sticky-energy-drop target", () => {
+    const concept = getConceptBySlug("collisions");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "collisions-ch-sticky-energy-drop",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        massA: 1.5,
+        massB: 1.5,
+        speedA: 1.6,
+        speedB: 0,
+        elasticity: 0,
+      },
+      activeGraphId: "energy",
+      overlayValues: {
+        collisionZone: true,
+        centerOfMass: true,
+        relativeSpeed: true,
+        momentumBars: true,
+      },
+      time: 4.5,
+      timeSource: "live",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
+  it("evaluates the collisions light-cart-rebound target", () => {
+    const concept = getConceptBySlug("collisions");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "collisions-ch-light-rebound",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        massA: 1.1,
+        massB: 3.2,
+        speedA: 1.9,
+        speedB: 0.2,
+        elasticity: 0.9,
+      },
+      activeGraphId: "velocity",
+      overlayValues: {
+        collisionZone: true,
+        centerOfMass: true,
+        relativeSpeed: true,
+        momentumBars: true,
+      },
+      time: 4.5,
+      timeSource: "live",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
+  it("evaluates the collisions elastic-versus-sticky compare target", () => {
+    const concept = getConceptBySlug("collisions");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "collisions-ch-compare-elastic-sticky",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        massA: 1.5,
+        massB: 1.5,
+        speedA: 1.6,
+        speedB: 0,
+        elasticity: 0,
+      },
+      activeGraphId: "energy",
+      overlayValues: {
+        collisionZone: true,
+        centerOfMass: true,
+        relativeSpeed: true,
+        momentumBars: true,
+      },
+      time: 4.5,
+      timeSource: "live",
+      compare: {
+        activeTarget: "b",
+        setupA: {
+          massA: 1.5,
+          massB: 1.5,
+          speedA: 1.6,
+          speedB: 0,
+          elasticity: 1,
+        },
+        setupB: {
+          massA: 1.5,
+          massB: 1.5,
+          speedA: 1.6,
+          speedB: 0,
+          elasticity: 0,
+        },
+      },
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
   it("evaluates the capacitance voltage-only target from the live capacitor state", () => {
     const concept = getConceptBySlug("capacitance-and-stored-electric-energy");
     const source = buildSimulationSource(concept);

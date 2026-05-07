@@ -60,6 +60,7 @@ import {
   resolveSpecificHeatPhaseChangeParams,
   resolveTemperatureInternalEnergyParams,
   resolveConservationMomentumParams,
+  resolveCollisionsParams,
   resolveAngularMomentumParams,
   resolveRollingMotionParams,
   resolveRotationalInertiaParams,
@@ -126,6 +127,7 @@ import {
   sampleSpecificHeatPhaseChangeState,
   sampleTemperatureInternalEnergyState,
   sampleConservationMomentumState,
+  sampleCollisionsState,
   sampleAngularMomentumState,
   sampleRollingMotionState,
   sampleRotationalInertiaState,
@@ -990,6 +992,59 @@ function resolveMetricValue(
           return snapshot.deltaMomentumB;
         case "totalImpulseMagnitude":
           return snapshot.totalImpulseMagnitude;
+        case "centerOfMassPosition":
+          return snapshot.centerOfMassPosition;
+        case "centerOfMassVelocity":
+          return snapshot.centerOfMassVelocity;
+        default:
+          return null;
+      }
+    }
+    case "collisions": {
+      const resolved = resolveCollisionsParams(params);
+      const snapshot = sampleCollisionsState(resolved, runtime.time);
+
+      switch (metric) {
+        case "massA":
+          return snapshot.massA;
+        case "massB":
+          return snapshot.massB;
+        case "speedA":
+          return snapshot.speedA;
+        case "speedB":
+          return snapshot.speedB;
+        case "elasticity":
+          return snapshot.elasticity;
+        case "positionA":
+          return snapshot.positionA;
+        case "positionB":
+          return snapshot.positionB;
+        case "velocityA":
+          return snapshot.velocityA;
+        case "velocityB":
+          return snapshot.velocityB;
+        case "momentumA":
+          return snapshot.momentumA;
+        case "momentumB":
+          return snapshot.momentumB;
+        case "totalMomentum":
+          return snapshot.totalMomentum;
+        case "kineticEnergyA":
+          return snapshot.kineticEnergyA;
+        case "kineticEnergyB":
+          return snapshot.kineticEnergyB;
+        case "totalKineticEnergy":
+          return snapshot.totalKineticEnergy;
+        case "finalVelocityA":
+          return snapshot.finalVelocityA;
+        case "finalVelocityB":
+          return snapshot.finalVelocityB;
+        case "relativeSpeedBefore":
+          return snapshot.relativeSpeedBefore;
+        case "relativeSpeedAfter":
+          return snapshot.relativeSpeedAfter;
+        case "energyLoss":
+          return snapshot.energyLoss;
         case "centerOfMassPosition":
           return snapshot.centerOfMassPosition;
         case "centerOfMassVelocity":

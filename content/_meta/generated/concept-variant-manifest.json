@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-07T18:39:30.864Z",
+  "generatedAt": "2026-05-07T19:47:24.501Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -2362,7 +2362,7 @@
       "title": "Collisions",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/collisions.json",
-      "canonicalSourceHash": "3c5de33172764ff2257b8804411922a834a975b8b164bdbadc18ef1921b563b6",
+      "canonicalSourceHash": "8dcd36edadcd23ac6cc27494e03b2d384830f48e865ba336ccdb92d442bc24ec",
       "subject": "Physics",
       "topic": "Mechanics",
       "subtopic": "Collisions and restitution",
@@ -2403,8 +2403,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "3c5de33172764ff2257b8804411922a834a975b8b164bdbadc18ef1921b563b6",
-          "currentSourceHash": "3c5de33172764ff2257b8804411922a834a975b8b164bdbadc18ef1921b563b6"
+          "recordedSourceHash": "8dcd36edadcd23ac6cc27494e03b2d384830f48e865ba336ccdb92d442bc24ec",
+          "currentSourceHash": "8dcd36edadcd23ac6cc27494e03b2d384830f48e865ba336ccdb92d442bc24ec"
         },
         "provider": null,
         "translatedAt": null,
@@ -2431,7 +2431,7 @@
             "variant": "original",
             "locale": "en",
             "recordedSourceHash": "91b28cd0484c948e305590f7f2e7532106d8f498604624e0eb3cef843c62ab95",
-            "currentSourceHash": "3c5de33172764ff2257b8804411922a834a975b8b164bdbadc18ef1921b563b6"
+            "currentSourceHash": "8dcd36edadcd23ac6cc27494e03b2d384830f48e865ba336ccdb92d442bc24ec"
           },
           "provider": "ollama",
           "translatedAt": "2026-04-14T09:48:52.647565Z",
@@ -2441,7 +2441,7 @@
           "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 45,
+          "fallbackFieldCount": 69,
           "fallbackFieldPaths": [
             "sections.workedExamples.items.id:current-total-momentum.resultTemplate",
             "sections.workedExamples.items.id:final-velocity-split.resultTemplate",
@@ -2449,25 +2449,25 @@
             "pageIntro.keyTakeaway",
             "simulation.ui.initialGraphId",
             "simulation.ui.primaryGraphIds.0",
+            "simulation.ui.primaryGraphIds.1",
+            "simulation.ui.primaryGraphIds.2",
             "simulation.ui.primaryControlIds.0",
             "simulation.ui.primaryControlIds.1",
+            "simulation.ui.primaryControlIds.2",
+            "simulation.ui.primaryControlIds.3",
+            "simulation.ui.primaryPresetIds.0",
+            "simulation.ui.primaryPresetIds.1",
+            "simulation.ui.primaryPresetIds.2",
+            "simulation.ui.starterExploreTasks.0",
+            "simulation.ui.starterExploreTasks.1",
+            "simulation.ui.starterExploreTasks.2",
             "simulation.overlays.id:centerOfMass.whatToNotice.0",
             "simulation.overlays.id:centerOfMass.whatToNotice.1",
             "simulation.overlays.id:centerOfMass.whyItMatters",
             "challengeMode.title",
             "challengeMode.intro",
             "challengeMode.items.id:collisions-ch-sticky-energy-drop.title",
-            "challengeMode.items.id:collisions-ch-sticky-energy-drop.prompt",
-            "challengeMode.items.id:collisions-ch-sticky-energy-drop.successMessage",
-            "challengeMode.items.id:collisions-ch-sticky-energy-drop.setup.note",
-            "challengeMode.items.id:collisions-ch-sticky-energy-drop.hints.0",
-            "challengeMode.items.id:collisions-ch-sticky-energy-drop.hints.1",
-            "challengeMode.items.id:collisions-ch-sticky-energy-drop.targets.0.label",
-            "challengeMode.items.id:collisions-ch-sticky-energy-drop.targets.1.label",
-            "challengeMode.items.id:collisions-ch-sticky-energy-drop.targets.2.label",
-            "challengeMode.items.id:collisions-ch-sticky-energy-drop.targets.3.label",
-            "challengeMode.items.id:collisions-ch-light-rebound.title",
-            "challengeMode.items.id:collisions-ch-light-rebound.prompt"
+            "challengeMode.items.id:collisions-ch-sticky-energy-drop.prompt"
           ]
         }
       }

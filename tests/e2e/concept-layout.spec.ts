@@ -756,6 +756,30 @@ test("opens Conservation of Momentum on its two-cart momentum bench", async ({
   }
 });
 
+test("opens Collisions on its fixed-track rebound bench", async ({
+  browser,
+}, testInfo) => {
+  const desktopCase = viewportCases.find((item) => item.name === "desktop-1440x900");
+  expect(desktopCase, "Expected the desktop-1440x900 viewport case to exist.").toBeTruthy();
+
+  const { context, page, browserGuard } = await openConceptPage(
+    browser,
+    desktopCase!,
+    "/en/concepts/collisions",
+    "Collisions",
+  );
+
+  try {
+    await assertInitialViewportLayout(page, desktopCase!, testInfo);
+    await expect(page.getByText(/Two carts collide on one fixed track/).first()).toBeVisible();
+    await expect(page.getByText("Collision state").first()).toBeVisible();
+    await expect(page.getByText("Track position").first()).toBeVisible();
+    browserGuard.assertNoActionableIssues();
+  } finally {
+    await context.close();
+  }
+});
+
 test("opens sound concepts on their tailored first-action benches", async ({
   browser,
 }, testInfo) => {

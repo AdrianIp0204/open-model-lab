@@ -348,13 +348,26 @@
     "ui": {
       "initialGraphId": "momentum",
       "primaryGraphIds": [
-        "momentum"
+        "momentum",
+        "velocity",
+        "energy"
       ],
       "primaryControlIds": [
         "speedA",
-        "elasticity"
+        "elasticity",
+        "massB",
+        "speedB"
       ],
-      "primaryPresetIds": []
+      "primaryPresetIds": [
+        "elastic-equal-masses",
+        "sticky-collision",
+        "light-into-heavy"
+      ],
+      "starterExploreTasks": [
+        "Start with the momentum graph and the collision-zone overlay, then watch the total momentum line stay flat through contact.",
+        "Switch from Elastic equal masses to Sticky collision and compare the energy graph while momentum still stays conserved.",
+        "Apply Light into heavy and use the velocity graph to see cart A rebound while the heavier cart carries the system momentum forward."
+      ]
     },
     "controls": [
       {
@@ -1147,6 +1160,40 @@
             "max": 0.1,
             "displayUnit": "m/s"
           }
+        ],
+        "checks": [
+          {
+            "type": "param-range",
+            "label": "Keep cart A incoming speed near the equal-mass reference.",
+            "param": "speedA",
+            "min": 1.5,
+            "max": 1.7,
+            "displayUnit": "m/s"
+          },
+          {
+            "type": "metric-range",
+            "label": "Make the post-collision separation speed nearly zero.",
+            "metric": "relativeSpeedAfter",
+            "min": 0,
+            "max": 0.08,
+            "displayUnit": "m/s"
+          },
+          {
+            "type": "metric-range",
+            "label": "Show a clear kinetic-energy loss at contact.",
+            "metric": "energyLoss",
+            "min": 0.9,
+            "max": 1.05,
+            "displayUnit": "J"
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep the isolated-system momentum at the equal-mass value.",
+            "metric": "totalMomentum",
+            "min": 2.35,
+            "max": 2.45,
+            "displayUnit": "kg m/s"
+          }
         ]
       },
       {
@@ -1202,6 +1249,40 @@
             "label": "Keep elasticity high: $0.85$ to $1.0$.",
             "min": 0.85,
             "max": 1
+          }
+        ],
+        "checks": [
+          {
+            "type": "param-range",
+            "label": "Keep cart B moving slowly toward cart A, like the light-into-heavy preset.",
+            "param": "speedB",
+            "min": 0.15,
+            "max": 0.25,
+            "displayUnit": "m/s"
+          },
+          {
+            "type": "metric-range",
+            "label": "Cart A should leave moving left after impact.",
+            "metric": "finalVelocityA",
+            "min": -1.15,
+            "max": -0.95,
+            "displayUnit": "m/s"
+          },
+          {
+            "type": "metric-range",
+            "label": "Cart B should carry forward momentum after impact.",
+            "metric": "finalVelocityB",
+            "min": 0.75,
+            "max": 0.9,
+            "displayUnit": "m/s"
+          },
+          {
+            "type": "metric-range",
+            "label": "The system total momentum should remain rightward.",
+            "metric": "totalMomentum",
+            "min": 1.35,
+            "max": 1.55,
+            "displayUnit": "kg m/s"
           }
         ]
       },
@@ -1277,6 +1358,62 @@
             "label": "Keep Setup B incoming speed near $1.6\\,\\mathrm{m/s}$.",
             "min": 1.5,
             "max": 1.7,
+            "displayUnit": "m/s"
+          }
+        ],
+        "checks": [
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup A cart B near the equal-mass reference.",
+            "setup": "a",
+            "param": "massB",
+            "min": 1.4,
+            "max": 1.6,
+            "displayUnit": "kg"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup B cart B matched to Setup A.",
+            "setup": "b",
+            "param": "massB",
+            "min": 1.4,
+            "max": 1.6,
+            "displayUnit": "kg"
+          },
+          {
+            "type": "compare-param-range",
+            "label": "Keep Setup B target cart nearly at rest before contact.",
+            "setup": "b",
+            "param": "speedB",
+            "min": 0,
+            "max": 0.1,
+            "displayUnit": "m/s"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup A should lose almost no kinetic energy.",
+            "setup": "a",
+            "metric": "energyLoss",
+            "min": -0.02,
+            "max": 0.05,
+            "displayUnit": "J"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B should lose the sticky-collision energy.",
+            "setup": "b",
+            "metric": "energyLoss",
+            "min": 0.9,
+            "max": 1.05,
+            "displayUnit": "J"
+          },
+          {
+            "type": "compare-metric-range",
+            "label": "Setup B should leave with almost no separation speed.",
+            "setup": "b",
+            "metric": "relativeSpeedAfter",
+            "min": 0,
+            "max": 0.08,
             "displayUnit": "m/s"
           }
         ]
