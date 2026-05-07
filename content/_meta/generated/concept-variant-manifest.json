@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-07T22:02:50.794Z",
+  "generatedAt": "2026-05-07T23:19:47.949Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -9885,7 +9885,7 @@
       "title": "Concentration and Dilution",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/concentration-and-dilution.json",
-      "canonicalSourceHash": "e0e66e3b393df1ad0a9b233588b7b056b2cea50083e2d788c73c4a613db2c21e",
+      "canonicalSourceHash": "c789df6360ac20991b7aa94cac3e5d342d889099bb282917256e91f904966093",
       "subject": "Chemistry",
       "topic": "Solutions and pH",
       "subtopic": "How crowded the solution is",
@@ -9923,8 +9923,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "e0e66e3b393df1ad0a9b233588b7b056b2cea50083e2d788c73c4a613db2c21e",
-          "currentSourceHash": "e0e66e3b393df1ad0a9b233588b7b056b2cea50083e2d788c73c4a613db2c21e"
+          "recordedSourceHash": "c789df6360ac20991b7aa94cac3e5d342d889099bb282917256e91f904966093",
+          "currentSourceHash": "c789df6360ac20991b7aa94cac3e5d342d889099bb282917256e91f904966093"
         },
         "provider": null,
         "translatedAt": null,
@@ -9951,7 +9951,7 @@
             "variant": "original",
             "locale": "en",
             "recordedSourceHash": "50d685d5b3638edce5255a2c92439d9ec9df633edd2e25422d62fee2c0b1116f",
-            "currentSourceHash": "e0e66e3b393df1ad0a9b233588b7b056b2cea50083e2d788c73c4a613db2c21e"
+            "currentSourceHash": "c789df6360ac20991b7aa94cac3e5d342d889099bb282917256e91f904966093"
           },
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
@@ -9961,33 +9961,33 @@
           "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 53,
+          "fallbackFieldCount": 75,
           "fallbackFieldPaths": [
             "sections.workedExamples.items.id:read-the-current-concentration.resultTemplate",
             "quickTest.questions.id:cd-qt-dilution.selectedWrongExplanations.b",
             "quickTest.questions.id:cd-qt-dilution.selectedWrongExplanations.c",
             "quickTest.questions.id:cd-qt-solute-vs-solvent.selectedWrongExplanations.a",
             "quickTest.questions.id:cd-qt-solute-vs-solvent.selectedWrongExplanations.c",
+            "pageFramework.featuredSetups.id:more-solute-same-volume.label",
+            "pageFramework.featuredSetups.id:more-solute-same-volume.description",
             "pageIntro.definition",
             "pageIntro.keyTakeaway",
             "simulation.ui.initialGraphId",
             "simulation.ui.primaryGraphIds.0",
+            "simulation.ui.primaryGraphIds.1",
             "simulation.ui.primaryControlIds.0",
+            "simulation.ui.primaryControlIds.1",
+            "simulation.ui.primaryPresetIds.0",
+            "simulation.ui.primaryPresetIds.1",
+            "simulation.ui.primaryPresetIds.2",
+            "simulation.ui.starterExploreTasks.0",
+            "simulation.ui.starterExploreTasks.1",
+            "simulation.ui.starterExploreTasks.2",
             "simulation.presets.id:crowded-beaker.description",
             "simulation.presets.id:diluted-same-solute.label",
             "simulation.presets.id:diluted-same-solute.description",
             "simulation.presets.id:more-solute-same-volume.label",
-            "simulation.presets.id:more-solute-same-volume.description",
-            "simulation.overlays.id:densityCue.label",
-            "simulation.overlays.id:densityCue.shortDescription",
-            "simulation.overlays.id:densityCue.whatToNotice.0",
-            "simulation.overlays.id:densityCue.whyItMatters",
-            "simulation.overlays.id:amountVolumeGuide.label",
-            "simulation.overlays.id:amountVolumeGuide.shortDescription",
-            "simulation.overlays.id:amountVolumeGuide.whatToNotice.0",
-            "simulation.overlays.id:amountVolumeGuide.whyItMatters",
-            "simulation.overlays.id:particleMotion.label",
-            "simulation.overlays.id:particleMotion.shortDescription"
+            "simulation.presets.id:more-solute-same-volume.description"
           ]
         }
       }

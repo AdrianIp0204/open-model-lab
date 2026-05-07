@@ -26,6 +26,19 @@
             "particleMotion"
           ]
         }
+      },
+      {
+        "id": "more-solute-same-volume",
+        "label": "More solute at fixed volume",
+        "description": "Open the numerator-change case so adding solute does not get confused with dilution.",
+        "setup": {
+          "presetId": "more-solute-same-volume",
+          "graphId": "concentration-vs-solute",
+          "overlayIds": [
+            "densityCue",
+            "amountVolumeGuide"
+          ]
+        }
       }
     ]
   },
@@ -54,17 +67,17 @@
     "guidedSteps": [
       {
         "id": "read-one-crowded-beaker",
-        "title": "Read one crowded beaker",
-        "goal": "Use a single beaker to read concentration as amount of solute per amount of liquid.",
-        "doThis": "Start with the crowded-beaker preset, keep the amount-versus-volume guide visible, and raise Solute amount once.",
-        "notice": "The particle picture gets denser and the concentration rises when more solute is packed into the same liquid volume.",
-        "explain": "Concentration compares how much solute is present with how much solution or solvent volume is available.",
+        "title": "Dilute one crowded beaker",
+        "goal": "Use a single crowded beaker to read concentration as a ratio between solute amount and liquid volume.",
+        "doThis": "Start with the crowded-beaker preset, keep the amount-versus-volume guide visible, then raise Solvent volume while Solute amount stays fixed.",
+        "notice": "The liquid level rises, the particles spread out, and the concentration drops even though the solute readout stays near the same amount.",
+        "explain": "Dilution changes the volume side of the ratio. The solute has not vanished; it is distributed through more liquid.",
         "reveal": {
           "controlIds": [
+            "solvent-volume",
             "solute-amount"
           ],
           "graphIds": [
-            "concentration-vs-solute",
             "concentration-vs-solvent"
           ],
           "overlayIds": [
@@ -78,6 +91,11 @@
           "overlayIds": [
             "densityCue",
             "amountVolumeGuide"
+          ]
+        },
+        "inlineCheck": {
+          "predictionIds": [
+            "cd-predict-dilution"
           ]
         }
       },
@@ -333,14 +351,25 @@
       "particleMotion": true
     },
     "ui": {
-      "initialGraphId": "concentration-vs-solute",
+      "initialGraphId": "concentration-vs-solvent",
       "primaryGraphIds": [
+        "concentration-vs-solvent",
         "concentration-vs-solute"
       ],
       "primaryControlIds": [
+        "solvent-volume",
         "solute-amount"
       ],
-      "primaryPresetIds": []
+      "primaryPresetIds": [
+        "crowded-beaker",
+        "diluted-same-solute",
+        "more-solute-same-volume"
+      ],
+      "starterExploreTasks": [
+        "Start with Crowded beaker and raise Solvent volume without touching Solute amount: the particles spread out and concentration falls.",
+        "Switch to More solute, same volume and watch the solute graph rise for the opposite reason: the numerator changed, not the volume.",
+        "Use compare mode to build two beakers with the same concentration but different solute amounts; matching concentration is a ratio match, not a particle-count match."
+      ]
     },
     "controls": [
       {
@@ -616,7 +645,7 @@
   },
   "challengeMode": {
     "title": "Challenge mode",
-    "intro": "Use dilution honestly: do not smuggle in a different solute amount.",
+    "intro": "Use dilution honestly: keep track of which side of the amount-per-volume ratio changed.",
     "items": [
       {
         "id": "cd-ch-dilute-without-losing-solute",
@@ -654,6 +683,82 @@
             "metric": "concentration",
             "min": 3.6,
             "max": 5.6
+          }
+        ]
+      },
+      {
+        "id": "cd-ch-same-concentration-different-amounts",
+        "title": "Same concentration, different amounts",
+        "style": "parameter-match",
+        "prompt": "Open compare mode. Keep Setup A as the diluted same-solute beaker, then tune Setup B to use less solute and less liquid while landing on the same concentration.",
+        "successMessage": "You matched concentration without matching particle count: both beakers have about the same solute-per-volume ratio even though Setup B contains less solute overall.",
+        "setup": {
+          "presetId": "diluted-same-solute",
+          "interactionMode": "compare",
+          "graphId": "concentration-vs-solvent",
+          "overlayIds": [
+            "densityCue",
+            "amountVolumeGuide"
+          ],
+          "note": "Match the ratio n/V. Setup B can use 5 solute units in 1.5 volume units to land near the same concentration as Setup A."
+        },
+        "requirements": {
+          "graphId": "concentration-vs-solvent",
+          "overlayIds": [
+            "densityCue",
+            "amountVolumeGuide"
+          ],
+          "compareActive": true,
+          "compareTarget": "b"
+        },
+        "hints": [
+          "Setup A starts at 8 solute units in 2.4 volume units, so its concentration is about 3.33 per volume.",
+          "Try Setup B at 5 solute units and 1.5 volume units. The beaker has fewer particles, but the ratio is almost the same."
+        ],
+        "targets": [
+          {
+            "setup": "a",
+            "metric": "soluteAmount",
+            "label": "Keep Setup A on the diluted same-solute amount.",
+            "min": 7.8,
+            "max": 8.2
+          },
+          {
+            "setup": "a",
+            "metric": "concentration",
+            "label": "Keep Setup A concentration near the diluted reference.",
+            "min": 3.2,
+            "max": 3.5,
+            "displayUnit": "per volume"
+          },
+          {
+            "setup": "b",
+            "param": "soluteAmount",
+            "label": "Use clearly less solute in Setup B.",
+            "min": 4.8,
+            "max": 5.2
+          },
+          {
+            "setup": "b",
+            "param": "solventVolume",
+            "label": "Use less liquid in Setup B as well.",
+            "min": 1.4,
+            "max": 1.6
+          },
+          {
+            "setup": "b",
+            "metric": "concentration",
+            "label": "Match Setup B to the same concentration band.",
+            "min": 3.2,
+            "max": 3.5,
+            "displayUnit": "per volume"
+          },
+          {
+            "setup": "b",
+            "metric": "particleCount",
+            "label": "Setup B should visibly contain fewer particles than Setup A.",
+            "min": 17,
+            "max": 19
           }
         ]
       }

@@ -2742,6 +2742,74 @@ describe("challenge mode evaluator", () => {
     expect(evaluation.matchedCount).toBe(evaluation.totalCount);
   });
 
+  it("evaluates the concentration dilution without losing solute challenge", () => {
+    const concept = getConceptBySlug("concentration-and-dilution");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "cd-ch-dilute-without-losing-solute",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        soluteAmount: 11,
+        solventVolume: 2.2,
+      },
+      activeGraphId: "concentration-vs-solvent",
+      overlayValues: {
+        densityCue: true,
+        amountVolumeGuide: true,
+        particleMotion: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
+  it("evaluates the concentration same-ratio compare challenge", () => {
+    const concept = getConceptBySlug("concentration-and-dilution");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "cd-ch-same-concentration-different-amounts",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        soluteAmount: 5,
+        solventVolume: 1.5,
+      },
+      activeGraphId: "concentration-vs-solvent",
+      overlayValues: {
+        densityCue: true,
+        amountVolumeGuide: true,
+        particleMotion: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: {
+        activeTarget: "b",
+        setupA: {
+          soluteAmount: 8,
+          solventVolume: 2.4,
+        },
+        setupB: {
+          soluteAmount: 5,
+          solventVolume: 1.5,
+        },
+      },
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
   it("evaluates the new centripetal-force live target challenge from the same UCM state", () => {
     const concept = getConceptBySlug("uniform-circular-motion");
     const source = buildSimulationSource(concept);
