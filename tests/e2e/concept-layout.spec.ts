@@ -577,6 +577,30 @@ test("opens Projectile Motion on its component launch bench", async ({
   }
 });
 
+test("opens Vectors and Components on its component split bench", async ({
+  browser,
+}, testInfo) => {
+  const desktopCase = viewportCases.find((item) => item.name === "desktop-1440x900");
+  expect(desktopCase, "Expected the desktop-1440x900 viewport case to exist.").toBeTruthy();
+
+  const { context, page, browserGuard } = await openConceptPage(
+    browser,
+    desktopCase!,
+    "/en/concepts/vectors-components",
+    "Vectors and Components",
+  );
+
+  try {
+    await assertInitialViewportLayout(page, desktopCase!, testInfo);
+    await expect(page.getByText("Vector components lab").first()).toBeVisible();
+    await expect(page.getByText("Live vector state").first()).toBeVisible();
+    await expect(page.getByText("Balanced split").first()).toBeVisible();
+    browserGuard.assertNoActionableIssues();
+  } finally {
+    await context.close();
+  }
+});
+
 test("keeps Projectile Motion shell focus order aligned with responsive visual order", async ({
   browser,
 }) => {

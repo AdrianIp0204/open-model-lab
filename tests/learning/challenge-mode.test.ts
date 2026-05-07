@@ -1962,6 +1962,89 @@ describe("challenge mode evaluator", () => {
     expect(evaluation.matchedCount).toBe(evaluation.totalCount);
   });
 
+  it("evaluates the vectors-components equal-split challenge from live components", () => {
+    const concept = getConceptBySlug("vectors-components");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find((entry) => entry.id === "vc-ch-equal-components");
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        magnitude: 8,
+        angle: 45,
+      },
+      activeGraphId: "components",
+      overlayValues: {
+        componentGuides: true,
+        angleMarker: true,
+        referenceStep: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
+  it("evaluates the vectors-components endpoint challenge at inspected time", () => {
+    const concept = getConceptBySlug("vectors-components");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find((entry) => entry.id === "vc-ch-hit-end-point");
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        magnitude: 5,
+        angle: 37,
+      },
+      activeGraphId: "position",
+      overlayValues: {
+        componentGuides: true,
+        angleMarker: true,
+        referenceStep: true,
+      },
+      time: 4,
+      timeSource: "inspect",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
+  it("evaluates the vectors-components downward-same-length sign challenge", () => {
+    const concept = getConceptBySlug("vectors-components");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "vc-ch-downward-same-length",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        magnitude: 8,
+        angle: -30,
+      },
+      activeGraphId: "components",
+      overlayValues: {
+        componentGuides: true,
+        angleMarker: true,
+        referenceStep: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
   it("evaluates the new centripetal-force live target challenge from the same UCM state", () => {
     const concept = getConceptBySlug("uniform-circular-motion");
     const source = buildSimulationSource(concept);

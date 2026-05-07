@@ -434,7 +434,7 @@ export const conceptContentLastModified = {
   "trig-identities-from-unit-circle-geometry": "2026-05-05T07:34:50.000Z",
   "uniform-circular-motion": "2026-05-05T07:34:50.000Z",
   "unit-circle-sine-cosine-from-rotation": "2026-05-05T07:34:50.000Z",
-  "vectors-components": "2026-05-05T07:34:50.000Z",
+  "vectors-components": "2026-05-07T20:08:24.000Z",
   "vectors-in-2d": "2026-05-05T07:34:50.000Z",
   "wave-interference": "2026-05-07T06:07:40.000Z",
   "wave-speed-wavelength": "2026-05-07T06:07:40.000Z",

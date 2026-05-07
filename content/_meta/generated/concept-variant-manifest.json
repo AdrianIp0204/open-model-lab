@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-07T19:57:28.735Z",
+  "generatedAt": "2026-05-07T20:04:15.792Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -1427,7 +1427,7 @@
       "title": "Vectors and Components",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/vectors-components.json",
-      "canonicalSourceHash": "8c7de71359f2d67b95a415dd87961fa6a13b80d4bbfda796e7594c7234f23fd4",
+      "canonicalSourceHash": "ae6f97b81415b4430e2b7255e0aa91f6250c95fd2c380f9b19034c5008905cba",
       "subject": "Physics",
       "topic": "Mechanics",
       "subtopic": "Vector foundations",
@@ -1467,8 +1467,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "8c7de71359f2d67b95a415dd87961fa6a13b80d4bbfda796e7594c7234f23fd4",
-          "currentSourceHash": "8c7de71359f2d67b95a415dd87961fa6a13b80d4bbfda796e7594c7234f23fd4"
+          "recordedSourceHash": "ae6f97b81415b4430e2b7255e0aa91f6250c95fd2c380f9b19034c5008905cba",
+          "currentSourceHash": "ae6f97b81415b4430e2b7255e0aa91f6250c95fd2c380f9b19034c5008905cba"
         },
         "provider": null,
         "translatedAt": null,
@@ -1495,7 +1495,7 @@
             "variant": "original",
             "locale": "en",
             "recordedSourceHash": "d45b0b55b1ed4e30358f2c188767a23375fbc0d33b47a538ccba2283eea8ec4b",
-            "currentSourceHash": "8c7de71359f2d67b95a415dd87961fa6a13b80d4bbfda796e7594c7234f23fd4"
+            "currentSourceHash": "ae6f97b81415b4430e2b7255e0aa91f6250c95fd2c380f9b19034c5008905cba"
           },
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
@@ -1505,7 +1505,7 @@
           "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 15,
+          "fallbackFieldCount": 32,
           "fallbackFieldPaths": [
             "sections.workedExamples.items.id:current-components.resultTemplate",
             "sections.workedExamples.items.id:current-displacement.variables.id:time.label",
@@ -1521,7 +1521,17 @@
             "simulation.ui.primaryControlIds.1",
             "simulation.ui.primaryPresetIds.0",
             "simulation.ui.primaryPresetIds.1",
-            "simulation.ui.primaryPresetIds.2"
+            "simulation.ui.primaryPresetIds.2",
+            "simulation.ui.starterExploreTasks.0",
+            "simulation.ui.starterExploreTasks.1",
+            "simulation.ui.starterExploreTasks.2",
+            "challengeMode.items.id:vc-ch-equal-components.checks.0.label",
+            "challengeMode.items.id:vc-ch-equal-components.checks.1.label",
+            "challengeMode.items.id:vc-ch-hit-end-point.checks.0.label",
+            "challengeMode.items.id:vc-ch-hit-end-point.checks.1.label",
+            "challengeMode.items.id:vc-ch-downward-same-length.title",
+            "challengeMode.items.id:vc-ch-downward-same-length.prompt",
+            "challengeMode.items.id:vc-ch-downward-same-length.successMessage"
           ]
         }
       }

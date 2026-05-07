@@ -289,6 +289,11 @@
         "balanced-walk",
         "steep-climb",
         "downward-dive"
+      ],
+      "starterExploreTasks": [
+        "Start with Balanced split and trace one diagonal arrow into its horizontal and vertical guide legs before looking at the formula.",
+        "Keep magnitude fixed, drag the angle toward Steep climb, and watch the component graph trade horizontal share for vertical share.",
+        "Apply Downward dive, then explain why a negative vertical component changes direction without making the vector length disappear."
       ]
     },
     "controls": [
@@ -667,12 +672,19 @@
         "successMessage": "You decomposed the vector into nearly equal parts. The geometric picture and the component graph now tell the same story.",
         "setup": {
           "presetId": "balanced-walk",
-          "note": "Use the component graph and guides together while you adjust the angle."
+          "note": "Use the component graph and guides together while you adjust the angle.",
+          "graphId": "components",
+          "overlayIds": [
+            "componentGuides",
+            "angleMarker",
+            "referenceStep"
+          ]
         },
         "requirements": {
           "graphId": "components",
           "overlayIds": [
-            "componentGuides"
+            "componentGuides",
+            "angleMarker"
           ]
         },
         "hints": [
@@ -687,6 +699,24 @@
             "max": 0.2,
             "displayUnit": "m/s"
           }
+        ],
+        "checks": [
+          {
+            "type": "metric-range",
+            "label": "Keep the horizontal component near the equal-split value for an 8 m/s vector.",
+            "metric": "vx",
+            "min": 5.5,
+            "max": 5.8,
+            "displayUnit": "m/s"
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep the vertical component near the same equal-split value.",
+            "metric": "vy",
+            "min": 5.5,
+            "max": 5.8,
+            "displayUnit": "m/s"
+          }
         ]
       },
       {
@@ -696,7 +726,14 @@
         "prompt": "Pause at the end of the $4\\,\\mathrm{s}$ walk and make the point land near $(16\\,\\mathrm{m}, 12\\,\\mathrm{m})$.",
         "successMessage": "You matched a target endpoint by balancing magnitude and angle instead of guessing from one axis alone. The path and component plots agree on the same destination.",
         "setup": {
-          "note": "Set the vector, let the motion run to the end, then pause and scrub the final sample if you need to fine-tune it."
+          "presetId": "balanced-walk",
+          "graphId": "position",
+          "overlayIds": [
+            "componentGuides",
+            "referenceStep"
+          ],
+          "inspectTime": 4,
+          "note": "Set the vector, inspect the final sample near four seconds, and use the position graph to tune both coordinates instead of one axis alone."
         },
         "requirements": {
           "graphId": "position",
@@ -706,7 +743,11 @@
             "min": 3.9,
             "max": 4,
             "displayUnit": "s"
-          }
+          },
+          "overlayIds": [
+            "componentGuides",
+            "referenceStep"
+          ]
         },
         "hints": [
           "This task needs inspect mode near the end of the motion window.",
@@ -726,6 +767,87 @@
             "min": 11.5,
             "max": 12.5,
             "displayUnit": "m"
+          }
+        ],
+        "checks": [
+          {
+            "type": "param-range",
+            "label": "Use a vector magnitude near 5 m/s for the 3-4-5 endpoint pattern.",
+            "param": "magnitude",
+            "min": 4.9,
+            "max": 5.1,
+            "displayUnit": "m/s"
+          },
+          {
+            "type": "param-range",
+            "label": "Set the angle near 37 degrees so the components land near 4 m/s and 3 m/s.",
+            "param": "angle",
+            "min": 36,
+            "max": 38,
+            "displayUnit": "deg"
+          }
+        ]
+      },
+      {
+        "id": "vc-ch-downward-same-length",
+        "title": "Downward, same length",
+        "style": "visible-condition",
+        "prompt": "From Balanced split, keep the vector length near 8 m/s but rotate it into a downward-right direction. Prove the negative vertical component means direction, not a smaller vector.",
+        "successMessage": "You kept the same vector length while flipping the vertical component below zero. The sign changed the path direction; the magnitude did not vanish.",
+        "setup": {
+          "presetId": "balanced-walk",
+          "graphId": "components",
+          "overlayIds": [
+            "componentGuides",
+            "angleMarker",
+            "referenceStep"
+          ],
+          "note": "Keep the guide triangle visible while you rotate below the x-axis; the component graph should show positive vx and negative vy."
+        },
+        "requirements": {
+          "graphId": "components",
+          "overlayIds": [
+            "componentGuides",
+            "angleMarker",
+            "referenceStep"
+          ]
+        },
+        "hints": [
+          "Do not shrink the vector to make the vertical component small. Keep the magnitude near 8 m/s and rotate the direction below the axis.",
+          "A target near -30 degrees gives a positive horizontal component and a negative vertical component with the same overall vector length."
+        ],
+        "targets": [
+          {
+            "param": "magnitude",
+            "label": "Keep the total vector magnitude near 8 m/s.",
+            "min": 7.8,
+            "max": 8.2,
+            "displayUnit": "m/s"
+          },
+          {
+            "param": "angle",
+            "label": "Rotate the vector into the downward-right direction near -30 degrees.",
+            "min": -31,
+            "max": -29,
+            "displayUnit": "deg"
+          }
+        ],
+        "checks": [
+          {
+            "type": "metric-range",
+            "label": "Keep the horizontal component positive and rightward.",
+            "metric": "vx",
+            "min": 6.8,
+            "max": 7.1,
+            "displayUnit": "m/s"
+          },
+          {
+            "type": "metric-range",
+            "label": "Make the vertical component negative and downward.",
+            "metric": "vy",
+            "min": -4.1,
+            "max": -3.8,
+            "displayUnit": "m/s"
           }
         ]
       }
