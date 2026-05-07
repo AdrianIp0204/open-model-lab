@@ -35,20 +35,21 @@
       ]
     },
     "startSetup": {
+      "presetId": "second-harmonic-map",
       "graphId": "shape",
       "overlayIds": [
         "nodes",
         "antinodes"
       ],
-      "note": "Begin with node and antinode guides visible so the fixed pattern can be compared with the moving string."
+      "note": "Open on a two-loop string so the first action is to identify the fixed interior node before moving the probe."
     },
     "guidedSteps": [
       {
         "id": "locate-the-fixed-points",
         "title": "Locate the fixed points",
         "goal": "Separate the fixed node pattern from the moving string shape.",
-        "doThis": "Keep Node guides and Antinode guides visible, press play, and compare the live string with the Mode shape graph.",
-        "notice": "The nodes stay on the center line while nearby loops swing above and below it; antinodes are the loop centers with the largest envelope.",
+        "doThis": "Start from Second harmonic map, keep Node guides and Antinode guides visible, press play, and compare the live string with the Mode shape graph.",
+        "notice": "The end nodes and the interior node stay on the center line while the two loop centers swing above and below it.",
         "explain": "A standing wave has a fixed spatial pattern, but that does not mean the whole string is frozen. Persistent cancellation makes nodes quiet while other positions still oscillate.",
         "reveal": {
           "controlIds": [
@@ -67,11 +68,13 @@
           ]
         },
         "setup": {
+          "presetId": "second-harmonic-map",
           "graphId": "shape",
           "overlayIds": [
             "nodes",
             "antinodes"
-          ]
+          ],
+          "note": "Use the two-loop pattern first: one interior node makes the node/antinode distinction visible without a crowded graph."
         },
         "inlineCheck": {
           "title": "Check what a node means",
@@ -540,12 +543,24 @@
     "ui": {
       "initialGraphId": "shape",
       "primaryGraphIds": [
-        "shape"
+        "shape",
+        "displacement"
       ],
       "primaryControlIds": [
-        "modeNumber"
+        "modeNumber",
+        "probeX",
+        "length"
       ],
-      "primaryPresetIds": []
+      "primaryPresetIds": [
+        "second-harmonic-map",
+        "node-probe",
+        "fourth-harmonic"
+      ],
+      "starterExploreTasks": [
+        "Open on the second harmonic and point out which marks are fixed nodes versus swinging antinodes.",
+        "Move the probe from an antinode onto a node, then switch to the Probe motion graph and watch the trace collapse.",
+        "Raise the mode number and count how the node spacing, allowed wavelength, and probe frequency change together."
+      ]
     },
     "controls": [
       {
@@ -594,6 +609,17 @@
       }
     ],
     "presets": [
+      {
+        "id": "second-harmonic-map",
+        "label": "Second harmonic map",
+        "description": "Two loops make one interior node and two antinodes easy to compare before moving the probe.",
+        "values": {
+          "amplitude": 1.1,
+          "length": 1.6,
+          "modeNumber": 2,
+          "probeX": 1
+        }
+      },
       {
         "id": "fundamental-center",
         "label": "Fundamental",

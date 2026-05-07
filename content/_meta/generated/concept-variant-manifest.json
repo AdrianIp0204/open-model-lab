@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-07T05:52:13.711Z",
+  "generatedAt": "2026-05-07T12:24:26.259Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -19,7 +19,7 @@
         "detected": 97,
         "usable": 97,
         "invalid": 0,
-        "stale": 91,
+        "stale": 92,
         "withFallback": 97,
         "missing": 0
       }
@@ -958,7 +958,7 @@
       "title": "Standing Waves",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/standing-waves.json",
-      "canonicalSourceHash": "c19b8f8d2f23fe86474ec3b9cee5c92fa99d724c840a0e6e3585854c22559322",
+      "canonicalSourceHash": "d33782c947f96812414371272e75073b963259fd8f073d7777fbff3c95adaf33",
       "subject": "Physics",
       "topic": "Waves",
       "subtopic": "Standing-wave patterns",
@@ -1002,8 +1002,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "c19b8f8d2f23fe86474ec3b9cee5c92fa99d724c840a0e6e3585854c22559322",
-          "currentSourceHash": "c19b8f8d2f23fe86474ec3b9cee5c92fa99d724c840a0e6e3585854c22559322"
+          "recordedSourceHash": "d33782c947f96812414371272e75073b963259fd8f073d7777fbff3c95adaf33",
+          "currentSourceHash": "d33782c947f96812414371272e75073b963259fd8f073d7777fbff3c95adaf33"
         },
         "provider": null,
         "translatedAt": null,
@@ -1021,7 +1021,7 @@
           "exists": true,
           "usable": true,
           "valid": true,
-          "stale": false,
+          "stale": true,
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/standing-waves.json",
@@ -1030,7 +1030,7 @@
             "variant": "original",
             "locale": "en",
             "recordedSourceHash": "c19b8f8d2f23fe86474ec3b9cee5c92fa99d724c840a0e6e3585854c22559322",
-            "currentSourceHash": "c19b8f8d2f23fe86474ec3b9cee5c92fa99d724c840a0e6e3585854c22559322"
+            "currentSourceHash": "d33782c947f96812414371272e75073b963259fd8f073d7777fbff3c95adaf33"
           },
           "provider": "manual",
           "translatedAt": "2026-04-29T23:18:00.000Z",
@@ -1040,7 +1040,7 @@
           "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 106,
+          "fallbackFieldCount": 117,
           "fallbackFieldPaths": [
             "sections.workedExamples.items.id:allowed-wavelength.resultTemplate",
             "sections.workedExamples.items.id:probe-displacement.variables.id:time.label",
@@ -1050,23 +1050,23 @@
             "pageIntro.keyTakeaway",
             "simulation.ui.initialGraphId",
             "simulation.ui.primaryGraphIds.0",
+            "simulation.ui.primaryGraphIds.1",
             "simulation.ui.primaryControlIds.0",
+            "simulation.ui.primaryControlIds.1",
+            "simulation.ui.primaryControlIds.2",
+            "simulation.ui.primaryPresetIds.0",
+            "simulation.ui.primaryPresetIds.1",
+            "simulation.ui.primaryPresetIds.2",
+            "simulation.ui.starterExploreTasks.0",
+            "simulation.ui.starterExploreTasks.1",
+            "simulation.ui.starterExploreTasks.2",
+            "simulation.presets.id:second-harmonic-map.label",
+            "simulation.presets.id:second-harmonic-map.description",
             "simulation.presets.id:fundamental-center.label",
             "simulation.presets.id:fundamental-center.description",
             "simulation.presets.id:third-harmonic.label",
             "simulation.presets.id:third-harmonic.description",
-            "simulation.presets.id:fourth-harmonic.label",
-            "simulation.presets.id:fourth-harmonic.description",
-            "simulation.presets.id:node-probe.label",
-            "simulation.presets.id:node-probe.description",
-            "simulation.presets.id:short-string.label",
-            "simulation.presets.id:short-string.description",
-            "simulation.overlays.id:nodes.label",
-            "simulation.overlays.id:nodes.shortDescription",
-            "simulation.overlays.id:nodes.whatToNotice.0",
-            "simulation.overlays.id:nodes.whyItMatters",
-            "simulation.overlays.id:antinodes.label",
-            "simulation.overlays.id:antinodes.shortDescription"
+            "simulation.presets.id:fourth-harmonic.label"
           ]
         }
       }

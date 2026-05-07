@@ -223,6 +223,21 @@ describe("ConceptPageFramework V2", () => {
     expect(initialState.inspectTime).toBeNull();
   });
 
+  it("applies standing-waves authored first-action setup to the live bench", () => {
+    renderFramework("standing-waves");
+
+    const initialState = JSON.parse(
+      screen.getByTestId("initial-simulation-state-probe").textContent ?? "null",
+    ) as ResolvedConceptSimulationState;
+
+    expect(initialState.activePresetId).toBe("second-harmonic-map");
+    expect(initialState.activeGraphId).toBe("shape");
+    expect(initialState.params.modeNumber).toBe(2);
+    expect(initialState.overlayValues.nodes).toBe(true);
+    expect(initialState.overlayValues.antinodes).toBe(true);
+    expect(initialState.focusedOverlayId).toBe("nodes");
+  });
+
   it("keeps restored or shared bench state ahead of the concept V2 start setup", () => {
     const concept = getConceptBySlug("damping-resonance");
     const restoredState: ResolvedConceptSimulationState = {

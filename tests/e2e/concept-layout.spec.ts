@@ -660,6 +660,30 @@ test("keeps additional physics, math, computing, and chemistry concepts lab-firs
   }
 });
 
+test("opens Standing Waves on its tailored second-harmonic first action", async ({
+  browser,
+}, testInfo) => {
+  const desktopCase = viewportCases.find((item) => item.name === "desktop-1440x900");
+  expect(desktopCase, "Expected the desktop-1440x900 viewport case to exist.").toBeTruthy();
+
+  const { context, page, browserGuard } = await openConceptPage(
+    browser,
+    desktopCase!,
+    "/en/concepts/standing-waves",
+    "Standing Waves",
+  );
+
+  try {
+    await assertInitialViewportLayout(page, desktopCase!, testInfo);
+    await expect(page.getByText("Second harmonic map").first()).toBeVisible();
+    await expect(page.getByText("3 nodes and 2 antinodes").first()).toBeVisible();
+    await expect(page.getByText("Start from Second harmonic map").first()).toBeVisible();
+    browserGuard.assertNoActionableIssues();
+  } finally {
+    await context.close();
+  }
+});
+
 test("renders topic-specific clickable visuals on concept discovery", async ({
   page,
 }) => {
