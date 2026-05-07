@@ -619,6 +619,14 @@ test("keeps additional physics, math, computing, and chemistry concepts lab-firs
       title: "Simple Harmonic Motion",
     },
     {
+      path: "/en/concepts/wave-speed-wavelength",
+      title: "Wave Speed and Wavelength",
+    },
+    {
+      path: "/en/concepts/wave-interference",
+      title: "Wave Interference",
+    },
+    {
       path: "/en/concepts/graph-transformations",
       title: "Graph Transformations",
     },

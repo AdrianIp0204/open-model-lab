@@ -187,7 +187,6 @@ export function ConceptPageFramework({
     "Keep progress signals, starter-track handoffs, and review prompts available without letting them compete with the live lesson flow.",
     "把進度訊號、入門路徑接續和複習提示留在頁面裡，但不要讓它們和主要學習流程搶焦點。",
   );
-  const conceptModuleLabel = copyText(resolvedLocale, "Concept module", "概念模組");
   const liveLabChildren = Children.toArray([
     publicExperimentCard ? (
       <PublicExperimentCard
@@ -343,18 +342,13 @@ export function ConceptPageFramework({
             sections={resolvedSections}
             workedExampleMode={workedExampleMode}
             titleContextContent={
-              <div className="space-y-1.5">
-                <div className="hidden flex-wrap gap-1.5 sm:flex">
-                  <span className="progress-pill">{conceptSubjectLabel}</span>
-                  <span className="progress-pill">{conceptTopicLabel}</span>
-                </div>
-
-                <div className="space-y-1">
-                  <p className="hidden sm:block lab-label">{conceptModuleLabel}</p>
-                  <h1 className="max-w-4xl text-[1.55rem] font-semibold leading-[1.03] text-ink-950 sm:text-[2rem] lg:text-[2.15rem]">
-                    {concept.title}
-                  </h1>
-                </div>
+              <div className="space-y-1">
+                <p className="hidden sm:block lab-label">
+                  {conceptSubjectLabel} · {conceptTopicLabel}
+                </p>
+                <h1 className="max-w-4xl text-[1.55rem] font-semibold leading-[1.03] text-ink-950 sm:text-[2rem] lg:text-[2.15rem]">
+                  {concept.title}
+                </h1>
               </div>
             }
             statusContent={

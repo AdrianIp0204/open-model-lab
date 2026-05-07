@@ -9,25 +9,49 @@
     "estimatedMinutes": 30,
     "equationSnapshot": {
       "note": "Use path difference first, then convert that extra travel into the phase difference that decides bright or dark.",
-      "equationIds": ["wave-path", "wave-phase"]
+      "equationIds": [
+        "wave-path",
+        "wave-phase"
+      ]
     },
     "guidedSteps": [
       {
         "id": "compare-probe-and-screen",
         "title": "Compare one point and the screen",
         "goal": "Read the screen pattern and the probe graph as two views of the same overlap.",
-        "doThis": "Keep the sources equal, move Probe height slowly, and compare the Screen pattern graph with the Probe graph.",
+        "doThis": "Start from Center bright, keep the pattern graph visible, move Probe height slowly, and compare the screen pattern with the Probe graph.",
         "notice": "Bright screen regions line up with a large combined motion at the probe; dark regions line up with a much smaller combined motion.",
         "explain": "The screen pattern shows brightness across many positions, while the probe graph shows the wave moving up and down over time at one selected position.",
         "reveal": {
-          "controlIds": ["probeY"],
-          "graphIds": ["pattern", "displacement"],
-          "overlayIds": ["resultEnvelope", "pathDifference"],
-          "toolHints": ["playback"]
+          "controlIds": [
+            "probeY"
+          ],
+          "graphIds": [
+            "pattern",
+            "displacement"
+          ],
+          "overlayIds": [
+            "resultEnvelope",
+            "pathDifference"
+          ],
+          "toolHints": [
+            "playback"
+          ]
         },
         "inlineCheck": {
           "title": "Predict the center flip",
-          "predictionIds": ["wave-predict-phase-flip"]
+          "predictionIds": [
+            "wave-predict-phase-flip"
+          ]
+        },
+        "setup": {
+          "presetId": "center-bright",
+          "graphId": "pattern",
+          "overlayIds": [
+            "resultEnvelope",
+            "pathDifference"
+          ],
+          "note": "Start at the center bright band, then move only the probe height to compare a screen point with the full pattern."
         }
       },
       {
@@ -38,31 +62,72 @@
         "notice": "The same path difference counts for more phase when the wavelength is shorter, so the bright and dark spacing tightens.",
         "explain": "Path difference only becomes useful after you compare it with wavelength: whole-wavelength differences reinforce, while half-wavelength differences cancel for equal sources.",
         "reveal": {
-          "controlIds": ["wavelength", "probeY"],
-          "graphIds": ["pattern"],
-          "overlayIds": ["pathDifference", "phaseWheel"]
+          "controlIds": [
+            "wavelength",
+            "probeY"
+          ],
+          "graphIds": [
+            "pattern"
+          ],
+          "overlayIds": [
+            "pathDifference",
+            "phaseWheel"
+          ]
         },
         "inlineCheck": {
           "title": "Read a bright or dark band",
-          "questionIds": ["wave-qt-1", "wave-qt-2"]
+          "questionIds": [
+            "wave-qt-1",
+            "wave-qt-2"
+          ]
+        },
+        "setup": {
+          "presetId": "short-wave",
+          "graphId": "pattern",
+          "overlayIds": [
+            "pathDifference",
+            "phaseWheel"
+          ],
+          "note": "Begin with the shorter-wavelength pattern so the geometry-to-phase conversion is visually crowded enough to notice."
         }
       },
       {
         "id": "test-cancellation-limits",
         "title": "Test cancellation limits",
         "goal": "Check why opposite phase is not enough for a perfectly dark point.",
-        "doThis": "Start from a dark point, then make Source B smaller than Source A without moving the probe.",
+        "doThis": "Start from the Phase flip dark point, then make Source B smaller than Source A without moving the probe.",
         "notice": "The point partly fills back in because the stronger source leaves leftover combined motion.",
         "explain": "A perfect dark fringe needs both destructive phase and matched source amplitudes; otherwise the waves still overlap but do not cancel all the way to zero.",
         "reveal": {
-          "controlIds": ["amplitudeA", "amplitudeB", "phaseOffset"],
-          "graphIds": ["displacement", "pattern"],
-          "overlayIds": ["resultEnvelope", "phaseWheel"]
+          "controlIds": [
+            "amplitudeA",
+            "amplitudeB",
+            "phaseOffset"
+          ],
+          "graphIds": [
+            "displacement",
+            "pattern"
+          ],
+          "overlayIds": [
+            "resultEnvelope",
+            "phaseWheel"
+          ]
         },
         "inlineCheck": {
           "title": "Explain the imperfect dark point",
-          "questionIds": ["wave-qt-3"],
+          "questionIds": [
+            "wave-qt-3"
+          ],
           "includeMiniChallenge": true
+        },
+        "setup": {
+          "presetId": "phase-flip",
+          "graphId": "displacement",
+          "overlayIds": [
+            "resultEnvelope",
+            "phaseWheel"
+          ],
+          "note": "Begin at a centered destructive case, then break amplitude equality to test why the null fills in."
         }
       }
     ],
@@ -93,7 +158,22 @@
       ],
       "freePlayPrompt": "Keep the screen pattern open and invent one bright-to-dark change using geometry, then one using source phase."
     },
-    "referenceSections": ["explanation", "keyIdeas", "workedExamples", "quickTest", "accessibility"]
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "quickTest",
+      "accessibility"
+    ],
+    "startSetup": {
+      "presetId": "center-bright",
+      "graphId": "pattern",
+      "overlayIds": [
+        "resultEnvelope",
+        "pathDifference"
+      ],
+      "note": "Open on the centered bright band with geometry and combined-amplitude guides visible so learners begin by reading the pattern before touching text."
+    }
   },
   "sections": {
     "explanation": {

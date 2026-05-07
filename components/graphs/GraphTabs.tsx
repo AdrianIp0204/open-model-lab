@@ -81,7 +81,7 @@ function renderGraphTab({
       <span className="block text-[0.82rem] font-semibold leading-5">
         <RichMathText as="span" content={tab.label} />
       </span>
-      <span className="block text-[0.68rem] leading-4 opacity-80">
+      <span className="block text-xs leading-5 opacity-80">
         <RichMathText as="span" content={tab.xLabel} /> vs{" "}
         <RichMathText as="span" content={tab.yLabel} />
       </span>
@@ -138,7 +138,7 @@ export function GraphTabs({
               aria-expanded={moreGraphsOpen}
               aria-controls="graph-tabs-secondary-panel"
               onClick={() => setMoreGraphsExpanded((current) => !current)}
-              className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-600 transition hover:border-teal-500/35 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong"
+              className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-ink-600 transition hover:border-teal-500/35 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong"
             >
               {moreGraphsOpen ? t("hide") : t("show")}
             </button>

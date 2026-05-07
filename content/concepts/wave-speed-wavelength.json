@@ -980,7 +980,8 @@
       "overlayIds": [
         "wavelengthGuide",
         "delayGuide"
-      ]
+      ],
+      "note": "Open on the displacement graph with crest spacing and probe delay visible so the first action starts from the live wave, not the formula."
     },
     "guidedSteps": [
       {
@@ -1120,6 +1121,114 @@
       "keyIdeas",
       "workedExamples",
       "quickTest"
+    ]
+  },
+  "challengeMode": {
+    "title": "Challenge mode",
+    "intro": "Turn v = fλ into compact spacing and timing hunts that stay anchored to the live crest train.",
+    "items": [
+      {
+        "id": "wsw-ch-one-cycle-probe-lag",
+        "title": "One-cycle probe lag",
+        "style": "visible-condition",
+        "prompt": "Starting from Baseline, move the probe until it sits one wavelength downstream: same phase shape, one full cycle later.",
+        "successMessage": "You made phase repeat without changing the wave itself. The probe is one wavelength away, so the phase map reads one cycle while the time graph arrives one period later.",
+        "setup": {
+          "presetId": "baseline-train",
+          "graphId": "phase-map",
+          "overlayIds": [
+            "wavelengthGuide",
+            "delayGuide"
+          ],
+          "note": "Use the phase map and delay guide together while you move only the probe position."
+        },
+        "hints": [
+          "One wavelength in this setup is 1.6 m, so the probe should land near that distance from the source.",
+          "The stage spacing is not changing; you are changing where the downstream measurement point waits for the same disturbance."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Open the phase-map graph.",
+            "graphId": "phase-map"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Keep the delay guide visible.",
+            "overlayId": "delayGuide"
+          },
+          {
+            "type": "metric-range",
+            "label": "Set the phase lag between $0.95$ and $1.05$ cycles.",
+            "metric": "phaseLagCycles",
+            "min": 0.95,
+            "max": 1.05
+          },
+          {
+            "type": "metric-range",
+            "label": "Keep the travel delay near one period, about $0.67\\,\\mathrm{s}$.",
+            "metric": "travelDelay",
+            "min": 0.62,
+            "max": 0.72,
+            "displayUnit": "s"
+          }
+        ]
+      },
+      {
+        "id": "wsw-ch-faster-same-spacing",
+        "title": "Faster wave, same spacing",
+        "style": "visible-condition",
+        "prompt": "From Baseline, keep the crest spacing at 1.6 m and raise the wave speed until the source cycles faster and the probe delay shrinks.",
+        "successMessage": "You changed timing without changing spacing. The phase-map slope stays tied to λ, while the displacement graph cycles faster because v increased.",
+        "setup": {
+          "presetId": "baseline-train",
+          "graphId": "displacement",
+          "overlayIds": [
+            "wavelengthGuide",
+            "delayGuide",
+            "distancePerPeriod"
+          ],
+          "note": "Use the wavelength guide to protect spacing while the speed slider changes the timing."
+        },
+        "hints": [
+          "Do not drag the wavelength slider for this one; the visual spacing should stay at 1.6 m.",
+          "If v rises while λ stays fixed, frequency must rise and the source-to-probe delay must get shorter."
+        ],
+        "checks": [
+          {
+            "type": "graph-active",
+            "label": "Open the displacement graph.",
+            "graphId": "displacement"
+          },
+          {
+            "type": "overlay-active",
+            "label": "Show the one-period travel guide.",
+            "overlayId": "distancePerPeriod"
+          },
+          {
+            "type": "param-range",
+            "label": "Keep wavelength near $1.6\\,\\mathrm{m}$.",
+            "param": "wavelength",
+            "min": 1.55,
+            "max": 1.65,
+            "displayUnit": "m"
+          },
+          {
+            "type": "metric-range",
+            "label": "Raise the source frequency above $2.1\\,\\mathrm{Hz}$.",
+            "metric": "frequency",
+            "min": 2.1,
+            "displayUnit": "Hz"
+          },
+          {
+            "type": "metric-range",
+            "label": "Shrink the probe delay below $0.72\\,\\mathrm{s}$.",
+            "metric": "travelDelay",
+            "max": 0.72,
+            "displayUnit": "s"
+          }
+        ]
+      }
     ]
   }
 }

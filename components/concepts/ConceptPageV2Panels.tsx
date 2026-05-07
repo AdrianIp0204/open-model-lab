@@ -1277,11 +1277,11 @@ export function ConceptPageV2LessonRail({
           <div className="space-y-1.5">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <p className="lab-label">{copy.lessonFlowLabel}</p>
-              <span className="rounded-full border border-line bg-paper px-3 py-1 text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-ink-600">
+              <span className="rounded-full border border-line bg-paper px-3 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-ink-600">
                 {activePosition} / {steps.length}
               </span>
             </div>
-            <RichMathText as="p" content={activeStep.label} className="break-words text-sm font-semibold leading-5 text-ink-950" />
+            <RichMathText as="p" content={activeStep.label} className="break-words text-base font-semibold leading-6 text-ink-950" />
             <div
               role="progressbar"
               aria-label={copy.lessonFlowLabel}
@@ -1305,7 +1305,7 @@ export function ConceptPageV2LessonRail({
               <h2
                 id={conceptPageV2CurrentStepHeadingId}
                 tabIndex={-1}
-                className="mt-1 scroll-mt-24 break-words text-sm font-semibold leading-5 text-ink-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                className="mt-1 scroll-mt-24 break-words text-base font-semibold leading-6 text-ink-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
               >
                 <RichMathText as="span" content={activeStep.goal} />
               </h2>
@@ -1317,7 +1317,7 @@ export function ConceptPageV2LessonRail({
               >
                 <p
                   id={`${railActionPathIdBase}-act-label`}
-                  className="text-[0.66rem] font-semibold uppercase tracking-[0.14em] text-teal-700"
+                  className="text-xs font-semibold uppercase tracking-[0.1em] text-teal-700"
                 >
                   {copy.actLabel}
                 </p>
@@ -1325,7 +1325,7 @@ export function ConceptPageV2LessonRail({
                   as="p"
                   id={`${railActionPathIdBase}-act-description`}
                   content={primaryActionRow.value}
-                  className="mt-1 break-words text-sm font-semibold leading-6 text-ink-950"
+                  className="mt-1 break-words text-base font-semibold leading-6 text-ink-950"
                 />
                 {secondaryGuidanceRows.length ? (
                   <details
@@ -1333,7 +1333,7 @@ export function ConceptPageV2LessonRail({
                     className="group mt-2 rounded-[12px] border border-teal-500/14 bg-white/70 px-2.5 py-2"
                   >
                     <summary className="flex min-h-9 cursor-pointer list-none items-center justify-between gap-2 rounded-[10px] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/24 focus-visible:ring-offset-2 focus-visible:ring-offset-white [&::-webkit-details-marker]:hidden">
-                      <span className="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-ink-600">
+                      <span className="text-xs font-semibold uppercase tracking-[0.1em] text-ink-600">
                         {copy.observeLabel} / {copy.explainLabel}
                       </span>
                       <span
@@ -1353,14 +1353,14 @@ export function ConceptPageV2LessonRail({
                             key={row.label}
                             className="rounded-[10px] border border-line/70 bg-paper/70 px-2 py-1.5"
                           >
-                            <dt className="text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-ink-500">
+                            <dt className="text-xs font-semibold uppercase tracking-[0.08em] text-ink-500">
                               {rowLabel}
                             </dt>
                             <dd className="mt-0.5 min-w-0">
                               <RichMathText
                                 as="span"
                                 content={row.value}
-                                className="block break-words text-xs leading-5 text-ink-700"
+                                className="block break-words text-sm leading-6 text-ink-700"
                               />
                             </dd>
                           </div>
@@ -1382,7 +1382,7 @@ export function ConceptPageV2LessonRail({
                   </span>
                   <p
                     id={railRevealHeadingId}
-                    className="text-[0.66rem] font-semibold uppercase tracking-[0.14em] text-ink-500"
+                    className="text-xs font-semibold uppercase tracking-[0.1em] text-ink-500"
                   >
                     {copy.nowAvailableLabel}
                   </p>
@@ -1395,7 +1395,7 @@ export function ConceptPageV2LessonRail({
                       <li
                         key={`${item.kind}-${item.id}`}
                         className={[
-                          "inline-flex max-w-full rounded-full border px-2 py-0.5 text-[0.68rem] font-medium shadow-sm",
+                          "inline-flex max-w-full rounded-full border px-2 py-0.5 text-xs font-medium shadow-sm",
                           revealToneClasses[item.tone ?? "core"],
                         ].join(" ")}
                       >
@@ -1409,7 +1409,7 @@ export function ConceptPageV2LessonRail({
                     {activeStep.revealItems.length > 4 ? (
                       <li
                         data-testid="concept-v2-rail-reveal-overflow"
-                        className="rounded-full border border-line bg-paper px-2 py-0.5 text-[0.68rem] font-semibold text-ink-600 shadow-sm"
+                        className="rounded-full border border-line bg-paper px-2 py-0.5 text-xs font-semibold text-ink-600 shadow-sm"
                       >
                         <span aria-hidden="true">
                           +{activeStep.revealItems.length - 4}
@@ -1435,31 +1435,31 @@ export function ConceptPageV2LessonRail({
                   <div className="flex flex-wrap items-center gap-1.5">
                     <p
                       id={railInlineCheckLabelId}
-                      className="text-[0.66rem] font-semibold uppercase tracking-[0.14em] text-amber-700"
+                      className="text-xs font-semibold uppercase tracking-[0.1em] text-amber-700"
                     >
                       {copy.quickCheckLabel}
                       <span className="sr-only">:</span>
                     </p>
-                    <span className="inline-flex max-w-full min-w-0 rounded-full border border-amber-500/18 bg-white/78 px-2 py-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-amber-700">
+                    <span className="inline-flex max-w-full min-w-0 rounded-full border border-amber-500/18 bg-white/78 px-2 py-0.5 text-xs font-semibold uppercase tracking-[0.08em] text-amber-700">
                       <RichMathText as="span" content={activeStep.inlineCheck.eyebrow} className="min-w-0 break-words" />
                     </span>
                   </div>
                   <p
                     id={railInlineCheckTitleId}
-                    className="mt-1.5 line-clamp-2 break-words text-xs font-semibold leading-5 text-ink-900"
+                    className="mt-1.5 line-clamp-2 break-words text-sm font-semibold leading-6 text-ink-900"
                   >
                     <RichMathText as="span" content={activeStep.inlineCheck.title} />
                   </p>
                   <p
                     id={railInlineCheckPromptId}
-                    className="mt-0.5 line-clamp-2 break-words text-xs leading-5 text-ink-700"
+                    className="mt-0.5 line-clamp-2 break-words text-sm leading-6 text-ink-700"
                   >
                     <RichMathText as="span" content={activeStep.inlineCheck.prompt} />
                   </p>
                   {activeStep.inlineCheck.supportingText ? (
                     <p
                       id={railInlineCheckSupportingId}
-                      className="mt-0.5 line-clamp-2 break-words text-xs leading-5 text-ink-600"
+                      className="mt-0.5 line-clamp-2 break-words text-sm leading-6 text-ink-600"
                     >
                       <RichMathText as="span" content={activeStep.inlineCheck.supportingText} />
                     </p>
@@ -1474,7 +1474,7 @@ export function ConceptPageV2LessonRail({
                       {activeStep.inlineCheck.choices.map((choice, index) => (
                         <li
                           key={choice}
-                          className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-1.5 rounded-[10px] border border-white/80 bg-white/82 px-2 py-1.5 text-[0.68rem] leading-4 text-ink-700 shadow-sm"
+                          className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-1.5 rounded-[10px] border border-white/80 bg-white/82 px-2 py-1.5 text-xs leading-5 text-ink-700 shadow-sm"
                         >
                           <span
                             aria-hidden="true"

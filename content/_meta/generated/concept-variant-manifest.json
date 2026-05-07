@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-01T13:48:10.856Z",
+  "generatedAt": "2026-05-07T05:52:13.711Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -253,7 +253,7 @@
       "title": "Wave Speed and Wavelength",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/wave-speed-wavelength.json",
-      "canonicalSourceHash": "1f84ef80bb8fb65b1567f8d35421983e8f938fffc3eeaecb6b9dd09db0608861",
+      "canonicalSourceHash": "5ee8c0fe683f7e7939d9782be561f55f75d5871a0d2ecc37261c437b66156e4b",
       "subject": "Physics",
       "topic": "Waves",
       "subtopic": "Wave timing and spacing",
@@ -294,8 +294,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "1f84ef80bb8fb65b1567f8d35421983e8f938fffc3eeaecb6b9dd09db0608861",
-          "currentSourceHash": "1f84ef80bb8fb65b1567f8d35421983e8f938fffc3eeaecb6b9dd09db0608861"
+          "recordedSourceHash": "5ee8c0fe683f7e7939d9782be561f55f75d5871a0d2ecc37261c437b66156e4b",
+          "currentSourceHash": "5ee8c0fe683f7e7939d9782be561f55f75d5871a0d2ecc37261c437b66156e4b"
         },
         "provider": null,
         "translatedAt": null,
@@ -322,7 +322,7 @@
             "variant": "original",
             "locale": "en",
             "recordedSourceHash": "27388b786fe9a360d326d6b88bed6fd7b2da6a5a2e41c401bcbb8442f3e63982",
-            "currentSourceHash": "1f84ef80bb8fb65b1567f8d35421983e8f938fffc3eeaecb6b9dd09db0608861"
+            "currentSourceHash": "5ee8c0fe683f7e7939d9782be561f55f75d5871a0d2ecc37261c437b66156e4b"
           },
           "provider": "manual",
           "translatedAt": "2026-04-29T19:31:39.800Z",
@@ -332,7 +332,7 @@
           "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 90,
+          "fallbackFieldCount": 113,
           "fallbackFieldPaths": [
             "sections.explanation.paragraphs.0",
             "sections.explanation.paragraphs.1",
