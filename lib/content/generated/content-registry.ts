@@ -359,7 +359,7 @@ export const conceptContentLastModified = {
   "concentration-and-dilution": "2026-05-05T07:34:50.000Z",
   "conservation-of-momentum": "2026-05-05T07:34:50.000Z",
   "continuity-equation": "2026-05-05T07:34:50.000Z",
-  "damping-resonance": "2026-05-07T05:21:56.000Z",
+  "damping-resonance": "2026-05-07T05:22:53.000Z",
   "de-broglie-matter-waves": "2026-05-05T07:34:50.000Z",
   "depth-first-search-and-backtracking-paths": "2026-05-05T07:34:50.000Z",
   "derivative-as-slope-local-rate-of-change": "2026-05-05T07:34:50.000Z",
