@@ -2,13 +2,15 @@
 
 Open Model Lab currently has two GitHub repositories with different purposes.
 
-## Active Public Source Repository
+Visibility note: as of **2026-05-07**, Adrian chose to make the active source repository private for development convenience and to keep ongoing product/research work out of public view. The hosted product can remain public at `openmodellab.com` while source development happens privately.
 
-`AdrianIp0204/open-model-lab` is the active public development repository and current source of truth. It exists so people can read the code, study the architecture, file issues, propose focused contributions, and continue future development from the clean public history.
+## Active Private Source Repository
 
-Public-facing issues, pull requests, documentation updates, CI changes, and future development should target this repository.
+`AdrianIp0204/open-model-lab` is the active private development repository and current source of truth.
 
-This repository does not include old private development history, private operator artifacts, real deployment secrets, real `wrangler.jsonc`, or real `public/ads.txt`.
+Issues, pull requests, documentation updates, CI changes, and future development should target this repository when the owner grants access.
+
+This repository should still not include old private development history, private operator artifacts, real deployment secrets, real `wrangler.jsonc`, or real `public/ads.txt` unless the owner deliberately changes the private-ops boundary.
 
 ## Private Historical Archive
 
@@ -39,8 +41,8 @@ For agent/Codex sessions, report or record:
 - HEAD SHA
 - whether the working tree is clean
 
-If a task references public repository state but the checkout points at `AdrianIp0204/OpenModelLab`, stop and switch to `AdrianIp0204/open-model-lab` before editing.
+If a task references current repository state but the checkout points at `AdrianIp0204/OpenModelLab`, stop and switch to `AdrianIp0204/open-model-lab` before editing.
 
 If a task references private archive maintenance but the checkout points at `AdrianIp0204/open-model-lab`, stop and ask for direction.
 
-For public repo work, use public `main` as the baseline. Do not use stale private-repo HEADs as the basis for changes, and do not reference old private history or private artifacts.
+For active product work, use `AdrianIp0204/open-model-lab` `main` as the baseline. Do not use stale archive-repo HEADs as the basis for changes, and do not reference old private history or private artifacts.

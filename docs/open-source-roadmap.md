@@ -1,10 +1,12 @@
-# Open-Source Roadmap
+# Source Visibility Roadmap
 
-Open Model Lab now has a clean public source repository at `AdrianIp0204/open-model-lab`. That public repository is the active source of truth for future development. This roadmap records the preparation decisions and ongoing public-source maintenance boundaries. It does not change the product's billing and entitlement behavior.
+Status update: as of **2026-05-07**, Adrian chose to make `AdrianIp0204/open-model-lab` private. This document is retained as a history/safety checklist from the public-release preparation phase, but the active strategy is now private-source development with a public hosted product.
+
+Open Model Lab has a clean source repository at `AdrianIp0204/open-model-lab`. That repository is the active source of truth for future development, but it is no longer intended to be public by default. This roadmap records the earlier preparation decisions and source-safety boundaries. It does not change the product's billing and entitlement behavior.
 
 ## Current Status
 
-- The clean public source repository exists at `AdrianIp0204/open-model-lab` and is the active development source of truth.
+- The clean source repository exists at `AdrianIp0204/open-model-lab`, is now private, and remains the active development source of truth.
 - The private `AdrianIp0204/OpenModelLab` repository is retained only as historical/private archive context and must remain private unless the owner explicitly changes strategy later.
 - Final code, educational-content, and brand boundaries have been chosen and documented in `LICENSE`, `CONTENT_LICENSE.md`, and `BRAND.md`.
 - Initial contribution, security, and conduct documents are now present in `CONTRIBUTING.md`, `SECURITY.md`, and `CODE_OF_CONDUCT.md`.
@@ -20,18 +22,15 @@ Open Model Lab now has a clean public source repository at `AdrianIp0204/open-mo
 - Public product copy is moving toward free core learning plus optional Supporter-funded sustainability.
 - The internal entitlement seam remains `free | premium` until a separate migration plan says otherwise.
 
-## Why Prepare For Open Source
+## Why This Still Matters
 
-- Transparency: learners and reviewers should be able to inspect how the educational product works.
-- Learning value: the codebase can become a useful reference for simulation-first science learning.
-- Contribution path: a public release can make focused fixes, localization, content review, and tooling improvements easier later.
-- Trust: clear source, safety, billing, and ad boundaries are easier to evaluate in the open.
-- Portfolio value: the product should demonstrate real engineering choices, not only a hosted result.
-- Educational reuse: separate license docs make reuse rights understandable without confusing code, content, and brand rights.
+- The public-release preparation work still usefully separated code, educational content, brand, private config, and deployment boundaries.
+- The repo may become public again later if Adrian deliberately chooses that strategy, so the safety checks remain valuable.
+- Even as a private repository, it should keep secrets, ignored deployment files, private artifacts, and old archive history out of normal product commits.
 
-## Ongoing Public-Repo Safety
+## Ongoing Source Safety
 
-- Keep `docs/repository-identity.md`, `AGENTS.md`, and README positioning aligned so public-source work does not drift into private operations.
+- Keep `docs/repository-identity.md`, `AGENTS.md`, and README positioning aligned so active product work does not drift into private operations or stale archive history.
 - Complete a secret audit across the working tree, ignored files, deployment files, logs, generated artifacts, screenshots, and selected git history.
 - Keep `.env.example` and any other sample env files placeholder-only and aligned with the live runtime seams.
 - Keep `wrangler.example.jsonc` and `public/ads.example.txt` placeholder-only, with real `wrangler.jsonc` and `public/ads.txt` supplied privately.

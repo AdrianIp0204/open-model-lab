@@ -2,15 +2,15 @@
 
 Open Model Lab is a simulation-first science-learning site built with Next.js App Router, React, TypeScript, and Tailwind.
 
-## Public source, not an official deployment kit
+## Private source, not an official deployment kit
 
-This is the public source release of Open Model Lab. It is published for code reading, learning, architecture review, issue reports, and focused contributions.
+This is the active private source repository for Open Model Lab. It was previously prepared as a public source release, but as of 2026-05-07 development is private by default while the hosted product remains public.
 
 It is not a turnkey production deployment package for cloning the official Open Model Lab website. Real production configuration is intentionally absent: real `wrangler.jsonc`, real `public/ads.txt`, deployment secrets, vendor accounts, private Stripe/Resend/AdSense/Supabase setup, and private operator history are not included.
 
-Ordinary code, docs, content, test, accessibility, and localization contributions do not need production vendor setup. Anyone operating an independent fork must use their own name, branding, domains, vendor accounts, keys, legal policies, and deployment process. The Open Model Lab name, logo, marks, domains, and official presentation are reserved under [BRAND.md](./BRAND.md).
+Ordinary code, docs, content, test, accessibility, and localization work does not need production vendor setup. Anyone operating an independent fork must use their own name, branding, domains, vendor accounts, keys, legal policies, and deployment process. The Open Model Lab name, logo, marks, domains, and official presentation are reserved under [BRAND.md](./BRAND.md).
 
-This public repository is the active source of truth for future development. See [docs/repository-identity.md](./docs/repository-identity.md) for the distinction between this repository and the private historical/archive repository.
+This repository is the active source of truth for future development. See [docs/repository-identity.md](./docs/repository-identity.md) for the distinction between this repository and the private historical/archive repository.
 
 This repo is no longer the earlier static prototype. The current codebase already includes:
 
@@ -52,9 +52,9 @@ This repo is no longer the earlier static prototype. The current codebase alread
 - Concept labs, challenges, pricing, account/auth, contact, and dev harness pages remain ad-free.
 - Feedback and contact go through `app/api/feedback/route.ts` and `lib/feedback-delivery.ts`, with direct delivery when configured and an honest public email fallback when not.
 
-## Public repository notes
+## Repository notes
 
-This public repository starts from a clean public release history. Repo-facing preparation and maintenance notes live in:
+This repository starts from a clean release history. Repo-facing preparation and maintenance notes live in:
 
 - [Open-source roadmap](./docs/open-source-roadmap.md)
 - [Monetization boundaries](./docs/monetization-boundaries.md)
