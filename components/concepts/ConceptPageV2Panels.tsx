@@ -807,10 +807,11 @@ export function ConceptPageV2StartHere({
   ]
     .filter(Boolean)
     .join(" ");
+  const startHereLabelClassName = "text-sm font-semibold leading-5 text-ink-700";
   const startHereLabelNode = showTitle ? (
-    <p id={startHereHeadingId} className="lab-label text-ink-700">{copy.startHereLabel}</p>
+    <p id={startHereHeadingId} className={startHereLabelClassName}>{copy.startHereLabel}</p>
   ) : (
-    <h2 id={startHereHeadingId} className="lab-label text-ink-700">{copy.startHereLabel}</h2>
+    <h2 id={startHereHeadingId} className={startHereLabelClassName}>{copy.startHereLabel}</h2>
   );
   const startHandoffLabel = `${copy.startHereLabel}: ${copy.startLearning}`;
   const startHandoff = (
@@ -822,7 +823,7 @@ export function ConceptPageV2StartHere({
       {estimatedTime ? (
         <p
           id={estimatedTimeId}
-          className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-ink-700"
+          className="mb-2 text-xs font-semibold leading-5 text-ink-700"
         >
           {copy.estimatedTimeLabel}: <span className="text-ink-950">{estimatedTime}</span>
         </p>
@@ -853,12 +854,12 @@ export function ConceptPageV2StartHere({
           className="mt-3 min-w-0 rounded-[16px] border border-teal-600/24 bg-teal-500/10 px-3 py-2"
         >
           <div className="flex min-w-0 flex-wrap items-center gap-1.5">
-            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-teal-800">
+            <p className="text-xs font-semibold leading-5 text-teal-800">
               {copy.lessonFlowLabel}
             </p>
             <span
               data-testid="concept-v2-start-first-step-badge"
-              className="inline-flex max-w-full min-w-0 rounded-full border border-teal-600/26 bg-white/92 px-2 py-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-teal-800 break-words"
+              className="inline-flex max-w-full min-w-0 rounded-[10px] border border-teal-600/26 bg-white/92 px-2 py-1 text-xs font-semibold leading-5 text-teal-800 break-words"
             >
               {copy.startHereLabel}
             </span>
@@ -892,8 +893,8 @@ export function ConceptPageV2StartHere({
       <h3
         id={prerequisitesHeadingId}
         className={useCompactNoPrerequisites
-          ? "text-[0.66rem] font-semibold uppercase tracking-[0.14em] text-ink-600"
-          : "lab-label text-ink-700"}
+          ? "text-xs font-semibold leading-5 text-ink-600"
+          : "text-sm font-semibold leading-5 text-ink-700"}
       >
         {copy.prerequisitesLabel}
       </h3>
@@ -909,7 +910,7 @@ export function ConceptPageV2StartHere({
       aria-describedby={simulationPreviewDescriptionId}
       className="rounded-[18px] border border-sky-600/22 bg-sky-500/10 px-3.5 py-3 shadow-sm"
     >
-      <h3 id={simulationPreviewHeadingId} className="lab-label text-sky-800">
+      <h3 id={simulationPreviewHeadingId} className="text-sm font-semibold leading-5 text-sky-800">
         {copy.simulationPreviewLabel}
       </h3>
       {!simulationPreviewRepeatsTitle ? (
@@ -941,7 +942,7 @@ export function ConceptPageV2StartHere({
           aria-describedby={whyItMattersDescriptionId}
           className="min-w-0 rounded-[18px] border border-line bg-white/78 px-3.5 py-3 shadow-sm"
         >
-          <dt id={whyItMattersHeadingId} className="lab-label min-w-0 break-words">
+          <dt id={whyItMattersHeadingId} className="min-w-0 break-words text-sm font-semibold leading-5 text-ink-700">
             {copy.whyItMattersLabel}
           </dt>
           <dd
@@ -959,7 +960,7 @@ export function ConceptPageV2StartHere({
           aria-describedby={keyTakeawayDescriptionId}
           className="min-w-0 rounded-[18px] border border-teal-500/18 bg-teal-500/8 px-3.5 py-3 shadow-sm"
         >
-          <dt id={keyTakeawayHeadingId} className="lab-label min-w-0 break-words">
+          <dt id={keyTakeawayHeadingId} className="min-w-0 break-words text-sm font-semibold leading-5 text-teal-700">
             {copy.keyTakeawayLabel}
           </dt>
           <dd
@@ -982,7 +983,7 @@ export function ConceptPageV2StartHere({
       summary={(
         <div className="flex min-w-0 items-center justify-between gap-3">
           <span className="min-w-0">
-            <span className="lab-label block min-w-0 break-words text-ink-700">
+            <span className="block min-w-0 break-words text-sm font-semibold leading-5 text-ink-700">
               {copy.lessonFlowLabel}
             </span>
             <span className="mt-1 block min-w-0 break-words text-sm font-semibold leading-5 text-ink-950">
@@ -1024,7 +1025,7 @@ export function ConceptPageV2StartHere({
       summary={(
         <div className="flex min-w-0 items-center justify-between gap-3">
           <span className="min-w-0">
-            <span className="lab-label block min-w-0 break-words text-ink-700">
+            <span className="block min-w-0 break-words text-sm font-semibold leading-5 text-ink-700">
               {copy.whyItMattersLabel}
             </span>
             <span className="mt-1 block min-w-0 break-words text-sm font-semibold leading-5 text-ink-950">

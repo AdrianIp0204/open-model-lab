@@ -363,6 +363,10 @@ describe("ConceptPageV2StartHere", () => {
     const startButton = within(handoff).getByRole("button", { name: /Start concept/ });
     const firstStepTeaser = screen.getByTestId("concept-v2-start-first-step-teaser");
     const startHereRegion = screen.getByRole("region", { name: "Start here" });
+    expect(within(startHereRegion).getByText("Start here", { selector: "p" })).toHaveClass(
+      "text-sm",
+      "leading-5",
+    );
     expect(startHereRegion).toHaveAccessibleDescription(
       "The lab starts with a visible pattern.",
     );
@@ -387,6 +391,8 @@ describe("ConceptPageV2StartHere", () => {
     expect(within(whyItMattersCard).getByText("Why it matters")).toHaveClass(
       "min-w-0",
       "break-words",
+      "text-sm",
+      "leading-5",
     );
     expect(
       within(whyItMattersCard)
@@ -402,6 +408,8 @@ describe("ConceptPageV2StartHere", () => {
     expect(within(keyTakeawayCard).getByText("Key takeaway")).toHaveClass(
       "min-w-0",
       "break-words",
+      "text-sm",
+      "leading-5",
     );
     expect(
       within(keyTakeawayCard)
@@ -424,7 +432,18 @@ describe("ConceptPageV2StartHere", () => {
     ).toHaveTextContent("Start here");
     expect(
       within(firstStepTeaser).getByTestId("concept-v2-start-first-step-badge"),
-    ).toHaveClass("max-w-full", "min-w-0", "break-words");
+    ).toHaveClass(
+      "max-w-full",
+      "min-w-0",
+      "break-words",
+      "rounded-[10px]",
+      "text-xs",
+      "leading-5",
+    );
+    expect(within(firstStepTeaser).getByText("Lesson path")).toHaveClass(
+      "text-xs",
+      "leading-5",
+    );
     expect(
       within(firstStepTeaser).getByText("Set up the pattern").closest(".break-words"),
     ).not.toBeNull();
@@ -611,6 +630,10 @@ describe("ConceptPageV2StartHere", () => {
       "id",
       screen.getByTestId("concept-v2-start-here").getAttribute("aria-labelledby"),
     );
+    expect(screen.getByRole("heading", { name: "Start here" })).toHaveClass(
+      "text-sm",
+      "leading-5",
+    );
     expect(screen.getByTestId("concept-v2-start-first-step-description")).toHaveClass(
       "sr-only",
     );
@@ -723,11 +746,19 @@ describe("ConceptPageV2StartHere", () => {
       "id",
       prerequisites.getAttribute("aria-labelledby"),
     );
+    expect(within(prerequisites).getByRole("heading", { name: "Prerequisites" })).toHaveClass(
+      "text-xs",
+      "leading-5",
+    );
     expect(prerequisites).toHaveTextContent("No prerequisites");
     const preview = screen.getByRole("region", { name: "Try this first" });
     expect(within(preview).getByRole("heading", { name: "Try this first" })).toHaveAttribute(
       "id",
       preview.getAttribute("aria-labelledby"),
+    );
+    expect(within(preview).getByRole("heading", { name: "Try this first" })).toHaveClass(
+      "text-sm",
+      "leading-5",
     );
     expect(preview).toHaveAccessibleDescription(
       "You’ll interact with controls and compare the stage with graphs.",
