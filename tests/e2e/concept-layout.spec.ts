@@ -794,6 +794,30 @@ test("opens Concentration and Dilution on its solution bench", async ({
   }
 });
 
+test("opens Solubility and Saturation on its capacity bench", async ({
+  browser,
+}, testInfo) => {
+  const desktopCase = viewportCases.find((item) => item.name === "desktop-1440x900");
+  expect(desktopCase, "Expected the desktop-1440x900 viewport case to exist.").toBeTruthy();
+
+  const { context, page, browserGuard } = await openConceptPage(
+    browser,
+    desktopCase!,
+    "/en/concepts/solubility-and-saturation",
+    "Solubility and Saturation",
+  );
+
+  try {
+    await assertInitialViewportLayout(page, desktopCase!, testInfo);
+    await expect(page.getByText("Solubility and saturation").first()).toBeVisible();
+    await expect(page.getByText("Saturation readout").first()).toBeVisible();
+    await expect(page.getByText("Excess solid").first()).toBeVisible();
+    browserGuard.assertNoActionableIssues();
+  } finally {
+    await context.close();
+  }
+});
+
 test("opens Static Equilibrium on its centre-of-mass support bench", async ({
   browser,
 }, testInfo) => {

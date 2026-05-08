@@ -15,12 +15,25 @@
         }
       },
       {
+        "id": "near-saturation",
+        "label": "Near saturation",
+        "description": "Open the edge case where almost everything dissolves but the capacity line is close.",
+        "setup": {
+          "presetId": "near-saturation",
+          "graphId": "saturation-vs-limit",
+          "overlayIds": [
+            "saturationGauge",
+            "dissolvedCue"
+          ]
+        }
+      },
+      {
         "id": "at-the-limit",
         "label": "At the limit",
         "description": "Open a saturated beaker with visible excess solid.",
         "setup": {
           "presetId": "at-the-limit",
-          "graphId": "capacity-vs-solvent",
+          "graphId": "excess-vs-solute",
           "overlayIds": [
             "saturationGauge",
             "excessPile"
@@ -232,12 +245,25 @@
       "initialGraphId": "dissolved-vs-solute",
       "primaryGraphIds": [
         "dissolved-vs-solute",
-        "excess-vs-solute"
+        "excess-vs-solute",
+        "capacity-vs-solvent",
+        "saturation-vs-limit"
       ],
       "primaryControlIds": [
-        "solute-amount"
+        "solute-amount",
+        "solvent-volume",
+        "solubility-limit"
       ],
-      "primaryPresetIds": []
+      "primaryPresetIds": [
+        "room-to-dissolve",
+        "near-saturation",
+        "at-the-limit"
+      ],
+      "starterExploreTasks": [
+        "Start with Room to dissolve and raise Solute amount until the dissolved graph stops climbing: the excess pile marks the capacity ceiling.",
+        "Switch to At the limit, then raise Solvent volume without lowering Solute amount: the same material can dissolve because capacity grew.",
+        "Use Solubility limit to model a warmer or easier-to-dissolve condition: saturation ratio drops even though total solute stays fixed."
+      ]
     },
     "controls": [
       {
@@ -564,7 +590,7 @@
         "id": "ss-ch-dissolve-excess-without-removing-solute",
         "title": "Dissolve the excess without removing solute",
         "style": "visible-condition",
-        "prompt": "Starting from a saturated beaker, make the excess pile disappear while keeping the same total solute amount.",
+        "prompt": "Starting from a saturated beaker, make the excess pile disappear while keeping the same total solute amount in the system.",
         "successMessage": "You increased the capacity enough for the same total solute to stay dissolved instead of silently removing material from the problem.",
         "setup": {
           "presetId": "at-the-limit",
@@ -584,18 +610,110 @@
         "targets": [
           {
             "metric": "soluteAmount",
+            "label": "Keep the original total solute amount.",
+            "min": 10.5,
+            "max": 11.1
+          },
+          {
+            "metric": "dissolvedAmount",
+            "label": "All of that solute should now be dissolved.",
             "min": 10.5,
             "max": 11.1
           },
           {
             "metric": "excessAmount",
+            "label": "Remove the excess pile by increasing capacity.",
             "min": 0,
             "max": 0.2
           },
           {
             "metric": "capacity",
+            "label": "Capacity must be at least the original solute load.",
             "min": 10.8,
             "max": 16
+          },
+          {
+            "metric": "saturationRatio",
+            "label": "Bring the saturation ratio back below the limit.",
+            "min": 0,
+            "max": 1.02
+          }
+        ],
+        "hints": [
+          "Do not drag Solute amount down; that would remove the material that caused the excess.",
+          "Increase capacity instead: add solvent or raise the solubility limit until capacity is at least the total solute."
+        ]
+      },
+      {
+        "id": "ss-ch-extra-solid-after-capacity",
+        "title": "Extra solute after the capacity line",
+        "style": "visible-condition",
+        "prompt": "Keep the at-the-limit capacity fixed, then add much more solute. Prove the dissolved amount stays capped while excess solid grows.",
+        "successMessage": "You found the plateau: after saturation, extra solute mostly grows the excess pile instead of raising dissolved amount.",
+        "setup": {
+          "presetId": "at-the-limit",
+          "graphId": "excess-vs-solute",
+          "overlayIds": [
+            "saturationGauge",
+            "dissolvedCue",
+            "excessPile"
+          ],
+          "note": "Keep solvent volume and solubility limit near the preset; push total solute well beyond capacity."
+        },
+        "requirements": {
+          "graphId": "excess-vs-solute",
+          "overlayIds": [
+            "saturationGauge",
+            "dissolvedCue",
+            "excessPile"
+          ]
+        },
+        "hints": [
+          "At the preset capacity is about 8.1 units. Push total solute to around 14 while leaving volume and limit alone.",
+          "The dissolved amount should sit near capacity; the extra material should show up as excess solid."
+        ],
+        "targets": [
+          {
+            "metric": "soluteAmount",
+            "label": "Add much more total solute than the beaker can dissolve.",
+            "min": 13.5,
+            "max": 14.5
+          },
+          {
+            "metric": "solventVolume",
+            "label": "Keep solvent volume near the saturated preset.",
+            "min": 1.45,
+            "max": 1.55
+          },
+          {
+            "metric": "solubilityLimit",
+            "label": "Keep the solubility limit near the saturated preset.",
+            "min": 5.2,
+            "max": 5.6
+          },
+          {
+            "metric": "capacity",
+            "label": "Capacity should stay near the preset ceiling.",
+            "min": 7.8,
+            "max": 8.4
+          },
+          {
+            "metric": "dissolvedAmount",
+            "label": "Dissolved amount should be capped near capacity.",
+            "min": 7.8,
+            "max": 8.4
+          },
+          {
+            "metric": "excessAmount",
+            "label": "The extra material should remain as visible excess solid.",
+            "min": 5.2,
+            "max": 6.4
+          },
+          {
+            "metric": "saturationRatio",
+            "label": "The beaker should clearly be beyond saturation.",
+            "min": 1.65,
+            "max": 1.82
           }
         ]
       }
@@ -647,20 +765,24 @@
       {
         "id": "read-available-capacity",
         "title": "Read available capacity",
-        "goal": "Use one beaker to separate what is dissolved already from how much more can still fit.",
-        "doThis": "Start with the room-to-dissolve preset and raise Solute amount while the dissolved cue stays visible.",
-        "notice": "All of the added solute still dissolves because the beaker has not reached its current capacity yet.",
-        "explain": "Before saturation, the dissolved amount can keep rising because the amount added is still below the capacity set by the solvent volume and solubility limit.",
+        "goal": "Use one beaker to separate total solute, dissolved solute, and remaining capacity before saturation.",
+        "doThis": "Start with the room-to-dissolve preset, keep the saturation gauge visible, then raise Solute amount until the dissolved graph begins to flatten.",
+        "notice": "Before the limit, added solute becomes dissolved solute. At the limit, the dissolved readout flattens and the excess pile starts to grow.",
+        "explain": "Solubility is a capacity rule. The key moment is not when particles appear, but when dissolved amount reaches the current capacity.",
         "reveal": {
           "controlIds": [
-            "solute-amount"
+            "solute-amount",
+            "solvent-volume",
+            "solubility-limit"
           ],
           "graphIds": [
-            "dissolved-vs-solute"
+            "dissolved-vs-solute",
+            "excess-vs-solute"
           ],
           "overlayIds": [
             "saturationGauge",
-            "dissolvedCue"
+            "dissolvedCue",
+            "excessPile"
           ]
         },
         "setup": {

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-07T23:19:47.949Z",
+  "generatedAt": "2026-05-07T23:26:55.156Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -9998,7 +9998,7 @@
       "title": "Solubility and Saturation",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/solubility-and-saturation.json",
-      "canonicalSourceHash": "6a4a40b36fcbf6e247a7fc55532937aa2bca5c3f67b65ab5798b7e8a64b8aa43",
+      "canonicalSourceHash": "3298bec08b4a5bcddbe8ca1b28d31671494eec445215f7b419a6fd0d5633d02f",
       "subject": "Chemistry",
       "topic": "Solutions and pH",
       "subtopic": "Dissolving limits",
@@ -10037,8 +10037,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "6a4a40b36fcbf6e247a7fc55532937aa2bca5c3f67b65ab5798b7e8a64b8aa43",
-          "currentSourceHash": "6a4a40b36fcbf6e247a7fc55532937aa2bca5c3f67b65ab5798b7e8a64b8aa43"
+          "recordedSourceHash": "3298bec08b4a5bcddbe8ca1b28d31671494eec445215f7b419a6fd0d5633d02f",
+          "currentSourceHash": "3298bec08b4a5bcddbe8ca1b28d31671494eec445215f7b419a6fd0d5633d02f"
         },
         "provider": null,
         "translatedAt": null,
@@ -10065,7 +10065,7 @@
             "variant": "original",
             "locale": "en",
             "recordedSourceHash": "a46636b72909498a4edc2a1a19fa90d7629635e92c36ca129177706ca4976283",
-            "currentSourceHash": "6a4a40b36fcbf6e247a7fc55532937aa2bca5c3f67b65ab5798b7e8a64b8aa43"
+            "currentSourceHash": "3298bec08b4a5bcddbe8ca1b28d31671494eec445215f7b419a6fd0d5633d02f"
           },
           "provider": "ollama",
           "translatedAt": "2026-04-11T08:09:31.515287Z",
@@ -10075,23 +10075,33 @@
           "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 15,
+          "fallbackFieldCount": 44,
           "fallbackFieldPaths": [
             "sections.workedExamples.items.id:read-the-current-capacity.resultTemplate",
             "quickTest.questions.id:ss-qt-saturation-meaning.selectedWrongExplanations.b",
             "quickTest.questions.id:ss-qt-saturation-meaning.selectedWrongExplanations.c",
             "quickTest.questions.id:ss-qt-solubility-vs-concentration.selectedWrongExplanations.a",
             "quickTest.questions.id:ss-qt-solubility-vs-concentration.selectedWrongExplanations.c",
+            "pageFramework.featuredSetups.id:near-saturation.label",
+            "pageFramework.featuredSetups.id:near-saturation.description",
             "pageIntro.definition",
             "pageIntro.whyItMatters",
             "pageIntro.keyTakeaway",
             "simulation.ui.initialGraphId",
             "simulation.ui.primaryGraphIds.0",
             "simulation.ui.primaryGraphIds.1",
+            "simulation.ui.primaryGraphIds.2",
+            "simulation.ui.primaryGraphIds.3",
             "simulation.ui.primaryControlIds.0",
-            "challengeMode.items.id:ss-ch-dissolve-excess-without-removing-solute.targets.0.label",
-            "challengeMode.items.id:ss-ch-dissolve-excess-without-removing-solute.targets.1.label",
-            "challengeMode.items.id:ss-ch-dissolve-excess-without-removing-solute.targets.2.label"
+            "simulation.ui.primaryControlIds.1",
+            "simulation.ui.primaryControlIds.2",
+            "simulation.ui.primaryPresetIds.0",
+            "simulation.ui.primaryPresetIds.1",
+            "simulation.ui.primaryPresetIds.2",
+            "simulation.ui.starterExploreTasks.0",
+            "simulation.ui.starterExploreTasks.1",
+            "simulation.ui.starterExploreTasks.2",
+            "challengeMode.items.id:ss-ch-dissolve-excess-without-removing-solute.hints.0"
           ]
         }
       }

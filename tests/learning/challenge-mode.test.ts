@@ -2810,6 +2810,66 @@ describe("challenge mode evaluator", () => {
     expect(evaluation.matchedCount).toBe(evaluation.totalCount);
   });
 
+  it("evaluates the solubility dissolve-excess challenge without removing solute", () => {
+    const concept = getConceptBySlug("solubility-and-saturation");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "ss-ch-dissolve-excess-without-removing-solute",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        soluteAmount: 10.8,
+        solventVolume: 2,
+        solubilityLimit: 5.6,
+      },
+      activeGraphId: "capacity-vs-solvent",
+      overlayValues: {
+        saturationGauge: true,
+        dissolvedCue: true,
+        excessPile: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
+  it("evaluates the solubility extra-solid plateau challenge", () => {
+    const concept = getConceptBySlug("solubility-and-saturation");
+    const source = buildSimulationSource(concept);
+    const item = concept.challengeMode?.items.find(
+      (entry) => entry.id === "ss-ch-extra-solid-after-capacity",
+    );
+
+    expect(item).toBeTruthy();
+
+    const evaluation = evaluateChallengeItem(source, item!, {
+      params: {
+        soluteAmount: 14,
+        solventVolume: 1.5,
+        solubilityLimit: 5.4,
+      },
+      activeGraphId: "excess-vs-solute",
+      overlayValues: {
+        saturationGauge: true,
+        dissolvedCue: true,
+        excessPile: true,
+      },
+      time: 0,
+      timeSource: "live",
+      compare: null,
+    });
+
+    expect(evaluation.completed).toBe(true);
+    expect(evaluation.matchedCount).toBe(evaluation.totalCount);
+  });
+
   it("evaluates the new centripetal-force live target challenge from the same UCM state", () => {
     const concept = getConceptBySlug("uniform-circular-motion");
     const source = buildSimulationSource(concept);
