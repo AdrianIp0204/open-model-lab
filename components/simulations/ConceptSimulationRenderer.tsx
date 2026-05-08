@@ -6790,7 +6790,7 @@ function GuidedFirstActionRail({
 
       <div
         data-testid="concept-v2-guided-first-action-task"
-        className="mt-1 rounded-[16px] border border-teal-500/28 bg-ink-950 px-2 py-1 shadow-sm sm:px-2.5 sm:py-1.5"
+        className="guided-first-action-task-card mt-1 rounded-[16px] border border-teal-500/28 bg-ink-950 px-2 py-1 shadow-sm sm:px-2.5 sm:py-1.5"
       >
         <div
           data-testid="concept-v2-guided-first-action-phone-loop"

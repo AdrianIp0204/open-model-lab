@@ -82,7 +82,7 @@ function overlayWeight(focusedOverlayId: string | null | undefined, overlayId: s
     return 1;
   }
 
-  return focusedOverlayId === overlayId ? 1 : 0.34;
+  return focusedOverlayId === overlayId ? 1 : 0.58;
 }
 
 function pulseWindowLabel(frame: ReturnType<typeof resolveFrame>) {
@@ -446,14 +446,27 @@ export function MomentumImpulseSimulation({
     compareEnabled &&
     secondaryFrame &&
     Math.abs(primaryFrame.totalImpulse - secondaryFrame.totalImpulse) <= 0.04;
-  const sameImpulseNote = sameImpulse
-    ? "Equal impulse does not require equal force. A taller short pulse and a lower longer pulse can move momentum by the same amount."
-    : "Impulse is the signed area in the pulse window, so changing force or duration changes how much momentum the cart gains or loses.";
-  const stateNote = primaryFrame.forceActive
-    ? `Force is on now, so momentum is changing at ${formatMeasurement(primaryFrame.currentForce, "N")} over time.`
+  const scaleNoteLines = [
+    `Current setups stay within about ±${formatNumber(extents.maxAbsPosition)} m on the fixed ±9 m track.`,
+    "Compare mode keeps the same scale.",
+  ];
+  const impulseNoteLines = sameImpulse
+    ? [
+        "Equal impulse does not require equal force.",
+        "A taller short pulse and a lower longer pulse can move momentum by the same amount.",
+      ]
+    : [
+        "Impulse is signed area inside the pulse window.",
+        "Changing force or duration changes how much momentum the cart gains or loses.",
+      ];
+  const readoutNoteLines = primaryFrame.forceActive
+    ? [
+        "Force is on now, so momentum",
+        `changes at ${formatMeasurement(primaryFrame.currentForce, "N")} over time.`,
+      ]
     : primaryFrame.pulseElapsed <= 0
-      ? "Before the pulse starts, the cart coasts with its initial momentum."
-      : "After the pulse ends, the momentum graph flattens because the net force has returned to zero.";
+      ? ["Before the pulse starts,", "the cart coasts with initial p."]
+      : ["After the pulse ends,", "the momentum graph flattens."];
   const metricRows = [
     { label: "t", value: formatMeasurement(displayTime, "s") },
     { label: "x", value: formatMeasurement(primaryFrame.position, "m") },
@@ -562,8 +575,11 @@ export function MomentumImpulseSimulation({
           x (m)
         </text>
         <text x={STAGE_LEFT + 18} y={TRACK_Y - 42} className="fill-ink-600 text-[12px]">
-          Current setups stay within about ±{formatNumber(extents.maxAbsPosition)} m on the fixed
-          ±9 m track, so compare mode never cheats by changing the scale.
+          {scaleNoteLines.map((line, index) => (
+            <tspan key={line} x={STAGE_LEFT + 18} dy={index === 0 ? 0 : 15}>
+              {line}
+            </tspan>
+          ))}
         </text>
 
         {renderCart({
@@ -583,10 +599,14 @@ export function MomentumImpulseSimulation({
 
         <text
           x={STAGE_LEFT + 18}
-          y={STAGE_BOTTOM - 18}
+          y={STAGE_BOTTOM - 30}
           className="fill-ink-600 text-[12px]"
         >
-          {sameImpulseNote}
+          {impulseNoteLines.map((line, index) => (
+            <tspan key={line} x={STAGE_LEFT + 18} dy={index === 0 ? 0 : 15}>
+              {line}
+            </tspan>
+          ))}
         </text>
 
         <SimulationReadoutCard
@@ -595,7 +615,7 @@ export function MomentumImpulseSimulation({
           width={CARD_WIDTH}
           title={compareEnabled ? `${primaryLabel} pulse state` : "Pulse state"}
           rows={metricRows}
-          noteLines={[stateNote, "The accumulated impulse and change in momentum should match row by row."]}
+          noteLines={[...readoutNoteLines, "Impulse and delta p match row by row."]}
         />
       </svg>
     </section>

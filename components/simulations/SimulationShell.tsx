@@ -93,19 +93,19 @@ export function SimulationShell({
     className ?? "",
   ].join(" ");
   const innerFrameClassName = isFocusStage
-    ? "relative overflow-hidden rounded-[22px] border border-white/10 bg-[radial-gradient(circle_at_18%_0%,rgba(30,166,162,0.20),transparent_34%),radial-gradient(circle_at_88%_18%,rgba(240,171,60,0.16),transparent_28%),linear-gradient(135deg,#07131c,#101e2a_56%,#152330)] p-2.5 text-paper-strong shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] sm:p-3"
+    ? "simulation-shell__inner-frame relative overflow-hidden rounded-[22px] border p-2.5 sm:p-3"
     : "relative overflow-hidden rounded-[22px] border border-line bg-paper-strong/85 p-2.5 sm:p-3";
   const setupDividerClassName = isFocusStage
     ? "sr-only"
     : "border-b border-line/80 pb-1.5";
   const setupLabelClassName = isFocusStage
-    ? "lab-label text-teal-100/75"
+    ? "simulation-shell__setup-label lab-label"
     : "lab-label";
   const focusSurfaceClassName = isFocusStage
-    ? "rounded-[24px] bg-white/[0.045] p-1 ring-1 ring-white/10 shadow-[0_18px_50px_rgba(0,0,0,0.20)]"
+    ? "simulation-shell__focus-surface rounded-[24px] p-1"
     : "";
   const statusClassName = isFocusStage
-    ? "rounded-[16px] border border-white/10 bg-white/[0.07] px-3 py-2 text-sm leading-6 text-teal-50/88"
+    ? "simulation-shell__status rounded-[16px] border px-3 py-2 text-sm leading-6"
     : "rounded-[16px] border border-line bg-white/70 px-3 py-2 text-sm leading-6 text-ink-700";
   const usesPhoneVisualPriority = isFocusStage && !isSmViewportOrWider;
 
@@ -124,6 +124,7 @@ export function SimulationShell({
       key="scene"
       data-testid="simulation-shell-scene"
       data-focus-surface="scene"
+      data-has-bench-equations={benchEquations ? "true" : undefined}
       className={[
         isSmViewportOrWider ? "relative order-1 min-w-0" : "relative min-w-0",
         focusSurfaceClassName,
@@ -219,7 +220,7 @@ export function SimulationShell({
       data-focus-surface={isFocusStage ? "visual-stage" : undefined}
       className={[
         isFocusStage
-          ? "contents lg:grid lg:min-w-0 lg:gap-2.5 lg:rounded-[28px] lg:border lg:border-white/10 lg:bg-white/[0.035] lg:p-1.5 lg:shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_24px_64px_rgba(0,0,0,0.20)] lg:col-start-1"
+          ? "simulation-shell__visual-stage contents lg:grid lg:min-w-0 lg:gap-2.5 lg:rounded-[28px] lg:border lg:p-1.5 lg:col-start-1"
           : "contents lg:block lg:min-w-0 lg:space-y-3 lg:col-start-1",
         benchHeader ? "order-1 lg:order-1 lg:row-start-1" : "order-1",
       ].join(" ")}

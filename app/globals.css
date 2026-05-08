@@ -340,6 +340,41 @@ select {
     box-shadow: 0 28px 82px rgba(0, 0, 0, 0.34);
   }
 
+  .simulation-shell--focus-stage .simulation-shell__inner-frame {
+    color: var(--ink-950);
+    border-color: rgba(226, 232, 240, 0.12);
+    background:
+      radial-gradient(circle at 18% 0%, rgba(30, 166, 162, 0.2), transparent 34%),
+      radial-gradient(circle at 88% 18%, rgba(240, 171, 60, 0.16), transparent 28%),
+      linear-gradient(135deg, #07131c, #101e2a 56%, #152330);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .simulation-shell--focus-stage .simulation-shell__setup-label {
+    color: rgba(204, 251, 241, 0.75);
+  }
+
+  .simulation-shell--focus-stage .simulation-shell__focus-surface {
+    background-color: rgba(255, 255, 255, 0.045);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.1),
+      0 18px 50px rgba(0, 0, 0, 0.2);
+  }
+
+  .simulation-shell--focus-stage .simulation-shell__status {
+    color: rgba(240, 253, 250, 0.88);
+    border-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.07);
+  }
+
+  .simulation-shell--focus-stage .simulation-shell__visual-stage {
+    border-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.035);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 24px 64px rgba(0, 0, 0, 0.2);
+  }
+
   .simulation-shell--focus-stage [data-focus-surface="bench-header"] > section,
   .simulation-shell--focus-stage [data-focus-surface="rail"] > section {
     color: rgba(248, 250, 252, 0.92);
@@ -411,6 +446,12 @@ select {
     background: linear-gradient(135deg, rgba(30, 166, 162, 0.13), rgba(78, 166, 223, 0.08));
   }
 
+  @media (min-width: 640px) {
+    .simulation-shell--focus-stage [data-focus-surface="scene"][data-has-bench-equations="true"] > section > div:first-child {
+      padding-left: min(17rem, 48%);
+    }
+  }
+
   .simulation-shell--focus-stage [data-focus-surface="scene"] > section .lab-label,
   .simulation-shell--focus-stage [data-focus-surface="graphs"] .lab-label {
     color: rgba(153, 246, 228, 0.78);
@@ -434,6 +475,11 @@ select {
   .simulation-shell--focus-stage [data-focus-surface="scene"] svg > rect:first-of-type,
   .simulation-shell--focus-stage [data-focus-surface="graphs"] svg > rect:first-of-type {
     fill: rgba(5, 16, 24, 0.74);
+  }
+
+  .simulation-shell--focus-stage [data-focus-surface="scene"] svg > rect:nth-of-type(2) {
+    fill: rgba(8, 19, 28, 0.82);
+    stroke: rgba(226, 232, 240, 0.14);
   }
 
   .simulation-shell--focus-stage [data-focus-surface="graphs"] svg > rect:nth-of-type(2) {
@@ -588,6 +634,41 @@ html[data-theme="paper-lab"] .simulation-shell--focus-stage {
   box-shadow: 0 28px 82px rgba(54, 42, 25, 0.12);
 }
 
+html[data-theme="paper-lab"] .simulation-shell--focus-stage .simulation-shell__inner-frame {
+  color: var(--ink-950);
+  border-color: rgba(15, 28, 36, 0.12);
+  background:
+    radial-gradient(circle at 18% 0%, rgba(30, 166, 162, 0.12), transparent 34%),
+    radial-gradient(circle at 88% 18%, rgba(240, 171, 60, 0.1), transparent 28%),
+    linear-gradient(135deg, rgba(255, 253, 247, 0.96), rgba(255, 247, 232, 0.92));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
+}
+
+html[data-theme="paper-lab"] .simulation-shell--focus-stage .simulation-shell__setup-label {
+  color: var(--teal-600);
+}
+
+html[data-theme="paper-lab"] .simulation-shell--focus-stage .simulation-shell__focus-surface {
+  background-color: rgba(255, 253, 247, 0.56);
+  box-shadow:
+    0 0 0 1px rgba(15, 28, 36, 0.08),
+    0 18px 50px rgba(54, 42, 25, 0.08);
+}
+
+html[data-theme="paper-lab"] .simulation-shell--focus-stage .simulation-shell__status {
+  color: var(--ink-700);
+  border-color: rgba(15, 28, 36, 0.12);
+  background-color: rgba(255, 253, 247, 0.72);
+}
+
+html[data-theme="paper-lab"] .simulation-shell--focus-stage .simulation-shell__visual-stage {
+  border-color: rgba(15, 28, 36, 0.1);
+  background-color: rgba(255, 253, 247, 0.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 24px 64px rgba(54, 42, 25, 0.08);
+}
+
 html[data-theme="paper-lab"] .simulation-shell--focus-stage [data-focus-surface="bench-header"] > section,
 html[data-theme="paper-lab"] .simulation-shell--focus-stage [data-focus-surface="rail"] > section {
   color: var(--ink-950);
@@ -624,6 +705,33 @@ html[data-theme="paper-lab"] .simulation-shell--focus-stage [data-focus-surface=
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
 }
 
+html[data-theme="paper-lab"] .simulation-shell--focus-stage .guided-first-action-task-card {
+  color: var(--ink-950);
+  border-color: rgba(30, 166, 162, 0.22);
+  background:
+    radial-gradient(circle at 16% 0%, rgba(30, 166, 162, 0.14), transparent 42%),
+    linear-gradient(135deg, rgba(255, 253, 247, 0.94), rgba(236, 253, 245, 0.86));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.74),
+    0 10px 26px rgba(54, 42, 25, 0.08);
+}
+
+html[data-theme="paper-lab"] .simulation-shell--focus-stage .guided-first-action-task-card :where(.text-paper-strong, .text-teal-100, .text-sky-100, .text-violet-100, .text-amber-100) {
+  color: var(--ink-950);
+}
+
+html[data-theme="paper-lab"] .simulation-shell--focus-stage .guided-first-action-task-card > p {
+  color: var(--teal-600);
+}
+
+html[data-theme="paper-lab"] .simulation-shell--focus-stage .guided-first-action-task-card [data-testid="concept-v2-guided-first-action-phone-loop"] :where(.text-teal-100, .text-sky-100, .text-violet-100, .text-amber-100) {
+  color: var(--teal-600);
+}
+
+html[data-theme="paper-lab"] .simulation-shell--focus-stage .guided-first-action-task-card [aria-hidden="true"] {
+  color: rgba(15, 28, 36, 0.38);
+}
+
 html[data-theme="paper-lab"] .simulation-shell--focus-stage [data-focus-surface="scene"] > section,
 html[data-theme="paper-lab"] .simulation-shell--focus-stage [data-focus-surface="graphs"] > section,
 html[data-theme="paper-lab"] .simulation-shell--focus-stage [data-focus-surface="graphs"] figure {
@@ -655,7 +763,7 @@ html[data-theme="paper-lab"] .simulation-shell--focus-stage [data-focus-surface=
 
 html[data-theme="paper-lab"] .simulation-shell--focus-stage [data-focus-surface="scene"] > section :where(.text-ink-700, .text-ink-600, .text-ink-500),
 html[data-theme="paper-lab"] .simulation-shell--focus-stage [data-focus-surface="graphs"] :where(.text-ink-700, .text-ink-600, .text-ink-500) {
-  color: var(--ink-700);
+  color: var(--ink-800);
 }
 
 html[data-theme="paper-lab"] .simulation-shell--focus-stage [data-focus-surface="graphs"] :where(.bg-paper, .bg-paper-strong) {
@@ -668,6 +776,11 @@ html[data-theme="paper-lab"] .simulation-shell--focus-stage [data-focus-surface=
   fill: rgba(255, 253, 247, 0.92);
 }
 
+html[data-theme="paper-lab"] .simulation-shell--focus-stage [data-focus-surface="scene"] svg > rect:nth-of-type(2) {
+  fill: rgba(255, 253, 247, 0.92);
+  stroke: rgba(15, 28, 36, 0.08);
+}
+
 html[data-theme="paper-lab"] .simulation-shell--focus-stage [data-focus-surface="graphs"] svg > rect:nth-of-type(2) {
   fill: rgba(255, 247, 232, 0.9);
   stroke: rgba(15, 28, 36, 0.12);
@@ -678,7 +791,16 @@ html[data-theme="paper-lab"] .simulation-shell--focus-stage :where([data-focus-s
 }
 
 html[data-theme="paper-lab"] .simulation-shell--focus-stage :where([data-focus-surface="scene"], [data-focus-surface="graphs"]) svg :where(.fill-ink-700, .fill-ink-600, .fill-ink-500) {
-  fill: var(--ink-700);
+  fill: var(--ink-800);
+}
+
+html[data-theme="paper-lab"] .simulation-shell--focus-stage :where([data-focus-surface="scene"], [data-focus-surface="graphs"]) svg [data-simulation-surface="readout-card"] > [data-simulation-panel="frame"] {
+  fill: rgba(255, 253, 247, 0.86);
+  stroke: rgba(15, 28, 36, 0.1);
+}
+
+html[data-theme="paper-lab"] .simulation-shell--focus-stage :where([data-focus-surface="scene"], [data-focus-surface="graphs"]) svg [data-simulation-surface="readout-card"] [data-simulation-panel="divider"] {
+  stroke: rgba(15, 28, 36, 0.1);
 }
 
 html[data-theme="dark-lab"] :where(.text-teal-700, .text-teal-800, .text-teal-900, .text-teal-950) {
