@@ -6559,8 +6559,10 @@ type GuidedBenchBriefCopy = {
   stepCounter: (values: { current: number; total: number }) => string;
   activePromptLabel: string;
   flowAria: string;
-  tryLabel: string;
-  noticeLabel: string;
+  predictLabel: string;
+  predictText: string;
+  changeLabel: string;
+  observeLabel: string;
   explainLabel: string;
   checkLabel: string;
   checkFallback: string;
@@ -6569,8 +6571,9 @@ type GuidedBenchBriefCopy = {
 };
 
 const guidedBenchBriefFlowClasses: Record<string, string> = {
-  try: "border-teal-500/22 bg-teal-500/9 text-teal-800",
-  notice: "border-sky-500/22 bg-sky-500/9 text-sky-800",
+  predict: "border-amber-500/24 bg-amber-500/10 text-amber-800",
+  change: "border-teal-500/22 bg-teal-500/9 text-teal-800",
+  observe: "border-sky-500/22 bg-sky-500/9 text-sky-800",
   explain: "border-violet-500/20 bg-violet-500/9 text-violet-800",
   check: "border-amber-500/24 bg-amber-500/10 text-amber-800",
 };
@@ -6595,13 +6598,18 @@ function GuidedConceptBenchBrief({
   const activeStep = guidedStep.step;
   const flowItems = [
     {
-      id: "try",
-      label: copy.tryLabel,
+      id: "predict",
+      label: copy.predictLabel,
+      text: copy.predictText,
+    },
+    {
+      id: "change",
+      label: copy.changeLabel,
       text: activeStep.doThis,
     },
     {
-      id: "notice",
-      label: copy.noticeLabel,
+      id: "observe",
+      label: copy.observeLabel,
       text: activeStep.notice,
     },
     {
@@ -6615,12 +6623,12 @@ function GuidedConceptBenchBrief({
       text: activeStep.inlineCheck?.title ?? copy.checkFallback,
     },
   ] as const;
-  const evidenceItems = activeStep.revealItems.slice(0, 5);
+  const evidenceItems = activeStep.revealItems.slice(0, 3);
 
   return (
     <section
       data-testid="concept-v2-bench-brief"
-      className="overflow-hidden rounded-[22px] border border-teal-500/18 bg-[linear-gradient(135deg,rgba(20,184,166,0.10),rgba(14,165,233,0.08)_42%,rgba(255,255,255,0.88))] px-3 py-2.5 shadow-[0_1px_0_rgba(255,255,255,0.82)_inset] sm:px-4"
+      className="overflow-hidden rounded-[22px] border border-teal-500/18 bg-[linear-gradient(135deg,rgba(20,184,166,0.10),rgba(14,165,233,0.08)_42%,rgba(255,255,255,0.88))] px-3.5 py-3 shadow-[0_1px_0_rgba(255,255,255,0.82)_inset] sm:px-4"
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0 max-w-3xl">
@@ -6633,64 +6641,56 @@ function GuidedConceptBenchBrief({
           <p className="sr-only">
             {copy.description}
           </p>
-          <div
-            data-testid="concept-v2-bench-active-prompt"
-            className="mt-2 flex flex-col gap-1 rounded-[14px] border border-white/80 bg-white/76 px-2.5 py-1.5 shadow-sm sm:flex-row sm:items-start sm:gap-2.5"
-          >
-            <p className="shrink-0 text-xs font-semibold leading-5 text-teal-800">
-              {copy.activePromptLabel}
-            </p>
-            <RichMathText
-              as="p"
-              content={activeStep.goal}
-              className="min-w-0 break-words text-sm font-semibold leading-5 text-ink-950 sm:leading-6"
-            />
-          </div>
         </div>
-        <span className="inline-flex shrink-0 rounded-full border border-line bg-white/88 px-3 py-1 text-xs font-semibold text-ink-600 shadow-sm">
+        <span className="shrink-0 pt-0.5 text-sm font-semibold leading-5 text-ink-600">
           {copy.stepCounter({ current: guidedStep.index + 1, total: guidedStep.count })}
         </span>
       </div>
 
-      <div className="mt-2.5 flex flex-wrap items-center gap-1.5 text-xs font-semibold text-ink-600">
-        <span>{copy.tryLabel}</span>
-        <span aria-hidden="true" className="text-ink-400">→</span>
-        <span>{copy.noticeLabel}</span>
-        <span aria-hidden="true" className="text-ink-400">→</span>
-        <span>{copy.explainLabel}</span>
-        <span aria-hidden="true" className="text-ink-400">→</span>
-        <span>{copy.checkLabel}</span>
+      <div
+        data-testid="concept-v2-bench-active-prompt"
+        className="mt-3 grid gap-2 rounded-[18px] border border-white/80 bg-white/76 px-3 py-2.5 shadow-sm md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.25fr)]"
+      >
+        <div className="min-w-0">
+          <p className="text-xs font-semibold leading-5 text-teal-800">
+            {copy.activePromptLabel}
+          </p>
+          <RichMathText
+            as="p"
+            content={activeStep.goal}
+            className="mt-0.5 min-w-0 break-words text-base font-semibold leading-6 text-ink-950"
+          />
+        </div>
+        <RichMathText
+          as="p"
+          content={activeStep.doThis}
+          className="min-w-0 break-words text-sm leading-6 text-ink-800 sm:text-base sm:leading-7"
+        />
       </div>
 
       <ol
         data-testid="concept-v2-bench-flow"
         aria-label={copy.flowAria}
-        className="mt-2 grid gap-2 md:grid-cols-2 lg:grid-cols-4"
+        className="mt-3 grid gap-1.5 sm:grid-cols-5"
       >
         {flowItems.map((item, index) => (
           <li
             key={item.id}
             data-testid={`concept-v2-bench-flow-${item.id}`}
+            aria-label={`${item.label}: ${item.text}`}
             className={[
-              "grid grid-cols-[auto_minmax(0,1fr)] items-start gap-1.5 rounded-[14px] border px-2 py-1.5",
+              "grid min-h-11 grid-cols-[auto_minmax(0,1fr)] items-center gap-2 rounded-[14px] border px-2.5 py-2",
               guidedBenchBriefFlowClasses[item.id],
             ].join(" ")}
           >
             <span
               aria-hidden="true"
-              className="mt-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full border border-white/80 bg-white/82 text-[0.68rem] font-semibold shadow-sm"
+              className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-white/80 bg-white/82 text-[0.68rem] font-semibold shadow-sm"
             >
               {index + 1}
             </span>
-            <span className="min-w-0">
-              <span className="block text-xs font-semibold leading-4">
-                {item.label}
-              </span>
-              <RichMathText
-                as="span"
-                content={item.text}
-                className="mt-0.5 hidden min-w-0 break-words text-[0.8rem] font-medium leading-4 text-ink-800 sm:block"
-              />
+            <span className="min-w-0 break-words text-sm font-semibold leading-5">
+              {item.label}
             </span>
           </li>
         ))}
@@ -6699,24 +6699,27 @@ function GuidedConceptBenchBrief({
       {evidenceItems.length ? (
         <div
           data-testid="concept-v2-bench-evidence"
-          className="mt-2 flex flex-wrap items-center gap-1.5 rounded-[16px] border border-line/80 bg-white/70 px-2.5 py-2"
+          className="mt-3 rounded-[16px] border border-line/80 bg-white/70 px-3 py-2.5"
         >
-          <p className="mr-1 text-xs font-semibold leading-5 text-ink-600">
+          <p className="text-xs font-semibold leading-5 text-ink-600">
             {copy.evidenceLabel}
           </p>
-          <ul className="flex flex-wrap gap-1.5">
+          <ul className="mt-1.5 grid gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
             {evidenceItems.map((item) => (
               <li
                 key={`${item.kind}-${item.id}`}
                 className={[
-                  "inline-flex max-w-full rounded-full border px-2 py-0.5 text-xs font-semibold shadow-sm",
+                  "min-w-0 rounded-[12px] border px-2.5 py-2 shadow-sm",
                   guidedBenchBriefEvidenceClasses[item.kind],
                 ].join(" ")}
               >
+                <span className="block text-[0.68rem] font-semibold uppercase tracking-[0.12em] opacity-80">
+                  {copy.revealKinds[item.kind]}
+                </span>
                 <RichMathText
                   as="span"
-                  content={`${copy.revealKinds[item.kind]}: ${item.label}`}
-                  className="min-w-0 line-clamp-1 break-words"
+                  content={item.label}
+                  className="mt-0.5 block min-w-0 line-clamp-2 break-words text-sm font-semibold leading-5"
                 />
               </li>
             ))}
@@ -8562,8 +8565,10 @@ export function ConceptSimulationRenderer({
         stepCounter: (values) => t("benchBrief.stepCounter", values),
         activePromptLabel: t("benchBrief.activePromptLabel"),
         flowAria: t("benchBrief.flowAria"),
-        tryLabel: t("benchBrief.tryLabel"),
-        noticeLabel: t("benchBrief.noticeLabel"),
+        predictLabel: t("benchBrief.predictLabel"),
+        predictText: t("benchBrief.predictText"),
+        changeLabel: t("benchBrief.changeLabel"),
+        observeLabel: t("benchBrief.observeLabel"),
         explainLabel: t("benchBrief.explainLabel"),
         checkLabel: t("benchBrief.checkLabel"),
         checkFallback: t("benchBrief.checkFallback"),

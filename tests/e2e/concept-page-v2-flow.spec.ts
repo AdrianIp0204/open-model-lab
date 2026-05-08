@@ -67,15 +67,16 @@ test.describe("concept page v2 flow", () => {
         await expect(guidedLiveLab).toBeVisible();
         await expect(benchBrief).toBeVisible();
         await expect(benchBrief).toContainText("Concept bench");
-        await expect(benchBrief).toContainText("Try");
-        await expect(benchBrief).toContainText("Notice");
+        await expect(benchBrief).toContainText("Predict");
+        await expect(benchBrief).toContainText("Change");
+        await expect(benchBrief).toContainText("Observe");
         await expect(benchBrief).toContainText("Explain");
         await expect(benchBrief).toContainText("Check");
-        await expect(benchBrief.getByTestId("concept-v2-bench-flow-try")).toContainText(
+        await expect(benchBrief.getByTestId("concept-v2-bench-active-prompt")).toContainText(
           "Press play",
         );
         await expect(benchBrief.getByTestId("concept-v2-bench-evidence")).toContainText(
-          "Graph: Displacement over time",
+          "Displacement over time",
         );
         await expect(scene).toBeInViewport();
         await expect(stepSlot).toBeVisible();
@@ -133,8 +134,9 @@ test.describe("concept page v2 flow", () => {
         await expect(focusStageShell).toHaveClass(/simulation-shell--focus-stage/);
         await expect(benchBrief).toBeVisible();
         await expect(benchBrief).toContainText("Concept bench");
-        await expect(benchBrief).toContainText("Try");
-        await expect(benchBrief).toContainText("Notice");
+        await expect(benchBrief).toContainText("Predict");
+        await expect(benchBrief).toContainText("Change");
+        await expect(benchBrief).toContainText("Observe");
         await expect(benchBrief).toContainText("Explain");
         await expect(benchBrief).toContainText("Check");
         await expect(benchBrief).not.toContainText(/run the loop|live model run/i);
