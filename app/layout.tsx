@@ -3,6 +3,7 @@ import "katex/dist/katex.min.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { AccountSyncProvider } from "@/components/account/AccountSyncProvider";
+import { AdsProviderScript } from "@/components/ads/AdsProviderScript";
 import { LocaleDocumentSync } from "@/components/layout/LocaleDocumentSync";
 import { isAppLocale, type AppLocale } from "@/i18n/routing";
 import { getLocaleMessages } from "@/i18n/server";
@@ -51,7 +52,10 @@ export default async function RootLayout({
         />
         <NextIntlClientProvider locale={locale} messages={messages}>
           <LocaleDocumentSync locale={locale} />
-          <AccountSyncProvider>{children}</AccountSyncProvider>
+          <AccountSyncProvider>
+            <AdsProviderScript />
+            {children}
+          </AccountSyncProvider>
         </NextIntlClientProvider>
       </body>
     </html>

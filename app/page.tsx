@@ -1,8 +1,7 @@
 import { permanentRedirect } from "next/navigation";
+import { addLocalePrefix, routing } from "@/i18n/routing";
 
-const primaryRescuePath = "/rescue/edexcel-ial-physics-unit-5";
-
-type RootRescueRedirectPageProps = {
+type RootLocaleRedirectPageProps = {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
@@ -26,10 +25,12 @@ function buildSearchString(searchParams: Record<string, string | string[] | unde
   return serialized.length > 0 ? `?${serialized}` : "";
 }
 
-export default async function RootRescueRedirectPage({
+export default async function RootLocaleRedirectPage({
   searchParams,
-}: RootRescueRedirectPageProps) {
+}: RootLocaleRedirectPageProps) {
   const resolvedSearchParams = searchParams ? await searchParams : {};
 
-  permanentRedirect(`${primaryRescuePath}${buildSearchString(resolvedSearchParams)}`);
+  permanentRedirect(
+    `${addLocalePrefix("/", routing.defaultLocale)}${buildSearchString(resolvedSearchParams)}`,
+  );
 }
