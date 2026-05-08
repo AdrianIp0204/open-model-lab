@@ -905,6 +905,7 @@ test("opens Uniform Circular Motion directly into a lab-first bench on desktop a
 }, testInfo) => {
   const ucmViewportCases = [
     viewportCases.find((item) => item.name === "desktop-1440x900"),
+    requiredPhoneViewportCases.find((item) => item.name === "phone-360x740"),
     viewportCases.find((item) => item.name === "mobile-390x844"),
   ].filter((item): item is ViewportCase => Boolean(item));
 

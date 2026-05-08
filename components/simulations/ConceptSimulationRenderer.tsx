@@ -6763,11 +6763,11 @@ function GuidedFirstActionRail({
   return (
     <section
       data-testid="concept-v2-guided-first-action"
-      className="overflow-hidden rounded-[18px] border border-teal-500/22 bg-paper-strong/92 p-2.5 shadow-[0_1px_0_rgba(255,255,255,0.84)_inset]"
+      className="overflow-hidden rounded-[18px] border border-teal-500/22 bg-paper-strong/92 p-2 shadow-[0_1px_0_rgba(255,255,255,0.84)_inset] sm:p-2.5"
     >
-      <div className="flex min-w-0 items-start justify-between gap-3">
+      <div className="flex min-w-0 items-start justify-between gap-2 sm:gap-3">
         <div className="min-w-0">
-          <p className="text-sm font-semibold leading-5 text-teal-800">
+          <p className="text-xs font-semibold leading-4 text-teal-800 sm:text-sm sm:leading-5">
             {copy.activePromptLabel}
           </p>
           <RichMathText
@@ -6776,22 +6776,22 @@ function GuidedFirstActionRail({
             className="sr-only"
           />
         </div>
-        <span className="shrink-0 rounded-[10px] border border-white/80 bg-white/72 px-2.5 py-1 text-sm font-semibold leading-5 text-ink-700 shadow-sm">
+        <span className="shrink-0 rounded-[10px] border border-white/80 bg-white/72 px-2 py-0.5 text-xs font-semibold leading-5 text-ink-700 shadow-sm sm:px-2.5 sm:py-1 sm:text-sm">
           {copy.stepCounter({ current: guidedStep.index + 1, total: guidedStep.count })}
         </span>
       </div>
 
       <div
         data-testid="concept-v2-guided-first-action-task"
-        className="mt-2 rounded-[16px] border border-teal-500/28 bg-ink-950 px-2.5 py-2 shadow-sm"
+        className="mt-1.5 rounded-[16px] border border-teal-500/28 bg-ink-950 px-2 py-1.5 shadow-sm sm:mt-2 sm:px-2.5 sm:py-2"
       >
-        <p className="text-sm font-semibold leading-5 text-teal-100">
+        <p className="sr-only sm:not-sr-only sm:text-sm sm:font-semibold sm:leading-5 sm:text-teal-100">
           {copy.changeLabel}
         </p>
         <RichMathText
           as="p"
           content={activeStep.doThis}
-          className="mt-1 min-w-0 break-words text-[0.95rem] font-semibold leading-5 text-paper-strong sm:line-clamp-2 sm:text-base sm:leading-6"
+          className="min-w-0 break-words text-sm font-semibold leading-5 text-paper-strong sm:mt-1 sm:line-clamp-2 sm:text-base sm:leading-6"
         />
       </div>
 

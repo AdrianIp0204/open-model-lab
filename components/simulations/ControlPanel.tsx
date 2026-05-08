@@ -190,7 +190,7 @@ export function ControlPanel({
           htmlFor={inputId}
           onMouseEnter={() => variableLink ? onVariableFocus?.(variableLink.id) : undefined}
           className={[
-            "flex items-start justify-between gap-3 rounded-[20px] border bg-paper-strong px-3 py-2 transition sm:px-4 sm:py-3",
+            "flex items-start justify-between gap-3 rounded-[20px] border bg-paper-strong px-2.5 py-1.5 transition sm:px-4 sm:py-3",
             selected && tone ? `${tone.border} ${tone.panel}` : "border-line hover:border-teal-500/40",
             highlighted ? "ring-1 ring-inset ring-coral-500/35" : "",
           ].join(" ")}
@@ -240,7 +240,7 @@ export function ControlPanel({
         key={control.id}
         onMouseEnter={() => variableLink ? onVariableFocus?.(variableLink.id) : undefined}
         className={[
-          "rounded-[20px] border bg-paper-strong px-3 py-2 transition sm:px-4 sm:py-3",
+          "rounded-[20px] border bg-paper-strong px-2.5 py-1.5 transition sm:px-4 sm:py-3",
           selected && tone ? `${tone.border} ${tone.panel}` : "border-line",
           highlighted ? "ring-1 ring-inset ring-coral-500/35" : "",
         ].join(" ")}
@@ -295,7 +295,7 @@ export function ControlPanel({
               off: t("values.off"),
             },
           )}
-          className="control-accent mt-1.5 w-full"
+          className="control-accent mt-1 w-full sm:mt-1.5"
           onFocus={() => variableLink ? onVariableFocus?.(variableLink.id) : undefined}
           onChange={(event) => onChange(control.param, Number(event.target.value))}
         />
@@ -330,7 +330,7 @@ export function ControlPanel({
 
   return (
     <section className="lab-panel h-full min-h-0 overflow-hidden p-1.5 sm:p-2.5">
-      <div className="flex items-start justify-between gap-3 border-b border-line pb-1.5">
+      <div className="flex items-start justify-between gap-2 border-b border-line pb-1 sm:gap-3 sm:pb-1.5">
         <div>
           <div className="flex flex-wrap items-center gap-2">
             <p className="lab-label">{resolvedTitle}</p>
@@ -351,14 +351,14 @@ export function ControlPanel({
               setMoreToolsExpanded(false);
               onReset();
             }}
-            className="rounded-full border border-line bg-paper-strong px-3 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-ink-700 transition hover:border-coral-500 hover:text-coral-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong"
+            className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.14em] text-ink-700 transition hover:border-coral-500 hover:text-coral-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong sm:px-3 sm:py-1.5 sm:text-[0.72rem] sm:tracking-[0.18em]"
           >
             {resolvedResetLabel}
           </button>
         ) : null}
       </div>
 
-      <div className="mt-2 max-h-[min(38svh,20rem)] overflow-y-auto overscroll-contain pr-1 sm:max-h-[min(42svh,24rem)] lg:max-h-[min(68svh,38rem)] xl:max-h-none">
+      <div className="mt-1.5 max-h-[min(38svh,20rem)] overflow-y-auto overscroll-contain pr-1 sm:mt-2 sm:max-h-[min(42svh,24rem)] lg:max-h-[min(68svh,38rem)] xl:max-h-none">
         <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-1">
           {primaryControls.map(renderControl)}
         </div>
