@@ -6571,11 +6571,11 @@ type GuidedBenchBriefCopy = {
 };
 
 const guidedBenchBriefFlowClasses: Record<string, string> = {
-  predict: "border-amber-500/24 bg-amber-500/10 text-amber-800",
-  change: "border-teal-500/22 bg-teal-500/9 text-teal-800",
-  observe: "border-sky-500/22 bg-sky-500/9 text-sky-800",
-  explain: "border-violet-500/20 bg-violet-500/9 text-violet-800",
-  check: "border-amber-500/24 bg-amber-500/10 text-amber-800",
+  predict: "text-amber-800",
+  change: "text-teal-800",
+  observe: "text-sky-800",
+  explain: "text-violet-800",
+  check: "text-amber-800",
 };
 
 const guidedBenchBriefEvidenceClasses: Record<string, string> = {
@@ -6652,7 +6652,7 @@ function GuidedConceptBenchBrief({
         className="mt-3 grid gap-2 rounded-[18px] border border-white/80 bg-white/76 px-3 py-2.5 shadow-sm md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.25fr)]"
       >
         <div className="min-w-0">
-          <p className="text-xs font-semibold leading-5 text-teal-800">
+          <p className="text-sm font-semibold leading-5 text-teal-800">
             {copy.activePromptLabel}
           </p>
           <RichMathText
@@ -6671,7 +6671,7 @@ function GuidedConceptBenchBrief({
       <ol
         data-testid="concept-v2-bench-flow"
         aria-label={copy.flowAria}
-        className="mt-3 grid gap-1.5 sm:grid-cols-5"
+        className="mt-3 grid gap-1 rounded-[18px] border border-line/70 bg-white/55 p-1 sm:grid-cols-5"
       >
         {flowItems.map((item, index) => (
           <li
@@ -6679,7 +6679,7 @@ function GuidedConceptBenchBrief({
             data-testid={`concept-v2-bench-flow-${item.id}`}
             aria-label={`${item.label}: ${item.text}`}
             className={[
-              "grid min-h-11 grid-cols-[auto_minmax(0,1fr)] items-center gap-2 rounded-[14px] border px-2.5 py-2",
+              "grid min-h-12 grid-cols-[auto_minmax(0,1fr)] items-center gap-2 rounded-[14px] px-2.5 py-2",
               guidedBenchBriefFlowClasses[item.id],
             ].join(" ")}
           >
@@ -6701,7 +6701,7 @@ function GuidedConceptBenchBrief({
           data-testid="concept-v2-bench-evidence"
           className="mt-3 rounded-[16px] border border-line/80 bg-white/70 px-3 py-2.5"
         >
-          <p className="text-xs font-semibold leading-5 text-ink-600">
+          <p className="text-sm font-semibold leading-5 text-ink-600">
             {copy.evidenceLabel}
           </p>
           <ul className="mt-1.5 grid gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
@@ -6713,7 +6713,7 @@ function GuidedConceptBenchBrief({
                   guidedBenchBriefEvidenceClasses[item.kind],
                 ].join(" ")}
               >
-                <span className="block text-[0.68rem] font-semibold uppercase tracking-[0.12em] opacity-80">
+                <span className="block text-xs font-semibold leading-5 opacity-85">
                   {copy.revealKinds[item.kind]}
                 </span>
                 <RichMathText
@@ -8480,11 +8480,16 @@ export function ConceptSimulationRenderer({
     activeLocationHash === `#${conceptShareAnchorIds.challengeMode}`;
   const controlsAnchorId = "concept-live-controls";
   const interactionRail = (
-    <section className="rounded-[20px] border border-line bg-white/55 px-3 py-2">
+    <section
+      data-testid="concept-v2-active-task-rail"
+      className="rounded-[20px] border border-line bg-white/55 px-3 py-2"
+    >
       <div className="mb-1.5 border-b border-line/80 pb-1.5">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <p className="lab-label">{t("interactionRail.label")}</p>
+            <p className="text-sm font-semibold leading-5 text-teal-800">
+              {t("interactionRail.label")}
+            </p>
             <p className="sr-only">
               {t("interactionRail.description")}
             </p>

@@ -333,6 +333,7 @@ select {
   }
 
   .simulation-shell--focus-stage [data-focus-surface="bench-header"] [data-testid="concept-v2-bench-active-prompt"],
+  .simulation-shell--focus-stage [data-focus-surface="bench-header"] [data-testid="concept-v2-bench-flow"],
   .simulation-shell--focus-stage [data-focus-surface="bench-header"] [data-testid="concept-v2-bench-evidence"],
   .simulation-shell--focus-stage [data-focus-surface="rail"] > section :where(.bg-white\/55, .bg-white\/45, .bg-white\/70, .bg-white\/76, .bg-white\/80) {
     border-color: rgba(226, 232, 240, 0.18);

@@ -51,8 +51,11 @@ test.describe("concept page v2 flow", () => {
 
         const guidedLiveLab = page.getByTestId("concept-v2-guided-live-lab");
         const focusStageShell = page.locator('[data-stage-tone="focus"]');
+        const visualStage = page.getByTestId("simulation-shell-visual-stage");
         const scene = page.getByTestId("simulation-shell-scene");
+        const controls = page.getByTestId("simulation-shell-controls");
         const benchBrief = page.getByTestId("concept-v2-bench-brief");
+        const activeTaskRail = page.getByTestId("concept-v2-active-task-rail");
         const stepSlot = page.getByTestId("concept-v2-step-card-slot");
         const currentStepCard = page.getByTestId("concept-v2-current-step-card");
         const railInlineCheck = page.getByTestId("concept-v2-rail-inline-check");
@@ -64,7 +67,10 @@ test.describe("concept page v2 flow", () => {
         await expect(page.getByTestId("concept-v2-start-here")).toHaveCount(0);
         await expect(focusStageShell).toBeVisible();
         await expect(focusStageShell).toHaveClass(/simulation-shell--focus-stage/);
+        await expect(visualStage).toBeVisible();
         await expect(guidedLiveLab).toBeVisible();
+        await expect(activeTaskRail).toBeVisible();
+        await expect(activeTaskRail).toContainText("First action");
         await expect(benchBrief).toBeVisible();
         await expect(benchBrief).toContainText("Concept bench");
         await expect(benchBrief).toContainText("Predict");
@@ -87,13 +93,18 @@ test.describe("concept page v2 flow", () => {
         await expect(stepMap).toBeVisible();
         await expect(page.getByTestId("concept-v2-step-support-slot")).toHaveCount(0);
 
-        const [currentStepCardBox, stepMapBox] = await Promise.all([
+        const [visualStageBox, controlsBox, currentStepCardBox, stepMapBox] = await Promise.all([
+          visualStage.boundingBox(),
+          controls.boundingBox(),
           currentStepCard.boundingBox(),
           stepMap.boundingBox(),
         ]);
 
+        expect(visualStageBox).not.toBeNull();
+        expect(controlsBox).not.toBeNull();
         expect(currentStepCardBox).not.toBeNull();
         expect(stepMapBox).not.toBeNull();
+        expect(visualStageBox!.width).toBeGreaterThan(controlsBox!.width * 2);
         expect(currentStepCardBox!.y).toBeLessThanOrEqual(stepMapBox!.y);
 
         browserGuard.assertNoActionableIssues();
@@ -128,10 +139,12 @@ test.describe("concept page v2 flow", () => {
 
         const benchBrief = page.getByTestId("concept-v2-bench-brief");
         const firstAction = page.getByTestId("simulation-shell-first-action");
+        const visualStage = page.getByTestId("simulation-shell-visual-stage");
         const focusStageShell = page.locator('[data-stage-tone="focus"]');
 
         await expect(focusStageShell).toBeVisible();
         await expect(focusStageShell).toHaveClass(/simulation-shell--focus-stage/);
+        await expect(visualStage).toBeVisible();
         await expect(benchBrief).toBeVisible();
         await expect(benchBrief).toContainText("Concept bench");
         await expect(benchBrief).toContainText("Predict");
@@ -531,7 +544,7 @@ test.describe("concept page v2 flow", () => {
       },
       {
         route: "/en/concepts/concentration-and-dilution",
-        firstStep: "Read one crowded beaker",
+        firstStep: "Dilute one crowded beaker",
       },
       {
         route: "/en/concepts/breadth-first-search-and-layered-frontiers",
