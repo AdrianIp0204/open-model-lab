@@ -6730,6 +6730,112 @@ function GuidedConceptBenchBrief({
   );
 }
 
+function GuidedFirstActionRail({
+  guidedStep,
+  copy,
+}: {
+  guidedStep: ConceptPageGuidedStepContext;
+  copy: GuidedBenchBriefCopy;
+}) {
+  const activeStep = guidedStep.step;
+  const evidenceItems = activeStep.revealItems.slice(0, 2);
+  const promptRows = [
+    {
+      id: "predict",
+      label: copy.predictLabel,
+      text: copy.predictText,
+      className: "border-amber-500/22 bg-amber-500/10 text-amber-900",
+    },
+    {
+      id: "change",
+      label: copy.changeLabel,
+      text: activeStep.doThis,
+      className: "border-teal-500/22 bg-teal-500/10 text-teal-900",
+    },
+    {
+      id: "observe",
+      label: copy.observeLabel,
+      text: activeStep.notice,
+      className: "border-sky-500/22 bg-sky-500/10 text-sky-900",
+    },
+  ] as const;
+
+  return (
+    <section
+      data-testid="concept-v2-guided-first-action"
+      className="overflow-hidden rounded-[18px] border border-teal-500/22 bg-[linear-gradient(135deg,rgba(20,184,166,0.14),rgba(255,255,255,0.88)_48%,rgba(14,165,233,0.10))] p-3 shadow-[0_1px_0_rgba(255,255,255,0.84)_inset]"
+    >
+      <div className="flex min-w-0 items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-sm font-semibold leading-5 text-teal-800">
+            {copy.activePromptLabel}
+          </p>
+          <RichMathText
+            as="p"
+            content={activeStep.goal}
+            className="sr-only"
+          />
+        </div>
+        <span className="shrink-0 rounded-[10px] border border-white/80 bg-white/72 px-2.5 py-1 text-sm font-semibold leading-5 text-ink-700 shadow-sm">
+          {copy.stepCounter({ current: guidedStep.index + 1, total: guidedStep.count })}
+        </span>
+      </div>
+
+      <div
+        data-testid="concept-v2-guided-first-action-task"
+        className="mt-2.5 rounded-[16px] border border-teal-500/24 bg-white/84 px-3 py-2.5 shadow-sm"
+      >
+        <p className="text-sm font-semibold leading-5 text-teal-800">
+          {copy.changeLabel}
+        </p>
+        <RichMathText
+          as="p"
+          content={activeStep.doThis}
+          className="mt-1 line-clamp-3 min-w-0 break-words text-base font-semibold leading-6 text-ink-900"
+        />
+      </div>
+
+      <ol
+        data-testid="concept-v2-guided-first-action-loop"
+        aria-label={copy.flowAria}
+        className="mt-2 grid grid-cols-3 gap-1.5"
+      >
+        {promptRows.map((row) => (
+          <li
+            key={row.id}
+            className={["rounded-[12px] border px-2 py-1.5", row.className].join(" ")}
+          >
+            <span className="block text-center text-sm font-semibold leading-5">{row.label}</span>
+            <RichMathText
+              as="span"
+              content={row.text}
+              className="sr-only"
+            />
+          </li>
+        ))}
+      </ol>
+
+      {evidenceItems.length ? (
+        <div
+          data-testid="concept-v2-guided-first-action-evidence"
+          className="mt-2.5 hidden rounded-[14px] border border-line/80 bg-white/70 px-2.5 py-2 sm:block"
+        >
+          <p className="line-clamp-2 text-sm leading-5 text-ink-700">
+            <span className="font-semibold text-ink-800">{copy.evidenceLabel}: </span>
+            {evidenceItems.map((item, index) => (
+              <span key={`${item.kind}-${item.id}`}>
+                {index > 0 ? " · " : null}
+                <span className="font-semibold text-ink-800">{copy.revealKinds[item.kind]}</span>{" "}
+                <RichMathText as="span" content={item.label} />
+              </span>
+            ))}
+          </p>
+        </div>
+      ) : null}
+    </section>
+  );
+}
+
 export function ConceptSimulationRenderer({
   concept,
   readNext = [],
@@ -8415,6 +8521,32 @@ export function ConceptSimulationRenderer({
         />
       </div>
     ) : null;
+  const guidedBenchBriefCopy: GuidedBenchBriefCopy = {
+    label: t("benchBrief.label"),
+    title: (values) => t("benchBrief.title", values),
+    description: t("benchBrief.description"),
+    stepCounter: (values) => t("benchBrief.stepCounter", values),
+    activePromptLabel: t("benchBrief.activePromptLabel"),
+    flowAria: t("benchBrief.flowAria"),
+    predictLabel: t("benchBrief.predictLabel"),
+    predictText: t("benchBrief.predictText"),
+    changeLabel: t("benchBrief.changeLabel"),
+    observeLabel: t("benchBrief.observeLabel"),
+    explainLabel: t("benchBrief.explainLabel"),
+    checkLabel: t("benchBrief.checkLabel"),
+    checkFallback: t("benchBrief.checkFallback"),
+    evidenceLabel: t("benchBrief.evidenceLabel"),
+    revealKinds: {
+      control: t("benchBrief.revealKinds.control"),
+      graph: t("benchBrief.revealKinds.graph"),
+      overlay: t("benchBrief.revealKinds.overlay"),
+      tool: t("benchBrief.revealKinds.tool"),
+      section: t("benchBrief.revealKinds.section"),
+    },
+  };
+  const guidedFirstActionPanel = guidedStep ? (
+    <GuidedFirstActionRail guidedStep={guidedStep} copy={guidedBenchBriefCopy} />
+  ) : null;
   const primaryGuidePanel = interactionPanel;
   const showExploreStarterGuide =
     starterGuidePlacement !== "external" &&
@@ -8448,7 +8580,12 @@ export function ConceptSimulationRenderer({
       </ol>
     </section>
   ) : null;
-  const interactionRailPanel = activeConceptPagePhaseId ? interactionPanel : primaryGuidePanel;
+  const interactionRailPanel =
+    interactionMode === "compare" && compareState
+      ? interactionPanel
+      : activeConceptPagePhaseId && guidedFirstActionPanel
+        ? guidedFirstActionPanel
+        : primaryGuidePanel;
   const phaseSupportPanels = activeConceptPagePhaseId
     ? {
         explore: whatToNoticePanel,
@@ -8563,29 +8700,7 @@ export function ConceptSimulationRenderer({
     <GuidedConceptBenchBrief
       conceptTitle={concept.title}
       guidedStep={guidedStep}
-      copy={{
-        label: t("benchBrief.label"),
-        title: (values) => t("benchBrief.title", values),
-        description: t("benchBrief.description"),
-        stepCounter: (values) => t("benchBrief.stepCounter", values),
-        activePromptLabel: t("benchBrief.activePromptLabel"),
-        flowAria: t("benchBrief.flowAria"),
-        predictLabel: t("benchBrief.predictLabel"),
-        predictText: t("benchBrief.predictText"),
-        changeLabel: t("benchBrief.changeLabel"),
-        observeLabel: t("benchBrief.observeLabel"),
-        explainLabel: t("benchBrief.explainLabel"),
-        checkLabel: t("benchBrief.checkLabel"),
-        checkFallback: t("benchBrief.checkFallback"),
-        evidenceLabel: t("benchBrief.evidenceLabel"),
-        revealKinds: {
-          control: t("benchBrief.revealKinds.control"),
-          graph: t("benchBrief.revealKinds.graph"),
-          overlay: t("benchBrief.revealKinds.overlay"),
-          tool: t("benchBrief.revealKinds.tool"),
-          section: t("benchBrief.revealKinds.section"),
-        },
-      }}
+      copy={guidedBenchBriefCopy}
     />
   ) : null;
   const stageTone = isGuidedConceptBench ? "focus" : "paper";

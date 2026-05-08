@@ -71,6 +71,13 @@ test.describe("concept page v2 flow", () => {
         await expect(guidedLiveLab).toBeVisible();
         await expect(activeTaskRail).toBeVisible();
         await expect(activeTaskRail).toContainText("First action");
+        await expect(page.getByTestId("concept-v2-guided-first-action")).toBeVisible();
+        await expect(page.getByTestId("concept-v2-guided-first-action-task")).toContainText(
+          "Press play",
+        );
+        await expect(page.getByTestId("concept-v2-guided-first-action-loop")).toContainText(
+          "Predict",
+        );
         await expect(benchBrief).toBeVisible();
         await expect(benchBrief).toContainText("Concept bench");
         await expect(benchBrief).toContainText("Predict");
@@ -153,7 +160,9 @@ test.describe("concept page v2 flow", () => {
         await expect(benchBrief).toContainText("Explain");
         await expect(benchBrief).toContainText("Check");
         await expect(benchBrief).not.toContainText(/run the loop|live model run/i);
-        await expect(firstAction).toContainText("Start with one setup");
+        await expect(firstAction.getByTestId("concept-v2-guided-first-action")).toBeVisible();
+        await expect(firstAction).toContainText("Do this now");
+        await expect(firstAction).not.toContainText("Start with one setup");
         await expect(firstAction).not.toContainText(/Let the live model run/i);
         await expect(page.getByTestId("concept-v2-step-card-slot")).toBeVisible();
       }

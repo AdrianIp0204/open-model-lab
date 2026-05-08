@@ -23,7 +23,10 @@ export function CompactModeTabs({
 }: CompactModeTabsProps) {
   return (
     <div
-      className={["inline-flex rounded-full border border-line bg-paper-strong p-1 text-xs font-semibold uppercase tracking-[0.18em] text-ink-600", className ?? ""].join(" ")}
+      className={[
+        "inline-flex rounded-[14px] border border-line bg-paper-strong p-1 text-sm font-semibold leading-5 text-ink-700",
+        className ?? "",
+      ].join(" ")}
       role="tablist"
       aria-label={ariaLabel}
     >
@@ -36,7 +39,7 @@ export function CompactModeTabs({
             role="tab"
             aria-selected={selected}
             className={[
-              "rounded-full px-3 py-1.5 transition",
+              "min-h-9 rounded-[10px] px-3 py-1.5 transition",
               selected ? "bg-teal-500 text-white shadow-sm" : "hover:text-ink-900",
             ].join(" ")}
             onClick={() => onChange(item.id)}
