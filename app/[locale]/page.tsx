@@ -2,19 +2,21 @@ import { redirect } from "next/navigation";
 import { isAppLocale, type AppLocale } from "@/i18n/routing";
 import { buildPageMetadata } from "@/lib/metadata";
 
+const primaryRescuePath = "/rescue/edexcel-ial-physics-unit-5";
+
 type LocalePageProps = {
   params: Promise<{ locale: string }>;
 };
 
-function buildArenaMetadata(locale: AppLocale) {
+function buildRescueMetadata(locale: AppLocale) {
   return buildPageMetadata({
-    title: "Concept Arena",
-    absoluteTitle: "Concept Arena | Open Model Lab",
+    title: "Exam Rescue",
+    absoluteTitle: "Exam Rescue | Open Model Lab",
     description:
-      "Open Model Lab v2 starts with fast mastery trials: answer, reveal, level up, and share the challenge.",
+      "Open Model Lab now starts with a focused exam-rescue loop: diagnose weak topics, rescue the model, drill exam-style, and save progress.",
     pathname: "/",
     locale,
-    keywords: ["Concept Arena", "physics challenge", "interactive learning", "simple harmonic motion"],
+    keywords: ["exam rescue", "IAL physics", "physics revision", "interactive learning"],
     category: "education",
   });
 }
@@ -22,10 +24,10 @@ function buildArenaMetadata(locale: AppLocale) {
 export async function generateMetadata({ params }: LocalePageProps) {
   const { locale } = await params;
   const resolvedLocale: AppLocale = isAppLocale(locale) ? locale : "en";
-  return buildArenaMetadata(resolvedLocale);
+  return buildRescueMetadata(resolvedLocale);
 }
 
-export default function LocalizedArenaRedirectPage(props: LocalePageProps) {
+export default function LocalizedRescueRedirectPage(props: LocalePageProps) {
   void props.params;
-  redirect("/arena/shm");
+  redirect(primaryRescuePath);
 }

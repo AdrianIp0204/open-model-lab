@@ -18,7 +18,7 @@ describe("root homepage redirect", () => {
     vi.resetModules();
   });
 
-  it("uses a stable permanent redirect to the v2 arena homepage", async () => {
+  it("uses a stable permanent redirect to the exam-rescue homepage", async () => {
     const { default: RootLocaleRedirectPage } = await import("@/app/page");
 
     await expect(
@@ -28,10 +28,12 @@ describe("root homepage redirect", () => {
           filter: ["physics", "chemistry"],
         }),
       }),
-    ).rejects.toThrow("permanentRedirect:/arena/shm?q=model+lab&filter=physics&filter=chemistry");
+    ).rejects.toThrow(
+      "permanentRedirect:/rescue/edexcel-ial-physics-unit-5?q=model+lab&filter=physics&filter=chemistry",
+    );
 
     expect(permanentRedirectMock).toHaveBeenCalledWith(
-      "/arena/shm?q=model+lab&filter=physics&filter=chemistry",
+      "/rescue/edexcel-ial-physics-unit-5?q=model+lab&filter=physics&filter=chemistry",
     );
   });
 });
