@@ -7123,6 +7123,11 @@ export function ConceptSimulationRenderer({
     };
   }, []);
 
+  const isQuickTestHashActive =
+    activeLocationHash === `#${conceptShareAnchorIds.quickTest}`;
+  const isChallengeHashActive =
+    activeLocationHash === `#${conceptShareAnchorIds.challengeMode}`;
+
   useEffect(() => {
     if (activeConceptPagePhaseId !== "check" || !challengeMode?.items.length) {
       setIsFullChallengePanelVisible(true);
@@ -7139,17 +7144,41 @@ export function ConceptSimulationRenderer({
       setIsFullChallengePanelVisible(true);
     }
 
+    const calculatePanelVisibility = () => {
+      const rect = node.getBoundingClientRect();
+      const isRenderable =
+        node.getClientRects().length > 0 &&
+        !node.closest("[hidden]") &&
+        rect.height > 0;
+
+      if (!isRenderable) {
+        return false;
+      }
+
+      const viewportHeight =
+        window.innerHeight || document.documentElement.clientHeight || 0;
+      const visibleTop = Math.max(rect.top, 0);
+      const visibleBottom = Math.min(rect.bottom, viewportHeight);
+      const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+      const minimumUsefulVisibleHeight = Math.min(
+        160,
+        Math.max(72, rect.height * 0.18),
+      );
+
+      return visibleHeight >= minimumUsefulVisibleHeight;
+    };
+
+    const updatePanelVisibility = () => {
+      setIsFullChallengePanelVisible(calculatePanelVisibility());
+    };
+
     const observer = new IntersectionObserver(
-      ([entry]) => {
+      () => {
         const viewportHeight =
           window.innerHeight || document.documentElement.clientHeight || 0;
-        const hasViewportOverlap =
-          entry.boundingClientRect.top < viewportHeight &&
-          entry.boundingClientRect.bottom > 0;
-
-        setIsFullChallengePanelVisible(
-          entry.isIntersecting && hasViewportOverlap,
-        );
+        if (viewportHeight > 0) {
+          updatePanelVisibility();
+        }
       },
       {
         threshold: [0, 0.2, 0.35, 0.6, 1],
@@ -7157,9 +7186,17 @@ export function ConceptSimulationRenderer({
     );
 
     observer.observe(node);
+    window.addEventListener("scroll", updatePanelVisibility, { passive: true });
+    window.addEventListener("resize", updatePanelVisibility);
+    const visibilityFrame = window.requestAnimationFrame(updatePanelVisibility);
 
-    return () => observer.disconnect();
-  }, [activeConceptPagePhaseId, challengeMode]);
+    return () => {
+      window.cancelAnimationFrame(visibilityFrame);
+      window.removeEventListener("scroll", updatePanelVisibility);
+      window.removeEventListener("resize", updatePanelVisibility);
+      observer.disconnect();
+    };
+  }, [activeConceptPagePhaseId, challengeMode, isChallengeHashActive]);
 
   useEffect(() => {
     setGraphPreview(null);
@@ -8248,20 +8285,23 @@ export function ConceptSimulationRenderer({
         onRestart={restartNoticePrompts}
       />
     ) : null;
-  const guidedOverlayPanel = simulationOverlays.length ? (
-    <GuidedOverlayPanel
-      overlays={simulationOverlays}
-      values={overlays}
-      focusedOverlayId={focusedOverlay?.id ?? null}
-      highlightedOverlayIds={highlightedOverlayIds}
-      controls={concept.simulation.controls}
-      graphs={concept.simulation.graphs}
-      variableLinks={concept.variableLinks}
-      activeGraphId={activeGraph?.id ?? null}
-      onFocusOverlay={focusOverlay}
-      onToggleOverlay={toggleOverlay}
-    />
-  ) : null;
+  const renderGuidedOverlayPanel = (className?: string) =>
+    simulationOverlays.length ? (
+      <GuidedOverlayPanel
+        overlays={simulationOverlays}
+        values={overlays}
+        focusedOverlayId={focusedOverlay?.id ?? null}
+        highlightedOverlayIds={highlightedOverlayIds}
+        controls={concept.simulation.controls}
+        graphs={concept.simulation.graphs}
+        variableLinks={concept.variableLinks}
+        activeGraphId={activeGraph?.id ?? null}
+        className={className}
+        onFocusOverlay={focusOverlay}
+        onToggleOverlay={toggleOverlay}
+      />
+    ) : null;
+  const guidedOverlayPanel = renderGuidedOverlayPanel();
   const challengeRuntime = {
     params: controlValues,
     activeGraphId: activeGraph?.id ?? null,
@@ -8284,12 +8324,8 @@ export function ConceptSimulationRenderer({
       hash: conceptShareAnchorIds.challengeMode,
       challengeId,
     });
-  const isQuickTestHashActive =
-    activeLocationHash === `#${conceptShareAnchorIds.quickTest}`;
-  const isChallengeHashActive =
-    activeLocationHash === `#${conceptShareAnchorIds.challengeMode}`;
   const shouldShowFloatingChallengeReminder =
-    !isGuidedLessonMode &&
+    (!isGuidedLessonMode || isChallengeHashActive) &&
     activeConceptPagePhaseId === "check" &&
     Boolean(challengeMode?.items.length) &&
     !isQuickTestHashActive &&
@@ -8303,23 +8339,48 @@ export function ConceptSimulationRenderer({
         className="scroll-mt-24"
         tabIndex={-1}
       >
-        <ChallengeModePanel
-          concept={{
-            id: concept.id,
-            slug: concept.slug ?? "simple-harmonic-motion",
-            title: concept.title,
-          }}
-          simulationSource={concept}
-          challengeMode={challengeMode}
-          runtime={challengeRuntime}
-          readNext={readNext}
-          initialSyncedSnapshot={initialSyncedSnapshot}
-          onApplySetup={applyChallengeSetup}
-          initialItemId={initialChallengeItemId}
-          activeItemId={activeChallengeItemId}
-          onActiveItemChange={setActiveChallengeItemId}
-          buildShareHref={buildChallengeShareHref}
-        />
+        <div
+          data-testid="challenge-mode-support-stack"
+          className={
+            activeConceptPagePhaseId === "check" && simulationOverlays.length
+              ? "grid gap-3 xl:grid-cols-[minmax(0,1fr)_minmax(19rem,24rem)] xl:items-start"
+              : undefined
+          }
+        >
+          <div
+            className={
+              activeConceptPagePhaseId === "check" && simulationOverlays.length
+                ? "order-2 xl:order-1"
+                : undefined
+            }
+          >
+            <ChallengeModePanel
+              concept={{
+                id: concept.id,
+                slug: concept.slug ?? "simple-harmonic-motion",
+                title: concept.title,
+              }}
+              simulationSource={concept}
+              challengeMode={challengeMode}
+              runtime={challengeRuntime}
+              readNext={readNext}
+              initialSyncedSnapshot={initialSyncedSnapshot}
+              onApplySetup={applyChallengeSetup}
+              initialItemId={initialChallengeItemId}
+              activeItemId={activeChallengeItemId}
+              onActiveItemChange={setActiveChallengeItemId}
+              buildShareHref={buildChallengeShareHref}
+            />
+          </div>
+          {activeConceptPagePhaseId === "check" && simulationOverlays.length ? (
+            <div
+              data-testid="challenge-mode-guided-overlay-support"
+              className="order-1 xl:sticky xl:top-24 xl:order-2"
+            >
+              {renderGuidedOverlayPanel("h-full")}
+            </div>
+          ) : null}
+        </div>
       </div>
     ) : null;
   const floatingChallengeReminder =
@@ -8840,9 +8901,14 @@ export function ConceptSimulationRenderer({
               return null;
             }
 
+            const isDefaultCheckSupportOpen =
+              phaseId === "check" &&
+              !isQuickTestHashActive &&
+              Boolean(challengeMode?.items.length) &&
+              (!isGuidedLessonMode || isChallengeHashActive);
             const isSupportDisclosureOpen =
               phaseSupportDisclosureOpenByPhase[phaseId] ??
-              (phaseId === "check" && isChallengeHashActive);
+              isDefaultCheckSupportOpen;
 
             return (
               <div

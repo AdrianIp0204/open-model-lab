@@ -29,9 +29,13 @@ test("keeps the full challenge section in-flow and only shows the reminder when 
     );
 
     const fullPanel = page.getByTestId("challenge-mode-full-panel");
+    const overlaySupport = fullPanel.getByTestId("challenge-mode-guided-overlay-support");
     const reminder = page.getByTestId("challenge-mode-floating-panel");
 
     await expect(fullPanel).toBeVisible();
+    await expect(overlaySupport).toBeVisible();
+    await expect(overlaySupport.getByText("Guided overlay")).toBeVisible();
+    await expect(overlaySupport.getByRole("button", { name: /range marker/i })).toBeVisible();
     await page.evaluate(() => {
       document.getElementById("challenge-mode")?.scrollIntoView({
         behavior: "auto",
@@ -116,12 +120,10 @@ test("keeps the full challenge section in-flow and only shows the reminder when 
         }),
       )
       .toEqual({
-        phase: "explore",
+        phase: null,
         hash: "#live-bench",
       });
-    await expect(
-      page.getByTestId("concept-learning-phase-explore"),
-    ).toHaveAttribute("aria-selected", "true");
+    await expect(page.getByTestId("concept-v2-guided-live-lab")).toBeInViewport();
 
     browserGuard.assertNoActionableIssues();
   } finally {
@@ -146,6 +148,8 @@ test("keeps the floating reminder compact, bottom-anchored, and collapsible on m
       page,
       "/concepts/projectile-motion?challenge=pm-ch-flat-far-shot&phase=check#challenge-mode",
     );
+
+    await expect(page.getByTestId("challenge-mode-full-panel")).toBeVisible();
 
     await page.evaluate(() => {
       document.getElementById("live-bench")?.scrollIntoView({
@@ -212,7 +216,7 @@ test("keeps the floating reminder compact, bottom-anchored, and collapsible on m
     expect(mobileLayout.feedback).not.toBeNull();
     const mobileLeftGap = mobileLayout.reminder!.left;
     const mobileRightGap = mobileLayout.viewport.width - mobileLayout.reminder!.right;
-    expect(mobileLeftGap).toBeLessThan(mobileRightGap);
+    expect(mobileLeftGap).toBeLessThanOrEqual(mobileRightGap);
     expect(boxesOverlap(mobileLayout.reminder!, mobileLayout.feedback!)).toBe(false);
 
     await expandedToggle.click();

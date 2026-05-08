@@ -340,10 +340,12 @@ export function ChallengeModePanel({
     markChallengeStarted(activeItem.id, "suggested-start");
     onApplySetup(activeItem);
 
-    if (conceptPagePhase?.activePhaseId === "check" && conceptPagePhase.returnToSetupArea) {
+    if (conceptPagePhase?.returnToSetupArea) {
       conceptPagePhase.returnToSetupArea({ phaseId: "explore" });
       return;
     }
+
+    returnToSetup();
   }
 
   function toggleGuide() {
