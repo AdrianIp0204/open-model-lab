@@ -474,16 +474,16 @@ describe("ConceptPageV2StartHere", () => {
     expect(
       within(firstPreviewStep).getByTestId("concept-v2-start-lesson-preview-first-badge"),
     ).toHaveTextContent("Start here");
-    expect(
-      within(firstPreviewStep)
-        .getByText("Set up the pattern")
-        .closest(".line-clamp-2.break-words"),
-    ).not.toBeNull();
-    expect(
-      within(firstPreviewStep)
-        .getByText("Make the first deliberate change.")
-        .closest(".line-clamp-1.break-words"),
-    ).not.toBeNull();
+    const firstPreviewTitle = within(firstPreviewStep)
+      .getByText("Set up the pattern")
+      .closest(".line-clamp-2.break-words");
+    expect(firstPreviewTitle).not.toBeNull();
+    expect(firstPreviewTitle!).toHaveClass("text-sm", "leading-5");
+    const firstPreviewSummary = within(firstPreviewStep)
+      .getByText("Make the first deliberate change.")
+      .closest(".line-clamp-1.break-words");
+    expect(firstPreviewSummary).not.toBeNull();
+    expect(firstPreviewSummary!).toHaveClass("text-xs", "leading-5");
     const comparePreviewStep = within(previewList).getByText("Compare two outputs").closest("li");
     expect(comparePreviewStep).not.toBeNull();
     expect(comparePreviewStep!.querySelector(".mb-1.flex.flex-wrap.gap-1")).toBeNull();
@@ -494,12 +494,26 @@ describe("ConceptPageV2StartHere", () => {
       "max-w-full",
       "min-w-0",
       "break-words",
+      "text-xs",
+      "leading-5",
     );
     const quickCheckPreviewBadge = within(firstPreviewStep).getByText("Quick check");
     const firstStepPreviewBadge = within(firstPreviewStep).getByText("Start here");
-    expect(firstStepPreviewBadge).toHaveClass("max-w-full", "min-w-0", "break-words");
+    expect(firstStepPreviewBadge).toHaveClass(
+      "max-w-full",
+      "min-w-0",
+      "break-words",
+      "text-xs",
+      "leading-5",
+    );
     expect(quickCheckPreviewBadge.parentElement).toHaveClass("min-w-0", "flex-wrap");
-    expect(quickCheckPreviewBadge).toHaveClass("max-w-full", "min-w-0", "break-words");
+    expect(quickCheckPreviewBadge).toHaveClass(
+      "max-w-full",
+      "min-w-0",
+      "break-words",
+      "text-xs",
+      "leading-5",
+    );
     const wrapUpPreviewStep = within(previewList).getByRole("listitem", {
       name: "Next step: Wrap-up — Ready to wrap up",
     });
@@ -520,15 +534,21 @@ describe("ConceptPageV2StartHere", () => {
       "max-w-full",
       "min-w-0",
       "break-words",
+      "text-xs",
+      "leading-5",
     );
     expect(within(wrapUpPreviewStep).getByText("Wrap-up")).toHaveClass(
       "max-w-full",
       "min-w-0",
       "break-words",
+      "text-xs",
+      "leading-5",
     );
     expect(within(wrapUpPreviewStep).getByText("Ready to wrap up")).toHaveClass(
       "line-clamp-2",
       "break-words",
+      "text-xs",
+      "leading-5",
     );
 
     await user.click(within(handoff).getByRole("button", { name: /Start concept/ }));
@@ -618,14 +638,15 @@ describe("ConceptPageV2StartHere", () => {
     expect(
       within(firstPreviewStep).getByTestId("concept-v2-start-lesson-preview-first-badge"),
     ).toHaveTextContent("Start here");
-    expect(
-      within(firstPreviewStep)
-        .getByText("Set up the pattern")
-        .closest(".line-clamp-2.break-words"),
-    ).not.toBeNull();
+    const compactFirstPreviewTitle = within(firstPreviewStep)
+      .getByText("Set up the pattern")
+      .closest(".line-clamp-2.break-words");
+    expect(compactFirstPreviewTitle).not.toBeNull();
+    expect(compactFirstPreviewTitle!).toHaveClass("text-sm", "leading-5");
     expect(wrapUpCard).toHaveClass("min-h-[3.85rem]", "2xl:col-span-1");
     expect(wrapUpCard).not.toHaveClass("sm:col-span-2");
     expect(wrapUpCard).toHaveTextContent("Wrap-up");
+    expect(within(wrapUpCard).getByText("Wrap-up")).toHaveClass("text-xs", "leading-5");
     expect(within(preview).queryByText("Start concept")).not.toBeInTheDocument();
 
     await user.click(within(handoff).getByRole("button", { name: /Start concept/ }));

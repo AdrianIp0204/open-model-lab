@@ -346,7 +346,7 @@ function ConceptPageV2LessonPreview({
         <p className="lab-label min-w-0 break-words text-ink-700">{label}</p>
         <span
           id={flowSummaryId}
-          className="inline-flex max-w-full min-w-0 rounded-full border border-ink-950/10 bg-white px-2.5 py-1 text-center text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-ink-700 break-words"
+          className="inline-flex max-w-full min-w-0 rounded-full border border-ink-950/10 bg-white px-2.5 py-1 text-center text-xs font-semibold leading-5 text-ink-700 break-words"
         >
           {flowSummary}
         </span>
@@ -387,7 +387,7 @@ function ConceptPageV2LessonPreview({
               <span
                 aria-hidden="true"
                 className={[
-                  "mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full border text-[0.68rem] font-semibold",
+                  "mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full border text-xs font-semibold",
                   isFirstStep
                     ? "border-teal-600/34 bg-white text-teal-800"
                     : "border-teal-600/24 bg-white text-teal-800",
@@ -400,14 +400,14 @@ function ConceptPageV2LessonPreview({
                   <span className="mb-1 flex min-w-0 flex-wrap gap-1">
                     <span
                       data-testid="concept-v2-start-lesson-preview-first-badge"
-                      className="inline-flex max-w-full min-w-0 rounded-full border border-teal-600/26 bg-white/92 px-2 py-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-teal-800 break-words"
+                      className="inline-flex max-w-full min-w-0 rounded-[10px] border border-teal-600/26 bg-white/92 px-2 py-1 text-xs font-semibold leading-5 text-teal-800 break-words"
                     >
                       {firstStepLabel}
                     </span>
                     {hasQuickCheckBadge ? (
                       <span
                         data-testid="concept-v2-start-lesson-preview-quick-check"
-                        className="inline-flex max-w-full min-w-0 rounded-full border border-amber-600/26 bg-amber-500/12 px-2 py-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-amber-800 break-words"
+                        className="inline-flex max-w-full min-w-0 rounded-[10px] border border-amber-600/26 bg-amber-500/12 px-2 py-1 text-xs font-semibold leading-5 text-amber-800 break-words"
                       >
                         {quickCheckLabel}
                       </span>
@@ -417,7 +417,7 @@ function ConceptPageV2LessonPreview({
                   <span className="mb-1 flex min-w-0 flex-wrap gap-1">
                     <span
                       data-testid="concept-v2-start-lesson-preview-quick-check"
-                      className="inline-flex max-w-full min-w-0 rounded-full border border-amber-600/26 bg-amber-500/12 px-2 py-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-amber-800 break-words"
+                      className="inline-flex max-w-full min-w-0 rounded-[10px] border border-amber-600/26 bg-amber-500/12 px-2 py-1 text-xs font-semibold leading-5 text-amber-800 break-words"
                     >
                       {quickCheckLabel}
                     </span>
@@ -426,13 +426,13 @@ function ConceptPageV2LessonPreview({
                 <RichMathText
                   as="span"
                   content={step.label}
-                  className="line-clamp-2 block break-words text-xs font-semibold leading-5 text-ink-800"
+                  className="line-clamp-2 block break-words text-sm font-semibold leading-5 text-ink-800"
                 />
                 {stepSummaryText ? (
                   <RichMathText
                     as="span"
                     content={stepSummaryText}
-                    className="mt-0.5 line-clamp-1 block break-words text-[0.72rem] leading-4 text-ink-700"
+                    className="mt-0.5 line-clamp-1 block break-words text-xs leading-5 text-ink-700"
                   />
                 ) : null}
               </span>
@@ -449,7 +449,7 @@ function ConceptPageV2LessonPreview({
           >
             <span
               aria-hidden="true"
-              className="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full border border-teal-600/30 bg-teal-500/12 text-[0.68rem] font-semibold text-teal-800"
+              className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full border border-teal-600/30 bg-teal-500/12 text-xs font-semibold text-teal-800"
             >
               ✓
             </span>
@@ -458,17 +458,17 @@ function ConceptPageV2LessonPreview({
                 {nextStepLabel ? (
                   <span
                     data-testid="concept-v2-start-lesson-preview-wrap-up-next-step-cue"
-                    className="inline-flex max-w-full min-w-0 rounded-full border border-teal-600/20 bg-white/82 px-2 py-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-teal-800 break-words"
+                    className="inline-flex max-w-full min-w-0 rounded-[10px] border border-teal-600/20 bg-white/82 px-2 py-1 text-xs font-semibold leading-5 text-teal-800 break-words"
                   >
                     {nextStepLabel}
                   </span>
                 ) : null}
-                <span className="inline-flex max-w-full min-w-0 break-words rounded-full border border-teal-600/24 bg-white/90 px-2 py-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-teal-800">
+                <span className="inline-flex max-w-full min-w-0 break-words rounded-[10px] border border-teal-600/24 bg-white/90 px-2 py-1 text-xs font-semibold leading-5 text-teal-800">
                   {wrapUpLabel}
                 </span>
               </span>
               {lessonCompleteLabel ? (
-                <span className="mt-0.5 line-clamp-2 block break-words text-[0.72rem] font-semibold leading-4 text-ink-700">
+                <span className="mt-0.5 line-clamp-2 block break-words text-xs font-semibold leading-5 text-ink-700">
                   {lessonCompleteLabel}
                 </span>
               ) : null}
