@@ -6770,7 +6770,7 @@ function GuidedFirstActionRail({
   return (
     <section
       data-testid="concept-v2-guided-first-action"
-      className="overflow-hidden rounded-[18px] border border-teal-500/22 bg-paper-strong/92 p-2 shadow-[0_1px_0_rgba(255,255,255,0.84)_inset] sm:p-2.5"
+      className="overflow-hidden rounded-[18px] border border-teal-500/22 bg-paper-strong/92 p-2 shadow-[0_1px_0_rgba(255,255,255,0.84)_inset]"
     >
       <div className="flex min-w-0 items-start justify-between gap-2 sm:gap-3">
         <div className="min-w-0">
@@ -6790,7 +6790,7 @@ function GuidedFirstActionRail({
 
       <div
         data-testid="concept-v2-guided-first-action-task"
-        className="mt-1 rounded-[16px] border border-teal-500/28 bg-ink-950 px-2 py-1 shadow-sm sm:mt-2 sm:px-2.5 sm:py-2"
+        className="mt-1 rounded-[16px] border border-teal-500/28 bg-ink-950 px-2 py-1 shadow-sm sm:px-2.5 sm:py-1.5"
       >
         <div
           data-testid="concept-v2-guided-first-action-phone-loop"
@@ -6812,14 +6812,14 @@ function GuidedFirstActionRail({
         <RichMathText
           as="p"
           content={activeStep.doThis}
-          className="min-w-0 break-words text-sm font-semibold leading-[1.2rem] text-paper-strong sm:mt-1 sm:line-clamp-2 sm:text-base sm:leading-6"
+          className="min-w-0 break-words text-sm font-semibold leading-[1.2rem] text-paper-strong sm:mt-0.5 sm:line-clamp-2 sm:text-base sm:leading-6"
         />
       </div>
 
       <ol
         data-testid="concept-v2-guided-first-action-loop"
         aria-label={copy.flowAria}
-        className="sr-only sm:not-sr-only sm:mt-2 sm:grid sm:grid-cols-3 sm:gap-1.5"
+        className="sr-only"
       >
         {promptRows.map((row) => (
           <li
@@ -8432,7 +8432,11 @@ export function ConceptSimulationRenderer({
         onToggleOverlay={toggleOverlay}
       />
     ) : null;
-  const guidedOverlayPanel = renderGuidedOverlayPanel();
+  const guidedOverlayDock = simulationOverlays.length ? (
+    <div data-testid="concept-guided-overlay-dock">
+      {renderGuidedOverlayPanel()}
+    </div>
+  ) : null;
   const challengeRuntime = {
     params: controlValues,
     activeGraphId: activeGraph?.id ?? null,
@@ -8611,7 +8615,7 @@ export function ConceptSimulationRenderer({
   const phaseSupportPanels = activeConceptPagePhaseId
     ? {
         explore: whatToNoticePanel,
-        understand: guidedOverlayPanel,
+        understand: null,
         check: isGuidedLessonMode && !isChallengeHashActive ? null : fullChallengePanel,
       }
     : null;
@@ -8632,7 +8636,7 @@ export function ConceptSimulationRenderer({
 
   const secondaryToolSections = activeConceptPagePhaseId
     ? []
-    : [whatToNoticePanel, guidedOverlayPanel, fullChallengePanel].filter(Boolean);
+    : [whatToNoticePanel, fullChallengePanel].filter(Boolean);
   const moreToolsOpen =
     moreToolsExpanded ||
     Boolean(highlightedOverlayIds.length || initialChallengeItemId) ||
@@ -8725,7 +8729,7 @@ export function ConceptSimulationRenderer({
       </div>
     ) : null;
   const isGuidedConceptBench = Boolean(guidedStep);
-  const guidedBenchBrief = guidedStep ? (
+  const guidedBenchBrief = guidedStep && !guidedStepCard ? (
     <GuidedConceptBenchBrief
       conceptTitle={concept.title}
       guidedStep={guidedStep}
@@ -8935,34 +8939,37 @@ export function ConceptSimulationRenderer({
         interactionRail={interactionRail}
         supportDock={supportDock}
         equations={
-          <details
-            data-testid="concept-equation-map-disclosure"
-            className="rounded-[22px] border border-line bg-white/45 px-3 py-3"
-          >
-            <summary className="flex cursor-pointer list-none items-start justify-between gap-3">
-              <div>
-                <p className="lab-label">{t("equationMap.label")}</p>
-                <p className="mt-1 text-xs leading-5 text-ink-600">
-                  {t("equationMap.description")}
-                </p>
+          <div className="grid gap-2.5">
+            {guidedOverlayDock}
+            <details
+              data-testid="concept-equation-map-disclosure"
+              className="rounded-[22px] border border-line bg-white/45 px-3 py-3"
+            >
+              <summary className="flex cursor-pointer list-none items-start justify-between gap-3">
+                <div>
+                  <p className="lab-label">{t("equationMap.label")}</p>
+                  <p className="mt-1 text-xs leading-5 text-ink-600">
+                    {t("equationMap.description")}
+                  </p>
+                </div>
+                <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-600">
+                  {t("actions.show")}
+                </span>
+              </summary>
+              <div className="mt-3">
+                <EquationPanel
+                  equations={concept.equations}
+                  variableLinks={concept.variableLinks}
+                  controls={concept.simulation.controls}
+                  graphs={concept.simulation.graphs}
+                  overlays={simulationOverlays}
+                  values={{ ...controlValues }}
+                  activeVariableId={activeVariableId}
+                  onActiveVariableChange={setActiveVariableId}
+                />
               </div>
-              <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-600">
-                {t("actions.show")}
-              </span>
-            </summary>
-            <div className="mt-3">
-              <EquationPanel
-                equations={concept.equations}
-                variableLinks={concept.variableLinks}
-                controls={concept.simulation.controls}
-                graphs={concept.simulation.graphs}
-                overlays={simulationOverlays}
-                values={{ ...controlValues }}
-                activeVariableId={activeVariableId}
-                onActiveVariableChange={setActiveVariableId}
-              />
-            </div>
-          </details>
+            </details>
+          </div>
         }
         status={
           isInspecting ? (

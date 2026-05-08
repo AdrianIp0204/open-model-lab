@@ -9,6 +9,7 @@ import { getLocalizedAccountDisplayName } from "@/lib/i18n/account";
 import { dispatchOpenOnboardingHelp } from "@/lib/onboarding/events";
 import { useProgressSnapshot, useProgressSyncState } from "@/lib/progress";
 import { LocaleSwitcher } from "./LocaleSwitcher";
+import { ThemeModeToggle } from "./ThemeModeToggle";
 import { primaryNavItems } from "./site-nav";
 
 function isActivePath(
@@ -215,6 +216,14 @@ export function SiteHeader() {
             <span className="hidden sm:inline">{t("help.label")}</span>
           </button>
           <div className="hidden md:block">
+            <ThemeModeToggle
+              darkLabel={t("theme.dark")}
+              lightLabel={t("theme.light")}
+              switchToDarkLabel={t("theme.switchToDark")}
+              switchToLightLabel={t("theme.switchToLight")}
+            />
+          </div>
+          <div className="hidden md:block">
             <LocaleSwitcher />
           </div>
           <div className="hidden md:block">
@@ -263,6 +272,12 @@ export function SiteHeader() {
         className="max-h-[calc(100dvh-4.25rem)] overflow-y-auto overscroll-contain border-t border-line bg-paper/96 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur [scrollbar-gutter:stable] [-webkit-overflow-scrolling:touch] xl:hidden"
       >
         <div className="page-band space-y-3 p-3">
+          <ThemeModeToggle
+            darkLabel={t("theme.dark")}
+            lightLabel={t("theme.light")}
+            switchToDarkLabel={t("theme.switchToDark")}
+            switchToLightLabel={t("theme.switchToLight")}
+          />
           <LocaleSwitcher className="flex" />
           <nav aria-label="Mobile primary" className="grid gap-2">
             {primaryNavItems.map((item, index) => {

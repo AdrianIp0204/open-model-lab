@@ -58,6 +58,12 @@
       "freeTier": "免費層級",
       "premium": "支持者方案"
     },
+    "theme": {
+      "dark": "深色",
+      "light": "淺色",
+      "switchToDark": "切換至深色模式",
+      "switchToLight": "切換至淺色模式"
+    },
     "nav": {
       "start": "學習",
       "search": "搜尋",
@@ -2445,7 +2451,7 @@
       "title": "{concept}：預測、改變、觀察、解釋",
       "description": "把即時模型當作課程核心：先預測，再改一個控制，讀取證據，解釋規則，最後在實驗台仍可見時完成檢查。",
       "stepCounter": "步驟 {current}/{total}",
-      "activePromptLabel": "現在做這個",
+      "activePromptLabel": "先試這個",
       "flowAria": "預測、改變、觀察、解釋、檢查",
       "predictLabel": "預測",
       "predictText": "動控制前，先說出你預期會改變甚麼。",

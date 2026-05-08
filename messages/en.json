@@ -62,6 +62,12 @@
       "label": "Help",
       "openAriaLabel": "Open Help / Tutorial"
     },
+    "theme": {
+      "dark": "Dark",
+      "light": "Light",
+      "switchToDark": "Switch to dark mode",
+      "switchToLight": "Switch to light mode"
+    },
     "nav": {
       "start": "Start",
       "search": "Search",
@@ -2594,7 +2600,7 @@
       "title": "{concept}: predict, change, observe, explain",
       "description": "Use the live model as the lesson core: predict first, change one control, read the evidence, explain the rule, then answer the check while the bench stays visible.",
       "stepCounter": "Step {current}/{total}",
-      "activePromptLabel": "Do this now",
+      "activePromptLabel": "Try this first",
       "flowAria": "Predict, Change, Observe, Explain, Check",
       "predictLabel": "Predict",
       "predictText": "Before touching a control, say what you expect to change.",

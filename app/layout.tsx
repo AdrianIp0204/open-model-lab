@@ -42,8 +42,14 @@ export default async function RootLayout({
   const messages = await getLocaleMessages(locale);
 
   return (
-    <html lang={locale} data-theme="dark-lab">
+    <html lang={locale} data-theme="dark-lab" suppressHydrationWarning>
       <body>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{var m=localStorage.getItem('oml-theme-mode');if(m==='dark-lab'||m==='paper-lab')document.documentElement.dataset.theme=m;}catch(e){}",
+          }}
+        />
         <NextIntlClientProvider locale={locale} messages={messages}>
           <LocaleDocumentSync locale={locale} />
           <AccountSyncProvider>

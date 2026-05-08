@@ -54,8 +54,9 @@ test.describe("concept page v2 flow", () => {
         const visualStage = page.getByTestId("simulation-shell-visual-stage");
         const scene = page.getByTestId("simulation-shell-scene");
         const controls = page.getByTestId("simulation-shell-controls");
-        const benchBrief = page.getByTestId("concept-v2-bench-brief");
         const activeTaskRail = page.getByTestId("concept-v2-active-task-rail");
+        const guidedOverlayDock = page.getByTestId("concept-guided-overlay-dock");
+        const equationMap = page.getByTestId("concept-equation-map-disclosure");
         const stepSlot = page.getByTestId("concept-v2-step-card-slot");
         const currentStepCard = page.getByTestId("concept-v2-current-step-card");
         const railInlineCheck = page.getByTestId("concept-v2-rail-inline-check");
@@ -75,23 +76,20 @@ test.describe("concept page v2 flow", () => {
         await expect(page.getByTestId("concept-v2-guided-first-action-task")).toContainText(
           "Press play",
         );
+        await expect(page.getByTestId("concept-v2-guided-first-action")).toContainText(
+          "Try this first",
+        );
         await expect(page.getByTestId("concept-v2-guided-first-action-loop")).toContainText(
           "Predict",
         );
-        await expect(benchBrief).toBeVisible();
-        await expect(benchBrief).toContainText("Concept bench");
-        await expect(benchBrief).toContainText("Predict");
-        await expect(benchBrief).toContainText("Change");
-        await expect(benchBrief).toContainText("Observe");
-        await expect(benchBrief).toContainText("Explain");
-        await expect(benchBrief).toContainText("Check");
-        await expect(benchBrief.getByTestId("concept-v2-bench-active-prompt")).toContainText(
-          "Press play",
-        );
-        await expect(benchBrief.getByTestId("concept-v2-bench-evidence")).toContainText(
-          "Displacement over time",
-        );
+        await expect(page.getByTestId("concept-v2-bench-brief")).toHaveCount(0);
         await expect(scene).toBeInViewport();
+        await expect(controls).toBeInViewport();
+        await expect(guidedOverlayDock).toBeVisible();
+        await expect(guidedOverlayDock).toContainText("Guided overlay");
+        await expect(guidedOverlayDock.getByRole("button", { name: /show overlay|hide overlay/i }).first()).toBeVisible();
+        await expect(equationMap).toBeVisible();
+        await expect(equationMap).toContainText("Full equation map");
         await expect(stepSlot).toBeVisible();
         await expect(currentStepCard).toBeVisible();
         await expect(railInlineCheck).toBeVisible();
@@ -152,16 +150,9 @@ test.describe("concept page v2 flow", () => {
         await expect(focusStageShell).toBeVisible();
         await expect(focusStageShell).toHaveClass(/simulation-shell--focus-stage/);
         await expect(visualStage).toBeVisible();
-        await expect(benchBrief).toBeVisible();
-        await expect(benchBrief).toContainText("Concept bench");
-        await expect(benchBrief).toContainText("Predict");
-        await expect(benchBrief).toContainText("Change");
-        await expect(benchBrief).toContainText("Observe");
-        await expect(benchBrief).toContainText("Explain");
-        await expect(benchBrief).toContainText("Check");
-        await expect(benchBrief).not.toContainText(/run the loop|live model run/i);
+        await expect(benchBrief).toHaveCount(0);
         await expect(firstAction.getByTestId("concept-v2-guided-first-action")).toBeVisible();
-        await expect(firstAction).toContainText("Do this now");
+        await expect(firstAction).toContainText("Try this first");
         await expect(firstAction).not.toContainText("Start with one setup");
         await expect(firstAction).not.toContainText(/Let the live model run/i);
         await expect(page.getByTestId("concept-v2-step-card-slot")).toBeVisible();
