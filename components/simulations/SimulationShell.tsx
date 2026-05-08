@@ -269,8 +269,8 @@ export function SimulationShell({
                 <>
                   {sceneSlot}
                   {firstActionSlot}
-                  {graphsSlot}
                   {controlsSlot}
+                  {graphsSlot}
                   {transportSlot}
                   {benchHeaderSlot}
                 </>

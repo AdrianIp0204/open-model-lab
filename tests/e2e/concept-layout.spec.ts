@@ -342,11 +342,11 @@ async function assertShellFocusOrder(page: Page, viewportCase: ViewportCase) {
     if (isFocusStage) {
       if (firstSlotIndex(shellStops, "scene") !== -1) {
         expect(shellStops[0]?.slot).toBe("scene");
-        expectSlotFocusOrder(shellStops, "scene", "graphs");
+        expectSlotFocusOrder(shellStops, "scene", "controls");
         await expectCanFocusFirstStopInSlot(page, "scene");
       }
-      expectSlotFocusOrder(shellStops, "graphs", "controls");
-      expectSlotFocusOrder(shellStops, "controls", "transport");
+      expectSlotFocusOrder(shellStops, "controls", "graphs");
+      expectSlotFocusOrder(shellStops, "graphs", "transport");
       await expectCanFocusFirstStopInSlot(page, "controls");
       return;
     }
@@ -464,11 +464,12 @@ async function assertInitialViewportLayout(
     expect(sceneBox!.y).toBeLessThan(controlsBox!.y);
     if (isFocusStage) {
       expect(firstActionBox!.y).toBeLessThan(viewportCase.viewport.height);
-      expect(firstActionBox!.y).toBeLessThan(graphsBox!.y);
-      expect(graphsBox!.y).toBeLessThan(controlsBox!.y);
-      expect(graphsBox!.y).toBeLessThan(viewportCase.viewport.height);
-      expect(controlsBox!.y).toBeLessThan(guidedStepBox!.y);
-      expect(firstPrimaryControlBox!.y).toBeLessThan(guidedStepBox!.y);
+      expect(firstActionBox!.y).toBeLessThan(controlsBox!.y);
+      expect(controlsBox!.y).toBeLessThan(graphsBox!.y);
+      expect(controlsBox!.y).toBeLessThan(viewportCase.viewport.height);
+      expect(firstPrimaryControlBox!.y).toBeLessThan(viewportCase.viewport.height);
+      expect(firstPrimaryControlBox!.y).toBeLessThan(graphsBox!.y);
+      expect(graphsBox!.y).toBeLessThan(guidedStepBox!.y);
     } else {
       expect(controlsBox!.y).toBeLessThan(viewportCase.viewport.height);
       expect(controlsBox!.y + controlsBox!.height).toBeGreaterThan(0);
@@ -1401,7 +1402,8 @@ test("keeps the mobile V2 lesson order sane for a migrated chemistry concept", a
 
     expect(sceneBox!.y).toBeLessThan(controlsBox!.y);
     expect(sceneBox!.y).toBeLessThan(graphsBox!.y);
-    expect(graphsBox!.y).toBeLessThan(controlsBox!.y);
+    expect(controlsBox!.y).toBeLessThan(graphsBox!.y);
+    expect(firstPrimaryControlBox!.y).toBeLessThan(graphsBox!.y);
     expect(firstPrimaryControlBox!.y).toBeLessThan(stepCardBox!.y);
     expect(graphsBox!.y).toBeLessThan(wrapUpBox!.y);
     expect(wrapUpBox!.y).toBeLessThan(referenceBox!.y);
