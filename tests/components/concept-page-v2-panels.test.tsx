@@ -960,7 +960,7 @@ describe("ConceptPageV2LessonRail", () => {
     expect(previousStepMapButton.closest("li")).toHaveAttribute("aria-posinset", "1");
     expect(previousStepMapButton.closest("li")).toHaveAttribute("aria-setsize", "4");
     expect(previousStepMapButton).toBeEnabled();
-    expect(previousStepMapButton).toHaveClass("min-h-10");
+    expect(previousStepMapButton).toHaveClass("min-h-11");
     expect(previousStepMapButton).not.toHaveAccessibleDescription();
     const activeStepMapButton = within(stepMap).getByRole("button", {
       name: "Compare two outputs — Current step",
@@ -968,7 +968,7 @@ describe("ConceptPageV2LessonRail", () => {
     expect(activeStepMapButton).toHaveAttribute("aria-current", "step");
     expect(activeStepMapButton.closest("li")).toHaveAttribute("aria-posinset", "2");
     expect(activeStepMapButton.closest("li")).toHaveAttribute("aria-setsize", "4");
-    expect(activeStepMapButton).toHaveClass("min-h-10");
+    expect(activeStepMapButton).toHaveClass("min-h-11");
     expect(activeStepMapButton).not.toHaveAccessibleDescription();
     const nextStepMapButton = within(stepMap).getByRole("button", {
       name: "Explain the rule — Up next — Quick check",
@@ -1131,8 +1131,8 @@ describe("ConceptPageV2LessonRail", () => {
     expect(nextCheckpointButton).toHaveAccessibleDescription("Turn the pattern into a rule.");
     expect(nextCheckpointButton).toHaveClass("min-h-11", "min-w-0", "md:max-w-[16rem]");
     expect(within(nextCheckpointButton).getByText("Next step")).toHaveClass(
-      "uppercase",
-      "tracking-[0.14em]",
+      "text-xs",
+      "leading-5",
     );
     expect(within(nextCheckpointButton).getByText("Explain the rule").parentElement).toHaveClass(
       "min-w-0",

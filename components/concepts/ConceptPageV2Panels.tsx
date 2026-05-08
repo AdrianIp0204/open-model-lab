@@ -1277,7 +1277,7 @@ export function ConceptPageV2LessonRail({
           <div className="space-y-1.5">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <p className="lab-label">{copy.lessonFlowLabel}</p>
-              <span className="rounded-full border border-line bg-paper px-3 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-ink-600">
+              <span className="rounded-full border border-line bg-paper px-3 py-1 text-xs font-semibold leading-5 text-ink-600">
                 {activePosition} / {steps.length}
               </span>
             </div>
@@ -1298,7 +1298,7 @@ export function ConceptPageV2LessonRail({
               />
             </div>
             <div className="rounded-[18px] border border-line/80 bg-paper-strong/80 px-3 py-2.5">
-              <p id={currentStepCardLabelId} className="lab-label">
+              <p id={currentStepCardLabelId} className="text-sm font-semibold leading-5 text-ink-700">
                 {copy.currentStepLabel}
                 <span className="sr-only">:</span>
               </p>
@@ -1317,7 +1317,7 @@ export function ConceptPageV2LessonRail({
               >
                 <p
                   id={`${railActionPathIdBase}-act-label`}
-                  className="text-xs font-semibold uppercase tracking-[0.1em] text-teal-700"
+                  className="text-sm font-semibold leading-5 text-teal-700"
                 >
                   {copy.actLabel}
                 </p>
@@ -1332,8 +1332,8 @@ export function ConceptPageV2LessonRail({
                     data-testid="concept-v2-current-step-secondary-guidance"
                     className="group mt-2 rounded-[12px] border border-teal-500/14 bg-white/70 px-2.5 py-2"
                   >
-                    <summary className="flex min-h-9 cursor-pointer list-none items-center justify-between gap-2 rounded-[10px] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/24 focus-visible:ring-offset-2 focus-visible:ring-offset-white [&::-webkit-details-marker]:hidden">
-                      <span className="text-xs font-semibold uppercase tracking-[0.1em] text-ink-600">
+                    <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 rounded-[10px] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/24 focus-visible:ring-offset-2 focus-visible:ring-offset-white [&::-webkit-details-marker]:hidden">
+                      <span className="text-sm font-semibold leading-5 text-ink-700">
                         {copy.observeLabel} / {copy.explainLabel}
                       </span>
                       <span
@@ -1353,7 +1353,7 @@ export function ConceptPageV2LessonRail({
                             key={row.label}
                             className="rounded-[10px] border border-line/70 bg-paper/70 px-2 py-1.5"
                           >
-                            <dt className="text-xs font-semibold uppercase tracking-[0.08em] text-ink-500">
+                            <dt className="text-xs font-semibold leading-5 text-ink-600">
                               {rowLabel}
                             </dt>
                             <dd className="mt-0.5 min-w-0">
@@ -1382,7 +1382,7 @@ export function ConceptPageV2LessonRail({
                   </span>
                   <p
                     id={railRevealHeadingId}
-                    className="text-xs font-semibold uppercase tracking-[0.1em] text-ink-500"
+                    className="text-sm font-semibold leading-5 text-ink-700"
                   >
                     {copy.nowAvailableLabel}
                   </p>
@@ -1435,18 +1435,18 @@ export function ConceptPageV2LessonRail({
                   <div className="flex flex-wrap items-center gap-1.5">
                     <p
                       id={railInlineCheckLabelId}
-                      className="text-xs font-semibold uppercase tracking-[0.1em] text-amber-700"
+                      className="text-sm font-semibold leading-5 text-amber-700"
                     >
                       {copy.quickCheckLabel}
                       <span className="sr-only">:</span>
                     </p>
-                    <span className="inline-flex max-w-full min-w-0 rounded-full border border-amber-500/18 bg-white/78 px-2 py-0.5 text-xs font-semibold uppercase tracking-[0.08em] text-amber-700">
+                    <span className="inline-flex max-w-full min-w-0 rounded-full border border-amber-500/18 bg-white/78 px-2 py-0.5 text-xs font-semibold leading-5 text-amber-700">
                       <RichMathText as="span" content={activeStep.inlineCheck.eyebrow} className="min-w-0 break-words" />
                     </span>
                   </div>
                   <p
                     id={railInlineCheckTitleId}
-                    className="mt-1.5 line-clamp-2 break-words text-sm font-semibold leading-6 text-ink-900"
+                    className="mt-1.5 line-clamp-2 break-words text-base font-semibold leading-6 text-ink-900"
                   >
                     <RichMathText as="span" content={activeStep.inlineCheck.title} />
                   </p>
@@ -1590,7 +1590,7 @@ export function ConceptPageV2LessonRail({
                     aria-current={isActive ? "step" : undefined}
                     aria-label={stepStatusAriaLabel}
                     className={[
-                      "group grid h-full min-h-10 w-full grid-cols-[auto_minmax(0,1fr)] items-center gap-1.5 rounded-[12px] border px-2 py-1.5 text-left transition disabled:cursor-default disabled:hover:bg-inherit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                      "group grid h-full min-h-11 w-full grid-cols-[auto_minmax(0,1fr)] items-center gap-1.5 rounded-[12px] border px-2 py-1.5 text-left transition disabled:cursor-default disabled:hover:bg-inherit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
                       isActive
                         ? "border-teal-500/34 bg-teal-500/10 text-ink-950 shadow-sm disabled:hover:bg-teal-500/10"
                         : isComplete
@@ -1617,7 +1617,7 @@ export function ConceptPageV2LessonRail({
                       <RichMathText
                         as="span"
                         content={step.label}
-                        className="line-clamp-1 block min-w-0 break-words text-[0.72rem] font-semibold leading-4"
+                        className="line-clamp-1 block min-w-0 break-words text-xs font-semibold leading-5"
                       />
                     </span>
                   </button>
@@ -1646,7 +1646,7 @@ export function ConceptPageV2LessonRail({
                   <span className="min-w-0">
                     <span
                       data-testid="concept-v2-step-map-wrap-up-next-step-cue"
-                      className="mb-1 inline-flex max-w-full min-w-0 break-words rounded-full border border-teal-500/20 bg-white/82 px-2 py-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-teal-700"
+                      className="mb-1 inline-flex max-w-full min-w-0 break-words rounded-full border border-teal-500/20 bg-white/82 px-2 py-0.5 text-xs font-semibold leading-5 text-teal-700"
                     >
                       <span className="min-w-0 break-words">{copy.nextStep}</span>
                     </span>
@@ -1685,7 +1685,7 @@ export function ConceptPageV2LessonRail({
                     {isWrapUpReady ? (
                       <span
                         data-testid="concept-v2-step-map-wrap-up-next-step-cue"
-                        className="mb-1 inline-flex max-w-full min-w-0 break-words rounded-full border border-teal-500/20 bg-white/82 px-2 py-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-teal-700"
+                        className="mb-1 inline-flex max-w-full min-w-0 break-words rounded-full border border-teal-500/20 bg-white/82 px-2 py-0.5 text-xs font-semibold leading-5 text-teal-700"
                       >
                         <span className="min-w-0 break-words">{copy.nextStep}</span>
                       </span>
@@ -1722,11 +1722,11 @@ export function ConceptPageV2LessonRail({
               }
               className="min-w-0"
             >
-              <p className="lab-label">{copy.upcomingStepLabel}</p>
+              <p className="text-sm font-semibold leading-5 text-sky-800">{copy.upcomingStepLabel}</p>
               <RichMathText
                 as="p"
                 content={nextStep.label}
-                className="mt-1 min-w-0 line-clamp-2 break-words text-xs font-semibold leading-5 text-ink-900"
+                className="mt-1 min-w-0 line-clamp-2 break-words text-sm font-semibold leading-6 text-ink-900"
               />
               <p
                 id={nextCheckpointDescriptionId}
@@ -1743,7 +1743,7 @@ export function ConceptPageV2LessonRail({
                     <>
                       <li
                         data-testid="concept-v2-next-step-reveals"
-                        className="inline-flex rounded-full border border-teal-500/16 bg-white/82 px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.14em] text-teal-700"
+                        className="inline-flex rounded-full border border-teal-500/16 bg-white/82 px-2.5 py-1 text-xs font-semibold leading-5 text-teal-700"
                       >
                         {copy.nowAvailableLabel}
                       </li>
@@ -1782,7 +1782,7 @@ export function ConceptPageV2LessonRail({
                   {nextStep.inlineCheck ? (
                     <li
                       data-testid="concept-v2-next-step-quick-check"
-                      className="inline-flex rounded-full border border-amber-500/18 bg-white/82 px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.14em] text-amber-700"
+                      className="inline-flex rounded-full border border-amber-500/18 bg-white/82 px-2.5 py-1 text-xs font-semibold leading-5 text-amber-700"
                     >
                       {copy.quickCheckLabel}
                     </li>
@@ -1802,7 +1802,7 @@ export function ConceptPageV2LessonRail({
                 ].join(" ")}
               >
                 <span className="min-w-0 text-left">
-                  <span className="block text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-sky-700/78">
+                  <span className="block text-xs font-semibold leading-5 text-sky-700/78">
                     {copy.nextStep}
                   </span>
                   <RichMathText
@@ -1836,8 +1836,8 @@ export function ConceptPageV2LessonRail({
             className="mt-3 rounded-[18px] border border-teal-500/22 bg-teal-500/10 px-3 py-3 shadow-[0_1px_0_rgba(255,255,255,0.76)_inset]"
           >
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <p className="lab-label">{copy.lessonCompleteLabel}</p>
-              <span className="rounded-full border border-teal-500/24 bg-white/82 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-teal-700">
+              <p className="text-sm font-semibold leading-5 text-teal-800">{copy.lessonCompleteLabel}</p>
+              <span className="rounded-full border border-teal-500/24 bg-white/82 px-2.5 py-1 text-xs font-semibold leading-5 text-teal-700">
                 {copy.wrapUpLabel}
               </span>
             </div>
