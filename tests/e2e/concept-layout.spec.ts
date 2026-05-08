@@ -316,6 +316,11 @@ async function expectCanFocusFirstStopInSlot(
 
 async function assertShellFocusOrder(page: Page, viewportCase: ViewportCase) {
   await expectShellBreakpoint(page, viewportCase);
+  const isFocusStage = await page
+    .locator('[data-stage-tone="focus"]')
+    .first()
+    .count()
+    .then((count) => count > 0);
 
   const allStops = await getShellFocusStops(page);
   const shellStops = allStops.filter((stop) => stop.slot !== "other");
@@ -334,6 +339,18 @@ async function assertShellFocusOrder(page: Page, viewportCase: ViewportCase) {
   ).toBeGreaterThan(0);
 
   if (viewportCase.viewport.width < 640) {
+    if (isFocusStage) {
+      if (firstSlotIndex(shellStops, "scene") !== -1) {
+        expect(shellStops[0]?.slot).toBe("scene");
+        expectSlotFocusOrder(shellStops, "scene", "graphs");
+        await expectCanFocusFirstStopInSlot(page, "scene");
+      }
+      expectSlotFocusOrder(shellStops, "graphs", "controls");
+      expectSlotFocusOrder(shellStops, "controls", "transport");
+      await expectCanFocusFirstStopInSlot(page, "controls");
+      return;
+    }
+
     if (firstSlotIndex(shellStops, "scene") !== -1) {
       expect(shellStops[0]?.slot).toBe("scene");
       expectSlotFocusOrder(shellStops, "scene", "controls");
@@ -359,6 +376,11 @@ async function assertInitialViewportLayout(
   testInfo: TestInfo,
 ) {
   await expectShellBreakpoint(page, viewportCase);
+  const isFocusStage = await page
+    .locator('[data-stage-tone="focus"]')
+    .first()
+    .count()
+    .then((count) => count > 0);
 
   const scene = page.getByTestId("simulation-shell-scene");
   const controls = page.getByTestId("simulation-shell-controls");
@@ -439,29 +461,36 @@ async function assertInitialViewportLayout(
     expect(firstActionBox!.y).toBeLessThan(viewportCase.viewport.height);
     expect(firstPrimaryControlBox!.y).toBeLessThan(viewportCase.viewport.height);
   } else {
-    expect(controlsBox!.y).toBeLessThan(viewportCase.viewport.height);
-    expect(controlsBox!.y + controlsBox!.height).toBeGreaterThan(0);
-    expect(
-      firstPrimaryControlBox!.y < viewportCase.viewport.height ||
-        controlsBox!.y < viewportCase.viewport.height,
-      "Expected the first primary control, or at minimum the top of the core controls panel, to start in the initial phone viewport.",
-    ).toBe(true);
     expect(sceneBox!.y).toBeLessThan(controlsBox!.y);
-    expect(controlsBox!.y).toBeLessThanOrEqual(sceneBox!.y + sceneBox!.height + 24);
-    if (transportBox) {
-      expect(controlsBox!.y).toBeLessThan(transportBox.y);
-      expect(transportBox.y).toBeLessThan(graphsBox!.y);
-      expect(firstActionBox!.y).toBeLessThan(transportBox.y);
-      expect(firstPrimaryControlBox!.y).toBeLessThan(transportBox.y);
-    } else {
-      expect(controlsBox!.y).toBeLessThan(graphsBox!.y);
+    if (isFocusStage) {
+      expect(firstActionBox!.y).toBeLessThan(viewportCase.viewport.height);
       expect(firstActionBox!.y).toBeLessThan(graphsBox!.y);
-      expect(firstPrimaryControlBox!.y).toBeLessThan(graphsBox!.y);
+      expect(graphsBox!.y).toBeLessThan(controlsBox!.y);
+      expect(graphsBox!.y).toBeLessThan(viewportCase.viewport.height);
+      expect(controlsBox!.y).toBeLessThan(guidedStepBox!.y);
+      expect(firstPrimaryControlBox!.y).toBeLessThan(guidedStepBox!.y);
+    } else {
+      expect(controlsBox!.y).toBeLessThan(viewportCase.viewport.height);
+      expect(controlsBox!.y + controlsBox!.height).toBeGreaterThan(0);
+      expect(
+        firstPrimaryControlBox!.y < viewportCase.viewport.height ||
+          controlsBox!.y < viewportCase.viewport.height,
+        "Expected the first primary control, or at minimum the top of the core controls panel, to start in the initial phone viewport.",
+      ).toBe(true);
+      expect(controlsBox!.y).toBeLessThanOrEqual(sceneBox!.y + sceneBox!.height + 24);
+      if (transportBox) {
+        expect(controlsBox!.y).toBeLessThan(transportBox.y);
+        expect(transportBox.y).toBeLessThan(graphsBox!.y);
+        expect(firstActionBox!.y).toBeLessThan(transportBox.y);
+        expect(firstPrimaryControlBox!.y).toBeLessThan(transportBox.y);
+      } else {
+        expect(controlsBox!.y).toBeLessThan(graphsBox!.y);
+        expect(firstActionBox!.y).toBeLessThan(graphsBox!.y);
+        expect(firstPrimaryControlBox!.y).toBeLessThan(graphsBox!.y);
+      }
     }
     expect(graphsBox!.y).toBeLessThan(guidedStepBox!.y);
-    expect(controlsBox!.y).toBeLessThan(guidedStepBox!.y);
     expect(firstActionBox!.y).toBeLessThan(guidedStepBox!.y);
-    expect(firstPrimaryControlBox!.y).toBeLessThan(guidedStepBox!.y);
   }
   expect(guidedStepBox!.y).toBeGreaterThan(controlsBox!.y);
 
@@ -1372,7 +1401,7 @@ test("keeps the mobile V2 lesson order sane for a migrated chemistry concept", a
 
     expect(sceneBox!.y).toBeLessThan(controlsBox!.y);
     expect(sceneBox!.y).toBeLessThan(graphsBox!.y);
-    expect(controlsBox!.y).toBeLessThan(graphsBox!.y);
+    expect(graphsBox!.y).toBeLessThan(controlsBox!.y);
     expect(firstPrimaryControlBox!.y).toBeLessThan(stepCardBox!.y);
     expect(graphsBox!.y).toBeLessThan(wrapUpBox!.y);
     expect(wrapUpBox!.y).toBeLessThan(referenceBox!.y);

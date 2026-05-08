@@ -107,6 +107,7 @@ export function SimulationShell({
   const statusClassName = isFocusStage
     ? "rounded-[16px] border border-white/10 bg-white/[0.07] px-3 py-2 text-sm leading-6 text-teal-50/88"
     : "rounded-[16px] border border-line bg-white/70 px-3 py-2 text-sm leading-6 text-ink-700";
+  const usesPhoneVisualPriority = isFocusStage && !isSmViewportOrWider;
 
   const benchHeaderSlot = benchHeader ? (
     <div
@@ -143,6 +144,16 @@ export function SimulationShell({
       ) : null}
     </div>
   );
+  const firstActionSlot = interactionRail ? (
+    <div
+      key="first-action"
+      data-testid="simulation-shell-first-action"
+      data-focus-surface="rail"
+      className="min-w-0"
+    >
+      {interactionRail}
+    </div>
+  ) : null;
   const controlsSlot = (
     <div
       key="controls"
@@ -159,11 +170,7 @@ export function SimulationShell({
       ].join(" ")}
     >
       <div className="space-y-2.5 lg:sticky lg:top-4">
-        {interactionRail ? (
-          <div data-testid="simulation-shell-first-action" data-focus-surface="rail">
-            {interactionRail}
-          </div>
-        ) : null}
+        {interactionRail && !usesPhoneVisualPriority ? firstActionSlot : null}
         <div
           id={controlsAnchorId}
           data-testid="simulation-shell-control-panel"
@@ -258,13 +265,24 @@ export function SimulationShell({
                 {controlsSlot}
               </>
             ) : (
-              <>
-                {sceneSlot}
-                {controlsSlot}
-                {transportSlot}
-                {graphsSlot}
-                {benchHeaderSlot}
-              </>
+              usesPhoneVisualPriority ? (
+                <>
+                  {sceneSlot}
+                  {firstActionSlot}
+                  {graphsSlot}
+                  {controlsSlot}
+                  {transportSlot}
+                  {benchHeaderSlot}
+                </>
+              ) : (
+                <>
+                  {sceneSlot}
+                  {controlsSlot}
+                  {transportSlot}
+                  {graphsSlot}
+                  {benchHeaderSlot}
+                </>
+              )
             )}
           </div>
           {afterBench ? (

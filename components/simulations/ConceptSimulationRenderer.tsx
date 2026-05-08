@@ -6763,7 +6763,7 @@ function GuidedFirstActionRail({
   return (
     <section
       data-testid="concept-v2-guided-first-action"
-      className="overflow-hidden rounded-[18px] border border-teal-500/22 bg-[linear-gradient(135deg,rgba(20,184,166,0.14),rgba(255,255,255,0.88)_48%,rgba(14,165,233,0.10))] p-3 shadow-[0_1px_0_rgba(255,255,255,0.84)_inset]"
+      className="overflow-hidden rounded-[18px] border border-teal-500/22 bg-paper-strong/92 p-2.5 shadow-[0_1px_0_rgba(255,255,255,0.84)_inset]"
     >
       <div className="flex min-w-0 items-start justify-between gap-3">
         <div className="min-w-0">
@@ -6783,15 +6783,15 @@ function GuidedFirstActionRail({
 
       <div
         data-testid="concept-v2-guided-first-action-task"
-        className="mt-2.5 rounded-[16px] border border-teal-500/24 bg-white/84 px-3 py-2.5 shadow-sm"
+        className="mt-2 rounded-[16px] border border-teal-500/28 bg-ink-950 px-2.5 py-2 shadow-sm"
       >
-        <p className="text-sm font-semibold leading-5 text-teal-800">
+        <p className="text-sm font-semibold leading-5 text-teal-100">
           {copy.changeLabel}
         </p>
         <RichMathText
           as="p"
           content={activeStep.doThis}
-          className="mt-1 line-clamp-3 min-w-0 break-words text-base font-semibold leading-6 text-ink-900"
+          className="mt-1 line-clamp-2 min-w-0 break-words text-base font-semibold leading-6 text-paper-strong"
         />
       </div>
 
@@ -6818,7 +6818,7 @@ function GuidedFirstActionRail({
       {evidenceItems.length ? (
         <div
           data-testid="concept-v2-guided-first-action-evidence"
-          className="mt-2.5 hidden rounded-[14px] border border-line/80 bg-white/70 px-2.5 py-2 sm:block"
+          className="sr-only"
         >
           <p className="line-clamp-2 text-sm leading-5 text-ink-700">
             <span className="font-semibold text-ink-800">{copy.evidenceLabel}: </span>
