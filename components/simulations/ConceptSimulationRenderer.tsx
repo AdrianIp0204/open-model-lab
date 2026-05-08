@@ -6791,7 +6791,7 @@ function GuidedFirstActionRail({
         <RichMathText
           as="p"
           content={activeStep.doThis}
-          className="mt-1 line-clamp-3 min-w-0 break-words text-[0.95rem] font-semibold leading-5 text-paper-strong sm:line-clamp-2 sm:text-base sm:leading-6"
+          className="mt-1 min-w-0 break-words text-[0.95rem] font-semibold leading-5 text-paper-strong sm:line-clamp-2 sm:text-base sm:leading-6"
         />
       </div>
 
@@ -8617,12 +8617,19 @@ export function ConceptSimulationRenderer({
     Boolean(highlightedOverlayIds.length || initialChallengeItemId) ||
     activeLocationHash === `#${conceptShareAnchorIds.challengeMode}`;
   const controlsAnchorId = "concept-live-controls";
+  const compactGuidedRail = Boolean(activeConceptPagePhaseId && guidedFirstActionPanel);
   const interactionRail = (
     <section
       data-testid="concept-v2-active-task-rail"
-      className="rounded-[20px] border border-line bg-white/55 px-3 py-2"
+      className="rounded-[20px] border border-line bg-white/55 px-3 py-2 max-sm:px-2 max-sm:py-1.5"
     >
-      <div className="mb-1.5 border-b border-line/80 pb-1.5">
+      <div
+        className={
+          compactGuidedRail
+            ? "sr-only sm:not-sr-only sm:mb-1.5 sm:border-b sm:border-line/80 sm:pb-1.5"
+            : "mb-1.5 border-b border-line/80 pb-1.5"
+        }
+      >
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <p className="text-sm font-semibold leading-5 text-teal-800">
