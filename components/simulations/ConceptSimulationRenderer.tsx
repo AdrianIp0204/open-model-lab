@@ -6791,14 +6791,14 @@ function GuidedFirstActionRail({
         <RichMathText
           as="p"
           content={activeStep.doThis}
-          className="mt-1 line-clamp-2 min-w-0 break-words text-base font-semibold leading-6 text-paper-strong"
+          className="mt-1 line-clamp-3 min-w-0 break-words text-[0.95rem] font-semibold leading-5 text-paper-strong sm:line-clamp-2 sm:text-base sm:leading-6"
         />
       </div>
 
       <ol
         data-testid="concept-v2-guided-first-action-loop"
         aria-label={copy.flowAria}
-        className="mt-2 grid grid-cols-3 gap-1.5"
+        className="sr-only sm:not-sr-only sm:mt-2 sm:grid sm:grid-cols-3 sm:gap-1.5"
       >
         {promptRows.map((row) => (
           <li
@@ -8201,6 +8201,7 @@ export function ConceptSimulationRenderer({
 
   const modeTabs = (
     <CompactModeTabs
+      className="hidden sm:inline-flex"
       items={[
         { id: "explore", label: t("tabs.explore") },
         { id: "compare", label: t("tabs.compare") },
@@ -8960,11 +8961,11 @@ export function ConceptSimulationRenderer({
           )
         }
         graphs={
-          <section className="lab-panel p-3.5 md:p-4">
-            <div className="flex flex-col gap-3 border-b border-line pb-3 lg:flex-row lg:items-start lg:justify-between">
+          <section className="lab-panel flex flex-col p-3.5 md:p-4">
+            <div className="order-2 mt-3 flex flex-col gap-3 border-t border-line pt-3 sm:order-1 sm:mt-0 sm:border-b sm:border-t-0 sm:pb-3 sm:pt-0 lg:flex-row lg:items-start lg:justify-between">
               <div>
                 <p className="lab-label">{t("graphs.label")}</p>
-                <p className="mt-1 text-sm text-ink-700">
+                <p className="sr-only sm:not-sr-only sm:mt-1 sm:text-sm sm:text-ink-700">
                   {t("graphs.description")}
                 </p>
               </div>
@@ -8979,7 +8980,7 @@ export function ConceptSimulationRenderer({
             </div>
             {activeGraph ? (
               <div
-                className="mt-4"
+                className="order-1 sm:order-2 sm:mt-4"
                 id={`graph-panel-${activeGraph.id}`}
                 role="tabpanel"
                 aria-labelledby={`graph-tab-${activeGraph.id}`}
@@ -8995,6 +8996,7 @@ export function ConceptSimulationRenderer({
                   tickCountY={graphBounds?.yTicks}
                   previewEnabled={!isInspecting}
                   linkedMarker={inspectionMarker}
+                  mobileVisualPriority={Boolean(activeConceptPagePhaseId)}
                   onPreviewChange={handleGraphPreview}
                   summary={
                     compareEnabled

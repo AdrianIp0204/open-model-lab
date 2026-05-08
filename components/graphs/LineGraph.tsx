@@ -75,6 +75,7 @@ type LineGraphProps = {
   className?: string;
   previewEnabled?: boolean;
   linkedMarker?: LineGraphLinkedMarker | null;
+  mobileVisualPriority?: boolean;
   boundsOverride?: {
     minX: number;
     maxX: number;
@@ -355,6 +356,7 @@ export function LineGraph({
   className,
   previewEnabled = true,
   linkedMarker,
+  mobileVisualPriority = false,
   boundsOverride,
   tickCountX = 5,
   tickCountY = 5,
@@ -435,13 +437,30 @@ export function LineGraph({
 
   return (
     <figure className={["lab-panel p-3 md:p-3.5", className ?? ""].join(" ")}>
-      <div className="mb-3 grid gap-2.5 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-start xl:justify-between">
+      <div
+        className={[
+          "mb-3 grid gap-2.5 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-start xl:justify-between",
+          mobileVisualPriority ? "max-sm:mb-2 max-sm:gap-1.5" : "",
+        ].join(" ")}
+      >
         <div className="max-w-2xl">
           <p className="lab-label">
             <RichMathText as="span" content={title} />
           </p>
-          <RichMathText as="p" content={description ?? summary} className="mt-1 text-sm text-ink-700" />
-          <div className="mt-2 flex flex-wrap gap-1.5">
+          <RichMathText
+            as="p"
+            content={description ?? summary}
+            className={
+              mobileVisualPriority
+                ? "sr-only sm:not-sr-only sm:mt-1 sm:text-sm sm:text-ink-700"
+                : "mt-1 text-sm text-ink-700"
+            }
+          />
+          <div
+            className={
+              mobileVisualPriority ? "hidden sm:mt-2 sm:flex sm:flex-wrap sm:gap-1.5" : "mt-2 flex flex-wrap gap-1.5"
+            }
+          >
             <span className="inline-flex items-center rounded-full border border-line bg-paper px-2.5 py-1 text-[0.68rem] font-medium tracking-[0.18em] text-ink-600">
               {t("range", {
                 label: displayXLabel,
@@ -489,7 +508,11 @@ export function LineGraph({
             </p>
           ) : null}
         </div>
-        <div className="flex flex-wrap gap-1.5 xl:justify-end">
+        <div
+          className={
+            mobileVisualPriority ? "hidden sm:flex sm:flex-wrap sm:gap-1.5 xl:justify-end" : "flex flex-wrap gap-1.5 xl:justify-end"
+          }
+        >
           {series.map((item, index) => (
             <span
               key={item.id}
