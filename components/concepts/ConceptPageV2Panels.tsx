@@ -560,7 +560,7 @@ export function ConceptPageV2EquationSnapshotCard({
               <span className="min-w-0">
                 <span
                   id={equationSnapshotHeadingId}
-                  className="lab-label block text-[0.64rem] tracking-[0.12em] text-ink-700"
+                  className="block text-sm font-semibold leading-5 text-ink-700"
                 >
                   {copy.equationSnapshotLabel}
                 </span>
@@ -568,7 +568,7 @@ export function ConceptPageV2EquationSnapshotCard({
                   {equationPreview}
                 </span>
               </span>
-              <span className="inline-flex min-h-9 w-full shrink-0 items-center justify-center gap-2 rounded-full border border-ink-950/10 bg-white px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-ink-700 shadow-sm sm:w-auto">
+              <span className="inline-flex min-h-11 w-full shrink-0 items-center justify-center gap-2 rounded-full border border-ink-950/10 bg-white px-3 py-1 text-xs font-semibold leading-5 text-ink-700 shadow-sm sm:w-auto">
                 <span>{equationDisclosureText}</span>
                 <span aria-hidden="true" className="text-ink-500 transition-transform group-open:rotate-180 motion-reduce:transition-none">
                   ↓
@@ -586,28 +586,36 @@ export function ConceptPageV2EquationSnapshotCard({
             {equations.map((equation) => (
               <li
                 key={equation.id}
-                className="rounded-[14px] border border-line/80 bg-paper-strong/82 px-3 py-2"
+                className="grid grid-cols-[auto_minmax(0,1fr)] gap-2 rounded-[14px] border border-line/80 bg-paper-strong/82 px-3 py-2"
               >
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink-700">
-                  {equation.label}
-                </p>
-                <ConceptPageV2EquationFormulaDisplay
-                  equation={equation}
-                  className="mt-1.5 text-sm font-semibold text-ink-950"
-                />
-                {equation.readAloud ? (
-                  <p className="mt-1.5 text-xs leading-5 text-ink-700">
-                    <span className="font-semibold text-ink-900">
-                      {copy.equationReadAloudLabel}:
-                    </span>{" "}
-                    {equation.readAloud}
+                <span
+                  aria-hidden="true"
+                  className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-[10px] border border-sky-500/18 bg-sky-500/10 text-sm font-semibold text-sky-700"
+                >
+                  =
+                </span>
+                <span className="min-w-0">
+                  <p className="text-sm font-semibold leading-5 text-ink-800">
+                    {equation.label}
                   </p>
-                ) : null}
-                <RichMathText
-                  as="p"
-                  content={equation.meaning}
-                  className="mt-1.5 text-xs leading-5 text-ink-700"
-                />
+                  <ConceptPageV2EquationFormulaDisplay
+                    equation={equation}
+                    className="mt-1.5 text-sm font-semibold text-ink-950"
+                  />
+                  {equation.readAloud ? (
+                    <p className="mt-1.5 text-sm leading-6 text-ink-700">
+                      <span className="font-semibold text-ink-900">
+                        {copy.equationReadAloudLabel}:
+                      </span>{" "}
+                      {equation.readAloud}
+                    </p>
+                  ) : null}
+                  <RichMathText
+                    as="p"
+                    content={equation.meaning}
+                    className="mt-1.5 text-sm leading-6 text-ink-700"
+                  />
+                </span>
               </li>
             ))}
           </ol>
@@ -626,7 +634,7 @@ export function ConceptPageV2EquationSnapshotCard({
         className ?? "",
       ].join(" ")}
     >
-      <p id={equationSnapshotHeadingId} className="lab-label text-ink-700">
+      <p id={equationSnapshotHeadingId} className="text-sm font-semibold leading-5 text-ink-700">
         {copy.equationSnapshotLabel}
       </p>
       {note ? (
@@ -638,28 +646,36 @@ export function ConceptPageV2EquationSnapshotCard({
         {equations.map((equation) => (
           <li
             key={equation.id}
-            className="rounded-[18px] border border-line bg-paper-strong px-3.5 py-3 shadow-sm"
+            className="grid grid-cols-[auto_minmax(0,1fr)] gap-3 rounded-[18px] border border-line bg-paper-strong px-3.5 py-3 shadow-sm"
           >
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink-700">
-              {equation.label}
-            </p>
-            <ConceptPageV2EquationFormulaDisplay
-              equation={equation}
-              className="mt-2 text-base font-semibold text-ink-950"
-            />
-            {equation.readAloud ? (
-              <p className="mt-2 text-xs leading-5 text-ink-700">
-                <span className="font-semibold text-ink-900">
-                  {copy.equationReadAloudLabel}:
-                </span>{" "}
-                {equation.readAloud}
+            <span
+              aria-hidden="true"
+              className="mt-0.5 flex h-9 w-9 items-center justify-center rounded-[12px] border border-sky-500/18 bg-sky-500/10 text-base font-semibold text-sky-700"
+            >
+              =
+            </span>
+            <span className="min-w-0">
+              <p className="text-sm font-semibold leading-5 text-ink-800">
+                {equation.label}
               </p>
-            ) : null}
-            <RichMathText
-              as="p"
-              content={equation.meaning}
-              className="mt-2 text-sm leading-6 text-ink-700"
-            />
+              <ConceptPageV2EquationFormulaDisplay
+                equation={equation}
+                className="mt-2 text-base font-semibold text-ink-950"
+              />
+              {equation.readAloud ? (
+                <p className="mt-2 text-sm leading-6 text-ink-700">
+                  <span className="font-semibold text-ink-900">
+                    {copy.equationReadAloudLabel}:
+                  </span>{" "}
+                  {equation.readAloud}
+                </p>
+              ) : null}
+              <RichMathText
+                as="p"
+                content={equation.meaning}
+                className="mt-2 text-sm leading-6 text-ink-700"
+              />
+            </span>
           </li>
         ))}
       </ol>
@@ -1961,18 +1977,18 @@ export function ConceptPageV2LessonSupport({
       className="rounded-[22px] border border-line/80 bg-white/88 px-4 py-3 shadow-sm"
     >
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <p id={activeStepSupportLabelId} className="lab-label">
+        <p id={activeStepSupportLabelId} className="text-sm font-semibold leading-5 text-ink-700">
           {copy.currentStepLabel}
           <span className="sr-only">:</span>
         </p>
         <span className="flex w-full min-w-0 flex-wrap items-center justify-start gap-1.5 sm:w-auto sm:justify-end">
           <span
             data-testid="concept-v2-step-support-position"
-            className="rounded-full border border-teal-500/18 bg-teal-500/8 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-teal-700"
+            className="rounded-full border border-teal-500/18 bg-teal-500/8 px-2.5 py-1 text-xs font-semibold leading-5 text-teal-700"
           >
             {activePosition} / {steps.length}
           </span>
-          <span className="inline-flex max-w-full min-w-0 rounded-full border border-line bg-paper px-3 py-1 text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-ink-600">
+          <span className="inline-flex max-w-full min-w-0 rounded-full border border-line bg-paper px-3 py-1 text-xs font-semibold leading-5 text-ink-700">
             <RichMathText
               as="span"
               content={activeStep.label}
@@ -2053,7 +2069,7 @@ export function ConceptPageV2LessonSupport({
                 {index + 1}
               </span>
               <span className="min-w-0">
-                <span id={rowLabelId} className="lab-label block">
+                <span id={rowLabelId} className="block text-sm font-semibold leading-5 text-ink-700">
                   {rowLabel}
                 </span>
                 <span id={rowDescriptionId} className="block min-w-0">
@@ -2079,7 +2095,7 @@ export function ConceptPageV2LessonSupport({
           <span id={supportRevealContextId} className="sr-only">
             {copy.currentStepLabel}:
           </span>
-          <p id={supportRevealHeadingId} className="lab-label">
+          <p id={supportRevealHeadingId} className="text-sm font-semibold leading-5 text-teal-800">
             {copy.nowAvailableLabel}
           </p>
           <ul
@@ -2091,7 +2107,7 @@ export function ConceptPageV2LessonSupport({
               <li
                 key={`${item.kind}-${item.id}`}
                 className={[
-                  "inline-flex max-w-full rounded-full border px-2.5 py-1 text-[0.72rem] font-medium shadow-sm",
+                  "inline-flex max-w-full rounded-[12px] border px-2.5 py-1.5 text-sm font-medium leading-5 shadow-sm",
                   revealToneClasses[item.tone ?? "core"],
                 ].join(" ")}
               >
@@ -2105,7 +2121,7 @@ export function ConceptPageV2LessonSupport({
             {activeSupportRevealOverflowCount ? (
               <li
                 data-testid="concept-v2-step-support-reveal-overflow"
-                className="rounded-full border border-line bg-paper px-2.5 py-1 text-[0.72rem] font-semibold text-ink-600 shadow-sm"
+                className="rounded-full border border-line bg-paper px-2.5 py-1 text-xs font-semibold leading-5 text-ink-600 shadow-sm"
               >
                 <span aria-hidden="true">+{activeSupportRevealOverflowCount}</span>
                 <span className="sr-only">
@@ -2128,17 +2144,17 @@ export function ConceptPageV2LessonSupport({
           className="mt-3 rounded-[18px] border border-amber-500/20 bg-amber-500/10 px-3.5 py-3"
         >
           <div className="flex flex-wrap items-center gap-2">
-            <p id={supportInlineCheckLabelId} className="lab-label">
+            <p id={supportInlineCheckLabelId} className="text-sm font-semibold leading-5 text-amber-700">
               {copy.quickCheckLabel}
               <span className="sr-only">:</span>
             </p>
-            <span className="inline-flex max-w-full min-w-0 rounded-full border border-amber-500/20 bg-white/80 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-amber-700">
+            <span className="inline-flex max-w-full min-w-0 rounded-full border border-amber-500/20 bg-white/80 px-2.5 py-1 text-xs font-semibold leading-5 text-amber-700">
               <RichMathText as="span" content={activeStep.inlineCheck.eyebrow} className="min-w-0 break-words" />
             </span>
           </div>
           <p
             id={supportInlineCheckTitleId}
-            className="mt-1.5 break-words text-sm font-semibold leading-5 text-ink-900"
+            className="mt-1.5 break-words text-base font-semibold leading-6 text-ink-900"
           >
             <RichMathText as="span" content={activeStep.inlineCheck.title} />
           </p>
@@ -2166,7 +2182,7 @@ export function ConceptPageV2LessonSupport({
               {activeStep.inlineCheck.choices.map((choice, index) => (
                 <li
                   key={choice}
-                  className="grid min-h-11 grid-cols-[auto_minmax(0,1fr)] items-start gap-2 rounded-[14px] border border-white/80 bg-white/86 px-2.5 py-2 text-xs leading-5 text-ink-700 shadow-sm"
+                  className="grid min-h-11 grid-cols-[auto_minmax(0,1fr)] items-start gap-2 rounded-[14px] border border-white/80 bg-white/86 px-2.5 py-2 text-sm leading-5 text-ink-700 shadow-sm"
                 >
                   <span
                     aria-hidden="true"
@@ -2192,7 +2208,7 @@ export function ConceptPageV2LessonSupport({
           }
           className="mt-3 rounded-[18px] border border-sky-500/18 bg-sky-500/8 px-3.5 py-3"
         >
-          <p className="lab-label">{copy.upcomingStepLabel}</p>
+          <p className="text-sm font-semibold leading-5 text-sky-800">{copy.upcomingStepLabel}</p>
           <div
             role="group"
             aria-label={`${copy.nextStep}: ${nextStep.label}`}
@@ -2210,7 +2226,7 @@ export function ConceptPageV2LessonSupport({
             <div className="min-w-0">
               <span
                 data-testid="concept-v2-step-support-next-step-cue"
-                className="mb-1 inline-flex max-w-full min-w-0 items-center gap-1 rounded-full border border-sky-500/20 bg-sky-500/8 px-2 py-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-sky-700"
+                className="mb-1 inline-flex max-w-full min-w-0 items-center gap-1 rounded-full border border-sky-500/20 bg-sky-500/8 px-2 py-0.5 text-xs font-semibold leading-5 text-sky-700"
               >
                 <span className="min-w-0 break-words">{copy.nextStep}</span>
                 <span aria-hidden="true" className="shrink-0">
@@ -2239,14 +2255,14 @@ export function ConceptPageV2LessonSupport({
                     <>
                       <li
                         data-testid="concept-v2-step-support-next-reveals"
-                        className="rounded-full border border-teal-500/16 bg-teal-500/8 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-teal-700"
+                        className="rounded-full border border-teal-500/16 bg-teal-500/8 px-2.5 py-1 text-xs font-semibold leading-5 text-teal-700"
                       >
                         {copy.nowAvailableLabel}
                       </li>
                       {nextStepPrimaryReveal ? (
                         <li
                           data-testid="concept-v2-step-support-next-reveal-preview"
-                          className="inline-flex max-w-full rounded-full border border-line bg-white/86 px-2.5 py-1 text-[0.68rem] font-semibold text-ink-700"
+                          className="inline-flex max-w-full rounded-full border border-line bg-white/86 px-2.5 py-1 text-xs font-semibold leading-5 text-ink-700"
                         >
                           <RichMathText
                             as="span"
@@ -2261,7 +2277,7 @@ export function ConceptPageV2LessonSupport({
                       {nextStepAdditionalRevealCount ? (
                         <li
                           data-testid="concept-v2-step-support-next-reveal-overflow"
-                          className="rounded-full border border-line bg-paper px-2.5 py-1 text-[0.68rem] font-semibold text-ink-600"
+                          className="rounded-full border border-line bg-paper px-2.5 py-1 text-xs font-semibold leading-5 text-ink-600"
                         >
                           <span aria-hidden="true">
                             +{nextStepAdditionalRevealCount}
@@ -2278,7 +2294,7 @@ export function ConceptPageV2LessonSupport({
                   {nextStep.inlineCheck ? (
                     <li
                       data-testid="concept-v2-step-support-next-quick-check"
-                      className="inline-flex max-w-full min-w-0 rounded-full border border-amber-500/18 bg-amber-500/10 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-amber-700"
+                      className="inline-flex max-w-full min-w-0 rounded-full border border-amber-500/18 bg-amber-500/10 px-2.5 py-1 text-xs font-semibold leading-5 text-amber-700"
                     >
                       <span className="min-w-0 break-words">{copy.quickCheckLabel}</span>
                     </li>
@@ -2303,7 +2319,7 @@ export function ConceptPageV2LessonSupport({
               <span className="min-w-0 text-left">
                 <span
                   data-testid="concept-v2-step-support-next-button-cue"
-                  className="block min-w-0 break-words text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-sky-700/78"
+                  className="block min-w-0 break-words text-xs font-semibold leading-5 text-sky-700/78"
                 >
                   {copy.nextStep}
                 </span>
@@ -2328,8 +2344,8 @@ export function ConceptPageV2LessonSupport({
           className="mt-3 rounded-[18px] border border-teal-500/22 bg-teal-500/10 px-3.5 py-3 shadow-[0_1px_0_rgba(255,255,255,0.76)_inset]"
         >
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <p className="lab-label">{copy.lessonCompleteLabel}</p>
-            <span className="rounded-full border border-teal-500/24 bg-white/82 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-teal-700">
+            <p className="text-sm font-semibold leading-5 text-teal-800">{copy.lessonCompleteLabel}</p>
+            <span className="rounded-full border border-teal-500/24 bg-white/82 px-2.5 py-1 text-xs font-semibold leading-5 text-teal-700">
               {copy.wrapUpLabel}
             </span>
           </div>
@@ -2353,7 +2369,7 @@ export function ConceptPageV2LessonSupport({
               <span className="min-w-0 text-left">
                 <span
                   data-testid="concept-v2-step-support-complete-next-step-cue"
-                  className="block min-w-0 break-words text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-teal-700/78"
+                  className="block min-w-0 break-words text-xs font-semibold leading-5 text-teal-700/78"
                 >
                   {copy.nextStep}
                 </span>

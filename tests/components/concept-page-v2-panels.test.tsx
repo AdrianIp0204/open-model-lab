@@ -1598,8 +1598,8 @@ describe("ConceptPageV2LessonRail", () => {
       "block",
       "min-w-0",
       "break-words",
-      "uppercase",
-      "tracking-[0.14em]",
+      "text-xs",
+      "leading-5",
     );
     expect(within(nextStepButton).getByText("Compare two outputs").parentElement).toHaveClass(
       "mt-0.5",
