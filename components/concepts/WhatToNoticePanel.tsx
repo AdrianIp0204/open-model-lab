@@ -44,6 +44,13 @@ type RelatedTag =
       tone: SimulationVariableLink["tone"];
     };
 
+const relatedTargetToneClasses: Record<RelatedTag["kind"], string> = {
+  control: "border-teal-500/20 bg-teal-500/10 text-teal-800",
+  graph: "border-sky-500/20 bg-sky-500/10 text-sky-800",
+  overlay: "border-amber-500/22 bg-amber-500/10 text-amber-800",
+  equation: "border-violet-500/18 bg-violet-500/9 text-violet-800",
+};
+
 function buildRelatedTags(
   prompt: ResolvedNoticePrompt,
   controls: SimulationControlSpec[],
@@ -144,16 +151,16 @@ export function WhatToNoticePanel({
       <section className={["lab-panel p-3.5 md:p-4", className ?? ""].join(" ")}>
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="max-w-lg">
-            <p className="lab-label">{resolvedTitle}</p>
+            <p className="text-sm font-semibold leading-5 text-ink-900">{resolvedTitle}</p>
             <p className="mt-1 text-sm leading-6 text-ink-700">
               {t("hidden.description")}
             </p>
             <div className="mt-2 flex flex-wrap gap-2">
-              <span className="rounded-full border border-teal-500/25 bg-teal-500/10 px-2.5 py-1 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-teal-700">
+              <span className="rounded-full border border-teal-500/25 bg-teal-500/10 px-2.5 py-1 text-xs font-semibold leading-5 text-teal-700">
                 {promptTypeLabels[activePrompt.type]}
               </span>
               {prompts.length > 1 ? (
-                <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-ink-600">
+                <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-xs font-semibold leading-5 text-ink-600">
                   {t("progress.promptCounter", {
                     current: activeIndex + 1,
                     total: prompts.length,
@@ -163,7 +170,7 @@ export function WhatToNoticePanel({
               {activePrompt.contextBadges.map((badge) => (
                 <span
                   key={badge}
-                  className="rounded-full border border-line bg-white/75 px-2.5 py-1 font-mono text-[0.72rem] text-ink-600"
+                  className="rounded-full border border-line bg-white/75 px-2.5 py-1 text-xs font-medium leading-5 text-ink-700"
                 >
                   {badge}
                 </span>
@@ -186,10 +193,10 @@ export function WhatToNoticePanel({
     <section className={["lab-panel p-3.5 md:p-4", className ?? ""].join(" ")}>
       <div className="flex flex-wrap items-start justify-between gap-3 border-b border-line pb-3">
         <div className="max-w-lg">
-          <p className="lab-label">{resolvedTitle}</p>
-          <p className="mt-1 text-sm leading-6 text-ink-700">{resolvedIntro}</p>
+          <p className="text-sm font-semibold leading-5 text-ink-900">{resolvedTitle}</p>
+          <p className="mt-1 text-base leading-7 text-ink-700">{resolvedIntro}</p>
         </div>
-        <div className="flex flex-wrap gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em]">
+        <div className="flex flex-wrap gap-2 text-xs font-semibold leading-5">
           <span className="rounded-full border border-teal-500/25 bg-teal-500/10 px-2.5 py-1 text-teal-700">
             {promptTypeLabels[activePrompt.type]}
           </span>
@@ -202,12 +209,12 @@ export function WhatToNoticePanel({
         </div>
       </div>
 
-      <div className="mt-4 rounded-[22px] border border-line bg-paper-strong p-4">
+      <div className="mt-4 rounded-[22px] border border-line bg-[radial-gradient(circle_at_10%_0%,rgba(30,166,162,0.10),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.94),rgba(248,246,239,0.92))] p-4 shadow-sm">
         <div className="flex flex-wrap gap-2">
           {activePrompt.contextBadges.map((badge) => (
             <span
               key={badge}
-              className="rounded-full border border-line bg-white/75 px-2.5 py-1 font-mono text-[0.72rem] text-ink-600"
+              className="rounded-full border border-line bg-white/78 px-2.5 py-1 text-xs font-medium leading-5 text-ink-700"
             >
               {badge}
             </span>
@@ -222,32 +229,32 @@ export function WhatToNoticePanel({
 
         {activePrompt.tryThis ? (
           <div className="mt-3 rounded-[18px] border border-teal-500/20 bg-white/75 px-3 py-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-teal-700">
+            <p className="text-sm font-semibold leading-5 text-teal-700">
               {t("sections.tryThis")}
             </p>
             <RichMathText
               as="div"
               content={activePrompt.tryThis}
-              className="mt-2 text-sm leading-6 text-ink-700"
+              className="mt-2 text-base leading-7 text-ink-700"
             />
           </div>
         ) : null}
 
         {activePrompt.whyItMatters ? (
           <div className="mt-3 rounded-[18px] border border-line bg-white/70 px-3 py-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-ink-500">
+            <p className="text-sm font-semibold leading-5 text-ink-700">
               {t("sections.whyItMatters")}
             </p>
             <RichMathText
               as="div"
               content={activePrompt.whyItMatters}
-              className="mt-2 text-sm leading-6 text-ink-700"
+              className="mt-2 text-base leading-7 text-ink-700"
             />
           </div>
         ) : null}
 
         {relatedTags.length ? (
-          <ul className="mt-4 flex flex-wrap gap-2" aria-label={t("related.ariaLabel")}>
+          <ul className="mt-4 grid gap-2 sm:grid-cols-2" aria-label={t("related.ariaLabel")}>
             {relatedTags.map((tag) => {
               if (tag.kind === "equation") {
                 const tone = getVariableTone(tag.tone);
@@ -255,27 +262,41 @@ export function WhatToNoticePanel({
                   <li
                     key={tag.id}
                     className={[
-                      "inline-flex items-center gap-2 rounded-full border px-2.5 py-1 text-[0.72rem] font-semibold uppercase tracking-[0.18em]",
-                      tone.badge,
-                      tone.softText,
+                      "grid min-h-12 grid-cols-[auto_minmax(0,1fr)] items-center gap-2 rounded-[14px] border px-3 py-2 text-sm font-semibold leading-5",
+                      relatedTargetToneClasses.equation,
                     ].join(" ")}
                   >
-                    <span>{t("related.equation")}</span>
-                    <InlineFormula expression={tag.symbol} />
+                    <span className={["inline-flex h-7 w-7 items-center justify-center rounded-full border bg-white/82", tone.badge, tone.softText].join(" ")}>
+                      <InlineFormula expression={tag.symbol} />
+                    </span>
+                    <span className="min-w-0 break-words">
+                      <span className="block text-xs font-medium opacity-80">{t("related.equation")}</span>
+                      <span className="block">{tag.label}</span>
+                    </span>
                   </li>
                 );
               }
 
+              const tagKindLabel =
+                tag.kind === "control"
+                  ? t("related.control")
+                  : tag.kind === "graph"
+                    ? t("related.graph")
+                    : t("related.overlay");
+
               return (
                 <li
                   key={tag.id}
-                  className="rounded-full border border-line bg-paper px-2.5 py-1 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-ink-600"
+                  className={[
+                    "grid min-h-12 grid-cols-[auto_minmax(0,1fr)] items-center gap-2 rounded-[14px] border px-3 py-2 text-sm font-semibold leading-5",
+                    relatedTargetToneClasses[tag.kind],
+                  ].join(" ")}
                 >
-                  {tag.kind === "control"
-                    ? t("related.control", { label: tag.label })
-                    : tag.kind === "graph"
-                      ? t("related.graph", { label: tag.label })
-                      : t("related.overlay", { label: tag.label })}
+                  <span aria-hidden="true" className="h-2.5 w-2.5 rounded-full bg-current opacity-70" />
+                  <span className="min-w-0 break-words">
+                    <span className="block text-xs font-medium opacity-80">{tagKindLabel}</span>
+                    <span className="block">{tag.label}</span>
+                  </span>
                 </li>
               );
             })}
