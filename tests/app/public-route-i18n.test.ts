@@ -336,7 +336,7 @@ describe("public route i18n metadata", () => {
       ]);
 
     expect(homeMetadata.title).toEqual({
-      absolute: zhHkMessages.HomePage.metadata.absoluteTitle,
+      absolute: "Concept Arena | Open Model Lab",
     });
     expect(homeMetadata.alternates?.canonical).toContain("/zh-HK");
     expect(homeMetadata.alternates?.languages?.en).toContain("/en");

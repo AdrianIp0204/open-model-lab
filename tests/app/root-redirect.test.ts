@@ -18,7 +18,7 @@ describe("root homepage redirect", () => {
     vi.resetModules();
   });
 
-  it("uses a stable permanent redirect to the default canonical homepage", async () => {
+  it("uses a stable permanent redirect to the v2 arena homepage", async () => {
     const { default: RootLocaleRedirectPage } = await import("@/app/page");
 
     await expect(
@@ -28,10 +28,10 @@ describe("root homepage redirect", () => {
           filter: ["physics", "chemistry"],
         }),
       }),
-    ).rejects.toThrow("permanentRedirect:/en?q=model+lab&filter=physics&filter=chemistry");
+    ).rejects.toThrow("permanentRedirect:/arena/shm?q=model+lab&filter=physics&filter=chemistry");
 
     expect(permanentRedirectMock).toHaveBeenCalledWith(
-      "/en?q=model+lab&filter=physics&filter=chemistry",
+      "/arena/shm?q=model+lab&filter=physics&filter=chemistry",
     );
   });
 });

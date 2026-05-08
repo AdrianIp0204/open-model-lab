@@ -1,7 +1,6 @@
 import { permanentRedirect } from "next/navigation";
-import { addLocalePrefix, routing } from "@/i18n/routing";
 
-type RootLocaleRedirectPageProps = {
+type RootArenaRedirectPageProps = {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
@@ -25,12 +24,10 @@ function buildSearchString(searchParams: Record<string, string | string[] | unde
   return serialized.length > 0 ? `?${serialized}` : "";
 }
 
-export default async function RootLocaleRedirectPage({
+export default async function RootArenaRedirectPage({
   searchParams,
-}: RootLocaleRedirectPageProps) {
+}: RootArenaRedirectPageProps) {
   const resolvedSearchParams = searchParams ? await searchParams : {};
 
-  permanentRedirect(
-    `${addLocalePrefix("/", routing.defaultLocale)}${buildSearchString(resolvedSearchParams)}`,
-  );
+  permanentRedirect(`/arena/shm${buildSearchString(resolvedSearchParams)}`);
 }
