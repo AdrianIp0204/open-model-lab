@@ -6759,6 +6759,13 @@ function GuidedFirstActionRail({
       className: "border-sky-500/22 bg-sky-500/10 text-sky-900",
     },
   ] as const;
+  const phoneLoopCues = [
+    { id: "predict", label: copy.predictLabel, className: "text-amber-100" },
+    { id: "change", label: copy.changeLabel, className: "text-teal-100" },
+    { id: "observe", label: copy.observeLabel, className: "text-sky-100" },
+    { id: "explain", label: copy.explainLabel, className: "text-violet-100" },
+    { id: "check", label: copy.checkLabel, className: "text-amber-100" },
+  ] as const;
 
   return (
     <section
@@ -6783,15 +6790,29 @@ function GuidedFirstActionRail({
 
       <div
         data-testid="concept-v2-guided-first-action-task"
-        className="mt-1.5 rounded-[16px] border border-teal-500/28 bg-ink-950 px-2 py-1.5 shadow-sm sm:mt-2 sm:px-2.5 sm:py-2"
+        className="mt-1 rounded-[16px] border border-teal-500/28 bg-ink-950 px-2 py-1 shadow-sm sm:mt-2 sm:px-2.5 sm:py-2"
       >
+        <div
+          data-testid="concept-v2-guided-first-action-phone-loop"
+          aria-label={copy.flowAria}
+          className="mb-0.5 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-[0.68rem] font-semibold leading-4 sm:hidden"
+        >
+          {phoneLoopCues.map((item, index) => (
+            <span key={item.id} className="inline-flex items-center gap-1">
+              <span className={item.className}>{item.label}</span>
+              {index < phoneLoopCues.length - 1 ? (
+                <span aria-hidden="true" className="text-white/45">→</span>
+              ) : null}
+            </span>
+          ))}
+        </div>
         <p className="sr-only sm:not-sr-only sm:text-sm sm:font-semibold sm:leading-5 sm:text-teal-100">
           {copy.changeLabel}
         </p>
         <RichMathText
           as="p"
           content={activeStep.doThis}
-          className="min-w-0 break-words text-sm font-semibold leading-5 text-paper-strong sm:mt-1 sm:line-clamp-2 sm:text-base sm:leading-6"
+          className="min-w-0 break-words text-sm font-semibold leading-[1.2rem] text-paper-strong sm:mt-1 sm:line-clamp-2 sm:text-base sm:leading-6"
         />
       </div>
 

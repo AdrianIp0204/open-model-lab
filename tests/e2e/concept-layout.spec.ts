@@ -406,6 +406,15 @@ async function assertInitialViewportLayout(
   if (viewportCase.viewport.width < 640) {
     await expect(controlsLink).toBeVisible();
     await expect(controlsLink).toHaveAttribute("href", "#concept-live-controls");
+    if (isFocusStage) {
+      const phoneLoop = firstAction.getByTestId("concept-v2-guided-first-action-phone-loop");
+      await expect(phoneLoop).toBeVisible();
+      await expect(phoneLoop).toContainText("Predict");
+      await expect(phoneLoop).toContainText("Change");
+      await expect(phoneLoop).toContainText("Observe");
+      await expect(phoneLoop).toContainText("Explain");
+      await expect(phoneLoop).toContainText("Check");
+    }
   }
   await expect(guidedStepSlot).toBeVisible();
   await expect(firstPrimaryControl).toBeVisible();
