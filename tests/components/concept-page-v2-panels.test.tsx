@@ -1795,7 +1795,12 @@ describe("ConceptPageV2WrapUp", () => {
     expect(runway).toHaveTextContent("Lock in the pattern");
     expect(runway).not.toHaveTextContent("The control changes the first trace.");
     expect(runway.querySelector("dl")).toHaveClass("sm:grid-cols-2");
-    expect(screen.getByText("Key takeaway")).toHaveClass("min-w-0", "break-words");
+    expect(screen.getByText("Key takeaway")).toHaveClass(
+      "min-w-0",
+      "break-words",
+      "text-sm",
+      "leading-5",
+    );
     const learnedList = screen.getByRole("list", { name: "Key takeaway" });
     expect(learnedList).toHaveAttribute("data-testid", "concept-v2-learned-list");
     expect(learnedList).toHaveAttribute("aria-labelledby", screen.getByText("Key takeaway").id);
@@ -1817,6 +1822,8 @@ describe("ConceptPageV2WrapUp", () => {
     expect(runwayPracticeSummaryLabel.closest("dt")).toHaveClass(
       "min-w-0",
       "break-words",
+      "text-sm",
+      "leading-5",
     );
     expect(runwayPracticeSummary).toHaveTextContent("Open concept test");
     expect(runwayPracticeSummary).toHaveTextContent(
@@ -1837,6 +1844,8 @@ describe("ConceptPageV2WrapUp", () => {
     expect(runwayReadNextSummaryLabel.closest("dt")).toHaveClass(
       "min-w-0",
       "break-words",
+      "text-sm",
+      "leading-5",
     );
     expect(runwayReadNextSummary).toHaveTextContent("Next force concept");
     expect(runwayReadNextSummary).toHaveTextContent("Builds on this pattern");
@@ -1862,7 +1871,12 @@ describe("ConceptPageV2WrapUp", () => {
     expect(misconceptionRegion).toHaveAccessibleDescription(
       "Only the final graph matters. The control move explains why the graph changed.",
     );
-    expect(misconceptionLabel).toHaveClass("min-w-0", "break-words");
+    expect(misconceptionLabel).toHaveClass(
+      "min-w-0",
+      "break-words",
+      "text-sm",
+      "leading-5",
+    );
     const misconceptionMyth = screen.getByText("Only the final graph matters.").closest("p");
     const misconceptionCorrection = screen
       .getByText("The control move explains why the graph changed.")
@@ -1917,7 +1931,7 @@ describe("ConceptPageV2WrapUp", () => {
       "motion-reduce:transition-none",
     );
     expect(within(primaryPracticeAction).getByText("Recommended next").parentElement)
-      .toHaveClass("max-w-full", "min-w-0");
+      .toHaveClass("max-w-full", "min-w-0", "rounded-[10px]", "text-xs", "leading-5");
     expect(within(primaryPracticeAction).getByText("Recommended next"))
       .toHaveClass("min-w-0", "break-words");
     expect(within(primaryPracticeAction).getByText("Open concept test").closest(".line-clamp-2"))
@@ -1945,7 +1959,14 @@ describe("ConceptPageV2WrapUp", () => {
     const featuredReadNextCue = within(featuredReadNextCard)
       .getByText("Read next")
       .closest(".inline-flex");
-    expect(featuredReadNextCue).toHaveClass("max-w-full", "border-teal-500/22", "text-teal-700");
+    expect(featuredReadNextCue).toHaveClass(
+      "max-w-full",
+      "border-teal-500/22",
+      "text-teal-700",
+      "rounded-[10px]",
+      "text-xs",
+      "leading-5",
+    );
     expect(within(featuredReadNextCard).getByText("Read next")).toHaveClass(
       "min-w-0",
       "break-words",
@@ -1953,7 +1974,7 @@ describe("ConceptPageV2WrapUp", () => {
     const featuredReasonBadge = within(featuredReadNextCard)
       .getByText("Builds on this pattern")
       .closest(".inline-flex");
-    expect(featuredReasonBadge).toHaveClass("max-w-full");
+    expect(featuredReasonBadge).toHaveClass("max-w-full", "rounded-[10px]", "text-xs", "leading-5");
     expect(within(featuredReadNextCard).getByText("Builds on this pattern").parentElement)
       .toHaveClass("min-w-0", "line-clamp-1", "break-words");
     expect(within(featuredReadNextCard).getByText("Next force concept").closest(".line-clamp-2"))
@@ -1973,9 +1994,9 @@ describe("ConceptPageV2WrapUp", () => {
       name: "Practice path",
     });
     expect(readNextHeading.tagName).toBe("H4");
-    expect(readNextHeading).toHaveClass("min-w-0", "break-words");
+    expect(readNextHeading).toHaveClass("min-w-0", "break-words", "text-sm", "leading-5");
     expect(practiceActionsHeading.tagName).toBe("H4");
-    expect(practiceActionsHeading).toHaveClass("min-w-0", "break-words");
+    expect(practiceActionsHeading).toHaveClass("min-w-0", "break-words", "text-sm", "leading-5");
     expect(readNextRegion).toHaveAttribute("aria-labelledby", readNextHeading.id);
     const readNextDescription = within(readNextRegion).getByText(
       "Keep the sequence moving with the next related concept.",
@@ -2018,6 +2039,9 @@ describe("ConceptPageV2WrapUp", () => {
       "max-w-full",
       "border-coral-500/20",
       "text-coral-700",
+      "rounded-[10px]",
+      "text-xs",
+      "leading-5",
     );
     expect(within(highlightedChallenge).getByText("Practice option")).toHaveClass(
       "min-w-0",
@@ -2150,6 +2174,9 @@ describe("ConceptPageV2WrapUp", () => {
       "max-w-full",
       "border-ink-950/10",
       "text-ink-600",
+      "rounded-[10px]",
+      "text-xs",
+      "leading-5",
     );
     expect(within(practiceDrawerOption).getByText("Practice option")).toHaveClass(
       "min-w-0",
@@ -2226,6 +2253,9 @@ describe("ConceptPageV2WrapUp", () => {
       "max-w-full",
       "border-teal-500/22",
       "text-teal-700",
+      "rounded-[10px]",
+      "text-xs",
+      "leading-5",
     );
     expect(within(additionalReadNext).getByText("Read next")).toHaveClass(
       "min-w-0",
@@ -2283,7 +2313,7 @@ describe("ConceptPageV2SecondarySection", () => {
       within(summary as HTMLElement).getByText(
         "Return here when you want the slower reference pass.",
       ),
-    ).toHaveClass("break-words", "uppercase", "text-teal-700/78");
+    ).toHaveClass("break-words", "text-sm", "leading-6", "text-teal-700/84");
     const secondaryDisclosureButton = screen.getByText("Open reference and support").parentElement;
     expect(secondaryDisclosureButton).not.toBeNull();
     expect(secondaryDisclosureButton!).toHaveClass("min-h-11", "max-w-full", "flex-wrap");

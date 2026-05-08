@@ -2429,7 +2429,7 @@ export function ConceptPageV2SecondarySection({
       contentAriaDescribedBy={contentDescriptionIds || undefined}
       summary={(
         <>
-          <p className="lab-label min-w-0 break-words">{eyebrow}</p>
+          <p className="min-w-0 break-words text-sm font-semibold leading-5 text-ink-700">{eyebrow}</p>
           <h3 id={titleId} className="mt-2 break-words text-xl font-semibold text-ink-950">
             {title}
           </h3>
@@ -2441,7 +2441,7 @@ export function ConceptPageV2SecondarySection({
           {note ? (
             <p
               id={noteId}
-              className="mt-2 break-words text-xs font-semibold uppercase tracking-[0.14em] text-teal-700/78"
+              className="mt-2 break-words text-sm font-medium leading-6 text-teal-700/84"
             >
               {note}
             </p>
@@ -2638,7 +2638,7 @@ export function ConceptPageV2WrapUp({
       >
         <div className="grid gap-4 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-start">
           <div className="min-w-0">
-            <p className="lab-label">{copy.wrapUpLabel}</p>
+            <p className="text-sm font-semibold leading-5 text-ink-700">{copy.wrapUpLabel}</p>
             <h3
               id={wrapUpHeadingId}
               className="mt-2 break-words text-xl font-semibold leading-tight text-ink-950 sm:text-2xl"
@@ -2659,7 +2659,7 @@ export function ConceptPageV2WrapUp({
                 aria-describedby={runwayPracticeDescriptionId}
                 className="min-w-0 border-l-2 border-ink-950/16 pl-3"
               >
-                <dt id={runwayPracticeHeadingId} className="min-w-0 break-words text-[0.66rem] font-semibold uppercase tracking-[0.14em] text-ink-500">
+                <dt id={runwayPracticeHeadingId} className="min-w-0 break-words text-sm font-semibold leading-5 text-ink-600">
                   {copy.recommendedActionLabel}
                 </dt>
                 <dd className="mt-1 min-w-0 space-y-0.5">
@@ -2684,7 +2684,7 @@ export function ConceptPageV2WrapUp({
                 }
                 className="min-w-0 border-l-2 border-sky-500/24 pl-3"
               >
-                <dt id={runwayReadNextHeadingId} className="min-w-0 break-words text-[0.66rem] font-semibold uppercase tracking-[0.14em] text-teal-700">
+                <dt id={runwayReadNextHeadingId} className="min-w-0 break-words text-sm font-semibold leading-5 text-teal-700">
                   {copy.nextConceptsLabel}
                 </dt>
                 <dd className="mt-1 min-w-0 space-y-0.5">
@@ -2710,7 +2710,7 @@ export function ConceptPageV2WrapUp({
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1.12fr)_minmax(17rem,22rem)]">
         <div className="space-y-4">
           <div className="space-y-2.5">
-            <p id={learnedListHeadingId} className="lab-label min-w-0 break-words">
+            <p id={learnedListHeadingId} className="min-w-0 break-words text-sm font-semibold leading-5 text-ink-700">
               {copy.keyTakeawayLabel}
             </p>
             <ol
@@ -2746,7 +2746,7 @@ export function ConceptPageV2WrapUp({
                 .join(" ")}
               className="min-w-0 rounded-[20px] border border-coral-500/24 bg-coral-500/8 px-4 py-4"
             >
-              <p id={misconceptionHeadingId} className="lab-label min-w-0 break-words">
+              <p id={misconceptionHeadingId} className="min-w-0 break-words text-sm font-semibold leading-5 text-coral-700">
                 {copy.commonMisconceptionLabel}
               </p>
               <RichMathText
@@ -2776,7 +2776,7 @@ export function ConceptPageV2WrapUp({
             aria-describedby={practiceActionsDescriptionId}
             className="rounded-[20px] border border-line bg-white/88 px-4 py-4 shadow-sm"
           >
-            <h4 id={practiceActionsHeadingId} className="lab-label min-w-0 break-words">{copy.practiceActionsLabel}</h4>
+            <h4 id={practiceActionsHeadingId} className="min-w-0 break-words text-sm font-semibold leading-5 text-ink-700">{copy.practiceActionsLabel}</h4>
             <p
               id={practiceActionsDescriptionId}
               className="mt-2 break-words text-sm leading-6 text-ink-700"
@@ -2804,7 +2804,7 @@ export function ConceptPageV2WrapUp({
                       {practiceActions.indexOf(featuredPracticeAction) + 1}
                     </span>
                     <span className="min-w-0">
-                      <span className="mb-2 inline-flex max-w-full min-w-0 rounded-full border border-teal-500/20 bg-white/88 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-teal-700">
+                      <span className="mb-2 inline-flex max-w-full min-w-0 rounded-[10px] border border-teal-500/20 bg-white/88 px-2.5 py-1 text-xs font-semibold leading-5 text-teal-700">
                         <span className="min-w-0 break-words">{copy.recommendedActionLabel}</span>
                       </span>
                       <span className="line-clamp-2 block break-words text-base font-semibold leading-6">
@@ -2842,7 +2842,7 @@ export function ConceptPageV2WrapUp({
                       {practiceActions.indexOf(highlightedChallengeAction) + 1}
                     </span>
                     <span className="min-w-0">
-                      <span className="mb-2 inline-flex max-w-full min-w-0 rounded-full border border-coral-500/20 bg-white/82 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-coral-700">
+                      <span className="mb-2 inline-flex max-w-full min-w-0 rounded-[10px] border border-coral-500/20 bg-white/82 px-2.5 py-1 text-xs font-semibold leading-5 text-coral-700">
                         <span className="min-w-0 break-words">{copy.practiceOptionLabel}</span>
                       </span>
                       <span className="line-clamp-2 block break-words text-base font-semibold leading-6">
@@ -2888,7 +2888,7 @@ export function ConceptPageV2WrapUp({
                     </span>
                     <span
                       aria-hidden="true"
-                      className="inline-flex h-6 min-w-6 shrink-0 items-center justify-center rounded-full border border-ink-950/10 bg-white px-2 text-[0.68rem] font-semibold text-ink-700"
+                      className="inline-flex h-6 min-w-6 shrink-0 items-center justify-center rounded-full border border-ink-950/10 bg-white px-2 text-xs font-semibold text-ink-700"
                     >
                       {morePracticeActions.length}
                     </span>
@@ -2923,12 +2923,12 @@ export function ConceptPageV2WrapUp({
                         >
                           <span
                             aria-hidden="true"
-                            className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-line bg-paper text-[0.72rem] font-semibold text-ink-600"
+                            className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-line bg-paper text-xs font-semibold text-ink-600"
                           >
                             {actionPosition}
                           </span>
                           <span className="min-w-0">
-                            <span className="mb-1.5 inline-flex max-w-full min-w-0 rounded-full border border-ink-950/10 bg-paper/92 px-2 py-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-ink-600">
+                            <span className="mb-1.5 inline-flex max-w-full min-w-0 rounded-[10px] border border-ink-950/10 bg-paper/92 px-2 py-1 text-xs font-semibold leading-5 text-ink-600">
                               <span className="min-w-0 break-words">{copy.practiceOptionLabel}</span>
                             </span>
                             <span className="line-clamp-2 block break-words text-sm font-semibold leading-5">
@@ -2963,7 +2963,7 @@ export function ConceptPageV2WrapUp({
               aria-describedby={readNextDescriptionId}
               className="rounded-[20px] border border-line bg-white/88 px-4 py-4 shadow-sm"
             >
-              <h4 id={readNextHeadingId} className="lab-label min-w-0 break-words">{copy.nextConceptsLabel}</h4>
+              <h4 id={readNextHeadingId} className="min-w-0 break-words text-sm font-semibold leading-5 text-ink-700">{copy.nextConceptsLabel}</h4>
               <p
                 id={readNextDescriptionId}
                 className="mt-2 break-words text-sm leading-6 text-ink-700"
@@ -2993,13 +2993,13 @@ export function ConceptPageV2WrapUp({
                     </span>
                     <span className="min-w-0">
                       <span className="flex min-w-0 max-w-full flex-wrap items-center gap-2">
-                        <span className="inline-flex max-w-full rounded-full border border-teal-500/22 bg-white/88 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-teal-700">
+                        <span className="inline-flex max-w-full rounded-[10px] border border-teal-500/22 bg-white/88 px-2.5 py-1 text-xs font-semibold leading-5 text-teal-700">
                           <span className="min-w-0 break-words">{copy.nextConceptsLabel}</span>
                         </span>
                         {featuredNextConcept.reasonLabel ? (
                           <span
                             id={featuredReadNextDescriptionId}
-                            className="inline-flex max-w-full rounded-full border border-line bg-white/80 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-ink-600"
+                            className="inline-flex max-w-full rounded-[10px] border border-line bg-white/80 px-2.5 py-1 text-xs font-semibold leading-5 text-ink-600"
                           >
                             <RichMathText
                               as="span"
@@ -3046,7 +3046,7 @@ export function ConceptPageV2WrapUp({
                           </span>
                           <span
                             aria-hidden="true"
-                            className="inline-flex h-6 min-w-6 shrink-0 items-center justify-center rounded-full border border-ink-950/10 bg-white px-2 text-[0.68rem] font-semibold text-ink-700"
+                            className="inline-flex h-6 min-w-6 shrink-0 items-center justify-center rounded-full border border-ink-950/10 bg-white px-2 text-xs font-semibold text-ink-700"
                           >
                             {additionalNextConcepts.length}
                           </span>
@@ -3084,19 +3084,19 @@ export function ConceptPageV2WrapUp({
                               >
                                 <span
                                   aria-hidden="true"
-                                  className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full border border-teal-500/22 bg-white/88 text-[0.72rem] font-semibold text-teal-700"
+                                  className="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full border border-teal-500/22 bg-white/88 text-xs font-semibold text-teal-700"
                                 >
                                   {readNextPosition}
                                 </span>
                                 <span className="min-w-0">
                                   <span className="flex min-w-0 max-w-full flex-wrap items-center gap-2">
-                                    <span className="inline-flex max-w-full rounded-full border border-teal-500/22 bg-white/88 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-teal-700">
+                                    <span className="inline-flex max-w-full rounded-[10px] border border-teal-500/22 bg-white/88 px-2.5 py-1 text-xs font-semibold leading-5 text-teal-700">
                                       <span className="min-w-0 break-words">{copy.nextConceptsLabel}</span>
                                     </span>
                                     {concept.reasonLabel ? (
                                       <span
                                         id={readNextDescriptionId}
-                                        className="inline-flex max-w-full rounded-full border border-line bg-white/80 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-ink-600"
+                                        className="inline-flex max-w-full rounded-[10px] border border-line bg-white/80 px-2.5 py-1 text-xs font-semibold leading-5 text-ink-600"
                                       >
                                         <RichMathText
                                           as="span"
