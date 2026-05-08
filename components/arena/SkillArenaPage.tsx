@@ -299,32 +299,40 @@ export function SkillArenaPage({ trial }: SkillArenaPageProps) {
       return;
     }
 
-    setAnswers((current) => ({ ...current, [activeQuestion.id]: choiceId }));
+    const nextAnswers = { ...answers, [activeQuestion.id]: choiceId };
+    setAnswers(nextAnswers);
+
+    if (questionIndex >= activeLevel.questions.length - 1) {
+      finishLevel(nextAnswers);
+    }
   }
 
-  function finishLevel() {
-    const correctCount = scoreLevel(activeLevel, answers);
+  function finishLevel(submittedAnswers: Record<string, string> = answers) {
+    const correctCount = scoreLevel(activeLevel, submittedAnswers);
     const passed = correctCount >= activeLevel.passRule.correctRequired;
     const levelKey = String(activeLevel.level);
-    let xpAwarded = 0;
+    const skillProgressSnapshot = getSkillProgress(progress, trial.id);
+    const xpAwarded =
+      passed && skillProgressSnapshot.highestLevel < activeLevel.level ? activeLevel.xpAward : 0;
+    const completedAt = new Date().toISOString();
 
     setProgress((current) => {
       const currentSkill = getSkillProgress(current, trial.id);
       const previousBest = currentSkill.bestScoreByLevel[levelKey] ?? 0;
       const previousAttempts = currentSkill.attemptsByLevel[levelKey] ?? 0;
       const shouldAwardXp = passed && currentSkill.highestLevel < activeLevel.level;
-      xpAwarded = shouldAwardXp ? activeLevel.xpAward : 0;
+      const awardedXp = shouldAwardXp ? activeLevel.xpAward : 0;
 
       return {
         version: 1,
-        totalXp: current.totalXp + xpAwarded,
+        totalXp: current.totalXp + awardedXp,
         skills: {
           ...current.skills,
           [trial.id]: {
             highestLevel: passed
               ? Math.max(currentSkill.highestLevel, activeLevel.level)
               : currentSkill.highestLevel,
-            xpEarned: currentSkill.xpEarned + xpAwarded,
+            xpEarned: currentSkill.xpEarned + awardedXp,
             bestScoreByLevel: {
               ...currentSkill.bestScoreByLevel,
               [levelKey]: Math.max(previousBest, correctCount),
@@ -332,7 +340,7 @@ export function SkillArenaPage({ trial }: SkillArenaPageProps) {
             completedAtByLevel: passed
               ? {
                   ...currentSkill.completedAtByLevel,
-                  [levelKey]: new Date().toISOString(),
+                  [levelKey]: completedAt,
                 }
               : currentSkill.completedAtByLevel,
             attemptsByLevel: {

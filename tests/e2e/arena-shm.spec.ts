@@ -24,16 +24,14 @@ test("SHM arena lets a learner answer, reveal feedback, and clear level 1", asyn
 
   for (const [index, answerName] of correctAnswers.entries()) {
     await page.getByRole("button", { name: answerName }).click();
-    await expect(page.getByText("Correct", { exact: true })).toBeVisible();
 
     if (index < correctAnswers.length - 1) {
+      await expect(page.getByText("Correct", { exact: true })).toBeVisible();
       await page.getByRole("button", { name: "Next card" }).click();
-    } else {
-      await page.getByRole("button", { name: "Finish level" }).click();
     }
   }
 
   await expect(page.getByRole("heading", { name: "Level 1 cleared" })).toBeVisible();
-  await expect(page.getByText("+10")).toBeVisible();
+  await expect(page.getByText("+10", { exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: "Unlock next level" })).toBeVisible();
 });
