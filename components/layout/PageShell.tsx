@@ -66,7 +66,11 @@ export function PageShell({
       </main>
       <OnboardingExperience />
       {showFeedbackWidget ? (
-        <FeedbackWidget context={feedbackContext} fallbackEmail={previewFeedbackEmail} />
+        <FeedbackWidget
+          context={feedbackContext}
+          fallbackEmail={previewFeedbackEmail}
+          mobileHidden={feedbackContext.pageType === "concept"}
+        />
       ) : null}
       <SiteFooter />
     </div>

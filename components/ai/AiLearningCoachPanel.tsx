@@ -118,8 +118,8 @@ export function AiLearningCoachPanel({
   return (
     <div
       data-testid="ai-learning-coach-widget"
-      className="pointer-events-none fixed left-4 right-4 z-50 flex flex-col items-start gap-3 sm:right-auto sm:w-[min(24rem,calc(100vw-2rem))]"
-      style={{ bottom: "max(1rem, env(safe-area-inset-bottom))" }}
+      className="pointer-events-none fixed left-3 right-3 z-50 hidden flex-col items-start gap-3 sm:left-4 sm:right-auto sm:flex sm:w-[min(24rem,calc(100vw-2rem))]"
+      style={{ bottom: "max(0.625rem, env(safe-area-inset-bottom))" }}
     >
       {open ? (
         <section
@@ -246,7 +246,7 @@ export function AiLearningCoachPanel({
         aria-controls={panelId}
         aria-haspopup="dialog"
         onClick={() => setOpen((current) => !current)}
-        className="pointer-events-auto inline-flex items-center rounded-full border border-line bg-paper-strong px-5 py-3 text-sm font-semibold text-ink-950 shadow-[0_16px_36px_rgba(15,28,36,0.14)] transition-transform duration-200 hover:-translate-y-0.5"
+        className="pointer-events-auto inline-flex min-h-10 items-center rounded-full border border-line/85 bg-paper-strong/92 px-3 py-2 text-xs font-semibold text-ink-950 shadow-[0_10px_24px_rgba(15,28,36,0.12)] backdrop-blur transition-transform duration-200 hover:-translate-y-0.5 sm:min-h-0 sm:px-5 sm:py-3 sm:text-sm sm:shadow-[0_16px_36px_rgba(15,28,36,0.14)]"
       >
         {open ? t("actions.hide") : t("actions.trigger")}
       </button>

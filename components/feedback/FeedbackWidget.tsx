@@ -30,11 +30,13 @@ const FeedbackCaptureForm = dynamic(
 type FeedbackWidgetProps = {
   context: FeedbackContext;
   fallbackEmail?: string;
+  mobileHidden?: boolean;
 };
 
 export function FeedbackWidget({
   context,
   fallbackEmail = previewFeedbackEmail,
+  mobileHidden = false,
 }: FeedbackWidgetProps) {
   const t = useTranslations("FeedbackWidget");
   const [open, setOpen] = useState(false);
@@ -68,7 +70,10 @@ export function FeedbackWidget({
 
   return (
     <div
-      className="pointer-events-none fixed left-4 right-4 z-40 flex flex-col items-end gap-3 sm:left-auto sm:w-[26rem]"
+      className={[
+        "pointer-events-none fixed left-4 right-4 z-40 flex-col items-end gap-3 sm:left-auto sm:w-[26rem]",
+        mobileHidden ? "hidden sm:flex" : "flex",
+      ].join(" ")}
       style={{ bottom: "max(1rem, env(safe-area-inset-bottom))" }}
     >
       {open ? (
