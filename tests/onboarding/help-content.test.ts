@@ -35,4 +35,11 @@ describe("onboarding help route behavior", () => {
       shouldSuppressAutomaticOnboarding("/tests/packs/physics-connected-models"),
     ).toBe(true);
   });
+
+  it("treats source and public trust pages as low-interruption informational routes", () => {
+    expect(getOnboardingRouteKey("/source")).toBe("trust");
+    expect(getOnboardingRouteKey("/zh-HK/source")).toBe("trust");
+    expect(shouldSuppressAutomaticOnboarding("/source")).toBe(true);
+    expect(shouldSuppressAutomaticOnboarding("/zh-HK/source")).toBe(true);
+  });
 });

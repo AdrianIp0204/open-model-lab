@@ -51,6 +51,7 @@
       "feedback": "意見回饋",
       "dashboard": "儀表板",
       "accountAndSync": "帳戶與同步",
+      "source": "原始碼與參與",
       "default": "模擬優先學習"
     },
     "accountStatus": {
@@ -74,6 +75,7 @@
       "circuitBuilder": "電路工房",
       "guided": "引導",
       "about": "關於",
+      "source": "原始碼",
       "pricing": "方案價格",
       "contact": "聯絡我們",
       "privacy": "私隱",
@@ -3786,8 +3788,9 @@
           "action": "提供回饋，協助改善網站"
         },
         "openSource": {
-          "label": "開源方向",
-          "body": "Open Model Lab 正準備日後公開開源。目標是讓項目更容易被檢視、學習和參與，同時保持核心學習體驗免費。"
+          "label": "公開原始碼方向",
+          "body": "Open Model Lab 正在準備公開原始碼參與路徑。目標是讓項目更容易被檢視、學習和改善，同時保持核心學習免費，並保護部署細節。",
+          "action": "閱讀原始碼定位"
         }
       }
     }

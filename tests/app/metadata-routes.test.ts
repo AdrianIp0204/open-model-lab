@@ -130,6 +130,8 @@ describe("metadata routes", () => {
     expect(urls.has("https://openmodellab.example/zh-HK/privacy")).toBe(true);
     expect(urls.has("https://openmodellab.example/en/terms")).toBe(true);
     expect(urls.has("https://openmodellab.example/en/ads")).toBe(true);
+    expect(urls.has("https://openmodellab.example/en/source")).toBe(true);
+    expect(urls.has("https://openmodellab.example/zh-HK/source")).toBe(true);
     expect([...urls].some((url) => /\/(?:en|zh-HK)\/account(?:\/|$)/.test(url))).toBe(false);
     expect([...urls].some((url) => /\/(?:en|zh-HK)\/dashboard(?:\/|$)/.test(url))).toBe(false);
     expect([...urls].some((url) => /\/(?:en|zh-HK)\/auth(?:\/|$)/.test(url))).toBe(false);

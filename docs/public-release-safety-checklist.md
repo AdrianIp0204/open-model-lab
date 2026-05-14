@@ -69,9 +69,9 @@ Use this checklist before changing repository visibility or publishing a public 
 - [ ] Keep removed local artifact classes such as `output/`, `.playwright-cli/`, `tmp/`, browser profiles, screenshots, crash dumps, and local QA reports out of tracking.
 - [ ] Keep local ignored environment files such as `.env.local` and `.dev.vars` out of staging and commits.
 
-## Public README Readiness
+## Public README And Site-Copy Readiness
 
-- [ ] Confirm README says the project is preparing for public open-source release rather than already claiming final open-source status.
+- [ ] Confirm README, About, and `/source` copy frame the project as public-source/public-good without claiming that repository visibility, governance, branch protection, or public issue intake are already fully open.
 - [ ] Link to the roadmap, monetization boundaries, and this checklist.
 - [ ] Keep setup instructions truthful for a new external reader.
 - [ ] Avoid promises about governance, community support, public roadmap process, or security response until the supporting files exist.

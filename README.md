@@ -31,6 +31,7 @@ This repo is no longer the earlier static prototype. The current codebase alread
 - Simulation-first concept labs with supporting worked examples, review tools, progress cues, and share links
 - Signed-out usage stays local-first; signed-in usage can layer on account sync and optional Supporter convenience capabilities
 - Public-good contribution lanes are documented in [docs/public-good-contribution-lanes.md](./docs/public-good-contribution-lanes.md)
+- The public site includes a `/source` posture page for contribution lanes, protected boundaries, and how to send ideas before public issue intake opens.
 
 ## Sustainability model and current product boundaries
 

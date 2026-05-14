@@ -61,6 +61,9 @@ function getRouteFamilyLabel(pathname: string) {
   if (pathname.startsWith("/contact")) {
     return "feedback";
   }
+  if (pathname.startsWith("/source")) {
+    return "source";
+  }
   return "default";
 }
 

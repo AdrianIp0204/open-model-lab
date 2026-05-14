@@ -29,6 +29,7 @@ vi.mock("@/components/layout/SectionHeading", () => ({
 import AdsPage from "@/app/ads/page";
 import BillingPage from "@/app/billing/page";
 import PrivacyPage from "@/app/privacy/page";
+import SourcePage from "@/app/source/page";
 import TermsPage from "@/app/terms/page";
 
 describe("public trust pages", () => {
@@ -96,5 +97,23 @@ describe("public trust pages", () => {
     expect(screen.getAllByText(/google adsense/i).length).toBeGreaterThan(0);
     expect(screen.getByRole("link", { name: /pricing/i })).toHaveAttribute("href", "/pricing");
     expect(screen.getByRole("link", { name: /privacy/i })).toHaveAttribute("href", "/privacy");
+  });
+
+  it("renders the source page with contribution posture and protected boundaries", async () => {
+    render(await SourcePage());
+
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      /public-source learning project, not a clone-and-deploy kit/i,
+    );
+    expect(screen.getByText(/core concept pages, simulations, tools/i)).toBeInTheDocument();
+    expect(screen.getByText(/official deployment secrets, real Wrangler config/i)).toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: /send feedback/i })[0]).toHaveAttribute(
+      "href",
+      "/contact",
+    );
+    expect(screen.getByRole("link", { name: /read about the project/i })).toHaveAttribute(
+      "href",
+      "/about",
+    );
   });
 });

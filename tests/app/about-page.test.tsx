@@ -65,6 +65,10 @@ describe("about page", () => {
       "rel",
       "noreferrer noopener",
     );
+    expect(screen.getByRole("link", { name: /Read the source posture/i })).toHaveAttribute(
+      "href",
+      "/source",
+    );
     expect(
       screen.getByRole("link", { name: /Share feedback to help improve the website/i }),
     ).toHaveAttribute("href", "/contact");

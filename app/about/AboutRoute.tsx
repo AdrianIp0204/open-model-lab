@@ -231,6 +231,12 @@ export default async function AboutPage({
                   <p className="mt-3 text-sm leading-6 text-ink-700">
                     {t("support.cards.openSource.body")}
                   </p>
+                  <Link
+                    href="/source"
+                    className="motion-link mt-5 inline-flex text-sm font-medium text-ink-700 underline underline-offset-4 transition-colors hover:text-ink-950"
+                  >
+                    {t("support.cards.openSource.action")}
+                  </Link>
                 </article>
 
                 <article className="rounded-3xl border border-line bg-paper-strong p-5">

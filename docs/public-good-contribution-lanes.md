@@ -79,13 +79,11 @@ Avoid contributions that push Open Model Lab toward:
 
 These are good initial issue seeds when the repo is public:
 
-1. `docs(readme): align public-source positioning for the renewed OML direction`
-2. `docs(setup): add no-vendor local contributor quickstart`
-3. `chore(repo): add Node version and engines metadata`
-4. `chore(hygiene): allowlist private-route-metadata test filename in public-release scan`
-5. `test: reduce expected-error noise in public Vitest output`
-6. `docs(roadmap): define public-good contribution lanes and owner-decision boundaries`
-7. `content: audit beginner-facing concepts for first good-first-issue corrections`
-8. `infra: add or confirm redacted secret-scan CI before public contribution intake`
+1. `content: audit beginner-facing concepts for first good-first-issue corrections`
+2. `a11y: review keyboard and screen-reader wording on one simulation bench`
+3. `docs(setup): keep the no-vendor local contributor quickstart current`
+4. `i18n: improve one zh-HK learner-facing explanation without changing behavior`
+5. `test: add a focused regression test for a concept route or control`
+6. `infra: add or confirm redacted secret-scan CI before public contribution intake`
 
 As fixes land, replace this list with real GitHub issues and keep the README pointing at current labels/templates instead of stale local notes.

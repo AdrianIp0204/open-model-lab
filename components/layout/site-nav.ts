@@ -34,5 +34,6 @@ export const footerTrustNavItems = [
 export const footerUtilityNavItems = [
   { href: "/search", labelKey: "search" },
   { href: "/about", labelKey: "about" },
+  { href: "/source", labelKey: "source" },
   { href: "/pricing", labelKey: "pricing" },
 ] as const;

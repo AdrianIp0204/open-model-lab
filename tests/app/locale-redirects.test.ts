@@ -13,6 +13,7 @@ describe("default locale redirects", () => {
         { source: "/", destination: "/en", permanent: false },
         { source: "/contact", destination: "/en/contact", permanent: false },
         { source: "/pricing", destination: "/en/pricing", permanent: false },
+        { source: "/source", destination: "/en/source", permanent: false },
         { source: "/concepts/:path*", destination: "/en/concepts/:path*", permanent: false },
         { source: "/tests/:path*", destination: "/en/tests/:path*", permanent: false },
         { source: "/auth/confirm", destination: "/en/auth/confirm", permanent: false },

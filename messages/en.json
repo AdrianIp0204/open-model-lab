@@ -51,6 +51,7 @@
       "feedback": "Send feedback",
       "dashboard": "Track your progress",
       "accountAndSync": "Sign in and sync",
+      "source": "Source and contribution",
       "default": "Interactive learning across subjects"
     },
     "accountStatus": {
@@ -78,6 +79,7 @@
       "circuitBuilder": "Builder",
       "guided": "Guided paths",
       "about": "About",
+      "source": "Source",
       "pricing": "Pricing",
       "contact": "Contact",
       "privacy": "Privacy",
@@ -4258,8 +4260,9 @@
           "action": "Share feedback to help improve the website"
         },
         "openSource": {
-          "label": "Open source direction",
-          "body": "Open Model Lab is preparing for a public open-source release. The goal is to make the project easier to inspect, learn from, and contribute to while keeping the core learning experience free."
+          "label": "Public-source direction",
+          "body": "Open Model Lab is preparing a public-source contribution path. The goal is to make the project easier to inspect, learn from, and improve while keeping core learning free and deployment details private.",
+          "action": "Read the source posture"
         }
       }
     }

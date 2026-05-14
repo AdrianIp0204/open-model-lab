@@ -35,6 +35,7 @@ const defaultLocaleRedirectSources = [
   "/pricing",
   "/privacy",
   "/search",
+  "/source",
   "/start",
   "/terms",
   "/tests/:path*",

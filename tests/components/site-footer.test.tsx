@@ -18,6 +18,7 @@ describe("SiteFooter", () => {
     expect(screen.getByRole("link", { name: "Ads" })).toHaveAttribute("href", "/ads");
     expect(screen.getByRole("link", { name: "Practice" })).toHaveAttribute("href", "/tests");
     expect(screen.getByRole("link", { name: "About" })).toHaveAttribute("href", "/about");
+    expect(screen.getByRole("link", { name: "Source" })).toHaveAttribute("href", "/source");
     expect(screen.getByRole("link", { name: "Pricing" })).toHaveAttribute("href", "/pricing");
     expect(screen.getAllByRole("link", { name: "Contact" })).toHaveLength(1);
     expect(

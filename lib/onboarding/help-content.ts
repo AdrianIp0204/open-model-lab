@@ -34,6 +34,7 @@ const automaticPromptExcludedPrefixes = [
   "/",
   "/start",
   "/search",
+  "/source",
   "/tests",
   "/tools",
   "/account",
@@ -176,6 +177,7 @@ export function getOnboardingRouteKey(pathname: string | null | undefined): Onbo
     path.startsWith("/privacy") ||
     path.startsWith("/terms") ||
     path.startsWith("/ads") ||
+    path.startsWith("/source") ||
     path.startsWith("/contact")
   ) {
     return "trust";

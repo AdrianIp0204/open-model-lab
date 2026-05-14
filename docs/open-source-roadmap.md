@@ -13,6 +13,7 @@ The active repository is `AdrianIp0204/open-model-lab`. It is the source of trut
 - GitHub issue templates, a pull request checklist, and triage guidance are present in `.github/ISSUE_TEMPLATE/`, `.github/PULL_REQUEST_TEMPLATE.md`, and `docs/github-triage.md`.
 - GitHub label definitions and setup notes are present in `.github/labels.yml` and `docs/github-label-setup.md`.
 - The public-good contribution lanes live in `docs/public-good-contribution-lanes.md`.
+- The public site has a `/source` posture page that summarizes contribution lanes, protected boundaries, and the contact-first path before public issue intake opens.
 - The final public-release gate is `docs/public-release-final-gate.md`.
 - The current non-destructive tree/history audit is recorded in `docs/public-release-history-audit.md`.
 - Real `wrangler.jsonc` and `public/ads.txt` are private/ignored; committed examples document the setup shape without exposing deployment topology or AdSense seller metadata.

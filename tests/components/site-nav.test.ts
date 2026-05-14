@@ -11,5 +11,6 @@ describe("site navigation", () => {
       "/tools",
     ]);
     expect(footerUtilityNavItems.map((item) => item.href)).toContain("/search");
+    expect(footerUtilityNavItems.map((item) => item.href)).toContain("/source");
   });
 });

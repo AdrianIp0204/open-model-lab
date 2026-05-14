@@ -3,6 +3,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { generateMetadata as generateLocalizedAboutMetadata } from "@/app/[locale]/about/page";
 import { generateMetadata as generateLocalizedAdsMetadata } from "@/app/[locale]/ads/page";
+import { generateMetadata as generateLocalizedSourceMetadata } from "@/app/[locale]/source/page";
 import { generateMetadata as generateLocalizedChemistryReactionMindMapMetadata } from "@/app/[locale]/tools/chemistry-reaction-mind-map/page";
 import { generateMetadata as generateLocalizedCircuitBuilderMetadata } from "@/app/[locale]/circuit-builder/page";
 import { generateMetadata as generateLocalizedConceptMetadata } from "@/app/[locale]/concepts/[slug]/page";
@@ -23,6 +24,7 @@ import { generateMetadata as generateLocalizedPackTestMetadata } from "@/app/[lo
 import { generateMetadata as generateLocalizedTopicTestMetadata } from "@/app/[locale]/tests/topics/[slug]/page";
 import { generateMetadata as generateLocalizedTrackCompletionMetadata } from "@/app/[locale]/tracks/[slug]/complete/page";
 import { generateMetadata as generateAdsMetadata } from "@/app/ads/page";
+import { generateMetadata as generateSourceMetadata } from "@/app/source/page";
 import { generateMetadata as generateChemistryReactionMindMapMetadata } from "@/app/tools/chemistry-reaction-mind-map/page";
 import { generateMetadata as generateCircuitBuilderMetadata } from "@/app/circuit-builder/page";
 import { generateMetadata as generateConceptsMetadata } from "@/app/concepts/page";
@@ -51,7 +53,7 @@ describe("public route i18n metadata", () => {
   it("keeps English public route metadata on locale-prefixed canonicals", async () => {
     globalThis.__TEST_LOCALE__ = "en";
 
-    const [homeMetadata, conceptsMetadata, searchMetadata, testsMetadata, packTestMetadata, topicTestMetadata, subjectsMetadata, subjectDetailMetadata, topicsMetadata, topicDetailMetadata, guidedMetadata, circuitBuilderMetadata, toolsMetadata, chemistryReactionMindMapMetadata, trackCompletionMetadata, pricingMetadata, privacyMetadata, termsMetadata, adsMetadata] =
+    const [homeMetadata, conceptsMetadata, searchMetadata, testsMetadata, packTestMetadata, topicTestMetadata, subjectsMetadata, subjectDetailMetadata, topicsMetadata, topicDetailMetadata, guidedMetadata, circuitBuilderMetadata, toolsMetadata, chemistryReactionMindMapMetadata, trackCompletionMetadata, pricingMetadata, privacyMetadata, termsMetadata, adsMetadata, sourceMetadata] =
       await Promise.all([
       generateHomeMetadata(),
       generateConceptsMetadata(),
@@ -82,6 +84,7 @@ describe("public route i18n metadata", () => {
       generatePrivacyMetadata(),
       generateTermsMetadata(),
       generateAdsMetadata(),
+      generateSourceMetadata(),
     ]);
 
     expect(homeMetadata.alternates?.canonical).toContain("/en");
@@ -113,12 +116,13 @@ describe("public route i18n metadata", () => {
     expect(privacyMetadata.alternates?.canonical).toContain("/en/privacy");
     expect(termsMetadata.alternates?.canonical).toContain("/en/terms");
     expect(adsMetadata.alternates?.canonical).toContain("/en/ads");
+    expect(sourceMetadata.alternates?.canonical).toContain("/en/source");
   });
 
   it("localizes major public route metadata in zh-HK", async () => {
     globalThis.__TEST_LOCALE__ = "zh-HK";
 
-    const [homeMetadata, conceptsMetadata, searchMetadata, testsMetadata, packTestMetadata, topicTestMetadata, subjectsMetadata, subjectDetailMetadata, topicsMetadata, topicDetailMetadata, guidedMetadata, circuitBuilderMetadata, toolsMetadata, chemistryReactionMindMapMetadata, trackCompletionMetadata, pricingMetadata, privacyMetadata, termsMetadata, adsMetadata] =
+    const [homeMetadata, conceptsMetadata, searchMetadata, testsMetadata, packTestMetadata, topicTestMetadata, subjectsMetadata, subjectDetailMetadata, topicsMetadata, topicDetailMetadata, guidedMetadata, circuitBuilderMetadata, toolsMetadata, chemistryReactionMindMapMetadata, trackCompletionMetadata, pricingMetadata, privacyMetadata, termsMetadata, adsMetadata, sourceMetadata] =
       await Promise.all([
       generateHomeMetadata(),
       generateConceptsMetadata(),
@@ -149,6 +153,7 @@ describe("public route i18n metadata", () => {
       generatePrivacyMetadata(),
       generateTermsMetadata(),
       generateAdsMetadata(),
+      generateSourceMetadata(),
     ]);
 
     expect(homeMetadata.title).toEqual({
@@ -229,6 +234,8 @@ describe("public route i18n metadata", () => {
     expect(termsMetadata.alternates?.canonical).toContain("/zh-HK/terms");
     expect(adsMetadata.title).toBe("廣告與贊助");
     expect(adsMetadata.alternates?.canonical).toContain("/zh-HK/ads");
+    expect(sourceMetadata.title).toBe("原始碼與參與");
+    expect(sourceMetadata.alternates?.canonical).toContain("/zh-HK/source");
   });
 
   it("uses locale params for locale-prefixed wrapper metadata", async () => {
@@ -252,6 +259,7 @@ describe("public route i18n metadata", () => {
       testsMetadata,
       toolsMetadata,
       adsMetadata,
+      sourceMetadata,
       conceptMetadata,
       topicTestMetadata,
       packTestMetadata,
@@ -307,6 +315,9 @@ describe("public route i18n metadata", () => {
           params: Promise.resolve({ locale: "zh-HK" }),
         }),
         generateLocalizedAdsMetadata({
+          params: Promise.resolve({ locale: "zh-HK" }),
+        }),
+        generateLocalizedSourceMetadata({
           params: Promise.resolve({ locale: "zh-HK" }),
         }),
         generateLocalizedConceptMetadata({
@@ -427,6 +438,9 @@ describe("public route i18n metadata", () => {
     expect(adsMetadata.title).toBe("廣告與贊助");
     expect(adsMetadata.alternates?.canonical).toContain("/zh-HK/ads");
     expect(adsMetadata.alternates?.languages?.en).toContain("/en/ads");
+    expect(sourceMetadata.title).toBe("原始碼與參與");
+    expect(sourceMetadata.alternates?.canonical).toContain("/zh-HK/source");
+    expect(sourceMetadata.alternates?.languages?.en).toContain("/en/source");
     expect(conceptMetadata.alternates?.canonical).toContain(
       "/zh-HK/concepts/projectile-motion",
     );
