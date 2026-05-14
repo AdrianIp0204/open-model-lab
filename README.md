@@ -1,16 +1,16 @@
 # Open Model Lab
 
-Open Model Lab is a simulation-first science-learning site built with Next.js App Router, React, TypeScript, and Tailwind.
+Open Model Lab is a public-source, simulation-first STEM learning lab for students. It aims to be closer to an interactive science atlas than a generic notes wiki: concepts should be learned by predicting, changing, observing, explaining, and checking real models.
 
-## Private source, not an official deployment kit
+## Public-source learning project, not an official deployment kit
 
-This is the active private source repository for Open Model Lab. It was previously prepared as a public source release, but as of 2026-05-07 development is private by default while the hosted product remains public.
+This is the active source repository for Open Model Lab. The code is published under AGPL-3.0-only, the educational content is shared under CC BY-NC-SA 4.0, and the official Open Model Lab name, logos, domains, and brand presentation are reserved under [BRAND.md](./BRAND.md).
 
 It is not a turnkey production deployment package for cloning the official Open Model Lab website. Real production configuration is intentionally absent: real `wrangler.jsonc`, real `public/ads.txt`, deployment secrets, vendor accounts, private Stripe/Resend/AdSense/Supabase setup, and private operator history are not included.
 
-Ordinary code, docs, content, test, accessibility, and localization work does not need production vendor setup. Anyone operating an independent fork must use their own name, branding, domains, vendor accounts, keys, legal policies, and deployment process. The Open Model Lab name, logo, marks, domains, and official presentation are reserved under [BRAND.md](./BRAND.md).
+Ordinary code, docs, content, test, accessibility, and localization work does not need production vendor setup. Anyone operating an independent fork must use their own name, branding, domains, vendor accounts, keys, legal policies, and deployment process.
 
-This repository is the active source of truth for future development. See [docs/repository-identity.md](./docs/repository-identity.md) for the distinction between this repository and the private historical/archive repository.
+This repository is the active source of truth for future public-facing development. See [docs/repository-identity.md](./docs/repository-identity.md) for the distinction between this repository and the private historical/archive repository.
 
 This repo is no longer the earlier static prototype. The current codebase already includes:
 
@@ -26,16 +26,17 @@ This repo is no longer the earlier static prototype. The current codebase alread
 
 ## Current product scope
 
-- Physics-focused today, with broader science-friendly branding
-- A catalog spanning mechanics, oscillations and waves, optics, electricity, and early magnetism/electromagnetism
+- Physics-focused today, with broader STEM-friendly branding
+- A catalog spanning mechanics, oscillations and waves, optics, electricity, early magnetism/electromagnetism, plus math/chemistry/computer-science entry points
 - Simulation-first concept labs with supporting worked examples, review tools, progress cues, and share links
-- Signed-out usage stays local-first; signed-in usage can layer on account sync and the current paid convenience capabilities
+- Signed-out usage stays local-first; signed-in usage can layer on account sync and optional Supporter convenience capabilities
+- Public-good contribution lanes are documented in [docs/public-good-contribution-lanes.md](./docs/public-good-contribution-lanes.md)
 
-## Business model and current product boundaries
+## Sustainability model and current product boundaries
 
 - The canonical entitlement seam lives in `lib/account/entitlements.ts`.
 - The current internal tier model is still `free` and `premium`.
-- Public copy is moving toward free core learning plus an optional Supporter plan for sustainability and convenience.
+- Public copy should emphasize free core learning plus an optional Supporter plan for sustainability and convenience.
 - The current Supporter copy model does not change billing, webhook, database, API, or entitlement internals.
 - Signed-in free accounts can sync the core progress snapshot.
 - The paid convenience layer currently gates:
@@ -56,7 +57,8 @@ This repo is no longer the earlier static prototype. The current codebase alread
 
 This repository starts from a clean release history. Repo-facing preparation and maintenance notes live in:
 
-- [Open-source roadmap](./docs/open-source-roadmap.md)
+- [Public-source roadmap](./docs/open-source-roadmap.md)
+- [Public-good contribution lanes](./docs/public-good-contribution-lanes.md)
 - [Monetization boundaries](./docs/monetization-boundaries.md)
 - [Public release safety checklist](./docs/public-release-safety-checklist.md)
 - [Public release hygiene inventory](./docs/public-release-hygiene-inventory.md)
@@ -112,12 +114,16 @@ Private automation/operator internals, old private UX audit PDFs, real `wrangler
 
 ## Run locally
 
+Use Node 20.x and pnpm 10.x (see `.node-version`, `.nvmrc`, `packageManager`, and `engines`).
+
 ```bash
 pnpm install
 pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
+
+No production vendor accounts are needed for ordinary code, docs, content, accessibility, localization, or test contributions.
 
 The content registry is regenerated automatically before `dev`, `lint`, `test`, `build`, `preview`, and deploy commands. If you are working directly on content/catalog files and need to refresh it manually, run:
 
@@ -140,17 +146,32 @@ Fork operators are responsible for their own Supabase project, Stripe products/p
 
 ## Verify
 
+Run the smallest truthful lane for the change, then broaden before release-sensitive changes.
+
 ```bash
 pnpm lint
+pnpm typecheck
+pnpm test
+pnpm content:doctor
 pnpm public-release:hygiene
 pnpm public-release:final-check
 pnpm public-release:history-audit
-pnpm exec tsc --noEmit
-pnpm test
-pnpm build
 ```
 
-`pnpm exec tsc --noEmit` is important here: the current Next build config skips TypeScript build errors, so `pnpm build` is not a substitute for a real typecheck.
+`pnpm typecheck` is important here: the current Next build config skips TypeScript build errors, so `pnpm build` is not a substitute for a real typecheck.
+
+
+## Good first issues
+
+Good first public issues should be small, student-facing, and easy to verify:
+
+- concept corrections: definitions, units, graph labels, worked examples, or misconception notes;
+- accessibility and contrast fixes on concept benches;
+- clearer student-facing instructions for predict/change/observe/explain loops;
+- small tests for content schemas, route behavior, or simulation controls;
+- docs that make no-vendor local contribution easier.
+
+See [docs/public-good-contribution-lanes.md](./docs/public-good-contribution-lanes.md) for owner-decision boundaries and issue seeds.
 
 ## Useful routes
 

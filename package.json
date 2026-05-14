@@ -91,5 +91,9 @@
       "sharp",
       "unrs-resolver"
     ]
+  },
+  "engines": {
+    "node": ">=20 <26",
+    "pnpm": ">=10 <11"
   }
 }

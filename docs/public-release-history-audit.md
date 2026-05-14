@@ -1,73 +1,43 @@
 # Public Release History Audit
 
-This is a non-destructive audit for the final pre-public-release decision. It does not rewrite history, delete files, change repository visibility, or inspect ignored private file contents.
+This is a non-destructive audit for the final pre-public-visibility decision. It does not rewrite history, delete files, change repository visibility, or inspect ignored private file contents.
 
-## Label Sync Status
+Latest local audit: **2026-05-14**.
 
-GitHub labels were synced from `.github/labels.yml` with:
+## Current Verdict
 
-```bash
-pnpm github:labels:plan -- --apply
-```
+The current public-source tree is technically close to ready for public visibility.
 
-The verification query matched 25 of 25 recommended labels. The label source of truth remains `.github/labels.yml`; rerun `pnpm github:labels:plan` after label edits.
+- The working tree was clean on `main` during the audit.
+- The active remote was `https://github.com/AdrianIp0204/open-model-lab.git`.
+- Current tracked-file and history checks found no forbidden tracked release artifacts.
+- Current and historical high-confidence secret-pattern scans found no matches.
+- Real local deployment files remain ignored/untracked and their contents were not printed.
+- The remaining pre-public work is mostly positioning/docs alignment and a final gate on the exact commit that will become public.
 
 ## Current-Tree Snapshot
 
-- The audit script reports the current tracked-file count when run.
-- Current tracked artifact-like paths from the audit script: none.
-- Current tracked private/config-like paths from the audit script: `.env.example` only, which is intended placeholder documentation.
-- Current tracked control-plane paths from the audit script: none.
-- `AGENTS.md` remains tracked as detailed repo/agent guidance.
-- Real `wrangler.jsonc` and real `public/ads.txt` are ignored and untracked.
-- Ignored local files observed include local env/config files, build output, browser output, tsbuildinfo files, local logs, and local Supabase/Wrangler output. Their contents were not inspected or printed.
+- Active repo: `AdrianIp0204/open-model-lab`.
+- Active branch: `main`.
+- Current tracked private/config-like files are limited to intentional placeholders such as `.env.example`, `wrangler.example.jsonc`, `public/ads.example.txt`, and sanitized `supabase/migrations/**`.
+- Real private files such as `.env.local`, `.dev.vars`, `wrangler.jsonc`, `public/ads.txt`, `.next`, `.open-next`, `.wrangler`, `output`, `tmp`, `test-results`, `node_modules`, and local Supabase output are ignored/untracked.
+- `AGENTS.md` remains tracked intentionally as detailed public-safe project and validation guidance.
 
-## Current-Tree Classification
-
-### Safe And Intended Public Repo Files
+## Safe And Intended Public Repo Files
 
 | Path or pattern | Reason | Action |
 | --- | --- | --- |
-| `app/**`, `components/**`, `hooks/**`, `i18n/**`, `lib/**`, `messages/**` | Product source for the Next.js app, public routes, components, runtime helpers, i18n, ads, account, billing, and support seams. | Retain. |
+| `app/**`, `components/**`, `hooks/**`, `i18n/**`, `lib/**`, `messages/**` | Product source for routes, components, runtime helpers, i18n, ads, account, billing, and support seams. | Retain. |
 | `content/catalog/**`, `content/concepts/**`, `content/optimized/**`, `content/i18n/**` | Educational content and localized overlays covered by `CONTENT_LICENSE.md` unless excluded. | Retain, subject to normal content review. |
-| `tests/**`, `tests/e2e/**`, `playwright.config.ts`, `playwright.concept-v2.config.ts`, `vitest.config.ts` | Public tests are useful for contributors and release confidence. | Retain. |
+| `tests/**`, `tests/e2e/**`, Playwright/Vitest configs | Public tests are useful for contributors and release confidence. | Retain. |
 | `.github/ISSUE_TEMPLATE/**`, `.github/PULL_REQUEST_TEMPLATE.md`, `.github/labels.yml` | Public contribution intake files. | Retain. |
-| `.github/workflows/assessment-e2e.yml` | CI workflow uses standard setup actions and no committed secrets. | Retain after owner reviews Actions posture in GitHub settings. |
+| `.github/workflows/**` | CI workflows use standard setup actions and no committed secrets. | Retain after owner reviews Actions posture in GitHub settings. |
 | `LICENSE`, `CONTENT_LICENSE.md`, `BRAND.md`, `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md` | Public policy and contribution boundary files. | Retain. |
 | `.env.example`, `wrangler.example.jsonc`, `public/ads.example.txt` | Placeholder-only setup examples. | Retain; keep real private files ignored. |
 | `public/branding/**`, `logo/**`, `public/favicon.ico`, `public/og-default.svg` | Runtime branding and metadata assets. | Retain with `BRAND.md` all-rights-reserved boundary. |
-| `AGENTS.md` | Detailed repo/agent guidance with product boundaries, architecture seams, release-prep rules, and validation commands. This is intentional guidance, not a temporary agent artifact. | Retain. |
+| `AGENTS.md` | Intentional repo guidance, not a temporary agent artifact. | Retain. |
 
-### Needs Owner Decision
-
-| Path or pattern | Reason | Recommended action |
-| --- | --- | --- |
-| `supabase/` local directory | Ignored local output exists, while no `supabase/migrations/**` files are tracked in current HEAD. | If public self-hosting is a goal, decide whether sanitized migrations should be published in a separate pass. |
-| Remote non-release branches | `origin/codex/*` and `origin/work/*` refs exist locally/remotely and are included in `--all` history scans. | Delete or sanitize non-release branches before changing repository visibility, or publish only a clean orphan branch. |
-
-### Removed From Current HEAD For Public Snapshot Prep
-
-| Path or pattern | Reason | Action |
-| --- | --- | --- |
-| Root audit PDFs | Not needed for product runtime, tests, package install, or public contribution intake. | Removed from current public-release tree. |
-| `automation/**` | Private control-plane tooling and backlog state, not product runtime. | Removed from current public-release tree. |
-| Automation docs: `docs/automation-loop.md`, `docs/backlog-authoring-guide.md`, `docs/backlog-truth.md`, `docs/v1-human-followup-inventory.md`, `docs/v1-manual-tail-runbook.md` | Private operator/control-plane workflow docs. | Removed from current public-release tree. |
-| `content/i18n/zh-HK/.translation-memory.json` | Large offline translation cache, not runtime data and regenerated by translation tooling when needed. | Removed from current public-release tree and ignored. |
-
-### Candidate For History Rewrite Or Removal
-
-| Path or pattern | Reason |
-| --- | --- |
-| `output/**`, `.playwright-cli/**`, `test-results/**`, `playwright-report/**`, `coverage/**` | Local browser/build/test reports appeared historically and should not be in public history. |
-| `tmp/**`, `tmp-chrome-profile/**`, `.codex-tmp/**`, `review-artifacts/**` | Local QA screenshots, browser profiles, and review artifacts appeared historically. |
-| `.audit-start*.log`, `.route-smoke.log`, `*.log`, `*.dmp`, `*.har`, `*.webm`, `*.trace.zip` | Local logs and browser crash/profile artifacts appeared historically. |
-| `public/ads.txt` | Real AdSense seller metadata was historically tracked. It is no longer tracked, but history would expose it. |
-| `wrangler.jsonc` | Real Cloudflare/OpenNext config was historically tracked. It is no longer tracked, but history would expose deployment topology and possibly private config. |
-| Root audit PDFs | Removed from current HEAD; also remove from public history to avoid publishing old review artifacts. |
-| `automation/**` and automation docs | Removed from current HEAD; remove from public history by using a clean orphan public branch or rewrite. |
-| `content/i18n/zh-HK/.translation-memory.json` | Removed from current HEAD; remove from public history if the owner wants to avoid publishing old translation-cache state. |
-
-### Must Stay Private Or Ignored
+## Must Stay Private Or Ignored
 
 | Path or pattern | Reason |
 | --- | --- |
@@ -75,151 +45,56 @@ The verification query matched 25 of 25 recommended labels. The label source of 
 | `.dev.vars*` except a deliberate example file | Local Cloudflare/Wrangler values. |
 | `wrangler.jsonc` | Real deployment config. |
 | `public/ads.txt` | Real AdSense seller metadata. |
-| `.next/**`, `.open-next/**`, `.wrangler/**`, `node_modules/**`, `supabase/**` local output | Local build, dependency, deployment, or database output. |
-| `output/**`, `.playwright-cli/**`, `tests/e2e/output/**`, `automation/runs/**` | Local QA, browser, and automation run output. |
-| `automation/**` | Private operator/control-plane files are not part of the curated public tree. |
+| `.next/**`, `.open-next/**`, `.wrangler/**`, `node_modules/**`, local Supabase output | Local build, dependency, deployment, or database output. |
+| `output/**`, `.playwright-cli/**`, `tests/e2e/output/**`, `tmp/**`, `test-results/**` | Local QA, browser, and automation run output. |
 | `*.tsbuildinfo`, `*.log`, `*.dmp`, `*.har`, `*.webm`, `*.trace.zip` | Local build/debug/browser artifacts. |
-| `content/i18n/*/.translation-memory.json` | Local/offline translation cache state. Runtime localized bundles remain checked in. |
+| `content/i18n/*/.translation-memory.json` | Local/offline translation-cache state. Runtime localized bundles remain checked in. |
 
-### Intentionally Retained Generated Files
+## Current History Audit Findings
 
-| Path or pattern | Reason |
-| --- | --- |
-| `lib/content/generated/**` | Checked-in content registry and concept variant runtime artifacts. |
-| `lib/i18n/generated/**` | Checked-in generated content bundle used by runtime localization. |
-| `content/_meta/generated/**` | Generated editorial/status artifacts used by content and localization workflows. |
-| `content/i18n/generated/**` | Generated locale overlay bundle used by i18n validation/runtime seams. |
-
-## History Audit Findings
-
-The non-destructive audit used `git log --all`, `git log --all --name-status`, `git rev-list --objects --all`, `git ls-files`, and `git status --short --ignored`.
-
-### Refs Included
-
-The `--all` scan includes `main`, local `codex/*` branches, remote `origin/codex/*` branches, and remote `origin/work/*` branches. Public visibility would expose remote branches unless they are deleted, protected, or replaced by a clean public branch strategy.
-
-### Commit-Message Patterns
-
-- Commit count across all refs in the latest audit run: 1062. This will change as cleanup commits are added.
-- Version-only commit subjects matching `vX.Y.Z`: 231.
-- Low-signal or private-workflow subjects include `automation v2`, `automation tool`, `updated AGENTS.md`, `audit pdf`, PDF-only commits, and Codex stash-style subjects such as `On codex/...`, `index on codex/...`, and `untracked files on codex/...`.
-- These messages are not a security issue by themselves, but they make the private development history look noisy for a first public release.
-
-### Historical Artifact Paths
-
-Representative unique historical artifact path counts:
-
-| Prefix or pattern | Count |
-| --- | ---: |
-| `output/**` | 396 |
-| `tmp/**` | 30 |
-| `.playwright-cli/**` | 22 |
-| `tmp-chrome-profile/**` | 11 |
-| `review-artifacts/**` | 4 |
-| `.codex-tmp/**` | 2 |
-| root audit/start logs | 18 |
-
-### Historical Private Or Config-Like Paths
-
-| Path | Current HEAD status | Risk |
-| --- | --- | --- |
-| `public/ads.txt` | Not tracked; ignored real file may exist locally. | Medium: public seller metadata, not an API secret, but owner chose not to publish it in repo. |
-| `wrangler.jsonc` | Not tracked; ignored real file may exist locally. | Medium to high: deployment topology and config names may be exposed; rotate anything secret-like if it ever appeared there. |
-| `.env.local`, `.dev.vars` | No tracked history found in this scan. | Low from git history; still keep local files ignored and unprinted. |
-
-### Large Objects
-
-Largest historical objects are dominated by older `automation/backlog.json` blobs around 5 MB to 15 MB, old `tmp/*.png` screenshots around 1.7 MB to 4.3 MB, old `content/i18n/zh-HK/.translation-memory.json` blobs around 2.1 MB to 2.9 MB, and generated zh-HK bundles around 1.6 MB. The automation backlog, screenshots, and translation-memory cache are removed from current HEAD, but they would still be exposed if the existing private history were published.
-
-## Recommended Cleanup Strategy
-
-Recommendation: create a clean orphan public branch from the curated current tree. This is safer than trying to preserve more than one thousand private-history commits with many version-only, automation, artifact, temporary-output, private config, and old operator-control-plane entries.
-
-### Option 1: Rewrite Existing Main History
-
-Use `git filter-repo` if the owner wants to preserve a cleaned version of historical development.
-
-Candidate path removals:
+Run before public visibility:
 
 ```bash
-git filter-repo --force \
-  --path output/ \
-  --path .playwright-cli/ \
-  --path test-results/ \
-  --path playwright-report/ \
-  --path coverage/ \
-  --path tmp/ \
-  --path tmp-chrome-profile/ \
-  --path .codex-tmp/ \
-  --path review-artifacts/ \
-  --path public/ads.txt \
-  --path wrangler.jsonc \
-  --path-glob "*.log" \
-  --path-glob "*.dmp" \
-  --path-glob "*.har" \
-  --path-glob "*.webm" \
-  --path-glob "*.trace.zip" \
-  --invert-paths
+pnpm public-release:history-audit
 ```
 
-If the owner still chooses history rewriting instead of the clean orphan branch, include the current-tree removals in the path removal set:
+The 2026-05-14 audit reported:
+
+- 82 commits across refs included in the local scan.
+- Refs included: `origin`, `origin/main`, local `main`, and a local `fix/mobile-dark-locale-links` branch.
+- No tracked artifact-like paths.
+- No historical artifact-like paths.
+- Historical private/config-like paths were limited to `.env.example` and `supabase/migrations/**`.
+- Large historical objects were generated content/i18n artifacts, not private browser output or deployment files.
+- No tags were observed.
+
+This is materially cleaner than the older pre-cleanup history notes. If new branches/tags are added before public visibility, rerun this audit and update the finding.
+
+## Secret Scan Expectations
+
+Before changing visibility, run a final high-confidence secret scan on the exact commit to be made public. At minimum check current tracked files and `git rev-list --all` history for obvious private keys/tokens. Do not print ignored private file contents.
+
+The 2026-05-14 readiness audit found no high-confidence current/history secret-pattern matches and no high-confidence matches in `.env.example`, `wrangler.example.jsonc`, or `public/ads.example.txt`.
+
+## Final Pre-Public Gate
+
+On the exact commit that will be made public, run:
 
 ```bash
-git filter-repo --force \
-  --path automation/ \
-  --path docs/automation-loop.md \
-  --path docs/backlog-authoring-guide.md \
-  --path docs/backlog-truth.md \
-  --path docs/v1-human-followup-inventory.md \
-  --path docs/v1-manual-tail-runbook.md \
-  --path "Concept Page UX Review and Recommendations.pdf" \
-  --path "UI improvement proposal.pdf" \
-  --path "UI_UX Audit for OML.pdf" \
-  --path "UI_UX audit review 2nd round.pdf" \
-  --path "UI_UX audit round 3.pdf" \
-  --path content/i18n/zh-HK/.translation-memory.json \
-  --invert-paths
-```
-
-Commit-message cleanup across the existing private history would be labor-intensive and error-prone. If preserving history, accept imperfect old messages or do a narrow `git filter-repo --message-callback` only for mechanical version-only messages after testing on a clone.
-
-### Option 2: Clean Orphan Public Branch Procedure
-
-Preferred for this repo before first public release:
-
-1. Create a private backup tag/branch before any destructive work.
-2. Start from the curated current tree, where root PDFs, `automation/**`, private automation docs, and the checked-in translation-memory cache have already been removed while detailed `AGENTS.md` guidance remains tracked.
-3. Create an orphan branch from that curated tree.
-4. Commit one clean initial public commit.
-5. Run full verification.
-6. Push the public branch intentionally, then make the visibility/default-branch change only after owner approval.
-
-This avoids exposing old local artifacts, private deployment metadata, noisy version commits, and Codex/automation history. It also avoids complicated message rewrites.
-
-## Owner-Approved Destructive Pass Plan
-
-Before any rewrite or orphan-branch replacement:
-
-1. `git fetch --all --prune`
-2. `git tag private/pre-public-main-YYYYMMDD main`
-3. `git branch private/pre-public-main main`
-4. Retain any private historical repository state outside the public branch.
-5. Decide whether non-release remote branches should be deleted before visibility changes.
-6. Rotate any credential if a later secret scan proves it was ever committed.
-
-After rewrite or orphan branch creation:
-
-```bash
-git ls-files wrangler.jsonc
-git ls-files public/ads.txt
+git status --short --branch
 pnpm public-release:hygiene
 pnpm public-release:final-check
 pnpm public-release:history-audit
 pnpm lint
 pnpm typecheck
 pnpm test
+pnpm content:doctor
 ```
 
-Rollback plan: keep the private backup tag/branch and do not delete the original private remote until the public branch has been inspected and accepted.
+If route-visible behavior has changed, add the relevant Playwright lane. If visibility/settings are about to change on GitHub, also confirm issue templates, labels, branch protection, security alerts, and private vulnerability reporting settings.
 
-Force-push warning: rewriting `main` requires force-pushing and will disrupt any collaborators or forks. Since the repo has not been made public yet, a clean orphan public branch is likely the lower-risk public-release path.
+## Rollback / Caution
+
+Changing GitHub visibility is external and user-visible. Do it only after owner approval on the final checked commit.
+
+Do not rewrite history or delete remote branches/tags without a separate explicit owner decision and backup plan.

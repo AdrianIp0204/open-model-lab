@@ -1,57 +1,56 @@
-# Source Visibility Roadmap
+# Public-Source Roadmap
 
-Status update: as of **2026-05-07**, Adrian chose to make `AdrianIp0204/open-model-lab` private. This document is retained as a history/safety checklist from the public-release preparation phase, but the active strategy is now private-source development with a public hosted product.
+Status update: as of **2026-05-14**, Open Model Lab is being repositioned as a public-source, public-good interactive STEM learning project rather than a money-first product lane.
 
-Open Model Lab has a clean source repository at `AdrianIp0204/open-model-lab`. That repository is the active source of truth for future development, but it is no longer intended to be public by default. This roadmap records the earlier preparation decisions and source-safety boundaries. It does not change the product's billing and entitlement behavior.
+The active repository is `AdrianIp0204/open-model-lab`. It is the source of truth for public-facing development, contribution intake, and future issue/PR work. The private historical/archive repository remains separate and must not be treated as the active development base.
 
 ## Current Status
 
-- The clean source repository exists at `AdrianIp0204/open-model-lab`, is now private, and remains the active development source of truth.
+- The active source repository exists at `AdrianIp0204/open-model-lab` and is prepared for public visibility once the owner intentionally flips GitHub visibility.
 - The private `AdrianIp0204/OpenModelLab` repository is retained only as historical/private archive context and must remain private unless the owner explicitly changes strategy later.
-- Final code, educational-content, and brand boundaries have been chosen and documented in `LICENSE`, `CONTENT_LICENSE.md`, and `BRAND.md`.
-- Initial contribution, security, and conduct documents are now present in `CONTRIBUTING.md`, `SECURITY.md`, and `CODE_OF_CONDUCT.md`.
-- GitHub issue templates, a pull request checklist, and triage guidance are now present in `.github/ISSUE_TEMPLATE/`, `.github/PULL_REQUEST_TEMPLATE.md`, and `docs/github-triage.md`.
-- GitHub label definitions and setup notes are now present in `.github/labels.yml` and `docs/github-label-setup.md`.
-- Recommended GitHub labels have been synced on the current GitHub repository from `.github/labels.yml`.
-- The final public-release gate is now `docs/public-release-final-gate.md`.
-- A non-destructive current-tree and history audit is now recorded in `docs/public-release-history-audit.md`.
-- The curated public tree no longer tracks private automation/operator internals, old private UX audit PDFs, or locale translation-memory caches.
-- `AGENTS.md` remains detailed public-safe project and validation guidance.
-- Repository identity rules live in `docs/repository-identity.md`.
+- Code, educational-content, and brand boundaries are documented in `LICENSE`, `CONTENT_LICENSE.md`, and `BRAND.md`.
+- Contribution, security, and conduct documents are present in `CONTRIBUTING.md`, `SECURITY.md`, and `CODE_OF_CONDUCT.md`.
+- GitHub issue templates, a pull request checklist, and triage guidance are present in `.github/ISSUE_TEMPLATE/`, `.github/PULL_REQUEST_TEMPLATE.md`, and `docs/github-triage.md`.
+- GitHub label definitions and setup notes are present in `.github/labels.yml` and `docs/github-label-setup.md`.
+- The public-good contribution lanes live in `docs/public-good-contribution-lanes.md`.
+- The final public-release gate is `docs/public-release-final-gate.md`.
+- The current non-destructive tree/history audit is recorded in `docs/public-release-history-audit.md`.
 - Real `wrangler.jsonc` and `public/ads.txt` are private/ignored; committed examples document the setup shape without exposing deployment topology or AdSense seller metadata.
-- Public product copy is moving toward free core learning plus optional Supporter-funded sustainability.
+- Public product copy should emphasize free core learning, simulation-first concept pages, and optional Supporter/vendor integrations for sustainability.
 - The internal entitlement seam remains `free | premium` until a separate migration plan says otherwise.
 
-## Why This Still Matters
+## Public-Good Direction
 
-- The public-release preparation work still usefully separated code, educational content, brand, private config, and deployment boundaries.
-- The repo may become public again later if Adrian deliberately chooses that strategy, so the safety checks remain valuable.
-- Even as a private repository, it should keep secrets, ignored deployment files, private artifacts, and old archive history out of normal product commits.
+The project should present itself as an interactive science atlas for students:
+
+- concept pages should behave like guided live lessons or small scientific instruments;
+- explanations, simulations, checks, and challenges should reinforce one another;
+- core learning should remain free and useful without sign-in;
+- local-first progress should work before account sync;
+- Supporter/vendor integrations should be framed as sustainability and hosted-operator convenience, not as the purpose of the project.
 
 ## Ongoing Source Safety
 
-- Keep `docs/repository-identity.md`, `AGENTS.md`, and README positioning aligned so active product work does not drift into private operations or stale archive history.
-- Complete a secret audit across the working tree, ignored files, deployment files, logs, generated artifacts, screenshots, and selected git history.
-- Keep `.env.example` and any other sample env files placeholder-only and aligned with the live runtime seams.
-- Keep `wrangler.example.jsonc` and `public/ads.example.txt` placeholder-only, with real `wrangler.jsonc` and `public/ads.txt` supplied privately.
+- Keep `docs/repository-identity.md`, `AGENTS.md`, `CONTRIBUTING.md`, and `README.md` aligned with the current public-source stance.
+- Re-run the final secret/history gate on the exact commit that will become public.
+- Keep `.env.example`, `wrangler.example.jsonc`, and `public/ads.example.txt` placeholder-only and aligned with live runtime seams.
+- Keep real `wrangler.jsonc`, real `public/ads.txt`, `.env.local`, `.dev.vars`, local database output, logs, screenshots, and browser/build artifacts ignored and untracked.
 - Keep the published code, educational-content, and brand/trademark terms aligned with `LICENSE`, `CONTENT_LICENSE.md`, and `BRAND.md`.
 - Keep contribution docs, security reporting, and conduct expectations aligned with the actual maintainer process.
 - Keep GitHub labels synced from `.github/labels.yml` if label definitions change.
 - Preserve the clean public history posture; do not push old private branches, tags, or history into the public repository.
-- Do not base new public-facing work on stale branches from `AdrianIp0204/OpenModelLab`; branch from public `main`.
-- Review README claims so the public landing document matches what is implemented now.
-- Recheck generated files and ignored files so public artifacts are intentional.
+- Do not base new public-facing work on stale branches from `AdrianIp0204/OpenModelLab`; branch from active `main`.
 - Run CI, `pnpm public-release:final-check`, `pnpm public-release:history-audit`, and smoke checks before release-sensitive repository changes.
 
 ## Protected Boundaries
 
-The public release must not expose:
+The public source tree must not expose:
 
-- real API keys, webhook secrets, service-role keys, dashboard exports, or deployment credentials
-- private Stripe, Supabase, Resend, Cloudflare, AdSense, or account records
-- private customer, learner, support, or feedback data
-- local database dumps, logs, generated reports, or screenshots with private data
-- brand, logo, product-name, or domain rights reserved under `BRAND.md`
+- real API keys, webhook secrets, service-role keys, dashboard exports, or deployment credentials;
+- private Stripe, Supabase, Resend, Cloudflare, AdSense, or account records;
+- private customer, learner, support, or feedback data;
+- local database dumps, logs, generated reports, or screenshots with private data;
+- brand, logo, product-name, or domain rights reserved under `BRAND.md`.
 
 ## What Is Not Changing In This Roadmap
 
@@ -63,4 +62,4 @@ The public release must not expose:
 
 ## Working Rule
 
-Public-release preparation should stay practical and evidence-backed. Update docs, samples, safety checks, and release boundaries before claiming public readiness. Product behavior, billing behavior, database shape, entitlement values, and webhook logic need separate tasks if they ever change.
+Public-source preparation should stay practical and evidence-backed. Update docs, samples, safety checks, and release boundaries before claiming public readiness. Product behavior, billing behavior, database shape, entitlement values, and webhook logic need separate tasks if they ever change.

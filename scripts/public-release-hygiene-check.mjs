@@ -95,10 +95,13 @@ const forbiddenTrackedArtifactRules = [
   },
 ];
 
+const ownerReviewPathAllowlist = new Set(["tests/app/private-route-metadata.test.ts"]);
+
 const ownerReviewNameRules = [
   {
     label: "secret-looking filename",
     test: (path) =>
+      !ownerReviewPathAllowlist.has(path) &&
       /(^|\/)(secret|secrets|private|credential|credentials|service-role|dashboard-export|customer|customers|users)(\.|\/|-|_)/i.test(
         path,
       ),

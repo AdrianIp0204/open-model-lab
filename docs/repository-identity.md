@@ -1,22 +1,20 @@
 # Repository Identity
 
-Open Model Lab currently has two GitHub repositories with different purposes.
+Open Model Lab has two GitHub repositories with different purposes.
 
-Visibility note: as of **2026-05-07**, Adrian chose to make the active source repository private for development convenience and to keep ongoing product/research work out of public view. The hosted product can remain public at `openmodellab.com` while source development happens privately.
+## Active Public-Source Repository
 
-## Active Private Source Repository
+`AdrianIp0204/open-model-lab` is the active development repository and intended public-source home for Open Model Lab.
 
-`AdrianIp0204/open-model-lab` is the active private development repository and current source of truth.
+Use this repository for current issues, pull requests, documentation updates, CI changes, content fixes, and future public-facing development. The project may still have private deployment files and owner-only operator context on local machines, but those are deliberately excluded from the public source tree.
 
-Issues, pull requests, documentation updates, CI changes, and future development should target this repository when the owner grants access.
-
-This repository should still not include old private development history, private operator artifacts, real deployment secrets, real `wrangler.jsonc`, or real `public/ads.txt` unless the owner deliberately changes the private-ops boundary.
+This repository must not include old private development history, private operator artifacts, real deployment secrets, real `wrangler.jsonc`, real `public/ads.txt`, local database dumps, generated browser output, or private learner/support data.
 
 ## Private Historical Archive
 
 `AdrianIp0204/OpenModelLab` is a private historical/archive repository only. It contains old private history and operator context and must remain private unless the owner explicitly changes strategy later.
 
-Do not use `AdrianIp0204/OpenModelLab` for new public-facing development. Branches there may be stale, private-history-based, or behind the public repository.
+Do not use `AdrianIp0204/OpenModelLab` for new public-facing development. Branches there may be stale, private-history-based, or behind the active repository.
 
 Do not push private branches, tags, history, ignored files, local QA output, deployment credentials, or private artifacts from `AdrianIp0204/OpenModelLab` into `AdrianIp0204/open-model-lab`.
 

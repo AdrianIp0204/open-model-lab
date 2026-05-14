@@ -35,7 +35,7 @@ Before opening larger changes, verify that you are working in `AdrianIp0204/open
 
 ## Local Setup
 
-Use Node and pnpm matching the repo's `packageManager` field.
+Use Node 20.x and pnpm 10.x, matching `.node-version`, `.nvmrc`, `packageManager`, and `engines`.
 
 ```bash
 pnpm install
@@ -81,6 +81,8 @@ pnpm i18n:check:zh-HK
 pnpm validate:content
 pnpm content:doctor
 ```
+
+Public-good contribution lanes and owner-decision boundaries live in `docs/public-good-contribution-lanes.md`.
 
 Public PR validation does not require deployment secrets. The `Public Validation` workflow runs public-release hygiene, label-plan, lint, typecheck, and unit/component tests. The assessment browser workflow runs the same assessment coverage in smaller `journeys`, `resume-sync`, and `entry-recommendations` lanes so each status check stays suitable for branch protection.
 
