@@ -410,7 +410,7 @@ export const conceptContentLastModified = {
   "polarization": "2026-05-05T07:34:50.000Z",
   "power-energy-circuits": "2026-05-05T07:34:50.000Z",
   "pressure-and-hydrostatic-pressure": "2026-05-05T07:34:50.000Z",
-  "projectile-motion": "2026-05-07T20:00:42.000Z",
+  "projectile-motion": "2026-05-14T08:39:03.000Z",
   "radioactivity-half-life": "2026-05-05T07:34:50.000Z",
   "rational-functions-asymptotes-and-behavior": "2026-05-05T07:34:50.000Z",
   "rc-charging-and-discharging": "2026-05-05T07:34:50.000Z",

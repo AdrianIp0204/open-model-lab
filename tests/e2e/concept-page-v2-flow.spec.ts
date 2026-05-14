@@ -119,6 +119,55 @@ test.describe("concept page v2 flow", () => {
     }
   });
 
+  test("keeps the live model first on phone-sized concept pages, then the guided action", async ({
+    browser,
+  }) => {
+    const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const page = await newConceptFlowPage(context);
+    const browserGuard = await installBrowserGuards(page);
+
+    try {
+      await gotoAndExpectOk(page, "/en/concepts/projectile-motion");
+
+      const scene = page.getByTestId("simulation-shell-scene");
+      const firstAction = page.getByTestId("simulation-shell-first-action");
+      const controls = page.getByTestId("simulation-shell-controls");
+      const benchEquations = page.getByTestId("simulation-shell-bench-equations");
+      const nextCheck = page.getByTestId("concept-v2-guided-first-action-next-check");
+
+      await expect(scene).toBeVisible();
+      await expect(firstAction).toBeVisible();
+      await expect(firstAction).toContainText("Try this first");
+      await expect(firstAction).toContainText("Drag the launch vector");
+      await expect(firstAction.getByTestId("concept-v2-guided-first-action-task")).toContainText(
+        "Start with Earth shot",
+      );
+      await expect(nextCheck).toBeVisible();
+      await expect(nextCheck).toContainText("Check");
+      await expect(controls).toBeVisible();
+      await expect(benchEquations).toBeVisible();
+
+      const [sceneBox, firstActionBox, controlsBox, benchEquationsBox] = await Promise.all([
+        scene.boundingBox(),
+        firstAction.boundingBox(),
+        controls.boundingBox(),
+        benchEquations.boundingBox(),
+      ]);
+
+      expect(sceneBox).not.toBeNull();
+      expect(firstActionBox).not.toBeNull();
+      expect(controlsBox).not.toBeNull();
+      expect(benchEquationsBox).not.toBeNull();
+      expect(sceneBox!.y).toBeLessThan(firstActionBox!.y);
+      expect(firstActionBox!.y).toBeLessThan(controlsBox!.y);
+      expect(controlsBox!.y).toBeLessThan(benchEquationsBox!.y);
+
+      browserGuard.assertNoActionableIssues();
+    } finally {
+      await context.close();
+    }
+  });
+
   test("uses the shared concept bench shell beyond simple harmonic motion", async ({
     browser,
   }, testInfo) => {

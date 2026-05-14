@@ -10,7 +10,9 @@
           "graphId": "trajectory",
           "overlayIds": [
             "velocityVector",
-            "componentVectors"
+            "componentVectors",
+            "apexMarker",
+            "rangeMarker"
           ],
           "note": "Start with the cleanest arc and watch how the launch components shape the flight."
         }
@@ -1240,23 +1242,23 @@
     },
     "startSetup": {
       "presetId": "earth-shot",
-      "graphId": "components",
+      "graphId": "trajectory",
       "overlayIds": [
         "velocityVector",
         "componentVectors",
         "apexMarker",
         "rangeMarker"
       ],
-      "note": "Start from a balanced Earth launch so the component split, apex, and landing marker are all visible at once."
+      "note": "Start from a balanced Earth launch with the trajectory, apex, and landing marker visible before opening denser support."
     },
     "guidedSteps": [
       {
         "id": "read-the-component-split",
-        "title": "Read the component split",
-        "goal": "See the launch as horizontal and vertical components before judging the arc.",
-        "doThis": "Start with Earth shot, keep the component graph open, and compare the velocity arrow with its horizontal and vertical pieces.",
-        "notice": "The projectile follows one curved path, but the sideways part and upward part can be read separately on the stage and graph.",
-        "explain": "The launch velocity is split into v_x and v_y. With drag off, v_x starts the sideways motion while v_y starts the upward motion that gravity will later reduce.",
+        "title": "Aim with the arc first",
+        "goal": "Drag the launch vector.",
+        "doThis": "Start with Earth shot. Lower Launch angle; compare apex and range.",
+        "notice": "A lower angle gives more sideways speed but less airtime, so the landing marker moves only when those two effects balance.",
+        "explain": "Range is horizontal speed multiplied by airtime. The stage shows the result; the graph and equations explain why steeper is not automatically farther.",
         "reveal": {
           "controlIds": [
             "speed",
@@ -1264,7 +1266,7 @@
             "gravity"
           ],
           "graphIds": [
-            "components"
+            "trajectory"
           ],
           "overlayIds": [
             "velocityVector",
@@ -1277,10 +1279,12 @@
         },
         "setup": {
           "presetId": "earth-shot",
-          "graphId": "components",
+          "graphId": "trajectory",
           "overlayIds": [
             "velocityVector",
-            "componentVectors"
+            "componentVectors",
+            "apexMarker",
+            "rangeMarker"
           ]
         },
         "inlineCheck": {

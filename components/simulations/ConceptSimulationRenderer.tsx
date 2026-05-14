@@ -6739,6 +6739,7 @@ function GuidedFirstActionRail({
 }) {
   const activeStep = guidedStep.step;
   const evidenceItems = activeStep.revealItems.slice(0, 2);
+  const checkText = activeStep.inlineCheck?.title ?? copy.checkFallback;
   const promptRows = [
     {
       id: "predict",
@@ -6770,7 +6771,7 @@ function GuidedFirstActionRail({
   return (
     <section
       data-testid="concept-v2-guided-first-action"
-      className="overflow-hidden rounded-[18px] border border-teal-500/22 bg-paper-strong/92 p-2 shadow-[0_1px_0_rgba(255,255,255,0.84)_inset]"
+      className="overflow-hidden rounded-[18px] border border-teal-500/24 bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(204,251,241,0.40)_46%,rgba(240,249,255,0.72))] p-2 shadow-[0_1px_0_rgba(255,255,255,0.88)_inset]"
     >
       <div className="flex min-w-0 items-start justify-between gap-2 sm:gap-3">
         <div className="min-w-0">
@@ -6780,7 +6781,7 @@ function GuidedFirstActionRail({
           <RichMathText
             as="p"
             content={activeStep.goal}
-            className="sr-only"
+            className="mt-0.5 min-w-0 line-clamp-1 break-words text-sm font-semibold leading-5 text-ink-950 sm:text-base sm:leading-6"
           />
         </div>
         <span className="shrink-0 rounded-[10px] border border-white/80 bg-white/72 px-2 py-0.5 text-xs font-semibold leading-5 text-ink-700 shadow-sm sm:px-2.5 sm:py-1 sm:text-sm">
@@ -6790,12 +6791,12 @@ function GuidedFirstActionRail({
 
       <div
         data-testid="concept-v2-guided-first-action-task"
-        className="guided-first-action-task-card mt-1 rounded-[16px] border border-teal-500/28 bg-ink-950 px-2 py-1 shadow-sm sm:px-2.5 sm:py-1.5"
+        className="guided-first-action-task-card mt-1.5 rounded-[16px] border border-teal-500/28 bg-ink-950 px-2.5 py-1.5 shadow-sm"
       >
         <div
           data-testid="concept-v2-guided-first-action-phone-loop"
           aria-label={copy.flowAria}
-          className="mb-0.5 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-[0.68rem] font-semibold leading-4 sm:hidden"
+          className="mb-1 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-[0.68rem] font-semibold leading-4 sm:hidden"
         >
           {phoneLoopCues.map((item, index) => (
             <span key={item.id} className="inline-flex items-center gap-1">
@@ -6812,7 +6813,21 @@ function GuidedFirstActionRail({
         <RichMathText
           as="p"
           content={activeStep.doThis}
-          className="min-w-0 break-words text-sm font-semibold leading-[1.2rem] text-paper-strong sm:mt-0.5 sm:line-clamp-2 sm:text-base sm:leading-6"
+          className="min-w-0 line-clamp-2 break-words text-sm font-semibold leading-5 text-paper-strong sm:mt-0.5 sm:line-clamp-1 sm:text-base sm:leading-6"
+        />
+      </div>
+
+      <div
+        data-testid="concept-v2-guided-first-action-next-check"
+        className="mt-1.5 flex items-baseline gap-1.5 rounded-[14px] border border-amber-500/20 bg-amber-500/10 px-2 py-1.5 text-amber-950 sm:mt-1 sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 sm:py-0"
+      >
+        <span className="text-xs font-semibold leading-5 text-amber-800">
+          {copy.checkLabel}
+        </span>
+        <RichMathText
+          as="span"
+          content={checkText}
+          className="min-w-0 line-clamp-1 break-words text-sm font-semibold leading-5 sm:text-xs"
         />
       </div>
 
@@ -6826,7 +6841,7 @@ function GuidedFirstActionRail({
             key={row.id}
             className={["rounded-[12px] border px-2 py-1.5", row.className].join(" ")}
           >
-            <span className="block text-center text-sm font-semibold leading-5">{row.label}</span>
+            <span className="block text-center text-xs font-semibold leading-5">{row.label}</span>
             <RichMathText
               as="span"
               content={row.text}

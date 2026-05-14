@@ -108,6 +108,7 @@ export function SimulationShell({
     ? "simulation-shell__status rounded-[16px] border px-3 py-2 text-sm leading-6"
     : "rounded-[16px] border border-line bg-white/70 px-3 py-2 text-sm leading-6 text-ink-700";
   const usesPhoneVisualPriority = isFocusStage && !isSmViewportOrWider;
+  const showBenchEquationsInScene = Boolean(benchEquations && !usesPhoneVisualPriority);
 
   const benchHeaderSlot = benchHeader ? (
     <div
@@ -124,14 +125,14 @@ export function SimulationShell({
       key="scene"
       data-testid="simulation-shell-scene"
       data-focus-surface="scene"
-      data-has-bench-equations={benchEquations ? "true" : undefined}
+      data-has-bench-equations={showBenchEquationsInScene ? "true" : undefined}
       className={[
         isSmViewportOrWider ? "relative order-1 min-w-0" : "relative min-w-0",
         focusSurfaceClassName,
       ].join(" ")}
     >
       {scene}
-      {benchEquations ? (
+      {showBenchEquationsInScene ? (
         <div
           data-testid="simulation-shell-bench-equations"
           className={
@@ -145,6 +146,16 @@ export function SimulationShell({
       ) : null}
     </div>
   );
+  const benchEquationsSlot = benchEquations && usesPhoneVisualPriority ? (
+    <div
+      key="bench-equations"
+      data-testid="simulation-shell-bench-equations"
+      data-focus-surface="equations"
+      className={["min-w-0", focusSurfaceClassName].join(" ")}
+    >
+      {benchEquations}
+    </div>
+  ) : null;
   const firstActionSlot = interactionRail ? (
     <div
       key="first-action"
@@ -272,6 +283,7 @@ export function SimulationShell({
                   {firstActionSlot}
                   {controlsSlot}
                   {graphsSlot}
+                  {benchEquationsSlot}
                   {transportSlot}
                   {benchHeaderSlot}
                 </>
