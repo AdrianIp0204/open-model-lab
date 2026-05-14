@@ -615,7 +615,10 @@ export function MomentumImpulseSimulation({
           width={CARD_WIDTH}
           title={compareEnabled ? `${primaryLabel} pulse state` : "Pulse state"}
           rows={metricRows}
-          noteLines={[...readoutNoteLines, "Impulse and delta p match row by row."]}
+          noteLines={[
+            ...readoutNoteLines,
+            "The accumulated impulse and change in momentum should match row by row.",
+          ]}
         />
       </svg>
     </section>
