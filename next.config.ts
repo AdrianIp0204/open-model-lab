@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url";
 import type { NextConfig } from "next";
 import { getDeploymentId } from "@opennextjs/cloudflare";
 import createNextIntlPlugin from "next-intl/plugin";
+import { buildDefaultLocaleRedirects } from "./i18n/locale-redirects";
 
 // Pin Next's repo root to this config file's directory so parent lockfiles
 // and varying launch cwd values cannot leak resolution outside the repo.
@@ -24,6 +25,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  redirects: async () => buildDefaultLocaleRedirects(),
 };
 
 export default withNextIntl(nextConfig);
