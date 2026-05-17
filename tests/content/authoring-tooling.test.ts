@@ -135,6 +135,29 @@ describe("authoring tooling", () => {
     );
   });
 
+  it("rejects V2 start setups that reference unknown bench targets", () => {
+    const concepts = getAllConcepts({ includeUnpublished: true }).map((concept) =>
+      structuredClone(concept),
+    );
+    const concept = concepts.find((item) => item.v2?.startSetup);
+
+    if (!concept?.v2) {
+      throw new Error("Expected at least one concept with a V2 start setup.");
+    }
+
+    concept.v2 = {
+      ...concept.v2,
+      startSetup: {
+        ...concept.v2.startSetup,
+        graphId: "missing-graph",
+      },
+    };
+
+    expect(() => validateConceptBundle(concepts, getAllConceptMetadata())).toThrow(
+      /V2 start setup references unknown graph "missing-graph"/i,
+    );
+  });
+
   it("rejects published concepts that omit required hero intro fields", () => {
     const concepts = getAllConcepts({ includeUnpublished: true }).map((concept) =>
       structuredClone(concept),

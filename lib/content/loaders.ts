@@ -1896,6 +1896,64 @@ export function validateConceptBundle(
       }
     }
 
+    if (concept.v2?.startSetup) {
+      const setup = concept.v2.startSetup;
+
+      if (setup.presetId && !presetIds.has(setup.presetId)) {
+        throw new Error(
+          `Concept "${concept.slug}" V2 start setup references missing presetId "${setup.presetId}".`,
+        );
+      }
+
+      for (const patchKey of Object.keys(setup.patch ?? {})) {
+        const control = controlsByParam.get(patchKey);
+
+        if (!control) {
+          throw new Error(
+            `Concept "${concept.slug}" V2 start setup patches unknown control "${patchKey}".`,
+          );
+        }
+
+        const patchValue = setup.patch?.[patchKey];
+
+        if (control.kind === "toggle") {
+          if (typeof patchValue !== "boolean") {
+            throw new Error(
+              `Concept "${concept.slug}" V2 start setup must patch toggle control "${patchKey}" with a boolean value.`,
+            );
+          }
+
+          continue;
+        }
+
+        if (typeof patchValue !== "number" || !Number.isFinite(patchValue)) {
+          throw new Error(
+            `Concept "${concept.slug}" V2 start setup must patch slider control "${patchKey}" with a finite number value.`,
+          );
+        }
+
+        if (patchValue < control.min || patchValue > control.max) {
+          throw new Error(
+            `Concept "${concept.slug}" V2 start setup patches control "${patchKey}" with ${patchValue}, outside ${control.min} to ${control.max}.`,
+          );
+        }
+      }
+
+      if (setup.graphId && !graphIds.has(setup.graphId)) {
+        throw new Error(
+          `Concept "${concept.slug}" V2 start setup references unknown graph "${setup.graphId}".`,
+        );
+      }
+
+      for (const overlayId of setup.overlayIds ?? []) {
+        if (!overlayIds.has(overlayId)) {
+          throw new Error(
+            `Concept "${concept.slug}" V2 start setup references unknown overlay "${overlayId}".`,
+          );
+        }
+      }
+    }
+
     for (const step of concept.v2?.guidedSteps ?? []) {
       for (const controlId of step.reveal?.controlIds ?? []) {
         if (!controlsByParam.has(controlId) && !controlIds.has(controlId)) {
