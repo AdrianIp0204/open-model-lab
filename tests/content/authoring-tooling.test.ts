@@ -158,6 +158,45 @@ describe("authoring tooling", () => {
     );
   });
 
+  it("rejects V2 guided steps that patch controls outside the authored range", () => {
+    const concepts = getAllConcepts({ includeUnpublished: true }).map((concept) =>
+      structuredClone(concept),
+    );
+    const concept = concepts.find((item) => item.v2?.guidedSteps.length);
+
+    if (!concept?.v2) {
+      throw new Error("Expected at least one concept with V2 guided steps.");
+    }
+
+    const slider = concept.simulation.controls.find((control) => control.kind !== "toggle");
+
+    if (!slider) {
+      throw new Error("Expected the V2 concept to include at least one slider control.");
+    }
+
+    concept.v2 = {
+      ...concept.v2,
+      guidedSteps: [
+        {
+          ...concept.v2.guidedSteps[0],
+          setup: {
+            patch: {
+              [slider.param]: slider.max + 1,
+            },
+          },
+        },
+        ...concept.v2.guidedSteps.slice(1),
+      ],
+    };
+
+    expect(() => validateConceptBundle(concepts, getAllConceptMetadata())).toThrow(
+      new RegExp(
+        `V2 guided step "${concept.v2.guidedSteps[0].id}" patches control "${slider.param}" with ${slider.max + 1}, outside ${slider.min} to ${slider.max}`,
+        "i",
+      ),
+    );
+  });
+
   it("rejects published concepts that omit required hero intro fields", () => {
     const concepts = getAllConcepts({ includeUnpublished: true }).map((concept) =>
       structuredClone(concept),

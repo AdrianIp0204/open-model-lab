@@ -2002,9 +2002,35 @@ export function validateConceptBundle(
       }
 
       for (const patchKey of Object.keys(step.setup?.patch ?? {})) {
-        if (!controlsByParam.has(patchKey)) {
+        const control = controlsByParam.get(patchKey);
+
+        if (!control) {
           throw new Error(
             `Concept "${concept.slug}" V2 guided step "${step.id}" patches unknown control "${patchKey}".`,
+          );
+        }
+
+        const patchValue = step.setup?.patch?.[patchKey];
+
+        if (control.kind === "toggle") {
+          if (typeof patchValue !== "boolean") {
+            throw new Error(
+              `Concept "${concept.slug}" V2 guided step "${step.id}" must patch toggle control "${patchKey}" with a boolean value.`,
+            );
+          }
+
+          continue;
+        }
+
+        if (typeof patchValue !== "number" || !Number.isFinite(patchValue)) {
+          throw new Error(
+            `Concept "${concept.slug}" V2 guided step "${step.id}" must patch slider control "${patchKey}" with a finite number value.`,
+          );
+        }
+
+        if (patchValue < control.min || patchValue > control.max) {
+          throw new Error(
+            `Concept "${concept.slug}" V2 guided step "${step.id}" patches control "${patchKey}" with ${patchValue}, outside ${control.min} to ${control.max}.`,
           );
         }
       }
