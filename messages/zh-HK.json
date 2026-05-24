@@ -871,7 +871,9 @@
         "playback": "播放／暫停",
         "timeline": "時間軸拖曳",
         "graphPreview": "懸停圖表",
-        "compare": "比較模式"
+        "compare": "比較模式",
+        "inspect": "檢視時間",
+        "challengeMode": "挑戰模式"
       }
     },
     "v2": {
@@ -983,7 +985,9 @@
         "playback": "播放／暫停",
         "timeline": "時間軸拖曳",
         "graphPreview": "懸停圖表",
-        "compare": "比較模式"
+        "compare": "比較模式",
+        "inspect": "檢視時間",
+        "challengeMode": "挑戰模式"
       },
       "prerequisitesLabel": "先修概念",
       "noPrerequisites": "沒有先修概念",

@@ -197,6 +197,37 @@ describe("authoring tooling", () => {
     );
   });
 
+  it("rejects V2 guided steps that reference unknown tool hints", () => {
+    const concepts = getAllConcepts({ includeUnpublished: true }).map((concept) =>
+      structuredClone(concept),
+    );
+    const concept = concepts.find((item) => item.v2?.guidedSteps.length);
+
+    if (!concept?.v2) {
+      throw new Error("Expected at least one concept with V2 guided steps.");
+    }
+
+    concept.v2 = {
+      ...concept.v2,
+      guidedSteps: [
+        {
+          ...concept.v2.guidedSteps[0],
+          reveal: {
+            toolHints: ["missing-tool"],
+          },
+        },
+        ...concept.v2.guidedSteps.slice(1),
+      ],
+    };
+
+    expect(() => validateConceptBundle(concepts, getAllConceptMetadata())).toThrow(
+      new RegExp(
+        `V2 guided step "${concept.v2.guidedSteps[0].id}" references unknown tool hint "missing-tool"`,
+        "i",
+      ),
+    );
+  });
+
   it("rejects published concepts that omit required hero intro fields", () => {
     const concepts = getAllConcepts({ includeUnpublished: true }).map((concept) =>
       structuredClone(concept),

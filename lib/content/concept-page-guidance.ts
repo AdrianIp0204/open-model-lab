@@ -6,6 +6,8 @@ export const conceptPageGuidanceToolHintIds = [
   "timeline",
   "graph-preview",
   "compare",
+  "inspect",
+  "challenge-mode",
 ] as const;
 
 export type ConceptPageGuidanceToolHintId =

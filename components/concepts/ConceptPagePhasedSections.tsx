@@ -286,6 +286,10 @@ function formatGuidanceHintLabel(
         return t("guidedStart.toolHints.graphPreview");
       case "compare":
         return t("guidedStart.toolHints.compare");
+      case "inspect":
+        return t("guidedStart.toolHints.inspect");
+      case "challenge-mode":
+        return t("guidedStart.toolHints.challengeMode");
       default:
         return hint.label;
     }

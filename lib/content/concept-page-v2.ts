@@ -307,6 +307,10 @@ function getToolHintLabel(locale: AppLocale, hintId: string) {
       return toolHints.graphPreview;
     case "compare":
       return toolHints.compare;
+    case "inspect":
+      return toolHints.inspect;
+    case "challenge-mode":
+      return toolHints.challengeMode;
     default:
       return null;
   }

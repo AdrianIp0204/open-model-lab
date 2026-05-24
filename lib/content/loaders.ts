@@ -1979,6 +1979,18 @@ export function validateConceptBundle(
         }
       }
 
+      for (const toolHint of step.reveal?.toolHints ?? []) {
+        if (
+          !conceptPageGuidanceToolHintIds.includes(
+            toolHint as (typeof conceptPageGuidanceToolHintIds)[number],
+          )
+        ) {
+          throw new Error(
+            `Concept "${concept.slug}" V2 guided step "${step.id}" references unknown tool hint "${toolHint}".`,
+          );
+        }
+      }
+
       for (const predictionId of step.inlineCheck?.predictionIds ?? []) {
         if (!concept.predictionMode.items.some((item) => item.id === predictionId)) {
           throw new Error(

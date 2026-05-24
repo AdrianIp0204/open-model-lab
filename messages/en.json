@@ -875,7 +875,9 @@
         "playback": "Play / pause",
         "timeline": "Timeline scrub",
         "graphPreview": "Hover graph",
-        "compare": "Compare mode"
+        "compare": "Compare mode",
+        "inspect": "Inspect time",
+        "challengeMode": "Challenge mode"
       }
     },
     "v2": {
@@ -986,7 +988,9 @@
         "playback": "Play / pause",
         "timeline": "Timeline scrub",
         "graphPreview": "Hover graph",
-        "compare": "Compare mode"
+        "compare": "Compare mode",
+        "inspect": "Inspect time",
+        "challengeMode": "Challenge mode"
       },
       "prerequisitesLabel": "Prerequisites",
       "noPrerequisites": "No prerequisites",

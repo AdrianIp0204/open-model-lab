@@ -1242,7 +1242,7 @@
             "motionNodes"
           ],
           "toolHints": [
-            "Play / pause"
+            "playback"
           ]
         },
         "setup": {
