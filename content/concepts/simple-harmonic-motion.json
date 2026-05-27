@@ -13,6 +13,14 @@
       "note": "Keep one displacement equation and one acceleration equation in sight while you read the cycle.",
       "equationIds": ["shm-displacement", "shm-acceleration"]
     },
+    "startSetup": {
+      "presetId": "calm-start",
+      "graphId": "displacement",
+      "overlayIds": ["equilibriumLine", "motionTrail"],
+      "inspectTime": 0,
+      "interactionMode": "explore",
+      "note": "Begin from a moderate, readable oscillation so the turning points and equilibrium line are visible before changing controls."
+    },
     "guidedSteps": [
       {
         "id": "see-one-full-cycle",

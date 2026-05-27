@@ -416,7 +416,7 @@ export const conceptContentLastModified = {
   "rc-charging-and-discharging": "2026-05-05T07:34:50.000Z",
   "reaction-rate-collision-theory": "2026-05-07T21:59:22.000Z",
   "refraction-snells-law": "2026-05-05T07:34:50.000Z",
-  "resonance-air-columns-open-closed-pipes": "2026-05-07T14:17:42.000Z",
+  "resonance-air-columns-open-closed-pipes": "2026-05-24T03:33:49.000Z",
   "rolling-motion": "2026-05-07T21:43:08.000Z",
   "rotational-inertia": "2026-05-07T20:19:06.000Z",
   "series-parallel-circuits": "2026-05-05T07:34:50.000Z",
