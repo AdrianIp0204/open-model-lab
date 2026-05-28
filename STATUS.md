@@ -1,5 +1,26 @@
 # Open Model Lab Status
 
+## 2026-05-29 OML-QA-023 Post-Bench Concept Support IA
+
+Current state: `OML-QA-023` is complete. Concept pages now keep the post-bench flow to one primary wrap-up/practice path, one secondary reference path, and one tucked study-tools/progress/share/coach disclosure instead of stacking duplicate next-step/support surfaces.
+
+### Files Changed
+
+- `components/concepts/ConceptPageFramework.tsx`: consolidates progress, exact bench links, sharing, Coach, and support rail content into one `Study tools and progress` post-bench disclosure.
+- `components/concepts/ConceptPageV2Shell.tsx`: removes the old hero/status post-lab context slot so status no longer competes near the live lab/wrap-up path.
+- `tests/components/concept-page-framework.test.tsx`: updates framework expectations for the consolidated post-bench tools IA.
+- `tests/e2e/concept-page-hero-ordering.spec.ts`: adds the route-level OML-QA-023 gate over SHM, UCM, electric fields, acid/base, and binary search, then stabilizes the layout-order assertion.
+- `tests/e2e/*`: updates affected post-bench/status/helper expectations to use the consolidated tools disclosure.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check 2808af6..HEAD`: passed for the combined worker/repair patch.
+- `pnpm exec eslint components/concepts/ConceptPageFramework.tsx components/concepts/ConceptPageV2Shell.tsx tests/components/concept-page-framework.test.tsx tests/e2e/ai-coach-floating-layout.spec.ts tests/e2e/calculus-phase-content.spec.ts tests/e2e/concept-page-hero-ordering.spec.ts tests/e2e/concept-page-status-surface.spec.ts tests/e2e/concept-page-v2-flow.spec.ts tests/e2e/concept-phase-flow.spec.ts tests/e2e/helpers.ts`: passed.
+- `pnpm test tests/components/concept-page-framework.test.tsx -- --runInBand`: passed, 26/26.
+- `PLAYWRIGHT_PORT=3233 OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX=-oml-qa-023-orchestrator-final pnpm exec playwright test -c playwright.concept-v2.config.ts tests/e2e/concept-page-hero-ordering.spec.ts -g "post-bench IA"`: passed, 1/1.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-29 OML-QA-022 Concept Helper Overlay Layout
 
 Current state: `OML-QA-022` is complete. Concept pages now keep Coach and Feedback affordances out of the protected live lab: Coach renders in-flow below the live bench, and concept-page Feedback uses an inline placement near the page bottom instead of a floating overlay.

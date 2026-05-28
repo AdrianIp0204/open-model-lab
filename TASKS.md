@@ -205,12 +205,15 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
   - Completion note (2026-05-29 HKT): Moved concept-page Coach into an in-flow bench helper and routed concept feedback inline so neither helper floats over the protected live lab.
   - Validation: git diff --check HEAD^..HEAD passed; targeted eslint passed; ai-coach floating layout Playwright spec passed 4/4; loaded visual audit passed with screenshots; pnpm typecheck passed
-- [ ] **OML-QA-023: Rationalize post-bench support sections so concept pages do not accumulate duplicate "next step" surfaces.**
+- [x] **OML-QA-023: Rationalize post-bench support sections so concept pages do not accumulate duplicate "next step" surfaces.**
   - Evidence: after the live bench, the page stacks status/progress, wrap-up, reference, bench tools/share links, progress/next steps, ads, and the AI coach. Code paths involved: `ConceptPageV2Shell` post-lab context/wrap-up/reference, `ConceptPageFramework` bench utilities/progress disclosures, and `AiLearningCoachPanel`.
   - UX problem: several sections are individually reasonable but collectively feel like a long pile of support cards. The learner can hit multiple "next step", progress, share, and help-like surfaces without knowing which one matters.
   - Affected area: `components/concepts/ConceptPageFramework.tsx`, `ConceptPageV2Shell.tsx`, `ConceptProgressCard`, `ConceptShareLinksPanel`, `AiLearningCoachPanel`, and post-lab tests.
   - Fix direction: define one post-bench information architecture: primary wrap-up/practice path, secondary reference/equation details, utilities/share/progress tucked under one predictable disclosure, and Coach as a contextual helper rather than another competing section. Remove or merge duplicate copy where two sections promise the same next step.
   - Validation: inspect SHM, UCM, electric-fields, acid-base, and binary-search after completing the guided steps. There should be one obvious primary next action, one reference path, and one utility/progress area. Add a route-level snapshot/DOM assertion for the final section order.
+
+  - Completion note (2026-05-29 HKT): Consolidated post-bench support into one IA: wrap-up as the primary practice path, reference as the secondary explanation path, and study tools/progress/share/coach tucked into one disclosure.
+  - Validation: git diff --check 2808af6..HEAD passed; targeted eslint passed; concept-page-framework component tests passed; post-bench IA Playwright gate passed for SHM, UCM, electric fields, acid/base, and binary search; pnpm typecheck passed.
 
 - [ ] **OML-QA-024: Close remaining concept-page touch-target gaps found outside the earlier mobile target audit.**
   - Evidence: the 2026-05-28 night sweep still found mobile targets below the 44px floor. Concept-specific examples include the UCM draggable particle around `22x15px` on `phone-390x844` and the binary-search `Linear contrast` checkbox around `20x20px`; the header brand link also reports around `158x28px` on phone concept pages.
