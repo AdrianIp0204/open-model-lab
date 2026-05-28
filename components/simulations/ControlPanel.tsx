@@ -227,16 +227,43 @@ export function ControlPanel({
               </span>
             ) : null}
           </span>
-          <input
-            id={inputId}
-            type="checkbox"
-            className="mt-0.5 h-5 w-5 rounded border-line accent-teal-500"
-            aria-label={control.ariaLabel ?? control.label}
-            aria-describedby={control.description ? descriptionId : undefined}
-            checked={Boolean(currentValue)}
-            onFocus={() => variableLink ? onVariableFocus?.(variableLink.id) : undefined}
-            onChange={(event) => onChange(control.param, event.target.checked)}
-          />
+          <span className="relative inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full">
+            <input
+              id={inputId}
+              type="checkbox"
+              className="peer sr-only"
+              aria-label={control.ariaLabel ?? control.label}
+              aria-describedby={control.description ? descriptionId : undefined}
+              checked={Boolean(currentValue)}
+              onFocus={() => variableLink ? onVariableFocus?.(variableLink.id) : undefined}
+              onChange={(event) => onChange(control.param, event.target.checked)}
+            />
+            <span
+              aria-hidden="true"
+              className={[
+                "flex h-5 w-5 items-center justify-center rounded border border-line bg-white text-paper-strong transition",
+                Boolean(currentValue) ? "border-teal-500 bg-teal-500" : "",
+                "peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-teal-500 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-paper-strong",
+              ].join(" ")}
+            >
+              {Boolean(currentValue) ? (
+                <svg
+                  viewBox="0 0 16 16"
+                  className="h-3.5 w-3.5"
+                  focusable="false"
+                >
+                  <path
+                    d="M3.2 8.2 6.3 11.3 12.9 4.7"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2.2"
+                  />
+                </svg>
+              ) : null}
+            </span>
+          </span>
         </label>
       );
     }

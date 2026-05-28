@@ -156,7 +156,7 @@ export function SiteHeader() {
         <Link
           href="/"
           data-onboarding-target="site-brand"
-          className="group inline-flex min-w-0 flex-none items-center gap-3 sm:gap-4 xl:w-[11.75rem] 2xl:w-[18rem]"
+          className="group inline-flex min-h-11 min-w-0 flex-none items-center gap-3 sm:gap-4 xl:w-[11.75rem] 2xl:w-[18rem]"
         >
           <Image
             src="/branding/open-model-lab-mark.svg"

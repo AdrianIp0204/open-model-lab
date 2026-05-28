@@ -486,6 +486,14 @@ export function UCMSimulation({
           }}
           style={{ cursor: "grab" }}
         >
+          <rect
+            x={primaryFrame.particleX - 22}
+            y={primaryFrame.particleY - 22}
+            width="44"
+            height="44"
+            rx="22"
+            fill="transparent"
+          />
           <circle
             cx={primaryFrame.particleX}
             cy={primaryFrame.particleY}
