@@ -860,7 +860,7 @@
     },
     "guidedStart": {
       "label": "Guided start",
-      "title": "Try this first",
+      "title": "Guided first move",
       "description": "Start with one concrete observation before you open the fuller exploration flow.",
       "sequenceBadge": "Sequence",
       "promptBadge": "Prompt",
@@ -994,7 +994,7 @@
       },
       "prerequisitesLabel": "Prerequisites",
       "noPrerequisites": "No prerequisites",
-      "simulationPreviewLabel": "Try this first",
+      "simulationPreviewLabel": "Live bench preview",
       "morePracticeOptionsLabel": "More practice options",
       "moreReadNextOptionsLabel": "More read-next options",
       "showMoreOptionsLabel": "Show options",
@@ -2606,7 +2606,7 @@
       "title": "{concept}: predict, change, observe, explain",
       "description": "Use the live model as the lesson core: predict first, change one control, read the evidence, explain the rule, then answer the check while the bench stays visible.",
       "stepCounter": "Step {current}/{total}",
-      "activePromptLabel": "Try this first",
+      "activePromptLabel": "Current focus",
       "flowAria": "Predict, Change, Observe, Explain, Check",
       "predictLabel": "Predict",
       "predictText": "Before touching a control, say what you expect to change.",
@@ -3382,8 +3382,8 @@
         "title": "Live concept page",
         "description": "Concept pages center the live lab first, then add guided steps, worked examples, quick tests, sharing, and progress support.",
         "hints": {
-          "one": "Start with the live lab: change one control and read the scene or graph.",
-          "two": "Use the guided phase rail when you want a step-by-step lesson.",
+          "one": "Use the live lab as the first move: predict what will change, adjust one control, then compare the scene with the graph.",
+          "two": "Use the guided phase rail for the current goal, action, observation cue, explanation, and check without adding another card under the model.",
           "three": "Stable section links are available to everyone; exact-state sharing is a Supporter capability."
         }
       },
@@ -3554,11 +3554,11 @@
       },
       "conceptLiveLab": {
         "title": "Use the live lab first",
-        "body": "Concept pages are lab-first. Change one control, watch the scene, and read the graph or status before moving into examples or tests."
+        "body": "Concept pages are lab-first. Predict what will change, adjust one control, observe the scene and graph, explain the pattern, then use the guided rail or quick check when you want confirmation."
       },
       "conceptPhaseRail": {
         "title": "Follow the guided lesson rail",
-        "body": "The phase rail turns the same live lab into a shorter lesson flow. It helps when you want prompts instead of open exploration."
+        "body": "The phase rail keeps the first-move guidance out of the bench viewport while still preserving the current goal, action, evidence cue, explanation, and check."
       },
       "testHubControls": {
         "title": "Find the right practice",

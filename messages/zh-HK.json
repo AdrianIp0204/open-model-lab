@@ -856,7 +856,7 @@
     },
     "guidedStart": {
       "label": "起步提示",
-      "title": "先試這個",
+      "title": "引導第一步",
       "description": "先做一個具體觀察，再打開完整的探索流程。",
       "sequenceBadge": "步驟",
       "promptBadge": "提示",
@@ -991,7 +991,7 @@
       },
       "prerequisitesLabel": "先修概念",
       "noPrerequisites": "沒有先修概念",
-      "simulationPreviewLabel": "先試這個",
+      "simulationPreviewLabel": "即時實驗台預覽",
       "morePracticeOptionsLabel": "更多練習選項",
       "moreReadNextOptionsLabel": "更多延伸閱讀",
       "showMoreOptionsLabel": "顯示選項",
@@ -2457,7 +2457,7 @@
       "title": "{concept}：預測、改變、觀察、解釋",
       "description": "把即時模型當作課程核心：先預測，再改一個控制，讀取證據，解釋規則，最後在實驗台仍可見時完成檢查。",
       "stepCounter": "步驟 {current}/{total}",
-      "activePromptLabel": "先試這個",
+      "activePromptLabel": "目前焦點",
       "flowAria": "預測、改變、觀察、解釋、檢查",
       "predictLabel": "預測",
       "predictText": "動控制前，先說出你預期會改變甚麼。",
@@ -6438,8 +6438,8 @@
         "title": "互動概念頁",
         "description": "概念頁會先把即時實驗台放在最前面，然後再補上引導步驟、示範、快速測驗、分享與進度支援。",
         "hints": {
-          "one": "先從即時實驗台開始：改一個控制項，再讀畫面或圖表。",
-          "two": "如果你想逐步學習，可使用引導階段導覽列。",
+          "one": "把即時實驗台當成第一步：先預測會改變甚麼，調整一個控制項，再比較畫面與圖表。",
+          "two": "如要目前目標、操作、觀察提示、解釋與檢查，可使用引導階段導覽列，不需要在模型下方多放一張卡。",
           "three": "穩定的段落連結人人都可用；精確狀態分享則屬於支持者方案功能。"
         }
       },
@@ -6610,11 +6610,11 @@
       },
       "conceptLiveLab": {
         "title": "先用即時實驗台",
-        "body": "概念頁以實驗台為先。先改一個控制項，觀察畫面，再讀圖表或狀態，之後才進入示範或測驗。"
+        "body": "概念頁以實驗台為先。先預測會改變甚麼，調整一個控制項，觀察畫面與圖表，解釋規律；需要確認時，再使用引導列或快速檢查。"
       },
       "conceptPhaseRail": {
         "title": "跟著引導階段前進",
-        "body": "階段導覽列會把同一個即時實驗台整理成更短的課程流程；當你想要提示而不是自由探索時，它會很有幫助。"
+        "body": "階段導覽列會把第一步提示移出實驗台視野，同時保留目前目標、操作、證據提示、解釋與檢查。"
       },
       "testHubControls": {
         "title": "找到合適的練習",

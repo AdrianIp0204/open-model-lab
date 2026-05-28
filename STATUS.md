@@ -1,5 +1,27 @@
 # Open Model Lab Status
 
+## 2026-05-28 OML-QA-014 Concept Bench First-Action Rail Removal
+
+Current state: `OML-QA-014` is complete. Guided concept pages no longer render the visible `Try this first` / first-action card under the live model. The current action remains in the guided step rail, and the Help / Tutorial concept-page copy now carries the predict-change-observe-explain-check loop.
+
+### Files Changed
+
+- `components/simulations/ConceptSimulationRenderer.tsx`: removed the guided first-action rail from guided concept benches and stopped rendering the empty interaction rail for active phase pages.
+- `app/globals.css`: removed styling that only applied to the deleted first-action task card.
+- `messages/en.json`, `messages/zh-HK.json`: renamed visible "Try this first" concept-page labels and added the first-move loop to concept Help / Tutorial copy.
+- Tests: updated focused concept V2, layout, component, and i18n expectations.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec eslint components/simulations/ConceptSimulationRenderer.tsx tests/e2e/concept-page-v2-flow.spec.ts tests/e2e/concept-layout.spec.ts tests/e2e/concept-explore-first-load.spec.ts tests/components/concept-page-v2-panels.test.tsx`: passed.
+- `pnpm exec vitest run tests/components/concept-page-v2-panels.test.tsx tests/i18n/onboarding-help-zh-hk-copy.test.ts`: passed, 26/26.
+- `pnpm typecheck`: passed.
+- `pnpm exec playwright test tests/e2e/concept-page-v2-flow.spec.ts --project=chromium`: passed, 16/16.
+- `pnpm exec playwright test tests/e2e/concept-layout.spec.ts -g "keeps the guided live lab|Projectile Motion interaction-first|opens Uniform Circular Motion" --project=chromium`: passed, 3/3.
+- Additional probe: full `tests/e2e/concept-layout.spec.ts` ran 31/32 passing; the remaining failure is an unrelated existing Circuit Builder visual selector issue where the locator resolves a hidden circuit visual. `tests/e2e/concept-explore-first-load.spec.ts` is stale against current V2 pages and fails before this change while waiting for removed `concept-hero-intro`.
+
 ## 2026-05-28 Cloudflare Deploy Size Fix
 
 Current state: deploy config is repaired. The first post-QA Cloudflare deploy attempt built successfully but failed upload validation because Wrangler scanned the repo root for additional modules and pushed duplicate content plus unrelated files over the 10 MiB Worker limit.

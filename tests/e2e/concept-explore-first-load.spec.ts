@@ -134,8 +134,9 @@ for (const routeCase of DISCLOSURE_REPRESENTATIVE_CASES) {
       const expectedPrompt = getExpectedGuidedStartAction(`/concepts/${routeCase.slug}`);
 
       await expect(entryRail).toContainText("Current stage");
-      await expect(entryRail).toContainText("Try this first");
-      await expect(guidedStartCard).toContainText("Try this first");
+      await expect(entryRail).toContainText("Guided first move");
+      await expect(guidedStartCard).toContainText("Guided first move");
+      await expect(entryRail).not.toContainText("Try this first");
       await expectGuidedStartPromptToMatch(guidedStartCard, expectedPrompt);
       await expect(
         entryRail.getByTestId("concept-guided-start-card"),

@@ -706,33 +706,6 @@ html[data-theme="paper-lab"] .simulation-shell--focus-stage [data-focus-surface=
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
 }
 
-html[data-theme="paper-lab"] .simulation-shell--focus-stage .guided-first-action-task-card {
-  color: var(--ink-950);
-  border-color: rgba(30, 166, 162, 0.22);
-  background:
-    radial-gradient(circle at 16% 0%, rgba(30, 166, 162, 0.14), transparent 42%),
-    linear-gradient(135deg, rgba(255, 253, 247, 0.94), rgba(236, 253, 245, 0.86));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.74),
-    0 10px 26px rgba(54, 42, 25, 0.08);
-}
-
-html[data-theme="paper-lab"] .simulation-shell--focus-stage .guided-first-action-task-card :where(.text-paper-strong, .text-teal-100, .text-sky-100, .text-violet-100, .text-amber-100) {
-  color: var(--ink-950);
-}
-
-html[data-theme="paper-lab"] .simulation-shell--focus-stage .guided-first-action-task-card > p {
-  color: var(--teal-600);
-}
-
-html[data-theme="paper-lab"] .simulation-shell--focus-stage .guided-first-action-task-card [data-testid="concept-v2-guided-first-action-phone-loop"] :where(.text-teal-100, .text-sky-100, .text-violet-100, .text-amber-100) {
-  color: var(--teal-600);
-}
-
-html[data-theme="paper-lab"] .simulation-shell--focus-stage .guided-first-action-task-card [aria-hidden="true"] {
-  color: rgba(15, 28, 36, 0.38);
-}
-
 html[data-theme="paper-lab"] .simulation-shell--focus-stage [data-focus-surface="scene"] > section,
 html[data-theme="paper-lab"] .simulation-shell--focus-stage [data-focus-surface="graphs"] > section,
 html[data-theme="paper-lab"] .simulation-shell--focus-stage [data-focus-surface="graphs"] figure {

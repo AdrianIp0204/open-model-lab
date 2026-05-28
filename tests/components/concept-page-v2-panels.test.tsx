@@ -332,7 +332,7 @@ describe("ConceptPageV2StartHere", () => {
           estimatedTimeLabel: "Estimated time",
           prerequisitesLabel: "Prerequisites",
           noPrerequisites: "No prerequisites",
-          simulationPreviewLabel: "Try this first",
+          simulationPreviewLabel: "Live bench preview",
           lessonPreviewDisclosureLabel: "Preview the lesson path",
           lessonPreviewDisclosureDescription:
             "Open this when you want the full step map before using the bench.",
@@ -593,7 +593,7 @@ describe("ConceptPageV2StartHere", () => {
           estimatedTimeLabel: "Estimated time",
           prerequisitesLabel: "Prerequisites",
           noPrerequisites: "No prerequisites",
-          simulationPreviewLabel: "Try this first",
+          simulationPreviewLabel: "Live bench preview",
           lessonPreviewDisclosureLabel: "Preview the lesson path",
           lessonPreviewDisclosureDescription:
             "Open this when you want the full step map before using the bench.",
@@ -696,7 +696,7 @@ describe("ConceptPageV2StartHere", () => {
           estimatedTimeLabel: "Estimated time",
           prerequisitesLabel: "Prerequisites",
           noPrerequisites: "No prerequisites",
-          simulationPreviewLabel: "Try this first",
+          simulationPreviewLabel: "Live bench preview",
           lessonPreviewDisclosureLabel: "Preview the lesson path",
           lessonPreviewDisclosureDescription:
             "Open this when you want the full step map before using the bench.",
@@ -751,12 +751,12 @@ describe("ConceptPageV2StartHere", () => {
       "leading-5",
     );
     expect(prerequisites).toHaveTextContent("No prerequisites");
-    const preview = screen.getByRole("region", { name: "Try this first" });
-    expect(within(preview).getByRole("heading", { name: "Try this first" })).toHaveAttribute(
+    const preview = screen.getByRole("region", { name: "Live bench preview" });
+    expect(within(preview).getByRole("heading", { name: "Live bench preview" })).toHaveAttribute(
       "id",
       preview.getAttribute("aria-labelledby"),
     );
-    expect(within(preview).getByRole("heading", { name: "Try this first" })).toHaveClass(
+    expect(within(preview).getByRole("heading", { name: "Live bench preview" })).toHaveClass(
       "text-sm",
       "leading-5",
     );
@@ -785,7 +785,7 @@ describe("ConceptPageV2StartHere", () => {
         estimatedTime="8 min"
         keyTakeaway={null}
         simulationPreview={{
-          title: "Live bench preview",
+          title: "Interactive bench orientation",
           description: "You’ll interact with controls and compare the stage with graphs.",
         }}
         equations={[]}
@@ -796,7 +796,7 @@ describe("ConceptPageV2StartHere", () => {
           estimatedTimeLabel: "Estimated time",
           prerequisitesLabel: "Prerequisites",
           noPrerequisites: "No prerequisites",
-          simulationPreviewLabel: "Try this first",
+          simulationPreviewLabel: "Live bench preview",
           lessonPreviewDisclosureLabel: "Preview the lesson path",
           lessonPreviewDisclosureDescription:
             "Open this when you want the full step map before using the bench.",
@@ -820,11 +820,11 @@ describe("ConceptPageV2StartHere", () => {
       />,
     );
 
-    const preview = screen.getByRole("region", { name: "Try this first" });
+    const preview = screen.getByRole("region", { name: "Live bench preview" });
     expect(preview).toHaveAccessibleDescription(
       "You’ll interact with controls and compare the stage with graphs.",
     );
-    expect(within(preview).getByText("Live bench preview")).toHaveClass("break-words");
+    expect(within(preview).getByText("Interactive bench orientation")).toHaveClass("break-words");
     expect(
       within(preview)
         .getByText("You’ll interact with controls and compare the stage with graphs.")
@@ -854,7 +854,7 @@ describe("ConceptPageV2StartHere", () => {
           estimatedTimeLabel: "Estimated time",
           prerequisitesLabel: "Prerequisites",
           noPrerequisites: "No prerequisites",
-          simulationPreviewLabel: "Try this first",
+          simulationPreviewLabel: "Live bench preview",
           lessonPreviewDisclosureLabel: "Preview the lesson path",
           lessonPreviewDisclosureDescription:
             "Open this when you want the full step map before using the bench.",
@@ -917,7 +917,7 @@ describe("ConceptPageV2StartHere", () => {
           estimatedTimeLabel: "Estimated time",
           prerequisitesLabel: "Prerequisites",
           noPrerequisites: "No prerequisites",
-          simulationPreviewLabel: "Try this first",
+          simulationPreviewLabel: "Live bench preview",
           lessonPreviewDisclosureLabel: "Preview the lesson path",
           lessonPreviewDisclosureDescription:
             "Open this when you want the full step map before using the bench.",

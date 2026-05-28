@@ -402,19 +402,15 @@ async function assertInitialViewportLayout(
   await expect(benchEquations).toHaveAttribute("data-equation-layout", "compact-inline");
   await expect(benchEquations).not.toContainText(/Key relationship/i);
   await expect(benchEquationsSlot).toBeVisible();
-  await expect(firstAction).toBeVisible();
-  if (viewportCase.viewport.width < 640) {
+  if (isFocusStage) {
+    await expect(firstAction).toHaveCount(0);
+    await expect(controlsLink).toHaveCount(0);
+  } else {
+    await expect(firstAction).toBeVisible();
+  }
+  if (viewportCase.viewport.width < 640 && !isFocusStage) {
     await expect(controlsLink).toBeVisible();
     await expect(controlsLink).toHaveAttribute("href", "#concept-live-controls");
-    if (isFocusStage) {
-      const phoneLoop = firstAction.getByTestId("concept-v2-guided-first-action-phone-loop");
-      await expect(phoneLoop).toBeVisible();
-      await expect(phoneLoop).toContainText("Predict");
-      await expect(phoneLoop).toContainText("Change");
-      await expect(phoneLoop).toContainText("Observe");
-      await expect(phoneLoop).toContainText("Explain");
-      await expect(phoneLoop).toContainText("Check");
-    }
   }
   await expect(guidedStepSlot).toBeVisible();
   await expect(firstPrimaryControl).toBeVisible();
@@ -430,7 +426,6 @@ async function assertInitialViewportLayout(
     graphsBox,
     benchEquationsBox,
     benchEquationsSlotBox,
-    firstActionBox,
     guidedStepBox,
     firstPrimaryControlBox,
   ] = await Promise.all([
@@ -439,10 +434,10 @@ async function assertInitialViewportLayout(
     graphs.boundingBox(),
     benchEquations.boundingBox(),
     benchEquationsSlot.boundingBox(),
-    firstAction.boundingBox(),
     guidedStepSlot.boundingBox(),
     firstPrimaryControl.boundingBox(),
   ]);
+  const firstActionBox = isFocusStage ? null : await firstAction.boundingBox();
   const transportBox = hasTransport ? await transport.boundingBox() : null;
 
   expect(sceneBox).not.toBeNull();
@@ -450,7 +445,9 @@ async function assertInitialViewportLayout(
   expect(graphsBox).not.toBeNull();
   expect(benchEquationsBox).not.toBeNull();
   expect(benchEquationsSlotBox).not.toBeNull();
-  expect(firstActionBox).not.toBeNull();
+  if (!isFocusStage) {
+    expect(firstActionBox).not.toBeNull();
+  }
   expect(guidedStepBox).not.toBeNull();
   expect(firstPrimaryControlBox).not.toBeNull();
 
@@ -467,13 +464,13 @@ async function assertInitialViewportLayout(
       expect(transportBox.y).toBeLessThanOrEqual(sceneBox!.y);
     }
     expect(controlsBox!.y).toBeLessThan(viewportCase.viewport.height);
-    expect(firstActionBox!.y).toBeLessThan(viewportCase.viewport.height);
+    if (firstActionBox) {
+      expect(firstActionBox.y).toBeLessThan(viewportCase.viewport.height);
+    }
     expect(firstPrimaryControlBox!.y).toBeLessThan(viewportCase.viewport.height);
   } else {
     expect(sceneBox!.y).toBeLessThan(controlsBox!.y);
     if (isFocusStage) {
-      expect(firstActionBox!.y).toBeLessThan(viewportCase.viewport.height);
-      expect(firstActionBox!.y).toBeLessThan(controlsBox!.y);
       expect(controlsBox!.y).toBeLessThan(graphsBox!.y);
       expect(controlsBox!.y).toBeLessThan(viewportCase.viewport.height);
       expect(firstPrimaryControlBox!.y).toBeLessThan(viewportCase.viewport.height);
@@ -500,7 +497,9 @@ async function assertInitialViewportLayout(
       }
     }
     expect(graphsBox!.y).toBeLessThan(guidedStepBox!.y);
-    expect(firstActionBox!.y).toBeLessThan(guidedStepBox!.y);
+    if (firstActionBox) {
+      expect(firstActionBox.y).toBeLessThan(guidedStepBox!.y);
+    }
   }
   expect(guidedStepBox!.y).toBeGreaterThan(controlsBox!.y);
 

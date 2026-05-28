@@ -120,3 +120,11 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
   - Completion note (2026-05-28 HKT): Added signed-in desktop and mobile account link aria labels that include the account display name plus plan tier while preserving the compact visual header label.
   - Validation: git diff --check passed; git diff --check HEAD^..HEAD passed; pnpm exec playwright test tests/e2e/site-smoke.spec.ts passed; pnpm typecheck passed; pnpm test:e2e:qa-sweep --allow-test-failures passed with ok true, no instability matches, and no test failures
+- [x] **OML-QA-014: Remove the visible `Try this first` rail from guided concept benches.**
+  - Evidence: Adrian's mobile Uniform Circular Motion screenshot showed a large `Try this first` card between the live model and controls, pushing controls down and duplicating guidance that already exists in the guided step rail.
+  - Affected area: `components/simulations/ConceptSimulationRenderer.tsx`, `app/globals.css`, concept-page i18n copy, concept V2/layout tests, and Help / Tutorial concept-page hints.
+  - Fix direction: remove the guided first-action rail from active guided concept benches, keep the current task/action/check in the existing guided step rail, and move the general predict-change-observe-explain-check guidance into the Help / Tutorial concept-page copy.
+  - Validation: rerun focused concept V2 flow, representative concept layout/mobile ordering, component/i18n tests, lint, and typecheck.
+
+  - Completion note (2026-05-28 HKT): Removed the guided first-action rail, renamed remaining concept-page `Try this first` labels to neutral guided/bench-preview labels, and expanded concept Help / Tutorial copy with the first-move loop.
+  - Validation: git diff --check passed; focused eslint passed; concept-page-v2-panels and onboarding zh-HK vitest passed 26/26; pnpm typecheck passed; concept-page-v2-flow Playwright passed 16/16; focused concept-layout Playwright passed 3/3 for guided live lab, Projectile Motion phone order, and Uniform Circular Motion desktop/mobile.

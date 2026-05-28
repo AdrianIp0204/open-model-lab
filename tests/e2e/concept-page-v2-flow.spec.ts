@@ -70,18 +70,9 @@ test.describe("concept page v2 flow", () => {
         await expect(focusStageShell).toHaveClass(/simulation-shell--focus-stage/);
         await expect(visualStage).toBeVisible();
         await expect(guidedLiveLab).toBeVisible();
-        await expect(activeTaskRail).toBeVisible();
-        await expect(activeTaskRail).toContainText("First action");
-        await expect(page.getByTestId("concept-v2-guided-first-action")).toBeVisible();
-        await expect(page.getByTestId("concept-v2-guided-first-action-task")).toContainText(
-          "Press play",
-        );
-        await expect(page.getByTestId("concept-v2-guided-first-action")).toContainText(
-          "Try this first",
-        );
-        await expect(page.getByTestId("concept-v2-guided-first-action-loop")).toContainText(
-          "Predict",
-        );
+        await expect(activeTaskRail).toHaveCount(0);
+        await expect(page.getByTestId("simulation-shell-first-action")).toHaveCount(0);
+        await expect(page.getByTestId("concept-v2-guided-first-action")).toHaveCount(0);
         await expect(page.getByTestId("concept-v2-bench-brief")).toHaveCount(0);
         await expect(scene).toBeInViewport();
         await expect(controls).toBeInViewport();
@@ -92,6 +83,7 @@ test.describe("concept page v2 flow", () => {
         await expect(equationMap).toContainText("Full equation map");
         await expect(stepSlot).toBeVisible();
         await expect(currentStepCard).toBeVisible();
+        await expect(currentStepCard).toContainText("Press play");
         await expect(railInlineCheck).toBeVisible();
         await expect(secondaryGuidance).toBeVisible();
         await expect(secondaryGuidance).not.toHaveAttribute("open");
@@ -112,6 +104,11 @@ test.describe("concept page v2 flow", () => {
         expect(visualStageBox!.width).toBeGreaterThan(controlsBox!.width * 2);
         expect(currentStepCardBox!.y).toBeLessThanOrEqual(stepMapBox!.y);
 
+        await page.getByRole("button", { name: "Open Help / Tutorial" }).click();
+        const helpDialog = page.getByRole("dialog", { name: "Live concept page" });
+        await expect(helpDialog).toContainText("predict what will change");
+        await expect(helpDialog).toContainText("goal, action, observation cue");
+
         browserGuard.assertNoActionableIssues();
       } finally {
         await context.close();
@@ -130,37 +127,32 @@ test.describe("concept page v2 flow", () => {
       await gotoAndExpectOk(page, "/en/concepts/projectile-motion");
 
       const scene = page.getByTestId("simulation-shell-scene");
-      const firstAction = page.getByTestId("simulation-shell-first-action");
       const controls = page.getByTestId("simulation-shell-controls");
       const benchEquations = page.getByTestId("simulation-shell-bench-equations");
-      const nextCheck = page.getByTestId("concept-v2-guided-first-action-next-check");
+      const currentStepCard = page.getByTestId("concept-v2-current-step-card");
 
       await expect(scene).toBeVisible();
-      await expect(firstAction).toBeVisible();
-      await expect(firstAction).toContainText("Try this first");
-      await expect(firstAction).toContainText("Drag the launch vector");
-      await expect(firstAction.getByTestId("concept-v2-guided-first-action-task")).toContainText(
-        "Start with Earth shot",
-      );
-      await expect(nextCheck).toBeVisible();
-      await expect(nextCheck).toContainText("Check");
+      await expect(page.getByTestId("simulation-shell-first-action")).toHaveCount(0);
+      await expect(page.getByTestId("concept-v2-guided-first-action")).toHaveCount(0);
       await expect(controls).toBeVisible();
       await expect(benchEquations).toBeVisible();
+      await expect(currentStepCard).toContainText("Drag the launch vector");
+      await expect(currentStepCard).toContainText("Start with Earth shot");
 
-      const [sceneBox, firstActionBox, controlsBox, benchEquationsBox] = await Promise.all([
+      const [sceneBox, controlsBox, benchEquationsBox, currentStepCardBox] = await Promise.all([
         scene.boundingBox(),
-        firstAction.boundingBox(),
         controls.boundingBox(),
         benchEquations.boundingBox(),
+        currentStepCard.boundingBox(),
       ]);
 
       expect(sceneBox).not.toBeNull();
-      expect(firstActionBox).not.toBeNull();
       expect(controlsBox).not.toBeNull();
       expect(benchEquationsBox).not.toBeNull();
-      expect(sceneBox!.y).toBeLessThan(firstActionBox!.y);
-      expect(firstActionBox!.y).toBeLessThan(controlsBox!.y);
+      expect(currentStepCardBox).not.toBeNull();
+      expect(sceneBox!.y).toBeLessThan(controlsBox!.y);
       expect(controlsBox!.y).toBeLessThan(benchEquationsBox!.y);
+      expect(benchEquationsBox!.y).toBeLessThan(currentStepCardBox!.y);
 
       browserGuard.assertNoActionableIssues();
     } finally {
@@ -192,7 +184,6 @@ test.describe("concept page v2 flow", () => {
         await gotoAndExpectOk(page, `/en/concepts/${slug}`);
 
         const benchBrief = page.getByTestId("concept-v2-bench-brief");
-        const firstAction = page.getByTestId("simulation-shell-first-action");
         const visualStage = page.getByTestId("simulation-shell-visual-stage");
         const focusStageShell = page.locator('[data-stage-tone="focus"]');
 
@@ -200,10 +191,8 @@ test.describe("concept page v2 flow", () => {
         await expect(focusStageShell).toHaveClass(/simulation-shell--focus-stage/);
         await expect(visualStage).toBeVisible();
         await expect(benchBrief).toHaveCount(0);
-        await expect(firstAction.getByTestId("concept-v2-guided-first-action")).toBeVisible();
-        await expect(firstAction).toContainText("Try this first");
-        await expect(firstAction).not.toContainText("Start with one setup");
-        await expect(firstAction).not.toContainText(/Let the live model run/i);
+        await expect(page.getByTestId("simulation-shell-first-action")).toHaveCount(0);
+        await expect(page.getByTestId("concept-v2-guided-first-action")).toHaveCount(0);
         await expect(page.getByTestId("concept-v2-step-card-slot")).toBeVisible();
       }
     } finally {

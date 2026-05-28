@@ -6730,148 +6730,6 @@ function GuidedConceptBenchBrief({
   );
 }
 
-function GuidedFirstActionRail({
-  guidedStep,
-  copy,
-}: {
-  guidedStep: ConceptPageGuidedStepContext;
-  copy: GuidedBenchBriefCopy;
-}) {
-  const activeStep = guidedStep.step;
-  const evidenceItems = activeStep.revealItems.slice(0, 2);
-  const checkText = activeStep.inlineCheck?.title ?? copy.checkFallback;
-  const promptRows = [
-    {
-      id: "predict",
-      label: copy.predictLabel,
-      text: copy.predictText,
-      className: "border-amber-500/22 bg-amber-500/10 text-amber-900",
-    },
-    {
-      id: "change",
-      label: copy.changeLabel,
-      text: activeStep.doThis,
-      className: "border-teal-500/22 bg-teal-500/10 text-teal-900",
-    },
-    {
-      id: "observe",
-      label: copy.observeLabel,
-      text: activeStep.notice,
-      className: "border-sky-500/22 bg-sky-500/10 text-sky-900",
-    },
-  ] as const;
-  const phoneLoopCues = [
-    { id: "predict", label: copy.predictLabel, className: "text-amber-100" },
-    { id: "change", label: copy.changeLabel, className: "text-teal-100" },
-    { id: "observe", label: copy.observeLabel, className: "text-sky-100" },
-    { id: "explain", label: copy.explainLabel, className: "text-violet-100" },
-    { id: "check", label: copy.checkLabel, className: "text-amber-100" },
-  ] as const;
-
-  return (
-    <section
-      data-testid="concept-v2-guided-first-action"
-      className="overflow-hidden rounded-[18px] border border-teal-500/24 bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(204,251,241,0.40)_46%,rgba(240,249,255,0.72))] p-2 shadow-[0_1px_0_rgba(255,255,255,0.88)_inset]"
-    >
-      <div className="flex min-w-0 items-start justify-between gap-2 sm:gap-3">
-        <div className="min-w-0">
-          <p className="text-xs font-semibold leading-4 text-teal-800 sm:text-sm sm:leading-5">
-            {copy.activePromptLabel}
-          </p>
-          <RichMathText
-            as="p"
-            content={activeStep.goal}
-            className="mt-0.5 min-w-0 break-words text-sm font-semibold leading-5 text-ink-950 sm:text-base sm:leading-6"
-          />
-        </div>
-        <span className="shrink-0 rounded-[10px] border border-white/80 bg-white/72 px-2 py-0.5 text-xs font-semibold leading-5 text-ink-700 shadow-sm sm:px-2.5 sm:py-1 sm:text-sm">
-          {copy.stepCounter({ current: guidedStep.index + 1, total: guidedStep.count })}
-        </span>
-      </div>
-
-      <div
-        data-testid="concept-v2-guided-first-action-task"
-        className="guided-first-action-task-card mt-1.5 rounded-[16px] border border-teal-500/28 bg-ink-950 px-2.5 py-1.5 shadow-sm"
-      >
-        <div
-          data-testid="concept-v2-guided-first-action-phone-loop"
-          aria-label={copy.flowAria}
-          className="mb-1 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-[0.68rem] font-semibold leading-4 sm:hidden"
-        >
-          {phoneLoopCues.map((item, index) => (
-            <span key={item.id} className="inline-flex items-center gap-1">
-              <span className={item.className}>{item.label}</span>
-              {index < phoneLoopCues.length - 1 ? (
-                <span aria-hidden="true" className="text-white/45">→</span>
-              ) : null}
-            </span>
-          ))}
-        </div>
-        <p className="sr-only sm:not-sr-only sm:text-sm sm:font-semibold sm:leading-5 sm:text-teal-100">
-          {copy.changeLabel}
-        </p>
-        <RichMathText
-          as="p"
-          content={activeStep.doThis}
-          className="min-w-0 break-words text-sm font-semibold leading-5 text-paper-strong sm:mt-0.5 sm:text-base sm:leading-6"
-        />
-      </div>
-
-      <div
-        data-testid="concept-v2-guided-first-action-next-check"
-        className="mt-1.5 flex items-baseline gap-1.5 rounded-[14px] border border-amber-500/20 bg-amber-500/10 px-2 py-1.5 text-amber-950 sm:mt-1 sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 sm:py-0"
-      >
-        <span className="text-xs font-semibold leading-5 text-amber-800">
-          {copy.checkLabel}
-        </span>
-        <RichMathText
-          as="span"
-          content={checkText}
-          className="min-w-0 line-clamp-1 break-words text-sm font-semibold leading-5 sm:text-xs"
-        />
-      </div>
-
-      <ol
-        data-testid="concept-v2-guided-first-action-loop"
-        aria-label={copy.flowAria}
-        className="sr-only"
-      >
-        {promptRows.map((row) => (
-          <li
-            key={row.id}
-            className={["rounded-[12px] border px-2 py-1.5", row.className].join(" ")}
-          >
-            <span className="block text-center text-xs font-semibold leading-5">{row.label}</span>
-            <RichMathText
-              as="span"
-              content={row.text}
-              className="sr-only"
-            />
-          </li>
-        ))}
-      </ol>
-
-      {evidenceItems.length ? (
-        <div
-          data-testid="concept-v2-guided-first-action-evidence"
-          className="sr-only"
-        >
-          <p className="line-clamp-2 text-sm leading-5 text-ink-700">
-            <span className="font-semibold text-ink-800">{copy.evidenceLabel}: </span>
-            {evidenceItems.map((item, index) => (
-              <span key={`${item.kind}-${item.id}`}>
-                {index > 0 ? " · " : null}
-                <span className="font-semibold text-ink-800">{copy.revealKinds[item.kind]}</span>{" "}
-                <RichMathText as="span" content={item.label} />
-              </span>
-            ))}
-          </p>
-        </div>
-      ) : null}
-    </section>
-  );
-}
-
 export function ConceptSimulationRenderer({
   concept,
   readNext = [],
@@ -8585,9 +8443,6 @@ export function ConceptSimulationRenderer({
       section: t("benchBrief.revealKinds.section"),
     },
   };
-  const guidedFirstActionPanel = guidedStep ? (
-    <GuidedFirstActionRail guidedStep={guidedStep} copy={guidedBenchBriefCopy} />
-  ) : null;
   const primaryGuidePanel = interactionPanel;
   const showExploreStarterGuide =
     starterGuidePlacement !== "external" &&
@@ -8624,8 +8479,8 @@ export function ConceptSimulationRenderer({
   const interactionRailPanel =
     interactionMode === "compare" && compareState
       ? interactionPanel
-      : activeConceptPagePhaseId && guidedFirstActionPanel
-        ? guidedFirstActionPanel
+      : activeConceptPagePhaseId
+        ? null
         : primaryGuidePanel;
   const phaseSupportPanels = activeConceptPagePhaseId
     ? {
@@ -8657,18 +8512,17 @@ export function ConceptSimulationRenderer({
     Boolean(highlightedOverlayIds.length || initialChallengeItemId) ||
     activeLocationHash === `#${conceptShareAnchorIds.challengeMode}`;
   const controlsAnchorId = "concept-live-controls";
-  const compactGuidedRail = Boolean(activeConceptPagePhaseId && guidedFirstActionPanel);
-  const interactionRail = (
+  const shouldRenderInteractionRail =
+    Boolean(interactionRailPanel) ||
+    Boolean(exploreStarterGuide) ||
+    (!activeConceptPagePhaseId && Boolean(modeTabs));
+  const interactionRail = shouldRenderInteractionRail ? (
     <section
       data-testid="concept-v2-active-task-rail"
       className="rounded-[20px] border border-line bg-white/55 px-3 py-2 max-sm:px-2 max-sm:py-1.5"
     >
       <div
-        className={
-          compactGuidedRail
-            ? "sr-only sm:not-sr-only sm:mb-1.5 sm:border-b sm:border-line/80 sm:pb-1.5"
-            : "mb-1.5 border-b border-line/80 pb-1.5"
-        }
+        className="mb-1.5 border-b border-line/80 pb-1.5"
       >
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
@@ -8694,7 +8548,7 @@ export function ConceptSimulationRenderer({
       {exploreStarterGuide ? <div className="mb-2">{exploreStarterGuide}</div> : null}
       {interactionRailPanel}
     </section>
-  );
+  ) : null;
   const supportDock = !activeConceptPagePhaseId && secondaryToolSections.length ? (
     <details
       className="rounded-[22px] border border-line bg-white/45 px-3 py-3"
