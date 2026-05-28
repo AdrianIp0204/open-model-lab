@@ -191,7 +191,7 @@ function CircuitRenderModeSwitch({
 }) {
   return (
     <div
-      className="inline-flex items-center gap-0.5 rounded-full border border-line bg-paper-strong p-0.5 text-xs font-semibold text-ink-700 shadow-sm"
+      className="inline-flex shrink-0 items-center gap-0.5 rounded-full border border-line bg-paper-strong p-0.5 text-xs font-semibold text-ink-700 shadow-sm"
       aria-label={copy.renderMode.ariaLabel}
       data-circuit-render-mode-switch=""
     >
@@ -3021,10 +3021,10 @@ export function CircuitBuilderPage({
   );
   const presetChips = (
     <div
-      className="flex min-w-0 flex-wrap items-center gap-1.5"
+      className="flex min-w-0 max-w-full items-center gap-1.5 overflow-x-auto pb-0.5 xl:flex-nowrap xl:justify-start"
       data-testid="circuit-builder-preset-strip"
     >
-      <span className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-500">
+      <span className="shrink-0 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-500">
         {copy.presets.label}
       </span>
       {circuitBuilderPresets.map((preset) => {
@@ -3034,7 +3034,7 @@ export function CircuitBuilderPage({
             key={preset.id}
             type="button"
             title={presetCopy.description}
-            className="rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs font-semibold text-ink-950 transition hover:border-ink-950/20 hover:bg-paper-strong"
+            className="shrink-0 rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs font-semibold text-ink-950 transition hover:border-ink-950/20 hover:bg-paper-strong"
             onClick={() => loadPresetCircuit(preset)}
           >
             {presetCopy.label}
@@ -3047,17 +3047,17 @@ export function CircuitBuilderPage({
   return (
     <section
       id="circuit-builder-workspace"
-      className="space-y-3"
+      className="space-y-2.5"
       data-circuit-builder-ready={hasHydrated ? "" : undefined}
     >
-      <div className="motion-enter motion-enter-tight page-band p-2.5 sm:p-3">
+      <div className="motion-enter motion-enter-tight page-band p-2.5">
         <div className="grid gap-2 lg:grid-cols-[minmax(0,28rem)_1fr] lg:items-center">
           <div className="min-w-0 space-y-1">
             <p className="lab-label">{copy.hero.eyebrow}</p>
-            <h1 className="max-w-4xl text-[1.2rem] font-semibold leading-tight text-ink-950 sm:text-[1.35rem]">
+            <h1 className="max-w-full text-[1.2rem] font-semibold leading-tight text-ink-950 sm:text-[1.25rem]">
               {copy.hero.title}
             </h1>
-            <p className="max-w-3xl text-xs leading-5 text-ink-700">
+            <p className="max-w-3xl text-xs leading-5 text-ink-700 lg:line-clamp-1">
               {copy.hero.subtitle}
             </p>
           </div>
@@ -3067,7 +3067,7 @@ export function CircuitBuilderPage({
               motif="circuit"
               tone="amber"
               compact
-              className="hidden h-20 w-full max-w-sm rounded-[18px] sm:block"
+              className="hidden h-14 w-full max-w-sm rounded-[16px] lg:block xl:hidden"
               ariaLabel={copy.hero.title}
             />
             {presetChips}
@@ -3113,7 +3113,7 @@ export function CircuitBuilderPage({
 
       <div
         className={[
-          "grid gap-3 xl:items-stretch xl:h-[min(82svh,58rem)] xl:min-h-[40rem]",
+          "grid gap-2.5 xl:items-stretch xl:h-[min(82svh,58rem)] xl:min-h-[40rem]",
           builderGridColumnClass,
         ].join(" ")}
         data-circuit-builder-row=""
@@ -3707,8 +3707,6 @@ export function CircuitBuilderPage({
         </div>
       </div>
 
-      {savedCircuitsPanel}
-
       <div className="xl:hidden">
         <DisclosurePanel
           title={copy.mobile.paletteTitle}
@@ -3751,6 +3749,8 @@ export function CircuitBuilderPage({
           />
         </DisclosurePanel>
       </div>
+
+      {savedCircuitsPanel}
 
       <DisclosurePanel
         title={copy.solverNotes.title}

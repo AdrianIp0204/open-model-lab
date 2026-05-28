@@ -28,11 +28,14 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
   - Completion note (2026-05-28 HKT): Increased the shared chemistry graph node height so the two-line `Carboxylate salt` label fits inside the desktop mind-map node without removing the map-first layout.
   - Validation: `git diff --check` and `git diff --check 07452fd^..07452fd` passed; `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts -g "map-first on initial desktop"` passed; full `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts` passed; `pnpm typecheck` passed.
-- [ ] **OML-QA-003: Bring the Circuit Builder workbench back above the fold on desktop and make the mobile first view usable.**
+- [x] **OML-QA-003: Bring the Circuit Builder workbench back above the fold on desktop and make the mobile first view usable.**
   - Evidence: `pnpm exec playwright test tests/e2e/circuit-builder.spec.ts -g "keeps the builder row visible"` fails with `workspaceBox.y = 335`, expected `< 240`. Mobile screenshot `output/qa-pass-2026-05-28/screenshots/mobile-circuit-builder.png` shows the workspace area mostly empty with the actual circuit/readout tiny near the bottom of the first viewport.
   - Affected area: `components/circuit-builder/CircuitBuilderPage.tsx` and related workspace/palette/inspector layout.
   - Fix direction: compact the hero/preset controls at desktop widths where the three-panel builder is expected to be visible, and improve mobile ordering/initial fit so the canvas is readable before the user scrolls deeply. Preserve the existing component library, workspace, inspector, and environment controls.
   - Validation: rerun the single failing circuit-builder test, full `pnpm exec playwright test tests/e2e/circuit-builder.spec.ts`, and capture desktop 1440x900 plus mobile 390x844 screenshots.
+
+  - Completion note (2026-05-28 HKT): Compacted the Circuit Builder hero and preset band, tightened the workspace controls/canvas frame, and moved mobile panels so the desktop bench starts above the fold and the mobile first view shows a readable workbench.
+  - Validation: git diff --check passed; circuit-builder builder-row test passed; full circuit-builder spec passed (18/18); pnpm typecheck passed; desktop/mobile screenshots captured under output/qa-oml-qa-003-2026-05-28/orchestrator-screenshots/.
 
 ### P1 - UX / Accessibility Quality
 

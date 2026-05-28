@@ -1,5 +1,23 @@
 # Open Model Lab Status
 
+## 2026-05-28 OML-QA-003 Circuit Builder Fold Repair
+
+Current state: `OML-QA-003` is complete. The Circuit Builder workbench now starts above the fold on the 1440x900 desktop layout, and the mobile first viewport shows a readable workspace/canvas instead of pushing the circuit/readout below the initial view.
+
+### Files Changed
+
+- `components/circuit-builder/CircuitBuilderPage.tsx`: compacted the hero/preset band, tightened builder spacing, and moved the mobile palette/inspector panels ahead of saved-circuit panels.
+- `components/circuit-builder/CircuitWorkspace.tsx`: added a compact mobile SVG canvas frame, tightened workspace controls, shortened the mobile canvas height, and kept empty-workspace text legible.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec playwright test tests/e2e/circuit-builder.spec.ts -g "keeps the builder row visible"`: passed.
+- `pnpm exec playwright test tests/e2e/circuit-builder.spec.ts`: passed, 18/18 tests.
+- `pnpm typecheck`: passed.
+- Screenshots captured and inspected: `output/qa-oml-qa-003-2026-05-28/orchestrator-screenshots/desktop-circuit-builder.png` and `output/qa-oml-qa-003-2026-05-28/orchestrator-screenshots/mobile-circuit-builder.png`.
+
 ## 2026-05-28 OML-QA-002 Chemistry Mind Map Node Overflow
 
 Current state: `OML-QA-002` is complete. The desktop chemistry reaction mind map keeps the `Carboxylate salt` label inside its node at the default 1440px viewport while preserving the map-first layout.

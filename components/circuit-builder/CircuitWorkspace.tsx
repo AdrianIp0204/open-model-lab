@@ -62,6 +62,15 @@ const draggableComponentTypes = new Set<CircuitComponentType>([
 const minimumWorkspaceZoom = 0.45;
 const maximumWorkspaceZoom = 2.4;
 const componentDragThresholdPx = 5;
+const compactCanvasMediaQuery = "(max-width: 767px)";
+const desktopCanvasFrame = {
+  width: CIRCUIT_CANVAS_WIDTH,
+  height: CIRCUIT_CANVAS_HEIGHT,
+};
+const compactCanvasFrame = {
+  width: 720,
+  height: 640,
+};
 
 function isDraggableComponentType(value: string): value is CircuitComponentType {
   return draggableComponentTypes.has(value as CircuitComponentType);
@@ -176,6 +185,36 @@ function usePrefersReducedMotion() {
     getReducedMotionSnapshot,
     getReducedMotionServerSnapshot,
   );
+}
+
+function subscribeToCompactCanvasFrame(callback: () => void) {
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+    return () => {};
+  }
+
+  const query = window.matchMedia(compactCanvasMediaQuery);
+  query.addEventListener("change", callback);
+  return () => query.removeEventListener("change", callback);
+}
+
+function getCompactCanvasFrameSnapshot() {
+  return typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia(compactCanvasMediaQuery).matches;
+}
+
+function getCompactCanvasFrameServerSnapshot() {
+  return false;
+}
+
+function useCircuitCanvasFrame() {
+  const compact = useSyncExternalStore(
+    subscribeToCompactCanvasFrame,
+    getCompactCanvasFrameSnapshot,
+    getCompactCanvasFrameServerSnapshot,
+  );
+
+  return compact ? compactCanvasFrame : desktopCanvasFrame;
 }
 
 function CircuitElectronFlowLayer({
@@ -317,10 +356,11 @@ function convertClientDeltaToCanvasDelta(
   deltaX: number,
   deltaY: number,
   bounds: DOMRect,
+  canvasFrame: { width: number; height: number },
 ) {
   return {
-    x: deltaX * (bounds.width > 0 ? CIRCUIT_CANVAS_WIDTH / bounds.width : 1),
-    y: deltaY * (bounds.height > 0 ? CIRCUIT_CANVAS_HEIGHT / bounds.height : 1),
+    x: deltaX * (bounds.width > 0 ? canvasFrame.width / bounds.width : 1),
+    y: deltaY * (bounds.height > 0 ? canvasFrame.height / bounds.height : 1),
   };
 }
 
@@ -414,6 +454,7 @@ export function CircuitWorkspace({
   copy = circuitBuilderCopyEn,
 }: CircuitWorkspaceProps) {
   const svgRef = useRef<SVGSVGElement | null>(null);
+  const canvasFrame = useCircuitCanvasFrame();
   const prefersReducedMotion = usePrefersReducedMotion();
   const [hoveredComponentId, setHoveredComponentId] = useState<string | null>(null);
   const [activeTerminalRef, setActiveTerminalRef] = useState<CircuitTerminalRef | null>(null);
@@ -422,8 +463,8 @@ export function CircuitWorkspace({
   const [workspaceDragPreview, setWorkspaceDragPreview] = useState<WorkspaceDragPreview | null>(null);
   const drag = useSvgPointerDrag<DragTarget>({
     svgRef,
-    width: CIRCUIT_CANVAS_WIDTH,
-    height: CIRCUIT_CANVAS_HEIGHT,
+    width: canvasFrame.width,
+    height: canvasFrame.height,
     dragThreshold: componentDragThresholdPx,
     onDragStart: (target) => {
       onBeginMoveComponent(target.componentId);
@@ -736,8 +777,8 @@ export function CircuitWorkspace({
 
     const bounds = svg.getBoundingClientRect();
     const viewPoint = {
-      x: ((event.clientX - bounds.left) / Math.max(bounds.width, 1)) * CIRCUIT_CANVAS_WIDTH,
-      y: ((event.clientY - bounds.top) / Math.max(bounds.height, 1)) * CIRCUIT_CANVAS_HEIGHT,
+      x: ((event.clientX - bounds.left) / Math.max(bounds.width, 1)) * canvasFrame.width,
+      y: ((event.clientY - bounds.top) / Math.max(bounds.height, 1)) * canvasFrame.height,
     };
     const world = convertViewPointToWorld(viewPoint, document.view);
 
@@ -758,15 +799,15 @@ export function CircuitWorkspace({
 
     const bounds = svg.getBoundingClientRect();
     const viewPoint = {
-      x: ((event.clientX - bounds.left) / Math.max(bounds.width, 1)) * CIRCUIT_CANVAS_WIDTH,
-      y: ((event.clientY - bounds.top) / Math.max(bounds.height, 1)) * CIRCUIT_CANVAS_HEIGHT,
+      x: ((event.clientX - bounds.left) / Math.max(bounds.width, 1)) * canvasFrame.width,
+      y: ((event.clientY - bounds.top) / Math.max(bounds.height, 1)) * canvasFrame.height,
     };
     setPointerWorld(convertViewPointToWorld(viewPoint, document.view));
 
     if (panState && event.pointerId === panState.pointerId) {
       const deltaX = event.clientX - panState.startX;
       const deltaY = event.clientY - panState.startY;
-      const canvasDelta = convertClientDeltaToCanvasDelta(deltaX, deltaY, bounds);
+      const canvasDelta = convertClientDeltaToCanvasDelta(deltaX, deltaY, bounds, canvasFrame);
       onUpdateView({
         ...document.view,
         offsetX: panState.offsetX + canvasDelta.x,
@@ -936,13 +977,16 @@ export function CircuitWorkspace({
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0 space-y-1">
             <p className="lab-label">{copy.workspace.eyebrow}</p>
-            <p className="max-w-3xl text-sm leading-5 text-ink-700 sm:line-clamp-1" aria-live="polite">
+            <p className="max-w-3xl text-sm leading-5 text-ink-700 line-clamp-2 sm:line-clamp-1" aria-live="polite">
               {workspaceGuidance}
             </p>
           </div>
           <div className="shrink-0">{headerSlot}</div>
         </div>
-        <div className="mt-2 flex flex-wrap items-center gap-1.5" data-circuit-workspace-controls="">
+        <div
+          className="mt-2 flex flex-nowrap items-center gap-1.5 overflow-x-auto pb-0.5 xl:flex-wrap xl:overflow-visible xl:pb-0"
+          data-circuit-workspace-controls=""
+        >
           <span id="circuit-zoom-out-description" className="sr-only">
             {zoomOutDescription}
           </span>
@@ -959,7 +1003,7 @@ export function CircuitWorkspace({
             {clearWorkspaceDescription}
           </span>
           <div
-            className="flex w-full min-w-0 max-w-full items-center justify-start gap-1.5 overflow-x-auto whitespace-nowrap rounded-full border border-line bg-paper-strong px-3 py-1.5 text-xs font-semibold text-ink-700 sm:w-auto sm:min-w-[15rem] sm:justify-center sm:overflow-visible"
+            className="flex shrink-0 items-center justify-start gap-1.5 whitespace-nowrap rounded-full border border-line bg-paper-strong px-3 py-1.5 text-xs font-semibold text-ink-700 sm:min-w-[15rem] sm:justify-center"
             aria-label={`${copy.workspace.statusAriaPrefix} ${workspaceZoomPercent}% ${copy.workspace.zoom}, ${workspacePartLabel}, ${workspaceWireLabel}, ${pointerPositionLabel}, ${workspaceModeLabel}.`}
             data-circuit-workspace-view-status=""
             data-circuit-workspace-zoom-percent={workspaceZoomPercent}
@@ -977,7 +1021,7 @@ export function CircuitWorkspace({
           {controlsSlot}
           {renderMode === "modern" ? (
             <div
-              className="rounded-full border border-teal-500/20 bg-teal-500/8 px-2.5 py-1.5 text-xs font-semibold text-teal-800"
+              className="shrink-0 rounded-full border border-teal-500/20 bg-teal-500/8 px-2.5 py-1.5 text-xs font-semibold text-teal-800"
               data-circuit-modern-legend=""
             >
               {copy.workspace.modernLegend}
@@ -986,7 +1030,7 @@ export function CircuitWorkspace({
           <button
             type="button"
             disabled={!canZoomOut}
-            className="rounded-full border border-line bg-paper px-2.5 py-1.5 text-sm font-semibold text-ink-950 disabled:cursor-not-allowed disabled:opacity-50"
+            className="shrink-0 rounded-full border border-line bg-paper px-2.5 py-1.5 text-sm font-semibold text-ink-950 disabled:cursor-not-allowed disabled:opacity-50"
             aria-describedby="circuit-zoom-out-description"
             aria-keyshortcuts="-"
             title={canZoomOut ? copy.workspace.zoomOutTitle : copy.workspace.minimumZoomTitle}
@@ -997,7 +1041,7 @@ export function CircuitWorkspace({
           <button
             type="button"
             disabled={!canZoomIn}
-            className="rounded-full border border-line bg-paper px-2.5 py-1.5 text-sm font-semibold text-ink-950 disabled:cursor-not-allowed disabled:opacity-50"
+            className="shrink-0 rounded-full border border-line bg-paper px-2.5 py-1.5 text-sm font-semibold text-ink-950 disabled:cursor-not-allowed disabled:opacity-50"
             aria-describedby="circuit-zoom-in-description"
             aria-keyshortcuts="+"
             title={canZoomIn ? copy.workspace.zoomInTitle : copy.workspace.maximumZoomTitle}
@@ -1008,7 +1052,7 @@ export function CircuitWorkspace({
           <button
             type="button"
             disabled={!canResetView}
-            className="rounded-full border border-line bg-paper px-2.5 py-1.5 text-sm font-semibold text-ink-950 disabled:cursor-not-allowed disabled:opacity-50"
+            className="shrink-0 rounded-full border border-line bg-paper px-2.5 py-1.5 text-sm font-semibold text-ink-950 disabled:cursor-not-allowed disabled:opacity-50"
             aria-describedby="circuit-reset-view-description"
             aria-keyshortcuts="0"
             title={canResetView ? copy.workspace.resetViewTitle : copy.workspace.defaultViewTitle}
@@ -1019,7 +1063,7 @@ export function CircuitWorkspace({
           <button
             type="button"
             disabled={!canFitView}
-            className="rounded-full border border-line bg-paper px-2.5 py-1.5 text-sm font-semibold text-ink-950 transition hover:border-ink-950/20 disabled:cursor-not-allowed disabled:opacity-50"
+            className="shrink-0 rounded-full border border-line bg-paper px-2.5 py-1.5 text-sm font-semibold text-ink-950 transition hover:border-ink-950/20 disabled:cursor-not-allowed disabled:opacity-50"
             aria-describedby="circuit-fit-view-description"
             aria-keyshortcuts="F"
             title={fitViewDescription}
@@ -1030,7 +1074,7 @@ export function CircuitWorkspace({
           <button
             type="button"
             disabled={!canClearWorkspace}
-            className="rounded-full border border-coral-500/30 bg-coral-500/10 px-2.5 py-1.5 text-sm font-semibold text-coral-700 transition hover:bg-coral-500/15 disabled:cursor-not-allowed disabled:border-line disabled:bg-paper disabled:text-ink-500"
+            className="shrink-0 rounded-full border border-coral-500/30 bg-coral-500/10 px-2.5 py-1.5 text-sm font-semibold text-coral-700 transition hover:bg-coral-500/15 disabled:cursor-not-allowed disabled:border-line disabled:bg-paper disabled:text-ink-500"
             aria-describedby="circuit-clear-workspace-description"
             aria-pressed={clearWorkspaceArmed ? "true" : undefined}
             title={clearWorkspaceDescription}
@@ -1042,7 +1086,7 @@ export function CircuitWorkspace({
       </div>
 
       <div
-        className="relative h-[27rem] min-h-[27rem] flex-1 bg-paper/60 sm:h-[34rem] sm:min-h-[34rem] xl:h-auto xl:min-h-0"
+        className="relative h-[19rem] min-h-[19rem] flex-1 bg-paper/60 sm:h-[34rem] sm:min-h-[34rem] xl:h-auto xl:min-h-0"
         onDragEnter={handleWorkspaceDragEnter}
         onDragOver={handleWorkspaceDragOver}
         onDragLeave={handleWorkspaceDragLeave}
@@ -1063,8 +1107,8 @@ export function CircuitWorkspace({
             return;
           }
           const viewPoint = {
-            x: ((event.clientX - bounds.left) / Math.max(bounds.width, 1)) * CIRCUIT_CANVAS_WIDTH,
-            y: ((event.clientY - bounds.top) / Math.max(bounds.height, 1)) * CIRCUIT_CANVAS_HEIGHT,
+            x: ((event.clientX - bounds.left) / Math.max(bounds.width, 1)) * canvasFrame.width,
+            y: ((event.clientY - bounds.top) / Math.max(bounds.height, 1)) * canvasFrame.height,
           };
           onDropComponent(
             componentType,
@@ -1076,7 +1120,7 @@ export function CircuitWorkspace({
       >
         <svg
           ref={svgRef}
-          viewBox={`0 0 ${CIRCUIT_CANVAS_WIDTH} ${CIRCUIT_CANVAS_HEIGHT}`}
+          viewBox={`0 0 ${canvasFrame.width} ${canvasFrame.height}`}
           className={["h-full w-full touch-none bg-paper/40", workspaceCanvasCursorClass].join(" ")}
           role="img"
           aria-label={`${copy.workspace.canvasAriaPrefix} ${workspaceModeLabel}. ${pointerPositionLabel}.`}
@@ -1140,8 +1184,8 @@ export function CircuitWorkspace({
               return;
             }
             const focusPoint = {
-              x: ((event.clientX - bounds.left) / Math.max(bounds.width, 1)) * CIRCUIT_CANVAS_WIDTH,
-              y: ((event.clientY - bounds.top) / Math.max(bounds.height, 1)) * CIRCUIT_CANVAS_HEIGHT,
+              x: ((event.clientX - bounds.left) / Math.max(bounds.width, 1)) * canvasFrame.width,
+              y: ((event.clientY - bounds.top) / Math.max(bounds.height, 1)) * canvasFrame.height,
             };
             zoomAround(document.view.zoom + (event.deltaY > 0 ? -0.08 : 0.08), focusPoint);
           }}
@@ -1164,15 +1208,15 @@ export function CircuitWorkspace({
           <rect
             x="0"
             y="0"
-            width={CIRCUIT_CANVAS_WIDTH}
-            height={CIRCUIT_CANVAS_HEIGHT}
+            width={canvasFrame.width}
+            height={canvasFrame.height}
             fill="url(#circuit-grid)"
             data-circuit-workspace-background=""
             onPointerDown={handleBackgroundPointerDown}
           />
 
           {document.components.length === 0 ? (
-            <g transform="translate(800 460)" pointerEvents="none">
+            <g transform={`translate(${canvasFrame.width / 2} ${canvasFrame.height / 2})`} pointerEvents="none">
               <rect
                 x="-196"
                 y="-78"
@@ -1182,13 +1226,13 @@ export function CircuitWorkspace({
                 fill="rgba(255,253,248,0.95)"
                 stroke="rgba(15,28,36,0.1)"
               />
-              <text x="0" y="-20" textAnchor="middle" className="fill-ink-950 text-[22px] font-semibold">
+              <text x="0" y="-20" textAnchor="middle" fill="#0f1c24" className="text-[22px] font-semibold">
                 {copy.workspace.emptyTitle}
               </text>
-              <text x="0" y="14" textAnchor="middle" className="fill-ink-700 text-[14px]">
+              <text x="0" y="14" textAnchor="middle" fill="#315063" className="text-[14px]">
                 {copy.workspace.emptySubtitle}
               </text>
-              <text x="0" y="40" textAnchor="middle" className="fill-ink-600 text-[13px]">
+              <text x="0" y="40" textAnchor="middle" fill="#466273" className="text-[13px]">
                 {copy.workspace.emptyExample}
               </text>
             </g>
