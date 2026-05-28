@@ -1,5 +1,24 @@
 # Open Model Lab Status
 
+## 2026-05-29 OML-QA-019 Contextual Guided Bench Tools
+
+Current state: `OML-QA-019` is complete. Guided concept benches now expose contextual Step tools beside the current-step cue so learners can open revealed controls, graphs, overlays, equations, and prediction prompts from the live bench instead of scrolling to the lower support panels.
+
+### Files Changed
+
+- `components/simulations/ConceptSimulationRenderer.tsx`: adds the guided Step tools drawer, active bench tool panel, reveal/graph/overlay/equation/prediction focus handlers, and guided equation selection.
+- `messages/en.json`, `messages/zh-HK.json`: adds localized Step tools labels.
+- `tests/e2e/concept-page-v2-flow.spec.ts`: covers SHM and UCM phone flows for opening each contextual bench tool from the current-step surface.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check HEAD^..HEAD`: passed for the worker patch.
+- `pnpm exec eslint components/simulations/ConceptSimulationRenderer.tsx tests/e2e/concept-page-v2-flow.spec.ts`: passed.
+- `pnpm exec playwright test -c playwright.concept-v2.config.ts tests/e2e/concept-page-v2-flow.spec.ts -g OML-QA-019`: passed, covering SHM and UCM phone flows.
+- Phone screenshots for SHM and UCM contextual prediction state were inspected.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-29 OML-QA-018 Guided Compare Mode
 
 Current state: `OML-QA-018` is complete. Guided concept benches now expose Compare mode as a compact in-bench control when the regular interaction-mode tabs are hidden. Learners can enter Compare, edit Setup A/B, swap setups, reset the active variant, exit Compare, and keep the current guided step context intact.
