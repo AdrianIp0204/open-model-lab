@@ -89,12 +89,14 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
   - Completion note (2026-05-28 HKT): Split the public discovery layout `/start` coverage into explicit no-progress and seeded-progress route cases, seeded local progress only for cases that ask for it, and refreshed stale heading expectations to match current page copy.
   - Validation: git diff --check passed; `pnpm exec eslint tests/e2e/public-discovery-layout.spec.ts` passed; `pnpm typecheck` passed; `pnpm exec playwright test tests/e2e/public-discovery-layout.spec.ts -g "visible next steps"` passed the `/start` first-time and saved-progress cases before failing on a separate `/search` mobile CTA placement issue now tracked as `OML-QA-012`.
-- [ ] **OML-QA-010: Stabilize the mobile dark-pill contrast audit.**
+- [x] **OML-QA-010: Stabilize the mobile dark-pill contrast audit.**
   - Evidence: `pnpm exec playwright test tests/e2e/mobile-cta-contrast.spec.ts -g "other audited"` fails in isolation with a timeout while navigating to `/tracks/motion-and-circular-motion` (`net::ERR_ABORTED; maybe frame was detached?`). In the broader subset it also produced a blank mobile screenshot with only the header/feedback visible.
   - Affected area: `tests/e2e/mobile-cta-contrast.spec.ts`, `tests/e2e/helpers.ts`, and potentially the track page's local-progress/session setup.
   - Fix direction: make the route loop deterministic by using fresh contexts per route or waiting for the track page's stable content marker instead of reusing a page across heavy route transitions. If the page itself aborts under seeded state, fix the route behavior.
   - Validation: rerun the isolated mobile contrast audit three times and then include it in the focused E2E subset.
 
+  - Completion note (2026-05-28 HKT): Stabilized the other-audited mobile dark-pill contrast loop by opening each route in a fresh mobile browser context, waiting for route-specific ready markers, and closing each context after the contrast assertion.
+  - Validation: git diff --check passed; eslint passed for tests/e2e/mobile-cta-contrast.spec.ts; isolated mobile contrast audit passed 3/3 runs; pnpm typecheck passed; focused subset included mobile contrast passing, with remaining failures matching existing OML-QA-012 /search CTA and OML-QA-011 dev-server restart instability.
 - [ ] **OML-QA-011: Keep broad local Playwright sweeps from restarting the dev server mid-run.**
   - Evidence: during the 90-route desktop/mobile sweep, Next dev logged `Server is approaching the used memory threshold, restarting...`; transient zh-HK resource errors and one unstyled mobile screenshot occurred during that restart. The signed-in checkout smoke test failed only in the broad subset and passed in isolation, which points to suite pressure rather than a deterministic product failure.
   - Affected area: `playwright.config.ts`, large E2E specs, and future QA sweep scripts.

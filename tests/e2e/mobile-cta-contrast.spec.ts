@@ -1,4 +1,11 @@
-import { expect, test, type Locator } from "@playwright/test";
+import {
+  expect,
+  test,
+  type Browser,
+  type BrowserContext,
+  type Locator,
+  type Page,
+} from "@playwright/test";
 import {
   gotoAndExpectOk,
   installBrowserGuards,
@@ -37,15 +44,46 @@ const dashboardMobileViewports = [
   { width: 412, height: 915 },
 ] as const;
 
-const auditedMobileRoutes = [
-  "/start",
-  "/search",
-  "/pricing",
-  "/account",
-  "/concepts/projectile-motion",
-  "/tracks/motion-and-circular-motion",
-  "/guided/waves-evidence-loop",
-] as const;
+type AuditedMobileRoute = {
+  pathname: string;
+  ready: (page: Page) => Locator;
+};
+
+const auditedMobileRoutes: AuditedMobileRoute[] = [
+  {
+    pathname: "/start",
+    ready: (page) => page.getByTestId("start-primary-cta"),
+  },
+  {
+    pathname: "/search",
+    ready: (page) => page.getByTestId("search-primary-cta"),
+  },
+  {
+    pathname: "/pricing",
+    ready: (page) => page.getByTestId("pricing-primary-cta"),
+  },
+  {
+    pathname: "/account",
+    ready: (page) => page.locator("#account-overview"),
+  },
+  {
+    pathname: "/concepts/projectile-motion",
+    ready: (page) => page.getByTestId("concept-live-lab"),
+  },
+  {
+    pathname: "/tracks/motion-and-circular-motion",
+    ready: (page) => page.getByTestId("track-primary-cta"),
+  },
+  {
+    pathname: "/guided/waves-evidence-loop",
+    ready: (page) => page.getByTestId("guided-detail-primary-cta"),
+  },
+];
+
+const auditedMobileViewport = {
+  width: 390,
+  height: 844,
+} as const;
 
 let browserGuard: BrowserGuard;
 
@@ -87,6 +125,40 @@ async function expectReadableOnDarkLinks(locator: Locator) {
   expect(visibleCount).toBeGreaterThan(0);
 }
 
+async function openAuditedMobileRoute(
+  browser: Browser,
+  route: AuditedMobileRoute,
+): Promise<{
+  browserGuard: BrowserGuard;
+  context: BrowserContext;
+  page: Page;
+}> {
+  const context = await browser.newContext({
+    viewport: auditedMobileViewport,
+    isMobile: true,
+    hasTouch: true,
+    deviceScaleFactor: 3,
+  });
+  const page = await context.newPage();
+  const browserGuard = await installBrowserGuards(page);
+  let opened = false;
+
+  try {
+    await seedLocalProgressSnapshot(page, mobileProgressSnapshot);
+    await setHarnessSession(page, "signed-in-free");
+    await gotoAndExpectOk(page, route.pathname);
+    await expect(page.locator("#content")).toBeVisible();
+    await expect(route.ready(page)).toBeVisible();
+    opened = true;
+  } finally {
+    if (!opened) {
+      await context.close();
+    }
+  }
+
+  return { browserGuard, context, page };
+}
+
 test.beforeEach(async ({ page }) => {
   await page.context().clearCookies();
   browserGuard = await installBrowserGuards(page);
@@ -112,15 +184,21 @@ test("dashboard next-step prompt CTAs keep readable mobile contrast across commo
 });
 
 test("other audited mobile dark-pill links keep the shared on-dark foreground contract", async ({
-  page,
+  browser,
 }) => {
-  await seedLocalProgressSnapshot(page, mobileProgressSnapshot);
-  await setHarnessSession(page, "signed-in-free");
-  await page.setViewportSize({ width: 390, height: 844 });
+  test.setTimeout(120_000);
 
   for (const route of auditedMobileRoutes) {
-    await gotoAndExpectOk(page, route);
-    await expect(page.locator("#content")).toBeVisible();
-    await expectReadableOnDarkLinks(page.locator("a.bg-ink-950, button.bg-ink-950"));
+    await test.step(route.pathname, async () => {
+      const { browserGuard: routeGuard, context, page } =
+        await openAuditedMobileRoute(browser, route);
+
+      try {
+        await expectReadableOnDarkLinks(page.locator("a.bg-ink-950, button.bg-ink-950"));
+        routeGuard.assertNoActionableIssues();
+      } finally {
+        await context.close();
+      }
+    });
   }
 });

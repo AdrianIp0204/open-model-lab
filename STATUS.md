@@ -1,5 +1,22 @@
 # Open Model Lab Status
 
+## 2026-05-28 OML-QA-010 Mobile Dark-Pill Contrast Audit Stabilization
+
+Current state: `OML-QA-010` is complete. The mobile dark-pill contrast audit now visits each "other audited" route in a fresh mobile browser context and waits for a route-specific stable marker before checking the shared on-dark foreground contract.
+
+### Files Changed
+
+- `tests/e2e/mobile-cta-contrast.spec.ts`: added route-ready markers, isolated per-route mobile contexts, explicit context cleanup on setup failure, and a longer bounded timeout for the audited route loop.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec eslint tests/e2e/mobile-cta-contrast.spec.ts`: passed.
+- `pnpm exec playwright test tests/e2e/mobile-cta-contrast.spec.ts -g "other audited"`: passed three consecutive isolated runs.
+- `pnpm typecheck`: passed.
+- Focused subset command from the QA pass: mobile contrast tests passed inside the subset. The subset still failed on already-tracked `OML-QA-012` (`/search` mobile CTA below the fold at `1173px`) and `OML-QA-011` dev-server restart instability (`ERR_EMPTY_RESPONSE`, `ERR_INCOMPLETE_CHUNKED_ENCODING`, `ERR_CONNECTION_REFUSED`, and account-flow fallout after restart).
+
 ## 2026-05-28 OML-QA-009 Public Discovery Start Progress Test Repair
 
 Current state: `OML-QA-009` is complete. The public discovery layout test now intentionally covers both `/start` first-time and saved-progress headings instead of seeding progress and expecting first-time copy.
