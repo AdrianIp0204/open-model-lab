@@ -13,7 +13,7 @@ import type {
 import type { ConceptLearningPhaseId } from "@/lib/content/concept-learning-phases";
 import type { SavedCompareSetupRecord } from "@/lib/account/compare-setups";
 import { ChallengeModePanel } from "@/components/concepts/ChallengeModePanel";
-import { RichMathText } from "@/components/concepts/MathFormula";
+import { BlockFormula, RichMathText } from "@/components/concepts/MathFormula";
 import { getCompareSetupLabel } from "@/lib/i18n/copy-text";
 import { resolveNoticePrompts } from "@/lib/learning/noticePrompts";
 import type { LiveWorkedExampleState } from "@/lib/learning/liveWorkedExamples";
@@ -217,7 +217,9 @@ import {
   type GraphStagePreview,
   type GraphSeries,
   type GraphSeriesMap,
+  type GraphTabSpec,
   type PredictionModeApi,
+  type SimulationEquation,
   DOPPLER_EFFECT_MAX_OBSERVER_SPEED,
   DOPPLER_EFFECT_MAX_SOURCE_SPEED,
   DOPPLER_EFFECT_MIN_OBSERVER_SPEED,
@@ -439,7 +441,10 @@ import { EquationBenchStrip, EquationDetails, EquationPanel } from "@/components
 import { GuidedOverlayPanel } from "@/components/concepts/GuidedOverlayPanel";
 import { PredictionModePanel } from "@/components/concepts/PredictionModePanel";
 import { SavedCompareSetupsCard } from "@/components/concepts/SavedCompareSetupsCard";
-import { ConceptPageV2CurrentStepCue } from "@/components/concepts/ConceptPageV2Panels";
+import {
+  ConceptPageV2CurrentStepCue,
+  type ConceptPageV2RevealItem,
+} from "@/components/concepts/ConceptPageV2Panels";
 import {
   getConceptPageBenchSupportTargetId,
   useConceptPagePhase,
@@ -6521,6 +6526,38 @@ function selectBenchEquations(source: ConceptSimulationSource) {
   return source.equations.slice(0, 2);
 }
 
+function selectGuidedBenchEquations(
+  source: ConceptSimulationSource,
+  reveal: ConceptPageGuidedStepContext["step"]["reveal"],
+) {
+  if (!reveal) {
+    return selectBenchEquations(source);
+  }
+
+  const controlIds = new Set(reveal.controlIds ?? []);
+  const graphIds = new Set(reveal.graphIds ?? []);
+  const overlayIds = new Set(reveal.overlayIds ?? []);
+  const equationIds = new Set<string>();
+
+  for (const variableLink of source.variableLinks) {
+    const relatedToControl =
+      controlIds.has(variableLink.id) || controlIds.has(variableLink.param);
+    const relatedToGraph = (variableLink.graphIds ?? []).some((graphId) => graphIds.has(graphId));
+    const relatedToOverlay = (variableLink.overlayIds ?? []).some((overlayId) =>
+      overlayIds.has(overlayId),
+    );
+
+    if (relatedToControl || relatedToGraph || relatedToOverlay) {
+      for (const equationId of variableLink.equationIds) {
+        equationIds.add(equationId);
+      }
+    }
+  }
+
+  const selectedEquations = source.equations.filter((equation) => equationIds.has(equation.id));
+  return (selectedEquations.length ? selectedEquations : selectBenchEquations(source)).slice(0, 2);
+}
+
 function resolveFocusedOverlayId(
   source: ConceptSimulationSource,
   overlayValues: Record<string, boolean>,
@@ -6731,6 +6768,222 @@ function GuidedConceptBenchBrief({
   );
 }
 
+type GuidedBenchToolFocus =
+  | { kind: "control"; id: string }
+  | { kind: "graph"; id: string }
+  | { kind: "overlay"; id: string }
+  | { kind: "tool"; id: string }
+  | { kind: "section"; id: string }
+  | { kind: "equation"; id: string }
+  | { kind: "prediction"; id: "prediction" };
+
+type GuidedBenchToolsCopy = {
+  label: string;
+  description: string;
+  equationLabel: string;
+  predictionLabel: string;
+  activeLabel: string;
+  revealKinds: Record<"control" | "graph" | "overlay" | "tool" | "section", string>;
+};
+
+function GuidedBenchToolsDrawer({
+  step,
+  revealItems,
+  equations,
+  graphs,
+  activeFocus,
+  activeGraphId,
+  focusedOverlayLabel,
+  predictionPanel,
+  predictionAvailable,
+  copy,
+  onSelectReveal,
+  onSelectEquation,
+  onOpenPrediction,
+}: {
+  step: ConceptPageGuidedStepContext["step"];
+  revealItems: readonly ConceptPageV2RevealItem[];
+  equations: readonly SimulationEquation[];
+  graphs: readonly GraphTabSpec[];
+  activeFocus: GuidedBenchToolFocus | null;
+  activeGraphId?: string | null;
+  focusedOverlayLabel?: string | null;
+  predictionPanel?: ReactNode;
+  predictionAvailable: boolean;
+  copy: GuidedBenchToolsCopy;
+  onSelectReveal: (item: ConceptPageV2RevealItem) => void;
+  onSelectEquation: (equationId: string) => void;
+  onOpenPrediction: () => void;
+}) {
+  const graphMap = new Map(graphs.map((graph) => [graph.id, graph]));
+  const focusedRevealItem =
+    activeFocus && activeFocus.kind !== "equation" && activeFocus.kind !== "prediction"
+      ? revealItems.find((item) => item.kind === activeFocus.kind && item.id === activeFocus.id) ?? null
+      : null;
+  const focusedEquation =
+    activeFocus?.kind === "equation"
+      ? equations.find((equation) => equation.id === activeFocus.id) ?? equations[0] ?? null
+      : null;
+  const focusedGraph =
+    activeFocus?.kind === "graph"
+      ? graphMap.get(activeFocus.id) ?? graphMap.get(activeGraphId ?? "") ?? null
+      : null;
+  const hasTools = revealItems.length > 0 || equations.length > 0 || predictionAvailable;
+  const activeToolPanel = activeFocus ? (
+    <div
+      data-testid="concept-v2-bench-tool-active"
+      className="mt-2 rounded-[14px] border border-line/80 bg-paper/72 px-3 py-2.5"
+      aria-live="polite"
+    >
+      {activeFocus.kind === "prediction" && predictionPanel ? (
+        predictionPanel
+      ) : focusedEquation ? (
+        <div>
+          <p className="text-xs font-semibold uppercase leading-5 tracking-[0.14em] text-teal-800">
+            {copy.equationLabel}
+          </p>
+          <p className="mt-1 text-sm font-semibold leading-5 text-ink-950">
+            {focusedEquation.label}
+          </p>
+          <div className="mt-2 rounded-[12px] border border-line bg-white/80 px-3 py-2 text-ink-950">
+            <BlockFormula expression={focusedEquation.latex} className="overflow-x-auto text-[0.9rem]" />
+          </div>
+          <p className="mt-2 text-sm leading-5 text-ink-700">
+            {focusedEquation.meaning}
+          </p>
+        </div>
+      ) : focusedGraph ? (
+        <div>
+          <p className="text-xs font-semibold uppercase leading-5 tracking-[0.14em] text-sky-800">
+            {copy.revealKinds.graph}
+          </p>
+          <p className="mt-1 text-sm font-semibold leading-5 text-ink-950">
+            {focusedGraph.label}
+          </p>
+          {focusedGraph.description ? (
+            <p className="mt-1 text-sm leading-5 text-ink-700">
+              {focusedGraph.description}
+            </p>
+          ) : null}
+        </div>
+      ) : focusedRevealItem ? (
+        <div>
+          <p className="text-xs font-semibold uppercase leading-5 tracking-[0.14em] text-teal-800">
+            {copy.revealKinds[focusedRevealItem.kind]}
+          </p>
+          <RichMathText
+            as="p"
+            content={
+              activeFocus.kind === "overlay" && focusedOverlayLabel
+                ? focusedOverlayLabel
+                : focusedRevealItem.label
+            }
+            className="mt-1 text-sm font-semibold leading-5 text-ink-950"
+          />
+          <RichMathText
+            as="p"
+            content={step.doThis}
+            className="mt-1 text-sm leading-5 text-ink-700"
+          />
+        </div>
+      ) : null}
+    </div>
+  ) : null;
+
+  if (!hasTools) {
+    return null;
+  }
+
+  return (
+    <section
+      data-testid="concept-v2-bench-tools"
+      aria-label={copy.label}
+      className="rounded-[16px] border border-line/80 bg-white/88 px-3 py-2.5 shadow-sm"
+    >
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <div className="min-w-0">
+          <p className="text-xs font-semibold uppercase leading-5 tracking-[0.14em] text-ink-600">
+            {copy.label}
+          </p>
+          <p className="sr-only">{copy.description}</p>
+        </div>
+        {activeFocus ? (
+          <span className="rounded-full border border-teal-500/18 bg-teal-500/8 px-2.5 py-0.5 text-xs font-semibold leading-5 text-teal-800">
+            {copy.activeLabel}
+          </span>
+        ) : null}
+      </div>
+
+      {activeToolPanel}
+
+      <div className="mt-2 flex flex-wrap gap-1.5">
+        {revealItems.map((item) => {
+          const active = activeFocus?.kind === item.kind && activeFocus.id === item.id;
+          const label = `${copy.revealKinds[item.kind]}: ${item.label}`;
+
+          return (
+            <button
+              key={`${item.kind}-${item.id}`}
+              type="button"
+              data-testid={`concept-v2-bench-tool-${item.kind}-${item.id}`}
+              aria-pressed={active}
+              aria-label={label}
+              onClick={() => onSelectReveal(item)}
+              className={[
+                "min-h-10 max-w-full rounded-full border px-2.5 py-1 text-left text-xs font-semibold leading-5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                active
+                  ? "border-teal-500/35 bg-teal-500/12 text-teal-800"
+                  : "border-line bg-paper-strong text-ink-700 hover:border-teal-500/35 hover:bg-white",
+              ].join(" ")}
+            >
+              <RichMathText as="span" content={label} className="line-clamp-1 break-words" />
+            </button>
+          );
+        })}
+
+        {equations.map((equation) => {
+          const active = activeFocus?.kind === "equation" && activeFocus.id === equation.id;
+
+          return (
+            <button
+              key={equation.id}
+              type="button"
+              data-testid={`concept-v2-bench-tool-equation-${equation.id}`}
+              aria-pressed={active}
+              onClick={() => onSelectEquation(equation.id)}
+              className={[
+                "min-h-10 max-w-full rounded-full border px-2.5 py-1 text-left text-xs font-semibold leading-5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                active
+                  ? "border-teal-500/35 bg-teal-500/12 text-teal-800"
+                  : "border-line bg-paper-strong text-ink-700 hover:border-teal-500/35 hover:bg-white",
+              ].join(" ")}
+            >
+              {copy.equationLabel}: {equation.label}
+            </button>
+          );
+        })}
+
+        {predictionAvailable ? (
+          <button
+            type="button"
+            data-testid="concept-v2-bench-tool-prediction"
+            aria-pressed={activeFocus?.kind === "prediction"}
+            onClick={onOpenPrediction}
+            className={[
+              "min-h-10 max-w-full rounded-full border px-2.5 py-1 text-left text-xs font-semibold leading-5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+              activeFocus?.kind === "prediction"
+                ? "border-amber-500/35 bg-amber-500/12 text-amber-800"
+                : "border-line bg-paper-strong text-ink-700 hover:border-amber-500/35 hover:bg-white",
+            ].join(" ")}
+          >
+            {copy.predictionLabel}
+          </button>
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
 export function ConceptSimulationRenderer({
   concept,
   readNext = [],
@@ -6839,6 +7092,7 @@ export function ConceptSimulationRenderer({
   const [predictionTested, setPredictionTested] = useState(false);
   const [predictionCompleted, setPredictionCompleted] = useState(false);
   const [isPredictionPanelOpen, setIsPredictionPanelOpen] = useState(false);
+  const [benchToolFocus, setBenchToolFocus] = useState<GuidedBenchToolFocus | null>(null);
   const [phaseSupportDisclosureOpenByPhase, setPhaseSupportDisclosureOpenByPhase] = useState<
     Partial<Record<ConceptLearningPhaseId, boolean>>
   >({});
@@ -7021,11 +7275,18 @@ export function ConceptSimulationRenderer({
     !noticePromptHidden ? activeNoticePrompt?.relatedGraphTabs ?? [] : [];
   const noticePromptHighlightedOverlayIds =
     !noticePromptHidden ? activeNoticePrompt?.relatedOverlays ?? [] : [];
+  const benchToolHighlightedControlIds =
+    benchToolFocus?.kind === "control" ? [benchToolFocus.id] : [];
+  const benchToolHighlightedGraphIds =
+    benchToolFocus?.kind === "graph" ? [benchToolFocus.id] : [];
+  const benchToolHighlightedOverlayIds =
+    benchToolFocus?.kind === "overlay" ? [benchToolFocus.id] : [];
   const highlightedControlIds = mergeUniqueIds(
     predictionHighlightedControlIds,
     quickTestHighlightedControlIds,
     workedExampleHighlightedControlIds,
     noticePromptHighlightedControlIds,
+    benchToolHighlightedControlIds,
     guidedReveal?.controlIds,
     focusedOverlay?.relatedControls,
   );
@@ -7040,6 +7301,7 @@ export function ConceptSimulationRenderer({
     quickTestHighlightedGraphIds,
     workedExampleHighlightedGraphIds,
     noticePromptHighlightedGraphIds,
+    benchToolHighlightedGraphIds,
     guidedReveal?.graphIds,
     focusedOverlay?.relatedGraphTabs,
   );
@@ -7054,6 +7316,7 @@ export function ConceptSimulationRenderer({
     quickTestHighlightedOverlayIds,
     workedExampleHighlightedOverlayIds,
     noticePromptHighlightedOverlayIds,
+    benchToolHighlightedOverlayIds,
     guidedReveal?.overlayIds,
     focusedOverlay ? [focusedOverlay.id] : [],
   );
@@ -7214,6 +7477,10 @@ export function ConceptSimulationRenderer({
   }, [activeGraphId, guidedPrimaryGraphId]);
 
   useEffect(() => {
+    setBenchToolFocus(null);
+  }, [guidedStep?.step.id]);
+
+  useEffect(() => {
     setFocusedOverlayId((current) => resolveFocusedOverlayId(concept, overlays, current));
   }, [concept, overlays]);
 
@@ -7347,6 +7614,71 @@ export function ConceptSimulationRenderer({
     recordMeaningfulConceptInteraction();
     setOverlays((current) => ({ ...current, [overlayId]: value }));
     focusOverlay(overlayId);
+  }
+
+  function focusControlFromBench(controlId: string) {
+    const control = concept.simulation.controls.find(
+      (item) => item.id === controlId || item.param === controlId,
+    );
+    const linkedVariable = concept.variableLinks.find(
+      (variableLink) =>
+        variableLink.id === controlId ||
+        variableLink.param === controlId ||
+        (control ? variableLink.param === control.param : false),
+    );
+
+    if (linkedVariable) {
+      setActiveVariableId(linkedVariable.id);
+    }
+
+    if (typeof window !== "undefined" && control) {
+      window.requestAnimationFrame(() => {
+        const input = document.getElementById(`control-${control.param}`);
+        if (input instanceof HTMLElement) {
+          input.focus({ preventScroll: true });
+        }
+      });
+    }
+  }
+
+  function selectGuidedBenchReveal(item: ConceptPageV2RevealItem) {
+    setBenchToolFocus({ kind: item.kind, id: item.id });
+
+    switch (item.kind) {
+      case "control":
+        focusControlFromBench(item.id);
+        break;
+      case "graph":
+        setActiveGraphId(item.id);
+        setGraphPreview(null);
+        break;
+      case "overlay":
+        recordMeaningfulConceptInteraction();
+        setOverlays((current) => ({ ...current, [item.id]: true }));
+        focusOverlay(item.id);
+        break;
+      case "tool":
+      case "section":
+      default:
+        break;
+    }
+  }
+
+  function selectGuidedBenchEquation(equationId: string) {
+    setBenchToolFocus({ kind: "equation", id: equationId });
+
+    const linkedVariable = concept.variableLinks.find((variableLink) =>
+      variableLink.equationIds.includes(equationId),
+    );
+
+    if (linkedVariable) {
+      setActiveVariableId(linkedVariable.id);
+    }
+  }
+
+  function openGuidedBenchPrediction() {
+    setBenchToolFocus({ kind: "prediction", id: "prediction" });
+    openPredictionWorkflow();
   }
 
   function applyLiveParamChange(param: string, value: ControlValue) {
@@ -8253,6 +8585,7 @@ export function ConceptSimulationRenderer({
       </section>
     ) : explorePromptPanel;
   const shouldShowSecondaryPredictionPanel =
+    !isGuidedLessonMode &&
     predictionItems.length > 0 &&
     interactionMode !== "compare" &&
     !compareState &&
@@ -8612,6 +8945,20 @@ export function ConceptSimulationRenderer({
     />
   );
   const benchEquations = selectBenchEquations(concept);
+  const guidedBenchEquations = guidedStep
+    ? selectGuidedBenchEquations(concept, guidedStep.step.reveal)
+    : [];
+  const guidedBenchPredictionPanel =
+    predictionItems.length && benchToolFocus?.kind === "prediction" ? (
+      <PredictionModePanel
+        title={t("predictionPrompt.title")}
+        intro={predictionConfig?.intro ?? t("predictionPrompt.description")}
+        items={predictionItems}
+        api={predictionApi}
+        modeTabsNode={null}
+        className="border-amber-500/20 bg-white/72 p-3 shadow-none"
+      />
+    ) : null;
   const mergedAfterBench =
     guidedStepCard || secondaryPredictionPanel || afterBench ? (
       <div className="grid gap-3">
@@ -8628,15 +8975,45 @@ export function ConceptSimulationRenderer({
     ) : null;
   const isGuidedConceptBench = Boolean(guidedStep);
   const guidedCurrentStepCue = guidedStep ? (
-    <ConceptPageV2CurrentStepCue
-      step={guidedStep.step}
-      activePosition={guidedStep.index + 1}
-      stepCount={guidedStep.count}
-      copy={{
-        currentStepLabel: tConceptPage("v2.currentStepLabel"),
-        actLabel: tConceptPage("v2.actLabel"),
-      }}
-    />
+    <div className="grid gap-2">
+      <ConceptPageV2CurrentStepCue
+        step={guidedStep.step}
+        activePosition={guidedStep.index + 1}
+        stepCount={guidedStep.count}
+        copy={{
+          currentStepLabel: tConceptPage("v2.currentStepLabel"),
+          actLabel: tConceptPage("v2.actLabel"),
+        }}
+      />
+      <GuidedBenchToolsDrawer
+        step={guidedStep.step}
+        revealItems={guidedStep.step.revealItems}
+        equations={guidedBenchEquations}
+        graphs={concept.simulation.graphs}
+        activeFocus={benchToolFocus}
+        activeGraphId={activeGraph?.id ?? null}
+        focusedOverlayLabel={focusedOverlay?.label ?? null}
+        predictionPanel={guidedBenchPredictionPanel}
+        predictionAvailable={predictionItems.length > 0 && interactionMode !== "compare" && !compareState}
+        copy={{
+          label: t("benchTools.label"),
+          description: t("benchTools.description"),
+          equationLabel: t("benchTools.equationLabel"),
+          predictionLabel: t("predictionPrompt.label"),
+          activeLabel: t("benchTools.activeLabel"),
+          revealKinds: {
+            control: t("benchBrief.revealKinds.control"),
+            graph: t("benchBrief.revealKinds.graph"),
+            overlay: t("benchBrief.revealKinds.overlay"),
+            tool: t("benchBrief.revealKinds.tool"),
+            section: t("benchBrief.revealKinds.section"),
+          },
+        }}
+        onSelectReveal={selectGuidedBenchReveal}
+        onSelectEquation={selectGuidedBenchEquation}
+        onOpenPrediction={openGuidedBenchPrediction}
+      />
+    </div>
   ) : null;
   const guidedBenchBrief = guidedStep && !guidedStepCard ? (
     <GuidedConceptBenchBrief

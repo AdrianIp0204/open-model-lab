@@ -2636,6 +2636,12 @@
         "section": "Section"
       }
     },
+    "benchTools": {
+      "label": "Step tools",
+      "description": "Open the current step's graph, overlay, equation, or prediction prompt near the live bench.",
+      "equationLabel": "Equation",
+      "activeLabel": "Open"
+    },
     "supportDock": {
       "label": "More guidance",
       "description": "Worked examples, overlays, and extra prompts stay close but quieter."

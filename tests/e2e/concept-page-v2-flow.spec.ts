@@ -113,6 +113,73 @@ test.describe("concept page v2 flow", () => {
     }
   });
 
+  test("OML-QA-019 opens revealed bench tools from the current-step surface on phone", async ({
+    browser,
+  }, testInfo) => {
+    testInfo.setTimeout(180_000);
+
+    const representativeSlugs = [
+      "simple-harmonic-motion",
+      "uniform-circular-motion",
+    ] as const;
+    const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const page = await newConceptFlowPage(context);
+    const browserGuard = await installBrowserGuards(page);
+
+    try {
+      for (const slug of representativeSlugs) {
+        await test.step(slug, async () => {
+          await gotoAndExpectOk(page, `/en/concepts/${slug}`);
+
+          const tools = page.getByTestId("concept-v2-bench-tools");
+          const activeTool = page.getByTestId("concept-v2-bench-tool-active");
+
+          await expect(page.getByTestId("concept-v2-current-step-cue")).toBeVisible();
+          await expect(tools).toBeVisible();
+          await expect(tools).toBeInViewport();
+
+          await page.locator('[data-testid^="concept-v2-bench-tool-control-"]').first().click();
+          await expect(activeTool).toBeVisible();
+          await expect(activeTool).toBeInViewport();
+          await expect(activeTool).toContainText("Control");
+          await expect
+            .poll(() => page.evaluate(() => document.activeElement?.id ?? ""))
+            .toMatch(/^control-/);
+
+          await page.locator('[data-testid^="concept-v2-bench-tool-graph-"]').first().click();
+          await expect(activeTool).toBeVisible();
+          await expect(activeTool).toBeInViewport();
+          await expect(activeTool).toContainText("Graph");
+
+          await page.locator('[data-testid^="concept-v2-bench-tool-overlay-"]').first().click();
+          await expect(activeTool).toBeVisible();
+          await expect(activeTool).toBeInViewport();
+          await expect(activeTool).toContainText("Overlay");
+
+          await page.locator('[data-testid^="concept-v2-bench-tool-equation-"]').first().click();
+          await expect(activeTool).toBeVisible();
+          await expect(activeTool).toBeInViewport();
+          await expect(activeTool).toContainText("Equation");
+
+          await page.getByTestId("concept-v2-bench-tool-prediction").click();
+          await expect(activeTool).toBeVisible();
+          await expect(activeTool).toBeInViewport();
+          await expect(activeTool).toContainText("Prediction prompt");
+          await expect(activeTool.getByRole("button", { name: /Test prediction/i })).toBeDisabled();
+
+          await page.screenshot({
+            path: testInfo.outputPath(`oml-qa-019-phone-${slug}.png`),
+            fullPage: false,
+          });
+        });
+      }
+
+      browserGuard.assertNoActionableIssues();
+    } finally {
+      await context.close();
+    }
+  });
+
   test("keeps the first guided interaction viewport focused on the live bench without duplicate support", async ({
     browser,
   }) => {

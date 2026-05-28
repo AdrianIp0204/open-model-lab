@@ -2487,6 +2487,12 @@
         "section": "段落"
       }
     },
+    "benchTools": {
+      "label": "步驟工具",
+      "description": "在即時實驗台旁打開目前步驟的圖表、疊層、方程或預測提示。",
+      "equationLabel": "方程",
+      "activeLabel": "已打開"
+    },
     "supportDock": {
       "label": "更多支援",
       "description": "例題、疊加層與額外提示會靠近實驗台，但保持較安靜。"
