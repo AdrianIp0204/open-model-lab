@@ -20,7 +20,7 @@ import type {
 import { ChemistryInlineNotation } from "./ChemistryNotation";
 
 const NODE_WIDTH = 228;
-const NODE_HEIGHT = 124;
+const NODE_HEIGHT = 152;
 const SCENE_PADDING = 72;
 const MIN_SCALE = 0.32;
 const MAX_SCALE = 2.25;
