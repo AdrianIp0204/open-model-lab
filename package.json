@@ -44,6 +44,7 @@
     "pretest": "node scripts/generate-content-registry.mjs",
     "test:watch": "node scripts/run-vitest.mjs watch",
     "test:e2e": "playwright test",
+    "test:e2e:qa-sweep": "node scripts/run-playwright-qa-sweep.mjs",
     "test:e2e:concept-v2": "playwright test -c playwright.concept-v2.config.ts",
     "test:e2e:assessment": "playwright test tests/e2e/concept-test-entry-contract.spec.ts tests/e2e/concept-test-standalone.spec.ts tests/e2e/assessment-journeys.spec.ts tests/e2e/assessment-resume.spec.ts tests/e2e/assessment-resume-hydration.spec.ts tests/e2e/assessment-synced-progress.spec.ts tests/e2e/test-hub-recommendations.spec.ts tests/e2e/concept-quiz-retry-flow.spec.ts tests/e2e/learning-surface-concept-tests.spec.ts",
     "test:e2e:headed": "playwright test --headed",

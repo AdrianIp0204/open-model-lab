@@ -1,5 +1,25 @@
 # Open Model Lab Status
 
+## 2026-05-28 OML-QA-011 Local Playwright QA Sweep Stabilization
+
+Current state: `OML-QA-011` is complete. Broad local Playwright QA sweeps now have a shardable runner that launches one spec shard per port, separates artifacts per shard, and scans logs for the dev-server restart and connection-reset signatures that caused the original broad-sweep instability.
+
+### Files Changed
+
+- `playwright.config.ts`: added `PLAYWRIGHT_PORT`, `PLAYWRIGHT_BASE_URL`, `OPEN_MODEL_LAB_PLAYWRIGHT_SERVER`, and artifact-suffix support so local shards can use isolated ports and output folders.
+- `scripts/run-playwright-qa-sweep.mjs`: added the shard runner and instability scanner for the broad QA spec set.
+- `package.json`: added `pnpm test:e2e:qa-sweep`.
+- `TASKS.md`: marked `OML-QA-011` complete and added `OML-QA-013` for the separate signed-in account link smoke failure found during QA.
+- Tracking: `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `node --check scripts/run-playwright-qa-sweep.mjs`: passed.
+- `pnpm exec eslint playwright.config.ts scripts/run-playwright-qa-sweep.mjs`: passed.
+- `pnpm typecheck`: passed.
+- `pnpm test:e2e:qa-sweep --allow-test-failures`: passed as an infrastructure gate. Summary `output/playwright/qa-sweep/2026-05-28T12-40-33-301Z/summary.json` reported `hasInstability: false`; every shard had no `ERR_EMPTY_RESPONSE`, `ERR_INCOMPLETE_CHUNKED_ENCODING`, `ERR_CONNECTION_REFUSED`, or dev-server memory-restart matches. The remaining test failures are now tracked separately as `OML-QA-012` and `OML-QA-013`.
+
 ## 2026-05-28 OML-QA-010 Mobile Dark-Pill Contrast Audit Stabilization
 
 Current state: `OML-QA-010` is complete. The mobile dark-pill contrast audit now visits each "other audited" route in a fresh mobile browser context and waits for a route-specific stable marker before checking the shared on-dark foreground contract.

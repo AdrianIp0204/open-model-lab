@@ -1,13 +1,27 @@
 import path from "node:path";
 import { defineConfig, devices } from "@playwright/test";
 
-const baseURL = "http://127.0.0.1:3100";
+const hasConfiguredBaseURL = Boolean(process.env.PLAYWRIGHT_BASE_URL);
+const resolvedPort = Number(process.env.PLAYWRIGHT_PORT ?? "3100");
+const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://127.0.0.1:${resolvedPort}`;
+const artifactSuffix = (process.env.OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX ?? "").replace(
+  /[^a-zA-Z0-9._-]/g,
+  "-",
+);
+process.env.PLAYWRIGHT_BASE_URL = baseURL;
+process.env.PLAYWRIGHT_PORT = `${resolvedPort}`;
+
 const accountStorePath = path.join(
   process.cwd(),
   "output",
   "playwright",
-  `account-store-${Date.now()}.json`,
+  `account-store-${resolvedPort}-${Date.now()}.json`,
 );
+const shouldUseExistingServer = hasConfiguredBaseURL;
+const serverCommand =
+  process.env.OPEN_MODEL_LAB_PLAYWRIGHT_SERVER === "start"
+    ? `pnpm exec next start --hostname 127.0.0.1 --port ${resolvedPort}`
+    : `pnpm exec next dev --webpack --hostname 127.0.0.1 --port ${resolvedPort}`;
 
 export default defineConfig({
   testDir: "./tests/e2e",
@@ -18,9 +32,9 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   reporter: [
     ["list"],
-    ["html", { open: "never", outputFolder: "output/playwright/report" }],
+    ["html", { open: "never", outputFolder: `output/playwright/report${artifactSuffix}` }],
   ],
-  outputDir: "output/playwright/test-results",
+  outputDir: `output/playwright/test-results${artifactSuffix}`,
   expect: {
     timeout: process.env.CI ? 30_000 : 15_000,
   },
@@ -39,9 +53,9 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "pnpm exec next dev --webpack --hostname 127.0.0.1 --port 3100",
+    command: serverCommand,
     url: baseURL,
-    reuseExistingServer: false,
+    reuseExistingServer: shouldUseExistingServer,
     timeout: 120_000,
     env: {
       ...process.env,
