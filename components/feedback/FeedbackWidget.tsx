@@ -31,12 +31,14 @@ type FeedbackWidgetProps = {
   context: FeedbackContext;
   fallbackEmail?: string;
   mobileHidden?: boolean;
+  placement?: "floating" | "inline";
 };
 
 export function FeedbackWidget({
   context,
   fallbackEmail = previewFeedbackEmail,
   mobileHidden = false,
+  placement = "floating",
 }: FeedbackWidgetProps) {
   const t = useTranslations("FeedbackWidget");
   const [open, setOpen] = useState(false);
@@ -68,13 +70,17 @@ export function FeedbackWidget({
     };
   }, [open]);
 
+  const isInline = placement === "inline";
+
   return (
     <div
       className={[
-        "pointer-events-none z-40 mx-3 mb-3 flex-col items-end gap-3 sm:fixed sm:left-auto sm:right-4 sm:mx-0 sm:mb-0 sm:w-[26rem]",
+        isInline
+          ? "mx-auto flex w-full max-w-[88rem] flex-col items-end gap-3 px-4 pb-4 sm:px-6 lg:px-8"
+          : "pointer-events-none z-40 mx-3 mb-3 flex-col items-end gap-3 sm:fixed sm:left-auto sm:right-4 sm:mx-0 sm:mb-0 sm:w-[26rem]",
         mobileHidden ? "hidden sm:flex" : "flex",
       ].join(" ")}
-      style={{ bottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
+      style={isInline ? undefined : { bottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
     >
       {open ? (
         <section
@@ -82,7 +88,7 @@ export function FeedbackWidget({
           aria-labelledby={`${panelId}-title`}
           role="dialog"
           aria-modal="false"
-          className="pointer-events-auto w-full lab-panel p-4 sm:p-5"
+          className="pointer-events-auto w-full lab-panel p-4 sm:w-[26rem] sm:p-5"
         >
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-1">
@@ -122,6 +128,7 @@ export function FeedbackWidget({
         aria-controls={panelId}
         aria-haspopup="dialog"
         onClick={() => setOpen((current) => !current)}
+        data-testid="feedback-widget-trigger"
         className="pointer-events-auto inline-flex h-11 w-11 items-center justify-center rounded-full border border-line bg-paper-strong p-0 text-sm font-semibold text-ink-950 shadow-[0_16px_36px_rgba(15,28,36,0.14)] transition-transform duration-200 hover:-translate-y-0.5 sm:h-auto sm:w-auto sm:px-5 sm:py-3"
       >
         <svg

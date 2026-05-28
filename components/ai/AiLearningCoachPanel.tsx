@@ -118,8 +118,7 @@ export function AiLearningCoachPanel({
   return (
     <div
       data-testid="ai-learning-coach-widget"
-      className="pointer-events-none fixed left-3 right-3 z-50 hidden flex-col items-start gap-3 sm:left-4 sm:right-auto sm:flex sm:w-[min(24rem,calc(100vw-2rem))]"
-      style={{ bottom: "max(0.625rem, env(safe-area-inset-bottom))" }}
+      className="mt-3 flex w-full flex-col items-start gap-3"
     >
       {open ? (
         <section
@@ -128,7 +127,7 @@ export function AiLearningCoachPanel({
           role="dialog"
           aria-modal="false"
           data-testid="ai-learning-coach-panel"
-          className="pointer-events-auto w-full max-h-[min(34rem,calc(100vh-6rem))] overflow-y-auto rounded-[22px] border border-line bg-paper-strong p-4 shadow-[0_20px_48px_rgba(15,28,36,0.22)] sm:p-5"
+          className="w-full overflow-y-auto rounded-[22px] border border-line bg-paper-strong p-4 shadow-[0_16px_36px_rgba(15,28,36,0.12)] sm:p-5"
         >
           <div className="flex items-start justify-between gap-4">
             <div className="min-w-0 space-y-1">
@@ -246,7 +245,7 @@ export function AiLearningCoachPanel({
         aria-controls={panelId}
         aria-haspopup="dialog"
         onClick={() => setOpen((current) => !current)}
-        className="pointer-events-auto inline-flex min-h-10 items-center rounded-full border border-line/85 bg-paper-strong/92 px-3 py-2 text-xs font-semibold text-ink-950 shadow-[0_10px_24px_rgba(15,28,36,0.12)] backdrop-blur transition-transform duration-200 hover:-translate-y-0.5 sm:min-h-0 sm:px-5 sm:py-3 sm:text-sm sm:shadow-[0_16px_36px_rgba(15,28,36,0.14)]"
+        className="inline-flex min-h-10 items-center rounded-full border border-line/85 bg-paper-strong/92 px-3 py-2 text-xs font-semibold text-ink-950 shadow-[0_10px_24px_rgba(15,28,36,0.10)] transition-transform duration-200 hover:-translate-y-0.5 sm:min-h-0 sm:px-5 sm:py-3 sm:text-sm sm:shadow-[0_14px_30px_rgba(15,28,36,0.12)]"
       >
         {open ? t("actions.hide") : t("actions.trigger")}
       </button>

@@ -364,25 +364,27 @@ export function ConceptPageFramework({
               </div>
             }
             liveLabContent={
-              <div
-                data-testid="concept-live-lab"
-                data-onboarding-target="concept-live-lab"
-                data-protected-learning-zone="concept-live-lab"
-              >
+              <>
                 <div
-                  id={conceptShareAnchorIds.interactiveLab}
-                  className="scroll-mt-24 space-y-3"
+                  data-testid="concept-live-lab"
+                  data-onboarding-target="concept-live-lab"
+                  data-protected-learning-zone="concept-live-lab"
                 >
-                  {liveLabChildren}
+                  <div
+                    id={conceptShareAnchorIds.interactiveLab}
+                    className="scroll-mt-24 space-y-3"
+                  >
+                    {liveLabChildren}
+                  </div>
                 </div>
-              </div>
+                <AiLearningCoachPanel
+                  concept={concept}
+                  simulationSource={simulationSource}
+                  locale={resolvedLocale}
+                />
+              </>
             }
             afterPhasedSections={afterPhasedSectionContent}
-          />
-          <AiLearningCoachPanel
-            concept={concept}
-            simulationSource={simulationSource}
-            locale={resolvedLocale}
           />
         </ConceptLearningBridgeProvider>
       </ConceptAchievementTrackerProvider>

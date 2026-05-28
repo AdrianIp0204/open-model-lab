@@ -69,7 +69,8 @@ export function PageShell({
         <FeedbackWidget
           context={feedbackContext}
           fallbackEmail={previewFeedbackEmail}
-          mobileHidden={feedbackContext.pageType === "concept"}
+          mobileHidden={false}
+          placement={feedbackContext.pageType === "concept" ? "inline" : "floating"}
         />
       ) : null}
       <SiteFooter />
