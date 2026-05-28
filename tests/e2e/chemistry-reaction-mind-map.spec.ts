@@ -1057,6 +1057,161 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
   guard.assertNoActionableIssues();
 });
 
+test("chemistry reaction mind map avoids mobile horizontal overflow and keeps controls usable", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await disableOnboardingPrompt(page);
+  const guard = await installBrowserGuards(page);
+
+  await gotoAndExpectOk(page, "/tools/chemistry-reaction-mind-map");
+  await waitForStableChemistryGraph(page);
+
+  const mobileLayout = await page.evaluate(() => {
+    const viewportWidth = document.documentElement.clientWidth;
+    const scrollWidth = Math.max(
+      document.documentElement.scrollWidth,
+      document.body.scrollWidth,
+    );
+    const getElementMetrics = (selector: string) => {
+      const element = document.querySelector(selector);
+
+      if (!(element instanceof HTMLElement)) {
+        return null;
+      }
+
+      const rect = element.getBoundingClientRect();
+      const style = getComputedStyle(element);
+
+      return {
+        left: Math.round(rect.left),
+        right: Math.round(rect.right),
+        width: Math.round(rect.width),
+        height: Math.round(rect.height),
+        scrollWidth: element.scrollWidth,
+        scrollHeight: element.scrollHeight,
+        clientWidth: element.clientWidth,
+        clientHeight: element.clientHeight,
+        overflowX: style.overflowX,
+        overflowY: style.overflowY,
+        textOverflow: style.textOverflow,
+        whiteSpace: style.whiteSpace,
+      };
+    };
+    const getVisibleChildMetrics = (selector: string) => {
+      const parent = document.querySelector(selector);
+
+      if (!(parent instanceof HTMLElement)) {
+        return [];
+      }
+
+      return Array.from(parent.children)
+        .filter((child): child is HTMLElement => child instanceof HTMLElement)
+        .map((child) => {
+          const rect = child.getBoundingClientRect();
+          const style = getComputedStyle(child);
+
+          return {
+            testId: child.getAttribute("data-testid"),
+            text: child.textContent?.trim() ?? "",
+            left: Math.round(rect.left),
+            right: Math.round(rect.right),
+            width: Math.round(rect.width),
+            height: Math.round(rect.height),
+            scrollWidth: child.scrollWidth,
+            scrollHeight: child.scrollHeight,
+            clientWidth: child.clientWidth,
+            clientHeight: child.clientHeight,
+            overflowX: style.overflowX,
+            overflowY: style.overflowY,
+            textOverflow: style.textOverflow,
+            whiteSpace: style.whiteSpace,
+            position: style.position,
+          };
+        })
+        .filter((child) => child.position !== "absolute" && child.width > 1 && child.height > 1);
+    };
+
+    return {
+      horizontalOverflow: scrollWidth - viewportWidth,
+      graphTitle: getElementMetrics('[data-onboarding-target="chemistry-graph"] h2'),
+      graphChipRow: getElementMetrics('[data-testid="chemistry-selection-summary"]'),
+      toolbar: getElementMetrics('[data-testid="chemistry-graph-toolbar"]'),
+      toolbarStatus: getElementMetrics('[data-testid="chemistry-graph-toolbar-status"]'),
+      toolbarStatusMode: document
+        .querySelector('[data-testid="chemistry-graph-toolbar-status"]')
+        ?.getAttribute("data-chem-toolbar-mobile-overflow"),
+      toolbarStatusChips: getVisibleChildMetrics(
+        '[data-testid="chemistry-graph-toolbar-status"]',
+      ),
+      zoomSliderControl: getElementMetrics('[data-testid="chem-zoom-slider-control"]'),
+      zoomSlider: getElementMetrics('[data-testid="chem-zoom-slider"]'),
+      zoomOut: getElementMetrics('[data-testid="chem-zoom-out"]'),
+      zoomIn: getElementMetrics('[data-testid="chem-zoom-in"]'),
+      fitView: getElementMetrics('[data-testid="chem-fit-view"]'),
+      routeStart: getElementMetrics('[data-testid="chem-route-start"]'),
+      routeTarget: getElementMetrics('[data-testid="chem-route-target"]'),
+      routeSearch: getElementMetrics('[data-testid="chem-route-search"]'),
+    };
+  });
+
+  expect(mobileLayout.horizontalOverflow).toBeLessThanOrEqual(1);
+  for (const key of ["graphTitle", "graphChipRow", "toolbar"] as const) {
+    const metrics = mobileLayout[key];
+
+    expect(metrics, `${key} metrics`).not.toBeNull();
+    expect(metrics?.left).toBeGreaterThanOrEqual(0);
+    expect(metrics?.right).toBeLessThanOrEqual(390);
+  }
+
+  expect(mobileLayout.graphTitle?.scrollWidth).toBeLessThanOrEqual(
+    (mobileLayout.graphTitle?.clientWidth ?? 0) + 1,
+  );
+  expect(mobileLayout.graphChipRow?.scrollWidth).toBeLessThanOrEqual(
+    (mobileLayout.graphChipRow?.clientWidth ?? 0) + 1,
+  );
+  expect(mobileLayout.toolbarStatusMode).toBe("wrapped");
+  expect(mobileLayout.toolbarStatus?.overflowX).toBe("visible");
+  expect(mobileLayout.toolbarStatus?.right).toBeLessThanOrEqual(390);
+  expect(mobileLayout.toolbarStatus?.scrollWidth).toBeLessThanOrEqual(
+    (mobileLayout.toolbarStatus?.clientWidth ?? 0) + 1,
+  );
+  expect(mobileLayout.toolbarStatusChips.map((chip) => chip.testId)).toEqual(
+    expect.arrayContaining(["chem-zoom-status", "chem-camera-status"]),
+  );
+  for (const chip of mobileLayout.toolbarStatusChips) {
+    expect(chip.left, `${chip.text} left edge`).toBeGreaterThanOrEqual(0);
+    expect(chip.right, `${chip.text} right edge`).toBeLessThanOrEqual(390);
+    expect(chip.scrollWidth, `${chip.text} horizontal text fit`).toBeLessThanOrEqual(
+      chip.clientWidth + 1,
+    );
+    expect(chip.scrollHeight, `${chip.text} vertical text fit`).toBeLessThanOrEqual(
+      chip.clientHeight + 2,
+    );
+    expect(chip.textOverflow, `${chip.text} text overflow`).not.toBe("ellipsis");
+  }
+  expect(mobileLayout.zoomSliderControl?.height).toBeGreaterThanOrEqual(44);
+  expect(mobileLayout.zoomSlider?.height).toBeGreaterThanOrEqual(24);
+  expect(mobileLayout.zoomOut?.height).toBeGreaterThanOrEqual(44);
+  expect(mobileLayout.zoomIn?.height).toBeGreaterThanOrEqual(44);
+  expect(mobileLayout.fitView?.height).toBeGreaterThanOrEqual(44);
+  expect(mobileLayout.routeStart?.height).toBeGreaterThanOrEqual(44);
+  expect(mobileLayout.routeTarget?.height).toBeGreaterThanOrEqual(44);
+  expect(mobileLayout.routeSearch?.height).toBeGreaterThanOrEqual(44);
+
+  await page.getByTestId("chem-route-search").click();
+  await expect(page.getByTestId("chemistry-route-panel")).toBeVisible();
+  const scaleBeforeZoom = await page.getByTestId("chemistry-graph-viewport").getAttribute(
+    "data-chem-scale",
+  );
+  await page.getByTestId("chem-zoom-in").click();
+  await expect
+    .poll(() => page.getByTestId("chemistry-graph-viewport").getAttribute("data-chem-scale"))
+    .not.toBe(scaleBeforeZoom);
+
+  guard.assertNoActionableIssues();
+});
+
 test("chemistry reaction mind map keeps the graph viewport clipped inside the split panel on widescreen layouts", async ({
   page,
 }) => {

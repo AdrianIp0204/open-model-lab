@@ -1872,19 +1872,20 @@ export function ChemistryReactionGraph({
   return (
     <div
       className={joinClasses(
-        "flex h-full min-h-0 flex-col gap-2 overflow-hidden",
+        "flex h-full min-h-0 max-w-full flex-col gap-2 overflow-hidden",
         className,
       )}
     >
       <div
         data-testid="chemistry-graph-toolbar"
         data-chem-toolbar-height="stable"
-        className="flex min-h-10 flex-wrap items-start justify-between gap-2 overflow-hidden min-[1100px]:max-h-10 min-[1100px]:flex-nowrap"
+        className="flex min-h-10 min-w-0 max-w-full flex-col items-stretch gap-2 overflow-visible min-[1100px]:max-h-10 min-[1100px]:flex-row min-[1100px]:items-start min-[1100px]:justify-between min-[1100px]:overflow-hidden"
       >
         <div
           data-testid="chemistry-graph-toolbar-status"
           data-chem-toolbar-overflow="stable-single-line"
-          className="flex h-10 min-w-0 flex-1 flex-nowrap items-center gap-1.5 overflow-hidden text-xs text-ink-700 [&>span]:shrink-0"
+          data-chem-toolbar-mobile-overflow="wrapped"
+          className="flex min-h-10 min-w-0 max-w-full flex-1 flex-wrap items-center gap-1.5 overflow-visible text-xs text-ink-700 min-[1100px]:h-10 min-[1100px]:flex-nowrap min-[1100px]:overflow-hidden [&>span]:max-w-full [&>span]:shrink-0"
         >
           <span className="whitespace-nowrap rounded-full border border-line bg-paper px-2.5 py-1.5">
             {t("navigation.dragHint")}
@@ -1902,7 +1903,7 @@ export function ChemistryReactionGraph({
             aria-live="polite"
             data-testid="chem-camera-status"
             title={activeCameraSummary}
-            className="max-w-[18rem] truncate whitespace-nowrap rounded-full border border-teal-500/20 bg-teal-500/10 px-2.5 py-1.5 font-medium text-teal-900"
+            className="max-w-full whitespace-normal break-words rounded-full border border-teal-500/20 bg-teal-500/10 px-2.5 py-1.5 font-medium text-teal-900 min-[1100px]:max-w-[18rem] min-[1100px]:truncate min-[1100px]:whitespace-nowrap"
           >
             {activeCameraSummary}
           </span>
@@ -1939,10 +1940,10 @@ export function ChemistryReactionGraph({
             {interactionPreviewSummary}
           </span>
         </div>
-        <div className="flex shrink-0 flex-wrap items-center gap-1.5">
+        <div className="flex min-w-0 max-w-full flex-wrap items-center gap-1.5 min-[1100px]:w-auto min-[1100px]:shrink-0">
           <label
             data-testid="chem-zoom-slider-control"
-            className="flex min-w-[8.5rem] items-center gap-2 rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs text-ink-700 shadow-sm"
+            className="flex min-h-11 min-w-[10rem] max-w-full flex-1 items-center gap-2 rounded-full border border-line bg-paper px-3 py-2 text-xs text-ink-700 shadow-sm min-[1100px]:min-h-0 min-[1100px]:flex-none min-[1100px]:px-2.5 min-[1100px]:py-1.5"
           >
             <span className="sr-only">
               {t("navigation.zoom", { percent: zoomPercent })}
@@ -1956,7 +1957,7 @@ export function ChemistryReactionGraph({
               value={zoomPercent}
               aria-labelledby="chemistry-graph-zoom-status"
               aria-valuetext={`${zoomPercent}%`}
-              className="h-2 w-24 accent-teal-600 sm:w-28"
+              className="h-6 min-w-0 flex-1 touch-pan-x accent-teal-600 min-[1100px]:h-2 min-[1100px]:w-24 min-[1100px]:flex-none min-[1280px]:w-28"
               onChange={handleZoomSliderChange}
             />
           </label>
@@ -1966,7 +1967,7 @@ export function ChemistryReactionGraph({
             disabled={zoomBoundary === "min"}
             aria-disabled={zoomBoundary === "min"}
             className={joinClasses(
-              "rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs font-medium text-ink-800 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+              "min-h-11 rounded-full border border-line bg-paper px-2.5 py-2 text-xs font-medium text-ink-800 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper min-[1100px]:min-h-0 min-[1100px]:py-1.5",
               zoomBoundary === "min"
                 ? "cursor-not-allowed opacity-50"
                 : "hover:border-ink-950/20 hover:bg-paper-strong",
@@ -1981,7 +1982,7 @@ export function ChemistryReactionGraph({
             disabled={zoomBoundary === "max"}
             aria-disabled={zoomBoundary === "max"}
             className={joinClasses(
-              "rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs font-medium text-ink-800 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+              "min-h-11 rounded-full border border-line bg-paper px-2.5 py-2 text-xs font-medium text-ink-800 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper min-[1100px]:min-h-0 min-[1100px]:py-1.5",
               zoomBoundary === "max"
                 ? "cursor-not-allowed opacity-50"
                 : "hover:border-ink-950/20 hover:bg-paper-strong",
@@ -1993,7 +1994,7 @@ export function ChemistryReactionGraph({
           <button
             type="button"
             data-testid="chem-fit-view"
-            className="rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs font-medium text-ink-800 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+            className="min-h-11 rounded-full border border-line bg-paper px-2.5 py-2 text-xs font-medium text-ink-800 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper min-[1100px]:min-h-0 min-[1100px]:py-1.5"
             onClick={resetView}
           >
             {t("navigation.fitToView")}

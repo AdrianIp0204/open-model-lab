@@ -1,5 +1,25 @@
 # Open Model Lab Status
 
+## 2026-05-28 OML-QA-005 Chemistry Mind Map Mobile Overflow Repair
+
+Current state: `OML-QA-005` is complete. The Chemistry Reaction Mind Map mobile layout no longer creates page-level horizontal overflow, and the graph status chips, route controls, and zoom controls remain readable and usable at 390px width.
+
+### Files Changed
+
+- `components/tools/chemistry/ChemistryReactionMindMapPage.tsx`: constrained the mobile work surface, stacked the graph header on narrow screens, and raised route select/search controls to usable touch height.
+- `components/tools/chemistry/ChemistryReactionGraph.tsx`: wrapped mobile toolbar status chips, let the camera status fit without truncation on mobile, and raised zoom slider/button touch targets.
+- `tests/e2e/chemistry-reaction-mind-map.spec.ts`: added a mobile overflow/control-usability regression for the chemistry mind map.
+- `lib/content/generated/content-registry.ts`: refreshed generated content metadata from the validation pretypecheck hook.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts -g "avoids mobile horizontal overflow"`: passed.
+- `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts`: passed, 4/4 tests.
+- Screenshot/metrics inspection for `output/qa-oml-qa-005-2026-05-28/orchestrator-screenshots/mobile-chemistry-reaction-mind-map.png`: passed; metrics reported `horizontalOverflow: 0` and fitted graph/status chips.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-28 OML-QA-004 Concept Bench Active Task Copy Repair
 
 Current state: `OML-QA-004` is complete. The guided first-action active task title and instruction copy now wrap instead of clipping on the checked SHM and projectile concept pages.

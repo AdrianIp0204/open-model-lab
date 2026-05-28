@@ -47,12 +47,14 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
   - Completion note (2026-05-28 HKT): Removed the guided first-action active task line clamps so the active concept task title and instruction body wrap instead of clipping on SHM and projectile concept pages.
   - Validation: git diff --check passed; Playwright screenshot/DOM validation passed for SHM and projectile at 1440x1000 and 390x844; image inspection found no visible active-task clipping; pnpm typecheck passed.
-- [ ] **OML-QA-005: Fix mobile horizontal overflow and cramped controls on the Chemistry Reaction Mind Map.**
+- [x] **OML-QA-005: Fix mobile horizontal overflow and cramped controls on the Chemistry Reaction Mind Map.**
   - Evidence: route sweep reported `horizontalOverflow = 87` on `/tools/chemistry-reaction-mind-map` at 390x844. Screenshot `mobile-tools-chemistry-reaction-mind-map.png` shows the graph title/description row and control chips clipped horizontally; the zoom range input is only about 8px high.
   - Affected area: `components/tools/chemistry/ChemistryReactionMindMapPage.tsx`, `components/tools/chemistry/ChemistryReactionGraph.tsx`.
   - Fix direction: ensure the graph header stacks cleanly on mobile, prevent page-level horizontal scroll, make control rows wrap or use an intentional internal scroller, and raise the range/touch controls to a usable hit area. Keep route controls reachable.
   - Validation: route sweep reports zero horizontal overflow at 390px; mobile screenshot shows no clipped graph title/control text; route controls and zoom controls remain usable.
 
+  - Completion note (2026-05-28 HKT): Stacked and wrapped the mobile chemistry graph header/status controls, raised route and zoom touch targets, and added a mobile regression covering overflow and control usability.
+  - Validation: git diff --check passed; mobile chemistry overflow Playwright test passed; full chemistry-reaction-mind-map spec passed (4/4); screenshot/metrics showed horizontalOverflow 0 and fitted graph/control chips; pnpm typecheck passed.
 - [ ] **OML-QA-006: Raise mobile tap targets for simulation controls and SVG drag handles.**
   - Evidence: route sweep found mobile interactive targets below 44px, including unit-circle drag point around 12x12, electric-field probe/source handles around 17-18px, concept mode buttons around 36px high, and several summary/disclosure controls around 20px high.
   - Affected area: simulation primitives such as `components/simulations/primitives/*`, concept bench tabs/buttons, and shared disclosure/summary controls.
