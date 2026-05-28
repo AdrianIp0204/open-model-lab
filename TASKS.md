@@ -20,12 +20,14 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
   - Completion note (2026-05-28 HKT): Set routed SectionHeading hero titles to level 1 across the affected public/account/dashboard pages; a temporary Playwright DOM audit confirmed each affected route, including zh-HK concepts and start-page states, exposes exactly one visible h1.
   - Validation: git diff --check passed; temporary Playwright h1 audit passed; pnpm typecheck passed; public-discovery visible-next-steps spec still fails only on existing OML-QA-009 seeded /start heading expectation.
-- [ ] **OML-QA-002: Fix the chemistry reaction mind map desktop node-label overflow.**
+- [x] **OML-QA-002: Fix the chemistry reaction mind map desktop node-label overflow.**
   - Evidence: `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts -g "map-first on initial desktop"` fails. The failing assertion reports `overflowingNodeText = ["chem-node-carboxylate-salt"]`.
   - Affected area: `components/tools/chemistry/ChemistryReactionGraph.tsx` and related layout data in `lib/tools/chemistry-reaction-mind-map.ts`.
   - Fix direction: keep the map-first desktop layout, but ensure the Carboxylate salt node label fits within its node at the default 1440px desktop viewport. Options: widen the node, adjust text wrapping/scaling, shorten the display label with accessible full text, or adjust the graph layout spacing.
   - Validation: rerun the single failing chemistry test, then rerun `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts`.
 
+  - Completion note (2026-05-28 HKT): Increased the shared chemistry graph node height so the two-line `Carboxylate salt` label fits inside the desktop mind-map node without removing the map-first layout.
+  - Validation: `git diff --check` and `git diff --check 07452fd^..07452fd` passed; `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts -g "map-first on initial desktop"` passed; full `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts` passed; `pnpm typecheck` passed.
 - [ ] **OML-QA-003: Bring the Circuit Builder workbench back above the fold on desktop and make the mobile first view usable.**
   - Evidence: `pnpm exec playwright test tests/e2e/circuit-builder.spec.ts -g "keeps the builder row visible"` fails with `workspaceBox.y = 335`, expected `< 240`. Mobile screenshot `output/qa-pass-2026-05-28/screenshots/mobile-circuit-builder.png` shows the workspace area mostly empty with the actual circuit/readout tiny near the bottom of the first viewport.
   - Affected area: `components/circuit-builder/CircuitBuilderPage.tsx` and related workspace/palette/inspector layout.

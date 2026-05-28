@@ -1,5 +1,22 @@
 # Open Model Lab Status
 
+## 2026-05-28 OML-QA-002 Chemistry Mind Map Node Overflow
+
+Current state: `OML-QA-002` is complete. The desktop chemistry reaction mind map keeps the `Carboxylate salt` label inside its node at the default 1440px viewport while preserving the map-first layout.
+
+### Files Changed
+
+- `components/tools/chemistry/ChemistryReactionGraph.tsx`: increased the shared node height from 124px to 152px.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `git diff --check 07452fd^..07452fd`: passed for the worker patch.
+- `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts -g "map-first on initial desktop"`: passed.
+- `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts`: passed, 3/3 tests.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-28 OML-QA-001 Semantic Heading Repair
 
 Current state: `OML-QA-001` is complete. The affected public, account, dashboard, billing, trust/info, and localized concept routes now expose their hero `SectionHeading` as the page `h1`.
