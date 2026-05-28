@@ -32,6 +32,20 @@ async function expectNoRawMathLeak(locator: Locator) {
     .not.toMatch(/\\(?:alpha|tau|theta|omega|phi|lambda|Delta|mathrm|sum)/);
 }
 
+async function chooseDifferentSliderValue(slider: Locator) {
+  const [currentValue, minAttribute, maxAttribute] = await Promise.all([
+    slider.inputValue(),
+    slider.getAttribute("min"),
+    slider.getAttribute("max"),
+  ]);
+  const min = minAttribute === null ? 0 : Number(minAttribute);
+  const max = maxAttribute === null ? 10 : Number(maxAttribute);
+  const current = Number(currentValue);
+  const next = Math.abs(current - max) > Math.abs(current - min) ? max : min;
+
+  return String(next);
+}
+
 test.describe("concept page v2 flow", () => {
   test("OML-QA-015 keeps a compact current-step cue inside the first usable bench viewport", async ({
     browser,
@@ -358,6 +372,95 @@ test.describe("concept page v2 flow", () => {
       browserGuard.assertNoActionableIssues();
     } finally {
       await context.close();
+    }
+  });
+
+  test("OML-QA-018 exposes guided compare mode on desktop and phone benches", async ({
+    browser,
+  }) => {
+    test.setTimeout(240_000);
+
+    const cases = [
+      {
+        slug: "simple-harmonic-motion",
+        firstStep: "See one full cycle",
+      },
+      {
+        slug: "electric-fields",
+        firstStep: "Read source sign first",
+      },
+      {
+        slug: "acid-base-ph-intuition",
+        firstStep: "Read the live mixture",
+      },
+    ] as const;
+    const viewports = [
+      { name: "desktop", width: 1440, height: 900 },
+      { name: "phone", width: 390, height: 844 },
+    ] as const;
+
+    for (const viewport of viewports) {
+      const context = await browser.newContext({
+        viewport: { width: viewport.width, height: viewport.height },
+      });
+      const page = await newConceptFlowPage(context);
+      const browserGuard = await installBrowserGuards(page);
+
+      try {
+        for (const item of cases) {
+          await test.step(`${viewport.name} ${item.slug}`, async () => {
+            await gotoAndExpectOk(page, `/en/concepts/${item.slug}`);
+
+            const stepSlot = page.getByTestId("concept-v2-step-card-slot");
+            const controls = page.getByTestId("simulation-shell-controls");
+            const compareEntry = controls.getByTestId("control-panel-guided-compare-entry");
+
+            await expect(stepSlot).toContainText(item.firstStep);
+            await expect(compareEntry).toBeVisible();
+            await compareEntry.getByRole("button", { name: "Compare mode" }).click();
+
+            const compareTools = controls.getByTestId("control-panel-compare-tools");
+            const slider = controls.getByRole("slider").first();
+            const initialValue = await slider.inputValue();
+            const changedValue = await chooseDifferentSliderValue(slider);
+
+            await expect(compareTools).toContainText("Editing Setup B");
+            await expect(compareTools.getByRole("tab", { name: /Setup.*A/i })).toBeVisible();
+            await expect(compareTools.getByRole("tab", { name: /Setup.*B/i })).toHaveAttribute(
+              "aria-selected",
+              "true",
+            );
+
+            await slider.fill(changedValue);
+            await expect(slider).toHaveValue(changedValue);
+
+            await compareTools.getByRole("tab", { name: /Setup.*A/i }).click();
+            await expect(slider).toHaveValue(initialValue);
+
+            await compareTools.getByRole("tab", { name: /Setup.*B/i }).click();
+            await expect(slider).toHaveValue(changedValue);
+
+            await compareTools.getByRole("button", { name: "Swap setups" }).click();
+            await expect(slider).toHaveValue(initialValue);
+
+            await compareTools.getByRole("tab", { name: /Setup.*A/i }).click();
+            await expect(slider).toHaveValue(changedValue);
+
+            await compareTools.getByRole("button", { name: "Reset variant" }).click();
+            await compareTools.getByRole("tab", { name: /Setup.*B/i }).click();
+            await expect(slider).toHaveValue(changedValue);
+
+            await compareTools.getByRole("button", { name: "Exit compare mode" }).click();
+            await expect(controls.getByTestId("control-panel-compare-tools")).toHaveCount(0);
+            await expect(controls.getByTestId("control-panel-guided-compare-entry")).toBeVisible();
+            await expect(stepSlot).toContainText(item.firstStep);
+          });
+        }
+
+        browserGuard.assertNoActionableIssues();
+      } finally {
+        await context.close();
+      }
     }
   });
 

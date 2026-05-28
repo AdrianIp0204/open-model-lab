@@ -8182,6 +8182,29 @@ export function ConceptSimulationRenderer({
         </div>
       </section>
     ) : null;
+  const guidedCompareEntryTool =
+    isGuidedLessonMode && interactionMode !== "compare" && !compareState ? (
+      <section
+        data-testid="control-panel-guided-compare-entry"
+        className="rounded-[18px] border border-teal-500/25 bg-teal-500/8 px-3 py-3"
+      >
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="min-w-0">
+            <p className="lab-label">{tCompare("title")}</p>
+            <p className="mt-1 hidden max-w-xl text-sm leading-6 text-ink-700 sm:block">
+              {tCompare("intro")}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setInteraction("compare")}
+            className="inline-flex min-h-10 items-center justify-center rounded-full border border-teal-500/35 bg-paper-strong px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-teal-800 transition hover:border-teal-500/55 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+          >
+            {tCompare("title")}
+          </button>
+        </div>
+      </section>
+    ) : null;
 
   const explorePromptPanel = (
     <section className="rounded-[16px] border border-line bg-paper px-3 py-2.5">
@@ -8521,6 +8544,7 @@ export function ConceptSimulationRenderer({
     Boolean(interactionRailPanel) ||
     Boolean(exploreStarterGuide) ||
     (!activeConceptPagePhaseId && Boolean(modeTabs));
+  const benchSupplementaryTools = compareEnabled ? compareBenchTools : guidedCompareEntryTool;
   const interactionRail = shouldRenderInteractionRail ? (
     <section
       data-testid="concept-v2-active-task-rail"
@@ -8776,8 +8800,8 @@ export function ConceptSimulationRenderer({
               highlightedControlIds={highlightedControlIds}
               autoRevealControlIds={autoRevealControlIds}
               highlightedPresetIds={[]}
-              supplementaryTools={compareEnabled ? compareBenchTools : null}
-              supplementaryToolsPlacement={compareEnabled ? "inline" : "more-tools"}
+              supplementaryTools={benchSupplementaryTools}
+              supplementaryToolsPlacement={benchSupplementaryTools ? "inline" : "more-tools"}
               onChange={(param, value) => applyLiveParamChange(param, coerceValue(value))}
               onPreset={(presetId) => {
                 setLastChangedParam(null);

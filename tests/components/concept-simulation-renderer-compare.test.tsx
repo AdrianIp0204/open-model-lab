@@ -310,7 +310,7 @@ describe("ConceptSimulationRenderer compare state", () => {
       "data-active-item",
       "gt-predict-negative-a",
     );
-    expect(within(controls).getByRole("button", { name: "More tools" })).toHaveAttribute(
+    expect(within(controls).getByRole("button", { name: /More (controls|tools)/ })).toHaveAttribute(
       "aria-expanded",
       "true",
     );
@@ -437,6 +437,42 @@ describe("ConceptSimulationRenderer compare state", () => {
     expect(screen.queryByTestId("compare-support-panel")).not.toBeInTheDocument();
   });
 
+  it("exposes compare as a guided bench control when primary mode tabs are not shown", async () => {
+    const user = userEvent.setup();
+
+    render(
+      <ConceptPagePhaseProvider
+        activePhaseId="explore"
+        guidedStepCard={<div data-testid="mock-guided-step-card">Current guided step</div>}
+      >
+        <ConceptSimulationRenderer concept={buildSimulationSource("simple-harmonic-motion")} />
+      </ConceptPagePhaseProvider>,
+    );
+
+    const controls = screen.getByTestId("simulation-shell-controls");
+    const compareEntry = within(controls).getByTestId("control-panel-guided-compare-entry");
+
+    expect(compareEntry).toHaveTextContent("Compare mode");
+    expect(screen.queryByTestId("control-panel-compare-tools")).not.toBeInTheDocument();
+
+    await user.click(within(compareEntry).getByRole("button", { name: "Compare mode" }));
+
+    expect(screen.getByTestId("mock-compare-scene")).toHaveAttribute("data-compare", "on");
+    expect(within(controls).getByTestId("control-panel-compare-tools")).toHaveTextContent(
+      "Editing Setup B",
+    );
+
+    await user.click(
+      within(controls).getByRole("button", {
+        name: "Exit compare mode",
+      }),
+    );
+
+    expect(screen.getByTestId("mock-compare-scene")).toHaveAttribute("data-compare", "off");
+    expect(within(controls).getByTestId("control-panel-guided-compare-entry")).toBeInTheDocument();
+    expect(screen.getByTestId("mock-guided-step-card")).toHaveTextContent("Current guided step");
+  });
+
   it("restores compare state with hidden controls and graphs expanded, without reviving a duplicate preview", () => {
     const concept = getConceptBySlug("graph-transformations");
 
@@ -451,7 +487,7 @@ describe("ConceptSimulationRenderer compare state", () => {
     const graphs = screen.getByTestId("simulation-shell-graphs");
     const compareTools = screen.getByTestId("control-panel-compare-tools");
 
-    expect(within(controls).getByRole("button", { name: "More tools" })).toHaveAttribute(
+    expect(within(controls).getByRole("button", { name: /More (controls|tools)/ })).toHaveAttribute(
       "aria-expanded",
       "true",
     );
