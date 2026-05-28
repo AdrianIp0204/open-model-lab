@@ -46,39 +46,58 @@ const seededProgressSnapshot = {
 
 const routeCases = [
   {
+    name: "start without saved progress",
     pathname: "/start",
-    heading: "Choose one bounded first step without guessing.",
+    heading: "Choose a clear first step.",
     headingLevel: 1,
     primaryCtaTestId: "start-primary-cta",
     expectsFilters: false,
+    seedProgress: false,
   },
   {
+    name: "start with saved progress",
+    pathname: "/start",
+    heading: "Resume where your saved work already points.",
+    headingLevel: 1,
+    primaryCtaTestId: "start-primary-cta",
+    expectsFilters: false,
+    seedProgress: true,
+  },
+  {
+    name: "concept library with saved progress",
     pathname: "/concepts",
-    heading: "Search fast, then keep the main results in view.",
+    heading: "Search first, then keep the matching concepts in view.",
     headingLevel: 1,
     primaryCtaTestId: "library-primary-cta",
     expectsFilters: true,
+    seedProgress: true,
   },
   {
+    name: "site search with saved progress",
     pathname: "/search",
     heading: "Search concepts, topic pages, tracks, and guided paths from one place.",
     headingLevel: 1,
     primaryCtaTestId: "search-primary-cta",
     expectsFilters: true,
+    seedProgress: true,
   },
   {
+    name: "physics subject with saved progress",
     pathname: "/concepts/subjects/physics",
     heading: "Physics",
     headingLevel: 1,
     primaryCtaTestId: "subject-primary-cta",
     expectsFilters: false,
+    seedProgress: true,
   },
   {
+    name: "mechanics topic with saved progress",
     pathname: "/concepts/topics/mechanics",
     heading: "Mechanics",
     headingLevel: 1,
     primaryCtaTestId: "topic-primary-cta",
     expectsFilters: false,
+    seedProgress: true,
   },
 ] as const;
 
@@ -88,6 +107,7 @@ async function openRoute(
   browser: Browser,
   viewportCase: ViewportCase,
   pathname: string,
+  options: { seedProgress: boolean },
 ): Promise<{
   context: BrowserContext;
   page: Page;
@@ -102,7 +122,9 @@ async function openRoute(
   const page = await context.newPage();
   const browserGuard = await installBrowserGuards(page);
 
-  await seedLocalProgressSnapshot(page, seededProgressSnapshot);
+  if (options.seedProgress) {
+    await seedLocalProgressSnapshot(page, seededProgressSnapshot);
+  }
   await setHarnessSession(page, "signed-out");
   await gotoAndExpectOk(page, pathname);
 
@@ -114,11 +136,12 @@ test("keeps public discovery routes rail-free with visible next steps across key
 }) => {
   for (const viewportCase of viewportCases) {
     for (const route of routeCases) {
-      await test.step(`${route.pathname} @ ${viewportCase.name}`, async () => {
+      await test.step(`${route.name} (${route.pathname}) @ ${viewportCase.name}`, async () => {
         const { context, page, browserGuard } = await openRoute(
           browser,
           viewportCase,
           route.pathname,
+          { seedProgress: route.seedProgress },
         );
 
         try {

@@ -1,5 +1,22 @@
 # Open Model Lab Status
 
+## 2026-05-28 OML-QA-009 Public Discovery Start Progress Test Repair
+
+Current state: `OML-QA-009` is complete. The public discovery layout test now intentionally covers both `/start` first-time and saved-progress headings instead of seeding progress and expecting first-time copy.
+
+### Files Changed
+
+- `tests/e2e/public-discovery-layout.spec.ts`: added named `/start` no-progress and saved-progress cases, made local-progress seeding opt-in per route case, and refreshed stale route heading expectations.
+- `TASKS.md`: marked `OML-QA-009` complete and added `OML-QA-012` for the separate `/search` mobile CTA placement issue found during QA.
+- Tracking: `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec eslint tests/e2e/public-discovery-layout.spec.ts`: passed.
+- `pnpm typecheck`: passed.
+- `pnpm exec playwright test tests/e2e/public-discovery-layout.spec.ts -g "visible next steps"`: `/start` first-time and saved-progress cases passed; the run failed afterward on `site search with saved progress (/search) @ mobile-390x844` because `search-primary-cta` starts at `1173px`, below the `844px` viewport. That separate issue is now tracked as `OML-QA-012`.
+
 ## 2026-05-28 OML-QA-008 Header Brand Truncation Repair
 
 Current state: `OML-QA-008` is complete. The desktop header now keeps the full `Open Model Lab` brand readable at common desktop widths without pushing the primary nav, help, theme, start, or account controls off-screen.

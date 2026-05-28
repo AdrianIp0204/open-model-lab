@@ -81,12 +81,14 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
   - Completion note (2026-05-28 HKT): Made the desktop header brand column flex-safe, hid the route subtitle at common desktop widths, and compacted secondary header labels so Open Model Lab stays readable without displacing nav/account controls.
   - Validation: git diff --check passed; header-footer-shell Playwright spec passed (2/2); screenshot inspection passed for home, SHM concept, chemistry tool, and circuit builder at 1280px and 1440px; pnpm typecheck passed; pnpm lint passed
-- [ ] **OML-QA-009: Make public discovery layout tests match `/start` dynamic progress states.**
+- [x] **OML-QA-009: Make public discovery layout tests match `/start` dynamic progress states.**
   - Evidence: `pnpm exec playwright test tests/e2e/public-discovery-layout.spec.ts -g "visible next steps"` fails on `/start` because the test seeds local progress, then expects the first-time heading `Choose one bounded first step without guessing.`. The actual page correctly renders the saved-progress state heading `Resume where your saved work already points.`.
   - Affected area: `tests/e2e/public-discovery-layout.spec.ts` and `/start` test fixtures.
   - Fix direction: either split `/start` into first-time and seeded-progress cases, or update the seeded-progress expectation to the saved-progress heading while keeping a separate no-progress check for the first-time heading.
   - Validation: rerun the public discovery layout spec and verify both first-time and resume states are intentionally covered.
 
+  - Completion note (2026-05-28 HKT): Split the public discovery layout `/start` coverage into explicit no-progress and seeded-progress route cases, seeded local progress only for cases that ask for it, and refreshed stale heading expectations to match current page copy.
+  - Validation: git diff --check passed; `pnpm exec eslint tests/e2e/public-discovery-layout.spec.ts` passed; `pnpm typecheck` passed; `pnpm exec playwright test tests/e2e/public-discovery-layout.spec.ts -g "visible next steps"` passed the `/start` first-time and saved-progress cases before failing on a separate `/search` mobile CTA placement issue now tracked as `OML-QA-012`.
 - [ ] **OML-QA-010: Stabilize the mobile dark-pill contrast audit.**
   - Evidence: `pnpm exec playwright test tests/e2e/mobile-cta-contrast.spec.ts -g "other audited"` fails in isolation with a timeout while navigating to `/tracks/motion-and-circular-motion` (`net::ERR_ABORTED; maybe frame was detached?`). In the broader subset it also produced a blank mobile screenshot with only the header/feedback visible.
   - Affected area: `tests/e2e/mobile-cta-contrast.spec.ts`, `tests/e2e/helpers.ts`, and potentially the track page's local-progress/session setup.
@@ -98,3 +100,9 @@ This checklist is the working queue for follow-up agents. When completing an ite
   - Affected area: `playwright.config.ts`, large E2E specs, and future QA sweep scripts.
   - Fix direction: split broad sweeps into smaller shards, reuse contexts carefully, lower screenshot/full-page pressure, or run heavy visual sweeps against a production build/preview server instead of `next dev`.
   - Validation: rerun the focused subset without `ERR_EMPTY_RESPONSE`, `ERR_INCOMPLETE_CHUNKED_ENCODING`, `ERR_CONNECTION_REFUSED`, or dev-server memory restarts.
+
+- [ ] **OML-QA-012: Keep `/search` primary CTA visible in the mobile public discovery layout audit.**
+  - Evidence: after the `OML-QA-009` repair, `pnpm exec playwright test tests/e2e/public-discovery-layout.spec.ts -g "visible next steps"` fails at `site search with saved progress (/search) @ mobile-390x844`: `search-primary-cta` top is `1173`, expected `< 844`. Log: `output/qa-oml-qa-009-2026-05-28/orchestrator-qa/playwright-public-discovery-layout.log`; trace/artifacts: `output/playwright/test-results/public-discovery-layout-ke-935ad-ext-steps-across-key-widths-chromium/`.
+  - Affected area: `components/search/SearchPage.tsx` and possibly the mobile search hero/filter/saved-progress stack.
+  - Fix direction: compact or reorder the mobile search page first viewport so a clear primary next-step CTA appears before the fold while preserving search/filter usability and desktop layout.
+  - Validation: rerun `pnpm exec playwright test tests/e2e/public-discovery-layout.spec.ts -g "visible next steps"` and verify `/start` first-time, `/start` saved-progress, and `/search` mobile cases all pass intentionally.
