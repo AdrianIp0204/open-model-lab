@@ -38,6 +38,50 @@ async function completeGuidedSteps(page: Page) {
   await expect(page).toHaveURL(/#concept-v2-wrap-up$/);
 }
 
+async function expectSectionsStacked(
+  page: Page,
+  testIds: readonly string[],
+  message: string,
+) {
+  await expect
+    .poll(
+      async () =>
+        page.evaluate((ids) => {
+          const rects = ids.map((id) => {
+            const element = document.querySelector(`[data-testid="${id}"]`);
+
+            if (!element) {
+              return null;
+            }
+
+            const rect = element.getBoundingClientRect();
+
+            return {
+              id,
+              top: rect.top + window.scrollY,
+              bottom: rect.bottom + window.scrollY,
+            };
+          });
+
+          if (rects.some((rect) => rect === null)) {
+            return {
+              stacked: false,
+              rects,
+            };
+          }
+
+          return {
+            stacked: rects.every(
+              (rect, index) => index === 0 || rects[index - 1]!.bottom < rect!.top,
+            ),
+            rects,
+          };
+        }, testIds),
+      { message },
+    )
+    .toMatchObject({ stacked: true });
+}
+
 test.describe("concept page v2 ordering", () => {
   test("keeps the desktop top band compact with fresh-start status hidden", async ({
     browser,
@@ -166,17 +210,15 @@ test.describe("concept page v2 ordering", () => {
             "concept-post-bench-tools",
           ]);
 
-          const [wrapUpBox, referenceBox, toolsBox] = await Promise.all([
-            wrapUp.boundingBox(),
-            reference.boundingBox(),
-            postBenchTools.boundingBox(),
-          ]);
-
-          expect(wrapUpBox).not.toBeNull();
-          expect(referenceBox).not.toBeNull();
-          expect(toolsBox).not.toBeNull();
-          expect(wrapUpBox!.y + wrapUpBox!.height).toBeLessThan(referenceBox!.y);
-          expect(referenceBox!.y + referenceBox!.height).toBeLessThan(toolsBox!.y);
+          await expectSectionsStacked(
+            page,
+            [
+              "concept-v2-wrap-up",
+              "concept-v2-reference",
+              "concept-post-bench-tools",
+            ],
+            `${route} should settle into wrap-up, reference, tools order`,
+          );
         });
       }
 
