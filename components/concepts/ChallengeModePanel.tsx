@@ -479,7 +479,7 @@ export function ChallengeModePanel({
             copiedText={t("share.copied")}
             sharedText={t("share.shared")}
             ariaLabel={t("share.aria")}
-            className="inline-flex items-center justify-center rounded-full border border-line bg-paper-strong px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-ink-700 transition hover:border-teal-500/35 hover:bg-white/90"
+            className="inline-flex min-h-11 items-center justify-center rounded-full border border-line bg-paper-strong px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-ink-700 transition hover:border-teal-500/35 hover:bg-white/90"
           />
           <div className="rounded-full border border-line bg-paper-strong px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-ink-700">
             {t("summary.solvedCount", {
@@ -507,7 +507,7 @@ export function ChallengeModePanel({
                 setActiveItemId(item.id);
               }}
               className={joinClasses(
-                "rounded-full border px-3 py-1.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                "min-h-11 rounded-full border px-3 py-1.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
                 active
                   ? "border-teal-500/35 bg-teal-500 text-white"
                   : "border-line bg-paper-strong text-ink-700 hover:border-teal-500/35",

@@ -173,7 +173,7 @@ export function GuidedOverlayPanel({
               aria-pressed={focused}
               onClick={() => onFocusOverlay(overlay.id)}
               className={[
-                "rounded-full border px-3 py-2 text-left text-[0.72rem] font-semibold uppercase tracking-[0.18em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                "min-h-11 rounded-full border px-3 py-2 text-left text-[0.72rem] font-semibold uppercase tracking-[0.18em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
                 chipTone(enabled, focused, highlighted),
               ].join(" ")}
             >
@@ -225,7 +225,7 @@ export function GuidedOverlayPanel({
             aria-pressed={focusedEnabled}
             onClick={() => onToggleOverlay(focusedOverlay.id, !focusedEnabled)}
             className={[
-              "rounded-full border px-3 py-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+              "min-h-11 rounded-full border px-3 py-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
               focusedEnabled
                 ? "border-teal-500/25 bg-teal-500/12 text-teal-800 hover:bg-teal-500/18"
                 : "border-line bg-paper text-ink-700 hover:border-coral-500/35 hover:bg-white",

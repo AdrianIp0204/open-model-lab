@@ -646,7 +646,7 @@ export function ElectricFieldsSimulation({
                 }
               }}
             >
-              <circle cx={primaryProbeX} cy={primaryProbeY} r="22" fill="transparent" />
+              <circle cx={primaryProbeX} cy={primaryProbeY} r="64" fill="rgba(0,0,0,0.001)" />
             </g>
             <g
               tabIndex={0}
@@ -675,7 +675,7 @@ export function ElectricFieldsSimulation({
                 }
               }}
             >
-              <circle cx={sourceAX} cy={sourceAY} r="24" fill="transparent" />
+              <circle cx={sourceAX} cy={sourceAY} r="64" fill="rgba(0,0,0,0.001)" />
             </g>
             <g
               tabIndex={0}
@@ -704,7 +704,7 @@ export function ElectricFieldsSimulation({
                 }
               }}
             >
-              <circle cx={sourceBX} cy={sourceBY} r="24" fill="transparent" />
+              <circle cx={sourceBX} cy={sourceBY} r="64" fill="rgba(0,0,0,0.001)" />
             </g>
           </>
         ) : null}

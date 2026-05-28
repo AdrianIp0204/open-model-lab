@@ -404,6 +404,7 @@ export function ProjectileSimulation({
           }}
           style={{ cursor: drag.activePointerId === null ? "grab" : "grabbing" }}
         >
+          <circle cx={primaryFrame.handleX} cy={primaryFrame.handleY} r="56" fill="rgba(0,0,0,0.001)" />
           <line
             x1={ORIGIN_X}
             x2={primaryFrame.handleX}
@@ -414,7 +415,6 @@ export function ProjectileSimulation({
             strokeLinecap="round"
             opacity={overlayWeight("velocityVector")}
           />
-          <circle cx={primaryFrame.handleX} cy={primaryFrame.handleY} r="22" fill="rgba(240,171,60,0.001)" fillOpacity={overlayWeight("velocityVector")} />
           <circle cx={ORIGIN_X} cy={GROUND_Y} r="14" fill="#f16659" />
           <line
             x1={ORIGIN_X}

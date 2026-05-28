@@ -55,12 +55,14 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
   - Completion note (2026-05-28 HKT): Stacked and wrapped the mobile chemistry graph header/status controls, raised route and zoom touch targets, and added a mobile regression covering overflow and control usability.
   - Validation: git diff --check passed; mobile chemistry overflow Playwright test passed; full chemistry-reaction-mind-map spec passed (4/4); screenshot/metrics showed horizontalOverflow 0 and fitted graph/control chips; pnpm typecheck passed.
-- [ ] **OML-QA-006: Raise mobile tap targets for simulation controls and SVG drag handles.**
+- [x] **OML-QA-006: Raise mobile tap targets for simulation controls and SVG drag handles.**
   - Evidence: route sweep found mobile interactive targets below 44px, including unit-circle drag point around 12x12, electric-field probe/source handles around 17-18px, concept mode buttons around 36px high, and several summary/disclosure controls around 20px high.
   - Affected area: simulation primitives such as `components/simulations/primitives/*`, concept bench tabs/buttons, and shared disclosure/summary controls.
   - Fix direction: use larger invisible hit areas around small visual handles, raise button/tab `min-height` to at least 44px on touch viewports, and preserve visible visual proportions where needed.
   - Validation: run a mobile DOM target-size audit over representative concepts (`simple-harmonic-motion`, `electric-fields`, `unit-circle-sine-cosine-from-rotation`, `projectile-motion`) and manually verify drag/tap behavior.
 
+  - Completion note (2026-05-28 HKT): Raised shared mobile control targets and enlarged invisible SVG drag hit areas for SHM, electric fields, unit circle, and projectile simulations while preserving visible handle proportions.
+  - Validation: git diff --check passed; mobile target/drag audit over SHM, electric fields, unit circle, and projectile passed with failedTargetCount 0 and failedDragCount 0; screenshots inspected under output/qa-oml-qa-006-2026-05-28/orchestrator-qa-after-repair/; pnpm typecheck passed.
 - [ ] **OML-QA-007: Reduce mobile floating-widget occlusion on learning and pricing surfaces.**
   - Evidence: mobile screenshots show the `Feedback` widget overlaying visible content on `/`, `/concepts`, `/pricing`, `/tests`, and `/circuit-builder`. Concept pages hide feedback, but other high-value surfaces still have first-viewport content under the floating button.
   - Affected area: `components/feedback/FeedbackWidget.tsx`, `components/layout/PageShell.tsx`, and page-level `showFeedbackWidget`/safe-area behavior.

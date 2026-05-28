@@ -509,7 +509,7 @@ export function LiveWorkedExampleSection({
                 setActiveExampleId(item.id);
               }}
               className={joinClasses(
-                "rounded-full border px-3 py-1.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                "min-h-11 rounded-full border px-3 py-1.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
                 item.id === activeExample.id
                   ? "border-teal-500/35 bg-teal-500 text-white"
                   : "border-line bg-paper-strong text-ink-700 hover:border-teal-500/35",

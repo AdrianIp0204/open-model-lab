@@ -336,8 +336,8 @@ export function ConceptProgressCard({
             onClick={() => markConceptCompleted(concept)}
             className={
               compact
-                ? "inline-flex items-center justify-center rounded-full border border-teal-500/25 bg-teal-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-teal-600"
-                : "inline-flex items-center justify-center rounded-full border border-teal-500/25 bg-teal-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-teal-600"
+                ? "inline-flex min-h-11 items-center justify-center rounded-full border border-teal-500/25 bg-teal-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-teal-600"
+                : "inline-flex min-h-11 items-center justify-center rounded-full border border-teal-500/25 bg-teal-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-teal-600"
             }
           >
             {t("actions.markComplete")}
@@ -347,8 +347,8 @@ export function ConceptProgressCard({
             onClick={() => resetConceptProgress(concept)}
             className={
               compact
-                ? "inline-flex items-center justify-center rounded-full border border-line bg-paper-strong px-4 py-2 text-sm font-semibold text-ink-800 transition hover:border-coral-500/35 hover:bg-white/90"
-                : "inline-flex items-center justify-center rounded-full border border-line bg-paper-strong px-4 py-2.5 text-sm font-semibold text-ink-800 transition hover:border-coral-500/35 hover:bg-white/90"
+                ? "inline-flex min-h-11 items-center justify-center rounded-full border border-line bg-paper-strong px-4 py-2 text-sm font-semibold text-ink-800 transition hover:border-coral-500/35 hover:bg-white/90"
+                : "inline-flex min-h-11 items-center justify-center rounded-full border border-line bg-paper-strong px-4 py-2.5 text-sm font-semibold text-ink-800 transition hover:border-coral-500/35 hover:bg-white/90"
             }
           >
             {t("actions.resetProgress")}

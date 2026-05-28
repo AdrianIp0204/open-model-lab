@@ -75,8 +75,8 @@ function renderLinkButtons(
       ariaLabel={item.ariaLabel ?? `Copy ${item.label.toLowerCase()} link`}
       className={
         compact
-          ? "inline-flex items-center justify-center rounded-full border border-line bg-paper-strong px-3 py-1.5 text-xs font-semibold text-ink-700 transition hover:border-teal-500/35 hover:bg-white/90"
-          : "inline-flex items-center justify-center rounded-full border border-line bg-paper-strong px-3 py-1.5 text-sm font-semibold text-ink-700 transition hover:border-teal-500/35 hover:bg-white/90"
+          ? "inline-flex min-h-11 items-center justify-center rounded-full border border-line bg-paper-strong px-3 py-1.5 text-xs font-semibold text-ink-700 transition hover:border-teal-500/35 hover:bg-white/90"
+          : "inline-flex min-h-11 items-center justify-center rounded-full border border-line bg-paper-strong px-3 py-1.5 text-sm font-semibold text-ink-700 transition hover:border-teal-500/35 hover:bg-white/90"
       }
     />
   ));
@@ -233,7 +233,7 @@ function SetupStateNotice({
       {actionHref ? (
         <Link
           href={actionHref}
-          className="mt-3 inline-flex items-center rounded-full border border-line bg-paper-strong px-3 py-1.5 text-xs font-semibold text-ink-700 transition hover:border-ink-950/20 hover:bg-white"
+          className="mt-3 inline-flex min-h-11 items-center rounded-full border border-line bg-paper-strong px-3 py-1.5 text-xs font-semibold text-ink-700 transition hover:border-ink-950/20 hover:bg-white"
         >
           {t("actions.openDefaultBench")}
         </Link>
@@ -368,14 +368,14 @@ function CurrentSavedSetupCard({
               type="button"
               onClick={onRename}
               disabled={renameDraft.trim().length === 0}
-              className="inline-flex items-center justify-center rounded-full border border-teal-500/25 bg-teal-500 px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-teal-600 disabled:cursor-not-allowed disabled:border-line disabled:bg-paper-strong disabled:text-ink-500"
+              className="inline-flex min-h-11 items-center justify-center rounded-full border border-teal-500/25 bg-teal-500 px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-teal-600 disabled:cursor-not-allowed disabled:border-line disabled:bg-paper-strong disabled:text-ink-500"
             >
               {t("actions.saveName")}
             </button>
             <button
               type="button"
               onClick={onCancelRename}
-              className="inline-flex items-center justify-center rounded-full border border-line bg-paper px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-ink-700 transition hover:border-line-dark hover:bg-white/90"
+              className="inline-flex min-h-11 items-center justify-center rounded-full border border-line bg-paper px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-ink-700 transition hover:border-line-dark hover:bg-white/90"
             >
               {t("actions.cancel")}
             </button>
@@ -853,8 +853,8 @@ export function ConceptShareLinksPanel({
                 onClick={handleSaveCurrentSetup}
                 className={
                   compact
-                    ? "inline-flex items-center justify-center rounded-full border border-line bg-paper px-3.5 py-2 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white"
-                    : "inline-flex items-center justify-center rounded-full border border-line bg-paper px-4 py-2.5 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white"
+                    ? "inline-flex min-h-11 items-center justify-center rounded-full border border-line bg-paper px-3.5 py-2 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white"
+                    : "inline-flex min-h-11 items-center justify-center rounded-full border border-line bg-paper px-4 py-2.5 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white"
                 }
               >
                 {t("actions.saveSetup")}
@@ -998,8 +998,8 @@ export function ConceptShareLinksPanel({
                 ariaLabel={primaryTryThisItem.ariaLabel ?? t("aria.copyCurrentSetupLink")}
                 className={
                   compact
-                    ? "inline-flex items-center justify-center rounded-full border border-line bg-paper px-3.5 py-2 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white"
-                    : "inline-flex items-center justify-center rounded-full border border-line bg-paper px-4 py-2.5 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white"
+                    ? "inline-flex min-h-11 items-center justify-center rounded-full border border-line bg-paper px-3.5 py-2 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white"
+                    : "inline-flex min-h-11 items-center justify-center rounded-full border border-line bg-paper px-4 py-2.5 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white"
                 }
               />
             ) : null}

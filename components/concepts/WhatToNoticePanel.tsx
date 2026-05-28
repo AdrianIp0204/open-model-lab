@@ -307,7 +307,7 @@ export function WhatToNoticePanel({
           <button
             type="button"
             onClick={onNext}
-            className="inline-flex items-center justify-center rounded-full border border-teal-500/25 bg-teal-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-teal-600"
+            className="inline-flex min-h-11 items-center justify-center rounded-full border border-teal-500/25 bg-teal-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-teal-600"
           >
             {prompts.length > 1 ? t("actions.nextPrompt") : t("actions.showAgain")}
           </button>
@@ -315,7 +315,7 @@ export function WhatToNoticePanel({
             <button
               type="button"
               onClick={onRestart}
-              className="inline-flex items-center justify-center rounded-full border border-line bg-paper-strong px-4 py-2.5 text-sm font-semibold text-ink-800 transition hover:border-teal-500/35 hover:bg-white/90"
+              className="inline-flex min-h-11 items-center justify-center rounded-full border border-line bg-paper-strong px-4 py-2.5 text-sm font-semibold text-ink-800 transition hover:border-teal-500/35 hover:bg-white/90"
             >
               {t("actions.restartPrompts")}
             </button>
@@ -323,7 +323,7 @@ export function WhatToNoticePanel({
           <button
             type="button"
             onClick={onDismiss}
-            className="inline-flex items-center justify-center rounded-full border border-line bg-paper-strong px-4 py-2.5 text-sm font-semibold text-ink-800 transition hover:border-coral-500/35 hover:bg-white/90"
+            className="inline-flex min-h-11 items-center justify-center rounded-full border border-line bg-paper-strong px-4 py-2.5 text-sm font-semibold text-ink-800 transition hover:border-coral-500/35 hover:bg-white/90"
           >
             {t("actions.hide")}
           </button>

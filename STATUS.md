@@ -1,5 +1,23 @@
 # Open Model Lab Status
 
+## 2026-05-28 OML-QA-006 Mobile Simulation Tap Target Repair
+
+Current state: `OML-QA-006` is complete. Mobile concept simulation controls now meet the 44px target floor across the representative concept bench surfaces, and the SHM, electric-field, unit-circle, and projectile SVG drag handles keep larger invisible hit areas without enlarging the visible handles.
+
+### Files Changed
+
+- Shared concept/control surfaces: raised mobile tap target floors in concept mode tabs, disclosures, graph tabs, prediction/challenge/notice panels, quiz restart/details controls, share/setup links, progress actions, and premium notice actions.
+- Simulation controls: raised touch targets in `ControlPanel`, `TimeControlRail`, and `ConceptSimulationRenderer` support controls.
+- SVG drag handles: enlarged invisible hit areas in `SHMSimulation`, `ElectricFieldsSimulation`, `UnitCircleRotationSimulation`, and `ProjectileSimulation`; SHM now handles captured pointer move/up/cancel/lost-capture events on the mass target.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- Mobile target/drag audit over `/concepts/simple-harmonic-motion`, `/concepts/electric-fields`, `/concepts/unit-circle-sine-cosine-from-rotation`, and `/concepts/projectile-motion`: passed with `failedTargetCount: 0` and `failedDragCount: 0`.
+- Screenshot inspection: passed for the four mobile audit screenshots under `output/qa-oml-qa-006-2026-05-28/orchestrator-qa-after-repair/`.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-28 OML-QA-005 Chemistry Mind Map Mobile Overflow Repair
 
 Current state: `OML-QA-005` is complete. The Chemistry Reaction Mind Map mobile layout no longer creates page-level horizontal overflow, and the graph status chips, route controls, and zoom controls remain readable and usable at 390px width.

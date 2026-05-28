@@ -977,7 +977,7 @@ export function ConceptPageV2StartHere({
     <ConceptPageV2Disclosure
       testId="concept-v2-start-lesson-disclosure"
       className="group rounded-[18px] border border-line/80 bg-white/86 px-3 py-2.5 shadow-sm"
-      summaryClassName="min-w-0 cursor-pointer list-none rounded-[14px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [&::-webkit-details-marker]:hidden"
+      summaryClassName="min-h-11 min-w-0 cursor-pointer list-none rounded-[14px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [&::-webkit-details-marker]:hidden"
       summaryAriaLabel={copy.lessonPreviewDisclosureLabel}
       contentClassName="mt-3 min-w-0"
       summary={(
@@ -1019,7 +1019,7 @@ export function ConceptPageV2StartHere({
     <ConceptPageV2Disclosure
       testId="concept-v2-start-context-disclosure"
       className="group rounded-[18px] border border-line/80 bg-white/78 px-3 py-2.5 shadow-sm"
-      summaryClassName="min-w-0 cursor-pointer list-none rounded-[14px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [&::-webkit-details-marker]:hidden"
+      summaryClassName="min-h-11 min-w-0 cursor-pointer list-none rounded-[14px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [&::-webkit-details-marker]:hidden"
       summaryAriaLabel={copy.contextDisclosureLabel}
       contentClassName="mt-3 min-w-0"
       summary={(
@@ -2422,7 +2422,7 @@ export function ConceptPageV2SecondarySection({
     <ConceptPageV2Disclosure
       testId={testId}
       className="group rounded-[26px] border border-line/80 bg-white/88 px-4 py-4 shadow-sm sm:px-5"
-      summaryClassName="max-w-3xl min-w-0 cursor-pointer list-none rounded-[18px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [&::-webkit-details-marker]:hidden"
+      summaryClassName="min-h-11 max-w-3xl min-w-0 cursor-pointer list-none rounded-[18px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [&::-webkit-details-marker]:hidden"
       summaryAriaLabel={actionLabel ?? title}
       summaryAriaDescribedBy={summaryDescriptionIds || undefined}
       contentClassName="mt-4 min-w-0"
@@ -2871,7 +2871,7 @@ export function ConceptPageV2WrapUp({
               <ConceptPageV2Disclosure
                 testId="concept-v2-more-practice-options"
                 className="group mt-3 rounded-[18px] border border-line bg-paper/78 px-3 py-2"
-                summaryClassName="cursor-pointer list-none rounded-[14px] text-sm font-semibold text-ink-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [&::-webkit-details-marker]:hidden"
+                summaryClassName="min-h-11 cursor-pointer list-none rounded-[14px] text-sm font-semibold text-ink-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [&::-webkit-details-marker]:hidden"
                 summaryAriaLabel={`${copy.morePracticeOptionsLabel} (${morePracticeActions.length})${morePracticePreviewLabel ? ` — ${morePracticePreviewLabel}` : ""}`}
                 summaryCollapsedAriaPrefix={copy.showMoreOptionsLabel}
                 summaryExpandedAriaPrefix={copy.hideMoreOptionsLabel}
@@ -3029,7 +3029,7 @@ export function ConceptPageV2WrapUp({
                     <ConceptPageV2Disclosure
                       testId="concept-v2-more-read-next-options"
                       className="group rounded-[18px] border border-line bg-paper/78 px-3 py-2"
-                      summaryClassName="cursor-pointer list-none rounded-[14px] text-sm font-semibold text-ink-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [&::-webkit-details-marker]:hidden"
+                      summaryClassName="min-h-11 cursor-pointer list-none rounded-[14px] text-sm font-semibold text-ink-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [&::-webkit-details-marker]:hidden"
                       summaryAriaLabel={`${copy.moreReadNextOptionsLabel} (${additionalNextConcepts.length})${moreReadNextPreviewLabel ? ` — ${moreReadNextPreviewLabel}` : ""}`}
                       summaryCollapsedAriaPrefix={copy.showMoreOptionsLabel}
                       summaryExpandedAriaPrefix={copy.hideMoreOptionsLabel}

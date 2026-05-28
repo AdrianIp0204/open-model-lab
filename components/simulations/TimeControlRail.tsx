@@ -82,7 +82,7 @@ export function TimeControlRail({
         <div className="flex flex-wrap items-center gap-1.5">
           <button
             type="button"
-            className="rounded-full border border-line bg-paper-strong px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-700 transition hover:border-teal-500 hover:text-teal-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong disabled:cursor-not-allowed disabled:opacity-45"
+            className="min-h-11 rounded-full border border-line bg-paper-strong px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-700 transition hover:border-teal-500 hover:text-teal-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong disabled:cursor-not-allowed disabled:opacity-45"
             aria-label={isPlaying ? t("aria.pauseSimulation") : t("aria.playSimulation")}
             disabled={!canPlay}
             onClick={onTogglePlay}
@@ -91,7 +91,7 @@ export function TimeControlRail({
           </button>
           <button
             type="button"
-            className="rounded-full border border-line bg-paper-strong px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-700 transition hover:border-amber-500 hover:text-amber-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong disabled:cursor-not-allowed disabled:opacity-45"
+            className="min-h-11 rounded-full border border-line bg-paper-strong px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-700 transition hover:border-amber-500 hover:text-amber-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong disabled:cursor-not-allowed disabled:opacity-45"
             aria-label={t("aria.stepBackward")}
             disabled={!canStep}
             onClick={onStepBackward}
@@ -100,7 +100,7 @@ export function TimeControlRail({
           </button>
           <button
             type="button"
-            className="rounded-full border border-line bg-paper-strong px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-700 transition hover:border-coral-500 hover:text-coral-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong disabled:cursor-not-allowed disabled:opacity-45"
+            className="min-h-11 rounded-full border border-line bg-paper-strong px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-700 transition hover:border-coral-500 hover:text-coral-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong disabled:cursor-not-allowed disabled:opacity-45"
             aria-label={t("aria.stepForward")}
             disabled={!canStep}
             onClick={onStepForward}
@@ -110,7 +110,7 @@ export function TimeControlRail({
           {onReset ? (
             <button
               type="button"
-              className="rounded-full border border-line bg-paper-strong px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-700 transition hover:border-ink-950/25 hover:text-ink-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong"
+              className="min-h-11 rounded-full border border-line bg-paper-strong px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-700 transition hover:border-ink-950/25 hover:text-ink-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong"
               aria-label={t("aria.resetTime")}
               onClick={onReset}
             >

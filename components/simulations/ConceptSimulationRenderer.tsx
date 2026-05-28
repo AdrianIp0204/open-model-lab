@@ -8376,7 +8376,7 @@ export function ConceptSimulationRenderer({
       data-testid="concept-secondary-prediction-flow"
       className="rounded-[20px] border border-amber-500/20 bg-amber-500/8 px-3 py-3"
     >
-      <summary className="flex cursor-pointer list-none items-start justify-between gap-3">
+      <summary className="flex min-h-11 cursor-pointer list-none items-start justify-between gap-3">
         <div>
           <p className="lab-label">{t("predictionPrompt.label")}</p>
           <p className="mt-1 text-xs leading-5 text-ink-600">
@@ -8683,7 +8683,7 @@ export function ConceptSimulationRenderer({
             <a
               href={`#${controlsAnchorId}`}
               data-testid="simulation-shell-controls-link"
-              className="inline-flex min-h-9 items-center justify-center rounded-full border border-teal-500/25 bg-paper-strong px-3 py-1.5 text-xs font-semibold text-teal-800 transition hover:border-teal-500/45 hover:bg-white sm:hidden"
+              className="inline-flex min-h-11 items-center justify-center rounded-full border border-teal-500/25 bg-paper-strong px-3 py-1.5 text-xs font-semibold text-teal-800 transition hover:border-teal-500/45 hover:bg-white sm:hidden"
             >
               {t("controls.title")}
             </a>
@@ -8701,7 +8701,7 @@ export function ConceptSimulationRenderer({
       open={moreToolsOpen}
       onToggle={(event) => setMoreToolsExpanded((event.currentTarget as HTMLDetailsElement).open)}
     >
-      <summary className="flex cursor-pointer list-none items-start justify-between gap-3">
+      <summary className="flex min-h-11 cursor-pointer list-none items-start justify-between gap-3">
         <div>
           <p className="lab-label">{t("supportDock.label")}</p>
           <p className="mt-1 text-xs leading-5 text-ink-600">
@@ -8960,7 +8960,7 @@ export function ConceptSimulationRenderer({
               data-testid="concept-equation-map-disclosure"
               className="rounded-[22px] border border-line bg-white/45 px-3 py-3"
             >
-              <summary className="flex cursor-pointer list-none items-start justify-between gap-3">
+              <summary className="flex min-h-11 cursor-pointer list-none items-start justify-between gap-3">
                 <div>
                   <p className="lab-label">{t("equationMap.label")}</p>
                   <p className="mt-1 text-xs leading-5 text-ink-600">
@@ -9113,7 +9113,7 @@ export function ConceptSimulationRenderer({
                     );
                   }}
                 >
-                  <summary className="flex cursor-pointer list-none items-start justify-between gap-3">
+                  <summary className="flex min-h-11 cursor-pointer list-none items-start justify-between gap-3">
                     <div>
                       <p className="lab-label">{t("phaseSupport.label")}</p>
                       <p className="mt-1 text-xs leading-5 text-ink-600">

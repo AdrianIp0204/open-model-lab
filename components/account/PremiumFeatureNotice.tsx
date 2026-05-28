@@ -62,7 +62,7 @@ export function PremiumFeatureNotice({
         <div className="flex flex-wrap gap-2">
           <Link
             href={pricingHref}
-            className="inline-flex items-center justify-center rounded-full bg-ink-950 px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition hover:opacity-90"
+            className="inline-flex min-h-11 items-center justify-center rounded-full bg-ink-950 px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition hover:opacity-90"
             style={{ color: "var(--paper-strong)" }}
           >
             {t("actions.viewPlans")}
@@ -70,7 +70,7 @@ export function PremiumFeatureNotice({
           {showSignInLink ? (
             <Link
               href={signInHref}
-              className="inline-flex items-center justify-center rounded-full border border-amber-700/20 bg-white/85 px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-ink-900 transition hover:border-amber-700/35 hover:bg-white"
+              className="inline-flex min-h-11 items-center justify-center rounded-full border border-amber-700/20 bg-white/85 px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-ink-900 transition hover:border-amber-700/35 hover:bg-white"
             >
               {t("actions.signIn")}
             </Link>

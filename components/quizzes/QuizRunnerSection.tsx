@@ -758,7 +758,7 @@ function QuizRunnerSectionContent({
               className="hidden text-sm leading-6 text-ink-700 sm:block"
             />
             <details className="rounded-[18px] border border-line bg-paper-strong px-3 py-2 text-sm text-ink-700 sm:hidden">
-              <summary className="cursor-pointer font-semibold text-ink-900">
+              <summary className="min-h-11 cursor-pointer font-semibold text-ink-900">
                 {t("actions.testNotes")}
               </summary>
               <RichMathText as="div" content={intro} className="mt-2 leading-6" />
@@ -901,7 +901,7 @@ function QuizRunnerSectionContent({
           <button
             type="button"
             onClick={resetQuiz}
-            className="inline-flex items-center justify-center rounded-full border border-transparent bg-transparent px-3 py-2 text-xs font-semibold text-ink-500 transition hover:border-line hover:bg-paper-strong hover:text-ink-800 sm:ml-auto"
+            className="inline-flex min-h-11 items-center justify-center rounded-full border border-transparent bg-transparent px-3 py-2 text-xs font-semibold text-ink-500 transition hover:border-line hover:bg-paper-strong hover:text-ink-800 sm:ml-auto"
           >
             {t("actions.restart")}
           </button>

@@ -69,7 +69,7 @@ function renderGraphTab({
       aria-controls={`graph-panel-${tab.id}`}
       style={selected ? { color: "var(--paper-strong)" } : undefined}
       className={[
-        "min-w-[7.5rem] shrink-0 rounded-2xl border px-3 py-2 text-left text-sm transition sm:min-w-[8.5rem] sm:flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong",
+        "min-h-11 min-w-[7.5rem] shrink-0 rounded-2xl border px-3 py-2 text-left text-sm transition sm:min-w-[8.5rem] sm:flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong",
         selected
           ? "border-teal-500 bg-teal-500 shadow-[0_10px_24px_rgba(30,166,162,0.18)]"
           : highlighted
@@ -138,7 +138,7 @@ export function GraphTabs({
               aria-expanded={moreGraphsOpen}
               aria-controls="graph-tabs-secondary-panel"
               onClick={() => setMoreGraphsExpanded((current) => !current)}
-              className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-ink-600 transition hover:border-teal-500/35 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong"
+              className="min-h-11 rounded-full border border-line bg-paper-strong px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-ink-600 transition hover:border-teal-500/35 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong"
             >
               {moreGraphsOpen ? t("hide") : t("show")}
             </button>

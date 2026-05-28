@@ -504,10 +504,9 @@ export function UnitCircleRotationSimulation({
             <circle
               cx={primaryPoint.x}
               cy={primaryPoint.y}
-              r="17"
-              fill="transparent"
+              r="68"
+              fill="rgba(0,0,0,0.001)"
               stroke="transparent"
-              strokeWidth="12"
             />
           </g>
           <text

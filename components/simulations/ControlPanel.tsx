@@ -190,7 +190,7 @@ export function ControlPanel({
           htmlFor={inputId}
           onMouseEnter={() => variableLink ? onVariableFocus?.(variableLink.id) : undefined}
           className={[
-            "flex items-start justify-between gap-3 rounded-[20px] border bg-paper-strong px-2.5 py-1.5 transition sm:px-4 sm:py-3",
+            "flex min-h-11 items-start justify-between gap-3 rounded-[20px] border bg-paper-strong px-2.5 py-1.5 transition sm:px-4 sm:py-3",
             selected && tone ? `${tone.border} ${tone.panel}` : "border-line hover:border-teal-500/40",
             highlighted ? "ring-1 ring-inset ring-coral-500/35" : "",
           ].join(" ")}
@@ -314,7 +314,7 @@ export function ControlPanel({
         onClick={() => onPreset?.(preset.id)}
         style={selected ? { color: "var(--paper-strong)" } : undefined}
         className={[
-          "rounded-[16px] border px-3 py-2 text-left text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong",
+          "min-h-11 rounded-[16px] border px-3 py-2 text-left text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong",
           selected
             ? "border-coral-500 bg-coral-500 shadow-[0_10px_24px_rgba(241,102,89,0.16)]"
             : highlighted
@@ -351,7 +351,7 @@ export function ControlPanel({
               setMoreToolsExpanded(false);
               onReset();
             }}
-            className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.14em] text-ink-700 transition hover:border-coral-500 hover:text-coral-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong sm:px-3 sm:py-1.5 sm:text-[0.72rem] sm:tracking-[0.18em]"
+            className="min-h-11 rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.14em] text-ink-700 transition hover:border-coral-500 hover:text-coral-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong sm:px-3 sm:py-1.5 sm:text-[0.72rem] sm:tracking-[0.18em]"
           >
             {resolvedResetLabel}
           </button>
@@ -396,7 +396,7 @@ export function ControlPanel({
                 aria-expanded={moreToolsOpen}
                 aria-controls="control-panel-advanced-tools"
                 onClick={() => setMoreToolsExpanded((current) => !current)}
-                className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-600 transition hover:border-coral-500/35 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong"
+                className="min-h-11 rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-600 transition hover:border-coral-500/35 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong"
               >
                 {moreToolsOpen ? t("moreTools.hide") : t("moreTools.show")}
               </button>

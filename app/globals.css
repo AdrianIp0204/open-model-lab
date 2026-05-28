@@ -237,6 +237,7 @@ select {
 
   .control-accent {
     @apply accent-teal-500;
+    min-height: 44px;
   }
 
   .page-enter {

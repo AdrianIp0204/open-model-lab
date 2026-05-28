@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { type PointerEvent as ReactPointerEvent, useRef, useState } from "react";
 import {
   clamp,
   formatMeasurement,
@@ -297,6 +297,7 @@ export function SHMSimulation({
 }: SHMSimulationProps) {
   const t = useTranslations("SHMSimulation");
   const [dragging, setDragging] = useState(false);
+  const draggingRef = useRef(false);
   const displayTime = graphPreview?.kind === "time" || graphPreview?.kind === "trajectory" ? graphPreview.time : time;
   const activeFrame = buildOscillatorFrame(params, displayTime);
   const compareAFrame = compare ? buildOscillatorFrame(compare.setupA, displayTime) : null;
@@ -410,6 +411,30 @@ export function SHMSimulation({
     setParam("phase", Number((nextPhase < 0 ? nextPhase + Math.PI * 2 : nextPhase).toFixed(3)));
   }
 
+  function updateMassDragFromPointer(event: ReactPointerEvent<SVGGElement>) {
+    const bounds = event.currentTarget.ownerSVGElement?.getBoundingClientRect();
+    if (bounds) {
+      updateFromClientX(event.clientX, bounds);
+    }
+  }
+
+  function startMassDrag(event: ReactPointerEvent<SVGGElement>) {
+    event.currentTarget.setPointerCapture(event.pointerId);
+    draggingRef.current = true;
+    setDragging(true);
+    updateMassDragFromPointer(event);
+  }
+
+  function moveMassDrag(event: ReactPointerEvent<SVGGElement>) {
+    if (!draggingRef.current) return;
+    updateMassDragFromPointer(event);
+  }
+
+  function endMassDrag() {
+    draggingRef.current = false;
+    setDragging(false);
+  }
+
   return (
     <section className="overflow-hidden rounded-[22px] border border-line bg-paper-strong">
       <div className="border-b border-line bg-[linear-gradient(135deg,rgba(30,166,162,0.08),rgba(240,171,60,0.06))] px-3 py-2">
@@ -431,13 +456,14 @@ export function SHMSimulation({
         className="h-auto w-full overflow-visible"
         role="img"
         aria-label={concept.accessibility?.simulationDescription ?? concept.summary}
+        style={{ touchAction: "none", userSelect: "none" }}
         onPointerMove={(event) => {
           if (!dragging) return;
           const bounds = event.currentTarget.getBoundingClientRect();
           updateFromClientX(event.clientX, bounds);
         }}
-        onPointerUp={() => setDragging(false)}
-        onPointerLeave={() => setDragging(false)}
+        onPointerUp={endMassDrag}
+        onPointerLeave={endMassDrag}
       >
         <defs>
           <linearGradient id="shm-track" x1="0" x2="1" y1="0" y2="0">
@@ -576,14 +602,11 @@ export function SHMSimulation({
               tabIndex={0}
               role="button"
               aria-label={t("aria.massForLabel", { label: activeLabel })}
-              onPointerDown={(event) => {
-                event.currentTarget.setPointerCapture(event.pointerId);
-                setDragging(true);
-                const bounds = event.currentTarget.ownerSVGElement?.getBoundingClientRect();
-                if (bounds) {
-                  updateFromClientX(event.clientX, bounds);
-                }
-              }}
+              onPointerDown={startMassDrag}
+              onPointerMove={moveMassDrag}
+              onPointerUp={endMassDrag}
+              onPointerCancel={endMassDrag}
+              onLostPointerCapture={endMassDrag}
               onKeyDown={(event) => {
                 if (event.key === "ArrowLeft" || event.key === "ArrowDown") {
                   event.preventDefault();
@@ -601,6 +624,14 @@ export function SHMSimulation({
               }}
               style={{ cursor: dragging ? "grabbing" : "grab" }}
             >
+              <rect
+                x={primaryFrame.blockX - 58}
+                y={activeLaneY - 58}
+                width="116"
+                height="116"
+                rx="24"
+                fill="rgba(0,0,0,0.001)"
+              />
               <rect
                 x={primaryFrame.blockX - MASS_HALF_WIDTH}
                 y={activeLaneY - 40}
@@ -778,14 +809,11 @@ export function SHMSimulation({
               tabIndex={0}
               role="button"
               aria-label={t("aria.mass")}
-              onPointerDown={(event) => {
-                event.currentTarget.setPointerCapture(event.pointerId);
-                setDragging(true);
-                const bounds = event.currentTarget.ownerSVGElement?.getBoundingClientRect();
-                if (bounds) {
-                  updateFromClientX(event.clientX, bounds);
-                }
-              }}
+              onPointerDown={startMassDrag}
+              onPointerMove={moveMassDrag}
+              onPointerUp={endMassDrag}
+              onPointerCancel={endMassDrag}
+              onLostPointerCapture={endMassDrag}
               onKeyDown={(event) => {
                 if (event.key === "ArrowLeft" || event.key === "ArrowDown") {
                   event.preventDefault();
@@ -803,6 +831,14 @@ export function SHMSimulation({
               }}
               style={{ cursor: dragging ? "grabbing" : "grab" }}
             >
+              <rect
+                x={primaryFrame.blockX - 58}
+                y={TRACK_Y - 58}
+                width="116"
+                height="116"
+                rx="24"
+                fill="rgba(0,0,0,0.001)"
+              />
               <rect
                 x={primaryFrame.blockX - MASS_HALF_WIDTH}
                 y={TRACK_Y - 40}

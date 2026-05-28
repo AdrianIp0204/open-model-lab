@@ -253,7 +253,7 @@ export function PredictionModePanel({
             type="button"
             disabled={!api.answered}
             onClick={api.testScenario}
-            className="inline-flex items-center justify-center rounded-full border border-teal-500/25 bg-teal-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-teal-600 disabled:cursor-not-allowed disabled:opacity-45"
+            className="inline-flex min-h-11 items-center justify-center rounded-full border border-teal-500/25 bg-teal-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-teal-600 disabled:cursor-not-allowed disabled:opacity-45"
           >
             {api.tested ? t("actions.tested") : t("actions.test")}
           </button>
@@ -261,21 +261,21 @@ export function PredictionModePanel({
             type="button"
             disabled={!api.answered}
             onClick={api.nextItem}
-            className="inline-flex items-center justify-center rounded-full border border-line bg-paper-strong px-4 py-2.5 text-sm font-semibold text-ink-800 transition hover:border-teal-500/35 hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-45"
+            className="inline-flex min-h-11 items-center justify-center rounded-full border border-line bg-paper-strong px-4 py-2.5 text-sm font-semibold text-ink-800 transition hover:border-teal-500/35 hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-45"
           >
             {isLastItem ? t("actions.finish") : t("actions.next")}
           </button>
           <button
             type="button"
             onClick={api.restart}
-            className="inline-flex items-center justify-center rounded-full border border-line bg-paper-strong px-4 py-2.5 text-sm font-semibold text-ink-800 transition hover:border-coral-500/35 hover:bg-white/90"
+            className="inline-flex min-h-11 items-center justify-center rounded-full border border-line bg-paper-strong px-4 py-2.5 text-sm font-semibold text-ink-800 transition hover:border-coral-500/35 hover:bg-white/90"
           >
             {t("actions.restart")}
           </button>
           <button
             type="button"
             onClick={api.exit}
-            className="inline-flex items-center justify-center rounded-full border border-line bg-paper-strong px-4 py-2.5 text-sm font-semibold text-ink-800 transition hover:border-coral-500/35 hover:bg-white/90"
+            className="inline-flex min-h-11 items-center justify-center rounded-full border border-line bg-paper-strong px-4 py-2.5 text-sm font-semibold text-ink-800 transition hover:border-coral-500/35 hover:bg-white/90"
           >
             {t("actions.exit")}
           </button>
