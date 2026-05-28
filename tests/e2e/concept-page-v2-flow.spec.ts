@@ -91,7 +91,39 @@ test.describe("concept page v2 flow", () => {
             await expect(cue).toContainText("Current step");
             await expect(count).toHaveText(/\d+ \/ \d+/);
             await expect(goal).not.toHaveText("");
+            await expect(action).toBeVisible();
             await expect(action).not.toHaveText("");
+            await expect(action).toContainText("Do this");
+
+            const cueReadability = await page.evaluate(() => {
+              return [
+                ["goal", "[data-testid='concept-v2-current-step-cue-goal']"],
+                ["action", "[data-testid='concept-v2-current-step-cue-action']"],
+              ].map(([label, selector]) => {
+                const element = document.querySelector<HTMLElement>(selector);
+
+                if (!element) {
+                  return { label, missing: true, clipped: true, text: "" };
+                }
+
+                return {
+                  label,
+                  missing: false,
+                  clipped:
+                    element.scrollHeight > element.clientHeight + 2 ||
+                    element.scrollWidth > element.clientWidth + 2,
+                  text: element.innerText.replace(/\s+/g, " ").trim(),
+                };
+              });
+            });
+
+            expect(cueReadability).toEqual(
+              expect.arrayContaining([
+                expect.objectContaining({ label: "goal", missing: false, clipped: false }),
+                expect.objectContaining({ label: "action", missing: false, clipped: false }),
+              ]),
+            );
+            expect(cueReadability.map((entry) => entry.text).join(" ")).not.toContain("...");
 
             const cueBox = await cue.boundingBox();
             expect(cueBox).not.toBeNull();

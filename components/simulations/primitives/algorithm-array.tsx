@@ -29,6 +29,7 @@ type AlgorithmArrayLaneProps = {
   interval?: { start: number; end: number } | null;
   ghost?: boolean;
   showValues?: boolean;
+  showIndices?: boolean;
   focusedOverlayId?: string | null;
   overlayValues?: {
     intervalWindow?: boolean;
@@ -96,6 +97,7 @@ export function AlgorithmArrayLane({
   interval = null,
   ghost = false,
   showValues = true,
+  showIndices = true,
   focusedOverlayId,
   overlayValues,
 }: AlgorithmArrayLaneProps) {
@@ -250,14 +252,16 @@ export function AlgorithmArrayLane({
                 {value}
               </text>
             ) : null}
-            <text
-              x={labelX}
-              y={laneTop + laneHeight + 12}
-              textAnchor="middle"
-              className="fill-ink-400 text-[9px] font-semibold uppercase tracking-[0.12em]"
-            >
-              {index}
-            </text>
+            {showIndices ? (
+              <text
+                x={labelX}
+                y={laneTop + laneHeight + 12}
+                textAnchor="middle"
+                className="fill-ink-400 text-[9px] font-semibold uppercase tracking-[0.12em]"
+              >
+                {index}
+              </text>
+            ) : null}
           </g>
         );
       })}

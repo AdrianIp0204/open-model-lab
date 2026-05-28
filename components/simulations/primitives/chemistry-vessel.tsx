@@ -720,7 +720,12 @@ export function ChemistryVessel({
       ) : null}
 
       {footerText ? (
-        <text x="18" y={height - 18} className="fill-ink-600 text-[12px]">
+        <text
+          x="18"
+          y={height - 18}
+          data-simulation-readout-note="true"
+          className="fill-ink-600 text-[12px]"
+        >
           {footerText}
         </text>
       ) : null}

@@ -181,6 +181,8 @@ export function BinarySearchHalvingSimulation({
             summaryChip={`checks ${primary.linearVisitedIndices.length}`}
             values={primary.values}
             highlights={linearLaneHighlights}
+            showValues={false}
+            showIndices={false}
             pointers={
               primary.linearVisitedIndices.length
                 ? [

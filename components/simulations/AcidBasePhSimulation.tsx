@@ -335,7 +335,7 @@ export function AcidBasePhSimulation({
           width={BENCH_WIDTH}
           height={BENCH_HEIGHT}
           title={copy.benchTitle}
-          subtitle={`${primaryLabel}：${copy.benchSubtitle}`}
+          subtitle={`${primaryLabel} pH ${formatNumber(primary.pH)}`}
           time={loopTime}
           agitation={0.8 + Math.abs(primary.pH - 7) * 0.04}
           reactantCount={primary.hydroniumCount}

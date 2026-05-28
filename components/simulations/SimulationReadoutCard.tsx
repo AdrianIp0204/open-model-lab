@@ -126,6 +126,7 @@ export function SimulationReadoutCard({
           {resolvedNoteLines.map((noteLine, index) => (
             <text
               key={noteLine}
+              data-simulation-readout-note="true"
               x={compact ? "12" : "14"}
               y={noteStartY + index * noteLineHeight}
               className={compact ? "fill-ink-500 text-[9px]" : "fill-ink-500 text-[9px]"}

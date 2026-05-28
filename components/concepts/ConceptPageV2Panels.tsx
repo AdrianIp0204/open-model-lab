@@ -18,6 +18,62 @@ export const conceptPageV2CurrentStepCardId = "concept-v2-current-step-card";
 export const conceptPageV2CurrentStepHeadingId = "concept-v2-current-step-heading";
 export const conceptPageV2WrapUpHashId = "concept-v2-wrap-up";
 
+function countWords(text: string) {
+  return text.trim().split(/\s+/).filter(Boolean).length;
+}
+
+function hasDanglingCueEnding(text: string) {
+  return /\b(and|or|as|with|while|before|after|because|from|to|the|a|an)$/i.test(
+    text.trim(),
+  );
+}
+
+function compactCurrentStepText(text: string, maxWords = 14) {
+  const normalized = text.replace(/\s+/g, " ").trim();
+  const words = normalized.split(/\s+/).filter(Boolean);
+
+  if (words.length <= maxWords) {
+    return normalized;
+  }
+
+  const phraseBreaks = [
+    ": ",
+    "; ",
+    ". ",
+    " and watch ",
+    " while ",
+    " before ",
+    " after ",
+    " as ",
+    " because ",
+    " instead of ",
+    " rather than ",
+    ", then ",
+    ", and ",
+  ];
+
+  for (const phraseBreak of phraseBreaks) {
+    const breakIndex = normalized.indexOf(phraseBreak);
+
+    if (breakIndex <= 0) {
+      continue;
+    }
+
+    const candidate = normalized.slice(0, breakIndex).trim().replace(/[,:;.]$/, "");
+    const candidateWordCount = countWords(candidate);
+
+    if (
+      candidateWordCount >= 4 &&
+      candidateWordCount <= maxWords &&
+      !hasDanglingCueEnding(candidate)
+    ) {
+      return candidate;
+    }
+  }
+
+  return words.slice(0, maxWords).join(" ");
+}
+
 export type ConceptPageV2EquationSnapshot = {
   id: string;
   label: string;
@@ -456,6 +512,8 @@ export function ConceptPageV2CurrentStepCue({
   const goalId = useId();
   const normalizedPosition = Math.max(1, activePosition);
   const normalizedCount = Math.max(1, stepCount);
+  const compactGoal = compactCurrentStepText(step.goal);
+  const compactAction = compactCurrentStepText(step.doThis, 11);
 
   return (
     <section
@@ -477,19 +535,16 @@ export function ConceptPageV2CurrentStepCue({
       <h2
         id={goalId}
         data-testid="concept-v2-current-step-cue-goal"
-        className="mt-1 line-clamp-1 break-words text-sm font-semibold leading-5 text-ink-950"
+        className="mt-1 line-clamp-3 break-words text-sm font-semibold leading-5 text-ink-950 sm:line-clamp-2"
       >
-        <RichMathText as="span" content={step.goal} />
+        <RichMathText as="span" content={compactGoal} />
       </h2>
-      <p className="mt-1.5 min-w-0 text-sm leading-5 text-ink-700">
+      <p
+        data-testid="concept-v2-current-step-cue-action"
+        className="mt-1.5 line-clamp-2 min-w-0 break-words text-xs font-medium leading-4 text-ink-800 sm:text-sm sm:leading-5"
+      >
         <span className="font-semibold text-teal-800">{copy.actLabel}: </span>
-        <span data-testid="concept-v2-current-step-cue-action">
-          <RichMathText
-            as="span"
-            content={step.doThis}
-            className="line-clamp-2 break-words font-medium text-ink-900"
-          />
-        </span>
+        <RichMathText as="span" content={compactAction} className="text-ink-900" />
       </p>
     </section>
   );

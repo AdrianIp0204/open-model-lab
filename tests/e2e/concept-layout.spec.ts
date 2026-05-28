@@ -935,7 +935,7 @@ test("opens Reaction Rate / Collision Theory on its collision bench", async ({
     await expect(page.getByText("Reaction rate and collision theory").first()).toBeVisible();
     await expect(page.getByText("Collision bench").first()).toBeVisible();
     await expect(page.getByText("Rate readout").first()).toBeVisible();
-    await expect(page.getByText("Successful hits stay on the bench").first()).toBeVisible();
+    await expect(page.getByText("Successful hits stay on the bench").first()).toBeHidden();
     browserGuard.assertNoActionableIssues();
   } finally {
     await context.close();
@@ -1262,7 +1262,7 @@ test("opens Conservation of Momentum on its two-cart momentum bench", async ({
 
   try {
     await assertInitialViewportLayout(page, desktopCase!, testInfo);
-    await expect(page.getByText(/Two carts exchange momentum/).first()).toBeVisible();
+    await expect(page.getByText(/Two carts exchange momentum/).first()).toBeHidden();
     await expect(page.getByText("System state").first()).toBeVisible();
     await expect(page.getByText("Track position").first()).toBeVisible();
     browserGuard.assertNoActionableIssues();

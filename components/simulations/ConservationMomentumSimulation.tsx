@@ -740,7 +740,12 @@ export function ConservationMomentumSimulation({
         >
           x (m)
         </text>
-        <text x={STAGE_LEFT + 18} y={TRACK_Y - 42} className="fill-ink-600 text-[12px]">
+        <text
+          x={STAGE_LEFT + 18}
+          y={TRACK_Y - 42}
+          data-simulation-readout-note="true"
+          className="fill-ink-600 text-[12px]"
+        >
           Current setups stay within about +/-{formatNumber(extents.maxAbsPosition)} m on
           the fixed +/-8 m track, so compare mode never rescales the system.
         </text>
@@ -768,7 +773,12 @@ export function ConservationMomentumSimulation({
           y: 108,
         })}
 
-        <text x={STAGE_LEFT + 18} y={STAGE_BOTTOM - 18} className="fill-ink-600 text-[12px]">
+        <text
+          x={STAGE_LEFT + 18}
+          y={STAGE_BOTTOM - 18}
+          data-simulation-readout-note="true"
+          className="fill-ink-600 text-[12px]"
+        >
           {compareEnabled ? compareNote : "Internal forces redistribute momentum between the carts, but the isolated-system total remains unchanged."}
         </text>
 

@@ -1,5 +1,25 @@
 # Open Model Lab Status
 
+## 2026-05-29 OML-QA-020 Concept First-Viewport Density
+
+Current state: `OML-QA-020` is complete. Representative concept pages now keep the first viewport lighter by removing secondary control/graph prose from the live bench, compacting current-step goal/action copy without hiding the action, collapsing Step tools by default, and trimming dense simulation readouts.
+
+### Files Changed
+
+- `components/concepts/ConceptPageV2Panels.tsx`: compacts current-step cue goal/action text at phrase boundaries and keeps the visible `Do this` action unclipped.
+- `components/simulations/ControlPanel.tsx`, `components/simulations/ConceptSimulationRenderer.tsx`, `components/concepts/CompactModeTabs.tsx`: remove first-viewport description copy from visible controls, collapse Step tools by default, and maintain 44px touch targets.
+- `app/globals.css`, `components/graphs/LineGraph.tsx`, `components/simulations/*`, `components/simulations/primitives/*`: hide secondary graph/readout notes in the focused live bench and trim dense visual/readout labels on representative simulations.
+- `tests/e2e/concept-layout.spec.ts`, `tests/e2e/concept-page-v2-flow.spec.ts`: update focused expectations and strengthen current-step cue readability coverage.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec playwright test tests/e2e/output/oml-qa-020-density-audit.spec.ts`: passed; representative desktop/tablet pages stayed below 260 visible words and phone/short-phone pages stayed below 180.
+- `pnpm exec playwright test -c playwright.concept-v2.config.ts tests/e2e/concept-page-v2-flow.spec.ts -g "OML-QA-015"`: passed, including current-step goal/action clipping checks.
+- Representative screenshots for desktop, tablet, phone, and short-phone density cases were inspected; no blocker was found.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-29 OML-QA-019 Contextual Guided Bench Tools
 
 Current state: `OML-QA-019` is complete. Guided concept benches now expose contextual Step tools beside the current-step cue so learners can open revealed controls, graphs, overlays, equations, and prediction prompts from the live bench instead of scrolling to the lower support panels.

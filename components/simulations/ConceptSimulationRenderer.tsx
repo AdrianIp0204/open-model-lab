@@ -6783,6 +6783,8 @@ type GuidedBenchToolsCopy = {
   equationLabel: string;
   predictionLabel: string;
   activeLabel: string;
+  showLabel: string;
+  hideLabel: string;
   revealKinds: Record<"control" | "graph" | "overlay" | "tool" | "section", string>;
 };
 
@@ -6829,6 +6831,7 @@ function GuidedBenchToolsDrawer({
       ? graphMap.get(activeFocus.id) ?? graphMap.get(activeGraphId ?? "") ?? null
       : null;
   const hasTools = revealItems.length > 0 || equations.length > 0 || predictionAvailable;
+  const [toolsOpen, setToolsOpen] = useState(false);
   const activeToolPanel = activeFocus ? (
     <div
       data-testid="concept-v2-bench-tool-active"
@@ -6895,12 +6898,14 @@ function GuidedBenchToolsDrawer({
   }
 
   return (
-    <section
+    <details
       data-testid="concept-v2-bench-tools"
       aria-label={copy.label}
+      open={toolsOpen}
+      onToggle={(event) => setToolsOpen((event.currentTarget as HTMLDetailsElement).open)}
       className="rounded-[16px] border border-line/80 bg-white/88 px-3 py-2.5 shadow-sm"
     >
-      <div className="flex flex-wrap items-start justify-between gap-2">
+      <summary className="flex min-h-11 cursor-pointer list-none flex-wrap items-center justify-between gap-2 [&::-webkit-details-marker]:hidden">
         <div className="min-w-0">
           <p className="text-xs font-semibold uppercase leading-5 tracking-[0.14em] text-ink-600">
             {copy.label}
@@ -6911,8 +6916,12 @@ function GuidedBenchToolsDrawer({
           <span className="rounded-full border border-teal-500/18 bg-teal-500/8 px-2.5 py-0.5 text-xs font-semibold leading-5 text-teal-800">
             {copy.activeLabel}
           </span>
-        ) : null}
-      </div>
+        ) : (
+          <span className="rounded-full border border-line bg-paper-strong px-2.5 py-0.5 text-xs font-semibold leading-5 text-ink-600">
+            {toolsOpen ? copy.hideLabel : copy.showLabel}
+          </span>
+        )}
+      </summary>
 
       {activeToolPanel}
 
@@ -6930,7 +6939,7 @@ function GuidedBenchToolsDrawer({
               aria-label={label}
               onClick={() => onSelectReveal(item)}
               className={[
-                "min-h-10 max-w-full rounded-full border px-2.5 py-1 text-left text-xs font-semibold leading-5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                "min-h-11 max-w-full rounded-full border px-2.5 py-1 text-left text-xs font-semibold leading-5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
                 active
                   ? "border-teal-500/35 bg-teal-500/12 text-teal-800"
                   : "border-line bg-paper-strong text-ink-700 hover:border-teal-500/35 hover:bg-white",
@@ -6952,7 +6961,7 @@ function GuidedBenchToolsDrawer({
               aria-pressed={active}
               onClick={() => onSelectEquation(equation.id)}
               className={[
-                "min-h-10 max-w-full rounded-full border px-2.5 py-1 text-left text-xs font-semibold leading-5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                "min-h-11 max-w-full rounded-full border px-2.5 py-1 text-left text-xs font-semibold leading-5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
                 active
                   ? "border-teal-500/35 bg-teal-500/12 text-teal-800"
                   : "border-line bg-paper-strong text-ink-700 hover:border-teal-500/35 hover:bg-white",
@@ -6970,7 +6979,7 @@ function GuidedBenchToolsDrawer({
             aria-pressed={activeFocus?.kind === "prediction"}
             onClick={onOpenPrediction}
             className={[
-              "min-h-10 max-w-full rounded-full border px-2.5 py-1 text-left text-xs font-semibold leading-5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+              "min-h-11 max-w-full rounded-full border px-2.5 py-1 text-left text-xs font-semibold leading-5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
               activeFocus?.kind === "prediction"
                 ? "border-amber-500/35 bg-amber-500/12 text-amber-800"
                 : "border-line bg-paper-strong text-ink-700 hover:border-amber-500/35 hover:bg-white",
@@ -6980,7 +6989,7 @@ function GuidedBenchToolsDrawer({
           </button>
         ) : null}
       </div>
-    </section>
+    </details>
   );
 }
 
@@ -8530,7 +8539,7 @@ export function ConceptSimulationRenderer({
           <button
             type="button"
             onClick={() => setInteraction("compare")}
-            className="inline-flex min-h-10 items-center justify-center rounded-full border border-teal-500/35 bg-paper-strong px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-teal-800 transition hover:border-teal-500/55 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+            className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-teal-500/35 bg-paper-strong px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-teal-800 transition hover:border-teal-500/55 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
           >
             {tCompare("title")}
           </button>
@@ -9001,6 +9010,8 @@ export function ConceptSimulationRenderer({
           equationLabel: t("benchTools.equationLabel"),
           predictionLabel: t("predictionPrompt.label"),
           activeLabel: t("benchTools.activeLabel"),
+          showLabel: t("actions.show"),
+          hideLabel: t("actions.hide"),
           revealKinds: {
             control: t("benchBrief.revealKinds.control"),
             graph: t("benchBrief.revealKinds.graph"),

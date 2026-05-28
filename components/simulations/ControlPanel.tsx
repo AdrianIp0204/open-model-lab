@@ -221,7 +221,7 @@ export function ControlPanel({
             {control.description ? (
               <span
                 id={descriptionId}
-                className="hidden line-clamp-2 text-sm leading-6 text-ink-500 xl:block"
+                className="sr-only"
               >
                 {control.description}
               </span>
@@ -280,7 +280,7 @@ export function ControlPanel({
         {control.description ? (
           <p
             id={descriptionId}
-            className="hidden line-clamp-2 text-sm leading-6 text-ink-500 xl:mt-1.5 xl:block"
+            className="sr-only"
           >
             {control.description}
           </p>
@@ -348,7 +348,7 @@ export function ControlPanel({
               </span>
             ) : null}
           </div>
-          <p className="mt-1 hidden line-clamp-2 text-sm leading-6 text-ink-700 xl:block">
+          <p className="sr-only">
             {resolvedDescription}
           </p>
         </div>

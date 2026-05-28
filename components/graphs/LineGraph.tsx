@@ -452,11 +452,12 @@ export function LineGraph({
             content={description ?? summary}
             className={
               mobileVisualPriority
-                ? "sr-only sm:not-sr-only sm:mt-1 sm:text-sm sm:text-ink-700"
-                : "mt-1 text-sm text-ink-700"
+                ? "line-graph-summary sr-only sm:not-sr-only sm:mt-1 sm:text-sm sm:text-ink-700"
+                : "line-graph-summary mt-1 text-sm text-ink-700"
             }
           />
           <div
+            data-testid="line-graph-ranges"
             className={
               mobileVisualPriority ? "hidden sm:mt-2 sm:flex sm:flex-wrap sm:gap-1.5" : "mt-2 flex flex-wrap gap-1.5"
             }

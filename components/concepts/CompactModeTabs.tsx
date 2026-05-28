@@ -39,7 +39,7 @@ export function CompactModeTabs({
             role="tab"
             aria-selected={selected}
             className={[
-              "min-h-11 rounded-[10px] px-3 py-1.5 transition",
+              "min-h-[44px] rounded-[10px] px-3 py-1.5 transition",
               selected ? "bg-teal-500 text-white shadow-sm" : "hover:text-ink-900",
             ].join(" ")}
             onClick={() => onChange(item.id)}
