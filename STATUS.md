@@ -1,5 +1,41 @@
 # Open Model Lab Status
 
+## 2026-05-28 Concept Pages Full QA / UI-UX Pass
+
+Current state: the concept-page QA pass is complete and follow-up work is now captured as `OML-QA-015` through `OML-QA-024` in `TASKS.md`. No product code was changed in this pass.
+
+### Scope Checked
+
+- Representative concepts: SHM, UCM, projectile motion, electric fields, unit circle, acid/base pH, matrix transformations, binary search, reaction rate, derivative slope, conservation of momentum, and wave interference.
+- Viewports: `1440x900`, `820x1180`, `390x844`, and `360x740`.
+- Features probed: Help / Tutorial, guided step navigation, inline quick checks, prediction prompt, guided overlays, equation map, wrap-up/challenge links, visible support tools, touch targets, density, overflow, and protected learning-zone overlays.
+
+### Main Findings
+
+- No route crashes or page-level horizontal overflow were found in the representative sweep.
+- The current guided task is too far below the first usable bench viewport after the old first-action rail removal.
+- Mobile controls are still too tall and bury the graph, prediction, overlay, equation-map, and guided-task surfaces.
+- Inline guided quick checks look answerable but are static, while the separate prediction prompt repeats similar content interactively.
+- Compare mode is still not discoverable in the guided concept-page flow.
+- Prediction, overlay, and equation-map tools are several screens below the live bench.
+- First-viewport text/card density remains high across nearly all representative concept pages.
+- Some mobile simulation visuals/readouts are too small to inspect comfortably.
+- Floating Coach/Feedback controls can overlap concept bench content.
+- Post-bench support sections need consolidation.
+- A few concept-page touch targets remain below the 44px floor.
+
+### Artifacts
+
+- Sweep summary: `output/concept-qa-pass-2026-05-28/2026-05-28T15-17-02-393Z/summary.json`
+- Full sweep report: `output/concept-qa-pass-2026-05-28/2026-05-28T15-17-02-393Z/report.json`
+- Screenshots: `output/concept-qa-pass-2026-05-28/2026-05-28T15-17-02-393Z/screenshots/`
+- Feature screenshots: `output/concept-qa-pass-2026-05-28/manual-feature-shots/`
+
+### Validation Run
+
+- Custom Playwright/browser QA sweep over 48 route/viewport combinations: passed with `errors: 0`; produced findings for density and target-size work.
+- Manual feature probes over SHM, UCM, and Acid/Base on desktop and phone: Help, step navigation, prediction prompt, overlays, equation map, and challenge deep links were exercised; findings captured in `TASKS.md`.
+
 ## 2026-05-28 OML-QA-014 Concept Bench First-Action Rail Removal
 
 Current state: `OML-QA-014` is complete. Guided concept pages no longer render the visible `Try this first` / first-action card under the live model. The current action remains in the guided step rail, and the Help / Tutorial concept-page copy now carries the predict-change-observe-explain-check loop.
