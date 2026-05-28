@@ -139,6 +139,9 @@ export function ConceptPageV2Shell({
       revealOverflowLabel: (values: { count: number }) =>
         t("v2.revealOverflowLabel", values),
       quickCheckLabel: t("v2.quickCheckLabel"),
+      inlineCheckCorrectLabel: t("v2.inlineCheckCorrectLabel"),
+      inlineCheckIncorrectLabel: t("v2.inlineCheckIncorrectLabel"),
+      inlineCheckInstructions: t("v2.inlineCheckInstructions"),
       previousStep: t("v2.previousStep"),
       nextStep: t("v2.nextStep"),
       lessonCompleteLabel: t("v2.lessonCompleteLabel"),

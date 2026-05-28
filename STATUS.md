@@ -1,5 +1,26 @@
 # Open Model Lab Status
 
+## 2026-05-29 OML-QA-017 Guided Rail Quick Checks
+
+Current state: `OML-QA-017` is complete. Guided rail and support quick-check choices are now real answer controls with radio semantics, selected state, and correct/incorrect feedback. The inline check data preserves choice ids/correctness/feedback from prediction and quick-test content, and the duplicate secondary prediction drawer is hidden while a guided inline check with choices is active.
+
+### Files Changed
+
+- `components/concepts/ConceptPageV2Panels.tsx`: renders inline-check choices as interactive radio controls with live feedback.
+- `lib/content/concept-page-v2.ts`: carries choice ids, correctness, and feedback into resolved inline-check view models.
+- `components/simulations/ConceptSimulationRenderer.tsx`: suppresses the repeated secondary prediction flow when the active guided step already has an inline check.
+- `messages/en.json`, `messages/zh-HK.json`: added localized inline-check feedback/instruction copy.
+- Tests: added component coverage and an `OML-QA-017` Playwright flow for SHM and UCM inline guided checks.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm test tests/components/concept-page-v2-panels.test.tsx -- --runInBand`: passed, 26/26.
+- `pnpm exec playwright test tests/e2e/concept-page-v2-flow.spec.ts --grep "OML-QA-017"`: passed, 1/1.
+- `pnpm validate:content`: passed.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-29 OML-QA-016 Mobile Concept Control Stack
 
 Current state: `OML-QA-016` is complete. Phone concept benches now keep presets behind a dedicated disclosure, keep secondary controls in `More controls`, and avoid force-opening the secondary stack just because a guided step reveals a control. The scene, compact current task, primary controls, and graph surface are reachable within the mobile 1.5-viewport target on the audited representative concepts.

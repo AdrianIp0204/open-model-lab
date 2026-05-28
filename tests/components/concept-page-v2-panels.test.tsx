@@ -26,6 +26,9 @@ const copy = {
   revealOverflowLabel: ({ count }: { count: number }) =>
     `${count} more available item${count === 1 ? "" : "s"}`,
   quickCheckLabel: "Quick check",
+  inlineCheckCorrectLabel: "Correct",
+  inlineCheckIncorrectLabel: "Not quite",
+  inlineCheckInstructions: "Choose an answer to check your reasoning before you move on.",
   previousStep: "Previous step",
   nextStep: "Next step",
   lessonCompleteLabel: "Ready to wrap up",
@@ -56,7 +59,20 @@ const steps: ConceptPageV2StepViewModel[] = [
       title: "Which trace moved first?",
       prompt: "Pick the trace that changed when the control moved.",
       supportingText: "Use the first changed trace as your clue.",
-      choices: ["Left trace", "Right trace"],
+      choices: [
+        {
+          id: "left",
+          label: "Left trace",
+          isCorrect: true,
+          feedback: "The left trace moved first.",
+        },
+        {
+          id: "right",
+          label: "Right trace",
+          isCorrect: false,
+          feedback: "The right trace lagged behind the first change.",
+        },
+      ],
     },
   },
   {
@@ -109,7 +125,20 @@ const steps: ConceptPageV2StepViewModel[] = [
       eyebrow: "Transfer check",
       title: "Which rule predicts the next setup?",
       prompt: "Choose the rule that still matches the final graph.",
-      choices: ["Same rule", "New rule"],
+      choices: [
+        {
+          id: "same",
+          label: "Same rule",
+          isCorrect: true,
+          feedback: "The same rule still predicts the setup.",
+        },
+        {
+          id: "new",
+          label: "New rule",
+          isCorrect: false,
+          feedback: "No new rule is needed here.",
+        },
+      ],
     },
   },
 ];
@@ -1399,11 +1428,23 @@ describe("ConceptPageV2LessonRail", () => {
       "xl:grid-cols-1",
       "2xl:grid-cols-2",
     );
-    expect(within(railQuickCheckChoices).getAllByRole("listitem")).toHaveLength(2);
+    expect(within(railQuickCheckChoices).getAllByRole("radio")).toHaveLength(2);
     expect(within(railQuickCheckChoices).getByText("Left trace").parentElement).toHaveClass(
       "min-w-0",
       "line-clamp-2",
       "break-words",
+    );
+    const railCorrectChoice = within(railQuickCheckChoices).getByRole("radio", {
+      name: /Left trace/i,
+    });
+    expect(railCorrectChoice).toHaveAttribute("aria-checked", "false");
+    fireEvent.click(railCorrectChoice);
+    expect(railCorrectChoice).toHaveAttribute("aria-checked", "true");
+    expect(screen.getByTestId("concept-v2-rail-inline-check-choices-feedback")).toHaveTextContent(
+      "Correct",
+    );
+    expect(screen.getByTestId("concept-v2-rail-inline-check-choices-feedback")).toHaveTextContent(
+      "The left trace moved first.",
     );
     const nextCheckpoint = screen.getByTestId("concept-v2-next-checkpoint");
     expect(nextCheckpoint).toHaveClass("flex", "flex-col", "md:flex-row");
@@ -1728,14 +1769,25 @@ describe("ConceptPageV2LessonRail", () => {
     expect(quickCheckChoices).toHaveClass("sm:grid-cols-2", "xl:grid-cols-3");
     expect(quickCheckChoices).toHaveTextContent("Left trace");
     expect(quickCheckChoices).toHaveTextContent("Right trace");
-    expect(within(quickCheckChoices).getAllByRole("listitem")).toHaveLength(2);
+    expect(within(quickCheckChoices).getAllByRole("radio")).toHaveLength(2);
     expect(within(quickCheckChoices).getByText("Left trace").parentElement).toHaveClass(
       "min-w-0",
       "line-clamp-2",
       "break-words",
     );
-    expect(within(quickCheckChoices).getByText("Left trace").closest("li")).toHaveClass(
+    const supportIncorrectChoice = within(quickCheckChoices).getByRole("radio", {
+      name: /Right trace/i,
+    });
+    expect(within(quickCheckChoices).getByText("Left trace").closest("button")).toHaveClass(
       "min-h-11",
+    );
+    await user.click(supportIncorrectChoice);
+    expect(supportIncorrectChoice).toHaveAttribute("aria-checked", "true");
+    expect(screen.getByTestId("concept-v2-inline-check-choices-feedback")).toHaveTextContent(
+      "Not quite",
+    );
+    expect(screen.getByTestId("concept-v2-inline-check-choices-feedback")).toHaveTextContent(
+      "The right trace lagged behind the first change.",
     );
   });
 

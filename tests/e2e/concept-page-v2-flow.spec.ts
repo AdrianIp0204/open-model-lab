@@ -303,6 +303,64 @@ test.describe("concept page v2 flow", () => {
     }
   });
 
+  test("OML-QA-017 lets guided rail inline checks answer with feedback on SHM and UCM", async ({
+    browser,
+  }) => {
+    test.setTimeout(120_000);
+    const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    const page = await newConceptFlowPage(context);
+    const browserGuard = await installBrowserGuards(page);
+
+    const cases = [
+      {
+        path: "/en/concepts/simple-harmonic-motion",
+        firstStep: "See one full cycle",
+        nextStep: "Link the stage and graphs",
+        correctChoice: /The object cycles faster while the turning points stay at the same displacement/i,
+      },
+      {
+        path: "/en/concepts/uniform-circular-motion",
+        firstStep: "Read the turning vectors",
+        nextStep: "Change angular speed",
+        correctChoice: /Its velocity changes because the direction keeps changing/i,
+      },
+    ] as const;
+
+    try {
+      for (const item of cases) {
+        await test.step(item.path, async () => {
+          await gotoAndExpectOk(page, item.path);
+
+          const stepSlot = page.getByTestId("concept-v2-step-card-slot");
+          const railInlineCheck = page.getByTestId("concept-v2-rail-inline-check");
+          const railChoices = page.getByTestId("concept-v2-rail-inline-check-choices");
+
+          await expect(stepSlot).toContainText(item.firstStep);
+          await expect(railInlineCheck).toBeVisible();
+          await expect(railChoices).toHaveAttribute("role", "radiogroup");
+          await expect(page.getByTestId("concept-secondary-prediction-flow")).toHaveCount(0);
+
+          const selectedChoice = railChoices.getByRole("radio", {
+            name: item.correctChoice,
+          });
+          await expect(selectedChoice).toHaveAttribute("aria-checked", "false");
+          await selectedChoice.click();
+          await expect(selectedChoice).toHaveAttribute("aria-checked", "true");
+          await expect(
+            page.getByTestId("concept-v2-rail-inline-check-choices-feedback"),
+          ).toContainText("Correct");
+
+          await stepSlot.getByTestId("concept-v2-rail-next-button").click();
+          await expect(stepSlot).toContainText(item.nextStep);
+        });
+      }
+
+      browserGuard.assertNoActionableIssues();
+    } finally {
+      await context.close();
+    }
+  });
+
   test("guided-step progression updates reveal cues and keeps focus sane on simple harmonic motion", async ({
     browser,
   }) => {

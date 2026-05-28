@@ -8230,7 +8230,10 @@ export function ConceptSimulationRenderer({
       </section>
     ) : explorePromptPanel;
   const shouldShowSecondaryPredictionPanel =
-    predictionItems.length > 0 && interactionMode !== "compare" && !compareState;
+    predictionItems.length > 0 &&
+    interactionMode !== "compare" &&
+    !compareState &&
+    !guidedStep?.step.inlineCheck?.choices?.length;
   const secondaryPredictionPanel = shouldShowSecondaryPredictionPanel ? (
     <details
       data-testid="concept-secondary-prediction-flow"

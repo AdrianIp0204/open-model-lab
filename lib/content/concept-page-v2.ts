@@ -38,7 +38,13 @@ export type ResolvedConceptPageV2InlineCheck = {
   title: string;
   prompt: string;
   supportingText?: string | null;
-  choices?: string[];
+  choices?: Array<{
+    id: string;
+    label: string;
+    isCorrect: boolean;
+    feedback?: string | null;
+  }>;
+  feedback?: string | null;
 };
 
 export type ResolvedConceptPageV2Step = {
@@ -499,7 +505,13 @@ function resolveFallbackInlineCheck(
       title: item.prompt,
       prompt: item.changeLabel ?? item.scenarioLabel,
       supportingText: item.observationHint,
-      choices: item.choices.map((choice) => choice.label),
+      choices: item.choices.map((choice) => ({
+        id: choice.id,
+        label: choice.label,
+        isCorrect: choice.id === item.correctChoiceId,
+        feedback: choice.id === item.correctChoiceId ? item.explanation : null,
+      })),
+      feedback: item.explanation,
     };
   }
 
@@ -511,7 +523,16 @@ function resolveFallbackInlineCheck(
       title: question.prompt,
       prompt: question.explanation,
       supportingText: concept.quickTest.intro,
-      choices: question.choices.slice(0, 3).map((choice) => choice.label),
+      choices: question.choices.slice(0, 3).map((choice) => ({
+        id: choice.id,
+        label: choice.label,
+        isCorrect: choice.id === question.correctChoiceId,
+        feedback:
+          choice.id === question.correctChoiceId
+            ? question.explanation
+            : question.selectedWrongExplanations?.[choice.id] ?? null,
+      })),
+      feedback: question.explanation,
     };
   }
 
@@ -533,7 +554,16 @@ function resolveFallbackInlineCheck(
       title: question.prompt,
       prompt: question.explanation,
       supportingText: concept.quickTest.intro,
-      choices: question.choices.slice(0, 3).map((choice) => choice.label),
+      choices: question.choices.slice(0, 3).map((choice) => ({
+        id: choice.id,
+        label: choice.label,
+        isCorrect: choice.id === question.correctChoiceId,
+        feedback:
+          choice.id === question.correctChoiceId
+            ? question.explanation
+            : question.selectedWrongExplanations?.[choice.id] ?? null,
+      })),
+      feedback: question.explanation,
     };
   }
 
@@ -563,7 +593,13 @@ function resolveAuthoredInlineCheck(
       title: inlineCheck.title ?? predictionItem.prompt,
       prompt: predictionItem.changeLabel ?? predictionItem.scenarioLabel,
       supportingText: inlineCheck.note ?? predictionItem.observationHint,
-      choices: predictionItem.choices.map((choice) => choice.label),
+      choices: predictionItem.choices.map((choice) => ({
+        id: choice.id,
+        label: choice.label,
+        isCorrect: choice.id === predictionItem.correctChoiceId,
+        feedback: choice.id === predictionItem.correctChoiceId ? predictionItem.explanation : null,
+      })),
+      feedback: predictionItem.explanation,
     };
   }
 
@@ -572,7 +608,16 @@ function resolveAuthoredInlineCheck(
       eyebrow: copy.inlineChecks.graphEyebrow,
       title: inlineCheck.title ?? question.prompt,
       prompt: inlineCheck.note ?? question.explanation,
-      choices: question.choices.map((choice) => choice.label),
+      choices: question.choices.map((choice) => ({
+        id: choice.id,
+        label: choice.label,
+        isCorrect: choice.id === question.correctChoiceId,
+        feedback:
+          choice.id === question.correctChoiceId
+            ? question.explanation
+            : question.selectedWrongExplanations?.[choice.id] ?? null,
+      })),
+      feedback: question.explanation,
     };
   }
 

@@ -43,12 +43,20 @@ export type ConceptPageV2RevealItem = {
   tone?: "core" | "new" | "secondary";
 };
 
+export type ConceptPageV2InlineCheckChoiceViewModel = {
+  id: string;
+  label: string;
+  isCorrect: boolean;
+  feedback?: string | null;
+};
+
 export type ConceptPageV2InlineCheckViewModel = {
   eyebrow: string;
   title: string;
   prompt: string;
   supportingText?: string | null;
-  choices?: string[];
+  choices?: ConceptPageV2InlineCheckChoiceViewModel[];
+  feedback?: string | null;
 };
 
 export type ConceptPageV2StepViewModel = {
@@ -107,6 +115,9 @@ type ConceptPageV2Copy = {
   nowAvailableLabel: string;
   revealOverflowLabel: (values: { count: number }) => string;
   quickCheckLabel: string;
+  inlineCheckCorrectLabel: string;
+  inlineCheckIncorrectLabel: string;
+  inlineCheckInstructions: string;
   previousStep: string;
   nextStep: string;
   lessonCompleteLabel: string;
@@ -262,6 +273,149 @@ function renderRevealKindLabel(
     default:
       return copy.revealKinds.control;
   }
+}
+
+function toneForInlineCheckChoice(
+  choice: ConceptPageV2InlineCheckChoiceViewModel,
+  selectedChoiceId: string | null,
+) {
+  if (!selectedChoiceId) {
+    return "border-white/80 bg-white/86 text-ink-700 hover:border-amber-500/35 hover:bg-white";
+  }
+
+  if (choice.isCorrect) {
+    return "border-emerald-500/35 bg-emerald-500/10 text-ink-950";
+  }
+
+  if (choice.id === selectedChoiceId) {
+    return "border-coral-500/35 bg-coral-500/10 text-ink-950";
+  }
+
+  return "border-white/70 bg-white/70 text-ink-600";
+}
+
+function ConceptPageV2InlineCheckChoices({
+  testId,
+  check,
+  titleId,
+  descriptionIds,
+  copy,
+  compact = false,
+}: {
+  testId: string;
+  check: ConceptPageV2InlineCheckViewModel;
+  titleId: string;
+  descriptionIds?: string;
+  copy: Pick<
+    ConceptPageV2Copy,
+    "inlineCheckCorrectLabel" | "inlineCheckIncorrectLabel" | "inlineCheckInstructions"
+  >;
+  compact?: boolean;
+}) {
+  const checkKey = `${check.title}\u0000${check.prompt}`;
+  const [selection, setSelection] = useState<{
+    checkKey: string;
+    choiceId: string;
+  } | null>(null);
+  const selectedChoiceId =
+    selection?.checkKey === checkKey ? selection.choiceId : null;
+  const selectedChoice =
+    check.choices?.find((choice) => choice.id === selectedChoiceId) ?? null;
+  const feedback = selectedChoice
+    ? selectedChoice.feedback ?? check.feedback ?? null
+    : null;
+
+  if (!check.choices?.length) {
+    return null;
+  }
+
+  return (
+    <div className={compact ? "mt-1.5" : "mt-2"}>
+      <div
+        data-testid={testId}
+        role="radiogroup"
+        aria-labelledby={titleId}
+        aria-describedby={descriptionIds}
+        className={[
+          "grid gap-1.5",
+          compact
+            ? "sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2"
+            : "sm:grid-cols-2 xl:grid-cols-3",
+        ].join(" ")}
+      >
+        {check.choices.map((choice, index) => {
+          const selected = choice.id === selectedChoiceId;
+          const answerTone = toneForInlineCheckChoice(choice, selectedChoiceId);
+
+          return (
+            <button
+              key={choice.id}
+              type="button"
+              role="radio"
+              aria-checked={selected}
+              onClick={() => setSelection({ checkKey, choiceId: choice.id })}
+              className={[
+                "grid min-h-11 grid-cols-[auto_minmax(0,1fr)] items-start gap-2 rounded-[14px] border px-2.5 py-2 text-left leading-5 shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                compact ? "text-xs" : "text-sm",
+                selectedChoiceId ? "cursor-default" : "hover:-translate-y-0.5",
+                answerTone,
+              ].join(" ")}
+            >
+              <span
+                aria-hidden="true"
+                className={[
+                  "mt-0.5 inline-flex items-center justify-center rounded-full border font-semibold",
+                  compact ? "h-4 w-4 text-[0.58rem]" : "h-5 w-5 text-[0.68rem]",
+                  selected
+                    ? "border-amber-500/35 bg-amber-500/18 text-amber-800"
+                    : "border-amber-500/22 bg-amber-500/10 text-amber-700",
+                ].join(" ")}
+              >
+                {index + 1}
+              </span>
+              <RichMathText
+                as="span"
+                content={choice.label}
+                className="min-w-0 line-clamp-2 break-words"
+              />
+            </button>
+          );
+        })}
+      </div>
+      {selectedChoice ? (
+        <div
+          data-testid={`${testId}-feedback`}
+          aria-live="polite"
+          className={[
+            "mt-2 rounded-[14px] border px-3 py-2 leading-5",
+            compact ? "text-xs" : "text-sm",
+            selectedChoice.isCorrect
+              ? "border-emerald-500/30 bg-emerald-500/10 text-ink-900"
+              : "border-coral-500/30 bg-coral-500/10 text-ink-900",
+          ].join(" ")}
+        >
+          <p className="font-semibold">
+            {selectedChoice.isCorrect
+              ? copy.inlineCheckCorrectLabel
+              : copy.inlineCheckIncorrectLabel}
+          </p>
+          {feedback ? (
+            <RichMathText as="div" content={feedback} className="mt-1 text-ink-700" />
+          ) : null}
+        </div>
+      ) : (
+        <p
+          className={
+            compact
+              ? "mt-1.5 text-xs leading-5 text-ink-600"
+              : "mt-2 text-sm leading-5 text-ink-600"
+          }
+        >
+          {copy.inlineCheckInstructions}
+        </p>
+      )}
+    </div>
+  );
 }
 
 function resolveLessonRailState(
@@ -1226,6 +1380,9 @@ export function ConceptPageV2LessonRail({
     | "nowAvailableLabel"
     | "revealOverflowLabel"
     | "quickCheckLabel"
+    | "inlineCheckCorrectLabel"
+    | "inlineCheckIncorrectLabel"
+    | "inlineCheckInstructions"
     | "previousStep"
     | "nextStep"
     | "lessonCompleteLabel"
@@ -1535,33 +1692,14 @@ export function ConceptPageV2LessonRail({
                       <RichMathText as="span" content={activeStep.inlineCheck.supportingText} />
                     </p>
                   ) : null}
-                  {activeStep.inlineCheck.choices?.length ? (
-                    <ol
-                      data-testid="concept-v2-rail-inline-check-choices"
-                      aria-labelledby={railInlineCheckTitleId}
-                      aria-describedby={railInlineCheckDescriptionIds}
-                      className="mt-1.5 grid gap-1 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2"
-                    >
-                      {activeStep.inlineCheck.choices.map((choice, index) => (
-                        <li
-                          key={choice}
-                          className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-1.5 rounded-[10px] border border-white/80 bg-white/82 px-2 py-1.5 text-xs leading-5 text-ink-700 shadow-sm"
-                        >
-                          <span
-                            aria-hidden="true"
-                            className="mt-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full border border-amber-500/22 bg-amber-500/10 text-[0.58rem] font-semibold text-amber-700"
-                          >
-                            {index + 1}
-                          </span>
-                          <RichMathText
-                            as="span"
-                            content={choice}
-                            className="min-w-0 line-clamp-2 break-words"
-                          />
-                        </li>
-                      ))}
-                    </ol>
-                  ) : null}
+                  <ConceptPageV2InlineCheckChoices
+                    testId="concept-v2-rail-inline-check-choices"
+                    check={activeStep.inlineCheck}
+                    titleId={railInlineCheckTitleId}
+                    descriptionIds={railInlineCheckDescriptionIds}
+                    copy={copy}
+                    compact
+                  />
                 </div>
               ) : null}
             </div>
@@ -1966,6 +2104,9 @@ export function ConceptPageV2LessonSupport({
     | "explainLabel"
     | "nowAvailableLabel"
     | "quickCheckLabel"
+    | "inlineCheckCorrectLabel"
+    | "inlineCheckIncorrectLabel"
+    | "inlineCheckInstructions"
     | "currentStepLabel"
     | "upcomingStepLabel"
     | "nextStep"
@@ -2227,29 +2368,13 @@ export function ConceptPageV2LessonSupport({
               <RichMathText as="span" content={activeStep.inlineCheck.supportingText} />
             </p>
           ) : null}
-          {activeStep.inlineCheck.choices?.length ? (
-            <ol
-              data-testid="concept-v2-inline-check-choices"
-              aria-labelledby={supportInlineCheckTitleId}
-              aria-describedby={supportInlineCheckDescriptionIds}
-              className="mt-2 grid gap-1.5 sm:grid-cols-2 xl:grid-cols-3"
-            >
-              {activeStep.inlineCheck.choices.map((choice, index) => (
-                <li
-                  key={choice}
-                  className="grid min-h-11 grid-cols-[auto_minmax(0,1fr)] items-start gap-2 rounded-[14px] border border-white/80 bg-white/86 px-2.5 py-2 text-sm leading-5 text-ink-700 shadow-sm"
-                >
-                  <span
-                    aria-hidden="true"
-                    className="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full border border-amber-500/22 bg-amber-500/10 text-[0.68rem] font-semibold text-amber-700"
-                  >
-                    {index + 1}
-                  </span>
-                  <RichMathText as="span" content={choice} className="min-w-0 line-clamp-2 break-words" />
-                </li>
-              ))}
-            </ol>
-          ) : null}
+          <ConceptPageV2InlineCheckChoices
+            testId="concept-v2-inline-check-choices"
+            check={activeStep.inlineCheck}
+            titleId={supportInlineCheckTitleId}
+            descriptionIds={supportInlineCheckDescriptionIds}
+            copy={copy}
+          />
         </div>
       ) : null}
 
