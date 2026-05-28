@@ -1,5 +1,25 @@
 # Open Model Lab Status
 
+## 2026-05-29 OML-QA-022 Concept Helper Overlay Layout
+
+Current state: `OML-QA-022` is complete. Concept pages now keep Coach and Feedback affordances out of the protected live lab: Coach renders in-flow below the live bench, and concept-page Feedback uses an inline placement near the page bottom instead of a floating overlay.
+
+### Files Changed
+
+- `components/ai/AiLearningCoachPanel.tsx`: converts the coach widget from a fixed viewport overlay to an in-flow helper panel/trigger.
+- `components/concepts/ConceptPageFramework.tsx`: places Coach after the protected concept live lab instead of outside the concept shell as a floating widget.
+- `components/feedback/FeedbackWidget.tsx`, `components/layout/PageShell.tsx`: add inline Feedback placement for concept pages while preserving the floating placement elsewhere.
+- `tests/e2e/ai-coach-floating-layout.spec.ts`: adds protected-live-lab overlap checks for Coach and Feedback across desktop, tablet, and phone concept cases.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check HEAD^..HEAD`: passed for the worker patch.
+- `pnpm exec eslint components/ai/AiLearningCoachPanel.tsx components/concepts/ConceptPageFramework.tsx components/feedback/FeedbackWidget.tsx components/layout/PageShell.tsx tests/e2e/ai-coach-floating-layout.spec.ts`: passed.
+- `PLAYWRIGHT_PORT=3212 OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX=-oml-qa-022-orchestrator pnpm exec playwright test tests/e2e/ai-coach-floating-layout.spec.ts`: passed, 4/4.
+- `PLAYWRIGHT_PORT=3214 OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX=-oml-qa-022-visual-audit-loaded pnpm exec playwright test tests/e2e/output/oml-qa-022-visual-audit.spec.ts --project=chromium`: passed; loaded desktop/tablet/phone screenshot audit found Coach and Feedback clear of the protected live lab. Screenshots and metrics are under `output/qa-oml-qa-022-2026-05-29/orchestrator-visual-audit/`.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-29 OML-QA-021 Mobile Simulation Visual Readability
 
 Current state: `OML-QA-021` is complete. Mobile concept benches now prioritize the live visual for Electric Fields, Unit Circle, Conservation of Momentum, and Reaction Rate by scaling/cropping the SVG scene toward the core model, hiding nonessential scene header prose on phone widths, and moving dense readout details into a mobile disclosure with a 44px summary target.

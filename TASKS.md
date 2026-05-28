@@ -196,13 +196,15 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
   - Completion note (2026-05-29 HKT): Enlarged the mobile live visuals for electric fields, unit circle, conservation of momentum, and reaction-rate scenes, moved dense readouts into a 44px mobile readout disclosure, and kept core objects/active outputs identifiable in phone screenshots.
   - Validation: git diff --check passed; targeted eslint passed; affected simulation component vitest suite passed 10/10; OML-QA-021 Playwright mobile visual audit passed at 390x844 and 360x740 with screenshots under output/qa-oml-qa-021-2026-05-29/orchestrator-visual-audit/; pnpm typecheck passed
-- [ ] **OML-QA-022: Prevent floating Coach / Feedback controls from covering concept bench content.**
+- [x] **OML-QA-022: Prevent floating Coach / Feedback controls from covering concept bench content.**
   - Evidence: concept screenshots show the floating `Coach` trigger overlapping the graph/control area on desktop and the preset/control area on phone. Examples: `desktop-1440x900-simple-harmonic-motion.png`, `phone-390x844-simple-harmonic-motion.png`, and `phone-390x844-electric-fields.png`. The earlier feedback-widget fix reduced general mobile feedback overlap, but concept pages still have the AI coach floating over learning surfaces.
   - UX problem: floating helper buttons compete with the simulation and can cover labels, presets, graph headers, or controls. A help/coach affordance is useful, but not as an overlay on top of the active bench.
   - Affected area: `components/ai/AiLearningCoachPanel.tsx`, `components/feedback/FeedbackWidget.tsx`, `PageShell`, and concept page layout.
   - Fix direction: on concept pages, move Coach into a non-overlapping header/help/tool area or an in-flow compact panel below the live bench; alternatively reserve safe space and keep it outside protected learning zones. Keep Help/Tutorial and Coach conceptually distinct: Help explains the page; Coach helps with the current concept.
   - Validation: add a Playwright overlap check for `data-protected-learning-zone="concept-live-lab"` against coach/feedback triggers at desktop, tablet, and phone widths. Screenshots should show no trigger over the live scene, controls, graph, current task, or preset cards.
 
+  - Completion note (2026-05-29 HKT): Moved concept-page Coach into an in-flow bench helper and routed concept feedback inline so neither helper floats over the protected live lab.
+  - Validation: git diff --check HEAD^..HEAD passed; targeted eslint passed; ai-coach floating layout Playwright spec passed 4/4; loaded visual audit passed with screenshots; pnpm typecheck passed
 - [ ] **OML-QA-023: Rationalize post-bench support sections so concept pages do not accumulate duplicate "next step" surfaces.**
   - Evidence: after the live bench, the page stacks status/progress, wrap-up, reference, bench tools/share links, progress/next steps, ads, and the AI coach. Code paths involved: `ConceptPageV2Shell` post-lab context/wrap-up/reference, `ConceptPageFramework` bench utilities/progress disclosures, and `AiLearningCoachPanel`.
   - UX problem: several sections are individually reasonable but collectively feel like a long pile of support cards. The learner can hit multiple "next step", progress, share, and help-like surfaces without knowing which one matters.
