@@ -1,5 +1,25 @@
 # Open Model Lab Status
 
+## 2026-05-29 OML-QA-018 Guided Compare Mode
+
+Current state: `OML-QA-018` is complete. Guided concept benches now expose Compare mode as a compact in-bench control when the regular interaction-mode tabs are hidden. Learners can enter Compare, edit Setup A/B, swap setups, reset the active variant, exit Compare, and keep the current guided step context intact.
+
+### Files Changed
+
+- `components/simulations/ConceptSimulationRenderer.tsx`: adds the guided Compare entry surface and routes compare tools into the control panel for guided benches.
+- `tests/components/concept-simulation-renderer-compare.test.tsx`: covers guided Compare entry/exit and guided-step preservation.
+- `tests/e2e/concept-page-v2-flow.spec.ts`: adds desktop and phone coverage for SHM, electric fields, and acid/base Compare entry, setup editing, swap/reset, exit, and guided-step continuity.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `git diff --check HEAD^..HEAD`: passed for the worker patch.
+- `pnpm exec eslint components/simulations/ConceptSimulationRenderer.tsx tests/components/concept-simulation-renderer-compare.test.tsx tests/e2e/concept-page-v2-flow.spec.ts`: passed.
+- `pnpm exec vitest run tests/components/concept-simulation-renderer-compare.test.tsx`: passed, 8/8.
+- `pnpm test:e2e:concept-v2 --grep "OML-QA-018"`: passed, 1/1, covering SHM, electric fields, and acid/base at desktop and phone widths.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-29 OML-QA-017 Guided Rail Quick Checks
 
 Current state: `OML-QA-017` is complete. Guided rail and support quick-check choices are now real answer controls with radio semantics, selected state, and correct/incorrect feedback. The inline check data preserves choice ids/correctness/feedback from prediction and quick-test content, and the duplicate secondary prediction drawer is hidden while a guided inline check with choices is active.
