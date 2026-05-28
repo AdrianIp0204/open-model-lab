@@ -215,8 +215,11 @@ This checklist is the working queue for follow-up agents. When completing an ite
   - Completion note (2026-05-29 HKT): Consolidated post-bench support into one IA: wrap-up as the primary practice path, reference as the secondary explanation path, and study tools/progress/share/coach tucked into one disclosure.
   - Validation: git diff --check 2808af6..HEAD passed; targeted eslint passed; concept-page-framework component tests passed; post-bench IA Playwright gate passed for SHM, UCM, electric fields, acid/base, and binary search; pnpm typecheck passed.
 
-- [ ] **OML-QA-024: Close remaining concept-page touch-target gaps found outside the earlier mobile target audit.**
+- [x] **OML-QA-024: Close remaining concept-page touch-target gaps found outside the earlier mobile target audit.**
   - Evidence: the 2026-05-28 night sweep still found mobile targets below the 44px floor. Concept-specific examples include the UCM draggable particle around `22x15px` on `phone-390x844` and the binary-search `Linear contrast` checkbox around `20x20px`; the header brand link also reports around `158x28px` on phone concept pages.
   - Affected area: `UniformCircularMotionSimulation`, `BinarySearchHalvingSimulation`/control primitives, `SiteHeader`, and the mobile target-size audit coverage.
   - Fix direction: add invisible hit regions around the UCM particle like the previous SVG-drag repairs, increase checkbox/toggle hit wrappers for simulation boolean controls, and make the mobile brand link hit area at least 44px tall without visually bloating the header.
   - Validation: extend the mobile target audit to include `uniform-circular-motion` and `binary-search-halving-the-search-space` plus one standard physics concept. The audit should report zero visible interactive targets below 44px in the first 1.5 viewports, excluding deliberate non-touch SVG internals that have a larger parent hit area.
+
+  - Completion note (2026-05-29 HKT): Added a 44px invisible UCM particle hit target, reworked boolean simulation controls so their accessible label target is 44px, raised the mobile brand link hit area, and added the focused first-screen mobile touch-target audit for UCM, binary search, and SHM.
+  - Validation: git diff --check HEAD^..HEAD passed for worker patch `e33f7fe`; targeted eslint passed; ControlPanel/SiteHeader vitest suite passed 14/14; concept-mobile-touch-targets Playwright gate passed; pnpm typecheck passed.

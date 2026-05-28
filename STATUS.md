@@ -1,5 +1,25 @@
 # Open Model Lab Status
 
+## 2026-05-29 OML-QA-024 Mobile Concept Touch Targets
+
+Current state: `OML-QA-024` is complete. The remaining first-screen mobile touch-target gaps are fixed for the UCM drag handle, boolean simulation controls, and the mobile header brand link.
+
+### Files Changed
+
+- `components/simulations/UCMSimulation.tsx`: adds a transparent 44px hit region around the draggable particle.
+- `components/simulations/ControlPanel.tsx`: keeps checkbox visuals compact while giving boolean simulation controls a 44px accessible label target.
+- `components/layout/SiteHeader.tsx`: raises the mobile brand link hit area to the 44px touch floor.
+- `tests/e2e/concept-mobile-touch-targets.spec.ts`: adds the focused mobile first-screen target-size audit for UCM, binary search, and SHM.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check HEAD^..HEAD`: passed for worker patch `e33f7fe`.
+- `pnpm exec eslint components/layout/SiteHeader.tsx components/simulations/ControlPanel.tsx components/simulations/UCMSimulation.tsx tests/e2e/concept-mobile-touch-targets.spec.ts`: passed.
+- `pnpm exec vitest run tests/components/controlPanel.test.tsx tests/components/site-header.test.tsx`: passed, 14/14.
+- `PLAYWRIGHT_PORT=3234 OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX=-oml-qa-024-orchestrator pnpm exec playwright test tests/e2e/concept-mobile-touch-targets.spec.ts --project=chromium`: passed, 1/1.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-29 OML-QA-023 Post-Bench Concept Support IA
 
 Current state: `OML-QA-023` is complete. Concept pages now keep the post-bench flow to one primary wrap-up/practice path, one secondary reference path, and one tucked study-tools/progress/share/coach disclosure instead of stacking duplicate next-step/support surfaces.
