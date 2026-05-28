@@ -1,5 +1,26 @@
 # Open Model Lab Status
 
+## 2026-05-29 OML-QA-016 Mobile Concept Control Stack
+
+Current state: `OML-QA-016` is complete. Phone concept benches now keep presets behind a dedicated disclosure, keep secondary controls in `More controls`, and avoid force-opening the secondary stack just because a guided step reveals a control. The scene, compact current task, primary controls, and graph surface are reachable within the mobile 1.5-viewport target on the audited representative concepts.
+
+### Files Changed
+
+- `components/simulations/ControlPanel.tsx`: split phone presets into their own collapsed disclosure, kept secondary controls/tools behind `More controls`, and reset both disclosures on Reset.
+- `components/simulations/ConceptSimulationRenderer.tsx`: removed the guided-reveal force-open path so revealed controls stay highlighted without expanding the whole secondary stack.
+- `messages/en.json`, `messages/zh-HK.json`: added localized copy for the new control and preset disclosures.
+- Tests: expanded `ControlPanel` component coverage and added an `OML-QA-016` mobile concept-layout audit over SHM, UCM, projectile motion, electric fields, unit circle, and reaction rate at 390x844 and 360x740.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `git diff --check HEAD^..HEAD`: passed for the worker patch.
+- `pnpm test tests/components/controlPanel.test.tsx`: passed, 8/8.
+- `pnpm exec playwright test tests/e2e/concept-layout.spec.ts -g "OML-QA-016"`: passed, 1/1, covering the representative mobile route matrix and tap-target audit in the focused spec.
+- Screenshot/metric audit over the same six routes at 390x844 and 360x740: passed for the `OML-QA-016` control-stack/layout target; known small touch-target findings remain tracked separately by `OML-QA-024`.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-28 OML-QA-015 Concept Bench Current Step Cue
 
 Current state: `OML-QA-015` is complete. Guided concept benches now show a compact current-step cue near the live model and controls, with step count, goal, and action visible inside the first usable bench viewport without restoring the old `Try this first` / first-action rail.
