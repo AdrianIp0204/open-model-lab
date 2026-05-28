@@ -9,6 +9,7 @@ type ThemeModeToggleProps = {
   lightLabel: string;
   switchToDarkLabel: string;
   switchToLightLabel: string;
+  labelClassName?: string;
 };
 
 const STORAGE_KEY = "oml-theme-mode";
@@ -68,6 +69,7 @@ export function ThemeModeToggle({
   lightLabel,
   switchToDarkLabel,
   switchToLightLabel,
+  labelClassName = "hidden sm:inline",
 }: ThemeModeToggleProps) {
   const mode = useSyncExternalStore(
     subscribeThemeMode,
@@ -97,7 +99,7 @@ export function ThemeModeToggle({
       >
         {mode === "dark-lab" ? "☾" : "☼"}
       </span>
-      <span className="hidden sm:inline">{visibleLabel}</span>
+      <span className={labelClassName}>{visibleLabel}</span>
     </button>
   );
 }

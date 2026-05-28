@@ -71,7 +71,7 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
   - Completion note (2026-05-28 HKT): Converted the mobile feedback trigger to a compact in-flow 44px icon button, kept the desktop widget fixed, and hid the widget on Circuit Builder where it competes with workbench controls.
   - Validation: git diff --check passed; git diff --check 3bcedc2..HEAD passed; targeted FeedbackWidget/PageShell/CircuitBuilder vitest suite passed (8/8); mobile Playwright screenshot/overlap validation passed for `/`, `/concepts`, `/pricing`, `/tests`, and `/circuit-builder` with failureCount 0; pnpm typecheck passed; pnpm lint passed.
-- [ ] **OML-QA-008: Improve header brand truncation on desktop.**
+- [x] **OML-QA-008: Improve header brand truncation on desktop.**
   - Evidence: desktop screenshots show the header brand block truncated as `Open Mod...` plus a clipped subtitle on several pages, including home, SHM concept, chemistry tool, and circuit builder.
   - Affected area: `components/layout/SiteHeader.tsx` and related header/nav sizing.
   - Fix direction: make the brand name readable at common desktop widths, remove or hide the subtitle when space is tight, or set a wider/flex-safe brand column. Keep primary nav and account actions stable.
@@ -79,6 +79,8 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
 ### P2 - Test / QA Infrastructure
 
+  - Completion note (2026-05-28 HKT): Made the desktop header brand column flex-safe, hid the route subtitle at common desktop widths, and compacted secondary header labels so Open Model Lab stays readable without displacing nav/account controls.
+  - Validation: git diff --check passed; header-footer-shell Playwright spec passed (2/2); screenshot inspection passed for home, SHM concept, chemistry tool, and circuit builder at 1280px and 1440px; pnpm typecheck passed; pnpm lint passed
 - [ ] **OML-QA-009: Make public discovery layout tests match `/start` dynamic progress states.**
   - Evidence: `pnpm exec playwright test tests/e2e/public-discovery-layout.spec.ts -g "visible next steps"` fails on `/start` because the test seeds local progress, then expects the first-time heading `Choose one bounded first step without guessing.`. The actual page correctly renders the saved-progress state heading `Resume where your saved work already points.`.
   - Affected area: `tests/e2e/public-discovery-layout.spec.ts` and `/start` test fixtures.

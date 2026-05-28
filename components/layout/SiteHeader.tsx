@@ -152,7 +152,7 @@ export function SiteHeader() {
         <Link
           href="/"
           data-onboarding-target="site-brand"
-          className="group inline-flex min-w-0 items-center gap-3 sm:gap-4"
+          className="group inline-flex min-w-0 flex-none items-center gap-3 sm:gap-4 xl:w-[11.75rem] 2xl:w-[18rem]"
         >
           <Image
             src="/branding/open-model-lab-mark.svg"
@@ -165,10 +165,10 @@ export function SiteHeader() {
             className="h-7 w-7 shrink-0 sm:h-8 sm:w-8"
           />
           <span className="min-w-0">
-            <span className="block truncate whitespace-nowrap text-[0.95rem] font-semibold leading-none tracking-[-0.01em] text-ink-950 sm:text-base">
+            <span className="block truncate whitespace-nowrap text-[0.95rem] font-semibold leading-none tracking-normal text-ink-950 sm:text-base">
               {t("productName")}
             </span>
-            <span aria-hidden="true" className="section-kicker mt-1 hidden truncate sm:block">
+            <span aria-hidden="true" className="section-kicker mt-1 hidden truncate 2xl:block">
               {t(`routeFamily.${routeFamilyLabelKey}`)}
             </span>
           </span>
@@ -216,7 +216,7 @@ export function SiteHeader() {
             >
               ?
             </span>
-            <span className="hidden sm:inline">{t("help.label")}</span>
+            <span className="hidden 2xl:inline">{t("help.label")}</span>
           </button>
           <div className="hidden md:block">
             <ThemeModeToggle
@@ -224,6 +224,7 @@ export function SiteHeader() {
               lightLabel={t("theme.light")}
               switchToDarkLabel={t("theme.switchToDark")}
               switchToLightLabel={t("theme.switchToLight")}
+              labelClassName="hidden 2xl:inline"
             />
           </div>
           <div className="hidden md:block">
@@ -246,7 +247,7 @@ export function SiteHeader() {
               className="cta-secondary min-w-max items-center gap-2 whitespace-nowrap"
             >
               <span className="whitespace-nowrap">{accountLabel}</span>
-              <span className="shrink-0 rounded-full border border-line bg-paper px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-ink-600">
+              <span className="hidden shrink-0 rounded-full border border-line bg-paper px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-ink-600 2xl:inline-flex">
                 {accountStatusLabel}
               </span>
             </Link>

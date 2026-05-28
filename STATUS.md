@@ -1,5 +1,24 @@
 # Open Model Lab Status
 
+## 2026-05-28 OML-QA-008 Header Brand Truncation Repair
+
+Current state: `OML-QA-008` is complete. The desktop header now keeps the full `Open Model Lab` brand readable at common desktop widths without pushing the primary nav, help, theme, start, or account controls off-screen.
+
+### Files Changed
+
+- `components/layout/SiteHeader.tsx`: made the brand column flex-safe at desktop widths, hid the route subtitle until wider viewports, and compacted secondary header labels/badges where space is tight.
+- `components/layout/ThemeModeToggle.tsx`: added an optional label class hook so the desktop header can keep the icon visible while hiding the text label at tighter widths.
+- `tests/e2e/header-footer-shell.spec.ts`: added a 1280px/1440px desktop regression over home, SHM, the chemistry tool, and Circuit Builder.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec playwright test tests/e2e/header-footer-shell.spec.ts --project=chromium`: passed, 2/2 tests.
+- Screenshot inspection for `/`, `/concepts/simple-harmonic-motion`, `/tools/chemistry-reaction-mind-map`, and `/circuit-builder` at 1280x900 and 1440x900: passed; all headers showed full `Open Model Lab` brand text and visible controls without overlap.
+- `pnpm typecheck`: passed.
+- `pnpm lint`: passed.
+
 ## 2026-05-28 OML-QA-007 Mobile Feedback Widget Occlusion Repair
 
 Current state: `OML-QA-007` is complete. The feedback trigger no longer floats over the first mobile viewport on the audited learning and pricing surfaces, and Circuit Builder hides the widget so it does not compete with workbench controls.
