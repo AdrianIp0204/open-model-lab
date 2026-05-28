@@ -1,5 +1,22 @@
 # Open Model Lab Status
 
+## 2026-05-28 OML-QA-013 Signed-In Account Plan Link Repair
+
+Current state: `OML-QA-013` is complete. Signed-in account links now keep the compact visual header label while exposing an accessible link name that includes both the account display name and current plan tier for the free and supporter smoke flows.
+
+### Files Changed
+
+- `components/layout/SiteHeader.tsx`: added signed-in account link `aria-label` text that combines the account display name with the localized account status label for desktop and mobile header links.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `git diff --check HEAD^..HEAD`: passed for the worker patch.
+- `pnpm exec playwright test tests/e2e/site-smoke.spec.ts`: passed, 6/6.
+- `pnpm typecheck`: passed.
+- `pnpm test:e2e:qa-sweep --allow-test-failures`: passed with `ok: true`, `hasInstability: false`, and `hasTestFailures: false`. Summary: `output/playwright/qa-sweep/2026-05-28T14-01-50-496Z/summary.json`.
+
 ## 2026-05-28 OML-QA-012 Search Mobile CTA Placement
 
 Current state: `OML-QA-012` is complete. The `/search` saved-progress primary CTA now appears before the mobile filter and guide stack so the public discovery layout audit keeps a clear next step inside the first 390x844 viewport while preserving the desktop filter-first order.

@@ -112,8 +112,11 @@ This checklist is the working queue for follow-up agents. When completing an ite
   - Validation: rerun `pnpm exec playwright test tests/e2e/public-discovery-layout.spec.ts -g "visible next steps"` and verify `/start` first-time, `/start` saved-progress, and `/search` mobile cases all pass intentionally.
   - Completion note (2026-05-28 HKT): Moved the saved-progress primary CTA ahead of the mobile search filter/guide stack while preserving the desktop filter-first order.
   - Validation: git diff --check passed; pnpm exec eslint components/search/SearchPage.tsx passed; pnpm typecheck passed; pnpm exec playwright test tests/e2e/public-discovery-layout.spec.ts -g "visible next steps" passed.
-- [ ] **OML-QA-013: Restore signed-in account plan links in the site smoke flow.**
+- [x] **OML-QA-013: Restore signed-in account plan links in the site smoke flow.**
   - Evidence: `pnpm test:e2e:qa-sweep --allow-test-failures` shard 6 failed `tests/e2e/site-smoke.spec.ts` after the dev-server instability fix, without any restart or connection-instability matches. The free checkout flow could not find `getByRole("link", { name: "Free learner Free tier" })`; the premium management flow could not find `getByRole("link", { name: "Supporter learner Supporter" })`. Log: `output/playwright/qa-sweep/2026-05-28T12-40-33-301Z/shard-06.log`; artifacts: `output/playwright/test-results-qa-sweep-6-site-smoke.spec/`.
   - Affected area: `tests/e2e/site-smoke.spec.ts`, signed-in account/pricing header or account summary links, and recent compact account-label behavior.
   - Fix direction: decide whether the current UI should expose the plan tier in the accessible link name or whether the smoke test should target the updated account link semantics. Keep the account status and plan tier discoverable to assistive tech.
   - Validation: rerun `pnpm exec playwright test tests/e2e/site-smoke.spec.ts` and then `pnpm test:e2e:qa-sweep --allow-test-failures` to verify shard 6 no longer fails except for any separately tracked task.
+
+  - Completion note (2026-05-28 HKT): Added signed-in desktop and mobile account link aria labels that include the account display name plus plan tier while preserving the compact visual header label.
+  - Validation: git diff --check passed; git diff --check HEAD^..HEAD passed; pnpm exec playwright test tests/e2e/site-smoke.spec.ts passed; pnpm typecheck passed; pnpm test:e2e:qa-sweep --allow-test-failures passed with ok true, no instability matches, and no test failures
