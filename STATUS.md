@@ -1,5 +1,21 @@
 # Open Model Lab Status
 
+## 2026-05-28 OML-QA-012 Search Mobile CTA Placement
+
+Current state: `OML-QA-012` is complete. The `/search` saved-progress primary CTA now appears before the mobile filter and guide stack so the public discovery layout audit keeps a clear next step inside the first 390x844 viewport while preserving the desktop filter-first order.
+
+### Files Changed
+
+- `components/search/SearchPage.tsx`: reordered the search controls stack with responsive ordering so the saved-progress CTA moves up on mobile and stays after filters/guide/scope on `md+`.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec eslint components/search/SearchPage.tsx`: passed.
+- `pnpm typecheck`: passed.
+- `pnpm exec playwright test tests/e2e/public-discovery-layout.spec.ts -g "visible next steps"`: passed, including `/start` first-time, `/start` saved-progress, and `/search` mobile coverage.
+
 ## 2026-05-28 OML-QA-011 Local Playwright QA Sweep Stabilization
 
 Current state: `OML-QA-011` is complete. Broad local Playwright QA sweeps now have a shardable runner that launches one spec shard per port, separates artifacts per shard, and scans logs for the dev-server restart and connection-reset signatures that caused the original broad-sweep instability.

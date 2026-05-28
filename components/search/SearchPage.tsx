@@ -1761,8 +1761,8 @@ export function SearchPage({
       <section className="space-y-5 sm:space-y-6">
         <PageSection id="search-controls" as="section" className="space-y-4">
           <article className="filter-panel p-6 sm:p-8">
-            <div className="space-y-5">
-              <div className="space-y-2">
+            <div className="flex flex-col gap-5">
+              <div className="order-1 space-y-2">
                 <p className="section-kicker">{t("labels.search")}</p>
                 <h1 className="max-w-4xl text-[2.2rem] font-semibold leading-[1.02] text-ink-950 sm:text-[2.7rem]">
                   {t("hero.title")}
@@ -1772,7 +1772,7 @@ export function SearchPage({
                 </p>
               </div>
 
-              <label className="block" data-onboarding-target="site-search">
+              <label className="order-2 block" data-onboarding-target="site-search">
                 <span className="sr-only">{t("hero.searchAria")}</span>
                 <input
                   type="search"
@@ -1791,7 +1791,7 @@ export function SearchPage({
               </label>
 
               <div
-                className="grid gap-3 md:grid-cols-2"
+                className="order-4 grid gap-3 md:order-3 md:grid-cols-2"
                 data-onboarding-target="search-filters"
               >
                 <DiscoveryFilterSelect
@@ -1818,7 +1818,7 @@ export function SearchPage({
                 />
               </div>
 
-              <div className="rounded-[20px] border border-dashed border-line bg-paper px-4 py-3">
+              <div className="order-5 rounded-[20px] border border-dashed border-line bg-paper px-4 py-3 md:order-4">
                 <p className="lab-label">{t("filters.guideLabel")}</p>
                 <p className="mt-1 text-sm leading-6 text-ink-700">{filterGuideText}</p>
                 <div className="mt-2 flex flex-wrap gap-3">
@@ -1830,7 +1830,7 @@ export function SearchPage({
 
               {hasQuery || activeSubject || activeTopic ? (
                 <div
-                  className="rounded-[22px] border border-line bg-paper px-4 py-4"
+                  className="order-6 rounded-[22px] border border-line bg-paper px-4 py-4 md:order-5"
                   data-onboarding-target="search-results"
                 >
                   <p className="lab-label">{t("labels.scope")}</p>
@@ -1877,7 +1877,7 @@ export function SearchPage({
 
               {!hasQuery ? (
                 <div
-                  className="rounded-[22px] border border-line bg-paper px-4 py-4"
+                  className="order-3 rounded-[22px] border border-line bg-paper px-4 py-4 md:order-6"
                   data-onboarding-target="search-results"
                 >
                   <div
@@ -1963,7 +1963,7 @@ export function SearchPage({
                   ) : null}
                 </div>
               ) : (
-                <div className="rounded-[22px] border border-line bg-paper px-4 py-4">
+                <div className="order-6 rounded-[22px] border border-line bg-paper px-4 py-4">
                   <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                     <div className="space-y-1">
                       <p className="lab-label">{t("labels.searchResults")}</p>
