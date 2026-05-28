@@ -34,7 +34,7 @@ export function PageShell({
 }: PageShellProps) {
   const t = useTranslations("Layout");
   const usesSectionShell = layoutMode === "section-shell" || Boolean(sectionNav);
-  const bottomSafeSpaceClass = showFeedbackWidget ? "pb-36 sm:pb-16" : "pb-16";
+  const bottomSafeSpaceClass = "pb-16";
   const mainClassName = usesSectionShell
     ? `page-enter w-full ${bottomSafeSpaceClass} ${className}`.trim()
     : `page-enter mx-auto w-full max-w-[88rem] px-4 ${bottomSafeSpaceClass} pt-4 sm:px-6 sm:pt-5 lg:px-8 ${className}`.trim();

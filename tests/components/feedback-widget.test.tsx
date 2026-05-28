@@ -5,6 +5,22 @@ import { FeedbackWidget } from "@/components/feedback/FeedbackWidget";
 import zhHkMessages from "@/messages/zh-HK.json";
 
 describe("FeedbackWidget", () => {
+  it("keeps the mobile trigger compact while preserving the feedback name", () => {
+    render(
+      <FeedbackWidget
+        context={{
+          pageType: "home",
+          pagePath: "/",
+          pageTitle: "Home",
+        }}
+      />,
+    );
+
+    const trigger = screen.getByRole("button", { name: /^feedback$/i });
+
+    expect(trigger).toHaveClass("h-11", "w-11", "sm:w-auto");
+  });
+
   it("opens a compact feedback panel with the current page context", async () => {
     const user = userEvent.setup();
 

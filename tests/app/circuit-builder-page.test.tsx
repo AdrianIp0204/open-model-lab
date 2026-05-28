@@ -8,12 +8,15 @@ vi.mock("@/components/layout/PageShell", () => ({
   PageShell: ({
     children,
     feedbackContext,
+    showFeedbackWidget,
   }: {
     children: ReactNode;
     feedbackContext?: { pageTitle: string };
+    showFeedbackWidget?: boolean;
   }) => (
     <div>
       <div data-testid="feedback-title">{feedbackContext?.pageTitle}</div>
+      <div data-testid="show-feedback-widget">{String(showFeedbackWidget)}</div>
       {children}
     </div>
   ),
@@ -30,6 +33,7 @@ describe("circuit builder route", () => {
     render(await CircuitBuilderRoute());
 
     expect(screen.getByTestId("feedback-title")).toHaveTextContent("Circuit Builder");
+    expect(screen.getByTestId("show-feedback-widget")).toHaveTextContent("false");
     expect(
       screen.getByRole("heading", {
         level: 1,

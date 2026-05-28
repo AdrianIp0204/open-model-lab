@@ -40,6 +40,7 @@ export async function CircuitBuilderRoute({
         pagePath: "/circuit-builder",
         pageTitle: t("feedbackContext.pageTitle"),
       }}
+      showFeedbackWidget={false}
       className="mx-auto w-full max-w-[96rem] px-4 pb-16 pt-4 sm:px-6 sm:pt-5 lg:px-8"
     >
       <CircuitBuilderPage copy={getCircuitBuilderCopy(locale)} />

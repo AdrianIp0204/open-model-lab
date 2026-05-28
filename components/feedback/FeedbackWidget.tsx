@@ -71,10 +71,10 @@ export function FeedbackWidget({
   return (
     <div
       className={[
-        "pointer-events-none fixed left-4 right-4 z-40 flex-col items-end gap-3 sm:left-auto sm:w-[26rem]",
+        "pointer-events-none z-40 mx-3 mb-3 flex-col items-end gap-3 sm:fixed sm:left-auto sm:right-4 sm:mx-0 sm:mb-0 sm:w-[26rem]",
         mobileHidden ? "hidden sm:flex" : "flex",
       ].join(" ")}
-      style={{ bottom: "max(1rem, env(safe-area-inset-bottom))" }}
+      style={{ bottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
     >
       {open ? (
         <section
@@ -117,13 +117,30 @@ export function FeedbackWidget({
       <button
         ref={triggerRef}
         type="button"
+        aria-label={open ? t("actions.hide") : t("label")}
         aria-expanded={open}
         aria-controls={panelId}
         aria-haspopup="dialog"
         onClick={() => setOpen((current) => !current)}
-        className="pointer-events-auto inline-flex items-center rounded-full border border-line bg-paper-strong px-5 py-3 text-sm font-semibold text-ink-950 shadow-[0_16px_36px_rgba(15,28,36,0.14)] transition-transform duration-200 hover:-translate-y-0.5"
+        className="pointer-events-auto inline-flex h-11 w-11 items-center justify-center rounded-full border border-line bg-paper-strong p-0 text-sm font-semibold text-ink-950 shadow-[0_16px_36px_rgba(15,28,36,0.14)] transition-transform duration-200 hover:-translate-y-0.5 sm:h-auto sm:w-auto sm:px-5 sm:py-3"
       >
-        {open ? t("actions.hide") : t("label")}
+        <svg
+          aria-hidden="true"
+          className="h-4 w-4 sm:hidden"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z" />
+          <path d="M8 9h8" />
+          <path d="M8 13h5" />
+        </svg>
+        <span className="sr-only sm:not-sr-only">
+          {open ? t("actions.hide") : t("label")}
+        </span>
       </button>
     </div>
   );

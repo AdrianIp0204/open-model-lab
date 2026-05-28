@@ -23,7 +23,7 @@ vi.mock("@/components/layout/SiteFooter", () => ({
 }));
 
 describe("PageShell", () => {
-  it("reserves extra mobile bottom space when the floating feedback widget is visible", () => {
+  it("keeps standard bottom space while rendering the mobile in-flow feedback widget", () => {
     render(
       <PageShell layoutMode="section-shell" className="space-y-4">
         <p>Concept page content</p>
@@ -31,7 +31,7 @@ describe("PageShell", () => {
     );
 
     const main = screen.getByRole("main");
-    expect(main).toHaveClass("w-full", "pb-36", "sm:pb-16", "space-y-4");
+    expect(main).toHaveClass("w-full", "pb-16", "space-y-4");
     expect(main).not.toHaveClass("max-w-[88rem]");
     expect(screen.getByTestId("feedback-widget")).toBeInTheDocument();
   });
@@ -45,7 +45,6 @@ describe("PageShell", () => {
 
     const main = screen.getByRole("main");
     expect(main).toHaveClass("max-w-[88rem]", "pb-16");
-    expect(main).not.toHaveClass("pb-36", "sm:pb-16");
     expect(screen.queryByTestId("feedback-widget")).not.toBeInTheDocument();
   });
 });
