@@ -1,5 +1,25 @@
 # Open Model Lab Status
 
+## 2026-05-28 OML-QA-015 Concept Bench Current Step Cue
+
+Current state: `OML-QA-015` is complete. Guided concept benches now show a compact current-step cue near the live model and controls, with step count, goal, and action visible inside the first usable bench viewport without restoring the old `Try this first` / first-action rail.
+
+### Files Changed
+
+- `components/concepts/ConceptPageV2Panels.tsx`: added the compact reusable current-step cue.
+- `components/simulations/ConceptSimulationRenderer.tsx`: passes the active guided step into the live bench shell.
+- `components/simulations/SimulationShell.tsx`: docks the cue above controls on desktop, after the scene on phone, and near the stage on tablet layouts.
+- Tests: added component coverage and a Playwright audit over SHM, UCM, projectile motion, electric fields, unit circle, and acid/base at desktop, tablet, and phone viewports.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `git diff --check HEAD^..HEAD`: passed for the worker patch.
+- `pnpm exec playwright test -c playwright.concept-v2.config.ts tests/e2e/concept-page-v2-flow.spec.ts -g "OML-QA-015"`: passed, 1/1; captured 24 representative screenshots.
+- Screenshot inspection passed for representative desktop, tablet, and phone captures; the cue is visible in the first usable bench viewport and the old first-action rail test IDs are absent.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-28 Concept Pages Full QA / UI-UX Pass
 
 Current state: the concept-page QA pass is complete and follow-up work is now captured as `OML-QA-015` through `OML-QA-024` in `TASKS.md`. No product code was changed in this pass.

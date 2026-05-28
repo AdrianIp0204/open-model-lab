@@ -131,7 +131,7 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
 ### P1 - Concept Page QA / UI-UX Pass 2026-05-28 Night
 
-- [ ] **OML-QA-015: Put the current guided task back inside the first usable bench viewport without restoring the old `Try this first` rail.**
+- [x] **OML-QA-015: Put the current guided task back inside the first usable bench viewport without restoring the old `Try this first` rail.**
   - Evidence: the 2026-05-28 night concept QA sweep showed `concept-v2-current-step-card` starts far below the first viewport on representative concepts: desktop y was about `1560-2576px`, phone y was about `1400-1771px`, while the first viewport only shows the model, controls, and sometimes part of the graph. Screenshots: `output/concept-qa-pass-2026-05-28/2026-05-28T15-17-02-393Z/screenshots/desktop-1440x900-simple-harmonic-motion.png`, `phone-390x844-simple-harmonic-motion.png`, and `phone-390x844-electric-fields.png`.
   - UX problem: after `OML-QA-014`, the page no longer duplicates the old first-action rail, but a first-time learner no longer sees the current guided action while using the controls. The bench says what the model is, not what to do next.
   - Affected area: `components/concepts/ConceptPageV2Shell.tsx`, `components/concepts/ConceptPageV2Panels.tsx`, `components/simulations/ConceptSimulationRenderer.tsx`, `components/simulations/SimulationShell.tsx`, and focused concept V2/layout tests.
@@ -139,6 +139,8 @@ This checklist is the working queue for follow-up agents. When completing an ite
   - Constraints: do not reintroduce `simulation-shell-first-action` / `concept-v2-guided-first-action`; do not put a full paragraph-heavy card above controls; keep the model/controls first and the cue scannable.
   - Validation: run a DOM/screenshot audit over at least `simple-harmonic-motion`, `uniform-circular-motion`, `projectile-motion`, `electric-fields`, `unit-circle-sine-cosine-from-rotation`, and `acid-base-ph-intuition` at `1440x900`, `820x1180`, `390x844`, and `360x740`. Assert the compact current-step cue is visible before or within the first viewport, includes the current step count/goal/action, and no old first-action rail test IDs are present.
 
+  - Completion note (2026-05-28 HKT): Added a compact current-step bench cue near the live model/controls so guided concept pages show the step count, goal, and action inside the first usable bench viewport without restoring the old first-action rail.
+  - Validation: git diff --check; git diff --check HEAD^..HEAD; pnpm exec playwright test -c playwright.concept-v2.config.ts tests/e2e/concept-page-v2-flow.spec.ts -g "OML-QA-015"; pnpm typecheck; screenshot inspection of representative desktop/tablet/phone cue captures
 - [ ] **OML-QA-016: Compact the mobile concept control stack so controls do not bury the graph and guided task.**
   - Evidence: phone screenshots show controls consuming most of the first 1.5-2 viewports; e.g. `phone-390x844-simple-harmonic-motion.png`, `phone-390x844-conservation-of-momentum.png`, and `short-phone-360x740-reaction-rate-collision-theory.png`. The first guided step appears around `1400-1771px`; prediction starts around `2254-2925px`; overlays and equation map often start around `2600-4087px`.
   - UX problem: the controls are usable but oversized. A learner on a phone sees huge slider cards and preset cards before the page shows the guided task, prediction, overlays, or equation tools.
