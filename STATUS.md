@@ -1,5 +1,26 @@
 # Open Model Lab Status
 
+## 2026-05-28 OML-QA-007 Mobile Feedback Widget Occlusion Repair
+
+Current state: `OML-QA-007` is complete. The feedback trigger no longer floats over the first mobile viewport on the audited learning and pricing surfaces, and Circuit Builder hides the widget so it does not compete with workbench controls.
+
+### Files Changed
+
+- `components/feedback/FeedbackWidget.tsx`: changed the mobile trigger to a compact in-flow 44px icon button while preserving the accessible feedback name; desktop keeps the fixed floating widget.
+- `components/layout/PageShell.tsx`: removed the old mobile bottom-padding reservation because the widget no longer overlays mobile content.
+- `app/circuit-builder/CircuitBuilderRoute.tsx`: disabled the feedback widget on the workbench route.
+- Tests: updated `tests/components/feedback-widget.test.tsx`, `tests/components/page-shell.test.tsx`, and `tests/app/circuit-builder-page.test.tsx`.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `git diff --check 3bcedc2..HEAD`: passed for the worker patch.
+- `pnpm exec vitest run tests/components/feedback-widget.test.tsx tests/app/circuit-builder-page.test.tsx tests/components/page-shell.test.tsx`: passed, 8/8 tests.
+- Mobile Playwright screenshot/overlap validation at 390x844 for `/`, `/concepts`, `/pricing`, `/tests`, and `/circuit-builder`: passed with `failureCount: 0`; screenshots and summary are under `output/qa-oml-qa-007-2026-05-28/orchestrator-qa/`.
+- `pnpm typecheck`: passed.
+- `pnpm lint`: passed.
+
 ## 2026-05-28 OML-QA-006 Mobile Simulation Tap Target Repair
 
 Current state: `OML-QA-006` is complete. Mobile concept simulation controls now meet the 44px target floor across the representative concept bench surfaces, and the SHM, electric-field, unit-circle, and projectile SVG drag handles keep larger invisible hit areas without enlarging the visible handles.

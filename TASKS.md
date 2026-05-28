@@ -63,12 +63,14 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
   - Completion note (2026-05-28 HKT): Raised shared mobile control targets and enlarged invisible SVG drag hit areas for SHM, electric fields, unit circle, and projectile simulations while preserving visible handle proportions.
   - Validation: git diff --check passed; mobile target/drag audit over SHM, electric fields, unit circle, and projectile passed with failedTargetCount 0 and failedDragCount 0; screenshots inspected under output/qa-oml-qa-006-2026-05-28/orchestrator-qa-after-repair/; pnpm typecheck passed.
-- [ ] **OML-QA-007: Reduce mobile floating-widget occlusion on learning and pricing surfaces.**
+- [x] **OML-QA-007: Reduce mobile floating-widget occlusion on learning and pricing surfaces.**
   - Evidence: mobile screenshots show the `Feedback` widget overlaying visible content on `/`, `/concepts`, `/pricing`, `/tests`, and `/circuit-builder`. Concept pages hide feedback, but other high-value surfaces still have first-viewport content under the floating button.
   - Affected area: `components/feedback/FeedbackWidget.tsx`, `components/layout/PageShell.tsx`, and page-level `showFeedbackWidget`/safe-area behavior.
   - Fix direction: reserve enough bottom space for mobile first-view cards, collapse the widget to a smaller icon where content density is high, or hide feedback on tool/workbench pages where it competes with primary controls. Avoid hiding the only feedback path on plain info pages.
   - Validation: mobile screenshots for home, concepts, pricing, tests, and circuit builder show no primary CTA, form field, graph, or card text under the widget.
 
+  - Completion note (2026-05-28 HKT): Converted the mobile feedback trigger to a compact in-flow 44px icon button, kept the desktop widget fixed, and hid the widget on Circuit Builder where it competes with workbench controls.
+  - Validation: git diff --check passed; git diff --check 3bcedc2..HEAD passed; targeted FeedbackWidget/PageShell/CircuitBuilder vitest suite passed (8/8); mobile Playwright screenshot/overlap validation passed for `/`, `/concepts`, `/pricing`, `/tests`, and `/circuit-builder` with failureCount 0; pnpm typecheck passed; pnpm lint passed.
 - [ ] **OML-QA-008: Improve header brand truncation on desktop.**
   - Evidence: desktop screenshots show the header brand block truncated as `Open Mod...` plus a clipped subtitle on several pages, including home, SHM concept, chemistry tool, and circuit builder.
   - Affected area: `components/layout/SiteHeader.tsx` and related header/nav sizing.
