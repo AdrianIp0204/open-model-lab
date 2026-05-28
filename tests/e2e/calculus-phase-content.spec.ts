@@ -286,23 +286,18 @@ test("keeps the authored calculus batch clear and coherent inside the phase-firs
           .boundingBox();
         const liveLabBox = await page.getByTestId("concept-live-lab").boundingBox();
         const lowerFlowBox = await page.getByTestId("concept-learning-phases").boundingBox();
-        const benchUtilitiesBox = await page.getByTestId("concept-bench-utilities").boundingBox();
-        const postPhaseSupportBox = await page
-          .getByTestId("concept-post-phase-support")
+        const postBenchToolsBox = await page
+          .getByTestId("concept-post-bench-tools")
           .boundingBox();
         expect(entryRailBox).not.toBeNull();
         expect(liveLabBox).not.toBeNull();
         expect(lowerFlowBox).not.toBeNull();
-        expect(benchUtilitiesBox).not.toBeNull();
-        expect(postPhaseSupportBox).not.toBeNull();
+        expect(postBenchToolsBox).not.toBeNull();
         expect((entryRailBox?.y ?? 0) + (entryRailBox?.height ?? 0)).toBeLessThan(
           liveLabBox?.y ?? Number.POSITIVE_INFINITY,
         );
         expect((lowerFlowBox?.y ?? 0) + (lowerFlowBox?.height ?? 0)).toBeLessThan(
-          benchUtilitiesBox?.y ?? Number.POSITIVE_INFINITY,
-        );
-        expect((benchUtilitiesBox?.y ?? 0) + (benchUtilitiesBox?.height ?? 0)).toBeLessThan(
-          postPhaseSupportBox?.y ?? Number.POSITIVE_INFINITY,
+          postBenchToolsBox?.y ?? Number.POSITIVE_INFINITY,
         );
 
         await expect(
@@ -363,8 +358,7 @@ test("keeps the authored calculus batch clear and coherent inside the phase-firs
           await expect(readNextSection).toContainText(title);
         }
 
-        await expect(page.getByTestId("concept-bench-utilities")).toBeVisible();
-        await expect(page.getByTestId("concept-post-phase-support")).toBeVisible();
+        await expect(page.getByTestId("concept-post-bench-tools")).toBeVisible();
 
         await expectLiveLabStable(page);
         browserGuard.assertNoActionableIssues();

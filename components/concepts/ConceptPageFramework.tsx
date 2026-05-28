@@ -167,25 +167,15 @@ export function ConceptPageFramework({
     sections: resolvedSections,
     locale: resolvedLocale,
   });
-  const shareDisclosureTitle = copyText(
+  const postBenchToolsTitle = copyText(
     resolvedLocale,
-    "Bench tools and share links",
-    "工作台工具與分享連結",
+    "Study tools and progress",
+    "學習工具與進度",
   );
-  const shareDisclosureSummary = copyText(
+  const postBenchToolsSummary = copyText(
     resolvedLocale,
-    "Keep stable concept links and exact-state sharing tucked away until you actually need to relaunch or share the bench.",
-    "先把穩定概念連結和精確狀態分享收起來，等你真的要重新打開或分享工作台時再展開。",
-  );
-  const progressDisclosureTitle = copyText(
-    resolvedLocale,
-    "Progress and next steps",
-    "進度與下一步",
-  );
-  const progressDisclosureSummary = copyText(
-    resolvedLocale,
-    "Keep progress signals, starter-track handoffs, and review prompts available without letting them compete with the live lesson flow.",
-    "把進度訊號、入門路徑接續和複習提示留在頁面裡，但不要讓它們和主要學習流程搶焦點。",
+    "Progress, exact bench links, sharing, and the coach stay here when you need support without competing with the wrap-up path.",
+    "進度、精確工作台連結、分享和教練都集中在這裡，需要支援時再展開，不和總結路徑搶焦點。",
   );
   const liveLabChildren = Children.toArray([
     publicExperimentCard ? (
@@ -224,7 +214,16 @@ export function ConceptPageFramework({
       variant="compact"
     />,
   ]);
-  const postPhaseSupportContent = Children.toArray([
+  const postBenchToolsContent = Children.toArray([
+    <ConceptPageStatusSurface
+      key="status"
+      concept={concept}
+      sections={resolvedSections}
+      readNext={readNext}
+      starterTrackMemberships={starterTrackMemberships}
+      initialSyncedSnapshot={initialSyncedSnapshot}
+      variant="compact"
+    />,
     <ConceptProgressCard
       key="progress"
       concept={{
@@ -245,46 +244,27 @@ export function ConceptPageFramework({
         variant="compact"
       />
     ) : null,
+    <AiLearningCoachPanel
+      key="ai-coach"
+      concept={concept}
+      simulationSource={simulationSource}
+      locale={resolvedLocale}
+    />,
+    ...supportRailContent,
   ]);
   const afterPhasedSectionContent = Children.toArray([
     <section
-      key="bench-utilities"
-      data-testid="concept-bench-utilities"
-      className="grid gap-3 xl:grid-cols-[minmax(0,1.08fr)]"
+      key="post-bench-tools"
+      data-testid="concept-post-bench-tools"
+      className="grid gap-3"
     >
       <DisclosurePanel
-        title={shareDisclosureTitle}
-        summary={shareDisclosureSummary}
+        title={postBenchToolsTitle}
+        summary={postBenchToolsSummary}
+        triggerTestId="concept-post-bench-tools-disclosure-trigger"
       >
-        <div className="grid gap-3 xl:grid-cols-[minmax(0,1.08fr)]">
-          {supportRailContent}
-        </div>
-      </DisclosurePanel>
-    </section>,
-    <section
-      key="post-phase-support"
-      data-testid="concept-post-phase-support"
-      className={[
-        "grid gap-3",
-        starterTrackMemberships.length
-          ? "xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.96fr)]"
-          : "xl:grid-cols-[minmax(0,1.08fr)]",
-      ].join(" ")}
-    >
-      <DisclosurePanel
-        title={progressDisclosureTitle}
-        summary={progressDisclosureSummary}
-        triggerTestId="concept-progress-disclosure-trigger"
-      >
-        <div
-          className={[
-            "grid gap-3",
-            starterTrackMemberships.length
-              ? "xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.96fr)]"
-              : "xl:grid-cols-[minmax(0,1.08fr)]",
-          ].join(" ")}
-        >
-          {postPhaseSupportContent}
+        <div className="grid gap-3 xl:grid-cols-2">
+          {postBenchToolsContent}
         </div>
       </DisclosurePanel>
     </section>,
@@ -351,18 +331,6 @@ export function ConceptPageFramework({
                 </h1>
               </div>
             }
-            statusContent={
-              <div className="grid gap-2.5">
-                <ConceptPageStatusSurface
-                  concept={concept}
-                  sections={resolvedSections}
-                  readNext={readNext}
-                  starterTrackMemberships={starterTrackMemberships}
-                  initialSyncedSnapshot={initialSyncedSnapshot}
-                  variant="compact"
-                />
-              </div>
-            }
             liveLabContent={
               <>
                 <div
@@ -377,11 +345,6 @@ export function ConceptPageFramework({
                     {liveLabChildren}
                   </div>
                 </div>
-                <AiLearningCoachPanel
-                  concept={concept}
-                  simulationSource={simulationSource}
-                  locale={resolvedLocale}
-                />
               </>
             }
             afterPhasedSections={afterPhasedSectionContent}

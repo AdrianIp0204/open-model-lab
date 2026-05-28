@@ -49,7 +49,6 @@ type ConceptPageV2ShellProps = {
   model?: ResolvedConceptPageV2;
   hideStartHere?: boolean;
   titleContextContent?: ReactNode;
-  statusContent?: ReactNode;
   liveLabContent?: ReactNode;
   supportRail?: ReactNode;
   afterPhasedSections?: ReactNode;
@@ -109,7 +108,6 @@ export function ConceptPageV2Shell({
   model: providedModel,
   hideStartHere = false,
   titleContextContent,
-  statusContent,
   liveLabContent,
   supportRail,
   afterPhasedSections,
@@ -499,14 +497,9 @@ export function ConceptPageV2Shell({
         </ConceptPagePhaseProvider>
       </section>
 
-      {startHereContent || statusContent ? (
+      {startHereContent ? (
         <div data-testid="concept-v2-post-lab-context" className="grid gap-3">
           {startHereContent}
-          {statusContent ? (
-            <div data-testid="concept-v2-hero-status" className="min-w-0">
-              <Fragment>{statusContent}</Fragment>
-            </div>
-          ) : null}
         </div>
       ) : null}
 

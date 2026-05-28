@@ -10,6 +10,8 @@ const desktopViewport = { width: 1440, height: 900 } as const;
 
 async function openConceptPage(pathname: string, page: Page) {
   await gotoAndExpectOk(page, pathname);
+  await page.getByTestId("concept-post-bench-tools-disclosure-trigger").scrollIntoViewIfNeeded();
+  await page.getByTestId("concept-post-bench-tools-disclosure-trigger").click();
   await expect(page.getByTestId("concept-page-status-surface")).toBeVisible();
 }
 
@@ -113,17 +115,20 @@ test.describe("concept page v2 status surface", () => {
       await expect(page.getByTestId("concept-page-status-secondary-cta")).toContainText(
         "Review this concept",
       );
-      const [statusBox, guidedLabBox, wrapUpBox] = await Promise.all([
+      const [statusBox, wrapUpBox, referenceBox, toolsBox] = await Promise.all([
         page.getByTestId("concept-page-status-surface").boundingBox(),
-        page.getByTestId("concept-v2-guided-live-lab").boundingBox(),
         page.getByTestId("concept-v2-wrap-up").boundingBox(),
+        page.getByTestId("concept-v2-reference").boundingBox(),
+        page.getByTestId("concept-post-bench-tools").boundingBox(),
       ]);
       expect(statusBox).not.toBeNull();
-      expect(guidedLabBox).not.toBeNull();
       expect(wrapUpBox).not.toBeNull();
+      expect(referenceBox).not.toBeNull();
+      expect(toolsBox).not.toBeNull();
       expect(statusBox!.height).toBeLessThan(300);
-      expect(statusBox!.y).toBeGreaterThan(guidedLabBox!.y);
-      expect(wrapUpBox!.y - (statusBox!.y + statusBox!.height)).toBeLessThan(160);
+      expect(wrapUpBox!.y + wrapUpBox!.height).toBeLessThan(referenceBox!.y);
+      expect(referenceBox!.y + referenceBox!.height).toBeLessThan(toolsBox!.y);
+      expect(statusBox!.y).toBeGreaterThanOrEqual(toolsBox!.y);
       await page.getByTestId("concept-page-status-secondary-cta").click();
       await expect(page).toHaveURL(/#guided-step-explain-a-reflection$/);
       browserGuard.assertNoActionableIssues();

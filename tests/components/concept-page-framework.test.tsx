@@ -304,7 +304,7 @@ describe("ConceptPageFramework V2", () => {
     expect(initialState).toEqual(restoredState);
   });
 
-  it("renders the AI coach as a floating widget outside the live lab without a React key warning", () => {
+  it("renders the AI coach as a contextual post-bench tool without a React key warning", () => {
     const originalError = console.error;
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation((...args) => {
       originalError(...args);
@@ -313,8 +313,10 @@ describe("ConceptPageFramework V2", () => {
     try {
       renderFramework("simple-harmonic-motion");
 
+      const postBenchTools = screen.getByTestId("concept-post-bench-tools");
       expect(screen.getByTestId("ai-learning-coach-widget")).toBeInTheDocument();
       expect(screen.getByTestId("ai-learning-coach-trigger")).toHaveTextContent("AI Coach");
+      expect(postBenchTools).toContainElement(screen.getByTestId("ai-learning-coach-widget"));
       expect(
         within(screen.getByTestId("deferred-simulation-probe")).queryByTestId(
           "ai-learning-coach-panel",
@@ -472,39 +474,40 @@ describe("ConceptPageFramework V2", () => {
     expect(screen.queryByRole("button", { name: /guide me/i })).not.toBeInTheDocument();
   });
 
-  it("keeps the title compact and leaves only status in the post-lab context", () => {
+  it("keeps the title compact and tucks status into the post-bench tools", () => {
     renderFramework("simple-harmonic-motion");
 
     const heroGrid = screen.getByTestId("concept-v2-hero-grid");
     const heroMain = screen.getByTestId("concept-v2-hero-main");
     const heroTitle = screen.getByTestId("concept-v2-hero-title");
-    const postLabContext = screen.getByTestId("concept-v2-post-lab-context");
-    const heroStatus = screen.getByTestId("concept-v2-hero-status");
     const equationSnapshot = screen.getByTestId("concept-v2-equation-snapshot");
+    const postBenchTools = screen.getByTestId("concept-post-bench-tools");
 
     expect(heroGrid).toBeInTheDocument();
     expect(within(heroTitle).getByRole("heading", { name: /simple harmonic motion/i })).toBeInTheDocument();
-    expect(within(heroStatus).queryByTestId("concept-page-status-surface")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("concept-v2-post-lab-context")).not.toBeInTheDocument();
+    expect(within(postBenchTools).queryByTestId("concept-page-status-surface")).not.toBeInTheDocument();
     expect(screen.queryByTestId("concept-v2-hero-start")).not.toBeInTheDocument();
     expect(equationSnapshot).toBeInTheDocument();
     expect(heroMain).toContainElement(heroTitle);
-    expect(postLabContext).toContainElement(heroStatus);
     expect(
-      heroTitle.compareDocumentPosition(postLabContext) & Node.DOCUMENT_POSITION_FOLLOWING,
-    ).toBeTruthy();
-    expect(
-      heroStatus.compareDocumentPosition(equationSnapshot) & Node.DOCUMENT_POSITION_FOLLOWING,
+      heroTitle.compareDocumentPosition(equationSnapshot) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
   });
 
-  it("tucks bench utilities into one post-lesson disclosure instead of duplicating share tools", () => {
+  it("tucks utilities, progress, share, and coach into one post-lesson disclosure", () => {
     renderFramework("simple-harmonic-motion");
 
-    const benchUtilities = screen.getByTestId("concept-bench-utilities");
+    const postBenchTools = screen.getByTestId("concept-post-bench-tools");
 
-    expect(benchUtilities).toHaveTextContent("Bench tools and share links");
-    expect(within(benchUtilities).getByText("Try this setup")).toBeInTheDocument();
+    expect(postBenchTools).toHaveTextContent("Study tools and progress");
+    expect(postBenchTools).toHaveTextContent("Progress, exact bench links, sharing, and the coach");
+    expect(within(postBenchTools).getByTestId("concept-progress-card")).toBeInTheDocument();
+    expect(within(postBenchTools).getByTestId("ai-learning-coach-widget")).toBeInTheDocument();
+    expect(within(postBenchTools).getByText("Try this setup")).toBeInTheDocument();
     expect(screen.getAllByText("Try this setup")).toHaveLength(1);
+    expect(screen.queryByTestId("concept-bench-utilities")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("concept-post-phase-support")).not.toBeInTheDocument();
   });
 
   it("exposes the first guided step inside the live lab by default", async () => {

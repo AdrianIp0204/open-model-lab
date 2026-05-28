@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import { gotoAndExpectOk, installBrowserGuards } from "./helpers";
 
 const representativeRoutes = [
@@ -8,11 +8,35 @@ const representativeRoutes = [
   "/en/concepts/binary-search-halving-the-search-space",
 ] as const;
 
+const postBenchQaRoutes = [
+  "/en/concepts/simple-harmonic-motion",
+  "/en/concepts/uniform-circular-motion",
+  "/en/concepts/electric-fields",
+  "/en/concepts/acid-base-ph-intuition",
+  "/en/concepts/binary-search-halving-the-search-space",
+] as const;
+
 const reviewedMobileRoutes = [
   "/en/concepts/simple-harmonic-motion",
   "/en/concepts/vectors-components",
   "/en/concepts/wave-interference",
 ] as const;
+
+async function completeGuidedSteps(page: Page) {
+  const nextButton = page.getByTestId("concept-v2-rail-next-button");
+
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    if ((await page.evaluate(() => window.location.hash)) === "#concept-v2-wrap-up") {
+      return;
+    }
+
+    await expect(nextButton).toBeVisible();
+    await expect(nextButton).toBeEnabled();
+    await nextButton.click();
+  }
+
+  await expect(page).toHaveURL(/#concept-v2-wrap-up$/);
+}
 
 test.describe("concept page v2 ordering", () => {
   test("keeps the desktop top band compact with fresh-start status hidden", async ({
@@ -87,6 +111,72 @@ test.describe("concept page v2 ordering", () => {
           expect(referenceBox).not.toBeNull();
           expect(guidedLabBox!.y + guidedLabBox!.height).toBeLessThan(wrapUpBox!.y);
           expect(wrapUpBox!.y + wrapUpBox!.height).toBeLessThan(referenceBox!.y);
+        });
+      }
+
+      browserGuard.assertNoActionableIssues();
+    } finally {
+      await context.close();
+    }
+  });
+
+  test("keeps one post-bench IA after completing representative guided paths", async ({
+    browser,
+  }) => {
+    const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    const page = await context.newPage();
+    const browserGuard = await installBrowserGuards(page);
+
+    try {
+      for (const route of postBenchQaRoutes) {
+        await test.step(route, async () => {
+          await gotoAndExpectOk(page, route);
+          await completeGuidedSteps(page);
+
+          const wrapUp = page.getByTestId("concept-v2-wrap-up");
+          const reference = page.getByTestId("concept-v2-reference");
+          const postBenchTools = page.getByTestId("concept-post-bench-tools");
+
+          await expect(wrapUp).toBeVisible();
+          await expect(reference).toBeVisible();
+          await expect(postBenchTools).toBeVisible();
+          await expect(page.getByTestId("concept-v2-primary-practice-action")).toHaveCount(1);
+          await expect(page.getByTestId("concept-v2-reference")).toHaveCount(1);
+          await expect(page.getByTestId("concept-post-bench-tools")).toHaveCount(1);
+          await expect(page.getByTestId("concept-bench-utilities")).toHaveCount(0);
+          await expect(page.getByTestId("concept-post-phase-support")).toHaveCount(0);
+
+          const sectionOrder = await page
+            .locator(
+              [
+                '[data-testid="concept-v2-wrap-up"]',
+                '[data-testid="concept-v2-reference"]',
+                '[data-testid="concept-post-bench-tools"]',
+                '[data-testid="concept-bench-utilities"]',
+                '[data-testid="concept-post-phase-support"]',
+              ].join(", "),
+            )
+            .evaluateAll((elements) =>
+              elements.map((element) => element.getAttribute("data-testid")),
+            );
+
+          expect(sectionOrder).toEqual([
+            "concept-v2-wrap-up",
+            "concept-v2-reference",
+            "concept-post-bench-tools",
+          ]);
+
+          const [wrapUpBox, referenceBox, toolsBox] = await Promise.all([
+            wrapUp.boundingBox(),
+            reference.boundingBox(),
+            postBenchTools.boundingBox(),
+          ]);
+
+          expect(wrapUpBox).not.toBeNull();
+          expect(referenceBox).not.toBeNull();
+          expect(toolsBox).not.toBeNull();
+          expect(wrapUpBox!.y + wrapUpBox!.height).toBeLessThan(referenceBox!.y);
+          expect(referenceBox!.y + referenceBox!.height).toBeLessThan(toolsBox!.y);
         });
       }
 

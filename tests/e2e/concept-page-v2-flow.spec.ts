@@ -777,12 +777,15 @@ test.describe("concept page v2 flow", () => {
       await expect(equationSnapshot).toContainText("公式速覽");
       await expect(page.getByTestId("concept-v2-wrap-up")).toContainText("總結");
       await expect(page.getByTestId("concept-v2-reference")).toContainText("參考與支援");
-      await page.getByTestId("concept-bench-utilities").scrollIntoViewIfNeeded();
-      await expect(page.getByTestId("concept-bench-utilities")).toContainText("工作台工具與分享連結");
-      await expect(page.getByTestId("concept-post-phase-support")).toContainText("進度與下一步");
-      await expect(page.getByTestId("concept-bench-utilities")).not.toContainText(
-        "Bench tools and share links",
+      await page.getByTestId("concept-post-bench-tools").scrollIntoViewIfNeeded();
+      await expect(page.getByTestId("concept-post-bench-tools")).toContainText(
+        "學習工具與進度",
       );
+      await expect(page.getByTestId("concept-post-bench-tools")).not.toContainText(
+        "Study tools and progress",
+      );
+      await expect(page.getByTestId("concept-bench-utilities")).toHaveCount(0);
+      await expect(page.getByTestId("concept-post-phase-support")).toHaveCount(0);
 
       await page.getByTestId("concept-v2-guided-live-lab").scrollIntoViewIfNeeded();
       await expect(page.getByTestId("concept-v2-guided-live-lab")).toBeInViewport();

@@ -245,7 +245,7 @@ export async function closeOpenDisclosurePanels(page: Page) {
 }
 
 export async function openConceptProgressDisclosure(page: Page) {
-  const trigger = page.getByTestId("concept-progress-disclosure-trigger");
+  const trigger = page.getByTestId("concept-post-bench-tools-disclosure-trigger");
   const disclosure = page.locator("details").filter({ has: trigger }).first();
 
   await trigger.scrollIntoViewIfNeeded();

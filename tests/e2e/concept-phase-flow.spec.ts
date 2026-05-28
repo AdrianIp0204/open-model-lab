@@ -228,21 +228,16 @@ test("keeps the canonical concept flow stable on desktop with keyboard, progress
     const entryRailBox = await page.getByTestId("concept-learning-phase-entry-rail").boundingBox();
     const liveLabBox = await page.getByTestId("concept-live-lab").boundingBox();
     const lowerFlowBox = await page.getByTestId("concept-learning-phases").boundingBox();
-    const benchUtilitiesBox = await page.getByTestId("concept-bench-utilities").boundingBox();
-    const postPhaseSupportBox = await page.getByTestId("concept-post-phase-support").boundingBox();
+    const postBenchToolsBox = await page.getByTestId("concept-post-bench-tools").boundingBox();
     expect(entryRailBox).not.toBeNull();
     expect(liveLabBox).not.toBeNull();
     expect(lowerFlowBox).not.toBeNull();
-    expect(benchUtilitiesBox).not.toBeNull();
-    expect(postPhaseSupportBox).not.toBeNull();
+    expect(postBenchToolsBox).not.toBeNull();
     expect((entryRailBox?.y ?? 0) + (entryRailBox?.height ?? 0)).toBeLessThan(
       liveLabBox?.y ?? Number.POSITIVE_INFINITY,
     );
     expect((lowerFlowBox?.y ?? 0) + (lowerFlowBox?.height ?? 0)).toBeLessThan(
-      benchUtilitiesBox?.y ?? Number.POSITIVE_INFINITY,
-    );
-    expect((benchUtilitiesBox?.y ?? 0) + (benchUtilitiesBox?.height ?? 0)).toBeLessThan(
-      postPhaseSupportBox?.y ?? Number.POSITIVE_INFINITY,
+      postBenchToolsBox?.y ?? Number.POSITIVE_INFINITY,
     );
     await expectBenchSupportPhase(page, "explore");
     await expectBenchHandoff(page, {

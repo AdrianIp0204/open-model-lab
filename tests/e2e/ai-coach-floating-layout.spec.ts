@@ -73,10 +73,13 @@ for (const layoutCase of conceptHelperLayoutCases) {
     const protectedZone = page.locator(
       '[data-protected-learning-zone="concept-live-lab"]',
     );
+    const toolsTrigger = page.getByTestId("concept-post-bench-tools-disclosure-trigger");
     const aiTrigger = page.getByTestId("ai-learning-coach-trigger");
     const feedbackTrigger = page.getByTestId("feedback-widget-trigger");
 
     await expect(protectedZone).toBeVisible();
+    await toolsTrigger.scrollIntoViewIfNeeded();
+    await toolsTrigger.click();
     await expect(aiTrigger).toBeVisible();
     await expect(feedbackTrigger).toBeVisible();
 
