@@ -260,6 +260,7 @@ export default async function BillingPage({
       <section className="space-y-6 sm:space-y-8">
         <PageSection id="billing-overview" as="div" className="space-y-6">
           <SectionHeading
+            level={1}
             eyebrow={copy.hero.eyebrow}
             title={copy.hero.title}
             description={copy.hero.description}

@@ -51,6 +51,7 @@ export default async function ResetPasswordPage({
     >
       <section className="space-y-6 sm:space-y-8">
         <SectionHeading
+          level={1}
           eyebrow={t("hero.eyebrow")}
           title={t("hero.title")}
           description={t("hero.description")}

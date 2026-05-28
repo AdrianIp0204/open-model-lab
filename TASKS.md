@@ -11,13 +11,15 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
 ### P0 - Product Breakage / Failing Existing Gates
 
-- [ ] **OML-QA-001: Restore semantic `h1` coverage on public and account routes.**
+- [x] **OML-QA-001: Restore semantic `h1` coverage on public and account routes.**
   - Evidence: the 2026-05-28 route sweep reported no `h1` on `/concepts/subjects`, `/concepts/topics`, `/pricing`, `/account`, `/account/setups`, `/account/compare-setups`, `/account/study-plans`, `/dashboard`, `/dashboard/analytics`, `/billing`, `/about`, `/source`, `/contact`, `/privacy`, `/terms`, `/ads`, and `/zh-HK/concepts`. `tests/e2e/public-discovery-layout.spec.ts` also fails on `/start` because it expects a level-1 heading.
   - Likely cause: `SectionHeading` defaults to `level={2}` and multiple route hero sections use it as the visual page title without passing `level={1}`. `/start` also has dynamic hero states that need semantic parity.
   - Fix direction: audit each routed page's first visible page title and make exactly one visible or accessible `h1` per page. Prefer passing `level={1}` to `SectionHeading` where it is the page hero, or introduce a route-level hero wrapper that makes the semantic level explicit.
   - Include localized routes in the audit. Do not make a hidden duplicate `h1` if a visible heading can be the real `h1`.
   - Validation: run a Playwright/DOM sweep for all affected routes and rerun `pnpm exec playwright test tests/e2e/public-discovery-layout.spec.ts -g "visible next steps"`.
 
+  - Completion note (2026-05-28 HKT): Set routed SectionHeading hero titles to level 1 across the affected public/account/dashboard pages; a temporary Playwright DOM audit confirmed each affected route, including zh-HK concepts and start-page states, exposes exactly one visible h1.
+  - Validation: git diff --check passed; temporary Playwright h1 audit passed; pnpm typecheck passed; public-discovery visible-next-steps spec still fails only on existing OML-QA-009 seeded /start heading expectation.
 - [ ] **OML-QA-002: Fix the chemistry reaction mind map desktop node-label overflow.**
   - Evidence: `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts -g "map-first on initial desktop"` fails. The failing assertion reports `overflowingNodeText = ["chem-node-carboxylate-salt"]`.
   - Affected area: `components/tools/chemistry/ChemistryReactionGraph.tsx` and related layout data in `lib/tools/chemistry-reaction-mind-map.ts`.

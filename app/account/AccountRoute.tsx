@@ -122,6 +122,7 @@ export default async function AccountPage({
           initialAuthMode={initialAuthMode}
           leadIn={
             <SectionHeading
+              level={1}
               eyebrow={t("hero.eyebrow")}
               title={t("hero.title")}
               description={t("hero.description")}

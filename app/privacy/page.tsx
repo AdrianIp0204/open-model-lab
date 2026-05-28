@@ -115,6 +115,7 @@ export default async function PrivacyPage({
       <section className="space-y-6 sm:space-y-8">
         <PageSection id="privacy-overview" as="div" className="space-y-6">
           <SectionHeading
+            level={1}
             eyebrow={t("hero.eyebrow")}
             title={t("hero.title")}
             description={t("hero.description")}

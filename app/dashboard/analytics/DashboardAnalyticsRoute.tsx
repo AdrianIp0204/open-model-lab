@@ -111,6 +111,7 @@ export default async function DashboardAnalyticsPage({
         >
           <section className="space-y-6 sm:space-y-8">
             <SectionHeading
+              level={1}
               eyebrow={t("premiumLocked.eyebrow")}
               title={t("premiumLocked.title")}
               description={t("premiumLocked.description")}
@@ -284,6 +285,7 @@ export default async function DashboardAnalyticsPage({
           achievementsUnavailable={achievementsUnavailable}
           leadIn={
             <SectionHeading
+              level={1}
               eyebrow={t("hero.eyebrow")}
               title={t("hero.title")}
               description={t("hero.description")}

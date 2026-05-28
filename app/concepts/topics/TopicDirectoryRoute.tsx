@@ -165,6 +165,7 @@ export default async function TopicDirectoryPage({
 
           <PageSection id="topic-directory-overview" as="div">
             <SectionHeading
+              level={1}
               density="dense"
               eyebrow={t("overview.eyebrow")}
               title={t("overview.title")}

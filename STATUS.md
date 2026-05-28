@@ -1,5 +1,21 @@
 # Open Model Lab Status
 
+## 2026-05-28 OML-QA-001 Semantic Heading Repair
+
+Current state: `OML-QA-001` is complete. The affected public, account, dashboard, billing, trust/info, and localized concept routes now expose their hero `SectionHeading` as the page `h1`.
+
+### Files Changed
+
+- Route heading updates: `app/about/AboutRoute.tsx`, `app/account/AccountRoute.tsx`, account saved/recovery pages, `app/ads/page.tsx`, `app/billing/page.tsx`, `app/concepts/subjects/page.tsx`, `app/concepts/topics/TopicDirectoryRoute.tsx`, `app/contact/ContactRoute.tsx`, dashboard routes, `app/pricing/PricingRoute.tsx`, `app/privacy/page.tsx`, `app/source/page.tsx`, and `app/terms/page.tsx`.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- Temporary Playwright DOM audit for affected routes and `/start` states: passed with exactly one visible `h1` per route.
+- `pnpm typecheck`: passed.
+- `pnpm exec playwright test tests/e2e/public-discovery-layout.spec.ts -g "visible next steps"`: still fails only on the known `OML-QA-009` seeded `/start` heading expectation, not missing `h1` coverage.
+
 ## 2026-05-28 QA/UI/UX Pass
 
 Current state: QA pass completed and follow-up work queued in `TASKS.md`. No product fixes were made in this pass.
@@ -39,7 +55,7 @@ Current state: QA pass completed and follow-up work queued in `TASKS.md`. No pro
 
 Open tasks are tracked in `TASKS.md`:
 
-- P0: `OML-QA-001`, `OML-QA-002`, `OML-QA-003`
+- P0: `OML-QA-002`, `OML-QA-003`
 - P1: `OML-QA-004`, `OML-QA-005`, `OML-QA-006`, `OML-QA-007`, `OML-QA-008`
 - P2: `OML-QA-009`, `OML-QA-010`, `OML-QA-011`
 

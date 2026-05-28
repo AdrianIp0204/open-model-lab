@@ -77,6 +77,7 @@ export default async function DevAccountHarnessPage() {
     >
       <section className="space-y-6 sm:space-y-8">
         <SectionHeading
+          level={1}
           eyebrow="Developer-only"
           title="Local account harness"
           description="Use this route to switch the real app into signed-out, signed-in free, or signed-in premium fixture states without browser API stubs or manual SQL. The harness only runs when ENABLE_DEV_ACCOUNT_HARNESS=true and stays disabled in production."
