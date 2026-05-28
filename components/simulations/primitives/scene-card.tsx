@@ -9,6 +9,7 @@ type SimulationSceneCardProps = {
   description: ReactNode;
   headerClassName: string;
   headerAside?: ReactNode;
+  compactHeaderOnMobile?: boolean;
   children: ReactNode;
 };
 
@@ -17,6 +18,7 @@ export function SimulationSceneCard({
   description,
   headerClassName,
   headerAside,
+  compactHeaderOnMobile = false,
   children,
 }: SimulationSceneCardProps) {
   const locale = useLocale();
@@ -28,7 +30,9 @@ export function SimulationSceneCard({
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="lab-label">{localizedTitle}</p>
-            <p className="mt-1 text-xs text-ink-700">{description}</p>
+            <p className={["mt-1 text-xs text-ink-700", compactHeaderOnMobile ? "max-sm:hidden" : ""].join(" ")}>
+              {description}
+            </p>
           </div>
           {headerAside ? <div className="flex flex-wrap items-center gap-3">{headerAside}</div> : null}
         </div>

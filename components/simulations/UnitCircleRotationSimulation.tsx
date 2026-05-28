@@ -20,6 +20,7 @@ import {
   projectCartesianY,
   type CartesianPlaneConfig,
 } from "./primitives/math-plane";
+import { SimulationMobileReadoutDetails } from "./SimulationMobileReadoutDetails";
 import { useSvgPointerDrag } from "./primitives/useSvgPointerDrag";
 
 type SimulationParams = Record<string, number | boolean | string>;
@@ -277,7 +278,7 @@ export function UnitCircleRotationSimulation({
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="lab-label">{concept.title}</p>
-            <p className="mt-1 max-w-3xl text-xs text-ink-700">
+            <p className="mt-1 max-w-3xl text-xs text-ink-700 max-sm:hidden">
               Keep one rotating point, its x and y projections, and the sine-cosine traces tied
               to the same angle so the unit circle reads as a live source for both functions.
             </p>
@@ -300,20 +301,21 @@ export function UnitCircleRotationSimulation({
           </div>
         </div>
       </div>
-      <svg
-        ref={svgRef}
-        viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
-        className="h-auto w-full"
-        role="img"
-        aria-label={concept.accessibility?.simulationDescription ?? concept.summary}
-        style={{ touchAction: "none", userSelect: "none" }}
-        onPointerMove={(event) =>
-          drag.handlePointerMove(event.pointerId, event.clientX, event.clientY)
-        }
-        onPointerUp={(event) => drag.handlePointerUp(event.pointerId)}
-        onPointerCancel={(event) => drag.handlePointerCancel(event.pointerId)}
-        onLostPointerCapture={drag.handleLostPointerCapture}
-      >
+      <div className="max-sm:overflow-hidden" data-mobile-visual-priority="unit-circle">
+        <svg
+          ref={svgRef}
+          viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+          className="h-auto w-full max-sm:w-[177%] max-sm:max-w-none max-sm:origin-top-left"
+          role="img"
+          aria-label={concept.accessibility?.simulationDescription ?? concept.summary}
+          style={{ touchAction: "none", userSelect: "none" }}
+          onPointerMove={(event) =>
+            drag.handlePointerMove(event.pointerId, event.clientX, event.clientY)
+          }
+          onPointerUp={(event) => drag.handlePointerUp(event.pointerId)}
+          onPointerCancel={(event) => drag.handlePointerCancel(event.pointerId)}
+          onLostPointerCapture={drag.handleLostPointerCapture}
+        >
         <rect width={WIDTH} height={HEIGHT} fill="rgba(255,255,255,0.52)" />
         <g transform={`translate(${PLANE_X} ${PLANE_Y})`}>
           <CartesianPlane config={plane} xLabel="x = cos(theta)" yLabel="y = sin(theta)" />
@@ -580,7 +582,42 @@ export function UnitCircleRotationSimulation({
             ) : null}
           </g>
         ) : null}
-      </svg>
+        </svg>
+      </div>
+      {quadrantSigns ? (
+        <div
+          className="grid grid-cols-2 gap-2 border-t border-line bg-white/72 p-3 sm:hidden"
+          data-testid="unit-circle-mobile-sign-map"
+        >
+          {QUADRANT_CARDS.map((card) => {
+            const active = primary.regionLabel === card.id;
+
+            return (
+              <div
+                key={card.id}
+                className={[
+                  "rounded-[14px] border px-3 py-2",
+                  active
+                    ? "border-teal-500/45 bg-teal-500/10 text-teal-900"
+                    : "border-line bg-paper-strong text-ink-800",
+                ].join(" ")}
+              >
+                <p className="text-[0.72rem] font-semibold uppercase tracking-[0.16em]">
+                  {card.shortLabel}
+                </p>
+                <p className="mt-1 text-sm font-semibold">{card.cosLabel}</p>
+                <p className="text-sm font-medium text-ink-700">{card.sinLabel}</p>
+              </div>
+            );
+          })}
+        </div>
+      ) : null}
+      <SimulationMobileReadoutDetails
+        title="Projection readout"
+        setupLabel={primaryLabel}
+        rows={readoutRows}
+        noteLines={noteLines}
+      />
     </section>
   );
 }

@@ -51,8 +51,9 @@ describe("UnitCircleRotationSimulation", () => {
       />,
     );
 
-    expect(screen.getByText("Positive x-axis")).toBeInTheDocument();
+    expect(screen.getAllByText("Positive x-axis").length).toBeGreaterThan(0);
     expect(screen.getByText(/cosine stays on x, sine stays on y/i)).toBeInTheDocument();
+    expect(screen.getByTestId("unit-circle-mobile-sign-map")).toBeInTheDocument();
 
     rerender(
       <UnitCircleRotationSimulation
@@ -70,10 +71,10 @@ describe("UnitCircleRotationSimulation", () => {
       />,
     );
 
-    expect(screen.getByText("Positive y-axis")).toBeInTheDocument();
+    expect(screen.getAllByText("Positive y-axis").length).toBeGreaterThan(0);
     expect(
-      screen.getByText(/Current point is on an axis, so one projection is exactly zero./i),
-    ).toBeInTheDocument();
+      screen.getAllByText(/Current point is on an axis, so one projection is exactly zero./i).length,
+    ).toBeGreaterThan(0);
   });
 
   it("nudges the phase from the draggable point with keyboard controls", () => {

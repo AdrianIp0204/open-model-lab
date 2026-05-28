@@ -105,10 +105,11 @@ describe("ConservationMomentumSimulation", () => {
     );
 
     expect(
-      screen.getByText(/Equal and opposite internal forces are active now/i),
-    ).toBeInTheDocument();
+      screen.getAllByText(/Equal and opposite internal forces are active now/i).length,
+    ).toBeGreaterThan(0);
     expect(
-      screen.getByText(/Track the flat total-momentum line and the steady center-of-mass drift together/i),
-    ).toBeInTheDocument();
+      screen.getAllByText(/Track the flat total-momentum line and the steady center-of-mass drift together/i).length,
+    ).toBeGreaterThan(0);
+    expect(screen.getByTestId("simulation-mobile-readout-panel")).toBeInTheDocument();
   });
 });

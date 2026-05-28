@@ -1,5 +1,26 @@
 # Open Model Lab Status
 
+## 2026-05-29 OML-QA-021 Mobile Simulation Visual Readability
+
+Current state: `OML-QA-021` is complete. Mobile concept benches now prioritize the live visual for Electric Fields, Unit Circle, Conservation of Momentum, and Reaction Rate by scaling/cropping the SVG scene toward the core model, hiding nonessential scene header prose on phone widths, and moving dense readout details into a mobile disclosure with a 44px summary target.
+
+### Files Changed
+
+- `components/simulations/SimulationMobileReadoutDetails.tsx`: adds the shared mobile readout disclosure used when dense SVG readout cards are cropped away from the phone-first view.
+- `components/simulations/primitives/scene-card.tsx`: supports compact mobile scene headers for simulations that need the visual to carry the first viewport.
+- `components/simulations/ElectricFieldsSimulation.tsx`, `components/simulations/UnitCircleRotationSimulation.tsx`, `components/simulations/ConservationMomentumSimulation.tsx`, `components/simulations/ReactionRateCollisionTheorySimulation.tsx`: enlarge the phone visual priority area, hide secondary header microcopy on phone, and expose the affected readouts through the mobile panel.
+- `tests/components/*simulation.test.tsx`: updates affected simulation component coverage for the duplicated desktop/mobile readout surfaces.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- Targeted ESLint for changed simulation/test files and the temporary visual-audit spec: passed.
+- `pnpm exec vitest run tests/components/electric-fields-simulation.test.tsx tests/components/unit-circle-rotation-simulation.test.tsx tests/components/conservation-momentum-simulation.test.tsx tests/components/reaction-rate-collision-theory-simulation.test.tsx`: passed, 10/10.
+- `PLAYWRIGHT_PORT=3211 OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX=-oml-qa-021-orchestrator pnpm exec playwright test tests/e2e/output/oml-qa-021-mobile-visual-audit.spec.ts --project=chromium`: passed; captured `390x844` and `360x740` screenshots for the four named concepts under `output/qa-oml-qa-021-2026-05-29/orchestrator-visual-audit/`.
+- Screenshot inspection found the main objects, active labels, and live-output/readout affordance identifiable without zooming; no target blocker was found.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-29 OML-QA-020 Concept First-Viewport Density
 
 Current state: `OML-QA-020` is complete. Representative concept pages now keep the first viewport lighter by removing secondary control/graph prose from the live bench, compacting current-step goal/action copy without hiding the action, collapsing Step tools by default, and trimming dense simulation readouts.

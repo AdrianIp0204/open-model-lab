@@ -102,9 +102,12 @@ describe("ElectricFieldsSimulation", () => {
       />,
     );
 
-    expect(screen.getByText(/negative test charge flips the force opposite the field/i)).toBeInTheDocument();
+    expect(
+      screen.getAllByText(/negative test charge flips the force opposite the field/i).length,
+    ).toBeGreaterThan(0);
     expect(screen.getByText(/q_test -1 q/i)).toBeInTheDocument();
     expect(screen.getByText(/F on q_test/i)).toBeInTheDocument();
+    expect(screen.getByTestId("simulation-mobile-readout-panel")).toBeInTheDocument();
   });
 
   it("keeps probe and source-separation handles keyboard-addressable", () => {

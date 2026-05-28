@@ -92,12 +92,15 @@ describe("ReactionRateCollisionTheorySimulation", () => {
     expect(screen.getByText(/amber attempt rings/i)).toBeInTheDocument();
     expect(screen.getAllByText(/bonded product pairs/i).length).toBeGreaterThan(0);
     expect(
-      screen.getByText(/the catalyst lowers the barrier without making the particles hotter/i),
-    ).toBeInTheDocument();
+      screen.getAllByText(/the catalyst lowers the barrier without making the particles hotter/i)
+        .length,
+    ).toBeGreaterThan(0);
     expect(
-      screen.getByText(/successful hits stay on the bench for a moment as bonded product pairs/i),
-    ).toBeInTheDocument();
-    expect(screen.getByText(/rate readout/i)).toBeInTheDocument();
+      screen.getAllByText(/successful hits stay on the bench for a moment as bonded product pairs/i)
+        .length,
+    ).toBeGreaterThan(0);
+    expect(screen.getAllByText(/rate readout/i).length).toBeGreaterThan(0);
+    expect(screen.getByTestId("simulation-mobile-readout-panel")).toBeInTheDocument();
   });
 
   it("renders visible bonded products instead of detached success badges", () => {

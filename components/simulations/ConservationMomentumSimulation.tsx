@@ -13,6 +13,7 @@ import {
   type GraphStagePreview,
 } from "@/lib/physics";
 import { SimulationReadoutCard } from "./SimulationReadoutCard";
+import { SimulationMobileReadoutDetails } from "./SimulationMobileReadoutDetails";
 
 type SimulationParams = Record<string, number | boolean | string>;
 
@@ -584,6 +585,10 @@ export function ConservationMomentumSimulation({
     { label: "p_tot", value: formatMeasurement(primaryFrame.totalMomentum, "kg m/s") },
     { label: "F_int", value: formatMeasurement(primaryFrame.forceOnB, "N") },
   ];
+  const readoutNoteLines = [
+    stateNote,
+    "Track the flat total-momentum line and the steady center-of-mass drift together.",
+  ];
 
   return (
     <section className="overflow-hidden rounded-[22px] border border-line bg-paper-strong">
@@ -591,7 +596,7 @@ export function ConservationMomentumSimulation({
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="lab-label">{concept.title}</p>
-            <p className="mt-1 max-w-3xl text-xs text-ink-700">
+            <p className="mt-1 max-w-3xl text-xs text-ink-700 max-sm:hidden">
               Two carts exchange momentum through one bounded internal interaction. The
               total stays fixed, the center of mass stays honest, and compare mode never
               needs a separate collision sandbox.
@@ -604,12 +609,13 @@ export function ConservationMomentumSimulation({
           </div>
         </div>
       </div>
-      <svg
-        viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
-        className="h-auto w-full overflow-visible"
-        role="img"
-        aria-label={concept.accessibility?.simulationDescription ?? concept.summary}
-      >
+      <div className="max-sm:overflow-hidden" data-mobile-visual-priority="conservation-momentum">
+        <svg
+          viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+          className="h-auto w-full overflow-visible max-sm:w-[155%] max-sm:max-w-none max-sm:origin-top-left"
+          role="img"
+          aria-label={concept.accessibility?.simulationDescription ?? concept.summary}
+        >
         <rect width={WIDTH} height={HEIGHT} fill="rgba(255,255,255,0.58)" />
         <rect
           x={STAGE_LEFT}
@@ -788,12 +794,15 @@ export function ConservationMomentumSimulation({
           width={CARD_WIDTH}
           title={compareEnabled ? `${primaryLabel} system state` : "System state"}
           rows={metricRows}
-          noteLines={[
-            stateNote,
-            "Track the flat total-momentum line and the steady center-of-mass drift together.",
-          ]}
+          noteLines={readoutNoteLines}
         />
-      </svg>
+        </svg>
+      </div>
+      <SimulationMobileReadoutDetails
+        title={compareEnabled ? `${primaryLabel} system state` : "System state"}
+        rows={metricRows}
+        noteLines={readoutNoteLines}
+      />
     </section>
   );
 }

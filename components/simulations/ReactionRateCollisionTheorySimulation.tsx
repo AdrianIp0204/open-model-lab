@@ -12,6 +12,7 @@ import {
   type GraphStagePreview,
 } from "@/lib/physics";
 import { SimulationReadoutCard } from "./SimulationReadoutCard";
+import { SimulationMobileReadoutDetails } from "./SimulationMobileReadoutDetails";
 import { ChemistryVessel } from "./primitives/chemistry-vessel";
 
 type SimulationParams = Record<string, number | boolean | string>;
@@ -209,7 +210,7 @@ export function ReactionRateCollisionTheorySimulation({
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="lab-label">{isZhHk ? "反應速率與碰撞理論" : "Reaction rate and collision theory"}</p>
-            <p className="mt-1 max-w-3xl text-xs text-ink-700">
+            <p className="mt-1 max-w-3xl text-xs text-ink-700 max-sm:hidden">
               {isZhHk
                 ? "把粒子運動、活化門檻與成功碰撞速率維持在同一個實驗台上，讓化學仍然透過可見的因果鏈來學習。"
                 : "Keep particle motion, activation threshold, and successful-collision rate on the same bench so chemistry still teaches through one visible cause-and-effect loop."}
@@ -234,12 +235,13 @@ export function ReactionRateCollisionTheorySimulation({
           </div>
         </div>
       </div>
-      <svg
-        viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
-        className="h-auto w-full overflow-visible"
-        role="img"
-        aria-label={concept.accessibility?.simulationDescription ?? concept.summary}
-      >
+      <div className="max-sm:overflow-hidden" data-mobile-visual-priority="reaction-rate">
+        <svg
+          viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+          className="h-auto w-full overflow-visible max-sm:w-[160%] max-sm:max-w-none max-sm:origin-top-left"
+          role="img"
+          aria-label={concept.accessibility?.simulationDescription ?? concept.summary}
+        >
         <rect width={WIDTH} height={HEIGHT} fill="rgba(255,255,255,0.58)" />
 
         {secondaryFrame ? (
@@ -319,8 +321,8 @@ export function ReactionRateCollisionTheorySimulation({
           title={isZhHk ? "碰撞實驗台" : "Collision bench"}
           subtitle={
             isZhHk
-              ? `${primaryLabel}：碰撞次數變多並不足夠，必須有足夠碰撞能跨過門檻，反應才會明顯加快。`
-              : `${primaryLabel}: more collisions are not enough unless enough of them clear the barrier.`
+              ? `${primaryLabel}：碰撞必須跨過門檻。`
+              : `${primaryLabel}: collisions must clear the barrier.`
           }
           time={loopTime}
           agitation={primaryFrame.temperature / 3.8}
@@ -389,7 +391,20 @@ export function ReactionRateCollisionTheorySimulation({
           rows={readoutRows}
           noteLines={noteLines}
         />
-      </svg>
+        </svg>
+      </div>
+      <SimulationMobileReadoutDetails
+        title={
+          compareEnabled
+            ? `${primaryLabel}${isZhHk ? " 速率讀數" : " rate readout"}`
+            : isZhHk
+              ? "速率讀數"
+              : "Rate readout"
+        }
+        setupLabel={primaryLabel}
+        rows={readoutRows}
+        noteLines={noteLines}
+      />
     </section>
   );
 }

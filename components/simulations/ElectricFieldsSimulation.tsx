@@ -18,6 +18,7 @@ import {
   type GraphStagePreview,
 } from "@/lib/physics";
 import { SimulationReadoutCard } from "./SimulationReadoutCard";
+import { SimulationMobileReadoutDetails } from "./SimulationMobileReadoutDetails";
 import { CompareLegend, resolveCompareScene, SimulationPreviewBadge } from "./primitives/compare";
 import {
   CartesianStageFrame,
@@ -472,14 +473,26 @@ export function ElectricFieldsSimulation({
       (primaryFrame.sourceB.fieldMagnitude > 0.001
         ? (primaryFrame.sourceB.fieldY / primaryFrame.sourceB.fieldMagnitude) *
           vectorScale(primaryFrame.sourceB.fieldMagnitude / contributionScale, 28)
-        : 0),
+      : 0),
   };
+  const readoutNoteLines = [
+    copy.fieldDirectionLabel.replace(
+      "{direction}",
+      localizeFieldDirection(
+        directionLabel(primaryFrame.fieldX, primaryFrame.fieldY),
+        copy,
+      ),
+    ),
+    dominantText,
+    forceNote,
+  ];
 
   return (
     <SimulationSceneCard
       title={concept.title}
       description={copy.stageDescription}
       headerClassName="bg-[linear-gradient(135deg,rgba(240,171,60,0.1),rgba(78,166,223,0.1))]"
+      compactHeaderOnMobile
       headerAside={
         <>
           <CompareLegend primaryLabel={primaryLabel} secondaryLabel={secondaryLabel} />
@@ -488,24 +501,25 @@ export function ElectricFieldsSimulation({
         </>
       }
     >
-      <svg
-        ref={svgRef}
-        viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
-        className="h-auto w-full overflow-visible"
-        role="img"
-        aria-label={concept.accessibility?.simulationDescription ?? concept.summary}
-        style={{ touchAction: "none", userSelect: "none" }}
-        onPointerMove={(event) => {
-          drag.handlePointerMove(event.pointerId, event.clientX, event.clientY);
-        }}
-        onPointerUp={(event) => {
-          drag.handlePointerUp(event.pointerId);
-        }}
-        onPointerCancel={(event) => {
-          drag.handlePointerCancel(event.pointerId);
-        }}
-        onLostPointerCapture={drag.handleLostPointerCapture}
-      >
+      <div className="max-sm:overflow-hidden" data-mobile-visual-priority="electric-fields">
+        <svg
+          ref={svgRef}
+          viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+          className="h-auto w-full overflow-visible max-sm:w-[150%] max-sm:max-w-none max-sm:origin-top-left"
+          role="img"
+          aria-label={concept.accessibility?.simulationDescription ?? concept.summary}
+          style={{ touchAction: "none", userSelect: "none" }}
+          onPointerMove={(event) => {
+            drag.handlePointerMove(event.pointerId, event.clientX, event.clientY);
+          }}
+          onPointerUp={(event) => {
+            drag.handlePointerUp(event.pointerId);
+          }}
+          onPointerCancel={(event) => {
+            drag.handlePointerCancel(event.pointerId);
+          }}
+          onLostPointerCapture={drag.handleLostPointerCapture}
+        >
         <CartesianStageFrame layout={STAGE_LAYOUT} xTicks={X_TICKS} yTicks={Y_TICKS}>
         {showFieldGrid
           ? renderFieldGrid(primaryFieldSource, resolveOverlayOpacity(focusedOverlayId, "fieldGrid", 0.35))
@@ -708,27 +722,24 @@ export function ElectricFieldsSimulation({
             </g>
           </>
         ) : null}
-        <SimulationReadoutCard
-          x={CARD_X}
-          y={CARD_Y}
-          width={CARD_WIDTH}
-          title={copy.probeState}
-          setupLabel={compareEnabled ? primaryLabel : undefined}
-          rows={metricRows}
-          noteLines={[
-            copy.fieldDirectionLabel.replace(
-              "{direction}",
-              localizeFieldDirection(
-                directionLabel(primaryFrame.fieldX, primaryFrame.fieldY),
-                copy,
-              ),
-            ),
-            dominantText,
-            forceNote,
-          ]}
-        />
+          <SimulationReadoutCard
+            x={CARD_X}
+            y={CARD_Y}
+            width={CARD_WIDTH}
+            title={copy.probeState}
+            setupLabel={compareEnabled ? primaryLabel : undefined}
+            rows={metricRows}
+            noteLines={readoutNoteLines}
+          />
         </CartesianStageFrame>
-      </svg>
+        </svg>
+      </div>
+      <SimulationMobileReadoutDetails
+        title={copy.probeState}
+        setupLabel={compareEnabled ? primaryLabel : undefined}
+        rows={metricRows}
+        noteLines={readoutNoteLines}
+      />
     </SimulationSceneCard>
   );
 }
