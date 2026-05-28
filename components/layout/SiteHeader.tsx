@@ -121,6 +121,10 @@ export function SiteHeader() {
         })}`,
       )
     : t("common.loading");
+  const accountAccessibleLabel =
+    session.status === "signed-in"
+      ? `${accountLabel} ${accountStatusLabel}`
+      : accountLabel;
 
   useEffect(() => {
     if (!mobileOpen) {
@@ -243,6 +247,7 @@ export function SiteHeader() {
           <div className="hidden xl:block">
             <Link
               href={accountHref}
+              aria-label={accountAccessibleLabel}
               data-onboarding-target="account-sync"
               className="cta-secondary min-w-max items-center gap-2 whitespace-nowrap"
             >
@@ -365,6 +370,7 @@ export function SiteHeader() {
             </Link>
             <Link
               href={accountHref}
+              aria-label={accountAccessibleLabel}
               onClick={() => setMobileOpen(false)}
               className="cta-secondary justify-between"
             >
