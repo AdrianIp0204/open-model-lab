@@ -439,6 +439,7 @@ import { EquationBenchStrip, EquationDetails, EquationPanel } from "@/components
 import { GuidedOverlayPanel } from "@/components/concepts/GuidedOverlayPanel";
 import { PredictionModePanel } from "@/components/concepts/PredictionModePanel";
 import { SavedCompareSetupsCard } from "@/components/concepts/SavedCompareSetupsCard";
+import { ConceptPageV2CurrentStepCue } from "@/components/concepts/ConceptPageV2Panels";
 import {
   getConceptPageBenchSupportTargetId,
   useConceptPagePhase,
@@ -6743,6 +6744,7 @@ export function ConceptSimulationRenderer({
   const conceptPagePhase = useConceptPagePhase();
   const locale = useLocale() as AppLocale;
   const t = useTranslations("ConceptRuntime");
+  const tConceptPage = useTranslations("ConceptPage");
   const tCompare = useTranslations("CompareModePanel");
   const conceptRuntimeT = t as unknown as ConceptRuntimeTranslator;
   const tNotice = useTranslations("WhatToNoticePanel");
@@ -8598,6 +8600,17 @@ export function ConceptSimulationRenderer({
       </div>
     ) : null;
   const isGuidedConceptBench = Boolean(guidedStep);
+  const guidedCurrentStepCue = guidedStep ? (
+    <ConceptPageV2CurrentStepCue
+      step={guidedStep.step}
+      activePosition={guidedStep.index + 1}
+      stepCount={guidedStep.count}
+      copy={{
+        currentStepLabel: tConceptPage("v2.currentStepLabel"),
+        actLabel: tConceptPage("v2.actLabel"),
+      }}
+    />
+  ) : null;
   const guidedBenchBrief = guidedStep && !guidedStepCard ? (
     <GuidedConceptBenchBrief
       conceptTitle={concept.title}
@@ -8696,6 +8709,7 @@ export function ConceptSimulationRenderer({
           ) : null
         }
         benchHeader={guidedBenchBrief}
+        benchCue={guidedCurrentStepCue}
         notice={null}
         scene={
           <RuntimeScene

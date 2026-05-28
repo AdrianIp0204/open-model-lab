@@ -33,6 +33,72 @@ async function expectNoRawMathLeak(locator: Locator) {
 }
 
 test.describe("concept page v2 flow", () => {
+  test("OML-QA-015 keeps a compact current-step cue inside the first usable bench viewport", async ({
+    browser,
+  }, testInfo) => {
+    testInfo.setTimeout(360_000);
+
+    const representativeSlugs = [
+      "simple-harmonic-motion",
+      "uniform-circular-motion",
+      "projectile-motion",
+      "electric-fields",
+      "unit-circle-sine-cosine-from-rotation",
+      "acid-base-ph-intuition",
+    ] as const;
+    const viewportCases = [
+      { name: "desktop-1440x900", width: 1440, height: 900 },
+      { name: "tablet-820x1180", width: 820, height: 1180 },
+      { name: "phone-390x844", width: 390, height: 844 },
+      { name: "phone-360x740", width: 360, height: 740 },
+    ] as const;
+
+    for (const viewport of viewportCases) {
+      const context = await browser.newContext({
+        viewport: { width: viewport.width, height: viewport.height },
+      });
+      const page = await newConceptFlowPage(context);
+      const browserGuard = await installBrowserGuards(page);
+
+      try {
+        for (const slug of representativeSlugs) {
+          await test.step(`${viewport.name} ${slug}`, async () => {
+            await gotoAndExpectOk(page, `/en/concepts/${slug}`);
+
+            const cue = page.getByTestId("concept-v2-current-step-cue");
+            const count = page.getByTestId("concept-v2-current-step-cue-count");
+            const goal = page.getByTestId("concept-v2-current-step-cue-goal");
+            const action = page.getByTestId("concept-v2-current-step-cue-action");
+
+            await expect(page.getByTestId("simulation-shell-first-action")).toHaveCount(0);
+            await expect(page.getByTestId("concept-v2-guided-first-action")).toHaveCount(0);
+            await expect(page.getByTestId("simulation-shell-scene")).toBeVisible();
+            await expect(cue).toBeVisible();
+            await expect(cue).toContainText("Current step");
+            await expect(count).toHaveText(/\d+ \/ \d+/);
+            await expect(goal).not.toHaveText("");
+            await expect(action).not.toHaveText("");
+
+            const cueBox = await cue.boundingBox();
+            expect(cueBox).not.toBeNull();
+            expect(cueBox!.y).toBeGreaterThanOrEqual(0);
+            expect(cueBox!.y).toBeLessThanOrEqual(viewport.height);
+            expect(cueBox!.height).toBeLessThanOrEqual(150);
+
+            await page.screenshot({
+              path: testInfo.outputPath(`oml-qa-015-${viewport.name}-${slug}.png`),
+              fullPage: false,
+            });
+          });
+        }
+
+        browserGuard.assertNoActionableIssues();
+      } finally {
+        await context.close();
+      }
+    }
+  });
+
   test("keeps the first guided interaction viewport focused on the live bench without duplicate support", async ({
     browser,
   }) => {

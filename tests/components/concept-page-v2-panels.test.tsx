@@ -2,6 +2,7 @@ import { fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import {
+  ConceptPageV2CurrentStepCue,
   ConceptPageV2EquationSnapshotCard,
   ConceptPageV2LessonRail,
   ConceptPageV2LessonSupport,
@@ -163,6 +164,35 @@ const wrapUp: ConceptPageV2WrapUpViewModel = {
   challengeHref: "/concepts/sample#challenge",
   workedExamplesHref: "/concepts/sample#worked-examples",
 };
+
+describe("ConceptPageV2CurrentStepCue", () => {
+  it("renders a compact current step count, goal, and action", () => {
+    render(
+      <ConceptPageV2CurrentStepCue
+        step={steps[1]}
+        activePosition={2}
+        stepCount={steps.length}
+        copy={{
+          currentStepLabel: copy.currentStepLabel,
+          actLabel: copy.actLabel,
+        }}
+      />,
+    );
+
+    const cue = screen.getByTestId("concept-v2-current-step-cue");
+    expect(cue).toHaveAccessibleName("Current step Compare two traces.");
+    expect(screen.getByTestId("concept-v2-current-step-cue-count")).toHaveTextContent(
+      "2 / 3",
+    );
+    expect(screen.getByTestId("concept-v2-current-step-cue-goal")).toHaveTextContent(
+      "Compare two traces.",
+    );
+    expect(screen.getByTestId("concept-v2-current-step-cue-action")).toHaveTextContent(
+      "Change the second setup.",
+    );
+    expect(cue).not.toHaveTextContent("What to notice");
+  });
+});
 
 describe("ConceptPageV2EquationSnapshotCard", () => {
   it("shows a shared note and readable formula text when authored", () => {

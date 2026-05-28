@@ -16,6 +16,7 @@ type SimulationShellProps = {
   benchEquations?: ReactNode;
   controls: ReactNode;
   benchHeader?: ReactNode;
+  benchCue?: ReactNode;
   notice?: ReactNode;
   transport: ReactNode;
   afterBench?: ReactNode;
@@ -28,23 +29,24 @@ type SimulationShellProps = {
 };
 
 const TAILWIND_SM_QUERY = "(min-width: 640px)";
+const TAILWIND_LG_QUERY = "(min-width: 1024px)";
 
-function subscribeToSmViewport(onStoreChange: () => void) {
+function subscribeToViewportQuery(query: string, onStoreChange: () => void) {
   if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
     return () => undefined;
   }
 
-  const mediaQuery = window.matchMedia(TAILWIND_SM_QUERY);
+  const mediaQuery = window.matchMedia(query);
   mediaQuery.addEventListener("change", onStoreChange);
 
   return () => mediaQuery.removeEventListener("change", onStoreChange);
 }
 
-function getSmViewportSnapshot() {
+function getViewportQuerySnapshot(query: string) {
   return (
     typeof window !== "undefined" &&
     typeof window.matchMedia === "function" &&
-    window.matchMedia(TAILWIND_SM_QUERY).matches
+    window.matchMedia(query).matches
   );
 }
 
@@ -54,8 +56,16 @@ function getServerSmViewportSnapshot() {
 
 function useIsSmViewportOrWider() {
   return useSyncExternalStore(
-    subscribeToSmViewport,
-    getSmViewportSnapshot,
+    (onStoreChange) => subscribeToViewportQuery(TAILWIND_SM_QUERY, onStoreChange),
+    () => getViewportQuerySnapshot(TAILWIND_SM_QUERY),
+    getServerSmViewportSnapshot,
+  );
+}
+
+function useIsLgViewportOrWider() {
+  return useSyncExternalStore(
+    (onStoreChange) => subscribeToViewportQuery(TAILWIND_LG_QUERY, onStoreChange),
+    () => getViewportQuerySnapshot(TAILWIND_LG_QUERY),
     getServerSmViewportSnapshot,
   );
 }
@@ -73,6 +83,7 @@ export function SimulationShell({
   benchEquations,
   controls,
   benchHeader,
+  benchCue,
   notice,
   interactionRail,
   afterBench,
@@ -86,6 +97,7 @@ export function SimulationShell({
   const guideStack = [notice].filter(Boolean);
   const hasLowerDock = Boolean(equations || supportDock);
   const isSmViewportOrWider = useIsSmViewportOrWider();
+  const isLgViewportOrWider = useIsLgViewportOrWider();
   const isFocusStage = stageTone === "focus";
   const shellClassName = [
     "page-hero-surface overflow-hidden p-1 sm:p-1.5 md:p-2",
@@ -118,6 +130,16 @@ export function SimulationShell({
       className={isSmViewportOrWider ? "order-2 min-w-0 lg:order-3 lg:col-start-1 lg:row-start-2" : "min-w-0"}
     >
       {benchHeader}
+    </div>
+  ) : null;
+  const benchCueSlot = benchCue ? (
+    <div
+      key="bench-cue"
+      data-testid="simulation-shell-bench-cue"
+      data-focus-surface="bench-cue"
+      className={isSmViewportOrWider ? "order-2 min-w-0" : "min-w-0"}
+    >
+      {benchCue}
     </div>
   ) : null;
   const sceneSlot = (
@@ -182,6 +204,7 @@ export function SimulationShell({
       ].join(" ")}
     >
       <div className="space-y-2.5 lg:sticky lg:top-4">
+        {benchCue && isLgViewportOrWider ? benchCueSlot : null}
         {interactionRail && !usesPhoneVisualPriority ? firstActionSlot : null}
         <div
           id={controlsAnchorId}
@@ -237,6 +260,7 @@ export function SimulationShell({
       ].join(" ")}
     >
       {sceneSlot}
+      {benchCue && isSmViewportOrWider && !isLgViewportOrWider ? benchCueSlot : null}
       {graphsSlot}
     </div>
   );
@@ -280,6 +304,7 @@ export function SimulationShell({
               usesPhoneVisualPriority ? (
                 <>
                   {sceneSlot}
+                  {benchCueSlot}
                   {firstActionSlot}
                   {controlsSlot}
                   {graphsSlot}
@@ -290,6 +315,7 @@ export function SimulationShell({
               ) : (
                 <>
                   {sceneSlot}
+                  {benchCueSlot}
                   {controlsSlot}
                   {transportSlot}
                   {graphsSlot}

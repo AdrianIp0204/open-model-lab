@@ -287,6 +287,60 @@ function resolveLessonRailState(
   };
 }
 
+export function ConceptPageV2CurrentStepCue({
+  step,
+  activePosition,
+  stepCount,
+  copy,
+}: {
+  step: Pick<ConceptPageV2StepViewModel, "goal" | "doThis">;
+  activePosition: number;
+  stepCount: number;
+  copy: Pick<ConceptPageV2Copy, "currentStepLabel" | "actLabel">;
+}) {
+  const labelId = useId();
+  const goalId = useId();
+  const normalizedPosition = Math.max(1, activePosition);
+  const normalizedCount = Math.max(1, stepCount);
+
+  return (
+    <section
+      data-testid="concept-v2-current-step-cue"
+      aria-labelledby={`${labelId} ${goalId}`}
+      className="rounded-[16px] border border-teal-500/22 bg-white/90 px-3 py-2 shadow-sm shadow-teal-950/5"
+    >
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <p id={labelId} className="text-xs font-semibold uppercase leading-5 tracking-[0.14em] text-teal-800">
+          {copy.currentStepLabel}
+        </p>
+        <span
+          data-testid="concept-v2-current-step-cue-count"
+          className="rounded-full border border-teal-500/18 bg-teal-500/8 px-2.5 py-0.5 text-xs font-semibold leading-5 text-teal-800"
+        >
+          {normalizedPosition} / {normalizedCount}
+        </span>
+      </div>
+      <h2
+        id={goalId}
+        data-testid="concept-v2-current-step-cue-goal"
+        className="mt-1 line-clamp-1 break-words text-sm font-semibold leading-5 text-ink-950"
+      >
+        <RichMathText as="span" content={step.goal} />
+      </h2>
+      <p className="mt-1.5 min-w-0 text-sm leading-5 text-ink-700">
+        <span className="font-semibold text-teal-800">{copy.actLabel}: </span>
+        <span data-testid="concept-v2-current-step-cue-action">
+          <RichMathText
+            as="span"
+            content={step.doThis}
+            className="line-clamp-2 break-words font-medium text-ink-900"
+          />
+        </span>
+      </p>
+    </section>
+  );
+}
+
 function ConceptPageV2LessonPreview({
   steps,
   label,

@@ -138,6 +138,66 @@ describe("SimulationShell", () => {
     expect(controlsSlot).toHaveClass("order-3", "lg:order-3", "lg:row-start-1");
   });
 
+  it("docks a compact bench cue above controls on wide benches", () => {
+    mockMatchMedia(true);
+
+    const { container } = render(
+      <SimulationShell
+        accessibilityDescription="Interactive lab status"
+        transport={<button type="button">Transport</button>}
+        scene={<div data-testid="scene">Scene</div>}
+        benchCue={<section data-testid="cue">Current task</section>}
+        controls={<button type="button">Controls</button>}
+        graphs={<button type="button">Graphs</button>}
+        equations={<div data-testid="equations">Equations</div>}
+        status={<div data-testid="status">Status</div>}
+      />,
+    );
+
+    const controlsSlot = container.querySelector('[data-testid="simulation-shell-controls"]');
+    const cueSlot = container.querySelector('[data-testid="simulation-shell-bench-cue"]');
+    const controls = screen.getByRole("button", { name: "Controls" });
+
+    expect(cueSlot).toContainElement(screen.getByTestId("cue"));
+    expect(controlsSlot).toContainElement(cueSlot as HTMLElement);
+    expect(
+      (cueSlot as HTMLElement).compareDocumentPosition(controls) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
+  it("places a compact bench cue between the scene and controls on phone benches", () => {
+    mockMatchMedia(false);
+
+    const { container } = render(
+      <SimulationShell
+        accessibilityDescription="Interactive lab status"
+        stageTone="focus"
+        transport={<button type="button">Transport</button>}
+        scene={<div data-testid="scene">Scene</div>}
+        benchCue={<section data-testid="cue">Current task</section>}
+        controls={<button type="button">Controls</button>}
+        graphs={<button type="button">Graphs</button>}
+        equations={<div data-testid="equations">Equations</div>}
+        status={<div data-testid="status">Status</div>}
+      />,
+    );
+
+    const sceneSlot = container.querySelector('[data-testid="simulation-shell-scene"]');
+    const cueSlot = container.querySelector('[data-testid="simulation-shell-bench-cue"]');
+    const controlsSlot = container.querySelector('[data-testid="simulation-shell-controls"]');
+
+    expect(cueSlot).toContainElement(screen.getByTestId("cue"));
+    expect(
+      (sceneSlot as HTMLElement).compareDocumentPosition(cueSlot as HTMLElement) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(
+      (cueSlot as HTMLElement).compareDocumentPosition(controlsSlot as HTMLElement) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
   it("docks the first action with controls when only the interaction rail exists", () => {
     const { container } = render(
       <SimulationShell
