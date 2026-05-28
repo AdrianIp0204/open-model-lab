@@ -133,7 +133,7 @@ describe("ControlPanel", () => {
     );
 
     const moreTools = screen.getByTestId("control-panel-more-tools");
-    const toggle = within(moreTools).getByRole("button", { name: "More tools" });
+    const toggle = within(moreTools).getByRole("button", { name: "More controls" });
 
     expect(moreTools).not.toBeNull();
     expect(screen.getByRole("slider", { name: "Amplitude" }).closest("details")).toBeNull();
@@ -224,10 +224,57 @@ describe("ControlPanel", () => {
     expect(screen.getByRole("button", { name: "Default" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Alternate" })).toBeInTheDocument();
     const moreTools = screen.getByTestId("control-panel-more-tools");
-    const toggle = within(moreTools).getByRole("button", { name: "More tools" });
+    const toggle = within(moreTools).getByRole("button", { name: "More controls" });
     expect(moreTools).not.toBeNull();
     expect(screen.queryByRole("checkbox", { name: "Show cue" })).not.toBeInTheDocument();
     expect(toggle).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("keeps phone presets behind their own disclosure and closes it on reset", async () => {
+    const user = userEvent.setup();
+    const onReset = vi.fn();
+
+    render(
+      <ControlPanel
+        controls={[
+          {
+            id: "speed",
+            kind: "slider",
+            label: "Speed",
+            param: "speed",
+            min: 0,
+            max: 10,
+            step: 0.5,
+          },
+        ]}
+        presets={[
+          { id: "earth-shot", label: "Earth shot", values: { speed: 8 } },
+          { id: "moon-hop", label: "Moon hop", values: { speed: 4 } },
+        ]}
+        primaryPresetIds={[]}
+        values={{ speed: 8 }}
+        activePresetId={null}
+        onChange={vi.fn()}
+        onReset={onReset}
+      />,
+    );
+
+    const presetsDisclosure = screen.getByTestId("control-panel-presets-disclosure");
+    const presetsToggle = within(presetsDisclosure).getByRole("button", { name: "Presets" });
+
+    expect(presetsToggle).toHaveAttribute("aria-expanded", "false");
+    expect(screen.queryByRole("button", { name: "Earth shot" })).not.toBeInTheDocument();
+
+    await user.click(presetsToggle);
+
+    expect(presetsToggle).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByRole("button", { name: "Earth shot" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Moon hop" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Reset" }));
+
+    expect(onReset).toHaveBeenCalledTimes(1);
+    expect(presetsToggle).toHaveAttribute("aria-expanded", "false");
   });
 
   it("auto-expands advanced tools only for explicit reveal paths", () => {
@@ -264,7 +311,7 @@ describe("ControlPanel", () => {
     );
 
     const moreTools = screen.getByTestId("control-panel-more-tools");
-    const toggle = within(moreTools).getByRole("button", { name: "More tools" });
+    const toggle = within(moreTools).getByRole("button", { name: "More controls" });
 
     expect(moreTools).not.toBeNull();
     expect(toggle).toHaveAttribute("aria-expanded", "true");
@@ -303,7 +350,7 @@ describe("ControlPanel", () => {
     );
 
     const moreTools = screen.getByTestId("control-panel-more-tools");
-    const toggle = within(moreTools).getByRole("button", { name: "More tools" });
+    const toggle = within(moreTools).getByRole("button", { name: "More controls" });
 
     expect(toggle).toHaveAttribute("aria-expanded", "true");
     expect(screen.getByRole("slider", { name: "Phase" })).toBeInTheDocument();

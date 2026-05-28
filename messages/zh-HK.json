@@ -2230,6 +2230,15 @@
     "presets": "預設",
     "morePresets": "更多預設",
     "reset": "重設",
+    "presetTools": {
+      "description": "需要不同設定時再打開預設。",
+      "show": "顯示",
+      "hide": "隱藏"
+    },
+    "moreControls": {
+      "title": "更多控制項",
+      "description": "只有在需要時，才打開次要控制項。"
+    },
     "moreTools": {
       "title": "更多工具",
       "description": "只有在需要時，才打開次要控制項與預設。",

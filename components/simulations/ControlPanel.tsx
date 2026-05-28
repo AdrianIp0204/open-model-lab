@@ -132,6 +132,7 @@ export function ControlPanel({
   const resolvedDescription = description ?? t("description");
   const resolvedResetLabel = resetLabel ?? t("reset");
   const [moreToolsExpanded, setMoreToolsExpanded] = useState(false);
+  const [presetsExpanded, setPresetsExpanded] = useState(false);
   const variableMap = useMemo(
     () => new Map((variableLinks ?? []).map((variableLink) => [variableLink.param, variableLink])),
     [variableLinks],
@@ -158,11 +159,14 @@ export function ControlPanel({
   );
   const hasSecondaryControls = secondaryControls.length > 0;
   const hasSecondaryPresets = secondaryPresets.length > 0;
+  const hasPresets = presets.length > 0;
   const hasSupplementaryTools = Boolean(supplementaryTools);
   const hasInlineSupplementaryTools =
     hasSupplementaryTools && supplementaryToolsPlacement === "inline";
   const hasMoreToolsSupplementaryTools =
     hasSupplementaryTools && supplementaryToolsPlacement === "more-tools";
+  const hasPhoneMoreTools = hasSecondaryControls || hasMoreToolsSupplementaryTools;
+  const hasDesktopMoreTools = hasPhoneMoreTools || hasSecondaryPresets;
   const shouldAutoOpenMoreTools = secondaryControls.some(
     (control) =>
       autoRevealControlSet.has(control.id) || autoRevealControlSet.has(control.param),
@@ -173,6 +177,10 @@ export function ControlPanel({
   ) || secondaryPresets.some((preset) => highlightedPresetSet.has(preset.id) || preset.id === activePresetId);
   const moreToolsOpen =
     moreToolsExpanded || shouldAutoOpenMoreTools || forceMoreToolsOpenProp;
+  const moreToolsTitle = hasSecondaryControls ? t("moreControls.title") : t("moreTools.title");
+  const moreToolsDescription = hasSecondaryControls
+    ? t("moreControls.description")
+    : t("moreTools.description");
 
   function renderControl(control: SimulationControlSpec) {
     const currentValue = values[control.param];
@@ -349,9 +357,10 @@ export function ControlPanel({
             type="button"
             onClick={() => {
               setMoreToolsExpanded(false);
+              setPresetsExpanded(false);
               onReset();
             }}
-            className="min-h-11 rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.14em] text-ink-700 transition hover:border-coral-500 hover:text-coral-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong sm:px-3 sm:py-1.5 sm:text-[0.72rem] sm:tracking-[0.18em]"
+            className="flex min-h-11 min-w-11 items-center justify-center rounded-full border border-line bg-paper-strong px-2 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.1em] text-ink-700 transition hover:border-coral-500 hover:text-coral-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong sm:px-3 sm:py-1.5 sm:text-[0.72rem] sm:tracking-[0.18em]"
           >
             {resolvedResetLabel}
           </button>
@@ -363,8 +372,39 @@ export function ControlPanel({
           {primaryControls.map(renderControl)}
         </div>
 
+        {hasPresets ? (
+          <div
+            className="mt-2 rounded-[16px] border border-line bg-white/45 px-3 py-2 sm:hidden"
+            data-testid="control-panel-presets-disclosure"
+          >
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="lab-label">{t("presets")}</p>
+                <p className="mt-0.5 text-xs leading-5 text-ink-600">
+                  {t("presetTools.description")}
+                </p>
+              </div>
+              <button
+                type="button"
+                aria-label={t("presets")}
+                aria-expanded={presetsExpanded}
+                aria-controls="control-panel-phone-presets"
+                onClick={() => setPresetsExpanded((current) => !current)}
+                className="min-h-11 rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-ink-600 transition hover:border-coral-500/35 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong"
+              >
+                {presetsExpanded ? t("presetTools.hide") : t("presetTools.show")}
+              </button>
+            </div>
+            {presetsExpanded ? (
+              <div id="control-panel-phone-presets" className="mt-2 grid gap-2">
+                {presets.map(renderPreset)}
+              </div>
+            ) : null}
+          </div>
+        ) : null}
+
         {primaryPresets.length > 0 ? (
-          <div className="mt-3 border-t border-line pt-3">
+          <div className="mt-3 hidden border-t border-line pt-3 sm:block">
             <p className="lab-label">{t("presets")}</p>
             <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3">
               {primaryPresets.map(renderPreset)}
@@ -378,25 +418,28 @@ export function ControlPanel({
           </div>
         ) : null}
 
-        {hasSecondaryControls || hasSecondaryPresets || hasMoreToolsSupplementaryTools ? (
+        {hasDesktopMoreTools ? (
           <div
-            className="mt-3 rounded-[20px] border border-line bg-white/45 px-4 py-3"
+            className={[
+              "mt-3 rounded-[20px] border border-line bg-white/45 px-4 py-3",
+              hasPhoneMoreTools ? "" : "hidden sm:block",
+            ].join(" ")}
             data-testid="control-panel-more-tools"
           >
             <div className="flex items-center justify-between gap-3">
               <div>
-                <p className="lab-label">{t("moreTools.title")}</p>
-                <p className="mt-1 text-sm leading-6 text-ink-600">
-                  {t("moreTools.description")}
+                <p className="lab-label">{moreToolsTitle}</p>
+                <p className="mt-1 hidden text-sm leading-6 text-ink-600 sm:block">
+                  {moreToolsDescription}
                 </p>
               </div>
               <button
                 type="button"
-                aria-label={t("moreTools.title")}
+                aria-label={moreToolsTitle}
                 aria-expanded={moreToolsOpen}
                 aria-controls="control-panel-advanced-tools"
                 onClick={() => setMoreToolsExpanded((current) => !current)}
-                className="min-h-11 rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-600 transition hover:border-coral-500/35 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong"
+                className="min-h-11 rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-ink-600 transition hover:border-coral-500/35 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong sm:tracking-[0.18em]"
               >
                 {moreToolsOpen ? t("moreTools.hide") : t("moreTools.show")}
               </button>
@@ -419,7 +462,7 @@ export function ControlPanel({
                   </div>
                 ) : null}
                 {hasSecondaryPresets ? (
-                  <div className="mt-3 border-t border-line pt-3">
+                  <div className="mt-3 hidden border-t border-line pt-3 sm:block">
                     <p className="lab-label">{t("morePresets")}</p>
                     <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                       {secondaryPresets.map(renderPreset)}

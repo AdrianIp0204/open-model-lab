@@ -29,6 +29,11 @@ type ShellFocusStop = {
   y: number;
 };
 
+type CompactMobileControlStackRoute = {
+  path: string;
+  title: string;
+};
+
 const conceptPath = "/concepts/simple-harmonic-motion";
 const conceptTitle = "Simple Harmonic Motion";
 const ucmConceptPath = "/en/concepts/uniform-circular-motion";
@@ -78,6 +83,32 @@ const requiredPhoneViewportCases: ViewportCase[] = [
     isMobile: true,
     hasTouch: true,
     deviceScaleFactor: 3,
+  },
+];
+const compactMobileControlStackRoutes: CompactMobileControlStackRoute[] = [
+  {
+    path: "/en/concepts/simple-harmonic-motion",
+    title: "Simple Harmonic Motion",
+  },
+  {
+    path: "/en/concepts/uniform-circular-motion",
+    title: "Uniform Circular Motion",
+  },
+  {
+    path: "/en/concepts/projectile-motion",
+    title: "Projectile Motion",
+  },
+  {
+    path: "/en/concepts/electric-fields",
+    title: "Electric Fields",
+  },
+  {
+    path: "/en/concepts/unit-circle-sine-cosine-from-rotation",
+    title: "Unit Circle / Sine and Cosine from Rotation",
+  },
+  {
+    path: "/en/concepts/reaction-rate-collision-theory",
+    title: "Reaction Rate / Collision Theory",
   },
 ];
 
@@ -553,6 +584,133 @@ async function assertInitialViewportLayout(
   });
 }
 
+async function assertCompactMobileControlStack(page: Page, viewportCase: ViewportCase) {
+  await expectShellBreakpoint(page, viewportCase);
+
+  const scene = page.getByTestId("simulation-shell-scene");
+  const currentTask = page.getByTestId("concept-v2-current-step-cue");
+  const controls = page.getByTestId("simulation-shell-controls");
+  const graphs = page.getByTestId("simulation-shell-graphs");
+  const firstPrimaryControl = controls.locator('input[type="range"], input[type="checkbox"]').first();
+  const graphHeading = graphs.locator(".lab-label").first();
+  const graphCard = graphs.locator('[role="tabpanel"]').first();
+  const moreControlsToggle = controls.locator('[aria-controls="control-panel-advanced-tools"]').first();
+  const presetsToggle = controls.locator('[aria-controls="control-panel-phone-presets"]').first();
+
+  await Promise.all([
+    expect(scene).toBeVisible(),
+    expect(currentTask).toBeVisible(),
+    expect(controls).toBeVisible(),
+    expect(graphs).toBeVisible(),
+    expect(firstPrimaryControl).toBeVisible(),
+    expect(graphHeading).toBeVisible(),
+  ]);
+
+  if (await moreControlsToggle.count()) {
+    await expect(moreControlsToggle).toHaveAttribute("aria-expanded", "false");
+  }
+  if (await presetsToggle.count()) {
+    await expect(presetsToggle).toHaveAttribute("aria-expanded", "false");
+  }
+
+  const [
+    sceneBox,
+    currentTaskBox,
+    controlsBox,
+    firstPrimaryControlBox,
+    graphHeadingBox,
+    graphCardBox,
+  ] = await Promise.all([
+    scene.boundingBox(),
+    currentTask.boundingBox(),
+    controls.boundingBox(),
+    firstPrimaryControl.boundingBox(),
+    graphHeading.boundingBox(),
+    graphCard.boundingBox(),
+  ]);
+
+  expect(sceneBox).not.toBeNull();
+  expect(currentTaskBox).not.toBeNull();
+  expect(controlsBox).not.toBeNull();
+  expect(firstPrimaryControlBox).not.toBeNull();
+  expect(graphHeadingBox).not.toBeNull();
+  expect(graphCardBox).not.toBeNull();
+
+  const densityLimit = viewportCase.viewport.height * 1.5;
+  expect(sceneBox!.y).toBeLessThan(viewportCase.viewport.height);
+  expect(currentTaskBox!.y).toBeLessThan(densityLimit);
+  expect(firstPrimaryControlBox!.y).toBeLessThan(densityLimit);
+  expect(Math.min(graphHeadingBox!.y, graphCardBox!.y)).toBeLessThan(densityLimit);
+  expect(currentTaskBox!.y).toBeLessThan(controlsBox!.y);
+  expect(controlsBox!.y).toBeLessThan(graphHeadingBox!.y);
+
+  const targetAudit = await page.evaluate((limitY) => {
+    const shell = document.querySelector("[data-simulation-shell-breakpoint]");
+    if (!shell) {
+      return [{ label: "missing shell", width: 0, height: 0, top: 0 }];
+    }
+
+    const selector = [
+      'a[href]:not([tabindex="-1"])',
+      'button:not([disabled]):not([tabindex="-1"])',
+      'input:not([disabled]):not([tabindex="-1"])',
+      'select:not([disabled]):not([tabindex="-1"])',
+      'textarea:not([disabled]):not([tabindex="-1"])',
+      'summary:not([tabindex="-1"])',
+      '[role="button"]:not([tabindex="-1"])',
+      '[role="tab"]:not([tabindex="-1"])',
+    ].join(", ");
+    const inspectedTargets = new Set<Element>();
+
+    function isVisible(element: Element) {
+      if (!(element instanceof HTMLElement)) {
+        return false;
+      }
+      const styles = window.getComputedStyle(element);
+      const rect = element.getBoundingClientRect();
+      return (
+        rect.width > 0 &&
+        rect.height > 0 &&
+        styles.display !== "none" &&
+        styles.visibility !== "hidden"
+      );
+    }
+
+    return Array.from(shell.querySelectorAll<HTMLElement>(selector)).flatMap((element) => {
+      const effectiveTarget =
+        element instanceof HTMLInputElement && element.closest("label")
+          ? element.closest("label")!
+          : element;
+
+      if (inspectedTargets.has(effectiveTarget) || !isVisible(effectiveTarget)) {
+        return [];
+      }
+      inspectedTargets.add(effectiveTarget);
+
+      const rect = effectiveTarget.getBoundingClientRect();
+      if (rect.top > limitY || rect.bottom < 0) {
+        return [];
+      }
+
+      if (rect.width >= 44 && rect.height >= 44) {
+        return [];
+      }
+
+      return [{
+        label:
+          effectiveTarget.getAttribute("aria-label") ??
+          effectiveTarget.textContent?.replace(/\s+/g, " ").trim().slice(0, 80) ??
+          effectiveTarget.tagName.toLowerCase(),
+        width: Math.round(rect.width),
+        height: Math.round(rect.height),
+        top: Math.round(rect.top),
+      }];
+    });
+  }, densityLimit);
+
+  expect(targetAudit).toEqual([]);
+}
+
 test("keeps the guided live lab reachable and the primary bench surfaces visible across representative viewports", async ({
   browser,
 }, testInfo) => {
@@ -933,6 +1091,35 @@ test("opens Uniform Circular Motion directly into a lab-first bench on desktop a
         await context.close();
       }
     });
+  }
+});
+
+test("OML-QA-016 keeps mobile concept controls compact before graphs", async ({
+  browser,
+}) => {
+  const auditedPhoneCases = [
+    requiredPhoneViewportCases.find((item) => item.name === "phone-390x844"),
+    requiredPhoneViewportCases.find((item) => item.name === "phone-360x740"),
+  ].filter((item): item is ViewportCase => Boolean(item));
+
+  for (const route of compactMobileControlStackRoutes) {
+    for (const viewportCase of auditedPhoneCases) {
+      await test.step(`${route.path} ${viewportCase.name}`, async () => {
+        const { context, page, browserGuard } = await openConceptPage(
+          browser,
+          viewportCase,
+          route.path,
+          route.title,
+        );
+
+        try {
+          await assertCompactMobileControlStack(page, viewportCase);
+          browserGuard.assertNoActionableIssues();
+        } finally {
+          await context.close();
+        }
+      });
+    }
   }
 });
 

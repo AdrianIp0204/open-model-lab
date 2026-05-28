@@ -8775,7 +8775,6 @@ export function ConceptSimulationRenderer({
               highlightedPresetIds={[]}
               supplementaryTools={compareEnabled ? compareBenchTools : null}
               supplementaryToolsPlacement={compareEnabled ? "inline" : "more-tools"}
-              forceMoreToolsOpen={Boolean(guidedReveal?.controlIds?.length)}
               onChange={(param, value) => applyLiveParamChange(param, coerceValue(value))}
               onPreset={(presetId) => {
                 setLastChangedParam(null);
