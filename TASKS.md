@@ -39,12 +39,14 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
 ### P1 - UX / Accessibility Quality
 
-- [ ] **OML-QA-004: Stop clipping the active concept task copy in the concept bench.**
+- [x] **OML-QA-004: Stop clipping the active concept task copy in the concept bench.**
   - Evidence: desktop and mobile SHM screenshots show learning-critical text clipped in the first-action card: the title appears as `Build the first picture ...` and instruction text as `Press play, keep the...`. This weakens the core "Predict -> change -> observe -> explain -> check" loop.
   - Affected area: `components/concepts/ConceptPageV2Panels.tsx`, `components/simulations/SimulationShell.tsx`, and any shared first-action/interaction rail content.
   - Fix direction: remove or relax line clamps on active task title/instructions, allow the card to grow, or shorten the copy through the content seam. The learner must be able to read the full current task without hovering or guessing on desktop and mobile.
   - Validation: screenshot `/concepts/simple-harmonic-motion` and `/concepts/projectile-motion` at 1440x1000 and 390x844; verify no active task title/body truncation in the first viewport.
 
+  - Completion note (2026-05-28 HKT): Removed the guided first-action active task line clamps so the active concept task title and instruction body wrap instead of clipping on SHM and projectile concept pages.
+  - Validation: git diff --check passed; Playwright screenshot/DOM validation passed for SHM and projectile at 1440x1000 and 390x844; image inspection found no visible active-task clipping; pnpm typecheck passed.
 - [ ] **OML-QA-005: Fix mobile horizontal overflow and cramped controls on the Chemistry Reaction Mind Map.**
   - Evidence: route sweep reported `horizontalOverflow = 87` on `/tools/chemistry-reaction-mind-map` at 390x844. Screenshot `mobile-tools-chemistry-reaction-mind-map.png` shows the graph title/description row and control chips clipped horizontally; the zoom range input is only about 8px high.
   - Affected area: `components/tools/chemistry/ChemistryReactionMindMapPage.tsx`, `components/tools/chemistry/ChemistryReactionGraph.tsx`.

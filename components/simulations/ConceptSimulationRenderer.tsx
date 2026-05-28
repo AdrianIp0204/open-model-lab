@@ -6781,7 +6781,7 @@ function GuidedFirstActionRail({
           <RichMathText
             as="p"
             content={activeStep.goal}
-            className="mt-0.5 min-w-0 line-clamp-1 break-words text-sm font-semibold leading-5 text-ink-950 sm:text-base sm:leading-6"
+            className="mt-0.5 min-w-0 break-words text-sm font-semibold leading-5 text-ink-950 sm:text-base sm:leading-6"
           />
         </div>
         <span className="shrink-0 rounded-[10px] border border-white/80 bg-white/72 px-2 py-0.5 text-xs font-semibold leading-5 text-ink-700 shadow-sm sm:px-2.5 sm:py-1 sm:text-sm">
@@ -6813,7 +6813,7 @@ function GuidedFirstActionRail({
         <RichMathText
           as="p"
           content={activeStep.doThis}
-          className="min-w-0 line-clamp-2 break-words text-sm font-semibold leading-5 text-paper-strong sm:mt-0.5 sm:line-clamp-1 sm:text-base sm:leading-6"
+          className="min-w-0 break-words text-sm font-semibold leading-5 text-paper-strong sm:mt-0.5 sm:text-base sm:leading-6"
         />
       </div>
 

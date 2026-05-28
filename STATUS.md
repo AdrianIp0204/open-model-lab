@@ -1,5 +1,22 @@
 # Open Model Lab Status
 
+## 2026-05-28 OML-QA-004 Concept Bench Active Task Copy Repair
+
+Current state: `OML-QA-004` is complete. The guided first-action active task title and instruction copy now wrap instead of clipping on the checked SHM and projectile concept pages.
+
+### Files Changed
+
+- `components/simulations/ConceptSimulationRenderer.tsx`: removed the line clamps from the guided first-action active task goal and instruction body.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- Playwright screenshot/DOM validation for `/concepts/simple-harmonic-motion` and `/concepts/projectile-motion` at 1440x1000 and 390x844: passed.
+- Screenshot inspection found no visible active-task title/body clipping or ellipsis.
+- `pnpm typecheck`: passed.
+- QA artifacts: `output/qa-oml-qa-004-2026-05-28/`.
+
 ## 2026-05-28 OML-QA-003 Circuit Builder Fold Repair
 
 Current state: `OML-QA-003` is complete. The Circuit Builder workbench now starts above the fold on the 1440x900 desktop layout, and the mobile first viewport shows a readable workspace/canvas instead of pushing the circuit/readout below the initial view.
