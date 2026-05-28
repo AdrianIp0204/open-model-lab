@@ -1,5 +1,21 @@
 # Open Model Lab Status
 
+## 2026-05-28 Cloudflare Deploy Size Fix
+
+Current state: deploy config is repaired. The first post-QA Cloudflare deploy attempt built successfully but failed upload validation because Wrangler scanned the repo root for additional modules and pushed duplicate content plus unrelated files over the 10 MiB Worker limit.
+
+### Files Changed
+
+- `wrangler.example.jsonc`: scopes `base_dir` to `.open-next/server-functions/default` for OpenNext additional-module discovery.
+- `scripts/write-wrangler-config.mjs`: validates that deploy configs do not use the repository root as `base_dir` when `find_additional_modules` is enabled.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `node --check scripts/write-wrangler-config.mjs`: passed.
+- `pnpm wrangler:check`: passed against private `wrangler.jsonc`.
+- `pnpm exec wrangler deploy --dry-run --outdir tmp/wrangler-dry-fixed --metafile tmp/wrangler-dry-fixed/meta.json`: passed; dry-run upload size dropped to `37935.85 KiB / gzip: 7035.11 KiB`.
+
 ## 2026-05-28 OML-QA-013 Signed-In Account Plan Link Repair
 
 Current state: `OML-QA-013` is complete. Signed-in account links now keep the compact visual header label while exposing an accessible link name that includes both the account display name and current plan tier for the free and supporter smoke flows.

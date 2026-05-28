@@ -192,6 +192,31 @@ function requireVarsObject(config) {
   return config.vars;
 }
 
+function validateAdditionalModuleScope(config) {
+  if (config.find_additional_modules !== true) {
+    return;
+  }
+
+  const rawBaseDir = typeof config.base_dir === "string" ? config.base_dir.trim() : "";
+  const normalizedBaseDir = rawBaseDir.replace(/\\/gu, "/").replace(/\/+$/u, "");
+
+  if (!normalizedBaseDir) {
+    throw new Error("Wrangler config must set base_dir when find_additional_modules is true.");
+  }
+
+  if (normalizedBaseDir === "." || normalizedBaseDir === "./") {
+    throw new Error(
+      "Wrangler config base_dir must not be the repository root; use .open-next/server-functions/default to avoid bundling duplicate content into the Worker.",
+    );
+  }
+
+  if (normalizedBaseDir !== ".open-next/server-functions/default") {
+    throw new Error(
+      "Wrangler config base_dir must be .open-next/server-functions/default for OpenNext deploys.",
+    );
+  }
+}
+
 function validateBooleanStringVar(vars, key) {
   if (!hasOwn(vars, key)) {
     return;
@@ -279,6 +304,8 @@ function validateWranglerConfigContent(content) {
   if (!assetDirectory.includes(".open-next/assets")) {
     throw new Error("Wrangler config assets.directory must point at the OpenNext assets output.");
   }
+
+  validateAdditionalModuleScope(config);
 
   if (config.keep_vars !== true) {
     throw new Error("Wrangler config must set keep_vars to true so dashboard-managed vars are preserved.");

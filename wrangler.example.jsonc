@@ -6,7 +6,10 @@
   "main": ".open-next/worker.js",
   "find_additional_modules": true,
   "preserve_file_names": true,
-  "base_dir": ".",
+  // Keep additional-module discovery scoped to the OpenNext server bundle.
+  // Scanning the repository root duplicates content JSON and can exceed the
+  // Cloudflare Worker size limit.
+  "base_dir": ".open-next/server-functions/default",
   "rules": [
     {
       "type": "Text",
