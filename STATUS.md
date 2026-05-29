@@ -1,5 +1,26 @@
 # Open Model Lab Status
 
+## 2026-05-29 OML-QA-032 Unsafe zh-HK Fallback Removal
+
+Current state: `OML-QA-032` is complete. The broad zh-HK client-side DOM text-node localizer has been removed so unresolved English appears as real QA failures instead of being rewritten into generic `項目` filler, and support mailto/domain text is protected by a focused mobile paper/dark regression gate.
+
+### Files Changed
+
+- `app/[locale]/layout.tsx`: stops mounting the zh-HK visible-text localizer in localized layouts.
+- Removed `components/layout/ZhHkVisibleTextLocalizer.tsx` and `lib/i18n/zh-hk-visible-text.ts`.
+- `tests/e2e/zhhk-visible-text-integrity.spec.ts`: adds mobile `paper-lab` and `dark-lab` checks for affected zh-HK routes, unsafe `項目` fallback fragments, and readable support mailto text.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `git diff --check HEAD^..HEAD`: passed for the worker patch.
+- `pnpm lint -- 'app/[locale]/layout.tsx' tests/e2e/zhhk-visible-text-integrity.spec.ts`: passed.
+- `pnpm typecheck`: passed.
+- `pnpm exec playwright test tests/e2e/zhhk-visible-text-integrity.spec.ts`: passed, 2/2.
+- `pnpm i18n:sweep:zh-HK -- --autostart`: intentionally failed after removing the masking localizer, with `issueCount: 92`, `englishLeakUnapprovedIssueCount: 977`, and `approvedEnglishFindingCount: 504`; artifacts were written to `output/browser-zhhk-site-sweep.json` and `output/browser-zhhk-site-sweep.details.json`.
+- `jq` artifact inspection found zero occurrences of `項目@`, `開啟模式項目`, repeated `項目 項目`, or the tracked mixed fallback fragments.
+
 ## 2026-05-29 OML-QA-031 zh-HK Sweep Detailed Leak Reporting
 
 Current state: `OML-QA-031` is complete. The zh-HK browser sweep now keeps its route-level failure summary while also collecting every suspicious visible English finding per route into a detailed artifact with DOM context and likely source-category grouping.
