@@ -1,5 +1,26 @@
 # Open Model Lab Status
 
+## 2026-05-29 OML-QA-028 Hard-Coded Copy Audit And Route Copy Migration
+
+Current state: `OML-QA-028` is complete. Ads, billing, and source route copy now use message namespaces instead of ad hoc bilingual `copyText`/locale branches, and the repo has a baseline-backed static audit that fails on new visible hard-coded copy in `app`, `components`, and `lib`, including JSX text children.
+
+### Files Changed
+
+- `app/ads/page.tsx`, `app/billing/page.tsx`, `app/source/page.tsx`: migrate route metadata, section nav, hero copy, labels, links, and body copy to `getScopedTranslator` message namespaces.
+- `messages/en.json`, `messages/zh-HK.json`: add `AdsPage`, `BillingPage`, and `SourcePage` message trees.
+- `scripts/audit-hardcoded-i18n-copy.mjs`, `scripts/hardcoded-i18n-copy-baseline.json`, `package.json`: add the hard-coded copy audit, self-test command, and reviewed baseline for existing legacy debt.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `node --check scripts/audit-hardcoded-i18n-copy.mjs`: passed.
+- `pnpm i18n:audit:hardcoded-copy:self-test`: passed, including the JSX visible-text regression probe.
+- `pnpm i18n:audit:hardcoded-copy`: passed with `newIssueCount: 0`, `staleAllowedIssueCount: 0`, `checkedFileCount: 635`.
+- `pnpm i18n:check:zh-HK`: passed with `issueCount: 0`.
+- `pnpm exec eslint scripts/audit-hardcoded-i18n-copy.mjs app/ads/page.tsx app/billing/page.tsx app/source/page.tsx`: passed.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-29 OML-QA-027 Non-Concept zh-HK Surface Leaks
 
 Current state: `OML-QA-027` is complete. The non-concept zh-HK sweep leaks on pricing, billing, start/search CTAs, and signed-in account fixture names are resolved or explicitly treated as dev-harness user fixture data.

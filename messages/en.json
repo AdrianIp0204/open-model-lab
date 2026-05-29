@@ -1358,6 +1358,293 @@
       "collectionName": "Open Model Lab search"
     }
   },
+  "AdsPage": {
+    "metadata": {
+      "title": "Ads and sponsorship",
+      "description": "How Open Model Lab currently uses ads on selected eligible free pages, keeps Supporter ad-free, and protects the core interactive learning experience.",
+      "keywords": {
+        "ads": "ads",
+        "advertising": "advertising",
+        "adsense": "AdSense",
+        "supporterAdFree": "supporter ad-free",
+        "productName": "Open Model Lab"
+      },
+      "category": "advertising"
+    },
+    "feedbackTitle": "Ads and sponsorship",
+    "sectionNav": {
+      "label": "Ads page sections",
+      "title": "Jump within ads policy",
+      "mobileLabel": "Ads sections",
+      "items": {
+        "overview": {
+          "label": "Ads overview",
+          "compactLabel": "Overview"
+        },
+        "allowed": {
+          "label": "Allowed placements",
+          "compactLabel": "Allowed"
+        },
+        "protected": {
+          "label": "Protected learning surfaces",
+          "compactLabel": "Protected"
+        },
+        "provider": {
+          "label": "Ad provider details",
+          "compactLabel": "Provider"
+        }
+      }
+    },
+    "hero": {
+      "eyebrow": "Ads and sponsorship",
+      "title": "Ads stay manual, route-limited, and dormant until the product is explicitly ready.",
+      "description": "This page explains the current placement policy as the product exists today. Open Model Lab uses a manual-first AdSense path, keeps Supporter browsing ad-free on eligible routes, and fails closed until ads are explicitly enabled."
+    },
+    "labels": {
+      "currentModel": "Current model",
+      "allowedPlacements": "Allowed placements",
+      "protectedLearningSurfaces": "Protected learning surfaces",
+      "providerNote": "Provider note"
+    },
+    "paragraphs": {
+      "model": {
+        "prefix": "Free browsing may show ads on selected browse, search, and safe concept-page surfaces when ads are explicitly enabled. Supporter removes ads where ads are eligible and adds the convenience features described on the ",
+        "linkLabel": "Pricing",
+        "suffix": " page."
+      },
+      "body": {
+        "p1": "When advertising is enabled, Open Model Lab uses manually placed Google AdSense units only. The current architecture is manual-first and does not rely on Auto ads as the primary mode.",
+        "p2": "The intent is simple: ads can support public browsing without interrupting the live science-learning interaction. Before approval and explicit activation, the ad system stays dormant and renders nothing."
+      },
+      "provider": {
+        "p1": "Google AdSense is the current provider path when ads are turned on. Local testing may show only a provider request without a filled creative, and missing config keeps each placement collapsed instead of rendering a broken shell.",
+        "p2": "If advertising is disabled, unapproved, or unconfigured, Open Model Lab renders no live ad unit and does not load the AdSense bootstrap on ineligible pages. The free tier still keeps access to core concepts, simulations, tracks, and standard challenge mode."
+      },
+      "providerLinks": {
+        "privacyPrefix": "Read ",
+        "privacyLabel": "Privacy",
+        "privacySuffix": " for the related data note, or use ",
+        "contactLabel": "Contact",
+        "contactSuffix": "."
+      }
+    },
+    "allowedSurfaces": {
+      "home": "Home page",
+      "concepts": "Concepts",
+      "subjectDirectory": "Subject directory and subject pages",
+      "topicDirectory": "Topic directory",
+      "topicPages": "Topic pages",
+      "guidedCollections": "Guided collections landing page",
+      "searchResults": "Search results page",
+      "conceptPageZones": "Concept pages only in clearly separated non-interactive zones"
+    },
+    "protectedSurfaces": {
+      "simulationStage": "Simulation stage, controls, graphs, equations, and time rails",
+      "interactiveLab": "Interactive concept lab container and post-bench study cards",
+      "learningModes": "Compare mode, prediction mode, and worked-example flows",
+      "challengePages": "Challenge pages and challenge interactions",
+      "accountSurfaces": "Share tools, pricing, account, auth, and developer harness pages",
+      "trustPages": "About, billing, privacy, terms, contact, support, and other sensitive trust pages"
+    },
+    "pricingLabel": "Pricing"
+  },
+  "BillingPage": {
+    "metadata": {
+      "title": "Billing, cancellation, and refunds",
+      "description": "Plain-English billing details for the optional Open Model Lab Supporter plan, including what Supporter includes, how Stripe-hosted checkout and cancellation work, discount limits, refunds, and support.",
+      "keywords": {
+        "billing": "Open Model Lab billing",
+        "supporterBilling": "supporter billing",
+        "subscriptionCancellation": "subscription cancellation",
+        "refundPolicy": "refund policy"
+      },
+      "category": "billing"
+    },
+    "feedbackTitle": "Billing",
+    "premiumPlan": {
+      "displayName": "Open Model Lab Supporter",
+      "achievementDiscountLabel": "25% off the first month",
+      "billingInterval": "{interval}"
+    },
+    "sectionNav": {
+      "label": "Billing page sections",
+      "title": "Jump within billing",
+      "mobileLabel": "Billing sections",
+      "items": {
+        "overview": {
+          "label": "Billing overview",
+          "compactLabel": "Overview"
+        },
+        "plan": {
+          "label": "Supporter plan snapshot",
+          "compactLabel": "Plan"
+        },
+        "policy": {
+          "label": "Billing policies",
+          "compactLabel": "Policy"
+        },
+        "support": {
+          "label": "Billing support",
+          "compactLabel": "Support"
+        }
+      }
+    },
+    "hero": {
+      "eyebrow": "Billing",
+      "title": "Plain-English details for Supporter billing, cancellations, refunds, and help.",
+      "description": "This page explains the current optional Supporter billing model as it actually exists in the product today: one monthly Stripe subscription, bounded account management, period-end cancellation behavior, conservative refund handling, and direct support contact."
+    },
+    "labels": {
+      "lastUpdated": "Last updated",
+      "planSnapshot": "Plan snapshot",
+      "recurringSubscription": "Recurring {billingInterval} subscription through Stripe-hosted checkout.",
+      "signInRequired": "Signing in is required for Supporter checkout. Signing in alone does not change the account plan.",
+      "premiumIncludes": "Supporter includes",
+      "beforeYouBuy": "Before you buy",
+      "billingSupport": "Billing support"
+    },
+    "premiumIncludes": {
+      "savedExactStateSetups": "Saved exact-state setups",
+      "savedCompareSetups": "Saved compare setups",
+      "exactStateSharing": "Exact-state sharing and public experiment cards",
+      "advancedStudyTools": "Advanced study tools and deeper review support",
+      "adFreeBrowsing": "Ad-free browsing"
+    },
+    "sections": {
+      "checkout": {
+        "title": "How checkout works",
+        "paragraphs": {
+          "p1": "{englishPlanName} is the current optional Supporter plan. It helps fund hosting, maintenance, and development while core learning stays free. It is offered as one {billingInterval} Stripe subscription at {priceLabel}.",
+          "p2": "Checkout starts from the existing pricing or account surfaces. You need to be signed in first so the Stripe session can attach to the correct Open Model Lab account."
+        }
+      },
+      "management": {
+        "title": "How billing is managed",
+        "paragraphs": {
+          "p1": "Billing management lives on the account side of the product. When an account already has a Stripe-managed subscription, the Manage subscription path opens Stripe Billing Portal from the account page.",
+          "p2": "If Stripe billing is unavailable or not configured on a deployment, the app keeps that state visible instead of pretending management is available."
+        }
+      },
+      "cancellation": {
+        "title": "How cancellation works",
+        "paragraphs": {
+          "p1": "If you cancel through Stripe and the subscription is marked to end at the period boundary, Supporter stays active until the current billed period ends.",
+          "p2": "After that Stripe-managed period ends, the account falls back to the free tier and Supporter convenience features stop applying."
+        }
+      },
+      "paymentIssues": {
+        "title": "Payment issues",
+        "paragraphs": {
+          "p1": "If Stripe reports a payment or setup problem, the app treats that subscription as needing recovery rather than silently restoring Supporter.",
+          "p2": "The next step is to update payment details or finish recovery in Stripe, then return to the account page to confirm the latest status."
+        }
+      },
+      "refunds": {
+        "title": "Refunds",
+        "paragraphs": {
+          "p1": "Refund requests are reviewed case by case through billing support.",
+          "p2": "That means refunds are not promised automatically. If you need help, contact billing support at {supportEmail} with the account email and the issue you hit."
+        }
+      },
+      "achievementDiscount": {
+        "title": "Achievement discount reward",
+        "paragraphs": {
+          "p1": "Some eligible signed-in free accounts may unlock {achievementDiscountLabel} through the existing in-product achievement path.",
+          "p2": "That reward is applied automatically at checkout for the eligible account. There is no public promo-code entry flow, and not every account will see the reward."
+        }
+      }
+    },
+    "beforeYouBuy": {
+      "pricing": "Compare free core learning and the Supporter plan on Pricing.",
+      "account": "Use Account to sign in first and manage billing later.",
+      "about": "Read the founder-led product context on About.",
+      "concepts": "Browse the free concepts before deciding."
+    },
+    "supportBody": {
+      "prefix": "Email ",
+      "suffix": " for billing, cancellation, refund, or checkout questions, or use the existing support path if you need product help first."
+    },
+    "supportActions": {
+      "contact": "Contact",
+      "pricing": "Pricing"
+    }
+  },
+  "SourcePage": {
+    "metadata": {
+      "title": "Source and contribution",
+      "description": "How Open Model Lab is preparing its public-source contribution path while keeping core learning free and official deployment details private.",
+      "keywords": {
+        "productName": "Open Model Lab",
+        "source": "source",
+        "contribute": "contribute",
+        "scienceLearning": "science learning",
+        "publicGood": "public good"
+      },
+      "category": "source"
+    },
+    "feedbackTitle": "Source and contribution",
+    "sectionNav": {
+      "label": "Source page sections",
+      "title": "Jump within source posture",
+      "mobileLabel": "Source sections",
+      "items": {
+        "posture": {
+          "label": "Project posture",
+          "compactLabel": "Posture"
+        },
+        "lanes": {
+          "label": "Contribution lanes",
+          "compactLabel": "Lanes"
+        },
+        "boundaries": {
+          "label": "Protected boundaries",
+          "compactLabel": "Boundaries"
+        },
+        "help": {
+          "label": "How to help now",
+          "compactLabel": "Help"
+        }
+      }
+    },
+    "hero": {
+      "eyebrow": "Source and contribution",
+      "title": "Open Model Lab is being prepared as a public-source learning project, not a clone-and-deploy kit.",
+      "description": "The goal is to make the learning model easier to inspect, improve, and learn from while keeping official domains, deployment config, vendor accounts, and private learner data out of the public tree.",
+      "action": "Share a contribution idea"
+    },
+    "posture": {
+      "label": "Current posture",
+      "title": "Public-good learning first; optional Supporter features only fund sustainability.",
+      "body": {
+        "p1": "Core concept pages, simulations, tools, guided paths, challenges, and basic practice stay free and useful without sign-in.",
+        "p2": "Source readiness work focuses on trustworthy intake: clear licenses, contribution docs, issue templates, safety checks, and no-vendor local setup.",
+        "p3": "When the repository is public, small corrections and verifiable student-facing improvements should be easier to review than broad rewrites."
+      }
+    },
+    "lanes": {
+      "label": "Good first contribution lanes",
+      "items": {
+        "conceptFix": "Correct a concept definition, unit, graph label, worked example, or misconception note.",
+        "accessibility": "Improve keyboard access, contrast, touch targets, or screen-reader wording on a simulation surface.",
+        "learnerCopy": "Make learner-facing copy more direct: predict, change one variable, observe, explain, then check.",
+        "regressionTest": "Add a focused regression test for a route, content schema, or simulation control."
+      }
+    },
+    "boundaries": {
+      "label": "Protected boundaries",
+      "items": {
+        "privateSupport": "Security reports, account support, billing support, and private user-data questions should not be handled in public issues.",
+        "ownerReview": "Billing, auth, database migrations, ads policy, AI-cost features, license, brand, and governance changes need owner review first.",
+        "deploymentSecrets": "Official deployment secrets, real Wrangler config, real ads.txt, vendor dashboards, and private operator history stay outside the public source tree."
+      }
+    },
+    "next": {
+      "label": "How to help now",
+      "body": "Until public issue intake is opened, the safest way to help is to report confusing concepts, broken routes, accessibility problems, or concrete improvement ideas through the contact form.",
+      "primaryAction": "Send feedback",
+      "secondaryAction": "Read about the project"
+    }
+  },
   "PricingPage": {
     "metadata": {
       "title": "Pricing and Supporter plan",

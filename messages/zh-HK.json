@@ -1355,6 +1355,293 @@
       "collectionName": "Open Model Lab 搜尋"
     }
   },
+  "AdsPage": {
+    "metadata": {
+      "title": "廣告與贊助",
+      "description": "說明 Open Model Lab 目前如何在指定、符合資格的免費頁面放置廣告、如何保持支持者方案無廣告，以及如何保護核心互動學習體驗。",
+      "keywords": {
+        "ads": "廣告",
+        "advertising": "贊助",
+        "adsense": "AdSense",
+        "supporterAdFree": "支持者方案無廣告",
+        "productName": "Open Model Lab"
+      },
+      "category": "廣告"
+    },
+    "feedbackTitle": "廣告與贊助",
+    "sectionNav": {
+      "label": "廣告頁段落",
+      "title": "快速跳到廣告政策段落",
+      "mobileLabel": "廣告段落",
+      "items": {
+        "overview": {
+          "label": "廣告總覽",
+          "compactLabel": "總覽"
+        },
+        "allowed": {
+          "label": "可放置位置",
+          "compactLabel": "可用"
+        },
+        "protected": {
+          "label": "受保護學習區域",
+          "compactLabel": "保護"
+        },
+        "provider": {
+          "label": "廣告供應商說明",
+          "compactLabel": "供應商"
+        }
+      }
+    },
+    "hero": {
+      "eyebrow": "廣告與贊助",
+      "title": "廣告維持手動投放、路由受限，而且在產品明確準備好之前保持休眠。",
+      "description": "這頁說明產品現階段真正採用的廣告政策。Open Model Lab 走手動優先的 AdSense 路徑，支持者方案在符合資格的路由保持無廣告，而且在未明確啟用之前會採取預設關閉。"
+    },
+    "labels": {
+      "currentModel": "目前模式",
+      "allowedPlacements": "可放置位置",
+      "protectedLearningSurfaces": "受保護學習區域",
+      "providerNote": "供應商說明"
+    },
+    "paragraphs": {
+      "model": {
+        "prefix": "只有在明確啟用廣告時，免費瀏覽才可能在部分瀏覽、搜尋與安全的概念頁區域顯示廣告。支持者方案會在符合資格的廣告路由移除廣告，並加入",
+        "linkLabel": "價格頁",
+        "suffix": "所描述的現有便利功能。"
+      },
+      "body": {
+        "p1": "當廣告啟用時，Open Model Lab 目前只使用手動放置的 Google AdSense 單元。現有架構以手動為主，並不把自動廣告模式當作主要做法。",
+        "p2": "目標很簡單：讓廣告支援公開瀏覽，但不打斷即時的科學學習互動。在取得批准並完成明確啟用之前，廣告系統會保持休眠，不會渲染任何內容。"
+      },
+      "provider": {
+        "p1": "Google AdSense 是目前啟用廣告時的供應商路徑。當地測試時，有時只會看到供應商請求而沒有實際廣告內容；若缺少設定，每個位置都會保持收合，而不是渲染一個壞掉的外殼。",
+        "p2": "如果廣告被停用、尚未批准或尚未設定，Open Model Lab 就不會渲染任何實際廣告單元，也不會在不合資格的頁面載入 AdSense 啟動腳本。免費層仍然可以使用核心概念、模擬、路徑與標準挑戰模式。"
+      },
+      "providerLinks": {
+        "privacyPrefix": "如想了解相關資料說明，可先看 ",
+        "privacyLabel": "私隱政策",
+        "privacySuffix": "；如果想直接詢問目前的廣告政策，也可以使用 ",
+        "contactLabel": "聯絡我們",
+        "contactSuffix": "。"
+      }
+    },
+    "allowedSurfaces": {
+      "home": "首頁",
+      "concepts": "概念庫",
+      "subjectDirectory": "科目目錄與科目頁",
+      "topicDirectory": "主題目錄",
+      "topicPages": "主題頁",
+      "guidedCollections": "引導式合集總覽頁",
+      "searchResults": "搜尋結果頁",
+      "conceptPageZones": "概念頁中僅限清楚分隔的非互動區域"
+    },
+    "protectedSurfaces": {
+      "simulationStage": "模擬舞台、控制項、圖表、方程式與時間軸",
+      "interactiveLab": "互動概念實驗台容器與實驗台後方的學習卡片",
+      "learningModes": "比較模式、預測模式與解題示範流程",
+      "challengePages": "挑戰頁與挑戰互動區",
+      "accountSurfaces": "分享工具、價格頁、帳戶頁、登入流程與開發用 harness 頁面",
+      "trustPages": "關於、收費、私隱、條款、聯絡、支援與其他敏感信任頁面"
+    },
+    "pricingLabel": "價格"
+  },
+  "BillingPage": {
+    "metadata": {
+      "title": "收費、取消與退款",
+      "description": "以清楚文字說明可選的 Open Model Lab 支持者方案收費安排，包括支持者方案內容、Stripe 託管結帳與取消方式、折扣限制、退款政策與支援途徑。",
+      "keywords": {
+        "billing": "Open Model Lab 收費",
+        "supporterBilling": "支持者方案收費",
+        "subscriptionCancellation": "訂閱取消",
+        "refundPolicy": "退款政策"
+      },
+      "category": "收費"
+    },
+    "feedbackTitle": "收費",
+    "premiumPlan": {
+      "displayName": "Open Model Lab 支持者方案",
+      "achievementDiscountLabel": "首月 25% 折扣",
+      "billingInterval": "月"
+    },
+    "sectionNav": {
+      "label": "收費頁段落",
+      "title": "快速跳到收費段落",
+      "mobileLabel": "收費段落",
+      "items": {
+        "overview": {
+          "label": "收費總覽",
+          "compactLabel": "總覽"
+        },
+        "plan": {
+          "label": "支持者方案摘要",
+          "compactLabel": "方案"
+        },
+        "policy": {
+          "label": "收費政策",
+          "compactLabel": "政策"
+        },
+        "support": {
+          "label": "收費支援",
+          "compactLabel": "支援"
+        }
+      }
+    },
+    "hero": {
+      "eyebrow": "收費",
+      "title": "用清楚文字說明支持者方案的收費、取消、退款與支援。",
+      "description": "這頁只描述產品今天真正存在的可選支持者方案收費模式：一個按月收費的 Stripe 訂閱、有限度的帳戶管理、期末取消行為、保守的退款處理，以及直接支援聯絡方式。"
+    },
+    "labels": {
+      "lastUpdated": "最後更新",
+      "planSnapshot": "方案摘要",
+      "recurringSubscription": "透過 Stripe 託管結帳的定期{billingInterval}費訂閱。",
+      "signInRequired": "支持者方案結帳需要先登入；單純登入本身不會改變帳戶方案。",
+      "premiumIncludes": "支持者方案包括",
+      "beforeYouBuy": "購買前先看",
+      "billingSupport": "收費支援"
+    },
+    "premiumIncludes": {
+      "savedExactStateSetups": "已儲存完整狀態設定",
+      "savedCompareSetups": "已儲存比較設定",
+      "exactStateSharing": "精確狀態分享與公開實驗卡",
+      "advancedStudyTools": "進階學習工具與更深入的複習支援",
+      "adFreeBrowsing": "無廣告瀏覽"
+    },
+    "sections": {
+      "checkout": {
+        "title": "結帳如何運作",
+        "paragraphs": {
+          "p1": "{planName} 是目前可選的方案，用來支持託管、維護和持續開發；核心學習內容會保持免費。它以 Stripe 按{billingInterval}訂閱形式提供，價格為 {priceLabel}。",
+          "p2": "結帳會從現有的價格頁或帳戶頁開始。你需要先登入，讓 Stripe 工作階段能綁定到正確的 Open Model Lab 帳戶。"
+        }
+      },
+      "management": {
+        "title": "如何管理收費",
+        "paragraphs": {
+          "p1": "收費管理集中在帳戶一側。當帳戶已經有 Stripe 管理中的訂閱時，帳戶頁上的「管理訂閱」流程會直接打開 Stripe 的訂閱管理入口。",
+          "p2": "如果某個部署尚未提供 Stripe 收費功能或尚未完成設定，系統會直接顯示該狀態，而不會假裝管理功能可用。"
+        }
+      },
+      "cancellation": {
+        "title": "取消如何運作",
+        "paragraphs": {
+          "p1": "如果你透過 Stripe 取消，且訂閱被標記為在本期結束時終止，支持者方案會一直保持有效，直到目前已收費週期結束。",
+          "p2": "當這個 Stripe 管理的收費週期結束後，帳戶便會回到免費層，支持者方案便利功能也會停止生效。"
+        }
+      },
+      "paymentIssues": {
+        "title": "付款問題",
+        "paragraphs": {
+          "p1": "如果 Stripe 回報付款或設定問題，系統會把該訂閱視為需要修復，而不會默默恢復支持者方案。",
+          "p2": "下一步通常是到 Stripe 更新付款資料或完成修復流程，然後回到帳戶頁確認最新狀態。"
+        }
+      },
+      "refunds": {
+        "title": "退款",
+        "paragraphs": {
+          "p1": "退款處理會依照目前公開的政策逐案審視，而不會自動承諾退款。",
+          "p2": "這表示退款並非自動保證。如果你需要協助，請用帳戶電郵和遇到的問題聯絡 {supportEmail}。"
+        }
+      },
+      "achievementDiscount": {
+        "title": "成就折扣獎勵",
+        "paragraphs": {
+          "p1": "部分符合資格、已登入的免費帳戶，可能會透過現有產品內的成就路徑解鎖 {achievementDiscountLabel}。",
+          "p2": "只要帳戶符合資格，該獎勵會在結帳時自動套用。產品沒有公開的優惠碼輸入流程，而且不是每個帳戶都會看到這個獎勵。"
+        }
+      }
+    },
+    "beforeYouBuy": {
+      "pricing": "先在價格頁比較免費核心學習與支持者方案。",
+      "account": "先到帳戶頁登入，之後再回來管理收費。",
+      "about": "先到關於頁了解這個產品目前的背景與定位。",
+      "concepts": "決定前先瀏覽免費概念。"
+    },
+    "supportBody": {
+      "prefix": "如有收費、取消、退款或結帳問題，請電郵 ",
+      "suffix": "；如果你想先問產品使用問題，也可以先走現有支援路徑。"
+    },
+    "supportActions": {
+      "contact": "聯絡我們",
+      "pricing": "價格"
+    }
+  },
+  "SourcePage": {
+    "metadata": {
+      "title": "原始碼與參與",
+      "description": "說明 Open Model Lab 如何準備公開原始碼參與路徑，同時保持核心學習免費，並保護官方部署細節。",
+      "keywords": {
+        "productName": "Open Model Lab",
+        "source": "原始碼",
+        "contribute": "參與",
+        "scienceLearning": "科學學習",
+        "publicGood": "公共學習資源"
+      },
+      "category": "原始碼"
+    },
+    "feedbackTitle": "原始碼與參與",
+    "sectionNav": {
+      "label": "原始碼頁段落",
+      "title": "快速跳到原始碼說明段落",
+      "mobileLabel": "原始碼段落",
+      "items": {
+        "posture": {
+          "label": "項目定位",
+          "compactLabel": "定位"
+        },
+        "lanes": {
+          "label": "參與方向",
+          "compactLabel": "方向"
+        },
+        "boundaries": {
+          "label": "受保護邊界",
+          "compactLabel": "邊界"
+        },
+        "help": {
+          "label": "現在怎樣幫忙",
+          "compactLabel": "幫忙"
+        }
+      }
+    },
+    "hero": {
+      "eyebrow": "原始碼與參與",
+      "title": "Open Model Lab 正準備成為公開原始碼學習項目，而不是一套可直接複製部署的套件。",
+      "description": "目標是讓學習模型更容易被檢視、改善和學習，同時把官方網域、部署設定、供應商帳戶與私人學習者資料留在公開樹之外。",
+      "action": "分享參與建議"
+    },
+    "posture": {
+      "label": "目前定位",
+      "title": "先以公共學習價值為核心；可選支持者功能只用來支持持續營運。",
+      "body": {
+        "p1": "核心概念頁、模擬、工具、引導路徑、挑戰和基本練習會保持免費，而且不登入也有用。",
+        "p2": "原始碼準備工作聚焦於可信的參與入口：清楚授權、參與文件、議題模板、安全檢查，以及不需要供應商帳戶的本機設定。",
+        "p3": "當儲存庫公開後，小型修正和可驗證的學生面改善，應該比大規模重寫更容易被審核。"
+      }
+    },
+    "lanes": {
+      "label": "適合入門的參與方向",
+      "items": {
+        "conceptFix": "修正概念定義、單位、圖表標籤、例題，或容易誤解的提示。",
+        "accessibility": "改善模擬介面的鍵盤操作、對比度、觸控目標或螢幕閱讀器文字。",
+        "learnerCopy": "把面向學習者的文字改得更直接：先預測、改一個變量、觀察、解釋，再檢查。",
+        "regressionTest": "為某個路由、內容 schema 或模擬控制項加入聚焦的回歸測試。"
+      }
+    },
+    "boundaries": {
+      "label": "受保護邊界",
+      "items": {
+        "privateSupport": "安全回報、帳戶支援、收費支援和私人用戶資料問題，不應在公開議題中處理。",
+        "ownerReview": "收費、登入、資料庫遷移、廣告政策、需要 API 成本的 AI 功能、授權、品牌與治理變更，都需要先由擁有人審核。",
+        "deploymentSecrets": "官方部署密鑰、真實 Wrangler 設定、真實 ads.txt、供應商後台與私人營運歷史，都會留在公開原始碼樹之外。"
+      }
+    },
+    "next": {
+      "label": "現在可以怎樣幫忙",
+      "body": "在公開議題入口正式開放前，最安全的幫忙方式是透過聯絡表單回報令人困惑的概念、壞掉的路由、無障礙問題，或具體改善建議。",
+      "primaryAction": "提供回饋",
+      "secondaryAction": "閱讀項目故事"
+    }
+  },
   "PricingPage": {
     "metadata": {
       "title": "價格與支持者方案",

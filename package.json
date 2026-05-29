@@ -14,6 +14,8 @@
     "i18n:worklist": "node scripts/generate-i18n-worklist.mjs",
     "i18n:ping": "python3 tools/i18n/translate_content.py --ping",
     "i18n:check:zh-HK": "node scripts/check-zhhk-locale-quality.mjs",
+    "i18n:audit:hardcoded-copy": "node scripts/audit-hardcoded-i18n-copy.mjs",
+    "i18n:audit:hardcoded-copy:self-test": "node scripts/audit-hardcoded-i18n-copy.mjs --self-test",
     "i18n:sweep:zh-HK": "node scripts/browser-zhhk-site-sweep.mjs",
     "launch:doctor": "node scripts/launch-doctor.mjs",
     "public-release:hygiene": "node scripts/public-release-hygiene-check.mjs",
