@@ -1,5 +1,22 @@
 # Open Model Lab Status
 
+## 2026-05-29 OML-QA-031 zh-HK Sweep Detailed Leak Reporting
+
+Current state: `OML-QA-031` is complete. The zh-HK browser sweep now keeps its route-level failure summary while also collecting every suspicious visible English finding per route into a detailed artifact with DOM context and likely source-category grouping.
+
+### Files Changed
+
+- `scripts/browser-zhhk-site-sweep.mjs`: collects all route English findings, records nearest heading/landmark, element tag/role, capped snippets, likely source category, approved product-name findings, and writes `output/browser-zhhk-site-sweep.details.json` beside the existing summary artifact.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `node --check scripts/browser-zhhk-site-sweep.mjs`: passed.
+- `pnpm exec eslint scripts/browser-zhhk-site-sweep.mjs`: passed.
+- `pnpm i18n:sweep:zh-HK -- --autostart`: passed with `issueCount: 0`, `englishLeakUnapprovedIssueCount: 0`, and `approvedEnglishFindingCount: 510`.
+- `jq` artifact inspection confirmed `output/browser-zhhk-site-sweep.details.json` includes the expected route/source-category grouping and zero unapproved issues.
+
 ## 2026-05-29 OML-QA-030 Locale Routing Browser Coverage
 
 Current state: `OML-QA-030` is complete. Locale switching, zh-HK internal anchor preservation, and representative zh-HK CTA/link navigation now have durable Playwright coverage, and the new spec is wired into both the focused i18n suite and QA sweep.

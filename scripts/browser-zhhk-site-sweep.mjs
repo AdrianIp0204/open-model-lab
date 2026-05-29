@@ -11,6 +11,7 @@ const managedBaseUrl = "http://127.0.0.1:3100";
 let publicBaseUrl = process.env.OPEN_MODEL_LAB_BASE_URL ?? "http://127.0.0.1:3000";
 let devBaseUrl = process.env.OPEN_MODEL_LAB_DEV_BASE_URL ?? "http://127.0.0.1:3100";
 const outputPath = path.join(root, "output", "browser-zhhk-site-sweep.json");
+const detailedOutputPath = path.join(root, "output", "browser-zhhk-site-sweep.details.json");
 const managedServerLogPath = path.join(root, "output", "browser-zhhk-site-sweep.server.log");
 const managedServerErrorLogPath = path.join(
   root,
@@ -105,10 +106,29 @@ const ENGLISH_PHRASE_PATTERN = /\b[A-Za-z][A-Za-z0-9'/-]{2,}(?:\s+[A-Za-z][A-Za-
 const ENGLISH_SINGLE_WORD_PATTERN = /^[A-Za-z][A-Za-z0-9'/-]{3,}$/u;
 const MESSAGE_KEY_PATTERN = /\b[A-Z][A-Za-z0-9]+(?:\.[A-Za-z0-9_-]+){2,}\b/u;
 const ALLOWED_ENGLISH_SINGLE_WORDS = new Set(["premium", "stripe", "supabase", "english"]);
+const ENGLISH_SOURCE_CATEGORIES = [
+  "message",
+  "content overlay fallback",
+  "simulation hard-code",
+  "user fixture",
+  "allowed product name",
+];
+const MAX_DETAIL_SNIPPETS = 6;
+const MAX_DETAIL_TEXT_LENGTH = 220;
 // These names are seeded by the dev account harness as user display names, not authored UI copy.
 // Keep them out of the zh-HK mixed-language audit so signed-in fixture data does not mask product
 // translation regressions.
 const DEV_ACCOUNT_HARNESS_DISPLAY_NAMES = ["Free learner", "Supporter learner"];
+
+function capText(text, maxLength = MAX_DETAIL_TEXT_LENGTH) {
+  const normalized = text.replace(/\s+/gu, " ").trim();
+
+  if (normalized.length <= maxLength) {
+    return normalized;
+  }
+
+  return `${normalized.slice(0, maxLength - 1).trimEnd()}…`;
+}
 
 function sanitizeLineForEnglishAudit(line) {
   return line
@@ -124,38 +144,240 @@ function stripAllowedEnglish(line) {
   return ALLOWED_ENGLISH_PHRASES.reduce((current, pattern) => current.replace(pattern, " "), line);
 }
 
-function findEnglishLeakLine(text, { stripDevAccountHarnessNames = false } = {}) {
-  const lines = text
-    .split(/\r?\n/gu)
-    .map((line) => line.trim())
-    .filter(Boolean);
+function stripDevAccountHarnessDisplayNames(line) {
+  return DEV_ACCOUNT_HARNESS_DISPLAY_NAMES.reduce(
+    (current, name) => current.replaceAll(name, " "),
+    line,
+  );
+}
 
-  for (const line of lines) {
-    const auditLine = stripDevAccountHarnessNames
-      ? DEV_ACCOUNT_HARNESS_DISPLAY_NAMES.reduce(
-          (current, name) => current.replaceAll(name, " "),
-          line,
-        )
-      : line;
-    const sanitized = sanitizeLineForEnglishAudit(stripAllowedEnglish(auditLine));
+function hasAllowedEnglishPhrase(line) {
+  return ALLOWED_ENGLISH_PHRASES.some((pattern) =>
+    new RegExp(pattern.source, pattern.flags).test(line),
+  );
+}
 
-    if (!sanitized) {
+function hasDevAccountHarnessDisplayName(line) {
+  return DEV_ACCOUNT_HARNESS_DISPLAY_NAMES.some((name) => line.includes(name));
+}
+
+function hasSuspiciousEnglish(line) {
+  const sanitized = sanitizeLineForEnglishAudit(stripAllowedEnglish(line));
+
+  if (!sanitized) {
+    return false;
+  }
+
+  if (ENGLISH_PHRASE_PATTERN.test(sanitized)) {
+    return true;
+  }
+
+  return (
+    ENGLISH_SINGLE_WORD_PATTERN.test(sanitized) &&
+    !ALLOWED_ENGLISH_SINGLE_WORDS.has(sanitized.toLowerCase())
+  );
+}
+
+function inferEnglishSourceCategory(
+  line,
+  routePath,
+  entry,
+  { stripDevAccountHarnessNames = false } = {},
+) {
+  if (stripDevAccountHarnessNames && hasDevAccountHarnessDisplayName(line)) {
+    return "user fixture";
+  }
+
+  if (MESSAGE_KEY_PATTERN.test(line)) {
+    return "message";
+  }
+
+  if (
+    /\/(?:concepts|guided|tracks|challenges|tests)(?:\/|$)/u.test(routePath) &&
+    !/(button|link|navigation|banner|contentinfo)/iu.test(
+      `${entry.elementRole ?? ""} ${entry.landmark ?? ""}`,
+    )
+  ) {
+    return "content overlay fallback";
+  }
+
+  if (
+    /(?:simulation|sim|canvas|plot|graph|slider|voltage|velocity|amplitude|frequency|force|energy|charge|circuit|reaction|node|edge)/iu.test(
+      `${line} ${entry.nearestHeading ?? ""} ${entry.landmark ?? ""}`,
+    )
+  ) {
+    return "simulation hard-code";
+  }
+
+  return "message";
+}
+
+function analyzeEnglishLine(
+  line,
+  routePath,
+  entry,
+  { stripDevAccountHarnessNames = false } = {},
+) {
+  const hasAllowedProductName = hasAllowedEnglishPhrase(line);
+  const hasFixtureName = stripDevAccountHarnessNames && hasDevAccountHarnessDisplayName(line);
+  const lineWithoutFixtureNames = hasFixtureName ? stripDevAccountHarnessDisplayNames(line) : line;
+  const suspiciousAfterApprovedStripping = hasSuspiciousEnglish(lineWithoutFixtureNames);
+
+  if (!suspiciousAfterApprovedStripping) {
+    if (hasFixtureName) {
+      return {
+        approved: true,
+        sourceCategory: "user fixture",
+      };
+    }
+
+    if (hasAllowedProductName) {
+      return {
+        approved: true,
+        sourceCategory: "allowed product name",
+      };
+    }
+
+    return null;
+  }
+
+  return {
+    approved: false,
+    sourceCategory: inferEnglishSourceCategory(line, routePath, entry, {
+      stripDevAccountHarnessNames,
+    }),
+  };
+}
+
+function findEnglishLineFindings(
+  entries,
+  routePath,
+  { stripDevAccountHarnessNames = false } = {},
+) {
+  const findings = [];
+  const seen = new Set();
+
+  for (const entry of entries) {
+    const line = entry.text.trim();
+    const analysis = analyzeEnglishLine(line, routePath, entry, {
+      stripDevAccountHarnessNames,
+    });
+
+    if (!analysis) {
       continue;
     }
 
-    if (ENGLISH_PHRASE_PATTERN.test(sanitized)) {
-      return line;
+    const key = [
+      analysis.approved ? "approved" : "unapproved",
+      analysis.sourceCategory,
+      line,
+      entry.nearestHeading ?? "",
+      entry.landmark ?? "",
+      entry.elementTag ?? "",
+      entry.elementRole ?? "",
+    ].join("\u0000");
+
+    if (seen.has(key)) {
+      continue;
     }
 
-    if (
-      ENGLISH_SINGLE_WORD_PATTERN.test(sanitized) &&
-      !ALLOWED_ENGLISH_SINGLE_WORDS.has(sanitized.toLowerCase())
-    ) {
-      return line;
-    }
+    seen.add(key);
+    findings.push({
+      route: routePath,
+      approved: analysis.approved,
+      sourceCategory: analysis.sourceCategory,
+      sample: capText(line),
+      nearestHeading: entry.nearestHeading ? capText(entry.nearestHeading) : null,
+      landmark: entry.landmark ? capText(entry.landmark) : null,
+      elementTag: entry.elementTag,
+      elementRole: entry.elementRole ?? null,
+      snippets: entry.snippets.map((snippet) => capText(snippet)),
+    });
   }
 
-  return null;
+  return findings;
+}
+
+function findEnglishLeakLine(text, { stripDevAccountHarnessNames = false } = {}) {
+  return (
+    text
+      .split(/\r?\n/gu)
+      .map((line) => line.trim())
+      .find((line) =>
+        hasSuspiciousEnglish(
+          stripDevAccountHarnessNames ? stripDevAccountHarnessDisplayNames(line) : line,
+        ),
+      ) ?? null
+  );
+}
+
+function buildDetailedEnglishReport(allFindings) {
+  const englishFindings = allFindings.filter((finding) => !finding.approved);
+  const approvedFindings = allFindings.filter((finding) => finding.approved);
+  const routeMap = new Map();
+  const sourceCategoryMap = new Map(
+    ENGLISH_SOURCE_CATEGORIES.map((sourceCategory) => [
+      sourceCategory,
+      {
+        sourceCategory,
+        unapprovedIssueCount: 0,
+        approvedFindingCount: 0,
+        findings: [],
+      },
+    ]),
+  );
+
+  for (const finding of allFindings) {
+    if (!routeMap.has(finding.route)) {
+      routeMap.set(finding.route, {
+        route: finding.route,
+        unapprovedIssueCount: 0,
+        approvedFindingCount: 0,
+        bySourceCategory: new Map(),
+      });
+    }
+
+    const routeGroup = routeMap.get(finding.route);
+    if (!routeGroup.bySourceCategory.has(finding.sourceCategory)) {
+      routeGroup.bySourceCategory.set(finding.sourceCategory, {
+        sourceCategory: finding.sourceCategory,
+        unapprovedIssueCount: 0,
+        approvedFindingCount: 0,
+        findings: [],
+      });
+    }
+
+    const routeSourceGroup = routeGroup.bySourceCategory.get(finding.sourceCategory);
+    const globalSourceGroup = sourceCategoryMap.get(finding.sourceCategory);
+
+    if (finding.approved) {
+      routeGroup.approvedFindingCount += 1;
+      routeSourceGroup.approvedFindingCount += 1;
+      globalSourceGroup.approvedFindingCount += 1;
+    } else {
+      routeGroup.unapprovedIssueCount += 1;
+      routeSourceGroup.unapprovedIssueCount += 1;
+      globalSourceGroup.unapprovedIssueCount += 1;
+    }
+
+    routeSourceGroup.findings.push(finding);
+    globalSourceGroup.findings.push(finding);
+  }
+
+  const routes = [...routeMap.values()].map((routeGroup) => ({
+    ...routeGroup,
+    bySourceCategory: [...routeGroup.bySourceCategory.values()].sort((a, b) =>
+      a.sourceCategory.localeCompare(b.sourceCategory),
+    ),
+  }));
+
+  return {
+    unapprovedIssueCount: englishFindings.length,
+    approvedFindingCount: approvedFindings.length,
+    sourceCategories: ENGLISH_SOURCE_CATEGORIES,
+    routes,
+    bySourceCategory: [...sourceCategoryMap.values()],
+  };
 }
 
 function shouldAuditEnglishLeak(routePath) {
@@ -305,6 +527,7 @@ async function stubAds(context) {
 async function scanRoute(page, baseUrl, routePath, category) {
   const url = new URL(routePath, baseUrl).toString();
   const routeIssues = [];
+  const routeEnglishFindings = [];
 
   try {
     const response = await page.goto(url, {
@@ -319,7 +542,7 @@ async function scanRoute(page, baseUrl, routePath, category) {
         kind: "NO_DOCUMENT_RESPONSE",
         sample: "No document response returned.",
       });
-      return routeIssues;
+      return { issues: routeIssues, englishFindings: routeEnglishFindings };
     }
 
     if (!response.ok()) {
@@ -334,20 +557,164 @@ async function scanRoute(page, baseUrl, routePath, category) {
     await page.locator("body").waitFor({ state: "visible", timeout: 15_000 });
     await page.waitForTimeout(750);
     const pageTitle = (await page.title()).trim();
-    const bodyText = await page.evaluate(() => {
-      const skipSelectors = [
-        ".sr-only",
-        "[aria-hidden='true']",
-        "[hidden]",
-        "script",
-        "style",
-        "noscript",
-        "template",
-      ];
+    const visibleTextEntries = await page.evaluate(
+      ({ maxSnippets }) => {
+        const skipSelectors = [
+          ".sr-only",
+          "[aria-hidden='true']",
+          "[hidden]",
+          "script",
+          "style",
+          "noscript",
+          "template",
+        ];
 
-      function isVisibleElement(element) {
-        const style = window.getComputedStyle(element);
-        return style.display !== "none" && style.visibility !== "hidden" && style.opacity !== "0";
+        function isVisibleElement(element) {
+          const style = window.getComputedStyle(element);
+          return (
+            style.display !== "none" &&
+            style.visibility !== "hidden" &&
+            style.opacity !== "0" &&
+            element.getClientRects().length > 0
+          );
+        }
+
+      function normalizeText(text) {
+        return text.replace(/\s+/gu, " ").trim();
+      }
+
+      function inferElementRole(element) {
+        const explicitRole = element.getAttribute("role");
+
+        if (explicitRole) {
+          return explicitRole;
+        }
+
+        const tagName = element.tagName.toLowerCase();
+
+        if (/^h[1-6]$/u.test(tagName)) {
+          return "heading";
+        }
+
+        if (tagName === "a" && element.hasAttribute("href")) {
+          return "link";
+        }
+
+        if (tagName === "button") {
+          return "button";
+        }
+
+        if (tagName === "main") {
+          return "main";
+        }
+
+        if (tagName === "nav") {
+          return "navigation";
+        }
+
+        if (tagName === "header") {
+          return "banner";
+        }
+
+        if (tagName === "footer") {
+          return "contentinfo";
+        }
+
+        if (tagName === "aside") {
+          return "complementary";
+        }
+
+        if (tagName === "form") {
+          return "form";
+        }
+
+        return null;
+      }
+
+      function getElementLabel(element) {
+        return normalizeText(
+          element.getAttribute("aria-label") ??
+            element.getAttribute("data-testid") ??
+            element.getAttribute("id") ??
+            "",
+        );
+      }
+
+      function getNearestHeading(element) {
+        const scopedContainer = element.closest("section, article, main, aside, nav, header, footer, form");
+        const scopedHeading = scopedContainer?.querySelector("h1, h2, h3, h4, h5, h6");
+
+        if (scopedHeading?.textContent) {
+          return normalizeText(scopedHeading.textContent);
+        }
+
+        const headings = [...document.querySelectorAll("h1, h2, h3, h4, h5, h6")];
+        const previousHeading = headings
+          .filter((heading) => heading.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING)
+          .at(-1);
+
+        return previousHeading?.textContent ? normalizeText(previousHeading.textContent) : null;
+      }
+
+      function getLandmark(element) {
+        const landmark = element.closest(
+          [
+            "main",
+            "nav",
+            "header",
+            "footer",
+            "aside",
+            "form",
+            "section",
+            "article",
+            "[role='main']",
+            "[role='navigation']",
+            "[role='banner']",
+            "[role='contentinfo']",
+            "[role='complementary']",
+            "[role='form']",
+            "[role='region']",
+          ].join(","),
+        );
+
+        if (!landmark) {
+          return null;
+        }
+
+        const tagName = landmark.tagName.toLowerCase();
+        const role = inferElementRole(landmark);
+        const label = getElementLabel(landmark);
+        const heading = landmark.querySelector("h1, h2, h3, h4, h5, h6")?.textContent;
+        const parts = [role ?? tagName, label || normalizeText(heading ?? "")].filter(Boolean);
+
+        return parts.join(": ");
+      }
+
+      function getSnippets(element) {
+        const container =
+          element.closest("section, article, form, nav, aside, header, footer, main, [role]") ??
+          element.parentElement ??
+          element;
+        const snippets = [];
+        const seenSnippets = new Set();
+        const text = container.innerText ?? container.textContent ?? "";
+
+        for (const line of text.split(/\r?\n/gu)) {
+          const snippet = normalizeText(line);
+
+          if (!snippet || seenSnippets.has(snippet)) {
+            continue;
+          }
+
+          seenSnippets.add(snippet);
+          snippets.push(snippet);
+
+          if (snippets.length >= maxSnippets) {
+            break;
+          }
+        }
+
+        return snippets;
       }
 
       const lines = [];
@@ -370,18 +737,41 @@ async function scanRoute(page, baseUrl, routePath, category) {
           continue;
         }
 
-        const text = node.textContent?.replace(/\s+/gu, " ").trim();
+        const text = normalizeText(node.textContent ?? "");
 
-        if (!text || seen.has(text)) {
+        if (!text) {
           continue;
         }
 
-        seen.add(text);
-        lines.push(text);
+        const nearestHeading = getNearestHeading(parent);
+        const landmark = getLandmark(parent);
+        const elementTag = parent.tagName.toLowerCase();
+        const elementRole = inferElementRole(parent);
+        const snippets = getSnippets(parent);
+        const entryKey = [text, nearestHeading ?? "", landmark ?? "", elementTag, elementRole ?? ""].join(
+          "\u0000",
+        );
+
+        if (seen.has(entryKey)) {
+          continue;
+        }
+
+        seen.add(entryKey);
+        lines.push({
+          text,
+          nearestHeading,
+          landmark,
+          elementTag,
+          elementRole,
+          snippets,
+        });
       }
 
-      return lines.join("\n");
-    });
+      return lines;
+      },
+      { maxSnippets: MAX_DETAIL_SNIPPETS },
+    );
+    const bodyText = visibleTextEntries.map((entry) => entry.text).join("\n");
     const jsonLdText = (await page.locator("script[type='application/ld+json']").allTextContents())
       .join("\n")
       .trim();
@@ -393,7 +783,7 @@ async function scanRoute(page, baseUrl, routePath, category) {
         kind: "EMPTY_BODY",
         sample: "No visible body text found.",
       });
-      return routeIssues;
+      return { issues: routeIssues, englishFindings: routeEnglishFindings };
     }
 
     const visibleError = VISIBLE_ERROR_PATTERNS.find((pattern) => pattern.test(bodyText));
@@ -440,15 +830,22 @@ async function scanRoute(page, baseUrl, routePath, category) {
 
     const stripDevAccountHarnessNames =
       category === "signed-in-free" || category === "signed-in-premium";
-    const englishLeak = shouldAuditEnglishLeak(routePath)
-      ? findEnglishLeakLine(bodyText, { stripDevAccountHarnessNames })
-      : null;
-    if (englishLeak) {
+    const englishFindings = shouldAuditEnglishLeak(routePath)
+      ? findEnglishLineFindings(visibleTextEntries, routePath, { stripDevAccountHarnessNames })
+      : [];
+    routeEnglishFindings.push(...englishFindings);
+    const unapprovedEnglishFindings = englishFindings.filter((finding) => !finding.approved);
+    if (unapprovedEnglishFindings.length > 0) {
       routeIssues.push({
         route: routePath,
         category,
         kind: "ENGLISH_LEAK",
-        sample: englishLeak,
+        sample: unapprovedEnglishFindings[0].sample,
+        findingCount: unapprovedEnglishFindings.length,
+        sourceCategories: [
+          ...new Set(unapprovedEnglishFindings.map((finding) => finding.sourceCategory)),
+        ],
+        detailArtifact: path.relative(root, detailedOutputPath),
       });
     }
 
@@ -482,20 +879,23 @@ async function scanRoute(page, baseUrl, routePath, category) {
     });
   }
 
-  return routeIssues;
+  return { issues: routeIssues, englishFindings: routeEnglishFindings };
 }
 
 async function scanRouteList(context, baseUrl, routes, category) {
   const page = await context.newPage();
   const issues = [];
+  const englishFindings = [];
 
   for (const routePath of routes) {
-    const routeIssues = await scanRoute(page, baseUrl, routePath, category);
+    const routeResult = await scanRoute(page, baseUrl, routePath, category);
+    const routeIssues = routeResult.issues;
     issues.push(...routeIssues);
+    englishFindings.push(...routeResult.englishFindings);
   }
 
   await page.close();
-  return issues;
+  return { issues, englishFindings };
 }
 
 let managedSweepServerProcess = null;
@@ -514,7 +914,7 @@ try {
     viewport: { width: 1440, height: 1200 },
   });
   await stubAds(publicContext);
-  const publicIssues = await scanRouteList(publicContext, publicBaseUrl, publicRoutes, "public");
+  const publicResult = await scanRouteList(publicContext, publicBaseUrl, publicRoutes, "public");
   await publicContext.close();
 
   const signedInFreeContext = await browser.newContext({
@@ -522,7 +922,7 @@ try {
   });
   await stubAds(signedInFreeContext);
   await setHarnessSession(signedInFreeContext, "signed-in-free");
-  const signedInFreeIssues = await scanRouteList(
+  const signedInFreeResult = await scanRouteList(
     signedInFreeContext,
     devBaseUrl,
     signedInFreeRoutes,
@@ -535,7 +935,7 @@ try {
   });
   await stubAds(signedInPremiumContext);
   await setHarnessSession(signedInPremiumContext, "signed-in-premium");
-  const signedInPremiumIssues = await scanRouteList(
+  const signedInPremiumResult = await scanRouteList(
     signedInPremiumContext,
     devBaseUrl,
     signedInPremiumRoutes,
@@ -543,9 +943,20 @@ try {
   );
   await signedInPremiumContext.close();
 
-  const issues = [...publicIssues, ...signedInFreeIssues, ...signedInPremiumIssues];
+  const issues = [
+    ...publicResult.issues,
+    ...signedInFreeResult.issues,
+    ...signedInPremiumResult.issues,
+  ];
+  const englishFindings = [
+    ...publicResult.englishFindings,
+    ...signedInFreeResult.englishFindings,
+    ...signedInPremiumResult.englishFindings,
+  ];
+  const detailedEnglishReport = buildDetailedEnglishReport(englishFindings);
 
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+  fs.writeFileSync(detailedOutputPath, JSON.stringify(detailedEnglishReport, null, 2), "utf8");
   fs.writeFileSync(
     outputPath,
     JSON.stringify(
@@ -554,6 +965,10 @@ try {
         signedInFreeRouteCount: signedInFreeRoutes.length,
         signedInPremiumRouteCount: signedInPremiumRoutes.length,
         issueCount: issues.length,
+        englishLeakUnapprovedIssueCount: detailedEnglishReport.unapprovedIssueCount,
+        approvedEnglishFindingCount: detailedEnglishReport.approvedFindingCount,
+        detailedArtifact: path.relative(root, detailedOutputPath),
+        englishLeakDetails: detailedEnglishReport,
         issues,
       },
       null,
@@ -569,7 +984,10 @@ try {
         signedInFreeRouteCount: signedInFreeRoutes.length,
         signedInPremiumRouteCount: signedInPremiumRoutes.length,
         issueCount: issues.length,
+        englishLeakUnapprovedIssueCount: detailedEnglishReport.unapprovedIssueCount,
+        approvedEnglishFindingCount: detailedEnglishReport.approvedFindingCount,
         outputPath: path.relative(root, outputPath),
+        detailedOutputPath: path.relative(root, detailedOutputPath),
       },
       null,
       2,

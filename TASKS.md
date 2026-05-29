@@ -297,7 +297,10 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
   - Completion note (2026-05-29 HKT): Added durable Playwright coverage for locale switching with path/query/hash preservation, zh-HK internal anchor locale preservation, and representative locale-preserving CTA/link clicks; wired the spec into the focused i18n suite and QA sweep.
   - Validation: git diff --check; targeted eslint for tests/e2e/locale-routing.spec.ts and components/layout/SiteFooter.tsx; pnpm test:e2e:i18n; pnpm test:e2e:qa-sweep tests/e2e/locale-routing.spec.ts --chunk-size=1 --port=3137; pnpm typecheck
-- [ ] **OML-QA-031: Strengthen zh-HK browser sweep reporting so it finds every leak, not only the first leak per route.**
+- [x] **OML-QA-031: Strengthen zh-HK browser sweep reporting so it finds every leak, not only the first leak per route.**
   - Evidence: `scripts/browser-zhhk-site-sweep.mjs` currently records the first English-leak line found on each route. The 2026-05-29 run produced `105` route-level findings, but many affected pages likely contain multiple English strings after the first one.
   - Fix direction: change the sweep to collect all suspicious visible English lines per route with enough DOM context to locate them. Include route, sample text, nearest heading or landmark, element role/tag, and a capped list of text snippets. Keep the existing route-level summary, but write a detailed artifact for implementation.
   - Validation: rerun `pnpm i18n:sweep:zh-HK -- --autostart`; when leaks exist, the JSON artifact should group them by route and by likely source category (`message`, `content overlay fallback`, `simulation hard-code`, `user fixture`, `allowed product name`). When leaks are fixed, the artifact should show zero unapproved issues and the script should exit 0.
+
+  - Completion note (2026-05-29 HKT): Collected every suspicious zh-HK visible English finding per route, added DOM context and source-category grouping, and wrote a detailed sweep artifact while preserving the route-level summary.
+  - Validation: git diff --check; node --check scripts/browser-zhhk-site-sweep.mjs; pnpm exec eslint scripts/browser-zhhk-site-sweep.mjs; pnpm i18n:sweep:zh-HK -- --autostart; jq artifact inspection
