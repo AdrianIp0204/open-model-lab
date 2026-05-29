@@ -277,11 +277,15 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
   - Completion note (2026-05-29 HKT): Migrated the ads, billing, and source route copy from ad hoc bilingual branches into message namespaces, and added a baseline-backed static audit that fails on new visible hard-coded English/zh-HK route/component copy including JSX text children.
   - Validation: git diff --check; node --check scripts/audit-hardcoded-i18n-copy.mjs; pnpm i18n:audit:hardcoded-copy:self-test; pnpm i18n:audit:hardcoded-copy; pnpm i18n:check:zh-HK; pnpm exec eslint scripts/audit-hardcoded-i18n-copy.mjs app/ads/page.tsx app/billing/page.tsx app/source/page.tsx; pnpm typecheck
-- [ ] **OML-QA-029: Replace the fragile `localizeKnownSimulationText` / `localizeKnownCompareText` string switch with keyed simulation copy.**
+
+- [x] **OML-QA-029: Replace the fragile `localizeKnownSimulationText` / `localizeKnownCompareText` string switch with keyed simulation copy.**
   - Evidence: visible concept leaks include many short simulation labels such as `Live setup`, `Live`, `Energy balance`, `Mode shape`, `Driven response`, `Transient mode`, `Fixed bar length`, `Active circuit`, `Resistive load`, `graph scan line`, `principal axis`, `Result`, `theta`, `Eeff`, and `Live array`. Some labels are mapped in `lib/i18n/copy-text.ts`, but rendered pages still leak English because not every visible simulation/readout string passes through that helper.
   - Affected area: `lib/i18n/copy-text.ts`, `components/simulations/*Simulation.tsx`, `components/simulations/primitives/scene-card.tsx`, `components/simulations/primitives/compare.tsx`, `components/simulations/SimulationShell.tsx`, `components/graphs/LineGraph.tsx`, and generated/resolved concept simulation copy.
   - Fix direction: give simulation scene titles, readout labels, graph labels, overlay labels, compare labels, and badge labels stable translation keys. Prefer per-simulation message namespaces or content overlay fields over matching English strings at runtime. Remove switch cases as their callers migrate so new labels cannot silently fall through in zh-HK.
   - Validation: run a DOM text audit over all published zh-HK concept pages that extracts every visible line from the live lab, controls, readouts, graph tabs, overlays, and equation panels. The audit should fail on English prose/labels while allowing math symbols, units, variable names, and reviewed product names.
+
+  - Completion note (2026-05-29 HKT): Replaced the old known-string simulation localizers with stable keyed simulation copy, wired scene/readout/compare labels through the keyed helper, and migrated affected simulation call sites so zh-HK concept pages no longer rely on fragile English string matching for those labels.
+  - Validation: git diff --check; git diff --check HEAD^..HEAD; rg localizeKnownSimulationText/localizeKnownCompareText; pnpm i18n:check:zh-HK; pnpm i18n:sweep:zh-HK -- --autostart; pnpm lint; pnpm typecheck
 
 ### P2 - Regression Coverage / Routing QA
 

@@ -1,5 +1,26 @@
 # Open Model Lab Status
 
+## 2026-05-29 OML-QA-029 Keyed Simulation Copy
+
+Current state: `OML-QA-029` is complete. The simulation/compare copy path no longer depends on `localizeKnownSimulationText` or `localizeKnownCompareText`; scene titles, readout labels, compare badges, and related short simulation labels now flow through stable keyed simulation copy, and the zh-HK browser sweep remains clean.
+
+### Files Changed
+
+- `lib/i18n/copy-text.ts`: replaces the removed known-string simulation/compare localizers with keyed simulation copy helpers.
+- `components/simulations/SimulationCopyText.tsx`, `SimulationReadoutCard.tsx`, `SimulationReadoutSummary.tsx`, `components/simulations/primitives/scene-card.tsx`, `components/simulations/primitives/compare.tsx`: add keyed-copy support for shared simulation surfaces.
+- `components/simulations/*Simulation.tsx`, `components/simulations/primitives/optics-axis.tsx`, `lib/physics/standingWaves.ts`: migrate affected scene/readout/compare labels to keyed copy.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `git diff --check HEAD^..HEAD`: passed for worker patch `b84e2f7`.
+- `rg localizeKnownSimulationText localizeKnownCompareText`: no remaining source references outside the tracked task text and legacy audit baseline.
+- `pnpm i18n:check:zh-HK`: passed with `issueCount: 0`.
+- `pnpm i18n:sweep:zh-HK -- --autostart`: passed with `issueCount: 0` across 139 public routes, 4 signed-in free routes, and 8 signed-in premium routes.
+- `pnpm lint`: passed.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-29 OML-QA-028 Hard-Coded Copy Audit And Route Copy Migration
 
 Current state: `OML-QA-028` is complete. Ads, billing, and source route copy now use message namespaces instead of ad hoc bilingual `copyText`/locale branches, and the repo has a baseline-backed static audit that fails on new visible hard-coded copy in `app`, `components`, and `lib`, including JSX text children.
