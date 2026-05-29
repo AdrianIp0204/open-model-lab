@@ -466,6 +466,7 @@ export default async function HomePage({
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
       <PageShell
+        locale={locale}
         feedbackContext={{
           pageType: "home",
           pagePath: "/",

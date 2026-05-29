@@ -251,6 +251,7 @@ export async function renderConceptPage({
 
   return (
     <PageShell
+      locale={locale}
       layoutMode="section-shell"
       className="space-y-4"
       feedbackContext={{

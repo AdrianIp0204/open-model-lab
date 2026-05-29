@@ -7,6 +7,7 @@ const defaultSpecs = [
   "tests/e2e/chemistry-reaction-mind-map.spec.ts",
   "tests/e2e/circuit-builder.spec.ts",
   "tests/e2e/header-footer-shell.spec.ts",
+  "tests/e2e/locale-routing.spec.ts",
   "tests/e2e/mobile-cta-contrast.spec.ts",
   "tests/e2e/public-discovery-layout.spec.ts",
   "tests/e2e/site-smoke.spec.ts",

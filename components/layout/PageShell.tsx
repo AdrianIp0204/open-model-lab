@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { previewFeedbackEmail, type FeedbackContext } from "@/lib/feedback";
+import type { AppLocale } from "@/i18n/routing";
 import { AnalyticsPageView } from "@/components/analytics/AnalyticsPageView";
 import { FeedbackWidget } from "@/components/feedback/FeedbackWidget";
 import { OnboardingExperience } from "@/components/onboarding/OnboardingExperience";
@@ -16,6 +17,7 @@ type PageShellProps = {
   showFeedbackWidget?: boolean;
   sectionNav?: PageSectionNavConfig | null;
   layoutMode?: "contained" | "section-shell";
+  locale?: AppLocale;
 };
 
 const defaultFeedbackContext: FeedbackContext = {
@@ -31,6 +33,7 @@ export function PageShell({
   showFeedbackWidget = true,
   sectionNav = null,
   layoutMode = "contained",
+  locale,
 }: PageShellProps) {
   const t = useTranslations("Layout");
   const usesSectionShell = layoutMode === "section-shell" || Boolean(sectionNav);
@@ -73,7 +76,7 @@ export function PageShell({
           placement={feedbackContext.pageType === "concept" ? "inline" : "floating"}
         />
       ) : null}
-      <SiteFooter />
+      <SiteFooter locale={locale} />
     </div>
   );
 }

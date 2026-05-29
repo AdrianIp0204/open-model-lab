@@ -122,11 +122,12 @@ export default async function SearchPageRoute({
 
   return (
     <PageShell
-        feedbackContext={{
-          pageType: "concepts",
-          pagePath: "/search",
-          pageTitle: tCommon("search"),
-        }}
+      locale={locale}
+      feedbackContext={{
+        pageType: "concepts",
+        pagePath: "/search",
+        pageTitle: tCommon("search"),
+      }}
     >
       <script
         type="application/ld+json"

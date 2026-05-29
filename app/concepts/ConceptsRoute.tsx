@@ -176,6 +176,7 @@ export default async function ConceptsPage({
     return (
       <NextIntlClientProvider locale={locale} messages={messages}>
         <PageShell
+          locale={locale}
           layoutMode="section-shell"
           feedbackContext={{
             pageType: "concepts",

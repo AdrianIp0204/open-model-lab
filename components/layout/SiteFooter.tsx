@@ -1,11 +1,13 @@
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import type { AppLocale } from "@/i18n/routing";
 import { analyticsEnabled } from "@/lib/analytics";
 import { getConceptCatalogMetrics } from "@/lib/content";
 import { trustConfig } from "@/lib/trust";
 import { footerTrustNavItems, footerUtilityNavItems, primaryNavItems } from "./site-nav";
 
-export function SiteFooter() {
+export function SiteFooter({ locale: localeOverride }: { locale?: AppLocale } = {}) {
+  const locale = localeOverride ?? (useLocale() as AppLocale);
   const t = useTranslations("Layout");
   const catalogMetrics = getConceptCatalogMetrics();
   const productFacts = [
@@ -58,7 +60,11 @@ export function SiteFooter() {
             <ul className="space-y-2 text-sm text-ink-700">
               {primaryNavItems.map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="motion-link inline-flex transition-colors hover:text-ink-950">
+                  <Link
+                    href={item.href}
+                    locale={locale}
+                    className="motion-link inline-flex transition-colors hover:text-ink-950"
+                  >
                     {t(`nav.${item.labelKey}`)}
                   </Link>
                 </li>
@@ -96,6 +102,7 @@ export function SiteFooter() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  locale={locale}
                   className="motion-link inline-flex transition-colors hover:text-ink-950"
                 >
                   {t(`nav.${item.labelKey}`)}
@@ -113,6 +120,7 @@ export function SiteFooter() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  locale={locale}
                   className="motion-link inline-flex transition-colors hover:text-ink-950"
                 >
                   {t(`nav.${item.labelKey}`)}
@@ -135,6 +143,7 @@ export function SiteFooter() {
                 <Link
                   key="footer-support-contact"
                   href={trustConfig.supportPath}
+                  locale={locale}
                   className="font-medium text-ink-950 underline underline-offset-4"
                 >
                   {t("nav.contact")}

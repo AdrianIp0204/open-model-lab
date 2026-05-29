@@ -125,6 +125,7 @@ export default async function StartPageRoute({
 
   return (
     <PageShell
+      locale={locale}
       layoutMode="section-shell"
       feedbackContext={{
         pageType: "concepts",
@@ -149,6 +150,7 @@ export default async function StartPageRoute({
           <div className="flex flex-wrap items-center gap-2 text-sm text-ink-600">
             <Link
               href="/"
+              locale={locale}
               className="rounded-full border border-line bg-paper-strong px-3 py-1 transition-colors hover:border-ink-950/20 hover:text-ink-950"
             >
               {t("breadcrumbs.home")}

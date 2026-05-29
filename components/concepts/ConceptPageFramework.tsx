@@ -276,12 +276,17 @@ export function ConceptPageFramework({
     <div className="mx-auto w-full max-w-[88rem] px-3 pb-10 pt-2.5 sm:px-5 lg:px-7 lg:pt-4">
       <section>
         <div className="hidden flex-nowrap items-center gap-2 overflow-x-auto pb-1 text-sm text-ink-600 sm:flex [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-          <Link href="/" className="section-kicker whitespace-nowrap transition-colors hover:text-ink-950">
+          <Link
+            href="/"
+            locale={resolvedLocale}
+            className="section-kicker whitespace-nowrap transition-colors hover:text-ink-950"
+          >
             {t("breadcrumbs.home")}
           </Link>
           <span aria-hidden="true">/</span>
           <Link
             href="/concepts"
+            locale={resolvedLocale}
             className="section-kicker whitespace-nowrap transition-colors hover:text-ink-950"
           >
             {t("breadcrumbs.conceptLibrary")}
@@ -291,6 +296,7 @@ export function ConceptPageFramework({
               <span aria-hidden="true">/</span>
               <Link
                 href={subjectPage.path}
+                locale={resolvedLocale}
                 className="section-kicker whitespace-nowrap transition-colors hover:text-ink-950"
               >
                 {subjectPage.title}
@@ -302,6 +308,7 @@ export function ConceptPageFramework({
               <span aria-hidden="true">/</span>
               <Link
                 href={topicPage.path}
+                locale={resolvedLocale}
                 className="section-kicker whitespace-nowrap transition-colors hover:text-ink-950"
               >
                 {topicPage.title}

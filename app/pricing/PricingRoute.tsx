@@ -99,6 +99,7 @@ export default async function PricingPage({
 
   return (
     <PageShell
+      locale={locale}
       feedbackContext={{
         pageType: "pricing",
         pagePath: "/pricing",
@@ -200,6 +201,7 @@ export default async function PricingPage({
               </p>
               <Link
                 href="/ads"
+                locale={locale}
                 className="motion-button-outline inline-flex items-center rounded-full border border-line bg-paper-strong px-5 py-3 text-sm font-medium text-ink-950 hover:border-ink-950/25"
               >
                 {t("ads.action")}
@@ -227,6 +229,7 @@ export default async function PricingPage({
               </p>
               <Link
                 href="/billing"
+                locale={locale}
                 className="motion-button-outline inline-flex items-center rounded-full border border-line bg-paper-strong px-5 py-3 text-sm font-medium text-ink-950 hover:border-ink-950/25"
               >
                 {t("billing.action")}
