@@ -16,6 +16,7 @@ import {
 } from "@/lib/physics";
 import { SimulationReadoutCard } from "./SimulationReadoutCard";
 import { SimulationReadoutSummary } from "./SimulationReadoutSummary";
+import { SimulationCopyText } from "./SimulationCopyText";
 
 type SimulationParams = Record<string, number | boolean | string>;
 
@@ -907,7 +908,7 @@ export function LensImagingSimulation({
             textAnchor="end"
             className="fill-ink-500 text-[11px] font-semibold uppercase tracking-[0.16em]"
           >
-            principal axis
+            <SimulationCopyText copyKey="simulation.principalAxis" />
           </text>
           {compareLensFamiliesDiffer && secondaryFrame
             ? renderLensBody(secondaryFrame.snapshot.converging, {

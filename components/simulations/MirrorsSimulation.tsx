@@ -563,6 +563,7 @@ export function MirrorsSimulation({
             y={CARD_Y}
             width={CARD_WIDTH}
             title="Mirror state"
+          titleKey="simulation.mirrorState"
             setupLabel={compareEnabled ? primaryLabel : undefined}
             rows={metricRows}
             noteLines={noteLines}

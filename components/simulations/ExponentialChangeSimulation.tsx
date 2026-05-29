@@ -624,6 +624,7 @@ export function ExponentialChangeSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Inverse readout"
+          titleKey="simulation.inverseReadout"
           setupLabel={compare ? primaryLabel : null}
           rows={readoutRows}
           noteLines={noteLines}

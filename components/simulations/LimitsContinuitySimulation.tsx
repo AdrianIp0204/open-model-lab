@@ -490,6 +490,7 @@ export function LimitsContinuitySimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Approach readout"
+          titleKey="simulation.approachReadout"
           setupLabel={compare ? primaryLabel : null}
           rows={readoutRows}
           noteLines={noteLinesForCase(primarySnapshot)}

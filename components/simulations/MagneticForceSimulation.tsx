@@ -359,7 +359,7 @@ export function MagneticForceSimulation({
     { label: "B", value: formatSignedField(primaryFrame.fieldStrength) },
     { label: "q", value: primaryFrame.negativeCharge ? "-1" : "+1" },
     { label: "|v|", value: formatMeasurement(primaryFrame.speed, "m/s") },
-    { label: "theta", value: `${formatNumber(primaryFrame.directionAngle)} deg` },
+    { label: "theta", labelKey: "readout.theta" as const, value: `${formatNumber(primaryFrame.directionAngle)} deg` },
     { label: "|F_q|", value: formatNumber(primaryFrame.chargeForceMagnitude) },
     {
       label: "r",
@@ -646,6 +646,7 @@ export function MagneticForceSimulation({
             y={CARD_Y}
             width={CARD_WIDTH}
             title="Live readout"
+          titleKey="simulation.liveReadout"
             setupLabel={compareEnabled ? primaryLabel : undefined}
             rows={metricRows}
             noteLines={[

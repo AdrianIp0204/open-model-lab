@@ -11,6 +11,7 @@ import {
   type GraphStagePreview,
 } from "@/lib/physics";
 import { SimulationReadoutCard } from "./SimulationReadoutCard";
+import { SimulationCopyText } from "./SimulationCopyText";
 
 type SimulationParams = Record<string, number | boolean | string>;
 
@@ -1279,7 +1280,7 @@ export function EquivalentResistanceSimulation({
           y={STAGE_TOP + 24}
           className="fill-ink-500 text-[11px] font-semibold uppercase tracking-[0.18em]"
         >
-          Active circuit
+          <SimulationCopyText copyKey="scene.activeCircuit" />
         </text>
         <text
           x={STAGE_LEFT + 18}

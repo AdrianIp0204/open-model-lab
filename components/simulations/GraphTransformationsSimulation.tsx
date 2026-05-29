@@ -458,6 +458,7 @@ export function GraphTransformationsSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Current transform"
+          titleKey="simulation.currentTransform"
           setupLabel={primaryLabel}
           rows={readoutRows}
           noteLines={[

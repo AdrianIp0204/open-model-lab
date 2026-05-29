@@ -15,6 +15,7 @@ import {
   type GraphStagePreview,
 } from "@/lib/physics";
 import { SimulationReadoutCard } from "./SimulationReadoutCard";
+import { SimulationCopyText } from "./SimulationCopyText";
 import {
   CartesianPlane,
   projectCartesianX,
@@ -371,7 +372,7 @@ export function Vectors2DSimulation({
             </text>
             <line x1="0" x2="22" y1="54" y2="54" stroke="#4ea6df" strokeWidth="3.5" />
             <text x="28" y="58" className="fill-sky-700 text-[11px] font-semibold">
-              Result
+              <SimulationCopyText copyKey="readout.result" />
             </text>
           </g>
           {secondaryResultEnd ? (
@@ -555,6 +556,7 @@ export function Vectors2DSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Vector readout"
+          titleKey="simulation.vectorReadout"
           setupLabel={primaryLabel}
           rows={readoutRows}
           noteLines={[

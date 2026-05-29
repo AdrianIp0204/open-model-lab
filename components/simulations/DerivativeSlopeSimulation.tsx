@@ -448,6 +448,7 @@ export function DerivativeSlopeSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Local rate"
+          titleKey="simulation.localRate"
           setupLabel={primaryLabel}
           rows={readoutRows}
           noteLines={[

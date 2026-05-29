@@ -973,6 +973,7 @@ export function PhotoelectricEffectSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Emission state"
+          titleKey="simulation.emissionState"
           setupLabel={compareEnabled ? primaryLabel : undefined}
           rows={metricRows}
           noteLines={noteLines}

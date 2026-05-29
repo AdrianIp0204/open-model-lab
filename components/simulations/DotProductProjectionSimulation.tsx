@@ -299,6 +299,7 @@ export function DotProductProjectionSimulation({
     },
     {
       label: "theta",
+      labelKey: "readout.theta" as const,
       value: `${formatNumber(primarySnapshot.angleBetween)} deg`,
     },
     {
@@ -611,6 +612,7 @@ export function DotProductProjectionSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Alignment readout"
+          titleKey="simulation.alignmentReadout"
           setupLabel={primaryLabel}
           rows={readoutRows}
           noteLines={noteLines}

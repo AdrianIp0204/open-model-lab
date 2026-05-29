@@ -960,6 +960,7 @@ export function StaticEquilibriumCentreOfMassSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Balance state"
+          titleKey="simulation.balanceState"
           setupLabel={compareEnabled ? primaryLabel : undefined}
           rows={metricRows}
           noteLines={[torqueNote, buildStageNote(primaryFrame)]}

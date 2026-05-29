@@ -11,6 +11,7 @@ import {
   type GraphStagePreview,
 } from "@/lib/physics";
 import { SimulationReadoutCard } from "./SimulationReadoutCard";
+import { SimulationCopyText } from "./SimulationCopyText";
 
 type SimulationParams = Record<string, number | boolean | string>;
 
@@ -194,7 +195,7 @@ export function DampingResonanceSimulation({
                   : "border-teal-500/25 bg-teal-500/10 text-teal-700",
               ].join(" ")}
             >
-              {activeFrame.resonanceMode ? "Response mode" : "Transient mode"}
+              <SimulationCopyText copyKey={activeFrame.resonanceMode ? "scene.drivenResponse" : "scene.transientMode"} />
             </span>
           </div>
         </div>

@@ -165,7 +165,7 @@ export function ReactionRateCollisionTheorySimulation({
     { label: "T", value: formatNumber(primaryFrame.temperature) },
     { label: isZhHk ? "濃度" : "conc", value: formatNumber(primaryFrame.concentration) },
     { label: "Ea", value: formatNumber(primaryFrame.activationEnergy) },
-    { label: "Eeff", value: formatNumber(primaryFrame.effectiveActivationEnergy) },
+    { label: "Eeff", labelKey: "readout.eeff" as const, value: formatNumber(primaryFrame.effectiveActivationEnergy) },
     {
       label: isZhHk ? "總碰撞" : "all hits",
       value: `${formatNumber(primaryFrame.attemptRate)}/s`,

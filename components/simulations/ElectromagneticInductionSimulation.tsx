@@ -600,6 +600,7 @@ export function ElectromagneticInductionSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Live readout"
+          titleKey="simulation.liveReadout"
           setupLabel={compareEnabled ? primaryLabel : undefined}
           rows={metricRows}
           noteLines={noteLines}

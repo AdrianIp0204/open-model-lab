@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import { useLocale } from "next-intl";
-import { localizeKnownCompareText } from "@/lib/i18n/copy-text";
+import { getSimulationCopy, type SimulationCopyKey } from "@/lib/i18n/copy-text";
 import type { GraphSeriesSetupId, GraphStagePreview } from "@/lib/physics";
 
 type CompareDescriptor = {
@@ -69,23 +69,32 @@ export function resolveCompareScene<Frame>({
 type CompareLegendProps = {
   primaryLabel: string;
   secondaryLabel: string | null;
+  primaryLabelKey?: SimulationCopyKey;
+  secondaryLabelKey?: SimulationCopyKey;
 };
 
-export function CompareLegend({ primaryLabel, secondaryLabel }: CompareLegendProps) {
+export function CompareLegend({
+  primaryLabel,
+  secondaryLabel,
+  primaryLabelKey,
+  secondaryLabelKey,
+}: CompareLegendProps) {
   const locale = useLocale();
   if (!secondaryLabel) {
     return null;
   }
+  const localizedPrimaryLabel = primaryLabelKey ? getSimulationCopy(locale, primaryLabelKey) : primaryLabel;
+  const localizedSecondaryLabel = secondaryLabelKey ? getSimulationCopy(locale, secondaryLabelKey) : secondaryLabel;
 
   return (
     <div className="flex flex-wrap items-center gap-2 text-[11px] text-ink-700">
       <span className="inline-flex items-center gap-1 rounded-full border border-line bg-paper px-2 py-0.5 font-semibold uppercase tracking-[0.16em] text-ink-600">
         <span className="h-0 w-5 border-t-2 border-solid border-ink-900" />
-        {localizeKnownCompareText(locale, primaryLabel)}
+        {localizedPrimaryLabel}
       </span>
       <span className="inline-flex items-center gap-1 rounded-full border border-line bg-paper px-2 py-0.5 font-semibold uppercase tracking-[0.16em] text-ink-600">
         <span className="h-0 w-5 border-t-2 border-dashed border-ink-900/70" />
-        {localizeKnownCompareText(locale, secondaryLabel)}
+        {localizedSecondaryLabel}
       </span>
     </div>
   );

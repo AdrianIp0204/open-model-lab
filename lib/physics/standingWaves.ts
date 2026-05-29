@@ -1,5 +1,5 @@
 import type { AppLocale } from "@/i18n/routing";
-import { copyText } from "@/lib/i18n/copy-text";
+import { copyText, getSimulationCopy } from "@/lib/i18n/copy-text";
 import { TAU, clamp, formatMeasurement, sampleRange, safeNumber } from "./math";
 import { buildSeries, sampleTimeSeries } from "./series";
 import type { GraphSeriesMap } from "./types";
@@ -235,7 +235,7 @@ export function buildStandingWavesSeries(
     shape: [
       buildSeries(
         "mode-shape",
-        copyText(locale, "Mode shape", "模態形狀"),
+        getSimulationCopy(locale, "scene.modeShape"),
         sampleRange(0, resolved.length, POSITION_SAMPLE_COUNT).map((position) => ({
           x: position,
           y: sampleStandingWaveModeShape(resolved, position),

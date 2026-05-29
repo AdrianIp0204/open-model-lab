@@ -2,7 +2,7 @@
 
 import { useLocale } from "next-intl";
 import type { AppLocale } from "@/i18n/routing";
-import { localizeKnownCompareText } from "@/lib/i18n/copy-text";
+import { getCompareSetupLabel, getVariantLabel } from "@/lib/i18n/copy-text";
 import {
   DYNAMIC_EQUILIBRIUM_TOTAL_TIME,
   formatNumber,
@@ -140,13 +140,13 @@ export function DynamicEquilibriumSimulation({
     : null;
   const primaryLabel = compare
     ? previewedSetup === "a"
-      ? compare.labelA ?? localizeKnownCompareText(locale, "Setup A")
-      : compare.labelB ?? localizeKnownCompareText(locale, "Setup B")
-    : localizeKnownCompareText(locale, "Live");
+      ? compare.labelA ?? getCompareSetupLabel(locale, "a")
+      : compare.labelB ?? getCompareSetupLabel(locale, "b")
+    : getVariantLabel(locale, "live");
   const secondaryLabel = compare
     ? previewedSetup === "a"
-      ? compare.labelB ?? localizeKnownCompareText(locale, "Setup B")
-      : compare.labelA ?? localizeKnownCompareText(locale, "Setup A")
+      ? compare.labelB ?? getCompareSetupLabel(locale, "b")
+      : compare.labelA ?? getCompareSetupLabel(locale, "a")
     : null;
   const previewLabel = resolvePreviewLabelForLocale(graphPreview, locale);
   const overlayState = {

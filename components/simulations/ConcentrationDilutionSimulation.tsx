@@ -391,6 +391,7 @@ export function ConcentrationDilutionSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Solution readout"
+          titleKey="simulation.solutionReadout"
           setupLabel={primaryLabel}
           rows={readoutRows}
           noteLines={noteLines}

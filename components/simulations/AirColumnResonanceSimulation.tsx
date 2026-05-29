@@ -783,6 +783,7 @@ export function AirColumnResonanceSimulation({
             y={CARD_Y}
             width={CARD_WIDTH}
             title="Resonance state"
+          titleKey="simulation.resonanceState"
             setupLabel={compareEnabled ? primaryLabel : undefined}
             rows={metricRows}
             noteLines={noteLines}
@@ -790,6 +791,7 @@ export function AirColumnResonanceSimulation({
         </svg>
         <SimulationReadoutSummary
           title="Resonance state"
+          titleKey="simulation.resonanceState"
           setupLabel={compareEnabled ? primaryLabel : undefined}
           rows={metricRows}
           noteLines={noteLines}

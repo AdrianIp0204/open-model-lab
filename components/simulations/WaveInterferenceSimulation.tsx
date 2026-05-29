@@ -594,6 +594,7 @@ export function WaveInterferenceSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Probe state"
+          titleKey="simulation.probeState"
           setupLabel={compareEnabled ? primaryLabel : undefined}
           rows={metricRows}
           noteLines={noteLines}

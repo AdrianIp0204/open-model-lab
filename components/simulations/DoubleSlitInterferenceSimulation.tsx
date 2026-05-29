@@ -954,6 +954,7 @@ export function DoubleSlitInterferenceSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Optics state"
+          titleKey="simulation.opticsState"
           setupLabel={compareEnabled ? primaryLabel : undefined}
           rows={metricRows}
           noteLines={noteLines}

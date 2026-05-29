@@ -631,6 +631,7 @@ export function WaveSpeedWavelengthSimulation({
             y={CARD_Y}
             width={CARD_WIDTH}
             title="Wave state"
+          titleKey="simulation.waveState"
             setupLabel={compareEnabled ? primaryLabel : undefined}
             rows={metricRows}
             noteLines={noteLines}
@@ -638,6 +639,7 @@ export function WaveSpeedWavelengthSimulation({
         </svg>
         <SimulationReadoutSummary
           title="Wave state"
+          titleKey="simulation.waveState"
           setupLabel={compareEnabled ? primaryLabel : undefined}
           rows={metricRows}
           noteLines={noteLines}

@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { clamp, formatMeasurement, formatNumber } from "@/lib/physics";
+import { SimulationCopyText } from "../SimulationCopyText";
 
 export type AxisStageLayout = {
   width: number;
@@ -166,7 +167,7 @@ export function OpticsAxisStage({ layout, children }: OpticsAxisStageProps) {
         textAnchor="end"
         className="fill-ink-500 text-[11px] font-semibold uppercase tracking-[0.16em]"
       >
-        principal axis
+        <SimulationCopyText copyKey="simulation.principalAxis" />
       </text>
       {children}
     </>

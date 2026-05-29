@@ -594,6 +594,7 @@ export function DeBroglieMatterWavesSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Matter-wave state"
+          titleKey="simulation.matterWaveState"
           setupLabel={compareEnabled ? primaryLabel : undefined}
           rows={metricRows}
           noteLines={noteLines}

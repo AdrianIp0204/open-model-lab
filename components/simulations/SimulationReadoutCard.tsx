@@ -1,10 +1,11 @@
 "use client";
 
 import { useLocale } from "next-intl";
-import { localizeKnownCompareText, localizeKnownSimulationText } from "@/lib/i18n/copy-text";
+import { getSimulationCopy, type SimulationCopyKey } from "@/lib/i18n/copy-text";
 
 export type SimulationReadoutRow = {
   label: string;
+  labelKey?: SimulationCopyKey;
   value: string;
   valueClassName?: string;
 };
@@ -14,8 +15,10 @@ type SimulationReadoutCardProps = {
   y: number;
   width: number;
   title: string;
+  titleKey?: SimulationCopyKey;
   variant?: "card" | "hud";
   setupLabel?: string | null;
+  setupLabelKey?: SimulationCopyKey;
   rows: SimulationReadoutRow[];
   noteLines?: string[];
 };
@@ -25,8 +28,10 @@ export function SimulationReadoutCard({
   y,
   width,
   title,
+  titleKey,
   variant = "card",
   setupLabel,
+  setupLabelKey,
   rows,
   noteLines,
 }: SimulationReadoutCardProps) {
@@ -39,8 +44,8 @@ export function SimulationReadoutCard({
   const noteGap = compact ? 0 : 12;
   const height = headerHeight + rows.length * rowHeight + (resolvedNoteLines.length ? noteGap + resolvedNoteLines.length * noteLineHeight : 0);
   const noteStartY = headerHeight + 4 + rows.length * rowHeight + (compact ? 0 : 8);
-  const localizedSetupLabel = setupLabel ? localizeKnownCompareText(locale, setupLabel) : null;
-  const localizedTitle = localizeKnownSimulationText(locale, title);
+  const localizedSetupLabel = setupLabelKey ? getSimulationCopy(locale, setupLabelKey) : setupLabel ?? null;
+  const localizedTitle = titleKey ? getSimulationCopy(locale, titleKey) : title;
   const setupPillWidth = localizedSetupLabel ? Math.max(48, localizedSetupLabel.length * 5.5 + 14) : 0;
 
   return (
@@ -93,6 +98,7 @@ export function SimulationReadoutCard({
       ) : null}
       {rows.map((row, index) => {
         const rowY = headerHeight + 6 + index * rowHeight;
+        const label = row.labelKey ? getSimulationCopy(locale, row.labelKey) : row.label;
         return (
           <g key={`${row.label}-${index}`}>
             <text
@@ -100,7 +106,7 @@ export function SimulationReadoutCard({
               y={rowY}
               className={compact ? "fill-ink-600 text-[7px] font-semibold uppercase tracking-[0.03em]" : "fill-ink-500 text-[8px] font-semibold uppercase tracking-[0.1em]"}
             >
-              {row.label}
+              {label}
             </text>
             <text
               x={width - (compact ? 8 : 12)}

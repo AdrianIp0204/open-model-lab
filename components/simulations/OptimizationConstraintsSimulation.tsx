@@ -503,6 +503,7 @@ export function OptimizationConstraintsSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Constrained area"
+          titleKey="simulation.constrainedArea"
           setupLabel={compare ? primaryLabel : null}
           rows={readoutRows}
           noteLines={buildNoteLines(primarySnapshot)}

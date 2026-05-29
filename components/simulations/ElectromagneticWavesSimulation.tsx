@@ -788,6 +788,7 @@ export function ElectromagneticWavesSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Field state"
+          titleKey="simulation.fieldState"
           setupLabel={compareEnabled ? primaryLabel : undefined}
           rows={metricRows}
           noteLines={noteLines}

@@ -2,10 +2,11 @@
 
 import type { ReactNode } from "react";
 import { useLocale } from "next-intl";
-import { localizeKnownSimulationText } from "@/lib/i18n/copy-text";
+import { getSimulationCopy, type SimulationCopyKey } from "@/lib/i18n/copy-text";
 
 type SimulationSceneCardProps = {
   title: string;
+  titleKey?: SimulationCopyKey;
   description: ReactNode;
   headerClassName: string;
   headerAside?: ReactNode;
@@ -15,6 +16,7 @@ type SimulationSceneCardProps = {
 
 export function SimulationSceneCard({
   title,
+  titleKey,
   description,
   headerClassName,
   headerAside,
@@ -22,7 +24,7 @@ export function SimulationSceneCard({
   children,
 }: SimulationSceneCardProps) {
   const locale = useLocale();
-  const localizedTitle = localizeKnownSimulationText(locale, title);
+  const localizedTitle = titleKey ? getSimulationCopy(locale, titleKey) : title;
 
   return (
     <section className="overflow-hidden rounded-[22px] border border-line bg-paper-strong">

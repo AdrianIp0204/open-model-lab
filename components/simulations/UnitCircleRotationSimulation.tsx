@@ -239,7 +239,7 @@ export function UnitCircleRotationSimulation({
       ? buildAngleArc(origin.x, origin.y, circleRadius * 0.58, secondary.wrappedAngle)
       : null;
   const readoutRows = [
-    { label: "theta", value: formatMeasurement(primary.angleDeg, "deg") },
+    { label: "theta", labelKey: "readout.theta" as const, value: formatMeasurement(primary.angleDeg, "deg") },
     { label: "omega", value: formatMeasurement(primaryResolved.angularSpeed, "rad/s") },
     { label: "cos(theta)", value: formatNumber(primary.x) },
     { label: "sin(theta)", value: formatNumber(primary.y) },
@@ -525,6 +525,7 @@ export function UnitCircleRotationSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Projection readout"
+          titleKey="simulation.projectionReadout"
           setupLabel={primaryLabel}
           rows={readoutRows}
           noteLines={noteLines}

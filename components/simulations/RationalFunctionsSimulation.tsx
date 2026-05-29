@@ -520,6 +520,7 @@ export function RationalFunctionsSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Asymptotes and intercepts"
+          titleKey="simulation.asymptotesAndIntercepts"
           setupLabel={compare ? primaryLabel : null}
           rows={readoutRows}
           noteLines={noteLines(primarySnapshot)}

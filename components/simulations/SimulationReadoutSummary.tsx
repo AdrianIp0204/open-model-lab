@@ -1,12 +1,14 @@
 "use client";
 
 import { useLocale } from "next-intl";
-import { localizeKnownCompareText, localizeKnownSimulationText } from "@/lib/i18n/copy-text";
+import { getSimulationCopy, type SimulationCopyKey } from "@/lib/i18n/copy-text";
 import type { SimulationReadoutRow } from "./SimulationReadoutCard";
 
 type SimulationReadoutSummaryProps = {
   title: string;
+  titleKey?: SimulationCopyKey;
   setupLabel?: string | null;
+  setupLabelKey?: SimulationCopyKey;
   rows: SimulationReadoutRow[];
   noteLines?: string[];
   className?: string;
@@ -14,15 +16,17 @@ type SimulationReadoutSummaryProps = {
 
 export function SimulationReadoutSummary({
   title,
+  titleKey,
   setupLabel,
+  setupLabelKey,
   rows,
   noteLines,
   className,
 }: SimulationReadoutSummaryProps) {
   const locale = useLocale();
   const resolvedNoteLines = noteLines?.filter(Boolean) ?? [];
-  const localizedSetupLabel = setupLabel ? localizeKnownCompareText(locale, setupLabel) : null;
-  const localizedTitle = localizeKnownSimulationText(locale, title);
+  const localizedSetupLabel = setupLabelKey ? getSimulationCopy(locale, setupLabelKey) : setupLabel ?? null;
+  const localizedTitle = titleKey ? getSimulationCopy(locale, titleKey) : title;
 
   return (
     <section
@@ -47,7 +51,7 @@ export function SimulationReadoutSummary({
             className="rounded-2xl border border-line bg-paper-strong px-3 py-2.5"
           >
             <dt className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-500">
-              {row.label}
+              {row.labelKey ? getSimulationCopy(locale, row.labelKey) : row.label}
             </dt>
             <dd className={["mt-1 text-sm font-semibold text-ink-950", row.valueClassName ?? ""].join(" ")}>
               {row.value}

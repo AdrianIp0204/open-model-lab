@@ -17,6 +17,7 @@ import {
   type GraphStagePreview,
 } from "@/lib/physics";
 import { SimulationReadoutCard } from "./SimulationReadoutCard";
+import { SimulationCopyText } from "./SimulationCopyText";
 
 type SimulationParams = Record<string, number | boolean | string>;
 
@@ -808,7 +809,7 @@ export function ElectricPotentialSimulation({
               y={primaryProbeY - 10}
               className="fill-sky-700 text-[11px] font-semibold"
             >
-              graph scan line
+              <SimulationCopyText copyKey="scene.graphScanLine" />
             </text>
           </g>
         ) : null}

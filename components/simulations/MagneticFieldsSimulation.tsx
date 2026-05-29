@@ -17,6 +17,7 @@ import {
   type GraphStagePreview,
 } from "@/lib/physics";
 import { SimulationReadoutCard } from "./SimulationReadoutCard";
+import { SimulationCopyText } from "./SimulationCopyText";
 import { CompareLegend, resolveCompareScene, SimulationPreviewBadge } from "./primitives/compare";
 import {
   CartesianStageFrame,
@@ -579,7 +580,7 @@ export function MagneticFieldsSimulation({
                 y={primaryProbeY - 10}
                 className="fill-sky-700 text-[11px] font-semibold"
               >
-                graph scan line
+                <SimulationCopyText copyKey="scene.graphScanLine" />
               </text>
             </g>
           ) : null}
@@ -742,6 +743,7 @@ export function MagneticFieldsSimulation({
             y={CARD_Y}
             width={CARD_WIDTH}
             title="Probe state"
+          titleKey="simulation.probeState"
             setupLabel={compareEnabled ? primaryLabel : undefined}
             rows={metricRows}
             noteLines={[

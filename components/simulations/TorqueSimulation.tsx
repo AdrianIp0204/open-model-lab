@@ -12,6 +12,7 @@ import {
   type GraphStagePreview,
 } from "@/lib/physics";
 import { SimulationReadoutCard } from "./SimulationReadoutCard";
+import { SimulationCopyText } from "./SimulationCopyText";
 
 type SimulationParams = Record<string, number | boolean | string>;
 
@@ -463,7 +464,7 @@ export function TorqueSimulation({
     { label: "tau", value: formatMeasurement(primaryFrame.torque, "N m") },
     { label: "alpha", value: formatMeasurement(primaryFrame.angularAcceleration, "rad/s^2") },
     { label: "omega", value: formatMeasurement(primaryFrame.angularSpeed, "rad/s") },
-    { label: "theta", value: formatMeasurement(primaryFrame.rotationAngle, "rad") },
+    { label: "theta", labelKey: "readout.theta" as const, value: formatMeasurement(primaryFrame.rotationAngle, "rad") },
   ];
 
   return (
@@ -514,7 +515,7 @@ export function TorqueSimulation({
           y={STAGE_TOP + 24}
           className="fill-ink-500 text-[11px] font-semibold uppercase tracking-[0.18em]"
         >
-          Fixed bar length {formatNumber(TORQUE_BAR_LENGTH)} m, fixed inertia{" "}
+          <SimulationCopyText copyKey="scene.fixedBarLength" /> {formatNumber(TORQUE_BAR_LENGTH)} m, fixed inertia{" "}
           {formatNumber(TORQUE_MOMENT_OF_INERTIA)} kg m^2
         </text>
         <text x={STAGE_RIGHT - 18} y={STAGE_TOP + 24} textAnchor="end" className="fill-ink-500 text-[11px] font-semibold uppercase tracking-[0.18em]">

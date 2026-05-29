@@ -473,6 +473,7 @@ export function DispersionRefractiveIndexColorSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Prism state"
+          titleKey="simulation.prismState"
           setupLabel={compareEnabled ? primaryLabel : undefined}
           rows={metricRows}
           noteLines={noteLines}

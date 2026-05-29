@@ -1,5 +1,7 @@
 "use client";
 
+import { useLocale } from "next-intl";
+import { getSimulationCopy, getVariantLabel } from "@/lib/i18n/copy-text";
 import {
   formatNumber,
   sampleSortingTradeoffsState,
@@ -62,6 +64,7 @@ export function SortingTradeoffsSimulation({
   compare,
   graphPreview,
 }: SortingTradeoffsSimulationProps) {
+  const locale = useLocale();
   const previewedSetup = compare ? graphPreview?.setup ?? compare.activeTarget : null;
   const previewTime = resolvePreviewTime(time, graphPreview);
   const primaryParams =
@@ -74,13 +77,13 @@ export function SortingTradeoffsSimulation({
     : null;
   const primaryLabel = compare
     ? previewedSetup === "b"
-      ? compare.labelB ?? "Variant"
-      : compare.labelA ?? "Baseline"
-    : "Live";
+      ? compare.labelB ?? getVariantLabel(locale, "variant")
+      : compare.labelA ?? getVariantLabel(locale, "baseline")
+    : getVariantLabel(locale, "live");
   const secondaryLabel = compare
     ? previewedSetup === "b"
-      ? compare.labelA ?? "Baseline"
-      : compare.labelB ?? "Variant"
+      ? compare.labelA ?? getVariantLabel(locale, "baseline")
+      : compare.labelB ?? getVariantLabel(locale, "variant")
     : null;
   const previewLabel = resolvePreviewLabel(graphPreview);
   const overlayState = {
@@ -145,7 +148,7 @@ export function SortingTradeoffsSimulation({
           y={46}
           width={628}
           height={secondary ? 148 : 212}
-          title={secondary ? primaryLabel : "Live array"}
+          title={secondary ? primaryLabel : getSimulationCopy(locale, "scene.liveArray")}
           subtitle={`${primary.algorithmLabel} on ${primary.patternLabel.toLowerCase()} input`}
           summaryChip={`C ${primary.comparisons} | W ${primary.writeCount}`}
           values={primary.values}
@@ -162,7 +165,7 @@ export function SortingTradeoffsSimulation({
             y={222}
             width={628}
             height={148}
-            title={secondaryLabel ?? "Variant"}
+            title={secondaryLabel ?? getVariantLabel(locale, "variant")}
             subtitle={`${secondary.algorithmLabel} on ${secondary.patternLabel.toLowerCase()} input`}
             summaryChip={`C ${secondary.comparisons} | W ${secondary.writeCount}`}
             values={secondary.values}
@@ -180,6 +183,7 @@ export function SortingTradeoffsSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Sorting readout"
+          titleKey="simulation.sortingReadout"
           setupLabel={primaryLabel}
           rows={readoutRows}
           noteLines={noteLines}

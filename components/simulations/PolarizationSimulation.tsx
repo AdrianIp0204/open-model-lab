@@ -18,7 +18,6 @@ import {
   copyText,
   getCompareBadgeLabel,
   getCompareSetupLabel,
-  localizeKnownCompareText,
 } from "@/lib/i18n/copy-text";
 import { SimulationReadoutCard } from "./SimulationReadoutCard";
 import {
@@ -681,11 +680,11 @@ export function PolarizationSimulation({
   const compareBadges = compareEnabled ? (
     <div className="flex flex-wrap items-center gap-2 text-[11px] text-ink-700">
       <span className="rounded-full border border-sky-500/30 bg-sky-500/10 px-2 py-0.5 font-semibold text-sky-700">
-        {localizeKnownCompareText(locale, compare?.labelA ?? getCompareSetupLabel(locale, "a"))}:{" "}
+        {compare?.labelA ?? getCompareSetupLabel(locale, "a")}:{" "}
         {formatCompareBadge(compareAFrame!, copy)}
       </span>
       <span className="rounded-full border border-sky-500/30 bg-sky-500/10 px-2 py-0.5 font-semibold text-sky-700">
-        {localizeKnownCompareText(locale, compare?.labelB ?? getCompareSetupLabel(locale, "b"))}:{" "}
+        {compare?.labelB ?? getCompareSetupLabel(locale, "b")}:{" "}
         {formatCompareBadge(compareBFrame!, copy)}
       </span>
     </div>
@@ -749,7 +748,7 @@ export function PolarizationSimulation({
             <CompareLegend primaryLabel={primaryLabel} secondaryLabel={secondaryLabel} />
           ) : (
             <span className="rounded-full border border-line bg-paper px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-600">
-              {localizeKnownCompareText(locale, primaryLabel)}
+              {primaryLabel}
             </span>
           )}
           {compareBadges}
@@ -766,10 +765,7 @@ export function PolarizationSimulation({
         {compareEnabled ? (
           <>
             {renderRow(compareAFrame!, COMPARE_ROW_CENTERS.a, locale, copy, {
-              label: localizeKnownCompareText(
-                locale,
-                compare?.labelA ?? getCompareSetupLabel(locale, "a"),
-              ),
+              label: compare?.labelA ?? getCompareSetupLabel(locale, "a"),
               compareBadge: getCompareBadgeLabel(
                 locale,
                 compare?.activeTarget === "a" ? "editing" : "locked",
@@ -779,10 +775,7 @@ export function PolarizationSimulation({
               muted: previewedSetup === "b",
             })}
             {renderRow(compareBFrame!, COMPARE_ROW_CENTERS.b, locale, copy, {
-              label: localizeKnownCompareText(
-                locale,
-                compare?.labelB ?? getCompareSetupLabel(locale, "b"),
-              ),
+              label: compare?.labelB ?? getCompareSetupLabel(locale, "b"),
               compareBadge: getCompareBadgeLabel(
                 locale,
                 compare?.activeTarget === "b" ? "editing" : "locked",

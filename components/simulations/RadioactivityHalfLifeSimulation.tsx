@@ -553,6 +553,7 @@ export function RadioactivityHalfLifeSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Decay state"
+          titleKey="simulation.decayState"
           setupLabel={compareEnabled ? primaryLabel : undefined}
           rows={metricRows}
           noteLines={noteLines}

@@ -2,7 +2,7 @@
 
 import { useLocale } from "next-intl";
 import type { AppLocale } from "@/i18n/routing";
-import { localizeKnownCompareText } from "@/lib/i18n/copy-text";
+import { getCompareSetupLabel, getSimulationCopy, getVariantLabel } from "@/lib/i18n/copy-text";
 import {
   COLLISIONS_TOTAL_TIME,
   COLLISIONS_TRACK_MAX_X,
@@ -544,13 +544,13 @@ export function CollisionsSimulation({
     : null;
   const primaryLabel = compare
     ? previewedSetup === "a"
-      ? compare.labelA ?? localizeKnownCompareText(locale, "Setup A")
-      : compare.labelB ?? localizeKnownCompareText(locale, "Setup B")
-    : localizeKnownCompareText(locale, "Live");
+      ? compare.labelA ?? getCompareSetupLabel(locale, "a")
+      : compare.labelB ?? getCompareSetupLabel(locale, "b")
+    : getVariantLabel(locale, "live");
   const secondaryLabel = compare
     ? previewedSetup === "a"
-      ? compare.labelB ?? localizeKnownCompareText(locale, "Setup B")
-      : compare.labelA ?? localizeKnownCompareText(locale, "Setup A")
+      ? compare.labelB ?? getCompareSetupLabel(locale, "b")
+      : compare.labelA ?? getCompareSetupLabel(locale, "a")
     : null;
   const previewBadge =
     graphPreview?.kind === "time" ? (
@@ -573,12 +573,12 @@ export function CollisionsSimulation({
   const compareBadges = compareEnabled ? (
     <div className="flex flex-wrap items-center gap-2 text-[11px] text-ink-700">
       <span className="rounded-full border border-line bg-paper px-2 py-0.5 font-semibold text-ink-700">
-        {(compare?.labelA ?? localizeKnownCompareText(locale, "Setup A"))}: p_tot ={" "}
+        {(compare?.labelA ?? getCompareSetupLabel(locale, "a"))}: p_tot ={" "}
         {formatMeasurement(frameA?.totalMomentum ?? 0, "kg m/s")}, K_f ={" "}
         {formatMeasurement(frameA?.finalKineticEnergy ?? 0, "J")}
       </span>
       <span className="rounded-full border border-line bg-paper px-2 py-0.5 font-semibold text-ink-700">
-        {(compare?.labelB ?? localizeKnownCompareText(locale, "Setup B"))}: p_tot ={" "}
+        {(compare?.labelB ?? getCompareSetupLabel(locale, "b"))}: p_tot ={" "}
         {formatMeasurement(frameB?.totalMomentum ?? 0, "kg m/s")}, K_f ={" "}
         {formatMeasurement(frameB?.finalKineticEnergy ?? 0, "J")}
       </span>
@@ -687,7 +687,7 @@ export function CollisionsSimulation({
             {renderTimeline({
               frame: secondaryFrame,
               time: displayTime,
-              label: secondaryLabel ?? localizeKnownCompareText(locale, "Setup B"),
+              label: secondaryLabel ?? getCompareSetupLabel(locale, "b"),
               locale,
               focusedOverlayId,
               overlayValues,
@@ -710,14 +710,14 @@ export function CollisionsSimulation({
             {renderCart({
               frame: secondaryFrame,
               cartId: "A",
-              label: secondaryLabel ?? localizeKnownCompareText(locale, "Setup B"),
+              label: secondaryLabel ?? getCompareSetupLabel(locale, "b"),
               muted: true,
               dashed: true,
             })}
             {renderCart({
               frame: secondaryFrame,
               cartId: "B",
-              label: secondaryLabel ?? localizeKnownCompareText(locale, "Setup B"),
+              label: secondaryLabel ?? getCompareSetupLabel(locale, "b"),
               muted: true,
               dashed: true,
             })}
@@ -725,7 +725,7 @@ export function CollisionsSimulation({
               frame: secondaryFrame,
               focusedOverlayId,
               overlayValues,
-              label: `${secondaryLabel ?? localizeKnownCompareText(locale, "Setup B")} ${copyText(locale, "reference", "參考")}`,
+              label: `${secondaryLabel ?? getCompareSetupLabel(locale, "b")} ${getSimulationCopy(locale, "compare.reference")}`,
               x: STAGE_LEFT + 300,
               y: 142,
               dashed: true,

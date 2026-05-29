@@ -13,6 +13,7 @@ import {
   type GraphStagePreview,
 } from "@/lib/physics";
 import { SimulationReadoutCard } from "./SimulationReadoutCard";
+import { SimulationCopyText } from "./SimulationCopyText";
 
 type SimulationParams = Record<string, number | boolean | string>;
 
@@ -304,7 +305,7 @@ function renderLoad(options: {
         textAnchor="middle"
         className="fill-ink-500 text-[10px] font-semibold uppercase tracking-[0.16em]"
       >
-        Resistive load
+        <SimulationCopyText copyKey="scene.resistiveLoad" />
       </text>
       <text
         x={LOAD_X + LOAD_WIDTH / 2}
@@ -800,7 +801,7 @@ export function PowerEnergyCircuitsSimulation({
           y={STAGE_TOP + 24}
           className="fill-ink-500 text-[11px] font-semibold uppercase tracking-[0.18em]"
         >
-          Active circuit
+          <SimulationCopyText copyKey="scene.activeCircuit" />
         </text>
         <text
           x={STAGE_LEFT + 18}

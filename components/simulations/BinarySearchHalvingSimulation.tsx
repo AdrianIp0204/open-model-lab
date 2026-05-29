@@ -234,6 +234,7 @@ export function BinarySearchHalvingSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Binary-search readout"
+          titleKey="simulation.binarySearchReadout"
           setupLabel={primaryLabel}
           rows={readoutRows}
           noteLines={noteLines}

@@ -558,6 +558,7 @@ export function EscapeVelocitySimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Launch state"
+          titleKey="simulation.launchState"
           setupLabel={compareEnabled ? primaryLabel : undefined}
           rows={metricRows}
           noteLines={[

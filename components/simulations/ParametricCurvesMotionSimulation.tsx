@@ -286,6 +286,7 @@ export function ParametricCurvesMotionSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Parametric readout"
+          titleKey="simulation.parametricReadout"
           setupLabel={primaryLabel}
           rows={readoutRows}
           noteLines={noteLines}

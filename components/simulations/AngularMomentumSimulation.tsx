@@ -506,6 +506,7 @@ export function AngularMomentumSimulation({
             y={CARD_Y}
             width={CARD_WIDTH}
             title="Rotational state"
+          titleKey="simulation.rotationalState"
             setupLabel={compare ? primaryLabel : null}
             rows={[
               {

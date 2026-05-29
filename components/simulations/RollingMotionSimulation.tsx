@@ -569,7 +569,7 @@ export function RollingMotionSimulation({
       : buildStageNote(primaryFrame);
   const metricRows = [
     { label: "t", value: formatMeasurement(primaryFrame.displayTime, "s") },
-    { label: "theta", value: formatMeasurement(primaryFrame.slopeAngle, "deg") },
+    { label: "theta", labelKey: "readout.theta" as const, value: formatMeasurement(primaryFrame.slopeAngle, "deg") },
     { label: "k", value: formatNumber(primaryFrame.inertiaFactor) },
     { label: "a_cm", value: formatMeasurement(primaryFrame.acceleration, "m/s^2") },
     { label: "v_cm", value: formatMeasurement(primaryFrame.linearSpeed, "m/s") },

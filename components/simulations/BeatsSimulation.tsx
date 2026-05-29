@@ -668,6 +668,7 @@ export function BeatsSimulation({
             y={CARD_Y}
             width={CARD_WIDTH}
             title="Beat state"
+          titleKey="simulation.beatState"
             setupLabel={compareEnabled ? primaryLabel : undefined}
             rows={metricRows}
             noteLines={noteLines}
@@ -675,6 +676,7 @@ export function BeatsSimulation({
         </svg>
         <SimulationReadoutSummary
           title="Beat state"
+          titleKey="simulation.beatState"
           setupLabel={compareEnabled ? primaryLabel : undefined}
           rows={metricRows}
           noteLines={noteLines}

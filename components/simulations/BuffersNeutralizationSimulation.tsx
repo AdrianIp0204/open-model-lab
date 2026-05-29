@@ -329,6 +329,7 @@ export function BuffersNeutralizationSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="buffer readout"
+          titleKey="simulation.bufferReadout"
           setupLabel={primaryLabel}
           rows={readoutRows}
           noteLines={noteLines}

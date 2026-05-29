@@ -35,6 +35,7 @@ import { resolveOverlayOpacity } from "./primitives/overlay";
 import { SimulationSceneCard } from "./primitives/scene-card";
 import { useSvgPointerDrag } from "./primitives/useSvgPointerDrag";
 import type { AppLocale } from "@/i18n/routing";
+import { getSimulationCopy } from "@/lib/i18n/copy-text";
 
 type SimulationParams = Record<string, number | boolean | string>;
 
@@ -93,7 +94,7 @@ function getElectricFieldsCopy(locale: AppLocale) {
       setupB: "設定 B",
       sourceA: "來源 A",
       sourceB: "來源 B",
-      graphScanLine: "圖表掃描線",
+      graphScanLine: getSimulationCopy(locale, "scene.graphScanLine"),
       eNet: "淨電場",
       forceOnTestCharge: "測試電荷受力",
       probeState: "探針狀態",
@@ -124,7 +125,7 @@ function getElectricFieldsCopy(locale: AppLocale) {
     setupB: "Setup B",
     sourceA: "Source A",
     sourceB: "Source B",
-    graphScanLine: "graph scan line",
+    graphScanLine: getSimulationCopy(locale, "scene.graphScanLine"),
     eNet: "E net",
     forceOnTestCharge: "F on q_test",
     probeState: "Probe state",

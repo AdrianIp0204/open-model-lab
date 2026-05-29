@@ -888,6 +888,7 @@ export function LightSpectrumLinkageSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Light state"
+          titleKey="simulation.lightState"
           setupLabel={compareEnabled ? primaryLabel : undefined}
           rows={metricRows}
           noteLines={noteLines}

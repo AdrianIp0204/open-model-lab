@@ -423,6 +423,7 @@ export function IntegralAccumulationSimulation({
           y={CARD_Y}
           width={CARD_WIDTH}
           title="Running total"
+          titleKey="simulation.runningTotal"
           setupLabel={primaryLabel}
           rows={readoutRows}
           noteLines={[
