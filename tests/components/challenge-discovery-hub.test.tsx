@@ -54,7 +54,7 @@ describe("ChallengeDiscoveryHub", () => {
     expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
   });
 
-  it("uses zh-HK fallback challenge copy instead of surfacing raw English challenge authoring", async () => {
+  it("uses localized zh-HK challenge copy instead of surfacing raw English challenge authoring", async () => {
     globalThis.__TEST_LOCALE__ = "zh-HK";
 
     render(
@@ -67,19 +67,24 @@ describe("ChallengeDiscoveryHub", () => {
     const browserSection = screen.getByRole("searchbox").closest("section");
 
     expect(browserSection).not.toBeNull();
-    expect(
-      await within(browserSection as HTMLElement).findAllByRole("heading", {
-        name: /挑戰/i,
+    const localizedChallengeHeadings = await within(browserSection as HTMLElement).findAllByRole(
+      "heading",
+      {
         level: 3,
-      }),
-    ).not.toHaveLength(0);
+      },
+    );
     expect(
-      within(browserSection as HTMLElement).getAllByText(
-        "打開這個挑戰以查看完整任務要求與目標。",
-      ).length,
-    ).toBeGreaterThan(0);
+      localizedChallengeHeadings.some((heading) =>
+        /[\u3400-\u9fff]/u.test(heading.textContent ?? ""),
+      ),
+    ).toBe(true);
     expect(
       within(browserSection as HTMLElement).queryByText("Balance the heavy right load"),
+    ).not.toBeInTheDocument();
+    expect(
+      within(browserSection as HTMLElement).queryByText(
+        "Starting from Tips right, move the support centre until the heavy right load is back in static equilibrium.",
+      ),
     ).not.toBeInTheDocument();
   });
 

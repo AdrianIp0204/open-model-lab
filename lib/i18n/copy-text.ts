@@ -87,6 +87,18 @@ export function getSimulationCopy(locale: AppLocale | undefined, key: Simulation
   return copyText(locale, english, zhHongKong);
 }
 
+const simulationCopyKeyByEnglish = Object.fromEntries(
+  Object.entries(simulationCopy).map(([key, [english]]) => [
+    english,
+    key as SimulationCopyKey,
+  ]),
+) as Record<string, SimulationCopyKey | undefined>;
+
+export function localizeSimulationCopyText(locale: AppLocale | undefined, text: string) {
+  const key = simulationCopyKeyByEnglish[text];
+  return key ? getSimulationCopy(locale, key) : text;
+}
+
 export function getCompareSetupLabel(locale: AppLocale | undefined, setup: "a" | "b") {
   return getSimulationCopy(locale, setup === "a" ? "compare.setupA" : "compare.setupB");
 }

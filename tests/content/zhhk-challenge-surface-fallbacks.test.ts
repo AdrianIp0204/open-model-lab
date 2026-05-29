@@ -11,16 +11,17 @@ import {
 } from "@/lib/i18n/content";
 
 describe("zh-HK challenge surface fallbacks", () => {
-  it("replaces untranslated challenge discovery card copy with zh-HK fallback copy", () => {
+  it("keeps challenge discovery card copy localized when direct zh-HK challenge copy exists", () => {
     const index = getLocalizedChallengeDiscoveryIndex("zh-HK");
     const entry = index.entries.find(
       (item) => item.id === "secm-ch-balance-heavy-right-load",
     );
 
     expect(entry).toBeDefined();
-    expect(entry?.title).toContain("挑戰");
+    expect(entry?.title).toMatch(/[\u3400-\u9fff]/u);
     expect(entry?.title).not.toBe("Balance the heavy right load");
-    expect(entry?.prompt).toBe("打開這個挑戰以查看完整任務要求與目標。");
+    expect(entry?.prompt).toMatch(/[\u3400-\u9fff]/u);
+    expect(entry?.prompt).not.toBe("Starting from Tips right, move the support centre until the heavy right load is back in static equilibrium.");
   });
 
   it("keeps starter-track checkpoints and entry diagnostics out of raw English when challenge overlays are missing", () => {
@@ -37,9 +38,10 @@ describe("zh-HK challenge surface fallbacks", () => {
     );
 
     expect(checkpoint).toBeDefined();
-    expect(checkpoint?.title).toContain("挑戰");
+    expect(checkpoint?.title).toMatch(/[\u3400-\u9fff]/u);
     expect(checkpoint?.title).not.toBe("Balance the heavy right load");
-    expect(checkpoint?.summary).toBe("打開這個挑戰以查看完整任務要求與目標。");
+    expect(checkpoint?.summary).toMatch(/[\u3400-\u9fff]/u);
+    expect(checkpoint?.summary).not.toBe("Starting from Tips right, move the support centre until the heavy right load is back in static equilibrium.");
     expect(diagnosticProbe?.title).not.toBe(baseDiagnosticProbe?.title);
     expect(diagnosticProbe?.title).toMatch(/[\u3400-\u9fff]/u);
     expect(diagnosticProbe?.summary).not.toBe(baseDiagnosticProbe?.summary);

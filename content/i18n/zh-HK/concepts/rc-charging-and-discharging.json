@@ -652,7 +652,7 @@
           }
         ],
         "explanation": "較大的電阻會提高 tau = RC 並降低啟動電流 V/R，因此整個充電響應會減慢。",
-        "observationHint": "將 one-tau 參考與慢速充電預設進行比較。"
+        "observationHint": "將一個時間常數參考與慢速充電預設進行比較。"
       },
       {
         "id": "rc-pred-larger-c",

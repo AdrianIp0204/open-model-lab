@@ -2,7 +2,11 @@
 
 import type { ReactNode } from "react";
 import { useLocale } from "next-intl";
-import { getSimulationCopy, type SimulationCopyKey } from "@/lib/i18n/copy-text";
+import {
+  getSimulationCopy,
+  localizeSimulationCopyText,
+  type SimulationCopyKey,
+} from "@/lib/i18n/copy-text";
 import type { GraphSeriesSetupId, GraphStagePreview } from "@/lib/physics";
 
 type CompareDescriptor = {
@@ -83,8 +87,12 @@ export function CompareLegend({
   if (!secondaryLabel) {
     return null;
   }
-  const localizedPrimaryLabel = primaryLabelKey ? getSimulationCopy(locale, primaryLabelKey) : primaryLabel;
-  const localizedSecondaryLabel = secondaryLabelKey ? getSimulationCopy(locale, secondaryLabelKey) : secondaryLabel;
+  const localizedPrimaryLabel = primaryLabelKey
+    ? getSimulationCopy(locale, primaryLabelKey)
+    : localizeSimulationCopyText(locale, primaryLabel);
+  const localizedSecondaryLabel = secondaryLabelKey
+    ? getSimulationCopy(locale, secondaryLabelKey)
+    : localizeSimulationCopyText(locale, secondaryLabel);
 
   return (
     <div className="flex flex-wrap items-center gap-2 text-[11px] text-ink-700">

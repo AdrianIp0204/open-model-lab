@@ -167,7 +167,9 @@ test("opens the locale-wrapped standalone concept-test route from /zh-HK/tests",
   page,
 }) => {
   await gotoAndExpectOk(page, "/zh-HK/tests");
-  await expect(page.getByText("測驗中心").first()).toBeVisible();
+  await expect(
+    page.locator("main").getByText("測驗中心").first(),
+  ).toBeVisible();
 
   await expandFullTestCatalogIfAvailable(page);
 

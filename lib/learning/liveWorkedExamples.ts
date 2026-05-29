@@ -5064,6 +5064,9 @@ function localizeResolvedDopplerEffectExample(input: {
   if (example.id === "front-vs-rear-spacing") {
     return {
       ...resolved,
+      resultContent:
+        `前方間距 = ${tokens.frontSpacingValue ?? "—"} m；` +
+        `後方間距 = ${tokens.backSpacingValue ?? "—"} m`,
       steps: resolved.steps.map((step) => {
         if (step.id === "relation") {
           return {

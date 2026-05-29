@@ -23,6 +23,9 @@ NON_TRANSLATABLE_STRING_KEYS = {
     "compareTarget",
     "timeSource",
     "displayUnit",
+    "template",
+    "resultTemplate",
+    "interpretationTemplate",
 }
 
 CATALOG_SOURCE_FILE_NAMES = {
@@ -283,6 +286,9 @@ GENERIC_NON_TRANSLATABLE_KEYS = {
     "expression",
     "mode",
     "exampleId",
+    "template",
+    "resultTemplate",
+    "interpretationTemplate",
 }
 
 GENERIC_NON_TRANSLATABLE_SEGMENTS = {
@@ -310,6 +316,7 @@ GENERIC_NON_TRANSLATABLE_SEGMENTS = {
     "highlightedControlIds",
     "highlightedGraphIds",
     "highlightedOverlayIds",
+    "relatedGraphTabs",
 }
 
 

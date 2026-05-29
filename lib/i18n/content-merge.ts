@@ -22,6 +22,52 @@ function getStableArrayKey(value: unknown[]) {
   return null;
 }
 
+const protectedTranslationKeys = new Set([
+  "id",
+  "slug",
+  "metric",
+  "param",
+  "setup",
+  "presetId",
+  "graphId",
+  "overlayId",
+  "variableId",
+  "equationId",
+  "correctChoiceId",
+  "kind",
+  "type",
+  "unit",
+  "valueKey",
+  "displayUnit",
+  "contentFile",
+  "subjectId",
+  "topicId",
+  "href",
+  "path",
+  "url",
+  "email",
+  "phone",
+  "model",
+  "provider",
+  "status",
+  "sourceHash",
+  "outputHash",
+  "generatedAt",
+  "updatedAt",
+  "timestamp",
+  "compareTarget",
+  "timeSource",
+  "tone",
+  "symbol",
+  "latex",
+  "expression",
+  "mode",
+  "exampleId",
+  "template",
+  "resultTemplate",
+  "interpretationTemplate",
+]);
+
 // Arrays merge only when they expose stable `id` or `slug` keys. Otherwise the overlay replaces
 // the canonical array wholesale. Overlay objects also preserve canonical `id` and `slug` values so
 // editorial variants cannot rewrite stable identity fields.
@@ -58,8 +104,10 @@ export function mergeTranslatedValue<T>(base: T, override: DeepPartial<T> | unde
     const merged: Record<string, unknown> = { ...base };
 
     for (const [key, value] of Object.entries(override)) {
-      if ((key === "id" || key === "slug") && key in base) {
-        merged[key] = (base as Record<string, unknown>)[key];
+      if (protectedTranslationKeys.has(key)) {
+        if (key in base) {
+          merged[key] = (base as Record<string, unknown>)[key];
+        }
         continue;
       }
 

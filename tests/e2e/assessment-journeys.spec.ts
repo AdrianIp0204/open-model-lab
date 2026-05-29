@@ -712,7 +712,7 @@ test("renders locale-routed assessment surfaces for zh-HK without falling back t
 }) => {
   await gotoAndExpectOk(page, "/zh-HK/tests");
   await expect(
-    page.getByText("\u6e2c\u9a57\u4e2d\u5fc3").first(),
+    page.locator("main").getByText("\u6e2c\u9a57\u4e2d\u5fc3").first(),
   ).toBeVisible();
   await expect(
     page.getByRole("heading", {

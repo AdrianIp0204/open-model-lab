@@ -356,7 +356,7 @@
     {
       "id": "plateSeparation",
       "label": "板分離",
-      "description": "改变极板之间的间隙，這首先改变电容，然后改变场强和儲存的能量。"
+      "description": "改變極板之間的間隙，這首先改變電容，然後改變場強和儲存的能量。"
     },
     {
       "id": "batteryVoltage",
