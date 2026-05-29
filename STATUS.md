@@ -1,5 +1,25 @@
 # Open Model Lab Status
 
+## 2026-05-29 OML-QA-027 Non-Concept zh-HK Surface Leaks
+
+Current state: `OML-QA-027` is complete. The non-concept zh-HK sweep leaks on pricing, billing, start/search CTAs, and signed-in account fixture names are resolved or explicitly treated as dev-harness user fixture data.
+
+### Files Changed
+
+- `messages/zh-HK.json`: localizes the pricing page tool summary as `電路工房、化學反應心智圖等學習工具`.
+- `app/billing/page.tsx`: uses a localized zh-HK billing plan display name for the supporter-plan snapshot and explanatory copy.
+- `components/start/StartLearningPage.tsx`: builds start-page recommendation CTA labels from localized concept, topic, track, and subject display helpers.
+- `scripts/browser-zhhk-site-sweep.mjs`: documents and strips signed-in dev account harness display names from the zh-HK mixed-language audit so fixture names do not masquerade as product UI copy.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm i18n:sweep:zh-HK -- --autostart`: passed with `issueCount: 0` across 139 public routes, 4 signed-in free routes, and 8 signed-in premium routes.
+- `pnpm i18n:check:zh-HK`: passed with `issueCount: 0`.
+- `pnpm exec eslint app/billing/page.tsx components/start/StartLearningPage.tsx scripts/browser-zhhk-site-sweep.mjs`: passed.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-29 OML-QA-026 zh-HK Concept Translation Coverage
 
 Current state: `OML-QA-026` is complete. The zh-HK concept overlay worklist now reports zero fallback fields, the overlay validator covers the current concept surfaces, and the rendered zh-HK browser sweep is clean for public and signed-in routes.

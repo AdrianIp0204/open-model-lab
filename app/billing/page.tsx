@@ -10,6 +10,11 @@ import { buildPageMetadata } from "@/lib/metadata";
 import { getTrustLastUpdatedLabel, trustConfig } from "@/lib/trust";
 
 function getBillingPageCopy(locale: AppLocale) {
+  const premiumPlanDisplayName = copyText(
+    locale,
+    trustConfig.premiumPlan.displayName,
+    "Open Model Lab 支持者方案",
+  );
   const achievementDiscountLabel = copyText(
     locale,
     trustConfig.premiumPlan.achievementDiscountLabel,
@@ -30,7 +35,7 @@ function getBillingPageCopy(locale: AppLocale) {
         copyText(
           locale,
           `${trustConfig.premiumPlan.displayName} is the current optional Supporter plan. It helps fund hosting, maintenance, and development while core learning stays free. It is offered as one ${trustConfig.premiumPlan.billingIntervalLabel.toLowerCase()} Stripe subscription at ${trustConfig.premiumPlan.priceLabel}.`,
-          `${trustConfig.premiumPlan.displayName} 是目前可選的支持者方案，用來支持託管、維護和持續開發；核心學習內容會保持免費。它以 Stripe 按${trustConfig.premiumPlan.billingIntervalLabel === "Monthly" ? "月" : "期"}訂閱形式提供，價格為 ${trustConfig.premiumPlan.priceLabel}。`,
+          `${premiumPlanDisplayName} 是目前可選的方案，用來支持託管、維護和持續開發；核心學習內容會保持免費。它以 Stripe 按${trustConfig.premiumPlan.billingIntervalLabel === "Monthly" ? "月" : "期"}訂閱形式提供，價格為 ${trustConfig.premiumPlan.priceLabel}。`,
         ),
         copyText(
           locale,
@@ -113,6 +118,7 @@ function getBillingPageCopy(locale: AppLocale) {
   ] as const;
 
   return {
+    premiumPlanDisplayName,
     metadata: {
       title: copyText(locale, "Billing, cancellation, and refunds", "收費、取消與退款"),
       description: copyText(
@@ -280,7 +286,7 @@ export default async function BillingPage({
           <article className="lab-panel p-6">
             <p className="lab-label">{copy.labels.planSnapshot}</p>
             <h2 className="mt-3 text-2xl font-semibold text-ink-950">
-              {trustConfig.premiumPlan.displayName}
+              {copy.premiumPlanDisplayName}
             </h2>
             <div className="mt-4 space-y-3 text-sm leading-6 text-ink-700">
               <p>{trustConfig.premiumPlan.priceLabel}</p>

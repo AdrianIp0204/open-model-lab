@@ -105,6 +105,10 @@ const ENGLISH_PHRASE_PATTERN = /\b[A-Za-z][A-Za-z0-9'/-]{2,}(?:\s+[A-Za-z][A-Za-
 const ENGLISH_SINGLE_WORD_PATTERN = /^[A-Za-z][A-Za-z0-9'/-]{3,}$/u;
 const MESSAGE_KEY_PATTERN = /\b[A-Z][A-Za-z0-9]+(?:\.[A-Za-z0-9_-]+){2,}\b/u;
 const ALLOWED_ENGLISH_SINGLE_WORDS = new Set(["premium", "stripe", "supabase", "english"]);
+// These names are seeded by the dev account harness as user display names, not authored UI copy.
+// Keep them out of the zh-HK mixed-language audit so signed-in fixture data does not mask product
+// translation regressions.
+const DEV_ACCOUNT_HARNESS_DISPLAY_NAMES = ["Free learner", "Supporter learner"];
 
 function sanitizeLineForEnglishAudit(line) {
   return line
@@ -120,14 +124,20 @@ function stripAllowedEnglish(line) {
   return ALLOWED_ENGLISH_PHRASES.reduce((current, pattern) => current.replace(pattern, " "), line);
 }
 
-function findEnglishLeakLine(text) {
+function findEnglishLeakLine(text, { stripDevAccountHarnessNames = false } = {}) {
   const lines = text
     .split(/\r?\n/gu)
     .map((line) => line.trim())
     .filter(Boolean);
 
   for (const line of lines) {
-    const sanitized = sanitizeLineForEnglishAudit(stripAllowedEnglish(line));
+    const auditLine = stripDevAccountHarnessNames
+      ? DEV_ACCOUNT_HARNESS_DISPLAY_NAMES.reduce(
+          (current, name) => current.replaceAll(name, " "),
+          line,
+        )
+      : line;
+    const sanitized = sanitizeLineForEnglishAudit(stripAllowedEnglish(auditLine));
 
     if (!sanitized) {
       continue;
@@ -428,7 +438,11 @@ async function scanRoute(page, baseUrl, routePath, category) {
       }
     }
 
-    const englishLeak = shouldAuditEnglishLeak(routePath) ? findEnglishLeakLine(bodyText) : null;
+    const stripDevAccountHarnessNames =
+      category === "signed-in-free" || category === "signed-in-premium";
+    const englishLeak = shouldAuditEnglishLeak(routePath)
+      ? findEnglishLeakLine(bodyText, { stripDevAccountHarnessNames })
+      : null;
     if (englishLeak) {
       routeIssues.push({
         route: routePath,

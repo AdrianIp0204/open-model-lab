@@ -119,6 +119,60 @@ function getRecommendationPanelTone(
   return accentClasses[accent];
 }
 
+function getStartRecommendationActionLabel(
+  recommendation: StartLearningRecommendation,
+  locale: AppLocale,
+  t: ReturnType<typeof useTranslations<"StartLearningPage">>,
+  lookups: {
+    conceptBySlug: Map<string, Pick<ConceptSummary, "slug" | "shortTitle" | "title">>;
+    subjectBySlug: Map<string, SubjectDiscoverySummary>;
+    topicBySlug: Map<string, TopicDiscoverySummary>;
+    trackBySlug: Map<string, StarterTrackSummary>;
+  },
+) {
+  if (locale === "en") {
+    return recommendation.actionLabel;
+  }
+
+  if (recommendation.kind === "concept" && recommendation.entitySlug) {
+    const concept = lookups.conceptBySlug.get(recommendation.entitySlug);
+    const title = concept
+      ? getConceptDisplayShortTitle(concept, locale)
+      : recommendation.title;
+
+    return t("recommendations.actions.startConcept", { title });
+  }
+
+  if (recommendation.kind === "topic" && recommendation.entitySlug) {
+    const topic = lookups.topicBySlug.get(recommendation.entitySlug);
+    const title = topic ? getTopicDisplayTitle(topic, locale) : recommendation.title;
+
+    return t("recommendations.actions.openTopic", { title });
+  }
+
+  if (recommendation.kind === "track" && recommendation.entitySlug) {
+    const track = lookups.trackBySlug.get(recommendation.entitySlug);
+    const title = track
+      ? getStarterTrackDisplayTitle(track, locale)
+      : recommendation.title;
+
+    return t("recommendations.actions.startTrack", { title });
+  }
+
+  if (recommendation.subjectSlug) {
+    const subject = lookups.subjectBySlug.get(recommendation.subjectSlug);
+    const subjectTitle = subject
+      ? getSubjectDisplayTitle(subject, locale)
+      : recommendation.subjectTitle;
+
+    if (subjectTitle) {
+      return t("recommendations.actions.openSubject", { subject: subjectTitle });
+    }
+  }
+
+  return t("recommendations.actions.browseAllSubjects");
+}
+
 function InterestButton({
   active,
   label,
@@ -534,9 +588,36 @@ export function StartLearningPage({
     () => new Map(concepts.map((concept) => [concept.slug, concept])),
     [concepts],
   );
+  const subjectBySlug = useMemo(
+    () => new Map(subjects.map((subject) => [subject.slug, subject])),
+    [subjects],
+  );
+  const topicBySlug = useMemo(() => {
+    const entries: Array<[string, TopicDiscoverySummary]> = [];
+
+    for (const subject of subjects) {
+      for (const topic of subject.topics) {
+        entries.push([topic.slug, topic]);
+      }
+    }
+
+    return new Map(entries);
+  }, [subjects]);
   const trackBySlug = useMemo(
     () => new Map(starterTracks.map((track) => [track.slug, track])),
     [starterTracks],
+  );
+  const primaryRecommendationActionLabel = getStartRecommendationActionLabel(
+    recommendations.primary,
+    locale,
+    t,
+    { conceptBySlug, subjectBySlug, topicBySlug, trackBySlug },
+  );
+  const browseRecommendationActionLabel = getStartRecommendationActionLabel(
+    recommendations.browse,
+    locale,
+    t,
+    { conceptBySlug, subjectBySlug, topicBySlug, trackBySlug },
   );
   const freeTierRecap = buildFreeTierProgressRecapSummary({
     snapshot: progressDisplay.snapshot,
@@ -806,7 +887,7 @@ export function StartLearningPage({
                     className="cta-primary"
                     data-testid="start-primary-cta"
                   >
-                    {recommendations.primary.actionLabel}
+                    {primaryRecommendationActionLabel}
                   </Link>
                   <Link
                     href="#start-new"
@@ -858,13 +939,13 @@ export function StartLearningPage({
                 href={localizeShareHref(recommendations.primary.href, locale)}
                 className="cta-primary"
               >
-                {recommendations.primary.actionLabel}
+                {primaryRecommendationActionLabel}
               </Link>
               <Link
                 href={localizeShareHref(recommendations.browse.href, locale)}
                 className="cta-secondary"
               >
-                {recommendations.browse.actionLabel}
+                {browseRecommendationActionLabel}
               </Link>
             </div>
             <div className="mt-4 flex flex-wrap gap-3">

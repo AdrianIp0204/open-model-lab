@@ -252,7 +252,7 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
   - Completion note (2026-05-29 HKT): Translated and regenerated zh-HK concept overlays, expanded overlay extraction/validation to cover current concept surfaces, and added a zh-HK visible-text guard for remaining hardcoded runtime concept strings so the browser sweep is clean.
   - Validation: git diff --check; pnpm i18n:worklist -- --locale zh-HK; pnpm i18n:validate -- --locale zh-HK; pnpm i18n:check:zh-HK; pnpm i18n:sweep:zh-HK -- --autostart; pnpm typecheck
-- [ ] **OML-QA-027: Fix non-concept zh-HK leakage on pricing, billing, start/search, and signed-in account surfaces.**
+- [x] **OML-QA-027: Fix non-concept zh-HK leakage on pricing, billing, start/search, and signed-in account surfaces.**
   - Evidence from the 2026-05-29 browser sweep outside concept pages:
     - `/zh-HK/pricing`: `Circuit Builder、Chemistry Reaction Mind Map 等學習工具`
     - `/zh-HK/billing`: `Open Model Lab Supporter`
@@ -262,6 +262,9 @@ This checklist is the working queue for follow-up agents. When completing an ite
   - Likely causes: route/page message catalogs still contain English tool/product names where localized names already exist elsewhere; start/search reuse partially localized catalog/concept titles; dev-account-harness fixture names are English and create false positives in signed-in zh-HK sweeps.
   - Fix direction: localize or deliberately allowlist product/tool names consistently. If `Circuit Builder` and `Chemistry Reaction Mind Map` are product names, document and allowlist them; otherwise use the established zh-HK names such as `電路工房` and a localized chemistry mind-map name. Localize billing plan display copy as `Open Model Lab 支持者方案` or equivalent. For start/search, ensure topic/concept/display-title helpers use zh-HK overlays before constructing CTA text. For signed-in dev sweeps, use localized harness display names or update the sweep to distinguish user-generated display names from UI copy.
   - Validation: rerun `pnpm i18n:sweep:zh-HK -- --autostart`; the eight non-concept findings above must disappear or be represented by an explicit, reviewed allowlist entry with a comment explaining why the English phrase is intentional.
+
+  - Completion note (2026-05-29 HKT): Localized the non-concept zh-HK leaks on pricing, billing, and start/search CTAs, and documented the signed-in dev fixture-name allowlist in the sweep.
+  - Validation: git diff --check; pnpm i18n:sweep:zh-HK -- --autostart; pnpm i18n:check:zh-HK; pnpm exec eslint app/billing/page.tsx components/start/StartLearningPage.tsx scripts/browser-zhhk-site-sweep.mjs; pnpm typecheck
 
 ### P1 - Hard-Coded Copy / Architecture Debt
 
