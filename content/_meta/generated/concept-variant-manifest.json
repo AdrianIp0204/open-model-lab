@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-07T23:26:55.156Z",
+  "generatedAt": "2026-05-29T03:35:08.776Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -19,7 +19,7 @@
         "detected": 97,
         "usable": 97,
         "invalid": 0,
-        "stale": 92,
+        "stale": 97,
         "withFallback": 97,
         "missing": 0
       }
@@ -98,7 +98,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "827335c8ced676b4c500442b7e41f2188496446cf8d3a6c7ac17f58a8d06f885",
+            "recordedSourceHash": "c39c1170c6848ecfae7836c5d14538970c685c7c25087902bc02297e383ab60d",
             "currentSourceHash": "2c4360983df0a6f9fa8109424dc8f67d3b84e978fc7813cece066a01a92c4a06"
           },
           "provider": "manual",
@@ -205,7 +205,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "87c0046f594b8c6be9db3a4e4e0356c2ef0b5b3c2add033dfdb2485e7e634dfa",
+            "recordedSourceHash": "7f18b9e7c5673755e2cde42750ee8d523bae843890331e34fdd316a1920bf8ad",
             "currentSourceHash": "0f3a8e05dfc03545a4da2f785b80e5658d2b790250f49ace573fda2ecb1240ba"
           },
           "provider": "ollama",
@@ -321,7 +321,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "27388b786fe9a360d326d6b88bed6fd7b2da6a5a2e41c401bcbb8442f3e63982",
+            "recordedSourceHash": "41081cdcfc2c7124f9c11c468b13ea9f1cf8ae906840ba4d69877c24301eb13f",
             "currentSourceHash": "5ee8c0fe683f7e7939d9782be561f55f75d5871a0d2ecc37261c437b66156e4b"
           },
           "provider": "manual",
@@ -439,7 +439,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "146a5d4b29ef3a787d703fe0a479fcb2ed0bb3dc5bd93473dd4b7a95234dcb23",
+            "recordedSourceHash": "c94fe56afe86c87d5d261e96ef30f57da004d066605755f90d9431763bc02399",
             "currentSourceHash": "93680afbe2c5c8c694639d73891bbe6622a4646e197bc8a38a15b53303050e59"
           },
           "provider": "manual",
@@ -558,7 +558,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "5435e08dba1480e66a003540db661b4a438951d72880c4f11d4f4df1a5b97dcd",
+            "recordedSourceHash": "13712812223633c66295b7d34a6d7fc05eacf6581d1ce455c0cdaccf0977a45e",
             "currentSourceHash": "c4e2b651356631f15f2c690cb073c6a9f0f2f3d558eea7b15d76f3d8241b7110"
           },
           "provider": "ollama",
@@ -675,7 +675,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "bd3823f96951cf9e5b43df552909f112f5acef5aeede2ab28d71dc33151abaee",
+            "recordedSourceHash": "2dd8c8507f87358fa3b248b1bcacbccf6f785ded1e55bedd2b4baa808c7a5748",
             "currentSourceHash": "e298ffef578ca2dc123b33e89a0ae6ea6a6e7675a50d56680cc1064276e10e36"
           },
           "provider": "ollama",
@@ -789,11 +789,11 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/doppler-effect.json",
-          "outputHash": "69cbcfaf5f3670499a61d1d74e7aeca066237fd193d524c3d9fffeb8d184388e",
+          "outputHash": "714e7a989dca5ede24d76e34e234d91e3fe9fe62299d6ee8aceb1dcadee1ec16",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "38f0da0d680955811ad37278d9d4cb194b0da17cefe703b9d58260d781180060",
+            "recordedSourceHash": "88ad793499e595be13b1e68a9d42708b494ab384a0a3114347221cba073aee67",
             "currentSourceHash": "4f151b211bde54e6bc9a19c2730e246b0f32ba899a1a9f2b33d7b5ad928dcf70"
           },
           "provider": "ollama",
@@ -801,13 +801,12 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
-          "fallbackFieldCount": 92,
+          "fallbackFieldCount": 93,
           "fallbackFieldPaths": [
+            "sections.workedExamples.items.id:front-vs-rear-spacing.resultTemplate",
             "sections.workedExamples.items.id:heard-frequency-from-motion.resultTemplate",
             "pageIntro.definition",
             "pageIntro.keyTakeaway",
@@ -831,8 +830,7 @@
             "simulation.controls.id:observerAhead.description",
             "simulation.presets.id:steady-siren.label",
             "simulation.presets.id:steady-siren.description",
-            "simulation.presets.id:city-pass.label",
-            "simulation.presets.id:city-pass.description"
+            "simulation.presets.id:city-pass.label"
           ]
         }
       }
@@ -908,7 +906,7 @@
           "exists": true,
           "usable": true,
           "valid": true,
-          "stale": false,
+          "stale": true,
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/wave-interference.json",
@@ -916,7 +914,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "71f51c311887b3fdac67b59ddc909f9cca2163e688cddff684114273665fad1d",
+            "recordedSourceHash": "75eacee65a34a970f914ad3a1d95cfcfa4ad01f3dc75c76721a86179e133bfa3",
             "currentSourceHash": "71f51c311887b3fdac67b59ddc909f9cca2163e688cddff684114273665fad1d"
           },
           "provider": "manual",
@@ -1035,7 +1033,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "c19b8f8d2f23fe86474ec3b9cee5c92fa99d724c840a0e6e3585854c22559322",
+            "recordedSourceHash": "9529c14c07ba232d43e6ac73fe20336ca31adc7dd5c6b2b48569f594c65cda58",
             "currentSourceHash": "d33782c947f96812414371272e75073b963259fd8f073d7777fbff3c95adaf33"
           },
           "provider": "manual",
@@ -1266,7 +1264,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "f7e8d789dc942c5dbc6e8fe79ec51ed769748bb5a1b5b047c3cfe8c8199d8753",
+            "recordedSourceHash": "226e4984cc3f344b2f50022c9c95816bc4d60ba78ae15b820565e628668a21b0",
             "currentSourceHash": "3f7183df104bbc2fd92746cec7dc4cee941e087e31ab3f2098705acbc0eaf7f2"
           },
           "provider": "ollama",
@@ -1377,7 +1375,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "89a38890fe4c24923eacbbfc3c6beac7a6f1119c731e342e2ca968341400e5eb",
+            "recordedSourceHash": "61a6f51726ea35fe2504767db43ebf0299c88861c7a4a08a517df2516d9edc28",
             "currentSourceHash": "d55c9482aff3bbed80581637235f5341290b0925746cab11cf46a90035ddaa3a"
           },
           "provider": "ollama",
@@ -1385,9 +1383,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 107,
@@ -1494,7 +1490,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "d45b0b55b1ed4e30358f2c188767a23375fbc0d33b47a538ccba2283eea8ec4b",
+            "recordedSourceHash": "566c972beda859205b501c17a487604a86112442bd45144a2848998d6d4bff8b",
             "currentSourceHash": "ae6f97b81415b4430e2b7255e0aa91f6250c95fd2c380f9b19034c5008905cba"
           },
           "provider": "ollama",
@@ -1614,7 +1610,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "dbafe92d142aec2c142b1736fafa116d22c85c185531f456bd7ca96a61fb18d8",
+            "recordedSourceHash": "fa31600c84f360b7706649e49a682529eadeb2d64bea0dc69a79116be53af700",
             "currentSourceHash": "054baf9ded8c3a0e19fe731968d8d20c0d563e56d062f0b19a1a3667731ad2bd"
           },
           "provider": "ollama",
@@ -1622,9 +1618,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 136,
@@ -1733,7 +1727,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "c538b43f3c0990b9e1d5f8ef6b3765d32bf37cea4458ae24b4b13e34be69cc7d",
+            "recordedSourceHash": "e13f0eb3222fdaf32e2b15c37425bbae06ccdba5815aa8b38844ea063827ae64",
             "currentSourceHash": "ffab66981d081825e6c6beae751b489dc8b4931f7b551d1c7c39486d16545224"
           },
           "provider": "ollama",
@@ -1851,7 +1845,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "faad5bb8312cafb9f881645d07ce7ed081f55e5e7d882917fb023e6a5294d9f1",
+            "recordedSourceHash": "4025c86dfd0972195906bd8adc41de4fb6f4b032de289218ed40b4def1ee2ebc",
             "currentSourceHash": "00d3d9c11cb00c556c914dc619064f775d3cb7107dc3d702217c5706b4203376"
           },
           "provider": "ollama",
@@ -1968,7 +1962,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "4f8c093ca1662520b03a95a3aa9ec9cb0ee1c8a846afc3529042fce654e0b964",
+            "recordedSourceHash": "2c741e22a3632786012d6e5a9fcd52a0f741f130fadc4c5a3a88367fec4a47f9",
             "currentSourceHash": "2d720a982ceb2ccf02edf9590a104c821643f682764ca83f592981e3da780e84"
           },
           "provider": "ollama",
@@ -2085,7 +2079,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "c1206578f2a40082b393797198f0cd100adc007a979f1d66a1e6d91a3269df2f",
+            "recordedSourceHash": "2f685096e304f9e5abf5cd091e31bdd8bb55f2824d6c624a29170e5d1830ccbd",
             "currentSourceHash": "01f43dc36bd63ea84e3f753259f87a31ee7887d1fd16f409b6203194e6240de7"
           },
           "provider": "ollama",
@@ -2093,9 +2087,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 137,
@@ -2204,7 +2196,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "e66703d2bfd4bcd4f5409d0e0bca5f90c2eb53ac16b6ae0294c9b62f5debfb0a",
+            "recordedSourceHash": "906590062b48c483ad0707e6c380f4a8a68eed5808e3d4a27102e9a40768b88e",
             "currentSourceHash": "a44ace475d0b6956b720fc8d238eefedb9e242598f1b2797fc1fd74aa521f5ea"
           },
           "provider": "ollama",
@@ -2212,9 +2204,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 126,
@@ -2322,7 +2312,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "069f5bdea155c0322205ae8cb42eb64bd5a75c707bb281981af9d844c075963b",
+            "recordedSourceHash": "1c8be8d09a0113dfd3deba58b62ffce08a6639cdab4c0aedf1f5f487564af868",
             "currentSourceHash": "b69f67757322240be6ea255cc4656639bcdef67eec30ad457be33448763926d6"
           },
           "provider": "ollama",
@@ -2330,9 +2320,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 145,
@@ -2440,7 +2428,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "91b28cd0484c948e305590f7f2e7532106d8f498604624e0eb3cef843c62ab95",
+            "recordedSourceHash": "c7427dda644ddd3054c07f97baf99965e8dcc0893af897ac368f7e89d09d4fea",
             "currentSourceHash": "8dcd36edadcd23ac6cc27494e03b2d384830f48e865ba336ccdb92d442bc24ec"
           },
           "provider": "ollama",
@@ -2558,7 +2546,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "b7fafedb4e98ae60f5a680536a1f8470f5efd19cdf1bf64906c218b8d69dc500",
+            "recordedSourceHash": "0afaca1a48d2e96c1de76177468c6b71fa582e76d2ae384314e4ddaaaa886012",
             "currentSourceHash": "f224c89c1a88eca96c2a84d8437221e5566c6002f8e3442925eb0928fa503ccc"
           },
           "provider": "ollama",
@@ -2566,9 +2554,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 41,
@@ -2679,7 +2665,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "e405768afcda37153c491815911a66a4c96f008ac36e1201deb161a6b7b8da08",
+            "recordedSourceHash": "ced1eb678ce476ecacd80abee18bb9ca8f609b68b15efecd6c485d9956516a28",
             "currentSourceHash": "98008947e0376dda97a1886acfec8c915096153c65fb3d04fffa90c8f027bb1d"
           },
           "provider": "ollama",
@@ -2687,9 +2673,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 107,
@@ -2798,7 +2782,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "c8a0c95ce0feb6af1d9b8cdadbd2f90b7e76ae53fc6ce6b51aaaec879de4ff01",
+            "recordedSourceHash": "138dc4349fcc87b42ae7c6f530a253f747e48c70ac1ba633db68e92bd208d1d2",
             "currentSourceHash": "80a5389feb016365a35d8f375ec051d2f378a740d75b39fb55d525100dc5d0fd"
           },
           "provider": "ollama",
@@ -2806,9 +2790,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 142,
@@ -2915,7 +2897,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "98ddc1f4f7200d405f66180c071afdb496def99a3f4ddcb7de0b0a57984951b6",
+            "recordedSourceHash": "f7c3afc18cc5820e33ac9c054edcda147452ef36b6d8310e07e8f3fa7870253e",
             "currentSourceHash": "fb13891bc8626f5460f7091c5fbf4178f9477fe8768cede8e60c498f129347c7"
           },
           "provider": "ollama",
@@ -2923,9 +2905,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 126,
@@ -3034,7 +3014,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "2c7928ab9df1cfb2c17a3d0f2bc92b1efc0bfa34a706f6080ffaa1c45ac9616b",
+            "recordedSourceHash": "55f6a4052bdcb0092d8567ce6040a0dd90d85bab3492b8827a643954d2383f32",
             "currentSourceHash": "eaa7bad60fb45e8d1e090ff4ac5b4cd01635167a2365396652b5a3d8bc906ed2"
           },
           "provider": "ollama",
@@ -3042,9 +3022,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 82,
@@ -3153,7 +3131,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "3685ede6ec8cf026ad6f15ddc191a4860fa28806a8843ca211b0ef9159f5a4ff",
+            "recordedSourceHash": "79cfe7206879bbb16fd8cd6a6049449d53f3148a5be5ec71a0c7054c96bb0126",
             "currentSourceHash": "8dc42e89d418f8325a868c0d75455b0ba8c0ac5d6f84f0d6b008e833fabdf6e7"
           },
           "provider": "ollama",
@@ -3271,7 +3249,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "623fc1c0b9cc823ff2759db9102cdbffd708036935ae0b1c73fc11b906e63806",
+            "recordedSourceHash": "a98178a4b11e48f6a12c97085b0e93102c1566c23a92ae4461e9cc89ef637e7c",
             "currentSourceHash": "508a01bd42e841303dab11af814d6163b4f69dae99cf3b2559f45f78e7af2973"
           },
           "provider": "ollama",
@@ -3279,9 +3257,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 18,
@@ -3385,7 +3361,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "5227a3930da7343f3e061c5f17b101d8fe99f569de4ba5bc4c365d94352e6afe",
+            "recordedSourceHash": "e05e6612b956d1b015d4ad99f9ea6be43e543bd6900f362a1e58d2cfc9bd9d40",
             "currentSourceHash": "eadbb6ce469caeea250776f407b6dba97221a755b9e7bf18655dfe6354bc2aa8"
           },
           "provider": "ollama",
@@ -3393,9 +3369,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 101,
@@ -3502,7 +3476,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "3629f1a1ad0e433b3f856772c8e1ed1b7b7ba4ea5402ffdd306082903d5ca001",
+            "recordedSourceHash": "393bfcd15e3a1ce999110bc932b503cbfbefe7f8593fad9a03282b6a6c8c32a1",
             "currentSourceHash": "0a1242a67c398e9fdf21ad88e633e53af8f8779f446f2bb8621a8a75d9988ed2"
           },
           "provider": "ollama",
@@ -3510,9 +3484,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 93,
@@ -3619,7 +3591,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "b0737a94fe62ca5afb96f8587f22770ebf5a56f27b3fcf3f38be9df16adf1d97",
+            "recordedSourceHash": "7faf54dc591a69a997848854bfb858f805221b18146996c51a9456b2d3b01450",
             "currentSourceHash": "42f975dfb2598cb68cb5f43b5483eb147ef95fbf00483437ecf828d5fc20e8c8"
           },
           "provider": "ollama",
@@ -3627,9 +3599,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 121,
@@ -3739,7 +3709,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "3a34faff325dba5eaea8de0f3d1fbb691071db40fd4067ff4bc56b0b6befacac",
+            "recordedSourceHash": "257ecb621e5e7a092405f49824e4d7aaa287e2fcbc23f57fdc1974dd3a72fae1",
             "currentSourceHash": "67ddc90f7292ffee7b8f0a72ecad646e322c1eb5d3dd7e0927f934f44c7c9c3b"
           },
           "provider": "ollama",
@@ -3856,7 +3826,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "91893076fbc05753b5b2cebf1e7eef37107334df5cff28ce12cbf3466692b698",
+            "recordedSourceHash": "c1ba3e88c750864f621b64391202f010b964b5c52df3c9f1b663fc4d726e2986",
             "currentSourceHash": "241fa69cc85205dc13ad5762d23d35a0249803d8e9ecbc0b53c58324fb2590ff"
           },
           "provider": "ollama",
@@ -3864,9 +3834,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 106,
@@ -3977,7 +3945,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "c3401d33349daefafdbf32268748a5ef4187a1b1ca8d7bd1a551b88c6eaed639",
+            "recordedSourceHash": "51ecc00bd945ac91b0142e4cbfa204c6ac7ce15788c963316891420df0107524",
             "currentSourceHash": "dd37e79b545ec324909bf3bc3e7a72ac9288c41b7b6e4280bb955613f31af7c8"
           },
           "provider": "ollama",
@@ -3985,9 +3953,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 133,
@@ -4091,11 +4057,11 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/keplers-third-law-orbital-periods.json",
-          "outputHash": "f3c99b6f2f62375997b6ad81ebce14264730d7d3c4e5b08f68bc788116d904c3",
+          "outputHash": "09280c8fed7dc7143fe1a9567045c3299c26e04c19190fc3094d7fa06131dd8f",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "87d5a6210c76354953cf9fc139624f5231022dc121c66df0b3cfac5d96c1ef22",
+            "recordedSourceHash": "ae6328c7dc40de3477dcb5540eb583674bf82abc428b743b0a00b0b010a926f2",
             "currentSourceHash": "2b13c07a9b145938adc39b13fe0e3936a9d5da97c91556c19b868eae03b4b45d"
           },
           "provider": "ollama",
@@ -4103,9 +4069,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 22,
@@ -4212,7 +4176,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "8830a789bfe3c54de20df4fa5b04b8c562015ea146480ab3020dcfb3bff318e5",
+            "recordedSourceHash": "8facc4fcec08aa908afbfda8fa5d90b9e5f2e08652826673cad217f377ab18be",
             "currentSourceHash": "1b3032e8f8a42395536ee30b08d94ae2de97ab4cb472d9d6253b7c8c9dd1035f"
           },
           "provider": "ollama",
@@ -4220,9 +4184,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 134,
@@ -4331,7 +4293,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "aaf10f4bce5aef9c54f35cd1f68efe0e94c70e5b3b03a49fb6010fb9dc814941",
+            "recordedSourceHash": "53e7e75260ffde29c57a78a76130f6a638ff541290772dbd1b8f78d6cc5ecd64",
             "currentSourceHash": "6a9912c6c77da382bda1471cb26df3b06c8301fb2bf6e3854689d221aa66f741"
           },
           "provider": "ollama",
@@ -4339,9 +4301,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 106,
@@ -4451,7 +4411,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "55f9af68be9b0fd877e049869b5718b8978fed3cb6bead9b87775a8202c6bf32",
+            "recordedSourceHash": "0b7774bbaf9dd9150e5254578763351c32532e748adf013a2eddf1f3c52cb8df",
             "currentSourceHash": "57cfe1f88bf8c7cb4cb74e2473b7c74a75900fe326167c717706bb0d73834030"
           },
           "provider": "ollama",
@@ -4459,9 +4419,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 139,
@@ -4561,19 +4519,19 @@
           "exists": true,
           "usable": true,
           "valid": true,
-          "stale": false,
-          "reviewStatus": "draft",
+          "stale": true,
+          "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/kirchhoff-loop-and-junction-rules.json",
           "outputHash": "a2ebf675b6e3cf481653f5c559ee7ff1b6bfbb8838af5a826de078c32ce4c019",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "55b4d74af3a25d0aee90a15d392b6d15af9f3bc10727b06727f727e38a8c093e",
+            "recordedSourceHash": "33949ad688bd58f70b2a2912a5875be9028aa39ebe31cfb3f0b92913ec20685c",
             "currentSourceHash": "55b4d74af3a25d0aee90a15d392b6d15af9f3bc10727b06727f727e38a8c093e"
           },
-          "provider": null,
-          "translatedAt": null,
+          "provider": "manual",
+          "translatedAt": "2026-05-29T03:34:58.711173Z",
           "notes": [],
           "issues": [],
           "fallbackBaseVariant": "original",
@@ -4680,11 +4638,11 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/equivalent-resistance.json",
-          "outputHash": "7af13b9aa6e9f257823b2b916af3b725630f1da2c808a6483dc0e7de936a40af",
+          "outputHash": "e97de9105470d97d5d1fe3876963262f23272e7a9d50eb5984e7e1190f27b87e",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "e8ef7d770f52180557b040b6874d2b32758f526721e9e2591503659113470cdb",
+            "recordedSourceHash": "2a2893bbd7c46177aee2bba86d18de163a3acdfd8c99e5234c47c7543ea06b9e",
             "currentSourceHash": "1269617181ada6c0e371b494d4d6b7fb48d30c81a802f66e7192c136bae6d6b2"
           },
           "provider": "ollama",
@@ -4692,9 +4650,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 117,
@@ -4805,7 +4761,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "59cbcea57d97d5e0e02f9dc8534b45f9dd2cda79fd7aace6d85c29bfa4cb79b1",
+            "recordedSourceHash": "2ca3a6275e7cd26e1952c4ca4d7c4fe3b6556342b7ff62b79382c02f70d238fa",
             "currentSourceHash": "ec0361a235f8c6d3d569d0f14e6fc1bbe91828bd4ad7cd6fc5471197f44d1610"
           },
           "provider": "ollama",
@@ -4813,9 +4769,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 116,
@@ -4923,7 +4877,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "1c91a4d7a6fdb2d548cb48e511b41a00d2a6e42865380768340fb494e9a3fdd3",
+            "recordedSourceHash": "ef6ae0241f7b451b7bf3b0ae85e216ffb16bf5bab5720ca9d789cc51a21d77c3",
             "currentSourceHash": "707f410785e44c332cf370d4242414cfd0ce1867e681ffbbb0d7915149ba2e8e"
           },
           "provider": "ollama",
@@ -4931,9 +4885,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 11,
@@ -5027,7 +4979,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "2fa9f86c8204d3e0598426f9dccee89507698fc6a13f1ff6f15292b586844ca3",
+            "recordedSourceHash": "f4209abe79e65b9538f57d251b4ad8f2473d03fddfac9f2b59c75c53b9ddc668",
             "currentSourceHash": "f81e634f0b39c99125d2cdbd9a588ad4523863646e6bdbeda1eeeff5b108b913"
           },
           "provider": "ollama",
@@ -5035,9 +4987,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 109,
@@ -5137,19 +5087,19 @@
           "exists": true,
           "usable": true,
           "valid": true,
-          "stale": false,
-          "reviewStatus": "draft",
+          "stale": true,
+          "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/capacitance-and-stored-electric-energy.json",
           "outputHash": "4dc71d21e6598156a337c725427b1d251bfc40a56191d004542616890059f935",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "7894aaf4ecb214e47ab1d0d374d2d083e271ba39b3b456f37a28ad032c18697a",
+            "recordedSourceHash": "b756350630c69fb2632767688e27979da2bce758809bb88d0975d769782cfa8b",
             "currentSourceHash": "7894aaf4ecb214e47ab1d0d374d2d083e271ba39b3b456f37a28ad032c18697a"
           },
-          "provider": null,
-          "translatedAt": null,
+          "provider": "manual",
+          "translatedAt": "2026-05-29T03:34:58.711173Z",
           "notes": [],
           "issues": [],
           "fallbackBaseVariant": "original",
@@ -5252,19 +5202,19 @@
           "exists": true,
           "usable": true,
           "valid": true,
-          "stale": false,
-          "reviewStatus": "draft",
+          "stale": true,
+          "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/rc-charging-and-discharging.json",
           "outputHash": "1d32962636434b11adeee49a93aa7a0310fc2e092645b12a87b3957c91579ff3",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "a57ad6d6ee3e1189f673bfd5a4299a5096453fb06b956452783bdf69394d8206",
+            "recordedSourceHash": "70996c4459d3ed6ab1f89493d47b49b8949c8b9b868097c70cdeb1453d88c538",
             "currentSourceHash": "a57ad6d6ee3e1189f673bfd5a4299a5096453fb06b956452783bdf69394d8206"
           },
-          "provider": null,
-          "translatedAt": null,
+          "provider": "manual",
+          "translatedAt": "2026-05-29T03:34:58.711173Z",
           "notes": [],
           "issues": [],
           "fallbackBaseVariant": "original",
@@ -5366,19 +5316,19 @@
           "exists": true,
           "usable": true,
           "valid": true,
-          "stale": false,
-          "reviewStatus": "draft",
+          "stale": true,
+          "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/internal-resistance-and-terminal-voltage.json",
           "outputHash": "2d176c5bc909d29e347b55b4400ac5bf26dfa646ac8a7d5dfd8c566132c3bcab",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "f7797fa6704e789c2ba0b1dc07d4bda9857411e3da9696518281f652ec939388",
+            "recordedSourceHash": "30f6c7890ce19ef6d142af9100afc4b291f49f535cce09dcbd619c447a4a6783",
             "currentSourceHash": "f7797fa6704e789c2ba0b1dc07d4bda9857411e3da9696518281f652ec939388"
           },
-          "provider": null,
-          "translatedAt": null,
+          "provider": "manual",
+          "translatedAt": "2026-05-29T03:34:58.711173Z",
           "notes": [],
           "issues": [],
           "fallbackBaseVariant": "original",
@@ -5492,7 +5442,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "513f668e0bd7e2f6b995cf80dec888be657923958f5e19148482073930a067fa",
+            "recordedSourceHash": "07d84fbbd1aa0fc0f70185f15a20ec95ceb94005802bbac263d899147c29529e",
             "currentSourceHash": "bdd622df0a391e970cb6759cec52bbcd763ae513b0e7ea6060058d88e37aac6e"
           },
           "provider": "ollama",
@@ -5500,9 +5450,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 123,
@@ -5608,11 +5556,11 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/electromagnetic-induction.json",
-          "outputHash": "c6633256f4194bba25dbf82b9922243e3f32528dc482d675a6b9fd6bd1591f02",
+          "outputHash": "dc9a00492c5c20cc2fb2ff73add8d9669af2da40ad028ab15c9807d531511445",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "c8e59bb8b640ac61e24e6cb36f5d3ecb2dc1ca2c7eb58ba8f5a3dfeb9142eddc",
+            "recordedSourceHash": "65c571bbe9b2c338410c24b76637c8b71b2c37612e665238f51bbf3d1144d274",
             "currentSourceHash": "3fcf4b1312d1b48d6454619485b324df1d6c05bc6559c05fffa625d329cd8e56"
           },
           "provider": "ollama",
@@ -5732,7 +5680,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "bda8310a9136ee2ec407cd56dbc09bc8ee917286171510f043c97ed9632c4539",
+            "recordedSourceHash": "c02d0116ef29a98f9b31a8b015370e4e62f0a54ab03ddc33e2a1ba8e03bd0922",
             "currentSourceHash": "304d5b4b824e3e66a5705812d3a755aa63111a9ec52dfbb36a0185e4e52f87a6"
           },
           "provider": "ollama",
@@ -5740,9 +5688,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 105,
@@ -5858,7 +5804,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "4ddc4d7b1b5eacdeb188bbb3e8446269a0e398cb8b1c480e230356acfae70a60",
+            "recordedSourceHash": "6a44a655bb0397484cd7747982a620f867cdf2411fd585b41b1c064b711327bc",
             "currentSourceHash": "74b45daadf6364837622f7eb7e05ef1e985d5f58d1dd76d4b6fe98a9fc05ec72"
           },
           "provider": "ollama",
@@ -5866,9 +5812,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 113,
@@ -5981,7 +5925,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "7ff1e6191dc22bcf9be6b661197eb219dd262da3046b8cce4619a3243993e690",
+            "recordedSourceHash": "47799cb587a5119156baa080c793f7e6134aa0d30c308c00634070dea4c78431",
             "currentSourceHash": "65094a50efc91f4c3da0985cb83c4d63e99a3b6eeba11510ef204e0b45864dc7"
           },
           "provider": "ollama",
@@ -6099,7 +6043,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "a0b5aa90fa27b9d687d35a5ed6dc938099d3f29444d329d6e59ae71e8a21826b",
+            "recordedSourceHash": "69300c8333cea26efec69e7290b0a874491c72e3102f90aadf412387f4903964",
             "currentSourceHash": "1d272f04326dc686bf49f9cef82a9cd746bd2c21c017c5990e87a62b9ba6b77a"
           },
           "provider": "ollama",
@@ -6220,7 +6164,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "5a2461328aae05f0e81042a1ec1fb849829d169e7bf826406548cac1843adcb2",
+            "recordedSourceHash": "283b1dda22a63ddacef3d355385fdb4f9400d6d5c172a3c95e2aa6336091e961",
             "currentSourceHash": "1419d81506425bdfc7d9cc405619aceffba3d2789b437b88ecf1a9858d70070b"
           },
           "provider": "ollama",
@@ -6228,9 +6172,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 107,
@@ -6341,7 +6283,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "b8f0057d9cf04e22466e8b51aef9bd22c8f776cf90470cdadbdfc6d871fcbe04",
+            "recordedSourceHash": "c784d0e6660e507430733f32d6aa54b0e6a08d471b49b0d6ec5c63e3cf6fae02",
             "currentSourceHash": "c70820d323481bbc3933633f3a278c250a0c884cf8e0d003af094f7f88c812af"
           },
           "provider": "ollama",
@@ -6349,9 +6291,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 104,
@@ -6580,7 +6520,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "bfafe5afb5049ecaa63cabacf51295df71825006fef0c4cc144a118a13906431",
+            "recordedSourceHash": "ef249959daf68499db5b31b133f143202d46ebb9864325130428f67b162e8cfd",
             "currentSourceHash": "322e708c33f0a27b912d904b17e15fdc4dcf6f44b5929d897235ff23a0ce7c52"
           },
           "provider": "manual-review",
@@ -6697,7 +6637,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "dc65d7547e123b5fae7d38c829bf94f1b1a9476da4e489f7cf1875b47a3e5789",
+            "recordedSourceHash": "7fc17806fe97382c2e874f54f6d36266cd1e56af582d619d1d3638f4d3797fdb",
             "currentSourceHash": "8281078eea95c28989d57e3e1b6e3eb7cc6fb15081f03025e921488cce9493d0"
           },
           "provider": "ollama",
@@ -6813,7 +6753,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "fce91469fe7cef4a6c04b6fb1e4f8033a61869fa509aaf15390e6d58b0bc1035",
+            "recordedSourceHash": "7f0b570019c4adde7434bc445c0764f6075857afaa2dbee7df6987269037b732",
             "currentSourceHash": "ef9fcd3aa64863d7cf4bc724b4eefc71db3ccfbda721737447cebd434f4e6007"
           },
           "provider": "ollama",
@@ -6928,7 +6868,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "fe57bb382bd1cd0b5c6b4355b4eea612d98d09ebed812107b5b408d140099bbe",
+            "recordedSourceHash": "1f64aa036c6971f36988f19d66ab769cf1966248434fcbcdaac0484c8e4f014e",
             "currentSourceHash": "58eeda08f65d047c088f2da74d8f81f19d543655bac6dbd10ab14fd17ce12a3e"
           },
           "provider": "ollama",
@@ -7045,7 +6985,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "ed4fa07ff17a5ba507fadce6a24685075ab312d71b15d8f4a43039cf68d47107",
+            "recordedSourceHash": "1a849caaaa57feeac64b18d210c4c5d7fec109503618eea3adbb8e9cee1c5018",
             "currentSourceHash": "8909c520c1b802a4e54ee9b0337f04b8b14414ce2f48622c23ede0ba109425c9"
           },
           "provider": "ollama",
@@ -7164,7 +7104,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "e62e1d50060d96424f4d73afc850c32a081691a8462d95433e8cff5897d4a19f",
+            "recordedSourceHash": "6931db02461acad1d524015744074ab505a89567aa29bb5ec9a1a0b1eb34ab7b",
             "currentSourceHash": "188224f3369dce826e46adbebf0380099d48bd16e5a9d8badebe3794a25c7137"
           },
           "provider": "ollama",
@@ -7282,7 +7222,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "1f4ba83ef1433b08840aac9835cae9f2a5ccb7572cfadb533a0f80e546c70c84",
+            "recordedSourceHash": "8370d602a3fa79e21f68b08225f8d3ef7025c83957f5631e994b9c32f21d42f9",
             "currentSourceHash": "3d9e503f5777fd5df26502e18adbf5a8bb6ac0f366ab9c799dba932f37965db9"
           },
           "provider": "ollama",
@@ -7401,7 +7341,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "0e943c590223ea4f62771b2b87ca7dd24543f38114de0248f8873cf03ddd0ee0",
+            "recordedSourceHash": "2abea00eec86d541ef397b15f24aabc866e684b9cbed315f5c41e743815f54e8",
             "currentSourceHash": "1a247b5fc3958f511b47d93fc595c2a1a8d5391c26dafd02e876eec3a0eb4339"
           },
           "provider": "ollama",
@@ -7409,9 +7349,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 101,
@@ -7521,7 +7459,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "97526bded746d580d4231eb641157a3b2c199522db8a96f1d381fe88db00b113",
+            "recordedSourceHash": "aa20b7c8cbf4b9bb739866c1cee4868a62c34ad7e65cb1f41c4f71318f1acba2",
             "currentSourceHash": "841debfed56250edc9ca91fe83d5b0a1897bf016dd42f67c260233c407006a95"
           },
           "provider": "ollama",
@@ -7640,7 +7578,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "d92cfdbce8650fb7af0c5aa842e5e7386cbd110ec0fe7e1110811651e65c508f",
+            "recordedSourceHash": "5b1956b01e681ce90b7b006275cdff47ccf78525470b15b0a91578b9263cca7f",
             "currentSourceHash": "65e61697f6e90d95690ca3c7e3554e673d1f7cbc804ca338ec02de8cc35e8062"
           },
           "provider": "ollama",
@@ -7648,9 +7586,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 13,
@@ -7745,7 +7681,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "dd102a0776784839b62e971a2381e193ae2e6786caced218bb919b1e4d92cdf9",
+            "recordedSourceHash": "1e2a314872f5fd434c7d1cb71657cb375469010226e83b56758f814acafbb669",
             "currentSourceHash": "abd29fb1c1ca60838377d5bdb11332b823dca71b3d9130604878f9c66cd90082"
           },
           "provider": "ollama",
@@ -7858,7 +7794,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "795d0a054d3be33a85438d9131d144993626a98bdb71ced58dfcfdeaf9cd32c5",
+            "recordedSourceHash": "ebda5fdb331bc0f7a9894cbaf8ffe13801b8e9469b8fee6d5f0e273f7ba394b8",
             "currentSourceHash": "af359f0f912ee15eb3fce57b038b7511b27a099a6354460355334ffeec3e1766"
           },
           "provider": "manual",
@@ -7866,9 +7802,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 62,
@@ -7973,7 +7907,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "6fd0950f57e6f6fb57cea6da499603937c239ebe8ff3bacc863261816b33792e",
+            "recordedSourceHash": "6ec38e3975c43c9fa61dc9eb743deba0ca08dbd256cf5065bce46829558284c4",
             "currentSourceHash": "c82d8ab0274e5d30705030fc39e7fdf9464bf16fe99505631ea340b72f4c71b3"
           },
           "provider": "ollama",
@@ -7981,9 +7915,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 83,
@@ -8089,7 +8021,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "9ada959fb288ede0b0346f476c0781e893033818bb883ee9e9d3cea5d6b72be0",
+            "recordedSourceHash": "2c9832dd546bf929c2ef2fa23e77b12d244f2d8e3289ae909504b5a9cd60a4f9",
             "currentSourceHash": "b53527d0f63f0a1418ee52bfbbe037909c58367632c2110e5f63bbaf303a3577"
           },
           "provider": "ollama",
@@ -8097,9 +8029,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 93,
@@ -8205,7 +8135,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "8bcdb0bc758865df048bddc0a56e468bbc270650092204baf9c48ba4e174f040",
+            "recordedSourceHash": "c9f12dabddc86c8723e0b114e919caf90654c76025828269136900b2e09c16ea",
             "currentSourceHash": "efff9bd80483d44a099438da2d26dcf35658c67795dcc5ad6ec864f213c2ca90"
           },
           "provider": "ollama",
@@ -8213,9 +8143,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 78,
@@ -8321,7 +8249,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "9b4174d55f7c634588a54568955befd75f3b20403a7b480dd1c0503ef0520e87",
+            "recordedSourceHash": "6f3db2c1d271562f6dee2f7bfbd8d61ac0e0157f548da6887c33f98e71653839",
             "currentSourceHash": "5dccd7339f7089ecc33505b86c239b9da6f2607dd449d80a24d0e603a9e133fb"
           },
           "provider": "ollama",
@@ -8329,9 +8257,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 74,
@@ -8438,7 +8364,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "9f9b0fd727e2653c69abe8fce23301117172014433e4a9840f5c650de4f69c7c",
+            "recordedSourceHash": "d1b36457dbde644862c2cce19b28c6f23704a25007e5578270ef526e8ce13cb9",
             "currentSourceHash": "b05cddcccccd962b7a31b2b5091488d6a7be2a20077af6011dc2111652e6abf4"
           },
           "provider": "ollama",
@@ -8446,9 +8372,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 71,
@@ -8555,7 +8479,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "b321d16f0f3ba8b73cfffbed72608d61af38b8e20b920de91c9fb2d9e53c35d6",
+            "recordedSourceHash": "20642332665ae1671dce5e9830b9551ba8a3dd1441fb40c8d25aabae5c7d4216",
             "currentSourceHash": "6de1591398388771f6335b6fadd0d25fb155d04fe589d9399c9998a28db180c7"
           },
           "provider": "ollama",
@@ -8563,9 +8487,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 71,
@@ -8671,7 +8593,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "b45fdb0ff632ef1a7d8a5acb57926ab0be5e34019a3336c716972a47c2b5686f",
+            "recordedSourceHash": "d7a85a822e56540dd0ffe3e2ac71f1065f73b8e82b8d86e7abbcacb9843edcf7",
             "currentSourceHash": "934806ec4b948dc02fae3145c9463c22c83c08b8698eff490167b2ba1181bb05"
           },
           "provider": "ollama",
@@ -8679,9 +8601,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 88,
@@ -8788,7 +8708,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "2b5d4cf652e7600afca256ca3b40dd2d31955eb5e2c67a9ddaf1bfce19d94699",
+            "recordedSourceHash": "f57d89cf43cbf6a63c4d278fb73ab5a274b09e8d7c0191da4cadf56635bae538",
             "currentSourceHash": "03d84a374f8f056333dd57ef6410d6cac4befe56dc25f6926dbed0f1cf1d6d32"
           },
           "provider": "ollama",
@@ -8903,7 +8823,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "447ee86c35e83897658f1cb7eeb9fd9a15237ccc7f61f73254a5017642781fac",
+            "recordedSourceHash": "64b3bd188a5aa935f6a5d1da60a60dd67f0a94f9537a236754d792f09a072929",
             "currentSourceHash": "5c5d24ffdf6fda43f45e80e7b734d2ddb5ec5b59f4b7cccfea7d7dfb45f9a60a"
           },
           "provider": "ollama",
@@ -8911,9 +8831,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 75,
@@ -9021,7 +8939,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "ea84801e058d83cf706c6ed66a8281c851bb79b31f5f10fc45780f2e65fbfa1f",
+            "recordedSourceHash": "ed64edc882aa38a571423101e70753c00b3a0b536a055149ac4320b944bbd071",
             "currentSourceHash": "6ffa075293cd183a03f999fd286e53b38329ed511cd2b600128303ec478b2f62"
           },
           "provider": "ollama",
@@ -9139,7 +9057,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "1ca022d2fd9f9d34b7ba83ae5c571fd4290358ebbf99bafc9a9e9b03e1a6054a",
+            "recordedSourceHash": "2c81104b7ff6c26d934069186d49440a6a77c1e56afbb73623b8d59342103f9c",
             "currentSourceHash": "e35fe485b7ea7453677a53af976a961d3e1a901a6bab39adea45d53d594e74c0"
           },
           "provider": "ollama",
@@ -9257,7 +9175,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "b1f468dd821638a4e94b88d2fc81a1cf408c47b5459cd8b03a1490b30fa5d1af",
+            "recordedSourceHash": "b645229fe9e9deef675c5a9ea6c7177637d7cfa1751ba9b2bf6c2f3270f465b0",
             "currentSourceHash": "934073779a8ef7a9ff2471b53dbe5edbd4bec2cdcca09cdb5e07d08be7b44ac7"
           },
           "provider": "ollama",
@@ -9374,7 +9292,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "f44ddaf28ac7b3e5a600199eef88a9fa1030a025df62711a7c2939b0cb66c46d",
+            "recordedSourceHash": "2453a29bfdea1391e223336bddfca33aa0318d68c1985b198c74c3a9e35171a2",
             "currentSourceHash": "3be4a170568d3e7d526498fbc08088c8c0d80a5df73869fe714e3eaa304067bd"
           },
           "provider": "ollama",
@@ -9491,7 +9409,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "d78537811121e52ef775807d3c52967ae98d69a5dea17e7bf26cbd76c9d5f451",
+            "recordedSourceHash": "aa03c3245e2d95bd2fce4258b0360406395e169f261776207d1b07e144d854a7",
             "currentSourceHash": "9194b7a4e5047fab3944aaa06572b2c0693937dbfda39dd99eaf997c23377fa3"
           },
           "provider": "ollama",
@@ -9607,7 +9525,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "3d97cef8befa71227fd7299c4fde6f6b22f42fa3d40bf63bbd2c066ef06c2c4f",
+            "recordedSourceHash": "4637e85ae12f62697322bee3a77ed9708270158f76f804c5bc6d55cce1cd8274",
             "currentSourceHash": "fe2b2eea5cc56c741da19ebee0c3faea032399fe4d81df89c73a387adf3490dc"
           },
           "provider": "ollama",
@@ -9715,11 +9633,11 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/reaction-rate-collision-theory.json",
-          "outputHash": "aa3df346af21a08106ebefddfc122fa51d31625713cc9f1d3f31276ff9e58353",
+          "outputHash": "9247716edbb35270e6994978a96dfa5ba9882e4d0bd342c81127b43a57f68196",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "b84b496e492b1d9f8d122ed9971d1f6f71f25bff0e931ba01666c2207f418f90",
+            "recordedSourceHash": "00ec214bb46aa31bc1f01a6704295b713092907d15f7b9d0af490d8dbb7eb6d8",
             "currentSourceHash": "2256992b3aa0d3637ef0735ea134f53f6ecdf6ff93e7268202f04bb54b15485e"
           },
           "provider": "manual",
@@ -9727,9 +9645,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 37,
@@ -9835,7 +9751,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "4d70e24d471933ff2c9ddf1244cd7abc1f8bdaccc0d38d61ab7f936740977b36",
+            "recordedSourceHash": "c168f9b3d814520bcc157f2f1ab538737e4d87eb7e695d61e457ae72d0a64da2",
             "currentSourceHash": "703935772ff3c189729052c3058c9f235b85e451f232a21ed125cace408ca427"
           },
           "provider": "ollama",
@@ -9843,9 +9759,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 111,
@@ -9950,7 +9864,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "50d685d5b3638edce5255a2c92439d9ec9df633edd2e25422d62fee2c0b1116f",
+            "recordedSourceHash": "0f16372e557415759403aa181e717a943fe1fd59dd002d61f446751ff58c580c",
             "currentSourceHash": "c789df6360ac20991b7aa94cac3e5d342d889099bb282917256e91f904966093"
           },
           "provider": "ollama",
@@ -10064,7 +9978,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "a46636b72909498a4edc2a1a19fa90d7629635e92c36ca129177706ca4976283",
+            "recordedSourceHash": "264f311b7fd891def8f9e568c571af0969ea788dc6c0796ca6ca1f68eaaf665f",
             "currentSourceHash": "3298bec08b4a5bcddbe8ca1b28d31671494eec445215f7b419a6fd0d5633d02f"
           },
           "provider": "ollama",
@@ -10180,7 +10094,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "95b3d8a559bc857ad6fd6a0b7bde8b44877c125d6347c902e48be1c4ec157976",
+            "recordedSourceHash": "9ed2f080940e493a13039da8083ec71a0565b68e64b022abfd313a70977688e2",
             "currentSourceHash": "646ae936262b057bdf91ff3dc446b0368db027a5523df04b807f7831a4d901e3"
           },
           "provider": "ollama",
@@ -10289,7 +10203,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "259b600d97d4945bc70f0a33b77375befbbc53e8f4a5c76614514c387c456676",
+            "recordedSourceHash": "250f62af93578061ea4eab98c125a3fc27a1f975b03873d5f3ad653b32ed0550",
             "currentSourceHash": "1b12b6d5c17a7357653a476b170e10b5b61499feb53b52ea611dea93468f49e1"
           },
           "provider": "ollama",
@@ -10402,7 +10316,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "48c5d95d978ca7e917533154a61dd4fdd20682bf88c97d3105fb12e2622b7a02",
+            "recordedSourceHash": "606647d07376e1dc2c0a804838b04988c465d0b2d1867ec3ca3388712521219b",
             "currentSourceHash": "611062f08d83ec8e8524694f22b3263b6d47469b36ccaf25387eced293620244"
           },
           "provider": "ollama",
@@ -10410,9 +10324,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 14,
@@ -10508,7 +10420,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "d619acbeb1af9742f2b71c60e79be4a430069d0d38055f21b0796f5ae588f55d",
+            "recordedSourceHash": "fa98c25efb1a18eb9db2fdc50e9f0824cb66841b283b37d7dac7d4f4e977ba05",
             "currentSourceHash": "2aa41ddbe80771f8a964b0be1cd0718113183eb3236b12ba62acb171e232ac1a"
           },
           "provider": "ollama",
@@ -10516,9 +10428,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 15,
@@ -10615,7 +10525,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "92cbfb8653dca51d449374ac7b61384d6d8c7af3367510b5c0a5e5187f403302",
+            "recordedSourceHash": "a03682ffbe648d35f07bea21edb94fb78912258aec4ed3c30d9b8d85b19c05c5",
             "currentSourceHash": "81169971a8ca1ccbcd1d374f6ec34c546d94fffffb3bb12aa6a5647b3708ced2"
           },
           "provider": "ollama",
@@ -10623,9 +10533,7 @@
           "notes": [
             "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
           ],
-          "issues": [
-            "Recorded outputHash does not match the current overlay file."
-          ],
+          "issues": [],
           "fallbackBaseVariant": "optimized",
           "usesFallbackFields": true,
           "fallbackFieldCount": 7,
@@ -10711,7 +10619,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "2e69fb60f9854f5fb288a23d486f4c995c36117c6fd360f0a71416b98ed12c40",
+            "recordedSourceHash": "b212f868fb3c37c77449305d8014eb37beac0eed62e3b2924992b07d6ac808c2",
             "currentSourceHash": "b99cac7929d7b3688eea432382e8172b6c29e869b6f0957b2e002f965233a81e"
           },
           "provider": "ollama",
@@ -10821,11 +10729,11 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/binary-search-halving-the-search-space.json",
-          "outputHash": "6440d447d2376029c0feb021c8a585ec203c6c89691284ea27bb45be904f948e",
+          "outputHash": "e7016841d5d0e3a9b69353b8455e4ea8589920847b2b01ab96da79690ba80974",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "d82f1c62e313d4e90821083782de5ed5c0fcbe4d4bbda6e2fd772212ac3db85a",
+            "recordedSourceHash": "419d697b84cf0b0c2c8046fd19a76bf9d62c6793a300e418a7e3db60c14a1a26",
             "currentSourceHash": "6265c9154db5b1220101aaa42cf44323ab5f18bb949175cf9c8850a00dcf60fd"
           },
           "provider": "manual",
@@ -10940,7 +10848,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "87a079d0ca06b1c1974c2a8f7e11dd1879b5b2d0d9a3989712ec965f9ab3999f",
+            "recordedSourceHash": "19278748e90eb43d7c7b6a8e3e418495e3491c30790dedfacab707f23cb5e7e3",
             "currentSourceHash": "c958076d6e6b4800abd51b3d0bc48b478f88d706fa6f14d40ec509e3288d59c9"
           },
           "provider": "manual",
@@ -11055,7 +10963,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "c2128ce9e3026391cd56abaca0105cf994191115fb93fa42e420a10072901899",
+            "recordedSourceHash": "a58c9e3e38b0f3f7ecab6c551e097d867c891d06dcdca49ae496c72d88337d8a",
             "currentSourceHash": "7662b3b4640b8d0a49181bcb79c513636d266802387055fda271e2b3649e0bdb"
           },
           "provider": "manual",
@@ -11170,7 +11078,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "2b9895b9ef1a4de0517a1f4ff72a55fff9f0d360d77d6948765a8e3c1063b430",
+            "recordedSourceHash": "3121e6a0de3291ce055dc908829628f287b9a6f52a25093a3c472fcba43676fd",
             "currentSourceHash": "646a0cedd5da5d188bc31c3e5dda367461c0085313621351e1505f15e7458da5"
           },
           "provider": "manual",
@@ -11286,7 +11194,7 @@
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "64a8eb925953a6d5deedc41264c1f9c0caf11b066ba08260257c5d980098afce",
+            "recordedSourceHash": "c7914a0bf1dfdeb680f9a75ac05ff0f97355c6a907a62b72611199a5d2e73b52",
             "currentSourceHash": "67e0ba09fa3f569fb4bd73beab64a23ee0f9edec7114524732de83f038ae79be"
           },
           "provider": "ollama",

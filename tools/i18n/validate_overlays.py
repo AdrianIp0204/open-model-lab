@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+import sys
 
 try:
     from .common import (
@@ -30,6 +31,13 @@ except ImportError:  # pragma: no cover - script execution path
     )
 
 
+def _normalize_argv(argv: list[str] | None = None) -> list[str]:
+    normalized = list(sys.argv[1:] if argv is None else argv)
+    if normalized[:1] == ["--"]:
+        return normalized[1:]
+    return normalized
+
+
 def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Validate locale overlay shards against canonical English content."
@@ -40,7 +48,7 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         default=None,
         help="Overlay root directory. Defaults to content/i18n.",
     )
-    return parser.parse_args(argv)
+    return parser.parse_args(_normalize_argv(argv))
 
 
 def _path_label(path: Path) -> str:

@@ -1,5 +1,26 @@
 # Open Model Lab Status
 
+## 2026-05-29 OML-QA-025 zh-HK Overlay Validation Gate
+
+Current state: `OML-QA-025` is complete. The zh-HK overlay validator now runs locally through the package script on this Mac, the six structural overlay errors are repaired, and the generated zh-HK i18n artifacts are refreshed.
+
+### Files Changed
+
+- `package.json`: switches the i18n Python scripts from `python` to `python3`.
+- `tools/i18n/validate_overlays.py`: accepts the pnpm-forwarded leading `--` before validator arguments.
+- `content/i18n/zh-HK/concepts/*`: repairs the six structural zh-HK overlay mismatches named in `TASKS.md`.
+- `content/i18n/zh-HK/manifest.json`, `content/i18n/generated/zh-HK.json`, `content/_meta/generated/concept-variant-manifest.json`: refreshed generated i18n artifacts.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm i18n:validate -- --locale zh-HK`: passed with `valid: true`, no problems, and no stale items.
+- `pnpm content:registry`: passed.
+- `pnpm i18n:check:zh-HK`: passed with `issueCount: 0`.
+- `pnpm exec vitest run tests/i18n tests/app/public-route-i18n.test.ts tests/components/locale-switcher.test.tsx tests/app/locale-redirects.test.ts`: passed, 76/76.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-29 OML-QA-024 Mobile Concept Touch Targets
 
 Current state: `OML-QA-024` is complete. The remaining first-screen mobile touch-target gaps are fixed for the UCM drag handle, boolean simulation controls, and the mobile header brand link.

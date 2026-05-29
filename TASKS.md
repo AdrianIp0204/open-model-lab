@@ -228,7 +228,7 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
 ### P0 - Translation Coverage / Mixed-Language Product Surface
 
-- [ ] **OML-QA-025: Make the zh-HK overlay validation gate runnable locally and then green.**
+- [x] **OML-QA-025: Make the zh-HK overlay validation gate runnable locally and then green.**
   - Evidence: `pnpm i18n:validate -- --locale zh-HK` fails immediately on this Mac because the package script calls `python`, but only `python3` is available in the current shell path. Running the validator directly with `python3 tools/i18n/validate_overlays.py --locale zh-HK` returns `valid: false`.
   - Validator evidence from 2026-05-29 HKT: `52` problems, `94` stale items, `46` concept output-hash mismatches, and six structural overlay errors.
   - Structural errors to repair:
@@ -241,6 +241,8 @@ This checklist is the working queue for follow-up agents. When completing an ite
   - Fix direction: update the package scripts to call the repo-supported Python command reliably on macOS, then repair the six structural overlay files, refresh generated i18n artifacts and manifests, and resolve stale/hash-mismatch entries instead of bypassing the validator.
   - Validation: `pnpm i18n:validate -- --locale zh-HK` must run without a missing-`python` shell error and return `valid: true`; then rerun `pnpm content:registry`, `pnpm i18n:check:zh-HK`, `pnpm exec vitest run tests/i18n tests/app/public-route-i18n.test.ts tests/components/locale-switcher.test.tsx tests/app/locale-redirects.test.ts`, and `pnpm typecheck`.
 
+  - Completion note (2026-05-29 HKT): Made the zh-HK overlay validator runnable through pnpm/python3, repaired the six structural zh-HK overlays, and refreshed generated zh-HK i18n artifacts.
+  - Validation: git diff --check passed; pnpm i18n:validate -- --locale zh-HK passed with valid true; pnpm content:registry passed; pnpm i18n:check:zh-HK passed with issueCount 0; pnpm exec vitest run tests/i18n tests/app/public-route-i18n.test.ts tests/components/locale-switcher.test.tsx tests/app/locale-redirects.test.ts passed 76/76; pnpm typecheck passed
 - [ ] **OML-QA-026: Finish zh-HK concept translation coverage so concept pages do not ship partial English fallback copy.**
   - Evidence: `pnpm i18n:sweep:zh-HK -- --autostart` checked `139` public zh-HK routes plus signed-in account routes and failed with `105` visible `ENGLISH_LEAK` findings. `97` of those findings are concept routes.
   - Representative visible leaks: `/zh-HK/concepts/simple-harmonic-motion` shows `Build the first picture on the live bench before you analyse the graphs.`; `/zh-HK/concepts/wave-speed-wavelength` shows `Live setup`; `/zh-HK/concepts/pitch-frequency-loudness-intensity` shows `Tie pitch to frequency, period, and compression spacing instead of to wave height.`; `/zh-HK/concepts/collisions` shows `Collide two carts on one honest track, keep total momentum in view`; `/zh-HK/concepts/matrix-transformations` shows `The two matrix columns are the images of the two basis vectors.`

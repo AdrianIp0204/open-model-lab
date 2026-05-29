@@ -87,7 +87,6 @@
             }
           ],
           "resultLabel": "間距結果",
-          "resultTemplate": "前方間距 = {{frontSpacingValue}} m，後方間距 = {{backSpacingValue}} m",
           "applyAction": {
             "label": "顯示更快的透過",
             "observationHint": "觀看前方標記緊湊在一起，後方標記則散開。"
