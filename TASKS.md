@@ -289,12 +289,14 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
 ### P2 - Regression Coverage / Routing QA
 
-- [ ] **OML-QA-030: Add durable browser coverage for locale switching and locale-preserving navigation.**
+- [x] **OML-QA-030: Add durable browser coverage for locale switching and locale-preserving navigation.**
   - Evidence: an ad hoc Playwright check on 2026-05-29 passed the routing behavior: switching `/en` to zh-HK landed on `/zh-HK`; switching `/en/concepts/simple-harmonic-motion?mode=challenge#quick-test` landed on `/zh-HK/concepts/simple-harmonic-motion?mode=challenge#quick-test`; switching `/zh-HK/search?q=force&subject=physics#search-results` back to English preserved path, query, and hash. A 36-route zh-HK anchor audit found `0` internal anchor hrefs dropping the locale, and sampled CTA/link clicks from home, concepts, start, search, pricing, and SHM produced `0` locale-drop failures.
   - Risk: existing unit coverage for `LocaleSwitcher` passes, but the routing behavior was not captured as a durable browser test, so future custom links or router calls can regress silently.
   - Fix direction: add a Playwright spec that covers language switching from representative public/concept/search routes, then sweeps visible internal anchors on zh-HK routes and clicks representative CTAs/buttons to ensure the resulting URL stays under the selected locale unless the control is explicitly switching language or leaving the site.
   - Validation: new spec should run in the focused i18n suite and in the release/QA sweep. It should explicitly preserve query strings and hashes, and it should ignore `mailto:`, external URLs, static files, API routes, and same-page hash anchors correctly.
 
+  - Completion note (2026-05-29 HKT): Added durable Playwright coverage for locale switching with path/query/hash preservation, zh-HK internal anchor locale preservation, and representative locale-preserving CTA/link clicks; wired the spec into the focused i18n suite and QA sweep.
+  - Validation: git diff --check; targeted eslint for tests/e2e/locale-routing.spec.ts and components/layout/SiteFooter.tsx; pnpm test:e2e:i18n; pnpm test:e2e:qa-sweep tests/e2e/locale-routing.spec.ts --chunk-size=1 --port=3137; pnpm typecheck
 - [ ] **OML-QA-031: Strengthen zh-HK browser sweep reporting so it finds every leak, not only the first leak per route.**
   - Evidence: `scripts/browser-zhhk-site-sweep.mjs` currently records the first English-leak line found on each route. The 2026-05-29 run produced `105` route-level findings, but many affected pages likely contain multiple English strings after the first one.
   - Fix direction: change the sweep to collect all suspicious visible English lines per route with enough DOM context to locate them. Include route, sample text, nearest heading or landmark, element role/tag, and a capped list of text snippets. Keep the existing route-level summary, but write a detailed artifact for implementation.

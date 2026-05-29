@@ -1,5 +1,26 @@
 # Open Model Lab Status
 
+## 2026-05-29 OML-QA-030 Locale Routing Browser Coverage
+
+Current state: `OML-QA-030` is complete. Locale switching, zh-HK internal anchor preservation, and representative zh-HK CTA/link navigation now have durable Playwright coverage, and the new spec is wired into both the focused i18n suite and QA sweep.
+
+### Files Changed
+
+- `tests/e2e/locale-routing.spec.ts`: adds browser coverage for locale switching while preserving path/query/hash, visible zh-HK internal anchor locale preservation, and representative locale-preserving CTA/link clicks.
+- `package.json`: points `pnpm test:e2e:i18n` at the new locale-routing spec.
+- `scripts/run-playwright-qa-sweep.mjs`: includes the new locale-routing spec in the QA sweep set.
+- `app/_localized/home-page.tsx`, `app/concepts/ConceptsRoute.tsx`, `app/concepts/[slug]/page-content.tsx`, `app/pricing/PricingRoute.tsx`, `app/search/page.tsx`, `app/start/page.tsx`, `components/concepts/ConceptPageFramework.tsx`, `components/layout/PageShell.tsx`, `components/layout/SiteFooter.tsx`: add or preserve localized route semantics used by the durable browser coverage.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `git diff --check HEAD^..HEAD`: passed for repair patch `ca7055f`.
+- `pnpm exec eslint tests/e2e/locale-routing.spec.ts components/layout/SiteFooter.tsx`: passed.
+- `pnpm test:e2e:i18n`: passed, 3/3.
+- `pnpm test:e2e:qa-sweep tests/e2e/locale-routing.spec.ts --chunk-size=1 --port=3137`: passed, 3/3 with `hasInstability: false`.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-29 OML-QA-029 Keyed Simulation Copy
 
 Current state: `OML-QA-029` is complete. The simulation/compare copy path no longer depends on `localizeKnownSimulationText` or `localizeKnownCompareText`; scene titles, readout labels, compare badges, and related short simulation labels now flow through stable keyed simulation copy, and the zh-HK browser sweep remains clean.
