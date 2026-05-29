@@ -7,7 +7,8 @@ import { trustConfig } from "@/lib/trust";
 import { footerTrustNavItems, footerUtilityNavItems, primaryNavItems } from "./site-nav";
 
 export function SiteFooter({ locale: localeOverride }: { locale?: AppLocale } = {}) {
-  const locale = localeOverride ?? (useLocale() as AppLocale);
+  const intlLocale = useLocale() as AppLocale;
+  const locale = localeOverride ?? intlLocale;
   const t = useTranslations("Layout");
   const catalogMetrics = getConceptCatalogMetrics();
   const productFacts = [
